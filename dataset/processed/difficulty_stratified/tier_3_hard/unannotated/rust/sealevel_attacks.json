@@ -1,0 +1,38 @@
+[
+  {
+    "id": "sample_3_0000",
+    "language": "rust",
+    "chain": "solana",
+    "file_content": "use anchor_lang::prelude::*;\nuse borsh::{BorshDeserialize, BorshSerialize};\n\ndeclare_id!(\"Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS\");\n\n#[program]\npub mod type_cosplay_insecure {\n    use super::*;\n\n    pub fn update_user(ctx: Context<UpdateUser>) -> ProgramResult {\n        let user = User::try_from_slice(&ctx.accounts.user.data.borrow()).unwrap();\n        if ctx.accounts.user.owner != ctx.program_id {\n            return Err(ProgramError::IllegalOwner);\n        }\n        if user.authority != ctx.accounts.authority.key() {\n            return Err(ProgramError::InvalidAccountData);\n        }\n        msg!(\"GM {}\", user.authority);\n        Ok(())\n    }\n}\n\n#[derive(Accounts)]\npub struct UpdateUser<'info> {\n    user: AccountInfo<'info>,\n    authority: Signer<'info>,\n}\n\n#[derive(BorshSerialize, BorshDeserialize)]\npub struct User {\n    authority: Pubkey,\n}\n\n#[derive(BorshSerialize, BorshDeserialize)]\npub struct Metadata {\n    account: Pubkey,\n}\n",
+    "pragma": "",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_3_0001",
+    "language": "rust",
+    "chain": "solana",
+    "file_content": "use anchor_lang::prelude::*;\nuse anchor_lang::solana_program;\n\ndeclare_id!(\"Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS\");\n\n#[program]\npub mod arbitrary_cpi_insecure {\n    use super::*;\n\n    pub fn cpi(ctx: Context<Cpi>, amount: u64) -> ProgramResult {\n        solana_program::program::invoke(\n            &spl_token::instruction::transfer(\n                ctx.accounts.token_program.key,\n                ctx.accounts.source.key,\n                ctx.accounts.destination.key,\n                ctx.accounts.authority.key,\n                &[],\n                amount,\n            )?,\n            &[\n                ctx.accounts.source.clone(),\n                ctx.accounts.destination.clone(),\n                ctx.accounts.authority.clone(),\n            ],\n        )\n    }\n}\n\n#[derive(Accounts)]\npub struct Cpi<'info> {\n    source: AccountInfo<'info>,\n    destination: AccountInfo<'info>,\n    authority: AccountInfo<'info>,\n    token_program: AccountInfo<'info>,\n}\n",
+    "pragma": "",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_3_0002",
+    "language": "rust",
+    "chain": "solana",
+    "file_content": "use anchor_lang::prelude::*;\n\ndeclare_id!(\"Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS\");\n\n#[program]\npub mod bump_seed_canonicalization_insecure {\n    use super::*;\n\n    pub fn set_value(ctx: Context<BumpSeed>, key: u64, new_value: u64, bump: u8) -> ProgramResult {\n        let address =\n            Pubkey::create_program_address(&[key.to_le_bytes().as_ref(), &[bump]], ctx.program_id)?;\n        if address != ctx.accounts.data.key() {\n            return Err(ProgramError::InvalidArgument);\n        }\n\n        ctx.accounts.data.value = new_value;\n\n        Ok(())\n    }\n}\n\n#[derive(Accounts)]\npub struct BumpSeed<'info> {\n    data: Account<'info, Data>,\n}\n\n#[account]\npub struct Data {\n    value: u64,\n}\n",
+    "pragma": "",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_3_0003",
+    "language": "rust",
+    "chain": "solana",
+    "file_content": "use anchor_lang::prelude::*;\nuse anchor_spl::token::{self, Token, TokenAccount};\n\ndeclare_id!(\"Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS\");\n\n#[program]\npub mod pda_sharing_insecure {\n    use super::*;\n\n    pub fn withdraw_tokens(ctx: Context<WithdrawTokens>) -> ProgramResult {\n        let amount = ctx.accounts.vault.amount;\n        let seeds = &[ctx.accounts.pool.mint.as_ref(), &[ctx.accounts.pool.bump]];\n        token::transfer(ctx.accounts.transfer_ctx().with_signer(&[seeds]), amount)\n    }\n}\n\n#[derive(Accounts)]\npub struct WithdrawTokens<'info> {\n    #[account(has_one = vault, has_one = withdraw_destination)]\n    pool: Account<'info, TokenPool>,\n    vault: Account<'info, TokenAccount>,\n    withdraw_destination: Account<'info, TokenAccount>,\n    authority: Signer<'info>,\n    token_program: Program<'info, Token>,\n}\n\nimpl<'info> WithdrawTokens<'info> {\n    pub fn transfer_ctx(&self) -> CpiContext<'_, '_, '_, 'info, token::Transfer<'info>> {\n        let program = self.token_program.to_account_info();\n        let accounts = token::Transfer {\n            from: self.vault.to_account_info(),\n            to: self.withdraw_destination.to_account_info(),\n            authority: self.authority.to_account_info(),\n        };\n        CpiContext::new(program, accounts)\n    }\n}\n\n#[account]\npub struct TokenPool {\n    vault: Pubkey,\n    mint: Pubkey,\n    withdraw_destination: Pubkey,\n    bump: u8,\n}\n",
+    "pragma": "",
+    "difficulty_tier": 3,
+    "context_level": "single_file"
+  }
+]

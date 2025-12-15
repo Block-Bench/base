@@ -1,0 +1,452 @@
+[
+  {
+    "id": "sample_2_0000",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.24;\n\ncontract Missing{\n    address private owner;\n\n    modifier onlyowner {\n        require(msg.sender==owner);\n        _;\n    }\n\n    // The name of the constructor should be Missing\n    // Anyone can call the IamMissing once the contract is deployed\n    function IamMissing()\n        public\n    {\n        owner = msg.sender;\n    }\n\n    function () payable {}\n\n    function withdraw()\n        public\n        onlyowner\n    {\n       owner.transfer(this.balance);\n    }\n}\n",
+    "pragma": "0.4.24",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0001",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n\npragma solidity ^0.4.24;\n\ncontract Missing{\n    address private owner;\n\n    modifier onlyowner {\n        require(msg.sender==owner);\n        _;\n    }\n    function missing()\n        public\n    {\n        owner = msg.sender;\n    }\n\n    function () payable {}\n\n    function withdraw()\n        public\n        onlyowner\n    {\n       owner.transfer(this.balance);\n    }\n}\n",
+    "pragma": "0.4.24",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0002",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.24;\n\ncontract Missing{\n    address private owner;\n\n    modifier onlyowner {\n        require(msg.sender==owner);\n        _;\n    }\n    function Constructor()\n        public\n    {\n        owner = msg.sender;\n    }\n\n    function () payable {}\n\n    function withdraw()\n        public\n        onlyowner\n    {\n       owner.transfer(this.balance);\n    }\n\n}\n",
+    "pragma": "0.4.24",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0003",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.23;\n\n */\ncontract MultiOwnable {\n  address public root;\n  mapping (address => address) public owners; // owner => parent of owner\n\n  */\n  constructor() public {\n    root = msg.sender;\n    owners[root] = root;\n  }\n\n  */\n  modifier onlyOwner() {\n    require(owners[msg.sender] != 0);\n    _;\n  }\n\n  */\n  function newOwner(address _owner) external returns (bool) {\n    require(_owner != 0);\n    owners[_owner] = msg.sender;\n    return true;\n  }\n\n    */\n  function deleteOwner(address _owner) onlyOwner external returns (bool) {\n    require(owners[_owner] == msg.sender || (owners[_owner] != 0 && msg.sender == root));\n    owners[_owner] = 0;\n    return true;\n  }\n}\n\ncontract TestContract is MultiOwnable {\n\n  function withdrawAll() onlyOwner {\n    msg.sender.transfer(this.balance);\n  }\n\n  function() payable {\n  }\n\n}\n",
+    "pragma": "0.4.23",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0004",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n // 0xe82719202e5965Cf5D9B6673B7503a3b92DE20be#code\n pragma solidity ^0.4.15;\n\n contract Rubixi {\n\n         //Declare variables for storage critical to contract\n         uint private balance = 0;\n         uint private collectedFees = 0;\n         uint private feePercent = 10;\n         uint private pyramidMultiplier = 300;\n         uint private payoutOrder = 0;\n\n         address private creator;\n\n         //Sets creator\n         function DynamicPyramid() {\n                 creator = msg.sender; //anyone can call this\n         }\n\n         modifier onlyowner {\n                 if (msg.sender == creator) _;\n         }\n\n         struct Participant {\n                 address etherAddress;\n                 uint payout;\n         }\n\n         Participant[] private participants;\n\n         //Fallback function\n         function() {\n                 init();\n         }\n\n         //init function run on fallback\n         function init() private {\n                 //Ensures only tx with value of 1 ether or greater are processed and added to pyramid\n                 if (msg.value < 1 ether) {\n                         collectedFees += msg.value;\n                         return;\n                 }\n\n                 uint _fee = feePercent;\n                 //50% fee rebate on any ether value of 50 or greater\n                 if (msg.value >= 50 ether) _fee /= 2;\n\n                 addPayout(_fee);\n         }\n\n         //Function called for valid tx to the contract\n         function addPayout(uint _fee) private {\n                 //Adds new address to participant array\n                 participants.push(Participant(msg.sender, (msg.value * pyramidMultiplier) / 100));\n\n                 //These statements ensure a quicker payout system to later pyramid entrants, so the pyramid has a longer lifespan\n                 if (participants.length == 10) pyramidMultiplier = 200;\n                 else if (participants.length == 25) pyramidMultiplier = 150;\n\n                 // collect fees and update contract balance\n                 balance += (msg.value * (100 - _fee)) / 100;\n                 collectedFees += (msg.value * _fee) / 100;\n\n                 //Pays earlier participiants if balance sufficient\n                 while (balance > participants[payoutOrder].payout) {\n                         uint payoutToSend = participants[payoutOrder].payout;\n                         participants[payoutOrder].etherAddress.send(payoutToSend);\n\n                         balance -= participants[payoutOrder].payout;\n                         payoutOrder += 1;\n                 }\n         }\n\n         //Fee functions for creator\n         function collectAllFees() onlyowner {\n                 if (collectedFees == 0) throw;\n\n                 creator.send(collectedFees);\n                 collectedFees = 0;\n         }\n\n         function collectFeesInEther(uint _amt) onlyowner {\n                 _amt *= 1 ether;\n                 if (_amt > collectedFees) collectAllFees();\n\n                 if (collectedFees == 0) throw;\n\n                 creator.send(_amt);\n                 collectedFees -= _amt;\n         }\n\n         function collectPercentOfFees(uint _pcent) onlyowner {\n                 if (collectedFees == 0 || _pcent > 100) throw;\n\n                 uint feesToCollect = collectedFees / 100 * _pcent;\n                 creator.send(feesToCollect);\n                 collectedFees -= feesToCollect;\n         }\n\n         //Functions for changing variables related to the contract\n         function changeOwner(address _owner) onlyowner {\n                 creator = _owner;\n         }\n\n         function changeMultiplier(uint _mult) onlyowner {\n                 if (_mult > 300 || _mult < 120) throw;\n\n                 pyramidMultiplier = _mult;\n         }\n\n         function changeFeePercentage(uint _fee) onlyowner {\n                 if (_fee > 10) throw;\n\n                 feePercent = _fee;\n         }\n\n         //Functions to provide information to end-user using JSON interface or other interfaces\n         function currentMultiplier() constant returns(uint multiplier, string info) {\n                 multiplier = pyramidMultiplier;\n                 info = 'This multiplier applies to you as soon as transaction is received, may be lowered to hasten payouts or increased if payouts are fast enough. Due to no float or decimals, multiplier is x100 for a fractional multiplier e.g. 250 is actually a 2.5x multiplier. Capped at 3x max and 1.2x min.';\n         }\n\n         function currentFeePercentage() constant returns(uint fee, string info) {\n                 fee = feePercent;\n                 info = 'Shown in % form. Fee is halved(50%) for amounts equal or greater than 50 ethers. (Fee may change, but is capped to a maximum of 10%)';\n         }\n\n         function currentPyramidBalanceApproximately() constant returns(uint pyramidBalance, string info) {\n                 pyramidBalance = balance / 1 ether;\n                 info = 'All balance values are measured in Ethers, note that due to no decimal placing, these values show up as integers only, within the contract itself you will get the exact decimal value you are supposed to';\n         }\n\n         function nextPayoutWhenPyramidBalanceTotalsApproximately() constant returns(uint balancePayout) {\n                 balancePayout = participants[payoutOrder].payout / 1 ether;\n         }\n\n         function feesSeperateFromBalanceApproximately() constant returns(uint fees) {\n                 fees = collectedFees / 1 ether;\n         }\n\n         function totalParticipants() constant returns(uint count) {\n                 count = participants.length;\n         }\n\n         function numberOfParticipantsWaitingForPayout() constant returns(uint count) {\n                 count = participants.length - payoutOrder;\n         }\n\n         function participantDetails(uint orderInPyramid) constant returns(address Address, uint Payout) {\n                 if (orderInPyramid <= participants.length) {\n                         Address = participants[orderInPyramid].etherAddress;\n                         Payout = participants[orderInPyramid].payout / 1 ether;\n                 }\n         }\n }\n",
+    "pragma": "0.4.15",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0005",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n pragma solidity ^0.4.15;\n\n contract Unprotected{\n     address private owner;\n\n     modifier onlyowner {\n         require(msg.sender==owner);\n         _;\n     }\n\n     function Unprotected()\n         public\n     {\n         owner = msg.sender;\n     }\n\n     // This function should be protected\n     function changeOwner(address _newOwner)\n         public\n     {\n        owner = _newOwner;\n     }\n\n     */\n }\n",
+    "pragma": "0.4.15",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0006",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.10;\n\ncontract IntegerOverflowAdd {\n    mapping (address => uint256) public balanceOf;\n\n    // INSECURE\n    function transfer(address _to, uint256 _value) public{\n        /* Check if sender has balance */\n        require(balanceOf[msg.sender] >= _value);\n        balanceOf[msg.sender] -= _value;\n        balanceOf[_to] += _value;\n}\n\n}\n",
+    "pragma": "0.4.10",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0007",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n pragma solidity ^0.4.15;\n\n contract Overflow {\n     uint private sellerBalance=0;\n\n     function add(uint value) returns (bool){\n         sellerBalance += value; // possible overflow\n\n         // possible auditor assert\n         // assert(sellerBalance >= value);\n     }\n\n  // function safe_add(uint value) returns (bool){\n  //   require(value + sellerBalance >= sellerBalance);\n  // sellerBalance += value;\n  // } \n }\n",
+    "pragma": "0.4.15",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0008",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//Single transaction overflow\n//Post-transaction effect: overflow escapes to publicly-readable storage\n\npragma solidity ^0.4.19;\n\ncontract IntegerOverflowAdd {\n    uint public count = 1;\n\n    function run(uint256 input) public {\n        count += input;\n    }\n}\n",
+    "pragma": "0.4.19",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0009",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//Single transaction overflow\n//Post-transaction effect: overflow never escapes function\n\npragma solidity ^0.4.19;\n\ncontract IntegerOverflowBenign1 {\n    uint public count = 1;\n\n    function run(uint256 input) public {\n        uint res = count - input;\n    }\n}\n",
+    "pragma": "0.4.19",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0010",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//Single transaction overflow\n\npragma solidity ^0.4.11;\n\ncontract IntegerOverflowMappingSym1 {\n    mapping(uint256 => uint256) map;\n\n    function init(uint256 k, uint256 v) public {\n        map[k] -= v;\n    }\n}\n",
+    "pragma": "0.4.11",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0011",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//Single transaction overflow\n//Post-transaction effect: overflow escapes to publicly-readable storage\n\npragma solidity ^0.4.19;\n\ncontract IntegerOverflowMinimal {\n    uint public count = 1;\n\n    function run(uint256 input) public {\n        count -= input;\n    }\n}\n",
+    "pragma": "0.4.19",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0012",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//Single transaction overflow\n//Post-transaction effect: overflow escapes to publicly-readable storage\n\npragma solidity ^0.4.19;\n\ncontract IntegerOverflowMul {\n    uint public count = 2;\n\n    function run(uint256 input) public {\n        count *= input;\n    }\n}\n",
+    "pragma": "0.4.19",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0013",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//Multi-transactional, multi-function\n//Arithmetic instruction reachable\n\npragma solidity ^0.4.23;\n\ncontract IntegerOverflowMultiTxMultiFuncFeasible {\n    uint256 private initialized = 0;\n    uint256 public count = 1;\n\n    function init() public {\n        initialized = 1;\n    }\n\n    function run(uint256 input) {\n        if (initialized == 0) {\n            return;\n        }\n        count -= input;\n    }\n}\n",
+    "pragma": "0.4.23",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0014",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//Multi-transactional, single function\n//Arithmetic instruction reachable\n\npragma solidity ^0.4.23;\n\ncontract IntegerOverflowMultiTxOneFuncFeasible {\n    uint256 private initialized = 0;\n    uint256 public count = 1;\n\n    function run(uint256 input) public {\n        if (initialized == 0) {\n            initialized = 1;\n            return;\n        }\n        count -= input;\n    }\n}\n",
+    "pragma": "0.4.23",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0015",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity 0.4.25;\n\ncontract Overflow_Add {\n    uint public balance = 1;\n\n    function add(uint256 deposit) public {\n        balance += deposit;\n    }\n}\n",
+    "pragma": "0.4.25",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0016",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//Single transaction overflow\n//Post-transaction effect: overflow escapes to publicly-readable storage\n\npragma solidity ^0.4.23;\n\ncontract IntegerOverflowSingleTransaction {\n    uint public count = 1;\n\n    // ADD overflow with result stored in state variable.\n    function overflowaddtostate(uint256 input) public {\n        count += input;\n    }\n\n    // MUL overflow with result stored in state variable.\n    function overflowmultostate(uint256 input) public {\n        count *= input;\n    }\n\n    // Underflow with result stored in state variable.\n    function underflowtostate(uint256 input) public {\n        count -= input;\n    }\n\n    // ADD Overflow, no effect on state.\n    function overflowlocalonly(uint256 input) public {\n        uint res = count + input;\n    }\n\n    // MUL Overflow, no effect on state.\n    function overflowmulocalonly(uint256 input) public {\n        uint res = count * input;\n    }\n\n    // Underflow, no effect on state.\n    function underflowlocalonly(uint256 input) public {\n       \tuint res = count - input;\n    }\n\n}\n",
+    "pragma": "0.4.23",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0017",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//added pragma version\n pragma solidity ^0.4.10;\n \n contract TimeLock {\n\n     mapping(address => uint) public balances;\n     mapping(address => uint) public lockTime;\n\n     function deposit() public payable {\n         balances[msg.sender] += msg.value;\n         lockTime[msg.sender] = now + 1 weeks;\n     }\n\n     function increaseLockTime(uint _secondsToIncrease) public {\n         lockTime[msg.sender] += _secondsToIncrease;\n     }\n\n     function withdraw() public {\n         require(balances[msg.sender] > 0);\n         require(now > lockTime[msg.sender]);\n         uint transferValue = balances[msg.sender];\n         balances[msg.sender] = 0;\n         msg.sender.transfer(transferValue);\n     }\n }\n",
+    "pragma": "0.4.10",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0018",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n pragma solidity ^0.4.18;\n\n contract Token {\n\n   mapping(address => uint) balances;\n   uint public totalSupply;\n\n   function Token(uint _initialSupply) {\n     balances[msg.sender] = totalSupply = _initialSupply;\n   }\n\n   function transfer(address _to, uint _value) public returns (bool) {\n     require(balances[msg.sender] - _value >= 0);\n     balances[msg.sender] -= _value;\n     balances[_to] += _value;\n     return true;\n   }\n\n   function balanceOf(address _owner) public constant returns (uint balance) {\n     return balances[_owner];\n   }\n }\n",
+    "pragma": "0.4.18",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0019",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.21;\n\ncontract TokenSaleChallenge {\n    mapping(address => uint256) public balanceOf;\n    uint256 constant PRICE_PER_TOKEN = 1 ether;\n\n    function TokenSaleChallenge(address _player) public payable {\n        require(msg.value == 1 ether);\n    }\n\n    function isComplete() public view returns (bool) {\n        return address(this).balance < 1 ether;\n    }\n\n    function buy(uint256 numTokens) public payable {\n        require(msg.value == numTokens * PRICE_PER_TOKEN);\n        balanceOf[msg.sender] += numTokens;\n    }\n\n    function sell(uint256 numTokens) public {\n        require(balanceOf[msg.sender] >= numTokens);\n\n        balanceOf[msg.sender] -= numTokens;\n        msg.sender.transfer(numTokens * PRICE_PER_TOKEN);\n    }\n}\n",
+    "pragma": "0.4.21",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0020",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n pragma solidity ^0.4.16;\n\ncontract Ethraffle_v4b {\n    struct Contestant {\n        address addr;\n        uint raffleId;\n    }\n\n    event RaffleResult(\n        uint raffleId,\n        uint winningNumber,\n        address winningAddress,\n        address seed1,\n        address seed2,\n        uint seed3,\n        bytes32 randHash\n    );\n\n    event TicketPurchase(\n        uint raffleId,\n        address contestant,\n        uint number\n    );\n\n    event TicketRefund(\n        uint raffleId,\n        address contestant,\n        uint number\n    );\n\n    // Constants\n    uint public constant prize = 2.5 ether;\n    uint public constant fee = 0.03 ether;\n    uint public constant totalTickets = 50;\n    uint public constant pricePerTicket = (prize + fee) / totalTickets; // Make sure this divides evenly\n    address feeAddress;\n\n    // Other internal variables\n    bool public paused = false;\n    uint public raffleId = 1;\n    uint public blockNumber = block.number;\n    uint nextTicket = 0;\n    mapping (uint => Contestant) contestants;\n    uint[] gaps;\n\n    // Initialization\n    function Ethraffle_v4b() public {\n        feeAddress = msg.sender;\n    }\n\n    // Call buyTickets() when receiving Ether outside a function\n    function () payable public {\n        buyTickets();\n    }\n\n    function buyTickets() payable public {\n        if (paused) {\n            msg.sender.transfer(msg.value);\n            return;\n        }\n\n        uint moneySent = msg.value;\n\n        while (moneySent >= pricePerTicket && nextTicket < totalTickets) {\n            uint currTicket = 0;\n            if (gaps.length > 0) {\n                currTicket = gaps[gaps.length-1];\n                gaps.length--;\n            } else {\n                currTicket = nextTicket++;\n            }\n\n            contestants[currTicket] = Contestant(msg.sender, raffleId);\n            TicketPurchase(raffleId, msg.sender, currTicket);\n            moneySent -= pricePerTicket;\n        }\n\n        // Choose winner if we sold all the tickets\n        if (nextTicket == totalTickets) {\n            chooseWinner();\n        }\n\n        // Send back leftover money\n        if (moneySent > 0) {\n            msg.sender.transfer(moneySent);\n        }\n    }\n\n    function chooseWinner() private {\n        address seed1 = contestants[uint(block.coinbase) % totalTickets].addr;\n        address seed2 = contestants[uint(msg.sender) % totalTickets].addr;\n        uint seed3 = block.difficulty;\n        bytes32 randHash = keccak256(seed1, seed2, seed3);\n\n        uint winningNumber = uint(randHash) % totalTickets;\n        address winningAddress = contestants[winningNumber].addr;\n        RaffleResult(raffleId, winningNumber, winningAddress, seed1, seed2, seed3, randHash);\n\n        // Start next raffle\n        raffleId++;\n        nextTicket = 0;\n        blockNumber = block.number;\n\n        // gaps.length = 0 isn't necessary here,\n        // because buyTickets() eventually clears\n        // the gaps array in the loop itself.\n\n        // Distribute prize and fee\n        winningAddress.transfer(prize);\n        feeAddress.transfer(fee);\n    }\n\n    // Get your money back before the raffle occurs\n    function getRefund() public {\n        uint refund = 0;\n        for (uint i = 0; i < totalTickets; i++) {\n            if (msg.sender == contestants[i].addr && raffleId == contestants[i].raffleId) {\n                refund += pricePerTicket;\n                contestants[i] = Contestant(address(0), 0);\n                gaps.push(i);\n                TicketRefund(raffleId, msg.sender, i);\n            }\n        }\n\n        if (refund > 0) {\n            msg.sender.transfer(refund);\n        }\n    }\n\n    // Refund everyone's money, start a new raffle, then pause it\n    function endRaffle() public {\n        if (msg.sender == feeAddress) {\n            paused = true;\n\n            for (uint i = 0; i < totalTickets; i++) {\n                if (raffleId == contestants[i].raffleId) {\n                    TicketRefund(raffleId, contestants[i].addr, i);\n                    contestants[i].addr.transfer(pricePerTicket);\n                }\n            }\n\n            RaffleResult(raffleId, totalTickets, address(0), address(0), address(0), 0, 0);\n            raffleId++;\n            nextTicket = 0;\n            blockNumber = block.number;\n            gaps.length = 0;\n        }\n    }\n\n    function togglePause() public {\n        if (msg.sender == feeAddress) {\n            paused = !paused;\n        }\n    }\n\n    function kill() public {\n        if (msg.sender == feeAddress) {\n            selfdestruct(feeAddress);\n        }\n    }\n}\n",
+    "pragma": "0.4.16",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0021",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.21;\n\ncontract GuessTheRandomNumberChallenge {\n    uint8 answer;\n\n    function GuessTheRandomNumberChallenge() public payable {\n        require(msg.value == 1 ether);\n        answer = uint8(keccak256(block.blockhash(block.number - 1), now));\n    }\n\n    function isComplete() public view returns (bool) {\n        return address(this).balance == 0;\n    }\n\n    function guess(uint8 n) public payable {\n        require(msg.value == 1 ether);\n\n        if (n == answer) {\n            msg.sender.transfer(2 ether);\n        }\n    }\n}\n",
+    "pragma": "0.4.21",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0022",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n //added pragma version\n  pragma solidity ^0.4.0;\n  \n contract Lottery {\n     event GetBet(uint betAmount, uint blockNumber, bool won);\n\n     struct Bet {\n         uint betAmount;\n         uint blockNumber;\n         bool won;\n     }\n\n     address private organizer;\n     Bet[] private bets;\n\n     // Create a new lottery with numOfBets supported bets.\n     function Lottery() {\n         organizer = msg.sender;\n     }\n\n     // Fallback function returns ether\n     function() {\n         throw;\n     }\n\n     // Make a bet\n     function makeBet() {\n         // Won if block number is even\n         // (note: this is a terrible source of randomness, please don't use this with real money)\n         bool won = (block.number % 2) == 0;\n\n         // Record the bet with an event\n         bets.push(Bet(msg.value, block.number, won));\n\n         // Payout if the user won, otherwise take their money\n         if(won) {\n             if(!msg.sender.send(msg.value)) {\n                 // Return ether to sender\n                 throw;\n             }\n         }\n     }\n\n     // Get all bets that have been made\n     function getBets() {\n         if(msg.sender != organizer) { throw; }\n\n         for (uint i = 0; i < bets.length; i++) {\n             GetBet(bets[i].betAmount, bets[i].blockNumber, bets[i].won);\n         }\n     }\n\n     // Suicide :(\n     function destroy() {\n         if(msg.sender != organizer) { throw; }\n\n         suicide(organizer);\n     }\n }\n",
+    "pragma": "0.4.0",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0023",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.24;\n\n//Note that while it seems to have a 1/2^256 chance you guess the right hash, actually blockhash returns zero for blocks numbers that are more than 256 blocks ago so you can guess zero and wait.\ncontract PredictTheBlockHashChallenge {\n\n    struct guess{\n      uint block;\n      bytes32 guess;\n    }\n\n    mapping(address => guess) guesses;\n\n    constructor() public payable {\n        require(msg.value == 1 ether);\n    }\n\n    function lockInGuess(bytes32 hash) public payable {\n        require(guesses[msg.sender].block == 0);\n        require(msg.value == 1 ether);\n\n        guesses[msg.sender].guess = hash;\n        guesses[msg.sender].block  = block.number + 1;\n    }\n\n    function settle() public {\n        require(block.number > guesses[msg.sender].block);\n        bytes32 answer = blockhash(guesses[msg.sender].block);\n\n        guesses[msg.sender].block = 0;\n        if (guesses[msg.sender].guess == answer) {\n            msg.sender.transfer(2 ether);\n        }\n    }\n}\n",
+    "pragma": "0.4.24",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0024",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.25;\n\n// Based on TheRun contract deployed at 0xcac337492149bDB66b088bf5914beDfBf78cCC18.\ncontract RandomNumberGenerator {\n  uint256 private salt =  block.timestamp;\n\n  function random(uint max) view private returns (uint256 result) {\n    // Get the best seed for randomness\n    uint256 x = salt * 100 / max;\n    uint256 y = salt * block.number / (salt % 5);\n    uint256 seed = block.number / 3 + (salt % 300) + y;\n    uint256 h = uint256(blockhash(seed));\n    // Random number between 1 and max\n    return uint256((h / x)) % max + 1;\n  }\n}\n",
+    "pragma": "0.4.25",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0025",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.15;\n\ncontract DosAuction {\n  address currentFrontrunner;\n  uint currentBid;\n\n  //Takes in bid, refunding the frontrunner if they are outbid\n  function bid() payable {\n    require(msg.value > currentBid);\n\n    //If the refund fails, the entire transaction reverts.\n    //Therefore a frontrunner who always fails will win\n    if (currentFrontrunner != 0) {\n      //E.g. if recipients fallback function is just revert()\n      require(currentFrontrunner.send(currentBid));\n    }\n\n    currentFrontrunner = msg.sender;\n    currentBid         = msg.value;\n  }\n}\n",
+    "pragma": "0.4.15",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0026",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.25;\n\ncontract DosGas {\n\n    address[] creditorAddresses;\n    bool win = false;\n\n    function emptyCreditors() public {\n        if(creditorAddresses.length>1500) {\n            creditorAddresses = new address[](0);\n            win = true;\n        }\n    }\n\n    function addCreditors() public returns (bool) {\n        for(uint i=0;i<350;i++) {\n          creditorAddresses.push(msg.sender);\n        }\n        return true;\n    }\n\n    function iWin() public view returns (bool) {\n        return win;\n    }\n\n    function numberCreditors() public view returns (uint) {\n        return creditorAddresses.length;\n    }\n}\n",
+    "pragma": "0.4.25",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0027",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.25;\n\ncontract DosNumber {\n\n    uint numElements = 0;\n    uint[] array;\n\n    function insertNnumbers(uint value,uint numbers) public {\n\n        // Gas DOS if number > 382 more or less, it depends on actual gas limit\n        for(uint i=0;i<numbers;i++) {\n            if(numElements == array.length) {\n                array.length += 1;\n            }\n            array[numElements++] = value;\n        }\n    }\n\n    function clear() public {\n        require(numElements>1500);\n        numElements = 0;\n    }\n\n    // Gas DOS clear\n    function clearDOS() public {\n\n        // number depends on actual gas limit\n        require(numElements>1500);\n        array = new uint[](0);\n        numElements = 0;\n    }\n\n    function getLengthArray() public view returns(uint) {\n        return numElements;\n    }\n\n    function getRealLengthArray() public view returns(uint) {\n        return array.length;\n    }\n}\n",
+    "pragma": "0.4.25",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0028",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n\npragma solidity ^0.4.25;\n\ncontract DosOneFunc {\n\n    address[] listAddresses;\n\n    function ifillArray() public returns (bool){\n        if(listAddresses.length<1500) {\n            for(uint i=0;i<350;i++) {\n                listAddresses.push(msg.sender);\n            }\n            return true;\n\n        } else {\n            listAddresses = new address[](0);\n            return false;\n        }\n    }\n}\n",
+    "pragma": "0.4.25",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0029",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//added pragma version\npragma solidity ^0.4.0;\n\ncontract Government {\n\n     // Global Variables\n     uint32 public lastCreditorPayedOut;\n     uint public lastTimeOfNewCredit;\n     uint public profitFromCrash;\n     address[] public creditorAddresses;\n     uint[] public creditorAmounts;\n     address public corruptElite;\n     mapping (address => uint) buddies;\n     uint constant TWELVE_HOURS = 43200;\n     uint8 public round;\n\n     function Government() {\n         // The corrupt elite establishes a new government\n         // this is the commitment of the corrupt Elite - everything that can not be saved from a crash\n         profitFromCrash = msg.value;\n         corruptElite = msg.sender;\n         lastTimeOfNewCredit = block.timestamp;\n     }\n\n     function lendGovernmentMoney(address buddy) returns (bool) {\n         uint amount = msg.value;\n         // check if the system already broke down. If for 12h no new creditor gives new credit to the system it will brake down.\n         // 12h are on average = 60*60*12/12.5 = 3456\n         if (lastTimeOfNewCredit + TWELVE_HOURS < block.timestamp) {\n             // Return money to sender\n             msg.sender.send(amount);\n             // Sends all contract money to the last creditor\n             creditorAddresses[creditorAddresses.length - 1].send(profitFromCrash);\n             corruptElite.send(this.balance);\n             // Reset contract state\n             lastCreditorPayedOut = 0;\n             lastTimeOfNewCredit = block.timestamp;\n             profitFromCrash = 0;\n             creditorAddresses = new address[](0);\n             creditorAmounts = new uint[](0);\n             round += 1;\n             return false;\n         }\n         else {\n             // the system needs to collect at least 1% of the profit from a crash to stay alive\n             if (amount >= 10 ** 18) {\n                 // the System has received fresh money, it will survive at leat 12h more\n                 lastTimeOfNewCredit = block.timestamp;\n                 // register the new creditor and his amount with 10% interest rate\n                 creditorAddresses.push(msg.sender);\n                 creditorAmounts.push(amount * 110 / 100);\n                 // now the money is distributed\n                 // first the corrupt elite grabs 5% - thieves!\n                 corruptElite.send(amount * 5/100);\n                 // 5% are going into the economy (they will increase the value for the person seeing the crash comming)\n                 if (profitFromCrash < 10000 * 10**18) {\n                     profitFromCrash += amount * 5/100;\n                 }\n                 // if you have a buddy in the government (and he is in the creditor list) he can get 5% of your credits.\n                 // Make a deal with him.\n                 if(buddies[buddy] >= amount) {\n                     buddy.send(amount * 5/100);\n                 }\n                 buddies[msg.sender] += amount * 110 / 100;\n                 // 90% of the money will be used to pay out old creditors\n                 if (creditorAmounts[lastCreditorPayedOut] <= address(this).balance - profitFromCrash) {\n                     creditorAddresses[lastCreditorPayedOut].send(creditorAmounts[lastCreditorPayedOut]);\n                     buddies[creditorAddresses[lastCreditorPayedOut]] -= creditorAmounts[lastCreditorPayedOut];\n                     lastCreditorPayedOut += 1;\n                 }\n                 return true;\n             }\n             else {\n                 msg.sender.send(amount);\n                 return false;\n             }\n         }\n     }\n\n     // fallback function\n     function() {\n         lendGovernmentMoney(0);\n     }\n\n     function totalDebt() returns (uint debt) {\n         for(uint i=lastCreditorPayedOut; i<creditorAmounts.length; i++){\n             debt += creditorAmounts[i];\n         }\n     }\n\n     function totalPayedOut() returns (uint payout) {\n         for(uint i=0; i<lastCreditorPayedOut; i++){\n             payout += creditorAmounts[i];\n         }\n     }\n\n     // better don't do it (unless you are the corrupt elite and you want to establish trust in the system)\n     function investInTheSystem() {\n         profitFromCrash += msg.value;\n     }\n\n     // From time to time the corrupt elite inherits it's power to the next generation\n     function inheritToNextGeneration(address nextGeneration) {\n         if (msg.sender == corruptElite) {\n             corruptElite = nextGeneration;\n         }\n     }\n\n     function getCreditorAddresses() returns (address[]) {\n         return creditorAddresses;\n     }\n\n     function getCreditorAmounts() returns (uint[]) {\n         return creditorAmounts;\n     }\n }\n",
+    "pragma": "0.4.0",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0030",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity 0.4.24;\n\ncontract Refunder {\n    \naddress[] private refundAddresses;\nmapping (address => uint) public refunds;\n\n    constructor() {\n        refundAddresses.push(0x79B483371E87d664cd39491b5F06250165e4b184);\n        refundAddresses.push(0x79B483371E87d664cd39491b5F06250165e4b185);\n    }\n\n    // bad\n    function refundAll() public {\n        for(uint x; x < refundAddresses.length; x++) { // arbitrary length iteration based on how many addresses participated\n            require(refundAddresses[x].send(refunds[refundAddresses[x]])); // doubly bad, now a single failure on send will hold up all funds\n        }\n    }\n\n}\n",
+    "pragma": "0.4.24",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0031",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.24;\n\n */\nlibrary SafeMath {\n\n  */\n  function mul(uint256 a, uint256 b) internal pure returns (uint256) {\n    // Gas optimization: this is cheaper than requiring 'a' not being zero, but the\n    // benefit is lost if 'b' is also tested.\n    // See: https://github.com/OpenZeppelin/openzeppelin-solidity/pull/522\n    if (a == 0) {\n      return 0;\n    }\n\n    uint256 c = a * b;\n    require(c / a == b);\n\n    return c;\n  }\n\n  */\n  function div(uint256 a, uint256 b) internal pure returns (uint256) {\n    require(b > 0); // Solidity only automatically asserts when dividing by 0\n    uint256 c = a / b;\n    // assert(a == b * c + a % b); // There is no case in which this doesn't hold\n\n    return c;\n  }\n\n  */\n  function sub(uint256 a, uint256 b) internal pure returns (uint256) {\n    require(b <= a);\n    uint256 c = a - b;\n\n    return c;\n  }\n\n  */\n  function add(uint256 a, uint256 b) internal pure returns (uint256) {\n    uint256 c = a + b;\n    require(c >= a);\n\n    return c;\n  }\n\n  */\n  function mod(uint256 a, uint256 b) internal pure returns (uint256) {\n    require(b != 0);\n    return a % b;\n  }\n}\n\n\ncontract ERC20 {\n\n  event Transfer( address indexed from, address indexed to, uint256 value );\n  event Approval( address indexed owner, address indexed spender, uint256 value);\n  using SafeMath for *;\n\n  mapping (address => uint256) private _balances;\n\n  mapping (address => mapping (address => uint256)) private _allowed;\n\n  uint256 private _totalSupply;\n\n  constructor(uint totalSupply){\n    _balances[msg.sender] = totalSupply;\n  }\n\n  function balanceOf(address owner) public view returns (uint256) {\n    return _balances[owner];\n  }\n\n\n  function allowance(address owner, address spender) public view returns (uint256)\n  {\n    return _allowed[owner][spender];\n  }\n\n  function transfer(address to, uint256 value) public returns (bool) {\n    require(value <= _balances[msg.sender]);\n    require(to != address(0));\n\n    _balances[msg.sender] = _balances[msg.sender].sub(value);\n    _balances[to] = _balances[to].add(value);\n    emit Transfer(msg.sender, to, value);\n    return true;\n  }\n  function approve(address spender, uint256 value) public returns (bool) {\n    require(spender != address(0));\n    _allowed[msg.sender][spender] = value;\n    emit Approval(msg.sender, spender, value);\n    return true;\n  }\n\n  function transferFrom(address from, address to, uint256 value) public returns (bool) {\n    require(value <= _balances[from]);\n    require(value <= _allowed[from][msg.sender]);\n    require(to != address(0));\n\n    _balances[from] = _balances[from].sub(value);\n    _balances[to] = _balances[to].add(value);\n    _allowed[from][msg.sender] = _allowed[from][msg.sender].sub(value);\n    emit Transfer(from, to, value);\n    return true;\n  }\n}",
+    "pragma": "0.4.24",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0032",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.22;\n\ncontract FindThisHash {\n    bytes32 constant public hash = 0xb5b5b97fafd9855eec9b41f74dfb6c38f5951141f9a3ecd7f44d5479b630ee0a;\n\n    constructor() public payable {} // load with ether\n\n    function solve(string solution) public {\n        // If you can find the pre image of the hash, receive 1000 ether\n        require(hash == sha3(solution));\n        msg.sender.transfer(1000 ether);\n    }\n}\n",
+    "pragma": "0.4.22",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0033",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.16;\n\ncontract EthTxOrderDependenceMinimal {\n    address public owner;\n    bool public claimed;\n    uint public reward;\n\n    function EthTxOrderDependenceMinimal() public {\n        owner = msg.sender;\n    }\n\n    function setReward() public payable {\n        require (!claimed);\n\n        require(msg.sender == owner);\n        owner.transfer(reward);\n        reward = msg.value;\n    }\n\n    function claimReward(uint256 submission) {\n        require (!claimed);\n        require(submission < 10);\n        msg.sender.transfer(reward);\n        claimed = true;\n    }\n}\n",
+    "pragma": "0.4.16",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0034",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.2;\n\ncontract OddsAndEvens{\n\n  struct Player {\n    address addr;\n    uint number;\n  }\n\n  Player[2] public players;         //public only for debug purpose\n\n  uint8 tot;\n  address owner;\n\n  function OddsAndEvens() {\n    owner = msg.sender;\n  }\n  function play(uint number) payable{\n    if (msg.value != 1 ether) throw;\n    players[tot] = Player(msg.sender, number);\n    tot++;\n\n    if (tot==2) andTheWinnerIs();\n  }\n\n  function andTheWinnerIs() private {\n    bool res ;\n    uint n = players[0].number+players[1].number;\n    if (n%2==0) {\n      res = players[0].addr.send(1800 finney);\n    }\n    else {\n      res = players[1].addr.send(1800 finney);\n    }\n\n    delete players;\n    tot=0;\n  }\n\n  function getProfit() {\n    if(msg.sender!=owner) throw;\n    bool res = msg.sender.send(this.balance);\n  }\n\n}\n",
+    "pragma": "0.4.2",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0035",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\npragma solidity ^0.4.19;\n\n// CryptoRoulette\n//\n// Guess the number secretly stored in the blockchain and win the whole contract balance!\n// A new number is randomly chosen after each try.\n// https://www.reddit.com/r/ethdev/comments/7wp363/how_does_this_honeypot_work_it_seems_like_a/\n// To play, call the play() method with the guessed number (1-20).  Bet price: 0.1 ether\n\ncontract CryptoRoulette {\n\n    uint256 private secretNumber;\n    uint256 public lastPlayed;\n    uint256 public betPrice = 0.1 ether;\n    address public ownerAddr;\n\n    struct Game {\n        address player;\n        uint256 number;\n    }\n    Game[] public gamesPlayed;\n\n    function CryptoRoulette() public {\n        ownerAddr = msg.sender;\n        shuffle();\n    }\n\n    function shuffle() internal {\n        // randomly set secretNumber with a value between 1 and 20\n        secretNumber = uint8(sha3(now, block.blockhash(block.number-1))) % 20 + 1;\n    }\n\n    function play(uint256 number) payable public {\n        require(msg.value >= betPrice && number <= 10);\n        Game game; //Uninitialized storage pointer\n        game.player = msg.sender;\n        game.number = number;\n        gamesPlayed.push(game);\n\n        if (number == secretNumber) {\n            // win!\n            msg.sender.transfer(this.balance);\n        }\n\n        shuffle();\n        lastPlayed = now;\n    }\n\n    function kill() public {\n        if (msg.sender == ownerAddr && now > lastPlayed + 1 days) {\n            suicide(msg.sender);\n        }\n    }\n\n    function() public payable { }\n}\n",
+    "pragma": "0.4.19",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0036",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n// A Locked Name Registrar\n\npragma solidity ^0.4.15;\ncontract NameRegistrar {\n\n    bool public unlocked = false;  // registrar locked, no name updates\n\n    struct NameRecord { // map hashes to addresses\n        bytes32 name;\n        address mappedAddress;\n    }\n\n    mapping(address => NameRecord) public registeredNameRecord; // records who registered names\n    mapping(bytes32 => address) public resolve; // resolves hashes to addresses\n\n    function register(bytes32 _name, address _mappedAddress) public {\n        // set up the new NameRecord\n        NameRecord newRecord;\n        newRecord.name = _name;\n        newRecord.mappedAddress = _mappedAddress;\n\n        resolve[_name] = _mappedAddress;\n        registeredNameRecord[msg.sender] = newRecord;\n\n        require(unlocked); // only allow registrations if contract is unlocked\n    }\n}\n",
+    "pragma": "0.4.15",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0037",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.19;\n*/\n\ncontract OpenAddressLottery{\n    struct SeedComponents{\n        uint component1;\n        uint component2;\n        uint component3;\n        uint component4;\n    }\n    \n    address owner; //address of the owner\n    uint private secretSeed; //seed used to calculate number of an address\n    uint private lastReseed; //last reseed - used to automatically reseed the contract every 1000 blocks\n    uint LuckyNumber = 7; //if the number of an address equals 7, it wins\n        \n    mapping (address => bool) winner; //keeping track of addresses that have already won\n    \n    function OpenAddressLottery() {\n        owner = msg.sender;\n        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp)); //generate a quality random seed\n    }\n    \n    function participate() payable {\n        if(msg.value<0.1 ether)\n            return; //verify ticket price\n        \n        // make sure he hasn't won already\n        require(winner[msg.sender] == false);\n        \n        if(luckyNumberOfAddress(msg.sender) == LuckyNumber){ //check if it equals 7\n            winner[msg.sender] = true; // every address can only win once\n            \n            uint win=msg.value*7; //win = 7 times the ticket price\n            \n            if(win>this.balance) //if the balance isnt sufficient...\n                win=this.balance; //...send everything we've got\n            msg.sender.transfer(win);\n        }\n        \n        if(block.number-lastReseed>1000) //reseed if needed\n            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp)); //generate a quality random seed\n    }\n    \n    function luckyNumberOfAddress(address addr) constant returns(uint n){\n        // calculate the number of current address - 1 in 8 chance\n        n = uint(keccak256(uint(addr), secretSeed)[0]) % 8;\n    }\n    \n    function reseed(SeedComponents components) internal {\n        secretSeed = uint256(keccak256(\n            components.component1,\n            components.component2,\n            components.component3,\n            components.component4\n        )); //hash the incoming parameters and use the hash to (re)initialize the seed\n        lastReseed = block.number;\n    }\n    \n    function kill() {\n        require(msg.sender==owner);\n        \n        selfdestruct(msg.sender);\n    }\n    \n    function forceReseed() { //reseed initiated by the owner - for testing purposes\n        require(msg.sender==owner);\n        SeedComponents s;\n        s.component1 = uint(msg.sender);\n        s.component2 = uint256(block.blockhash(block.number - 1));\n        s.component3 = block.difficulty*(uint)(block.coinbase);\n        s.component4 = tx.gasprice * 7;\n        \n        reseed(s); //reseed\n    }\n    \n    function () payable { //if someone sends money without any function call, just assume he wanted to participate\n        if(msg.value>=0.1 ether && msg.sender!=owner) //owner can't participate, he can only fund the jackpot\n            participate();\n    }\n\n}",
+    "pragma": "0.4.19",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0038",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n pragma solidity ^0.4.11;\n\n contract MyToken {\n     mapping (address => uint) balances;\n\n     event Transfer(address indexed _from, address indexed _to, uint256 _value);\n\n     function MyToken() {\n         balances[tx.origin] = 10000;\n     }\n     function sendCoin(address to, uint amount) returns(bool sufficient) {\n         if (balances[msg.sender] < amount) return false;\n         balances[msg.sender] -= amount;\n         balances[to] += amount;\n         Transfer(msg.sender, to, amount);\n         return true;\n     }\n\n     function getBalance(address addr) constant returns(uint) {\n         return balances[addr];\n     }\n }\n",
+    "pragma": "0.4.11",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0039",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n pragma solidity ^0.4.15;\n\n/// @title Ethereum Lottery Game.\n\ncontract EtherLotto {\n\n    // Amount of ether needed for participating in the lottery.\n    uint constant TICKET_AMOUNT = 10;\n\n    // Fixed amount fee for each lottery game.\n    uint constant FEE_AMOUNT = 1;\n\n    // Address where fee is sent.\n    address public bank;\n\n    // Public jackpot that each participant can win (minus fee).\n    uint public pot;\n\n    // Lottery constructor sets bank account from the smart-contract owner.\n    function EtherLotto() {\n        bank = msg.sender;\n    }\n\n    // Public function for playing lottery. Each time this function\n    // is invoked, the sender has an oportunity for winning pot.\n    function play() payable {\n\n        // Participants must spend some fixed ether before playing lottery.\n        assert(msg.value == TICKET_AMOUNT);\n\n        // Increase pot for each participant.\n        pot += msg.value;\n\n        // Compute some *almost random* value for selecting winner from current transaction.\n        var random = uint(sha3(block.timestamp)) % 2;\n\n        // Distribution: 50% of participants will be winners.\n        if (random == 0) {\n\n            // Send fee to bank account.\n            bank.transfer(FEE_AMOUNT);\n\n            // Send jackpot to winner.\n            msg.sender.transfer(pot - FEE_AMOUNT);\n\n            // Restart jackpot.\n            pot = 0;\n        }\n    }\n\n}\n",
+    "pragma": "0.4.15",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0040",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//added pragma version\npragma solidity ^0.4.0;\n\ncontract Governmental {\n  address public owner;\n  address public lastInvestor;\n  uint public jackpot = 1 ether;\n  uint public lastInvestmentTimestamp;\n  uint public ONE_MINUTE = 1 minutes;\n\n  function Governmental() {\n    owner = msg.sender;\n    if (msg.value<1 ether) throw;\n  }\n\n  function invest() {\n    if (msg.value<jackpot/2) throw;\n    lastInvestor = msg.sender;\n    jackpot += msg.value/2;\n    lastInvestmentTimestamp = block.timestamp;\n  }\n\n  function resetInvestment() {\n    if (block.timestamp < lastInvestmentTimestamp+ONE_MINUTE)\n      throw;\n\n    lastInvestor.send(jackpot);\n    owner.send(this.balance-1 ether);\n\n    lastInvestor = 0;\n    jackpot = 1 ether;\n    lastInvestmentTimestamp = 0;\n  }\n}\n\ncontract Attacker {\n\n  function attack(address target, uint count) {\n    if (0<=count && count<1023) {\n      this.attack.gas(msg.gas-2000)(target, count+1);\n    }\n    else {\n      Governmental(target).resetInvestment();\n    }\n  }\n}\n",
+    "pragma": "0.4.0",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0041",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.0;\ncontract lottopollo {\n  address leader;\n  uint    timestamp;\n  function payOut(uint rand) internal {\n    if ( rand> 0 && now - rand > 24 hours ) {\n      msg.sender.send( msg.value );\n\n      if ( this.balance > 0 ) {\n        leader.send( this.balance );\n      }\n    }\n    else if ( msg.value >= 1 ether ) {\n      leader = msg.sender;\n      timestamp = rand;\n    }\n  }\n  function randomGen() constant returns (uint randomNumber) {\n      return block.timestamp;   \n    }\n  function draw(uint seed){\n    uint randomNumber=randomGen(); \n    payOut(randomNumber);\n  }\n}",
+    "pragma": "0.4.0",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0042",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.25;\n\ncontract Roulette {\n    uint public pastBlockTime; // Forces one bet per block\n\n    constructor() public payable {} // initially fund contract\n\n    // fallback function used to make a bet\n    function () public payable {\n        require(msg.value == 10 ether); // must send 10 ether to play\n        require(now != pastBlockTime); // only 1 transaction per block\n        pastBlockTime = now;\n        if(now % 15 == 0) { // winner\n            msg.sender.transfer(this.balance);\n        }\n    }\n}\n",
+    "pragma": "0.4.25",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0043",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.25;\n\ncontract TimedCrowdsale {\n  // Sale should finish exactly at January 1, 2019\n  function isSaleFinished() view public returns (bool) {\n    return block.timestamp >= 1546300800;\n  }\n}\n",
+    "pragma": "0.4.25",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0044",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.9;\n\ncontract TownCrier {\n    struct Request { // the data structure for each request\n        address requester; // the address of the requester\n        uint fee; // the amount of wei the requester pays for the request\n        address callbackAddr; // the address of the contract to call for delivering response\n        bytes4 callbackFID; // the specification of the callback function\n        bytes32 paramsHash; // the hash of the request parameters\n    }\n   \n    event Upgrade(address newAddr);\n    event Reset(uint gas_price, uint min_fee, uint cancellation_fee); \n    event RequestInfo(uint64 id, uint8 requestType, address requester, uint fee, address callbackAddr, bytes32 paramsHash, uint timestamp, bytes32[] requestData); // log of requests, the Town Crier server watches this event and processes requests\n    event DeliverInfo(uint64 requestId, uint fee, uint gasPrice, uint gasLeft, uint callbackGas, bytes32 paramsHash, uint64 error, bytes32 respData); // log of responses\n    event Cancel(uint64 requestId, address canceller, address requester, uint fee, int flag); // log of cancellations\n\n    address public constant SGX_ADDRESS = 0x18513702cCd928F2A3eb63d900aDf03c9cc81593;// address of the SGX account\n\n    uint public GAS_PRICE = 5 * 10**10;\n    uint public MIN_FEE = 30000 * GAS_PRICE; // minimum fee required for the requester to pay such that SGX could call deliver() to send a response\n    uint public CANCELLATION_FEE = 25000 * GAS_PRICE; // charged when the requester cancels a request that is not responded\n\n    uint public constant CANCELLED_FEE_FLAG = 1;\n    uint public constant DELIVERED_FEE_FLAG = 0;\n    int public constant FAIL_FLAG = -2 ** 250;\n    int public constant SUCCESS_FLAG = 1;\n\n    bool public killswitch;\n\n    bool public externalCallFlag;\n\n    uint64 public requestCnt;\n    uint64 public unrespondedCnt;\n    Request[2**64] public requests;\n\n    int public newVersion = 0;\n\n    // Contracts that receive Ether but do not define a fallback function throw\n    // an exception, sending back the Ether (this was different before Solidity\n    // v0.4.0). So if you want your contract to receive Ether, you have to\n    // implement a fallback function.\n    function () {}\n\n    function TownCrier() public {\n        // Start request IDs at 1 for two reasons:\n        //   1. We can use 0 to denote an invalid request (ids are unsigned)\n        //   2. Storage is more expensive when changing something from zero to non-zero,\n        //      so this means the first request isn't randomly more expensive.\n        requestCnt = 1;\n        requests[0].requester = msg.sender;\n        killswitch = false;\n        unrespondedCnt = 0;\n        externalCallFlag = false;\n    }\n\n    function upgrade(address newAddr) {\n        if (msg.sender == requests[0].requester && unrespondedCnt == 0) {\n            newVersion = -int(newAddr);\n            killswitch = true;\n            Upgrade(newAddr);\n        }\n    }\n\n    function reset(uint price, uint minGas, uint cancellationGas) public {\n        if (msg.sender == requests[0].requester && unrespondedCnt == 0) {\n            GAS_PRICE = price;\n            MIN_FEE = price * minGas;\n            CANCELLATION_FEE = price * cancellationGas;\n            Reset(GAS_PRICE, MIN_FEE, CANCELLATION_FEE);\n        }\n    }\n\n    function suspend() public {\n        if (msg.sender == requests[0].requester) {\n            killswitch = true;\n        }\n    }\n\n    function restart() public {\n        if (msg.sender == requests[0].requester && newVersion == 0) {\n            killswitch = false;\n        }\n    }\n\n    function withdraw() public {\n        if (msg.sender == requests[0].requester && unrespondedCnt == 0) {\n            if (!requests[0].requester.call.value(this.balance)()) {\n                throw;\n            }\n        }\n    }\n\n    function request(uint8 requestType, address callbackAddr, bytes4 callbackFID, uint timestamp, bytes32[] requestData) public payable returns (int) {\n        if (externalCallFlag) {\n            throw;\n        }\n\n        if (killswitch) {\n            externalCallFlag = true;\n            if (!msg.sender.call.value(msg.value)()) {\n                throw;\n            }\n            externalCallFlag = false;\n            return newVersion;\n        }\n\n        if (msg.value < MIN_FEE) {\n            externalCallFlag = true;\n            // If the amount of ether sent by the requester is too little or \n            // too much, refund the requester and discard the request.\n            if (!msg.sender.call.value(msg.value)()) {\n                throw;\n            }\n            externalCallFlag = false;\n            return FAIL_FLAG;\n        } else {\n            // Record the request.\n            uint64 requestId = requestCnt;\n            requestCnt++;\n            unrespondedCnt++;\n\n            bytes32 paramsHash = sha3(requestType, requestData);\n            requests[requestId].requester = msg.sender;\n            requests[requestId].fee = msg.value;\n            requests[requestId].callbackAddr = callbackAddr;\n            requests[requestId].callbackFID = callbackFID;\n            requests[requestId].paramsHash = paramsHash;\n\n            // Log the request for the Town Crier server to process.\n            RequestInfo(requestId, requestType, msg.sender, msg.value, callbackAddr, paramsHash, timestamp, requestData);\n            return requestId;\n        }\n    }\n\n    function deliver(uint64 requestId, bytes32 paramsHash, uint64 error, bytes32 respData) public {\n        if (msg.sender != SGX_ADDRESS ||\n                requestId <= 0 ||\n                requests[requestId].requester == 0 ||\n                requests[requestId].fee == DELIVERED_FEE_FLAG) {\n            // If the response is not delivered by the SGX account or the \n            // request has already been responded to, discard the response.\n            return;\n        }\n\n        uint fee = requests[requestId].fee;\n        if (requests[requestId].paramsHash != paramsHash) {\n            // If the hash of request parameters in the response is not \n            // correct, discard the response for security concern.\n            return;\n        } else if (fee == CANCELLED_FEE_FLAG) {\n            // If the request is cancelled by the requester, cancellation \n            // fee goes to the SGX account and set the request as having\n            // been responded to.\n            SGX_ADDRESS.send(CANCELLATION_FEE);\n            requests[requestId].fee = DELIVERED_FEE_FLAG;\n            unrespondedCnt--;\n            return;\n        }\n\n        requests[requestId].fee = DELIVERED_FEE_FLAG;\n        unrespondedCnt--;\n\n        if (error < 2) {\n            // Either no error occurs, or the requester sent an invalid query.\n            // Send the fee to the SGX account for its delivering.\n            SGX_ADDRESS.send(fee);         \n        } else {\n            // Error in TC, refund the requester.\n            externalCallFlag = true;\n            requests[requestId].requester.call.gas(2300).value(fee)();\n            externalCallFlag = false;\n        }\n\n        uint callbackGas = (fee - MIN_FEE) / tx.gasprice; // gas left for the callback function\n        DeliverInfo(requestId, fee, tx.gasprice, msg.gas, callbackGas, paramsHash, error, respData); // log the response information\n        if (callbackGas > msg.gas - 5000) {\n            callbackGas = msg.gas - 5000;\n        }\n        \n        externalCallFlag = true;\n        requests[requestId].callbackAddr.call.gas(callbackGas)(requests[requestId].callbackFID, requestId, error, respData); // call the callback function in the application contract\n        externalCallFlag = false;\n    }\n\n    function cancel(uint64 requestId) public returns (int) {\n        if (externalCallFlag) {\n            throw;\n        }\n\n        if (killswitch) {\n            return 0;\n        }\n\n        uint fee = requests[requestId].fee;\n        if (requests[requestId].requester == msg.sender && fee >= CANCELLATION_FEE) {\n            // If the request was sent by this user and has money left on it,\n            // then cancel it.\n            requests[requestId].fee = CANCELLED_FEE_FLAG;\n            externalCallFlag = true;\n            if (!msg.sender.call.value(fee - CANCELLATION_FEE)()) {\n                throw;\n            }\n            externalCallFlag = false;\n            Cancel(requestId, msg.sender, requests[requestId].requester, requests[requestId].fee, 1);\n            return SUCCESS_FLAG;\n        } else {\n            Cancel(requestId, msg.sender, requests[requestId].requester, fee, -1);\n            return FAIL_FLAG;\n        }\n    }\n}",
+    "pragma": "0.4.9",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0045",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.16;\n\n/// @author Jordi Baylina\n/// Auditors: Griff Green & psdev\n/// @notice Based on http://hudsonjameson.com/ethereummarriage/\n/// License: GNU-3\n\n/// @dev `Owned` is a base level contract that assigns an `owner` that can be\n///  later changed\ncontract Owned {\n\n    /// @dev `owner` is the only address that can call a function with this\n    /// modifier\n    modifier onlyOwner() {\n        require(msg.sender == owner);\n        _;\n    }\n\n    address public owner;\n\n    /// @notice The Constructor assigns the message sender to be `owner`\n    function Owned() {\n        owner = msg.sender;\n    }\n\n    address public newOwner;\n\n    /// @notice `owner` can step down and assign some other address to this role\n    /// @param _newOwner The address of the new owner\n    ///  an unowned neutral vault, however that cannot be undone\n    function changeOwner(address _newOwner) onlyOwner {\n        newOwner = _newOwner;\n    }\n    /// @notice `newOwner` has to accept the ownership before it is transferred\n    ///  Any account or any contract with the ability to call `acceptOwnership`\n    ///  can be used to accept ownership of this contract, including a contract\n    ///  with no other functions\n    function acceptOwnership() {\n        if (msg.sender == newOwner) {\n            owner = newOwner;\n        }\n    }\n\n    // This is a general safty function that allows the owner to do a lot\n    //  of things in the unlikely event that something goes wrong\n    // _dst is the contract being called making this like a 1/1 multisig\n    function execute(address _dst, uint _value, bytes _data) onlyOwner {\n        _dst.call.value(_value)(_data);\n    }\n}\n\n\ncontract Marriage is Owned\n{\n    // Marriage data variables\n    string public partner1;\n    string public partner2;\n    uint public marriageDate;\n    string public marriageStatus;\n    string public vows;\n\n    Event[] public majorEvents;\n    Message[] public messages;\n\n    struct Event {\n        uint date;\n        string name;\n        string description;\n        string url;\n    }\n\n    struct Message {\n        uint date;\n        string nameFrom;\n        string text;\n        string url;\n        uint value;\n    }\n\n    modifier areMarried {\n        require(sha3(marriageStatus) == sha3(\"Married\"));\n        _;\n    }\n\n    //Set Owner\n    function Marriage(address _owner) {\n        owner = _owner;\n    }\n\n    function numberOfMajorEvents() constant public returns (uint) {\n        return majorEvents.length;\n    }\n\n    function numberOfMessages() constant public returns (uint) {\n        return messages.length;\n    }\n\n    // Create initial marriage contract\n    function createMarriage(\n        string _partner1,\n        string _partner2,\n        string _vows,\n        string url) onlyOwner\n    {\n        require(majorEvents.length == 0);\n        partner1 = _partner1;\n        partner2 = _partner2;\n        marriageDate = now;\n        vows = _vows;\n        marriageStatus = \"Married\";\n        majorEvents.push(Event(now, \"Marriage\", vows, url));\n        MajorEvent(\"Marrigage\", vows, url);\n    }\n\n    // Set the marriage status if it changes\n    function setStatus(string status, string url) onlyOwner\n    {\n        marriageStatus = status;\n        setMajorEvent(\"Changed Status\", status, url);\n    }\n\n    // Set the IPFS hash of the image of the couple\n    function setMajorEvent(string name, string description, string url) onlyOwner areMarried\n    {\n        majorEvents.push(Event(now, name, description, url));\n        MajorEvent(name, description, url);\n    }\n\n    function sendMessage(string nameFrom, string text, string url) payable areMarried {\n        if (msg.value > 0) {\n            owner.transfer(this.balance);\n        }\n        messages.push(Message(now, nameFrom, text, url, msg.value));\n        MessageSent(nameFrom, text, url, msg.value);\n    }\n\n\n    // Declare event structure\n    event MajorEvent(string name, string description, string url);\n    event MessageSent(string name, string description, string url, uint value);\n}",
+    "pragma": "0.4.16",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0046",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.23;\n\ncontract Splitter{\n    \n\taddress public owner;\n\taddress[] public puppets;\n\tmapping (uint256 => address) public extra;\n\taddress private _addy;\n\tuint256 private _share;\n\tuint256 private _count;\n\n\n//constructor\n\n\tconstructor() payable public{\n\t\towner = msg.sender;\n\t\tnewPuppet();\n\t\tnewPuppet();\n\t\tnewPuppet();\n\t\tnewPuppet();\n\t\textra[0] = puppets[0];\n        extra[1] = puppets[1];\n        extra[2] = puppets[2];\n        extra[3] = puppets[3];\n\t}\n\n//withdraw (just in case)\n\t\n\tfunction withdraw() public{\n\t\trequire(msg.sender == owner);\n\t\towner.transfer(address(this).balance);\n\t}\n\n//puppet count\n\n\tfunction getPuppetCount() public constant returns(uint256 puppetCount){\n    \treturn puppets.length;\n  \t}\n\n//deploy contracts\n\n\tfunction newPuppet() public returns(address newPuppet){\n\t    require(msg.sender == owner);\n    \tPuppet p = new Puppet();\n    \tpuppets.push(p);\n    \treturn p;\n  \t\t}\n \n//update mapping\n\n    function setExtra(uint256 _id, address _newExtra) public {\n        require(_newExtra != address(0));\n        extra[_id] = _newExtra;\n    }\n\n\t\n//fund puppets TROUBLESHOOT gas\n\n    function fundPuppets() public payable {\n        require(msg.sender == owner);\n    \t_share = SafeMath.div(msg.value, 4);\n        extra[0].call.value(_share).gas(800000)();\n        extra[1].call.value(_share).gas(800000)();\n        extra[2].call.value(_share).gas(800000)();\n        extra[3].call.value(_share).gas(800000)();\n        }\n        \n//fallback function\n\nfunction() payable public{\n\t}\n}\n\n\ncontract Puppet {\n    \n    mapping (uint256 => address) public target;\n    mapping (uint256 => address) public master;\n\t\n\tconstructor() payable public{\n\t\t//target[0] = 0x42D21d1182F3aDD44064F23c1F98843D4B9fd8aa;\n\t\ttarget[0] = 0x509Cb8cB2F8ba04aE81eEC394175707Edd37e109;\n        master[0] = 0x5C035Bb4Cb7dacbfeE076A5e61AA39a10da2E956;\n\t}\n\t\n\t//send shares to doubler\n\t//return profit to master\n\n\tfunction() public payable{\n\t    if(msg.sender != target[0]){\n\t\t\ttarget[0].call.value(msg.value).gas(600000)();\n\t\t}\n    }\n\t//emergency withdraw\n\n\tfunction withdraw() public{\n\t\trequire(msg.sender == master[0]);\n\t\tmaster[0].transfer(address(this).balance);\n\t}\n}\n\n\n//library\n\nlibrary SafeMath {\n\n  function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {\n    if (a == 0) {\n      return 0;\n    }\n    c = a * b;\n    assert(c / a == b);\n    return c;\n  }\n\n  function div(uint256 a, uint256 b) internal pure returns (uint256) {\n    return a / b;\n  }\n\n  function sub(uint256 a, uint256 b) internal pure returns (uint256) {\n    assert(b <= a);\n    return a - b;\n  }\n\n  function add(uint256 a, uint256 b) internal pure returns (uint256 c) {\n    c = a + b;\n    assert(c >= a);\n    return c;\n  }\n}",
+    "pragma": "0.4.23",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0047",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n// by nightman\n// winner gets the contract balance\n// 0.02 to play\n\n\npragma solidity ^0.4.23;\n\ncontract DrainMe {\n\n//constants\n\naddress public winner = 0x0;\naddress public owner;\naddress public firstTarget = 0x461ec7309F187dd4650EE6b4D25D93c922d7D56b;\naddress public secondTarget = 0x1C3E062c77f09fC61550703bDd1D59842C22c766;\naddress[] public players;\n\nmapping(address=>bool) approvedPlayers;\n\nuint256 public secret;\nuint256[] public seed = [951828771,158769871220];\nuint256[] public balance;\n\n//constructor\n\nfunction DranMe() public payable{\n\towner = msg.sender;\n}\n\n//modifiers\n\nmodifier onlyOwner() {\n    require(msg.sender == owner);\n    _;\n}\n\nmodifier onlyWinner() {\n    require(msg.sender == winner);\n    _;\n}\n\nmodifier onlyPlayers() {\n    require(approvedPlayers[msg.sender]);\n    _;\n}\n\n//functions\n\nfunction getLength() public constant returns(uint256) {\n\treturn seed.length;\n}\n\nfunction setSecret(uint256 _secret) public payable onlyOwner{\n\tsecret = _secret;\n}\n\nfunction getPlayerCount() public constant returns(uint256) {\n\treturn players.length;\n}\n\nfunction getPrize() public constant returns(uint256) {\n\treturn address(this).balance;\n}\n\nfunction becomePlayer() public payable{\n\trequire(msg.value >= 0.02 ether);\n\tplayers.push(msg.sender);\n\tapprovedPlayers[msg.sender]=true;\n}\n\nfunction manipulateSecret() public payable onlyPlayers{\n\trequire (msg.value >= 0.01 ether);\n\tif(msg.sender!=owner || unlockSecret()){\n\t    uint256 amount = 0;\n        msg.sender.transfer(amount);\n\t}\n}\n\nfunction unlockSecret() private returns(bool){\n    bytes32 hash = keccak256(blockhash(block.number-1));\n    uint256 secret = uint256(hash);\n        if(secret%5==0){\n            winner = msg.sender;\n            return true;\n        }\n        else{\n            return false;\n        }\n    }\n\nfunction callFirstTarget () public payable onlyPlayers {\n\trequire (msg.value >= 0.005 ether);\n\tfirstTarget.call.value(msg.value)();\n}\n\nfunction callSecondTarget () public payable onlyPlayers {\n\trequire (msg.value >= 0.005 ether);\n\tsecondTarget.call.value(msg.value)();\n}\n\nfunction setSeed (uint256 _index, uint256 _value) public payable onlyPlayers {\n\tseed[_index] = _value;\n}\n\t\nfunction addSeed (uint256 _add) public payable onlyPlayers {\n\tseed.length = _add;\n}\n\nfunction guessSeed (uint256 _seed) public payable onlyPlayers returns(uint256) {\n\treturn (_seed / (seed[0]*seed[1]));\n\tif((_seed / (seed[0]*seed[1])) == secret) {\n\t\towner = winner;\n\t}\n}\n\nfunction checkSecret () public payable onlyPlayers returns(bool) {\n    require(msg.value >= 0.01 ether);\n    if(msg.value == secret){\n        return true;\n    }\n}\n\nfunction winPrize() public payable onlyOwner {\n\towner.call.value(1 wei)();\n}\n\nfunction claimPrize() public payable onlyWinner {\n\twinner.transfer(address(this).balance);\n}\n\n//fallback function\n\nfunction() public payable{\n\t}\n}",
+    "pragma": "0.4.23",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0048",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\npragma solidity ^0.4.11; /* originally >=0.4.11 */\n\ncontract Owned {\n    function Owned() {\n        owner = msg.sender;\n    }\n\n    address public owner;\n\n    // This contract only defines a modifier and a few useful functions\n    // The function body is inserted where the special symbol \"_\" in the\n    // definition of a modifier appears.\n    modifier onlyOwner { if (msg.sender == owner) _; }\n\n    function changeOwner(address _newOwner) onlyOwner {\n        owner = _newOwner;\n    }\n\n    // This is a general safty function that allows the owner to do a lot\n    //  of things in the unlikely event that something goes wrong\n    // _dst is the contract being called making this like a 1/1 multisig\n    function execute(address _dst, uint _value, bytes _data) onlyOwner {\n        _dst.call.value(_value)(_data);\n    }\n}\n// to get the needed token functions in the contract\ncontract Token {\n    function transfer(address, uint) returns(bool);\n    function balanceOf(address) constant returns (uint);\n}\n\ncontract TokenSender is Owned {\n    Token public token; // the token we are working with\n    uint public totalToDistribute;\n\n    uint public next;\n\n\n    struct Transfer {\n        address addr;\n        uint amount;\n    }\n\n    Transfer[] public transfers;\n\n    function TokenSender(address _token) {\n        token = Token(_token);\n    }\n\n    // this is a used to save gas\n    uint constant D160 = 0x0010000000000000000000000000000000000000000;\n\n    // This is the function that makes the list of transfers and various\n    //  checks around that list, it is a little tricky, the data input is\n    //  structured with the `amount` and the (receiving) `addr` combined as one\n    //  long number and then this number is deconstructed in this function to\n    //  save gas and reduce the number of `0`'s that are needed to be stored\n    //   on the blockchain\n    function fill(uint[] data) onlyOwner {\n\n        // If the send has started then we just throw\n        if (next>0) throw;\n\n        uint acc;\n        uint offset = transfers.length;\n        transfers.length = transfers.length + data.length;\n        for (uint i = 0; i < data.length; i++ ) {\n            address addr = address( data[i] & (D160-1) );\n            uint amount = data[i] / D160;\n\n            transfers[offset + i].addr = addr;\n            transfers[offset + i].amount = amount;\n            acc += amount;\n        }\n        totalToDistribute += acc;\n    }\n    // This function actually makes the sends and tracks the amount of gas used\n    //  if it takes more gas than was sent with the transaction then this\n    //  function will need to be called a few times until\n    function run() onlyOwner {\n        if (transfers.length == 0) return;\n\n        // Keep next in the stack var mNext to save gas\n        uint mNext = next;\n\n        // Set the contract as finalized to avoid reentrance\n        next = transfers.length;\n\n        if ((mNext == 0 ) && ( token.balanceOf(this) != totalToDistribute)) throw;\n\n        while ((mNext<transfers.length) && ( gas() > 150000 )) {\n            uint amount = transfers[mNext].amount;\n            address addr = transfers[mNext].addr;\n            if (amount > 0) {\n                if (!token.transfer(addr, transfers[mNext].amount)) throw;\n            }\n            mNext ++;\n        }\n\n        // Set the next to the actual state.\n        next = mNext;\n    }\n\n\n    ///////////////////////\n    // Helper functions\n    ///////////////////////\n\n    function hasTerminated() constant returns (bool) {\n        if (transfers.length == 0) return false;\n        if (next < transfers.length) return false;\n        return true;\n    }\n\n    function nTransfers() constant returns (uint) {\n        return transfers.length;\n    }\n\n    function gas() internal constant returns (uint _gas) {\n        assembly {\n            _gas:= gas\n        }\n    }\n\n}\n",
+    "pragma": "0.4.11",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  },
+  {
+    "id": "sample_2_0049",
+    "language": "solidity",
+    "chain": "evm",
+    "file_content": " */\n\n//added pragma version\npragma solidity ^0.4.0;\n\n contract Lotto {\n\n     uint constant public blocksPerRound = 6800;\n     // there are an infinite number of rounds (just like a real lottery that takes place every week). `blocksPerRound` decides how many blocks each round will last. 6800 is around a day.\n\n     uint constant public ticketPrice = 100000000000000000;\n     // the cost of each ticket is .1 ether.\n\n     uint constant public blockReward = 5000000000000000000;\n\n     function getBlocksPerRound() constant returns(uint){ return blocksPerRound; }\n     function getTicketPrice() constant returns(uint){ return ticketPrice; }\n     //accessors for constants\n\n     struct Round {\n         address[] buyers;\n         uint pot;\n         uint ticketsCount;\n         mapping(uint=>bool) isCashed;\n         mapping(address=>uint) ticketsCountByBuyer;\n     }\n     mapping(uint => Round) rounds;\n     //the contract maintains a mapping of rounds. Each round maintains a list of tickets, the total amount of the pot, and whether or not the round was \"cashed\". \"Cashing\" is the act of paying out the pot to the winner.\n\n     function getRoundIndex() constant returns (uint){\n         //The round index tells us which round we're on. For example if we're on block 24, we're on round 2. Division in Solidity automatically rounds down, so we don't need to worry about decimals.\n\n         return block.number/blocksPerRound;\n     }\n\n     function getIsCashed(uint roundIndex,uint subpotIndex) constant returns (bool){\n         //Determine if a given.\n\n         return rounds[roundIndex].isCashed[subpotIndex];\n     }\n\n\n     function calculateWinner(uint roundIndex, uint subpotIndex) constant returns(address){\n         //note this function only calculates the winners. It does not do any state changes and therefore does not include various validitiy checks\n\n         var decisionBlockNumber = getDecisionBlockNumber(roundIndex,subpotIndex);\n\n         if(decisionBlockNumber>block.number)\n             return;\n         //We can't decided the winner if the round isn't over yet\n\n         var decisionBlockHash = getHashOfBlock(decisionBlockNumber);\n         var winningTicketIndex = decisionBlockHash%rounds[roundIndex].ticketsCount;\n         //We perform a modulus of the blockhash to determine the winner\n\n         var ticketIndex = uint256(0);\n\n         for(var buyerIndex = 0; buyerIndex<rounds[roundIndex].buyers.length; buyerIndex++){\n             var buyer = rounds[roundIndex].buyers[buyerIndex];\n             ticketIndex+=rounds[roundIndex].ticketsCountByBuyer[buyer];\n\n             if(ticketIndex>winningTicketIndex){\n                 return buyer;\n             }\n         }\n     }\n\n     function getDecisionBlockNumber(uint roundIndex,uint subpotIndex) constant returns (uint){\n         return ((roundIndex+1)*blocksPerRound)+subpotIndex;\n     }\n\n     function getSubpotsCount(uint roundIndex) constant returns(uint){\n         var subpotsCount = rounds[roundIndex].pot/blockReward;\n\n         if(rounds[roundIndex].pot%blockReward>0)\n             subpotsCount++;\n\n         return subpotsCount;\n     }\n\n     function getSubpot(uint roundIndex) constant returns(uint){\n         return rounds[roundIndex].pot/getSubpotsCount(roundIndex);\n     }\n\n     function cash(uint roundIndex, uint subpotIndex){\n\n         var subpotsCount = getSubpotsCount(roundIndex);\n\n         if(subpotIndex>=subpotsCount)\n             return;\n\n         var decisionBlockNumber = getDecisionBlockNumber(roundIndex,subpotIndex);\n\n         if(decisionBlockNumber>block.number)\n             return;\n\n         if(rounds[roundIndex].isCashed[subpotIndex])\n             return;\n         //Subpots can only be cashed once. This is to prevent double payouts\n\n         var winner = calculateWinner(roundIndex,subpotIndex);\n         var subpot = getSubpot(roundIndex);\n\n         winner.send(subpot);\n\n         rounds[roundIndex].isCashed[subpotIndex] = true;\n         //Mark the round as cashed\n     }\n\n     function getHashOfBlock(uint blockIndex) constant returns(uint){\n         return uint(block.blockhash(blockIndex));\n     }\n\n     function getBuyers(uint roundIndex,address buyer) constant returns (address[]){\n         return rounds[roundIndex].buyers;\n     }\n\n     function getTicketsCountByBuyer(uint roundIndex,address buyer) constant returns (uint){\n         return rounds[roundIndex].ticketsCountByBuyer[buyer];\n     }\n\n     function getPot(uint roundIndex) constant returns(uint){\n         return rounds[roundIndex].pot;\n     }\n\n     function() {\n         //this is the function that gets called when people send money to the contract.\n\n         var roundIndex = getRoundIndex();\n         var value = msg.value-(msg.value%ticketPrice);\n\n         if(value==0) return;\n\n         if(value<msg.value){\n             msg.sender.send(msg.value-value);\n         }\n         //no partial tickets, send a partial refund\n\n         var ticketsCount = value/ticketPrice;\n         rounds[roundIndex].ticketsCount+=ticketsCount;\n\n         if(rounds[roundIndex].ticketsCountByBuyer[msg.sender]==0){\n             var buyersLength = rounds[roundIndex].buyers.length++;\n             rounds[roundIndex].buyers[buyersLength] = msg.sender;\n         }\n\n         rounds[roundIndex].ticketsCountByBuyer[msg.sender]+=ticketsCount;\n         rounds[roundIndex].ticketsCount+=ticketsCount;\n         //keep track of the total tickets\n\n         rounds[roundIndex].pot+=value;\n         //keep track of the total pot\n\n     }\n\n }\n",
+    "pragma": "0.4.0",
+    "difficulty_tier": 2,
+    "context_level": "single_file"
+  }
+]
