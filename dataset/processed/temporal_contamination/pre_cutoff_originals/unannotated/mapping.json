@@ -118,6 +118,24 @@
       "date": "2021-05-20",
       "amount_lost_usd": "45000000",
       "vulnerability_type": "arithmetic_error"
+    },
+    {
+      "unannotated_id": "sample_014",
+      "unannotated_file": "sample_014.sol",
+      "annotated_file": "yearn_ydai.sol",
+      "exploit_name": "Yearn yDAI",
+      "date": "2021-02-04",
+      "amount_lost_usd": "11000000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_015",
+      "unannotated_file": "sample_015.sol",
+      "annotated_file": "compound_tusd.sol",
+      "exploit_name": "Compound TUSD",
+      "date": "2022-03-15",
+      "amount_lost_usd": "0",
+      "vulnerability_type": "logic_error"
     }
   ],
   "notes": [

@@ -16,7 +16,12 @@
   "vulnerable_function": "mintFor",
   "vulnerable_lines": [95, 98],
   "fix_description": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
-  "tags": ["balance-manipulation", "flash-loan", "reward-calculation", "balanceof-exploit"],
+  "tags": [
+    "balance-manipulation",
+    "flash-loan",
+    "reward-calculation",
+    "balanceof-exploit"
+  ],
   "references": [
     "https://rekt.news/pancakebunny-rekt/",
     "https://bscscan.com/tx/0x765de8357994a206bb90af57dcf427f48a2021f2f28ca81f2c00bc3b9842be8e"

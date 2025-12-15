@@ -1,0 +1,55 @@
+
+TEMPORAL CONTAMINATION - PHASE 2 PROGRESS
+==========================================
+
+TARGET: 30 pre-cutoff original exploits
+COMPLETED: 13 samples
+REMAINING: 17 samples
+
+COMPLETED SAMPLES:
+
+Phase 1 (Batch 1): 9 samples
+- sample_001: Nomad Bridge ($190M)
+- sample_002: Beanstalk ($182M)
+- sample_003: Parity Wallet ($150M)
+- sample_004: Harvest Finance ($24M)
+- sample_005: Curve Finance ($70M)
+- sample_006: Ronin Bridge ($625M)
+- sample_007: Poly Network ($611M)
+- sample_008: Cream Finance ($130M)
+- sample_009: KyberSwap ($47M)
+
+Phase 2 (Batch 1): 4 samples
+- sample_010: The DAO ($60M, 2016)
+- sample_011: Lendf.Me ($25M, 2020)
+- sample_012: Rari Capital ($80M, 2022)
+- sample_013: PancakeHunny ($45M, 2021)
+
+TOTAL VALUE REPRESENTED: $2.8B in losses
+
+VULNERABILITY TYPES COVERED:
+- Reentrancy (classic, ERC-777, cross-function)
+- Access control & authorization
+- Oracle manipulation
+- Balance calculation exploits
+- Arithmetic errors
+- Initialization issues
+- Governance attacks
+
+NEXT BATCH TO EXTRACT:
+- Yearn Finance ($11M)
+- Compound TUSD
+- Chainswap
+- Umbrella Network
+- Fortress Loans
+- More bridge exploits
+- Additional DeFi protocol exploits
+
+ALL SAMPLES:
+- Annotated version: Full vulnerability documentation
+- Unannotated version: Clean code for AI evaluation
+- JSON metadata: Complete exploit details
+
+STATUS: In Progress - 43% complete (13/30)
+Date: December 15, 2024
+

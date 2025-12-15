@@ -16,7 +16,13 @@
   "vulnerable_function": "borrow",
   "vulnerable_lines": [90, 93, 108],
   "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
-  "tags": ["reentrancy", "cross-function", "oracle-manipulation", "lending", "health-check"],
+  "tags": [
+    "reentrancy",
+    "cross-function",
+    "oracle-manipulation",
+    "lending",
+    "health-check"
+  ],
   "references": [
     "https://www.blocksecteam.com/blog/2022/05/rari-capital-fuse-pool-hack/",
     "https://twitter.com/FeiProtocol/status/1520847142650499072"

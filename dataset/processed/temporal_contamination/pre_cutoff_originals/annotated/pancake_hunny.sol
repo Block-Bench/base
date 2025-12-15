@@ -27,7 +27,13 @@ pragma solidity ^0.8.0;
 
 interface IERC20 {
     function transfer(address to, uint256 amount) external returns (bool);
-    function transferFrom(address from, address to, uint256 amount) external returns (bool);
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 amount
+    ) external returns (bool);
+
     function balanceOf(address account) external view returns (uint256);
 }
 
@@ -42,12 +48,12 @@ interface IPancakeRouter {
 }
 
 contract VulnerableHunnyMinter {
-    IERC20 public lpToken;      // LP token (e.g., CAKE-BNB)
-    IERC20 public rewardToken;  // HUNNY reward token
-    
+    IERC20 public lpToken; // LP token (e.g., CAKE-BNB)
+    IERC20 public rewardToken; // HUNNY reward token
+
     mapping(address => uint256) public depositedLP;
     mapping(address => uint256) public earnedRewards;
-    
+
     uint256 public constant REWARD_RATE = 100; // 100 reward tokens per LP token
 
     constructor(address _lpToken, address _rewardToken) {
@@ -91,15 +97,17 @@ contract VulnerableHunnyMinter {
         uint256 /* amount - unused */
     ) external {
         require(flip == address(lpToken), "Invalid token");
-        
+
         // Transfer fees from caller
         uint256 feeSum = _performanceFee + _withdrawalFee;
         lpToken.transferFrom(msg.sender, address(this), feeSum);
-        
+
         // VULNERABLE: Use balanceOf to calculate rewards
         // This includes tokens sent directly to contract, not just fees
-        uint256 hunnyRewardAmount = tokenToReward(lpToken.balanceOf(address(this)));
-        
+        uint256 hunnyRewardAmount = tokenToReward(
+            lpToken.balanceOf(address(this))
+        );
+
         // Mint excessive rewards
         earnedRewards[to] += hunnyRewardAmount;
     }
@@ -118,7 +126,7 @@ contract VulnerableHunnyMinter {
     function getReward() external {
         uint256 reward = earnedRewards[msg.sender];
         require(reward > 0, "No rewards");
-        
+
         earnedRewards[msg.sender] = 0;
         rewardToken.transfer(msg.sender, reward);
     }
@@ -159,11 +167,11 @@ contract VulnerableHunnyMinter {
  * function mintFor(...) external {
  *     uint256 feeSum = _performanceFee + _withdrawalFee;
  *     lpToken.transferFrom(msg.sender, address(this), feeSum);
- *     
+ *
  *     // Use tracked amount, not balanceOf
  *     totalDeposited += feeSum;
  *     uint256 hunnyRewardAmount = tokenToReward(feeSum);  // Only use actual fees
- *     
+ *
  *     earnedRewards[to] += hunnyRewardAmount;
  * }
  *

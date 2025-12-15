@@ -16,7 +16,13 @@
   "vulnerable_function": "withdrawAll",
   "vulnerable_lines": [51, 53],
   "fix_description": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern.",
-  "tags": ["reentrancy", "classic", "historical", "checks-effects-interactions", "external-call"],
+  "tags": [
+    "reentrancy",
+    "classic",
+    "historical",
+    "checks-effects-interactions",
+    "external-call"
+  ],
   "references": [
     "https://www.coindesk.com/learn/2016/06/25/understanding-the-dao-attack/",
     "https://medium.com/@MyPaoG/explaining-the-dao-exploit-for-beginners-in-solidity-80ee84f0d470"

@@ -7,18 +7,24 @@ pragma solidity ^0.8.0;
  */
 
 interface IComptroller {
-    function enterMarkets(address[] memory cTokens) external returns (uint256[] memory);
+    function enterMarkets(
+        address[] memory cTokens
+    ) external returns (uint256[] memory);
+
     function exitMarket(address cToken) external returns (uint256);
-    function getAccountLiquidity(address account) external view returns (uint256, uint256, uint256);
+
+    function getAccountLiquidity(
+        address account
+    ) external view returns (uint256, uint256, uint256);
 }
 
 contract LendingProtocol {
     IComptroller public comptroller;
-    
+
     mapping(address => uint256) public deposits;
     mapping(address => uint256) public borrowed;
     mapping(address => bool) public inMarket;
-    
+
     uint256 public totalDeposits;
     uint256 public totalBorrowed;
     uint256 public constant COLLATERAL_FACTOR = 150;
@@ -33,12 +39,15 @@ contract LendingProtocol {
         inMarket[msg.sender] = true;
     }
 
-    function isHealthy(address account, uint256 additionalBorrow) public view returns (bool) {
+    function isHealthy(
+        address account,
+        uint256 additionalBorrow
+    ) public view returns (bool) {
         uint256 totalDebt = borrowed[account] + additionalBorrow;
         if (totalDebt == 0) return true;
-        
+
         if (!inMarket[account]) return false;
-        
+
         uint256 collateralValue = deposits[account];
         return collateralValue >= (totalDebt * COLLATERAL_FACTOR) / 100;
     }
@@ -46,15 +55,15 @@ contract LendingProtocol {
     function borrow(uint256 amount) external {
         require(amount > 0, "Invalid amount");
         require(address(this).balance >= amount, "Insufficient funds");
-        
+
         require(isHealthy(msg.sender, amount), "Insufficient collateral");
-        
+
         borrowed[msg.sender] += amount;
         totalBorrowed += amount;
-        
+
         (bool success, ) = payable(msg.sender).call{value: amount}("");
         require(success, "Transfer failed");
-        
+
         require(isHealthy(msg.sender, 0), "Health check failed");
     }
 
@@ -66,10 +75,10 @@ contract LendingProtocol {
     function withdraw(uint256 amount) external {
         require(deposits[msg.sender] >= amount, "Insufficient deposits");
         require(!inMarket[msg.sender], "Exit market first");
-        
+
         deposits[msg.sender] -= amount;
         totalDeposits -= amount;
-        
+
         payable(msg.sender).transfer(amount);
     }
 

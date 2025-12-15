@@ -27,6 +27,7 @@ pragma solidity ^0.8.0;
 
 interface IERC777 {
     function transfer(address to, uint256 amount) external returns (bool);
+
     function balanceOf(address account) external view returns (uint256);
 }
 
@@ -49,17 +50,14 @@ contract VulnerableLendingPool {
      */
     function supply(address asset, uint256 amount) external returns (uint256) {
         IERC777 token = IERC777(asset);
-        
+
         // Transfer tokens from user
-        require(
-            token.transfer(address(this), amount),
-            "Transfer failed"
-        );
-        
+        require(token.transfer(address(this), amount), "Transfer failed");
+
         // Update balances
         supplied[msg.sender][asset] += amount;
         totalSupplied[asset] += amount;
-        
+
         return amount;
     }
 
@@ -67,7 +65,7 @@ contract VulnerableLendingPool {
      * @notice Withdraw supplied tokens
      * @param asset The token to withdraw
      * @param requestedAmount Amount to withdraw (type(uint256).max for all)
-     * 
+     *
      * VULNERABILITY IS HERE:
      * The function transfers tokens BEFORE updating the user's balance.
      * For ERC-777 tokens, the transfer triggers tokensToSend() hook on the sender,
@@ -78,32 +76,38 @@ contract VulnerableLendingPool {
      * 2. Transfer tokens (line 91) <- EXTERNAL CALL WITH HOOK
      * 3. Update balances (line 94-95) <- TOO LATE!
      */
-    function withdraw(address asset, uint256 requestedAmount) external returns (uint256) {
+    function withdraw(
+        address asset,
+        uint256 requestedAmount
+    ) external returns (uint256) {
         uint256 userBalance = supplied[msg.sender][asset];
         require(userBalance > 0, "No balance");
-        
+
         // Determine actual withdrawal amount
         uint256 withdrawAmount = requestedAmount;
         if (requestedAmount == type(uint256).max) {
             withdrawAmount = userBalance;
         }
         require(withdrawAmount <= userBalance, "Insufficient balance");
-        
+
         // VULNERABLE: Transfer before state update
         // For ERC-777, this triggers tokensToSend() callback
         IERC777(asset).transfer(msg.sender, withdrawAmount);
-        
+
         // Update state (happens too late!)
         supplied[msg.sender][asset] -= withdrawAmount;
         totalSupplied[asset] -= withdrawAmount;
-        
+
         return withdrawAmount;
     }
 
     /**
      * @notice Get user's supplied balance
      */
-    function getSupplied(address user, address asset) external view returns (uint256) {
+    function getSupplied(
+        address user,
+        address asset
+    ) external view returns (uint256) {
         return supplied[user][asset];
     }
 }
@@ -115,7 +119,7 @@ contract VulnerableLendingPool {
  *     VulnerableLendingPool public pool;
  *     IERC777 public token;
  *     uint256 public iterations = 0;
- *     
+ *
  *     // ERC-777 tokensToSend hook - called during transfer
  *     function tokensToSend(
  *         address,
@@ -130,7 +134,7 @@ contract VulnerableLendingPool {
  *             pool.withdraw(address(token), type(uint256).max);  // Reenter!
  *         }
  *     }
- *     
+ *
  *     function attack() external {
  *         token.approve(address(pool), type(uint256).max);
  *         pool.supply(address(token), 100 ether);
@@ -150,19 +154,19 @@ contract VulnerableLendingPool {
  * function withdraw(address asset, uint256 requestedAmount) external returns (uint256) {
  *     uint256 userBalance = supplied[msg.sender][asset];
  *     require(userBalance > 0, "No balance");
- *     
- *     uint256 withdrawAmount = requestedAmount == type(uint256).max 
- *         ? userBalance 
+ *
+ *     uint256 withdrawAmount = requestedAmount == type(uint256).max
+ *         ? userBalance
  *         : requestedAmount;
  *     require(withdrawAmount <= userBalance, "Insufficient balance");
- *     
+ *
  *     // Update state FIRST
  *     supplied[msg.sender][asset] -= withdrawAmount;
  *     totalSupplied[asset] -= withdrawAmount;
- *     
+ *
  *     // Then transfer
  *     IERC777(asset).transfer(msg.sender, withdrawAmount);
- *     
+ *
  *     return withdrawAmount;
  * }
  *
