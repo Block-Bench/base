@@ -25,6 +25,7 @@ class DatasetConsolidator:
             "defivulnlabs": self.metadata_path / "defivulnlabs_processed.json",
             "not_so_smart": self.metadata_path / "not_so_smart_processed.json",
             "sealevel_attacks": self.metadata_path / "sealevel_attacks_processed.json",
+            "neodyme_workshop": self.base_path / "processed" / "neodyme_workshop" / "neodyme_workshop.json",
         }
         
         for name, path in dataset_files.items():
