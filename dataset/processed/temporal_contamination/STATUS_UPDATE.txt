@@ -1,0 +1,48 @@
+
+TEMPORAL CONTAMINATION DATASET - STATUS UPDATE
+==============================================
+
+CURRENT PROGRESS: 22/30 (73%)
+
+COMPLETED BATCHES:
+- Initial POC: Euler Finance + 4 variants (samples 001-005)
+- Phase 1: 9 major exploits (samples 001-009)
+- Phase 2: 8 additional exploits (samples 010-017)
+- Batch 4: 5 new exploits (samples 018-022)
+
+TOTAL VALUE REPRESENTED: $3.05 BILLION
+
+VULNERABILITY COVERAGE (12 types):
+1. Reentrancy (The DAO, Lendf.Me, Rari, Curve, bZx)
+2. Access Control (Parity, Ronin, Poly, Pickle)
+3. Price Oracle Manipulation (Harvest, Cream, Yearn, Warp)
+4. Governance Attack (Beanstalk)
+5. Improper Initialization (Nomad)
+6. Arithmetic Errors (KyberSwap, PancakeHunny, Uranium)
+7. Logic Errors (Compound TUSD)
+8. Pool Manipulation (Indexed Finance)
+9. Validation Bypass (Qubit Bridge)
+10. Reinitialization (DODO)
+11. Flash Loan Attacks (multiple)
+12. Cross-chain Bridge Issues (Nomad, Ronin, Poly, Qubit)
+
+BLOCKCHAIN COVERAGE:
+- Ethereum: 18 samples
+- BSC: 2 samples
+- Multi-chain: 2 samples
+
+TEMPORAL DISTRIBUTION:
+- 2016-2017: 2 samples (The DAO, Parity)
+- 2020: 5 samples
+- 2021: 9 samples
+- 2022: 5 samples
+- 2023: 1 sample
+
+REMAINING WORK:
+- 8 more pre-cutoff originals needed
+- Target: High-impact, diverse vulnerabilities
+- Focus: Under-represented categories and chains
+
+NEXT STEPS:
+Extract final 8 samples to reach 30 target
+

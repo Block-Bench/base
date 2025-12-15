@@ -181,6 +181,24 @@
       "date": "2020-12-17",
       "amount_lost_usd": "7700000",
       "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_021",
+      "unannotated_file": "sample_021.sol",
+      "annotated_file": "dodo_reinit.sol",
+      "exploit_name": "DODO Reinitialization",
+      "date": "2021-03-09",
+      "amount_lost_usd": "3800000",
+      "vulnerability_type": "reinitialization"
+    },
+    {
+      "unannotated_id": "sample_022",
+      "unannotated_file": "sample_022.sol",
+      "annotated_file": "uranium_finance.sol",
+      "exploit_name": "Uranium Finance",
+      "date": "2021-04-28",
+      "amount_lost_usd": "50000000",
+      "vulnerability_type": "arithmetic_error"
     }
   ],
   "notes": [
