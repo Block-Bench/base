@@ -1,0 +1,79 @@
+
+DATA LEAKAGE PREVENTION - RESTRUCTURING COMPLETE
+================================================
+
+PROBLEM IDENTIFIED:
+- Original extraction included vulnerability-revealing filenames (ronin_bridge.sol)
+- Comments marked with "VULNERABILITY:", "ROOT CAUSE:", "ATTACK VECTOR:"
+- Detailed attack documentation in code
+- This creates data leakage for AI evaluation
+
+SOLUTION IMPLEMENTED:
+- Split dataset into two folders: annotated/ and unannotated/
+- Annotated: Full documentation, vulnerability comments, descriptive names (for reference)
+- Unannotated: Clean code, generic names, no vulnerability hints (for evaluation)
+
+DIRECTORY STRUCTURE:
+pre_cutoff_originals/
+├── annotated/          # Reference documentation
+│   ├── nomad_bridge.sol + nomad_bridge.json
+│   ├── beanstalk.sol + beanstalk.json
+│   ├── parity_wallet.sol + parity_wallet.json
+│   ├── harvest_finance.sol + harvest_finance.json
+│   ├── curve_vyper.sol + curve_vyper.json
+│   ├── ronin_bridge.sol + ronin_bridge.json
+│   ├── poly_network.sol + poly_network.json
+│   ├── cream_finance.sol + cream_finance.json
+│   └── kyberswap.sol + kyberswap.json
+│
+├── unannotated/        # Evaluation samples
+│   ├── sample_001.sol (Nomad Bridge)
+│   ├── sample_002.sol (Beanstalk)
+│   ├── sample_003.sol (Parity Wallet)
+│   ├── sample_004.sol (Harvest Finance)
+│   ├── sample_005.sol (Curve Finance)
+│   ├── sample_006.sol (Ronin Bridge)
+│   ├── sample_007.sol (Poly Network)
+│   ├── sample_008.sol (Cream Finance)
+│   ├── sample_009.sol (KyberSwap)
+│   └── mapping.json
+│
+└── README.md
+
+UNANNOTATED SAMPLES:
+- Generic names: sample_001.sol through sample_009.sol
+- No vulnerability markers in comments
+- Contract names changed (VulnerableNomadReplica -> BridgeReplica)
+- Only basic production-level documentation kept
+- mapping.json links unannotated IDs to annotated versions
+
+EVALUATION PROTOCOL:
+- Provide models with unannotated/ files only
+- Do NOT reveal mapping during evaluation
+- Do NOT provide JSON metadata during evaluation
+- Task: Identify vulnerabilities without hints
+
+SAMPLES INCLUDED:
+ID         Maps To              Exploit Name     Date     Loss
+---------- -------------------- ---------------- -------- -------
+sample_001 nomad_bridge.sol     Nomad Bridge     2022-08  $190M
+sample_002 beanstalk.sol        Beanstalk        2022-04  $182M
+sample_003 parity_wallet.sol    Parity Wallet    2017-11  $150M
+sample_004 harvest_finance.sol  Harvest Finance  2020-10  $24M
+sample_005 curve_vyper.sol      Curve Finance    2023-07  $70M
+sample_006 ronin_bridge.sol     Ronin Bridge     2022-03  $625M
+sample_007 poly_network.sol     Poly Network     2021-08  $611M
+sample_008 cream_finance.sol    Cream Finance    2021-10  $130M
+sample_009 kyberswap.sol        KyberSwap        2023-11  $47M
+
+Total: 9 samples, $2.2B in losses
+
+NEXT STEPS:
+- Continue extracting remaining 21 pre-cutoff originals (target: 30 total)
+- Create variants (renamed, simplified, obfuscated, patched)
+- Collect post-cutoff exploits (Sept 2025+)
+- All future samples follow same annotated/unannotated structure
+
+Date: December 15, 2024
+Status: Restructuring Complete
+

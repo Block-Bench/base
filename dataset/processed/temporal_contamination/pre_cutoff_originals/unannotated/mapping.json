@@ -1,0 +1,94 @@
+{
+  "description": "Mapping between unannotated samples and their annotated counterparts",
+  "purpose": "Prevents data leakage in benchmark evaluation by using generic names and stripped comments",
+  "mappings": [
+    {
+      "unannotated_id": "sample_001",
+      "unannotated_file": "sample_001.sol",
+      "annotated_file": "nomad_bridge.sol",
+      "exploit_name": "Nomad Bridge",
+      "date": "2022-08-01",
+      "amount_lost_usd": "190000000",
+      "vulnerability_type": "improper_initialization"
+    },
+    {
+      "unannotated_id": "sample_002",
+      "unannotated_file": "sample_002.sol",
+      "annotated_file": "beanstalk.sol",
+      "exploit_name": "Beanstalk",
+      "date": "2022-04-17",
+      "amount_lost_usd": "182000000",
+      "vulnerability_type": "governance_attack"
+    },
+    {
+      "unannotated_id": "sample_003",
+      "unannotated_file": "sample_003.sol",
+      "annotated_file": "parity_wallet.sol",
+      "exploit_name": "Parity Wallet",
+      "date": "2017-11-06",
+      "amount_lost_usd": "150000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_004",
+      "unannotated_file": "sample_004.sol",
+      "annotated_file": "harvest_finance.sol",
+      "exploit_name": "Harvest Finance",
+      "date": "2020-10-26",
+      "amount_lost_usd": "24000000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_005",
+      "unannotated_file": "sample_005.sol",
+      "annotated_file": "curve_vyper.sol",
+      "exploit_name": "Curve Finance (Vyper Reentrancy)",
+      "date": "2023-07-30",
+      "amount_lost_usd": "70000000",
+      "vulnerability_type": "reentrancy"
+    },
+    {
+      "unannotated_id": "sample_006",
+      "unannotated_file": "sample_006.sol",
+      "annotated_file": "ronin_bridge.sol",
+      "exploit_name": "Ronin Bridge",
+      "date": "2022-03-23",
+      "amount_lost_usd": "625000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_007",
+      "unannotated_file": "sample_007.sol",
+      "annotated_file": "poly_network.sol",
+      "exploit_name": "Poly Network",
+      "date": "2021-08-10",
+      "amount_lost_usd": "611000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_008",
+      "unannotated_file": "sample_008.sol",
+      "annotated_file": "cream_finance.sol",
+      "exploit_name": "Cream Finance",
+      "date": "2021-10-27",
+      "amount_lost_usd": "130000000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_009",
+      "unannotated_file": "sample_009.sol",
+      "annotated_file": "kyberswap.sol",
+      "exploit_name": "KyberSwap Elastic",
+      "date": "2023-11-22",
+      "amount_lost_usd": "47000000",
+      "vulnerability_type": "arithmetic_error"
+    }
+  ],
+  "notes": [
+    "Unannotated versions have all vulnerability-revealing comments removed",
+    "Contract and function names are kept functional but generic",
+    "File names use sample_XXX.sol pattern to prevent information leakage",
+    "Annotated versions in ../annotated/ folder contain full documentation",
+    "JSON metadata files remain in annotated folder with full details"
+  ]
+}
