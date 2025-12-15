@@ -1,0 +1,76 @@
+
+BLOCKBENCH DATASET - PROGRESS SUMMARY
+=====================================
+
+COMPLETED WORK:
+
+Task One: Difficulty Stratified Dataset
+- Total samples: 239 (Solidity + Rust)
+- Sources: SmartBugs, DeFiVulnLabs, Not-So-Smart-Contracts, Sealevel Attacks, Neodyme Workshop
+- Structure: 4 difficulty tiers (Easy, Medium, Hard, Expert)
+- Status: Complete with annotated/unannotated split
+
+Task Two: Temporal Contamination Dataset (In Progress)
+- Pre-cutoff originals: 9 high-profile exploits (2017-2023)
+- Total value represented: $2.2B in losses
+- Status: Phase 1 complete, 21 more originals to extract
+
+DATA LEAKAGE PREVENTION APPLIED:
+
+All datasets now have annotated/unannotated structure:
+
+annotated/ (Reference Only):
+- Full vulnerability documentation
+- Descriptive filenames
+- Detailed comments marking vulnerabilities
+- Attack scenarios and fix recommendations
+- Complete metadata in JSON files
+
+unannotated/ (For AI Evaluation):
+- Generic sample IDs (sample_1_0001, sample_001.sol, etc.)
+- No vulnerability-revealing comments
+- No source URLs or author attributions
+- Minimal metadata (language, chain, pragma, difficulty tier)
+- Clean code without hints
+
+DATASET STRUCTURE:
+
+/dataset/processed/
+├── difficulty_stratified/          # 239 samples
+│   ├── tier_1_easy/
+│   │   ├── annotated/
+│   │   │   ├── solidity/ (smartbugs.json, not_so_smart.json)
+│   │   │   └── rust/
+│   │   └── unannotated/
+│   │       ├── solidity/ (cleaned versions)
+│   │       └── rust/
+│   ├── tier_2_medium/
+│   ├── tier_3_hard/
+│   └── tier_4_expert/
+│
+└── temporal_contamination/          # 9 samples + 5 variants
+    ├── pre_cutoff_originals/
+    │   ├── annotated/     (detailed .sol + .json files)
+    │   ├── unannotated/   (sample_001.sol through sample_009.sol)
+    │   └── README.md
+    └── proof_of_concept/  (Euler variants)
+
+NEXT STEPS:
+
+Immediate (Phase 2 - Temporal Contamination):
+- Extract remaining 21 pre-cutoff originals (target: 30 total)
+- Continue following annotated/unannotated pattern
+
+Later:
+- Create variants for famous exploits (renamed, simplified, obfuscated, patched)
+- Collect post-cutoff exploits (Sept 2025+)
+- Final consolidation and validation
+
+CURRENT STATE:
+- Total samples: 253 (239 difficulty stratified + 9 temporal + 5 Euler variants)
+- All samples: Annotated + unannotated versions
+- Status: Ready for rigorous AI evaluation
+- Git commits: 2 commits on feat/task-two-ground-truth-gold-standard branch
+
+Last Updated: December 15, 2024
+

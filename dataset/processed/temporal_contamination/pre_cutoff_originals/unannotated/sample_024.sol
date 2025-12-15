@@ -59,11 +59,7 @@ contract LendingProtocol {
     }
 
     function deposit(uint256 amount) external {
-        IERC20(collateralToken).transferFrom(
-            msg.sender,
-            address(this),
-            amount
-        );
+        IERC20(collateralToken).transferFrom(msg.sender, address(this), amount);
         positions[msg.sender].collateral += amount;
     }
 
