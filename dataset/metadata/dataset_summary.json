@@ -1,19 +1,20 @@
 {
-  "total_entries": 235,
+  "total_entries": 239,
   "by_source": {
     "smartbugs-curated": 143,
     "DeFiVulnLabs": 56,
     "not-so-smart-contracts": 25,
-    "sealevel-attacks": 11
+    "sealevel-attacks": 11,
+    "neodyme-workshop": 4
   },
   "by_language": {
     "solidity": 224,
-    "rust": 11
+    "rust": 15
   },
   "by_tier": {
     "1": 87,
-    "2": 93,
-    "3": 40,
+    "2": 95,
+    "3": 42,
     "4": 15
   },
   "by_vulnerability_type": {
@@ -48,22 +49,24 @@
     "variable_shadowing": 1,
     "forced_ether": 1,
     "interface_mismatch": 2,
-    "missing_signer_check": 1,
+    "missing_signer_check": 2,
     "account_validation": 1,
     "sysvar_validation": 1,
     "missing_owner_check": 1,
-    "type_cosplay": 1,
+    "type_cosplay": 2,
     "missing_initialization_check": 1,
     "cpi_injection": 1,
     "duplicate_mutable_accounts": 1,
     "pda_manipulation": 1,
     "pda_sharing": 1,
-    "unclosed_accounts": 1
+    "unclosed_accounts": 1,
+    "arithmetic_overflow": 1,
+    "arbitrary_cpi": 1
   },
   "by_severity": {
-    "high": 88,
+    "high": 89,
     "medium": 114,
     "low": 16,
-    "critical": 17
+    "critical": 20
   }
 }
