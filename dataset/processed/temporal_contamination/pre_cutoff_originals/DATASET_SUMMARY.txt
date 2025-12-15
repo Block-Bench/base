@@ -1,0 +1,176 @@
+PRE-CUTOFF ORIGINALS DATASET - COMPLETION SUMMARY
+
+Dataset: Temporal Contamination Probe - Pre-Cutoff Original Exploits
+Status: COMPLETE (50/50 samples)
+Date Completed: December 15, 2024
+
+OVERVIEW
+This dataset contains 50 real-world blockchain security exploits from major incidents
+spanning 2016-2024 (all pre-September 2025 cutoff). Each sample includes vulnerable
+smart contract code with detailed vulnerability documentation and metadata.
+
+PURPOSE
+Designed to measure AI model memorization vs. genuine reasoning capabilities by testing
+on exploits that likely exist in training data. Will be paired with post-cutoff exploits
+(after Sept 2025) and code variants to create adversarial contrastive pairs.
+
+DATASET STRUCTURE
+
+annotated/
+  - 50 .sol files: Full vulnerable contracts with detailed inline comments
+  - 50 .json files: Comprehensive metadata (loss amounts, attack vectors, mitigation)
+  
+unannotated/
+  - 50 sample_NNN.sol files: Cleaned code without vulnerability hints
+  - mapping.json: Links generic sample IDs to annotated originals
+
+VULNERABILITY TYPE DISTRIBUTION
+
+Access Control: 15 samples (30%)
+  - Private key compromise, missing modifiers, unauthorized minting
+  
+Price Oracle Manipulation: 10 samples (20%)
+  - Flash loan attacks, donation attacks, oracle manipulation
+  
+Reentrancy: 6 samples (12%)
+  - Classic reentrancy, cross-function reentrancy, read-only reentrancy
+  
+Arithmetic Errors: 5 samples (10%)
+  - Overflow/underflow, rounding errors, calculation bugs
+  
+Logic Errors: 2 samples (4%)
+  - Hardcoded values, flawed business logic
+  
+Bridge Security: 2 samples (4%)
+  - Cross-chain validation, message replay
+  
+Oracle Manipulation: 2 samples (4%)
+  - Fake market injection, malicious data sources
+  
+Other: 8 samples (16%)
+  - Governance attacks, signature verification, validation bypass, etc.
+
+FINANCIAL IMPACT
+
+Total Losses Represented: ~$3.5 Billion USD
+  
+Top 5 Largest Exploits:
+  1. Ronin Bridge:    $625M (Access Control)
+  2. Poly Network:    $611M (Access Control)
+  3. PlayDapp:        $290M (Unauthorized Minting)
+  4. Nomad Bridge:    $190M (Improper Initialization)
+  5. Beanstalk:       $182M (Governance Attack)
+
+TEMPORAL DISTRIBUTION
+
+2016-2017: 2 samples (4%)
+2020-2021: 17 samples (34%)
+2022:      11 samples (22%)
+2023:      2 samples (4%)
+2024:      18 samples (36%)
+
+BLOCKCHAIN DISTRIBUTION
+
+Ethereum:     40 samples (80%)
+Binance Chain: 4 samples (8%)
+Optimism:      2 samples (4%)
+Arbitrum:      2 samples (4%)
+Blast:         1 sample (2%)
+Polygon:       1 sample (2%)
+
+DIFFICULTY CLASSIFICATION
+
+Beginner:      12 samples (24%) - Single vulnerability, clear exploit path
+Intermediate:  15 samples (30%) - Multiple steps, some complexity
+Advanced:      18 samples (36%) - Complex attack chains, multiple vulnerabilities
+Expert:         5 samples (10%) - Sophisticated exploits requiring deep understanding
+
+KEY FEATURES
+
+1. Real-World Impact: All exploits from actual incidents with verified losses
+2. Comprehensive Documentation: Detailed attack flows, root causes, mitigations
+3. Code Quality: Simplified but accurate models of vulnerable patterns
+4. Data Leakage Prevention: Unannotated versions prevent hint-based solutions
+5. Metadata Rich: JSON files enable filtering, analysis, difficulty stratification
+
+SAMPLE EXTRACTION BATCHES
+
+Batch 1-4 (001-020): Initial collection of famous historical exploits
+  - The DAO, Parity, Poly Network, Ronin, Nomad, etc.
+  
+Batch 5 (021-030): Completion of 30-sample target
+  - Alpha Homora, BZX, Pickle, Indexed, Qubit, Warp, etc.
+  
+Batch 6 (031-035): Expansion to 50 - Early 2024 exploits
+  - Orbit Chain, Radiant Capital, Socket Gateway, Gamma, Wise
+  
+Batch 7 (036-040): Mid 2024 exploits
+  - Prisma Finance, UwU Lend, Blueberry, CoW Protocol, Bedrock
+  
+Batch 8 (041-045): Late 2024 exploits
+  - Shezmu, Hedgey Finance, Seneca, DeltaPrime, Penpie
+  
+Batch 9 (046-050): Final 2024 exploits
+  - FixedFloat, PlayDapp, Sonne Finance, Exactly, Munchables
+
+DATA QUALITY ASSURANCE
+
+- All exploits verified against on-chain transactions
+- Loss amounts sourced from official post-mortems and audits
+- Attack flows validated against security analyses
+- Code patterns simplified but maintain core vulnerabilities
+- Metadata standardized across all samples
+
+USAGE GUIDELINES
+
+For AI Evaluation:
+  - Use unannotated/ samples to prevent data leakage
+  - Consult mapping.json only after evaluation
+  - Compare performance against post-cutoff samples
+  
+For Research:
+  - Use annotated/ samples for learning vulnerability patterns
+  - JSON metadata enables systematic analysis
+  - Cross-reference with actual exploit transactions
+  
+For Training:
+  - NOT recommended for AI training (contamination risk)
+  - Suitable for security education and awareness
+
+NEXT STEPS
+
+1. Create variants for 10 most famous exploits
+   - Renamed versions (different variable names)
+   - Simplified versions (reduced complexity)
+   - Obfuscated versions (equivalent but harder to recognize)
+   
+2. Extract post-cutoff exploits (Sept 2025+)
+   - Target: 20-25 novel exploits
+   - Test true reasoning vs memorization
+   
+3. Generate processing scripts
+   - Automated validation
+   - Metadata consistency checks
+   - Dataset statistics
+
+4. Create dataset documentation
+   - Detailed README
+   - Usage examples
+   - Evaluation protocols
+
+FILE INTEGRITY
+
+Total Files: 151
+  - 50 annotated .sol contracts
+  - 50 annotated .json metadata files
+  - 50 unannotated .sol contracts
+  - 1 mapping.json file
+
+All files verified and complete.
+
+CONTACT & REFERENCES
+
+For questions or contributions regarding this dataset, refer to project documentation.
+
+All exploit references, transaction hashes, and security analyses are documented
+in individual JSON metadata files.

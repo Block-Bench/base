@@ -271,6 +271,186 @@
       "date": "2021-05-02",
       "amount_lost_usd": "30000000",
       "vulnerability_type": "arithmetic_error"
+    },
+    {
+      "unannotated_id": "sample_031",
+      "unannotated_file": "sample_031.sol",
+      "annotated_file": "orbit_chain.sol",
+      "exploit_name": "Orbit Chain",
+      "date": "2024-01",
+      "amount_lost_usd": "81000000",
+      "vulnerability_type": "bridge_security"
+    },
+    {
+      "unannotated_id": "sample_032",
+      "unannotated_file": "sample_032.sol",
+      "annotated_file": "radiant_capital.sol",
+      "exploit_name": "Radiant Capital",
+      "date": "2024-01",
+      "amount_lost_usd": "4500000",
+      "vulnerability_type": "arithmetic_manipulation"
+    },
+    {
+      "unannotated_id": "sample_033",
+      "unannotated_file": "sample_033.sol",
+      "annotated_file": "socket_gateway.sol",
+      "exploit_name": "Socket Gateway",
+      "date": "2024-01",
+      "amount_lost_usd": "3300000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_034",
+      "unannotated_file": "sample_034.sol",
+      "annotated_file": "gamma_strategies.sol",
+      "exploit_name": "Gamma Strategies",
+      "date": "2024-01",
+      "amount_lost_usd": "6100000",
+      "vulnerability_type": "price_manipulation"
+    },
+    {
+      "unannotated_id": "sample_035",
+      "unannotated_file": "sample_035.sol",
+      "annotated_file": "wise_lending.sol",
+      "exploit_name": "Wise Lending",
+      "date": "2024-01",
+      "amount_lost_usd": "460000",
+      "vulnerability_type": "arithmetic_error"
+    },
+    {
+      "unannotated_id": "sample_036",
+      "unannotated_file": "sample_036.sol",
+      "annotated_file": "prisma_finance.sol",
+      "exploit_name": "Prisma Finance",
+      "date": "2024-03",
+      "amount_lost_usd": "10000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_037",
+      "unannotated_file": "sample_037.sol",
+      "annotated_file": "uwu_lend.sol",
+      "exploit_name": "UwU Lend",
+      "date": "2024-06",
+      "amount_lost_usd": "19300000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_038",
+      "unannotated_file": "sample_038.sol",
+      "annotated_file": "blueberry_protocol.sol",
+      "exploit_name": "Blueberry Protocol",
+      "date": "2024-02",
+      "amount_lost_usd": "1400000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_039",
+      "unannotated_file": "sample_039.sol",
+      "annotated_file": "cow_protocol.sol",
+      "exploit_name": "CoW Protocol",
+      "date": "2024-11",
+      "amount_lost_usd": "166000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_040",
+      "unannotated_file": "sample_040.sol",
+      "annotated_file": "bedrock_defi.sol",
+      "exploit_name": "Bedrock DeFi",
+      "date": "2024-09",
+      "amount_lost_usd": "2000000",
+      "vulnerability_type": "logic_error"
+    },
+    {
+      "unannotated_id": "sample_041",
+      "unannotated_file": "sample_041.sol",
+      "annotated_file": "shezmu.sol",
+      "exploit_name": "Shezmu",
+      "date": "2024-09",
+      "amount_lost_usd": "4900000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_042",
+      "unannotated_file": "sample_042.sol",
+      "annotated_file": "hedgey_finance.sol",
+      "exploit_name": "Hedgey Finance",
+      "date": "2024-04",
+      "amount_lost_usd": "44700000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_043",
+      "unannotated_file": "sample_043.sol",
+      "annotated_file": "seneca_protocol.sol",
+      "exploit_name": "Seneca Protocol",
+      "date": "2024-02",
+      "amount_lost_usd": "6400000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_044",
+      "unannotated_file": "sample_044.sol",
+      "annotated_file": "deltaprime.sol",
+      "exploit_name": "DeltaPrime",
+      "date": "2024-11",
+      "amount_lost_usd": "4750000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_045",
+      "unannotated_file": "sample_045.sol",
+      "annotated_file": "penpie.sol",
+      "exploit_name": "Penpie",
+      "date": "2024-09",
+      "amount_lost_usd": "27000000",
+      "vulnerability_type": "reentrancy"
+    },
+    {
+      "unannotated_id": "sample_046",
+      "unannotated_file": "sample_046.sol",
+      "annotated_file": "fixedfloat.sol",
+      "exploit_name": "FixedFloat",
+      "date": "2024-02",
+      "amount_lost_usd": "26000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_047",
+      "unannotated_file": "sample_047.sol",
+      "annotated_file": "playdapp.sol",
+      "exploit_name": "PlayDapp",
+      "date": "2024-02",
+      "amount_lost_usd": "290000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_048",
+      "unannotated_file": "sample_048.sol",
+      "annotated_file": "sonne_finance.sol",
+      "exploit_name": "Sonne Finance",
+      "date": "2024-05",
+      "amount_lost_usd": "20000000",
+      "vulnerability_type": "oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_049",
+      "unannotated_file": "sample_049.sol",
+      "annotated_file": "exactly_protocol.sol",
+      "exploit_name": "Exactly Protocol",
+      "date": "2024-08",
+      "amount_lost_usd": "12000000",
+      "vulnerability_type": "oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_050",
+      "unannotated_file": "sample_050.sol",
+      "annotated_file": "munchables.sol",
+      "exploit_name": "Munchables",
+      "date": "2024-03",
+      "amount_lost_usd": "62000000",
+      "vulnerability_type": "access_control"
     }
   ],
   "notes": [

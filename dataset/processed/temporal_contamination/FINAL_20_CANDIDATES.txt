@@ -1,0 +1,146 @@
+FINAL 20 CANDIDATES FOR DATASET EXPANSION (Samples 031-050)
+===========================================================
+
+Selection Criteria Applied:
+✓ All from 2024-Aug 2025 (pre-cutoff)
+✓ Different from existing 30 samples
+✓ High value or educational significance  
+✓ Well-documented with clear vulnerability patterns
+✓ Diverse attack vectors and chains
+
+CONFIRMED CANDIDATES (20 EXPLOITS):
+
+BATCH 5 (031-035) - Major 2024 Q1 Exploits:
+----------------------------------------
+031. Orbit Chain (2024-01, $81M)
+     - Bridge multi-sig compromise
+     - Signature validation bypass
+     - File: 2024-01/OrbitChain_exp.sol
+
+032. Radiant Capital (2024-01, $4.5M)
+     - Lending protocol 
+     - Time manipulation + rounding error
+     - File: 2024-01/RadiantCapital_exp.sol
+
+033. Socket Gateway (2024-01, $3.3M)
+     - Bridge input validation
+     - Route manipulation
+     - File: 2024-01/SocketGateway_exp.sol
+
+034. Gamma Strategies (2024-01, $6.1M)
+     - Liquidity management
+     - Price manipulation
+     - File: 2024-01/Gamma_exp.sol
+
+035. Wise Lending (2024-01, $460K)
+     - Oracle manipulation
+     - Bad debt creation
+     - File: 2024-01/WiseLending03_exp.sol
+
+
+BATCH 6 (036-040) - 2024 Q1-Q2 Exploits:
+----------------------------------------
+036. Seneca Protocol (2024-02, $6.4M)
+     - Index calculation error
+     - Flash loan attack
+     - File: 2024-02/Seneca_exp.sol
+
+037. Blueberry Protocol (2024-02, $1.3M)
+     - Leveraged yield farming
+     - Oracle manipulation
+     - File: 2024-02/BlueberryProtocol_exp.sol
+
+038. Affine DeFi (2024-02, $5M)
+     - Vault strategy exploit
+     - Share price manipulation
+     - File: 2024-02/AffineDeFi_exp.sol
+
+039. Prisma Finance (2024-03, $11M)
+     - Flash loan + delegate approval
+     - Liquidstaking exploit
+     - File: 2024-03/Prisma_exp.sol
+
+040. WooFi (2024-03, $8.5M)
+     - Price manipulation
+     - Flash swap attack
+     - File: 2024-03/Woofi_exp.sol
+
+
+BATCH 7 (041-045) - 2024 Q2-Q3 Exploits:
+----------------------------------------
+041. Pike Finance (2024-04, $2M)
+     - Smart contract exploit
+     - Access control bypass
+     - File: 2024-04/PikeFinance_exp.sol
+
+042. UwU Lend #1 (2024-06, $19.3M)
+     - Oracle price manipulation
+     - sUSD/WETH collateral exploit
+     - File: 2024-06/UwuLend_First_exp.sol
+
+043. UwU Lend #2 (2024-06, $3.7M)
+     - Second attack on same protocol
+     - Different vector
+     - File: 2024-06/UwuLend_Second_exp.sol
+
+044. Bedrock DeFi (2024-09, $2M)
+     - Liquid staking
+     - Unistake vulnerability
+     - File: 2024-09/Bedrock_DeFi_exp.sol
+
+045. OnyxDAO (2024-09, $3.8M)
+     - Compound fork
+     - Precision loss attack
+     - File: 2024-09/OnyxDAO_exp.sol
+
+
+BATCH 8 (046-050) - 2024 Q4 & 2025 Exploits:
+-------------------------------------------
+046. Morpho Blue (2024-10, $230K)
+     - Lending protocol
+     - Market manipulation
+     - File: 2024-10/MorphoBlue_exp.sol
+
+047. DeltaPrime (2024-11, $6M)
+     - Private key compromise
+     - Admin access exploit  
+     - File: 2024-11/DeltaPrime_exp.sol
+
+048. CoW Protocol (2024-11, $180K)
+     - Solver manipulation
+     - MEV exploit
+     - File: 2024-11/CoW_exp.sol
+
+049. Shezmu (2024-09, $4.9M)
+     - Vault strategy
+     - Share price manipulation
+     - File: 2024-09/Shezmu_exp.sol
+
+050. Compound Fork (2024-10, $260K)
+     - Generic Compound fork
+     - Donation attack variant
+     - File: 2024-10/CompoundFork_exploit.sol
+
+
+SUMMARY STATISTICS:
+==================
+Total Additional Value: ~$198M
+Average per exploit: ~$10M
+Timeframe: 2024-01 to 2024-11
+Chains: Ethereum (primary), Arbitrum, BSC
+
+New Vulnerability Types Added:
+- Delegate approval exploits
+- Index calculation errors
+- Route manipulation (bridges)
+- Solver manipulation
+- Liquid staking vulnerabilities
+- Time manipulation attacks
+
+FINAL DATASET (050 samples):
+- Total Value: ~$3.37 BILLION
+- Temporal Range: 2016-2024 (8 years)
+- 20+ distinct vulnerability types
+- 4+ blockchains
+
+Ready to extract!
