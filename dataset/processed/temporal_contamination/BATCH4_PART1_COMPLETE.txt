@@ -1,0 +1,35 @@
+
+BATCH 4 PART 1 COMPLETE
+=======================
+
+Created 3 samples (018-020)
+
+SAMPLES ADDED:
+
+sample_018: Indexed Finance (2021-10, $16M)
+- Pool weight manipulation via flash loans
+- Weights recalculated from instantaneous balances
+- Annotated: indexed_finance.sol + .json
+- Unannotated: sample_018.sol
+
+sample_019: Qubit Bridge (2022-01, $80M)
+- Zero address validation bypass in bridge handler
+- Allowed minting without actual token deposits
+- Annotated: qubit_bridge.sol + .json
+- Unannotated: sample_019.sol
+
+sample_020: Warp Finance (2020-12, $7.7M)
+- LP token price manipulation via flash loans
+- Used instantaneous reserves without TWAP protection
+- Annotated: warp_finance.sol + .json
+- Unannotated: sample_020.sol
+
+PROGRESS:
+- Total samples: 20/30 (67%)
+- Total value represented: $2.96B+
+- New vulnerability types: pool_manipulation, validation_bypass
+
+NEXT:
+- 2 more samples in this batch (021-022)
+- Then 8 additional samples to reach 30 target
+

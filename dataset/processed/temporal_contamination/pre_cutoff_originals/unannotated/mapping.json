@@ -154,6 +154,33 @@
       "date": "2020-11-21",
       "amount_lost_usd": "20000000",
       "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_018",
+      "unannotated_file": "sample_018.sol",
+      "annotated_file": "indexed_finance.sol",
+      "exploit_name": "Indexed Finance",
+      "date": "2021-10-14",
+      "amount_lost_usd": "16000000",
+      "vulnerability_type": "pool_manipulation"
+    },
+    {
+      "unannotated_id": "sample_019",
+      "unannotated_file": "sample_019.sol",
+      "annotated_file": "qubit_bridge.sol",
+      "exploit_name": "Qubit Bridge",
+      "date": "2022-01-27",
+      "amount_lost_usd": "80000000",
+      "vulnerability_type": "validation_bypass"
+    },
+    {
+      "unannotated_id": "sample_020",
+      "unannotated_file": "sample_020.sol",
+      "annotated_file": "warp_finance.sol",
+      "exploit_name": "Warp Finance",
+      "date": "2020-12-17",
+      "amount_lost_usd": "7700000",
+      "vulnerability_type": "price_oracle_manipulation"
     }
   ],
   "notes": [

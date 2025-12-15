@@ -1,0 +1,42 @@
+
+BATCH 4 EXTRACTION SUMMARY
+==========================
+
+Status: Preparing 5 new samples (018-022)
+Target: 22/30 total (73% complete)
+
+SAMPLES IN THIS BATCH:
+
+1. sample_018: Indexed Finance (2021-10, $16M)
+   - Pool weight manipulation via flash loans
+   - Attacker manipulated index pool weights by draining liquidity
+
+2. sample_019: Qubit Bridge (2022-01, $80M) 
+   - Missing zero address validation in bridge
+   - Allowed minting without actual deposits
+
+3. sample_020: Warp Finance (2020-12, $7.7M)
+   - Flash loan LP token price manipulation
+   - Inflated collateral value via temporary liquidity
+
+4. sample_021: DODO (2021-03, $3.8M)
+   - Reinitialization vulnerability
+   - Allowed calling init() multiple times to drain funds
+
+5. sample_022: Uranium Finance (2021-04, $50M)
+   - AMM swap calculation error
+   - Balance check used wrong variable
+
+NEW VULNERABILITY TYPES ADDED:
+- Pool manipulation/rebalancing attacks
+- Bridge validation failures  
+- Reinitialization bugs
+- AMM calculation errors
+
+CUMULATIVE STATS AFTER BATCH 4:
+- Total samples: 22/30
+- Total value: $3.05B+
+- Vulnerability types: 10+ distinct classes
+
+Next: Extract remaining 8 samples to reach 30 target
+
