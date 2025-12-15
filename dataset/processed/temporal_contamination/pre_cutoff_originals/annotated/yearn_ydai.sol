@@ -32,15 +32,30 @@ pragma solidity ^0.8.0;
  */
 
 interface ICurve3Pool {
-    function add_liquidity(uint256[3] memory amounts, uint256 min_mint_amount) external;
-    function remove_liquidity_imbalance(uint256[3] memory amounts, uint256 max_burn_amount) external;
+    function add_liquidity(
+        uint256[3] memory amounts,
+        uint256 min_mint_amount
+    ) external;
+
+    function remove_liquidity_imbalance(
+        uint256[3] memory amounts,
+        uint256 max_burn_amount
+    ) external;
+
     function get_virtual_price() external view returns (uint256);
 }
 
 interface IERC20 {
     function transfer(address to, uint256 amount) external returns (bool);
-    function transferFrom(address from, address to, uint256 amount) external returns (bool);
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 amount
+    ) external returns (bool);
+
     function balanceOf(address account) external view returns (uint256);
+
     function approve(address spender, uint256 amount) external returns (bool);
 }
 
@@ -48,11 +63,11 @@ contract VulnerableYearnVault {
     IERC20 public dai;
     IERC20 public crv3; // Curve 3pool LP token
     ICurve3Pool public curve3Pool;
-    
+
     mapping(address => uint256) public shares;
     uint256 public totalShares;
     uint256 public totalDeposits;
-    
+
     uint256 public constant MIN_EARN_THRESHOLD = 1000 ether;
 
     constructor(address _dai, address _crv3, address _curve3Pool) {
@@ -66,7 +81,7 @@ contract VulnerableYearnVault {
      */
     function deposit(uint256 amount) external {
         dai.transferFrom(msg.sender, address(this), amount);
-        
+
         uint256 shareAmount;
         if (totalShares == 0) {
             shareAmount = amount;
@@ -74,7 +89,7 @@ contract VulnerableYearnVault {
             // Calculate shares based on current vault value
             shareAmount = (amount * totalShares) / totalDeposits;
         }
-        
+
         shares[msg.sender] += shareAmount;
         totalShares += shareAmount;
         totalDeposits += amount;
@@ -104,16 +119,19 @@ contract VulnerableYearnVault {
      */
     function earn() external {
         uint256 vaultBalance = dai.balanceOf(address(this));
-        require(vaultBalance >= MIN_EARN_THRESHOLD, "Insufficient balance to earn");
-        
+        require(
+            vaultBalance >= MIN_EARN_THRESHOLD,
+            "Insufficient balance to earn"
+        );
+
         // VULNERABLE: Using manipulable Curve virtual price
         uint256 virtualPrice = curve3Pool.get_virtual_price();
-        
+
         // Add all DAI to Curve pool
         dai.approve(address(curve3Pool), vaultBalance);
         uint256[3] memory amounts = [vaultBalance, 0, 0]; // Only DAI
         curve3Pool.add_liquidity(amounts, 0);
-        
+
         // The vault now thinks it has value based on the manipulated virtual price
         // If virtual_price is inflated, vault overestimates its holdings
     }
@@ -124,14 +142,14 @@ contract VulnerableYearnVault {
     function withdrawAll() external {
         uint256 userShares = shares[msg.sender];
         require(userShares > 0, "No shares");
-        
+
         // Calculate withdrawal amount based on current total value
         uint256 withdrawAmount = (userShares * totalDeposits) / totalShares;
-        
+
         shares[msg.sender] = 0;
         totalShares -= userShares;
         totalDeposits -= withdrawAmount;
-        
+
         dai.transfer(msg.sender, withdrawAmount);
     }
 
@@ -139,8 +157,10 @@ contract VulnerableYearnVault {
      * @notice Get vault's total value including Curve position
      */
     function balance() public view returns (uint256) {
-        return dai.balanceOf(address(this)) + 
-               (crv3.balanceOf(address(this)) * curve3Pool.get_virtual_price()) / 1e18;
+        return
+            dai.balanceOf(address(this)) +
+            (crv3.balanceOf(address(this)) * curve3Pool.get_virtual_price()) /
+            1e18;
     }
 }
 
@@ -151,7 +171,7 @@ contract VulnerableYearnVault {
  * 2. Add liquidity to Curve 3pool: [100M DAI, 50M USDC, 0 USDT]
  *    - This imbalances the pool and inflates virtual_price
  * 3. Deposit 1M DAI into yDAI vault
- * 4. Call vault.earn() 
+ * 4. Call vault.earn()
  *    - Vault uses inflated virtual_price to value position
  * 5. Remove liquidity from Curve imbalanced: [0, 0, 50M USDT]
  *    - Extract USDT, leaving pool imbalanced the other way
@@ -176,21 +196,21 @@ contract VulnerableYearnVault {
  * function earn() external {
  *     uint256 vaultBalance = dai.balanceOf(address(this));
  *     require(vaultBalance >= MIN_EARN_THRESHOLD, "Insufficient");
- *     
+ *
  *     // FIX: Use TWAP oracle instead of spot price
  *     uint256 expectedPrice = twapOracle.getPrice();
  *     uint256 currentPrice = curve3Pool.get_virtual_price();
- *     
+ *
  *     // Sanity check: current price shouldn't deviate too much from TWAP
  *     require(
- *         currentPrice <= expectedPrice * 102 / 100 && 
+ *         currentPrice <= expectedPrice * 102 / 100 &&
  *         currentPrice >= expectedPrice * 98 / 100,
  *         "Price manipulation detected"
  *     );
- *     
+ *
  *     dai.approve(address(curve3Pool), vaultBalance);
  *     uint256[3] memory amounts = [vaultBalance, 0, 0];
- *     
+ *
  *     // Add minimum slippage protection
  *     uint256 minLPTokens = (vaultBalance * 1e18) / expectedPrice * 99 / 100;
  *     curve3Pool.add_liquidity(amounts, minLPTokens);

@@ -136,6 +136,24 @@
       "date": "2022-03-15",
       "amount_lost_usd": "0",
       "vulnerability_type": "logic_error"
+    },
+    {
+      "unannotated_id": "sample_016",
+      "unannotated_file": "sample_016.sol",
+      "annotated_file": "bzx_protocol.sol",
+      "exploit_name": "bZx Protocol",
+      "date": "2020-09-14",
+      "amount_lost_usd": "8000000",
+      "vulnerability_type": "reentrancy"
+    },
+    {
+      "unannotated_id": "sample_017",
+      "unannotated_file": "sample_017.sol",
+      "annotated_file": "pickle_finance.sol",
+      "exploit_name": "Pickle Finance",
+      "date": "2020-11-21",
+      "amount_lost_usd": "20000000",
+      "vulnerability_type": "access_control"
     }
   ],
   "notes": [
