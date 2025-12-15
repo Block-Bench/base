@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-anthropic-cream text-gray-900;
+  }
+
+  body.dark {
+    @apply bg-anthropic-dark text-gray-100;
+  }
+}
+
+/* Smooth transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Prism theme overrides for dark mode */
+.dark pre[class*='language-'],
+.dark code[class*='language-'] {
+  @apply bg-gray-900 text-gray-100;
+}
+
+/* Code viewer styling */
+pre code {
+  font-family: 'Fira Code', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono',
+    Consolas, 'Courier New', monospace;
+  line-height: 1.5rem;
+  display: block;
+  white-space: pre;
+}
