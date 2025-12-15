@@ -1,0 +1,69 @@
+{
+  "total_entries": 235,
+  "by_source": {
+    "smartbugs-curated": 143,
+    "DeFiVulnLabs": 56,
+    "not-so-smart-contracts": 25,
+    "sealevel-attacks": 11
+  },
+  "by_language": {
+    "solidity": 224,
+    "rust": 11
+  },
+  "by_tier": {
+    "1": 87,
+    "2": 93,
+    "3": 40,
+    "4": 15
+  },
+  "by_vulnerability_type": {
+    "access_control": 23,
+    "integer_issues": 19,
+    "weak_randomness": 10,
+    "dos": 9,
+    "front_running": 5,
+    "logic_error": 24,
+    "reentrancy": 40,
+    "short_address": 1,
+    "timestamp_dependency": 5,
+    "unchecked_return": 53,
+    "selfdestruct": 2,
+    "signature_replay": 2,
+    "storage_misuse": 1,
+    "token_incompatibility": 1,
+    "storage_collision": 2,
+    "data_exposure": 1,
+    "approval_scam": 1,
+    "precision_loss": 1,
+    "unchecked_call": 2,
+    "tx_origin_auth": 1,
+    "unprotected_callback": 1,
+    "oracle_manipulation": 5,
+    "delegatecall_injection": 1,
+    "contract_check_bypass": 1,
+    "backdoor": 1,
+    "inflation_attack": 1,
+    "flash_loan_attack": 1,
+    "honeypot": 6,
+    "variable_shadowing": 1,
+    "forced_ether": 1,
+    "interface_mismatch": 2,
+    "missing_signer_check": 1,
+    "account_validation": 1,
+    "sysvar_validation": 1,
+    "missing_owner_check": 1,
+    "type_cosplay": 1,
+    "missing_initialization_check": 1,
+    "cpi_injection": 1,
+    "duplicate_mutable_accounts": 1,
+    "pda_manipulation": 1,
+    "pda_sharing": 1,
+    "unclosed_accounts": 1
+  },
+  "by_severity": {
+    "high": 88,
+    "medium": 114,
+    "low": 16,
+    "critical": 17
+  }
+}

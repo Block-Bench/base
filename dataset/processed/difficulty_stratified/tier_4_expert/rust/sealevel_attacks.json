@@ -1,0 +1,28 @@
+[
+  {
+    "id": "sealevel_6_duplicate_mutable_accounts",
+    "source_dataset": "sealevel-attacks",
+    "language": "rust",
+    "chain": "solana",
+    "framework": "anchor",
+    "file_name": "6-duplicate-mutable-accounts_insecure.rs",
+    "file_content": "use anchor_lang::prelude::*;\n\ndeclare_id!(\"Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS\");\n\n#[program]\npub mod duplicate_mutable_accounts_insecure {\n    use super::*;\n\n    pub fn update(ctx: Context<Update>, a: u64, b: u64) -> ProgramResult {\n        let user_a = &mut ctx.accounts.user_a;\n        let user_b = &mut ctx.accounts.user_b;\n\n        user_a.data = a;\n        user_b.data = b;\n        Ok(())\n    }\n}\n\n#[derive(Accounts)]\npub struct Update<'info> {\n    user_a: Account<'info, User>,\n    user_b: Account<'info, User>,\n}\n\n#[account]\npub struct User {\n    data: u64,\n}\n",
+    "vulnerable_function": "duplicate_mutable_accounts_insecure",
+    "vulnerable_lines": [],
+    "vulnerability_type": "duplicate_mutable_accounts",
+    "category": "6-duplicate-mutable-accounts",
+    "severity": "high",
+    "difficulty_tier": 4,
+    "description": "Passing the same account twice as mutable can cause unexpected behavior",
+    "fix_description": "Add constraint to ensure accounts are different: #[account(constraint = account1.key() != account2.key())]",
+    "references": [
+      "https://github.com/coral-xyz/sealevel-attacks"
+    ],
+    "is_vulnerable": true,
+    "has_remediation": true,
+    "has_poc": false,
+    "context_level": "single_file",
+    "original_source_path": "programs/6-duplicate-mutable-accounts/insecure/src/lib.rs",
+    "source": "Coral XYZ / Sealevel Attacks"
+  }
+]
