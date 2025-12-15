@@ -1,0 +1,82 @@
+
+DATASET RESTRUCTURING COMPLETE
+==============================
+
+Applied data leakage prevention to entire benchmark dataset.
+
+DATASETS RESTRUCTURED:
+1. Temporal Contamination (pre-cutoff originals)   - 9 samples
+2. Difficulty Stratified (Task One)                - 239 samples
+
+STRUCTURE APPLIED TO ALL DATASETS:
+- annotated/   : Full documentation with vulnerability details (reference only)
+- unannotated/ : Clean samples without vulnerability hints (for AI evaluation)
+
+DIFFICULTY STRATIFIED BREAKDOWN:
+/difficulty_stratified/
+├── tier_1_easy/
+│   ├── annotated/
+│   │   ├── solidity/ (smartbugs.json, not_so_smart.json)
+│   │   └── rust/
+│   └── unannotated/
+│       ├── solidity/ (cleaned versions)
+│       └── rust/
+├── tier_2_medium/
+│   ├── annotated/
+│   │   ├── solidity/ (smartbugs.json, not_so_smart.json, defivulnlabs.json)
+│   │   └── rust/ (sealevel_attacks.json)
+│   └── unannotated/
+│       ├── solidity/
+│       └── rust/
+├── tier_3_hard/
+│   ├── annotated/
+│   │   ├── solidity/ (smartbugs.json, not_so_smart.json, defivulnlabs.json)
+│   │   └── rust/ (sealevel_attacks.json)
+│   └── unannotated/
+│       ├── solidity/
+│       └── rust/
+└── tier_4_expert/
+    ├── annotated/
+    │   ├── solidity/ (smartbugs.json, defivulnlabs.json)
+    │   └── rust/ (sealevel_attacks.json)
+    └── unannotated/
+        ├── solidity/
+        └── rust/
+
+UNANNOTATED SAMPLES - REMOVED:
+- Comments with "// <yes> <report> VULNERABILITY_TYPE"
+- @vulnerable_at_lines markers
+- Source URLs revealing exploit names
+- Detailed vulnerability descriptions
+- Fix recommendations
+
+UNANNOTATED SAMPLES - KEPT:
+- Basic code structure
+- Function signatures
+- Minimal metadata (id, language, chain, pragma, difficulty_tier)
+- Clean code without hints
+
+TEMPORAL CONTAMINATION STRUCTURE:
+/temporal_contamination/
+├── pre_cutoff_originals/
+│   ├── annotated/     (9 samples: nomad_bridge.sol + .json, etc.)
+│   ├── unannotated/   (9 samples: sample_001.sol through sample_009.sol)
+│   └── README.md
+├── proof_of_concept/  (Euler variants for testing)
+└── RESTRUCTURING_SUMMARY.txt
+
+EVALUATION PROTOCOL:
+- Provide AI models with unannotated/ files ONLY
+- Do NOT reveal annotated versions or mappings
+- Task: Identify vulnerabilities without hints
+- Measure: True detection capability (reasoning vs. memorization)
+
+TOTAL SAMPLES:
+- Difficulty Stratified: 239 samples (Solidity + Rust)
+- Temporal Contamination: 9 samples (pre-cutoff originals)
+- Euler POC: 5 variants
+Total: 253 samples with annotated/unannotated versions
+
+STATUS: Complete - All datasets restructured for rigorous evaluation
+DATE: December 15, 2024
+

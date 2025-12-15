@@ -1,0 +1,51 @@
+
+FINAL BATCH EXTRACTION (Samples 023-030)
+========================================
+
+Successfully creating 8 final samples to complete 30/30 target:
+
+SAMPLE 023: Alpha Homora ($37M, Feb 2021)
+- Credit account manipulation via Iron Bank
+- Debt share calculation vulnerability
+- Type: Accounting manipulation
+
+SAMPLE 024: Inverse Finance ($15.6M, Apr 2022)
+- Oracle price manipulation via Curve
+- LP token pricing vulnerability  
+- Type: Oracle manipulation
+
+SAMPLE 025: Hundred Finance ($6M, Mar 2022)
+- ERC667 token hooks reentrancy
+- Compound fork vulnerability
+- Type: Reentrancy
+
+SAMPLE 026: Anyswap ($8M, Jan 2022)
+- Permit signature vulnerability
+- Missing validation in bridge
+- Type: Signature bypass
+
+SAMPLE 027: BurgerSwap ($7M, May 2021)
+- Fake token injection attack
+- Pair validation missing
+- Type: Input validation
+
+SAMPLE 028: SafeMoon ($8.5M, May 2021)
+- Liquidity pool manipulation
+- Burn mechanism exploit
+- Type: Tokenomics manipulation
+
+SAMPLE 029: Belt Finance ($6.2M, May 2021)
+- Strategy vault flash loan attack
+- Price oracle manipulation
+- Type: Oracle + flash loan
+
+SAMPLE 030: Spartan Protocol ($30M, May 2021)
+- Liquidity calculation error
+- Share miscalculation in AMM
+- Type: Arithmetic error
+
+DATASET COMPLETE: 30/30 SAMPLES
+Total value represented: $3.17B+
+Vulnerability types: 15+ distinct classes
+Blockchain coverage: Ethereum, BSC, Gnosis
+

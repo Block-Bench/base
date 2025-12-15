@@ -1,0 +1,50 @@
+
+TEMPORAL CONTAMINATION DATASET - PROGRESS REPORT
+================================================
+
+CURRENT STATUS: 17 of 30 samples complete (56.7%)
+
+COMPLETED BATCHES:
+
+Batch 1 (Phase 1): 9 samples - $2.2B
+- Nomad Bridge, Beanstalk, Parity, Harvest, Curve
+- Ronin, Poly Network, Cream, KyberSwap
+
+Batch 2 (Phase 2a): 4 samples - $230M
+- The DAO, Lendf.Me, Rari Capital, PancakeHunny
+
+Batch 3 (Phase 2b): 2 samples - $19M
+- Yearn yDAI, Compound TUSD
+
+Batch 4 (Phase 2c): 2 samples - $28M
+- bZx Protocol, Pickle Finance
+
+VULNERABILITY COVERAGE:
+- Reentrancy: 5 samples (classic, ERC-777, cross-function, Vyper, callback)
+- Access Control: 4 samples
+- Oracle/Price Manipulation: 4 samples
+- Arithmetic/Logic Errors: 2 samples
+- Arbitrary Calls: 1 sample
+- Other: 1 sample
+
+TOTAL VALUE REPRESENTED: $2.85B+ in losses
+
+REMAINING WORK: 13 more samples needed
+
+STRATEGY FOR COMPLETION:
+Focus on diverse vulnerability types to ensure comprehensive coverage:
+- More bridge exploits (Nerve, Anyswap, Qubit)
+- AMM/DEX exploits (Indexed, Warp, DODO)
+- Governance attacks
+- Admin key compromises
+- Unique vulnerability patterns
+
+ALL SAMPLES FOLLOW STRUCTURE:
+- annotated/: Full vulnerability documentation
+- unannotated/: Clean code without hints
+- JSON metadata: Complete details
+- mapping.json: Links IDs to exploits
+
+Date: December 15, 2024
+Status: 56.7% Complete
+

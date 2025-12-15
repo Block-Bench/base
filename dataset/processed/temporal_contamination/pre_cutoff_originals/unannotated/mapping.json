@@ -1,0 +1,283 @@
+{
+  "description": "Mapping between unannotated samples and their annotated counterparts",
+  "purpose": "Prevents data leakage in benchmark evaluation by using generic names and stripped comments",
+  "mappings": [
+    {
+      "unannotated_id": "sample_001",
+      "unannotated_file": "sample_001.sol",
+      "annotated_file": "nomad_bridge.sol",
+      "exploit_name": "Nomad Bridge",
+      "date": "2022-08-01",
+      "amount_lost_usd": "190000000",
+      "vulnerability_type": "improper_initialization"
+    },
+    {
+      "unannotated_id": "sample_002",
+      "unannotated_file": "sample_002.sol",
+      "annotated_file": "beanstalk.sol",
+      "exploit_name": "Beanstalk",
+      "date": "2022-04-17",
+      "amount_lost_usd": "182000000",
+      "vulnerability_type": "governance_attack"
+    },
+    {
+      "unannotated_id": "sample_003",
+      "unannotated_file": "sample_003.sol",
+      "annotated_file": "parity_wallet.sol",
+      "exploit_name": "Parity Wallet",
+      "date": "2017-11-06",
+      "amount_lost_usd": "150000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_004",
+      "unannotated_file": "sample_004.sol",
+      "annotated_file": "harvest_finance.sol",
+      "exploit_name": "Harvest Finance",
+      "date": "2020-10-26",
+      "amount_lost_usd": "24000000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_005",
+      "unannotated_file": "sample_005.sol",
+      "annotated_file": "curve_vyper.sol",
+      "exploit_name": "Curve Finance (Vyper Reentrancy)",
+      "date": "2023-07-30",
+      "amount_lost_usd": "70000000",
+      "vulnerability_type": "reentrancy"
+    },
+    {
+      "unannotated_id": "sample_006",
+      "unannotated_file": "sample_006.sol",
+      "annotated_file": "ronin_bridge.sol",
+      "exploit_name": "Ronin Bridge",
+      "date": "2022-03-23",
+      "amount_lost_usd": "625000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_007",
+      "unannotated_file": "sample_007.sol",
+      "annotated_file": "poly_network.sol",
+      "exploit_name": "Poly Network",
+      "date": "2021-08-10",
+      "amount_lost_usd": "611000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_008",
+      "unannotated_file": "sample_008.sol",
+      "annotated_file": "cream_finance.sol",
+      "exploit_name": "Cream Finance",
+      "date": "2021-10-27",
+      "amount_lost_usd": "130000000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_009",
+      "unannotated_file": "sample_009.sol",
+      "annotated_file": "kyberswap.sol",
+      "exploit_name": "KyberSwap Elastic",
+      "date": "2023-11-22",
+      "amount_lost_usd": "47000000",
+      "vulnerability_type": "arithmetic_error"
+    },
+    {
+      "unannotated_id": "sample_010",
+      "unannotated_file": "sample_010.sol",
+      "annotated_file": "the_dao.sol",
+      "exploit_name": "The DAO",
+      "date": "2016-06-17",
+      "amount_lost_usd": "60000000",
+      "vulnerability_type": "reentrancy"
+    },
+    {
+      "unannotated_id": "sample_011",
+      "unannotated_file": "sample_011.sol",
+      "annotated_file": "lendf_me.sol",
+      "exploit_name": "Lendf.Me",
+      "date": "2020-04-19",
+      "amount_lost_usd": "25000000",
+      "vulnerability_type": "reentrancy"
+    },
+    {
+      "unannotated_id": "sample_012",
+      "unannotated_file": "sample_012.sol",
+      "annotated_file": "rari_capital.sol",
+      "exploit_name": "Rari Capital",
+      "date": "2022-05-08",
+      "amount_lost_usd": "80000000",
+      "vulnerability_type": "reentrancy"
+    },
+    {
+      "unannotated_id": "sample_013",
+      "unannotated_file": "sample_013.sol",
+      "annotated_file": "pancake_hunny.sol",
+      "exploit_name": "PancakeHunny",
+      "date": "2021-05-20",
+      "amount_lost_usd": "45000000",
+      "vulnerability_type": "arithmetic_error"
+    },
+    {
+      "unannotated_id": "sample_014",
+      "unannotated_file": "sample_014.sol",
+      "annotated_file": "yearn_ydai.sol",
+      "exploit_name": "Yearn yDAI",
+      "date": "2021-02-04",
+      "amount_lost_usd": "11000000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_015",
+      "unannotated_file": "sample_015.sol",
+      "annotated_file": "compound_tusd.sol",
+      "exploit_name": "Compound TUSD",
+      "date": "2022-03-15",
+      "amount_lost_usd": "0",
+      "vulnerability_type": "logic_error"
+    },
+    {
+      "unannotated_id": "sample_016",
+      "unannotated_file": "sample_016.sol",
+      "annotated_file": "bzx_protocol.sol",
+      "exploit_name": "bZx Protocol",
+      "date": "2020-09-14",
+      "amount_lost_usd": "8000000",
+      "vulnerability_type": "reentrancy"
+    },
+    {
+      "unannotated_id": "sample_017",
+      "unannotated_file": "sample_017.sol",
+      "annotated_file": "pickle_finance.sol",
+      "exploit_name": "Pickle Finance",
+      "date": "2020-11-21",
+      "amount_lost_usd": "20000000",
+      "vulnerability_type": "access_control"
+    },
+    {
+      "unannotated_id": "sample_018",
+      "unannotated_file": "sample_018.sol",
+      "annotated_file": "indexed_finance.sol",
+      "exploit_name": "Indexed Finance",
+      "date": "2021-10-14",
+      "amount_lost_usd": "16000000",
+      "vulnerability_type": "pool_manipulation"
+    },
+    {
+      "unannotated_id": "sample_019",
+      "unannotated_file": "sample_019.sol",
+      "annotated_file": "qubit_bridge.sol",
+      "exploit_name": "Qubit Bridge",
+      "date": "2022-01-27",
+      "amount_lost_usd": "80000000",
+      "vulnerability_type": "validation_bypass"
+    },
+    {
+      "unannotated_id": "sample_020",
+      "unannotated_file": "sample_020.sol",
+      "annotated_file": "warp_finance.sol",
+      "exploit_name": "Warp Finance",
+      "date": "2020-12-17",
+      "amount_lost_usd": "7700000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_021",
+      "unannotated_file": "sample_021.sol",
+      "annotated_file": "dodo_reinit.sol",
+      "exploit_name": "DODO Reinitialization",
+      "date": "2021-03-09",
+      "amount_lost_usd": "3800000",
+      "vulnerability_type": "reinitialization"
+    },
+    {
+      "unannotated_id": "sample_022",
+      "unannotated_file": "sample_022.sol",
+      "annotated_file": "uranium_finance.sol",
+      "exploit_name": "Uranium Finance",
+      "date": "2021-04-28",
+      "amount_lost_usd": "50000000",
+      "vulnerability_type": "arithmetic_error"
+    },
+    {
+      "unannotated_id": "sample_023",
+      "unannotated_file": "sample_023.sol",
+      "annotated_file": "alpha_homora.sol",
+      "exploit_name": "Alpha Homora",
+      "date": "2021-02-13",
+      "amount_lost_usd": "37000000",
+      "vulnerability_type": "accounting_manipulation"
+    },
+    {
+      "unannotated_id": "sample_024",
+      "unannotated_file": "sample_024.sol",
+      "annotated_file": "inverse_finance.sol",
+      "exploit_name": "Inverse Finance",
+      "date": "2022-04-02",
+      "amount_lost_usd": "15600000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_025",
+      "unannotated_file": "sample_025.sol",
+      "annotated_file": "hundred_finance.sol",
+      "exploit_name": "Hundred Finance",
+      "date": "2022-03-15",
+      "amount_lost_usd": "6000000",
+      "vulnerability_type": "reentrancy"
+    },
+    {
+      "unannotated_id": "sample_026",
+      "unannotated_file": "sample_026.sol",
+      "annotated_file": "anyswap.sol",
+      "exploit_name": "Anyswap",
+      "date": "2022-01-18",
+      "amount_lost_usd": "8000000",
+      "vulnerability_type": "signature_verification"
+    },
+    {
+      "unannotated_id": "sample_027",
+      "unannotated_file": "sample_027.sol",
+      "annotated_file": "burgerswap.sol",
+      "exploit_name": "BurgerSwap",
+      "date": "2021-05-28",
+      "amount_lost_usd": "7000000",
+      "vulnerability_type": "input_validation"
+    },
+    {
+      "unannotated_id": "sample_028",
+      "unannotated_file": "sample_028.sol",
+      "annotated_file": "bvaults_safemoon.sol",
+      "exploit_name": "BVaults SafeMoon",
+      "date": "2021-05-30",
+      "amount_lost_usd": "8500000",
+      "vulnerability_type": "accounting_error"
+    },
+    {
+      "unannotated_id": "sample_029",
+      "unannotated_file": "sample_029.sol",
+      "annotated_file": "belt_finance.sol",
+      "exploit_name": "Belt Finance",
+      "date": "2021-05-30",
+      "amount_lost_usd": "6200000",
+      "vulnerability_type": "price_oracle_manipulation"
+    },
+    {
+      "unannotated_id": "sample_030",
+      "unannotated_file": "sample_030.sol",
+      "annotated_file": "spartan_protocol.sol",
+      "exploit_name": "Spartan Protocol",
+      "date": "2021-05-02",
+      "amount_lost_usd": "30000000",
+      "vulnerability_type": "arithmetic_error"
+    }
+  ],
+  "notes": [
+    "Unannotated versions have all vulnerability-revealing comments removed",
+    "Contract and function names are kept functional but generic",
+    "File names use sample_XXX.sol pattern to prevent information leakage",
+    "Annotated versions in ../annotated/ folder contain full documentation",
+    "JSON metadata files remain in annotated folder with full details"
+  ]
+}

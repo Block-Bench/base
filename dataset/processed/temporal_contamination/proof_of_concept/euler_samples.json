@@ -1,0 +1,151 @@
+[
+  {
+    "id": "temporal_euler_001",
+    "subset": "temporal_contamination_probe",
+
+    "exploit_name": "Euler Finance Hack",
+    "exploit_date": "2023-03-13",
+    "amount_lost_usd": 197000000,
+    "amount_lost_display": "$197M",
+
+    "temporal_category": "pre_cutoff",
+    "likely_in_training": true,
+    "cutoff_notes": "Major exploit from March 2023, extensively documented across security Twitter, blog posts, and audit reports. Definitely in all models trained before 2024.",
+
+    "language": "solidity",
+    "chain": "ethereum",
+    "protocol_type": "lending",
+
+    "file_name": "euler_original.sol",
+    "vulnerable_function": "donateToReserves",
+    "vulnerable_lines": [60, 68],
+
+    "vulnerability_type": "donation_attack",
+    "vulnerability_subtype": "reserve_inflation",
+    "severity": "critical",
+
+    "description": "The donateToReserves() function allows users to burn their eTokens and inflate protocol reserves without transferring underlying assets. This inflates the reserve ratio used in health calculations, enabling attackers to artificially improve their collateralization ratio. Combined with self-liquidation, this allows profitable exploitation by inflating reserves, making an underwater position appear healthy, then liquidating it with a bonus.",
+
+    "fix_description": "Remove the donateToReserves() function or ensure it requires actual transfer of underlying tokens. Alternatively, separate reserve accounting from health score calculations to prevent manipulation. Implement proper checks that donation increases both reserves AND underlying token balance proportionally.",
+
+    "attack_vector": "1) Flash loan large amount, 2) Deposit collateral, 3) Over-borrow with multiple mint() calls, 4) Donate large amount of eTokens to inflate reserves, 5) Self-liquidate with artificially inflated health score, 6) Profit from liquidation bonus, 7) Repay flash loan",
+
+    "is_variant": false,
+    "variant_type": null,
+    "variant_parent_id": null,
+
+    "source_url": "https://twitter.com/peckshield/status/1635229594596036608",
+    "code_source": "DeFiHackLabs",
+    "poc_url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2023-03/Euler_exp.sol",
+    "has_poc": true,
+
+    "references": [
+      "https://twitter.com/FrankResearcher/status/1635241475989721089",
+      "https://twitter.com/BlockSecTeam/status/1635262150624305153",
+      "https://etherscan.io/tx/0xc310a0affe2169d1f6feec1c63dbc7f7c62a887fa48795d327d4d2da2d6b111d"
+    ],
+
+    "difficulty_tier": 4,
+    "context_level": "protocol_level",
+
+    "tags": [
+      "lending",
+      "flash_loan",
+      "donation_attack",
+      "self_liquidation",
+      "reserve_manipulation"
+    ]
+  },
+
+  {
+    "id": "temporal_euler_001_renamed",
+    "subset": "temporal_contamination_probe",
+
+    "exploit_name": "Euler Finance Hack",
+    "exploit_date": "2023-03-13",
+    "amount_lost_usd": 197000000,
+    "amount_lost_display": "$197M",
+
+    "temporal_category": "pre_cutoff",
+    "likely_in_training": true,
+    "cutoff_notes": "Variant of famous Euler hack - tests if model recognizes pattern when names change",
+
+    "language": "solidity",
+    "chain": "ethereum",
+    "protocol_type": "lending",
+
+    "file_name": "euler_renamed.sol",
+    "vulnerable_function": "contributeToTreasury",
+    "vulnerable_lines": [58, 64],
+
+    "vulnerability_type": "donation_attack",
+    "vulnerability_subtype": "reserve_inflation",
+    "severity": "critical",
+
+    "description": "Same vulnerability as original Euler hack but with renamed functions and variables. The contributeToTreasury() function (formerly donateToReserves) allows inflating protocolTreasury (formerly totalReserves) without transferring underlying assets. Tests whether AI models recognize the vulnerability pattern when surface identifiers change.",
+
+    "fix_description": "Same fix as original: remove contributeToTreasury() or require actual asset transfers. Separate treasury accounting from solvency checks.",
+
+    "attack_vector": "Identical to original: flash loan, addCollateral, takeLoan, contributeToTreasury to inflate treasury, self-liquidation for profit",
+
+    "is_variant": true,
+    "variant_type": "renamed",
+    "variant_parent_id": "temporal_euler_001",
+    "variant_changes": "All function names, variable names, and identifiers renamed. Logic and vulnerability pattern unchanged. Tests surface pattern recognition vs deep understanding.",
+
+    "source_url": "https://twitter.com/peckshield/status/1635229594596036608",
+    "code_source": "Generated variant of DeFiHackLabs",
+    "has_poc": false,
+
+    "difficulty_tier": 4,
+    "context_level": "protocol_level",
+
+    "tags": ["lending", "donation_attack", "variant", "renamed"]
+  },
+
+  {
+    "id": "temporal_euler_001_simplified",
+    "subset": "temporal_contamination_probe",
+
+    "exploit_name": "Euler Finance Hack",
+    "exploit_date": "2023-03-13",
+    "amount_lost_usd": 197000000,
+    "amount_lost_display": "$197M",
+
+    "temporal_category": "pre_cutoff",
+    "likely_in_training": true,
+    "cutoff_notes": "Simplified variant of Euler hack - tests if model can identify core vulnerability without complexity",
+
+    "language": "solidity",
+    "chain": "ethereum",
+    "protocol_type": "lending",
+
+    "file_name": "euler_simplified.sol",
+    "vulnerable_function": "donate",
+    "vulnerable_lines": [39, 40],
+
+    "vulnerability_type": "donation_attack",
+    "vulnerability_subtype": "reserve_inflation",
+    "severity": "critical",
+
+    "description": "Minimal implementation showing the core Euler vulnerability. The donate() function inflates a reserves variable without actual token transfers. This inflated reserves value is then used in isHealthy() calculation, artificially improving collateralization ratios. Stripped of all non-essential code to test if models can identify the vulnerability essence.",
+
+    "fix_description": "Remove donate() function or exclude reserves from health calculations. Core fix: don't allow user-controlled reserve inflation to affect solvency checks.",
+
+    "attack_vector": "Minimal: deposit, borrow, donate to inflate reserves, exploit inflated health score",
+
+    "is_variant": true,
+    "variant_type": "simplified",
+    "variant_parent_id": "temporal_euler_001",
+    "variant_changes": "Stripped to ~50 lines of core vulnerability. Removed: liquidation logic, repayment, withdrawals, flash loans, complex accounting. Kept: deposit, borrow, donate (vulnerable), isHealthy (uses inflated reserves). Tests ability to identify vulnerability essence without context.",
+
+    "source_url": "https://twitter.com/peckshield/status/1635229594596036608",
+    "code_source": "Simplified variant of DeFiHackLabs",
+    "has_poc": false,
+
+    "difficulty_tier": 3,
+    "context_level": "single_function",
+
+    "tags": ["lending", "donation_attack", "variant", "simplified", "minimal"]
+  }
+]

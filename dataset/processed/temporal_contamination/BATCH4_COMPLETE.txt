@@ -1,0 +1,31 @@
+
+BATCH 4 COMPLETE
+================
+
+Successfully created 5 samples (018-022)
+
+SAMPLES ADDED:
+
+sample_018: Indexed Finance (2021-10, $16M)
+- Pool weight manipulation via flash loans
+
+sample_019: Qubit Bridge (2022-01, $80M)
+- Zero address validation bypass
+
+sample_020: Warp Finance (2020-12, $7.7M)
+- LP token price manipulation
+
+sample_021: DODO (2021-03, $3.8M)
+- Reinitialization vulnerability
+
+sample_022: Uranium Finance (2021-04, $50M)
+- AMM constant product miscalculation
+
+PROGRESS:
+Total samples: 22/30 (73%)
+Total value: $3.05B
+Vulnerability types: 12+ distinct classes
+
+NEXT:
+Extract 8 more samples to reach 30 target
+

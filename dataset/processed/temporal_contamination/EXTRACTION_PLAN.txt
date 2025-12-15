@@ -1,0 +1,25 @@
+
+REMAINING EXPLOITS TO EXTRACT (13 needed)
+==========================================
+
+Quick Win Targets (simpler exploits):
+1. Uranium Finance - AMM calculation error
+2. Nerve Bridge - cross-chain bridge
+3. DODO - flash loan attack  
+4. PAID Network - mint function exploit
+5. SafeDollar - collateral ratio manipulation
+6. Warp Finance - LP token price manipulation
+7. EasyFi - admin key compromise
+8. Akropolis - reentrancy
+9. Origin Protocol - reentrancy
+10. Indexed Finance - governance attack
+11. Force DAO - lack of validation
+12. Spartan Protocol - miscalculation
+13. Belt Finance - flash loan
+
+Strategy: Extract simpler, well-documented exploits to reach 30 total quickly.
+Focus on clear vulnerability patterns that complement existing coverage.
+
+Current: 17/30 (56.7%)
+Target: 30/30 (100%)
+
