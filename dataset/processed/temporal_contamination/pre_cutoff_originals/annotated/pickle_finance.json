@@ -14,7 +14,21 @@
   "attack_scenario": "Attacker created fake jar contracts, called swapExactJarForJar with malicious targets pointing to real strategies and calldata encoding withdrawAll(). Controller executed these calls, draining strategies.",
   "vulnerable_contract": "pickle_finance.sol",
   "vulnerable_function": "swapExactJarForJar",
-  "vulnerable_lines": [88, 89, 90, 91, 118, 119, 120, 121, 122, 128, 129, 130, 131],
+  "vulnerable_lines": [
+    88,
+    89,
+    90,
+    91,
+    118,
+    119,
+    120,
+    121,
+    122,
+    128,
+    129,
+    130,
+    131
+  ],
   "fix_description": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors.",
   "tags": [
     "arbitrary-call",

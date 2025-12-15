@@ -29,23 +29,26 @@ pragma solidity ^0.8.0;
 
 interface IERC20 {
     function transfer(address to, uint256 amount) external returns (bool);
+
     function balanceOf(address account) external view returns (uint256);
 }
 
 interface IJar {
     function token() external view returns (address);
+
     function withdraw(uint256 amount) external;
 }
 
 interface IStrategy {
     function withdrawAll() external;
+
     function withdraw(address token) external;
 }
 
 contract VulnerablePickleController {
     address public governance;
     mapping(address => address) public strategies; // jar => strategy
-    
+
     constructor() {
         governance = msg.sender;
     }
@@ -83,13 +86,13 @@ contract VulnerablePickleController {
         bytes[] calldata _data
     ) external {
         require(_targets.length == _data.length, "Length mismatch");
-        
+
         // VULNERABLE: Make arbitrary calls without validation
         for (uint256 i = 0; i < _targets.length; i++) {
             (bool success, ) = _targets[i].call(_data[i]);
             require(success, "Call failed");
         }
-        
+
         // The rest of swap logic would go here
         // But it doesn't matter because attacker already drained funds
     }
@@ -110,7 +113,7 @@ contract VulnerablePickleController {
 contract PickleStrategy {
     address public controller;
     address public want; // The token this strategy manages
-    
+
     constructor(address _controller, address _want) {
         controller = _controller;
         want = _want;
@@ -123,7 +126,7 @@ contract PickleStrategy {
     function withdrawAll() external {
         // VULNERABLE: No access control!
         // Should check: require(msg.sender == controller, "Not controller");
-        
+
         uint256 balance = IERC20(want).balanceOf(address(this));
         IERC20(want).transfer(controller, balance);
     }
@@ -183,7 +186,7 @@ contract PickleStrategy {
  *     // Implement swap logic directly, no arbitrary calls
  *     address fromStrategy = strategies[_fromJar];
  *     address toStrategy = strategies[_toJar];
- *     
+ *
  *     // Call specific, known functions only
  *     IStrategy(fromStrategy).withdraw(_fromJarAmount);
  *     IStrategy(toStrategy).deposit(_fromJarAmount);

