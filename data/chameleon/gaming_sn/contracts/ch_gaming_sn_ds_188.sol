@@ -3,29 +3,27 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
+contract PactTest is Test {
+    EntryDeletion RecordDeletionPact;
+    RecordDeletionV2 EntryDeletionAgreementV2;
 
-contract AgreementTest is Test {
-    EntryDeletion EntryDeletionPact;
-    RecordDeletionV2 EntryDeletionPactV2;
-
-    function groupUp() public {
-        EntryDeletionPact = new EntryDeletion();
-        EntryDeletionPactV2 = new RecordDeletionV2();
+    function collectionUp() public {
+        RecordDeletionPact = new EntryDeletion();
+        EntryDeletionAgreementV2 = new RecordDeletionV2();
     }
 
-    function testRecordDeletion() public {
-        EntryDeletionPact.attachRecord(10, 10);
-        EntryDeletionPact.obtainEntry(10, 10);
-        EntryDeletionPact.deleteEntry(10);
-        EntryDeletionPact.obtainEntry(10, 10);
+    function testEntryDeletion() public {
+        RecordDeletionPact.appendRecord(10, 10);
+        RecordDeletionPact.retrieveEntry(10, 10);
+        RecordDeletionPact.deleteEntry(10);
+        RecordDeletionPact.retrieveEntry(10, 10);
     }
 
-    function testFixedEntryDeletion() public {
-        EntryDeletionPactV2.attachRecord(10, 10);
-        EntryDeletionPactV2.obtainEntry(10, 10);
-        EntryDeletionPactV2.deleteEntry(10);
-        EntryDeletionPactV2.obtainEntry(10, 10);
+    function testFixedRecordDeletion() public {
+        EntryDeletionAgreementV2.appendRecord(10, 10);
+        EntryDeletionAgreementV2.retrieveEntry(10, 10);
+        EntryDeletionAgreementV2.deleteEntry(10);
+        EntryDeletionAgreementV2.retrieveEntry(10, 10);
     }
 
     receive() external payable {}
@@ -39,23 +37,23 @@ contract EntryDeletion {
 
     mapping(uint256 => MyRecord) public myStructs;
 
-    function attachRecord(uint256 entryCode, uint256 markerKeys) public {
-        MyRecord storage updatedEntry = myStructs[entryCode];
-        updatedEntry.id = entryCode;
-        updatedEntry.flags[markerKeys] = true;
+    function appendRecord(uint256 entryCode, uint256 markerKeys) public {
+        MyRecord storage currentEntry = myStructs[entryCode];
+        currentEntry.id = entryCode;
+        currentEntry.flags[markerKeys] = true;
     }
 
-    function obtainEntry(
+    function retrieveEntry(
         uint256 entryCode,
         uint256 markerKeys
     ) public view returns (uint256, bool) {
-        MyRecord storage myEntry = myStructs[entryCode];
-        bool keys = myEntry.flags[markerKeys];
-        return (myEntry.id, keys);
+        MyRecord storage myRecord = myStructs[entryCode];
+        bool keys = myRecord.flags[markerKeys];
+        return (myRecord.id, keys);
     }
 
     function deleteEntry(uint256 entryCode) public {
-        MyRecord storage myEntry = myStructs[entryCode];
+        MyRecord storage myRecord = myStructs[entryCode];
         delete myStructs[entryCode];
     }
 }
@@ -68,26 +66,26 @@ contract RecordDeletionV2 {
 
     mapping(uint256 => MyRecord) public myStructs;
 
-    function attachRecord(uint256 entryCode, uint256 markerKeys) public {
-        MyRecord storage updatedEntry = myStructs[entryCode];
-        updatedEntry.id = entryCode;
-        updatedEntry.flags[markerKeys] = true;
+    function appendRecord(uint256 entryCode, uint256 markerKeys) public {
+        MyRecord storage currentEntry = myStructs[entryCode];
+        currentEntry.id = entryCode;
+        currentEntry.flags[markerKeys] = true;
     }
 
-    function obtainEntry(
+    function retrieveEntry(
         uint256 entryCode,
         uint256 markerKeys
     ) public view returns (uint256, bool) {
-        MyRecord storage myEntry = myStructs[entryCode];
-        bool keys = myEntry.flags[markerKeys];
-        return (myEntry.id, keys);
+        MyRecord storage myRecord = myStructs[entryCode];
+        bool keys = myRecord.flags[markerKeys];
+        return (myRecord.id, keys);
     }
 
     function deleteEntry(uint256 entryCode) public {
-        MyRecord storage myEntry = myStructs[entryCode];
+        MyRecord storage myRecord = myStructs[entryCode];
         // Check if all flags are deleted, then delete the mapping
         for (uint256 i = 0; i < 15; i++) {
-            delete myEntry.flags[i];
+            delete myRecord.flags[i];
         }
         delete myStructs[entryCode];
     }

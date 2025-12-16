@@ -4,7 +4,7 @@ pragma solidity ^0.4.19;
 contract Ownable
 {
     address currentMaster;
-    address owner = msg.initiator;
+    address owner = msg.sender;
 
     function changeMaster(address addr)
     public
@@ -16,7 +16,7 @@ contract Ownable
     function confirmMaster()
     public
     {
-        if(msg.initiator==currentMaster)
+        if(msg.sender==currentMaster)
         {
             owner=currentMaster;
         }
@@ -24,13 +24,13 @@ contract Ownable
 
     modifier onlyOwner
     {
-        if(owner == msg.initiator)_;
+        if(owner == msg.sender)_;
     }
 }
 
 contract Coin is Ownable
 {
-    address owner = msg.initiator;
+    address owner = msg.sender;
     function ClaimlootCoin(address gem, uint256 measure,address to)
     public
     onlyOwner
@@ -48,7 +48,7 @@ contract GemBank is Coin
     function initMedalBank()
     public
     {
-        owner = msg.initiator;
+        owner = msg.sender;
         MinimumDepositgold = 1 ether;
     }
 
@@ -61,9 +61,9 @@ contract GemBank is Coin
     function StashRewards()
     payable
     {
-        if(msg.price>MinimumDepositgold)
+        if(msg.value>MinimumDepositgold)
         {
-            Holders[msg.initiator]+=msg.price;
+            Holders[msg.sender]+=msg.value;
         }
     }
 

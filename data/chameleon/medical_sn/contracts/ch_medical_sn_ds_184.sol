@@ -3,14 +3,12 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
+contract PolicyTest is Test {
     ERC20 Erc20Policy;
     address alice = vm.addr(1);
     address eve = vm.addr(2);
 
-    function testPermittreatmentScam() public {
+    function testAllowprocedureScam() public {
         Erc20Policy = new ERC20();
         Erc20Policy.generateRecord(1000);
         Erc20Policy.transfer(address(alice), 1000);

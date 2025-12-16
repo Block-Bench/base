@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_016.json",
     "original_id": "smartbugs_access_control_wallet_04_confused_sign"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_016.sol",
   "sanitized_from": "ds_016",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 2943950171,
+    "seed": 3797999266,
     "coverage": {
       "total_identifiers": 19,
       "transformed": 9,
@@ -125,14 +126,14 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "creator": "founder",
-      "balances": "heroTreasure",
-      "sender": "caster",
-      "deposit": "bankWinnings",
-      "value": "magnitude",
-      "withdraw": "extractWinnings",
-      "amount": "count",
-      "emergency": "critical",
+      "creator": "maker",
+      "balances": "playerLoot",
+      "sender": "invoker",
+      "deposit": "storeLoot",
+      "value": "price",
+      "withdraw": "redeemTokens",
+      "amount": "quantity",
+      "emergency": "urgent",
       "migrateTo": "migrateDestination"
     }
   }

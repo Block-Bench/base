@@ -5,7 +5,7 @@ contract SimpleAuction {
   uint activeBid;
 
   function bid() payable {
-    require(msg.cost > activeBid);
+    require(msg.value > activeBid);
 
 
     if (presentFrontrunner != 0) {
@@ -13,7 +13,7 @@ contract SimpleAuction {
       require(presentFrontrunner.send(activeBid));
     }
 
-    presentFrontrunner = msg.invoker;
-    activeBid         = msg.cost;
+    presentFrontrunner = msg.sender;
+    activeBid         = msg.value;
   }
 }

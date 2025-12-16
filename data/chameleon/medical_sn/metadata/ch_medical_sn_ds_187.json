@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_187.json",
     "original_id": "defivulnlabs_unsafe-downcast"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_187.sol",
   "sanitized_from": "ds_187",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 57191447,
+    "seed": 1819366980,
     "coverage": {
       "total_identifiers": 57,
       "transformed": 16,
@@ -249,20 +250,20 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "utils": "medicalUtils",
+      "utils": "careTools",
       "ContractTest": "PolicyTest",
-      "SimpleBankContract": "SimpleBankPolicy",
+      "SimpleBankContract": "SimpleBankAgreement",
       "SimpleBankContractV2": "SimpleBankAgreementV2",
-      "setUp": "collectionUp",
-      "deposit": "registerPayment",
+      "setUp": "groupUp",
+      "deposit": "fundAccount",
       "log": "record",
-      "getBalance": "checkCoverage",
+      "getBalance": "queryBalance",
       "expectRevert": "expectUndo",
       "value": "evaluation",
       "balances": "coverageMap",
-      "amount": "units",
+      "amount": "quantity",
       "sender": "provider",
-      "toUint8": "destinationUint8",
+      "toUint8": "receiverUint8",
       "from": "source",
       "max": "ceiling"
     }

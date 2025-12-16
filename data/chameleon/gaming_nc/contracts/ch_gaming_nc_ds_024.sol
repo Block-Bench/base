@@ -16,7 +16,7 @@ contract PrivateStashrewards
 
     function PrivateStashrewards()
     {
-        owner = msg.caster;
+        owner = msg.sender;
         ShiftgoldRecord = new Journal();
     }
 
@@ -29,21 +29,21 @@ contract PrivateStashrewards
     public
     payable
     {
-        if(msg.worth >= MinimumCacheprize)
+        if(msg.value >= MinimumCacheprize)
         {
-            characterGold[msg.caster]+=msg.worth;
-            ShiftgoldRecord.AppendCommunication(msg.caster,msg.worth,"Deposit");
+            characterGold[msg.sender]+=msg.value;
+            ShiftgoldRecord.AppendCommunication(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=characterGold[msg.caster])
+        if(_am<=characterGold[msg.sender])
         {
-            if(msg.caster.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
-                characterGold[msg.caster]-=_am;
-                ShiftgoldRecord.AppendCommunication(msg.caster,_am,"CashOut");
+                characterGold[msg.sender]-=_am;
+                ShiftgoldRecord.AppendCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

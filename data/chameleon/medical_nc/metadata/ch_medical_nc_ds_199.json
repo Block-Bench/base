@@ -69,6 +69,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_199.json",
     "original_id": "defivulnlabs_reentrancy"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_199.sol",
   "sanitized_from": "ds_199",
   "derived_from": "sn_ds_199",
@@ -77,7 +78,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3061217832,
+    "seed": 2060489375,
     "coverage": {
       "total_identifiers": 31,
       "transformed": 16,
@@ -150,22 +151,22 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "balances": "patientAccounts",
-      "deposit": "contributeFunds",
+      "balances": "coverageMap",
+      "deposit": "registerPayment",
       "sender": "referrer",
-      "value": "assessment",
+      "value": "rating",
       "withdrawFunds": "dischargeFunds",
       "_weiToWithdraw": "_weiDestinationDispensemedication",
       "failed": "operationFailed",
       "locked": "reserved",
       "nonReentrant": "oneAtATime",
-      "ContractTest": "PolicyTest",
+      "ContractTest": "AgreementTest",
       "EtherStoreOperator": "EtherStoreCaregiver",
-      "operator": "caregiver",
-      "operatorV2": "nurseV2",
+      "operator": "nurse",
+      "operatorV2": "caregiverV2",
       "setUp": "collectionUp",
-      "Operator": "Nurse",
-      "log": "chart"
+      "Operator": "Caregiver",
+      "log": "record"
     }
   }
 }

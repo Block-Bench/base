@@ -65,20 +65,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_088.json",
     "original_id": "defivulnlabs_hash-collisions"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_088.sol",
   "sanitized_from": "ds_088",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 1302822406,
+    "seed": 91262813,
     "coverage": {
-      "total_identifiers": 40,
+      "total_identifiers": 39,
       "transformed": 15,
-      "untransformed": 25,
-      "skipped_reserved": 26,
+      "untransformed": 24,
+      "skipped_reserved": 27,
       "skipped_interface": 0,
-      "coverage_percent": 37.5,
+      "coverage_percent": 38.46,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -145,10 +146,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "must",
           "reason": "no synonym found"
         },
@@ -184,21 +181,21 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "HashCollision": "ChecksumCollision",
-      "HashCollisionContract": "SignatureCollisionPolicy",
-      "setUp": "collectionUp",
-      "log_named_bytes32": "chart_named_bytes32",
+      "ContractTest": "PolicyTest",
+      "HashCollision": "SignatureCollision",
+      "HashCollisionContract": "SignatureCollisionAgreement",
+      "setUp": "groupUp",
+      "log_named_bytes32": "record_named_bytes32",
       "Hash": "Signature",
       "createHash": "createChecksum",
-      "deposit": "registerPayment",
-      "value": "rating",
-      "expectRevert": "expectReverse",
-      "balances": "benefitsRecord",
-      "Deposit": "RegisterPayment",
-      "amount": "dosage",
+      "deposit": "fundAccount",
+      "value": "evaluation",
+      "expectRevert": "expectUndo",
+      "balances": "patientAccounts",
+      "Deposit": "SubmitPayment",
+      "amount": "units",
       "hash": "checksum",
-      "Check": "Assess"
+      "Check": "Inspect"
     }
   }
 }

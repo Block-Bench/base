@@ -1,0 +1,85 @@
+{
+  "id": "cd_gaming_nc_ds_227",
+  "contract_file": "contracts/cd_gaming_nc_ds_227.sol",
+  "subset": "crossdomain",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Assert is used to check invariants. Those are states our contract or variables should never reach, ever. For example,\nif we decrease a value then it should never get bigger, only smaller.\n\nIn the given code, the Invariant contract contains a receiveMoney function that accepts Ether and \nincrements the sender's balance with the amount received. This balance is stored as an uint64.\nUnsigned integers can store values from 0 to 2^n - 1, so in this case 2^64 - 1, or roughly 18.4467 Ether.\n\nIf the sender sends more Ether than the maximum that can be stored in an uint64, \nan overflow occurs, and the value rolls over to 0 and starts incrementing from there. \nAs a result, the balance does not accurately reflect the amount of Ether received by the contract.",
+    "attack_vector": "Assert is used to check invariants. Those are states our contract or variables should never reach, ever. For example,\nif we decrease a value then it should never get bigger, only smaller.\n\nIn the given code, the Invariant contract contains a receiveMoney function that accepts Ether and \nincrements the sender's balance with the amount received. This balance is stored as an uint64.\nUnsigned integers can store values from 0 to 2^n - 1, so in this case 2^64 - 1, or roughly 18.4467 Ether.\n\nIf the sender sends more Ether than the maximum that can be stored in an uint64, \nan overflow occurs, and the value rolls over to 0 and starts incrementing from there. \nAs a result, the balance does not accurately reflect the amount of Ether received by the contract.",
+    "impact": "Severity: high",
+    "correct_fix": "To avoid this problem, it's important to ensure that the types you use for storing values \nare appropriately sized for the values they need to store."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_invariant",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.7.0",
+    "num_lines": 48,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "Invariant"
+    ],
+    "num_functions": 3,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Assert is used to check invariants. Those are states our contract or variables should never reach, ever. For example,\nif we decrease a value then it should never get bigger, only smaller.\n\nIn the given code, the Invariant contract contains a receiveMoney function that accepts Ether and \nincrements the sender's balance with the amount received. This balance is stored as an uint64.\nUnsigned integers can store values from 0 to 2^n - 1, so in this case 2^64 - 1, or roughly 18.4467 Ether.\n\nIf the sender sends more Ether than the maximum that can be stored in an uint64, \nan overflow occurs, and the value rolls over to 0 and starts incrementing from there. \nAs a result, the balance does not accurately reflect the amount of Ether received by the contract.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_227.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_227.json",
+    "original_id": "defivulnlabs_invariant"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_227.sol",
+  "sanitized_from": "ds_227",
+  "derived_from": "nc_ds_227",
+  "original_id": "ds_227",
+  "transformation": {
+    "strategy": "cross_domain",
+    "source_domain": "defi",
+    "target_domain": "gaming",
+    "coverage": 0.2,
+    "identifiers_transformed": 3,
+    "rename_map": {
+      "balanceReceived": "lootbalanceReceived",
+      "withdrawMoney": "redeemgoldMoney",
+      "transfer": "tradeLoot"
+    }
+  }
+}

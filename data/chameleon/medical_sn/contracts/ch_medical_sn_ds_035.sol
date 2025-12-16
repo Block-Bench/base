@@ -7,23 +7,23 @@ contract HealthWallet
     public
     payable
     {
-        var acc = Acc[msg.provider];
-        acc.balance += msg.rating;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         acc.openrecordInstant = _openrecordInstant>now?_openrecordInstant:now;
-        RecordFile.AppendAlert(msg.provider,msg.rating,"Put");
+        RecordFile.AppendAlert(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.provider];
+        var acc = Acc[msg.sender];
         if( acc.balance>=FloorSum && acc.balance>=_am && now>acc.openrecordInstant)
         {
-            if(msg.provider.call.rating(_am)())
+            if(msg.sender.call.rating(_am)())
             {
                 acc.balance-=_am;
-                RecordFile.AppendAlert(msg.provider,_am,"Collect");
+                RecordFile.AppendAlert(msg.sender,_am,"Collect");
             }
         }
     }

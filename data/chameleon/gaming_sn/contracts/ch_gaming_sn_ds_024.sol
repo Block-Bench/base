@@ -17,7 +17,7 @@ contract PrivateAddtreasure
 
     function PrivateAddtreasure()
     {
-        owner = msg.caster;
+        owner = msg.sender;
         SendlootJournal = new Journal();
     }
 
@@ -30,21 +30,21 @@ contract PrivateAddtreasure
     public
     payable
     {
-        if(msg.price >= MinimumDepositgold)
+        if(msg.value >= MinimumDepositgold)
         {
-            playerLoot[msg.caster]+=msg.price;
-            SendlootJournal.AttachCommunication(msg.caster,msg.price,"Deposit");
+            playerLoot[msg.sender]+=msg.value;
+            SendlootJournal.AttachCommunication(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=playerLoot[msg.caster])
+        if(_am<=playerLoot[msg.sender])
         {
-            if(msg.caster.call.price(_am)())
+            if(msg.sender.call.price(_am)())
             {
-                playerLoot[msg.caster]-=_am;
-                SendlootJournal.AttachCommunication(msg.caster,_am,"CashOut");
+                playerLoot[msg.sender]-=_am;
+                SendlootJournal.AttachCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

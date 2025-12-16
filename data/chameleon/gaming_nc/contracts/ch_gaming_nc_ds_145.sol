@@ -45,7 +45,7 @@ contract Ethraffle_v4b {
 
 
     function Ethraffle_v4b() public {
-        cutRealm = msg.invoker;
+        cutRealm = msg.sender;
     }
 
 
@@ -55,11 +55,11 @@ contract Ethraffle_v4b {
 
     function buyTickets() payable public {
         if (halted) {
-            msg.invoker.transfer(msg.cost);
+            msg.sender.transfer(msg.value);
             return;
         }
 
-        uint moneySent = msg.cost;
+        uint moneySent = msg.value;
 
         while (moneySent >= costPerTicket && upcomingTicket < combinedTickets) {
             uint currTicket = 0;
@@ -70,8 +70,8 @@ contract Ethraffle_v4b {
                 currTicket = upcomingTicket++;
             }
 
-            contestants[currTicket] = Contestant(msg.invoker, raffleTag);
-            TicketPurchase(raffleTag, msg.invoker, currTicket);
+            contestants[currTicket] = Contestant(msg.sender, raffleTag);
+            TicketPurchase(raffleTag, msg.sender, currTicket);
             moneySent -= costPerTicket;
         }
 
@@ -82,13 +82,13 @@ contract Ethraffle_v4b {
 
 
         if (moneySent > 0) {
-            msg.invoker.transfer(moneySent);
+            msg.sender.transfer(moneySent);
         }
     }
 
     function chooseWinner() private {
         address seed1 = contestants[uint(block.coinbase) % combinedTickets].addr;
-        address seed2 = contestants[uint(msg.invoker) % combinedTickets].addr;
+        address seed2 = contestants[uint(msg.sender) % combinedTickets].addr;
         uint seed3 = block.difficulty;
         bytes32 randSeal = keccak256(seed1, seed2, seed3);
 
@@ -110,22 +110,22 @@ contract Ethraffle_v4b {
     function obtainRefund() public {
         uint refund = 0;
         for (uint i = 0; i < combinedTickets; i++) {
-            if (msg.invoker == contestants[i].addr && raffleTag == contestants[i].raffleTag) {
+            if (msg.sender == contestants[i].addr && raffleTag == contestants[i].raffleTag) {
                 refund += costPerTicket;
                 contestants[i] = Contestant(address(0), 0);
                 gaps.push(i);
-                TicketRefund(raffleTag, msg.invoker, i);
+                TicketRefund(raffleTag, msg.sender, i);
             }
         }
 
         if (refund > 0) {
-            msg.invoker.transfer(refund);
+            msg.sender.transfer(refund);
         }
     }
 
 
     function closeRaffle() public {
-        if (msg.invoker == cutRealm) {
+        if (msg.sender == cutRealm) {
             halted = true;
 
             for (uint i = 0; i < combinedTickets; i++) {
@@ -144,13 +144,13 @@ contract Ethraffle_v4b {
     }
 
     function toggleFreezegame() public {
-        if (msg.invoker == cutRealm) {
+        if (msg.sender == cutRealm) {
             halted = !halted;
         }
     }
 
     function kill() public {
-        if (msg.invoker == cutRealm) {
+        if (msg.sender == cutRealm) {
             selfdestruct(cutRealm);
         }
     }

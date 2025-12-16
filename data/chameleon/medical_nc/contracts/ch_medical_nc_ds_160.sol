@@ -15,7 +15,7 @@ contract CryptoRoulette {
     WellnessProgram[] public gamesPlayed;
 
     function CryptoRoulette() public {
-        supervisorAddr = msg.referrer;
+        supervisorAddr = msg.sender;
         shuffle();
     }
 
@@ -25,15 +25,15 @@ contract CryptoRoulette {
     }
 
     function play(uint256 number) payable public {
-        require(msg.rating >= betCost && number <= 10);
+        require(msg.value >= betCost && number <= 10);
         WellnessProgram healthChallenge;
-        healthChallenge.player = msg.referrer;
+        healthChallenge.player = msg.sender;
         healthChallenge.number = number;
         gamesPlayed.push(healthChallenge);
 
         if (number == secretNumber) {
 
-            msg.referrer.transfer(this.balance);
+            msg.sender.transfer(this.balance);
         }
 
         shuffle();
@@ -41,8 +41,8 @@ contract CryptoRoulette {
     }
 
     function kill() public {
-        if (msg.referrer == supervisorAddr && now > endingPlayed + 1 days) {
-            suicide(msg.referrer);
+        if (msg.sender == supervisorAddr && now > endingPlayed + 1 days) {
+            suicide(msg.sender);
         }
     }
 

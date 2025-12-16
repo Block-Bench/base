@@ -32,29 +32,29 @@ contract MunchablesSecurerecordHandler {
     event ProtocolUpdated(address previousSettings, address currentProtocol);
 
     constructor(address _weth) {
-        manager = msg.provider;
+        manager = msg.sender;
         weth = IERC20(_weth);
     }
 
     modifier onlyCoordinator() {
-        require(msg.provider == manager, "Not admin");
+        require(msg.sender == manager, "Not admin");
         _;
     }
 
     function bindCoverage(uint256 units, uint256 treatmentPeriod) external {
         require(units > 0, "Zero amount");
 
-        weth.transferFrom(msg.provider, address(this), units);
+        weth.transferFrom(msg.sender, address(this), units);
 
-        playerCoveragemap[msg.provider] += units;
-        playerOptions[msg.provider] = PlayerOptions({
+        playerCoveragemap[msg.sender] += units;
+        playerOptions[msg.sender] = PlayerOptions({
             reservedQuantity: units,
-            securerecordReceiver: msg.provider,
+            securerecordReceiver: msg.sender,
             bindcoverageTreatmentperiod: treatmentPeriod,
-            securerecordBeginMoment: block.admissionTime
+            securerecordBeginMoment: block.timestamp
         });
 
-        emit Reserved(msg.provider, units, msg.provider);
+        emit Reserved(msg.sender, units, msg.sender);
     }
 
     function collectionProtocolArchive(address _settingsArchive) external onlyCoordinator {
@@ -72,11 +72,11 @@ contract MunchablesSecurerecordHandler {
     }
 
     function openRecord() external {
-        PlayerOptions memory preferences = playerOptions[msg.provider];
+        PlayerOptions memory preferences = playerOptions[msg.sender];
 
         require(preferences.reservedQuantity > 0, "No locked tokens");
         require(
-            block.admissionTime >= preferences.securerecordBeginMoment + preferences.bindcoverageTreatmentperiod,
+            block.timestamp >= preferences.securerecordBeginMoment + preferences.bindcoverageTreatmentperiod,
             "Still locked"
         );
 
@@ -84,8 +84,8 @@ contract MunchablesSecurerecordHandler {
 
         address receiver = preferences.securerecordReceiver;
 
-        delete playerOptions[msg.provider];
-        playerCoveragemap[msg.provider] = 0;
+        delete playerOptions[msg.sender];
+        playerCoveragemap[msg.sender] = 0;
 
         weth.transfer(receiver, units);
     }

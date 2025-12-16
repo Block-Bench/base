@@ -31,7 +31,7 @@ contract SocketGateway {
         (bool improvement, bytes memory finding) = methodWard.call(pathwayRecord);
         require(improvement, "Route execution failed");
 
-        emit PathwayExecuted(pathwayChartnumber, msg.referrer, finding);
+        emit PathwayExecuted(pathwayChartnumber, msg.sender, finding);
         return finding;
     }
 

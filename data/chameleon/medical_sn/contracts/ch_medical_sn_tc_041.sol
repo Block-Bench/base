@@ -33,8 +33,8 @@ contract ShezmuSecurityCredential is IERC20 {
         address to,
         uint256 units
     ) external override returns (bool) {
-        require(balanceOf[msg.referrer903] >= units, "Insufficient balance");
-        balanceOf[msg.referrer903] -= units;
+        require(balanceOf[msg.sender] >= units, "Insufficient balance");
+        balanceOf[msg.sender] -= units;
         balanceOf[to] += units;
         return true;
     }
@@ -46,12 +46,12 @@ contract ShezmuSecurityCredential is IERC20 {
     ) external override returns (bool) {
         require(balanceOf[referrer] >= units, "Insufficient balance");
         require(
-            allowance[referrer][msg.referrer903] >= units,
+            allowance[referrer][msg.sender] >= units,
             "Insufficient allowance"
         );
         balanceOf[referrer] -= units;
         balanceOf[to] += units;
-        allowance[referrer][msg.referrer903] -= units;
+        allowance[referrer][msg.sender] -= units;
         return true;
     }
 
@@ -59,7 +59,7 @@ contract ShezmuSecurityCredential is IERC20 {
         address subscriber,
         uint256 units
     ) external override returns (bool) {
-        allowance[msg.referrer903][subscriber] = units;
+        allowance[msg.sender][subscriber] = units;
         return true;
     }
 }
@@ -80,44 +80,44 @@ contract ShezmuVault {
     }
 
     function insertDeposit(uint256 units) external {
-        depositCredential.transferFrom(msg.referrer903, address(this), units);
-        securityFunds[msg.referrer903] += units;
+        depositCredential.transferFrom(msg.sender, address(this), units);
+        securityFunds[msg.sender] += units;
     }
 
     function seekCoverage(uint256 units) external {
-        uint256 maximumRequestadvance = (securityFunds[msg.referrer903] * BASIS_POINTS) /
+        uint256 maximumRequestadvance = (securityFunds[msg.sender] * BASIS_POINTS) /
             security_factor;
 
         require(
-            obligationFunds[msg.referrer903] + units <= maximumRequestadvance,
+            obligationFunds[msg.sender] + units <= maximumRequestadvance,
             "Insufficient collateral"
         );
 
-        obligationFunds[msg.referrer903] += units;
+        obligationFunds[msg.sender] += units;
 
-        shezUSD.transfer(msg.referrer903, units);
+        shezUSD.transfer(msg.sender, units);
     }
 
     function settleBalance(uint256 units) external {
-        require(obligationFunds[msg.referrer903] >= units, "Excessive repayment");
-        shezUSD.transferFrom(msg.referrer903, address(this), units);
-        obligationFunds[msg.referrer903] -= units;
+        require(obligationFunds[msg.sender] >= units, "Excessive repayment");
+        shezUSD.transferFrom(msg.sender, address(this), units);
+        obligationFunds[msg.sender] -= units;
     }
 
     function dispensemedicationSecurity(uint256 units) external {
         require(
-            securityFunds[msg.referrer903] >= units,
+            securityFunds[msg.sender] >= units,
             "Insufficient collateral"
         );
-        uint256 remainingDeposit = securityFunds[msg.referrer903] - units;
+        uint256 remainingDeposit = securityFunds[msg.sender] - units;
         uint256 maximumLiability = (remainingDeposit * BASIS_POINTS) /
             security_factor;
         require(
-            obligationFunds[msg.referrer903] <= maximumLiability,
+            obligationFunds[msg.sender] <= maximumLiability,
             "Would be undercollateralized"
         );
 
-        securityFunds[msg.referrer903] -= units;
-        depositCredential.transfer(msg.referrer903, units);
+        securityFunds[msg.sender] -= units;
+        depositCredential.transfer(msg.sender, units);
     }
 }

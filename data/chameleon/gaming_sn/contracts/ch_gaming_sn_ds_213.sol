@@ -1,6 +1,5 @@
-DAO Polska Coin deployment
 pragma solidity ^0.4.11;
-interface gemTarget { function acceptlootApproval(address _from, uint256 _value, address _token, bytes _extraInfo) public; }
+interface gemTarget { function catchrewardApproval(address _from, uint256 _value, address _token, bytes _extraInfo) public; }
 
 // title Migration Agent interface
 contract MigrationAgent {
@@ -10,16 +9,15 @@ contract MigrationAgent {
 contract ERC20 {
   uint public totalSupply;
   function balanceOf(address who) constant returns (uint);
-  function allowance(address owner, address user) constant returns (uint);
+  function allowance(address owner, address consumer) constant returns (uint);
 
-  function transfer(address to, uint price) returns (bool ok);
-  function transferFrom(address source, address to, uint price) returns (bool ok);
-  function approve(address user, uint price) returns (bool ok);
-  event Transfer(address indexed source, address indexed to, uint price);
-  event AccessAuthorized(address indexed owner, address indexed user, uint price);
+  function transfer(address to, uint magnitude) returns (bool ok);
+  function transferFrom(address origin, address to, uint magnitude) returns (bool ok);
+  function approve(address consumer, uint magnitude) returns (bool ok);
+  event Transfer(address indexed origin, address indexed to, uint magnitude);
+  event PermissionGranted(address indexed owner, address indexed consumer, uint magnitude);
 }
 
- */
 contract SafeMath {
   function safeMul(uint a, uint b) internal returns (uint) {
     uint c = a * b;
@@ -39,7 +37,7 @@ contract SafeMath {
     return a - b;
   }
 
-  function safeInsert(uint a, uint b) internal returns (uint) {
+  function safeInclude(uint a, uint b) internal returns (uint) {
     uint c = a + b;
     assert(c>=a && c>=b);
     return c;
@@ -68,16 +66,15 @@ contract SafeMath {
   }
 }
 
- */
 contract StandardMedal is ERC20, SafeMath {
 
-  /* Coin provideResources got increased and a new owner received these medals */
-  event Minted(address recipient, uint quantity);
+  /* Gem contributeAssets got increased and a new owner received these coins */
+  event Minted(address collector, uint count);
 
-  /* Actual characterGold of medal holders */
-  mapping(address => uint) characterGold;
+  /* Actual playerLoot of crystal holders */
+  mapping(address => uint) playerLoot;
   // what exaclt ether was sent
-  mapping(address => uint) charactergoldRaw;
+  mapping(address => uint) playerlootRaw;
   /* approve() allowances */
   mapping (address => mapping (address => uint)) allowed;
 
@@ -87,24 +84,24 @@ contract StandardMedal is ERC20, SafeMath {
   }
 
   function transfer(address _to, uint _value) returns (bool victory) {
-    characterGold[msg.invoker] = safeSub(characterGold[msg.invoker], _value);
-    characterGold[_to] = safeInsert(characterGold[_to], _value);
-    Transfer(msg.invoker, _to, _value);
+    playerLoot[msg.sender] = safeSub(playerLoot[msg.sender], _value);
+    playerLoot[_to] = safeInclude(playerLoot[_to], _value);
+    Transfer(msg.sender, _to, _value);
     return true;
   }
 
   function transferFrom(address _from, address _to, uint _value) returns (bool victory) {
-    uint _allowance = allowed[_from][msg.invoker];
+    uint _allowance = allowed[_from][msg.sender];
 
-    characterGold[_to] = safeInsert(characterGold[_to], _value);
-    characterGold[_from] = safeSub(characterGold[_from], _value);
-    allowed[_from][msg.invoker] = safeSub(_allowance, _value);
+    playerLoot[_to] = safeInclude(playerLoot[_to], _value);
+    playerLoot[_from] = safeSub(playerLoot[_from], _value);
+    allowed[_from][msg.sender] = safeSub(_allowance, _value);
     Transfer(_from, _to, _value);
     return true;
   }
 
   function balanceOf(address _owner) constant returns (uint balance) {
-    return characterGold[_owner];
+    return playerLoot[_owner];
   }
 
   function approve(address _spender, uint _value) returns (bool victory) {
@@ -113,10 +110,10 @@ contract StandardMedal is ERC20, SafeMath {
     //  allowance to zero by calling `approve(_spender, 0)` if it is not
     //  already 0 to mitigate the race condition described here:
     //  https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
-    if ((_value != 0) && (allowed[msg.invoker][_spender] != 0)) throw;
+    if ((_value != 0) && (allowed[msg.sender][_spender] != 0)) throw;
 
-    allowed[msg.invoker][_spender] = _value;
-    AccessAuthorized(msg.invoker, _spender, _value);
+    allowed[msg.sender][_spender] = _value;
+    PermissionGranted(msg.sender, _spender, _value);
     return true;
   }
 
@@ -149,42 +146,42 @@ contract daoPOLSKAtokens{
 	address public Chain4 = 0x0;
 
 	address public migrationAgent=0x8585D5A25b1FA2A0E6c3BcfC098195bac9789BE2;
-    uint256 public combinedMigrated;
+    uint256 public completeMigrated;
 
     event Migrate(address indexed _from, address indexed _to, uint256 _value);
     event Refund(address indexed _from, uint256 _value);
 
-	struct dispatchlootMedalAway{
-		StandardMedal coinPact;
-		uint quantity;
+	struct transmitgoldGemAway{
+		StandardMedal coinAgreement;
+		uint count;
 		address target;
 	}
-	mapping(uint => dispatchlootMedalAway) transfers;
+	mapping(uint => transmitgoldGemAway) transfers;
 	uint numTransfers=0;
 
-  mapping (address => uint256) characterGold;
-mapping (address => uint256) charactergoldRaw;
+  mapping (address => uint256) playerLoot;
+mapping (address => uint256) playerlootRaw;
   mapping (address => mapping (address => uint256)) allowed;
 
-	event UpdatedMedalInformation(string currentTitle, string updatedEmblem);
+	event UpdatedCoinInformation(string updatedLabel, string updatedSigil);
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
 	event receivedEther(address indexed _from,uint256 _value);
-  event AccessAuthorized(address indexed _owner, address indexed _spender, uint256 _value);
+  event PermissionGranted(address indexed _owner, address indexed _spender, uint256 _value);
 
       // This notifies clients about the amount burnt
-    event Incinerate(address indexed source, uint256 price);
+    event Incinerate(address indexed origin, uint256 magnitude);
   //tokenCreationCap
   bool public supplylimitset = false;
   bool public otherchainstotalset = false;
 
   function daoPOLSKAtokens() {
-owner=msg.invoker;
-migrationMaster=msg.invoker;
+owner=msg.sender;
+migrationMaster=msg.sender;
 }
 
-function  collectionStock(uint256 reserveLocker) public {
-    	   if (msg.invoker != owner) {
+function  groupReserve(uint256 reserveLocker) public {
+    	   if (msg.sender != owner) {
       throw;
     }
 		    	   if (supplylimitset != false) {
@@ -195,8 +192,8 @@ function  collectionStock(uint256 reserveLocker) public {
 	supplylimit = reserveLocker ** uint256(decimals);
 //balances[owner]=supplylimit;
   }
-function adjustotherchainstotalsupply(uint256 reserveLocker) public {
-    	   if (msg.invoker != owner) {
+function modifyotherchainstotalsupply(uint256 reserveLocker) public {
+    	   if (msg.sender != owner) {
       throw;
     }
 	    	   if (supplylimitset != false) {
@@ -207,32 +204,29 @@ function adjustotherchainstotalsupply(uint256 reserveLocker) public {
 	otherchainstotalsupply = reserveLocker ** uint256(decimals);
 
   }
-     */
-    function allowusageAndSummonhero(address _spender, uint256 _value, bytes _extraInfo)
+    function allowusageAndCastability(address _spender, uint256 _value, bytes _extraInfo)
         public
         returns (bool victory) {
-        gemTarget user = gemTarget(_spender);
+        gemTarget consumer = gemTarget(_spender);
         if (approve(_spender, _value)) {
-            user.acceptlootApproval(msg.invoker, _value, this, _extraInfo);
+            consumer.catchrewardApproval(msg.sender, _value, this, _extraInfo);
             return true;
         }
     }
 
-     */
-    function sacrifice(uint256 _value) public returns (bool victory) {
-        require(characterGold[msg.invoker] >= _value);   // Check if the sender has enough
-        characterGold[msg.invoker] -= _value;            // Subtract from the sender
+    function incinerate(uint256 _value) public returns (bool victory) {
+        require(playerLoot[msg.sender] >= _value);   // Check if the sender has enough
+        playerLoot[msg.sender] -= _value;            // Subtract from the sender
         totalSupply -= _value;                      // Updates totalSupply
-        Incinerate(msg.invoker, _value);
+        Incinerate(msg.sender, _value);
         return true;
     }
 
-     */
-    function consumeOrigin(address _from, uint256 _value) public returns (bool victory) {
-        require(characterGold[_from] >= _value);                // Check if the targeted balance is enough
-        require(_value <= allowed[_from][msg.invoker]);    // Check allowance
-        characterGold[_from] -= _value;                         // Subtract from the targeted balance
-        allowed[_from][msg.invoker] -= _value;             // Subtract from the sender's allowance
+    function destroySource(address _from, uint256 _value) public returns (bool victory) {
+        require(playerLoot[_from] >= _value);                // Check if the targeted balance is enough
+        require(_value <= allowed[_from][msg.sender]);    // Check allowance
+        playerLoot[_from] -= _value;                         // Subtract from the targeted balance
+        allowed[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
         totalSupply -= _value;                              // Update totalSupply
         Burn(_from, _value);
         return true;
@@ -308,7 +302,7 @@ function setChainsAddresses(address chainAd, int chainnumber) {
   }
 
   function DAOPolskaTokenICOregulations() external returns(string wow) {
-	return 'Regulations of preICO and ICO are present at website  DAO Polska Coin.network and by using this smartcontract and blockchains you confirm that you accept and will follow those rules';
+	return 'Regulations of preICO and ICO are present at website  DAO Polska Gem.network and by using this smartcontract and blockchains you confirm that you accept and will follow those rules';
 }
 // if accidentally other token was donated to Project Dev
 

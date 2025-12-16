@@ -66,20 +66,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_092.json",
     "original_id": "defivulnlabs_self-transfer"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_092.sol",
   "sanitized_from": "ds_092",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 913165844,
+    "seed": 601347075,
     "coverage": {
-      "total_identifiers": 32,
+      "total_identifiers": 31,
       "transformed": 10,
-      "untransformed": 22,
-      "skipped_reserved": 23,
+      "untransformed": 21,
+      "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 31.25,
+      "coverage_percent": 32.26,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -164,10 +165,6 @@
         {
           "name": "self",
           "reason": "no synonym found"
-        },
-        {
-          "name": "unchecked",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
@@ -177,12 +174,12 @@
       "VSimpleBankContract": "VSimpleBankAgreement",
       "SimpleBankContractV2": "SimpleBankAgreementV2",
       "setUp": "groupUp",
-      "testSelfTransfer": "testSelfRefer",
+      "testSelfTransfer": "testSelfRelocatepatient",
       "testFixedSelfTransfer": "testFixedSelfPasscase",
       "expectRevert": "expectUndo",
       "check": "assess",
-      "_fromBalance": "_referrerAllocation",
-      "_toBalance": "_destinationAllocation"
+      "_fromBalance": "_sourceBenefits",
+      "_toBalance": "_destinationBenefits"
     }
   }
 }

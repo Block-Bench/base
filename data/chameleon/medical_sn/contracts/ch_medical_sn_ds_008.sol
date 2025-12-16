@@ -7,7 +7,7 @@ pragma solidity ^0.4.25;
 
      constructor() public {
          supplementCodes = new uint[](0);
-         owner = msg.referrer;
+         owner = msg.sender;
      }
 
      function () public payable {
@@ -22,13 +22,13 @@ pragma solidity ^0.4.25;
          supplementCodes.duration--;
      }
 
-     function RefreshvitalsExtraCodeAt(uint idx, uint c) public {
+     function UpdatechartSupplementCodeAt(uint idx, uint c) public {
          require(idx < supplementCodes.duration);
          supplementCodes[idx] = c; // write to any index less than bonusCodes.length
      }
 
      function Destroy() public {
-         require(msg.referrer == owner);
-         selfdestruct(msg.referrer);
+         require(msg.sender == owner);
+         selfdestruct(msg.sender);
      }
  }

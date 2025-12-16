@@ -70,6 +70,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_122.json",
     "original_id": "notso_unprotected_function_walletlibrary"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_122.sol",
   "sanitized_from": "ds_122",
   "transformation": {
@@ -78,12 +79,12 @@
     "source": "sanitized",
     "seed": 2400798368,
     "coverage": {
-      "total_identifiers": 363,
-      "transformed": 76,
-      "untransformed": 287,
-      "skipped_reserved": 53,
+      "total_identifiers": 359,
+      "transformed": 75,
+      "untransformed": 284,
+      "skipped_reserved": 57,
       "skipped_interface": 0,
-      "coverage_percent": 20.94,
+      "coverage_percent": 20.89,
       "untransformed_details": [
         {
           "name": "sol",
@@ -714,10 +715,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "sha3",
-          "reason": "no synonym found"
-        },
-        {
           "name": "c_maxOwners",
           "reason": "no synonym found"
         },
@@ -843,10 +840,6 @@
         },
         {
           "name": "kill",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "suicide",
           "reason": "no synonym found"
         },
         {
@@ -1110,10 +1103,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "FIELDS",
           "reason": "no synonym found"
         },
@@ -1291,25 +1280,24 @@
       "Gets": "Fetchs",
       "position": "location",
       "getOwner": "fetchLord",
-      "array": "collection",
       "process": "manage",
-      "get": "obtain",
-      "first": "initial",
-      "check": "inspect",
-      "underLimit": "underCap",
-      "create": "missionStarted",
-      "add": "insert",
-      "iszero": "validatezero",
+      "get": "acquire",
+      "first": "primary",
+      "check": "validate",
+      "underLimit": "underBound",
+      "create": "questCreated",
+      "add": "append",
+      "iszero": "verifyzero",
       "previous": "prior",
       "from": "origin",
       "message": "communication",
       "time": "instant",
-      "pointer": "reference",
+      "pointer": "link",
       "list": "roster",
       "Signature": "Seal",
       "target": "aim",
       "size": "magnitude",
-      "Add": "Append",
+      "Add": "Include",
       "signature": "mark",
       "end": "close",
       "Delegate": "Entrust"

@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_112.json",
     "original_id": "defivulnlabs_ecrecover"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_112.sol",
   "sanitized_from": "ds_112",
   "derived_from": "sn_ds_112",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3351872361,
+    "seed": 4288309861,
     "coverage": {
-      "total_identifiers": 34,
+      "total_identifiers": 33,
       "transformed": 15,
-      "untransformed": 19,
-      "skipped_reserved": 29,
+      "untransformed": 18,
+      "skipped_reserved": 30,
       "skipped_interface": 0,
-      "coverage_percent": 44.12,
+      "coverage_percent": 45.45,
       "untransformed_details": [
         {
           "name": "forge",
@@ -112,10 +113,6 @@
         },
         {
           "name": "_hash",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "encodePacked",
           "reason": "no synonym found"
         },
         {
@@ -164,19 +161,19 @@
     "rename_map": {
       "ContractTest": "PolicyTest",
       "SimpleBankContract": "SimpleBankPolicy",
-      "setUp": "collectionUp",
+      "setUp": "groupUp",
       "testecRecover": "testecHeal",
       "log_named_decimal_uint": "chart_named_decimal_count",
-      "getBalance": "queryBalance",
+      "getBalance": "checkCoverage",
       "Message": "Alert",
       "sign": "approve",
-      "balances": "patientAccounts",
+      "balances": "coverageMap",
       "Admin": "Manager",
-      "recoverSignerAddress": "healSignerFacility",
+      "recoverSignerAddress": "healSignerLocation",
       "recoveredAddress": "recoveredFacility",
-      "recipient": "receiver",
-      "log": "chart",
-      "signature": "authorization"
+      "recipient": "patient",
+      "log": "record",
+      "signature": "consent"
     }
   }
 }

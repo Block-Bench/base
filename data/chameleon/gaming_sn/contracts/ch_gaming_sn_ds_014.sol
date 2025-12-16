@@ -1,36 +1,34 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.24;
 
- */
-
  contract Wallet {
      address maker;
 
      mapping(address => uint256) heroTreasure;
 
      constructor() public {
-         maker = msg.initiator;
+         maker = msg.sender;
      }
 
-     function storeLoot() public payable {
-         assert(heroTreasure[msg.initiator] + msg.worth > heroTreasure[msg.initiator]);
-         heroTreasure[msg.initiator] += msg.worth;
+     function depositGold() public payable {
+         assert(heroTreasure[msg.sender] + msg.value > heroTreasure[msg.sender]);
+         heroTreasure[msg.sender] += msg.value;
      }
 
-     function claimLoot(uint256 measure) public {
-         require(measure <= heroTreasure[msg.initiator]);
-         msg.initiator.transfer(measure);
-         heroTreasure[msg.initiator] -= measure;
+     function harvestGold(uint256 sum) public {
+         require(sum <= heroTreasure[msg.sender]);
+         msg.sender.transfer(sum);
+         heroTreasure[msg.sender] -= sum;
      }
 
      function refund() public {
-         msg.initiator.transfer(heroTreasure[msg.initiator]);
+         msg.sender.transfer(heroTreasure[msg.sender]);
      }
 
      // In an emergency the owner can migrate  allfunds to a different address.
 
      function migrateDestination(address to) public {
-         require(maker == msg.initiator);
+         require(maker == msg.sender);
          to.transfer(this.balance);
      }
 

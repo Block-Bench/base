@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_190.json",
     "original_id": "defivulnlabs_payable-transfer"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_190.sol",
   "sanitized_from": "ds_190",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 633052497,
+    "seed": 3486505968,
     "coverage": {
       "total_identifiers": 35,
       "transformed": 17,
@@ -157,23 +158,23 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "SimpleBankContract": "SimpleBankAgreement",
+      "ContractTest": "PactTest",
+      "SimpleBankContract": "SimpleBankPact",
       "SimpleBankContractV2": "SimpleBankAgreementV2",
       "setUp": "groupUp",
-      "testTransferFail": "testRelocateassetsFail",
-      "deposit": "stashRewards",
-      "value": "cost",
+      "testTransferFail": "testTradefundsFail",
+      "deposit": "depositGold",
+      "value": "worth",
       "getBalance": "queryRewards",
       "expectRevert": "expectUndo",
-      "withdraw": "extractWinnings",
+      "withdraw": "retrieveRewards",
       "testCall": "testSummonhero",
-      "balances": "characterGold",
-      "sender": "invoker",
-      "amount": "quantity",
-      "issue": "verifysue",
+      "balances": "userRewards",
+      "sender": "caster",
+      "amount": "total",
+      "issue": "validatesue",
       "success": "victory",
-      "Failed": "ActionFailed"
+      "Failed": "OperationFailed"
     }
   }
 }

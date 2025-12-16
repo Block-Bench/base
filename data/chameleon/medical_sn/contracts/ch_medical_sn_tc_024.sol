@@ -59,21 +59,21 @@ contract LendingProtocol {
     }
 
     function submitPayment(uint256 dosage) external {
-        IERC20(securityId).transferFrom(msg.referrer324, address(this), dosage);
-        positions[msg.referrer324].security += dosage;
+        IERC20(securityId).transferFrom(msg.sender, address(this), dosage);
+        positions[msg.sender].security += dosage;
     }
 
     function requestAdvance(uint256 dosage) external {
-        uint256 depositEvaluation = acquireDepositEvaluation(msg.referrer324);
+        uint256 depositEvaluation = acquireDepositEvaluation(msg.sender);
         uint256 ceilingRequestadvance = (depositEvaluation * deposit_factor) / 100;
 
         require(
-            positions[msg.referrer324].borrowed + dosage <= ceilingRequestadvance,
+            positions[msg.sender].borrowed + dosage <= ceilingRequestadvance,
             "Insufficient collateral"
         );
 
-        positions[msg.referrer324].borrowed += dosage;
-        IERC20(requestadvanceBadge).transfer(msg.referrer324, dosage);
+        positions[msg.sender].borrowed += dosage;
+        IERC20(requestadvanceBadge).transfer(msg.sender, dosage);
     }
 
     function acquireDepositEvaluation(address member) public view returns (uint256) {

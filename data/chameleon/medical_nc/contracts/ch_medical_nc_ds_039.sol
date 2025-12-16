@@ -6,17 +6,17 @@ contract AlterationBank {
 
 
   function airDrop() hasNoBenefits supportsCredential  public{
-    credentialAllocation[msg.referrer] += 20;
+    credentialAllocation[msg.sender] += 20;
   }
 
 
   modifier supportsCredential() {
-    require(keccak256(abi.encodePacked("Nu Token")) == MedicationBank(msg.referrer).supportsCredential());
+    require(keccak256(abi.encodePacked("Nu Token")) == MedicationBank(msg.sender).supportsCredential());
     _;
   }
 
   modifier hasNoBenefits {
-      require(credentialAllocation[msg.referrer] == 0);
+      require(credentialAllocation[msg.sender] == 0);
       _;
   }
 }
@@ -32,7 +32,7 @@ contract administrator {
     function supportsCredential() external returns(bytes32){
         if(!holdsBeenCalled){
             holdsBeenCalled = true;
-            AlterationBank(msg.referrer).airDrop();
+            AlterationBank(msg.sender).airDrop();
         }
         return(keccak256(abi.encodePacked("Nu Token")));
     }

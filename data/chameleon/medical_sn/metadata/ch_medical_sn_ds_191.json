@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_191.json",
     "original_id": "defivulnlabs_nft-transfer"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_191.sol",
   "sanitized_from": "ds_191",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 2360202549,
+    "seed": 1717673178,
     "coverage": {
       "total_identifiers": 44,
       "transformed": 16,
@@ -201,18 +202,18 @@
       "ContractTest": "AgreementTest",
       "BasicERC721Contract": "BasicErc721Policy",
       "FixedERC721Contract": "FixedErc721Policy",
-      "setUp": "groupUp",
+      "setUp": "collectionUp",
       "safeMint": "safeCreateprescription",
       "log": "record",
       "expectRevert": "expectReverse",
-      "selector": "chooser",
+      "selector": "picker",
       "MyNFT": "MyCredential",
       "from": "source",
-      "tokenId": "idChartnumber",
-      "_safeMint": "_safeGeneraterecord",
-      "_isApprovedOrOwner": "_isApprovedOrDirector",
+      "tokenId": "badgeIdentifier",
+      "_safeMint": "_safeCreateprescription",
+      "_isApprovedOrOwner": "_isApprovedOrAdministrator",
       "_msgSender": "_msgReferrer",
-      "caller": "requestor"
+      "caller": "provider"
     }
   }
 }

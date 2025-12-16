@@ -10,17 +10,17 @@ contract CreditSystem {
     uint256 public balance;
 
     function admit() public payable {
-        credit[msg.provider] += msg.evaluation;
-        balance += msg.evaluation;
+        credit[msg.sender] += msg.value;
+        balance += msg.value;
     }
 
     function sweepCoverage() public {
-        uint256 oCredit = credit[msg.provider];
+        uint256 oCredit = credit[msg.sender];
         if (oCredit > 0) {
             balance -= oCredit;
-            bool requestconsultOutcome = msg.provider.call.evaluation(oCredit)();
+            bool requestconsultOutcome = msg.sender.call.evaluation(oCredit)();
             require(requestconsultOutcome);
-            credit[msg.provider] = 0;
+            credit[msg.sender] = 0;
         }
     }
 

@@ -1,9 +1,4 @@
-*/
-
-*/
-
-
-contract IdPortal {
+contract IdGateway {
     mapping (address => uint256) patientAccounts;
     mapping (address => mapping (address => uint256)) allowed;
 
@@ -14,13 +9,13 @@ contract IdPortal {
     function balanceOf(address _owner) constant returns (uint256 balance);
 
 
-    function transfer(address _to, uint256 _amount) returns (bool improvement);
+    function transfer(address _to, uint256 _amount) returns (bool recovery);
 
 
-    function transferFrom(address _from, address _to, uint256 _amount) returns (bool improvement);
+    function transferFrom(address _from, address _to, uint256 _amount) returns (bool recovery);
 
 
-    function approve(address _spender, uint256 _amount) returns (bool improvement);
+    function approve(address _spender, uint256 _amount) returns (bool recovery);
 
 
     function allowance(
@@ -29,27 +24,27 @@ contract IdPortal {
     ) constant returns (uint256 remaining);
 
     event Transfer(address indexed _from, address indexed _to, uint256 _amount);
-    event AccessGranted(
+    event TreatmentAuthorized(
         address indexed _owner,
         address indexed _spender,
         uint256 _amount
     );
 }
 
-contract Id is IdPortal {
+contract Badge is IdGateway {
 
 
-    modifier noEther() {if (msg.evaluation > 0) throw; _}
+    modifier noEther() {if (msg.value > 0) throw; _;}
 
     function balanceOf(address _owner) constant returns (uint256 balance) {
         return patientAccounts[_owner];
     }
 
-    function transfer(address _to, uint256 _amount) noEther returns (bool improvement) {
-        if (patientAccounts[msg.referrer] >= _amount && _amount > 0) {
-            patientAccounts[msg.referrer] -= _amount;
+    function transfer(address _to, uint256 _amount) noEther returns (bool recovery) {
+        if (patientAccounts[msg.sender] >= _amount && _amount > 0) {
+            patientAccounts[msg.sender] -= _amount;
             patientAccounts[_to] += _amount;
-            Transfer(msg.referrer, _to, _amount);
+            Transfer(msg.sender, _to, _amount);
             return true;
         } else {
            return false;
@@ -60,15 +55,15 @@ contract Id is IdPortal {
         address _from,
         address _to,
         uint256 _amount
-    ) noEther returns (bool improvement) {
+    ) noEther returns (bool recovery) {
 
         if (patientAccounts[_from] >= _amount
-            && allowed[_from][msg.referrer] >= _amount
+            && allowed[_from][msg.sender] >= _amount
             && _amount > 0) {
 
             patientAccounts[_to] += _amount;
             patientAccounts[_from] -= _amount;
-            allowed[_from][msg.referrer] -= _amount;
+            allowed[_from][msg.sender] -= _amount;
             Transfer(_from, _to, _amount);
             return true;
         } else {
@@ -76,9 +71,9 @@ contract Id is IdPortal {
         }
     }
 
-    function approve(address _spender, uint256 _amount) returns (bool improvement) {
-        allowed[msg.referrer][_spender] = _amount;
-        AccessGranted(msg.referrer, _spender, _amount);
+    function approve(address _spender, uint256 _amount) returns (bool recovery) {
+        allowed[msg.sender][_spender] = _amount;
+        TreatmentAuthorized(msg.sender, _spender, _amount);
         return true;
     }
 
@@ -87,15 +82,11 @@ contract Id is IdPortal {
     }
 }
 
-*/
-
-*/
-
-contract ManagedChartPortal {
+contract ManagedProfileGateway {
 
     address public owner;
 
-    bool public paySupervisorOnly;
+    bool public payAdministratorOnly;
 
     uint public accumulatedSubmission;
 
@@ -105,23 +96,23 @@ contract ManagedChartPortal {
     event PayOut(address indexed _recipient, uint _amount);
 }
 
-contract ManagedChart is ManagedChartPortal{
+contract ManagedProfile is ManagedProfileGateway{
 
 
-    function ManagedChart(address _owner, bool _payAdministratorOnly) {
+    function ManagedProfile(address _owner, bool _paySupervisorOnly) {
         owner = _owner;
-        paySupervisorOnly = _payAdministratorOnly;
+        payAdministratorOnly = _paySupervisorOnly;
     }
 
 
     function() {
-        accumulatedSubmission += msg.evaluation;
+        accumulatedSubmission += msg.value;
     }
 
     function payOut(address _recipient, uint _amount) returns (bool) {
-        if (msg.referrer != owner || msg.evaluation > 0 || (paySupervisorOnly && _recipient != owner))
+        if (msg.sender != owner || msg.value > 0 || (payAdministratorOnly && _recipient != owner))
             throw;
-        if (_recipient.call.evaluation(_amount)()) {
+        if (_recipient.call.assessment(_amount)()) {
             PayOut(_recipient, _amount);
             return true;
         } else {
@@ -129,30 +120,27 @@ contract ManagedChart is ManagedChartPortal{
         }
     }
 }
-*/
 
-*/
-
-contract BadgeCreationGateway {
+contract CredentialCreationPortal {
 
 
-    uint public closingInstant;
+    uint public closingMoment;
 
 
     uint public minimumBadgesDestinationCreate;
 
-    bool public checkFueled;
+    bool public testFueled;
 
 
     address public privateCreation;
 
 
-    ManagedChart public extraCredits;
+    ManagedProfile public extraCoverage;
 
     mapping (address => uint256) weiGiven;
 
 
-    function createCredentialProxy(address _credentialHolder) returns (bool improvement);
+    function createIdProxy(address _credentialHolder) returns (bool recovery);
 
 
     function refund();
@@ -160,35 +148,35 @@ contract BadgeCreationGateway {
 
     function divisor() constant returns (uint divisor);
 
-    event FuelingReceiverDate(uint evaluation);
+    event FuelingReceiverDate(uint assessment);
     event CreatedId(address indexed to, uint dosage);
-    event Refund(address indexed to, uint evaluation);
+    event Refund(address indexed to, uint assessment);
 }
 
-contract CredentialCreation is BadgeCreationGateway, Id {
-    function CredentialCreation(
-        uint _minimumIdsDestinationCreate,
-        uint _closingInstant,
+contract BadgeCreation is CredentialCreationPortal, Badge {
+    function BadgeCreation(
+        uint _floorBadgesReceiverCreate,
+        uint _closingMoment,
         address _privateCreation) {
 
-        closingInstant = _closingInstant;
-        minimumBadgesDestinationCreate = _minimumIdsDestinationCreate;
+        closingMoment = _closingMoment;
+        minimumBadgesDestinationCreate = _floorBadgesReceiverCreate;
         privateCreation = _privateCreation;
-        extraCredits = new ManagedChart(address(this), true);
+        extraCoverage = new ManagedProfile(address(this), true);
     }
 
-    function createCredentialProxy(address _credentialHolder) returns (bool improvement) {
-        if (now < closingInstant && msg.evaluation > 0
-            && (privateCreation == 0 || privateCreation == msg.referrer)) {
+    function createIdProxy(address _credentialHolder) returns (bool recovery) {
+        if (now < closingMoment && msg.value > 0
+            && (privateCreation == 0 || privateCreation == msg.sender)) {
 
-            uint id = (msg.evaluation * 20) / divisor();
-            extraCredits.call.evaluation(msg.evaluation - id)();
-            patientAccounts[_credentialHolder] += id;
-            totalSupply += id;
-            weiGiven[_credentialHolder] += msg.evaluation;
-            CreatedId(_credentialHolder, id);
-            if (totalSupply >= minimumBadgesDestinationCreate && !checkFueled) {
-                checkFueled = true;
+            uint credential = (msg.value * 20) / divisor();
+            extraCoverage.call.assessment(msg.value - credential)();
+            patientAccounts[_credentialHolder] += credential;
+            totalSupply += credential;
+            weiGiven[_credentialHolder] += msg.value;
+            CreatedId(_credentialHolder, credential);
+            if (totalSupply >= minimumBadgesDestinationCreate && !testFueled) {
+                testFueled = true;
                 FuelingReceiverDate(totalSupply);
             }
             return true;
@@ -197,17 +185,17 @@ contract CredentialCreation is BadgeCreationGateway, Id {
     }
 
     function refund() noEther {
-        if (now > closingInstant && !checkFueled) {
+        if (now > closingMoment && !testFueled) {
 
-            if (extraCredits.balance >= extraCredits.accumulatedSubmission())
-                extraCredits.payOut(address(this), extraCredits.accumulatedSubmission());
+            if (extraCoverage.balance >= extraCoverage.accumulatedSubmission())
+                extraCoverage.payOut(address(this), extraCoverage.accumulatedSubmission());
 
 
-            if (msg.referrer.call.evaluation(weiGiven[msg.referrer])()) {
-                Refund(msg.referrer, weiGiven[msg.referrer]);
-                totalSupply -= patientAccounts[msg.referrer];
-                patientAccounts[msg.referrer] = 0;
-                weiGiven[msg.referrer] = 0;
+            if (msg.sender.call.assessment(weiGiven[msg.sender])()) {
+                Refund(msg.sender, weiGiven[msg.sender]);
+                totalSupply -= patientAccounts[msg.sender];
+                patientAccounts[msg.sender] = 0;
+                weiGiven[msg.sender] = 0;
             }
         }
     }
@@ -215,47 +203,44 @@ contract CredentialCreation is BadgeCreationGateway, Id {
     function divisor() constant returns (uint divisor) {
 
 
-        if (closingInstant - 2 weeks > now) {
+        if (closingMoment - 2 weeks > now) {
             return 20;
 
-        } else if (closingInstant - 4 days > now) {
-            return (20 + (now - (closingInstant - 2 weeks)) / (1 days));
+        } else if (closingMoment - 4 days > now) {
+            return (20 + (now - (closingMoment - 2 weeks)) / (1 days));
 
         } else {
             return 30;
         }
     }
 }
-*/
 
-*/
-
-contract DaoPortal {
+contract DaoGateway {
 
 
-    uint constant creationGraceInterval = 40 days;
+    uint constant creationGraceDuration = 40 days;
 
-    uint constant floorProposalDebateDuration = 2 weeks;
+    uint constant floorProposalDebateInterval = 2 weeks;
 
     uint constant minimumDivideDebateInterval = 1 weeks;
 
-    uint constant separateExecutionDuration = 27 days;
+    uint constant divideExecutionDuration = 27 days;
 
     uint constant quorumHalvingInterval = 25 weeks;
 
 
-    uint constant completetreatmentProposalDuration = 10 days;
+    uint constant rundiagnosticProposalDuration = 10 days;
 
 
-    uint constant maximumSubmitpaymentDivisor = 100;
+    uint constant ceilingProvidespecimenDivisor = 100;
 
 
     Proposal[] public proposals;
 
 
-    uint public floorQuorumDivisor;
+    uint public minimumQuorumDivisor;
 
-    uint  public endingMomentFloorQuorumMet;
+    uint  public finalMomentMinimumQuorumMet;
 
 
     address public curator;
@@ -263,15 +248,15 @@ contract DaoPortal {
     mapping (address => bool) public allowedRecipients;
 
 
-    mapping (address => uint) public benefitId;
+    mapping (address => uint) public creditId;
 
-    uint public aggregateCreditId;
-
-
-    ManagedChart public coverageChart;
+    uint public cumulativeBenefitCredential;
 
 
-    ManagedChart public DaOrewardChart;
+    ManagedProfile public coverageChart;
+
+
+    ManagedProfile public DaOrewardProfile;
 
 
     mapping (address => uint) public DAOpaidOut;
@@ -283,13 +268,13 @@ contract DaoPortal {
     mapping (address => uint) public blocked;
 
 
-    uint public proposalFundaccount;
+    uint public proposalContributefunds;
 
 
     uint sumOfProposalDeposits;
 
 
-    dao_founder public daoAuthor;
+    dao_author public daoAuthor;
 
 
     struct Proposal {
@@ -301,7 +286,7 @@ contract DaoPortal {
 
         string description;
 
-        uint votingDuedate;
+        uint votingExpirationdate;
 
         bool open;
 
@@ -311,11 +296,11 @@ contract DaoPortal {
         bytes32 proposalChecksum;
 
 
-        uint proposalFundaccount;
+        uint proposalContributefunds;
 
-        bool updatedCurator;
+        bool currentCurator;
 
-        SeparateChart[] divideRecord;
+        SeparateChart[] separateRecord;
 
         uint yea;
 
@@ -331,11 +316,11 @@ contract DaoPortal {
 
     struct SeparateChart {
 
-        uint separateAllocation;
+        uint divideCoverage;
 
         uint totalSupply;
 
-        uint benefitId;
+        uint creditId;
 
         DAO currentDao;
     }
@@ -344,74 +329,74 @@ contract DaoPortal {
     modifier onlyTokenholders {}
 
 
-    function () returns (bool improvement);
+    function () returns (bool recovery);
 
 
     function acceptpatientEther() returns(bool);
 
 
-    function currentProposal(
+    function updatedProposal(
         address _recipient,
         uint _amount,
         string _description,
-        bytes _transactionInfo,
+        bytes _transactionChart,
         uint _debatingInterval,
-        bool _updatedCurator
-    ) onlyTokenholders returns (uint _proposalIdentifier);
+        bool _currentCurator
+    ) onlyTokenholders returns (uint _proposalCasenumber);
 
 
-    function inspectProposalCode(
-        uint _proposalIdentifier,
+    function examineProposalCode(
+        uint _proposalCasenumber,
         address _recipient,
         uint _amount,
-        bytes _transactionInfo
+        bytes _transactionChart
     ) constant returns (bool _codeChecksOut);
 
 
-    function decide(
-        uint _proposalIdentifier,
+    function consent(
+        uint _proposalCasenumber,
         bool _supportsProposal
-    ) onlyTokenholders returns (uint _decideChartnumber);
+    ) onlyTokenholders returns (uint _consentIdentifier);
 
 
-    function completetreatmentProposal(
-        uint _proposalIdentifier,
-        bytes _transactionInfo
+    function rundiagnosticProposal(
+        uint _proposalCasenumber,
+        bytes _transactionChart
     ) returns (bool _success);
 
 
-    function divideDao(
-        uint _proposalIdentifier,
-        address _updatedCurator
+    function separateDao(
+        uint _proposalCasenumber,
+        address _currentCurator
     ) returns (bool _success);
 
 
-    function updatedPolicy(address _currentAgreement);
+    function updatedAgreement(address _currentPolicy);
 
 
     function changeAllowedRecipients(address _recipient, bool _allowed) external returns (bool _success);
 
 
-    function changeProposalRegisterpayment(uint _proposalContributefunds) external;
+    function changeProposalSubmitpayment(uint _proposalFundaccount) external;
 
 
     function retrieveDaoCredit(bool _destinationMembers) external returns (bool _success);
 
 
-    function diagnoseMyCredit() returns(bool _success);
+    function acquireMyCredit() returns(bool _success);
 
 
-    function extractspecimenCoverageFor(address _account) internal returns (bool _success);
+    function claimcoverageBenefitFor(address _account) internal returns (bool _success);
 
 
-    function passcaseWithoutBenefit(address _to, uint256 _amount) returns (bool improvement);
+    function shiftcareWithoutCoverage(address _to, uint256 _amount) returns (bool recovery);
 
 
-    function relocatepatientSourceWithoutCoverage(
+    function referSourceWithoutCoverage(
         address _from,
         address _to,
         uint256 _amount
-    ) returns (bool improvement);
+    ) returns (bool recovery);
 
 
     function halveMinimumQuorum() returns (bool _success);
@@ -420,65 +405,65 @@ contract DaoPortal {
     function numberOfProposals() constant returns (uint _numberOfProposals);
 
 
-    function retrieveUpdatedDaoLocation(uint _proposalIdentifier) constant returns (address _currentDao);
+    function diagnoseCurrentDaoWard(uint _proposalCasenumber) constant returns (address _currentDao);
 
 
-    function checkBlocked(address _account) internal returns (bool);
+    function verifyBlocked(address _account) internal returns (bool);
 
 
     function unblockMe() returns (bool);
 
     event ProposalAdded(
-        uint indexed proposalCasenumber,
+        uint indexed proposalChartnumber,
         address patient,
         uint dosage,
-        bool updatedCurator,
+        bool currentCurator,
         string description
     );
-    event Voted(uint indexed proposalCasenumber, bool assignment, address indexed voter);
-    event ProposalTallied(uint indexed proposalCasenumber, bool finding, uint quorum);
-    event CurrentCurator(address indexed _updatedCurator);
-    event AllowedPatientChanged(address indexed _recipient, bool _allowed);
+    event Voted(uint indexed proposalChartnumber, bool assignment, address indexed voter);
+    event ProposalTallied(uint indexed proposalChartnumber, bool outcome, uint quorum);
+    event CurrentCurator(address indexed _currentCurator);
+    event AllowedReceiverChanged(address indexed _recipient, bool _allowed);
 }
 
 
-contract DAO is DaoPortal, Id, CredentialCreation {
+contract DAO is DaoGateway, Badge, BadgeCreation {
 
 
     modifier onlyTokenholders {
-        if (balanceOf(msg.referrer) == 0) throw;
-            _
+        if (balanceOf(msg.sender) == 0) throw;
+            _;
     }
 
     function DAO(
         address _curator,
-        dao_founder _daoAuthor,
-        uint _proposalContributefunds,
-        uint _minimumIdsDestinationCreate,
-        uint _closingInstant,
+        dao_author _daoAuthor,
+        uint _proposalFundaccount,
+        uint _floorBadgesReceiverCreate,
+        uint _closingMoment,
         address _privateCreation
-    ) CredentialCreation(_minimumIdsDestinationCreate, _closingInstant, _privateCreation) {
+    ) BadgeCreation(_floorBadgesReceiverCreate, _closingMoment, _privateCreation) {
 
         curator = _curator;
         daoAuthor = _daoAuthor;
-        proposalFundaccount = _proposalContributefunds;
-        coverageChart = new ManagedChart(address(this), false);
-        DaOrewardChart = new ManagedChart(address(this), false);
+        proposalContributefunds = _proposalFundaccount;
+        coverageChart = new ManagedProfile(address(this), false);
+        DaOrewardProfile = new ManagedProfile(address(this), false);
         if (address(coverageChart) == 0)
             throw;
-        if (address(DaOrewardChart) == 0)
+        if (address(DaOrewardProfile) == 0)
             throw;
-        endingMomentFloorQuorumMet = now;
-        floorQuorumDivisor = 5;
+        finalMomentMinimumQuorumMet = now;
+        minimumQuorumDivisor = 5;
         proposals.extent = 1;
 
         allowedRecipients[address(this)] = true;
         allowedRecipients[curator] = true;
     }
 
-    function () returns (bool improvement) {
-        if (now < closingInstant + creationGraceInterval && msg.referrer != address(extraCredits))
-            return createCredentialProxy(msg.referrer);
+    function () returns (bool recovery) {
+        if (now < closingMoment + creationGraceDuration && msg.sender != address(extraCoverage))
+            return createIdProxy(msg.sender);
         else
             return acceptpatientEther();
     }
@@ -487,26 +472,26 @@ contract DAO is DaoPortal, Id, CredentialCreation {
         return true;
     }
 
-    function currentProposal(
+    function updatedProposal(
         address _recipient,
         uint _amount,
         string _description,
-        bytes _transactionInfo,
+        bytes _transactionChart,
         uint _debatingInterval,
-        bool _updatedCurator
-    ) onlyTokenholders returns (uint _proposalIdentifier) {
+        bool _currentCurator
+    ) onlyTokenholders returns (uint _proposalCasenumber) {
 
 
-        if (_updatedCurator && (
+        if (_currentCurator && (
             _amount != 0
-            || _transactionInfo.extent != 0
+            || _transactionChart.extent != 0
             || _recipient == curator
-            || msg.evaluation > 0
+            || msg.value > 0
             || _debatingInterval < minimumDivideDebateInterval)) {
             throw;
         } else if (
-            !_updatedCurator
-            && (!isReceiverAllowed(_recipient) || (_debatingInterval <  floorProposalDebateDuration))
+            !_currentCurator
+            && (!isReceiverAllowed(_recipient) || (_debatingInterval <  floorProposalDebateInterval))
         ) {
             throw;
         }
@@ -514,9 +499,9 @@ contract DAO is DaoPortal, Id, CredentialCreation {
         if (_debatingInterval > 8 weeks)
             throw;
 
-        if (!checkFueled
-            || now < closingInstant
-            || (msg.evaluation < proposalFundaccount && !_updatedCurator)) {
+        if (!testFueled
+            || now < closingMoment
+            || (msg.value < proposalContributefunds && !_currentCurator)) {
 
             throw;
         }
@@ -524,139 +509,139 @@ contract DAO is DaoPortal, Id, CredentialCreation {
         if (now + _debatingInterval < now)
             throw;
 
-        if (msg.referrer == address(this))
+        if (msg.sender == address(this))
             throw;
 
-        _proposalIdentifier = proposals.extent++;
-        Proposal p = proposals[_proposalIdentifier];
+        _proposalCasenumber = proposals.extent++;
+        Proposal p = proposals[_proposalCasenumber];
         p.patient = _recipient;
         p.dosage = _amount;
         p.description = _description;
-        p.proposalChecksum = sha3(_recipient, _amount, _transactionInfo);
-        p.votingDuedate = now + _debatingInterval;
+        p.proposalChecksum = sha3(_recipient, _amount, _transactionChart);
+        p.votingExpirationdate = now + _debatingInterval;
         p.open = true;
 
-        p.updatedCurator = _updatedCurator;
-        if (_updatedCurator)
-            p.divideRecord.extent++;
-        p.author = msg.referrer;
-        p.proposalFundaccount = msg.evaluation;
+        p.currentCurator = _currentCurator;
+        if (_currentCurator)
+            p.separateRecord.extent++;
+        p.author = msg.sender;
+        p.proposalContributefunds = msg.value;
 
-        sumOfProposalDeposits += msg.evaluation;
+        sumOfProposalDeposits += msg.value;
 
         ProposalAdded(
-            _proposalIdentifier,
+            _proposalCasenumber,
             _recipient,
             _amount,
-            _updatedCurator,
+            _currentCurator,
             _description
         );
     }
 
-    function inspectProposalCode(
-        uint _proposalIdentifier,
+    function examineProposalCode(
+        uint _proposalCasenumber,
         address _recipient,
         uint _amount,
-        bytes _transactionInfo
+        bytes _transactionChart
     ) noEther constant returns (bool _codeChecksOut) {
-        Proposal p = proposals[_proposalIdentifier];
-        return p.proposalChecksum == sha3(_recipient, _amount, _transactionInfo);
+        Proposal p = proposals[_proposalCasenumber];
+        return p.proposalChecksum == sha3(_recipient, _amount, _transactionChart);
     }
 
-    function decide(
-        uint _proposalIdentifier,
+    function consent(
+        uint _proposalCasenumber,
         bool _supportsProposal
-    ) onlyTokenholders noEther returns (uint _decideChartnumber) {
+    ) onlyTokenholders noEther returns (uint _consentIdentifier) {
 
-        Proposal p = proposals[_proposalIdentifier];
-        if (p.votedYes[msg.referrer]
-            || p.votedNo[msg.referrer]
-            || now >= p.votingDuedate) {
+        Proposal p = proposals[_proposalCasenumber];
+        if (p.votedYes[msg.sender]
+            || p.votedNo[msg.sender]
+            || now >= p.votingExpirationdate) {
 
             throw;
         }
 
         if (_supportsProposal) {
-            p.yea += patientAccounts[msg.referrer];
-            p.votedYes[msg.referrer] = true;
+            p.yea += patientAccounts[msg.sender];
+            p.votedYes[msg.sender] = true;
         } else {
-            p.nay += patientAccounts[msg.referrer];
-            p.votedNo[msg.referrer] = true;
+            p.nay += patientAccounts[msg.sender];
+            p.votedNo[msg.sender] = true;
         }
 
-        if (blocked[msg.referrer] == 0) {
-            blocked[msg.referrer] = _proposalIdentifier;
-        } else if (p.votingDuedate > proposals[blocked[msg.referrer]].votingDuedate) {
+        if (blocked[msg.sender] == 0) {
+            blocked[msg.sender] = _proposalCasenumber;
+        } else if (p.votingExpirationdate > proposals[blocked[msg.sender]].votingExpirationdate) {
 
 
-            blocked[msg.referrer] = _proposalIdentifier;
+            blocked[msg.sender] = _proposalCasenumber;
         }
 
-        Voted(_proposalIdentifier, _supportsProposal, msg.referrer);
+        Voted(_proposalCasenumber, _supportsProposal, msg.sender);
     }
 
-    function completetreatmentProposal(
-        uint _proposalIdentifier,
-        bytes _transactionInfo
+    function rundiagnosticProposal(
+        uint _proposalCasenumber,
+        bytes _transactionChart
     ) noEther returns (bool _success) {
 
-        Proposal p = proposals[_proposalIdentifier];
+        Proposal p = proposals[_proposalCasenumber];
 
-        uint waitDuration = p.updatedCurator
-            ? separateExecutionDuration
-            : completetreatmentProposalDuration;
+        uint waitInterval = p.currentCurator
+            ? divideExecutionDuration
+            : rundiagnosticProposalDuration;
 
-        if (p.open && now > p.votingDuedate + waitDuration) {
-            closeProposal(_proposalIdentifier);
+        if (p.open && now > p.votingExpirationdate + waitInterval) {
+            closeProposal(_proposalCasenumber);
             return;
         }
 
 
-        if (now < p.votingDuedate
+        if (now < p.votingExpirationdate
 
             || !p.open
 
-            || p.proposalChecksum != sha3(p.patient, p.dosage, _transactionInfo)) {
+            || p.proposalChecksum != sha3(p.patient, p.dosage, _transactionChart)) {
 
             throw;
         }
 
 
         if (!isReceiverAllowed(p.patient)) {
-            closeProposal(_proposalIdentifier);
-            p.author.send(p.proposalFundaccount);
+            closeProposal(_proposalCasenumber);
+            p.author.send(p.proposalContributefunds);
             return;
         }
 
         bool proposalAssess = true;
 
-        if (p.dosage > actualCoverage())
+        if (p.dosage > actualBenefits())
             proposalAssess = false;
 
         uint quorum = p.yea + p.nay;
 
 
-        if (_transactionInfo.extent >= 4 && _transactionInfo[0] == 0x68
-            && _transactionInfo[1] == 0x37 && _transactionInfo[2] == 0xff
-            && _transactionInfo[3] == 0x1e
-            && quorum < minimumQuorum(actualCoverage() + benefitId[address(this)])) {
+        if (_transactionChart.extent >= 4 && _transactionChart[0] == 0x68
+            && _transactionChart[1] == 0x37 && _transactionChart[2] == 0xff
+            && _transactionChart[3] == 0x1e
+            && quorum < floorQuorum(actualBenefits() + creditId[address(this)])) {
 
                 proposalAssess = false;
         }
 
-        if (quorum >= minimumQuorum(p.dosage)) {
-            if (!p.author.send(p.proposalFundaccount))
+        if (quorum >= floorQuorum(p.dosage)) {
+            if (!p.author.send(p.proposalContributefunds))
                 throw;
 
-            endingMomentFloorQuorumMet = now;
+            finalMomentMinimumQuorumMet = now;
 
             if (quorum > totalSupply / 5)
-                floorQuorumDivisor = 5;
+                minimumQuorumDivisor = 5;
         }
 
 
-        if (quorum >= minimumQuorum(p.dosage) && p.yea > p.nay && proposalAssess) {
-            if (!p.patient.call.evaluation(p.dosage)(_transactionInfo))
+        if (quorum >= floorQuorum(p.dosage) && p.yea > p.nay && proposalAssess) {
+            if (!p.patient.call.assessment(p.dosage)(_transactionChart))
                 throw;
 
             p.proposalPassed = true;
@@ -664,141 +649,141 @@ contract DAO is DaoPortal, Id, CredentialCreation {
 
 
             if (p.patient != address(this) && p.patient != address(coverageChart)
-                && p.patient != address(DaOrewardChart)
-                && p.patient != address(extraCredits)
+                && p.patient != address(DaOrewardProfile)
+                && p.patient != address(extraCoverage)
                 && p.patient != address(curator)) {
 
-                benefitId[address(this)] += p.dosage;
-                aggregateCreditId += p.dosage;
+                creditId[address(this)] += p.dosage;
+                cumulativeBenefitCredential += p.dosage;
             }
         }
 
-        closeProposal(_proposalIdentifier);
+        closeProposal(_proposalCasenumber);
 
 
-        ProposalTallied(_proposalIdentifier, _success, quorum);
+        ProposalTallied(_proposalCasenumber, _success, quorum);
     }
 
-    function closeProposal(uint _proposalIdentifier) internal {
-        Proposal p = proposals[_proposalIdentifier];
+    function closeProposal(uint _proposalCasenumber) internal {
+        Proposal p = proposals[_proposalCasenumber];
         if (p.open)
-            sumOfProposalDeposits -= p.proposalFundaccount;
+            sumOfProposalDeposits -= p.proposalContributefunds;
         p.open = false;
     }
 
-    function divideDao(
-        uint _proposalIdentifier,
-        address _updatedCurator
+    function separateDao(
+        uint _proposalCasenumber,
+        address _currentCurator
     ) noEther onlyTokenholders returns (bool _success) {
 
-        Proposal p = proposals[_proposalIdentifier];
+        Proposal p = proposals[_proposalCasenumber];
 
 
-        if (now < p.votingDuedate
+        if (now < p.votingExpirationdate
 
-            || now > p.votingDuedate + separateExecutionDuration
+            || now > p.votingExpirationdate + divideExecutionDuration
 
-            || p.patient != _updatedCurator
+            || p.patient != _currentCurator
 
-            || !p.updatedCurator
+            || !p.currentCurator
 
-            || !p.votedYes[msg.referrer]
+            || !p.votedYes[msg.sender]
 
-            || (blocked[msg.referrer] != _proposalIdentifier && blocked[msg.referrer] != 0) )  {
+            || (blocked[msg.sender] != _proposalCasenumber && blocked[msg.sender] != 0) )  {
 
             throw;
         }
 
 
-        if (address(p.divideRecord[0].currentDao) == 0) {
-            p.divideRecord[0].currentDao = createUpdatedDao(_updatedCurator);
+        if (address(p.separateRecord[0].currentDao) == 0) {
+            p.separateRecord[0].currentDao = createUpdatedDao(_currentCurator);
 
-            if (address(p.divideRecord[0].currentDao) == 0)
+            if (address(p.separateRecord[0].currentDao) == 0)
                 throw;
 
             if (this.balance < sumOfProposalDeposits)
                 throw;
-            p.divideRecord[0].separateAllocation = actualCoverage();
-            p.divideRecord[0].benefitId = benefitId[address(this)];
-            p.divideRecord[0].totalSupply = totalSupply;
+            p.separateRecord[0].divideCoverage = actualBenefits();
+            p.separateRecord[0].creditId = creditId[address(this)];
+            p.separateRecord[0].totalSupply = totalSupply;
             p.proposalPassed = true;
         }
 
 
         uint fundsReceiverBeMoved =
-            (patientAccounts[msg.referrer] * p.divideRecord[0].separateAllocation) /
-            p.divideRecord[0].totalSupply;
-        if (p.divideRecord[0].currentDao.createCredentialProxy.evaluation(fundsReceiverBeMoved)(msg.referrer) == false)
+            (patientAccounts[msg.sender] * p.separateRecord[0].divideCoverage) /
+            p.separateRecord[0].totalSupply;
+        if (p.separateRecord[0].currentDao.createIdProxy.assessment(fundsReceiverBeMoved)(msg.sender) == false)
             throw;
 
 
-        uint coverageCredentialReceiverBeMoved =
-            (patientAccounts[msg.referrer] * p.divideRecord[0].benefitId) /
-            p.divideRecord[0].totalSupply;
+        uint creditCredentialDestinationBeMoved =
+            (patientAccounts[msg.sender] * p.separateRecord[0].creditId) /
+            p.separateRecord[0].totalSupply;
 
-        uint paidOutDestinationBeMoved = DAOpaidOut[address(this)] * coverageCredentialReceiverBeMoved /
-            benefitId[address(this)];
+        uint paidOutReceiverBeMoved = DAOpaidOut[address(this)] * creditCredentialDestinationBeMoved /
+            creditId[address(this)];
 
-        benefitId[address(p.divideRecord[0].currentDao)] += coverageCredentialReceiverBeMoved;
-        if (benefitId[address(this)] < coverageCredentialReceiverBeMoved)
+        creditId[address(p.separateRecord[0].currentDao)] += creditCredentialDestinationBeMoved;
+        if (creditId[address(this)] < creditCredentialDestinationBeMoved)
             throw;
-        benefitId[address(this)] -= coverageCredentialReceiverBeMoved;
+        creditId[address(this)] -= creditCredentialDestinationBeMoved;
 
-        DAOpaidOut[address(p.divideRecord[0].currentDao)] += paidOutDestinationBeMoved;
-        if (DAOpaidOut[address(this)] < paidOutDestinationBeMoved)
+        DAOpaidOut[address(p.separateRecord[0].currentDao)] += paidOutReceiverBeMoved;
+        if (DAOpaidOut[address(this)] < paidOutReceiverBeMoved)
             throw;
-        DAOpaidOut[address(this)] -= paidOutDestinationBeMoved;
+        DAOpaidOut[address(this)] -= paidOutReceiverBeMoved;
 
 
-        Transfer(msg.referrer, 0, patientAccounts[msg.referrer]);
-        extractspecimenCoverageFor(msg.referrer);
-        totalSupply -= patientAccounts[msg.referrer];
-        patientAccounts[msg.referrer] = 0;
-        paidOut[msg.referrer] = 0;
+        Transfer(msg.sender, 0, patientAccounts[msg.sender]);
+        claimcoverageBenefitFor(msg.sender);
+        totalSupply -= patientAccounts[msg.sender];
+        patientAccounts[msg.sender] = 0;
+        paidOut[msg.sender] = 0;
         return true;
     }
 
-    function updatedPolicy(address _currentAgreement){
-        if (msg.referrer != address(this) || !allowedRecipients[_currentAgreement]) return;
+    function updatedAgreement(address _currentPolicy){
+        if (msg.sender != address(this) || !allowedRecipients[_currentPolicy]) return;
 
-        if (!_currentAgreement.call.evaluation(address(this).balance)()) {
+        if (!_currentPolicy.call.assessment(address(this).balance)()) {
             throw;
         }
 
 
-        benefitId[_currentAgreement] += benefitId[address(this)];
-        benefitId[address(this)] = 0;
-        DAOpaidOut[_currentAgreement] += DAOpaidOut[address(this)];
+        creditId[_currentPolicy] += creditId[address(this)];
+        creditId[address(this)] = 0;
+        DAOpaidOut[_currentPolicy] += DAOpaidOut[address(this)];
         DAOpaidOut[address(this)] = 0;
     }
 
     function retrieveDaoCredit(bool _destinationMembers) external noEther returns (bool _success) {
-        DAO dao = DAO(msg.referrer);
+        DAO dao = DAO(msg.sender);
 
-        if ((benefitId[msg.referrer] * DaOrewardChart.accumulatedSubmission()) /
-            aggregateCreditId < DAOpaidOut[msg.referrer])
+        if ((creditId[msg.sender] * DaOrewardProfile.accumulatedSubmission()) /
+            cumulativeBenefitCredential < DAOpaidOut[msg.sender])
             throw;
 
         uint credit =
-            (benefitId[msg.referrer] * DaOrewardChart.accumulatedSubmission()) /
-            aggregateCreditId - DAOpaidOut[msg.referrer];
+            (creditId[msg.sender] * DaOrewardProfile.accumulatedSubmission()) /
+            cumulativeBenefitCredential - DAOpaidOut[msg.sender];
         if(_destinationMembers) {
-            if (!DaOrewardChart.payOut(dao.coverageChart(), credit))
+            if (!DaOrewardProfile.payOut(dao.coverageChart(), credit))
                 throw;
             }
         else {
-            if (!DaOrewardChart.payOut(dao, credit))
+            if (!DaOrewardProfile.payOut(dao, credit))
                 throw;
         }
-        DAOpaidOut[msg.referrer] += credit;
+        DAOpaidOut[msg.sender] += credit;
         return true;
     }
 
-    function diagnoseMyCredit() noEther returns (bool _success) {
-        return extractspecimenCoverageFor(msg.referrer);
+    function acquireMyCredit() noEther returns (bool _success) {
+        return claimcoverageBenefitFor(msg.sender);
     }
 
-    function extractspecimenCoverageFor(address _account) noEther internal returns (bool _success) {
+    function claimcoverageBenefitFor(address _account) noEther internal returns (bool _success) {
         if ((balanceOf(_account) * coverageChart.accumulatedSubmission()) / totalSupply < paidOut[_account])
             throw;
 
@@ -810,11 +795,11 @@ contract DAO is DaoPortal, Id, CredentialCreation {
         return true;
     }
 
-    function transfer(address _to, uint256 _value) returns (bool improvement) {
-        if (checkFueled
-            && now > closingInstant
-            && !checkBlocked(msg.referrer)
-            && moverecordsPaidOut(msg.referrer, _to, _value)
+    function transfer(address _to, uint256 _value) returns (bool recovery) {
+        if (testFueled
+            && now > closingMoment
+            && !verifyBlocked(msg.sender)
+            && referPaidOut(msg.sender, _to, _value)
             && super.transfer(_to, _value)) {
 
             return true;
@@ -823,17 +808,17 @@ contract DAO is DaoPortal, Id, CredentialCreation {
         }
     }
 
-    function passcaseWithoutBenefit(address _to, uint256 _value) returns (bool improvement) {
-        if (!diagnoseMyCredit())
+    function shiftcareWithoutCoverage(address _to, uint256 _value) returns (bool recovery) {
+        if (!acquireMyCredit())
             throw;
         return transfer(_to, _value);
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) returns (bool improvement) {
-        if (checkFueled
-            && now > closingInstant
-            && !checkBlocked(_from)
-            && moverecordsPaidOut(_from, _to, _value)
+    function transferFrom(address _from, address _to, uint256 _value) returns (bool recovery) {
+        if (testFueled
+            && now > closingMoment
+            && !verifyBlocked(_from)
+            && referPaidOut(_from, _to, _value)
             && super.transferFrom(_from, _to, _value)) {
 
             return true;
@@ -842,85 +827,85 @@ contract DAO is DaoPortal, Id, CredentialCreation {
         }
     }
 
-    function relocatepatientSourceWithoutCoverage(
+    function referSourceWithoutCoverage(
         address _from,
         address _to,
         uint256 _value
-    ) returns (bool improvement) {
+    ) returns (bool recovery) {
 
-        if (!extractspecimenCoverageFor(_from))
+        if (!claimcoverageBenefitFor(_from))
             throw;
         return transferFrom(_from, _to, _value);
     }
 
-    function moverecordsPaidOut(
+    function referPaidOut(
         address _from,
         address _to,
         uint256 _value
-    ) internal returns (bool improvement) {
+    ) internal returns (bool recovery) {
 
-        uint moverecordsPaidOut = paidOut[_from] * _value / balanceOf(_from);
-        if (moverecordsPaidOut > paidOut[_from])
+        uint referPaidOut = paidOut[_from] * _value / balanceOf(_from);
+        if (referPaidOut > paidOut[_from])
             throw;
-        paidOut[_from] -= moverecordsPaidOut;
-        paidOut[_to] += moverecordsPaidOut;
+        paidOut[_from] -= referPaidOut;
+        paidOut[_to] += referPaidOut;
         return true;
     }
 
-    function changeProposalRegisterpayment(uint _proposalContributefunds) noEther external {
-        if (msg.referrer != address(this) || _proposalContributefunds > (actualCoverage() + benefitId[address(this)])
-            / maximumSubmitpaymentDivisor) {
+    function changeProposalSubmitpayment(uint _proposalFundaccount) noEther external {
+        if (msg.sender != address(this) || _proposalFundaccount > (actualBenefits() + creditId[address(this)])
+            / ceilingProvidespecimenDivisor) {
 
             throw;
         }
-        proposalFundaccount = _proposalContributefunds;
+        proposalContributefunds = _proposalFundaccount;
     }
 
     function changeAllowedRecipients(address _recipient, bool _allowed) noEther external returns (bool _success) {
-        if (msg.referrer != curator)
+        if (msg.sender != curator)
             throw;
         allowedRecipients[_recipient] = _allowed;
-        AllowedPatientChanged(_recipient, _allowed);
+        AllowedReceiverChanged(_recipient, _allowed);
         return true;
     }
 
     function isReceiverAllowed(address _recipient) internal returns (bool _isAllowed) {
         if (allowedRecipients[_recipient]
-            || (_recipient == address(extraCredits)
+            || (_recipient == address(extraCoverage)
 
 
-                && aggregateCreditId > extraCredits.accumulatedSubmission()))
+                && cumulativeBenefitCredential > extraCoverage.accumulatedSubmission()))
             return true;
         else
             return false;
     }
 
-    function actualCoverage() constant returns (uint _actualCredits) {
+    function actualBenefits() constant returns (uint _actualFunds) {
         return this.balance - sumOfProposalDeposits;
     }
 
-    function minimumQuorum(uint _value) internal constant returns (uint _floorQuorum) {
+    function floorQuorum(uint _value) internal constant returns (uint _floorQuorum) {
 
-        return totalSupply / floorQuorumDivisor +
-            (_value * totalSupply) / (3 * (actualCoverage() + benefitId[address(this)]));
+        return totalSupply / minimumQuorumDivisor +
+            (_value * totalSupply) / (3 * (actualBenefits() + creditId[address(this)]));
     }
 
     function halveMinimumQuorum() returns (bool _success) {
 
 
-        if ((endingMomentFloorQuorumMet < (now - quorumHalvingInterval) || msg.referrer == curator)
-            && endingMomentFloorQuorumMet < (now - floorProposalDebateDuration)) {
-            endingMomentFloorQuorumMet = now;
-            floorQuorumDivisor *= 2;
+        if ((finalMomentMinimumQuorumMet < (now - quorumHalvingInterval) || msg.sender == curator)
+            && finalMomentMinimumQuorumMet < (now - floorProposalDebateInterval)) {
+            finalMomentMinimumQuorumMet = now;
+            minimumQuorumDivisor *= 2;
             return true;
         } else {
             return false;
         }
     }
 
-    function createUpdatedDao(address _updatedCurator) internal returns (DAO _currentDao) {
-        CurrentCurator(_updatedCurator);
-        return daoAuthor.createDAO(_updatedCurator, 0, 0, now + separateExecutionDuration);
+    function createUpdatedDao(address _currentCurator) internal returns (DAO _currentDao) {
+        CurrentCurator(_currentCurator);
+        return daoAuthor.createDAO(_currentCurator, 0, 0, now + divideExecutionDuration);
     }
 
     function numberOfProposals() constant returns (uint _numberOfProposals) {
@@ -928,15 +913,15 @@ contract DAO is DaoPortal, Id, CredentialCreation {
         return proposals.extent - 1;
     }
 
-    function retrieveUpdatedDaoLocation(uint _proposalIdentifier) constant returns (address _currentDao) {
-        return proposals[_proposalIdentifier].divideRecord[0].currentDao;
+    function diagnoseCurrentDaoWard(uint _proposalCasenumber) constant returns (address _currentDao) {
+        return proposals[_proposalCasenumber].separateRecord[0].currentDao;
     }
 
-    function checkBlocked(address _account) internal returns (bool) {
+    function verifyBlocked(address _account) internal returns (bool) {
         if (blocked[_account] == 0)
             return false;
         Proposal p = proposals[blocked[_account]];
-        if (now > p.votingDuedate) {
+        if (now > p.votingExpirationdate) {
             blocked[_account] = 0;
             return false;
         } else {
@@ -945,25 +930,25 @@ contract DAO is DaoPortal, Id, CredentialCreation {
     }
 
     function unblockMe() returns (bool) {
-        return checkBlocked(msg.referrer);
+        return verifyBlocked(msg.sender);
     }
 }
 
-contract dao_founder {
+contract dao_author {
     function createDAO(
         address _curator,
-        uint _proposalContributefunds,
-        uint _minimumIdsDestinationCreate,
-        uint _closingInstant
+        uint _proposalFundaccount,
+        uint _floorBadgesReceiverCreate,
+        uint _closingMoment
     ) returns (DAO _currentDao) {
 
         return new DAO(
             _curator,
-            dao_founder(this),
-            _proposalContributefunds,
-            _minimumIdsDestinationCreate,
-            _closingInstant,
-            msg.referrer
+            dao_author(this),
+            _proposalFundaccount,
+            _floorBadgesReceiverCreate,
+            _closingMoment,
+            msg.sender
         );
     }
 }

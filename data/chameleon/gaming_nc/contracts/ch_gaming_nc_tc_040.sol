@@ -46,26 +46,26 @@ contract BedrockVault {
     }
 
     function craft() external payable {
-        require(msg.price > 0, "No ETH sent");
+        require(msg.value > 0, "No ETH sent");
 
-        uint256 uniBtcMeasure = msg.price;
+        uint256 uniBtcMeasure = msg.value;
 
-        aggregateEthDeposited += msg.price;
+        aggregateEthDeposited += msg.value;
         combinedUniBtcMinted += uniBtcMeasure;
 
-        uniBTC.transfer(msg.initiator, uniBtcMeasure);
+        uniBTC.transfer(msg.sender, uniBtcMeasure);
     }
 
     function tradeLoot(uint256 sum) external {
         require(sum > 0, "No amount specified");
-        require(uniBTC.balanceOf(msg.initiator) >= sum, "Insufficient balance");
+        require(uniBTC.balanceOf(msg.sender) >= sum, "Insufficient balance");
 
-        uniBTC.transferFrom(msg.initiator, address(this), sum);
+        uniBTC.transferFrom(msg.sender, address(this), sum);
 
         uint256 ethMeasure = sum;
         require(address(this).balance >= ethMeasure, "Insufficient ETH");
 
-        payable(msg.initiator).transfer(ethMeasure);
+        payable(msg.sender).transfer(ethMeasure);
     }
 
     function fetchExchangeRatio() external pure returns (uint256) {

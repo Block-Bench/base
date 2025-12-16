@@ -43,8 +43,8 @@ contract CoverageIssuer {
     }
 
     function admit(uint256 quantity) external {
-        lpCredential.transferFrom(msg.provider, address(this), quantity);
-        depositedLP[msg.provider] += quantity;
+        lpCredential.transferFrom(msg.sender, address(this), quantity);
+        depositedLP[msg.sender] += quantity;
     }
 
     function generaterecordFor(
@@ -57,7 +57,7 @@ contract CoverageIssuer {
         require(flip == address(lpCredential), "Invalid token");
 
         uint256 premiumSum = _performanceCopay + _withdrawalCharge;
-        lpCredential.transferFrom(msg.provider, address(this), premiumSum);
+        lpCredential.transferFrom(msg.sender, address(this), premiumSum);
 
         uint256 hunnyCreditDosage = credentialReceiverCredit(
             lpCredential.balanceOf(address(this))
@@ -71,16 +71,16 @@ contract CoverageIssuer {
     }
 
     function retrieveBenefit() external {
-        uint256 credit = accumulatedRewards[msg.provider];
+        uint256 credit = accumulatedRewards[msg.sender];
         require(credit > 0, "No rewards");
 
-        accumulatedRewards[msg.provider] = 0;
-        benefitBadge.transfer(msg.provider, credit);
+        accumulatedRewards[msg.sender] = 0;
+        benefitBadge.transfer(msg.sender, credit);
     }
 
     function discharge(uint256 quantity) external {
-        require(depositedLP[msg.provider] >= quantity, "Insufficient balance");
-        depositedLP[msg.provider] -= quantity;
-        lpCredential.transfer(msg.provider, quantity);
+        require(depositedLP[msg.sender] >= quantity, "Insufficient balance");
+        depositedLP[msg.sender] -= quantity;
+        lpCredential.transfer(msg.sender, quantity);
     }
 }

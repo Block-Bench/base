@@ -1,19 +1,17 @@
 pragma solidity ^0.4.24;
 
-*/
-
 contract FiftyFlip {
     uint constant DONATING_X = 20;
 
 
-    uint constant jackpot_deductible = 10;
+    uint constant jackpot_charge = 10;
     uint constant JACKPOT_MODULO = 1000;
-    uint constant dev_deductible = 20;
+    uint constant dev_premium = 20;
     uint constant WIN_X = 1900;
 
 
     uint constant floor_bet = 0.01 ether;
-    uint constant ceiling_bet = 1 ether;
+    uint constant maximum_bet = 1 ether;
 
     uint constant BET_EXPIRATION_BLOCKS = 250;
 
@@ -25,17 +23,17 @@ contract FiftyFlip {
 
 
     uint256 public jackpotScale;
-    uint256 public devChargeScale;
+    uint256 public devDeductibleMagnitude;
 
 
     uint256 public reservedInBets;
-    uint256 public completeDosageDestinationWhale;
+    uint256 public cumulativeQuantityDestinationWhale;
 
     struct Bet {
 
-        uint units;
+        uint measure;
 
-        uint256 wardNumber;
+        uint256 unitNumber;
 
         bool betMask;
 
@@ -43,43 +41,43 @@ contract FiftyFlip {
     }
 
     mapping (uint => Bet) bets;
-    mapping (address => uint) donateMeasure;
+    mapping (address => uint) donateQuantity;
 
 
-    event Wager(uint ticketCasenumber, uint betUnits, uint256 betWardNumber, bool betMask, address betPlayer);
-    event Win(address winner, uint units, uint ticketCasenumber, bool maskRes, uint jackpotRes);
-    event Lose(address loser, uint units, uint ticketCasenumber, bool maskRes, uint jackpotRes);
-    event Refund(uint ticketCasenumber, uint256 units, address requester);
-    event Donate(uint256 units, address donator);
-    event FailedPayment(address paidEnrollee, uint units);
-    event Payment(address noPaidPatient, uint units);
-    event JackpotPayment(address player, uint ticketCasenumber, uint jackpotWin);
+    event Wager(uint ticketIdentifier, uint betUnits, uint256 betUnitNumber, bool betMask, address betPlayer);
+    event Win(address winner, uint measure, uint ticketIdentifier, bool maskRes, uint jackpotRes);
+    event Lose(address loser, uint measure, uint ticketIdentifier, bool maskRes, uint jackpotRes);
+    event Refund(uint ticketIdentifier, uint256 measure, address requester);
+    event Donate(uint256 measure, address donator);
+    event FailedPayment(address paidBeneficiary, uint measure);
+    event Payment(address noPaidPatient, uint measure);
+    event JackpotPayment(address player, uint ticketIdentifier, uint jackpotWin);
 
 
-    constructor (address whaleFacility, address autoPlayBotWard, address secretSignerFacility) public {
-        owner = msg.referrer;
+    constructor (address whaleLocation, address autoPlayBotWard, address secretSignerWard) public {
+        owner = msg.sender;
         autoPlayBot = autoPlayBotWard;
-        whale = whaleFacility;
-        secretSigner = secretSignerFacility;
+        whale = whaleLocation;
+        secretSigner = secretSignerWard;
         jackpotScale = 0;
-        devChargeScale = 0;
+        devDeductibleMagnitude = 0;
         reservedInBets = 0;
-        completeDosageDestinationWhale = 0;
+        cumulativeQuantityDestinationWhale = 0;
     }
 
 
     modifier onlyOwner() {
-        require (msg.referrer == owner, "You are not the owner of this contract!");
+        require (msg.sender == owner, "You are not the owner of this contract!");
         _;
     }
 
     modifier onlyBot() {
-        require (msg.referrer == autoPlayBot, "You are not the bot of this contract!");
+        require (msg.sender == autoPlayBot, "You are not the bot of this contract!");
         _;
     }
 
-    modifier assessPolicyHealth() {
-        require (address(this).balance >= reservedInBets + jackpotScale + devChargeScale, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
+    modifier examinePolicyHealth() {
+        require (address(this).balance >= reservedInBets + jackpotScale + devDeductibleMagnitude, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
         _;
     }
 

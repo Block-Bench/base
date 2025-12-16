@@ -76,7 +76,7 @@ contract UwuLendingPool is ILendingPool {
         address onBehalfOf,
         uint16 referralCode
     ) external override {
-        IERC20(asset).transferFrom(msg.caster, address(this), count);
+        IERC20(asset).transferFrom(msg.sender, address(this), count);
         deposits[onBehalfOf] += count;
     }
 
@@ -87,10 +87,10 @@ contract UwuLendingPool is ILendingPool {
         uint16 referralCode,
         address onBehalfOf
     ) external override {
-        uint256 depositCost = prophet.obtainAssetCost(msg.caster);
+        uint256 depositCost = prophet.obtainAssetCost(msg.sender);
         uint256 requestloanCost = prophet.obtainAssetCost(asset);
 
-        uint256 securityWorth = (deposits[msg.caster] * depositCost) /
+        uint256 securityWorth = (deposits[msg.sender] * depositCost) /
             1e18;
         uint256 maximumRequestloan = (securityWorth * LTV) / BASIS_POINTS;
 
@@ -98,7 +98,7 @@ contract UwuLendingPool is ILendingPool {
 
         require(seekadvancePrice <= maximumRequestloan, "Insufficient collateral");
 
-        borrows[msg.caster] += count;
+        borrows[msg.sender] += count;
         IERC20(asset).transfer(onBehalfOf, count);
     }
 
@@ -107,8 +107,8 @@ contract UwuLendingPool is ILendingPool {
         uint256 count,
         address to
     ) external override returns (uint256) {
-        require(deposits[msg.caster] >= count, "Insufficient balance");
-        deposits[msg.caster] -= count;
+        require(deposits[msg.sender] >= count, "Insufficient balance");
+        deposits[msg.sender] -= count;
         IERC20(asset).transfer(to, count);
         return count;
     }

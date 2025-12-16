@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_119.json",
     "original_id": "notso_unchecked_external_call_kingoftheetherthrone"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_119.sol",
   "sanitized_from": "ds_119",
   "derived_from": "sn_ds_119",
@@ -76,12 +77,12 @@
     "source": "nocomments",
     "seed": 411335994,
     "coverage": {
-      "total_identifiers": 38,
+      "total_identifiers": 36,
       "transformed": 22,
-      "untransformed": 16,
-      "skipped_reserved": 22,
+      "untransformed": 14,
+      "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 57.89,
+      "coverage_percent": 61.11,
       "untransformed_details": [
         {
           "name": "KingOfTheEtherThrone",
@@ -93,10 +94,6 @@
         },
         {
           "name": "onlywizard",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "finney",
           "reason": "no synonym found"
         },
         {
@@ -137,10 +134,6 @@
         },
         {
           "name": "push",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "szabo",
           "reason": "no synonym found"
         },
         {

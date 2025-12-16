@@ -67,13 +67,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_162.json",
     "original_id": "smartbugs_other_open_address_lottery"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_162.sol",
   "sanitized_from": "ds_162",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 4031480025,
+    "seed": 1568314231,
     "coverage": {
       "total_identifiers": 87,
       "transformed": 16,
@@ -371,21 +372,21 @@
     },
     "rename_map": {
       "OpenAddressLottery": "OpenWardLottery",
-      "calculate": "derive",
-      "lastReseed": "finalReseed",
+      "calculate": "compute",
+      "lastReseed": "endingReseed",
       "last": "ending",
-      "sender": "referrer",
-      "timestamp": "admissionTime",
-      "value": "evaluation",
+      "sender": "provider",
+      "timestamp": "appointmentTime",
+      "value": "assessment",
       "verify": "validate",
       "price": "charge",
-      "hasn": "containsn",
+      "hasn": "includesn",
       "luckyNumberOfAddress": "luckyNumberOfWard",
-      "check": "diagnose",
-      "isnt": "validatent",
-      "current": "active",
-      "hash": "signature",
-      "initialize": "startProtocol"
+      "check": "assess",
+      "isnt": "verifynt",
+      "current": "present",
+      "hash": "checksum",
+      "initialize": "admitPatient"
     }
   }
 }

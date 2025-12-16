@@ -65,20 +65,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_109.json",
     "original_id": "defivulnlabs_backdoor-assembly"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_109.sol",
   "sanitized_from": "ds_109",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 2993402449,
+    "seed": 3308291295,
     "coverage": {
-      "total_identifiers": 50,
+      "total_identifiers": 53,
       "transformed": 15,
-      "untransformed": 35,
+      "untransformed": 38,
       "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 30.0,
+      "coverage_percent": 28.3,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -177,6 +178,18 @@
           "reason": "no synonym found"
         },
         {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "drain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "out",
+          "reason": "no synonym found"
+        },
+        {
           "name": "manipulated",
           "reason": "no synonym found"
         },
@@ -225,20 +238,20 @@
     },
     "rename_map": {
       "ContractTest": "PolicyTest",
-      "LotteryGameContract": "LotteryGameAgreement",
+      "LotteryGameContract": "LotteryGamePolicy",
       "testBackdoorCall": "testBackdoorInvokeprotocol",
-      "log": "chart",
-      "complete": "careFinished",
+      "log": "record",
+      "admin": "manager",
+      "sets": "adjusts",
       "Admin": "Manager",
-      "admin": "administrator",
       "sender": "provider",
-      "safeCheck": "safeInspect",
-      "getkWinner": "checkkWinner",
+      "safeCheck": "safeAssess",
+      "getkWinner": "fetchkWinner",
       "user": "beneficiary",
-      "value": "evaluation",
-      "slot": "appointment",
+      "value": "assessment",
+      "slot": "opening",
       "set": "prescribe",
-      "Current": "Active"
+      "Current": "Present"
     }
   }
 }

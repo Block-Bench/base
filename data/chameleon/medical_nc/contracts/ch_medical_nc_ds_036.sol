@@ -6,23 +6,23 @@ contract MY_BANK
     public
     payable
     {
-        var acc = Acc[msg.referrer];
-        acc.balance += msg.rating;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         acc.releasecoverageMoment = _releasecoverageInstant>now?_releasecoverageInstant:now;
-        RecordFile.AttachAlert(msg.referrer,msg.rating,"Put");
+        RecordFile.AttachAlert(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.referrer];
+        var acc = Acc[msg.sender];
         if( acc.balance>=MinimumSum && acc.balance>=_am && now>acc.releasecoverageMoment)
         {
-            if(msg.referrer.call.rating(_am)())
+            if(msg.sender.call.rating(_am)())
             {
                 acc.balance-=_am;
-                RecordFile.AttachAlert(msg.referrer,_am,"Collect");
+                RecordFile.AttachAlert(msg.sender,_am,"Collect");
             }
         }
     }

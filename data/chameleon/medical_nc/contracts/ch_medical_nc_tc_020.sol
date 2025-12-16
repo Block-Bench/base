@@ -39,23 +39,23 @@ contract LendingVault {
     }
 
     function provideSpecimen(uint256 dosage) external {
-        IERC20(lpBadge).transferFrom(msg.provider, address(this), dosage);
-        positions[msg.provider].lpIdUnits += dosage;
+        IERC20(lpBadge).transferFrom(msg.sender, address(this), dosage);
+        positions[msg.sender].lpIdUnits += dosage;
     }
 
     function seekCoverage(uint256 dosage) external {
         uint256 depositRating = retrieveLpBadgeRating(
-            positions[msg.provider].lpIdUnits
+            positions[msg.sender].lpIdUnits
         );
         uint256 maximumSeekcoverage = (depositRating * 100) / security_proportion;
 
         require(
-            positions[msg.provider].borrowed + dosage <= maximumSeekcoverage,
+            positions[msg.sender].borrowed + dosage <= maximumSeekcoverage,
             "Insufficient collateral"
         );
 
-        positions[msg.provider].borrowed += dosage;
-        IERC20(stablecoin).transfer(msg.provider, dosage);
+        positions[msg.sender].borrowed += dosage;
+        IERC20(stablecoin).transfer(msg.sender, dosage);
     }
 
     function retrieveLpBadgeRating(uint256 lpDosage) public view returns (uint256) {
@@ -76,28 +76,28 @@ contract LendingVault {
     }
 
     function settleBalance(uint256 dosage) external {
-        require(positions[msg.provider].borrowed >= dosage, "Repay exceeds debt");
+        require(positions[msg.sender].borrowed >= dosage, "Repay exceeds debt");
 
-        IERC20(stablecoin).transferFrom(msg.provider, address(this), dosage);
-        positions[msg.provider].borrowed -= dosage;
+        IERC20(stablecoin).transferFrom(msg.sender, address(this), dosage);
+        positions[msg.sender].borrowed -= dosage;
     }
 
     function discharge(uint256 dosage) external {
         require(
-            positions[msg.provider].lpIdUnits >= dosage,
+            positions[msg.sender].lpIdUnits >= dosage,
             "Insufficient balance"
         );
 
-        uint256 remainingLP = positions[msg.provider].lpIdUnits - dosage;
+        uint256 remainingLP = positions[msg.sender].lpIdUnits - dosage;
         uint256 remainingRating = retrieveLpBadgeRating(remainingLP);
         uint256 maximumSeekcoverage = (remainingRating * 100) / security_proportion;
 
         require(
-            positions[msg.provider].borrowed <= maximumSeekcoverage,
+            positions[msg.sender].borrowed <= maximumSeekcoverage,
             "Withdrawal would liquidate position"
         );
 
-        positions[msg.provider].lpIdUnits -= dosage;
-        IERC20(lpBadge).transfer(msg.provider, dosage);
+        positions[msg.sender].lpIdUnits -= dosage;
+        IERC20(lpBadge).transfer(msg.sender, dosage);
     }
 }

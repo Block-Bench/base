@@ -2,16 +2,14 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
+contract PactTest is Test {
     Force ForcePact;
-    QuestRunner QuestrunnerPact;
+    GameOperator QuestrunnerPact;
 
     function testselfdestruct2() public {
         ForcePact = new Force();
         console.journal("Balance of ForceContract:", address(ForcePact).balance);
-        QuestrunnerPact = new QuestRunner();
+        QuestrunnerPact = new GameOperator();
         console.journal(
             "Balance of ForceContract:",
             address(ForcePact).balance
@@ -20,7 +18,7 @@ contract AgreementTest is Test {
             "Balance of OperatorContract:",
             address(QuestrunnerPact).balance
         );
-        QuestrunnerPact.operate{price: 1 ether}(address(ForcePact));
+        QuestrunnerPact.operate{magnitude: 1 ether}(address(ForcePact));
 
         console.journal("operate completed");
         console.journal(
@@ -33,10 +31,9 @@ contract AgreementTest is Test {
 }
 
 contract Force {
-*/
 }
 
-contract QuestRunner {
+contract GameOperator {
     function operate(address force) public payable {
         selfdestruct(payable(force));
     }

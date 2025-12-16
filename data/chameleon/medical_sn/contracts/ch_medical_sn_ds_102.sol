@@ -2,37 +2,35 @@
 pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 
-*/
-
 contract PolicyTest is Test {
-    directorGame administratorGameAgreement;
+    administratorGame supervisorGameAgreement;
 
     function testVisibility() public {
-        administratorGameAgreement = new directorGame();
-        console.record(
+        supervisorGameAgreement = new administratorGame();
+        console.chart(
             "Before operation",
-            administratorGameAgreement.owner()
+            supervisorGameAgreement.owner()
         );
-        administratorGameAgreement.changeDirector(msg.provider);
-        console.record(
+        supervisorGameAgreement.changeAdministrator(msg.sender);
+        console.chart(
             "After operation",
-            administratorGameAgreement.owner()
+            supervisorGameAgreement.owner()
         );
-        console.record("operate completed");
+        console.chart("operate completed");
     }
 
     receive() external payable {}
 }
 
-contract directorGame {
+contract administratorGame {
     address public owner;
 
     constructor() {
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
     // wrong visibility of changeOwner function should be onlyOwner
-    function changeDirector(address _new) public {
+    function changeAdministrator(address _new) public {
         owner = _new;
     }
 }

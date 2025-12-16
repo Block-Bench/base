@@ -68,61 +68,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_084.json",
     "original_id": "smartbugs_unchecked_low_level_calls_king_of_the_ether_throne"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_084.sol",
   "sanitized_from": "ds_084",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 3030825229,
+    "seed": 3996885606,
     "coverage": {
-      "total_identifiers": 232,
+      "total_identifiers": 225,
       "transformed": 51,
-      "untransformed": 181,
-      "skipped_reserved": 39,
+      "untransformed": 174,
+      "skipped_reserved": 42,
       "skipped_interface": 0,
-      "coverage_percent": 21.98,
+      "coverage_percent": 22.67,
       "untransformed_details": [
-        {
-          "name": "chain",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "game",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "that",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "maintains",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "throne",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "which",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "agents",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "may",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "pay",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "rule",
-          "reason": "no synonym found"
-        },
         {
           "name": "See",
           "reason": "no synonym found"
@@ -189,10 +150,6 @@
         },
         {
           "name": "the",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {
@@ -292,6 +249,10 @@
           "reason": "no synonym found"
         },
         {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
           "name": "without",
           "reason": "no synonym found"
         },
@@ -309,6 +270,14 @@
         },
         {
           "name": "bridge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "agents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pay",
           "reason": "no synonym found"
         },
         {
@@ -333,6 +302,10 @@
         },
         {
           "name": "Monarch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "which",
           "reason": "no synonym found"
         },
         {
@@ -412,6 +385,10 @@
           "reason": "no synonym found"
         },
         {
+          "name": "rule",
+          "reason": "no synonym found"
+        },
+        {
           "name": "based",
           "reason": "no synonym found"
         },
@@ -429,6 +406,10 @@
         },
         {
           "name": "behind",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "throne",
           "reason": "no synonym found"
         },
         {
@@ -477,10 +458,6 @@
         },
         {
           "name": "must",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "finney",
           "reason": "no synonym found"
         },
         {
@@ -792,10 +769,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "szabo",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Hail",
           "reason": "no synonym found"
         },
@@ -811,57 +784,57 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "edition",
+      "version": "release",
       "time": "moment",
       "limit": "cap",
-      "add": "attach",
+      "add": "append",
       "etherAddress": "etherLocation",
-      "claimPrice": "collectbountyCost",
+      "claimPrice": "collectbountyValue",
       "start": "opening",
-      "timestamp": "adventureTime",
+      "timestamp": "questTime",
       "coronationTimestamp": "coronationAdventuretime",
       "power": "might",
-      "wizardAddress": "wizardRealm",
+      "wizardAddress": "wizardZone",
       "sender": "caster",
       "first": "initial",
-      "startingClaimPrice": "startingGetpayoutValue",
-      "next": "following",
+      "startingClaimPrice": "startingObtainrewardValue",
+      "next": "upcoming",
       "calculated": "computed",
       "from": "source",
-      "previous": "last",
-      "claimFee": "collectbountyTax",
-      "claimFeeAdjustNum": "receiveprizeTaxAdjustNum",
-      "claimFeeAdjustDen": "receiveprizeTributeAdjustDen",
-      "claimPriceAdjustNum": "receiveprizeCostAdjustNum",
-      "claimPriceAdjustDen": "getpayoutValueAdjustDen",
+      "previous": "prior",
+      "claimFee": "obtainrewardCut",
+      "claimFeeAdjustNum": "getpayoutCutAdjustNum",
+      "claimFeeAdjustDen": "collectbountyChargeAdjustDen",
+      "claimPriceAdjustNum": "collectbountyValueAdjustNum",
+      "claimPriceAdjustDen": "obtainrewardValueAdjustDen",
       "fee": "tribute",
-      "currentClaimPrice": "presentCollectbountyCost",
-      "currentMonarch": "activeMonarch",
-      "list": "registry",
+      "currentClaimPrice": "activeObtainrewardValue",
+      "currentMonarch": "presentMonarch",
+      "list": "roster",
       "Create": "QuestCreated",
       "creator": "founder",
-      "Sets": "Updates",
+      "Sets": "Adjusts",
       "length": "size",
       "end": "close",
-      "usurperEtherAddress": "usurperEtherRealm",
-      "usurperName": "usurperLabel",
-      "newClaimPrice": "currentReceiveprizeCost",
-      "simple": "simpleQuest",
+      "usurperEtherAddress": "usurperEtherZone",
+      "usurperName": "usurperTitle",
+      "newClaimPrice": "updatedGetpayoutValue",
+      "simple": "basicDungeon",
       "message": "signal",
-      "data": "details",
+      "data": "info",
       "claimThrone": "collectbountyThrone",
       "Claim": "ObtainReward",
-      "currentClaimFee": "presentReceiveprizeCharge",
-      "valuePaid": "worthPaid",
-      "value": "magnitude",
-      "claim": "obtainReward",
-      "price": "value",
+      "currentClaimFee": "activeGetpayoutTribute",
+      "valuePaid": "pricePaid",
+      "value": "cost",
+      "claim": "getPayout",
+      "price": "cost704",
       "current": "active",
-      "getting": "queryting",
-      "round": "wave",
-      "rawNewClaimPrice": "rawCurrentReceiveprizeValue",
-      "amount": "count",
-      "newOwner": "currentMaster"
+      "getting": "checkting",
+      "round": "cycle",
+      "rawNewClaimPrice": "rawUpdatedGetpayoutCost",
+      "amount": "measure",
+      "newOwner": "updatedLord"
     }
   }
 }

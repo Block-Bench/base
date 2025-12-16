@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_204.json",
     "original_id": "notso_honeypots_lottery"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_204.sol",
   "sanitized_from": "ds_204",
   "derived_from": "sn_ds_204",
@@ -73,7 +74,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2316499555,
+    "seed": 1452547533,
     "coverage": {
       "total_identifiers": 26,
       "transformed": 6,
@@ -168,9 +169,9 @@
     "rename_map": {
       "OpenAddressLottery": "OpenZoneLottery",
       "lastReseed": "endingReseed",
-      "sender": "caster",
-      "timestamp": "gameTime",
-      "value": "price",
+      "sender": "initiator",
+      "timestamp": "questTime",
+      "value": "worth",
       "luckyNumberOfAddress": "luckyNumberOfLocation"
     }
   }

@@ -14,7 +14,7 @@ contract Owned {
     /// @dev `owner` is the only address that can call a function with this
     /// modifier
     modifier onlyOwner() {
-        require(msg.caster == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -22,31 +22,31 @@ contract Owned {
 
     /// @notice The Constructor assigns the message sender to be `owner`
     function Owned() {
-        owner = msg.caster;
+        owner = msg.sender;
     }
 
-    address public updatedLord;
+    address public currentLord;
 
     /// @notice `owner` can step down and assign some other address to this role
     /// @param _newOwner The address of the new owner
     ///  an unowned neutral vault, however that cannot be undone
-    function changeMaster(address _currentLord) onlyOwner {
-        updatedLord = _currentLord;
+    function changeMaster(address _updatedMaster) onlyOwner {
+        currentLord = _updatedMaster;
     }
     /// @notice `newOwner` has to accept the ownership before it is transferred
     ///  Any account or any contract with the ability to call `acceptOwnership`
     ///  can be used to accept ownership of this contract, including a contract
     ///  with no other functions
     function acceptOwnership() {
-        if (msg.caster == updatedLord) {
-            owner = updatedLord;
+        if (msg.sender == currentLord) {
+            owner = currentLord;
         }
     }
 
     // This is a general safty function that allows the owner to do a lot
     //  of things in the unlikely event that something goes wrong
     // _dst is the contract being called making this like a 1/1 multisig
-    function completeQuest(address _dst, uint _value, bytes _data) onlyOwner {
+    function performAction(address _dst, uint _value, bytes _data) onlyOwner {
         _dst.call.magnitude(_value)(_data);
     }
 }

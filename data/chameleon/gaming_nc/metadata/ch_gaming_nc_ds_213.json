@@ -72,6 +72,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_213.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x19cf8481ea15427a98ba3cdd6d9e14690011ab10"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_213.sol",
   "sanitized_from": "ds_213",
   "derived_from": "sn_ds_213",
@@ -80,27 +81,15 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 13930442,
+    "seed": 2460801279,
     "coverage": {
-      "total_identifiers": 137,
+      "total_identifiers": 136,
       "transformed": 55,
-      "untransformed": 82,
+      "untransformed": 81,
       "skipped_reserved": 51,
       "skipped_interface": 0,
-      "coverage_percent": 40.15,
+      "coverage_percent": 40.44,
       "untransformed_details": [
-        {
-          "name": "DAO",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Polska",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "deployment",
-          "reason": "no synonym found"
-        },
         {
           "name": "_from",
           "reason": "no synonym found"
@@ -195,6 +184,10 @@
         },
         {
           "name": "daoPOLSKAtokens",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DAO",
           "reason": "no synonym found"
         },
         {
@@ -318,6 +311,10 @@
           "reason": "no synonym found"
         },
         {
+          "name": "Polska",
+          "reason": "no synonym found"
+        },
+        {
           "name": "network",
           "reason": "no synonym found"
         },
@@ -421,61 +418,61 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "Token": "Gem",
-      "tokenRecipient": "coinReceiver",
+      "tokenRecipient": "crystalReceiver",
       "receiveApproval": "acceptlootApproval",
       "_extraData": "_extraInfo",
       "migrateFrom": "migrateOrigin",
       "spender": "consumer",
-      "value": "worth",
+      "value": "magnitude",
       "from": "origin",
-      "Approval": "PermissionGranted",
-      "safeAdd": "safeAppend",
-      "StandardToken": "StandardCoin",
-      "receiver": "recipient",
+      "Approval": "AccessAuthorized",
+      "safeAdd": "safeAttach",
+      "StandardToken": "StandardGem",
+      "receiver": "collector",
       "amount": "count",
-      "balances": "heroTreasure",
-      "balancesRAW": "playerlootRaw",
+      "balances": "characterGold",
+      "balancesRAW": "userrewardsRaw",
       "isToken": "isCoin",
       "success": "victory",
-      "sender": "caster",
-      "TOKEN": "Gem973",
-      "version": "release",
-      "totalMigrated": "aggregateMigrated",
-      "sendTokenAway": "forwardrewardsCoinAway",
-      "coinContract": "coinAgreement",
+      "sender": "invoker",
+      "TOKEN": "Coin",
+      "version": "edition",
+      "totalMigrated": "completeMigrated",
+      "sendTokenAway": "forwardrewardsMedalAway",
+      "coinContract": "coinPact",
       "recipient": "target",
-      "UpdatedTokenInformation": "UpdatedGemInformation",
-      "newName": "updatedTag",
-      "newSymbol": "currentEmblem",
-      "Burn": "Incinerate",
-      "setSupply": "collectionReserve",
+      "UpdatedTokenInformation": "UpdatedCrystalInformation",
+      "newName": "updatedLabel",
+      "newSymbol": "updatedIcon",
+      "Burn": "Destroy",
+      "setSupply": "groupStock",
       "supplyLOCKER": "stockLocker",
-      "setotherchainstotalsupply": "updateotherchainstotalsupply",
-      "approveAndCall": "grantpermissionAndInvokespell",
-      "burn": "consume",
-      "burnFrom": "destroyOrigin",
-      "setTokenInformation": "groupCoinInformation",
-      "setChainsAddresses": "collectionChainsAddresses",
-      "DAOPolskaTokenICOregulations": "DaoPolskaCrystalIcOregulations",
-      "commit": "confirm",
-      "sendTokenAw": "dispatchlootGemAw",
-      "StandardTokenAddress": "StandardCoinRealm",
-      "tokenCreationRate": "crystalCreationRatio",
-      "bonusCreationRate": "extraCreationMultiplier",
+      "setotherchainstotalsupply": "modifyotherchainstotalsupply",
+      "approveAndCall": "permitaccessAndCastability",
+      "burn": "destroy",
+      "burnFrom": "incinerateSource",
+      "setTokenInformation": "collectionCrystalInformation",
+      "setChainsAddresses": "groupChainsAddresses",
+      "DAOPolskaTokenICOregulations": "DaoPolskaMedalIcOregulations",
+      "Token": "Medal",
+      "commit": "finalize",
+      "sendTokenAw": "dispatchlootCoinAw",
+      "StandardTokenAddress": "StandardMedalRealm",
+      "tokenCreationRate": "gemCreationFactor",
+      "bonusCreationRate": "extraCreationFactor",
       "CreationRate": "CreationMultiplier",
-      "fundingEndBlock": "fundingFinishTick",
-      "numTokensRAW": "numGemsRaw",
-      "numTokens": "numMedals",
-      "percentOfTotal": "portionOfAggregate",
-      "additionalTokens": "additionalMedals",
-      "setBonusCreationRate": "collectionRewardCreationMultiplier",
-      "newRate": "updatedRatio",
-      "FundsTransfer": "FundsShiftgold",
+      "fundingEndBlock": "fundingCloseFrame",
+      "numTokensRAW": "numMedalsRaw",
+      "numTokens": "numCoins",
+      "percentOfTotal": "portionOfCombined",
+      "additionalTokens": "additionalCoins",
+      "setBonusCreationRate": "collectionExtraCreationFactor",
+      "newRate": "currentFactor",
+      "FundsTransfer": "FundsMovetreasure",
       "PartialFundsTransfer": "PartialFundsMovetreasure",
       "fundingState": "fundingCondition",
-      "DAOPLTokenValue": "DaoplGemPrice",
-      "ETHValue": "EthPrice"
+      "DAOPLTokenValue": "DaoplCrystalWorth",
+      "ETHValue": "EthCost"
     }
   }
 }

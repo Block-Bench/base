@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_196.json",
     "original_id": "defivulnlabs_nftmint_exposedmetadata"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_196.sol",
   "sanitized_from": "ds_196"
 }

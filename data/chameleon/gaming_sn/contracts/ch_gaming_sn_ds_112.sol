@@ -3,16 +3,14 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
+contract PactTest is Test {
     SimpleBank SimpleBankAgreement;
 
-    function groupUp() public {
+    function collectionUp() public {
         SimpleBankAgreement = new SimpleBank();
     }
 
-    function testecRestore() public {
+    function testecRetrieve() public {
         emit record_named_decimal_number(
             "Before operation",
             SimpleBankAgreement.queryRewards(address(this)),

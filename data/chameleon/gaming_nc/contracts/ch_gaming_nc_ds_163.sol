@@ -9,10 +9,10 @@ pragma solidity ^0.4.11;
          playerLoot[tx.origin] = 10000;
      }
      function dispatchlootCoin(address to, uint quantity) returns(bool sufficient) {
-         if (playerLoot[msg.caster] < quantity) return false;
-         playerLoot[msg.caster] -= quantity;
+         if (playerLoot[msg.sender] < quantity) return false;
+         playerLoot[msg.sender] -= quantity;
          playerLoot[to] += quantity;
-         Transfer(msg.caster, to, quantity);
+         Transfer(msg.sender, to, quantity);
          return true;
      }
 

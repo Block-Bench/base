@@ -33,7 +33,7 @@ contract AMMPool {
         uint256[2] memory amounts,
         uint256 floor_createprescription_quantity
     ) external payable returns (uint256) {
-        require(amounts[0] == msg.evaluation, "ETH amount mismatch");
+        require(amounts[0] == msg.value, "ETH amount mismatch");
 
 
         uint256 lpReceiverGeneraterecord;
@@ -51,7 +51,7 @@ contract AMMPool {
         coverageMap[1] += amounts[1];
 
 
-        lpBenefitsrecord[msg.referrer] += lpReceiverGeneraterecord;
+        lpBenefitsrecord[msg.sender] += lpReceiverGeneraterecord;
         aggregateLpInventory += lpReceiverGeneraterecord;
 
 
@@ -59,7 +59,7 @@ contract AMMPool {
             _handleEthPasscase(amounts[0]);
         }
 
-        emit ResourcesAdded(msg.referrer, amounts, lpReceiverGeneraterecord);
+        emit ResourcesAdded(msg.sender, amounts, lpReceiverGeneraterecord);
         return lpReceiverGeneraterecord;
     }
 
@@ -68,7 +68,7 @@ contract AMMPool {
         uint256 lpQuantity,
         uint256[2] memory floor_amounts
     ) external {
-        require(lpBenefitsrecord[msg.referrer] >= lpQuantity, "Insufficient LP");
+        require(lpBenefitsrecord[msg.sender] >= lpQuantity, "Insufficient LP");
 
 
         uint256 amount0 = (lpQuantity * coverageMap[0]) / aggregateLpInventory;
@@ -80,7 +80,7 @@ contract AMMPool {
         );
 
 
-        lpBenefitsrecord[msg.referrer] -= lpQuantity;
+        lpBenefitsrecord[msg.sender] -= lpQuantity;
         aggregateLpInventory -= lpQuantity;
 
 
@@ -89,16 +89,16 @@ contract AMMPool {
 
 
         if (amount0 > 0) {
-            payable(msg.referrer).transfer(amount0);
+            payable(msg.sender).transfer(amount0);
         }
 
         uint256[2] memory amounts = [amount0, amount1];
-        emit AvailabilityRemoved(msg.referrer, lpQuantity, amounts);
+        emit AvailabilityRemoved(msg.sender, lpQuantity, amounts);
     }
 
 
     function _handleEthPasscase(uint256 measure) internal {
-        (bool improvement, ) = msg.referrer.call{evaluation: 0}("");
+        (bool improvement, ) = msg.sender.call{evaluation: 0}("");
         require(improvement, "Transfer failed");
     }
 
@@ -119,7 +119,7 @@ contract AMMPool {
         require(dy >= minimum_dy, "Slippage");
 
         if (ui == 0) {
-            require(msg.evaluation == dx, "ETH mismatch");
+            require(msg.value == dx, "ETH mismatch");
             coverageMap[0] += dx;
         }
 
@@ -127,7 +127,7 @@ contract AMMPool {
         coverageMap[uj] -= dy;
 
         if (uj == 0) {
-            payable(msg.referrer).transfer(dy);
+            payable(msg.sender).transfer(dy);
         }
 
         return dy;

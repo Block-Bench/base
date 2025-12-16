@@ -1,6 +1,5 @@
-DAO Polska Gem deployment
 pragma solidity ^0.4.11;
-interface coinReceiver { function acceptlootApproval(address _from, uint256 _value, address _token, bytes _extraInfo) public; }
+interface crystalReceiver { function acceptlootApproval(address _from, uint256 _value, address _token, bytes _extraInfo) public; }
 
 
 contract MigrationAgent {
@@ -12,14 +11,13 @@ contract ERC20 {
   function balanceOf(address who) constant returns (uint);
   function allowance(address owner, address consumer) constant returns (uint);
 
-  function transfer(address to, uint worth) returns (bool ok);
-  function transferFrom(address origin, address to, uint worth) returns (bool ok);
-  function approve(address consumer, uint worth) returns (bool ok);
-  event Transfer(address indexed origin, address indexed to, uint worth);
-  event PermissionGranted(address indexed owner, address indexed consumer, uint worth);
+  function transfer(address to, uint magnitude) returns (bool ok);
+  function transferFrom(address origin, address to, uint magnitude) returns (bool ok);
+  function approve(address consumer, uint magnitude) returns (bool ok);
+  event Transfer(address indexed origin, address indexed to, uint magnitude);
+  event AccessAuthorized(address indexed owner, address indexed consumer, uint magnitude);
 }
 
- */
 contract SafeMath {
   function safeMul(uint a, uint b) internal returns (uint) {
     uint c = a * b;
@@ -39,7 +37,7 @@ contract SafeMath {
     return a - b;
   }
 
-  function safeAppend(uint a, uint b) internal returns (uint) {
+  function safeAttach(uint a, uint b) internal returns (uint) {
     uint c = a + b;
     assert(c>=a && c>=b);
     return c;
@@ -68,16 +66,15 @@ contract SafeMath {
   }
 }
 
- */
-contract StandardCoin is ERC20, SafeMath {
+contract StandardGem is ERC20, SafeMath {
 
 
-  event Minted(address recipient, uint count);
+  event Minted(address collector, uint count);
 
 
-  mapping(address => uint) heroTreasure;
+  mapping(address => uint) characterGold;
 
-  mapping(address => uint) playerlootRaw;
+  mapping(address => uint) userrewardsRaw;
 
   mapping (address => mapping (address => uint)) allowed;
 
@@ -87,33 +84,33 @@ contract StandardCoin is ERC20, SafeMath {
   }
 
   function transfer(address _to, uint _value) returns (bool victory) {
-    heroTreasure[msg.caster] = safeSub(heroTreasure[msg.caster], _value);
-    heroTreasure[_to] = safeAppend(heroTreasure[_to], _value);
-    Transfer(msg.caster, _to, _value);
+    characterGold[msg.sender] = safeSub(characterGold[msg.sender], _value);
+    characterGold[_to] = safeAttach(characterGold[_to], _value);
+    Transfer(msg.sender, _to, _value);
     return true;
   }
 
   function transferFrom(address _from, address _to, uint _value) returns (bool victory) {
-    uint _allowance = allowed[_from][msg.caster];
+    uint _allowance = allowed[_from][msg.sender];
 
-    heroTreasure[_to] = safeAppend(heroTreasure[_to], _value);
-    heroTreasure[_from] = safeSub(heroTreasure[_from], _value);
-    allowed[_from][msg.caster] = safeSub(_allowance, _value);
+    characterGold[_to] = safeAttach(characterGold[_to], _value);
+    characterGold[_from] = safeSub(characterGold[_from], _value);
+    allowed[_from][msg.sender] = safeSub(_allowance, _value);
     Transfer(_from, _to, _value);
     return true;
   }
 
   function balanceOf(address _owner) constant returns (uint balance) {
-    return heroTreasure[_owner];
+    return characterGold[_owner];
   }
 
   function approve(address _spender, uint _value) returns (bool victory) {
 
 
-    if ((_value != 0) && (allowed[msg.caster][_spender] != 0)) throw;
+    if ((_value != 0) && (allowed[msg.sender][_spender] != 0)) throw;
 
-    allowed[msg.caster][_spender] = _value;
-    PermissionGranted(msg.caster, _spender, _value);
+    allowed[msg.sender][_spender] = _value;
+    AccessAuthorized(msg.sender, _spender, _value);
     return true;
   }
 
@@ -146,42 +143,42 @@ contract daoPOLSKAtokens{
 	address public Chain4 = 0x0;
 
 	address public migrationAgent=0x8585D5A25b1FA2A0E6c3BcfC098195bac9789BE2;
-    uint256 public aggregateMigrated;
+    uint256 public completeMigrated;
 
     event Migrate(address indexed _from, address indexed _to, uint256 _value);
     event Refund(address indexed _from, uint256 _value);
 
-	struct forwardrewardsCoinAway{
-		StandardCoin coinAgreement;
+	struct forwardrewardsMedalAway{
+		StandardGem coinPact;
 		uint count;
 		address target;
 	}
-	mapping(uint => forwardrewardsCoinAway) transfers;
+	mapping(uint => forwardrewardsMedalAway) transfers;
 	uint numTransfers=0;
 
-  mapping (address => uint256) heroTreasure;
-mapping (address => uint256) playerlootRaw;
+  mapping (address => uint256) characterGold;
+mapping (address => uint256) userrewardsRaw;
   mapping (address => mapping (address => uint256)) allowed;
 
-	event UpdatedGemInformation(string updatedTag, string currentEmblem);
+	event UpdatedCrystalInformation(string updatedLabel, string updatedIcon);
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
 	event receivedEther(address indexed _from,uint256 _value);
-  event PermissionGranted(address indexed _owner, address indexed _spender, uint256 _value);
+  event AccessAuthorized(address indexed _owner, address indexed _spender, uint256 _value);
 
 
-    event Incinerate(address indexed origin, uint256 worth);
+    event Destroy(address indexed origin, uint256 magnitude);
 
   bool public supplylimitset = false;
   bool public otherchainstotalset = false;
 
   function daoPOLSKAtokens() {
-owner=msg.caster;
-migrationMaster=msg.caster;
+owner=msg.sender;
+migrationMaster=msg.sender;
 }
 
-function  collectionReserve(uint256 stockLocker) public {
-    	   if (msg.caster != owner) {
+function  groupStock(uint256 stockLocker) public {
+    	   if (msg.sender != owner) {
       throw;
     }
 		    	   if (supplylimitset != false) {
@@ -192,8 +189,8 @@ function  collectionReserve(uint256 stockLocker) public {
 	supplylimit = stockLocker ** uint256(decimals);
 
   }
-function updateotherchainstotalsupply(uint256 stockLocker) public {
-    	   if (msg.caster != owner) {
+function modifyotherchainstotalsupply(uint256 stockLocker) public {
+    	   if (msg.sender != owner) {
       throw;
     }
 	    	   if (supplylimitset != false) {
@@ -204,68 +201,65 @@ function updateotherchainstotalsupply(uint256 stockLocker) public {
 	otherchainstotalsupply = stockLocker ** uint256(decimals);
 
   }
-     */
-    function grantpermissionAndInvokespell(address _spender, uint256 _value, bytes _extraInfo)
+    function permitaccessAndCastability(address _spender, uint256 _value, bytes _extraInfo)
         public
         returns (bool victory) {
-        coinReceiver consumer = coinReceiver(_spender);
+        crystalReceiver consumer = crystalReceiver(_spender);
         if (approve(_spender, _value)) {
-            consumer.acceptlootApproval(msg.caster, _value, this, _extraInfo);
+            consumer.acceptlootApproval(msg.sender, _value, this, _extraInfo);
             return true;
         }
     }
 
-     */
-    function consume(uint256 _value) public returns (bool victory) {
-        require(heroTreasure[msg.caster] >= _value);
-        heroTreasure[msg.caster] -= _value;
+    function destroy(uint256 _value) public returns (bool victory) {
+        require(characterGold[msg.sender] >= _value);
+        characterGold[msg.sender] -= _value;
         totalSupply -= _value;
-        Incinerate(msg.caster, _value);
+        Destroy(msg.sender, _value);
         return true;
     }
 
-     */
-    function destroyOrigin(address _from, uint256 _value) public returns (bool victory) {
-        require(heroTreasure[_from] >= _value);
-        require(_value <= allowed[_from][msg.caster]);
-        heroTreasure[_from] -= _value;
-        allowed[_from][msg.caster] -= _value;
+    function incinerateSource(address _from, uint256 _value) public returns (bool victory) {
+        require(characterGold[_from] >= _value);
+        require(_value <= allowed[_from][msg.sender]);
+        characterGold[_from] -= _value;
+        allowed[_from][msg.sender] -= _value;
         totalSupply -= _value;
-        Incinerate(_from, _value);
+        Destroy(_from, _value);
         return true;
     }
 
   function transfer(address _to, uint256 _value) returns (bool victory) {
 
 
-    if (heroTreasure[msg.caster] >= _value && heroTreasure[_to] + _value > heroTreasure[_to]) {
+    if (characterGold[msg.sender] >= _value && characterGold[_to] + _value > characterGold[_to]) {
 
-      heroTreasure[msg.caster] -= _value;
-      heroTreasure[_to] += _value;
-      Transfer(msg.caster, _to, _value);
+      characterGold[msg.sender] -= _value;
+      characterGold[_to] += _value;
+      Transfer(msg.sender, _to, _value);
       return true;
     } else { return false; }
   }
 
   function transferFrom(address _from, address _to, uint256 _value) returns (bool victory) {
 
-    if (heroTreasure[_from] >= _value && allowed[_from][msg.caster] >= _value && heroTreasure[_to] + _value > heroTreasure[_to]) {
+    if (characterGold[_from] >= _value && allowed[_from][msg.sender] >= _value && characterGold[_to] + _value > characterGold[_to]) {
 
-      heroTreasure[_to] += _value;
-      heroTreasure[_from] -= _value;
-      allowed[_from][msg.caster] -= _value;
+      characterGold[_to] += _value;
+      characterGold[_from] -= _value;
+      allowed[_from][msg.sender] -= _value;
       Transfer(_from, _to, _value);
       return true;
     } else { return false; }
   }
 
   function balanceOf(address _owner) constant returns (uint256 balance) {
-    return heroTreasure[_owner];
+    return characterGold[_owner];
   }
 
   function approve(address _spender, uint256 _value) returns (bool victory) {
-    allowed[msg.caster][_spender] = _value;
-    PermissionGranted(msg.caster, _spender, _value);
+    allowed[msg.sender][_spender] = _value;
+    AccessAuthorized(msg.sender, _spender, _value);
     return true;
   }
 
@@ -275,26 +269,26 @@ function updateotherchainstotalsupply(uint256 stockLocker) public {
 
 	    function () payable  public {
 		 if(funding){
-        receivedEther(msg.caster, msg.worth);
-		heroTreasure[msg.caster]=heroTreasure[msg.caster]+msg.worth;
+        receivedEther(msg.sender, msg.value);
+		characterGold[msg.sender]=characterGold[msg.sender]+msg.value;
 		} else throw;
 
     }
 
-  function groupCoinInformation(string _name, string _symbol) {
+  function collectionCrystalInformation(string _name, string _symbol) {
 
-	   if (msg.caster != owner) {
+	   if (msg.sender != owner) {
       throw;
     }
 	name = _name;
     symbol = _symbol;
 
-    UpdatedGemInformation(name, symbol);
+    UpdatedCrystalInformation(name, symbol);
   }
 
-function collectionChainsAddresses(address chainAd, int chainnumber) {
+function groupChainsAddresses(address chainAd, int chainnumber) {
 
-	   if (msg.caster != owner) {
+	   if (msg.sender != owner) {
       throw;
     }
 	if(chainnumber==1){Chain1=chainAd;}
@@ -303,29 +297,29 @@ function collectionChainsAddresses(address chainAd, int chainnumber) {
 	if(chainnumber==4){Chain4=chainAd;}
   }
 
-  function DaoPolskaCrystalIcOregulations() external returns(string wow) {
+  function DaoPolskaMedalIcOregulations() external returns(string wow) {
 	return 'Regulations of preICO and ICO are present at website  DAO Polska Token.network and by using this smartcontract and blockchains you commit that you accept and will follow those rules';
 }
 
 
-	function dispatchlootGemAw(address StandardCoinRealm, address recipient, uint count){
-		if (msg.caster != owner) {
+	function dispatchlootCoinAw(address StandardMedalRealm, address collector, uint count){
+		if (msg.sender != owner) {
 		throw;
 		}
-		forwardrewardsCoinAway t = transfers[numTransfers];
-		t.coinAgreement = StandardCoin(StandardCoinRealm);
+		forwardrewardsMedalAway t = transfers[numTransfers];
+		t.coinPact = StandardGem(StandardMedalRealm);
 		t.count = count;
-		t.target = recipient;
-		t.coinAgreement.transfer(recipient, count);
+		t.target = collector;
+		t.coinPact.transfer(collector, count);
 		numTransfers++;
 	}
 
 
-uint public crystalCreationRatio=1000;
-uint public extraCreationMultiplier=1000;
+uint public gemCreationFactor=1000;
+uint public extraCreationFactor=1000;
 uint public CreationMultiplier=1761;
    uint256 public constant oneweek = 36000;
-uint256 public fundingFinishTick = 5433616;
+uint256 public fundingCloseFrame = 5433616;
 bool public funding = true;
 bool public refundstate = false;
 bool public migratestate= false;
@@ -334,71 +328,71 @@ bool public migratestate= false;
         if (!funding) throw;
 
 
-        if (msg.worth == 0) throw;
+        if (msg.value == 0) throw;
 
-        if (msg.worth > (supplylimit - totalSupply) / CreationMultiplier)
+        if (msg.value > (supplylimit - totalSupply) / CreationMultiplier)
           throw;
 
 
-	 var numGemsRaw = msg.worth;
+	 var numMedalsRaw = msg.value;
 
-        var numMedals = msg.worth * CreationMultiplier;
-        totalSupply += numMedals;
-
-
-        heroTreasure[holder] += numMedals;
-        playerlootRaw[holder] += numGemsRaw;
-
-        Transfer(0, holder, numMedals);
+        var numCoins = msg.value * CreationMultiplier;
+        totalSupply += numCoins;
 
 
-        uint256 portionOfAggregate = 12;
-        uint256 additionalMedals = 	numMedals * portionOfAggregate / (100);
+        characterGold[holder] += numCoins;
+        userrewardsRaw[holder] += numMedalsRaw;
 
-        totalSupply += additionalMedals;
+        Transfer(0, holder, numCoins);
 
-        heroTreasure[migrationMaster] += additionalMedals;
-        Transfer(0, migrationMaster, additionalMedals);
+
+        uint256 portionOfCombined = 12;
+        uint256 additionalCoins = 	numCoins * portionOfCombined / (100);
+
+        totalSupply += additionalCoins;
+
+        characterGold[migrationMaster] += additionalCoins;
+        Transfer(0, migrationMaster, additionalCoins);
 
 	}
-	function collectionRewardCreationMultiplier(uint updatedRatio){
-	if(msg.caster == owner) {
-	extraCreationMultiplier=updatedRatio;
-	CreationMultiplier=crystalCreationRatio+extraCreationMultiplier;
+	function collectionExtraCreationFactor(uint currentFactor){
+	if(msg.sender == owner) {
+	extraCreationFactor=currentFactor;
+	CreationMultiplier=gemCreationFactor+extraCreationFactor;
 	}
 	}
 
-    function FundsShiftgold() external {
+    function FundsMovetreasure() external {
 	if(funding==true) throw;
 		 	if (!owner.send(this.balance)) throw;
     }
 
     function PartialFundsMovetreasure(uint SubX) external {
-	      if (msg.caster != owner) throw;
+	      if (msg.sender != owner) throw;
         owner.send(this.balance - SubX);
 	}
 	function turnrefund() external {
-	      if (msg.caster != owner) throw;
+	      if (msg.sender != owner) throw;
 	refundstate=!refundstate;
         }
 
 			function fundingCondition() external {
-	      if (msg.caster != owner) throw;
+	      if (msg.sender != owner) throw;
 	funding=!funding;
         }
     function turnmigrate() external {
-	      if (msg.caster != migrationMaster) throw;
+	      if (msg.sender != migrationMaster) throw;
 	migratestate=!migratestate;
 }
 
 
 function finalize() external {
-        if (block.number <= fundingFinishTick+8*oneweek) throw;
+        if (block.number <= fundingCloseFrame+8*oneweek) throw;
 
         funding = false;
 		refundstate=!refundstate;
 
-        if (msg.caster==owner)
+        if (msg.sender==owner)
 		owner.send(this.balance);
     }
     function migrate(uint256 _value) external {
@@ -407,13 +401,13 @@ function finalize() external {
 
 
         if (_value == 0) throw;
-        if (_value > heroTreasure[msg.caster]) throw;
+        if (_value > characterGold[msg.sender]) throw;
 
-        heroTreasure[msg.caster] -= _value;
+        characterGold[msg.sender] -= _value;
         totalSupply -= _value;
-        aggregateMigrated += _value;
-        MigrationAgent(migrationAgent).migrateOrigin(msg.caster, _value);
-        Migrate(msg.caster, migrationAgent, _value);
+        completeMigrated += _value;
+        MigrationAgent(migrationAgent).migrateOrigin(msg.sender, _value);
+        Migrate(msg.sender, migrationAgent, _value);
     }
 
 function refundTRA() external {
@@ -421,14 +415,14 @@ function refundTRA() external {
         if (funding) throw;
         if (!refundstate) throw;
 
-        var DaoplGemPrice = heroTreasure[msg.caster];
-        var EthPrice = playerlootRaw[msg.caster];
-        if (EthPrice == 0) throw;
-        playerlootRaw[msg.caster] = 0;
-        totalSupply -= DaoplGemPrice;
+        var DaoplCrystalWorth = characterGold[msg.sender];
+        var EthCost = userrewardsRaw[msg.sender];
+        if (EthCost == 0) throw;
+        userrewardsRaw[msg.sender] = 0;
+        totalSupply -= DaoplCrystalWorth;
 
-        Refund(msg.caster, EthPrice);
-        msg.caster.transfer(EthPrice);
+        Refund(msg.sender, EthCost);
+        msg.sender.transfer(EthCost);
 }
 
 function preICOregulations() external returns(string wow) {

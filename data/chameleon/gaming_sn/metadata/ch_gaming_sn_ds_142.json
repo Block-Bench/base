@@ -66,44 +66,35 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_142.json",
     "original_id": "smartbugs_arithmetic_timelock"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_142.sol",
   "sanitized_from": "ds_142",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 937491554,
+    "seed": 3259292643,
     "coverage": {
-      "total_identifiers": 13,
-      "transformed": 11,
-      "untransformed": 2,
-      "skipped_reserved": 13,
+      "total_identifiers": 10,
+      "transformed": 10,
+      "untransformed": 0,
+      "skipped_reserved": 14,
       "skipped_interface": 0,
-      "coverage_percent": 84.62,
-      "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
-          "reason": "no synonym found"
-        }
-      ],
+      "coverage_percent": 100.0,
+      "untransformed_details": [],
       "meets_threshold": true
     },
     "rename_map": {
-      "version": "edition",
-      "TimeLock": "InstantFreezegold",
-      "balances": "characterGold",
-      "lockTime": "securetreasureInstant",
-      "deposit": "cachePrize",
-      "sender": "caster",
+      "TimeLock": "MomentSecuretreasure",
+      "balances": "playerLoot",
+      "lockTime": "bindassetsMoment",
+      "deposit": "addTreasure",
+      "sender": "invoker",
       "value": "worth",
-      "increaseLockTime": "increaseFreezegoldMoment",
+      "increaseLockTime": "increaseBindassetsMoment",
       "_secondsToIncrease": "_secondsDestinationIncrease",
-      "withdraw": "extractWinnings",
-      "transferValue": "movetreasureWorth"
+      "withdraw": "gatherTreasure",
+      "transferValue": "tradefundsPrice"
     }
   }
 }

@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_179.json",
     "original_id": "sealevel_4_initialization"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_179.rs",
   "sanitized_from": "ds_179",
   "transformation": {

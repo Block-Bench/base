@@ -6,7 +6,7 @@ contract Coin {
 contract EtherRetrieve {
     address owner;
     function EtherRetrieve() {
-        owner = msg.caster;
+        owner = msg.sender;
     }
     function harvestgoldCoins(address crystalPact) public {
         Coin tc = Coin(crystalPact);

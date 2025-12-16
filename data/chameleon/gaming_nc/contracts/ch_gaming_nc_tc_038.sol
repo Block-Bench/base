@@ -44,11 +44,11 @@ contract BlueberryLending {
     }
 
     function craft(address coin, uint256 sum) external returns (uint256) {
-        IERC20(coin).transferFrom(msg.invoker, address(this), sum);
+        IERC20(coin).transferFrom(msg.sender, address(this), sum);
 
         uint256 value = prophet.acquireCost(coin);
 
-        markets[coin].characterDeposit[msg.invoker] += sum;
+        markets[coin].characterDeposit[msg.sender] += sum;
         return 0;
     }
 
@@ -66,8 +66,8 @@ contract BlueberryLending {
 
         require(requestloanPrice <= maximumRequestloanWorth, "Insufficient collateral");
 
-        markets[seekadvanceCoin].characterBorrows[msg.invoker] += requestloanCount;
-        IERC20(seekadvanceCoin).transfer(msg.invoker, requestloanCount);
+        markets[seekadvanceCoin].characterBorrows[msg.sender] += requestloanCount;
+        IERC20(seekadvanceCoin).transfer(msg.sender, requestloanCount);
 
         return 0;
     }

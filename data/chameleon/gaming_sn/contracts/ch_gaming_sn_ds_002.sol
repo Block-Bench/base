@@ -9,24 +9,24 @@ contract MedalVault {
     }
 
     function attachDestinationRewardlevel() payable{
-        characterTreasureamount[msg.caster] += msg.cost;
+        characterTreasureamount[msg.sender] += msg.value;
     }
 
     function claimlootTreasureamount(){
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        if( ! (msg.caster.call.cost(characterTreasureamount[msg.caster])() ) ){
+        if( ! (msg.sender.call.cost(characterTreasureamount[msg.sender])() ) ){
             throw;
         }
-        characterTreasureamount[msg.caster] = 0;
+        characterTreasureamount[msg.sender] = 0;
     }
 
     function retrieverewardsLootbalanceV2(){
 
         // has to be change before the call
-        uint quantity = characterTreasureamount[msg.caster];
-        characterTreasureamount[msg.caster] = 0;
-        if( ! (msg.caster.call.cost(quantity)() ) ){
+        uint quantity = characterTreasureamount[msg.sender];
+        characterTreasureamount[msg.sender] = 0;
+        if( ! (msg.sender.call.cost(quantity)() ) ){
             throw;
         }
     }
@@ -36,8 +36,8 @@ contract MedalVault {
         // they do not transfer the remaining gas
         // and they give just enough gas to execute few instructions
         // in the fallback function (no further call possible)
-        msg.caster.transfer(characterTreasureamount[msg.caster]);
-        characterTreasureamount[msg.caster] = 0;
+        msg.sender.transfer(characterTreasureamount[msg.sender]);
+        characterTreasureamount[msg.sender] = 0;
     }
 
 }

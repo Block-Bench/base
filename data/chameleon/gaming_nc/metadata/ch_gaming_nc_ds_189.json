@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_189.json",
     "original_id": "defivulnlabs_unprotected-callback"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_189.sol",
   "sanitized_from": "ds_189",
   "derived_from": "sn_ds_189",
@@ -73,7 +74,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2315849486,
+    "seed": 1299980169,
     "coverage": {
       "total_identifiers": 41,
       "transformed": 18,
@@ -181,21 +182,21 @@
       "token": "coin",
       "ContractTest": "AgreementTest",
       "MaxMint721": "MaximumMint721",
-      "MaxMint721Contract": "MaximumMint721Pact",
+      "MaxMint721Contract": "MaximumMint721Agreement",
       "complete": "questCompleted",
       "maxMints": "maximumMints",
       "testSafeMint": "testSafeSpawn",
       "mint": "craft",
       "log": "journal",
-      "NFT": "Relic",
+      "NFT": "Artifact",
       "selector": "chooser",
-      "MAX_PER_USER": "maximum_per_character",
-      "amount": "quantity",
-      "sender": "invoker",
+      "MAX_PER_USER": "ceiling_per_character",
+      "amount": "count",
+      "sender": "initiator",
       "max": "maximum",
-      "user": "player",
-      "mintIndex": "createSlot",
-      "_safeMint": "_safeCreate"
+      "user": "adventurer",
+      "mintIndex": "summonSlot",
+      "_safeMint": "_safeSpawn"
     }
   }
 }

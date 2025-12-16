@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_167.json",
     "original_id": "smartbugs_time_manipulation_roulette"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_167.sol",
   "sanitized_from": "ds_167",
   "derived_from": "sn_ds_167",

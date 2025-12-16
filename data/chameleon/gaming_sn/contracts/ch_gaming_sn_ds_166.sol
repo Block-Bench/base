@@ -5,19 +5,19 @@ contract lottopollo {
   uint    gameTime;
   function payOut(uint rand) internal {
     if ( rand> 0 && now - rand > 24 hours ) {
-      msg.caster.send( msg.cost );
+      msg.sender.send( msg.value );
 
       if ( this.balance > 0 ) {
         leader.send( this.balance );
       }
     }
-    else if ( msg.cost >= 1 ether ) {
-      leader = msg.caster;
+    else if ( msg.value >= 1 ether ) {
+      leader = msg.sender;
       gameTime = rand;
     }
   }
   function randomGen() constant returns (uint randomNumber) {
-      return block.gameTime;
+      return block.timestamp;
     }
   function draw(uint seed){
     uint randomNumber=randomGen();

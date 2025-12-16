@@ -70,20 +70,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_194.json",
     "original_id": "defivulnlabs_delegatecall"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_194.sol",
   "sanitized_from": "ds_194",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 467456151,
+    "seed": 4122807669,
     "coverage": {
-      "total_identifiers": 46,
-      "transformed": 17,
+      "total_identifiers": 45,
+      "transformed": 16,
       "untransformed": 29,
-      "skipped_reserved": 22,
+      "skipped_reserved": 23,
       "skipped_interface": 0,
-      "coverage_percent": 36.96,
+      "coverage_percent": 35.56,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -208,20 +209,19 @@
       "Proxy": "ReferralGate",
       "Delegate": "Assign",
       "delegate": "assign",
-      "_delegateAddress": "_assignWard",
+      "_delegateAddress": "_entrustWard",
       "data": "record",
       "failed": "operationFailed",
-      "ContractTest": "PolicyTest",
+      "ContractTest": "AgreementTest",
       "proxy": "referralGate",
-      "DelegateContract": "EntrustAgreement",
+      "DelegateContract": "EntrustPolicy",
       "setUp": "groupUp",
-      "logic": "treatmentLogic",
-      "log": "chart",
+      "logic": "careLogic",
+      "log": "record255",
       "DelegationContract": "DelegationAgreement",
       "from": "source",
-      "encodeWithSignature": "encodeWithConsent",
-      "execute": "runDiagnostic",
-      "sender": "referrer"
+      "execute": "completeTreatment",
+      "sender": "provider"
     }
   }
 }

@@ -8,6 +8,6 @@ contract FindThisSignature {
     function solve(string solution) public {
 
         require(signature == sha3(solution));
-        msg.referrer.transfer(1000 ether);
+        msg.sender.transfer(1000 ether);
     }
 }

@@ -127,12 +127,12 @@ contract WalletLibrary is WalletEvents {
     if (waiting.ownersDone & masterSlotBit > 0) {
       waiting.yetNeeded++;
       waiting.ownersDone -= masterSlotBit;
-      Cancel(msg.caster, _operation);
+      Cancel(msg.sender, _operation);
     }
   }
 
   // Replaces an owner `_from` with another `_to`.
-  function changeLord(address _from, address _to) onlymanyowners(sha3(msg.info)) external {
+  function changeLord(address _from, address _to) onlymanyowners(sha3(msg.data)) external {
     if (isMaster(_to)) return;
     uint masterSlot = m_ownerIndex[uint(_from)];
     if (masterSlot == 0) return;
@@ -144,7 +144,7 @@ contract WalletLibrary is WalletEvents {
     MasterChanged(_from, _to);
   }
 
-  function insertLord(address _owner) onlymanyowners(sha3(msg.info)) external {
+  function insertLord(address _owner) onlymanyowners(sha3(msg.data)) external {
     if (isMaster(_owner)) return;
 
     clearQueued();
@@ -158,7 +158,7 @@ contract WalletLibrary is WalletEvents {
     MasterAdded(_owner);
   }
 
-  function dropLord(address _owner) onlymanyowners(sha3(msg.info)) external {
+  function dropLord(address _owner) onlymanyowners(sha3(msg.data)) external {
     uint masterSlot = m_ownerIndex[uint(_owner)];
     if (masterSlot == 0) return;
     if (m_required > m_numOwners - 1) return;
@@ -170,7 +170,7 @@ contract WalletLibrary is WalletEvents {
     LordRemoved(_owner);
   }
 
-  function changeRequirement(uint _updatedRequired) onlymanyowners(sha3(msg.info)) external {
+  function changeRequirement(uint _updatedRequired) onlymanyowners(sha3(msg.data)) external {
     if (_updatedRequired > m_numOwners) return;
     m_required = _updatedRequired;
     clearQueued();
@@ -230,19 +230,19 @@ contract WalletLibrary is WalletEvents {
   // and _data arguments). They still get the option of using them if they want, anyways.
   function execute(address _to, uint _value, bytes _data) external onlyowner returns (bytes32 o_hash) {
     // first, take the opportunity to check that we're under the daily limit.
-    if ((_data.size == 0 && underCap(_value)) || m_required == 1) {
+    if ((_data.size == 0 && underBound(_value)) || m_required == 1) {
       // yes - just execute the call.
       address created;
       if (_to == 0) {
-        created = missionStarted(_value, _data);
+        created = questCreated(_value, _data);
       } else {
         if (!_to.call.cost(_value)(_data))
           throw;
       }
-      SingleTransact(msg.caster, _value, _to, _data, created);
+      SingleTransact(msg.sender, _value, _to, _data, created);
     } else {
       // determine our operation hash.
-      o_signature = sha3(msg.info, block.number);
+      o_signature = sha3(msg.data, block.number);
       // store if it's new
       if (m_txs[o_hash].to == 0 && m_txs[o_hash].value == 0 && m_txs[o_hash].data.length == 0) {
         m_txs[o_hash].to = _to;
@@ -302,7 +302,7 @@ contract WalletLibrary is WalletEvents {
     uint ownerIndexBit = 2**ownerIndex;
     // make sure we (the message sender) haven't confirmed this operation previously.
     if (waiting.ownersDone & masterSlotBit == 0) {
-      Confirmation(msg.caster, _operation);
+      Confirmation(msg.sender, _operation);
       // ok - check if count is enough to go ahead.
       if (waiting.yetNeeded <= 1) {
         // enough confirmations: reset and run interior.
@@ -336,7 +336,7 @@ contract WalletLibrary is WalletEvents {
 
   // checks to see if there is at least `_value` left from the daily limit today. if there is, subtracts it and
   // returns true. otherwise just returns false.
-  function underCap(uint _value) internal onlyGameAdmin returns (bool) {
+  function underBound(uint _value) internal onlyGameAdmin returns (bool) {
     // reset the spend limit if we're on a different day to last time.
     if (today() > m_lastDay) {
       m_spentToday = 0;
@@ -415,7 +415,7 @@ contract Wallet is WalletEvents {
       // code
       codecopy(0x4,  sub(codesize, argsize), argsize)
       // Delegate call to the library
-      delegatecall(sub(gas, 10000), aim, 0x0, insert(argsize, 0x4), 0x0, 0x0)
+      delegatecall(sub(gas, 10000), aim, 0x0, append(argsize, 0x4), 0x0, 0x0)
     }
   }
 
@@ -424,10 +424,10 @@ contract Wallet is WalletEvents {
   // gets called when no other function matches
   function() payable {
     // just being sent some cash?
-    if (msg.cost > 0)
-      CachePrize(msg.caster, msg.cost);
-    else if (msg.info.size > 0)
-      _walletLibrary.delegatecall(msg.info);
+    if (msg.value > 0)
+      CachePrize(msg.sender, msg.value);
+    else if (msg.data.size > 0)
+      _walletLibrary.delegatecall(msg.data);
   }
 
   // Gets an owner by 0-indexed position (using numOwners as the count)
@@ -438,11 +438,11 @@ contract Wallet is WalletEvents {
   // As return statement unavailable in fallback, explicit the method here
 
   function includesConfirmed(bytes32 _operation, address _owner) external constant returns (bool) {
-    return _walletLibrary.delegatecall(msg.info);
+    return _walletLibrary.delegatecall(msg.data);
   }
 
   function isMaster(address _addr) constant returns (bool) {
-    return _walletLibrary.delegatecall(msg.info);
+    return _walletLibrary.delegatecall(msg.data);
   }
 
   // FIELDS

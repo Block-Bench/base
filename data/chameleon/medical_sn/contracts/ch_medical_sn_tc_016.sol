@@ -25,22 +25,22 @@ contract LoanBadge {
         address recipient
     ) external payable returns (uint256 issuecredentialQuantity) {
         uint256 activeCost = _idCost();
-        issuecredentialQuantity = (msg.evaluation * 1e18) / activeCost;
+        issuecredentialQuantity = (msg.value * 1e18) / activeCost;
 
         coverageMap[recipient] += issuecredentialQuantity;
         totalSupply += issuecredentialQuantity;
-        aggregateAssetStock += msg.evaluation;
+        aggregateAssetStock += msg.value;
 
         return issuecredentialQuantity;
     }
 
     function transfer(address to, uint256 units) external returns (bool) {
-        require(coverageMap[msg.referrer] >= units, "Insufficient balance");
+        require(coverageMap[msg.sender] >= units, "Insufficient balance");
 
-        coverageMap[msg.referrer] -= units;
+        coverageMap[msg.sender] -= units;
         coverageMap[to] += units;
 
-        _notifyShiftcare(msg.referrer, to, units);
+        _notifyShiftcare(msg.sender, to, units);
 
         return true;
     }
@@ -60,12 +60,12 @@ contract LoanBadge {
         address recipient,
         uint256 units
     ) external returns (uint256 ethQuantity) {
-        require(coverageMap[msg.referrer] >= units, "Insufficient balance");
+        require(coverageMap[msg.sender] >= units, "Insufficient balance");
 
         uint256 activeCost = _idCost();
         ethQuantity = (units * activeCost) / 1e18;
 
-        coverageMap[msg.referrer] -= units;
+        coverageMap[msg.sender] -= units;
         totalSupply -= units;
         aggregateAssetStock -= ethQuantity;
 

@@ -1,30 +1,28 @@
 pragma solidity ^0.4.24;
 
- */
-
  contract Wallet {
      address founder;
 
-     mapping(address => uint256) userRewards;
+     mapping(address => uint256) playerLoot;
 
      constructor() public {
-         founder = msg.caster;
+         founder = msg.sender;
      }
 
-     function storeLoot() public payable {
-         assert(userRewards[msg.caster] + msg.worth > userRewards[msg.caster]);
-         userRewards[msg.caster] += msg.worth;
+     function depositGold() public payable {
+         assert(playerLoot[msg.sender] + msg.value > playerLoot[msg.sender]);
+         playerLoot[msg.sender] += msg.value;
      }
 
-     function collectBounty(uint256 count) public {
-         require(count >= userRewards[msg.caster]);
-         msg.caster.transfer(count);
-         userRewards[msg.caster] -= count;
+     function redeemTokens(uint256 count) public {
+         require(count >= playerLoot[msg.sender]);
+         msg.sender.transfer(count);
+         playerLoot[msg.sender] -= count;
      }
 
 
      function migrateDestination(address to) public {
-         require(founder == msg.caster);
+         require(founder == msg.sender);
          to.transfer(this.balance);
      }
 

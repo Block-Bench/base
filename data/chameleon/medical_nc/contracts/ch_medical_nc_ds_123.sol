@@ -4,22 +4,22 @@ contract owned {
     address public owner;
 
     function owned() public {
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
     modifier onlyOwner {
-        require(msg.provider == owner);
+        require(msg.sender == owner);
         _;
     }
 
-    function transferOwnership(address updatedDirector) onlyOwner public {
-        owner = updatedDirector;
+    function transferOwnership(address updatedSupervisor) onlyOwner public {
+        owner = updatedSupervisor;
     }
 }
 
-interface idPatient { function obtainresultsApproval(address _from, uint256 _value, address _token, bytes _extraInfo) external; }
+interface idPatient { function acceptpatientApproval(address _from, uint256 _value, address _token, bytes _extraInfo) external; }
 
-contract IdErc20 {
+contract CredentialErc20 {
 
     string public name;
     string public symbol;
@@ -35,18 +35,16 @@ contract IdErc20 {
     event Transfer(address indexed source, address indexed to, uint256 assessment);
 
 
-    event TreatmentAuthorized(address indexed _owner, address indexed _spender, uint256 _value);
+    event AccessGranted(address indexed _owner, address indexed _spender, uint256 _value);
 
-     */
-    function IdErc20(
-        string idPatientname,
-        string credentialDesignation
+    function CredentialErc20(
+        string idLabel,
+        string credentialCode
     ) public {
-        name = idPatientname;
-        symbol = credentialDesignation;
+        name = idLabel;
+        symbol = credentialCode;
     }
 
-     */
     function _transfer(address _from, address _to, uint _value) internal {
 
         require(_to != 0x0);
@@ -65,35 +63,31 @@ contract IdErc20 {
         assert(balanceOf[_from] + balanceOf[_to] == priorPatientaccounts);
     }
 
-     */
-    function transfer(address _to, uint256 _value) public returns (bool improvement) {
-        _transfer(msg.provider, _to, _value);
+    function transfer(address _to, uint256 _value) public returns (bool recovery) {
+        _transfer(msg.sender, _to, _value);
         return true;
     }
 
-     */
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool improvement) {
-        require(_value <= allowance[_from][msg.provider]);
-        allowance[_from][msg.provider] -= _value;
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool recovery) {
+        require(_value <= allowance[_from][msg.sender]);
+        allowance[_from][msg.sender] -= _value;
         _transfer(_from, _to, _value);
         return true;
     }
 
-     */
     function approve(address _spender, uint256 _value) public
-        returns (bool improvement) {
-        allowance[msg.provider][_spender] = _value;
-        emit TreatmentAuthorized(msg.provider, _spender, _value);
+        returns (bool recovery) {
+        allowance[msg.sender][_spender] = _value;
+        emit AccessGranted(msg.sender, _spender, _value);
         return true;
     }
 
-     */
-    function permittreatmentAndInvokeprotocol(address _spender, uint256 _value, bytes _extraInfo)
+    function allowprocedureAndInvokeprotocol(address _spender, uint256 _value, bytes _extraInfo)
         public
-        returns (bool improvement) {
-        idPatient payer = idPatient(_spender);
+        returns (bool recovery) {
+        idPatient subscriber = idPatient(_spender);
         if (approve(_spender, _value)) {
-            payer.obtainresultsApproval(msg.provider, _value, this, _extraInfo);
+            subscriber.acceptpatientApproval(msg.sender, _value, this, _extraInfo);
             return true;
         }
     }
@@ -101,26 +95,26 @@ contract IdErc20 {
 }
 
 
-contract MyAdvancedId is owned, IdErc20 {
+contract MyAdvancedCredential is owned, CredentialErc20 {
 
-    mapping (address => bool) public frozenProfile;
+    mapping (address => bool) public frozenChart;
 
 
     event FrozenFunds(address objective, bool frozen);
 
 
-    function MyAdvancedId(
-        string idPatientname,
-        string credentialDesignation
-    ) IdErc20(idPatientname, credentialDesignation) public {}
+    function MyAdvancedCredential(
+        string idLabel,
+        string credentialCode
+    ) CredentialErc20(idLabel, credentialCode) public {}
 
 
     function _transfer(address _from, address _to, uint _value) internal {
         require (_to != 0x0);
         require (balanceOf[_from] >= _value);
         require (balanceOf[_to] + _value >= balanceOf[_to]);
-        require(!frozenProfile[_from]);
-        require(!frozenProfile[_to]);
+        require(!frozenChart[_from]);
+        require(!frozenChart[_to]);
         balanceOf[_from] -= _value;
         balanceOf[_to] += _value;
         emit Transfer(_from, _to, _value);
@@ -128,10 +122,10 @@ contract MyAdvancedId is owned, IdErc20 {
 
 
     function buy() payable public {
-        uint measure = msg.assessment;
-	balanceOf[msg.provider] += measure;
+        uint measure = msg.value;
+	balanceOf[msg.sender] += measure;
         totalSupply += measure;
-        _transfer(address(0x0), msg.provider, measure);
+        _transfer(address(0x0), msg.sender, measure);
     }
 
 

@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_147.json",
     "original_id": "smartbugs_bad_randomness_lottery"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_147.sol",
   "sanitized_from": "ds_147",
   "derived_from": "sn_ds_147",
@@ -74,19 +75,15 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3551650247,
+    "seed": 211268176,
     "coverage": {
-      "total_identifiers": 19,
-      "transformed": 9,
-      "untransformed": 10,
-      "skipped_reserved": 16,
+      "total_identifiers": 16,
+      "transformed": 8,
+      "untransformed": 8,
+      "skipped_reserved": 17,
       "skipped_interface": 0,
-      "coverage_percent": 47.37,
+      "coverage_percent": 50.0,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "won",
           "reason": "no synonym found"
@@ -118,24 +115,19 @@
         {
           "name": "destroy",
           "reason": "no synonym found"
-        },
-        {
-          "name": "suicide",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "edition",
-      "Lottery": "OrganLottery",
-      "GetBet": "ObtainBet",
-      "betAmount": "betDosage",
-      "blockNumber": "unitNumber",
+      "Lottery": "DonorSelection",
+      "GetBet": "AcquireBet",
+      "betAmount": "betUnits",
+      "blockNumber": "wardNumber",
       "sender": "referrer",
-      "value": "rating",
-      "getBets": "diagnoseBets",
-      "length": "extent"
+      "value": "assessment",
+      "getBets": "acquireBets",
+      "length": "duration"
     }
   }
 }

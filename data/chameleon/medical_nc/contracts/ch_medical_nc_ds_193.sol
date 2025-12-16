@@ -3,20 +3,19 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-*/
 interface USDT {
-    function transfer(address to, uint256 rating) external;
+    function transfer(address to, uint256 evaluation) external;
 
-    function balanceOf(address chart) external view returns (uint256);
+    function balanceOf(address profile) external view returns (uint256);
 
-    function approve(address subscriber, uint256 rating) external;
+    function approve(address payer, uint256 evaluation) external;
 }
 
-contract AgreementTest is Test {
+contract PolicyTest is Test {
     using SafeERC20 for IERC20;
     IERC20 constant usdt = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7);
 
-    function groupUp() public {
+    function collectionUp() public {
         vm.createSelectFork("mainnet", 16138254);
     }
 
@@ -26,7 +25,7 @@ contract AgreementTest is Test {
         vm.stopPrank();
     }
 
-    function testSafeRefer() public {
+    function testSafeMoverecords() public {
         vm.beginPrank(0xef0DCc839c1490cEbC7209BAa11f46cfe83805ab);
         usdt.secureReferral(address(this), 123);
         vm.stopPrank();

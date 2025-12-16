@@ -35,20 +35,20 @@ contract PERSONAL_BANK
     public
     payable
     {
-        userRewards[msg.invoker]+= msg.worth;
-        Journal.InsertSignal(msg.invoker,msg.worth,"Put");
+        userRewards[msg.sender]+= msg.value;
+        Journal.InsertSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(userRewards[msg.invoker]>=MinimumSum && userRewards[msg.invoker]>=_am)
+        if(userRewards[msg.sender]>=MinimumSum && userRewards[msg.sender]>=_am)
         {
-            if(msg.invoker.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
-                userRewards[msg.invoker]-=_am;
-                Journal.InsertSignal(msg.invoker,_am,"Collect");
+                userRewards[msg.sender]-=_am;
+                Journal.InsertSignal(msg.sender,_am,"Collect");
             }
         }
     }

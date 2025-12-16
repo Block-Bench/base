@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_231.json",
     "original_id": "defivulnlabs_readonlyreentrancy"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_231.sol",
   "sanitized_from": "ds_231",
   "derived_from": "sn_ds_231",
@@ -75,14 +76,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 706760872,
+    "seed": 2920875881,
     "coverage": {
-      "total_identifiers": 48,
+      "total_identifiers": 52,
       "transformed": 31,
-      "untransformed": 17,
-      "skipped_reserved": 32,
+      "untransformed": 21,
+      "skipped_reserved": 33,
       "skipped_interface": 0,
-      "coverage_percent": 64.58,
+      "coverage_percent": 59.62,
       "untransformed_details": [
         {
           "name": "forge",
@@ -137,6 +138,22 @@
           "reason": "no synonym found"
         },
         {
+          "name": "Read",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invoked",
+          "reason": "no synonym found"
+        },
+        {
           "name": "during",
           "reason": "no synonym found"
         },
@@ -156,37 +173,37 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "get_virtual_price": "acquire_virtual_cost",
+      "get_virtual_price": "acquire_virtual_value",
       "add_liquidity": "append_flow",
-      "min_mint_amount": "floor_craft_total",
+      "min_mint_amount": "floor_create_quantity",
       "remove_liquidity": "eliminate_reserves",
       "min_amounts": "minimum_amounts",
-      "remove_liquidity_one_coin": "discard_reserves_one_coin",
-      "min_amount": "minimum_total",
-      "LP_TOKEN": "lp_crystal",
+      "remove_liquidity_one_coin": "delete_reserves_one_coin",
+      "min_amount": "minimum_measure",
+      "LP_TOKEN": "lp_medal",
       "CoreContract": "CoreAgreement",
-      "token": "gem",
-      "pool": "winningsPool",
+      "token": "crystal",
+      "pool": "rewardPool",
       "stake": "commitPower",
-      "amount": "total",
-      "sender": "invoker",
+      "amount": "sum",
+      "sender": "caster",
       "unstake": "withdrawStake",
-      "getReward": "acquireTreasure",
-      "reward": "bonus",
-      "OperatorContract": "GameoperatorPact",
-      "lpToken": "lpCrystal",
-      "target": "goal",
-      "stakeTokens": "commitmentMedals",
+      "getReward": "acquirePayout",
+      "reward": "treasure",
+      "OperatorContract": "GameoperatorAgreement",
+      "lpToken": "lpGem",
+      "target": "aim",
+      "stakeTokens": "pledgeCoins",
       "value": "price",
-      "log": "record",
+      "log": "journal",
       "price": "cost",
-      "staking": "levelStaking",
+      "staking": "powerStaking",
       "performReadOnlyCallback": "performReadOnlyResponse",
-      "callback": "reply",
-      "complete": "questCompleted",
+      "Reward": "Treasure",
+      "Reentrancy": "DoubleEntry",
       "OperatorTest": "GameoperatorTest",
-      "execute": "completeQuest",
-      "setUp": "collectionUp"
+      "execute": "runMission",
+      "setUp": "groupUp"
     }
   }
 }

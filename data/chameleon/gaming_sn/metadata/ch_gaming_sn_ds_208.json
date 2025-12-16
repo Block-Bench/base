@@ -72,29 +72,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_208.json",
     "original_id": "smartbugs_access_control_parity_wallet_bug_1"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_208.sol",
   "sanitized_from": "ds_208",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 2652047440,
+    "seed": 3032113470,
     "coverage": {
-      "total_identifiers": 371,
-      "transformed": 77,
-      "untransformed": 294,
-      "skipped_reserved": 53,
+      "total_identifiers": 366,
+      "transformed": 76,
+      "untransformed": 290,
+      "skipped_reserved": 57,
       "skipped_interface": 0,
-      "coverage_percent": 20.75,
+      "coverage_percent": 20.77,
       "untransformed_details": [
-        {
-          "name": "sol",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Wallet",
-          "reason": "no synonym found"
-        },
         {
           "name": "Multi",
           "reason": "no synonym found"
@@ -728,10 +721,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "sha3",
-          "reason": "no synonym found"
-        },
-        {
           "name": "c_maxOwners",
           "reason": "no synonym found"
         },
@@ -857,10 +846,6 @@
         },
         {
           "name": "kill",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "suicide",
           "reason": "no synonym found"
         },
         {
@@ -1124,10 +1109,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "FIELDS",
           "reason": "no synonym found"
         },
@@ -1157,6 +1138,10 @@
         },
         {
           "name": "operations",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Wallet",
           "reason": "no synonym found"
         },
         {
@@ -1267,83 +1252,82 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "account": "character",
+      "account": "profile",
       "proxy": "portalGate",
       "onlyowner": "onlyGameAdmin",
-      "hash": "signature",
-      "set": "assign",
+      "hash": "seal",
+      "set": "establish",
       "EVENTS": "GameEvents",
       "types": "gameTypes",
       "events": "gameEvents",
-      "Revoke": "Rescind",
+      "Revoke": "Cancel",
       "OwnerChanged": "MasterChanged",
       "oldOwner": "previousLord",
-      "newOwner": "currentLord",
+      "newOwner": "updatedLord",
       "OwnerAdded": "LordAdded",
       "OwnerRemoved": "MasterRemoved",
       "last": "ending",
-      "newRequirement": "updatedRequirement",
+      "newRequirement": "currentRequirement",
       "Deposit": "StashRewards",
-      "value": "price",
+      "value": "cost",
       "data": "info",
-      "revoke": "rescind",
+      "revoke": "cancel",
       "changeOwner": "changeLord",
-      "addOwner": "insertLord",
-      "removeOwner": "discardLord",
-      "_newRequired": "_updatedRequired",
+      "addOwner": "insertMaster",
+      "removeOwner": "dropMaster",
+      "_newRequired": "_currentRequired",
       "isOwner": "isMaster",
-      "hasConfirmed": "includesConfirmed",
-      "sets": "configures",
+      "hasConfirmed": "containsConfirmed",
+      "sets": "adjusts",
       "limit": "bound",
-      "amount": "sum",
-      "setDailyLimit": "collectionDailyBound",
+      "amount": "count",
+      "setDailyLimit": "collectionDailyCap",
       "_newLimit": "_currentCap",
-      "execute": "completeQuest",
+      "execute": "performAction",
       "o_hash": "o_signature",
       "o_success": "o_victory",
       "TYPES": "GameTypes",
-      "status": "state",
+      "status": "condition",
       "pending": "waiting",
-      "PendingState": "QueuedCondition",
-      "index": "position",
+      "PendingState": "QueuedStatus",
+      "index": "slot",
       "simple": "simpleQuest",
-      "sender": "initiator",
-      "order": "command",
-      "count": "number",
+      "sender": "caster",
+      "order": "request",
+      "count": "tally",
       "confirmAndCheck": "confirmAndInspect",
-      "gets": "querys",
+      "gets": "fetchs",
       "length": "size",
-      "ownerIndex": "lordPosition",
-      "ownerIndexBit": "masterPositionBit",
-      "m_pending": "m_waiting",
-      "clearPending": "clearQueued",
+      "ownerIndex": "masterPosition",
+      "ownerIndexBit": "lordSlotBit",
+      "m_pending": "m_queued",
+      "clearPending": "clearWaiting",
       "slot": "space",
-      "Gets": "Fetchs",
+      "Gets": "Checks",
       "position": "coordinates",
-      "getOwner": "obtainLord",
-      "array": "list",
-      "process": "manage",
-      "get": "acquire",
-      "first": "primary",
-      "check": "examine",
-      "underLimit": "underCap",
-      "create": "missionStarted",
-      "add": "insert",
-      "iszero": "validatezero",
+      "getOwner": "retrieveLord",
+      "process": "execute",
+      "get": "retrieve",
+      "first": "initial",
+      "check": "validate",
+      "underLimit": "underBound",
+      "create": "questCreated",
+      "add": "include",
+      "iszero": "checkzero",
       "previous": "prior",
-      "from": "origin",
-      "message": "signal",
+      "from": "source",
+      "message": "communication",
       "time": "instant",
       "pointer": "reference",
       "list": "roster",
-      "Signature": "Seal",
+      "Signature": "Mark",
       "target": "goal",
       "size": "scale",
       "Add": "Attach",
-      "signature": "mark",
+      "signature": "seal399",
       "end": "finish",
       "Delegate": "Assign",
-      "user": "adventurer"
+      "user": "character"
     }
   }
 }

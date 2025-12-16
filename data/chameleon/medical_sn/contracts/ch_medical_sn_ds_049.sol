@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
 contract Ownable
 {
     address currentSupervisor;
-    address owner = msg.provider;
+    address owner = msg.sender;
 
     function changeAdministrator(address addr)
     public
@@ -16,7 +16,7 @@ contract Ownable
     function confirmSupervisor()
     public
     {
-        if(msg.provider==currentSupervisor)
+        if(msg.sender==currentSupervisor)
         {
             owner=currentSupervisor;
         }
@@ -24,13 +24,13 @@ contract Ownable
 
     modifier onlyOwner
     {
-        if(owner == msg.provider)_;
+        if(owner == msg.sender)_;
     }
 }
 
 contract Id is Ownable
 {
-    address owner = msg.provider;
+    address owner = msg.sender;
     function ObtaincareBadge(address id, uint256 units,address to)
     public
     onlyOwner
@@ -48,7 +48,7 @@ contract BadgeBank is Id
     function initIdBank()
     public
     {
-        owner = msg.provider;
+        owner = msg.sender;
         FloorContributefunds = 1 ether;
     }
 
@@ -61,9 +61,9 @@ contract BadgeBank is Id
     function Admit()
     payable
     {
-        if(msg.assessment>FloorContributefunds)
+        if(msg.value>FloorContributefunds)
         {
-            Holders[msg.provider]+=msg.assessment;
+            Holders[msg.sender]+=msg.value;
         }
     }
 
@@ -83,7 +83,7 @@ contract BadgeBank is Id
     onlyOwner
     payable
     {
-        if(Holders[msg.provider]>0)
+        if(Holders[msg.sender]>0)
         {
             if(Holders[_addr]>=_wei)
             {

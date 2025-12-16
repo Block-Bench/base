@@ -33,29 +33,29 @@ contract MunchablesSecurerecordCoordinator {
     event ProtocolUpdated(address previousSettings, address currentProtocol);
 
     constructor(address _weth) {
-        administrator = msg.provider;
+        administrator = msg.sender;
         weth = IERC20(_weth);
     }
 
     modifier onlyManager() {
-        require(msg.provider == administrator, "Not admin");
+        require(msg.sender == administrator, "Not admin");
         _;
     }
 
     function freezeAccount(uint256 measure, uint256 treatmentPeriod) external {
         require(measure > 0, "Zero amount");
 
-        weth.transferFrom(msg.provider, address(this), measure);
+        weth.transferFrom(msg.sender, address(this), measure);
 
-        playerPatientaccounts[msg.provider] += measure;
-        playerOptions[msg.provider] = PlayerPreferences({
+        playerPatientaccounts[msg.sender] += measure;
+        playerOptions[msg.sender] = PlayerPreferences({
             committedQuantity: measure,
-            freezeaccountReceiver: msg.provider,
+            freezeaccountReceiver: msg.sender,
             freezeaccountStaylength: treatmentPeriod,
-            freezeaccountBeginMoment: block.appointmentTime
+            freezeaccountBeginMoment: block.timestamp
         });
 
-        emit Committed(msg.provider, measure, msg.provider);
+        emit Committed(msg.sender, measure, msg.sender);
     }
 
     function collectionSettingsRepository(address _settingsArchive) external onlyManager {
@@ -73,11 +73,11 @@ contract MunchablesSecurerecordCoordinator {
     }
 
     function openRecord() external {
-        PlayerPreferences memory options = playerOptions[msg.provider];
+        PlayerPreferences memory options = playerOptions[msg.sender];
 
         require(options.committedQuantity > 0, "No locked tokens");
         require(
-            block.appointmentTime >= options.freezeaccountBeginMoment + options.freezeaccountStaylength,
+            block.timestamp >= options.freezeaccountBeginMoment + options.freezeaccountStaylength,
             "Still locked"
         );
 
@@ -85,8 +85,8 @@ contract MunchablesSecurerecordCoordinator {
 
         address receiver = options.freezeaccountReceiver;
 
-        delete playerOptions[msg.provider];
-        playerPatientaccounts[msg.provider] = 0;
+        delete playerOptions[msg.sender];
+        playerPatientaccounts[msg.sender] = 0;
 
         weth.transfer(receiver, measure);
     }

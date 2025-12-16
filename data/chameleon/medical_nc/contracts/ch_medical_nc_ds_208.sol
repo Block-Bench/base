@@ -1,6 +1,3 @@
-sol PatientWallet
-
-
 pragma solidity 0.4.9;
 
 contract WalletEvents {
@@ -10,21 +7,21 @@ contract WalletEvents {
   event Withdraw(address owner, bytes32 operation);
 
 
-  event DirectorChanged(address previousSupervisor, address currentDirector);
-  event DirectorAdded(address currentDirector);
-  event DirectorRemoved(address previousSupervisor);
+  event AdministratorChanged(address formerAdministrator, address updatedAdministrator);
+  event SupervisorAdded(address updatedAdministrator);
+  event AdministratorRemoved(address formerAdministrator);
 
 
-  event RequirementChanged(uint currentRequirement);
+  event RequirementChanged(uint updatedRequirement);
 
 
-  event RegisterPayment(address _from, uint rating);
+  event FundAccount(address _from, uint assessment);
 
-  event SingleTransact(address owner, uint rating, address to, bytes record, address created);
+  event SingleTransact(address owner, uint assessment, address to, bytes chart, address created);
 
-  event MultiTransact(address owner, bytes32 operation, uint rating, address to, bytes record, address created);
+  event MultiTransact(address owner, bytes32 operation, uint assessment, address to, bytes chart, address created);
 
-  event ConfirmationNeeded(bytes32 operation, address initiator, uint rating, address to, bytes record);
+  event ConfirmationNeeded(bytes32 operation, address initiator, uint assessment, address to, bytes chart);
 }
 
 contract WalletAbi {
@@ -32,66 +29,66 @@ contract WalletAbi {
   function cancel(bytes32 _operation) external;
 
 
-  function changeAdministrator(address _from, address _to) external;
+  function changeDirector(address _from, address _to) external;
 
-  function appendSupervisor(address _owner) external;
+  function includeSupervisor(address _owner) external;
 
-  function discontinueSupervisor(address _owner) external;
+  function discontinueAdministrator(address _owner) external;
 
-  function changeRequirement(uint _updatedRequired) external;
+  function changeRequirement(uint _currentRequired) external;
 
-  function isSupervisor(address _addr) constant returns (bool);
+  function isAdministrator(address _addr) constant returns (bool);
 
-  function containsConfirmed(bytes32 _operation, address _owner) external constant returns (bool);
+  function holdsConfirmed(bytes32 _operation, address _owner) external constant returns (bool);
 
 
-  function collectionDailyBound(uint _updatedBound) external;
+  function groupDailyCap(uint _updatedBound) external;
 
   function completeTreatment(address _to, uint _value, bytes _data) external returns (bytes32 o_signature);
-  function confirm(bytes32 _h) returns (bool o_improvement);
+  function confirm(bytes32 _h) returns (bool o_recovery);
 }
 
 contract WalletLibrary is WalletEvents {
 
 
-  struct AwaitingCondition {
+  struct ScheduledCondition {
     uint yetNeeded;
     uint ownersDone;
-    uint rank;
+    uint slot;
   }
 
 
   struct Transaction {
     address to;
-    uint rating;
-    bytes record;
+    uint assessment;
+    bytes chart;
   }
 
 
   modifier onlyChiefMedical {
-    if (isSupervisor(msg.provider))
+    if (isAdministrator(msg.sender))
       _;
   }
 
 
   modifier onlymanyowners(bytes32 _operation) {
-    if (confirmAndDiagnose(_operation))
+    if (confirmAndInspect(_operation))
       _;
   }
 
 
   function() payable {
 
-    if (msg.rating > 0)
-      RegisterPayment(msg.provider, msg.rating);
+    if (msg.value > 0)
+      FundAccount(msg.sender, msg.value);
   }
 
 
   function initMultiowned(address[] _owners, uint _required) {
-    m_numOwners = _owners.extent + 1;
-    m_owners[1] = uint(msg.provider);
-    m_ownerIndex[uint(msg.provider)] = 1;
-    for (uint i = 0; i < _owners.extent; ++i)
+    m_numOwners = _owners.duration + 1;
+    m_owners[1] = uint(msg.sender);
+    m_ownerIndex[uint(msg.sender)] = 1;
+    for (uint i = 0; i < _owners.duration; ++i)
     {
       m_owners[2 + i] = uint(_owners[i]);
       m_ownerIndex[uint(_owners[i])] = 2 + i;
@@ -101,35 +98,35 @@ contract WalletLibrary is WalletEvents {
 
 
   function cancel(bytes32 _operation) external {
-    uint supervisorSlot = m_ownerIndex[uint(msg.provider)];
+    uint directorRank = m_ownerIndex[uint(msg.sender)];
 
-    if (supervisorSlot == 0) return;
-    uint supervisorPositionBit = 2**supervisorSlot;
+    if (directorRank == 0) return;
+    uint supervisorRankBit = 2**directorRank;
     var awaiting = m_scheduled[_operation];
-    if (awaiting.ownersDone & supervisorPositionBit > 0) {
+    if (awaiting.ownersDone & supervisorRankBit > 0) {
       awaiting.yetNeeded++;
-      awaiting.ownersDone -= supervisorPositionBit;
-      Withdraw(msg.provider, _operation);
+      awaiting.ownersDone -= supervisorRankBit;
+      Withdraw(msg.sender, _operation);
     }
   }
 
 
-  function changeAdministrator(address _from, address _to) onlymanyowners(sha3(msg.record)) external {
-    if (isSupervisor(_to)) return;
-    uint supervisorSlot = m_ownerIndex[uint(_from)];
-    if (supervisorSlot == 0) return;
+  function changeDirector(address _from, address _to) onlymanyowners(sha3(msg.data)) external {
+    if (isAdministrator(_to)) return;
+    uint directorRank = m_ownerIndex[uint(_from)];
+    if (directorRank == 0) return;
 
-    clearAwaiting();
-    m_owners[supervisorSlot] = uint(_to);
+    clearScheduled();
+    m_owners[directorRank] = uint(_to);
     m_ownerIndex[uint(_from)] = 0;
-    m_ownerIndex[uint(_to)] = supervisorSlot;
-    DirectorChanged(_from, _to);
+    m_ownerIndex[uint(_to)] = directorRank;
+    AdministratorChanged(_from, _to);
   }
 
-  function appendSupervisor(address _owner) onlymanyowners(sha3(msg.record)) external {
-    if (isSupervisor(_owner)) return;
+  function includeSupervisor(address _owner) onlymanyowners(sha3(msg.data)) external {
+    if (isAdministrator(_owner)) return;
 
-    clearAwaiting();
+    clearScheduled();
     if (m_numOwners >= c_maxOwners)
       reorganizeOwners();
     if (m_numOwners >= c_maxOwners)
@@ -137,47 +134,47 @@ contract WalletLibrary is WalletEvents {
     m_numOwners++;
     m_owners[m_numOwners] = uint(_owner);
     m_ownerIndex[uint(_owner)] = m_numOwners;
-    DirectorAdded(_owner);
+    SupervisorAdded(_owner);
   }
 
-  function discontinueSupervisor(address _owner) onlymanyowners(sha3(msg.record)) external {
-    uint supervisorSlot = m_ownerIndex[uint(_owner)];
-    if (supervisorSlot == 0) return;
+  function discontinueAdministrator(address _owner) onlymanyowners(sha3(msg.data)) external {
+    uint directorRank = m_ownerIndex[uint(_owner)];
+    if (directorRank == 0) return;
     if (m_required > m_numOwners - 1) return;
 
-    m_owners[supervisorSlot] = 0;
+    m_owners[directorRank] = 0;
     m_ownerIndex[uint(_owner)] = 0;
-    clearAwaiting();
+    clearScheduled();
     reorganizeOwners();
-    DirectorRemoved(_owner);
+    AdministratorRemoved(_owner);
   }
 
-  function changeRequirement(uint _updatedRequired) onlymanyowners(sha3(msg.record)) external {
-    if (_updatedRequired > m_numOwners) return;
-    m_required = _updatedRequired;
-    clearAwaiting();
-    RequirementChanged(_updatedRequired);
+  function changeRequirement(uint _currentRequired) onlymanyowners(sha3(msg.data)) external {
+    if (_currentRequired > m_numOwners) return;
+    m_required = _currentRequired;
+    clearScheduled();
+    RequirementChanged(_currentRequired);
   }
 
 
-  function diagnoseDirector(uint supervisorSlot) external constant returns (address) {
-    return address(m_owners[supervisorSlot + 1]);
+  function retrieveDirector(uint directorRank) external constant returns (address) {
+    return address(m_owners[directorRank + 1]);
   }
 
-  function isSupervisor(address _addr) constant returns (bool) {
+  function isAdministrator(address _addr) constant returns (bool) {
     return m_ownerIndex[uint(_addr)] > 0;
   }
 
-  function containsConfirmed(bytes32 _operation, address _owner) external constant returns (bool) {
+  function holdsConfirmed(bytes32 _operation, address _owner) external constant returns (bool) {
     var awaiting = m_scheduled[_operation];
-    uint supervisorSlot = m_ownerIndex[uint(_owner)];
+    uint directorRank = m_ownerIndex[uint(_owner)];
 
 
-    if (supervisorSlot == 0) return false;
+    if (directorRank == 0) return false;
 
 
-    uint supervisorPositionBit = 2**supervisorSlot;
-    return !(awaiting.ownersDone & supervisorPositionBit == 0);
+    uint supervisorRankBit = 2**directorRank;
+    return !(awaiting.ownersDone & supervisorRankBit == 0);
   }
 
 
@@ -186,11 +183,11 @@ contract WalletLibrary is WalletEvents {
     m_lastDay = today();
   }
 
-  function collectionDailyBound(uint _updatedBound) onlymanyowners(sha3(msg.record)) external {
+  function groupDailyCap(uint _updatedBound) onlymanyowners(sha3(msg.data)) external {
     m_dailyLimit = _updatedBound;
   }
 
-  function resetSpentToday() onlymanyowners(sha3(msg.record)) external {
+  function resetSpentToday() onlymanyowners(sha3(msg.data)) external {
     m_spentToday = 0;
   }
 
@@ -201,68 +198,68 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function kill(address _to) onlymanyowners(sha3(msg.record)) external {
+  function kill(address _to) onlymanyowners(sha3(msg.data)) external {
     suicide(_to);
   }
 
 
   function completeTreatment(address _to, uint _value, bytes _data) external onlyChiefMedical returns (bytes32 o_signature) {
 
-    if ((_data.extent == 0 && underCap(_value)) || m_required == 1) {
+    if ((_data.duration == 0 && underBound(_value)) || m_required == 1) {
 
       address created;
       if (_to == 0) {
-        created = patientAdmitted(_value, _data);
+        created = caseOpened(_value, _data);
       } else {
-        if (!_to.call.rating(_value)(_data))
+        if (!_to.call.assessment(_value)(_data))
           throw;
       }
-      SingleTransact(msg.provider, _value, _to, _data, created);
+      SingleTransact(msg.sender, _value, _to, _data, created);
     } else {
 
-      o_signature = sha3(msg.record, block.number);
+      o_signature = sha3(msg.data, block.number);
 
-      if (m_txs[o_signature].to == 0 && m_txs[o_signature].rating == 0 && m_txs[o_signature].record.extent == 0) {
+      if (m_txs[o_signature].to == 0 && m_txs[o_signature].assessment == 0 && m_txs[o_signature].chart.duration == 0) {
         m_txs[o_signature].to = _to;
-        m_txs[o_signature].rating = _value;
-        m_txs[o_signature].record = _data;
+        m_txs[o_signature].assessment = _value;
+        m_txs[o_signature].chart = _data;
       }
       if (!confirm(o_signature)) {
-        ConfirmationNeeded(o_signature, msg.provider, _value, _to, _data);
+        ConfirmationNeeded(o_signature, msg.sender, _value, _to, _data);
       }
     }
   }
 
-  function patientAdmitted(uint _value, bytes _code) internal returns (address o_addr) {
+  function caseOpened(uint _value, bytes _code) internal returns (address o_addr) {
     assembly {
-      o_addr := patientAdmitted(_value, insert(_code, 0x20), mload(_code))
-      jumpi(invalidJumpLabel, verifyzero(extcodesize(o_addr)))
+      o_addr := caseOpened(_value, append(_code, 0x20), mload(_code))
+      jumpi(invalidJumpLabel, testzero(extcodesize(o_addr)))
     }
   }
 
 
-  function confirm(bytes32 _h) onlymanyowners(_h) returns (bool o_improvement) {
-    if (m_txs[_h].to != 0 || m_txs[_h].rating != 0 || m_txs[_h].record.extent != 0) {
+  function confirm(bytes32 _h) onlymanyowners(_h) returns (bool o_recovery) {
+    if (m_txs[_h].to != 0 || m_txs[_h].assessment != 0 || m_txs[_h].chart.duration != 0) {
       address created;
       if (m_txs[_h].to == 0) {
-        created = patientAdmitted(m_txs[_h].rating, m_txs[_h].record);
+        created = caseOpened(m_txs[_h].assessment, m_txs[_h].chart);
       } else {
-        if (!m_txs[_h].to.call.rating(m_txs[_h].rating)(m_txs[_h].record))
+        if (!m_txs[_h].to.call.assessment(m_txs[_h].assessment)(m_txs[_h].chart))
           throw;
       }
 
-      MultiTransact(msg.provider, _h, m_txs[_h].rating, m_txs[_h].to, m_txs[_h].record, created);
+      MultiTransact(msg.sender, _h, m_txs[_h].assessment, m_txs[_h].to, m_txs[_h].chart, created);
       delete m_txs[_h];
       return true;
     }
   }
 
 
-  function confirmAndDiagnose(bytes32 _operation) internal returns (bool) {
+  function confirmAndInspect(bytes32 _operation) internal returns (bool) {
 
-    uint supervisorSlot = m_ownerIndex[uint(msg.provider)];
+    uint directorRank = m_ownerIndex[uint(msg.sender)];
 
-    if (supervisorSlot == 0) return;
+    if (directorRank == 0) return;
 
     var awaiting = m_scheduled[_operation];
 
@@ -271,18 +268,18 @@ contract WalletLibrary is WalletEvents {
       awaiting.yetNeeded = m_required;
 
       awaiting.ownersDone = 0;
-      awaiting.rank = m_pendingIndex.extent++;
-      m_pendingIndex[awaiting.rank] = _operation;
+      awaiting.slot = m_pendingIndex.duration++;
+      m_pendingIndex[awaiting.slot] = _operation;
     }
 
-    uint supervisorPositionBit = 2**supervisorSlot;
+    uint supervisorRankBit = 2**directorRank;
 
-    if (awaiting.ownersDone & supervisorPositionBit == 0) {
-      Confirmation(msg.provider, _operation);
+    if (awaiting.ownersDone & supervisorRankBit == 0) {
+      Confirmation(msg.sender, _operation);
 
       if (awaiting.yetNeeded <= 1) {
 
-        delete m_pendingIndex[m_scheduled[_operation].rank];
+        delete m_pendingIndex[m_scheduled[_operation].slot];
         delete m_scheduled[_operation];
         return true;
       }
@@ -290,7 +287,7 @@ contract WalletLibrary is WalletEvents {
       {
 
         awaiting.yetNeeded--;
-        awaiting.ownersDone |= supervisorPositionBit;
+        awaiting.ownersDone |= supervisorRankBit;
       }
     }
   }
@@ -311,7 +308,7 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function underCap(uint _value) internal onlyChiefMedical returns (bool) {
+  function underBound(uint _value) internal onlyChiefMedical returns (bool) {
 
     if (today() > m_lastDay) {
       m_spentToday = 0;
@@ -329,10 +326,10 @@ contract WalletLibrary is WalletEvents {
 
   function today() private constant returns (uint) { return now / 1 days; }
 
-  function clearAwaiting() internal {
-    uint extent = m_pendingIndex.extent;
+  function clearScheduled() internal {
+    uint duration = m_pendingIndex.duration;
 
-    for (uint i = 0; i < extent; ++i) {
+    for (uint i = 0; i < duration; ++i) {
       delete m_txs[m_pendingIndex[i]];
 
       if (m_pendingIndex[i] != 0)
@@ -361,7 +358,7 @@ contract WalletLibrary is WalletEvents {
 
   mapping(uint => uint) m_ownerIndex;
 
-  mapping(bytes32 => AwaitingCondition) m_scheduled;
+  mapping(bytes32 => ScheduledCondition) m_scheduled;
   bytes32[] m_pendingIndex;
 
 
@@ -377,7 +374,7 @@ contract PatientWallet is WalletEvents {
     address objective = _walletLibrary;
 
 
-    uint argarraysize = (2 + _owners.extent);
+    uint argarraysize = (2 + _owners.duration);
     uint argsize = (2 + argarraysize) * 32;
 
     assembly {
@@ -387,31 +384,31 @@ contract PatientWallet is WalletEvents {
 
       codecopy(0x4,  sub(codesize, argsize), argsize)
 
-      delegatecall(sub(gas, 10000), objective, 0x0, insert(argsize, 0x4), 0x0, 0x0)
+      delegatecall(sub(gas, 10000), objective, 0x0, append(argsize, 0x4), 0x0, 0x0)
     }
   }
 
 
   function() payable {
 
-    if (msg.rating > 0)
-      RegisterPayment(msg.provider, msg.rating);
-    else if (msg.record.extent > 0)
-      _walletLibrary.delegatecall(msg.record);
+    if (msg.value > 0)
+      FundAccount(msg.sender, msg.value);
+    else if (msg.data.duration > 0)
+      _walletLibrary.delegatecall(msg.data);
   }
 
 
-  function diagnoseDirector(uint supervisorSlot) constant returns (address) {
-    return address(m_owners[supervisorSlot + 1]);
+  function retrieveDirector(uint directorRank) constant returns (address) {
+    return address(m_owners[directorRank + 1]);
   }
 
 
-  function containsConfirmed(bytes32 _operation, address _owner) external constant returns (bool) {
-    return _walletLibrary.delegatecall(msg.record);
+  function holdsConfirmed(bytes32 _operation, address _owner) external constant returns (bool) {
+    return _walletLibrary.delegatecall(msg.data);
   }
 
-  function isSupervisor(address _addr) constant returns (bool) {
-    return _walletLibrary.delegatecall(msg.record);
+  function isAdministrator(address _addr) constant returns (bool) {
+    return _walletLibrary.delegatecall(msg.data);
   }
 
 

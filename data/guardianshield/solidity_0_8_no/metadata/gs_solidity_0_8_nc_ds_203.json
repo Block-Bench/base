@@ -1,0 +1,76 @@
+{
+  "id": "gs_solidity_0_8_nc_ds_203",
+  "contract_file": "contracts/gs_solidity_0_8_nc_ds_203.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "other",
+    "neutralized_by": "solidity_0_8",
+    "neutralization_reason": "Built-in overflow/underflow checks prevent arithmetic vulnerabilities"
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_honeypots_koth",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 32,
+    "num_contracts": 2,
+    "contract_names": [
+      "Ownable",
+      "CEOThrone"
+    ],
+    "num_functions": 5,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Honeypot Collection",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_203.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_203.json",
+    "original_id": "notso_honeypots_koth"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_203.sol",
+  "sanitized_from": "ds_203",
+  "derived_from": "nc_ds_203",
+  "original_id": "ds_203",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "solidity_0_8",
+    "injection_details": {
+      "pragma_updated": true,
+      "safemath_removed": false,
+      "operators_replaced": 0,
+      "protection_type": "solidity_0_8"
+    }
+  }
+}

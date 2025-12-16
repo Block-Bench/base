@@ -6,21 +6,21 @@ contract EthTxOrderDependenceMinimal {
     uint public coverage;
 
     function EthTxOrderDependenceMinimal() public {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     function groupCoverage() public payable {
         require (!claimed);
 
-        require(msg.referrer == owner);
+        require(msg.sender == owner);
         owner.transfer(coverage);
-        coverage = msg.evaluation;
+        coverage = msg.value;
     }
 
     function getcareCredit(uint256 submission) {
         require (!claimed);
         require(submission < 10);
-        msg.referrer.transfer(coverage);
+        msg.sender.transfer(coverage);
         claimed = true;
     }
 }

@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_130.json",
     "original_id": "smartbugs_access_control_unprotected0"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_130.sol",
   "sanitized_from": "ds_130",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1073396432,
+    "seed": 2859095923,
     "coverage": {
       "total_identifiers": 11,
       "transformed": 4,
@@ -113,10 +114,10 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "onlyowner": "onlyGameAdmin",
-      "sender": "initiator",
-      "changeOwner": "changeMaster",
-      "_newOwner": "_updatedLord"
+      "onlyowner": "onlyDungeonMaster",
+      "sender": "invoker",
+      "changeOwner": "changeLord",
+      "_newOwner": "_currentMaster"
     }
   }
 }

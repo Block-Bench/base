@@ -27,12 +27,12 @@ contract PlayDappCrystal {
     event Minted(address indexed to, uint256 count);
 
     constructor() {
-        forger = msg.caster;
-        _mint(msg.caster, 700_000_000 * 10 ** 18);
+        forger = msg.sender;
+        _mint(msg.sender, 700_000_000 * 10 ** 18);
     }
 
     modifier onlyForger() {
-        require(msg.caster == forger, "Not minter");
+        require(msg.sender == forger, "Not minter");
         _;
     }
 
@@ -55,16 +55,16 @@ contract PlayDappCrystal {
     }
 
     function transfer(address to, uint256 count) external returns (bool) {
-        require(balanceOf[msg.caster] >= count, "Insufficient balance");
-        balanceOf[msg.caster] -= count;
+        require(balanceOf[msg.sender] >= count, "Insufficient balance");
+        balanceOf[msg.sender] -= count;
         balanceOf[to] += count;
-        emit Transfer(msg.caster, to, count);
+        emit Transfer(msg.sender, to, count);
         return true;
     }
 
     function approve(address user, uint256 count) external returns (bool) {
-        allowance[msg.caster][user] = count;
-        emit AccessAuthorized(msg.caster, user, count);
+        allowance[msg.sender][user] = count;
+        emit AccessAuthorized(msg.sender, user, count);
         return true;
     }
 
@@ -75,13 +75,13 @@ contract PlayDappCrystal {
     ) external returns (bool) {
         require(balanceOf[origin] >= count, "Insufficient balance");
         require(
-            allowance[origin][msg.caster] >= count,
+            allowance[origin][msg.sender] >= count,
             "Insufficient allowance"
         );
 
         balanceOf[origin] -= count;
         balanceOf[to] += count;
-        allowance[origin][msg.caster] -= count;
+        allowance[origin][msg.sender] -= count;
 
         emit Transfer(origin, to, count);
         return true;

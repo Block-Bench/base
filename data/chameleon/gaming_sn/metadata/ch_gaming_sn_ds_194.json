@@ -70,20 +70,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_194.json",
     "original_id": "defivulnlabs_delegatecall"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_194.sol",
   "sanitized_from": "ds_194",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 316041759,
+    "seed": 3531524709,
     "coverage": {
-      "total_identifiers": 46,
-      "transformed": 17,
+      "total_identifiers": 45,
+      "transformed": 16,
       "untransformed": 29,
-      "skipped_reserved": 22,
+      "skipped_reserved": 23,
       "skipped_interface": 0,
-      "coverage_percent": 36.96,
+      "coverage_percent": 35.56,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -207,20 +208,19 @@
     "rename_map": {
       "Proxy": "PortalGate",
       "Delegate": "Entrust",
-      "delegate": "assign",
-      "_delegateAddress": "_assignZone",
-      "data": "details",
+      "delegate": "entrust",
+      "_delegateAddress": "_entrustRealm",
+      "data": "info",
       "failed": "actionFailed",
       "ContractTest": "PactTest",
-      "proxy": "portalGate",
-      "DelegateContract": "EntrustPact",
+      "proxy": "teleportHub",
+      "DelegateContract": "AssignAgreement",
       "setUp": "collectionUp",
       "logic": "gameLogic",
       "log": "journal",
-      "DelegationContract": "DelegationAgreement",
+      "DelegationContract": "DelegationPact",
       "from": "source",
-      "encodeWithSignature": "encodeWithMark",
-      "execute": "completeQuest",
+      "execute": "runMission",
       "sender": "initiator"
     }
   }

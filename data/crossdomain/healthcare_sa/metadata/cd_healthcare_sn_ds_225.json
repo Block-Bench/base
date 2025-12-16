@@ -1,0 +1,87 @@
+{
+  "id": "cd_healthcare_sn_ds_225",
+  "contract_file": "contracts/cd_healthcare_sn_ds_225.sol",
+  "subset": "crossdomain",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "In this case because the last byte of the proxyAdmin address is `0x72`, initialized was interpreted as a truthy value.",
+    "attack_vector": "In this case because the last byte of the proxyAdmin address is `0x72`, initialized was interpreted as a truthy value.",
+    "impact": "Severity: high",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_storage-collision-audio",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 157,
+    "num_contracts": 5,
+    "contract_names": [
+      "ContractTest",
+      "TestProxy",
+      "Initializable",
+      "is",
+      "Logic"
+    ],
+    "num_functions": 13,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "In this case because the last byte of the proxyAdmin address is `0x72`, initialized was interpreted as a truthy value.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_225.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_225.json",
+    "original_id": "defivulnlabs_storage-collision-audio"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_225.sol",
+  "sanitized_from": "ds_225",
+  "derived_from": "sn_ds_225",
+  "transformation": {
+    "strategy": "cross_domain",
+    "source_domain": "defi",
+    "target_domain": "healthcare",
+    "coverage": 0.09,
+    "identifiers_transformed": 3,
+    "rename_map": {
+      "getproxyAdmin": "getproxyClaimsadmin",
+      "proxyAdmin": "proxyBenefitmanager",
+      "_admin": "_coverageadmin"
+    }
+  }
+}

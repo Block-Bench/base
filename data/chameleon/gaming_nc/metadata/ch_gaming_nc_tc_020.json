@@ -96,6 +96,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_020.json",
     "original_exploit_name": "Warp Finance LP Token Price Manipulation"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_020.sol",
   "sanitized_from": "tc_020",
   "derived_from": "sn_tc_020",
@@ -106,17 +107,13 @@
     "source": "nocomments",
     "seed": 1939879363,
     "coverage": {
-      "total_identifiers": 45,
+      "total_identifiers": 44,
       "transformed": 29,
-      "untransformed": 16,
-      "skipped_reserved": 27,
+      "untransformed": 15,
+      "skipped_reserved": 28,
       "skipped_interface": 0,
-      "coverage_percent": 64.44,
+      "coverage_percent": 65.91,
       "untransformed_details": [
-        {
-          "name": "uint112",
-          "reason": "no synonym found"
-        },
         {
           "name": "reserve0",
           "reason": "no synonym found"

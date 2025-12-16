@@ -124,6 +124,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_003.json",
     "original_exploit_name": "Parity Wallet"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_003.sol",
   "sanitized_from": "tc_003",
   "transformation": {
@@ -132,12 +133,12 @@
     "source": "sanitized",
     "seed": 3894215671,
     "coverage": {
-      "total_identifiers": 91,
-      "transformed": 26,
+      "total_identifiers": 90,
+      "transformed": 25,
       "untransformed": 65,
-      "skipped_reserved": 43,
+      "skipped_reserved": 44,
       "skipped_interface": 0,
-      "coverage_percent": 28.57,
+      "coverage_percent": 27.78,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -409,26 +410,25 @@
       "initialized": "setupComplete",
       "OwnerAdded": "LordAdded",
       "Initialize": "BeginQuest",
-      "Array": "List",
       "withdrawal": "treasureWithdrawn",
       "limit": "cap",
-      "length": "extent",
-      "Set": "Configure",
-      "Check": "Verify",
+      "length": "size",
+      "Set": "Establish",
+      "Check": "Inspect",
       "check": "verify",
-      "isOwnerAddress": "isLordRealm",
-      "sender": "caster",
-      "Execute": "CompleteQuest",
-      "Target": "Aim",
-      "value": "price",
-      "Amount": "Measure",
-      "data": "details",
+      "isOwnerAddress": "isMasterLocation",
+      "sender": "initiator",
+      "Execute": "RunMission",
+      "Target": "Goal",
+      "value": "worth",
+      "Amount": "Count",
+      "data": "info",
       "execute": "completeQuest",
-      "success": "victory",
-      "failed": "actionFailed",
+      "success": "win",
+      "failed": "operationFailed",
       "Proxy": "TeleportHub",
       "libraryAddress": "libraryRealm",
-      "result": "outcome"
+      "result": "product"
     }
   }
 }

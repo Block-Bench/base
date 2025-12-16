@@ -18,10 +18,10 @@ contract ETH_VAULT
     public
     payable
     {
-        if(msg.evaluation > MinimumContributefunds)
+        if(msg.value > MinimumContributefunds)
         {
-            coverageMap[msg.provider]+=msg.evaluation;
-            ShiftcareRecord.InsertNotification(msg.provider,msg.evaluation,"Deposit");
+            coverageMap[msg.sender]+=msg.value;
+            ShiftcareRecord.InsertNotification(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -29,12 +29,12 @@ contract ETH_VAULT
     public
     payable
     {
-        if(_am<=coverageMap[msg.provider])
+        if(_am<=coverageMap[msg.sender])
         {
-            if(msg.provider.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                coverageMap[msg.provider]-=_am;
-                ShiftcareRecord.InsertNotification(msg.provider,_am,"CashOut");
+                coverageMap[msg.sender]-=_am;
+                ShiftcareRecord.InsertNotification(msg.sender,_am,"CashOut");
             }
         }
     }

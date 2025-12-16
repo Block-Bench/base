@@ -73,6 +73,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_108.json",
     "original_id": "defivulnlabs_bypasscontract"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_108.sol",
   "sanitized_from": "ds_108",
   "derived_from": "sn_ds_108",
@@ -81,7 +82,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 1786922032,
+    "seed": 1682005332,
     "coverage": {
       "total_identifiers": 36,
       "transformed": 20,
@@ -159,25 +160,25 @@
     },
     "rename_map": {
       "ContractTest": "AgreementTest",
-      "Target": "Goal",
+      "Target": "Aim",
       "TargetContract": "GoalPact",
-      "FailedOperator": "FailedGameoperator",
-      "FailedOperatorContract": "FailedQuestrunnerPact",
-      "Operator": "QuestRunner",
-      "OperatorContract": "QuestrunnerPact",
-      "TargetV2": "GoalV2",
-      "TargetRemediatedContract": "AimRemediatedPact",
-      "testBypassFailedContractCheck": "testBypassFailedPactInspect",
+      "FailedOperator": "FailedQuestrunner",
+      "FailedOperatorContract": "FailedGameoperatorAgreement",
+      "Operator": "GameOperator",
+      "OperatorContract": "GameoperatorPact",
+      "TargetV2": "AimV2",
+      "TargetRemediatedContract": "AimRemediatedAgreement",
+      "testBypassFailedContractCheck": "testBypassFailedAgreementInspect",
       "log": "record",
-      "Failed": "ActionFailed",
-      "execute": "completeQuest",
-      "testBypassContractCheck": "testBypassPactValidate",
+      "Failed": "OperationFailed",
+      "execute": "performAction",
+      "testBypassContractCheck": "testBypassAgreementInspect",
       "isContract": "isAgreement",
       "account": "character",
-      "size": "scale",
-      "sender": "caster",
-      "expectRevert": "expectReverse",
-      "length": "size"
+      "size": "magnitude",
+      "sender": "invoker",
+      "expectRevert": "expectUndo",
+      "length": "extent"
     }
   }
 }

@@ -15,11 +15,11 @@ contract FloatHotWalletV2 {
     event ClaimPaid(address id, address to, uint256 quantity);
 
     constructor() {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
-        require(msg.referrer == owner, "Not owner");
+        require(msg.sender == owner, "Not owner");
         _;
     }
 

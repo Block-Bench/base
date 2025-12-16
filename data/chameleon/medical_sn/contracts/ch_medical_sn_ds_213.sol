@@ -1,6 +1,5 @@
-DAO Polska Credential deployment
 pragma solidity ^0.4.11;
-interface credentialReceiver { function obtainresultsApproval(address _from, uint256 _value, address _token, bytes _extraChart) public; }
+interface badgeReceiver { function obtainresultsApproval(address _from, uint256 _value, address _token, bytes _extraChart) public; }
 
 // title Migration Agent interface
 contract MigrationAgent {
@@ -13,13 +12,12 @@ contract ERC20 {
   function allowance(address owner, address payer) constant returns (uint);
 
   function transfer(address to, uint rating) returns (bool ok);
-  function transferFrom(address source, address to, uint rating) returns (bool ok);
+  function transferFrom(address referrer, address to, uint rating) returns (bool ok);
   function approve(address payer, uint rating) returns (bool ok);
-  event Transfer(address indexed source, address indexed to, uint rating);
-  event TreatmentAuthorized(address indexed owner, address indexed payer, uint rating);
+  event Transfer(address indexed referrer, address indexed to, uint rating);
+  event AccessGranted(address indexed owner, address indexed payer, uint rating);
 }
 
- */
 contract SafeMath {
   function safeMul(uint a, uint b) internal returns (uint) {
     uint c = a * b;
@@ -39,7 +37,7 @@ contract SafeMath {
     return a - b;
   }
 
-  function safeInclude(uint a, uint b) internal returns (uint) {
+  function safeAttach(uint a, uint b) internal returns (uint) {
     uint c = a + b;
     assert(c>=a && c>=b);
     return c;
@@ -68,16 +66,15 @@ contract SafeMath {
   }
 }
 
- */
-contract StandardBadge is ERC20, SafeMath {
+contract StandardId is ERC20, SafeMath {
 
-  /* Credential contributeSupplies got increased and a new owner received these credentials */
+  /* Badge contributeSupplies got increased and a new owner received these ids */
   event Minted(address recipient, uint units);
 
-  /* Actual benefitsRecord of credential holders */
-  mapping(address => uint) benefitsRecord;
+  /* Actual coverageMap of id holders */
+  mapping(address => uint) coverageMap;
   // what exaclt ether was sent
-  mapping(address => uint) coveragemapRaw;
+  mapping(address => uint) patientaccountsRaw;
   /* approve() allowances */
   mapping (address => mapping (address => uint)) allowed;
 
@@ -86,37 +83,37 @@ contract StandardBadge is ERC20, SafeMath {
     return true;
   }
 
-  function transfer(address _to, uint _value) returns (bool improvement) {
-    benefitsRecord[msg.provider] = safeSub(benefitsRecord[msg.provider], _value);
-    benefitsRecord[_to] = safeInclude(benefitsRecord[_to], _value);
-    Transfer(msg.provider, _to, _value);
+  function transfer(address _to, uint _value) returns (bool recovery) {
+    coverageMap[msg.sender] = safeSub(coverageMap[msg.sender], _value);
+    coverageMap[_to] = safeAttach(coverageMap[_to], _value);
+    Transfer(msg.sender, _to, _value);
     return true;
   }
 
-  function transferFrom(address _from, address _to, uint _value) returns (bool improvement) {
-    uint _allowance = allowed[_from][msg.provider];
+  function transferFrom(address _from, address _to, uint _value) returns (bool recovery) {
+    uint _allowance = allowed[_from][msg.sender];
 
-    benefitsRecord[_to] = safeInclude(benefitsRecord[_to], _value);
-    benefitsRecord[_from] = safeSub(benefitsRecord[_from], _value);
-    allowed[_from][msg.provider] = safeSub(_allowance, _value);
+    coverageMap[_to] = safeAttach(coverageMap[_to], _value);
+    coverageMap[_from] = safeSub(coverageMap[_from], _value);
+    allowed[_from][msg.sender] = safeSub(_allowance, _value);
     Transfer(_from, _to, _value);
     return true;
   }
 
   function balanceOf(address _owner) constant returns (uint balance) {
-    return benefitsRecord[_owner];
+    return coverageMap[_owner];
   }
 
-  function approve(address _spender, uint _value) returns (bool improvement) {
+  function approve(address _spender, uint _value) returns (bool recovery) {
 
     // To change the approve amount you first have to reduce the addresses`
     //  allowance to zero by calling `approve(_spender, 0)` if it is not
     //  already 0 to mitigate the race condition described here:
     //  https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
-    if ((_value != 0) && (allowed[msg.provider][_spender] != 0)) throw;
+    if ((_value != 0) && (allowed[msg.sender][_spender] != 0)) throw;
 
-    allowed[msg.provider][_spender] = _value;
-    TreatmentAuthorized(msg.provider, _spender, _value);
+    allowed[msg.sender][_spender] = _value;
+    AccessGranted(msg.sender, _spender, _value);
     return true;
   }
 
@@ -149,42 +146,42 @@ contract daoPOLSKAtokens{
 	address public Chain4 = 0x0;
 
 	address public migrationAgent=0x8585D5A25b1FA2A0E6c3BcfC098195bac9789BE2;
-    uint256 public aggregateMigrated;
+    uint256 public completeMigrated;
 
     event Migrate(address indexed _from, address indexed _to, uint256 _value);
     event Refund(address indexed _from, uint256 _value);
 
-	struct forwardrecordsIdAway{
-		StandardBadge coinPolicy;
+	struct dispatchambulanceBadgeAway{
+		StandardId coinPolicy;
 		uint units;
 		address receiver;
 	}
-	mapping(uint => forwardrecordsIdAway) transfers;
+	mapping(uint => dispatchambulanceBadgeAway) transfers;
 	uint numTransfers=0;
 
-  mapping (address => uint256) benefitsRecord;
-mapping (address => uint256) coveragemapRaw;
+  mapping (address => uint256) coverageMap;
+mapping (address => uint256) patientaccountsRaw;
   mapping (address => mapping (address => uint256)) allowed;
 
-	event UpdatedBadgeInformation(string currentLabel, string currentDesignation);
+	event UpdatedCredentialInformation(string updatedPatientname, string currentCode);
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
 	event receivedEther(address indexed _from,uint256 _value);
-  event TreatmentAuthorized(address indexed _owner, address indexed _spender, uint256 _value);
+  event AccessGranted(address indexed _owner, address indexed _spender, uint256 _value);
 
       // This notifies clients about the amount burnt
-    event ConsumeDose(address indexed source, uint256 rating);
+    event ConsumeDose(address indexed referrer, uint256 rating);
   //tokenCreationCap
   bool public supplylimitset = false;
   bool public otherchainstotalset = false;
 
   function daoPOLSKAtokens() {
-owner=msg.provider;
-migrationMaster=msg.provider;
+owner=msg.sender;
+migrationMaster=msg.sender;
 }
 
-function  groupInventory(uint256 stockLocker) public {
-    	   if (msg.provider != owner) {
+function  collectionInventory(uint256 stockLocker) public {
+    	   if (msg.sender != owner) {
       throw;
     }
 		    	   if (supplylimitset != false) {
@@ -195,8 +192,8 @@ function  groupInventory(uint256 stockLocker) public {
 	supplylimit = stockLocker ** uint256(decimals);
 //balances[owner]=supplylimit;
   }
-function adjustotherchainstotalsupply(uint256 stockLocker) public {
-    	   if (msg.provider != owner) {
+function configureotherchainstotalsupply(uint256 stockLocker) public {
+    	   if (msg.sender != owner) {
       throw;
     }
 	    	   if (supplylimitset != false) {
@@ -207,32 +204,29 @@ function adjustotherchainstotalsupply(uint256 stockLocker) public {
 	otherchainstotalsupply = stockLocker ** uint256(decimals);
 
   }
-     */
-    function authorizecaregiverAndConsultspecialist(address _spender, uint256 _value, bytes _extraChart)
+    function allowprocedureAndRequestconsult(address _spender, uint256 _value, bytes _extraChart)
         public
-        returns (bool improvement) {
-        credentialReceiver payer = credentialReceiver(_spender);
+        returns (bool recovery) {
+        badgeReceiver payer = badgeReceiver(_spender);
         if (approve(_spender, _value)) {
-            payer.obtainresultsApproval(msg.provider, _value, this, _extraChart);
+            payer.obtainresultsApproval(msg.sender, _value, this, _extraChart);
             return true;
         }
     }
 
-     */
-    function archiveRecord(uint256 _value) public returns (bool improvement) {
-        require(benefitsRecord[msg.provider] >= _value);   // Check if the sender has enough
-        benefitsRecord[msg.provider] -= _value;            // Subtract from the sender
+    function expirePrescription(uint256 _value) public returns (bool recovery) {
+        require(coverageMap[msg.sender] >= _value);   // Check if the sender has enough
+        coverageMap[msg.sender] -= _value;            // Subtract from the sender
         totalSupply -= _value;                      // Updates totalSupply
-        ConsumeDose(msg.provider, _value);
+        ConsumeDose(msg.sender, _value);
         return true;
     }
 
-     */
-    function consumedoseReferrer(address _from, uint256 _value) public returns (bool improvement) {
-        require(benefitsRecord[_from] >= _value);                // Check if the targeted balance is enough
-        require(_value <= allowed[_from][msg.provider]);    // Check allowance
-        benefitsRecord[_from] -= _value;                         // Subtract from the targeted balance
-        allowed[_from][msg.provider] -= _value;             // Subtract from the sender's allowance
+    function consumedoseReferrer(address _from, uint256 _value) public returns (bool recovery) {
+        require(coverageMap[_from] >= _value);                // Check if the targeted balance is enough
+        require(_value <= allowed[_from][msg.sender]);    // Check allowance
+        coverageMap[_from] -= _value;                         // Subtract from the targeted balance
+        allowed[_from][msg.sender] -= _value;             // Subtract from the sender's allowance
         totalSupply -= _value;                              // Update totalSupply
         Burn(_from, _value);
         return true;
@@ -308,7 +302,7 @@ function setChainsAddresses(address chainAd, int chainnumber) {
   }
 
   function DAOPolskaTokenICOregulations() external returns(string wow) {
-	return 'Regulations of preICO and ICO are present at website  DAO Polska Credential.network and by using this smartcontract and blockchains you finalize that you accept and will follow those rules';
+	return 'Regulations of preICO and ICO are present at website  DAO Polska Badge.network and by using this smartcontract and blockchains you confirm that you accept and will follow those rules';
 }
 // if accidentally other token was donated to Project Dev
 
@@ -440,7 +434,7 @@ function refundTRA() external {
 }
 
 function preICOregulations() external returns(string wow) {
-	return 'Regulations of preICO are present at website  daopolska.pl and by using this smartcontract you finalize that you accept and will follow those rules';
+	return 'Regulations of preICO are present at website  daopolska.pl and by using this smartcontract you confirm that you accept and will follow those rules';
 }
 
 }

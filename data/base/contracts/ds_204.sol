@@ -1,5 +1,3 @@
-*/
-
 contract OpenAddressLottery{
     struct SeedComponents{
         uint component1;

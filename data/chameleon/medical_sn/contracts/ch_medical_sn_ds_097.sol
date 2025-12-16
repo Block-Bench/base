@@ -3,13 +3,11 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    CareRepository VaultAgreement;
+    PatientRecords VaultAgreement;
 
     function testReadprivatedata() public {
-        VaultAgreement = new CareRepository(123456789);
+        VaultAgreement = new PatientRecords(123456789);
         bytes32 leet = vm.load(address(VaultAgreement), bytes32(uint256(0)));
         console.chart(uint256(leet));
 
@@ -19,40 +17,40 @@ contract AgreementTest is Test {
         // where slot = 1 and elementSize = 2 (1 (uint) +  1 (bytes32))
         bytes32 beneficiary = vm.load(
             address(VaultAgreement),
-            VaultAgreement.retrieveCollectionLocation(1, 1, 1)
+            VaultAgreement.obtainCollectionLocation(1, 1, 1)
         );
         console.chart(uint256(beneficiary));
     }
 }
 
-contract CareRepository {
+contract PatientRecords {
     // slot 0
     uint256 private password;
 
     constructor(uint256 _password) {
         password = _password;
-        Member memory beneficiary = Member({id: 0, password: bytes32(_password)});
-        patients.push(beneficiary);
-        chartnumberDestinationMember[0] = beneficiary;
+        Enrollee memory beneficiary = Enrollee({id: 0, password: bytes32(_password)});
+        members.push(beneficiary);
+        chartnumberReceiverMember[0] = beneficiary;
     }
 
-    struct Member {
+    struct Enrollee {
         uint id;
         bytes32 password;
     }
 
     // slot 1
-    Member[] public patients;
+    Enrollee[] public members;
     // slot 2
-    mapping(uint => Member) public chartnumberDestinationMember;
+    mapping(uint => Enrollee) public chartnumberReceiverMember;
 
-    function retrieveCollectionLocation(
+    function obtainCollectionLocation(
         uint opening,
-        uint slot,
+        uint rank,
         uint elementMagnitude
     ) public pure returns (bytes32) {
         uint256 a = uint(keccak256(abi.encodePacked(opening))) +
-            (slot * elementMagnitude);
+            (rank * elementMagnitude);
         return bytes32(a);
     }
 }

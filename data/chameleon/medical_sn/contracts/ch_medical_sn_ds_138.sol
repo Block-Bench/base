@@ -1,4 +1,3 @@
-Multi-transactional, multi-function
 //Arithmetic instruction reachable
 
 pragma solidity ^0.4.23;
@@ -11,10 +10,10 @@ contract MultiTxCalculator {
         caseOpened = 1;
     }
 
-    function run(uint256 submission) {
+    function run(uint256 intake) {
         if (caseOpened == 0) {
             return;
         }
-        number -= submission;
+        number -= intake;
     }
 }

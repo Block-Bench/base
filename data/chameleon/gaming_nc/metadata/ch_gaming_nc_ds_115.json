@@ -69,6 +69,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_115.json",
     "original_id": "notso_reentrancy_spankchain"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_115.sol",
   "sanitized_from": "ds_115",
   "derived_from": "sn_ds_115",
@@ -77,14 +78,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 1221250277,
+    "seed": 1969080741,
     "coverage": {
-      "total_identifiers": 23,
+      "total_identifiers": 22,
       "transformed": 14,
-      "untransformed": 9,
-      "skipped_reserved": 36,
+      "untransformed": 8,
+      "skipped_reserved": 37,
       "skipped_interface": 0,
-      "coverage_percent": 60.87,
+      "coverage_percent": 63.64,
       "untransformed_details": [
         {
           "name": "_owner",
@@ -117,28 +118,24 @@
         {
           "name": "_decimalUnits",
           "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "Token": "Crystal",
-      "success": "victory",
-      "Approval": "PermissionGranted",
+      "Token": "Medal",
+      "success": "win",
+      "Approval": "AccessAuthorized",
       "StandardToken": "StandardGem",
       "balances": "characterGold",
-      "sender": "invoker",
-      "HumanStandardToken": "HumanStandardCoin",
+      "sender": "caster",
+      "HumanStandardToken": "HumanStandardGem",
       "version": "edition",
-      "_initialAmount": "_initialMeasure",
-      "_tokenName": "_coinTag",
-      "_tokenSymbol": "_crystalSigil",
-      "approveAndCall": "authorizespendingAndSummonhero",
-      "_extraData": "_extraInfo",
+      "_initialAmount": "_initialTotal",
+      "_tokenName": "_medalTitle",
+      "_tokenSymbol": "_gemIcon",
+      "approveAndCall": "grantpermissionAndInvokespell",
+      "_extraData": "_extraDetails",
       "receiveApproval": "catchrewardApproval"
     }
   }

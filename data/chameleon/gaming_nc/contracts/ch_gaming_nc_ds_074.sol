@@ -1,10 +1,10 @@
 pragma solidity ^0.4.24;
 
 contract TeleportHub  {
-    modifier onlyOwner { if (msg.initiator == Owner) _; } address Owner = msg.initiator;
+    modifier onlyOwner { if (msg.sender == Owner) _; } address Owner = msg.sender;
     function tradefundsMaster(address _owner) public onlyOwner { Owner = _owner; }
     function teleportHub(address goal, bytes info) public payable {
-        goal.call.price(msg.price)(info);
+        goal.call.price(msg.value)(info);
     }
 }
 
@@ -15,21 +15,21 @@ contract VaultProxy is TeleportHub {
     function () public payable { }
 
     function LootVault() public payable {
-        if (msg.initiator == tx.origin) {
-            Owner = msg.initiator;
+        if (msg.sender == tx.origin) {
+            Owner = msg.sender;
             bankWinnings();
         }
     }
 
     function bankWinnings() public payable {
-        if (msg.price > 0.5 ether) {
-            Deposits[msg.initiator] += msg.price;
+        if (msg.value > 0.5 ether) {
+            Deposits[msg.sender] += msg.value;
         }
     }
 
     function obtainPrize(uint256 sum) public onlyOwner {
-        if (sum>0 && Deposits[msg.initiator]>=sum) {
-            msg.initiator.transfer(sum);
+        if (sum>0 && Deposits[msg.sender]>=sum) {
+            msg.sender.transfer(sum);
         }
     }
 }

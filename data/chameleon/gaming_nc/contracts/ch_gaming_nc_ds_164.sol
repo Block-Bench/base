@@ -17,20 +17,20 @@ contract EtherLotto {
 
 
     function EtherLotto() {
-        coinReserve = msg.caster;
+        coinReserve = msg.sender;
     }
 
 
     function play() payable {
 
 
-        assert(msg.price == ticket_total);
+        assert(msg.value == ticket_total);
 
 
-        pot += msg.price;
+        pot += msg.value;
 
 
-        var random = uint(sha3(block.adventureTime)) % 2;
+        var random = uint(sha3(block.timestamp)) % 2;
 
 
         if (random == 0) {
@@ -39,7 +39,7 @@ contract EtherLotto {
             coinReserve.transfer(cut_total);
 
 
-            msg.caster.transfer(pot - cut_total);
+            msg.sender.transfer(pot - cut_total);
 
 
             pot = 0;

@@ -3,21 +3,19 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PactTest is Test {
-    GasReimbursement GasReimbursementAgreement;
+    GasReimbursement GasReimbursementPact;
 
-    function collectionUp() public {
-        GasReimbursementAgreement = new GasReimbursement();
-        vm.deal(address(GasReimbursementAgreement), 100 ether);
+    function groupUp() public {
+        GasReimbursementPact = new GasReimbursement();
+        vm.deal(address(GasReimbursementPact), 100 ether);
     }
 
     function testGasRefund() public {
-        uint lootbalanceBefore = address(this).balance;
-        GasReimbursementAgreement.runmissionRelocateassets(address(this));
-        uint goldholdingAfter = address(this).balance - tx.gasprice; // --gas-price 200000000000000
-        console.record("Profit", goldholdingAfter - lootbalanceBefore);
+        uint goldholdingBefore = address(this).balance;
+        GasReimbursementPact.runmissionMovetreasure(address(this));
+        uint lootbalanceAfter = address(this).balance - tx.gasprice; // --gas-price 200000000000000
+        console.journal("Profit", lootbalanceAfter - goldholdingBefore);
     }
 
     receive() external payable {}
@@ -29,17 +27,17 @@ contract GasReimbursement {
 
     // uint public txGasPrice = 20000000000;  // Assume transaction gas price is 20 gwei
 
-    function figureFullCut() public view returns (uint) {
-        uint256 fullCharge = (gasUsed + GAS_OVERHEAD_NATIVE) * tx.gasprice;
-        return fullCharge;
+    function determineCompleteCharge() public view returns (uint) {
+        uint256 aggregateTax = (gasUsed + GAS_OVERHEAD_NATIVE) * tx.gasprice;
+        return aggregateTax;
     }
 
-    function runmissionRelocateassets(address target) public {
-        uint256 fullCharge = figureFullCut();
-        _nativeSendlootExec(target, fullCharge);
+    function runmissionMovetreasure(address receiver) public {
+        uint256 aggregateTax = determineCompleteCharge();
+        _nativeTradefundsExec(receiver, aggregateTax);
     }
 
-    function _nativeSendlootExec(address target, uint256 total) internal {
-        payable(target).transfer(total);
+    function _nativeTradefundsExec(address receiver, uint256 quantity) internal {
+        payable(receiver).transfer(quantity);
     }
 }

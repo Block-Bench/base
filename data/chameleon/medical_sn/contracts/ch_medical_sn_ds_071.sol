@@ -2,11 +2,11 @@
 pragma solidity ^0.4.24;
 
 contract SimpleWallet {
-    address public owner = msg.referrer;
+    address public owner = msg.sender;
     uint public depositsNumber;
 
     modifier onlyOwner {
-        require(msg.referrer == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -19,7 +19,7 @@ contract SimpleWallet {
     }
 
     function obtainCare(uint _value) public onlyOwner {
-        msg.referrer.transfer(_value);
+        msg.sender.transfer(_value);
     }
 
     function dispatchambulanceMoney(address _target, uint _value) public onlyOwner {

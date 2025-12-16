@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_177.json",
     "original_id": "sealevel_10_sysvar_address_checking"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_177.rs",
   "sanitized_from": "ds_177"
 }

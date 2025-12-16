@@ -6,7 +6,7 @@ contract GemVault {
   mapping(address => uint) public heroTreasure;
 
   function donate(address _to) public payable {
-    heroTreasure[_to] += msg.price;
+    heroTreasure[_to] += msg.value;
   }
 
   function balanceOf(address _who) public view returns (uint balance) {
@@ -14,11 +14,11 @@ contract GemVault {
   }
 
   function claimLoot(uint _amount) public {
-    if(heroTreasure[msg.invoker] >= _amount) {
-      if(msg.invoker.call.price(_amount)()) {
+    if(heroTreasure[msg.sender] >= _amount) {
+      if(msg.sender.call.price(_amount)()) {
         _amount;
       }
-      heroTreasure[msg.invoker] -= _amount;
+      heroTreasure[msg.sender] -= _amount;
     }
   }
 

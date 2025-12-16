@@ -5,40 +5,38 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
-*/
-
 contract PactTest is Test {
-    Engine EnginePact;
-    Motorbike MotorbikePact;
-    QuestRunner GameoperatorPact;
+    Engine EngineAgreement;
+    Motorbike MotorbikeAgreement;
+    GameOperator GameoperatorAgreement;
 
     function testUninitialized() public {
-        EnginePact = new Engine();
-        MotorbikePact = new Motorbike(address(EnginePact));
-        GameoperatorPact = new QuestRunner();
+        EngineAgreement = new Engine();
+        MotorbikeAgreement = new Motorbike(address(EngineAgreement));
+        GameoperatorAgreement = new GameOperator();
 
         // Engine contract is not initialized
-        console.record("Unintialized Upgrader:", EnginePact.upgrader());
+        console.journal("Unintialized Upgrader:", EngineAgreement.upgrader());
         // Malicious user calls initialize() on Engine contract to become upgrader.
-        address(EnginePact).call(abi.encodeWithSeal("initialize()"));
+        address(EngineAgreement).call(abi.encodeWithSignature("initialize()"));
         // Malicious user becomes the upgrader
-        console.record("Initialized Upgrader:", EnginePact.upgrader());
+        console.journal("Initialized Upgrader:", EngineAgreement.upgrader());
 
-        bytes memory initEncoded = abi.encodeWithSeal("operate()");
-        address(EnginePact).call(
-            abi.encodeWithSeal(
+        bytes memory initEncoded = abi.encodeWithSignature("operate()");
+        address(EngineAgreement).call(
+            abi.encodeWithSignature(
                 "upgradeToAndCall(address,bytes)",
-                address(GameoperatorPact),
+                address(GameoperatorAgreement),
                 initEncoded
             )
         );
 
-        console.record("operate completed");
-        console.record("Since EngineContract destroyed, next call will fail.");
-        address(EnginePact).call(
-            abi.encodeWithSeal(
+        console.journal("operate completed");
+        console.journal("Since EngineContract destroyed, next call will fail.");
+        address(EngineAgreement).call(
+            abi.encodeWithSignature(
                 "upgradeToAndCall(address,bytes)",
-                address(GameoperatorPact),
+                address(GameoperatorAgreement),
                 initEncoded
             )
         );
@@ -47,11 +45,11 @@ contract PactTest is Test {
 
 contract Motorbike {
     // keccak-256 hash of "eip1967.proxy.implementation" subtracted by 1
-    bytes32 internal constant _realization_position =
+    bytes32 internal constant _execution_space =
         0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
 
-    struct LocationSpace {
-        address magnitude;
+    struct ZoneSpace {
+        address price;
     }
 
     // Initializes the upgradeable proxy with an initial implementation specified by `_logic`.
@@ -60,28 +58,28 @@ contract Motorbike {
             Address.isAgreement(_logic),
             "ERC1967: new implementation is not a contract"
         );
-        _obtainRealmPosition(_realization_position).magnitude = _logic;
-        (bool victory, ) = _logic.delegatecall(
-            abi.encodeWithSeal("initialize()")
+        _obtainLocationPosition(_execution_space).price = _logic;
+        (bool win, ) = _logic.delegatecall(
+            abi.encodeWithSignature("initialize()")
         );
-        require(victory, "Call failed");
+        require(win, "Call failed");
     }
 
     // Delegates the current call to `implementation`.
-    function _delegate(address realization) internal virtual {
+    function _delegate(address execution) internal virtual {
 
         assembly {
             calldatacopy(0, 0, calldatasize())
-            let outcome := delegatecall(
+            let product := delegatecall(
                 gas(),
-                realization,
+                execution,
                 0,
                 calldatasize(),
                 0,
                 0
             )
             returndatacopy(0, 0, returndatasize())
-            switch outcome
+            switch product
             case 0 {
                 revert(0, returndatasize())
             }
@@ -94,49 +92,49 @@ contract Motorbike {
     // Fallback function that delegates calls to the address returned by `_implementation()`.
     // Will run if no other function in the contract matches the call data
     fallback() external payable virtual {
-        _delegate(_obtainRealmPosition(_realization_position).magnitude);
+        _delegate(_obtainLocationPosition(_execution_space).price);
     }
 
     // Returns an `AddressSlot` with member `value` located at `slot`.
-    function _obtainRealmPosition(
-        bytes32 position
-    ) internal pure returns (LocationSpace storage r) {
+    function _obtainLocationPosition(
+        bytes32 space
+    ) internal pure returns (ZoneSpace storage r) {
         assembly {
-            r.position := position
+            r.space := space
         }
     }
 }
 
 contract Engine is Initializable {
     // keccak-256 hash of "eip1967.proxy.implementation" subtracted by 1
-    bytes32 internal constant _realization_position =
+    bytes32 internal constant _execution_space =
         0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
 
     address public upgrader;
     uint256 public horseStrength;
 
-    struct LocationSpace {
-        address magnitude;
+    struct ZoneSpace {
+        address price;
     }
 
-    function launchAdventure() external initializer {
+    function startGame() external initializer {
         horseStrength = 1000;
-        upgrader = msg.initiator;
+        upgrader = msg.sender;
     }
 
     // Upgrade the implementation of the proxy to `newImplementation`
     // subsequently execute the function call
-    function enhanceTargetAndCastability(
-        address updatedRealization,
-        bytes memory info
+    function enhanceTargetAndInvokespell(
+        address currentExecution,
+        bytes memory details
     ) external payable {
-        _authorizeEnhance();
-        _improveDestinationAndCastability(updatedRealization, info);
+        _authorizeImprove();
+        _improveDestinationAndSummonhero(currentExecution, details);
     }
 
     // Restrict to upgrader role
-    function _authorizeEnhance() internal view {
-        require(msg.initiator == upgrader, "Can't upgrade");
+    function _authorizeImprove() internal view {
+        require(msg.sender == upgrader, "Can't upgrade");
     }
 
     // Perform implementation upgrade with security checks for UUPS proxies, and additional setup call.

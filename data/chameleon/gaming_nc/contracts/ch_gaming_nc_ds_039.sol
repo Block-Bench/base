@@ -6,17 +6,17 @@ contract AlterationBank {
 
 
   function airDrop() hasNoLootbalance supportsGem  public{
-    medalLootbalance[msg.invoker] += 20;
+    medalLootbalance[msg.sender] += 20;
   }
 
 
   modifier supportsGem() {
-    require(keccak256(abi.encodePacked("Nu Token")) == RichesKeeper(msg.invoker).supportsGem());
+    require(keccak256(abi.encodePacked("Nu Token")) == RichesKeeper(msg.sender).supportsGem());
     _;
   }
 
   modifier hasNoLootbalance {
-      require(medalLootbalance[msg.invoker] == 0);
+      require(medalLootbalance[msg.sender] == 0);
       _;
   }
 }
@@ -32,7 +32,7 @@ contract performer {
     function supportsGem() external returns(bytes32){
         if(!containsBeenCalled){
             containsBeenCalled = true;
-            AlterationBank(msg.invoker).airDrop();
+            AlterationBank(msg.sender).airDrop();
         }
         return(keccak256(abi.encodePacked("Nu Token")));
     }

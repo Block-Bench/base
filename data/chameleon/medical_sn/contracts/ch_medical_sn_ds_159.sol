@@ -14,11 +14,11 @@ contract OddsAndEvens{
   address owner;
 
   function OddsAndEvens() {
-    owner = msg.provider;
+    owner = msg.sender;
   }
   function play(uint number) payable{
-    if (msg.evaluation != 1 ether) throw;
-    players[tot] = Player(msg.provider, number);
+    if (msg.value != 1 ether) throw;
+    players[tot] = Player(msg.sender, number);
     tot++;
 
     if (tot==2) andTheWinnerIs();
@@ -39,8 +39,8 @@ contract OddsAndEvens{
   }
 
   function acquireProfit() {
-    if(msg.provider!=owner) throw;
-    bool res = msg.provider.send(this.balance);
+    if(msg.sender!=owner) throw;
+    bool res = msg.sender.send(this.balance);
   }
 
 }

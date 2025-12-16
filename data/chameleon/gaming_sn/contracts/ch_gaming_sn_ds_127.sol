@@ -5,13 +5,13 @@ contract Missing{
     address private owner;
 
     modifier onlyGameAdmin {
-        require(msg.invoker==owner);
+        require(msg.sender==owner);
         _;
     }
     function Constructor()
         public
     {
-        owner = msg.invoker;
+        owner = msg.sender;
     }
 
     function () payable {}

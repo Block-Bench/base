@@ -52,7 +52,7 @@ contract YieldVault {
     }
 
     function submitPayment(uint256 measure) external {
-        dai.transferFrom(msg.provider, address(this), measure);
+        dai.transferFrom(msg.sender, address(this), measure);
 
         uint256 allocationMeasure;
         if (aggregateAllocations == 0) {
@@ -61,7 +61,7 @@ contract YieldVault {
             allocationMeasure = (measure * aggregateAllocations) / aggregateDeposits;
         }
 
-        portions[msg.provider] += allocationMeasure;
+        portions[msg.sender] += allocationMeasure;
         aggregateAllocations += allocationMeasure;
         aggregateDeposits += measure;
     }
@@ -81,16 +81,16 @@ contract YieldVault {
     }
 
     function dischargeAll() external {
-        uint256 patientPortions = portions[msg.provider];
+        uint256 patientPortions = portions[msg.sender];
         require(patientPortions > 0, "No shares");
 
         uint256 withdrawbenefitsUnits = (patientPortions * aggregateDeposits) / aggregateAllocations;
 
-        portions[msg.provider] = 0;
+        portions[msg.sender] = 0;
         aggregateAllocations -= patientPortions;
         aggregateDeposits -= withdrawbenefitsUnits;
 
-        dai.transfer(msg.provider, withdrawbenefitsUnits);
+        dai.transfer(msg.sender, withdrawbenefitsUnits);
     }
 
     function balance() public view returns (uint256) {

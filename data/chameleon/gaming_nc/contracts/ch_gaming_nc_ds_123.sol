@@ -4,11 +4,11 @@ contract owned {
     address public owner;
 
     function owned() public {
-        owner = msg.invoker;
+        owner = msg.sender;
     }
 
     modifier onlyOwner {
-        require(msg.invoker == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -17,9 +17,9 @@ contract owned {
     }
 }
 
-interface medalReceiver { function catchrewardApproval(address _from, uint256 _value, address _token, bytes _extraInfo) external; }
+interface crystalTarget { function catchrewardApproval(address _from, uint256 _value, address _token, bytes _extraInfo) external; }
 
-contract GemErc20 {
+contract CrystalErc20 {
 
     string public name;
     string public symbol;
@@ -32,21 +32,19 @@ contract GemErc20 {
     mapping (address => mapping (address => uint256)) public allowance;
 
 
-    event Transfer(address indexed source, address indexed to, uint256 price);
+    event Transfer(address indexed origin, address indexed to, uint256 cost);
 
 
     event AccessAuthorized(address indexed _owner, address indexed _spender, uint256 _value);
 
-     */
-    function GemErc20(
-        string gemTitle,
-        string crystalEmblem
+    function CrystalErc20(
+        string medalTag,
+        string medalEmblem
     ) public {
-        name = gemTitle;
-        symbol = crystalEmblem;
+        name = medalTag;
+        symbol = medalEmblem;
     }
 
-     */
     function _transfer(address _from, address _to, uint _value) internal {
 
         require(_to != 0x0);
@@ -55,45 +53,41 @@ contract GemErc20 {
 
         require(balanceOf[_to] + _value > balanceOf[_to]);
 
-        uint priorCharactergold = balanceOf[_from] + balanceOf[_to];
+        uint priorPlayerloot = balanceOf[_from] + balanceOf[_to];
 
         balanceOf[_from] -= _value;
 
         balanceOf[_to] += _value;
         emit Transfer(_from, _to, _value);
 
-        assert(balanceOf[_from] + balanceOf[_to] == priorCharactergold);
+        assert(balanceOf[_from] + balanceOf[_to] == priorPlayerloot);
     }
 
-     */
-    function transfer(address _to, uint256 _value) public returns (bool win) {
-        _transfer(msg.invoker, _to, _value);
+    function transfer(address _to, uint256 _value) public returns (bool victory) {
+        _transfer(msg.sender, _to, _value);
         return true;
     }
 
-     */
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool win) {
-        require(_value <= allowance[_from][msg.invoker]);
-        allowance[_from][msg.invoker] -= _value;
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool victory) {
+        require(_value <= allowance[_from][msg.sender]);
+        allowance[_from][msg.sender] -= _value;
         _transfer(_from, _to, _value);
         return true;
     }
 
-     */
     function approve(address _spender, uint256 _value) public
-        returns (bool win) {
-        allowance[msg.invoker][_spender] = _value;
-        emit AccessAuthorized(msg.invoker, _spender, _value);
+        returns (bool victory) {
+        allowance[msg.sender][_spender] = _value;
+        emit AccessAuthorized(msg.sender, _spender, _value);
         return true;
     }
 
-     */
     function authorizespendingAndInvokespell(address _spender, uint256 _value, bytes _extraInfo)
         public
-        returns (bool win) {
-        medalReceiver consumer = medalReceiver(_spender);
+        returns (bool victory) {
+        crystalTarget user = crystalTarget(_spender);
         if (approve(_spender, _value)) {
-            consumer.catchrewardApproval(msg.invoker, _value, this, _extraInfo);
+            user.catchrewardApproval(msg.sender, _value, this, _extraInfo);
             return true;
         }
     }
@@ -101,7 +95,7 @@ contract GemErc20 {
 }
 
 
-contract MyAdvancedCoin is owned, GemErc20 {
+contract MyAdvancedGem is owned, CrystalErc20 {
 
     mapping (address => bool) public frozenProfile;
 
@@ -109,10 +103,10 @@ contract MyAdvancedCoin is owned, GemErc20 {
     event FrozenFunds(address goal, bool frozen);
 
 
-    function MyAdvancedCoin(
-        string gemTitle,
-        string crystalEmblem
-    ) GemErc20(gemTitle, crystalEmblem) public {}
+    function MyAdvancedGem(
+        string medalTag,
+        string medalEmblem
+    ) CrystalErc20(medalTag, medalEmblem) public {}
 
 
     function _transfer(address _from, address _to, uint _value) internal {
@@ -128,10 +122,10 @@ contract MyAdvancedCoin is owned, GemErc20 {
 
 
     function buy() payable public {
-        uint quantity = msg.price;
-	balanceOf[msg.invoker] += quantity;
+        uint quantity = msg.value;
+	balanceOf[msg.sender] += quantity;
         totalSupply += quantity;
-        _transfer(address(0x0), msg.invoker, quantity);
+        _transfer(address(0x0), msg.sender, quantity);
     }
 
 

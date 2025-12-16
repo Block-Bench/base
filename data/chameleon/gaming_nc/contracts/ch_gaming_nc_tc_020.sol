@@ -39,23 +39,23 @@ contract LendingVault {
     }
 
     function addTreasure(uint256 sum) external {
-        IERC20(lpMedal).transferFrom(msg.invoker, address(this), sum);
-        positions[msg.invoker].lpCoinMeasure += sum;
+        IERC20(lpMedal).transferFrom(msg.sender, address(this), sum);
+        positions[msg.sender].lpCoinMeasure += sum;
     }
 
     function seekAdvance(uint256 sum) external {
         uint256 pledgeWorth = retrieveLpMedalPrice(
-            positions[msg.invoker].lpCoinMeasure
+            positions[msg.sender].lpCoinMeasure
         );
         uint256 ceilingRequestloan = (pledgeWorth * 100) / pledge_proportion;
 
         require(
-            positions[msg.invoker].borrowed + sum <= ceilingRequestloan,
+            positions[msg.sender].borrowed + sum <= ceilingRequestloan,
             "Insufficient collateral"
         );
 
-        positions[msg.invoker].borrowed += sum;
-        IERC20(stablecoin).transfer(msg.invoker, sum);
+        positions[msg.sender].borrowed += sum;
+        IERC20(stablecoin).transfer(msg.sender, sum);
     }
 
     function retrieveLpMedalPrice(uint256 lpQuantity) public view returns (uint256) {
@@ -76,28 +76,28 @@ contract LendingVault {
     }
 
     function returnLoan(uint256 sum) external {
-        require(positions[msg.invoker].borrowed >= sum, "Repay exceeds debt");
+        require(positions[msg.sender].borrowed >= sum, "Repay exceeds debt");
 
-        IERC20(stablecoin).transferFrom(msg.invoker, address(this), sum);
-        positions[msg.invoker].borrowed -= sum;
+        IERC20(stablecoin).transferFrom(msg.sender, address(this), sum);
+        positions[msg.sender].borrowed -= sum;
     }
 
     function obtainPrize(uint256 sum) external {
         require(
-            positions[msg.invoker].lpCoinMeasure >= sum,
+            positions[msg.sender].lpCoinMeasure >= sum,
             "Insufficient balance"
         );
 
-        uint256 remainingLP = positions[msg.invoker].lpCoinMeasure - sum;
+        uint256 remainingLP = positions[msg.sender].lpCoinMeasure - sum;
         uint256 remainingWorth = retrieveLpMedalPrice(remainingLP);
         uint256 ceilingRequestloan = (remainingWorth * 100) / pledge_proportion;
 
         require(
-            positions[msg.invoker].borrowed <= ceilingRequestloan,
+            positions[msg.sender].borrowed <= ceilingRequestloan,
             "Withdrawal would liquidate position"
         );
 
-        positions[msg.invoker].lpCoinMeasure -= sum;
-        IERC20(lpMedal).transfer(msg.invoker, sum);
+        positions[msg.sender].lpCoinMeasure -= sum;
+        IERC20(lpMedal).transfer(msg.sender, sum);
     }
 }

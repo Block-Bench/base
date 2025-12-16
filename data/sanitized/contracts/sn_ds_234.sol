@@ -38,7 +38,7 @@ contract BasicToken is ERC20Basic {
      assert(msg.data.length >= size + 4);
      _;
   }
-  */
+
   function transfer(address _to, uint _value) onlyPayloadSize(2 * 32) {
     commitDividend(msg.sender);
     balances[msg.sender] = balances[msg.sender].sub(_value);
@@ -53,7 +53,7 @@ contract BasicToken is ERC20Basic {
         Transfer(msg.sender, _to, _value);
     }
   }
-  */
+
   function balanceOf(address _owner) constant returns (uint balance) {
     return balances[_owner];
   }
@@ -62,7 +62,6 @@ contract BasicToken is ERC20Basic {
 contract StandardToken is BasicToken, ERC20 {
   mapping (address => mapping (address => uint)) allowed;
 
-   */
   function transferFrom(address _from, address _to, uint _value) onlyPayloadSize(3 * 32) {
     var _allowance = allowed[_from][msg.sender];
     commitDividend(_from);
@@ -72,20 +71,19 @@ contract StandardToken is BasicToken, ERC20 {
     allowed[_from][msg.sender] = _allowance.sub(_value);
     Transfer(_from, _to, _value);
   }
-   */
+
   function approve(address _spender, uint _value) {
     //  https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
     assert(!((_value != 0) && (allowed[msg.sender][_spender] != 0)));
     allowed[msg.sender][_spender] = _value;
     Approval(msg.sender, _spender, _value);
   }
-   */
+
   function allowance(address _owner, address _spender) constant returns (uint remaining) {
     return allowed[_owner][_spender];
   }
 }
 
- */
 contract SmartBillions is StandardToken {
 
     // metadata
@@ -160,42 +158,34 @@ contract SmartBillions is StandardToken {
 
 /* getters */
 
-     */
     function hashesLength() constant external returns (uint) {
         return uint(hashes.length);
     }
 
-     */
     function walletBalanceOf(address _owner) constant external returns (uint) {
         return uint(wallets[_owner].balance);
     }
 
-     */
     function walletPeriodOf(address _owner) constant external returns (uint) {
         return uint(wallets[_owner].lastDividendPeriod);
     }
 
-     */
     function walletBlockOf(address _owner) constant external returns (uint) {
         return uint(wallets[_owner].nextWithdrawBlock);
     }
 
-     */
     function betValueOf(address _owner) constant external returns (uint) {
         return uint(bets[_owner].value);
     }
 
-     */
     function betHashOf(address _owner) constant external returns (uint) {
         return uint(bets[_owner].betHash);
     }
 
-     */
     function betBlockNumberOf(address _owner) constant external returns (uint) {
         return uint(bets[_owner].blockNum);
     }
 
-     */
     function dividendsBlocks() constant external returns (uint) {
         if(investStart > 0) {
             return(0);
@@ -209,7 +199,6 @@ contract SmartBillions is StandardToken {
 
 /* administrative functions */
 
-     */
     function changeOwner(address _who) external onlyOwner {
         assert(_who != address(0));
         commitDividend(msg.sender);
@@ -217,7 +206,6 @@ contract SmartBillions is StandardToken {
         owner = _who;
     }
 
-     */
     function changeAnimator(address _who) external onlyAnimator {
         assert(_who != address(0));
         commitDividend(msg.sender);
@@ -225,24 +213,20 @@ contract SmartBillions is StandardToken {
         animator = _who;
     }
 
-     */
     function setInvestStart(uint _when) external onlyOwner {
         require(investStart == 1 && hashFirst > 0 && block.number < _when);
         investStart = _when;
     }
 
-     */
     function setBetMax(uint _maxsum) external onlyOwner {
         hashBetMax = _maxsum;
     }
 
-     */
     function resetBet() external onlyOwner {
         hashNext = block.number + 3;
         hashBetSum = 0;
     }
 
-     */
     function coldStore(uint _amount) external onlyOwner {
         houseKeeping();
         require(_amount > 0 && this.balance >= (investBalance * 9 / 10) + walletBalance + _amount);
@@ -253,14 +237,12 @@ contract SmartBillions is StandardToken {
         coldStoreLast = block.number;
     }
 
-     */
     function hotStore() payable external {
         houseKeeping();
     }
 
 /* housekeeping functions */
 
-     */
     function houseKeeping() public {
         if(investStart > 1 && block.number >= investStart + (hashesSize * 5)){ // ca. 14 days
             investStart = 0; // start dividend payments
@@ -280,7 +262,6 @@ contract SmartBillions is StandardToken {
 
 /* payments */
 
-     */
     function payWallet() public {
         if(wallets[msg.sender].balance > 0 && wallets[msg.sender].nextWithdrawBlock <= block.number){
             uint balance = wallets[msg.sender].balance;
@@ -309,12 +290,10 @@ contract SmartBillions is StandardToken {
 
 /* investment functions */
 
-     */
     function investDirect() payable external {
         invest(owner);
     }
 
-     */
     function invest(address _partner) payable public {
         //require(fromUSA()==false); // fromUSA() not yet implemented :-(
         require(investStart > 1 && block.number < investStart + (hashesSize * 5) && investBalance < investBalanceMax);
@@ -349,7 +328,6 @@ contract SmartBillions is StandardToken {
         LogInvestment(msg.sender,_partner,investing);
     }
 
-     */
     function disinvest() external {
         require(investStart == 0);
         commitDividend(msg.sender);
@@ -361,14 +339,12 @@ contract SmartBillions is StandardToken {
         payWallet();
     }
 
-     */
     function payDividends() external {
         require(investStart == 0);
         commitDividend(msg.sender);
         payWallet();
     }
 
-     */
     function commitDividend(address _who) internal {
         uint last = wallets[_who].lastDividendPeriod;
         if((balances[_who]==0) || (last==0)){
@@ -420,7 +396,6 @@ contract SmartBillions is StandardToken {
         return(0);
     }
 
-     */
     function betOf(address _who) constant external returns (uint)  {
         Bet memory player = bets[_who];
         if( (player.value==0) ||
@@ -444,7 +419,6 @@ contract SmartBillions is StandardToken {
         return(0);
     }
 
-     */
     function won() public {
         Bet memory player = bets[msg.sender];
         if(player.blockNum==0){ // create a new player
@@ -497,7 +471,6 @@ contract SmartBillions is StandardToken {
         }
     }
 
-     */
     function () payable external {
         if(msg.value > 0){
             if(investStart>1){ // during ICO payment to the contract is treated as investment
@@ -514,17 +487,14 @@ contract SmartBillions is StandardToken {
         won(); // will run payWallet() if nothing else available
     }
 
-     */
     function play() payable public returns (uint) {
         return playSystem(uint(sha3(msg.sender,block.number)), address(0));
     }
 
-     */
     function playRandom(address _partner) payable public returns (uint) {
         return playSystem(uint(sha3(msg.sender,block.number)), _partner);
     }
 
-     */
     function playSystem(uint _hash, address _partner) payable public returns (uint) {
         won(); // check if player did not win
         uint24 bethash = uint24(_hash);
@@ -560,7 +530,6 @@ contract SmartBillions is StandardToken {
 
 /* database functions */
 
-     */
     function addHashes(uint _sadd) public returns (uint) {
         require(hashFirst == 0 && _sadd > 0 && _sadd <= hashesSize);
         uint n = hashes.length;
@@ -580,7 +549,6 @@ contract SmartBillions is StandardToken {
         return(hashes.length);
     }
 
-     */
     function addHashes128() external returns (uint) {
         return(addHashes(128));
     }
@@ -609,7 +577,6 @@ contract SmartBillions is StandardToken {
         return(uint32((hash >> (24 * slotp)) & 0xFFFFFF));
     }
 
-     */
     function putHash() public returns (bool) {
         uint lastb = hashLast;
         if(lastb == 0 || block.number <= lastb + 10) {
@@ -633,7 +600,6 @@ contract SmartBillions is StandardToken {
         return(true);
     }
 
-     */
     function putHashes(uint _num) external {
         uint n=0;
         for(;n<_num;n++){

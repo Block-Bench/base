@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_233.json",
     "original_id": "smartbugs_bad_randomness_blackjack"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_233.sol",
   "sanitized_from": "ds_233",
   "transformation": {
@@ -74,12 +75,12 @@
     "source": "sanitized",
     "seed": 3597958458,
     "coverage": {
-      "total_identifiers": 129,
+      "total_identifiers": 128,
       "transformed": 34,
-      "untransformed": 95,
-      "skipped_reserved": 40,
+      "untransformed": 94,
+      "skipped_reserved": 41,
       "skipped_interface": 0,
-      "coverage_percent": 26.36,
+      "coverage_percent": 26.56,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -195,10 +196,6 @@
         },
         {
           "name": "BlackJack",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "finney",
           "reason": "no synonym found"
         },
         {

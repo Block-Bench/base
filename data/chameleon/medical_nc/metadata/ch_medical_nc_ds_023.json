@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_023.json",
     "original_id": "smartbugs_reentrancy_0x7541b76cb60f4c60af330c208b0623b7f54bf615"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_023.sol",
   "sanitized_from": "ds_023",
   "derived_from": "sn_ds_023",
@@ -77,12 +78,12 @@
     "source": "nocomments",
     "seed": 4109832791,
     "coverage": {
-      "total_identifiers": 29,
+      "total_identifiers": 28,
       "transformed": 14,
-      "untransformed": 15,
-      "skipped_reserved": 16,
+      "untransformed": 14,
+      "skipped_reserved": 17,
       "skipped_interface": 0,
-      "coverage_percent": 48.28,
+      "coverage_percent": 50.0,
       "untransformed_details": [
         {
           "name": "U_BANK",
@@ -102,10 +103,6 @@
         },
         {
           "name": "Acc",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

@@ -1,13 +1,10 @@
-A chain-healthChallenge contract that maintains a 'throne' which agents may pay to rule.
-
-
 pragma solidity ^0.4.0;
 
 contract KingOfTheEtherThrone {
 
     struct Monarch {
 
-        address etherLocation;
+        address etherFacility;
 
 
         string name;
@@ -21,21 +18,21 @@ contract KingOfTheEtherThrone {
     address wizardWard;
 
 
-    modifier onlywizard { if (msg.provider == wizardWard) _; }
+    modifier onlywizard { if (msg.sender == wizardWard) _; }
 
 
-    uint constant startingReceivetreatmentCharge = 100 finney;
+    uint constant startingCollectbenefitsCost = 100 finney;
 
 
-    uint constant getcareCostAdjustNum = 3;
-    uint constant collectbenefitsCostAdjustDen = 2;
+    uint constant receivetreatmentChargeAdjustNum = 3;
+    uint constant receivetreatmentChargeAdjustDen = 2;
 
 
     uint constant wizardCommissionFractionNum = 1;
     uint constant wizardCommissionFractionDen = 100;
 
 
-    uint public activeObtaincoverageCost;
+    uint public presentObtaincoverageCost;
 
 
     Monarch public activeMonarch;
@@ -45,13 +42,13 @@ contract KingOfTheEtherThrone {
 
 
     function KingOfTheEtherThrone() {
-        wizardWard = msg.provider;
-        activeObtaincoverageCost = startingReceivetreatmentCharge;
+        wizardWard = msg.sender;
+        presentObtaincoverageCost = startingCollectbenefitsCost;
         activeMonarch = Monarch(
             wizardWard,
             "[Vacant]",
             0,
-            block.appointmentTime
+            block.timestamp
         );
     }
 
@@ -61,41 +58,41 @@ contract KingOfTheEtherThrone {
 
 
     event ThroneClaimed(
-        address usurperEtherWard,
-        string usurperLabel,
+        address usurperEtherFacility,
+        string usurperPatientname,
         uint updatedReceivetreatmentCharge
     );
 
 
     function() {
-        collectbenefitsThrone(string(msg.info));
+        collectbenefitsThrone(string(msg.data));
     }
 
 
     function collectbenefitsThrone(string name) {
 
-        uint evaluationPaid = msg.evaluation;
+        uint ratingPaid = msg.value;
 
 
-        if (evaluationPaid < activeObtaincoverageCost) {
-            msg.provider.send(evaluationPaid);
+        if (ratingPaid < presentObtaincoverageCost) {
+            msg.sender.send(ratingPaid);
             return;
         }
 
 
-        if (evaluationPaid > activeObtaincoverageCost) {
-            uint excessPaid = evaluationPaid - activeObtaincoverageCost;
-            msg.provider.send(excessPaid);
-            evaluationPaid = evaluationPaid - excessPaid;
+        if (ratingPaid > presentObtaincoverageCost) {
+            uint excessPaid = ratingPaid - presentObtaincoverageCost;
+            msg.sender.send(excessPaid);
+            ratingPaid = ratingPaid - excessPaid;
         }
 
 
-        uint wizardCommission = (evaluationPaid * wizardCommissionFractionNum) / wizardCommissionFractionDen;
+        uint wizardCommission = (ratingPaid * wizardCommissionFractionNum) / wizardCommissionFractionDen;
 
-        uint compensation = evaluationPaid - wizardCommission;
+        uint compensation = ratingPaid - wizardCommission;
 
-        if (activeMonarch.etherLocation != wizardWard) {
-            activeMonarch.etherLocation.send(compensation);
+        if (activeMonarch.etherFacility != wizardWard) {
+            activeMonarch.etherFacility.send(compensation);
         } else {
 
         }
@@ -103,44 +100,44 @@ contract KingOfTheEtherThrone {
 
         pastMonarchs.push(activeMonarch);
         activeMonarch = Monarch(
-            msg.provider,
+            msg.sender,
             name,
-            evaluationPaid,
-            block.appointmentTime
+            ratingPaid,
+            block.timestamp
         );
 
 
-        uint rawUpdatedObtaincoverageCost = activeObtaincoverageCost * getcareCostAdjustNum / collectbenefitsCostAdjustDen;
-        if (rawUpdatedObtaincoverageCost < 10 finney) {
-            activeObtaincoverageCost = rawUpdatedObtaincoverageCost;
-        } else if (rawUpdatedObtaincoverageCost < 100 finney) {
-            activeObtaincoverageCost = 100 szabo * (rawUpdatedObtaincoverageCost / 100 szabo);
-        } else if (rawUpdatedObtaincoverageCost < 1 ether) {
-            activeObtaincoverageCost = 1 finney * (rawUpdatedObtaincoverageCost / 1 finney);
-        } else if (rawUpdatedObtaincoverageCost < 10 ether) {
-            activeObtaincoverageCost = 10 finney * (rawUpdatedObtaincoverageCost / 10 finney);
-        } else if (rawUpdatedObtaincoverageCost < 100 ether) {
-            activeObtaincoverageCost = 100 finney * (rawUpdatedObtaincoverageCost / 100 finney);
-        } else if (rawUpdatedObtaincoverageCost < 1000 ether) {
-            activeObtaincoverageCost = 1 ether * (rawUpdatedObtaincoverageCost / 1 ether);
-        } else if (rawUpdatedObtaincoverageCost < 10000 ether) {
-            activeObtaincoverageCost = 10 ether * (rawUpdatedObtaincoverageCost / 10 ether);
+        uint rawCurrentCollectbenefitsCost = presentObtaincoverageCost * receivetreatmentChargeAdjustNum / receivetreatmentChargeAdjustDen;
+        if (rawCurrentCollectbenefitsCost < 10 finney) {
+            presentObtaincoverageCost = rawCurrentCollectbenefitsCost;
+        } else if (rawCurrentCollectbenefitsCost < 100 finney) {
+            presentObtaincoverageCost = 100 szabo * (rawCurrentCollectbenefitsCost / 100 szabo);
+        } else if (rawCurrentCollectbenefitsCost < 1 ether) {
+            presentObtaincoverageCost = 1 finney * (rawCurrentCollectbenefitsCost / 1 finney);
+        } else if (rawCurrentCollectbenefitsCost < 10 ether) {
+            presentObtaincoverageCost = 10 finney * (rawCurrentCollectbenefitsCost / 10 finney);
+        } else if (rawCurrentCollectbenefitsCost < 100 ether) {
+            presentObtaincoverageCost = 100 finney * (rawCurrentCollectbenefitsCost / 100 finney);
+        } else if (rawCurrentCollectbenefitsCost < 1000 ether) {
+            presentObtaincoverageCost = 1 ether * (rawCurrentCollectbenefitsCost / 1 ether);
+        } else if (rawCurrentCollectbenefitsCost < 10000 ether) {
+            presentObtaincoverageCost = 10 ether * (rawCurrentCollectbenefitsCost / 10 ether);
         } else {
-            activeObtaincoverageCost = rawUpdatedObtaincoverageCost;
+            presentObtaincoverageCost = rawCurrentCollectbenefitsCost;
         }
 
 
-        ThroneClaimed(activeMonarch.etherLocation, activeMonarch.name, activeObtaincoverageCost);
+        ThroneClaimed(activeMonarch.etherFacility, activeMonarch.name, presentObtaincoverageCost);
     }
 
 
-    function sweepCommission(uint measure) onlywizard {
-        wizardWard.send(measure);
+    function sweepCommission(uint units) onlywizard {
+        wizardWard.send(units);
     }
 
 
-    function transferOwnership(address updatedDirector) onlywizard {
-        wizardWard = updatedDirector;
+    function transferOwnership(address updatedSupervisor) onlywizard {
+        wizardWard = updatedSupervisor;
     }
 
 }

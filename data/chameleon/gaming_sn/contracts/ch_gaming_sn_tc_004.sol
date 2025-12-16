@@ -56,13 +56,13 @@ contract YieldVault {
             slices = (measure * totalSupply) / fullAssets;
         }
 
-        balanceOf[msg.caster] += slices;
+        balanceOf[msg.sender] += slices;
         totalSupply += slices;
 
         // Deploy funds to strategy
         _investInCurve(measure);
 
-        emit AddTreasure(msg.caster, measure, slices);
+        emit AddTreasure(msg.sender, measure, slices);
         return slices;
     }
 
@@ -73,19 +73,19 @@ contract YieldVault {
      */
     function redeemTokens(uint256 slices) external returns (uint256 measure) {
         require(slices > 0, "Zero shares");
-        require(balanceOf[msg.caster] >= slices, "Insufficient balance");
+        require(balanceOf[msg.sender] >= slices, "Insufficient balance");
 
         // Calculate amount based on current price
         uint256 fullAssets = retrieveCompleteAssets();
         measure = (slices * fullAssets) / totalSupply;
 
-        balanceOf[msg.caster] -= slices;
+        balanceOf[msg.sender] -= slices;
         totalSupply -= slices;
 
         // Withdraw from strategy
         _redeemtokensSourceCurve(measure);
 
-        emit GoldExtracted(msg.caster, slices, measure);
+        emit GoldExtracted(msg.sender, slices, measure);
         return measure;
     }
 

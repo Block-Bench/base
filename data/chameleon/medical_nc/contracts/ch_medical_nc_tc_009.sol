@@ -49,7 +49,7 @@ contract ConcentratedAvailabilityPool {
 
 
         bytes32 positionIdentifier = keccak256(
-            abi.encodePacked(msg.referrer, tickLower, tickUpper)
+            abi.encodePacked(msg.sender, tickLower, tickUpper)
         );
 
 
@@ -75,7 +75,7 @@ contract ConcentratedAvailabilityPool {
             int128(availabilityDelta)
         );
 
-        emit ResourcesAdded(msg.referrer, tickLower, tickUpper, availabilityDelta);
+        emit ResourcesAdded(msg.sender, tickLower, tickUpper, availabilityDelta);
     }
 
 

@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_099.json",
     "original_id": "defivulnlabs_empty-loop"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_099.sol",
   "sanitized_from": "ds_099",
   "derived_from": "sn_ds_099",
@@ -74,14 +75,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 4060908300,
+    "seed": 3753849305,
     "coverage": {
-      "total_identifiers": 33,
-      "transformed": 15,
-      "untransformed": 18,
+      "total_identifiers": 34,
+      "transformed": 14,
+      "untransformed": 20,
       "skipped_reserved": 25,
       "skipped_interface": 0,
-      "coverage_percent": 45.45,
+      "coverage_percent": 41.18,
       "untransformed_details": [
         {
           "name": "forge",
@@ -144,7 +145,15 @@
           "reason": "no synonym found"
         },
         {
-          "name": "execution",
+          "name": "Afer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exploiting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Alice",
           "reason": "no synonym found"
         },
         {
@@ -160,20 +169,19 @@
     },
     "rename_map": {
       "token": "coin",
-      "ContractTest": "PactTest",
-      "SimpleBankContract": "SimpleBankPact",
-      "setUp": "groupUp",
+      "ContractTest": "AgreementTest",
+      "SimpleBankContract": "SimpleBankAgreement",
+      "setUp": "collectionUp",
       "testVulnSignatureValidation": "testVulnMarkValidation",
-      "startPrank": "openingPrank",
+      "startPrank": "beginPrank",
       "Signature": "Mark",
-      "log": "journal",
-      "withdraw": "harvestGold",
-      "complete": "questCompleted",
-      "hash": "signature",
-      "verifySignatures": "validateSignatures",
+      "log": "record",
+      "withdraw": "redeemTokens",
+      "hash": "seal",
+      "verifySignatures": "confirmSignatures",
       "sender": "initiator",
-      "signature": "seal",
-      "length": "size"
+      "signature": "mark",
+      "length": "extent"
     }
   }
 }

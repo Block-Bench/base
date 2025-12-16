@@ -3,27 +3,24 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract PactTest is Test {
-    SimpleBank VSimpleBankPact;
-    SimpleBankV2 SimpleBankPactV2;
+contract AgreementTest is Test {
+    SimpleBank VSimpleBankAgreement;
+    SimpleBankV2 SimpleBankAgreementV2;
 
     function groupUp() public {
-        VSimpleBankPact = new SimpleBank();
-        SimpleBankPactV2 = new SimpleBankV2();
+        VSimpleBankAgreement = new SimpleBank();
+        SimpleBankAgreementV2 = new SimpleBankV2();
     }
 
     function testSelfShiftgold() public {
-        VSimpleBankPact.transfer(address(this), address(this), 10000);
-        VSimpleBankPact.transfer(address(this), address(this), 10000);
-        VSimpleBankPact.balanceOf(address(this));
-        */
+        VSimpleBankAgreement.transfer(address(this), address(this), 10000);
+        VSimpleBankAgreement.transfer(address(this), address(this), 10000);
+        VSimpleBankAgreement.balanceOf(address(this));
     }
 
-    function testFixedSelfShiftgold() public {
-        vm.expectReverse("Cannot transfer funds to the same address.");
-        SimpleBankPactV2.transfer(address(this), address(this), 10000);
+    function testFixedSelfMovetreasure() public {
+        vm.expectUndo("Cannot transfer funds to the same address.");
+        SimpleBankAgreementV2.transfer(address(this), address(this), 10000);
     }
 
     receive() external payable {}
@@ -38,12 +35,12 @@ contract SimpleBank {
 
     function transfer(address _from, address _to, uint256 _amount) public {
         // not check self-transfer
-        uint256 _sourceTreasureamount = _balances[_from];
-        uint256 _destinationRewardlevel = _balances[_to];
+        uint256 _sourceRewardlevel = _balances[_from];
+        uint256 _targetRewardlevel = _balances[_to];
 
         unchecked {
-            _balances[_from] = _sourceTreasureamount - _amount;
-            _balances[_to] = _destinationRewardlevel + _amount;
+            _balances[_from] = _sourceRewardlevel - _amount;
+            _balances[_to] = _targetRewardlevel + _amount;
         }
     }
 }
@@ -59,13 +56,12 @@ contract SimpleBankV2 {
 
         require(_from != _to, "Cannot transfer funds to the same address.");
 
-        uint256 _sourceTreasureamount = _balances[_from];
-        uint256 _destinationRewardlevel = _balances[_to];
+        uint256 _sourceRewardlevel = _balances[_from];
+        uint256 _targetRewardlevel = _balances[_to];
 
         unchecked {
-            _balances[_from] = _sourceTreasureamount - _amount;
-            _balances[_to] = _destinationRewardlevel + _amount;
-            */
+            _balances[_from] = _sourceRewardlevel - _amount;
+            _balances[_to] = _targetRewardlevel + _amount;
         }
     }
 }

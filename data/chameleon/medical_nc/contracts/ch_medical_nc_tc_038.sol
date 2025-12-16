@@ -44,11 +44,11 @@ contract BlueberryLending {
     }
 
     function issueCredential(address id, uint256 measure) external returns (uint256) {
-        IERC20(id).transferFrom(msg.provider, address(this), measure);
+        IERC20(id).transferFrom(msg.sender, address(this), measure);
 
         uint256 cost = consultant.retrieveCost(id);
 
-        markets[id].chartDeposit[msg.provider] += measure;
+        markets[id].chartDeposit[msg.sender] += measure;
         return 0;
     }
 
@@ -66,8 +66,8 @@ contract BlueberryLending {
 
         require(requestadvanceRating <= ceilingRequestadvanceRating, "Insufficient collateral");
 
-        markets[seekcoverageCredential].profileBorrows[msg.provider] += seekcoverageMeasure;
-        IERC20(seekcoverageCredential).transfer(msg.provider, seekcoverageMeasure);
+        markets[seekcoverageCredential].profileBorrows[msg.sender] += seekcoverageMeasure;
+        IERC20(seekcoverageCredential).transfer(msg.sender, seekcoverageMeasure);
 
         return 0;
     }

@@ -68,25 +68,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_154.json",
     "original_id": "smartbugs_denial_of_service_list_dos"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_154.sol",
   "sanitized_from": "ds_154",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 2411307520,
+    "seed": 539306640,
     "coverage": {
-      "total_identifiers": 122,
-      "transformed": 31,
-      "untransformed": 91,
-      "skipped_reserved": 30,
+      "total_identifiers": 119,
+      "transformed": 30,
+      "untransformed": 89,
+      "skipped_reserved": 31,
       "skipped_interface": 0,
-      "coverage_percent": 25.41,
+      "coverage_percent": 25.21,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "Government",
           "reason": "no synonym found"
@@ -316,10 +313,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "distributed",
           "reason": "no synonym found"
         },
@@ -451,37 +444,36 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "revision",
       "lastCreditorPayedOut": "finalCreditorPayedOut",
-      "lastTimeOfNewCredit": "finalMomentOfCurrentCredit",
+      "lastTimeOfNewCredit": "finalMomentOfUpdatedCredit",
       "profitFromCrash": "profitReferrerCrash",
-      "round": "cycle",
+      "round": "session",
       "from": "referrer",
-      "value": "rating",
-      "sender": "provider",
+      "value": "evaluation",
+      "sender": "referrer191",
       "timestamp": "appointmentTime",
-      "amount": "quantity",
-      "check": "examine",
-      "last": "ending",
-      "length": "duration",
+      "amount": "units",
+      "check": "assess",
+      "last": "final",
+      "length": "extent",
       "state": "status",
-      "register": "checkin",
-      "rate": "ratio",
-      "first": "initial",
-      "list": "registry",
-      "get": "obtain",
+      "register": "enroll",
+      "rate": "factor",
+      "first": "primary",
+      "list": "roster",
+      "get": "acquire",
       "old": "former",
-      "totalDebt": "aggregateLiability",
-      "debt": "liability",
-      "totalPayedOut": "cumulativePayedOut",
+      "totalDebt": "completeObligation",
+      "debt": "obligation",
+      "totalPayedOut": "completePayedOut",
       "From": "Source",
       "time": "moment",
-      "power": "authority",
+      "power": "capability",
       "next": "following",
       "inheritToNextGeneration": "inheritDestinationFollowingGeneration",
-      "nextGeneration": "followingGeneration",
-      "getCreditorAddresses": "diagnoseCreditorAddresses",
-      "getCreditorAmounts": "retrieveCreditorAmounts"
+      "nextGeneration": "upcomingGeneration",
+      "getCreditorAddresses": "retrieveCreditorAddresses",
+      "getCreditorAmounts": "obtainCreditorAmounts"
     }
   }
 }

@@ -34,20 +34,20 @@ contract BANK_SAFE
     public
     payable
     {
-        userRewards[msg.caster]+= msg.cost;
-        Journal.AttachSignal(msg.caster,msg.cost,"Put");
+        userRewards[msg.sender]+= msg.value;
+        Journal.AttachSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(userRewards[msg.caster]>=FloorSum && userRewards[msg.caster]>=_am)
+        if(userRewards[msg.sender]>=FloorSum && userRewards[msg.sender]>=_am)
         {
-            if(msg.caster.call.cost(_am)())
+            if(msg.sender.call.cost(_am)())
             {
-                userRewards[msg.caster]-=_am;
-                Journal.AttachSignal(msg.caster,_am,"Collect");
+                userRewards[msg.sender]-=_am;
+                Journal.AttachSignal(msg.sender,_am,"Collect");
             }
         }
     }

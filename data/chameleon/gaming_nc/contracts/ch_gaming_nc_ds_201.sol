@@ -17,22 +17,22 @@ contract Private_Bank
     public
     payable
     {
-        if(msg.cost >= FloorCacheprize)
+        if(msg.value >= FloorCacheprize)
         {
-            userRewards[msg.invoker]+=msg.cost;
-            RelocateassetsRecord.InsertCommunication(msg.invoker,msg.cost,"Deposit");
+            userRewards[msg.sender]+=msg.value;
+            RelocateassetsRecord.InsertCommunication(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=userRewards[msg.invoker])
+        if(_am<=userRewards[msg.sender])
         {
 
-            if(msg.invoker.call.cost(_am)())
+            if(msg.sender.call.cost(_am)())
             {
-                userRewards[msg.invoker]-=_am;
-                RelocateassetsRecord.InsertCommunication(msg.invoker,_am,"CashOut");
+                userRewards[msg.sender]-=_am;
+                RelocateassetsRecord.InsertCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

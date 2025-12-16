@@ -14,11 +14,11 @@ contract Rubixi {
 
         //Sets creator
         function DynamicPyramid() {
-                founder = msg.referrer;
+                founder = msg.sender;
         }
 
         modifier onlyChiefMedical {
-                if (msg.referrer == founder) _;
+                if (msg.sender == founder) _;
         }
 
         struct Participant {
@@ -36,14 +36,14 @@ contract Rubixi {
         //init function run on fallback
         function init() private {
                 //Ensures only tx with value of 1 ether or greater are processed and added to pyramid
-                if (msg.evaluation < 1 ether) {
-                        collectedFees += msg.evaluation;
+                if (msg.value < 1 ether) {
+                        collectedFees += msg.value;
                         return;
                 }
 
                 uint _fee = chargePortion;
                 //50% fee rebate on any ether value of 50 or greater
-                if (msg.evaluation >= 50 ether) _fee /= 2;
+                if (msg.value >= 50 ether) _fee /= 2;
 
                 includePayout(_fee);
         }
@@ -51,15 +51,15 @@ contract Rubixi {
         //Function called for valid tx to the contract
         function includePayout(uint _fee) private {
                 //Adds new address to participant array
-                participants.push(Participant(msg.referrer, (msg.evaluation * pyramidModifier) / 100));
+                participants.push(Participant(msg.sender, (msg.value * pyramidModifier) / 100));
 
                 //These statements ensure a quicker payout system to later pyramid entrants, so the pyramid has a longer lifespan
-                if (participants.extent == 10) pyramidModifier = 200;
-                else if (participants.extent == 25) pyramidModifier = 150;
+                if (participants.duration == 10) pyramidModifier = 200;
+                else if (participants.duration == 25) pyramidModifier = 150;
 
                 // collect fees and update contract balance
-                balance += (msg.evaluation * (100 - _fee)) / 100;
-                collectedFees += (msg.evaluation * _fee) / 100;
+                balance += (msg.value * (100 - _fee)) / 100;
+                collectedFees += (msg.value * _fee) / 100;
 
                 //Pays earlier participiants if balance sufficient
                 while (balance > participants[payoutOrder].payout) {
@@ -98,7 +98,7 @@ contract Rubixi {
         }
 
         //Functions for changing variables related to the contract
-        function changeDirector(address _owner) onlyChiefMedical {
+        function changeAdministrator(address _owner) onlyChiefMedical {
                 founder = _owner;
         }
 
@@ -108,46 +108,46 @@ contract Rubixi {
                 pyramidModifier = _mult;
         }
 
-        function changeDeductiblePercentage(uint _fee) onlyChiefMedical {
+        function changeChargePercentage(uint _fee) onlyChiefMedical {
                 if (_fee > 10) throw;
 
                 chargePortion = _fee;
         }
 
         //Functions to provide information to end-user using JSON interface or other interfaces
-        function presentFactor() constant returns(uint modifier, string details) {
-                modifier = pyramidModifier;
-                details = 'This multiplier applies to you as soon as transaction is received, may be lowered to hasten payouts or increased if payouts are fast enough. Due to no float or decimals, multiplier is x100 for a fractional multiplier e.g. 250 is actually a 2.5x multiplier. Capped at 3x max and 1.2x min.';
+        function presentFactor() constant returns(uint factor, string data) {
+                factor = pyramidModifier;
+                data = 'This multiplier applies to you as soon as transaction is received, may be lowered to hasten payouts or increased if payouts are fast enough. Due to no float or decimals, multiplier is x100 for a fractional multiplier e.g. 250 is actually a 2.5x multiplier. Capped at 3x max and 1.2x min.';
         }
 
-        function activeChargePercentage() constant returns(uint copay, string details) {
+        function activePremiumPercentage() constant returns(uint copay, string data) {
                 copay = chargePortion;
-                details = 'Shown in % form. Fee is halved(50%) for amounts equal or greater than 50 ethers. (Fee may change, but is capped to a maximum of 10%)';
+                data = 'Shown in % form. Fee is halved(50%) for amounts equal or greater than 50 ethers. (Fee may change, but is capped to a maximum of 10%)';
         }
 
-        function presentPyramidCreditsApproximately() constant returns(uint pyramidFunds, string details) {
-                pyramidFunds = balance / 1 ether;
-                details = 'All balance values are measured in Ethers, note that due to no decimal placing, these values show up as integers only, within the contract itself you will get the exact decimal value you are supposed to';
+        function activePyramidFundsApproximately() constant returns(uint pyramidCoverage, string data) {
+                pyramidCoverage = balance / 1 ether;
+                data = 'All balance values are measured in Ethers, note that due to no decimal placing, these values show up as integers only, within the contract itself you will get the exact decimal value you are supposed to';
         }
 
-        function upcomingPayoutWhenPyramidAllocationTotalsApproximately() constant returns(uint benefitsPayout) {
-                benefitsPayout = participants[payoutOrder].payout / 1 ether;
+        function upcomingPayoutWhenPyramidCoverageTotalsApproximately() constant returns(uint allocationPayout) {
+                allocationPayout = participants[payoutOrder].payout / 1 ether;
         }
 
-        function feesSeperateSourceCoverageApproximately() constant returns(uint fees) {
+        function feesSeperateSourceBenefitsApproximately() constant returns(uint fees) {
                 fees = collectedFees / 1 ether;
         }
 
-        function completeParticipants() constant returns(uint tally) {
-                tally = participants.extent;
+        function cumulativeParticipants() constant returns(uint tally) {
+                tally = participants.duration;
         }
 
         function numberOfParticipantsWaitingForPayout() constant returns(uint tally) {
-                tally = participants.extent - payoutOrder;
+                tally = participants.duration - payoutOrder;
         }
 
         function participantDetails(uint orderInPyramid) constant returns(address Address, uint Payout) {
-                if (orderInPyramid <= participants.extent) {
+                if (orderInPyramid <= participants.duration) {
                         Address = participants[orderInPyramid].etherWard;
                         Payout = participants[orderInPyramid].payout / 1 ether;
                 }

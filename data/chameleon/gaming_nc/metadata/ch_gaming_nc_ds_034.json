@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_034.json",
     "original_id": "smartbugs_reentrancy_0xbe4041d55db380c5ae9d4a9b9703f1ed4e7e3888"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_034.sol",
   "sanitized_from": "ds_034",
   "derived_from": "sn_ds_034",
@@ -77,12 +78,12 @@
     "source": "nocomments",
     "seed": 2776025626,
     "coverage": {
-      "total_identifiers": 33,
+      "total_identifiers": 32,
       "transformed": 16,
-      "untransformed": 17,
-      "skipped_reserved": 18,
+      "untransformed": 16,
+      "skipped_reserved": 19,
       "skipped_interface": 0,
-      "coverage_percent": 48.48,
+      "coverage_percent": 50.0,
       "untransformed_details": [
         {
           "name": "MONEY_BOX",
@@ -118,10 +119,6 @@
         },
         {
           "name": "acc",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

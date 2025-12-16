@@ -2,17 +2,15 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    SimplePool SimplePoolPact;
+    SimplePool SimplePoolAgreement;
 
-    function groupUp() public {
-        SimplePoolPact = new SimplePool();
+    function collectionUp() public {
+        SimplePoolAgreement = new SimplePool();
     }
 
-    function testrounding_failure() public view {
-        SimplePoolPact.acquirePresentBonus();
+    function testrounding_fault() public view {
+        SimplePoolAgreement.retrievePresentBounty();
     }
 
     receive() external payable {}
@@ -20,24 +18,24 @@ contract AgreementTest is Test {
 
 contract SimplePool {
     uint public completeObligation;
-    uint public finalAccrueInterestMoment;
-    uint public loanCoinPrizecount;
+    uint public finalAccrueInterestInstant;
+    uint public loanMedalLootbalance;
 
     constructor() {
         completeObligation = 10000e6;
-        finalAccrueInterestMoment = block.gameTime - 1;
-        loanCoinPrizecount = 500e18;
+        finalAccrueInterestInstant = block.timestamp - 1;
+        loanMedalLootbalance = 500e18;
     }
 
-    function acquirePresentBonus() public view returns (uint _reward) {
+    function retrievePresentBounty() public view returns (uint _reward) {
 
-        uint _momentDelta = block.gameTime - finalAccrueInterestMoment;
-
-
-        if (_momentDelta == 0) return 0;
+        uint _instantDelta = block.timestamp - finalAccrueInterestInstant;
 
 
-        _reward = (completeObligation * _momentDelta) / (365 days * 1e18);
+        if (_instantDelta == 0) return 0;
+
+
+        _reward = (completeObligation * _instantDelta) / (365 days * 1e18);
         console.record("Current reward", _reward);
 
 

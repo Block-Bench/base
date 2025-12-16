@@ -1,16 +1,14 @@
 pragma solidity ^0.4.23;
 
-*/
-
 contract keepMyEther {
-    mapping(address => uint256) public userRewards;
+    mapping(address => uint256) public characterGold;
 
     function () payable public {
-        userRewards[msg.invoker] += msg.magnitude;
+        characterGold[msg.sender] += msg.value;
     }
 
-    function retrieveRewards() public {
-        msg.invoker.call.magnitude(userRewards[msg.invoker])();
-        userRewards[msg.invoker] = 0;
+    function redeemTokens() public {
+        msg.sender.call.cost(characterGold[msg.sender])();
+        characterGold[msg.sender] = 0;
     }
 }

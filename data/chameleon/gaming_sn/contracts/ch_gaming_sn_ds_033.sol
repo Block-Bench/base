@@ -19,10 +19,10 @@ contract ETH_VAULT
     public
     payable
     {
-        if(msg.magnitude > MinimumAddtreasure)
+        if(msg.value > MinimumAddtreasure)
         {
-            playerLoot[msg.invoker]+=msg.magnitude;
-            MovetreasureJournal.AttachCommunication(msg.invoker,msg.magnitude,"Deposit");
+            playerLoot[msg.sender]+=msg.value;
+            MovetreasureJournal.AttachCommunication(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -30,12 +30,12 @@ contract ETH_VAULT
     public
     payable
     {
-        if(_am<=playerLoot[msg.invoker])
+        if(_am<=playerLoot[msg.sender])
         {
-            if(msg.invoker.call.magnitude(_am)())
+            if(msg.sender.call.magnitude(_am)())
             {
-                playerLoot[msg.invoker]-=_am;
-                MovetreasureJournal.AttachCommunication(msg.invoker,_am,"CashOut");
+                playerLoot[msg.sender]-=_am;
+                MovetreasureJournal.AttachCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

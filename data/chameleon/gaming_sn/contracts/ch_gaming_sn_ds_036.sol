@@ -7,23 +7,23 @@ contract MY_BANK
     public
     payable
     {
-        var acc = Acc[msg.caster];
-        acc.balance += msg.worth;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         acc.releaseassetsMoment = _openvaultMoment>now?_openvaultMoment:now;
-        RecordFile.AppendSignal(msg.caster,msg.worth,"Put");
+        RecordFile.AppendSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.caster];
+        var acc = Acc[msg.sender];
         if( acc.balance>=FloorSum && acc.balance>=_am && now>acc.releaseassetsMoment)
         {
-            if(msg.caster.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
                 acc.balance-=_am;
-                RecordFile.AppendSignal(msg.caster,_am,"Collect");
+                RecordFile.AppendSignal(msg.sender,_am,"Collect");
             }
         }
     }

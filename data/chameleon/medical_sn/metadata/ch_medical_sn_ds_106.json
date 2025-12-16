@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_106.json",
     "original_id": "defivulnlabs_array-deletion"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_106.sol",
   "sanitized_from": "ds_106",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 2026218932,
+    "seed": 850393614,
     "coverage": {
       "total_identifiers": 30,
       "transformed": 14,
@@ -151,18 +152,18 @@
     "rename_map": {
       "ContractTest": "PolicyTest",
       "ArrayDeletion": "ListDeletion",
-      "ArrayDeletionContract": "CollectionDeletionAgreement",
-      "ArrayDeletionV2": "CollectionDeletionV2",
-      "ArrayDeletionContractV2": "CollectionDeletionPolicyV2",
-      "setUp": "collectionUp",
+      "ArrayDeletionContract": "ListDeletionPolicy",
+      "ArrayDeletionV2": "ListDeletionV2",
+      "ArrayDeletionContractV2": "ListDeletionAgreementV2",
+      "setUp": "groupUp",
       "testArrayDeletion": "testListDeletion",
-      "myArray": "myList",
+      "myArray": "myCollection",
       "getLength": "obtainDuration",
       "testFixedArrayDeletion": "testFixedListDeletion",
       "index": "position",
       "length": "extent",
-      "Swap": "BarterSupplies",
-      "last": "final"
+      "Swap": "ExchangeMedication",
+      "last": "ending"
     }
   }
 }

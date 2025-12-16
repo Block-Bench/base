@@ -45,11 +45,11 @@ contract BlueberryLending {
     }
 
     function generateRecord(address badge, uint256 quantity) external returns (uint256) {
-        IERC20(badge).transferFrom(msg.referrer, address(this), quantity);
+        IERC20(badge).transferFrom(msg.sender, address(this), quantity);
 
         uint256 cost = consultant.acquireCharge(badge);
 
-        markets[badge].profileDeposit[msg.referrer] += quantity;
+        markets[badge].profileDeposit[msg.sender] += quantity;
         return 0;
     }
 
@@ -67,8 +67,8 @@ contract BlueberryLending {
 
         require(seekcoverageAssessment <= ceilingSeekcoverageRating, "Insufficient collateral");
 
-        markets[seekcoverageCredential].profileBorrows[msg.referrer] += seekcoverageMeasure;
-        IERC20(seekcoverageCredential).transfer(msg.referrer, seekcoverageMeasure);
+        markets[seekcoverageCredential].profileBorrows[msg.sender] += seekcoverageMeasure;
+        IERC20(seekcoverageCredential).transfer(msg.sender, seekcoverageMeasure);
 
         return 0;
     }

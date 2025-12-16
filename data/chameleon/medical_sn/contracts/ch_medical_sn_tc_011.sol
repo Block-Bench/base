@@ -29,7 +29,7 @@ contract LendingPool {
 
         require(badge.transfer(address(this), units), "Transfer failed");
 
-        supplied[msg.referrer][asset] += units;
+        supplied[msg.sender][asset] += units;
         cumulativeSupplied[asset] += units;
 
         return units;
@@ -39,7 +39,7 @@ contract LendingPool {
         address asset,
         uint256 requestedUnits
     ) external returns (uint256) {
-        uint256 memberBenefits = supplied[msg.referrer][asset];
+        uint256 memberBenefits = supplied[msg.sender][asset];
         require(memberBenefits > 0, "No balance");
 
         uint256 dischargeQuantity = requestedUnits;
@@ -48,9 +48,9 @@ contract LendingPool {
         }
         require(dischargeQuantity <= memberBenefits, "Insufficient balance");
 
-        IERC777(asset).transfer(msg.referrer, dischargeQuantity);
+        IERC777(asset).transfer(msg.sender, dischargeQuantity);
 
-        supplied[msg.referrer][asset] -= dischargeQuantity;
+        supplied[msg.sender][asset] -= dischargeQuantity;
         cumulativeSupplied[asset] -= dischargeQuantity;
 
         return dischargeQuantity;

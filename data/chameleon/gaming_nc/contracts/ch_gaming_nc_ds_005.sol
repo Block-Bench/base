@@ -4,14 +4,14 @@ contract OpenAccess{
     address private owner;
 
     modifier onlyGameAdmin {
-        require(msg.caster==owner);
+        require(msg.sender==owner);
         _;
     }
 
     function OpenAccess()
         public
     {
-        owner = msg.caster;
+        owner = msg.sender;
     }
 
 

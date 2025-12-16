@@ -2,15 +2,13 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    AlternateBankHandler buggyHandler;
-    BankCoordinatorV2 fixedCoordinator;
+    AlternateBankHandler buggyCoordinator;
+    BankHandlerV2 fixedHandler;
 
     function groupUp() public {
-        buggyHandler = new AlternateBankHandler();
-        fixedCoordinator = new BankCoordinatorV2();
+        buggyCoordinator = new AlternateBankHandler();
+        fixedHandler = new BankHandlerV2();
 
 
         address[] memory initialBanks = new address[](3);
@@ -25,53 +23,53 @@ contract AgreementTest is Test {
         initialBanks[2] = address(0x3);
         initialNames[2] = "Global Bank";
 
-        buggyHandler.insertBanks(initialBanks, initialNames);
-        fixedCoordinator.insertBanks(initialBanks, initialNames);
+        buggyCoordinator.attachBanks(initialBanks, initialNames);
+        fixedHandler.attachBanks(initialBanks, initialNames);
 
 
-        emit record_text("Initial state of both bank managers:");
-        emit chart_named_count("Alternate manager bank count", buggyHandler.retrieveBankNumber());
-        emit chart_named_count("Fixed manager bank count", fixedCoordinator.retrieveBankNumber());
+        emit chart_text("Initial state of both bank managers:");
+        emit record_named_count("Alternate manager bank count", buggyCoordinator.retrieveBankNumber());
+        emit record_named_count("Fixed manager bank count", fixedHandler.retrieveBankNumber());
     }
 
     function testReturnVsBreak() public {
 
-        emit record_text("\nRemoving banks marked for removal");
+        emit chart_text("\nRemoving banks marked for removal");
 
 
-        address[] memory banksDestinationDrop = new address[](3);
-        banksDestinationDrop[0] = address(0x1);
-        banksDestinationDrop[1] = address(0x2);
-        banksDestinationDrop[2] = address(0x3);
-        console.record("------------Testing buggyManager---------------");
+        address[] memory banksReceiverDischarge = new address[](3);
+        banksReceiverDischarge[0] = address(0x1);
+        banksReceiverDischarge[1] = address(0x2);
+        banksReceiverDischarge[2] = address(0x3);
+        console.chart("------------Testing buggyManager---------------");
 
-        buggyHandler.dischargeBanksWithReturn(banksDestinationDrop);
-        emit chart_named_count("Alternate manager (with return) bank count after removal", buggyHandler.retrieveBankNumber());
-        buggyHandler.rosterBanks();
+        buggyCoordinator.discontinueBanksWithReturn(banksReceiverDischarge);
+        emit record_named_count("Alternate manager (with return) bank count after removal", buggyCoordinator.retrieveBankNumber());
+        buggyCoordinator.rosterBanks();
 
-        console.record("------------Testing BankManagerV2---------------");
+        console.chart("------------Testing BankManagerV2---------------");
 
-        fixedCoordinator.dropBanksWithBreak(banksDestinationDrop);
-        emit chart_named_count("Fixed manager (with break) bank count after removal", fixedCoordinator.retrieveBankNumber());
-        fixedCoordinator.rosterBanks();
+        fixedHandler.dropBanksWithBreak(banksReceiverDischarge);
+        emit record_named_count("Fixed manager (with break) bank count after removal", fixedHandler.retrieveBankNumber());
+        fixedHandler.rosterBanks();
     }
 }
 
 
-contract BankHandler {
-    struct PlasmaBank {
+contract BankCoordinator {
+    struct OrganBank {
         address bankLocation;
         string bankLabel;
     }
 
-    PlasmaBank[] public banks;
+    OrganBank[] public banks;
 
 
-    function insertBanks(address[] memory addresses, string[] memory names) public {
+    function attachBanks(address[] memory addresses, string[] memory names) public {
         require(addresses.duration == names.duration, "Arrays must have the same length");
 
         for (uint i = 0; i < addresses.duration; i++) {
-            banks.push(PlasmaBank(addresses[i], names[i]));
+            banks.push(OrganBank(addresses[i], names[i]));
         }
     }
 
@@ -81,13 +79,13 @@ contract BankHandler {
     }
 
 
-    function acquireBank(uint slot) public view returns (address, string memory) {
+    function diagnoseBank(uint slot) public view returns (address, string memory) {
         require(slot < banks.duration, "Index out of bounds");
         return (banks[slot].bankLocation, banks[slot].bankLabel);
     }
 
 
-    function _dischargeBank(uint slot) internal {
+    function _discontinueBank(uint slot) internal {
         require(slot < banks.duration, "Index out of bounds");
 
 
@@ -101,19 +99,19 @@ contract BankHandler {
 }
 
 
-contract AlternateBankHandler is BankHandler, Test {
+contract AlternateBankHandler is BankCoordinator, Test {
 
 
-    function dischargeBanksWithReturn(address[] memory banksDestinationDrop) public {
+    function discontinueBanksWithReturn(address[] memory banksReceiverDischarge) public {
         for (uint i = 0; i < banks.duration; i++) {
-            for (uint j = 0; j < banksDestinationDrop.duration; j++) {
-                if (banks[i].bankLocation == banksDestinationDrop[j]) {
-                    emit record_text(string(abi.encodePacked(
+            for (uint j = 0; j < banksReceiverDischarge.duration; j++) {
+                if (banks[i].bankLocation == banksReceiverDischarge[j]) {
+                    emit chart_text(string(abi.encodePacked(
                         "Removing bank: ", banks[i].bankLabel,
                         " (Address: ", receiverHexName(uint160(banks[i].bankLocation)), ")"
                     )));
 
-                    _dischargeBank(i);
+                    _discontinueBank(i);
                     return;
                 }
             }
@@ -122,10 +120,10 @@ contract AlternateBankHandler is BankHandler, Test {
 
 
     function rosterBanks() public {
-        emit record_text("Banks in buggy manager:");
+        emit chart_text("Banks in buggy manager:");
         for (uint i = 0; i < banks.duration; i++) {
-            emit record_text(string(abi.encodePacked(
-                "Bank ", receiverName(i), ": ",
+            emit chart_text(string(abi.encodePacked(
+                "Bank ", destinationName(i), ": ",
                 banks[i].bankLabel, " (Address: ",
                 receiverHexName(uint160(banks[i].bankLocation)), ")"
             )));
@@ -133,7 +131,7 @@ contract AlternateBankHandler is BankHandler, Test {
     }
 
 
-    function receiverName(uint rating) internal pure returns (string memory) {
+    function destinationName(uint rating) internal pure returns (string memory) {
         if (rating == 0) {
             return "0";
         }
@@ -168,20 +166,20 @@ contract AlternateBankHandler is BankHandler, Test {
 }
 
 
-contract BankCoordinatorV2 is BankHandler, Test {
+contract BankHandlerV2 is BankCoordinator, Test {
 
 
-    function dropBanksWithBreak(address[] memory banksDestinationDrop) public {
+    function dropBanksWithBreak(address[] memory banksReceiverDischarge) public {
 
         for (int i = int(banks.duration) - 1; i >= 0; i--) {
-            for (uint j = 0; j < banksDestinationDrop.duration; j++) {
-                if (banks[uint(i)].bankLocation == banksDestinationDrop[j]) {
-                    emit record_text(string(abi.encodePacked(
+            for (uint j = 0; j < banksReceiverDischarge.duration; j++) {
+                if (banks[uint(i)].bankLocation == banksReceiverDischarge[j]) {
+                    emit chart_text(string(abi.encodePacked(
                         "Removing bank: ", banks[uint(i)].bankLabel,
                         " (Address: ", receiverHexName(uint160(banks[uint(i)].bankLocation)), ")"
                     )));
 
-                    _dischargeBank(uint(i));
+                    _discontinueBank(uint(i));
                     break;
                 }
             }
@@ -190,10 +188,10 @@ contract BankCoordinatorV2 is BankHandler, Test {
 
 
     function rosterBanks() public {
-        emit record_text("Banks in fixed manager:");
+        emit chart_text("Banks in fixed manager:");
         for (uint i = 0; i < banks.duration; i++) {
-            emit record_text(string(abi.encodePacked(
-                "Bank ", receiverName(i), ": ",
+            emit chart_text(string(abi.encodePacked(
+                "Bank ", destinationName(i), ": ",
                 banks[i].bankLabel, " (Address: ",
                 receiverHexName(uint160(banks[i].bankLocation)), ")"
             )));
@@ -201,7 +199,7 @@ contract BankCoordinatorV2 is BankHandler, Test {
     }
 
 
-    function receiverName(uint rating) internal pure returns (string memory) {
+    function destinationName(uint rating) internal pure returns (string memory) {
         if (rating == 0) {
             return "0";
         }

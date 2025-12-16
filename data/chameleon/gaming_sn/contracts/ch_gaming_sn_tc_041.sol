@@ -33,8 +33,8 @@ contract ShezmuDepositCrystal is IERC20 {
         address to,
         uint256 measure
     ) external override returns (bool) {
-        require(balanceOf[msg.initiator] >= measure, "Insufficient balance");
-        balanceOf[msg.initiator] -= measure;
+        require(balanceOf[msg.sender] >= measure, "Insufficient balance");
+        balanceOf[msg.sender] -= measure;
         balanceOf[to] += measure;
         return true;
     }
@@ -46,12 +46,12 @@ contract ShezmuDepositCrystal is IERC20 {
     ) external override returns (bool) {
         require(balanceOf[source] >= measure, "Insufficient balance");
         require(
-            allowance[source][msg.initiator] >= measure,
+            allowance[source][msg.sender] >= measure,
             "Insufficient allowance"
         );
         balanceOf[source] -= measure;
         balanceOf[to] += measure;
-        allowance[source][msg.initiator] -= measure;
+        allowance[source][msg.sender] -= measure;
         return true;
     }
 
@@ -59,7 +59,7 @@ contract ShezmuDepositCrystal is IERC20 {
         address consumer,
         uint256 measure
     ) external override returns (bool) {
-        allowance[msg.initiator][consumer] = measure;
+        allowance[msg.sender][consumer] = measure;
         return true;
     }
 }
@@ -80,44 +80,44 @@ contract ShezmuVault {
     }
 
     function appendPledge(uint256 measure) external {
-        pledgeGem.transferFrom(msg.initiator, address(this), measure);
-        securityLootbalance[msg.initiator] += measure;
+        pledgeGem.transferFrom(msg.sender, address(this), measure);
+        securityLootbalance[msg.sender] += measure;
     }
 
     function requestLoan(uint256 measure) external {
-        uint256 ceilingSeekadvance = (securityLootbalance[msg.initiator] * BASIS_POINTS) /
+        uint256 ceilingSeekadvance = (securityLootbalance[msg.sender] * BASIS_POINTS) /
             pledge_factor;
 
         require(
-            owingRewardlevel[msg.initiator] + measure <= ceilingSeekadvance,
+            owingRewardlevel[msg.sender] + measure <= ceilingSeekadvance,
             "Insufficient collateral"
         );
 
-        owingRewardlevel[msg.initiator] += measure;
+        owingRewardlevel[msg.sender] += measure;
 
-        shezUSD.transfer(msg.initiator, measure);
+        shezUSD.transfer(msg.sender, measure);
     }
 
     function returnLoan(uint256 measure) external {
-        require(owingRewardlevel[msg.initiator] >= measure, "Excessive repayment");
-        shezUSD.transferFrom(msg.initiator, address(this), measure);
-        owingRewardlevel[msg.initiator] -= measure;
+        require(owingRewardlevel[msg.sender] >= measure, "Excessive repayment");
+        shezUSD.transferFrom(msg.sender, address(this), measure);
+        owingRewardlevel[msg.sender] -= measure;
     }
 
     function retrieverewardsDeposit(uint256 measure) external {
         require(
-            securityLootbalance[msg.initiator] >= measure,
+            securityLootbalance[msg.sender] >= measure,
             "Insufficient collateral"
         );
-        uint256 remainingSecurity = securityLootbalance[msg.initiator] - measure;
+        uint256 remainingSecurity = securityLootbalance[msg.sender] - measure;
         uint256 maximumLiability = (remainingSecurity * BASIS_POINTS) /
             pledge_factor;
         require(
-            owingRewardlevel[msg.initiator] <= maximumLiability,
+            owingRewardlevel[msg.sender] <= maximumLiability,
             "Would be undercollateralized"
         );
 
-        securityLootbalance[msg.initiator] -= measure;
-        pledgeGem.transfer(msg.initiator, measure);
+        securityLootbalance[msg.sender] -= measure;
+        pledgeGem.transfer(msg.sender, measure);
     }
 }

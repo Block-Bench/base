@@ -67,20 +67,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_212.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x07f7ecb66d788ab01dc93b9b71a88401de7d0f2e"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_212.sol",
   "sanitized_from": "ds_212",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 1987768498,
+    "seed": 3048539367,
     "coverage": {
-      "total_identifiers": 76,
+      "total_identifiers": 75,
       "transformed": 27,
-      "untransformed": 49,
-      "skipped_reserved": 40,
+      "untransformed": 48,
+      "skipped_reserved": 41,
       "skipped_interface": 0,
-      "coverage_percent": 35.53,
+      "coverage_percent": 36.0,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -227,10 +228,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "payout",
           "reason": "no synonym found"
         },
@@ -282,33 +279,33 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "sender": "provider",
+      "sender": "referrer",
       "isOpenToPublic": "isOpenReceiverPublic",
       "openToPublic": "openReceiverPublic",
-      "amount": "units",
-      "paidTo": "paidReceiver",
-      "currentDifficulty": "presentDifficulty",
+      "amount": "measure",
+      "paidTo": "paidDestination",
+      "currentDifficulty": "activeDifficulty",
       "BetLimitChanged": "BetBoundChanged",
-      "currentBetLimit": "activeBetBound",
-      "betLimit": "betBound",
+      "currentBetLimit": "activeBetCap",
+      "betLimit": "betCap",
       "totalDonated": "completeDonated",
       "whaleAddress": "whaleFacility",
-      "wagerLimit": "wagerBound",
+      "wagerLimit": "wagerCap",
       "OpenToThePublic": "OpenDestinationThePublic",
       "value": "assessment",
-      "log": "record",
+      "log": "chart",
       "timestamp": "appointmentTime",
-      "blockNumber": "wardNumber",
-      "donateToWhale": "donateDestinationWhale",
-      "ethToTransfer": "ethDestinationRelocatepatient",
-      "ethBalance": "ethCredits",
+      "blockNumber": "unitNumber",
+      "donateToWhale": "donateReceiverWhale",
+      "ethToTransfer": "ethReceiverRelocatepatient",
+      "ethBalance": "ethFunds",
       "hasPlayerWagered": "containsPlayerWagered",
-      "transferAnyERC20Token": "relocatepatientAnyErc20Id",
-      "tokenAddress": "badgeWard",
-      "tokenOwner": "badgeSupervisor",
+      "transferAnyERC20Token": "passcaseAnyErc20Id",
+      "tokenAddress": "idFacility",
+      "tokenOwner": "idSupervisor",
       "tokens": "credentials",
       "success": "improvement",
-      "ERC20Interface": "Erc20Portal"
+      "ERC20Interface": "Erc20Gateway"
     }
   }
 }

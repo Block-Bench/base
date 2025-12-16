@@ -5,7 +5,6 @@
 pragma solidity 0.4.15;
 
 contract Token {
-    */
     /// total amount of tokens
     uint256 public totalSupply;
 
@@ -41,8 +40,6 @@ contract Token {
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 }
 
-
-.*/
 contract StandardToken is Token {
 
     function transfer(address _to, uint256 _value) returns (bool success) {
@@ -86,12 +83,9 @@ contract StandardToken is Token {
     mapping (address => mapping (address => uint256)) allowed;
 }
 
-.*/
 contract HumanStandardToken is StandardToken {
 
     /* Public variables of the token */
-
-    */
     string public name;                   //fancy name: eg Simon Bucks
     uint8 public decimals;                //How many decimals to show. ie. There could 1000 base units with 3 decimals. Meaning 0.980 SBX = 980 base units. It's like comparing 1 wei to 1 ether.
     string public symbol;                 //An identifier: eg SBX

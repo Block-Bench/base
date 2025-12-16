@@ -6,13 +6,13 @@ contract VaultQuestrunner {
     address public owner;
 
     function VaultQuestrunner() public{
-        owner = msg.invoker;
+        owner = msg.sender;
     }
 
     function cachePrize(address _goal_agreement) public payable{
         goal_agreement = _goal_agreement ;
 
-        require(goal_agreement.call.price(msg.price)(bytes4(sha3("addToBalance()"))));
+        require(goal_agreement.call.price(msg.value)(bytes4(sha3("addToBalance()"))));
     }
 
     function launch_handler() public{

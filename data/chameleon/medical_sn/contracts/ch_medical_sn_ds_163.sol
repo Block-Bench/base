@@ -10,10 +10,10 @@ pragma solidity ^0.4.11;
          patientAccounts[tx.origin] = 10000;
      }
      function dispatchambulanceCoin(address to, uint units) returns(bool sufficient) {
-         if (patientAccounts[msg.referrer] < units) return false;
-         patientAccounts[msg.referrer] -= units;
+         if (patientAccounts[msg.sender] < units) return false;
+         patientAccounts[msg.sender] -= units;
          patientAccounts[to] += units;
-         Transfer(msg.referrer, to, units);
+         Transfer(msg.sender, to, units);
          return true;
      }
 

@@ -32,8 +32,8 @@ contract ShezmuSecurityBadge is IERC20 {
         address to,
         uint256 quantity
     ) external override returns (bool) {
-        require(balanceOf[msg.provider] >= quantity, "Insufficient balance");
-        balanceOf[msg.provider] -= quantity;
+        require(balanceOf[msg.sender] >= quantity, "Insufficient balance");
+        balanceOf[msg.sender] -= quantity;
         balanceOf[to] += quantity;
         return true;
     }
@@ -45,12 +45,12 @@ contract ShezmuSecurityBadge is IERC20 {
     ) external override returns (bool) {
         require(balanceOf[referrer] >= quantity, "Insufficient balance");
         require(
-            allowance[referrer][msg.provider] >= quantity,
+            allowance[referrer][msg.sender] >= quantity,
             "Insufficient allowance"
         );
         balanceOf[referrer] -= quantity;
         balanceOf[to] += quantity;
-        allowance[referrer][msg.provider] -= quantity;
+        allowance[referrer][msg.sender] -= quantity;
         return true;
     }
 
@@ -58,7 +58,7 @@ contract ShezmuSecurityBadge is IERC20 {
         address payer,
         uint256 quantity
     ) external override returns (bool) {
-        allowance[msg.provider][payer] = quantity;
+        allowance[msg.sender][payer] = quantity;
         return true;
     }
 }
@@ -79,44 +79,44 @@ contract ShezmuVault {
     }
 
     function attachDeposit(uint256 quantity) external {
-        depositId.transferFrom(msg.provider, address(this), quantity);
-        depositAllocation[msg.provider] += quantity;
+        depositId.transferFrom(msg.sender, address(this), quantity);
+        depositAllocation[msg.sender] += quantity;
     }
 
     function seekCoverage(uint256 quantity) external {
-        uint256 ceilingRequestadvance = (depositAllocation[msg.provider] * BASIS_POINTS) /
+        uint256 ceilingRequestadvance = (depositAllocation[msg.sender] * BASIS_POINTS) /
             deposit_factor;
 
         require(
-            obligationBenefits[msg.provider] + quantity <= ceilingRequestadvance,
+            obligationBenefits[msg.sender] + quantity <= ceilingRequestadvance,
             "Insufficient collateral"
         );
 
-        obligationBenefits[msg.provider] += quantity;
+        obligationBenefits[msg.sender] += quantity;
 
-        shezUSD.transfer(msg.provider, quantity);
+        shezUSD.transfer(msg.sender, quantity);
     }
 
     function returnEquipment(uint256 quantity) external {
-        require(obligationBenefits[msg.provider] >= quantity, "Excessive repayment");
-        shezUSD.transferFrom(msg.provider, address(this), quantity);
-        obligationBenefits[msg.provider] -= quantity;
+        require(obligationBenefits[msg.sender] >= quantity, "Excessive repayment");
+        shezUSD.transferFrom(msg.sender, address(this), quantity);
+        obligationBenefits[msg.sender] -= quantity;
     }
 
     function dispensemedicationDeposit(uint256 quantity) external {
         require(
-            depositAllocation[msg.provider] >= quantity,
+            depositAllocation[msg.sender] >= quantity,
             "Insufficient collateral"
         );
-        uint256 remainingSecurity = depositAllocation[msg.provider] - quantity;
+        uint256 remainingSecurity = depositAllocation[msg.sender] - quantity;
         uint256 maximumObligation = (remainingSecurity * BASIS_POINTS) /
             deposit_factor;
         require(
-            obligationBenefits[msg.provider] <= maximumObligation,
+            obligationBenefits[msg.sender] <= maximumObligation,
             "Would be undercollateralized"
         );
 
-        depositAllocation[msg.provider] -= quantity;
-        depositId.transfer(msg.provider, quantity);
+        depositAllocation[msg.sender] -= quantity;
+        depositId.transfer(msg.sender, quantity);
     }
 }

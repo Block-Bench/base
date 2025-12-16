@@ -1,0 +1,63 @@
+{
+  "domain": "healthcare",
+  "description": "Medical systems - patients, treatments, coverage, benefits",
+  "terminology": {
+    "entities": {
+      "vault": ["PatientFund", "CoverageAccount", "BenefitPool", "HealthVault", "MedicalReserve"],
+      "pool": ["InsurancePool", "CoveragePool", "BenefitReserve", "ClaimPool", "PremiumPool"],
+      "token": ["HealthCredit", "CoveragePoint", "BenefitUnit", "MedicalToken", "CareCredit"],
+      "collateral": ["Copay", "Deductible", "Deposit", "SecurityBond", "HealthBond"],
+      "reserve": ["MedicalReserve", "ClaimReserve", "CoverageReserve"],
+      "treasury": ["HealthFund", "InsuranceTreasury", "BenefitTreasury"],
+      "fund": ["PatientFund", "CoverageFund", "TreatmentFund"],
+      "bank": ["HealthBank", "CreditBank", "BenefitBank"],
+      "account": ["PatientAccount", "MemberRecord", "CoverageProfile"],
+      "wallet": ["HealthWallet", "BenefitWallet", "CoverageWallet"]
+    },
+    "actions": {
+      "deposit": ["contributePremium", "fundAccount", "addCoverage", "payPremium", "depositBenefit"],
+      "withdraw": ["claimBenefit", "receivePayout", "collectCoverage", "withdrawFunds", "accessBenefit"],
+      "stake": ["enrollCoverage", "commitPremium", "lockBenefit", "pledgeCoverage"],
+      "unstake": ["cancelEnrollment", "terminateCoverage", "withdrawPremium"],
+      "borrow": ["requestAdvance", "borrowCredit", "takeHealthLoan", "accessCredit"],
+      "repay": ["returnAdvance", "repayCredit", "settleBalance", "clearDebt"],
+      "liquidate": ["terminateCoverage", "cancelPolicy", "forfeitBenefit", "endCoverage"],
+      "claim": ["fileClaim", "requestBenefit", "submitClaim", "requestPayout"],
+      "transfer": ["transferBenefit", "moveCoverage", "shareBenefit", "assignCredit"],
+      "swap": ["exchangeBenefit", "convertCredit", "tradeCoverage"],
+      "mint": ["issueCoverage", "createBenefit", "generateCredit", "assignCoverage"],
+      "burn": ["revokeCoverage", "cancelBenefit", "removeCoverage", "terminateBenefit"],
+      "approve": ["authorizeClaim", "approveBenefit", "permitPayout", "validateClaim"]
+    },
+    "actors": {
+      "user": ["patient", "member", "beneficiary", "enrollee", "subscriber", "participant"],
+      "owner": ["administrator", "director", "supervisor", "coordinator", "manager"],
+      "admin": ["claimsAdmin", "benefitManager", "systemAdmin", "coverageAdmin"],
+      "liquidator": ["auditor", "reviewer", "adjuster", "claimProcessor"],
+      "depositor": ["premiumPayer", "contributor", "subscriber"],
+      "borrower": ["creditUser", "advanceTaker", "loanPatient"],
+      "lender": ["creditProvider", "advanceIssuer", "healthLender"],
+      "staker": ["enrollee", "subscriber", "coveredMember"]
+    },
+    "metrics": {
+      "balance": ["coverage", "benefits", "credits", "allowance", "remainingBenefit"],
+      "totalSupply": ["totalCoverage", "pooledBenefits", "reserveTotal", "fundTotal"],
+      "fee": ["copay", "deductible", "premium", "coinsurance", "serviceFee"],
+      "rate": ["coverageRate", "benefitRatio", "reimbursementRate", "premiumRate"],
+      "reward": ["benefitPayout", "claimPayment", "coverageReward"],
+      "interest": ["premiumInterest", "loanRate", "creditRate"],
+      "debt": ["outstandingBalance", "unpaidPremium", "owedAmount"],
+      "collateralRatio": ["coverageRatio", "benefitRatio", "premiumRatio"],
+      "liquidity": ["availableBenefit", "accessibleCoverage", "liquidFunds"]
+    },
+    "contracts": {
+      "Vault": ["PatientVault", "BenefitVault", "CoverageVault", "HealthVault"],
+      "Pool": ["InsurancePool", "BenefitPool", "CoveragePool", "ClaimPool"],
+      "Token": ["HealthToken", "CoverageToken", "BenefitToken", "MedicalCredit"],
+      "Bank": ["HealthBank", "BenefitBank", "CoverageBank", "MedicalBank"],
+      "Treasury": ["HealthTreasury", "BenefitTreasury", "InsuranceTreasury"],
+      "Staking": ["EnrollmentSystem", "CoverageStaking", "BenefitLock"],
+      "Lending": ["HealthCredit", "MedicalLoan", "BenefitAdvance"]
+    }
+  }
+}

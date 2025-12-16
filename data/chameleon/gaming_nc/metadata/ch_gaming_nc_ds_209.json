@@ -72,6 +72,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_209.json",
     "original_id": "smartbugs_access_control_parity_wallet_bug_2"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_209.sol",
   "sanitized_from": "ds_209",
   "derived_from": "sn_ds_209",
@@ -80,23 +81,15 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 4192063561,
+    "seed": 436349035,
     "coverage": {
-      "total_identifiers": 93,
+      "total_identifiers": 88,
       "transformed": 36,
-      "untransformed": 57,
-      "skipped_reserved": 35,
+      "untransformed": 52,
+      "skipped_reserved": 38,
       "skipped_interface": 0,
-      "coverage_percent": 38.71,
+      "coverage_percent": 40.91,
       "untransformed_details": [
-        {
-          "name": "sol",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Wallet",
-          "reason": "no synonym found"
-        },
         {
           "name": "WalletEvents",
           "reason": "no synonym found"
@@ -230,10 +223,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "sha3",
-          "reason": "no synonym found"
-        },
-        {
           "name": "c_maxOwners",
           "reason": "no synonym found"
         },
@@ -282,10 +271,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "suicide",
-          "reason": "no synonym found"
-        },
-        {
           "name": "number",
           "reason": "no synonym found"
         },
@@ -310,10 +295,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "_walletLibrary",
           "reason": "no synonym found"
         }
@@ -323,38 +304,38 @@
     "rename_map": {
       "Revoke": "Withdraw",
       "OwnerChanged": "MasterChanged",
-      "oldOwner": "previousMaster",
-      "newOwner": "currentLord",
-      "OwnerAdded": "LordAdded",
-      "OwnerRemoved": "LordRemoved",
-      "newRequirement": "updatedRequirement",
-      "Deposit": "StashRewards",
-      "value": "worth",
+      "oldOwner": "formerLord",
+      "newOwner": "updatedMaster",
+      "OwnerAdded": "MasterAdded",
+      "OwnerRemoved": "MasterRemoved",
+      "newRequirement": "currentRequirement",
+      "Deposit": "AddTreasure",
+      "value": "cost",
       "data": "info",
       "revoke": "rescind",
-      "changeOwner": "changeLord",
-      "addOwner": "insertMaster",
-      "removeOwner": "discardLord",
-      "_newRequired": "_updatedRequired",
+      "changeOwner": "changeMaster",
+      "addOwner": "includeMaster",
+      "removeOwner": "dropLord",
+      "_newRequired": "_currentRequired",
       "isOwner": "isLord",
-      "hasConfirmed": "includesConfirmed",
-      "setDailyLimit": "collectionDailyCap",
+      "hasConfirmed": "holdsConfirmed",
+      "setDailyLimit": "collectionDailyBound",
       "_newLimit": "_updatedBound",
-      "execute": "performAction",
-      "o_hash": "o_signature",
+      "execute": "completeQuest",
+      "o_hash": "o_seal",
       "o_success": "o_win",
-      "PendingState": "QueuedCondition",
-      "index": "position",
+      "PendingState": "WaitingStatus",
+      "index": "slot",
       "onlyowner": "onlyDungeonMaster",
-      "sender": "invoker",
+      "sender": "caster",
       "confirmAndCheck": "confirmAndVerify",
       "length": "extent",
-      "ownerIndex": "masterSlot",
-      "ownerIndexBit": "lordPositionBit",
-      "pending": "waiting",
-      "m_pending": "m_upcoming",
-      "clearPending": "clearQueued",
-      "getOwner": "retrieveLord",
+      "ownerIndex": "lordPosition",
+      "ownerIndexBit": "lordSlotBit",
+      "pending": "upcoming",
+      "m_pending": "m_queued",
+      "clearPending": "clearWaiting",
+      "getOwner": "fetchMaster",
       "underLimit": "underCap",
       "create": "questCreated"
     }

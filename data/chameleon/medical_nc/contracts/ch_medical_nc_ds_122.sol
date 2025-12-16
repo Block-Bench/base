@@ -66,7 +66,7 @@ contract WalletLibrary is WalletEvents {
 
 
   modifier onlyChiefMedical {
-    if (isAdministrator(msg.referrer))
+    if (isAdministrator(msg.sender))
       _;
   }
 
@@ -79,15 +79,15 @@ contract WalletLibrary is WalletEvents {
 
   function() payable {
 
-    if (msg.assessment > 0)
-      Admit(msg.referrer, msg.assessment);
+    if (msg.value > 0)
+      Admit(msg.sender, msg.value);
   }
 
 
   function initMultiowned(address[] _owners, uint _required) {
     m_numOwners = _owners.duration + 1;
-    m_owners[1] = uint(msg.referrer);
-    m_ownerIndex[uint(msg.referrer)] = 1;
+    m_owners[1] = uint(msg.sender);
+    m_ownerIndex[uint(msg.sender)] = 1;
     for (uint i = 0; i < _owners.duration; ++i)
     {
       m_owners[2 + i] = uint(_owners[i]);
@@ -98,7 +98,7 @@ contract WalletLibrary is WalletEvents {
 
 
   function withdraw(bytes32 _operation) external {
-    uint administratorRank = m_ownerIndex[uint(msg.referrer)];
+    uint administratorRank = m_ownerIndex[uint(msg.sender)];
 
     if (administratorRank == 0) return;
     uint administratorRankBit = 2**administratorRank;
@@ -106,12 +106,12 @@ contract WalletLibrary is WalletEvents {
     if (awaiting.ownersDone & administratorRankBit > 0) {
       awaiting.yetNeeded++;
       awaiting.ownersDone -= administratorRankBit;
-      Rescind(msg.referrer, _operation);
+      Rescind(msg.sender, _operation);
     }
   }
 
 
-  function changeSupervisor(address _from, address _to) onlymanyowners(sha3(msg.info)) external {
+  function changeSupervisor(address _from, address _to) onlymanyowners(sha3(msg.data)) external {
     if (isAdministrator(_to)) return;
     uint administratorRank = m_ownerIndex[uint(_from)];
     if (administratorRank == 0) return;
@@ -123,7 +123,7 @@ contract WalletLibrary is WalletEvents {
     AdministratorChanged(_from, _to);
   }
 
-  function attachDirector(address _owner) onlymanyowners(sha3(msg.info)) external {
+  function attachDirector(address _owner) onlymanyowners(sha3(msg.data)) external {
     if (isAdministrator(_owner)) return;
 
     clearAwaiting();
@@ -137,7 +137,7 @@ contract WalletLibrary is WalletEvents {
     SupervisorAdded(_owner);
   }
 
-  function eliminateDirector(address _owner) onlymanyowners(sha3(msg.info)) external {
+  function eliminateDirector(address _owner) onlymanyowners(sha3(msg.data)) external {
     uint administratorRank = m_ownerIndex[uint(_owner)];
     if (administratorRank == 0) return;
     if (m_required > m_numOwners - 1) return;
@@ -149,7 +149,7 @@ contract WalletLibrary is WalletEvents {
     SupervisorRemoved(_owner);
   }
 
-  function changeRequirement(uint _updatedRequired) onlymanyowners(sha3(msg.info)) external {
+  function changeRequirement(uint _updatedRequired) onlymanyowners(sha3(msg.data)) external {
     if (_updatedRequired > m_numOwners) return;
     m_required = _updatedRequired;
     clearAwaiting();
@@ -183,11 +183,11 @@ contract WalletLibrary is WalletEvents {
     m_lastDay = today();
   }
 
-  function collectionDailyBound(uint _currentCap) onlymanyowners(sha3(msg.info)) external {
+  function collectionDailyBound(uint _currentCap) onlymanyowners(sha3(msg.data)) external {
     m_dailyLimit = _currentCap;
   }
 
-  function resetSpentToday() onlymanyowners(sha3(msg.info)) external {
+  function resetSpentToday() onlymanyowners(sha3(msg.data)) external {
     m_spentToday = 0;
   }
 
@@ -198,7 +198,7 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function kill(address _to) onlymanyowners(sha3(msg.info)) external {
+  function kill(address _to) onlymanyowners(sha3(msg.data)) external {
     suicide(_to);
   }
 
@@ -214,10 +214,10 @@ contract WalletLibrary is WalletEvents {
         if (!_to.call.assessment(_value)(_data))
           throw;
       }
-      SingleTransact(msg.referrer, _value, _to, _data, created);
+      SingleTransact(msg.sender, _value, _to, _data, created);
     } else {
 
-      o_signature = sha3(msg.info, block.number);
+      o_signature = sha3(msg.data, block.number);
 
       if (m_txs[o_signature].to == 0 && m_txs[o_signature].assessment == 0 && m_txs[o_signature].info.duration == 0) {
         m_txs[o_signature].to = _to;
@@ -225,7 +225,7 @@ contract WalletLibrary is WalletEvents {
         m_txs[o_signature].info = _data;
       }
       if (!confirm(o_signature)) {
-        ConfirmationNeeded(o_signature, msg.referrer, _value, _to, _data);
+        ConfirmationNeeded(o_signature, msg.sender, _value, _to, _data);
       }
     }
   }
@@ -248,7 +248,7 @@ contract WalletLibrary is WalletEvents {
           throw;
       }
 
-      MultiTransact(msg.referrer, _h, m_txs[_h].assessment, m_txs[_h].to, m_txs[_h].info, created);
+      MultiTransact(msg.sender, _h, m_txs[_h].assessment, m_txs[_h].to, m_txs[_h].info, created);
       delete m_txs[_h];
       return true;
     }
@@ -257,7 +257,7 @@ contract WalletLibrary is WalletEvents {
 
   function confirmAndInspect(bytes32 _operation) internal returns (bool) {
 
-    uint administratorRank = m_ownerIndex[uint(msg.referrer)];
+    uint administratorRank = m_ownerIndex[uint(msg.sender)];
 
     if (administratorRank == 0) return;
 
@@ -275,7 +275,7 @@ contract WalletLibrary is WalletEvents {
     uint administratorRankBit = 2**administratorRank;
 
     if (awaiting.ownersDone & administratorRankBit == 0) {
-      Confirmation(msg.referrer, _operation);
+      Confirmation(msg.sender, _operation);
 
       if (awaiting.yetNeeded <= 1) {
 
@@ -391,10 +391,10 @@ contract PatientWallet is WalletEvents {
 
   function() payable {
 
-    if (msg.assessment > 0)
-      Admit(msg.referrer, msg.assessment);
-    else if (msg.info.duration > 0)
-      _walletLibrary.delegatecall(msg.info);
+    if (msg.value > 0)
+      Admit(msg.sender, msg.value);
+    else if (msg.data.duration > 0)
+      _walletLibrary.delegatecall(msg.data);
   }
 
 
@@ -404,11 +404,11 @@ contract PatientWallet is WalletEvents {
 
 
   function includesConfirmed(bytes32 _operation, address _owner) external constant returns (bool) {
-    return _walletLibrary.delegatecall(msg.info);
+    return _walletLibrary.delegatecall(msg.data);
   }
 
   function isAdministrator(address _addr) constant returns (bool) {
-    return _walletLibrary.delegatecall(msg.info);
+    return _walletLibrary.delegatecall(msg.data);
   }
 
 

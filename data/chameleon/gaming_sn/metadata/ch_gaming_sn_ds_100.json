@@ -66,20 +66,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_100.json",
     "original_id": "defivulnlabs_txorigin"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_100.sol",
   "sanitized_from": "ds_100",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1214571019,
+    "seed": 2814416379,
     "coverage": {
-      "total_identifiers": 40,
+      "total_identifiers": 39,
       "transformed": 10,
-      "untransformed": 30,
+      "untransformed": 29,
       "skipped_reserved": 26,
       "skipped_interface": 0,
-      "coverage_percent": 25.0,
+      "coverage_percent": 25.64,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -162,10 +163,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "operation",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Eve",
           "reason": "no synonym found"
         },
@@ -208,13 +205,13 @@
       "ContractTest": "PactTest",
       "WalletContract": "WalletAgreement",
       "Operator": "GameOperator",
-      "OperatorContract": "QuestrunnerAgreement",
+      "OperatorContract": "GameoperatorPact",
       "value": "price",
-      "log": "journal",
-      "complete": "questCompleted",
-      "sender": "initiator",
-      "check": "validate",
-      "Failed": "OperationFailed"
+      "log": "record",
+      "attack": "hit",
+      "sender": "invoker",
+      "check": "verify",
+      "Failed": "ActionFailed"
     }
   }
 }

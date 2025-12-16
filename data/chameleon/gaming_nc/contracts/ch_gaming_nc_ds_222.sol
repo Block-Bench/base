@@ -2,30 +2,28 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PactTest is Test {
-    GemWhale MedalWhalePact;
-    SixEyeCoin SixEyeCoinAgreement;
+    CoinWhale CrystalWhaleAgreement;
+    SixEyeGem SixEyeCoinPact;
     address alice = vm.addr(1);
     address bob = vm.addr(2);
 
     constructor() {
-        MedalWhalePact = new GemWhale();
-        MedalWhalePact.GemWhaleDeploy(address(this));
-        MedalWhalePact.transfer(alice, 1000);
-        SixEyeCoinAgreement = new SixEyeCoin();
-        SixEyeCoinAgreement.GemWhaleDeploy(address(this));
-        SixEyeCoinAgreement.transfer(alice, 1000);
+        CrystalWhaleAgreement = new CoinWhale();
+        CrystalWhaleAgreement.GemWhaleDeploy(address(this));
+        CrystalWhaleAgreement.transfer(alice, 1000);
+        SixEyeCoinPact = new SixEyeGem();
+        SixEyeCoinPact.GemWhaleDeploy(address(this));
+        SixEyeCoinPact.transfer(alice, 1000);
     }
 
-    function testSealReplay() public {
-        emit journal_named_number(
+    function testMarkReplay() public {
+        emit record_named_number(
             "Balance",
-            MedalWhalePact.balanceOf(address(this))
+            CrystalWhaleAgreement.balanceOf(address(this))
         );
 
-        bytes32 signature = keccak256(
+        bytes32 seal = keccak256(
             abi.encodePacked(
                 address(alice),
                 address(bob),
@@ -34,15 +32,15 @@ contract PactTest is Test {
                 uint256(0)
             )
         );
-        emit journal_named_bytes32("hash", signature);
+        emit record_named_bytes32("hash", seal);
 
 
-        (uint8 v, bytes32 r, bytes32 s) = vm.authorize(1, signature);
-        emit journal_named_number("v", v);
-        emit journal_named_bytes32("r", r);
-        emit journal_named_bytes32("s", s);
+        (uint8 v, bytes32 r, bytes32 s) = vm.approve(1, seal);
+        emit record_named_number("v", v);
+        emit record_named_bytes32("r", r);
+        emit record_named_bytes32("s", s);
 
-        address alice_location = ecrecover(signature, v, r, s);
+        address alice_location = ecrecover(seal, v, r, s);
         emit journal_named_realm("alice_address", alice_location);
         emit record_text(
             "If operator got the Alice's signature, the operator can replay this signature on the others contracts with same method."

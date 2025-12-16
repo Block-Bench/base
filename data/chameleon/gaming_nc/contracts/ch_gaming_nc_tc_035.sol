@@ -45,7 +45,7 @@ contract WiseLending {
         address _poolCoin,
         uint256 _amount
     ) external returns (uint256 sliceCount) {
-        IERC20(_poolCoin).transferFrom(msg.initiator, address(this), _amount);
+        IERC20(_poolCoin).transferFrom(msg.sender, address(this), _amount);
 
         PoolInfo storage rewardPool = lendingPoolDetails[_poolCoin];
 
@@ -85,7 +85,7 @@ contract WiseLending {
         rewardPool.aggregateDepositgoldPieces -= _shares;
         rewardPool.pseudoCompletePool -= collectbountyCount;
 
-        IERC20(_poolCoin).transfer(msg.initiator, collectbountyCount);
+        IERC20(_poolCoin).transfer(msg.sender, collectbountyCount);
 
         return collectbountyCount;
     }
@@ -110,7 +110,7 @@ contract WiseLending {
         rewardPool.aggregateDepositgoldPieces -= sliceBurned;
         rewardPool.pseudoCompletePool -= _redeemtokensQuantity;
 
-        IERC20(_poolCoin).transfer(msg.initiator, _redeemtokensQuantity);
+        IERC20(_poolCoin).transfer(msg.sender, _redeemtokensQuantity);
 
         return sliceBurned;
     }

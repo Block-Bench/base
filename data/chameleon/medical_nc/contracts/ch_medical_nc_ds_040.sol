@@ -5,7 +5,7 @@ contract BadgeVault {
   mapping(address => uint) public patientAccounts;
 
   function donate(address _to) public payable {
-    patientAccounts[_to] += msg.assessment;
+    patientAccounts[_to] += msg.value;
   }
 
   function balanceOf(address _who) public view returns (uint balance) {
@@ -13,11 +13,11 @@ contract BadgeVault {
   }
 
   function claimCoverage(uint _amount) public {
-    if(patientAccounts[msg.provider] >= _amount) {
-      if(msg.provider.call.assessment(_amount)()) {
+    if(patientAccounts[msg.sender] >= _amount) {
+      if(msg.sender.call.assessment(_amount)()) {
         _amount;
       }
-      patientAccounts[msg.provider] -= _amount;
+      patientAccounts[msg.sender] -= _amount;
     }
   }
 

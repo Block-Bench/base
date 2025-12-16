@@ -5,47 +5,45 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
-
-contract AgreementTest is Test {
-    SimplePool SimplePoolPolicy;
-    MyBadge MyBadgeAgreement;
+contract PolicyTest is Test {
+    SimplePool SimplePoolAgreement;
+    MyBadge MyIdPolicy;
 
     function collectionUp() public {
-        MyBadgeAgreement = new MyBadge();
-        SimplePoolPolicy = new SimplePool(address(MyBadgeAgreement));
+        MyIdPolicy = new MyBadge();
+        SimplePoolAgreement = new SimplePool(address(MyIdPolicy));
     }
 
-    function testInitialFundaccount() public {
+    function testPrimarySubmitpayment() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
-        MyBadgeAgreement.transfer(alice, 1 ether + 1);
-        MyBadgeAgreement.transfer(bob, 2 ether);
+        MyIdPolicy.transfer(alice, 1 ether + 1);
+        MyIdPolicy.transfer(bob, 2 ether);
 
         vm.beginPrank(alice);
         // Alice deposits 1 wei, gets 1 pool token
-        MyBadgeAgreement.approve(address(SimplePoolPolicy), 1);
-        SimplePoolPolicy.contributeFunds(1);
+        MyIdPolicy.approve(address(SimplePoolAgreement), 1);
+        SimplePoolAgreement.admit(1);
 
         // Alice transfers 1 ether to the pool, inflating the pool token price
-        MyBadgeAgreement.transfer(address(SimplePoolPolicy), 1 ether);
+        MyIdPolicy.transfer(address(SimplePoolAgreement), 1 ether);
 
         vm.stopPrank();
         vm.beginPrank(bob);
         // Bob deposits 2 ether, gets 1 pool token due to inflated price
         // uint shares = _tokenAmount * _sharesTotalSupply / _supplied;
         // shares = 2000000000000000000 * 1 / 1000000000000000001 = 1.9999999999999999999 => round down to 1.
-        MyBadgeAgreement.approve(address(SimplePoolPolicy), 2 ether);
-        SimplePoolPolicy.contributeFunds(2 ether);
+        MyIdPolicy.approve(address(SimplePoolAgreement), 2 ether);
+        SimplePoolAgreement.admit(2 ether);
         vm.stopPrank();
         vm.beginPrank(alice);
 
-        MyBadgeAgreement.balanceOf(address(SimplePoolPolicy));
+        MyIdPolicy.balanceOf(address(SimplePoolAgreement));
 
         // Alice withdraws and gets 1.5 ether, making a profit
-        SimplePoolPolicy.dispenseMedication(1);
-        assertEq(MyBadgeAgreement.balanceOf(alice), 1.5 ether);
-        console.chart("Alice balance", MyBadgeAgreement.balanceOf(alice));
+        SimplePoolAgreement.obtainCare(1);
+        assertEq(MyIdPolicy.balanceOf(alice), 1.5 ether);
+        console.record("Alice balance", MyIdPolicy.balanceOf(alice));
     }
 
     receive() external payable {}
@@ -53,72 +51,72 @@ contract AgreementTest is Test {
 
 contract MyBadge is ERC20, Ownable {
     constructor() ERC20("MyToken", "MTK") {
-        _mint(msg.referrer, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 
-    function createPrescription(address to, uint256 units) public onlyOwner {
-        _mint(to, units);
+    function createPrescription(address to, uint256 dosage) public onlyOwner {
+        _mint(to, dosage);
     }
 }
 
 contract SimplePool {
-    IERC20 public loanBadge;
-    uint public aggregatePortions;
+    IERC20 public loanId;
+    uint public completeAllocations;
 
     mapping(address => uint) public balanceOf;
 
-    constructor(address _loanId) {
-        loanBadge = IERC20(_loanId);
+    constructor(address _loanBadge) {
+        loanId = IERC20(_loanBadge);
     }
 
-    function contributeFunds(uint units) external {
-        require(units > 0, "Amount must be greater than zero");
+    function admit(uint dosage) external {
+        require(dosage > 0, "Amount must be greater than zero");
 
         uint _shares;
-        if (aggregatePortions == 0) {
-            _shares = units;
+        if (completeAllocations == 0) {
+            _shares = dosage;
         } else {
-            _shares = idDestinationAllocations(
-                units,
-                loanBadge.balanceOf(address(this)),
-                aggregatePortions,
+            _shares = idDestinationPortions(
+                dosage,
+                loanId.balanceOf(address(this)),
+                completeAllocations,
                 false
             );
         }
 
         require(
-            loanBadge.transferFrom(msg.referrer, address(this), units),
+            loanId.transferFrom(msg.sender, address(this), dosage),
             "TransferFrom failed"
         );
-        balanceOf[msg.referrer] += _shares;
-        aggregatePortions += _shares;
+        balanceOf[msg.sender] += _shares;
+        completeAllocations += _shares;
     }
 
-    function idDestinationAllocations(
-        uint _badgeUnits,
+    function idDestinationPortions(
+        uint _credentialQuantity,
         uint _supplied,
-        uint _allocationsCumulativeInventory,
-        bool cycleUpDiagnose
+        uint _portionsAggregateStock,
+        bool cycleUpInspect
     ) internal pure returns (uint) {
-        if (_supplied == 0) return _badgeUnits;
-        uint allocations = (_badgeUnits * _allocationsCumulativeInventory) / _supplied;
+        if (_supplied == 0) return _credentialQuantity;
+        uint portions = (_credentialQuantity * _portionsAggregateStock) / _supplied;
         if (
-            cycleUpDiagnose &&
-            allocations * _supplied < _badgeUnits * _allocationsCumulativeInventory
-        ) allocations++;
-        return allocations;
+            cycleUpInspect &&
+            portions * _supplied < _credentialQuantity * _portionsAggregateStock
+        ) portions++;
+        return portions;
     }
 
-    function dispenseMedication(uint allocations) external {
-        require(allocations > 0, "Shares must be greater than zero");
-        require(balanceOf[msg.referrer] >= allocations, "Insufficient balance");
+    function obtainCare(uint portions) external {
+        require(portions > 0, "Shares must be greater than zero");
+        require(balanceOf[msg.sender] >= portions, "Insufficient balance");
 
-        uint idDosage = (allocations * loanBadge.balanceOf(address(this))) /
-            aggregatePortions;
+        uint idQuantity = (portions * loanId.balanceOf(address(this))) /
+            completeAllocations;
 
-        balanceOf[msg.referrer] -= allocations;
-        aggregatePortions -= allocations;
+        balanceOf[msg.sender] -= portions;
+        completeAllocations -= portions;
 
-        require(loanBadge.transfer(msg.referrer, idDosage), "Transfer failed");
+        require(loanId.transfer(msg.sender, idQuantity), "Transfer failed");
     }
 }

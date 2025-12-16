@@ -7,7 +7,7 @@ contract Id {
 contract EtherDiagnose {
     address owner;
     function EtherDiagnose() {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
     function extractspecimenIds(address idAgreement) public {
         Id tc = Id(idAgreement);

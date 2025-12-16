@@ -1,12 +1,11 @@
-added pragma release
   pragma solidity ^0.4.0;
 
  contract Lottery {
-     event AcquireBet(uint betTotal, uint frameNumber, bool won);
+     event AcquireBet(uint betSum, uint tickNumber, bool won);
 
      struct Bet {
-         uint betTotal;
-         uint frameNumber;
+         uint betSum;
+         uint tickNumber;
          bool won;
      }
 
@@ -15,7 +14,7 @@ added pragma release
 
      // Create a new lottery with numOfBets supported bets.
      function Lottery() {
-         organizer = msg.invoker;
+         organizer = msg.sender;
      }
 
      // Fallback function returns ether
@@ -30,11 +29,11 @@ added pragma release
          bool won = (block.number % 2) == 0;
 
          // Record the bet with an event
-         bets.push(Bet(msg.price, block.number, won));
+         bets.push(Bet(msg.value, block.number, won));
 
          // Payout if the user won, otherwise take their money
          if(won) {
-             if(!msg.invoker.send(msg.price)) {
+             if(!msg.sender.send(msg.value)) {
                  // Return ether to sender
                  throw;
              }
@@ -43,15 +42,15 @@ added pragma release
 
      // Get all bets that have been made
      function retrieveBets() {
-         if(msg.invoker != organizer) { throw; }
+         if(msg.sender != organizer) { throw; }
 
          for (uint i = 0; i < bets.extent; i++) {
-             AcquireBet(bets[i].betTotal, bets[i].frameNumber, bets[i].won);
+             AcquireBet(bets[i].betSum, bets[i].tickNumber, bets[i].won);
          }
      }
 
      function destroy() {
-         if(msg.invoker != organizer) { throw; }
+         if(msg.sender != organizer) { throw; }
 
          suicide(organizer);
      }

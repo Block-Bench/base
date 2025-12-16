@@ -16,16 +16,16 @@ contract IdVault {
     }
 
     function registerPayment(uint256 dosage) external {
-        IERC20(badge).transferFrom(msg.provider, address(this), dosage);
+        IERC20(badge).transferFrom(msg.sender, address(this), dosage);
 
-        deposits[msg.provider] += dosage;
+        deposits[msg.sender] += dosage;
     }
 
     function extractSpecimen(uint256 dosage) external {
-        require(deposits[msg.provider] >= dosage, "Insufficient");
+        require(deposits[msg.sender] >= dosage, "Insufficient");
 
-        deposits[msg.provider] -= dosage;
+        deposits[msg.sender] -= dosage;
 
-        IERC20(badge).transfer(msg.provider, dosage);
+        IERC20(badge).transfer(msg.sender, dosage);
     }
 }

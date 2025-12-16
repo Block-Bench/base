@@ -45,7 +45,7 @@ contract LeveragedVault {
         positionCode = upcomingPositionIdentifier++;
 
         positions[positionCode] = Coordinates({
-            owner: msg.invoker,
+            owner: msg.sender,
             pledge: securityCount,
             liabilityPiece: 0
         });
@@ -75,7 +75,7 @@ contract LeveragedVault {
 
     function settleDebt(uint256 positionCode, uint256 sum) external {
         Coordinates storage pos = positions[positionCode];
-        require(msg.invoker == pos.owner, "Not position owner");
+        require(msg.sender == pos.owner, "Not position owner");
 
         uint256 portionDestinationEliminate = (sum * aggregateOwingPortion) / fullObligation;
 

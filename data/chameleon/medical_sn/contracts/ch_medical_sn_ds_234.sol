@@ -6,7 +6,7 @@ library SafeMath {
     assert(b <= a);
     return a - b;
   }
-  function insert(uint a, uint b) internal returns (uint) {
+  function include(uint a, uint b) internal returns (uint) {
     uint c = a + b;
     assert(c >= a);
     return c;
@@ -18,74 +18,72 @@ contract ERC20Basic {
   address public owner; //owner
   address public animator; //animator
   function balanceOf(address who) constant returns (uint);
-  function transfer(address to, uint rating);
-  event Transfer(address indexed source, address indexed to, uint rating);
-  function finalizeDividend(address who) internal; // pays remaining dividend
+  function transfer(address to, uint assessment);
+  event Transfer(address indexed source, address indexed to, uint assessment);
+  function confirmDividend(address who) internal; // pays remaining dividend
 }
 
 contract ERC20 is ERC20Basic {
   function allowance(address owner, address payer) constant returns (uint);
-  function transferFrom(address source, address to, uint rating);
-  function approve(address payer, uint rating);
-  event AccessGranted(address indexed owner, address indexed payer, uint rating);
+  function transferFrom(address source, address to, uint assessment);
+  function approve(address payer, uint assessment);
+  event TreatmentAuthorized(address indexed owner, address indexed payer, uint assessment);
 }
 
-contract BasicId is ERC20Basic {
+contract BasicCredential is ERC20Basic {
   using SafeMath for uint;
-  mapping(address => uint) coverageMap;
+  mapping(address => uint) patientAccounts;
 
   modifier onlyDataMagnitude(uint magnitude) {
-     assert(msg.chart.duration >= magnitude + 4);
+     assert(msg.data.extent >= magnitude + 4);
      _;
   }
-  */
+
   function transfer(address _to, uint _value) onlyDataMagnitude(2 * 32) {
-    finalizeDividend(msg.referrer);
-    coverageMap[msg.referrer] = coverageMap[msg.referrer].sub(_value);
+    confirmDividend(msg.sender);
+    patientAccounts[msg.sender] = patientAccounts[msg.sender].sub(_value);
     if(_to == address(this)) {
-        finalizeDividend(owner);
-        coverageMap[owner] = coverageMap[owner].insert(_value);
-        Transfer(msg.referrer, owner, _value);
+        confirmDividend(owner);
+        patientAccounts[owner] = patientAccounts[owner].include(_value);
+        Transfer(msg.sender, owner, _value);
     }
     else {
-        finalizeDividend(_to);
-        coverageMap[_to] = coverageMap[_to].insert(_value);
-        Transfer(msg.referrer, _to, _value);
+        confirmDividend(_to);
+        patientAccounts[_to] = patientAccounts[_to].include(_value);
+        Transfer(msg.sender, _to, _value);
     }
   }
-  */
+
   function balanceOf(address _owner) constant returns (uint balance) {
-    return coverageMap[_owner];
+    return patientAccounts[_owner];
   }
 }
 
-contract StandardBadge is BasicId, ERC20 {
+contract StandardBadge is BasicCredential, ERC20 {
   mapping (address => mapping (address => uint)) allowed;
 
-   */
   function transferFrom(address _from, address _to, uint _value) onlyDataMagnitude(3 * 32) {
-    var _allowance = allowed[_from][msg.referrer];
-    finalizeDividend(_from);
-    finalizeDividend(_to);
-    coverageMap[_to] = coverageMap[_to].insert(_value);
-    coverageMap[_from] = coverageMap[_from].sub(_value);
-    allowed[_from][msg.referrer] = _allowance.sub(_value);
+    var _allowance = allowed[_from][msg.sender];
+    confirmDividend(_from);
+    confirmDividend(_to);
+    patientAccounts[_to] = patientAccounts[_to].include(_value);
+    patientAccounts[_from] = patientAccounts[_from].sub(_value);
+    allowed[_from][msg.sender] = _allowance.sub(_value);
     Transfer(_from, _to, _value);
   }
-   */
+
   function approve(address _spender, uint _value) {
     //  https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
-    assert(!((_value != 0) && (allowed[msg.referrer][_spender] != 0)));
-    allowed[msg.referrer][_spender] = _value;
-    AccessGranted(msg.referrer, _spender, _value);
+    assert(!((_value != 0) && (allowed[msg.sender][_spender] != 0)));
+    allowed[msg.sender][_spender] = _value;
+    TreatmentAuthorized(msg.sender, _spender, _value);
   }
-   */
+
   function allowance(address _owner, address _spender) constant returns (uint remaining) {
     return allowed[_owner][_spender];
   }
 }
 
- */
 contract SmartBillions is StandardBadge {
 
     // metadata
@@ -94,9 +92,9 @@ contract SmartBillions is StandardBadge {
     uint public constant decimals = 0;
 
     // contract state
-    struct HealthWallet {
+    struct PatientWallet {
         uint208 balance; // current balance of user
-    	uint16 endingDividendInterval; // last processed dividend period of user's tokens
+    	uint16 finalDividendDuration; // last processed dividend period of user's tokens
     	uint32 nextWithdrawBlock; // next withdrawal possible after this block number
     }
     mapping (address => Wallet) wallets;
@@ -160,42 +158,34 @@ contract SmartBillions is StandardBadge {
 
 /* getters */
 
-     */
     function hashesLength() constant external returns (uint) {
         return uint(hashes.length);
     }
 
-     */
     function walletBalanceOf(address _owner) constant external returns (uint) {
         return uint(wallets[_owner].balance);
     }
 
-     */
     function walletPeriodOf(address _owner) constant external returns (uint) {
         return uint(wallets[_owner].lastDividendPeriod);
     }
 
-     */
     function walletBlockOf(address _owner) constant external returns (uint) {
         return uint(wallets[_owner].nextWithdrawBlock);
     }
 
-     */
     function betValueOf(address _owner) constant external returns (uint) {
         return uint(bets[_owner].value);
     }
 
-     */
     function betHashOf(address _owner) constant external returns (uint) {
         return uint(bets[_owner].betHash);
     }
 
-     */
     function betBlockNumberOf(address _owner) constant external returns (uint) {
         return uint(bets[_owner].blockNum);
     }
 
-     */
     function dividendsBlocks() constant external returns (uint) {
         if(investStart > 0) {
             return(0);
@@ -209,7 +199,6 @@ contract SmartBillions is StandardBadge {
 
 /* administrative functions */
 
-     */
     function changeOwner(address _who) external onlyOwner {
         assert(_who != address(0));
         commitDividend(msg.sender);
@@ -217,7 +206,6 @@ contract SmartBillions is StandardBadge {
         owner = _who;
     }
 
-     */
     function changeAnimator(address _who) external onlyAnimator {
         assert(_who != address(0));
         commitDividend(msg.sender);
@@ -225,24 +213,20 @@ contract SmartBillions is StandardBadge {
         animator = _who;
     }
 
-     */
     function setInvestStart(uint _when) external onlyOwner {
         require(investStart == 1 && hashFirst > 0 && block.number < _when);
         investStart = _when;
     }
 
-     */
     function setBetMax(uint _maxsum) external onlyOwner {
         hashBetMax = _maxsum;
     }
 
-     */
     function resetBet() external onlyOwner {
         hashNext = block.number + 3;
         hashBetSum = 0;
     }
 
-     */
     function coldStore(uint _amount) external onlyOwner {
         houseKeeping();
         require(_amount > 0 && this.balance >= (investBalance * 9 / 10) + walletBalance + _amount);
@@ -253,14 +237,12 @@ contract SmartBillions is StandardBadge {
         coldStoreLast = block.number;
     }
 
-     */
     function hotStore() payable external {
         houseKeeping();
     }
 
 /* housekeeping functions */
 
-     */
     function houseKeeping() public {
         if(investStart > 1 && block.number >= investStart + (hashesSize * 5)){ // ca. 14 days
             investStart = 0; // start dividend payments
@@ -280,7 +262,6 @@ contract SmartBillions is StandardBadge {
 
 /* payments */
 
-     */
     function payWallet() public {
         if(wallets[msg.sender].balance > 0 && wallets[msg.sender].nextWithdrawBlock <= block.number){
             uint balance = wallets[msg.sender].balance;
@@ -309,12 +290,10 @@ contract SmartBillions is StandardBadge {
 
 /* investment functions */
 
-     */
     function investDirect() payable external {
         invest(owner);
     }
 
-     */
     function invest(address _partner) payable public {
         //require(fromUSA()==false); // fromUSA() not yet implemented :-(
         require(investStart > 1 && block.number < investStart + (hashesSize * 5) && investBalance < investBalanceMax);
@@ -349,7 +328,6 @@ contract SmartBillions is StandardBadge {
         LogInvestment(msg.sender,_partner,investing);
     }
 
-     */
     function disinvest() external {
         require(investStart == 0);
         commitDividend(msg.sender);
@@ -361,14 +339,12 @@ contract SmartBillions is StandardBadge {
         payWallet();
     }
 
-     */
     function payDividends() external {
         require(investStart == 0);
         commitDividend(msg.sender);
         payWallet();
     }
 
-     */
     function commitDividend(address _who) internal {
         uint last = wallets[_who].lastDividendPeriod;
         if((balances[_who]==0) || (last==0)){
@@ -420,7 +396,6 @@ contract SmartBillions is StandardBadge {
         return(0);
     }
 
-     */
     function betOf(address _who) constant external returns (uint)  {
         Bet memory player = bets[_who];
         if( (player.value==0) ||
@@ -444,7 +419,6 @@ contract SmartBillions is StandardBadge {
         return(0);
     }
 
-     */
     function won() public {
         Bet memory player = bets[msg.sender];
         if(player.blockNum==0){ // create a new player
@@ -497,7 +471,6 @@ contract SmartBillions is StandardBadge {
         }
     }
 
-     */
     function () payable external {
         if(msg.value > 0){
             if(investStart>1){ // during ICO payment to the contract is treated as investment
@@ -514,17 +487,14 @@ contract SmartBillions is StandardBadge {
         won(); // will run payWallet() if nothing else available
     }
 
-     */
     function play() payable public returns (uint) {
         return playSystem(uint(sha3(msg.sender,block.number)), address(0));
     }
 
-     */
     function playRandom(address _partner) payable public returns (uint) {
         return playSystem(uint(sha3(msg.sender,block.number)), _partner);
     }
 
-     */
     function playSystem(uint _hash, address _partner) payable public returns (uint) {
         won(); // check if player did not win
         uint24 bethash = uint24(_hash);
@@ -560,7 +530,6 @@ contract SmartBillions is StandardBadge {
 
 /* database functions */
 
-     */
     function addHashes(uint _sadd) public returns (uint) {
         require(hashFirst == 0 && _sadd > 0 && _sadd <= hashesSize);
         uint n = hashes.length;
@@ -580,7 +549,6 @@ contract SmartBillions is StandardBadge {
         return(hashes.length);
     }
 
-     */
     function addHashes128() external returns (uint) {
         return(addHashes(128));
     }
@@ -609,7 +577,6 @@ contract SmartBillions is StandardBadge {
         return(uint32((hash >> (24 * slotp)) & 0xFFFFFF));
     }
 
-     */
     function putHash() public returns (bool) {
         uint lastb = hashLast;
         if(lastb == 0 || block.number <= lastb + 10) {
@@ -633,7 +600,6 @@ contract SmartBillions is StandardBadge {
         return(true);
     }
 
-     */
     function putHashes(uint _num) external {
         uint n=0;
         for(;n<_num;n++){

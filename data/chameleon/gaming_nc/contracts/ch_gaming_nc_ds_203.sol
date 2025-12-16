@@ -3,8 +3,8 @@ pragma solidity ^0.4.19;
 
 contract Ownable {
     address public owner;
-    function Ownable() public {owner = msg.caster;}
-    modifier onlyOwner() {require(msg.caster == owner); _;
+    function Ownable() public {owner = msg.sender;}
+    modifier onlyOwner() {require(msg.sender == owner); _;
     }
 }
 
@@ -16,14 +16,14 @@ contract CEOThrone is Ownable {
 
     function CommitPower() public payable {
 
-        if (msg.magnitude > largestCommitment) {
-            owner = msg.caster;
-            largestCommitment = msg.magnitude;
+        if (msg.value > largestCommitment) {
+            owner = msg.sender;
+            largestCommitment = msg.value;
         }
     }
 
     function obtainPrize() public onlyOwner {
 
-        msg.caster.transfer(this.balance);
+        msg.sender.transfer(this.balance);
     }
 }

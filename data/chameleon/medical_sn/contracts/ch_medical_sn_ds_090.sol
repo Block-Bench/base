@@ -50,7 +50,7 @@ contract HerBadge is ERC721, Ownable, Test {
 
         // before the loop
         for (uint256 i = 0; i < quantity; i++) {
-            require(msg.rating >= issuecredential_cost, "Insufficient Ether.");
+            require(msg.value >= issuecredential_cost, "Insufficient Ether.");
 
             issuecredentialPosition = _credentialIdentifierTally.present();
             console.record("mintIndex", issuecredentialPosition);

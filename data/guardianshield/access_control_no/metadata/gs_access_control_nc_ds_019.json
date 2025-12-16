@@ -1,0 +1,80 @@
+{
+  "id": "gs_access_control_nc_ds_019",
+  "contract_file": "contracts/gs_access_control_nc_ds_019.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "neutralized_by": "access_control",
+    "neutralization_reason": "Only authorized addresses can call protected functions"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_reentrancy_0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 91,
+    "num_contracts": 2,
+    "contract_names": [
+      "ACCURAL_DEPOSIT",
+      "LogFile"
+    ],
+    "num_functions": 6,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 55",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_019.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_019.json",
+    "original_id": "smartbugs_reentrancy_0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_019.sol",
+  "sanitized_from": "ds_019",
+  "derived_from": "nc_ds_019",
+  "original_id": "ds_019",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "access_control",
+    "injection_details": {
+      "state_var_added": true,
+      "constructor_modified": true,
+      "modifier_added": true,
+      "functions_protected": [
+        "SetMinSum",
+        "SetLogFile"
+      ],
+      "protection_type": "access_control"
+    }
+  }
+}

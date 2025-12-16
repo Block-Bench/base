@@ -52,8 +52,8 @@ contract GovernanceSystem {
      * @param measure Quantity to admit
      */
     function admit(uint256 measure) external {
-        depositedAllocation[msg.referrer] += measure;
-        votingAuthority[msg.referrer] += measure;
+        depositedAllocation[msg.sender] += measure;
+        votingAuthority[msg.sender] += measure;
         cumulativeVotingCapability += measure;
     }
 
@@ -71,10 +71,10 @@ contract GovernanceSystem {
         proposalNumber++;
 
         Proposal storage prop = proposals[proposalNumber];
-        prop.proposer = msg.referrer;
+        prop.proposer = msg.sender;
         prop.objective = _target;
         prop.info = _calldata;
-        prop.beginMoment = block.appointmentTime;
+        prop.beginMoment = block.timestamp;
         prop.executed = false;
 
         // Auto-vote with proposer's voting power

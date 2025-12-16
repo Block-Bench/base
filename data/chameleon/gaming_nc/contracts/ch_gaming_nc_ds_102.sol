@@ -1,8 +1,6 @@
 pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
     lordGame lordGamePact;
 
@@ -12,7 +10,7 @@ contract AgreementTest is Test {
             "Before operation",
             lordGamePact.owner()
         );
-        lordGamePact.changeMaster(msg.invoker);
+        lordGamePact.changeMaster(msg.sender);
         console.record(
             "After operation",
             lordGamePact.owner()
@@ -27,7 +25,7 @@ contract lordGame {
     address public owner;
 
     constructor() {
-        owner = msg.invoker;
+        owner = msg.sender;
     }
 
 

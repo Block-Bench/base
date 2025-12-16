@@ -17,6 +17,21 @@ from typing import Optional
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
 
+# Import shared reserved keywords to avoid accidentally modifying Solidity built-ins
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+from strategies.common import (
+    SOLIDITY_RESERVED,
+    SOLIDITY_DOT_PROPERTIES,
+    MSG_PROPERTIES,
+    BLOCK_PROPERTIES,
+    TX_PROPERTIES,
+    ABI_FUNCTIONS,
+    ADDRESS_MEMBERS,
+    is_solidity_reserved,
+    is_solidity_dot_property,
+)
+
 
 # =============================================================================
 # CONFIGURATION
@@ -463,17 +478,7 @@ CONSOLE_LOG_REPLACEMENTS = [
     (r"console\.log\s*\(\s*\n?\s*'Before exploiting[^']*'", "console.log(\n            'Before operation'", 0),
     (r"console\.log\s*\(\s*\n?\s*'After exploiting[^']*'", "console.log(\n            'After operation'", 0),
 
-    # Generic patterns with vulnerability keywords
-    (r'console\.log\s*\([^)]*[Aa]ttacker[^)]*\)', 'console.log("operator action")', 0),
-    (r'console\.log\s*\([^)]*[Ee]xploit[^)]*\)', 'console.log("execution complete")', 0),
-    (r'console\.log\s*\([^)]*[Aa]ttack[^)]*\)', 'console.log("operation complete")', 0),
-    (r'console\.log\s*\([^)]*[Vv]ulnerable[^)]*\)', 'console.log("target status")', 0),
-    (r'console\.log\s*\([^)]*[Pp]wn[^)]*\)', 'console.log("execution complete")', 0),
-    (r'console\.log\s*\([^)]*[Dd]rain[^)]*\)', 'console.log("transfer complete")', 0),
-    (r'console\.log\s*\([^)]*[Rr]eentr[^)]*\)', 'console.log("callback complete")', 0),
-    (r'console\.log\s*\([^)]*[Oo]verflow[^)]*\)', 'console.log("calculation complete")', 0),
-
-    # String literals containing exploit/attack (inside console.log)
+    # String literals containing vulnerability keywords (safe replacements)
     (r'"Before exploiting[^"]*"', '"Before operation"', 0),
     (r'"After exploiting[^"]*"', '"After operation"', 0),
 
@@ -675,7 +680,54 @@ def sanitize_code(code: str) -> tuple[str, list[str]]:
     # Step 7: Clean up trailing whitespace
     result = '\n'.join(line.rstrip() for line in result.split('\n'))
 
+    # Step 8: Validate that Solidity built-ins are preserved
+    warnings = _validate_solidity_builtins(code, result)
+    if warnings:
+        for warning in warnings:
+            changes.append(f"WARNING: {warning}")
+
     return result, changes
+
+
+def _validate_solidity_builtins(original: str, sanitized: str) -> list[str]:
+    """
+    Validate that Solidity built-in patterns are preserved after sanitization.
+
+    Checks for patterns like msg.sender, msg.value, block.timestamp, etc.
+    Returns list of warnings if any built-ins appear to have been modified.
+    """
+    warnings = []
+
+    # Patterns to check: (parent.property)
+    builtin_patterns = [
+        # msg properties
+        ('msg', 'sender'), ('msg', 'value'), ('msg', 'data'), ('msg', 'sig'), ('msg', 'gas'),
+        # block properties
+        ('block', 'timestamp'), ('block', 'number'), ('block', 'coinbase'),
+        ('block', 'difficulty'), ('block', 'gaslimit'), ('block', 'chainid'),
+        ('block', 'basefee'), ('block', 'prevrandao'),
+        # tx properties
+        ('tx', 'origin'), ('tx', 'gasprice'),
+        # abi functions
+        ('abi', 'encode'), ('abi', 'encodePacked'), ('abi', 'encodeWithSelector'),
+        ('abi', 'encodeWithSignature'), ('abi', 'encodeCall'), ('abi', 'decode'),
+        # type functions
+        ('type', 'min'), ('type', 'max'), ('type', 'interfaceId'),
+    ]
+
+    for parent, prop in builtin_patterns:
+        pattern = rf'\b{parent}\s*\.\s*{prop}\b'
+
+        # Count occurrences in original and sanitized
+        original_count = len(re.findall(pattern, original))
+        sanitized_count = len(re.findall(pattern, sanitized))
+
+        if original_count > 0 and sanitized_count != original_count:
+            warnings.append(
+                f"Built-in {parent}.{prop} count changed: {original_count} -> {sanitized_count}"
+            )
+
+    return warnings
 
 
 # =============================================================================

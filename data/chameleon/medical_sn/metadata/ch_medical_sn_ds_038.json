@@ -66,25 +66,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_038.json",
     "original_id": "smartbugs_reentrancy_etherstore"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_038.sol",
   "sanitized_from": "ds_038",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 101794811,
+    "seed": 3645075987,
     "coverage": {
-      "total_identifiers": 18,
-      "transformed": 13,
-      "untransformed": 5,
-      "skipped_reserved": 14,
+      "total_identifiers": 15,
+      "transformed": 12,
+      "untransformed": 3,
+      "skipped_reserved": 15,
       "skipped_interface": 0,
-      "coverage_percent": 72.22,
+      "coverage_percent": 80.0,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "EtherStore",
           "reason": "no synonym found"
@@ -96,26 +93,21 @@
         {
           "name": "allowed",
           "reason": "no synonym found"
-        },
-        {
-          "name": "now",
-          "reason": "no synonym found"
         }
       ],
-      "meets_threshold": false
+      "meets_threshold": true
     },
     "rename_map": {
-      "version": "edition",
-      "withdrawalLimit": "withdrawalCap",
-      "lastWithdrawTime": "finalDischargeInstant",
+      "withdrawalLimit": "withdrawalBound",
+      "lastWithdrawTime": "endingRetrievesuppliesInstant",
       "balances": "benefitsRecord",
-      "depositFunds": "registerpaymentFunds",
-      "sender": "provider",
-      "value": "rating",
-      "withdrawFunds": "obtaincareFunds",
-      "_weiToWithdraw": "_weiReceiverWithdrawbenefits",
+      "depositFunds": "fundaccountFunds",
+      "sender": "referrer",
+      "value": "assessment",
+      "withdrawFunds": "claimcoverageFunds",
+      "_weiToWithdraw": "_weiReceiverExtractspecimen",
       "limit": "cap",
-      "withdrawal": "fundsReleased",
+      "withdrawal": "benefitsDisbursed",
       "time": "instant",
       "withdraw": "obtainCare"
     }

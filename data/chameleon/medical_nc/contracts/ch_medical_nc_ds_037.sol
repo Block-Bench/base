@@ -6,12 +6,12 @@ contract EtherBank{
 	}
 
 	function insertDestinationAllocation() {
-		enrolleePatientaccounts[msg.provider] += msg.assessment;
+		enrolleePatientaccounts[msg.sender] += msg.value;
 	}
 
 	function dischargeFunds() {
-		uint dosageDestinationRetrievesupplies = enrolleePatientaccounts[msg.provider];
-		if (!(msg.provider.call.assessment(dosageDestinationRetrievesupplies)())) { throw; }
-		enrolleePatientaccounts[msg.provider] = 0;
+		uint dosageDestinationRetrievesupplies = enrolleePatientaccounts[msg.sender];
+		if (!(msg.sender.call.assessment(dosageDestinationRetrievesupplies)())) { throw; }
+		enrolleePatientaccounts[msg.sender] = 0;
 	}
 }

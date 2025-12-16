@@ -41,23 +41,23 @@ contract PENNY_BY_PENNY
     public
     payable
     {
-        var acc = Acc[msg.caster];
-        acc.balance += msg.worth;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         if(now+_bindassetsInstant>acc.openvaultMoment)acc.openvaultMoment=now+_bindassetsInstant;
-        Record.InsertSignal(msg.caster,msg.worth,"Put");
+        Record.InsertSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.caster];
+        var acc = Acc[msg.sender];
         if( acc.balance>=FloorSum && acc.balance>=_am && now>acc.openvaultMoment)
         {
-            if(msg.caster.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
                 acc.balance-=_am;
-                Record.InsertSignal(msg.caster,_am,"Collect");
+                Record.InsertSignal(msg.sender,_am,"Collect");
             }
         }
     }

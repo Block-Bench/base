@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_192.json",
     "original_id": "defivulnlabs_phantom-permit"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_192.sol",
   "sanitized_from": "ds_192",
   "derived_from": "sn_ds_192",
@@ -75,14 +76,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2470118098,
+    "seed": 1902944258,
     "coverage": {
-      "total_identifiers": 48,
-      "transformed": 23,
+      "total_identifiers": 47,
+      "transformed": 22,
       "untransformed": 25,
-      "skipped_reserved": 49,
+      "skipped_reserved": 50,
       "skipped_interface": 0,
-      "coverage_percent": 47.92,
+      "coverage_percent": 46.81,
       "untransformed_details": [
         {
           "name": "forge",
@@ -190,27 +191,26 @@
     "rename_map": {
       "token": "medal",
       "ContractTest": "AgreementTest",
-      "PermitToken": "PermitCoin",
-      "VulnPermitContract": "VulnPermitPact",
-      "WETH9Contract": "Weth9Pact",
+      "PermitToken": "PermitMedal",
+      "VulnPermitContract": "VulnPermitAgreement",
+      "WETH9Contract": "Weth9Agreement",
       "setUp": "collectionUp",
-      "startPrank": "beginPrank",
-      "deposit": "addTreasure",
-      "value": "worth",
+      "startPrank": "openingPrank",
+      "deposit": "stashRewards",
+      "value": "magnitude",
       "max": "maximum",
       "log": "record",
-      "start": "opening",
-      "depositWithPermit": "bankwinningsWithPermit",
-      "withdraw": "gatherTreasure",
-      "amount": "quantity",
-      "sender": "invoker",
-      "failed": "operationFailed",
+      "start": "begin",
+      "depositWithPermit": "stashrewardsWithPermit",
+      "withdraw": "extractWinnings",
+      "amount": "count",
+      "sender": "caster",
+      "failed": "actionFailed",
       "target": "aim",
       "success": "victory",
-      "encodeWithSignature": "encodeWithSeal",
       "Approval": "PermissionGranted",
       "Deposit": "StoreLoot",
-      "Withdrawal": "RewardsCollected"
+      "Withdrawal": "GoldExtracted"
     }
   }
 }

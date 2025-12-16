@@ -96,6 +96,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_020.json",
     "original_exploit_name": "Warp Finance LP Token Price Manipulation"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_020.sol",
   "sanitized_from": "tc_020",
   "derived_from": "sn_tc_020",

@@ -1,151 +1,150 @@
-added pragma revision
 pragma solidity ^0.4.0;
 
  contract Lotto {
 
-     uint constant public blocksPerCycle = 6800;
+     uint constant public blocksPerSession = 6800;
 
 
      uint constant public ticketCharge = 100000000000000000;
 
 
-     uint constant public wardCredit = 5000000000000000000;
+     uint constant public unitCredit = 5000000000000000000;
 
-     function acquireBlocksPerSession() constant returns(uint){ return blocksPerCycle; }
-     function retrieveTicketCharge() constant returns(uint){ return ticketCharge; }
+     function diagnoseBlocksPerCycle() constant returns(uint){ return blocksPerSession; }
+     function diagnoseTicketCost() constant returns(uint){ return ticketCharge; }
 
 
-     struct Session {
+     struct Cycle {
          address[] buyers;
          uint pot;
          uint ticketsTally;
          mapping(uint=>bool) validateCashed;
          mapping(address=>uint) ticketsTallyByBuyer;
      }
-     mapping(uint => Session) rounds;
+     mapping(uint => Cycle) rounds;
 
 
-     function obtainSessionRank() constant returns (uint){
+     function diagnoseSessionRank() constant returns (uint){
 
 
-         return block.number/blocksPerCycle;
+         return block.number/blocksPerSession;
      }
 
-     function acquireIsCashed(uint cycleRank,uint subpotSlot) constant returns (bool){
+     function retrieveIsCashed(uint cyclePosition,uint subpotSlot) constant returns (bool){
 
 
-         return rounds[cycleRank].validateCashed[subpotSlot];
+         return rounds[cyclePosition].validateCashed[subpotSlot];
      }
 
-     function determineWinner(uint cycleRank, uint subpotSlot) constant returns(address){
+     function deriveWinner(uint cyclePosition, uint subpotSlot) constant returns(address){
 
 
-         var decisionUnitNumber = obtainDecisionWardNumber(cycleRank,subpotSlot);
+         var decisionWardNumber = acquireDecisionUnitNumber(cyclePosition,subpotSlot);
 
-         if(decisionUnitNumber>block.number)
+         if(decisionWardNumber>block.number)
              return;
 
 
-         var decisionUnitSignature = diagnoseSignatureOfWard(decisionUnitNumber);
-         var winningTicketPosition = decisionUnitSignature%rounds[cycleRank].ticketsTally;
+         var decisionWardSignature = obtainSignatureOfWard(decisionWardNumber);
+         var winningTicketRank = decisionWardSignature%rounds[cyclePosition].ticketsTally;
 
 
-         var ticketSlot = uint256(0);
+         var ticketPosition = uint256(0);
 
-         for(var buyerRank = 0; buyerRank<rounds[cycleRank].buyers.duration; buyerRank++){
-             var buyer = rounds[cycleRank].buyers[buyerRank];
-             ticketSlot+=rounds[cycleRank].ticketsTallyByBuyer[buyer];
+         for(var buyerRank = 0; buyerRank<rounds[cyclePosition].buyers.duration; buyerRank++){
+             var buyer = rounds[cyclePosition].buyers[buyerRank];
+             ticketPosition+=rounds[cyclePosition].ticketsTallyByBuyer[buyer];
 
-             if(ticketSlot>winningTicketPosition){
+             if(ticketPosition>winningTicketRank){
                  return buyer;
              }
          }
      }
 
-     function obtainDecisionWardNumber(uint cycleRank,uint subpotSlot) constant returns (uint){
-         return ((cycleRank+1)*blocksPerCycle)+subpotSlot;
+     function acquireDecisionUnitNumber(uint cyclePosition,uint subpotSlot) constant returns (uint){
+         return ((cyclePosition+1)*blocksPerSession)+subpotSlot;
      }
 
-     function retrieveSubpotsTally(uint cycleRank) constant returns(uint){
-         var subpotsTally = rounds[cycleRank].pot/wardCredit;
+     function obtainSubpotsNumber(uint cyclePosition) constant returns(uint){
+         var subpotsTally = rounds[cyclePosition].pot/unitCredit;
 
-         if(rounds[cycleRank].pot%wardCredit>0)
+         if(rounds[cyclePosition].pot%unitCredit>0)
              subpotsTally++;
 
          return subpotsTally;
      }
 
-     function diagnoseSubpot(uint cycleRank) constant returns(uint){
-         return rounds[cycleRank].pot/retrieveSubpotsTally(cycleRank);
+     function obtainSubpot(uint cyclePosition) constant returns(uint){
+         return rounds[cyclePosition].pot/obtainSubpotsNumber(cyclePosition);
      }
 
-     function cash(uint cycleRank, uint subpotSlot){
+     function cash(uint cyclePosition, uint subpotSlot){
 
-         var subpotsTally = retrieveSubpotsTally(cycleRank);
+         var subpotsTally = obtainSubpotsNumber(cyclePosition);
 
          if(subpotSlot>=subpotsTally)
              return;
 
-         var decisionUnitNumber = obtainDecisionWardNumber(cycleRank,subpotSlot);
+         var decisionWardNumber = acquireDecisionUnitNumber(cyclePosition,subpotSlot);
 
-         if(decisionUnitNumber>block.number)
+         if(decisionWardNumber>block.number)
              return;
 
-         if(rounds[cycleRank].validateCashed[subpotSlot])
+         if(rounds[cyclePosition].validateCashed[subpotSlot])
              return;
 
 
-         var winner = determineWinner(cycleRank,subpotSlot);
-         var subpot = diagnoseSubpot(cycleRank);
+         var winner = deriveWinner(cyclePosition,subpotSlot);
+         var subpot = obtainSubpot(cyclePosition);
 
          winner.send(subpot);
 
-         rounds[cycleRank].validateCashed[subpotSlot] = true;
+         rounds[cyclePosition].validateCashed[subpotSlot] = true;
 
      }
 
-     function diagnoseSignatureOfWard(uint unitRank) constant returns(uint){
-         return uint(block.blockhash(unitRank));
+     function obtainSignatureOfWard(uint wardPosition) constant returns(uint){
+         return uint(block.blockhash(wardPosition));
      }
 
-     function retrieveBuyers(uint cycleRank,address buyer) constant returns (address[]){
-         return rounds[cycleRank].buyers;
+     function diagnoseBuyers(uint cyclePosition,address buyer) constant returns (address[]){
+         return rounds[cyclePosition].buyers;
      }
 
-     function retrieveTicketsTallyByBuyer(uint cycleRank,address buyer) constant returns (uint){
-         return rounds[cycleRank].ticketsTallyByBuyer[buyer];
+     function diagnoseTicketsNumberByBuyer(uint cyclePosition,address buyer) constant returns (uint){
+         return rounds[cyclePosition].ticketsTallyByBuyer[buyer];
      }
 
-     function acquirePot(uint cycleRank) constant returns(uint){
-         return rounds[cycleRank].pot;
+     function acquirePot(uint cyclePosition) constant returns(uint){
+         return rounds[cyclePosition].pot;
      }
 
      function() {
 
 
-         var cycleRank = obtainSessionRank();
-         var evaluation = msg.evaluation-(msg.evaluation%ticketCharge);
+         var cyclePosition = diagnoseSessionRank();
+         var evaluation = msg.value-(msg.value%ticketCharge);
 
          if(evaluation==0) return;
 
-         if(evaluation<msg.evaluation){
-             msg.referrer.send(msg.evaluation-evaluation);
+         if(evaluation<msg.value){
+             msg.sender.send(msg.value-evaluation);
          }
 
 
          var ticketsTally = evaluation/ticketCharge;
-         rounds[cycleRank].ticketsTally+=ticketsTally;
+         rounds[cyclePosition].ticketsTally+=ticketsTally;
 
-         if(rounds[cycleRank].ticketsTallyByBuyer[msg.referrer]==0){
-             var buyersExtent = rounds[cycleRank].buyers.duration++;
-             rounds[cycleRank].buyers[buyersExtent] = msg.referrer;
+         if(rounds[cyclePosition].ticketsTallyByBuyer[msg.sender]==0){
+             var buyersDuration = rounds[cyclePosition].buyers.duration++;
+             rounds[cyclePosition].buyers[buyersDuration] = msg.sender;
          }
 
-         rounds[cycleRank].ticketsTallyByBuyer[msg.referrer]+=ticketsTally;
-         rounds[cycleRank].ticketsTally+=ticketsTally;
+         rounds[cyclePosition].ticketsTallyByBuyer[msg.sender]+=ticketsTally;
+         rounds[cyclePosition].ticketsTally+=ticketsTally;
 
 
-         rounds[cycleRank].pot+=evaluation;
+         rounds[cyclePosition].pot+=evaluation;
 
 
      }

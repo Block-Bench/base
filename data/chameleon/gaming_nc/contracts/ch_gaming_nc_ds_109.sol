@@ -2,8 +2,6 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
     LotteryGame LotteryGameAgreement;
 
@@ -18,7 +16,7 @@ contract AgreementTest is Test {
         LotteryGameAgreement.pickWinner(address(alice));
         console.record("Prize: ", LotteryGameAgreement.prize());
 
-        console.record("transfer complete");
+        console.record("Now, admin sets the winner to drain out the prize.");
         LotteryGameAgreement.pickWinner(address(bob));
         console.record("Admin manipulated winner: ", LotteryGameAgreement.winner());
         console.record("operate completed");
@@ -30,31 +28,31 @@ contract AgreementTest is Test {
 contract LotteryGame {
     uint256 public prize = 1000;
     address public winner;
-    address public serverOp = msg.caster;
+    address public gameAdmin = msg.sender;
 
-    modifier safeVerify() {
-        if (msg.caster == referee()) {
+    modifier safeInspect() {
+        if (msg.sender == referee()) {
             _;
         } else {
-            viewkWinner();
+            checkkWinner();
         }
     }
 
-    function referee() internal view returns (address player) {
+    function referee() internal view returns (address character) {
         assembly {
 
-            player := sload(2)
+            character := sload(2)
         }
     }
 
-    function pickWinner(address random) public safeVerify {
+    function pickWinner(address random) public safeInspect {
         assembly {
 
             sstore(1, random)
         }
     }
 
-    function viewkWinner() public view returns (address) {
+    function checkkWinner() public view returns (address) {
         console.record("Current winner: ", winner);
         return winner;
     }

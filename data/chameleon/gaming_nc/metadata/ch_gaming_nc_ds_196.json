@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_196.json",
     "original_id": "defivulnlabs_nftmint_exposedmetadata"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_196.sol",
   "sanitized_from": "ds_196",
   "derived_from": "sn_ds_196",
@@ -73,7 +74,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2941316893,
+    "seed": 2424207835,
     "coverage": {
       "total_identifiers": 23,
       "transformed": 9,
@@ -142,13 +143,13 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "PactTest",
-      "nftContract": "relicAgreement",
+      "ContractTest": "AgreementTest",
+      "nftContract": "artifactPact",
       "merkleTreeProof": "merkleTreeVerification",
       "setUp": "collectionUp",
       "operator": "questRunner",
       "mint": "summon",
-      "value": "worth",
+      "value": "price",
       "log": "record",
       "NFT": "Relic"
     }

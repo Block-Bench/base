@@ -8,11 +8,11 @@ contract Roulette {
 
     // fallback function used to make a bet
     function () public payable {
-        require(msg.worth == 10 ether); // must send 10 ether to play
+        require(msg.value == 10 ether); // must send 10 ether to play
         require(now != pastFrameInstant); // only 1 transaction per block
         pastFrameInstant = now;
         if(now % 15 == 0) { // winner
-            msg.caster.transfer(this.balance);
+            msg.sender.transfer(this.balance);
         }
     }
 }

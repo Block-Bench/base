@@ -1,9 +1,8 @@
-added pragma edition
 pragma solidity ^0.4.0;
 
  contract Lotto {
 
-     uint constant public blocksPerCycle = 6800;
+     uint constant public blocksPerWave = 6800;
 
 
      uint constant public ticketCost = 100000000000000000;
@@ -11,141 +10,141 @@ pragma solidity ^0.4.0;
 
      uint constant public tickBounty = 5000000000000000000;
 
-     function fetchBlocksPerWave() constant returns(uint){ return blocksPerCycle; }
-     function acquireTicketValue() constant returns(uint){ return ticketCost; }
+     function fetchBlocksPerWave() constant returns(uint){ return blocksPerWave; }
+     function fetchTicketCost() constant returns(uint){ return ticketCost; }
 
 
-     struct Cycle {
+     struct Wave {
          address[] buyers;
          uint pot;
-         uint ticketsNumber;
-         mapping(uint=>bool) testCashed;
+         uint ticketsTally;
+         mapping(uint=>bool) validateCashed;
          mapping(address=>uint) ticketsTallyByBuyer;
      }
-     mapping(uint => Cycle) rounds;
+     mapping(uint => Wave) rounds;
 
 
-     function acquireWavePosition() constant returns (uint){
+     function fetchCycleSlot() constant returns (uint){
 
 
-         return block.number/blocksPerCycle;
+         return block.number/blocksPerWave;
      }
 
-     function acquireIsCashed(uint cyclePosition,uint subpotPosition) constant returns (bool){
+     function retrieveIsCashed(uint waveSlot,uint subpotPosition) constant returns (bool){
 
 
-         return rounds[cyclePosition].testCashed[subpotPosition];
+         return rounds[waveSlot].validateCashed[subpotPosition];
      }
 
-     function computeWinner(uint cyclePosition, uint subpotPosition) constant returns(address){
+     function figureWinner(uint waveSlot, uint subpotPosition) constant returns(address){
 
 
-         var decisionTickNumber = obtainDecisionFrameNumber(cyclePosition,subpotPosition);
+         var decisionTickNumber = fetchDecisionTickNumber(waveSlot,subpotPosition);
 
          if(decisionTickNumber>block.number)
              return;
 
 
-         var decisionFrameSignature = acquireSignatureOfTick(decisionTickNumber);
-         var winningTicketSlot = decisionFrameSignature%rounds[cyclePosition].ticketsNumber;
+         var decisionFrameSignature = obtainSignatureOfFrame(decisionTickNumber);
+         var winningTicketPosition = decisionFrameSignature%rounds[waveSlot].ticketsTally;
 
 
          var ticketSlot = uint256(0);
 
-         for(var buyerPosition = 0; buyerPosition<rounds[cyclePosition].buyers.extent; buyerPosition++){
-             var buyer = rounds[cyclePosition].buyers[buyerPosition];
-             ticketSlot+=rounds[cyclePosition].ticketsTallyByBuyer[buyer];
+         for(var buyerSlot = 0; buyerSlot<rounds[waveSlot].buyers.size; buyerSlot++){
+             var buyer = rounds[waveSlot].buyers[buyerSlot];
+             ticketSlot+=rounds[waveSlot].ticketsTallyByBuyer[buyer];
 
-             if(ticketSlot>winningTicketSlot){
+             if(ticketSlot>winningTicketPosition){
                  return buyer;
              }
          }
      }
 
-     function obtainDecisionFrameNumber(uint cyclePosition,uint subpotPosition) constant returns (uint){
-         return ((cyclePosition+1)*blocksPerCycle)+subpotPosition;
+     function fetchDecisionTickNumber(uint waveSlot,uint subpotPosition) constant returns (uint){
+         return ((waveSlot+1)*blocksPerWave)+subpotPosition;
      }
 
-     function obtainSubpotsTally(uint cyclePosition) constant returns(uint){
-         var subpotsNumber = rounds[cyclePosition].pot/tickBounty;
+     function retrieveSubpotsTally(uint waveSlot) constant returns(uint){
+         var subpotsTally = rounds[waveSlot].pot/tickBounty;
 
-         if(rounds[cyclePosition].pot%tickBounty>0)
-             subpotsNumber++;
+         if(rounds[waveSlot].pot%tickBounty>0)
+             subpotsTally++;
 
-         return subpotsNumber;
+         return subpotsTally;
      }
 
-     function fetchSubpot(uint cyclePosition) constant returns(uint){
-         return rounds[cyclePosition].pot/obtainSubpotsTally(cyclePosition);
+     function acquireSubpot(uint waveSlot) constant returns(uint){
+         return rounds[waveSlot].pot/retrieveSubpotsTally(waveSlot);
      }
 
-     function cash(uint cyclePosition, uint subpotPosition){
+     function cash(uint waveSlot, uint subpotPosition){
 
-         var subpotsNumber = obtainSubpotsTally(cyclePosition);
+         var subpotsTally = retrieveSubpotsTally(waveSlot);
 
-         if(subpotPosition>=subpotsNumber)
+         if(subpotPosition>=subpotsTally)
              return;
 
-         var decisionTickNumber = obtainDecisionFrameNumber(cyclePosition,subpotPosition);
+         var decisionTickNumber = fetchDecisionTickNumber(waveSlot,subpotPosition);
 
          if(decisionTickNumber>block.number)
              return;
 
-         if(rounds[cyclePosition].testCashed[subpotPosition])
+         if(rounds[waveSlot].validateCashed[subpotPosition])
              return;
 
 
-         var winner = computeWinner(cyclePosition,subpotPosition);
-         var subpot = fetchSubpot(cyclePosition);
+         var winner = figureWinner(waveSlot,subpotPosition);
+         var subpot = acquireSubpot(waveSlot);
 
          winner.send(subpot);
 
-         rounds[cyclePosition].testCashed[subpotPosition] = true;
+         rounds[waveSlot].validateCashed[subpotPosition] = true;
 
      }
 
-     function acquireSignatureOfTick(uint frameSlot) constant returns(uint){
-         return uint(block.blockhash(frameSlot));
+     function obtainSignatureOfFrame(uint tickSlot) constant returns(uint){
+         return uint(block.blockhash(tickSlot));
      }
 
-     function obtainBuyers(uint cyclePosition,address buyer) constant returns (address[]){
-         return rounds[cyclePosition].buyers;
+     function fetchBuyers(uint waveSlot,address buyer) constant returns (address[]){
+         return rounds[waveSlot].buyers;
      }
 
-     function fetchTicketsTallyByBuyer(uint cyclePosition,address buyer) constant returns (uint){
-         return rounds[cyclePosition].ticketsTallyByBuyer[buyer];
+     function obtainTicketsNumberByBuyer(uint waveSlot,address buyer) constant returns (uint){
+         return rounds[waveSlot].ticketsTallyByBuyer[buyer];
      }
 
-     function fetchPot(uint cyclePosition) constant returns(uint){
-         return rounds[cyclePosition].pot;
+     function acquirePot(uint waveSlot) constant returns(uint){
+         return rounds[waveSlot].pot;
      }
 
      function() {
 
 
-         var cyclePosition = acquireWavePosition();
-         var magnitude = msg.magnitude-(msg.magnitude%ticketCost);
+         var waveSlot = fetchCycleSlot();
+         var worth = msg.value-(msg.value%ticketCost);
 
-         if(magnitude==0) return;
+         if(worth==0) return;
 
-         if(magnitude<msg.magnitude){
-             msg.caster.send(msg.magnitude-magnitude);
+         if(worth<msg.value){
+             msg.sender.send(msg.value-worth);
          }
 
 
-         var ticketsNumber = magnitude/ticketCost;
-         rounds[cyclePosition].ticketsNumber+=ticketsNumber;
+         var ticketsTally = worth/ticketCost;
+         rounds[waveSlot].ticketsTally+=ticketsTally;
 
-         if(rounds[cyclePosition].ticketsTallyByBuyer[msg.caster]==0){
-             var buyersExtent = rounds[cyclePosition].buyers.extent++;
-             rounds[cyclePosition].buyers[buyersExtent] = msg.caster;
+         if(rounds[waveSlot].ticketsTallyByBuyer[msg.sender]==0){
+             var buyersSize = rounds[waveSlot].buyers.size++;
+             rounds[waveSlot].buyers[buyersSize] = msg.sender;
          }
 
-         rounds[cyclePosition].ticketsTallyByBuyer[msg.caster]+=ticketsNumber;
-         rounds[cyclePosition].ticketsNumber+=ticketsNumber;
+         rounds[waveSlot].ticketsTallyByBuyer[msg.sender]+=ticketsTally;
+         rounds[waveSlot].ticketsTally+=ticketsTally;
 
 
-         rounds[cyclePosition].pot+=magnitude;
+         rounds[waveSlot].pot+=worth;
 
 
      }

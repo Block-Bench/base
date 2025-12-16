@@ -65,13 +65,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_105.json",
     "original_id": "defivulnlabs_gas-price"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_105.sol",
   "sanitized_from": "ds_105",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 3181476920,
+    "seed": 386517795,
     "coverage": {
       "total_identifiers": 37,
       "transformed": 15,
@@ -175,18 +176,18 @@
       "ContractTest": "PolicyTest",
       "GasReimbursementContract": "GasReimbursementAgreement",
       "setUp": "groupUp",
-      "balanceBefore": "creditsBefore",
-      "executeTransfer": "performprocedureShiftcare",
-      "balanceAfter": "coverageAfter",
+      "balanceBefore": "fundsBefore",
+      "executeTransfer": "completetreatmentPasscase",
+      "balanceAfter": "benefitsAfter",
       "price": "charge",
       "log": "chart",
-      "token": "id",
-      "txGasPrice": "txGasCharge",
-      "calculateTotalFee": "determineCompletePremium",
-      "totalFee": "aggregateCopay",
+      "token": "credential",
+      "txGasPrice": "txGasCost",
+      "calculateTotalFee": "deriveAggregateCharge",
+      "totalFee": "cumulativeCopay",
       "recipient": "receiver",
-      "_nativeTransferExec": "_nativeReferExec",
-      "amount": "dosage"
+      "_nativeTransferExec": "_nativeRelocatepatientExec",
+      "amount": "units"
     }
   }
 }

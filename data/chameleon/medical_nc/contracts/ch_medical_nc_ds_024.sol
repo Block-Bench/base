@@ -16,7 +16,7 @@ contract PrivateFundaccount
 
     function PrivateFundaccount()
     {
-        owner = msg.referrer;
+        owner = msg.sender;
         RelocatepatientChart = new Chart();
     }
 
@@ -29,21 +29,21 @@ contract PrivateFundaccount
     public
     payable
     {
-        if(msg.evaluation >= FloorAdmit)
+        if(msg.value >= FloorAdmit)
         {
-            patientAccounts[msg.referrer]+=msg.evaluation;
-            RelocatepatientChart.AppendAlert(msg.referrer,msg.evaluation,"Deposit");
+            patientAccounts[msg.sender]+=msg.value;
+            RelocatepatientChart.AppendAlert(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=patientAccounts[msg.referrer])
+        if(_am<=patientAccounts[msg.sender])
         {
-            if(msg.referrer.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                patientAccounts[msg.referrer]-=_am;
-                RelocatepatientChart.AppendAlert(msg.referrer,_am,"CashOut");
+                patientAccounts[msg.sender]-=_am;
+                RelocatepatientChart.AppendAlert(msg.sender,_am,"CashOut");
             }
         }
     }

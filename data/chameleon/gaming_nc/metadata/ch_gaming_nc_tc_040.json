@@ -84,6 +84,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_040.json",
     "original_exploit_name": "Bedrock DeFi Exchange Rate Exploit"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_040.sol",
   "sanitized_from": "tc_040",
   "derived_from": "sn_tc_040",
@@ -94,12 +95,12 @@
     "source": "nocomments",
     "seed": 553720805,
     "coverage": {
-      "total_identifiers": 40,
+      "total_identifiers": 38,
       "transformed": 26,
-      "untransformed": 14,
-      "skipped_reserved": 28,
+      "untransformed": 12,
+      "skipped_reserved": 30,
       "skipped_interface": 0,
-      "coverage_percent": 65.0,
+      "coverage_percent": 68.42,
       "untransformed_details": [
         {
           "name": "IERC20",
@@ -107,14 +108,6 @@
         },
         {
           "name": "IUniswapV3Router",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint24",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint160",
           "reason": "no synonym found"
         },
         {

@@ -17,21 +17,21 @@ contract PrivateBank
     public
     payable
     {
-        if(msg.evaluation >= MinimumContributefunds)
+        if(msg.value >= MinimumContributefunds)
         {
-            patientAccounts[msg.provider]+=msg.evaluation;
-            MoverecordsRecord.AttachAlert(msg.provider,msg.evaluation,"Deposit");
+            patientAccounts[msg.sender]+=msg.value;
+            MoverecordsRecord.AttachAlert(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=patientAccounts[msg.provider])
+        if(_am<=patientAccounts[msg.sender])
         {
-            if(msg.provider.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                patientAccounts[msg.provider]-=_am;
-                MoverecordsRecord.AttachAlert(msg.provider,_am,"CashOut");
+                patientAccounts[msg.sender]-=_am;
+                MoverecordsRecord.AttachAlert(msg.sender,_am,"CashOut");
             }
         }
     }

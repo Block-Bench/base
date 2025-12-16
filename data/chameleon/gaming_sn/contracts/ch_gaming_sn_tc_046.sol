@@ -15,11 +15,11 @@ contract FloatHotWalletV2 {
     event LootClaimed(address medal, address to, uint256 count);
 
     constructor() {
-        owner = msg.initiator;
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
-        require(msg.initiator == owner, "Not owner");
+        require(msg.sender == owner, "Not owner");
         _;
     }
 

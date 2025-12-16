@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_041.json",
     "original_id": "smartbugs_reentrancy_reentrancy_bonus"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_041.sol",
   "sanitized_from": "ds_041"
 }

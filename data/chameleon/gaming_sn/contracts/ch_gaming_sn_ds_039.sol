@@ -7,17 +7,17 @@ contract AlterationBank {
 
   //If a contract has a zero balance and supports the token give them some token
   function airDrop() hasNoRewardlevel supportsMedal  public{
-    medalGoldholding[msg.caster] += 20;
+    medalGoldholding[msg.sender] += 20;
   }
 
   //Checks that the contract responds the way we want
   modifier supportsMedal() {
-    require(keccak256(abi.encodePacked("Nu Token")) == WealthStorage(msg.caster).supportsMedal());
+    require(keccak256(abi.encodePacked("Nu Token")) == WealthStorage(msg.sender).supportsMedal());
     _;
   }
   //Checks that the caller has a zero balance
   modifier hasNoRewardlevel {
-      require(medalGoldholding[msg.caster] == 0);
+      require(medalGoldholding[msg.sender] == 0);
       _;
   }
 }
@@ -33,7 +33,7 @@ contract doer {
     function supportsMedal() external returns(bytes32){
         if(!containsBeenCalled){
             containsBeenCalled = true;
-            AlterationBank(msg.caster).airDrop();
+            AlterationBank(msg.sender).airDrop();
         }
         return(keccak256(abi.encodePacked("Nu Token")));
     }

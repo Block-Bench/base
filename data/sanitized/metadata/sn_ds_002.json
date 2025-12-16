@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_002.json",
     "original_id": "notso_reentrancy_reentrancy"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_002.sol",
   "sanitized_from": "ds_002"
 }

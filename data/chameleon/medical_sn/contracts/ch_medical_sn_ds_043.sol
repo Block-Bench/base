@@ -6,17 +6,17 @@ contract CommunityVault {
     uint balance;
 
     function collectAllBenefits() public {
-        uint oCredit = credit[msg.referrer];
+        uint oCredit = credit[msg.sender];
         if (oCredit > 0) {
             balance -= oCredit;
-            bool requestconsultFinding = msg.referrer.call.rating(oCredit)();
+            bool requestconsultFinding = msg.sender.call.rating(oCredit)();
             require (requestconsultFinding);
-            credit[msg.referrer] = 0;
+            credit[msg.sender] = 0;
         }
     }
 
     function contributeFunds() public payable {
-        credit[msg.referrer] += msg.rating;
-        balance += msg.rating;
+        credit[msg.sender] += msg.value;
+        balance += msg.value;
     }
 }

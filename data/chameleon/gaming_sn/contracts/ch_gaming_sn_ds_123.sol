@@ -6,20 +6,20 @@ contract owned {
     address public owner;
 
     function owned() public {
-        owner = msg.caster;
+        owner = msg.sender;
     }
 
     modifier onlyOwner {
-        require(msg.caster == owner);
+        require(msg.sender == owner);
         _;
     }
 
-    function transferOwnership(address currentLord) onlyOwner public {
-        owner = currentLord;
+    function transferOwnership(address updatedLord) onlyOwner public {
+        owner = updatedLord;
     }
 }
 
-interface gemReceiver { function catchrewardApproval(address _from, uint256 _value, address _token, bytes _extraInfo) external; }
+interface crystalReceiver { function acceptlootApproval(address _from, uint256 _value, address _token, bytes _extraInfo) external; }
 
 contract CoinErc20 {
     // Public variables of the token
@@ -34,21 +34,19 @@ contract CoinErc20 {
     mapping (address => mapping (address => uint256)) public allowance;
 
     // This generates a public event on the blockchain that will notify clients
-    event Transfer(address indexed origin, address indexed to, uint256 cost);
+    event Transfer(address indexed origin, address indexed to, uint256 worth);
 
     // This generates a public event on the blockchain that will notify clients
-    event AccessAuthorized(address indexed _owner, address indexed _spender, uint256 _value);
+    event PermissionGranted(address indexed _owner, address indexed _spender, uint256 _value);
 
-     */
     function CoinErc20(
-        string medalTag,
-        string gemEmblem
+        string gemTag,
+        string crystalIcon
     ) public {
-        name = medalTag;                                   // Set the name for display purposes
-        symbol = gemEmblem;                               // Set the symbol for display purposes
+        name = gemTag;                                   // Set the name for display purposes
+        symbol = crystalIcon;                               // Set the symbol for display purposes
     }
 
-     */
     function _transfer(address _from, address _to, uint _value) internal {
         // Prevent transfer to 0x0 address.
         require(_to != 0x0);
@@ -57,45 +55,41 @@ contract CoinErc20 {
 
         require(balanceOf[_to] + _value > balanceOf[_to]);
         // Save this for an assertion in the future
-        uint priorUserrewards = balanceOf[_from] + balanceOf[_to];
+        uint lastPlayerloot = balanceOf[_from] + balanceOf[_to];
         // Subtract from the sender
         balanceOf[_from] -= _value;
         // Add the same to the recipient
         balanceOf[_to] += _value;
         emit Transfer(_from, _to, _value);
         // Asserts are used to use static analysis to find bugs in your code. They should never fail
-        assert(balanceOf[_from] + balanceOf[_to] == priorUserrewards);
+        assert(balanceOf[_from] + balanceOf[_to] == lastPlayerloot);
     }
 
-     */
-    function transfer(address _to, uint256 _value) public returns (bool win) {
-        _transfer(msg.caster, _to, _value);
+    function transfer(address _to, uint256 _value) public returns (bool victory) {
+        _transfer(msg.sender, _to, _value);
         return true;
     }
 
-     */
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool win) {
-        require(_value <= allowance[_from][msg.caster]);     // Check allowance
-        allowance[_from][msg.caster] -= _value;
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool victory) {
+        require(_value <= allowance[_from][msg.sender]);     // Check allowance
+        allowance[_from][msg.sender] -= _value;
         _transfer(_from, _to, _value);
         return true;
     }
 
-     */
     function approve(address _spender, uint256 _value) public
-        returns (bool win) {
-        allowance[msg.caster][_spender] = _value;
-        emit AccessAuthorized(msg.caster, _spender, _value);
+        returns (bool victory) {
+        allowance[msg.sender][_spender] = _value;
+        emit PermissionGranted(msg.sender, _spender, _value);
         return true;
     }
 
-     */
-    function allowusageAndInvokespell(address _spender, uint256 _value, bytes _extraInfo)
+    function permitaccessAndSummonhero(address _spender, uint256 _value, bytes _extraInfo)
         public
-        returns (bool win) {
-        gemReceiver user = gemReceiver(_spender);
+        returns (bool victory) {
+        crystalReceiver consumer = crystalReceiver(_spender);
         if (approve(_spender, _value)) {
-            user.catchrewardApproval(msg.caster, _value, this, _extraInfo);
+            consumer.acceptlootApproval(msg.sender, _value, this, _extraInfo);
             return true;
         }
     }
@@ -103,21 +97,21 @@ contract CoinErc20 {
 }
 
 /******************************************/
-/*       ADVANCED Medal STARTS HERE       */
+/*       ADVANCED Gem STARTS HERE       */
 /******************************************/
 
-contract MyAdvancedCrystal is owned, CoinErc20 {
+contract MyAdvancedMedal is owned, CoinErc20 {
 
     mapping (address => bool) public frozenProfile;
 
     /* This generates a public event on the blockchain that will notify clients */
     event FrozenFunds(address aim, bool frozen);
 
-    /* Initializes contract with initial provideResources crystals to the maker of the contract */
-    function MyAdvancedCrystal(
-        string medalTag,
-        string gemEmblem
-    ) CoinErc20(medalTag, gemEmblem) public {}
+    /* Initializes contract with initial fundPool medals to the founder of the contract */
+    function MyAdvancedMedal(
+        string gemTag,
+        string crystalIcon
+    ) CoinErc20(gemTag, crystalIcon) public {}
 
     /* Internal transfer, only can be called by this contract */
     function _transfer(address _from, address _to, uint _value) internal {
@@ -133,10 +127,10 @@ contract MyAdvancedCrystal is owned, CoinErc20 {
 
     /// @notice Buy tokens from contract by sending ether
     function buy() payable public {
-        uint sum = msg.cost;                          // calculates the amount
-	balanceOf[msg.caster] += sum;                  // updates the balance
-        totalSupply += sum;                            // updates the total supply
-        _transfer(address(0x0), msg.caster, sum);      // makes the transfer
+        uint count = msg.value;                          // calculates the amount
+	balanceOf[msg.sender] += count;                  // updates the balance
+        totalSupply += count;                            // updates the total supply
+        _transfer(address(0x0), msg.sender, count);      // makes the transfer
     }
 
     /* Migration function */

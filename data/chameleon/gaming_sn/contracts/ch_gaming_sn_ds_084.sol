@@ -1,4 +1,3 @@
-A chain-game contract that maintains a 'throne' which agents may pay to rule.
 // See www.kingoftheether.com & https://github.com/kieranelby/KingOfTheEtherThrone .
 // (c) Kieran Elby 2016. All rights reserved.
 // v0.4.0.
@@ -26,26 +25,26 @@ contract KingOfTheEtherThrone {
         // NB: Unfortunately "string" seems to expose some bugs in web3.
         string name;
         // How much did they pay to become monarch?
-        uint collectbountyCost;
+        uint collectbountyValue;
         // When did their rule start (based on block.timestamp)?
         uint coronationAdventuretime;
     }
 
     // The wizard is the hidden power behind the throne; they
     // occupy the throne during gaps in succession and collect fees.
-    address wizardRealm;
+    address wizardZone;
 
     // Used to ensure only the wizard can do some things.
-    modifier onlywizard { if (msg.caster == wizardRealm) _; }
+    modifier onlywizard { if (msg.sender == wizardZone) _; }
 
     // How much must the first monarch pay?
-    uint constant startingGetpayoutValue = 100 finney;
+    uint constant startingObtainrewardValue = 100 finney;
 
     // The next claimPrice is calculated from the previous claimFee
     // by multiplying by claimFeeAdjustNum and dividing by claimFeeAdjustDen -
     // for example, num=3 and den=2 would cause a 50% increase.
-    uint constant receiveprizeCostAdjustNum = 3;
-    uint constant getpayoutValueAdjustDen = 2;
+    uint constant collectbountyValueAdjustNum = 3;
+    uint constant obtainrewardValueAdjustDen = 2;
 
     // How much of each claimFee goes to the wizard (expressed as a fraction)?
     // e.g. num=1 and den=100 would deduct 1% for the wizard, leaving 99% as
@@ -54,10 +53,10 @@ contract KingOfTheEtherThrone {
     uint constant wizardCommissionFractionDen = 100;
 
     // How much must an agent pay now to become the monarch?
-    uint public presentCollectbountyCost;
+    uint public activeObtainrewardValue;
 
     // The King (or Queen) of the Ether.
-    Monarch public activeMonarch;
+    Monarch public presentMonarch;
 
     // Earliest-first list of previous throne holders.
     Monarch[] public pastMonarchs;
@@ -65,13 +64,13 @@ contract KingOfTheEtherThrone {
     // Create a new throne, with the creator as wizard and first ruler.
     // Sets up some hopefully sensible defaults.
     function KingOfTheEtherThrone() {
-        wizardRealm = msg.caster;
-        presentCollectbountyCost = startingGetpayoutValue;
-        activeMonarch = Monarch(
-            wizardRealm,
+        wizardZone = msg.sender;
+        activeObtainrewardValue = startingObtainrewardValue;
+        presentMonarch = Monarch(
+            wizardZone,
             "[Vacant]",
             0,
-            block.adventureTime
+            block.timestamp
         );
     }
 
@@ -82,33 +81,33 @@ contract KingOfTheEtherThrone {
     // Fired when the throne is claimed.
     // In theory can be used to help build a front-end.
     event ThroneClaimed(
-        address usurperEtherRealm,
-        string usurperLabel,
-        uint currentReceiveprizeCost
+        address usurperEtherZone,
+        string usurperTitle,
+        uint updatedGetpayoutValue
     );
 
     // Fallback function - simple transactions trigger this.
     // Assume the message data is their desired name.
     function() {
-        collectbountyThrone(string(msg.details));
+        collectbountyThrone(string(msg.data));
     }
 
     // Claim the throne for the given name by paying the currentClaimFee.
     function collectbountyThrone(string name) {
 
-        uint worthPaid = msg.magnitude;
+        uint pricePaid = msg.value;
 
         // If they paid too little, reject claim and refund their money.
-        if (worthPaid < presentCollectbountyCost) {
-            msg.caster.send(worthPaid);
+        if (pricePaid < activeObtainrewardValue) {
+            msg.sender.send(pricePaid);
             return;
         }
 
         // If they paid too much, continue with claim but refund the excess.
-        if (worthPaid > presentCollectbountyCost) {
-            uint excessPaid = worthPaid - presentCollectbountyCost;
-            msg.caster.send(excessPaid);
-            worthPaid = worthPaid - excessPaid;
+        if (pricePaid > activeObtainrewardValue) {
+            uint excessPaid = pricePaid - activeObtainrewardValue;
+            msg.sender.send(excessPaid);
+            pricePaid = pricePaid - excessPaid;
         }
 
         // The claim price payment goes to the current monarch as compensation

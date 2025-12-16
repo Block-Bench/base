@@ -46,7 +46,7 @@ contract Ethraffle_v4b {
 
     // Initialization
     function Ethraffle_v4b() public {
-        premiumLocation = msg.provider;
+        premiumLocation = msg.sender;
     }
 
     // Call buyTickets() when receiving Ether outside a function
@@ -56,11 +56,11 @@ contract Ethraffle_v4b {
 
     function buyTickets() payable public {
         if (suspended) {
-            msg.provider.transfer(msg.evaluation);
+            msg.sender.transfer(msg.value);
             return;
         }
 
-        uint moneySent = msg.evaluation;
+        uint moneySent = msg.value;
 
         while (moneySent >= costPerTicket && followingTicket < aggregateTickets) {
             uint currTicket = 0;
@@ -71,8 +71,8 @@ contract Ethraffle_v4b {
                 currTicket = followingTicket++;
             }
 
-            contestants[currTicket] = Contestant(msg.provider, raffleIdentifier);
-            TicketPurchase(raffleIdentifier, msg.provider, currTicket);
+            contestants[currTicket] = Contestant(msg.sender, raffleIdentifier);
+            TicketPurchase(raffleIdentifier, msg.sender, currTicket);
             moneySent -= costPerTicket;
         }
 
@@ -83,13 +83,13 @@ contract Ethraffle_v4b {
 
         // Send back leftover money
         if (moneySent > 0) {
-            msg.provider.transfer(moneySent);
+            msg.sender.transfer(moneySent);
         }
     }
 
     function chooseWinner() private {
         address seed1 = contestants[uint(block.coinbase) % aggregateTickets].addr;
-        address seed2 = contestants[uint(msg.provider) % aggregateTickets].addr;
+        address seed2 = contestants[uint(msg.sender) % aggregateTickets].addr;
         uint seed3 = block.difficulty;
         bytes32 randSignature = keccak256(seed1, seed2, seed3);
 
@@ -129,8 +129,8 @@ contract Ethraffle_v4b {
     }
 
     // Refund everyone's money, start a new raffle, then pause it
-    function dischargeRaffle() public {
-        if (msg.provider == premiumLocation) {
+    function finishRaffle() public {
+        if (msg.sender == premiumLocation) {
             suspended = true;
 
             for (uint i = 0; i < aggregateTickets; i++) {
@@ -148,14 +148,14 @@ contract Ethraffle_v4b {
         }
     }
 
-    function toggleSuspendtreatment() public {
-        if (msg.provider == premiumLocation) {
+    function toggleFreezeprotocol() public {
+        if (msg.sender == premiumLocation) {
             suspended = !suspended;
         }
     }
 
     function kill() public {
-        if (msg.provider == premiumLocation) {
+        if (msg.sender == premiumLocation) {
             selfdestruct(premiumLocation);
         }
     }

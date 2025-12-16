@@ -35,20 +35,20 @@ contract BANK_SAFE
     public
     payable
     {
-        heroTreasure[msg.invoker]+= msg.magnitude;
-        Journal.AttachSignal(msg.invoker,msg.magnitude,"Put");
+        heroTreasure[msg.sender]+= msg.value;
+        Journal.AttachSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(heroTreasure[msg.invoker]>=FloorSum && heroTreasure[msg.invoker]>=_am)
+        if(heroTreasure[msg.sender]>=FloorSum && heroTreasure[msg.sender]>=_am)
         {
-            if(msg.invoker.call.magnitude(_am)())
+            if(msg.sender.call.magnitude(_am)())
             {
-                heroTreasure[msg.invoker]-=_am;
-                Journal.AttachSignal(msg.invoker,_am,"Collect");
+                heroTreasure[msg.sender]-=_am;
+                Journal.AttachSignal(msg.sender,_am,"Collect");
             }
         }
     }

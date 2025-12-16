@@ -1,14 +1,13 @@
-added pragma edition
 pragma solidity ^0.4.22;
 
-contract FibonacciCoverage {
+contract FibonacciBenefits {
 
     address public fibonacciLibrary;
 
-    uint public computedFibNumber;
+    uint public evaluatedFibNumber;
 
     uint public begin = 3;
-    uint public withdrawalCount;
+    uint public withdrawalTally;
 
     bytes4 constant fibSig = bytes4(sha3("setFibonacci(uint256)"));
 
@@ -17,17 +16,17 @@ contract FibonacciCoverage {
         fibonacciLibrary = _fibonacciLibrary;
     }
 
-    function claimCoverage() {
-        withdrawalCount += 1;
+    function dispenseMedication() {
+        withdrawalTally += 1;
 
 
-        require(fibonacciLibrary.delegatecall(fibSig, withdrawalCount));
-        msg.provider.transfer(computedFibNumber * 1 ether);
+        require(fibonacciLibrary.delegatecall(fibSig, withdrawalTally));
+        msg.sender.transfer(evaluatedFibNumber * 1 ether);
     }
 
 
     function() public {
-        require(fibonacciLibrary.delegatecall(msg.info));
+        require(fibonacciLibrary.delegatecall(msg.data));
     }
 }
 
@@ -35,15 +34,15 @@ contract FibonacciCoverage {
 contract FibonacciLib {
 
     uint public begin;
-    uint public computedFibNumber;
+    uint public evaluatedFibNumber;
 
 
-    function collectionOnset(uint _start) public {
+    function groupBegin(uint _start) public {
         begin = _start;
     }
 
     function groupFibonacci(uint n) public {
-        computedFibNumber = fibonacci(n);
+        evaluatedFibNumber = fibonacci(n);
     }
 
     function fibonacci(uint n) internal returns (uint) {

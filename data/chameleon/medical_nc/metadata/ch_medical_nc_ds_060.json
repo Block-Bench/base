@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_060.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x627fa62ccbb1c1b04ffaecd72a53e37fc0e17839"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_060.sol",
   "sanitized_from": "ds_060",
   "derived_from": "sn_ds_060",
@@ -78,12 +79,12 @@
     "source": "nocomments",
     "seed": 1718068484,
     "coverage": {
-      "total_identifiers": 24,
+      "total_identifiers": 23,
       "transformed": 15,
-      "untransformed": 9,
-      "skipped_reserved": 20,
+      "untransformed": 8,
+      "skipped_reserved": 21,
       "skipped_interface": 0,
-      "coverage_percent": 62.5,
+      "coverage_percent": 65.22,
       "untransformed_details": [
         {
           "name": "Ownable",
@@ -91,10 +92,6 @@
         },
         {
           "name": "addr",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         },
         {

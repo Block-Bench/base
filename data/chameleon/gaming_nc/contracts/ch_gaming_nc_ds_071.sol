@@ -1,11 +1,11 @@
 pragma solidity ^0.4.24;
 
 contract SimpleWallet {
-    address public owner = msg.caster;
+    address public owner = msg.sender;
     uint public depositsTally;
 
     modifier onlyOwner {
-        require(msg.caster == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -18,7 +18,7 @@ contract SimpleWallet {
     }
 
     function harvestGold(uint _value) public onlyOwner {
-        msg.caster.transfer(_value);
+        msg.sender.transfer(_value);
     }
 
     function forwardrewardsMoney(address _target, uint _value) public onlyOwner {

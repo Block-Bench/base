@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_191.json",
     "original_id": "defivulnlabs_nft-transfer"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_191.sol",
   "sanitized_from": "ds_191",
   "derived_from": "sn_ds_191",
@@ -74,7 +75,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 3892120563,
+    "seed": 2792036173,
     "coverage": {
       "total_identifiers": 39,
       "transformed": 16,
@@ -179,22 +180,22 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "token": "medal",
+      "token": "gem",
       "ContractTest": "AgreementTest",
       "BasicERC721Contract": "BasicErc721Pact",
       "FixedERC721Contract": "FixedErc721Pact",
       "setUp": "collectionUp",
-      "safeMint": "safeCraft",
-      "log": "record",
-      "expectRevert": "expectUndo",
-      "selector": "chooser",
-      "MyNFT": "MyRelic",
+      "safeMint": "safeSummon",
+      "log": "journal",
+      "expectRevert": "expectReverse",
+      "selector": "picker",
+      "MyNFT": "MyArtifact",
       "from": "origin",
-      "tokenId": "gemIdentifier",
-      "_safeMint": "_safeSpawn",
+      "tokenId": "medalCode",
+      "_safeMint": "_safeSummon",
       "_isApprovedOrOwner": "_isApprovedOrMaster",
       "_msgSender": "_msgCaster",
-      "caller": "summoner"
+      "caller": "invoker"
     }
   }
 }

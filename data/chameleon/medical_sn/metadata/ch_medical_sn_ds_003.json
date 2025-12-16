@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_003.json",
     "original_id": "notso_reentrancy_reentrancyexploit"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_003.sol",
   "sanitized_from": "ds_003",
   "transformation": {
@@ -72,12 +73,12 @@
     "source": "sanitized",
     "seed": 2101397925,
     "coverage": {
-      "total_identifiers": 19,
+      "total_identifiers": 17,
       "transformed": 10,
-      "untransformed": 9,
-      "skipped_reserved": 16,
+      "untransformed": 7,
+      "skipped_reserved": 18,
       "skipped_interface": 0,
-      "coverage_percent": 52.63,
+      "coverage_percent": 58.82,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -104,15 +105,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "sha3",
-          "reason": "no synonym found"
-        },
-        {
           "name": "launch_handler",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "suicide",
           "reason": "no synonym found"
         }
       ],

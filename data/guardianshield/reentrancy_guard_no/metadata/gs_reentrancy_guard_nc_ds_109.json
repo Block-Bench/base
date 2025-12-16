@@ -1,0 +1,76 @@
+{
+  "id": "gs_reentrancy_guard_nc_ds_109",
+  "contract_file": "contracts/gs_reentrancy_guard_nc_ds_109.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "other",
+    "neutralized_by": "reentrancy_guard",
+    "neutralization_reason": "Mutex lock prevents recursive calls during execution"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_backdoor-assembly",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 62,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "LotteryGame"
+    ],
+    "num_functions": 4,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "In this contract, an apparently fair 'LotteryGame' contract is subtly designed to allow \na hidden privilege to the contract deployer/administrator. \nThis is achieved through the use of assembly level access to storage variables, \nwhere a referee function is designed to provide an administrative backdoor. \nThe 'pickWinner' function appears to randomly pick a winner, but in reality,\nit allows the administrator to set the winner. \nThis bypasses the usual access controls and can be used to drain the prize pool \nby an unauthorized user, acting as a type of rug pull.\n\nAn attacker can manipulate smart contracts as a backdoor by writing inline assembly. \nAny sensitive parameters can be changed at any time.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_109.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_109.json",
+    "original_id": "defivulnlabs_backdoor-assembly"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_109.sol",
+  "sanitized_from": "ds_109",
+  "derived_from": "nc_ds_109",
+  "original_id": "ds_109",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "reentrancy_guard",
+    "injection_details": {
+      "import_added": true,
+      "inheritance_added": true,
+      "functions_protected": [],
+      "protection_type": "reentrancy_guard"
+    }
+  }
+}

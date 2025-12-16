@@ -70,6 +70,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_152.json",
     "original_id": "smartbugs_denial_of_service_dos_number"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_152.sol",
   "sanitized_from": "ds_152",
   "derived_from": "sn_ds_152",
@@ -80,12 +81,12 @@
     "source": "nocomments",
     "seed": 250821659,
     "coverage": {
-      "total_identifiers": 11,
-      "transformed": 5,
+      "total_identifiers": 10,
+      "transformed": 4,
       "untransformed": 6,
-      "skipped_reserved": 13,
+      "skipped_reserved": 14,
       "skipped_interface": 0,
-      "coverage_percent": 45.45,
+      "coverage_percent": 40.0,
       "untransformed_details": [
         {
           "name": "NumberRegistry",
@@ -115,11 +116,10 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "array": "list",
-      "value": "rating",
-      "length": "extent",
-      "getLengthArray": "obtainDurationList",
-      "getRealLengthArray": "obtainRealExtentCollection"
+      "value": "evaluation",
+      "length": "duration",
+      "getLengthArray": "acquireExtentCollection",
+      "getRealLengthArray": "diagnoseRealDurationCollection"
     }
   }
 }

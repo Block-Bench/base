@@ -72,6 +72,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_208.json",
     "original_id": "smartbugs_access_control_parity_wallet_bug_1"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_208.sol",
   "sanitized_from": "ds_208",
   "derived_from": "sn_ds_208",
@@ -80,23 +81,15 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 254416954,
+    "seed": 2960937986,
     "coverage": {
-      "total_identifiers": 107,
+      "total_identifiers": 103,
       "transformed": 39,
-      "untransformed": 68,
-      "skipped_reserved": 39,
+      "untransformed": 64,
+      "skipped_reserved": 42,
       "skipped_interface": 0,
-      "coverage_percent": 36.45,
+      "coverage_percent": 37.86,
       "untransformed_details": [
-        {
-          "name": "sol",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Wallet",
-          "reason": "no synonym found"
-        },
         {
           "name": "WalletEvents",
           "reason": "no synonym found"
@@ -226,10 +219,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "sha3",
-          "reason": "no synonym found"
-        },
-        {
           "name": "c_maxOwners",
           "reason": "no synonym found"
         },
@@ -278,10 +267,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "suicide",
-          "reason": "no synonym found"
-        },
-        {
           "name": "number",
           "reason": "no synonym found"
         },
@@ -322,11 +307,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
+          "name": "_walletLibrary",
           "reason": "no synonym found"
         },
         {
-          "name": "_walletLibrary",
+          "name": "Wallet",
           "reason": "no synonym found"
         },
         {
@@ -366,44 +351,44 @@
     },
     "rename_map": {
       "Revoke": "Withdraw",
-      "OwnerChanged": "MasterChanged",
-      "oldOwner": "formerLord",
-      "newOwner": "updatedMaster",
+      "OwnerChanged": "LordChanged",
+      "oldOwner": "previousLord",
+      "newOwner": "currentMaster",
       "OwnerAdded": "LordAdded",
-      "OwnerRemoved": "MasterRemoved",
+      "OwnerRemoved": "LordRemoved",
       "newRequirement": "currentRequirement",
-      "Deposit": "StashRewards",
-      "value": "worth",
+      "Deposit": "StoreLoot",
+      "value": "price",
       "data": "info",
-      "revoke": "withdraw",
+      "revoke": "rescind",
       "changeOwner": "changeLord",
-      "addOwner": "includeMaster",
-      "removeOwner": "dropMaster",
+      "addOwner": "attachLord",
+      "removeOwner": "deleteLord",
       "_newRequired": "_currentRequired",
       "isOwner": "isLord",
-      "hasConfirmed": "containsConfirmed",
-      "setDailyLimit": "collectionDailyCap",
-      "_newLimit": "_updatedBound",
+      "hasConfirmed": "holdsConfirmed",
+      "setDailyLimit": "collectionDailyBound",
+      "_newLimit": "_updatedCap",
       "execute": "performAction",
       "o_hash": "o_seal",
       "o_success": "o_win",
-      "PendingState": "WaitingStatus",
-      "index": "position",
-      "onlyowner": "onlyDungeonMaster",
+      "PendingState": "WaitingCondition",
+      "index": "slot",
+      "onlyowner": "onlyGameAdmin",
       "sender": "caster",
-      "confirmAndCheck": "confirmAndVerify",
+      "confirmAndCheck": "confirmAndValidate",
       "length": "extent",
-      "ownerIndex": "masterPosition",
-      "ownerIndexBit": "lordPositionBit",
+      "ownerIndex": "masterSlot",
+      "ownerIndexBit": "masterSlotBit",
       "pending": "queued",
-      "m_pending": "m_waiting",
+      "m_pending": "m_queued",
       "clearPending": "clearWaiting",
-      "getOwner": "retrieveLord",
+      "getOwner": "fetchMaster",
       "underLimit": "underBound",
-      "create": "questCreated",
+      "create": "missionStarted",
       "add": "include",
-      "iszero": "testzero",
-      "target": "aim"
+      "iszero": "verifyzero",
+      "target": "goal"
     }
   }
 }

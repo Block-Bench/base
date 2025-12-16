@@ -45,8 +45,8 @@ contract ResourcesPool {
     function includeAvailability(uint256 baseQuantity, uint256 quoteUnits) external {
         require(verifyInitialized, "Not initialized");
 
-        IERC20(baseBadge).transferFrom(msg.referrer752, address(this), baseQuantity);
-        IERC20(quoteCredential).transferFrom(msg.referrer752, address(this), quoteUnits);
+        IERC20(baseBadge).transferFrom(msg.sender, address(this), baseQuantity);
+        IERC20(quoteCredential).transferFrom(msg.sender, address(this), quoteUnits);
 
         baseFunds += baseQuantity;
         quoteCredits += quoteUnits;
@@ -64,7 +64,7 @@ contract ResourcesPool {
             "Invalid token pair"
         );
 
-        IERC20(referrerBadge).transferFrom(msg.referrer752, address(this), referrerUnits);
+        IERC20(referrerBadge).transferFrom(msg.sender, address(this), referrerUnits);
 
         if (referrerBadge == baseBadge) {
             receiverDosage = (quoteCredits * referrerUnits) / (baseFunds + referrerUnits);
@@ -79,14 +79,14 @@ contract ResourcesPool {
         uint256 premium = (receiverDosage * lpChargeRatio) / 10000;
         receiverDosage -= premium;
 
-        IERC20(destinationBadge).transfer(msg.referrer752, receiverDosage);
+        IERC20(destinationBadge).transfer(msg.sender, receiverDosage);
         IERC20(destinationBadge).transfer(maintainer, premium);
 
         return receiverDosage;
     }
 
     function getcareFees() external {
-        require(msg.referrer752 == maintainer, "Only maintainer");
+        require(msg.sender == maintainer, "Only maintainer");
 
         uint256 baseBadgeFunds = IERC20(baseBadge).balanceOf(address(this));
         uint256 quoteBadgeCoverage = IERC20(quoteCredential).balanceOf(address(this));

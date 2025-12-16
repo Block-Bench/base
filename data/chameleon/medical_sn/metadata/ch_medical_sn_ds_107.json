@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_107.json",
     "original_id": "defivulnlabs_transientstoragemisuse.t"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_107.sol",
   "sanitized_from": "ds_107",
   "transformation": {
@@ -73,12 +74,12 @@
     "source": "sanitized",
     "seed": 3368030240,
     "coverage": {
-      "total_identifiers": 55,
+      "total_identifiers": 53,
       "transformed": 23,
-      "untransformed": 32,
-      "skipped_reserved": 24,
+      "untransformed": 30,
+      "skipped_reserved": 26,
       "skipped_interface": 0,
-      "coverage_percent": 41.82,
+      "coverage_percent": 43.4,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -193,15 +194,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "uint160",
-          "reason": "no synonym found"
-        },
-        {
           "name": "needed",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Now",
           "reason": "no synonym found"
         },
         {

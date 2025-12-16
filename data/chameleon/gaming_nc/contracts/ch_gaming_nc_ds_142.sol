@@ -1,25 +1,24 @@
-added pragma edition
- pragma solidity ^0.4.10;
+pragma solidity ^0.4.10;
 
- contract InstantFreezegold {
+ contract MomentFreezegold {
 
-     mapping(address => uint) public characterGold;
-     mapping(address => uint) public securetreasureInstant;
+     mapping(address => uint) public playerLoot;
+     mapping(address => uint) public bindassetsInstant;
 
      function cachePrize() public payable {
-         characterGold[msg.caster] += msg.worth;
-         securetreasureInstant[msg.caster] = now + 1 weeks;
+         playerLoot[msg.sender] += msg.value;
+         bindassetsInstant[msg.sender] = now + 1 weeks;
      }
 
-     function increaseFreezegoldMoment(uint _secondsDestinationIncrease) public {
-         securetreasureInstant[msg.caster] += _secondsDestinationIncrease;
+     function increaseBindassetsMoment(uint _secondsTargetIncrease) public {
+         bindassetsInstant[msg.sender] += _secondsTargetIncrease;
      }
 
-     function extractWinnings() public {
-         require(characterGold[msg.caster] > 0);
-         require(now > securetreasureInstant[msg.caster]);
-         uint movetreasureWorth = characterGold[msg.caster];
-         characterGold[msg.caster] = 0;
-         msg.caster.transfer(movetreasureWorth);
+     function harvestGold() public {
+         require(playerLoot[msg.sender] > 0);
+         require(now > bindassetsInstant[msg.sender]);
+         uint shiftgoldCost = playerLoot[msg.sender];
+         playerLoot[msg.sender] = 0;
+         msg.sender.transfer(shiftgoldCost);
      }
  }

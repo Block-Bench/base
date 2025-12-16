@@ -3,11 +3,9 @@ pragma solidity ^0.8.15;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PactTest is Test {
     Wallet WalletAgreement;
-    GameOperator QuestrunnerAgreement;
+    GameOperator GameoperatorPact;
 
     function testtxorigin() public {
         address alice = vm.addr(1);
@@ -16,17 +14,17 @@ contract PactTest is Test {
         vm.deal(address(eve), 1 ether);
         vm.prank(alice);
         WalletAgreement = new Wallet{price: 10 ether}(); //Alice deploys Wallet with 10 Ether
-        console.journal("Owner of wallet contract", WalletAgreement.owner());
+        console.record("Owner of wallet contract", WalletAgreement.owner());
         vm.prank(eve);
-        QuestrunnerAgreement = new GameOperator(WalletAgreement);
-        console.journal("operation complete"));
-        console.journal("Eve of balance", address(eve).balance);
+        GameoperatorPact = new GameOperator(WalletAgreement);
+        console.record("Owner of attack contract", GameoperatorPact.owner());
+        console.record("Eve of balance", address(eve).balance);
 
         vm.prank(alice, alice);
-        QuestrunnerAgreement.operate();
-        console.journal("tx origin address", tx.origin);
-        console.journal("msg.sender address", msg.initiator);
-        console.journal("Eve of balance", address(eve).balance);
+        GameoperatorPact.operate();
+        console.record("tx origin address", tx.origin);
+        console.record("msg.sender address", msg.sender);
+        console.record("Eve of balance", address(eve).balance);
     }
 
     receive() external payable {}
@@ -36,7 +34,7 @@ contract Wallet {
     address public owner;
 
     constructor() payable {
-        owner = msg.initiator;
+        owner = msg.sender;
     }
 
     function transfer(address payable _to, uint _amount) public {
@@ -54,7 +52,7 @@ contract GameOperator {
 
     constructor(Wallet _wallet) {
         wallet = Wallet(_wallet);
-        owner = payable(msg.initiator);
+        owner = payable(msg.sender);
     }
 
     function operate() public {

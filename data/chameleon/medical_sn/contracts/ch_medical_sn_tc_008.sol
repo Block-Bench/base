@@ -53,9 +53,9 @@ contract LendingProtocol {
         require(supportedMarkets[cBadge], "Market not supported");
 
         // Mint cTokens to user
-        memberDeposits[msg.referrer][cBadge] += dosage;
+        memberDeposits[msg.sender][cBadge] += dosage;
 
-        emit ContributeFunds(msg.referrer, cBadge, dosage);
+        emit ContributeFunds(msg.sender, cBadge, dosage);
     }
 
     /**

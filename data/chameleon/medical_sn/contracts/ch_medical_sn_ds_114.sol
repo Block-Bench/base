@@ -4,8 +4,7 @@ pragma solidity ^0.4.23;
 // produced by the Solididy File Flattener (c) David Appleton 2018
 // contact : dave@akomba.com
 // released under Apache 2.0 licence
-contract Id {
-    */
+contract Credential {
     /// total amount of tokens
     uint256 public totalSupply;
 
@@ -17,20 +16,20 @@ contract Id {
     /// @param _to The address of the recipient
     /// @param _value The amount of token to be transferred
     /// @return Whether the transfer was successful or not
-    function transfer(address _to, uint256 _value) public returns (bool improvement);
+    function transfer(address _to, uint256 _value) public returns (bool recovery);
 
     /// @notice send `_value` token to `_to` from `_from` on the condition it is approved by `_from`
     /// @param _from The address of the sender
     /// @param _to The address of the recipient
     /// @param _value The amount of token to be transferred
     /// @return Whether the transfer was successful or not
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool improvement);
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool recovery);
 
     /// @notice `msg.sender` approves `_spender` to spend `_value` tokens
     /// @param _spender The address of the account able to transfer the tokens
     /// @param _value The amount of tokens to be approved for transfer
     /// @return Whether the approval was successful or not
-    function approve(address _spender, uint256 _value) public returns (bool improvement);
+    function approve(address _spender, uint256 _value) public returns (bool recovery);
 
     /// @param _owner The address of the account owning tokens
     /// @param _spender The address of the account able to transfer the tokens
@@ -58,11 +57,11 @@ library ECTools {
         bytes32 r;
         bytes32 s;
         uint8 v;
-        bytes memory sig = hexstrReceiverRaw(substring(_sig, 2, 132));
+        bytes memory sig = hexstrDestinationRaw(substring(_sig, 2, 132));
         assembly {
-            r := mload(append(sig, 32))
-            s := mload(append(sig, 64))
-            v := byte(0, mload(append(sig, 96)))
+            r := mload(insert(sig, 32))
+            s := mload(insert(sig, 64))
+            v := byte(0, mload(insert(sig, 96)))
         }
         if (v < 27) {
             v += 27;
@@ -74,14 +73,14 @@ library ECTools {
     }
 
     // @dev Verifies if the message is signed by an address
-    function validateSignedBy(bytes32 _hashedMsg, string _sig, address _addr) public pure returns (bool) {
+    function verifySignedBy(bytes32 _hashedMsg, string _sig, address _addr) public pure returns (bool) {
         require(_addr != 0x0);
 
         return _addr == retrieveSigner(_hashedMsg, _sig);
     }
 
     // @dev Converts an hexstring to bytes
-    function hexstrReceiverRaw(string _hexstr) public pure returns (bytes) {
+    function hexstrDestinationRaw(string _hexstr) public pure returns (bytes) {
         uint len = bytes(_hexstr).duration;
         require(len % 2 == 0);
 
@@ -93,7 +92,7 @@ library ECTools {
             s = substring(_hexstr, i, i + 1);
             r = substring(_hexstr, i + 1, i + 2);
             uint p = parseInt16Char(s) * 16 + parseInt16Char(r);
-            bstr[k++] = countReceiverBytes32(p)[31];
+            bstr[k++] = numberReceiverBytes32(p)[31];
         }
         return bstr;
     }
@@ -115,22 +114,22 @@ library ECTools {
 
     // @dev Converts a uint to a bytes32
     // @thanks https://ethereum.stackexchange.com/questions/4170/how-to-convert-a-uint-to-bytes-in-solidity
-    function countReceiverBytes32(uint _uint) public pure returns (bytes b) {
+    function numberReceiverBytes32(uint _uint) public pure returns (bytes b) {
         b = new bytes(32);
-        assembly {mstore(append(b, 32), _uint)}
+        assembly {mstore(insert(b, 32), _uint)}
     }
 
     // @dev Hashes the signed message
     // @ref https://github.com/ethereum/go-ethereum/issues/3731#issuecomment-293866868
-    function destinationEthereumSignedNotification(string _msg) public pure returns (bytes32) {
+    function destinationEthereumSignedAlert(string _msg) public pure returns (bytes32) {
         uint len = bytes(_msg).duration;
         require(len > 0);
         bytes memory prefix = "\x19Ethereum Signed Message:\n";
-        return keccak256(abi.encodePacked(prefix, numberReceiverName(len), _msg));
+        return keccak256(abi.encodePacked(prefix, countReceiverName(len), _msg));
     }
 
     // @dev Converts a uint in a string
-    function numberReceiverName(uint _uint) public pure returns (string str) {
+    function countReceiverName(uint _uint) public pure returns (string str) {
         uint len = 0;
         uint m = _uint + 0;
         while (m != 0) {
@@ -149,51 +148,51 @@ library ECTools {
 
     // @dev extract a substring
     // @thanks https://ethereum.stackexchange.com/questions/31457/substring-in-solidity
-    function substring(string _str, uint _beginPosition, uint _finishRank) public pure returns (string) {
-        bytes memory strRaw = bytes(_str);
-        require(_beginPosition <= _finishRank);
-        require(_beginPosition >= 0);
-        require(_finishRank <= strRaw.duration);
+    function substring(string _str, uint _onsetSlot, uint _dischargeSlot) public pure returns (string) {
+        bytes memory strData = bytes(_str);
+        require(_onsetSlot <= _dischargeSlot);
+        require(_onsetSlot >= 0);
+        require(_dischargeSlot <= strData.duration);
 
-        bytes memory outcome = new bytes(_finishRank - _beginPosition);
-        for (uint i = _beginPosition; i < _finishRank; i++) {
-            outcome[i - _beginPosition] = strRaw[i];
+        bytes memory finding = new bytes(_dischargeSlot - _onsetSlot);
+        for (uint i = _onsetSlot; i < _dischargeSlot; i++) {
+            finding[i - _onsetSlot] = strData[i];
         }
-        return string(outcome);
+        return string(finding);
     }
 }
-contract StandardCredential is Id {
+contract StandardCredential is Credential {
 
-    function transfer(address _to, uint256 _value) public returns (bool improvement) {
+    function transfer(address _to, uint256 _value) public returns (bool recovery) {
         //Default assumes totalSupply can't be over max (2^256 - 1).
         //If your token leaves out totalSupply and can issue more tokens as time goes on, you need to check if it doesn't wrap.
         //Replace the if with this one instead.
         //require(balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]);
-        require(coverageMap[msg.provider] >= _value);
-        coverageMap[msg.provider] -= _value;
-        coverageMap[_to] += _value;
-        emit Transfer(msg.provider, _to, _value);
+        require(patientAccounts[msg.sender] >= _value);
+        patientAccounts[msg.sender] -= _value;
+        patientAccounts[_to] += _value;
+        emit Transfer(msg.sender, _to, _value);
         return true;
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool improvement) {
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool recovery) {
 
         //require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && balances[_to] + _value > balances[_to]);
-        require(coverageMap[_from] >= _value && allowed[_from][msg.provider] >= _value);
-        coverageMap[_to] += _value;
-        coverageMap[_from] -= _value;
-        allowed[_from][msg.provider] -= _value;
+        require(patientAccounts[_from] >= _value && allowed[_from][msg.sender] >= _value);
+        patientAccounts[_to] += _value;
+        patientAccounts[_from] -= _value;
+        allowed[_from][msg.sender] -= _value;
         emit Transfer(_from, _to, _value);
         return true;
     }
 
     function balanceOf(address _owner) public constant returns (uint256 balance) {
-        return coverageMap[_owner];
+        return patientAccounts[_owner];
     }
 
-    function approve(address _spender, uint256 _value) public returns (bool improvement) {
-        allowed[msg.provider][_spender] = _value;
-        emit TreatmentAuthorized(msg.provider, _spender, _value);
+    function approve(address _spender, uint256 _value) public returns (bool recovery) {
+        allowed[msg.sender][_spender] = _value;
+        emit TreatmentAuthorized(msg.sender, _spender, _value);
         return true;
     }
 
@@ -201,15 +200,14 @@ contract StandardCredential is Id {
       return allowed[_owner][_spender];
     }
 
-    mapping (address => uint256) coverageMap;
+    mapping (address => uint256) patientAccounts;
     mapping (address => mapping (address => uint256)) allowed;
 }
 
-contract HumanStandardId is StandardCredential {
+contract HumanStandardBadge is StandardCredential {
 
-    /* Public variables of the badge */
+    /* Public variables of the id */
 
-    */
     string public name;                   //fancy name: eg Simon Bucks
     uint8 public decimals;                //How many decimals to show. ie. There could 1000 base units with 3 decimals. Meaning 0.980 SBX = 980 base units. It's like comparing 1 wei to 1 ether.
     string public symbol;                 //An identifier: eg SBX
@@ -236,7 +234,7 @@ contract HumanStandardId is StandardCredential {
         //call the receiveApproval function on the contract you want to be notified. This crafts the function signature manually so one doesn't have to include a contract in here just for this.
         //receiveApproval(address _from, uint256 _value, address _tokenContract, bytes _extraData)
         //it is assumed that when does this that the call *should* succeed, otherwise one would use vanilla approve instead.
-        require(_spender.call(bytes4(bytes32(keccak256("receiveApproval(address,uint256,address,bytes)"))), msg.provider, _value, this, _extraRecord));
+        require(_spender.call(bytes4(bytes32(keccak256("receiveApproval(address,uint256,address,bytes)"))), msg.sender, _value, this, _extraInfo));
         return true;
     }
 }
@@ -244,7 +242,7 @@ contract HumanStandardId is StandardCredential {
 contract LedgerChannel {
 
     string public constant NAME = "Ledger Channel";
-    string public constant Edition = "0.0.1";
+    string public constant Revision = "0.0.1";
 
     uint256 public numChannels = 0;
 
@@ -252,72 +250,72 @@ contract LedgerChannel {
         bytes32 indexed channelIdentifier,
         address indexed partyA,
         address indexed partyI,
-        uint256 ethCoverageA,
-        address badge,
-        uint256 idCoverageA,
+        uint256 ethBenefitsA,
+        address id,
+        uint256 badgeAllocationA,
         uint256 LCopenTimeout
     );
 
     event DidLCJoin (
         bytes32 indexed channelIdentifier,
-        uint256 ethCreditsI,
-        uint256 credentialAllocationI
+        uint256 ethFundsI,
+        uint256 credentialFundsI
     );
 
     event DidLcProvidespecimen (
         bytes32 indexed channelIdentifier,
         address indexed receiver,
-        uint256 contributeFunds,
+        uint256 registerPayment,
         bool isCredential
     );
 
-    event DidLcUpdatechartStatus (
+    event DidLcUpdatechartCondition (
         bytes32 indexed channelIdentifier,
         uint256 sequence,
         uint256 numOpenVc,
-        uint256 ethCoverageA,
-        uint256 idCoverageA,
-        uint256 ethCreditsI,
-        uint256 credentialAllocationI,
+        uint256 ethBenefitsA,
+        uint256 badgeAllocationA,
+        uint256 ethFundsI,
+        uint256 credentialFundsI,
         bytes32 vcOrigin,
-        uint256 updatechartLCtimeout
+        uint256 refreshvitalsLCtimeout
     );
 
     event DidLCClose (
         bytes32 indexed channelIdentifier,
         uint256 sequence,
-        uint256 ethCoverageA,
-        uint256 idCoverageA,
-        uint256 ethCreditsI,
-        uint256 credentialAllocationI
+        uint256 ethBenefitsA,
+        uint256 badgeAllocationA,
+        uint256 ethFundsI,
+        uint256 credentialFundsI
     );
 
     event DidVCInit (
-        bytes32 indexed lcChartnumber,
-        bytes32 indexed vcCasenumber,
-        bytes evidence,
+        bytes32 indexed lcIdentifier,
+        bytes32 indexed vcChartnumber,
+        bytes verification,
         uint256 sequence,
         address partyA,
         address partyB,
-        uint256 allocationA,
-        uint256 coverageB
+        uint256 creditsA,
+        uint256 creditsB
     );
 
     event DidVCSettle (
-        bytes32 indexed lcChartnumber,
-        bytes32 indexed vcCasenumber,
-        uint256 refreshvitalsSeq,
-        uint256 updatechartBalA,
-        uint256 syncrecordsBalB,
+        bytes32 indexed lcIdentifier,
+        bytes32 indexed vcChartnumber,
+        uint256 updatechartSeq,
+        uint256 syncrecordsBalA,
+        uint256 updatechartBalB,
         address challenger,
         uint256 refreshvitalsVCtimeout
     );
 
     event DidVCClose(
-        bytes32 indexed lcChartnumber,
-        bytes32 indexed vcCasenumber,
-        uint256 allocationA,
-        uint256 coverageB
+        bytes32 indexed lcIdentifier,
+        bytes32 indexed vcChartnumber,
+        uint256 creditsA,
+        uint256 creditsB
     );
 
     struct Channel {
@@ -662,109 +660,109 @@ contract LedgerChannel {
         // virtualChannels[_vcID].updateVCtimeout should be 0 on uninitialized vc state, and this should
         // fail if initVC() isn't called first
         // require(Channels[_lcID].updateLCtimeout < now && now < virtualChannels[_vcID].updateVCtimeout);
-        require(Channels[_lcChartnumber].updatechartLCtimeout < now); // for testing!
+        require(Channels[_lcIdentifier].refreshvitalsLCtimeout < now); // for testing!
 
-        bytes32 _refreshvitalsStatus = keccak256(
+        bytes32 _syncrecordsCondition = keccak256(
             abi.encodePacked(
-                _vcChartnumber,
-                refreshvitalsSeq,
+                _vcCasenumber,
+                updatechartSeq,
                 _partyA,
                 _partyB,
-                virtualChannels[_vcChartnumber].bond[0],
-                virtualChannels[_vcChartnumber].bond[1],
-                updatechartBal[0],
-                updatechartBal[1],
-                updatechartBal[2],
-                updatechartBal[3]
+                virtualChannels[_vcCasenumber].bond[0],
+                virtualChannels[_vcCasenumber].bond[1],
+                refreshvitalsBal[0],
+                refreshvitalsBal[1],
+                refreshvitalsBal[2],
+                refreshvitalsBal[3]
             )
         );
 
         // Make sure Alice has signed a higher sequence new state
-        require(virtualChannels[_vcChartnumber].partyA == ECTools.retrieveSigner(_refreshvitalsStatus, sigA));
+        require(virtualChannels[_vcCasenumber].partyA == ECTools.retrieveSigner(_syncrecordsCondition, sigA));
 
         // store VC data
         // we may want to record who is initiating on-chain settles
-        virtualChannels[_vcChartnumber].challenger = msg.provider;
-        virtualChannels[_vcChartnumber].sequence = refreshvitalsSeq;
+        virtualChannels[_vcCasenumber].challenger = msg.sender;
+        virtualChannels[_vcCasenumber].sequence = updatechartSeq;
 
         // channel state
-        virtualChannels[_vcChartnumber].ethCoveragemap[0] = updatechartBal[0];
-        virtualChannels[_vcChartnumber].ethCoveragemap[1] = updatechartBal[1];
-        virtualChannels[_vcChartnumber].erc20Coveragemap[0] = updatechartBal[2];
-        virtualChannels[_vcChartnumber].erc20Coveragemap[1] = updatechartBal[3];
+        virtualChannels[_vcCasenumber].ethBenefitsrecord[0] = refreshvitalsBal[0];
+        virtualChannels[_vcCasenumber].ethBenefitsrecord[1] = refreshvitalsBal[1];
+        virtualChannels[_vcCasenumber].erc20Coveragemap[0] = refreshvitalsBal[2];
+        virtualChannels[_vcCasenumber].erc20Coveragemap[1] = refreshvitalsBal[3];
 
-        virtualChannels[_vcChartnumber].refreshvitalsVCtimeout = now + Channels[_lcChartnumber].confirmMoment;
+        virtualChannels[_vcCasenumber].refreshvitalsVCtimeout = now + Channels[_lcIdentifier].confirmInstant;
 
-        emit DidVCSettle(_lcChartnumber, _vcChartnumber, refreshvitalsSeq, updatechartBal[0], updatechartBal[1], msg.provider, virtualChannels[_vcChartnumber].refreshvitalsVCtimeout);
+        emit DidVCSettle(_lcIdentifier, _vcCasenumber, updatechartSeq, refreshvitalsBal[0], refreshvitalsBal[1], msg.sender, virtualChannels[_vcCasenumber].refreshvitalsVCtimeout);
     }
 
-    function closeVirtualChannel(bytes32 _lcChartnumber, bytes32 _vcChartnumber) public {
+    function closeVirtualChannel(bytes32 _lcIdentifier, bytes32 _vcCasenumber) public {
         // require(updateLCtimeout > now)
-        require(Channels[_lcChartnumber].testOpen, "LC is closed.");
-        require(virtualChannels[_vcChartnumber].isInSettlementCondition, "VC is not in settlement state.");
-        require(virtualChannels[_vcChartnumber].refreshvitalsVCtimeout < now, "Update vc timeout has not elapsed.");
-        require(!virtualChannels[_vcChartnumber].checkClose, "VC is already closed");
+        require(Channels[_lcIdentifier].verifyOpen, "LC is closed.");
+        require(virtualChannels[_vcCasenumber].isInSettlementStatus, "VC is not in settlement state.");
+        require(virtualChannels[_vcCasenumber].refreshvitalsVCtimeout < now, "Update vc timeout has not elapsed.");
+        require(!virtualChannels[_vcCasenumber].validateClose, "VC is already closed");
         // reduce the number of open virtual channels stored on LC
-        Channels[_lcChartnumber].numOpenVC--;
+        Channels[_lcIdentifier].numOpenVC--;
         // close vc flags
-        virtualChannels[_vcChartnumber].checkClose = true;
+        virtualChannels[_vcCasenumber].validateClose = true;
         // re-introduce the balances back into the LC state from the settled VC
         // decide if this lc is alice or bob in the vc
-        if(virtualChannels[_vcChartnumber].partyA == Channels[_lcChartnumber].partyAddresses[0]) {
-            Channels[_lcChartnumber].ethCoveragemap[0] += virtualChannels[_vcChartnumber].ethCoveragemap[0];
-            Channels[_lcChartnumber].ethCoveragemap[1] += virtualChannels[_vcChartnumber].ethCoveragemap[1];
+        if(virtualChannels[_vcCasenumber].partyA == Channels[_lcIdentifier].partyAddresses[0]) {
+            Channels[_lcIdentifier].ethBenefitsrecord[0] += virtualChannels[_vcCasenumber].ethBenefitsrecord[0];
+            Channels[_lcIdentifier].ethBenefitsrecord[1] += virtualChannels[_vcCasenumber].ethBenefitsrecord[1];
 
-            Channels[_lcChartnumber].erc20Coveragemap[0] += virtualChannels[_vcChartnumber].erc20Coveragemap[0];
-            Channels[_lcChartnumber].erc20Coveragemap[1] += virtualChannels[_vcChartnumber].erc20Coveragemap[1];
-        } else if (virtualChannels[_vcChartnumber].partyB == Channels[_lcChartnumber].partyAddresses[0]) {
-            Channels[_lcChartnumber].ethCoveragemap[0] += virtualChannels[_vcChartnumber].ethCoveragemap[1];
-            Channels[_lcChartnumber].ethCoveragemap[1] += virtualChannels[_vcChartnumber].ethCoveragemap[0];
+            Channels[_lcIdentifier].erc20Coveragemap[0] += virtualChannels[_vcCasenumber].erc20Coveragemap[0];
+            Channels[_lcIdentifier].erc20Coveragemap[1] += virtualChannels[_vcCasenumber].erc20Coveragemap[1];
+        } else if (virtualChannels[_vcCasenumber].partyB == Channels[_lcIdentifier].partyAddresses[0]) {
+            Channels[_lcIdentifier].ethBenefitsrecord[0] += virtualChannels[_vcCasenumber].ethBenefitsrecord[1];
+            Channels[_lcIdentifier].ethBenefitsrecord[1] += virtualChannels[_vcCasenumber].ethBenefitsrecord[0];
 
-            Channels[_lcChartnumber].erc20Coveragemap[0] += virtualChannels[_vcChartnumber].erc20Coveragemap[1];
-            Channels[_lcChartnumber].erc20Coveragemap[1] += virtualChannels[_vcChartnumber].erc20Coveragemap[0];
+            Channels[_lcIdentifier].erc20Coveragemap[0] += virtualChannels[_vcCasenumber].erc20Coveragemap[1];
+            Channels[_lcIdentifier].erc20Coveragemap[1] += virtualChannels[_vcCasenumber].erc20Coveragemap[0];
         }
 
-        emit DidVCClose(_lcChartnumber, _vcChartnumber, virtualChannels[_vcChartnumber].erc20Coveragemap[0], virtualChannels[_vcChartnumber].erc20Coveragemap[1]);
+        emit DidVCClose(_lcIdentifier, _vcCasenumber, virtualChannels[_vcCasenumber].erc20Coveragemap[0], virtualChannels[_vcCasenumber].erc20Coveragemap[1]);
     }
 
     // todo: allow ethier lc.end-user to nullify the settled LC state and return to off-chain
-    function byzantineCloseChannel(bytes32 _lcChartnumber) public {
-        Channel storage channel = Channels[_lcChartnumber];
+    function byzantineCloseChannel(bytes32 _lcIdentifier) public {
+        Channel storage channel = Channels[_lcIdentifier];
 
         // check settlement flag
-        require(channel.testOpen, "Channel is not open");
-        require(channel.isUpdatechartLcSettling == true);
+        require(channel.verifyOpen, "Channel is not open");
+        require(channel.isSyncrecordsLcSettling == true);
         require(channel.numOpenVC == 0);
-        require(channel.updatechartLCtimeout < now, "LC timeout over.");
+        require(channel.refreshvitalsLCtimeout < now, "LC timeout over.");
 
         // if off chain state update didnt reblance deposits, just return to deposit owner
-        uint256 aggregateEthContributefunds = channel.initialRegisterpayment[0] + channel.ethCoveragemap[2] + channel.ethCoveragemap[3];
-        uint256 aggregateBadgeProvidespecimen = channel.initialRegisterpayment[1] + channel.erc20Coveragemap[2] + channel.erc20Coveragemap[3];
+        uint256 completeEthSubmitpayment = channel.initialAdmit[0] + channel.ethBenefitsrecord[2] + channel.ethBenefitsrecord[3];
+        uint256 cumulativeIdFundaccount = channel.initialAdmit[1] + channel.erc20Coveragemap[2] + channel.erc20Coveragemap[3];
 
-        uint256 possibleAggregateEthBeforeRegisterpayment = channel.ethCoveragemap[0] + channel.ethCoveragemap[1];
-        uint256 possibleAggregateIdBeforeSubmitpayment = channel.erc20Coveragemap[0] + channel.erc20Coveragemap[1];
+        uint256 possibleAggregateEthBeforeContributefunds = channel.ethBenefitsrecord[0] + channel.ethBenefitsrecord[1];
+        uint256 possibleCompleteBadgeBeforeRegisterpayment = channel.erc20Coveragemap[0] + channel.erc20Coveragemap[1];
 
-        if(possibleAggregateEthBeforeRegisterpayment < aggregateEthContributefunds) {
-            channel.ethCoveragemap[0]+=channel.ethCoveragemap[2];
-            channel.ethCoveragemap[1]+=channel.ethCoveragemap[3];
+        if(possibleAggregateEthBeforeContributefunds < completeEthSubmitpayment) {
+            channel.ethBenefitsrecord[0]+=channel.ethBenefitsrecord[2];
+            channel.ethBenefitsrecord[1]+=channel.ethBenefitsrecord[3];
         } else {
-            require(possibleAggregateEthBeforeRegisterpayment == aggregateEthContributefunds);
+            require(possibleAggregateEthBeforeContributefunds == completeEthSubmitpayment);
         }
 
-        if(possibleAggregateIdBeforeSubmitpayment < aggregateBadgeProvidespecimen) {
+        if(possibleCompleteBadgeBeforeRegisterpayment < cumulativeIdFundaccount) {
             channel.erc20Coveragemap[0]+=channel.erc20Coveragemap[2];
             channel.erc20Coveragemap[1]+=channel.erc20Coveragemap[3];
         } else {
-            require(possibleAggregateIdBeforeSubmitpayment == aggregateBadgeProvidespecimen);
+            require(possibleCompleteBadgeBeforeRegisterpayment == cumulativeIdFundaccount);
         }
 
-        uint256 ethbalanceA = channel.ethCoveragemap[0];
-        uint256 ethbalanceI = channel.ethCoveragemap[1];
+        uint256 ethbalanceA = channel.ethBenefitsrecord[0];
+        uint256 ethbalanceI = channel.ethBenefitsrecord[1];
         uint256 tokenbalanceA = channel.erc20Coveragemap[0];
         uint256 tokenbalanceI = channel.erc20Coveragemap[1];
 
-        channel.ethCoveragemap[0] = 0;
-        channel.ethCoveragemap[1] = 0;
+        channel.ethBenefitsrecord[0] = 0;
+        channel.ethBenefitsrecord[1] = 0;
         channel.erc20Coveragemap[0] = 0;
         channel.erc20Coveragemap[1] = 0;
 
@@ -775,32 +773,32 @@ contract LedgerChannel {
 
         if(tokenbalanceA != 0 || tokenbalanceI != 0) {
             require(
-                channel.badge.transfer(channel.partyAddresses[0], tokenbalanceA),
+                channel.id.transfer(channel.partyAddresses[0], tokenbalanceA),
                 "byzantineCloseChannel: token transfer failure"
             );
             require(
-                channel.badge.transfer(channel.partyAddresses[1], tokenbalanceI),
+                channel.id.transfer(channel.partyAddresses[1], tokenbalanceI),
                 "byzantineCloseChannel: token transfer failure"
             );
         }
 
-        channel.testOpen = false;
+        channel.verifyOpen = false;
         numChannels--;
 
-        emit DidLCClose(_lcChartnumber, channel.sequence, ethbalanceA, ethbalanceI, tokenbalanceA, tokenbalanceI);
+        emit DidLCClose(_lcIdentifier, channel.sequence, ethbalanceA, ethbalanceI, tokenbalanceA, tokenbalanceI);
     }
 
     function _isContained(bytes32 _hash, bytes _proof, bytes32 _root) internal pure returns (bool) {
         bytes32 cursor = _hash;
-        bytes32 verificationElem;
+        bytes32 evidenceElem;
 
         for (uint256 i = 64; i <= _proof.duration; i += 32) {
-            assembly { verificationElem := mload(append(_proof, i)) }
+            assembly { evidenceElem := mload(insert(_proof, i)) }
 
-            if (cursor < verificationElem) {
-                cursor = keccak256(abi.encodePacked(cursor, verificationElem));
+            if (cursor < evidenceElem) {
+                cursor = keccak256(abi.encodePacked(cursor, evidenceElem));
             } else {
-                cursor = keccak256(abi.encodePacked(verificationElem, cursor));
+                cursor = keccak256(abi.encodePacked(evidenceElem, cursor));
             }
         }
 
@@ -808,7 +806,7 @@ contract LedgerChannel {
     }
 
     //Struct Getters
-    function retrieveChannel(bytes32 id) public view returns (
+    function obtainChannel(bytes32 id) public view returns (
         address[2],
         uint256[4],
         uint256[4],
@@ -825,21 +823,21 @@ contract LedgerChannel {
         Channel memory channel = Channels[id];
         return (
             channel.partyAddresses,
-            channel.ethCoveragemap,
+            channel.ethBenefitsrecord,
             channel.erc20Coveragemap,
-            channel.initialRegisterpayment,
+            channel.initialAdmit,
             channel.sequence,
-            channel.confirmMoment,
+            channel.confirmInstant,
             channel.VCrootChecksum,
             channel.LCopenTimeout,
-            channel.updatechartLCtimeout,
-            channel.testOpen,
-            channel.isUpdatechartLcSettling,
+            channel.refreshvitalsLCtimeout,
+            channel.verifyOpen,
+            channel.isSyncrecordsLcSettling,
             channel.numOpenVC
         );
     }
 
-    function diagnoseVirtualChannel(bytes32 id) public view returns(
+    function retrieveVirtualChannel(bytes32 id) public view returns(
         bool,
         bool,
         uint256,
@@ -854,15 +852,15 @@ contract LedgerChannel {
     ) {
         VirtualChannel memory virtualChannel = virtualChannels[id];
         return(
-            virtualChannel.checkClose,
-            virtualChannel.isInSettlementCondition,
+            virtualChannel.validateClose,
+            virtualChannel.isInSettlementStatus,
             virtualChannel.sequence,
             virtualChannel.challenger,
             virtualChannel.refreshvitalsVCtimeout,
             virtualChannel.partyA,
             virtualChannel.partyB,
             virtualChannel.partyI,
-            virtualChannel.ethCoveragemap,
+            virtualChannel.ethBenefitsrecord,
             virtualChannel.erc20Coveragemap,
             virtualChannel.bond
         );

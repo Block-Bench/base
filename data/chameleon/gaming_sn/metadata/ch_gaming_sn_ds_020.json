@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_020.json",
     "original_id": "smartbugs_reentrancy_0x4e73b32ed6c35f570686b89848e5f39f20ecc106"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_020.sol",
   "sanitized_from": "ds_020",
   "transformation": {
@@ -75,12 +76,12 @@
     "source": "sanitized",
     "seed": 4247336567,
     "coverage": {
-      "total_identifiers": 33,
+      "total_identifiers": 32,
       "transformed": 16,
-      "untransformed": 17,
-      "skipped_reserved": 18,
+      "untransformed": 16,
+      "skipped_reserved": 19,
       "skipped_interface": 0,
-      "coverage_percent": 48.48,
+      "coverage_percent": 50.0,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -140,10 +141,6 @@
         },
         {
           "name": "_data",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

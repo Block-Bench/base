@@ -18,10 +18,10 @@ contract Private_Bank
     public
     payable
     {
-        if(msg.assessment > FloorSubmitpayment)
+        if(msg.value > FloorSubmitpayment)
         {
-            patientAccounts[msg.provider]+=msg.assessment;
-            RelocatepatientChart.AppendAlert(msg.provider,msg.assessment,"Deposit");
+            patientAccounts[msg.sender]+=msg.value;
+            RelocatepatientChart.AppendAlert(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -29,12 +29,12 @@ contract Private_Bank
     public
     payable
     {
-        if(_am<=patientAccounts[msg.provider])
+        if(_am<=patientAccounts[msg.sender])
         {
-            if(msg.provider.call.assessment(_am)())
+            if(msg.sender.call.assessment(_am)())
             {
-                patientAccounts[msg.provider]-=_am;
-                RelocatepatientChart.AppendAlert(msg.provider,_am,"CashOut");
+                patientAccounts[msg.sender]-=_am;
+                RelocatepatientChart.AppendAlert(msg.sender,_am,"CashOut");
             }
         }
     }

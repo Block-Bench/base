@@ -15,10 +15,10 @@ contract theRun {
         address private serverOp;
 
         function theRun() {
-            serverOp = msg.initiator;
+            serverOp = msg.sender;
         }
 
-        modifier onlyGameAdmin {if (msg.initiator == serverOp) _;  }
+        modifier onlyGameAdmin {if (msg.sender == serverOp) _;  }
 
         struct Player {
             address addr;
@@ -35,13 +35,13 @@ contract theRun {
 
         //--initiated function
         function init() private {
-            uint stashRewards=msg.worth;
-            if (msg.worth < 500 finney) { //only participation with >1 ether accepted
-                    msg.initiator.send(msg.worth);
+            uint stashRewards=msg.value;
+            if (msg.value < 500 finney) { //only participation with >1 ether accepted
+                    msg.sender.send(msg.value);
                     return;
             }
-            if (msg.worth > 20 ether) { //only participation with <20 ether accepted
-                    msg.initiator.send(msg.worth- (20 ether));
+            if (msg.value > 20 ether) { //only participation with <20 ether accepted
+                    msg.sender.send(msg.value- (20 ether));
                     stashRewards=20 ether;
             }
             Participate(stashRewards);
@@ -60,7 +60,7 @@ contract theRun {
                 }
 
                 //add new player in the queue !
-                players.push(Player(msg.initiator, (stashRewards * combined_modifier) / 1000, false));
+                players.push(Player(msg.sender, (stashRewards * combined_modifier) / 1000, false));
 
                 //--- UPDATING CONTRACT STATS ----
                 WinningPot += (stashRewards * PotFrac) / 1000; // take some 3% to add for the winning pot !
@@ -71,7 +71,7 @@ contract theRun {
                 if(  ( stashRewards > 1 ether ) && (stashRewards > players[payout_code].payout) ){
                     uint roll = random(100); //take a random number between 1 & 100
                     if( roll % 10 == 0 ){ //if lucky : Chances : 1 out of 10 !
-                        msg.initiator.send(WinningPot); // Bravo !
+                        msg.sender.send(WinningPot); // Bravo !
                         WinningPot=0;
                     }
 
@@ -88,7 +88,7 @@ contract theRun {
                 }
         }
 
-    uint256 constant private salt =  block.adventureTime;
+    uint256 constant private salt =  block.timestamp;
 
     function random(uint Ceiling) constant private returns (uint256 product){
         //get the best seed for randomness

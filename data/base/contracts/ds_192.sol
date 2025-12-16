@@ -4,7 +4,6 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-*/
 
 contract ContractTest is Test {
     VulnPermit VulnPermitContract;

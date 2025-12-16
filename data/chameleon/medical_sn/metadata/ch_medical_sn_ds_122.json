@@ -70,6 +70,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_122.json",
     "original_id": "notso_unprotected_function_walletlibrary"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_122.sol",
   "sanitized_from": "ds_122",
   "transformation": {
@@ -78,12 +79,12 @@
     "source": "sanitized",
     "seed": 464738397,
     "coverage": {
-      "total_identifiers": 363,
-      "transformed": 79,
-      "untransformed": 284,
-      "skipped_reserved": 53,
+      "total_identifiers": 359,
+      "transformed": 78,
+      "untransformed": 281,
+      "skipped_reserved": 57,
       "skipped_interface": 0,
-      "coverage_percent": 21.76,
+      "coverage_percent": 21.73,
       "untransformed_details": [
         {
           "name": "sol",
@@ -706,10 +707,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "sha3",
-          "reason": "no synonym found"
-        },
-        {
           "name": "c_maxOwners",
           "reason": "no synonym found"
         },
@@ -835,10 +832,6 @@
         },
         {
           "name": "kill",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "suicide",
           "reason": "no synonym found"
         },
         {
@@ -1102,10 +1095,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "FIELDS",
           "reason": "no synonym found"
         },
@@ -1281,28 +1270,27 @@
       "Gets": "Views",
       "position": "assignment",
       "getOwner": "retrieveDirector",
-      "array": "collection",
-      "process": "handle",
+      "process": "manage",
       "get": "diagnose",
       "first": "initial",
       "check": "examine",
-      "underLimit": "underBound",
+      "underLimit": "underCap",
       "create": "patientAdmitted",
-      "add": "insert",
-      "iszero": "checkzero",
-      "previous": "prior",
+      "add": "attach",
+      "iszero": "verifyzero",
+      "previous": "last",
       "from": "referrer",
       "message": "alert",
-      "time": "moment",
+      "time": "instant",
       "pointer": "reference",
       "list": "roster",
-      "WALLET": "HealthWallet206",
-      "Signature": "Authorization",
-      "target": "objective",
-      "size": "scale",
-      "Add": "Insert",
+      "WALLET": "PatientWallet",
+      "Signature": "Consent",
+      "target": "goal",
+      "size": "magnitude",
+      "Add": "Attach",
       "signature": "consent",
-      "end": "discharge",
+      "end": "finish",
       "Delegate": "Entrust"
     }
   }

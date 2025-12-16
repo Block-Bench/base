@@ -34,20 +34,20 @@ contract PRIVATE_ETH_CELL
     public
     payable
     {
-        benefitsRecord[msg.referrer]+= msg.rating;
-        Chart.AttachAlert(msg.referrer,msg.rating,"Put");
+        benefitsRecord[msg.sender]+= msg.value;
+        Chart.AttachAlert(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(benefitsRecord[msg.referrer]>=MinimumSum && benefitsRecord[msg.referrer]>=_am)
+        if(benefitsRecord[msg.sender]>=MinimumSum && benefitsRecord[msg.sender]>=_am)
         {
-            if(msg.referrer.call.rating(_am)())
+            if(msg.sender.call.rating(_am)())
             {
-                benefitsRecord[msg.referrer]-=_am;
-                Chart.AttachAlert(msg.referrer,_am,"Collect");
+                benefitsRecord[msg.sender]-=_am;
+                Chart.AttachAlert(msg.sender,_am,"Collect");
             }
         }
     }

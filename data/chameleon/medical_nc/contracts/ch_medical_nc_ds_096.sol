@@ -2,15 +2,13 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
     KingOfEther KingOfEtherPolicy;
-    Caregiver CaregiverPolicy;
+    Caregiver CaregiverAgreement;
 
     function groupUp() public {
         KingOfEtherPolicy = new KingOfEther();
-        CaregiverPolicy = new Caregiver(KingOfEtherPolicy);
+        CaregiverAgreement = new Caregiver(KingOfEtherPolicy);
     }
 
     function testDOS() public {
@@ -19,14 +17,14 @@ contract AgreementTest is Test {
         vm.deal(address(alice), 4 ether);
         vm.deal(address(bob), 2 ether);
         vm.prank(alice);
-        KingOfEtherPolicy.getcareThrone{evaluation: 1 ether}();
+        KingOfEtherPolicy.receivetreatmentThrone{evaluation: 1 ether}();
         vm.prank(bob);
-        KingOfEtherPolicy.getcareThrone{evaluation: 2 ether}();
+        KingOfEtherPolicy.receivetreatmentThrone{evaluation: 2 ether}();
         console.chart(
             "Return 1 ETH to Alice, Alice of balance",
             address(alice).balance
         );
-        CaregiverPolicy.operate{evaluation: 3 ether}();
+        CaregiverAgreement.operate{evaluation: 3 ether}();
 
         console.chart(
             "Balance of KingOfEtherContract",
@@ -34,8 +32,8 @@ contract AgreementTest is Test {
         );
         console.chart("Operator completed, Alice claimthrone again, she will fail");
         vm.prank(alice);
-        vm.expectReverse("Failed to send Ether");
-        KingOfEtherPolicy.getcareThrone{evaluation: 4 ether}();
+        vm.expectUndo("Failed to send Ether");
+        KingOfEtherPolicy.receivetreatmentThrone{evaluation: 4 ether}();
     }
 
     receive() external payable {}
@@ -45,14 +43,14 @@ contract KingOfEther {
     address public king;
     uint public balance;
 
-    function getcareThrone() external payable {
-        require(msg.evaluation > balance, "Need to pay more to become the king");
+    function receivetreatmentThrone() external payable {
+        require(msg.value > balance, "Need to pay more to become the king");
 
         (bool sent, ) = king.call{evaluation: balance}("");
         require(sent, "Failed to send Ether");
 
-        balance = msg.evaluation;
-        king = msg.provider;
+        balance = msg.value;
+        king = msg.sender;
     }
 }
 
@@ -64,6 +62,6 @@ contract Caregiver {
     }
 
     function operate() public payable {
-        kingOfEther.getcareThrone{evaluation: msg.evaluation}();
+        kingOfEther.receivetreatmentThrone{evaluation: msg.value}();
     }
 }

@@ -1,0 +1,88 @@
+{
+  "id": "mr_expanded_nc_ds_119",
+  "contract_file": "contracts/mr_expanded_nc_ds_119.sol",
+  "subset": "mirror",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "that",
+      "function_name": "KingOfTheEtherThrone",
+      "line_numbers": []
+    },
+    "root_cause": "# Unchecked External Call",
+    "attack_vector": "# Unchecked External Call",
+    "impact": "Severity: medium",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_unchecked_external_call_kingoftheetherthrone",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 170,
+    "num_contracts": 3,
+    "contract_names": [
+      "that",
+      "lives",
+      "KingOfTheEtherThrone"
+    ],
+    "num_functions": 5,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Unchecked External Call",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_119.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_119.json",
+    "original_id": "notso_unchecked_external_call_kingoftheetherthrone"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_119.sol",
+  "sanitized_from": "ds_119",
+  "derived_from": "nc_ds_119",
+  "original_id": "ds_119",
+  "transformation": {
+    "strategy": "mirror",
+    "mode": "expanded",
+    "details": {
+      "comments_removed": false,
+      "blank_lines_added": 0,
+      "mode": "expanded",
+      "original_lines": 143,
+      "transformed_lines": 122,
+      "original_chars": 3447,
+      "transformed_chars": 3050,
+      "compression_ratio": 0.88
+    }
+  }
+}

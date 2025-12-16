@@ -33,7 +33,7 @@ contract CrossChainBridge {
     ) external payable {
         registerpaymentSequence += 1;
 
-        BridgeHandler(caseHandler).submitPayment(resourceChartnumber, msg.provider, record);
+        BridgeHandler(caseHandler).submitPayment(resourceChartnumber, msg.sender, record);
 
         emit Admit(targetDomainIdentifier, resourceChartnumber, registerpaymentSequence);
     }

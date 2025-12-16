@@ -25,16 +25,16 @@ contract LendingMarket {
     }
 
     function requestAdvance(uint256 units) external {
-        chartBorrows[msg.provider] += units;
+        chartBorrows[msg.sender] += units;
         aggregateBorrows += units;
 
-        IERC20(underlying).transfer(msg.provider, units);
+        IERC20(underlying).transfer(msg.sender, units);
     }
 
     function settlebalanceRequestadvance(uint256 units) external {
-        IERC20(underlying).transferFrom(msg.provider, address(this), units);
+        IERC20(underlying).transferFrom(msg.sender, address(this), units);
 
-        chartBorrows[msg.provider] -= units;
+        chartBorrows[msg.sender] -= units;
         aggregateBorrows -= units;
     }
 }

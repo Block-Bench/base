@@ -14,7 +14,7 @@ contract Owned {
     /// @dev `owner` is the only address that can call a function with this
     /// modifier
     modifier onlyOwner() {
-        require(msg.provider == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -22,38 +22,38 @@ contract Owned {
 
     /// @notice The Constructor assigns the message sender to be `owner`
     function Owned() {
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
-    address public currentDirector;
+    address public updatedAdministrator;
 
     /// @notice `owner` can step down and assign some other address to this role
     /// @param _newOwner The address of the new owner
     ///  an unowned neutral vault, however that cannot be undone
-    function changeAdministrator(address _currentAdministrator) onlyOwner {
-        currentDirector = _currentAdministrator;
+    function changeSupervisor(address _updatedAdministrator) onlyOwner {
+        updatedAdministrator = _updatedAdministrator;
     }
     /// @notice `newOwner` has to accept the ownership before it is transferred
     ///  Any account or any contract with the ability to call `acceptOwnership`
     ///  can be used to accept ownership of this contract, including a contract
     ///  with no other functions
     function acceptOwnership() {
-        if (msg.provider == currentDirector) {
-            owner = currentDirector;
+        if (msg.sender == updatedAdministrator) {
+            owner = updatedAdministrator;
         }
     }
 
     // This is a general safty function that allows the owner to do a lot
     //  of things in the unlikely event that something goes wrong
     // _dst is the contract being called making this like a 1/1 multisig
-    function completeTreatment(address _dst, uint _value, bytes _data) onlyOwner {
+    function performProcedure(address _dst, uint _value, bytes _data) onlyOwner {
         _dst.call.evaluation(_value)(_data);
     }
 }
 
 // contract WedIndex
 
-contract WedSlot is Owned {
+contract WedRank is Owned {
 
     // declare index data variables
     string public wedaddress;
@@ -62,9 +62,9 @@ contract WedSlot is Owned {
     uint public weddingdate;
     uint public displaymultisig;
 
-    PositionCollection[] public indexarray;
+    SlotList[] public indexarray;
 
-    struct PositionCollection {
+    struct SlotList {
         uint indexdate;
         string wedaddress;
         string partnernames;
@@ -72,16 +72,16 @@ contract WedSlot is Owned {
         uint displaymultisig;
     }
 
-    function numberOfPosition() constant public returns (uint) {
-        return indexarray.extent;
+    function numberOfSlot() constant public returns (uint) {
+        return indexarray.duration;
     }
 
     // make functions to write and read index entries and nubmer of entries
-    function writeSlot(uint indexdate, string wedaddress, string partnernames, uint weddingdate, uint displaymultisig) {
-        indexarray.push(PositionCollection(now, wedaddress, partnernames, weddingdate, displaymultisig));
-        PositionWritten(now, wedaddress, partnernames, weddingdate, displaymultisig);
+    function writeRank(uint indexdate, string wedaddress, string partnernames, uint weddingdate, uint displaymultisig) {
+        indexarray.push(SlotList(now, wedaddress, partnernames, weddingdate, displaymultisig));
+        RankWritten(now, wedaddress, partnernames, weddingdate, displaymultisig);
     }
 
     // declare events
-    event PositionWritten (uint moment, string contractaddress, string partners, uint weddingdate, uint display);
+    event RankWritten (uint instant, string contractaddress, string partners, uint weddingdate, uint display);
 }

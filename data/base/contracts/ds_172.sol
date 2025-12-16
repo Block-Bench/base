@@ -1,4 +1,3 @@
-by nightman
 // winner gets the contract balance
 // 0.02 to play
 

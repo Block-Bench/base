@@ -84,6 +84,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_039.json",
     "original_exploit_name": "CoW Protocol Callback Exploit"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_039.sol",
   "sanitized_from": "tc_039",
   "transformation": {
@@ -92,12 +93,12 @@
     "source": "sanitized",
     "seed": 3141649229,
     "coverage": {
-      "total_identifiers": 31,
+      "total_identifiers": 30,
       "transformed": 16,
-      "untransformed": 15,
-      "skipped_reserved": 28,
+      "untransformed": 14,
+      "skipped_reserved": 29,
       "skipped_interface": 0,
-      "coverage_percent": 51.61,
+      "coverage_percent": 53.33,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -149,10 +150,6 @@
         },
         {
           "name": "solver",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "decode",
           "reason": "no synonym found"
         },
         {

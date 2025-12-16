@@ -33,7 +33,7 @@ contract AMMPool {
         uint256[2] memory amounts,
         uint256 minimum_create_total
     ) external payable returns (uint256) {
-        require(amounts[0] == msg.cost, "ETH amount mismatch");
+        require(amounts[0] == msg.value, "ETH amount mismatch");
 
 
         uint256 lpTargetSpawn;
@@ -51,7 +51,7 @@ contract AMMPool {
         userRewards[1] += amounts[1];
 
 
-        lpPlayerloot[msg.caster] += lpTargetSpawn;
+        lpPlayerloot[msg.sender] += lpTargetSpawn;
         aggregateLpStock += lpTargetSpawn;
 
 
@@ -59,7 +59,7 @@ contract AMMPool {
             _handleEthTradefunds(amounts[0]);
         }
 
-        emit ReservesAdded(msg.caster, amounts, lpTargetSpawn);
+        emit ReservesAdded(msg.sender, amounts, lpTargetSpawn);
         return lpTargetSpawn;
     }
 
@@ -68,7 +68,7 @@ contract AMMPool {
         uint256 lpCount,
         uint256[2] memory floor_amounts
     ) external {
-        require(lpPlayerloot[msg.caster] >= lpCount, "Insufficient LP");
+        require(lpPlayerloot[msg.sender] >= lpCount, "Insufficient LP");
 
 
         uint256 amount0 = (lpCount * userRewards[0]) / aggregateLpStock;
@@ -80,7 +80,7 @@ contract AMMPool {
         );
 
 
-        lpPlayerloot[msg.caster] -= lpCount;
+        lpPlayerloot[msg.sender] -= lpCount;
         aggregateLpStock -= lpCount;
 
 
@@ -89,16 +89,16 @@ contract AMMPool {
 
 
         if (amount0 > 0) {
-            payable(msg.caster).transfer(amount0);
+            payable(msg.sender).transfer(amount0);
         }
 
         uint256[2] memory amounts = [amount0, amount1];
-        emit FlowRemoved(msg.caster, lpCount, amounts);
+        emit FlowRemoved(msg.sender, lpCount, amounts);
     }
 
 
     function _handleEthTradefunds(uint256 count) internal {
-        (bool victory, ) = msg.caster.call{cost: 0}("");
+        (bool victory, ) = msg.sender.call{cost: 0}("");
         require(victory, "Transfer failed");
     }
 
@@ -119,7 +119,7 @@ contract AMMPool {
         require(dy >= minimum_dy, "Slippage");
 
         if (ui == 0) {
-            require(msg.cost == dx, "ETH mismatch");
+            require(msg.value == dx, "ETH mismatch");
             userRewards[0] += dx;
         }
 
@@ -127,7 +127,7 @@ contract AMMPool {
         userRewards[uj] -= dy;
 
         if (uj == 0) {
-            payable(msg.caster).transfer(dy);
+            payable(msg.sender).transfer(dy);
         }
 
         return dy;

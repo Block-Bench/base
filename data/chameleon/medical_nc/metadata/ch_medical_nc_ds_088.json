@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_088.json",
     "original_id": "defivulnlabs_hash-collisions"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_088.sol",
   "sanitized_from": "ds_088",
   "derived_from": "sn_ds_088",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 750367278,
+    "seed": 195583899,
     "coverage": {
-      "total_identifiers": 31,
+      "total_identifiers": 30,
       "transformed": 14,
-      "untransformed": 17,
-      "skipped_reserved": 25,
+      "untransformed": 16,
+      "skipped_reserved": 26,
       "skipped_interface": 0,
-      "coverage_percent": 45.16,
+      "coverage_percent": 46.67,
       "untransformed_details": [
         {
           "name": "forge",
@@ -131,10 +132,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "must",
           "reason": "no synonym found"
         },
@@ -155,19 +152,19 @@
     },
     "rename_map": {
       "ContractTest": "AgreementTest",
-      "HashCollision": "SignatureCollision",
-      "HashCollisionContract": "ChecksumCollisionPolicy",
+      "HashCollision": "ChecksumCollision",
+      "HashCollisionContract": "SignatureCollisionAgreement",
       "setUp": "collectionUp",
       "log_named_bytes32": "chart_named_bytes32",
-      "Hash": "Checksum",
+      "Hash": "Signature",
       "createHash": "createSignature",
-      "deposit": "registerPayment",
-      "value": "assessment",
-      "expectRevert": "expectUndo",
+      "deposit": "admit",
+      "value": "evaluation",
+      "expectRevert": "expectReverse",
       "balances": "coverageMap",
       "Deposit": "ProvideSpecimen",
       "amount": "quantity",
-      "hash": "checksum"
+      "hash": "signature"
     }
   }
 }

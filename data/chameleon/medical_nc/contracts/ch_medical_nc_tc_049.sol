@@ -97,21 +97,21 @@ contract ExactlyMarket {
     }
 
     function contributeFunds(uint256 units) external {
-        asset.transferFrom(msg.referrer, address(this), units);
-        deposits[msg.referrer] += units;
+        asset.transferFrom(msg.sender, address(this), units);
+        deposits[msg.sender] += units;
     }
 
     function requestAdvance(uint256 units, address[] calldata markets) external {
         (uint256 completeDeposit, uint256 cumulativeLiability, ) = previewer
-            .previewMultipleMarkets(markets, msg.referrer);
+            .previewMultipleMarkets(markets, msg.sender);
 
         uint256 updatedLiability = cumulativeLiability + units;
 
         uint256 ceilingSeekcoverage = (completeDeposit * security_factor) / 100;
         require(updatedLiability <= ceilingSeekcoverage, "Insufficient collateral");
 
-        borrows[msg.referrer] += units;
-        asset.transfer(msg.referrer, units);
+        borrows[msg.sender] += units;
+        asset.transfer(msg.sender, units);
     }
 
     function retrieveChartSnapshot(

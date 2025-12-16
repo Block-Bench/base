@@ -2,35 +2,33 @@ pragma solidity ^0.8.15;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PactTest is Test {
-    SignatureCollision SealCollisionPact;
+    SignatureCollision SignatureCollisionPact;
 
     function groupUp() public {
-        SealCollisionPact = new SignatureCollision();
+        SignatureCollisionPact = new SignatureCollision();
     }
 
     function testHash_collisions() public {
         emit journal_named_bytes32(
             "(AAA,BBB) Hash",
-            SealCollisionPact.createSignature("AAA", "BBB")
+            SignatureCollisionPact.createSignature("AAA", "BBB")
         );
-        SealCollisionPact.addTreasure{magnitude: 1 ether}("AAA", "BBB");
+        SignatureCollisionPact.depositGold{cost: 1 ether}("AAA", "BBB");
 
         emit journal_named_bytes32(
             "(AA,ABBB) Hash",
-            SealCollisionPact.createSignature("AA", "ABBB")
+            SignatureCollisionPact.createSignature("AA", "ABBB")
         );
-        vm.expectUndo("Hash collision detected");
-        SealCollisionPact.addTreasure{magnitude: 1 ether}("AA", "ABBB");
+        vm.expectReverse("Hash collision detected");
+        SignatureCollisionPact.depositGold{cost: 1 ether}("AA", "ABBB");
     }
 
     receive() external payable {}
 }
 
 contract SignatureCollision {
-    mapping(bytes32 => uint256) public characterGold;
+    mapping(bytes32 => uint256) public heroTreasure;
 
     function createSignature(
         string memory _string1,
@@ -39,17 +37,17 @@ contract SignatureCollision {
         return keccak256(abi.encodePacked(_string1, _string2));
     }
 
-    function addTreasure(
+    function depositGold(
         string memory _string1,
         string memory _string2
     ) external payable {
-        require(msg.magnitude > 0, "Deposit amount must be greater than zero");
+        require(msg.value > 0, "Deposit amount must be greater than zero");
 
-        bytes32 seal = createSignature(_string1, _string2);
+        bytes32 signature = createSignature(_string1, _string2);
 
 
-        require(characterGold[seal] == 0, "Hash collision detected");
+        require(heroTreasure[signature] == 0, "Hash collision detected");
 
-        characterGold[seal] = msg.magnitude;
+        heroTreasure[signature] = msg.value;
     }
 }

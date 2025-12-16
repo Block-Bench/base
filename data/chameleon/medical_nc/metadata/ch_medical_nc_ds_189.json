@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_189.json",
     "original_id": "defivulnlabs_unprotected-callback"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_189.sol",
   "sanitized_from": "ds_189",
   "derived_from": "sn_ds_189",
@@ -73,7 +74,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3932755187,
+    "seed": 2710176867,
     "coverage": {
       "total_identifiers": 41,
       "transformed": 18,
@@ -178,24 +179,24 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "token": "id",
-      "ContractTest": "PolicyTest",
-      "MaxMint721": "CeilingMint721",
-      "MaxMint721Contract": "CeilingMint721Policy",
+      "token": "badge",
+      "ContractTest": "AgreementTest",
+      "MaxMint721": "MaximumMint721",
+      "MaxMint721Contract": "CeilingMint721Agreement",
       "complete": "careFinished",
-      "maxMints": "ceilingMints",
-      "testSafeMint": "testSafeGeneraterecord",
-      "mint": "generateRecord",
+      "maxMints": "maximumMints",
+      "testSafeMint": "testSafeCreateprescription",
+      "mint": "createPrescription",
       "log": "chart",
-      "NFT": "Certificate",
-      "selector": "chooser",
-      "MAX_PER_USER": "ceiling_per_beneficiary",
-      "amount": "dosage",
-      "sender": "referrer",
-      "max": "ceiling",
-      "user": "patient",
-      "mintIndex": "createprescriptionPosition",
-      "_safeMint": "_safeCreateprescription"
+      "NFT": "Credential",
+      "selector": "picker",
+      "MAX_PER_USER": "maximum_per_enrollee",
+      "amount": "quantity",
+      "sender": "provider",
+      "max": "maximum",
+      "user": "enrollee",
+      "mintIndex": "createprescriptionRank",
+      "_safeMint": "_safeGeneraterecord"
     }
   }
 }

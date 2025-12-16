@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_072.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0xb7c5c5aa4d42967efe906e1b66cb8df9cebf04f7"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_072.sol",
   "sanitized_from": "ds_072",
   "derived_from": "sn_ds_072",
@@ -74,7 +75,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3986641,
+    "seed": 3657923679,
     "coverage": {
       "total_identifiers": 5,
       "transformed": 4,
@@ -91,10 +92,10 @@
       "meets_threshold": true
     },
     "rename_map": {
-      "balances": "coverageMap",
-      "sender": "referrer",
+      "balances": "patientAccounts",
+      "sender": "provider",
       "value": "rating",
-      "withdraw": "dispenseMedication"
+      "withdraw": "releaseFunds"
     }
   }
 }

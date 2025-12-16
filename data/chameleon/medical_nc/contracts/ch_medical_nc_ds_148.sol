@@ -11,24 +11,24 @@ contract PredictTheUnitSignatureChallenge {
     mapping(address => guess) guesses;
 
     constructor() public payable {
-        require(msg.evaluation == 1 ether);
+        require(msg.value == 1 ether);
     }
 
     function freezeaccountInGuess(bytes32 checksum) public payable {
-        require(guesses[msg.referrer].block == 0);
-        require(msg.evaluation == 1 ether);
+        require(guesses[msg.sender].block == 0);
+        require(msg.value == 1 ether);
 
-        guesses[msg.referrer].guess = checksum;
-        guesses[msg.referrer].block  = block.number + 1;
+        guesses[msg.sender].guess = checksum;
+        guesses[msg.sender].block  = block.number + 1;
     }
 
     function adjusttle() public {
-        require(block.number > guesses[msg.referrer].block);
-        bytes32 answer = blockhash(guesses[msg.referrer].block);
+        require(block.number > guesses[msg.sender].block);
+        bytes32 answer = blockhash(guesses[msg.sender].block);
 
-        guesses[msg.referrer].block = 0;
-        if (guesses[msg.referrer].guess == answer) {
-            msg.referrer.transfer(2 ether);
+        guesses[msg.sender].block = 0;
+        if (guesses[msg.sender].guess == answer) {
+            msg.sender.transfer(2 ether);
         }
     }
 }

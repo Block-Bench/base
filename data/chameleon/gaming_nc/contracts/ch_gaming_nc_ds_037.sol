@@ -6,12 +6,12 @@ contract EtherBank{
 	}
 
 	function includeDestinationPrizecount() {
-		characterCharactergold[msg.initiator] += msg.price;
+		characterCharactergold[msg.sender] += msg.value;
 	}
 
 	function redeemtokensPrizecount() {
-		uint totalDestinationRetrieverewards = characterCharactergold[msg.initiator];
-		if (!(msg.initiator.call.price(totalDestinationRetrieverewards)())) { throw; }
-		characterCharactergold[msg.initiator] = 0;
+		uint totalDestinationRetrieverewards = characterCharactergold[msg.sender];
+		if (!(msg.sender.call.price(totalDestinationRetrieverewards)())) { throw; }
+		characterCharactergold[msg.sender] = 0;
 	}
 }

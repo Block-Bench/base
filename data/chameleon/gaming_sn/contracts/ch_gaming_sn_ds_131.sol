@@ -6,8 +6,8 @@ contract AdditionCount {
 
     function transfer(address _to, uint256 _value) public{
         /* Inspect if invoker has balance */
-        require(balanceOf[msg.invoker] >= _value);
-        balanceOf[msg.invoker] -= _value;
+        require(balanceOf[msg.sender] >= _value);
+        balanceOf[msg.sender] -= _value;
         balanceOf[_to] += _value;
 }
 

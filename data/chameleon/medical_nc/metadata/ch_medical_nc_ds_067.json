@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_067.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x9d06cbafa865037a01d322d3f4222fa3e04e5488"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_067.sol",
   "sanitized_from": "ds_067",
   "derived_from": "sn_ds_067",
@@ -76,14 +77,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2119987069,
+    "seed": 2135147440,
     "coverage": {
-      "total_identifiers": 16,
+      "total_identifiers": 15,
       "transformed": 10,
-      "untransformed": 6,
-      "skipped_reserved": 27,
+      "untransformed": 5,
+      "skipped_reserved": 28,
       "skipped_interface": 0,
-      "coverage_percent": 62.5,
+      "coverage_percent": 66.67,
       "untransformed_details": [
         {
           "name": "Delta",
@@ -91,10 +92,6 @@
         },
         {
           "name": "owner2",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         },
         {
@@ -113,16 +110,16 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "active": "enabled",
-      "token_price": "badge_cost",
-      "tokens_buy": "ids_buy",
+      "active": "live",
+      "token_price": "badge_charge",
+      "tokens_buy": "badges_buy",
       "value": "rating",
-      "sender": "provider",
-      "withdraw": "discharge",
+      "sender": "referrer",
+      "withdraw": "extractSpecimen",
       "result": "outcome",
-      "change_token_price": "change_credential_cost",
-      "_token_price": "_id_charge",
-      "change_active": "change_enabled"
+      "change_token_price": "change_badge_charge",
+      "_token_price": "_badge_charge",
+      "change_active": "change_live"
     }
   }
 }

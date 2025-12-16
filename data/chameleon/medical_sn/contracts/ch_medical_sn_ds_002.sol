@@ -9,24 +9,24 @@ contract CredentialVault {
     }
 
     function appendReceiverCoverage() payable{
-        enrolleeCredits[msg.provider] += msg.rating;
+        enrolleeCredits[msg.sender] += msg.value;
     }
 
     function claimcoverageCredits(){
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        if( ! (msg.provider.call.rating(enrolleeCredits[msg.provider])() ) ){
+        if( ! (msg.sender.call.rating(enrolleeCredits[msg.sender])() ) ){
             throw;
         }
-        enrolleeCredits[msg.provider] = 0;
+        enrolleeCredits[msg.sender] = 0;
     }
 
     function withdrawbenefitsCreditsV2(){
 
         // has to be change before the call
-        uint dosage = enrolleeCredits[msg.provider];
-        enrolleeCredits[msg.provider] = 0;
-        if( ! (msg.provider.call.rating(dosage)() ) ){
+        uint dosage = enrolleeCredits[msg.sender];
+        enrolleeCredits[msg.sender] = 0;
+        if( ! (msg.sender.call.rating(dosage)() ) ){
             throw;
         }
     }
@@ -36,8 +36,8 @@ contract CredentialVault {
         // they do not transfer the remaining gas
         // and they give just enough gas to execute few instructions
         // in the fallback function (no further call possible)
-        msg.provider.transfer(enrolleeCredits[msg.provider]);
-        enrolleeCredits[msg.provider] = 0;
+        msg.sender.transfer(enrolleeCredits[msg.sender]);
+        enrolleeCredits[msg.sender] = 0;
     }
 
 }

@@ -65,20 +65,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_226.json",
     "original_id": "defivulnlabs_signaturereplaynba"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_226.sol",
   "sanitized_from": "ds_226",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1939474667,
+    "seed": 4071464094,
     "coverage": {
-      "total_identifiers": 83,
+      "total_identifiers": 81,
       "transformed": 28,
-      "untransformed": 55,
-      "skipped_reserved": 32,
+      "untransformed": 53,
+      "skipped_reserved": 34,
       "skipped_interface": 0,
-      "coverage_percent": 33.73,
+      "coverage_percent": 34.57,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -217,10 +218,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encode",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Invalid",
           "reason": "no synonym found"
         },
@@ -281,10 +278,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "x19Ethereum",
           "reason": "no synonym found"
         },
@@ -304,34 +297,34 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "vData": "vDetails",
-      "mint_free": "craft_free",
-      "max_mint": "ceiling_spawn",
-      "from": "origin",
-      "start": "opening",
+      "vData": "vInfo",
+      "mint_free": "summon_free",
+      "max_mint": "maximum_create",
+      "from": "source",
+      "start": "begin",
       "end": "close",
-      "eth_price": "eth_value",
+      "eth_price": "eth_cost",
       "dust_price": "dust_cost",
       "signature": "seal",
       "mint_approved": "forge_approved",
-      "info": "data",
-      "ContractTest": "PactTest",
+      "info": "details",
+      "ContractTest": "AgreementTest",
       "NBAContract": "NbaPact",
-      "testMintNFT": "testCraftArtifact",
+      "testMintNFT": "testCraftRelic",
       "sender": "caster",
-      "verify": "validate",
-      "check": "inspect",
-      "log": "record",
-      "mint": "summon",
-      "_mintCards": "_craftCards",
-      "data": "info",
-      "logBytes": "journalData",
+      "verify": "confirm",
+      "check": "validate",
+      "log": "journal",
+      "mint": "create",
+      "_mintCards": "_forgeCards",
+      "data": "details844",
+      "logBytes": "journalRaw",
       "hash": "signature",
-      "logBytes32": "recordBytes32",
-      "length": "extent",
-      "get": "fetch",
+      "logBytes32": "journalBytes32",
+      "length": "size",
+      "get": "obtain",
       "add": "insert",
-      "Message": "Communication"
+      "Message": "Signal"
     }
   }
 }

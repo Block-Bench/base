@@ -92,6 +92,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_001.json",
     "original_exploit_name": "Nomad Bridge"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_001.sol",
   "sanitized_from": "tc_001"
 }

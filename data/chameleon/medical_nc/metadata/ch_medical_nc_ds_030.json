@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_030.json",
     "original_id": "smartbugs_reentrancy_0xaae1f51cf3339f18b6d3f3bdc75a5facd744b0b8"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_030.sol",
   "sanitized_from": "ds_030",
   "derived_from": "sn_ds_030",
@@ -77,12 +78,12 @@
     "source": "nocomments",
     "seed": 1969166574,
     "coverage": {
-      "total_identifiers": 29,
+      "total_identifiers": 28,
       "transformed": 16,
-      "untransformed": 13,
-      "skipped_reserved": 18,
+      "untransformed": 12,
+      "skipped_reserved": 19,
       "skipped_interface": 0,
-      "coverage_percent": 55.17,
+      "coverage_percent": 57.14,
       "untransformed_details": [
         {
           "name": "DEP_BANK",
@@ -126,10 +127,6 @@
         },
         {
           "name": "_data",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

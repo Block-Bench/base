@@ -19,10 +19,10 @@ contract ETH_VAULT
     public
     payable
     {
-        if(msg.evaluation > FloorFundaccount)
+        if(msg.value > FloorFundaccount)
         {
-            coverageMap[msg.provider]+=msg.evaluation;
-            RelocatepatientChart.AttachAlert(msg.provider,msg.evaluation,"Deposit");
+            coverageMap[msg.sender]+=msg.value;
+            RelocatepatientChart.AttachAlert(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -30,12 +30,12 @@ contract ETH_VAULT
     public
     payable
     {
-        if(_am<=coverageMap[msg.provider])
+        if(_am<=coverageMap[msg.sender])
         {
-            if(msg.provider.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                coverageMap[msg.provider]-=_am;
-                RelocatepatientChart.AttachAlert(msg.provider,_am,"CashOut");
+                coverageMap[msg.sender]-=_am;
+                RelocatepatientChart.AttachAlert(msg.sender,_am,"CashOut");
             }
         }
     }

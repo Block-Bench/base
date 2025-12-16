@@ -1,20 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.24;
 
-*/
-
 contract FiftyFlip {
     uint constant DONATING_X = 20; // 2% kujira
 
     // Need to be discussed
-    uint constant jackpot_cut = 10; // 1% jackpot
+    uint constant jackpot_charge = 10; // 1% jackpot
     uint constant JACKPOT_MODULO = 1000; // 0.1% jackpotwin
-    uint constant dev_cut = 20; // 2% devfee
+    uint constant dev_charge = 20; // 2% devfee
     uint constant WIN_X = 1900; // 1.9x
 
     // There is minimum and maximum bets.
-    uint constant minimum_bet = 0.01 ether;
-    uint constant maximum_bet = 1 ether;
+    uint constant floor_bet = 0.01 ether;
+    uint constant ceiling_bet = 1 ether;
 
     uint constant BET_EXPIRATION_BLOCKS = 250;
 
@@ -25,12 +23,12 @@ contract FiftyFlip {
     address private whale;
 
     // Accumulated jackpot fund.
-    uint256 public jackpotScale;
-    uint256 public devCutScale;
+    uint256 public jackpotMagnitude;
+    uint256 public devTaxMagnitude;
 
     // Funds that are locked in potentially winning bets.
     uint256 public frozenInBets;
-    uint256 public completeQuantityDestinationWhale;
+    uint256 public completeSumDestinationWhale;
 
     struct Bet {
         // Wager amount in wei.
@@ -44,43 +42,43 @@ contract FiftyFlip {
     }
 
     mapping (uint => Bet) bets;
-    mapping (address => uint) donateMeasure;
+    mapping (address => uint) donateCount;
 
     // events
-    event Wager(uint ticketTag, uint betCount, uint256 betFrameNumber, bool betMask, address betPlayer);
+    event Wager(uint ticketTag, uint betSum, uint256 betTickNumber, bool betMask, address betPlayer);
     event Win(address winner, uint count, uint ticketTag, bool maskRes, uint jackpotRes);
     event Lose(address loser, uint count, uint ticketTag, bool maskRes, uint jackpotRes);
     event Refund(uint ticketTag, uint256 count, address requester);
     event Donate(uint256 count, address donator);
-    event FailedPayment(address paidAdventurer, uint count);
-    event Payment(address noPaidAdventurer, uint count);
+    event FailedPayment(address paidPlayer, uint count);
+    event Payment(address noPaidHero, uint count);
     event JackpotPayment(address player, uint ticketTag, uint jackpotWin);
 
     // constructor
-    constructor (address whaleZone, address autoPlayBotLocation, address secretSignerRealm) public {
-        owner = msg.invoker;
-        autoPlayBot = autoPlayBotLocation;
-        whale = whaleZone;
-        secretSigner = secretSignerRealm;
-        jackpotScale = 0;
-        devCutScale = 0;
+    constructor (address whaleLocation, address autoPlayBotZone, address secretSignerLocation) public {
+        owner = msg.sender;
+        autoPlayBot = autoPlayBotZone;
+        whale = whaleLocation;
+        secretSigner = secretSignerLocation;
+        jackpotMagnitude = 0;
+        devTaxMagnitude = 0;
         frozenInBets = 0;
-        completeQuantityDestinationWhale = 0;
+        completeSumDestinationWhale = 0;
     }
 
     // modifiers
     modifier onlyOwner() {
-        require (msg.invoker == owner, "You are not the owner of this contract!");
+        require (msg.sender == owner, "You are not the owner of this contract!");
         _;
     }
 
     modifier onlyBot() {
-        require (msg.invoker == autoPlayBot, "You are not the bot of this contract!");
+        require (msg.sender == autoPlayBot, "You are not the bot of this contract!");
         _;
     }
 
-    modifier verifyPactHealth() {
-        require (address(this).balance >= frozenInBets + jackpotScale + devCutScale, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
+    modifier validateAgreementHealth() {
+        require (address(this).balance >= frozenInBets + jackpotMagnitude + devTaxMagnitude, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
         _;
     }
 
@@ -117,7 +115,7 @@ contract FiftyFlip {
         require (getCollateralBalance() >= 2 * amount, "If we accept this, this contract will be in danger!");
 
         require (block.number <= ticketLastBlock, "Ticket has expired.");
-        bytes32 signatureHash = keccak256(abi.encodePacked('\x19Ethereum Signed Communication:\n37', uint40(ticketLastBlock), ticketID));
+        bytes32 signatureHash = keccak256(abi.encodePacked('\x19Ethereum Signed Signal:\n37', uint40(ticketLastBlock), ticketID));
         require (secretSigner == ecrecover(signatureHash, v, r, s), "web3 vrs signature is not valid.");
 
         jackpotSize += amount * JACKPOT_FEE / 1000;

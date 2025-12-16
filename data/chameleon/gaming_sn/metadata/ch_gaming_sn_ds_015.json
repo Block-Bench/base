@@ -67,13 +67,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_015.json",
     "original_id": "smartbugs_access_control_wallet_03_wrong_constructor"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_015.sol",
   "sanitized_from": "ds_015",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 4275322042,
+    "seed": 1821806472,
     "coverage": {
       "total_identifiers": 20,
       "transformed": 9,
@@ -130,14 +131,14 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "creator": "maker",
-      "balances": "heroTreasure",
-      "sender": "caster",
-      "deposit": "stashRewards",
+      "creator": "founder",
+      "balances": "characterGold",
+      "sender": "invoker",
+      "deposit": "cachePrize",
       "value": "cost",
-      "withdraw": "retrieveRewards",
-      "amount": "total",
-      "emergency": "critical",
+      "withdraw": "obtainPrize",
+      "amount": "count",
+      "emergency": "urgent",
       "migrateTo": "migrateTarget"
     }
   }

@@ -7,11 +7,11 @@ contract Roulette {
 
 
     function () public payable {
-        require(msg.magnitude == 10 ether);
+        require(msg.value == 10 ether);
         require(now != pastTickMoment);
         pastTickMoment = now;
         if(now % 15 == 0) {
-            msg.initiator.transfer(this.balance);
+            msg.sender.transfer(this.balance);
         }
     }
 }

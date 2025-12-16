@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_145.json",
     "original_id": "smartbugs_bad_randomness_etheraffle"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_145.sol",
   "sanitized_from": "ds_145",
   "transformation": {
@@ -74,12 +75,12 @@
     "source": "sanitized",
     "seed": 1252213936,
     "coverage": {
-      "total_identifiers": 87,
-      "transformed": 25,
+      "total_identifiers": 86,
+      "transformed": 24,
       "untransformed": 62,
-      "skipped_reserved": 34,
+      "skipped_reserved": 35,
       "skipped_interface": 0,
-      "coverage_percent": 28.74,
+      "coverage_percent": 27.91,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -351,13 +352,12 @@
       "Start": "Begin",
       "next": "upcoming",
       "isn": "verifyn",
-      "array": "list",
-      "Get": "Acquire",
+      "Get": "Retrieve",
       "getRefund": "acquireRefund",
       "start": "onset",
-      "pause": "suspendTreatment",
-      "endRaffle": "dischargeRaffle",
-      "togglePause": "toggleSuspendtreatment"
+      "pause": "haltCare",
+      "endRaffle": "finishRaffle",
+      "togglePause": "toggleFreezeprotocol"
     }
   }
 }

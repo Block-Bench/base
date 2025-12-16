@@ -1,12 +1,11 @@
-added pragma release
-  pragma solidity ^0.4.0;
+pragma solidity ^0.4.0;
 
  contract Lottery {
-     event RetrieveBet(uint betCount, uint frameNumber, bool won);
+     event RetrieveBet(uint betCount, uint tickNumber, bool won);
 
      struct Bet {
          uint betCount;
-         uint frameNumber;
+         uint tickNumber;
          bool won;
      }
 
@@ -15,7 +14,7 @@ added pragma release
 
 
      function Lottery() {
-         organizer = msg.initiator;
+         organizer = msg.sender;
      }
 
 
@@ -30,11 +29,11 @@ added pragma release
          bool won = (block.number % 2) == 0;
 
 
-         bets.push(Bet(msg.magnitude, block.number, won));
+         bets.push(Bet(msg.value, block.number, won));
 
 
          if(won) {
-             if(!msg.initiator.send(msg.magnitude)) {
+             if(!msg.sender.send(msg.value)) {
 
                  throw;
              }
@@ -42,16 +41,16 @@ added pragma release
      }
 
 
-     function obtainBets() {
-         if(msg.initiator != organizer) { throw; }
+     function retrieveBets() {
+         if(msg.sender != organizer) { throw; }
 
          for (uint i = 0; i < bets.extent; i++) {
-             RetrieveBet(bets[i].betCount, bets[i].frameNumber, bets[i].won);
+             RetrieveBet(bets[i].betCount, bets[i].tickNumber, bets[i].won);
          }
      }
 
      function destroy() {
-         if(msg.initiator != organizer) { throw; }
+         if(msg.sender != organizer) { throw; }
 
          suicide(organizer);
      }

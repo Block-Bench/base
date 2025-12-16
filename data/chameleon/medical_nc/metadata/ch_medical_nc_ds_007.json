@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_007.json",
     "original_id": "smartbugs_access_control_FibonacciBalance"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_007.sol",
   "sanitized_from": "ds_007",
   "derived_from": "sn_ds_007",
@@ -76,29 +77,21 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 784019217,
+    "seed": 327369413,
     "coverage": {
-      "total_identifiers": 18,
-      "transformed": 10,
-      "untransformed": 8,
-      "skipped_reserved": 22,
+      "total_identifiers": 15,
+      "transformed": 9,
+      "untransformed": 6,
+      "skipped_reserved": 23,
       "skipped_interface": 0,
-      "coverage_percent": 55.56,
+      "coverage_percent": 60.0,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "fibonacciLibrary",
           "reason": "no synonym found"
         },
         {
           "name": "fibSig",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         },
         {
@@ -121,16 +114,15 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "edition",
-      "FibonacciBalance": "FibonacciCoverage",
-      "calculatedFibNumber": "computedFibNumber",
+      "FibonacciBalance": "FibonacciBenefits",
+      "calculatedFibNumber": "evaluatedFibNumber",
       "start": "begin",
-      "withdrawalCounter": "withdrawalCount",
+      "withdrawalCounter": "withdrawalTally",
       "setFibonacci": "groupFibonacci",
-      "withdraw": "claimCoverage",
-      "sender": "provider",
-      "data": "info",
-      "setStart": "collectionOnset"
+      "withdraw": "dispenseMedication",
+      "sender": "referrer",
+      "data": "chart",
+      "setStart": "groupBegin"
     }
   }
 }

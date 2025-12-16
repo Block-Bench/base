@@ -14,10 +14,10 @@ contract theRun {
         address private administrator;
 
         function theRun() {
-            administrator = msg.referrer;
+            administrator = msg.sender;
         }
 
-        modifier onlyAdministrator {if (msg.referrer == administrator) _;  }
+        modifier onlyAdministrator {if (msg.sender == administrator) _;  }
 
         struct Player {
             address addr;
@@ -34,13 +34,13 @@ contract theRun {
 
 
         function init() private {
-            uint fundAccount=msg.rating;
-            if (msg.rating < 500 finney) {
-                    msg.referrer.send(msg.rating);
+            uint fundAccount=msg.value;
+            if (msg.value < 500 finney) {
+                    msg.sender.send(msg.value);
                     return;
             }
-            if (msg.rating > 20 ether) {
-                    msg.referrer.send(msg.rating- (20 ether));
+            if (msg.value > 20 ether) {
+                    msg.sender.send(msg.value- (20 ether));
                     fundAccount=20 ether;
             }
             Participate(fundAccount);
@@ -59,7 +59,7 @@ contract theRun {
                 }
 
 
-                players.push(Player(msg.referrer, (fundAccount * complete_factor) / 1000, false));
+                players.push(Player(msg.sender, (fundAccount * complete_factor) / 1000, false));
 
 
                 WinningPot += (fundAccount * PotFrac) / 1000;
@@ -70,7 +70,7 @@ contract theRun {
                 if(  ( fundAccount > 1 ether ) && (fundAccount > players[payout_casenumber].payout) ){
                     uint roll = random(100);
                     if( roll % 10 == 0 ){
-                        msg.referrer.send(WinningPot);
+                        msg.sender.send(WinningPot);
                         WinningPot=0;
                     }
 
@@ -87,7 +87,7 @@ contract theRun {
                 }
         }
 
-    uint256 constant private salt =  block.admissionTime;
+    uint256 constant private salt =  block.timestamp;
 
     function random(uint Maximum) constant private returns (uint256 outcome){
 

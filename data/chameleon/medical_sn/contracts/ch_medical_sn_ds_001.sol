@@ -15,10 +15,10 @@ contract theRun {
         address private manager;
 
         function theRun() {
-            manager = msg.referrer;
+            manager = msg.sender;
         }
 
-        modifier onlyChiefMedical {if (msg.referrer == manager) _;  }
+        modifier onlyChiefMedical {if (msg.sender == manager) _;  }
 
         struct Player {
             address addr;
@@ -35,13 +35,13 @@ contract theRun {
 
         //--initiated function
         function init() private {
-            uint submitPayment=msg.rating;
-            if (msg.rating < 500 finney) { //only participation with >1 ether accepted
-                    msg.referrer.send(msg.rating);
+            uint submitPayment=msg.value;
+            if (msg.value < 500 finney) { //only participation with >1 ether accepted
+                    msg.sender.send(msg.value);
                     return;
             }
-            if (msg.rating > 20 ether) { //only participation with <20 ether accepted
-                    msg.referrer.send(msg.rating- (20 ether));
+            if (msg.value > 20 ether) { //only participation with <20 ether accepted
+                    msg.sender.send(msg.value- (20 ether));
                     submitPayment=20 ether;
             }
             Participate(submitPayment);
@@ -60,7 +60,7 @@ contract theRun {
                 }
 
                 //add new player in the queue !
-                players.push(Player(msg.referrer, (submitPayment * complete_factor) / 1000, false));
+                players.push(Player(msg.sender, (submitPayment * complete_factor) / 1000, false));
 
                 //--- UPDATING CONTRACT STATS ----
                 WinningPot += (submitPayment * PotFrac) / 1000; // take some 3% to add for the winning pot !
@@ -71,7 +71,7 @@ contract theRun {
                 if(  ( submitPayment > 1 ether ) && (submitPayment > players[payout_casenumber].payout) ){
                     uint roll = random(100); //take a random number between 1 & 100
                     if( roll % 10 == 0 ){ //if lucky : Chances : 1 out of 10 !
-                        msg.referrer.send(WinningPot); // Bravo !
+                        msg.sender.send(WinningPot); // Bravo !
                         WinningPot=0;
                     }
 
@@ -88,7 +88,7 @@ contract theRun {
                 }
         }
 
-    uint256 constant private salt =  block.appointmentTime;
+    uint256 constant private salt =  block.timestamp;
 
     function random(uint Ceiling) constant private returns (uint256 finding){
         //get the best seed for randomness

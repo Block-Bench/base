@@ -38,8 +38,8 @@ contract BonusForger {
     }
 
     function cachePrize(uint256 count) external {
-        lpMedal.transferFrom(msg.caster, address(this), count);
-        depositedLP[msg.caster] += count;
+        lpMedal.transferFrom(msg.sender, address(this), count);
+        depositedLP[msg.sender] += count;
     }
 
     function spawnFor(
@@ -52,7 +52,7 @@ contract BonusForger {
         require(flip == address(lpMedal), "Invalid token");
 
         uint256 chargeSum = _performanceCut + _withdrawalCharge;
-        lpMedal.transferFrom(msg.caster, address(this), chargeSum);
+        lpMedal.transferFrom(msg.sender, address(this), chargeSum);
 
         uint256 hunnyBountyQuantity = medalTargetPrize(
             lpMedal.balanceOf(address(this))
@@ -66,16 +66,16 @@ contract BonusForger {
     }
 
     function acquireBounty() external {
-        uint256 prize = gatheredRewards[msg.caster];
+        uint256 prize = gatheredRewards[msg.sender];
         require(prize > 0, "No rewards");
 
-        gatheredRewards[msg.caster] = 0;
-        treasureCrystal.transfer(msg.caster, prize);
+        gatheredRewards[msg.sender] = 0;
+        treasureCrystal.transfer(msg.sender, prize);
     }
 
     function claimLoot(uint256 count) external {
-        require(depositedLP[msg.caster] >= count, "Insufficient balance");
-        depositedLP[msg.caster] -= count;
-        lpMedal.transfer(msg.caster, count);
+        require(depositedLP[msg.sender] >= count, "Insufficient balance");
+        depositedLP[msg.sender] -= count;
+        lpMedal.transfer(msg.sender, count);
     }
 }

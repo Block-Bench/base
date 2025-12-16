@@ -1,42 +1,37 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.23;
 
- */
 contract MultiOwnable {
-  address public origin;
+  address public source;
   mapping (address => address) public owners; // owner => parent of owner
 
-  */
   constructor() public {
-    origin = msg.referrer;
-    owners[origin] = origin;
+    source = msg.sender;
+    owners[source] = source;
   }
 
-  */
   modifier onlyOwner() {
-    require(owners[msg.referrer] != 0);
+    require(owners[msg.sender] != 0);
     _;
   }
 
-  */
-  function currentDirector(address _owner) external returns (bool) {
+  function updatedAdministrator(address _owner) external returns (bool) {
     require(_owner != 0);
-    owners[_owner] = msg.referrer;
+    owners[_owner] = msg.sender;
     return true;
   }
 
-    */
-  function deleteSupervisor(address _owner) onlyOwner external returns (bool) {
-    require(owners[_owner] == msg.referrer || (owners[_owner] != 0 && msg.referrer == origin));
+  function deleteDirector(address _owner) onlyOwner external returns (bool) {
+    require(owners[_owner] == msg.sender || (owners[_owner] != 0 && msg.sender == source));
     owners[_owner] = 0;
     return true;
   }
 }
 
-contract TestAgreement is MultiOwnable {
+contract TestPolicy is MultiOwnable {
 
   function releaseAllFunds() onlyOwner {
-    msg.referrer.transfer(this.balance);
+    msg.sender.transfer(this.balance);
   }
 
   function() payable {

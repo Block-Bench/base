@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_227.json",
     "original_id": "defivulnlabs_invariant"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_227.sol",
   "sanitized_from": "ds_227",
   "derived_from": "sn_ds_227",
@@ -73,7 +74,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2838847383,
+    "seed": 1979006686,
     "coverage": {
       "total_identifiers": 22,
       "transformed": 9,
@@ -141,12 +142,12 @@
       "ContractTest": "PolicyTest",
       "InvariantContract": "InvariantAgreement",
       "receiveMoney": "acceptpatientMoney",
-      "value": "evaluation",
+      "value": "rating",
       "log": "record",
-      "BalanceReceived": "CoverageReceived",
-      "balanceReceived": "fundsReceived",
+      "BalanceReceived": "BenefitsReceived",
+      "balanceReceived": "creditsReceived",
       "sender": "provider",
-      "withdrawMoney": "retrievesuppliesMoney"
+      "withdrawMoney": "dispensemedicationMoney"
     }
   }
 }

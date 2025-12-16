@@ -95,6 +95,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_018.json",
     "original_exploit_name": "Indexed Finance Pool Manipulation"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_018.sol",
   "sanitized_from": "tc_018",
   "transformation": {

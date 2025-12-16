@@ -18,21 +18,21 @@ contract PrivateBank
     public
     payable
     {
-        if(msg.cost >= FloorDepositgold)
+        if(msg.value >= FloorDepositgold)
         {
-            userRewards[msg.initiator]+=msg.cost;
-            TradefundsJournal.InsertSignal(msg.initiator,msg.cost,"Deposit");
+            userRewards[msg.sender]+=msg.value;
+            TradefundsJournal.InsertSignal(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=userRewards[msg.initiator])
+        if(_am<=userRewards[msg.sender])
         {
-            if(msg.initiator.call.cost(_am)())
+            if(msg.sender.call.cost(_am)())
             {
-                userRewards[msg.initiator]-=_am;
-                TradefundsJournal.InsertSignal(msg.initiator,_am,"CashOut");
+                userRewards[msg.sender]-=_am;
+                TradefundsJournal.InsertSignal(msg.sender,_am,"CashOut");
             }
         }
     }

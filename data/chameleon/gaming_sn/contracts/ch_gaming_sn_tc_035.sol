@@ -46,7 +46,7 @@ contract WiseLending {
         address _poolMedal,
         uint256 _amount
     ) external returns (uint256 sliceSum) {
-        IERC20(_poolMedal).transferFrom(msg.caster, address(this), _amount);
+        IERC20(_poolMedal).transferFrom(msg.sender, address(this), _amount);
 
         PoolInfo storage lootPool = lendingPoolInfo[_poolMedal];
 
@@ -86,7 +86,7 @@ contract WiseLending {
         lootPool.combinedBankwinningsSlices -= _shares;
         lootPool.pseudoCompletePool -= retrieverewardsQuantity;
 
-        IERC20(_poolMedal).transfer(msg.caster, retrieverewardsQuantity);
+        IERC20(_poolMedal).transfer(msg.sender, retrieverewardsQuantity);
 
         return retrieverewardsQuantity;
     }
@@ -111,7 +111,7 @@ contract WiseLending {
         lootPool.combinedBankwinningsSlices -= pieceBurned;
         lootPool.pseudoCompletePool -= _retrieverewardsMeasure;
 
-        IERC20(_poolMedal).transfer(msg.caster, _retrieverewardsMeasure);
+        IERC20(_poolMedal).transfer(msg.sender, _retrieverewardsMeasure);
 
         return pieceBurned;
     }

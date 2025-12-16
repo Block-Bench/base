@@ -67,20 +67,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_222.json",
     "original_id": "defivulnlabs_signaturereplay"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_222.sol",
   "sanitized_from": "ds_222",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 235765021,
+    "seed": 942919919,
     "coverage": {
-      "total_identifiers": 90,
+      "total_identifiers": 89,
       "transformed": 28,
-      "untransformed": 62,
-      "skipped_reserved": 42,
+      "untransformed": 61,
+      "skipped_reserved": 43,
       "skipped_interface": 0,
-      "coverage_percent": 31.11,
+      "coverage_percent": 31.46,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -124,10 +125,6 @@
         },
         {
           "name": "bob",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "encodePacked",
           "reason": "no synonym found"
         },
         {
@@ -335,32 +332,32 @@
     },
     "rename_map": {
       "ContractTest": "PolicyTest",
-      "TokenWhale": "CredentialWhale",
-      "TokenWhaleContract": "IdWhaleAgreement",
-      "SixEyeToken": "SixEyeId",
+      "TokenWhale": "BadgeWhale",
+      "TokenWhaleContract": "CredentialWhalePolicy",
+      "SixEyeToken": "SixEyeBadge",
       "SixEyeTokenContract": "SixEyeBadgeAgreement",
-      "TokenWhaleDeploy": "IdWhaleDeploy",
+      "TokenWhaleDeploy": "CredentialWhaleDeploy",
       "testSignatureReplay": "testAuthorizationReplay",
       "log_named_uint": "record_named_number",
       "hash": "checksum",
-      "log_named_bytes32": "chart_named_bytes32",
+      "log_named_bytes32": "record_named_bytes32",
       "signature": "consent",
       "sign": "approve",
-      "alice_address": "alice_facility",
-      "log_named_address": "record_named_ward",
-      "log_string": "chart_text",
-      "operator": "nurse",
-      "startPrank": "beginPrank",
+      "alice_address": "alice_ward",
+      "log_named_address": "chart_named_facility",
+      "log_string": "record_text",
+      "operator": "caregiver",
+      "startPrank": "onsetPrank",
       "transferProxy": "relocatepatientProxy",
       "from": "source",
       "SET": "Establish",
-      "token": "badge",
+      "token": "id",
       "nonce": "visitNumber",
       "start": "onset",
       "Simple": "BasicCare",
-      "Token": "Badge",
+      "Token": "Credential",
       "value": "evaluation",
-      "sender": "referrer",
+      "sender": "provider",
       "_feeUgt": "_premiumUgt"
     }
   }

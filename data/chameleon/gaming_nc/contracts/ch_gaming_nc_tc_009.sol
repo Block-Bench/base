@@ -49,7 +49,7 @@ contract ConcentratedReservesPool {
 
 
         bytes32 positionAccessor = keccak256(
-            abi.encodePacked(msg.caster, tickLower, tickUpper)
+            abi.encodePacked(msg.sender, tickLower, tickUpper)
         );
 
 
@@ -75,7 +75,7 @@ contract ConcentratedReservesPool {
             int128(reservesDelta)
         );
 
-        emit ReservesAdded(msg.caster, tickLower, tickUpper, reservesDelta);
+        emit ReservesAdded(msg.sender, tickLower, tickUpper, reservesDelta);
     }
 
 

@@ -17,21 +17,21 @@ contract PrivateBank
     public
     payable
     {
-        if(msg.worth >= FloorAddtreasure)
+        if(msg.value >= FloorAddtreasure)
         {
-            userRewards[msg.invoker]+=msg.worth;
-            RelocateassetsJournal.IncludeSignal(msg.invoker,msg.worth,"Deposit");
+            userRewards[msg.sender]+=msg.value;
+            RelocateassetsJournal.IncludeSignal(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=userRewards[msg.invoker])
+        if(_am<=userRewards[msg.sender])
         {
-            if(msg.invoker.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
-                userRewards[msg.invoker]-=_am;
-                RelocateassetsJournal.IncludeSignal(msg.invoker,_am,"CashOut");
+                userRewards[msg.sender]-=_am;
+                RelocateassetsJournal.IncludeSignal(msg.sender,_am,"CashOut");
             }
         }
     }

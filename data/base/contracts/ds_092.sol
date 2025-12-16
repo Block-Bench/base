@@ -3,7 +3,6 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
 
 contract ContractTest is Test {
     SimpleBank VSimpleBankContract;
@@ -18,7 +17,6 @@ contract ContractTest is Test {
         VSimpleBankContract.transfer(address(this), address(this), 10000);
         VSimpleBankContract.transfer(address(this), address(this), 10000);
         VSimpleBankContract.balanceOf(address(this));
-        */
     }
 
     function testFixedSelfTransfer() public {
@@ -65,7 +63,6 @@ contract FixedSimpleBank {
         unchecked {
             _balances[_from] = _fromBalance - _amount;
             _balances[_to] = _toBalance + _amount;
-            */
         }
     }
 }

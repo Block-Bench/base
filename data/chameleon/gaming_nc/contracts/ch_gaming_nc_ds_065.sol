@@ -5,7 +5,7 @@ contract Owned {
 
 
     modifier onlyOwner() {
-        require(msg.invoker == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -13,7 +13,7 @@ contract Owned {
 
 
     function Owned() {
-        owner = msg.invoker;
+        owner = msg.sender;
     }
 
     address public currentMaster;
@@ -25,7 +25,7 @@ contract Owned {
 
 
     function acceptOwnership() {
-        if (msg.invoker == currentMaster) {
+        if (msg.sender == currentMaster) {
             owner = currentMaster;
         }
     }

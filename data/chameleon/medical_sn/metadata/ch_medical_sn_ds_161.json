@@ -67,25 +67,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_161.json",
     "original_id": "smartbugs_other_name_registrar"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_161.sol",
   "sanitized_from": "ds_161",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 837302984,
+    "seed": 1343566715,
     "coverage": {
-      "total_identifiers": 29,
-      "transformed": 13,
-      "untransformed": 16,
-      "skipped_reserved": 18,
+      "total_identifiers": 27,
+      "transformed": 12,
+      "untransformed": 15,
+      "skipped_reserved": 17,
       "skipped_interface": 0,
-      "coverage_percent": 44.83,
+      "coverage_percent": 44.44,
       "untransformed_details": [
-        {
-          "name": "Registrar",
-          "reason": "no synonym found"
-        },
         {
           "name": "registrar",
           "reason": "no synonym found"
@@ -150,19 +147,18 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "Locked": "Committed",
       "NameRegistrar": "LabelRegistrar",
       "unlocked": "released",
-      "locked": "committed",
-      "NameRecord": "LabelRecord",
-      "hashes": "includeshes",
-      "mappedAddress": "mappedFacility",
+      "locked": "reserved",
+      "NameRecord": "PatientnameRecord",
+      "hashes": "containshes",
+      "mappedAddress": "mappedWard",
       "registeredNameRecord": "registeredLabelRecord",
-      "register": "admit",
-      "_mappedAddress": "_mappedFacility",
+      "register": "checkin",
+      "_mappedAddress": "_mappedWard",
       "set": "prescribe",
       "newRecord": "currentRecord",
-      "sender": "provider"
+      "sender": "referrer"
     }
   }
 }

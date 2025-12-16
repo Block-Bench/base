@@ -68,20 +68,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_067.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x9d06cbafa865037a01d322d3f4222fa3e04e5488"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_067.sol",
   "sanitized_from": "ds_067",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 3743737382,
+    "seed": 3437039168,
     "coverage": {
-      "total_identifiers": 69,
+      "total_identifiers": 68,
       "transformed": 15,
-      "untransformed": 54,
-      "skipped_reserved": 30,
+      "untransformed": 53,
+      "skipped_reserved": 31,
       "skipped_interface": 0,
-      "coverage_percent": 21.74,
+      "coverage_percent": 22.06,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -260,10 +261,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "sha3",
-          "reason": "no synonym found"
-        },
-        {
           "name": "sum2",
           "reason": "no synonym found"
         },
@@ -304,19 +301,19 @@
     },
     "rename_map": {
       "token": "gem",
-      "get": "obtain",
+      "get": "retrieve",
       "active": "enabled",
-      "token_price": "crystal_value",
+      "token_price": "gem_cost",
       "tokens": "crystals",
-      "tokens_buy": "coins_buy",
+      "tokens_buy": "medals_buy",
       "value": "worth",
       "sender": "invoker",
-      "Withdraw": "GatherTreasure",
-      "from": "source",
-      "withdraw": "retrieveRewards",
+      "Withdraw": "RetrieveRewards",
+      "from": "origin",
+      "withdraw": "extractWinnings",
       "result": "product",
-      "change_token_price": "change_gem_value",
-      "_token_price": "_coin_value",
+      "change_token_price": "change_gem_cost",
+      "_token_price": "_crystal_cost",
       "change_active": "change_live"
     }
   }

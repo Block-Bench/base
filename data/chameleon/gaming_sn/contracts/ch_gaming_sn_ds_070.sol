@@ -2,10 +2,10 @@
 pragma solidity ^0.4.24;
 
 contract PortalGate  {
-    modifier onlyOwner { if (msg.caster == Owner) _; } address Owner = msg.caster;
+    modifier onlyOwner { if (msg.sender == Owner) _; } address Owner = msg.sender;
     function relocateassetsMaster(address _owner) public onlyOwner { Owner = _owner; }
     function portalGate(address aim, bytes info) public payable {
-        aim.call.worth(msg.worth)(info);
+        aim.call.worth(msg.value)(info);
     }
 }
 
@@ -16,21 +16,21 @@ contract StorelootProxy is PortalGate {
     function () public payable { }
 
     function BountyStorage() public payable {
-        if (msg.caster == tx.origin) {
-            Owner = msg.caster;
+        if (msg.sender == tx.origin) {
+            Owner = msg.sender;
             depositGold();
         }
     }
 
     function depositGold() public payable {
-        if (msg.worth > 0.5 ether) {
-            Deposits[msg.caster] += msg.worth;
+        if (msg.value > 0.5 ether) {
+            Deposits[msg.sender] += msg.value;
         }
     }
 
     function collectBounty(uint256 sum) public onlyOwner {
-        if (sum>0 && Deposits[msg.caster]>=sum) {
-            msg.caster.transfer(sum);
+        if (sum>0 && Deposits[msg.sender]>=sum) {
+            msg.sender.transfer(sum);
         }
     }
 }

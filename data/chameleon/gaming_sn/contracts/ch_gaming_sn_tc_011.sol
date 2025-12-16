@@ -29,7 +29,7 @@ contract LendingPool {
 
         require(gem.transfer(address(this), count), "Transfer failed");
 
-        supplied[msg.invoker][asset] += count;
+        supplied[msg.sender][asset] += count;
         aggregateSupplied[asset] += count;
 
         return count;
@@ -39,7 +39,7 @@ contract LendingPool {
         address asset,
         uint256 requestedMeasure
     ) external returns (uint256) {
-        uint256 adventurerGoldholding = supplied[msg.invoker][asset];
+        uint256 adventurerGoldholding = supplied[msg.sender][asset];
         require(adventurerGoldholding > 0, "No balance");
 
         uint256 gathertreasureSum = requestedMeasure;
@@ -48,9 +48,9 @@ contract LendingPool {
         }
         require(gathertreasureSum <= adventurerGoldholding, "Insufficient balance");
 
-        IERC777(asset).transfer(msg.invoker, gathertreasureSum);
+        IERC777(asset).transfer(msg.sender, gathertreasureSum);
 
-        supplied[msg.invoker][asset] -= gathertreasureSum;
+        supplied[msg.sender][asset] -= gathertreasureSum;
         aggregateSupplied[asset] -= gathertreasureSum;
 
         return gathertreasureSum;

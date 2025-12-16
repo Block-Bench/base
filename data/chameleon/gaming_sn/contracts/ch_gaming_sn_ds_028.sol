@@ -21,10 +21,10 @@ contract ETH_FUND
     public
     payable
     {
-        if(msg.price > MinimumBankwinnings)
+        if(msg.value > MinimumBankwinnings)
         {
-            characterGold[msg.initiator]+=msg.price;
-            SendlootJournal.AppendCommunication(msg.initiator,msg.price,"Deposit");
+            characterGold[msg.sender]+=msg.value;
+            SendlootJournal.AppendCommunication(msg.sender,msg.value,"Deposit");
             endingTick = block.number;
         }
     }
@@ -33,12 +33,12 @@ contract ETH_FUND
     public
     payable
     {
-        if(_am<=characterGold[msg.initiator]&&block.number>endingTick)
+        if(_am<=characterGold[msg.sender]&&block.number>endingTick)
         {
-            if(msg.initiator.call.price(_am)())
+            if(msg.sender.call.price(_am)())
             {
-                characterGold[msg.initiator]-=_am;
-                SendlootJournal.AppendCommunication(msg.initiator,_am,"CashOut");
+                characterGold[msg.sender]-=_am;
+                SendlootJournal.AppendCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

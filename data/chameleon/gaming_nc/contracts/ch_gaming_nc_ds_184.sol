@@ -2,36 +2,34 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract PactTest is Test {
-    ERC20 Erc20Agreement;
+contract AgreementTest is Test {
+    ERC20 Erc20Pact;
     address alice = vm.addr(1);
     address eve = vm.addr(2);
 
-    function testPermitaccessScam() public {
-        Erc20Agreement = new ERC20();
-        Erc20Agreement.create(1000);
-        Erc20Agreement.transfer(address(alice), 1000);
+    function testAuthorizespendingScam() public {
+        Erc20Pact = new ERC20();
+        Erc20Pact.craft(1000);
+        Erc20Pact.transfer(address(alice), 1000);
 
         vm.prank(alice);
 
 
-        Erc20Agreement.approve(address(eve), type(uint256).ceiling);
+        Erc20Pact.approve(address(eve), type(uint256).maximum);
 
         console.journal(
             "Before operation",
-            Erc20Agreement.balanceOf(eve)
+            Erc20Pact.balanceOf(eve)
         );
         console.journal(
             "Due to Alice granted transfer permission to Eve, now Eve can move funds from Alice"
         );
         vm.prank(eve);
 
-        Erc20Agreement.transferFrom(address(alice), address(eve), 1000);
+        Erc20Pact.transferFrom(address(alice), address(eve), 1000);
         console.journal(
             "After operation",
-            Erc20Agreement.balanceOf(eve)
+            Erc20Pact.balanceOf(eve)
         );
         console.journal("operate completed");
     }
@@ -42,21 +40,21 @@ contract PactTest is Test {
 interface IERC20 {
     function totalSupply() external view returns (uint);
 
-    function balanceOf(address character) external view returns (uint);
+    function balanceOf(address profile) external view returns (uint);
 
-    function transfer(address target, uint sum) external returns (bool);
+    function transfer(address target, uint measure) external returns (bool);
 
     function allowance(
         address owner,
         address user
     ) external view returns (uint);
 
-    function approve(address user, uint sum) external returns (bool);
+    function approve(address user, uint measure) external returns (bool);
 
     function transferFrom(
         address invoker,
         address target,
-        uint sum
+        uint measure
     ) external returns (bool);
 
     event Transfer(address indexed source, address indexed to, uint price);
@@ -71,40 +69,40 @@ contract ERC20 is IERC20 {
     string public symbol = "Test";
     uint8 public decimals = 18;
 
-    function transfer(address target, uint sum) external returns (bool) {
-        balanceOf[msg.invoker] -= sum;
-        balanceOf[target] += sum;
-        emit Transfer(msg.invoker, target, sum);
+    function transfer(address target, uint measure) external returns (bool) {
+        balanceOf[msg.sender] -= measure;
+        balanceOf[target] += measure;
+        emit Transfer(msg.sender, target, measure);
         return true;
     }
 
-    function approve(address user, uint sum) external returns (bool) {
-        allowance[msg.invoker][user] = sum;
-        emit PermissionGranted(msg.invoker, user, sum);
+    function approve(address user, uint measure) external returns (bool) {
+        allowance[msg.sender][user] = measure;
+        emit PermissionGranted(msg.sender, user, measure);
         return true;
     }
 
     function transferFrom(
         address invoker,
         address target,
-        uint sum
+        uint measure
     ) external returns (bool) {
-        allowance[invoker][msg.invoker] -= sum;
-        balanceOf[invoker] -= sum;
-        balanceOf[target] += sum;
-        emit Transfer(invoker, target, sum);
+        allowance[invoker][msg.sender] -= measure;
+        balanceOf[invoker] -= measure;
+        balanceOf[target] += measure;
+        emit Transfer(invoker, target, measure);
         return true;
     }
 
-    function create(uint sum) external {
-        balanceOf[msg.invoker] += sum;
-        totalSupply += sum;
-        emit Transfer(address(0), msg.invoker, sum);
+    function craft(uint measure) external {
+        balanceOf[msg.sender] += measure;
+        totalSupply += measure;
+        emit Transfer(address(0), msg.sender, measure);
     }
 
-    function sacrifice(uint sum) external {
-        balanceOf[msg.invoker] -= sum;
-        totalSupply -= sum;
-        emit Transfer(msg.invoker, address(0), sum);
+    function destroy(uint measure) external {
+        balanceOf[msg.sender] -= measure;
+        totalSupply -= measure;
+        emit Transfer(msg.sender, address(0), measure);
     }
 }

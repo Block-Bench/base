@@ -18,7 +18,7 @@ contract AvailabilityPool {
             availabilityUnits = (baseProportion + idFactor) / 2;
         }
 
-        units[msg.provider] += availabilityUnits;
+        units[msg.sender] += availabilityUnits;
         completeUnits += availabilityUnits;
 
         baseMeasure += intakeBase;
@@ -31,7 +31,7 @@ contract AvailabilityPool {
         uint256 resultBase = (availabilityUnits * baseMeasure) / completeUnits;
         uint256 resultId = (availabilityUnits * credentialMeasure) / completeUnits;
 
-        units[msg.provider] -= availabilityUnits;
+        units[msg.sender] -= availabilityUnits;
         completeUnits -= availabilityUnits;
 
         baseMeasure -= resultBase;

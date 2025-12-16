@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_123.json",
     "original_id": "notso_forced_ether_reception_coin"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_123.sol",
   "sanitized_from": "ds_123",
   "derived_from": "sn_ds_123",
@@ -76,14 +77,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 3556016356,
+    "seed": 301714588,
     "coverage": {
-      "total_identifiers": 32,
+      "total_identifiers": 31,
       "transformed": 19,
-      "untransformed": 13,
-      "skipped_reserved": 44,
+      "untransformed": 12,
+      "skipped_reserved": 45,
       "skipped_interface": 0,
-      "coverage_percent": 59.38,
+      "coverage_percent": 61.29,
       "untransformed_details": [
         {
           "name": "owned",
@@ -132,31 +133,27 @@
         {
           "name": "migrate_and_destroy",
           "reason": "no synonym found"
-        },
-        {
-          "name": "suicide",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "sender": "invoker",
+      "sender": "initiator",
       "newOwner": "updatedMaster",
-      "tokenRecipient": "medalReceiver",
+      "tokenRecipient": "crystalTarget",
       "receiveApproval": "catchrewardApproval",
       "_extraData": "_extraInfo",
-      "TokenERC20": "GemErc20",
-      "from": "source",
-      "value": "price",
+      "TokenERC20": "CrystalErc20",
+      "from": "origin",
+      "value": "cost",
       "Approval": "AccessAuthorized",
-      "tokenName": "gemTitle",
-      "tokenSymbol": "crystalEmblem",
-      "previousBalances": "priorCharactergold",
-      "success": "win",
+      "tokenName": "medalTag",
+      "tokenSymbol": "medalEmblem",
+      "previousBalances": "priorPlayerloot",
+      "success": "victory",
       "approveAndCall": "authorizespendingAndInvokespell",
-      "spender": "consumer",
-      "MyAdvancedToken": "MyAdvancedCoin",
+      "spender": "user",
+      "MyAdvancedToken": "MyAdvancedGem",
       "frozenAccount": "frozenProfile",
       "target": "goal",
       "amount": "quantity"

@@ -1,6 +1,3 @@
-Multi-transactional, single function
-
-
 pragma solidity ^0.4.23;
 
 contract SingleFuncCalculator {

@@ -1,0 +1,94 @@
+{
+  "id": "gs_cei_pattern_nc_tc_017",
+  "contract_file": "contracts/gs_cei_pattern_nc_tc_017.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "neutralized_by": "cei_pattern",
+    "neutralization_reason": "State updates before external calls prevent reentrancy"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2020-11-21",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 75,
+    "num_contracts": 2,
+    "contract_names": [
+      "VaultController",
+      "Strategy"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "arbitrary-call",
+    "access-control",
+    "missing-authorization",
+    "privilege-escalation",
+    "pickle"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2020-11-21",
+      "protocol_name": "Pickle Finance",
+      "chain": "ethereum",
+      "funds_lost_usd": 20000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Pickle Finance exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_017.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_017.json",
+    "original_exploit_name": "Pickle Finance"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_017.sol",
+  "sanitized_from": "tc_017",
+  "derived_from": "nc_tc_017",
+  "original_id": "tc_017",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "cei_pattern",
+    "injection_details": {
+      "reordered": false,
+      "function": null,
+      "reason": "No vulnerable function found",
+      "protection_type": "cei_pattern"
+    }
+  }
+}

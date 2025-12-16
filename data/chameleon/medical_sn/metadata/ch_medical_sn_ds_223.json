@@ -68,20 +68,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_223.json",
     "original_id": "defivulnlabs_storage-collision"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_223.sol",
   "sanitized_from": "ds_223",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 2709938713,
+    "seed": 3247180444,
     "coverage": {
-      "total_identifiers": 29,
-      "transformed": 12,
+      "total_identifiers": 28,
+      "transformed": 11,
       "untransformed": 17,
-      "skipped_reserved": 17,
+      "skipped_reserved": 18,
       "skipped_interface": 0,
-      "coverage_percent": 41.38,
+      "coverage_percent": 39.29,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -155,17 +156,16 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "Logic": "CareLogic",
+      "ContractTest": "PolicyTest",
+      "Logic": "TreatmentLogic",
       "LogicContract": "LogicPolicy",
-      "Proxy": "TransferHub",
-      "ProxyContract": "ProxyPolicy",
-      "testStorageCollision": "testRepositoryCollision",
-      "log": "chart",
-      "Current": "Present",
-      "implementation": "execution",
-      "success": "improvement",
-      "encodeWithSignature": "encodeWithAuthorization",
+      "Proxy": "ReferralGate",
+      "ProxyContract": "ProxyAgreement",
+      "testStorageCollision": "testArchiveCollision",
+      "log": "record",
+      "Current": "Active",
+      "implementation": "administration",
+      "success": "recovery",
       "GuestAddress": "GuestWard"
     }
   }

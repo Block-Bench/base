@@ -18,7 +18,7 @@ contract KingOfTheEtherThrone {
     address wizardLocation;
 
 
-    modifier onlywizard { if (msg.referrer == wizardLocation) _; }
+    modifier onlywizard { if (msg.sender == wizardLocation) _; }
 
 
     uint constant startingGetcareCost = 100 finney;
@@ -42,13 +42,13 @@ contract KingOfTheEtherThrone {
 
 
     function KingOfTheEtherThrone() {
-        wizardLocation = msg.referrer;
+        wizardLocation = msg.sender;
         presentCollectbenefitsCharge = startingGetcareCost;
         activeMonarch = Monarch(
             wizardLocation,
             "[Vacant]",
             0,
-            block.admissionTime
+            block.timestamp
         );
     }
 
@@ -65,24 +65,24 @@ contract KingOfTheEtherThrone {
 
 
     function() {
-        collectbenefitsThrone(string(msg.record));
+        collectbenefitsThrone(string(msg.data));
     }
 
 
     function collectbenefitsThrone(string name) {
 
-        uint evaluationPaid = msg.assessment;
+        uint evaluationPaid = msg.value;
 
 
         if (evaluationPaid < presentCollectbenefitsCharge) {
-            msg.referrer.send(evaluationPaid);
+            msg.sender.send(evaluationPaid);
             return;
         }
 
 
         if (evaluationPaid > presentCollectbenefitsCharge) {
             uint excessPaid = evaluationPaid - presentCollectbenefitsCharge;
-            msg.referrer.send(excessPaid);
+            msg.sender.send(excessPaid);
             evaluationPaid = evaluationPaid - excessPaid;
         }
 
@@ -100,10 +100,10 @@ contract KingOfTheEtherThrone {
 
         pastMonarchs.push(activeMonarch);
         activeMonarch = Monarch(
-            msg.referrer,
+            msg.sender,
             name,
             evaluationPaid,
-            block.admissionTime
+            block.timestamp
         );
 
 

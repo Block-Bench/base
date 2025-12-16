@@ -5,7 +5,6 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
 
 contract ContractTest is Test {
     VulnerableERC721 VulnerableERC721Contract;
@@ -86,5 +85,4 @@ contract FixedERC721 is ERC721, Ownable {
     function safeMint(address to, uint256 tokenId) public onlyOwner {
         _safeMint(to, tokenId);
     }
-*/
 }

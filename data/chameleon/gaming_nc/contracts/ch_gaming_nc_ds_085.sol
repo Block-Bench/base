@@ -15,6 +15,6 @@ pragma solidity ^0.4.18;
 
      function extractwinningsLeftOver() public {
          require(payedOut);
-         msg.invoker.send(this.balance);
+         msg.sender.send(this.balance);
      }
  }

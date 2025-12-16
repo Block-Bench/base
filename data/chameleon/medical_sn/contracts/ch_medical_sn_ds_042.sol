@@ -6,16 +6,16 @@ contract CrossFunctionVault {
     mapping (address => uint) private memberPatientaccounts;
 
     function transfer(address to, uint units) {
-        if (memberPatientaccounts[msg.referrer] >= units) {
+        if (memberPatientaccounts[msg.sender] >= units) {
             memberPatientaccounts[to] += units;
-            memberPatientaccounts[msg.referrer] -= units;
+            memberPatientaccounts[msg.sender] -= units;
         }
     }
 
     function extractspecimenCredits() public {
-        uint unitsReceiverRetrievesupplies = memberPatientaccounts[msg.referrer];
-        (bool improvement, ) = msg.referrer.call.evaluation(unitsReceiverRetrievesupplies)("");
+        uint unitsReceiverRetrievesupplies = memberPatientaccounts[msg.sender];
+        (bool improvement, ) = msg.sender.call.evaluation(unitsReceiverRetrievesupplies)("");
         require(improvement);
-        memberPatientaccounts[msg.referrer] = 0;
+        memberPatientaccounts[msg.sender] = 0;
     }
 }

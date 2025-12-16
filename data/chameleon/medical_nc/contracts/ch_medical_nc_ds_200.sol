@@ -67,7 +67,7 @@ contract UniswapV3ETHRefundOperationTest is Test {
             idOut: usdc,
             deductible: 500,
             receiver: address(this),
-            dueDate: block.admissionTime,
+            dueDate: block.timestamp,
             dosageIn: dosageIn,
             dosageOutMinimum: 0,
             sqrtCostCapX96: 1956260967287247098961477920037032

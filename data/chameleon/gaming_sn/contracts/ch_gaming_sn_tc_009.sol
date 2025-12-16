@@ -59,7 +59,7 @@ contract ConcentratedReservesPool {
 
         // Create position ID
         bytes32 positionAccessor = keccak256(
-            abi.encodePacked(msg.caster, tickLower, tickUpper)
+            abi.encodePacked(msg.sender, tickLower, tickUpper)
         );
 
         // Update position
@@ -85,7 +85,7 @@ contract ConcentratedReservesPool {
             int128(flowDelta)
         );
 
-        emit FlowAdded(msg.caster, tickLower, tickUpper, flowDelta);
+        emit FlowAdded(msg.sender, tickLower, tickUpper, flowDelta);
     }
 
     /**

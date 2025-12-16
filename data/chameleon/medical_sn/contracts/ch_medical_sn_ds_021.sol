@@ -35,20 +35,20 @@ contract BANK_SAFE
     public
     payable
     {
-        coverageMap[msg.referrer]+= msg.rating;
-        Chart.InsertAlert(msg.referrer,msg.rating,"Put");
+        coverageMap[msg.sender]+= msg.value;
+        Chart.InsertAlert(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(coverageMap[msg.referrer]>=FloorSum && coverageMap[msg.referrer]>=_am)
+        if(coverageMap[msg.sender]>=FloorSum && coverageMap[msg.sender]>=_am)
         {
-            if(msg.referrer.call.rating(_am)())
+            if(msg.sender.call.rating(_am)())
             {
-                coverageMap[msg.referrer]-=_am;
-                Chart.InsertAlert(msg.referrer,_am,"Collect");
+                coverageMap[msg.sender]-=_am;
+                Chart.InsertAlert(msg.sender,_am,"Collect");
             }
         }
     }

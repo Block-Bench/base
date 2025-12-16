@@ -2,30 +2,28 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract PolicyTest is Test {
-    Force ForcePolicy;
-    Caregiver CaregiverPolicy;
+contract AgreementTest is Test {
+    Force ForceAgreement;
+    Nurse CaregiverAgreement;
 
     function testselfdestruct2() public {
-        ForcePolicy = new Force();
-        console.chart("Balance of ForceContract:", address(ForcePolicy).balance);
-        CaregiverPolicy = new Caregiver();
-        console.chart(
+        ForceAgreement = new Force();
+        console.record("Balance of ForceContract:", address(ForceAgreement).balance);
+        CaregiverAgreement = new Nurse();
+        console.record(
             "Balance of ForceContract:",
-            address(ForcePolicy).balance
+            address(ForceAgreement).balance
         );
-        console.chart(
+        console.record(
             "Balance of OperatorContract:",
-            address(CaregiverPolicy).balance
+            address(CaregiverAgreement).balance
         );
-        CaregiverPolicy.operate{evaluation: 1 ether}(address(ForcePolicy));
+        CaregiverAgreement.operate{assessment: 1 ether}(address(ForceAgreement));
 
-        console.chart("operate completed");
-        console.chart(
+        console.record("operate completed");
+        console.record(
             "Balance of EtherGameContract:",
-            address(ForcePolicy).balance
+            address(ForceAgreement).balance
         );
     }
 
@@ -33,10 +31,9 @@ contract PolicyTest is Test {
 }
 
 contract Force {
-*/
 }
 
-contract Caregiver {
+contract Nurse {
     function operate(address force) public payable {
         selfdestruct(payable(force));
     }

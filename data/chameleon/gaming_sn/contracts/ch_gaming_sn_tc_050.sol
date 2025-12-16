@@ -33,29 +33,29 @@ contract MunchablesSecuretreasureController {
     event ConfigurationUpdated(address formerConfiguration, address currentConfiguration);
 
     constructor(address _weth) {
-        serverOp = msg.invoker;
+        serverOp = msg.sender;
         weth = IERC20(_weth);
     }
 
     modifier onlyServerOp() {
-        require(msg.invoker == serverOp, "Not admin");
+        require(msg.sender == serverOp, "Not admin");
         _;
     }
 
     function freezeGold(uint256 quantity, uint256 missionTime) external {
         require(quantity > 0, "Zero amount");
 
-        weth.transferFrom(msg.invoker, address(this), quantity);
+        weth.transferFrom(msg.sender, address(this), quantity);
 
-        playerUserrewards[msg.invoker] += quantity;
-        playerOptions[msg.invoker] = PlayerConfig({
+        playerUserrewards[msg.sender] += quantity;
+        playerOptions[msg.sender] = PlayerConfig({
             sealedQuantity: quantity,
-            freezegoldReceiver: msg.invoker,
+            freezegoldReceiver: msg.sender,
             bindassetsMissiontime: missionTime,
-            securetreasureOpeningMoment: block.adventureTime
+            securetreasureOpeningMoment: block.timestamp
         });
 
-        emit Frozen(msg.invoker, quantity, msg.invoker);
+        emit Frozen(msg.sender, quantity, msg.sender);
     }
 
     function groupConfigurationInventory(address _configurationVault) external onlyServerOp {
@@ -73,11 +73,11 @@ contract MunchablesSecuretreasureController {
     }
 
     function releaseAssets() external {
-        PlayerConfig memory config = playerOptions[msg.invoker];
+        PlayerConfig memory config = playerOptions[msg.sender];
 
         require(config.sealedQuantity > 0, "No locked tokens");
         require(
-            block.adventureTime >= config.securetreasureOpeningMoment + config.bindassetsMissiontime,
+            block.timestamp >= config.securetreasureOpeningMoment + config.bindassetsMissiontime,
             "Still locked"
         );
 
@@ -85,8 +85,8 @@ contract MunchablesSecuretreasureController {
 
         address target = config.freezegoldReceiver;
 
-        delete playerOptions[msg.invoker];
-        playerUserrewards[msg.invoker] = 0;
+        delete playerOptions[msg.sender];
+        playerUserrewards[msg.sender] = 0;
 
         weth.transfer(target, quantity);
     }

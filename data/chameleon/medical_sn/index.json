@@ -31,7 +31,7 @@
       "medium": 114,
       "critical": 41
     },
-    "average_coverage": 39.86
+    "average_coverage": 40.52
   },
   "samples": [
     {
@@ -41,7 +41,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "low",
-      "coverage_percent": 30.15
+      "coverage_percent": 30.6
     },
     {
       "id": "ch_medical_sn_ds_002",
@@ -59,7 +59,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 52.63
+      "coverage_percent": 58.82
     },
     {
       "id": "ch_medical_sn_ds_004",
@@ -95,7 +95,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "high",
-      "coverage_percent": 43.9
+      "coverage_percent": 44.74
     },
     {
       "id": "ch_medical_sn_ds_008",
@@ -104,7 +104,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "high",
-      "coverage_percent": 34.62
+      "coverage_percent": 32.0
     },
     {
       "id": "ch_medical_sn_ds_009",
@@ -185,7 +185,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 48.48
+      "coverage_percent": 50.0
     },
     {
       "id": "ch_medical_sn_ds_018",
@@ -194,7 +194,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 46.43
+      "coverage_percent": 48.15
     },
     {
       "id": "ch_medical_sn_ds_019",
@@ -203,7 +203,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 58.62
+      "coverage_percent": 60.71
     },
     {
       "id": "ch_medical_sn_ds_020",
@@ -212,7 +212,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 48.48
+      "coverage_percent": 50.0
     },
     {
       "id": "ch_medical_sn_ds_021",
@@ -221,7 +221,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 48.48
+      "coverage_percent": 50.0
     },
     {
       "id": "ch_medical_sn_ds_022",
@@ -230,7 +230,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 53.57
+      "coverage_percent": 55.56
     },
     {
       "id": "ch_medical_sn_ds_023",
@@ -239,7 +239,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 42.42
+      "coverage_percent": 43.75
     },
     {
       "id": "ch_medical_sn_ds_024",
@@ -248,7 +248,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 50.0
+      "coverage_percent": 51.72
     },
     {
       "id": "ch_medical_sn_ds_025",
@@ -257,7 +257,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 42.42
+      "coverage_percent": 43.75
     },
     {
       "id": "ch_medical_sn_ds_026",
@@ -266,7 +266,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 46.43
+      "coverage_percent": 48.15
     },
     {
       "id": "ch_medical_sn_ds_027",
@@ -275,7 +275,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 42.42
+      "coverage_percent": 43.75
     },
     {
       "id": "ch_medical_sn_ds_028",
@@ -284,7 +284,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 46.67
+      "coverage_percent": 48.28
     },
     {
       "id": "ch_medical_sn_ds_029",
@@ -293,7 +293,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 43.24
+      "coverage_percent": 44.44
     },
     {
       "id": "ch_medical_sn_ds_030",
@@ -302,7 +302,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 48.48
+      "coverage_percent": 50.0
     },
     {
       "id": "ch_medical_sn_ds_031",
@@ -311,7 +311,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 46.43
+      "coverage_percent": 48.15
     },
     {
       "id": "ch_medical_sn_ds_032",
@@ -320,7 +320,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 46.43
+      "coverage_percent": 48.15
     },
     {
       "id": "ch_medical_sn_ds_033",
@@ -329,7 +329,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 46.43
+      "coverage_percent": 48.15
     },
     {
       "id": "ch_medical_sn_ds_034",
@@ -338,7 +338,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 43.24
+      "coverage_percent": 44.44
     },
     {
       "id": "ch_medical_sn_ds_035",
@@ -347,7 +347,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 45.45
+      "coverage_percent": 46.88
     },
     {
       "id": "ch_medical_sn_ds_036",
@@ -356,7 +356,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 42.42
+      "coverage_percent": 43.75
     },
     {
       "id": "ch_medical_sn_ds_037",
@@ -374,7 +374,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 72.22
+      "coverage_percent": 80.0
     },
     {
       "id": "ch_medical_sn_ds_039",
@@ -383,7 +383,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 36.67
+      "coverage_percent": 37.93
     },
     {
       "id": "ch_medical_sn_ds_040",
@@ -473,7 +473,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 53.57
+      "coverage_percent": 55.56
     },
     {
       "id": "ch_medical_sn_ds_050",
@@ -482,7 +482,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 51.72
+      "coverage_percent": 53.57
     },
     {
       "id": "ch_medical_sn_ds_051",
@@ -572,7 +572,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 53.57
+      "coverage_percent": 55.56
     },
     {
       "id": "ch_medical_sn_ds_061",
@@ -617,7 +617,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 19.2
+      "coverage_percent": 18.7
     },
     {
       "id": "ch_medical_sn_ds_066",
@@ -626,7 +626,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 51.72
+      "coverage_percent": 53.57
     },
     {
       "id": "ch_medical_sn_ds_067",
@@ -635,7 +635,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 21.74
+      "coverage_percent": 22.06
     },
     {
       "id": "ch_medical_sn_ds_068",
@@ -761,7 +761,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 23.53
+      "coverage_percent": 25.0
     },
     {
       "id": "ch_medical_sn_ds_082",
@@ -788,7 +788,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 22.84
+      "coverage_percent": 23.11
     },
     {
       "id": "ch_medical_sn_ds_085",
@@ -824,7 +824,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 37.5
+      "coverage_percent": 38.46
     },
     {
       "id": "ch_medical_sn_ds_089",
@@ -860,7 +860,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 31.25
+      "coverage_percent": 32.26
     },
     {
       "id": "ch_medical_sn_ds_093",
@@ -869,7 +869,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 44.44
+      "coverage_percent": 43.18
     },
     {
       "id": "ch_medical_sn_ds_094",
@@ -878,7 +878,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 13.85
+      "coverage_percent": 11.29
     },
     {
       "id": "ch_medical_sn_ds_095",
@@ -887,7 +887,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "medium",
-      "coverage_percent": 30.23
+      "coverage_percent": 30.95
     },
     {
       "id": "ch_medical_sn_ds_096",
@@ -905,7 +905,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 42.11
+      "coverage_percent": 41.67
     },
     {
       "id": "ch_medical_sn_ds_098",
@@ -923,7 +923,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 36.54
+      "coverage_percent": 32.69
     },
     {
       "id": "ch_medical_sn_ds_100",
@@ -932,7 +932,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 30.0
+      "coverage_percent": 30.77
     },
     {
       "id": "ch_medical_sn_ds_101",
@@ -959,7 +959,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "critical",
-      "coverage_percent": 16.28
+      "coverage_percent": 16.67
     },
     {
       "id": "ch_medical_sn_ds_104",
@@ -995,7 +995,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "critical",
-      "coverage_percent": 41.82
+      "coverage_percent": 43.4
     },
     {
       "id": "ch_medical_sn_ds_108",
@@ -1013,7 +1013,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 30.0
+      "coverage_percent": 28.3
     },
     {
       "id": "ch_medical_sn_ds_110",
@@ -1040,7 +1040,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 40.48
+      "coverage_percent": 41.46
     },
     {
       "id": "ch_medical_sn_ds_113",
@@ -1049,7 +1049,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 30.86
+      "coverage_percent": 30.98
     },
     {
       "id": "ch_medical_sn_ds_114",
@@ -1058,7 +1058,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 27.71
+      "coverage_percent": 27.83
     },
     {
       "id": "ch_medical_sn_ds_115",
@@ -1067,7 +1067,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 26.28
+      "coverage_percent": 26.47
     },
     {
       "id": "ch_medical_sn_ds_116",
@@ -1085,7 +1085,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "high",
-      "coverage_percent": 25.17
+      "coverage_percent": 24.66
     },
     {
       "id": "ch_medical_sn_ds_118",
@@ -1094,7 +1094,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "low",
-      "coverage_percent": 33.33
+      "coverage_percent": 50.0
     },
     {
       "id": "ch_medical_sn_ds_119",
@@ -1103,7 +1103,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 22.94
+      "coverage_percent": 23.25
     },
     {
       "id": "ch_medical_sn_ds_120",
@@ -1130,7 +1130,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "high",
-      "coverage_percent": 21.76
+      "coverage_percent": 21.73
     },
     {
       "id": "ch_medical_sn_ds_123",
@@ -1139,7 +1139,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "low",
-      "coverage_percent": 31.48
+      "coverage_percent": 31.13
     },
     {
       "id": "ch_medical_sn_ds_124",
@@ -1193,7 +1193,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "high",
-      "coverage_percent": 25.17
+      "coverage_percent": 24.66
     },
     {
       "id": "ch_medical_sn_ds_130",
@@ -1229,7 +1229,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 60.0
+      "coverage_percent": 75.0
     },
     {
       "id": "ch_medical_sn_ds_134",
@@ -1238,7 +1238,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 50.0
+      "coverage_percent": 60.0
     },
     {
       "id": "ch_medical_sn_ds_135",
@@ -1247,7 +1247,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 25.0
+      "coverage_percent": 33.33
     },
     {
       "id": "ch_medical_sn_ds_136",
@@ -1256,7 +1256,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 60.0
+      "coverage_percent": 75.0
     },
     {
       "id": "ch_medical_sn_ds_137",
@@ -1265,7 +1265,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 60.0
+      "coverage_percent": 75.0
     },
     {
       "id": "ch_medical_sn_ds_138",
@@ -1274,7 +1274,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 25.0
+      "coverage_percent": 33.33
     },
     {
       "id": "ch_medical_sn_ds_139",
@@ -1283,7 +1283,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 27.27
+      "coverage_percent": 37.5
     },
     {
       "id": "ch_medical_sn_ds_140",
@@ -1301,7 +1301,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 27.27
+      "coverage_percent": 30.0
     },
     {
       "id": "ch_medical_sn_ds_142",
@@ -1310,7 +1310,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 84.62
+      "coverage_percent": 100.0
     },
     {
       "id": "ch_medical_sn_ds_143",
@@ -1337,7 +1337,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "medium",
-      "coverage_percent": 28.74
+      "coverage_percent": 27.91
     },
     {
       "id": "ch_medical_sn_ds_146",
@@ -1346,7 +1346,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "medium",
-      "coverage_percent": 25.0
+      "coverage_percent": 27.27
     },
     {
       "id": "ch_medical_sn_ds_147",
@@ -1355,7 +1355,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "medium",
-      "coverage_percent": 30.95
+      "coverage_percent": 30.77
     },
     {
       "id": "ch_medical_sn_ds_148",
@@ -1400,7 +1400,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "denial_of_service",
       "severity": "medium",
-      "coverage_percent": 30.0
+      "coverage_percent": 26.32
     },
     {
       "id": "ch_medical_sn_ds_153",
@@ -1418,7 +1418,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "denial_of_service",
       "severity": "medium",
-      "coverage_percent": 25.41
+      "coverage_percent": 25.21
     },
     {
       "id": "ch_medical_sn_ds_155",
@@ -1427,7 +1427,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "denial_of_service",
       "severity": "medium",
-      "coverage_percent": 3.85
+      "coverage_percent": 4.0
     },
     {
       "id": "ch_medical_sn_ds_156",
@@ -1445,7 +1445,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "front_running",
       "severity": "medium",
-      "coverage_percent": 16.67
+      "coverage_percent": 17.65
     },
     {
       "id": "ch_medical_sn_ds_158",
@@ -1463,7 +1463,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "front_running",
       "severity": "medium",
-      "coverage_percent": 15.0
+      "coverage_percent": 15.79
     },
     {
       "id": "ch_medical_sn_ds_160",
@@ -1472,7 +1472,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 21.43
+      "coverage_percent": 23.08
     },
     {
       "id": "ch_medical_sn_ds_161",
@@ -1481,7 +1481,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 44.83
+      "coverage_percent": 44.44
     },
     {
       "id": "ch_medical_sn_ds_162",
@@ -1508,7 +1508,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "low",
-      "coverage_percent": 26.87
+      "coverage_percent": 28.12
     },
     {
       "id": "ch_medical_sn_ds_165",
@@ -1517,7 +1517,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "low",
-      "coverage_percent": 52.94
+      "coverage_percent": 53.33
     },
     {
       "id": "ch_medical_sn_ds_166",
@@ -1526,7 +1526,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "low",
-      "coverage_percent": 18.75
+      "coverage_percent": 20.0
     },
     {
       "id": "ch_medical_sn_ds_167",
@@ -1535,7 +1535,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "low",
-      "coverage_percent": 13.64
+      "coverage_percent": 14.29
     },
     {
       "id": "ch_medical_sn_ds_168",
@@ -1553,7 +1553,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 30.0
+      "coverage_percent": 30.19
     },
     {
       "id": "ch_medical_sn_ds_170",
@@ -1562,7 +1562,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 19.85
+      "coverage_percent": 20.16
     },
     {
       "id": "ch_medical_sn_ds_171",
@@ -1580,7 +1580,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 46.67
+      "coverage_percent": 47.73
     },
     {
       "id": "ch_medical_sn_ds_173",
@@ -1598,7 +1598,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 33.09
+      "coverage_percent": 32.84
     },
     {
       "id": "ch_medical_sn_ds_175",
@@ -1670,7 +1670,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 48.08
+      "coverage_percent": 47.06
     },
     {
       "id": "ch_medical_sn_ds_183",
@@ -1688,7 +1688,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 29.31
+      "coverage_percent": 30.36
     },
     {
       "id": "ch_medical_sn_ds_185",
@@ -1706,7 +1706,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 33.9
+      "coverage_percent": 33.33
     },
     {
       "id": "ch_medical_sn_ds_187",
@@ -1760,7 +1760,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 44.23
+      "coverage_percent": 43.14
     },
     {
       "id": "ch_medical_sn_ds_193",
@@ -1778,7 +1778,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "critical",
-      "coverage_percent": 36.96
+      "coverage_percent": 35.56
     },
     {
       "id": "ch_medical_sn_ds_195",
@@ -1787,7 +1787,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 38.33
+      "coverage_percent": 39.66
     },
     {
       "id": "ch_medical_sn_ds_196",
@@ -1805,7 +1805,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 38.46
+      "coverage_percent": 37.25
     },
     {
       "id": "ch_medical_sn_ds_198",
@@ -1832,7 +1832,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "medium",
-      "coverage_percent": 34.58
+      "coverage_percent": 35.58
     },
     {
       "id": "ch_medical_sn_ds_201",
@@ -1841,7 +1841,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "low",
-      "coverage_percent": 46.43
+      "coverage_percent": 48.15
     },
     {
       "id": "ch_medical_sn_ds_202",
@@ -1877,7 +1877,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "low",
-      "coverage_percent": 60.0
+      "coverage_percent": 63.16
     },
     {
       "id": "ch_medical_sn_ds_206",
@@ -1904,7 +1904,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "high",
-      "coverage_percent": 21.56
+      "coverage_percent": 21.58
     },
     {
       "id": "ch_medical_sn_ds_209",
@@ -1913,7 +1913,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "high",
-      "coverage_percent": 21.15
+      "coverage_percent": 20.92
     },
     {
       "id": "ch_medical_sn_ds_210",
@@ -1922,7 +1922,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "medium",
-      "coverage_percent": 40.5
+      "coverage_percent": 40.17
     },
     {
       "id": "ch_medical_sn_ds_211",
@@ -1931,7 +1931,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "high",
-      "coverage_percent": 27.71
+      "coverage_percent": 27.89
     },
     {
       "id": "ch_medical_sn_ds_212",
@@ -1940,7 +1940,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 35.53
+      "coverage_percent": 36.0
     },
     {
       "id": "ch_medical_sn_ds_213",
@@ -1949,7 +1949,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 29.67
+      "coverage_percent": 29.78
     },
     {
       "id": "ch_medical_sn_ds_214",
@@ -1958,7 +1958,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 23.77
+      "coverage_percent": 19.75
     },
     {
       "id": "ch_medical_sn_ds_215",
@@ -1967,7 +1967,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 36.99
+      "coverage_percent": 37.5
     },
     {
       "id": "ch_medical_sn_ds_216",
@@ -1976,7 +1976,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "medium",
-      "coverage_percent": 28.51
+      "coverage_percent": 28.75
     },
     {
       "id": "ch_medical_sn_ds_217",
@@ -2030,7 +2030,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "high",
-      "coverage_percent": 31.11
+      "coverage_percent": 31.46
     },
     {
       "id": "ch_medical_sn_ds_223",
@@ -2039,7 +2039,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "high",
-      "coverage_percent": 41.38
+      "coverage_percent": 39.29
     },
     {
       "id": "ch_medical_sn_ds_224",
@@ -2057,7 +2057,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "high",
-      "coverage_percent": 26.8
+      "coverage_percent": 26.04
     },
     {
       "id": "ch_medical_sn_ds_226",
@@ -2066,7 +2066,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "high",
-      "coverage_percent": 33.73
+      "coverage_percent": 34.57
     },
     {
       "id": "ch_medical_sn_ds_227",
@@ -2093,7 +2093,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "other",
       "severity": "critical",
-      "coverage_percent": 35.0
+      "coverage_percent": 35.9
     },
     {
       "id": "ch_medical_sn_ds_230",
@@ -2111,7 +2111,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "critical",
-      "coverage_percent": 55.41
+      "coverage_percent": 53.16
     },
     {
       "id": "ch_medical_sn_ds_232",
@@ -2129,7 +2129,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "medium",
-      "coverage_percent": 26.36
+      "coverage_percent": 26.56
     },
     {
       "id": "ch_medical_sn_ds_234",
@@ -2138,7 +2138,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency",
       "severity": "medium",
-      "coverage_percent": 31.8
+      "coverage_percent": 32.13
     },
     {
       "id": "ch_medical_sn_ds_235",
@@ -2174,7 +2174,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "critical",
-      "coverage_percent": 30.77
+      "coverage_percent": 30.0
     },
     {
       "id": "ch_medical_sn_tc_004",
@@ -2192,7 +2192,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "reentrancy",
       "severity": "critical",
-      "coverage_percent": 54.02
+      "coverage_percent": 53.49
     },
     {
       "id": "ch_medical_sn_tc_006",
@@ -2201,7 +2201,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "critical",
-      "coverage_percent": 35.09
+      "coverage_percent": 35.4
     },
     {
       "id": "ch_medical_sn_tc_007",
@@ -2210,7 +2210,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "critical",
-      "coverage_percent": 43.68
+      "coverage_percent": 44.05
     },
     {
       "id": "ch_medical_sn_tc_008",
@@ -2228,7 +2228,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "critical",
-      "coverage_percent": 44.8
+      "coverage_percent": 45.9
     },
     {
       "id": "ch_medical_sn_tc_010",
@@ -2318,7 +2318,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "high",
-      "coverage_percent": 61.54
+      "coverage_percent": 64.0
     },
     {
       "id": "ch_medical_sn_tc_020",
@@ -2327,7 +2327,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "oracle_manipulation",
       "severity": "high",
-      "coverage_percent": 59.18
+      "coverage_percent": 60.42
     },
     {
       "id": "ch_medical_sn_tc_021",
@@ -2345,7 +2345,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "integer_overflow",
       "severity": "high",
-      "coverage_percent": 34.21
+      "coverage_percent": 35.14
     },
     {
       "id": "ch_medical_sn_tc_023",
@@ -2390,7 +2390,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "high",
-      "coverage_percent": 50.0
+      "coverage_percent": 56.0
     },
     {
       "id": "ch_medical_sn_tc_028",
@@ -2453,7 +2453,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "price_manipulation",
       "severity": "high",
-      "coverage_percent": 51.11
+      "coverage_percent": 53.49
     },
     {
       "id": "ch_medical_sn_tc_035",
@@ -2498,7 +2498,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "high",
-      "coverage_percent": 51.61
+      "coverage_percent": 53.33
     },
     {
       "id": "ch_medical_sn_tc_040",
@@ -2507,7 +2507,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "critical",
-      "coverage_percent": 59.09
+      "coverage_percent": 61.9
     },
     {
       "id": "ch_medical_sn_tc_041",
@@ -2525,7 +2525,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "critical",
-      "coverage_percent": 63.64
+      "coverage_percent": 62.79
     },
     {
       "id": "ch_medical_sn_tc_043",
@@ -2534,7 +2534,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "critical",
-      "coverage_percent": 40.74
+      "coverage_percent": 42.31
     },
     {
       "id": "ch_medical_sn_tc_044",
@@ -2543,7 +2543,7 @@
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "severity": "critical",
-      "coverage_percent": 60.0
+      "coverage_percent": 58.82
     },
     {
       "id": "ch_medical_sn_tc_045",

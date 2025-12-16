@@ -14,7 +14,7 @@ contract PactTest is Test {
             "Array element in h() not being zero::",
             Dirtybytesontract.h()
         );
-        console.journal(
+        console.record(
             "Such that the byte after the 63 bytes allocated below will be 0x02."
         );
     }

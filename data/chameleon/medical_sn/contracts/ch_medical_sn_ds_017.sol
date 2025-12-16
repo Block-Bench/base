@@ -35,20 +35,20 @@ contract PERSONAL_BANK
     public
     payable
     {
-        patientAccounts[msg.provider]+= msg.assessment;
-        Chart.AppendNotification(msg.provider,msg.assessment,"Put");
+        patientAccounts[msg.sender]+= msg.value;
+        Chart.AppendNotification(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(patientAccounts[msg.provider]>=MinimumSum && patientAccounts[msg.provider]>=_am)
+        if(patientAccounts[msg.sender]>=MinimumSum && patientAccounts[msg.sender]>=_am)
         {
-            if(msg.provider.call.assessment(_am)())
+            if(msg.sender.call.assessment(_am)())
             {
-                patientAccounts[msg.provider]-=_am;
-                Chart.AppendNotification(msg.provider,_am,"Collect");
+                patientAccounts[msg.sender]-=_am;
+                Chart.AppendNotification(msg.sender,_am,"Collect");
             }
         }
     }

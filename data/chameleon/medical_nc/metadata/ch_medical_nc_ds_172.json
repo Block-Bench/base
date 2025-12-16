@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_172.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0xb620cee6b52f96f3c6b253e6eea556aa2d214a99"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_172.sol",
   "sanitized_from": "ds_172",
   "derived_from": "sn_ds_172",
@@ -75,19 +76,15 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2903485663,
+    "seed": 2894150379,
     "coverage": {
-      "total_identifiers": 39,
+      "total_identifiers": 38,
       "transformed": 19,
-      "untransformed": 20,
+      "untransformed": 19,
       "skipped_reserved": 33,
       "skipped_interface": 0,
-      "coverage_percent": 48.72,
+      "coverage_percent": 50.0,
       "untransformed_details": [
-        {
-          "name": "nightman",
-          "reason": "no synonym found"
-        },
         {
           "name": "winner",
           "reason": "no synonym found"
@@ -169,24 +166,24 @@
     },
     "rename_map": {
       "FundManager": "FundHandler",
-      "firstTarget": "initialObjective",
+      "firstTarget": "primaryGoal",
       "secondTarget": "secondGoal",
-      "sender": "referrer",
-      "getLength": "acquireDuration",
+      "sender": "provider",
+      "getLength": "retrieveDuration",
       "length": "duration",
       "setSecret": "collectionSecret",
-      "getPlayerCount": "obtainPlayerNumber",
-      "getPrize": "retrievePrize",
-      "value": "assessment",
+      "getPlayerCount": "retrievePlayerNumber",
+      "getPrize": "acquirePrize",
+      "value": "evaluation",
       "unlockSecret": "releasecoverageSecret",
-      "amount": "quantity",
+      "amount": "measure",
       "hash": "signature",
-      "callFirstTarget": "invokeprotocolPrimaryObjective",
-      "callSecondTarget": "requestconsultSecondGoal",
-      "setSeed": "collectionSeed",
-      "addSeed": "includeSeed",
-      "checkSecret": "inspectSecret",
-      "claimPrize": "receivetreatmentPrize"
+      "callFirstTarget": "consultspecialistInitialObjective",
+      "callSecondTarget": "requestconsultSecondObjective",
+      "setSeed": "groupSeed",
+      "addSeed": "insertSeed",
+      "checkSecret": "assessSecret",
+      "claimPrize": "obtaincoveragePrize"
     }
   }
 }

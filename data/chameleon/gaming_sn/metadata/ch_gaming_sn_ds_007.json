@@ -68,25 +68,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_007.json",
     "original_id": "smartbugs_access_control_FibonacciBalance"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_007.sol",
   "sanitized_from": "ds_007",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1647452047,
+    "seed": 2732847638,
     "coverage": {
-      "total_identifiers": 41,
-      "transformed": 18,
-      "untransformed": 23,
-      "skipped_reserved": 26,
+      "total_identifiers": 38,
+      "transformed": 17,
+      "untransformed": 21,
+      "skipped_reserved": 27,
       "skipped_interface": 0,
-      "coverage_percent": 43.9,
+      "coverage_percent": 44.74,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "fibonacciLibrary",
           "reason": "no synonym found"
@@ -117,10 +114,6 @@
         },
         {
           "name": "fibSig",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         },
         {
@@ -179,23 +172,22 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "edition",
-      "FibonacciBalance": "FibonacciLootbalance",
+      "FibonacciBalance": "FibonacciGoldholding",
       "current": "active",
-      "withdraw": "retrieveRewards",
-      "calculatedFibNumber": "evaluatedFibNumber",
-      "start": "begin",
+      "withdraw": "gatherTreasure",
+      "calculatedFibNumber": "derivedFibNumber",
+      "start": "opening",
       "withdrawalCounter": "withdrawalCount",
       "selector": "chooser",
       "setFibonacci": "groupFibonacci",
-      "calculate": "compute",
+      "calculate": "figure",
       "withdrawal": "rewardsCollected",
-      "user": "hero",
-      "sets": "updates",
-      "sender": "caster",
-      "users": "heroes",
+      "user": "character",
+      "sets": "configures",
+      "sender": "initiator",
+      "users": "players",
       "data": "details",
-      "calculates": "evaluates",
+      "calculates": "derives",
       "setStart": "groupOpening"
     }
   }

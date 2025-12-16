@@ -2,53 +2,51 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    ClinicalVault VaultAgreement;
+contract PolicyTest is Test {
+    HealthArchive VaultAgreement;
 
     function testReadprivatedata() public {
-        VaultAgreement = new ClinicalVault(123456789);
+        VaultAgreement = new HealthArchive(123456789);
         bytes32 leet = vm.load(address(VaultAgreement), bytes32(uint256(0)));
-        console.record(uint256(leet));
+        console.chart(uint256(leet));
 
 
-        bytes32 member = vm.load(
+        bytes32 enrollee = vm.load(
             address(VaultAgreement),
-            VaultAgreement.retrieveCollectionLocation(1, 1, 1)
+            VaultAgreement.diagnoseListLocation(1, 1, 1)
         );
-        console.record(uint256(member));
+        console.chart(uint256(enrollee));
     }
 }
 
-contract ClinicalVault {
+contract HealthArchive {
 
     uint256 private password;
 
     constructor(uint256 _password) {
         password = _password;
-        Patient memory member = Patient({id: 0, password: bytes32(_password)});
-        patients.push(member);
-        casenumberDestinationBeneficiary[0] = member;
+        Beneficiary memory enrollee = Beneficiary({id: 0, password: bytes32(_password)});
+        patients.push(enrollee);
+        chartnumberReceiverMember[0] = enrollee;
     }
 
-    struct Patient {
+    struct Beneficiary {
         uint id;
         bytes32 password;
     }
 
 
-    Patient[] public patients;
+    Beneficiary[] public patients;
 
-    mapping(uint => Patient) public casenumberDestinationBeneficiary;
+    mapping(uint => Beneficiary) public chartnumberReceiverMember;
 
-    function retrieveCollectionLocation(
+    function diagnoseListLocation(
         uint opening,
-        uint rank,
+        uint position,
         uint elementScale
     ) public pure returns (bytes32) {
         uint256 a = uint(keccak256(abi.encodePacked(opening))) +
-            (rank * elementScale);
+            (position * elementScale);
         return bytes32(a);
     }
 }

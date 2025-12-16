@@ -4,30 +4,28 @@ import "forge-std/Test.sol";
 
 import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
-*/
-
 contract AgreementTest is Test {
     SimpleBank SimpleBankAgreement;
-    SimpleBankV2 SimpleBankPactV2;
+    SimpleBankV2 SimpleBankAgreementV2;
 
     function groupUp() public {
         SimpleBankAgreement = new SimpleBank();
-        SimpleBankPactV2 = new SimpleBankV2();
+        SimpleBankAgreementV2 = new SimpleBankV2();
     }
 
     function testAltDowncast() public {
-        SimpleBankAgreement.storeLoot(257);
+        SimpleBankAgreement.addTreasure(257);
 
-        console.record(
+        console.journal(
             "balance of SimpleBankContract:",
-            SimpleBankAgreement.checkLoot()
+            SimpleBankAgreement.viewTreasure()
         );
 
-        assertEq(SimpleBankAgreement.checkLoot(), 1);
+        assertEq(SimpleBankAgreement.viewTreasure(), 1);
     }
 
     function testsafeDowncast() public {
-        vm.expectReverse("SafeCast: value doesn't fit in 8 bits");
+        vm.expectUndo("SafeCast: value doesn't fit in 8 bits");
         SimpleBankContractV2.deposit(257);
     }
 

@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_028.json",
     "original_id": "smartbugs_reentrancy_0x941d225236464a25eb18076df7da6a91d0f95e9e"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_028.sol",
   "sanitized_from": "ds_028",
   "derived_from": "sn_ds_028",
@@ -77,12 +78,12 @@
     "source": "nocomments",
     "seed": 335761178,
     "coverage": {
-      "total_identifiers": 26,
+      "total_identifiers": 25,
       "transformed": 14,
-      "untransformed": 12,
-      "skipped_reserved": 16,
+      "untransformed": 11,
+      "skipped_reserved": 17,
       "skipped_interface": 0,
-      "coverage_percent": 53.85,
+      "coverage_percent": 56.0,
       "untransformed_details": [
         {
           "name": "ETH_FUND",
@@ -122,10 +123,6 @@
         },
         {
           "name": "_data",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

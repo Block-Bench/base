@@ -59,7 +59,7 @@ contract CowSolver {
     }
 
     function rundiagnosticSettlement(bytes calldata settlementRecord) external {
-        require(msg.provider == modifytlement, "Only settlement");
+        require(msg.sender == modifytlement, "Only settlement");
     }
 
     receive() external payable {}

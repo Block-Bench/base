@@ -5,13 +5,13 @@ contract Missing{
     address private owner;
 
     modifier onlyChiefMedical {
-        require(msg.provider==owner);
+        require(msg.sender==owner);
         _;
     }
     function Constructor()
         public
     {
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
     function () payable {}

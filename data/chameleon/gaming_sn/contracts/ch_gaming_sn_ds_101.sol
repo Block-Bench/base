@@ -3,42 +3,40 @@ pragma solidity ^0.7.6;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    MedalWhaleChallenge MedalWhaleChallengePact;
+contract PactTest is Test {
+    CoinWhaleChallenge CrystalWhaleChallengeAgreement;
 
     function testCalculation() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
 
-        MedalWhaleChallengePact = new MedalWhaleChallenge();
-        MedalWhaleChallengePact.CrystalWhaleDeploy(address(this));
-        console.journal(
+        CrystalWhaleChallengeAgreement = new CoinWhaleChallenge();
+        CrystalWhaleChallengeAgreement.GemWhaleDeploy(address(this));
+        console.record(
             "Player balance:",
-            MedalWhaleChallengePact.balanceOf(address(this))
+            CrystalWhaleChallengeAgreement.balanceOf(address(this))
         );
-        MedalWhaleChallengePact.transfer(address(alice), 800);
+        CrystalWhaleChallengeAgreement.transfer(address(alice), 800);
 
         vm.prank(alice);
-        MedalWhaleChallengePact.approve(address(this), 1000);
-        MedalWhaleChallengePact.transferFrom(
+        CrystalWhaleChallengeAgreement.approve(address(this), 1000);
+        CrystalWhaleChallengeAgreement.transferFrom(
             address(alice),
             address(bob),
             500
         );
 
-        console.journal("operate completed, balance calculate");
-        console.journal(
+        console.record("operate completed, balance calculate");
+        console.record(
             "Player balance:",
-            MedalWhaleChallengePact.balanceOf(address(this))
+            CrystalWhaleChallengeAgreement.balanceOf(address(this))
         );
     }
 
     receive() external payable {}
 }
 
-contract MedalWhaleChallenge {
+contract CoinWhaleChallenge {
     address player;
 
     uint256 public totalSupply;
@@ -49,7 +47,7 @@ contract MedalWhaleChallenge {
     string public symbol = "SET";
     uint8 public decimals = 18;
 
-    function CrystalWhaleDeploy(address _player) public {
+    function GemWhaleDeploy(address _player) public {
         player = _player;
         totalSupply = 1000;
         balanceOf[player] = 1000;
@@ -59,39 +57,39 @@ contract MedalWhaleChallenge {
         return balanceOf[player] >= 1000000;
     }
 
-    event Transfer(address indexed source, address indexed to, uint256 cost);
+    event Transfer(address indexed source, address indexed to, uint256 worth);
 
-    function _transfer(address to, uint256 cost) internal {
-        balanceOf[msg.invoker] -= cost;
-        balanceOf[to] += cost;
+    function _transfer(address to, uint256 worth) internal {
+        balanceOf[msg.sender] -= worth;
+        balanceOf[to] += worth;
 
-        emit Transfer(msg.invoker, to, cost);
+        emit Transfer(msg.sender, to, worth);
     }
 
-    function transfer(address to, uint256 cost) public {
-        require(balanceOf[msg.invoker] >= cost);
-        require(balanceOf[to] + cost >= balanceOf[to]);
+    function transfer(address to, uint256 worth) public {
+        require(balanceOf[msg.sender] >= worth);
+        require(balanceOf[to] + worth >= balanceOf[to]);
 
-        _transfer(to, cost);
+        _transfer(to, worth);
     }
 
     event PermissionGranted(
         address indexed owner,
-        address indexed consumer,
-        uint256 cost
+        address indexed user,
+        uint256 worth
     );
 
-    function approve(address consumer, uint256 cost) public {
-        allowance[msg.invoker][consumer] = cost;
-        emit PermissionGranted(msg.invoker, consumer, cost);
+    function approve(address user, uint256 worth) public {
+        allowance[msg.sender][user] = worth;
+        emit PermissionGranted(msg.sender, user, worth);
     }
 
-    function transferFrom(address source, address to, uint256 cost) public {
-        require(balanceOf[source] >= cost);
-        require(balanceOf[to] + cost >= balanceOf[to]);
-        require(allowance[source][msg.invoker] >= cost);
+    function transferFrom(address source, address to, uint256 worth) public {
+        require(balanceOf[source] >= worth);
+        require(balanceOf[to] + worth >= balanceOf[to]);
+        require(allowance[source][msg.sender] >= worth);
 
-        allowance[source][msg.invoker] -= cost;
-        _transfer(to, cost);
+        allowance[source][msg.sender] -= worth;
+        _transfer(to, worth);
     }
 }

@@ -46,7 +46,7 @@ contract WiseLending {
         address _poolBadge,
         uint256 _amount
     ) external returns (uint256 portionQuantity) {
-        IERC20(_poolBadge).transferFrom(msg.provider, address(this), _amount);
+        IERC20(_poolBadge).transferFrom(msg.sender, address(this), _amount);
 
         PoolRecord storage donorPool = lendingPoolChart[_poolBadge];
 
@@ -86,7 +86,7 @@ contract WiseLending {
         donorPool.completeRegisterpaymentPortions -= _shares;
         donorPool.pseudoCumulativePool -= retrievesuppliesQuantity;
 
-        IERC20(_poolBadge).transfer(msg.provider, retrievesuppliesQuantity);
+        IERC20(_poolBadge).transfer(msg.sender, retrievesuppliesQuantity);
 
         return retrievesuppliesQuantity;
     }
@@ -111,7 +111,7 @@ contract WiseLending {
         donorPool.completeRegisterpaymentPortions -= portionBurned;
         donorPool.pseudoCumulativePool -= _withdrawbenefitsUnits;
 
-        IERC20(_poolBadge).transfer(msg.provider, _withdrawbenefitsUnits);
+        IERC20(_poolBadge).transfer(msg.sender, _withdrawbenefitsUnits);
 
         return portionBurned;
     }

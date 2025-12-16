@@ -7,12 +7,12 @@ pragma solidity ^0.4.18;
    uint public totalSupply;
 
    function Medal(uint _initialReserve) {
-     heroTreasure[msg.initiator] = totalSupply = _initialReserve;
+     heroTreasure[msg.sender] = totalSupply = _initialReserve;
    }
 
    function transfer(address _to, uint _value) public returns (bool) {
-     require(heroTreasure[msg.initiator] - _value >= 0);
-     heroTreasure[msg.initiator] -= _value;
+     require(heroTreasure[msg.sender] - _value >= 0);
+     heroTreasure[msg.sender] -= _value;
      heroTreasure[_to] += _value;
      return true;
    }

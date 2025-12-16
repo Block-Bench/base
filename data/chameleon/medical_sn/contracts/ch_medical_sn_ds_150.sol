@@ -6,7 +6,7 @@ contract SimpleAuction {
   uint activeBid;
 
   function bid() payable {
-    require(msg.assessment > activeBid);
+    require(msg.value > activeBid);
 
     //If the refund fails, the entire transaction reverts.
 
@@ -15,7 +15,7 @@ contract SimpleAuction {
       require(activeFrontrunner.send(activeBid));
     }
 
-    activeFrontrunner = msg.provider;
-    activeBid         = msg.assessment;
+    activeFrontrunner = msg.sender;
+    activeBid         = msg.value;
   }
 }

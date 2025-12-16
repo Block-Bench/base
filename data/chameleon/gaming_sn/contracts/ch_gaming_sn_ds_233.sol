@@ -88,11 +88,11 @@ contract BlackJack {
 
 	// starts a new game
 	function deal() public payable {
-		if (games[msg.caster].player != 0 && games[msg.caster].status == GameStatus.Ongoing) {
+		if (games[msg.sender].player != 0 && games[msg.sender].status == GameStatus.Ongoing) {
 			throw; // game is already going on
 		}
 
-		if (msg.magnitude < floorBet || msg.magnitude > ceilingBet) {
+		if (msg.value < floorBet || msg.value > ceilingBet) {
 			throw; // incorrect bet
 		}
 
@@ -100,49 +100,49 @@ contract BlackJack {
 		uint8[] memory playerCards = new uint8[](2);
 
 		// deal the cards
-		playerCards[0] = Deck.deal(msg.caster, 0);
+		playerCards[0] = Deck.deal(msg.sender, 0);
 		Deal(true, playerCards[0]);
-		houseCards[0] = Deck.deal(msg.caster, 1);
+		houseCards[0] = Deck.deal(msg.sender, 1);
 		Deal(false, houseCards[0]);
-		playerCards[1] = Deck.deal(msg.caster, 2);
+		playerCards[1] = Deck.deal(msg.sender, 2);
 		Deal(true, playerCards[1]);
 
-		games[msg.caster] = Game({
-			player: msg.caster,
-			bet: msg.magnitude,
+		games[msg.sender] = Game({
+			player: msg.sender,
+			bet: msg.value,
 			houseCards: houseCards,
 			playerCards: playerCards,
 			status: GameStatus.Ongoing,
 			cardsDealt: 3
 		});
 
-		inspectGameProduct(games[msg.caster], false);
+		inspectGameProduct(games[msg.sender], false);
 	}
 
 	// deals one more card to the player
 	function hit() public gameIsGoingOn {
-		uint8 followingCard = games[msg.caster].cardsDealt;
-		games[msg.caster].playerCards.push(Deck.deal(msg.caster, followingCard));
-		games[msg.caster].cardsDealt = followingCard + 1;
-		Deal(true, games[msg.caster].playerCards[games[msg.caster].playerCards.extent - 1]);
-		inspectGameProduct(games[msg.caster], false);
+		uint8 followingCard = games[msg.sender].cardsDealt;
+		games[msg.sender].playerCards.push(Deck.deal(msg.sender, followingCard));
+		games[msg.sender].cardsDealt = followingCard + 1;
+		Deal(true, games[msg.sender].playerCards[games[msg.sender].playerCards.extent - 1]);
+		inspectGameProduct(games[msg.sender], false);
 	}
 
 	// finishes the game
 	function stand() public gameIsGoingOn {
 
-		var (housePoints, houseTallyBig) = determinePoints(games[msg.caster].houseCards);
+		var (housePoints, houseTallyBig) = determinePoints(games[msg.sender].houseCards);
 
 		while (houseTallyBig < 17) {
-			uint8 followingCard = games[msg.caster].cardsDealt;
-			uint8 currentCard = Deck.deal(msg.caster, followingCard);
-			games[msg.caster].houseCards.push(currentCard);
-			games[msg.caster].cardsDealt = followingCard + 1;
+			uint8 followingCard = games[msg.sender].cardsDealt;
+			uint8 currentCard = Deck.deal(msg.sender, followingCard);
+			games[msg.sender].houseCards.push(currentCard);
+			games[msg.sender].cardsDealt = followingCard + 1;
 			houseTallyBig += Deck.costOf(currentCard, true);
 			Deal(false, currentCard);
 		}
 
-		inspectGameProduct(games[msg.caster], true);
+		inspectGameProduct(games[msg.sender], true);
 	}
 
 	// @param finishGame - whether to finish the game or not (in case of Blackjack the game finishes anyway)
@@ -157,12 +157,12 @@ contract BlackJack {
 		if (houseTallyBig == BLACKJACK || housePoints == BLACKJACK) {
 			if (playerPoints == BLACKJACK || playerPointsBig == BLACKJACK) {
 				// TIE
-				if (!msg.caster.send(game.bet)) throw; // return bet to the player
-				games[msg.caster].status = GameStatus.Tie; // finish the game
+				if (!msg.sender.send(game.bet)) throw; // return bet to the player
+				games[msg.sender].status = GameStatus.Tie; // finish the game
 				return;
 			} else {
 				// HOUSE WON
-				games[msg.caster].status = GameStatus.House; // simply finish the game
+				games[msg.sender].status = GameStatus.House; // simply finish the game
 				return;
 			}
 		} else {
@@ -170,19 +170,19 @@ contract BlackJack {
 				// PLAYER WON
 				if (game.playerCards.extent == 2 && (Deck.verifyTen(game.playerCards[0]) || Deck.verifyTen(game.playerCards[1]))) {
 					// Natural blackjack => return x2.5
-					if (!msg.caster.send((game.bet * 5) / 2)) throw; // send prize to the player
+					if (!msg.sender.send((game.bet * 5) / 2)) throw; // send prize to the player
 				} else {
 					// Usual blackjack => return x2
-					if (!msg.caster.send(game.bet * 2)) throw; // send prize to the player
+					if (!msg.sender.send(game.bet * 2)) throw; // send prize to the player
 				}
-				games[msg.caster].status = GameStatus.Player; // finish the game
+				games[msg.sender].status = GameStatus.Player; // finish the game
 				return;
 			} else {
 
 				if (playerPoints > BLACKJACK) {
 					// BUST, HOUSE WON
 					Record(1);
-					games[msg.caster].status = GameStatus.House; // finish the game
+					games[msg.sender].status = GameStatus.House; // finish the game
 					return;
 				}
 
@@ -198,7 +198,7 @@ contract BlackJack {
 				if (playerPointsBig > BLACKJACK) {
 					if (playerPoints > BLACKJACK) {
 						// HOUSE WON
-						games[msg.caster].status = GameStatus.House; // simply finish the game
+						games[msg.sender].status = GameStatus.House; // simply finish the game
 						return;
 					} else {
 						playerShortage = BLACKJACK - playerPoints;
@@ -210,8 +210,8 @@ contract BlackJack {
 				if (houseTallyBig > BLACKJACK) {
 					if (housePoints > BLACKJACK) {
 						// PLAYER WON
-						if (!msg.caster.send(game.bet * 2)) throw; // send prize to the player
-						games[msg.caster].status = GameStatus.Player;
+						if (!msg.sender.send(game.bet * 2)) throw; // send prize to the player
+						games[msg.sender].status = GameStatus.Player;
 						return;
 					} else {
 						houseShortage = BLACKJACK - housePoints;
@@ -223,14 +223,14 @@ contract BlackJack {
                 // ?????????????????????? почему игра заканчивается?
 				if (houseShortage == playerShortage) {
 					// TIE
-					if (!msg.caster.send(game.bet)) throw; // return bet to the player
-					games[msg.caster].status = GameStatus.Tie;
+					if (!msg.sender.send(game.bet)) throw; // return bet to the player
+					games[msg.sender].status = GameStatus.Tie;
 				} else if (houseShortage > playerShortage) {
 					// PLAYER WON
-					if (!msg.caster.send(game.bet * 2)) throw; // send prize to the player
-					games[msg.caster].status = GameStatus.Player;
+					if (!msg.sender.send(game.bet * 2)) throw; // send prize to the player
+					games[msg.sender].status = GameStatus.Player;
 				} else {
-					games[msg.caster].status = GameStatus.House;
+					games[msg.sender].status = GameStatus.House;
 				}
 			}
 		}
@@ -280,7 +280,7 @@ contract BlackJack {
 			throw; // game doesn't exist
 		}
 
-		Game game = games[msg.caster];
+		Game game = games[msg.sender];
 
 		if (game.status == GameStatus.Player) {
 			return 1;

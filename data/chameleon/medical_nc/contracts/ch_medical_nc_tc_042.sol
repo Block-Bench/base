@@ -61,7 +61,7 @@ contract HedgeyObtaincoverageCampaigns {
 
         if (donation.measure > 0 && donation.idLocker != address(0)) {
             (bool recovery, ) = donation.idLocker.call(
-                abi.encodeWithAuthorization(
+                abi.encodeWithSignature(
                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
                     campaign.badge,
                     donation.measure,
@@ -76,8 +76,8 @@ contract HedgeyObtaincoverageCampaigns {
         }
     }
 
-    function cancelCampaign(bytes16 campaignChartnumber) external {
-        require(campaigns[campaignChartnumber].handler == msg.provider, "Not manager");
-        delete campaigns[campaignChartnumber];
+    function cancelCampaign(bytes16 campaignCasenumber) external {
+        require(campaigns[campaignCasenumber].handler == msg.sender, "Not manager");
+        delete campaigns[campaignCasenumber];
     }
 }

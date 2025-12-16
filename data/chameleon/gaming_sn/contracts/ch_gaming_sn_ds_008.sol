@@ -7,7 +7,7 @@ pragma solidity ^0.4.25;
 
      constructor() public {
          rewardCodes = new uint[](0);
-         owner = msg.caster;
+         owner = msg.sender;
      }
 
      function () public payable {
@@ -28,7 +28,7 @@ pragma solidity ^0.4.25;
      }
 
      function Destroy() public {
-         require(msg.caster == owner);
-         selfdestruct(msg.caster);
+         require(msg.sender == owner);
+         selfdestruct(msg.sender);
      }
  }

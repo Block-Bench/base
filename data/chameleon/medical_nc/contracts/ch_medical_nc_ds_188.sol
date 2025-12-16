@@ -2,92 +2,90 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    RecordDeletion RecordDeletionAgreement;
+contract PolicyTest is Test {
+    EntryDeletion RecordDeletionPolicy;
     EntryDeletionV2 RecordDeletionPolicyV2;
 
-    function groupUp() public {
-        RecordDeletionAgreement = new RecordDeletion();
+    function collectionUp() public {
+        RecordDeletionPolicy = new EntryDeletion();
         RecordDeletionPolicyV2 = new EntryDeletionV2();
     }
 
-    function testEntryDeletion() public {
-        RecordDeletionAgreement.includeEntry(10, 10);
-        RecordDeletionAgreement.obtainRecord(10, 10);
-        RecordDeletionAgreement.deleteEntry(10);
-        RecordDeletionAgreement.obtainRecord(10, 10);
+    function testRecordDeletion() public {
+        RecordDeletionPolicy.insertRecord(10, 10);
+        RecordDeletionPolicy.acquireEntry(10, 10);
+        RecordDeletionPolicy.deleteRecord(10);
+        RecordDeletionPolicy.acquireEntry(10, 10);
     }
 
     function testFixedEntryDeletion() public {
-        RecordDeletionPolicyV2.includeEntry(10, 10);
-        RecordDeletionPolicyV2.obtainRecord(10, 10);
-        RecordDeletionPolicyV2.deleteEntry(10);
-        RecordDeletionPolicyV2.obtainRecord(10, 10);
+        RecordDeletionPolicyV2.insertRecord(10, 10);
+        RecordDeletionPolicyV2.acquireEntry(10, 10);
+        RecordDeletionPolicyV2.deleteRecord(10);
+        RecordDeletionPolicyV2.acquireEntry(10, 10);
     }
 
     receive() external payable {}
 }
 
-contract RecordDeletion {
-    struct MyRecord {
+contract EntryDeletion {
+    struct MyEntry {
         uint256 id;
         mapping(uint256 => bool) flags;
     }
 
-    mapping(uint256 => MyRecord) public myStructs;
+    mapping(uint256 => MyEntry) public myStructs;
 
-    function includeEntry(uint256 entryIdentifier, uint256 alertKeys) public {
-        MyRecord storage updatedEntry = myStructs[entryIdentifier];
-        updatedEntry.id = entryIdentifier;
-        updatedEntry.flags[alertKeys] = true;
+    function insertRecord(uint256 recordChartnumber, uint256 indicatorKeys) public {
+        MyEntry storage currentEntry = myStructs[recordChartnumber];
+        currentEntry.id = recordChartnumber;
+        currentEntry.flags[indicatorKeys] = true;
     }
 
-    function obtainRecord(
-        uint256 entryIdentifier,
-        uint256 alertKeys
+    function acquireEntry(
+        uint256 recordChartnumber,
+        uint256 indicatorKeys
     ) public view returns (uint256, bool) {
-        MyRecord storage myEntry = myStructs[entryIdentifier];
-        bool keys = myEntry.flags[alertKeys];
+        MyEntry storage myEntry = myStructs[recordChartnumber];
+        bool keys = myEntry.flags[indicatorKeys];
         return (myEntry.id, keys);
     }
 
-    function deleteEntry(uint256 entryIdentifier) public {
-        MyRecord storage myEntry = myStructs[entryIdentifier];
-        delete myStructs[entryIdentifier];
+    function deleteRecord(uint256 recordChartnumber) public {
+        MyEntry storage myEntry = myStructs[recordChartnumber];
+        delete myStructs[recordChartnumber];
     }
 }
 
 contract EntryDeletionV2 {
-    struct MyRecord {
+    struct MyEntry {
         uint256 id;
         mapping(uint256 => bool) flags;
     }
 
-    mapping(uint256 => MyRecord) public myStructs;
+    mapping(uint256 => MyEntry) public myStructs;
 
-    function includeEntry(uint256 entryIdentifier, uint256 alertKeys) public {
-        MyRecord storage updatedEntry = myStructs[entryIdentifier];
-        updatedEntry.id = entryIdentifier;
-        updatedEntry.flags[alertKeys] = true;
+    function insertRecord(uint256 recordChartnumber, uint256 indicatorKeys) public {
+        MyEntry storage currentEntry = myStructs[recordChartnumber];
+        currentEntry.id = recordChartnumber;
+        currentEntry.flags[indicatorKeys] = true;
     }
 
-    function obtainRecord(
-        uint256 entryIdentifier,
-        uint256 alertKeys
+    function acquireEntry(
+        uint256 recordChartnumber,
+        uint256 indicatorKeys
     ) public view returns (uint256, bool) {
-        MyRecord storage myEntry = myStructs[entryIdentifier];
-        bool keys = myEntry.flags[alertKeys];
+        MyEntry storage myEntry = myStructs[recordChartnumber];
+        bool keys = myEntry.flags[indicatorKeys];
         return (myEntry.id, keys);
     }
 
-    function deleteEntry(uint256 entryIdentifier) public {
-        MyRecord storage myEntry = myStructs[entryIdentifier];
+    function deleteRecord(uint256 recordChartnumber) public {
+        MyEntry storage myEntry = myStructs[recordChartnumber];
 
         for (uint256 i = 0; i < 15; i++) {
             delete myEntry.flags[i];
         }
-        delete myStructs[entryIdentifier];
+        delete myStructs[recordChartnumber];
     }
 }

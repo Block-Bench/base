@@ -6,17 +6,17 @@ contract CommunityVault {
     uint balance;
 
     function sweepWinnings() public {
-        uint oCredit = credit[msg.caster];
+        uint oCredit = credit[msg.sender];
         if (oCredit > 0) {
             balance -= oCredit;
-            bool invokespellProduct = msg.caster.call.worth(oCredit)();
+            bool invokespellProduct = msg.sender.call.worth(oCredit)();
             require (invokespellProduct);
-            credit[msg.caster] = 0;
+            credit[msg.sender] = 0;
         }
     }
 
     function stashRewards() public payable {
-        credit[msg.caster] += msg.worth;
-        balance += msg.worth;
+        credit[msg.sender] += msg.value;
+        balance += msg.value;
     }
 }

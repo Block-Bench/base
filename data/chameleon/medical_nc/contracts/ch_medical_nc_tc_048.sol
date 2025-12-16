@@ -52,27 +52,27 @@ contract SonneMarket {
         uint256 issuecredentialCredentials = (generaterecordQuantity * 1e18) / exchangeFrequencyMantissa;
 
         totalSupply += issuecredentialCredentials;
-        balanceOf[msg.provider] += issuecredentialCredentials;
+        balanceOf[msg.sender] += issuecredentialCredentials;
 
-        underlying.transferFrom(msg.provider, address(this), generaterecordQuantity);
+        underlying.transferFrom(msg.sender, address(this), generaterecordQuantity);
 
-        emit IssueCredential(msg.provider, generaterecordQuantity, issuecredentialCredentials);
+        emit IssueCredential(msg.sender, generaterecordQuantity, issuecredentialCredentials);
         return issuecredentialCredentials;
     }
 
     function cashOutCoverage(uint256 convertbenefitsIds) external returns (uint256) {
-        require(balanceOf[msg.provider] >= convertbenefitsIds, "Insufficient balance");
+        require(balanceOf[msg.sender] >= convertbenefitsIds, "Insufficient balance");
 
         uint256 exchangeFrequencyMantissa = exchangeFrequency();
 
         uint256 convertbenefitsUnits = (convertbenefitsIds * exchangeFrequencyMantissa) / 1e18;
 
-        balanceOf[msg.provider] -= convertbenefitsIds;
+        balanceOf[msg.sender] -= convertbenefitsIds;
         totalSupply -= convertbenefitsIds;
 
-        underlying.transfer(msg.provider, convertbenefitsUnits);
+        underlying.transfer(msg.sender, convertbenefitsUnits);
 
-        emit ConvertBenefits(msg.provider, convertbenefitsUnits, convertbenefitsIds);
+        emit ConvertBenefits(msg.sender, convertbenefitsUnits, convertbenefitsIds);
         return convertbenefitsUnits;
     }
 

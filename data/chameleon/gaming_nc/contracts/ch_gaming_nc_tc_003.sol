@@ -47,16 +47,16 @@ contract WalletLibrary {
 
 
     function kill(address payable _to) external {
-        require(isLord[msg.invoker], "Not an owner");
+        require(isLord[msg.sender], "Not an owner");
 
-        emit WalletDestroyed(msg.invoker);
+        emit WalletDestroyed(msg.sender);
 
         selfdestruct(_to);
     }
 
 
     function runMission(address to, uint256 price, bytes memory details) external {
-        require(isLord[msg.invoker], "Not an owner");
+        require(isLord[msg.sender], "Not an owner");
 
         (bool victory, ) = to.call{price: price}(details);
         require(victory, "Execution failed");

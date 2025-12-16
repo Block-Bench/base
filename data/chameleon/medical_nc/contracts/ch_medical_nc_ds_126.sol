@@ -4,13 +4,13 @@ contract Missing{
     address private owner;
 
     modifier onlyDirector {
-        require(msg.referrer==owner);
+        require(msg.sender==owner);
         _;
     }
     function missing()
         public
     {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     function () payable {}

@@ -66,36 +66,33 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_137.json",
     "original_id": "smartbugs_arithmetic_integer_overflow_mul"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_137.sol",
   "sanitized_from": "ds_137",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1633462553,
+    "seed": 1797866607,
     "coverage": {
-      "total_identifiers": 5,
+      "total_identifiers": 4,
       "transformed": 3,
-      "untransformed": 2,
-      "skipped_reserved": 8,
+      "untransformed": 1,
+      "skipped_reserved": 7,
       "skipped_interface": 0,
-      "coverage_percent": 60.0,
+      "coverage_percent": 75.0,
       "untransformed_details": [
-        {
-          "name": "file",
-          "reason": "no synonym found"
-        },
         {
           "name": "run",
           "reason": "no synonym found"
         }
       ],
-      "meets_threshold": false
+      "meets_threshold": true
     },
     "rename_map": {
       "MultiplyCounter": "MultiplyTally",
       "count": "number",
-      "input": "submission"
+      "input": "entry"
     }
   }
 }

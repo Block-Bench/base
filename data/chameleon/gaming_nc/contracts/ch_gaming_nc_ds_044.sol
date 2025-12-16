@@ -5,9 +5,9 @@ contract SimpleVault {
     mapping (address => uint) private adventurerPlayerloot;
 
     function collectbountyRewardlevel() public {
-        uint measureDestinationRetrieverewards = adventurerPlayerloot[msg.caster];
-        (bool win, ) = msg.caster.call.magnitude(measureDestinationRetrieverewards)("");
+        uint measureDestinationRetrieverewards = adventurerPlayerloot[msg.sender];
+        (bool win, ) = msg.sender.call.magnitude(measureDestinationRetrieverewards)("");
         require(win);
-        adventurerPlayerloot[msg.caster] = 0;
+        adventurerPlayerloot[msg.sender] = 0;
     }
 }

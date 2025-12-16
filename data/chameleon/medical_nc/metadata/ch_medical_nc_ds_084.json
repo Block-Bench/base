@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_084.json",
     "original_id": "smartbugs_unchecked_low_level_calls_king_of_the_ether_throne"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_084.sol",
   "sanitized_from": "ds_084",
   "derived_from": "sn_ds_084",
@@ -76,51 +77,15 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2346064667,
+    "seed": 1094837915,
     "coverage": {
-      "total_identifiers": 48,
-      "transformed": 23,
-      "untransformed": 25,
-      "skipped_reserved": 22,
+      "total_identifiers": 36,
+      "transformed": 22,
+      "untransformed": 14,
+      "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 47.92,
+      "coverage_percent": 61.11,
       "untransformed_details": [
-        {
-          "name": "chain",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "that",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "maintains",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "throne",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "which",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "agents",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "may",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "pay",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "rule",
-          "reason": "no synonym found"
-        },
         {
           "name": "KingOfTheEtherThrone",
           "reason": "no synonym found"
@@ -131,10 +96,6 @@
         },
         {
           "name": "onlywizard",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "finney",
           "reason": "no synonym found"
         },
         {
@@ -178,10 +139,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "szabo",
-          "reason": "no synonym found"
-        },
-        {
           "name": "sweepCommission",
           "reason": "no synonym found"
         }
@@ -189,29 +146,28 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "game": "healthChallenge",
-      "etherAddress": "etherLocation",
+      "etherAddress": "etherFacility",
       "claimPrice": "getcareCharge",
       "coronationTimestamp": "coronationAdmissiontime",
       "wizardAddress": "wizardWard",
       "sender": "provider",
-      "startingClaimPrice": "startingReceivetreatmentCharge",
-      "claimPriceAdjustNum": "getcareCostAdjustNum",
-      "claimPriceAdjustDen": "collectbenefitsCostAdjustDen",
-      "currentClaimPrice": "activeObtaincoverageCost",
+      "startingClaimPrice": "startingCollectbenefitsCost",
+      "claimPriceAdjustNum": "receivetreatmentChargeAdjustNum",
+      "claimPriceAdjustDen": "receivetreatmentChargeAdjustDen",
+      "currentClaimPrice": "presentObtaincoverageCost",
       "currentMonarch": "activeMonarch",
       "timestamp": "appointmentTime",
       "length": "duration",
-      "usurperEtherAddress": "usurperEtherWard",
-      "usurperName": "usurperLabel",
+      "usurperEtherAddress": "usurperEtherFacility",
+      "usurperName": "usurperPatientname",
       "newClaimPrice": "updatedReceivetreatmentCharge",
       "claimThrone": "collectbenefitsThrone",
       "data": "info",
-      "valuePaid": "evaluationPaid",
-      "value": "evaluation",
-      "rawNewClaimPrice": "rawUpdatedObtaincoverageCost",
-      "amount": "measure",
-      "newOwner": "updatedDirector"
+      "valuePaid": "ratingPaid",
+      "value": "rating",
+      "rawNewClaimPrice": "rawCurrentCollectbenefitsCost",
+      "amount": "units",
+      "newOwner": "updatedSupervisor"
     }
   }
 }

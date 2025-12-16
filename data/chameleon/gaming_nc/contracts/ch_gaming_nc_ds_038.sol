@@ -1,24 +1,23 @@
-added pragma edition
 pragma solidity ^0.4.10;
 
 contract EtherStore {
 
     uint256 public withdrawalBound = 1 ether;
-    mapping(address => uint256) public endingCollectbountyMoment;
+    mapping(address => uint256) public endingObtainprizeMoment;
     mapping(address => uint256) public characterGold;
 
-    function depositgoldFunds() public payable {
-        characterGold[msg.initiator] += msg.magnitude;
+    function stashrewardsFunds() public payable {
+        characterGold[msg.sender] += msg.value;
     }
 
-    function redeemtokensFunds (uint256 _weiTargetGathertreasure) public {
-        require(characterGold[msg.initiator] >= _weiTargetGathertreasure);
+    function claimlootFunds (uint256 _weiTargetRetrieverewards) public {
+        require(characterGold[msg.sender] >= _weiTargetRetrieverewards);
 
-        require(_weiTargetGathertreasure <= withdrawalBound);
+        require(_weiTargetRetrieverewards <= withdrawalBound);
 
-        require(now >= endingCollectbountyMoment[msg.initiator] + 1 weeks);
-        require(msg.initiator.call.magnitude(_weiTargetGathertreasure)());
-        characterGold[msg.initiator] -= _weiTargetGathertreasure;
-        endingCollectbountyMoment[msg.initiator] = now;
+        require(now >= endingObtainprizeMoment[msg.sender] + 1 weeks);
+        require(msg.sender.call.worth(_weiTargetRetrieverewards)());
+        characterGold[msg.sender] -= _weiTargetRetrieverewards;
+        endingObtainprizeMoment[msg.sender] = now;
     }
  }

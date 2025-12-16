@@ -73,6 +73,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_065.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x84d9ec85c9c568eb332b7226a8f826d897e0a4a8"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_065.sol",
   "sanitized_from": "ds_065",
   "transformation": {
@@ -81,12 +82,12 @@
     "source": "sanitized",
     "seed": 2781136992,
     "coverage": {
-      "total_identifiers": 125,
-      "transformed": 24,
-      "untransformed": 101,
-      "skipped_reserved": 29,
+      "total_identifiers": 123,
+      "transformed": 23,
+      "untransformed": 100,
+      "skipped_reserved": 31,
       "skipped_interface": 0,
-      "coverage_percent": 19.2,
+      "coverage_percent": 18.7,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -477,10 +478,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "contractaddress",
           "reason": "no synonym found"
         },
@@ -500,17 +497,16 @@
       "simple": "simpleQuest",
       "index": "slot",
       "create": "questCreated",
-      "array": "collection",
       "base": "stronghold",
-      "level": "rankUp",
+      "level": "advance",
       "sender": "caster",
       "message": "signal",
-      "newOwner": "updatedLord",
-      "_newOwner": "_currentLord",
-      "vault": "treasureHold",
+      "newOwner": "currentLord",
+      "_newOwner": "_updatedMaster",
+      "vault": "prizeVault",
       "changeOwner": "changeMaster",
       "account": "profile",
-      "execute": "completeQuest",
+      "execute": "performAction",
       "value": "magnitude",
       "WedIndex": "WedSlot",
       "IndexArray": "SlotList",

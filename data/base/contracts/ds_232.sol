@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.16;
 
- */
 library SafeMath {
   function mul(uint256 a, uint256 b) internal constant returns (uint256) {
     uint256 c = a * b;
@@ -28,7 +27,6 @@ library SafeMath {
   }
 }
 
- */
 contract ERC20Basic {
   uint256 public totalSupply;
   function balanceOf(address who) public constant returns (uint256);
@@ -36,13 +34,11 @@ contract ERC20Basic {
   event Transfer(address indexed from, address indexed to, uint256 value);
 }
 
- */
 contract BasicToken is ERC20Basic {
   using SafeMath for uint256;
 
   mapping(address => uint256) balances;
 
-  */
   function transfer(address _to, uint256 _value) public returns (bool) {
     require(_to != address(0));
     require(_value > 0 && _value <= balances[msg.sender]);
@@ -54,13 +50,11 @@ contract BasicToken is ERC20Basic {
     return true;
   }
 
-  */
   function balanceOf(address _owner) public constant returns (uint256 balance) {
     return balances[_owner];
   }
 }
 
- */
 contract ERC20 is ERC20Basic {
   function allowance(address owner, address spender) public constant returns (uint256);
   function transferFrom(address from, address to, uint256 value) public returns (bool);
@@ -69,13 +63,11 @@ contract ERC20 is ERC20Basic {
 }
 
 
- */
 contract StandardToken is ERC20, BasicToken {
 
   mapping (address => mapping (address => uint256)) internal allowed;
 
 
-   */
   function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
     require(_to != address(0));
     require(_value > 0 && _value <= balances[_from]);
@@ -88,20 +80,17 @@ contract StandardToken is ERC20, BasicToken {
     return true;
   }
 
-   */
   function approve(address _spender, uint256 _value) public returns (bool) {
     allowed[msg.sender][_spender] = _value;
     Approval(msg.sender, _spender, _value);
     return true;
   }
 
-   */
   function allowance(address _owner, address _spender) public constant returns (uint256 remaining) {
     return allowed[_owner][_spender];
   }
 }
 
- */
 contract Ownable {
   address public owner;
 
@@ -109,20 +98,17 @@ contract Ownable {
   event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
 
-   */
   function Ownable() {
     owner = msg.sender;
   }
 
 
-   */
   modifier onlyOwner() {
     require(msg.sender == owner);
     _;
   }
 
 
-   */
   function transferOwnership(address newOwner) onlyOwner public {
     require(newOwner != address(0));
     OwnershipTransferred(owner, newOwner);
@@ -131,7 +117,6 @@ contract Ownable {
 
 }
 
- */
 contract Pausable is Ownable {
   event Pause();
   event Unpause();
@@ -139,32 +124,26 @@ contract Pausable is Ownable {
   bool public paused = false;
 
 
-   */
   modifier whenNotPaused() {
     require(!paused);
     _;
   }
 
-   */
   modifier whenPaused() {
     require(paused);
     _;
   }
 
-   */
   function pause() onlyOwner whenNotPaused public {
     paused = true;
     Pause();
   }
 
-   */
   function unpause() onlyOwner whenPaused public {
     paused = false;
     Unpause();
   }
 }
-
- **/
 
 contract PausableToken is StandardToken, Pausable {
 
@@ -195,15 +174,12 @@ contract PausableToken is StandardToken, Pausable {
   }
 }
 
- */
 contract BecToken is PausableToken {
-    */
     string public name = "BeautyChain";
     string public symbol = "BEC";
     string public version = '1.0.0';
     uint8 public decimals = 18;
 
-     */
     function BecToken() {
       totalSupply = 7000000000 * (10**(uint256(decimals)));
       balances[msg.sender] = totalSupply;    // Give the creator all initial tokens

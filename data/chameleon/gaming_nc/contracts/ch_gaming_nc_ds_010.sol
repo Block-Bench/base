@@ -5,7 +5,7 @@ contract MyAgreement {
     address owner;
 
     function MyAgreement() public {
-        owner = msg.caster;
+        owner = msg.sender;
     }
 
     function transmitgoldDestination(address collector, uint measure) public {

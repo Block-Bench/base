@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_192.json",
     "original_id": "defivulnlabs_phantom-permit"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_192.sol",
   "sanitized_from": "ds_192",
   "derived_from": "sn_ds_192",
@@ -75,14 +76,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3404986420,
+    "seed": 4221117229,
     "coverage": {
-      "total_identifiers": 48,
-      "transformed": 23,
+      "total_identifiers": 47,
+      "transformed": 22,
       "untransformed": 25,
-      "skipped_reserved": 49,
+      "skipped_reserved": 50,
       "skipped_interface": 0,
-      "coverage_percent": 47.92,
+      "coverage_percent": 46.81,
       "untransformed_details": [
         {
           "name": "forge",
@@ -188,29 +189,28 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "token": "badge",
+      "token": "id",
       "ContractTest": "PolicyTest",
-      "PermitToken": "PermitId",
+      "PermitToken": "PermitBadge",
       "VulnPermitContract": "VulnPermitAgreement",
       "WETH9Contract": "Weth9Policy",
       "setUp": "groupUp",
-      "startPrank": "onsetPrank",
-      "deposit": "admit",
-      "value": "assessment",
-      "max": "ceiling",
+      "startPrank": "beginPrank",
+      "deposit": "contributeFunds",
+      "value": "rating",
+      "max": "maximum",
       "log": "chart",
-      "start": "begin",
-      "depositWithPermit": "registerpaymentWithPermit",
-      "withdraw": "discharge",
+      "start": "onset",
+      "depositWithPermit": "providespecimenWithPermit",
+      "withdraw": "releaseFunds",
       "amount": "dosage",
-      "sender": "provider",
-      "failed": "procedureFailed",
+      "sender": "referrer",
+      "failed": "operationFailed",
       "target": "goal",
       "success": "improvement",
-      "encodeWithSignature": "encodeWithAuthorization",
       "Approval": "AccessGranted",
-      "Deposit": "ProvideSpecimen",
-      "Withdrawal": "ClaimPaid"
+      "Deposit": "Admit",
+      "Withdrawal": "FundsReleased"
     }
   }
 }

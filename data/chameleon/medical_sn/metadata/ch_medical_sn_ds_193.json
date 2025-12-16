@@ -64,13 +64,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_193.json",
     "original_id": "defivulnlabs_returnvalue"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_193.sol",
   "sanitized_from": "ds_193",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 837573426,
+    "seed": 1444426542,
     "coverage": {
       "total_identifiers": 29,
       "transformed": 11,
@@ -158,13 +159,13 @@
       "token": "badge",
       "utils": "careTools",
       "value": "evaluation",
-      "account": "chart",
-      "spender": "payer",
-      "ContractTest": "PolicyTest",
+      "account": "profile",
+      "spender": "subscriber",
+      "ContractTest": "AgreementTest",
       "setUp": "collectionUp",
       "testTransfer": "testRefer",
-      "startPrank": "beginPrank",
-      "testSafeTransfer": "testSafeMoverecords",
+      "startPrank": "onsetPrank",
+      "testSafeTransfer": "testSafePasscase",
       "safeTransfer": "secureReferral"
     }
   }

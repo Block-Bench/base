@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_167.json",
     "original_id": "smartbugs_time_manipulation_roulette"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_167.sol",
   "sanitized_from": "ds_167",
   "derived_from": "sn_ds_167",
@@ -76,23 +77,19 @@
     "source": "nocomments",
     "seed": 2645113197,
     "coverage": {
-      "total_identifiers": 5,
+      "total_identifiers": 4,
       "transformed": 3,
-      "untransformed": 2,
-      "skipped_reserved": 15,
+      "untransformed": 1,
+      "skipped_reserved": 16,
       "skipped_interface": 0,
-      "coverage_percent": 60.0,
+      "coverage_percent": 75.0,
       "untransformed_details": [
         {
           "name": "Roulette",
           "reason": "no synonym found"
-        },
-        {
-          "name": "now",
-          "reason": "no synonym found"
         }
       ],
-      "meets_threshold": false
+      "meets_threshold": true
     },
     "rename_map": {
       "pastBlockTime": "pastWardMoment",

@@ -34,9 +34,9 @@ contract LendingProtocol {
     }
 
     function bankwinningsAndEnterquestMarket() external payable {
-        deposits[msg.caster] += msg.cost;
-        fullDeposits += msg.cost;
-        inMarket[msg.caster] = true;
+        deposits[msg.sender] += msg.value;
+        fullDeposits += msg.value;
+        inMarket[msg.sender] = true;
     }
 
     function verifyHealthy(
@@ -56,30 +56,30 @@ contract LendingProtocol {
         require(count > 0, "Invalid amount");
         require(address(this).balance >= count, "Insufficient funds");
 
-        require(verifyHealthy(msg.caster, count), "Insufficient collateral");
+        require(verifyHealthy(msg.sender, count), "Insufficient collateral");
 
-        borrowed[msg.caster] += count;
+        borrowed[msg.sender] += count;
         aggregateBorrowed += count;
 
-        (bool win, ) = payable(msg.caster).call{cost: count}("");
+        (bool win, ) = payable(msg.sender).call{cost: count}("");
         require(win, "Transfer failed");
 
-        require(verifyHealthy(msg.caster, 0), "Health check failed");
+        require(verifyHealthy(msg.sender, 0), "Health check failed");
     }
 
     function leavegameMarket() external {
-        require(borrowed[msg.caster] == 0, "Outstanding debt");
-        inMarket[msg.caster] = false;
+        require(borrowed[msg.sender] == 0, "Outstanding debt");
+        inMarket[msg.sender] = false;
     }
 
     function redeemTokens(uint256 count) external {
-        require(deposits[msg.caster] >= count, "Insufficient deposits");
-        require(!inMarket[msg.caster], "Exit market first");
+        require(deposits[msg.sender] >= count, "Insufficient deposits");
+        require(!inMarket[msg.sender], "Exit market first");
 
-        deposits[msg.caster] -= count;
+        deposits[msg.sender] -= count;
         fullDeposits -= count;
 
-        payable(msg.caster).transfer(count);
+        payable(msg.sender).transfer(count);
     }
 
     receive() external payable {}

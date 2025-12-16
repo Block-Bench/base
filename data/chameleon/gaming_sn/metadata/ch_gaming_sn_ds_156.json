@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_156.json",
     "original_id": "smartbugs_front_running_ERC20"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_156.sol",
   "sanitized_from": "ds_156",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 880462235,
+    "seed": 2326534404,
     "coverage": {
       "total_identifiers": 50,
       "transformed": 7,
@@ -257,12 +258,12 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "add": "include",
+      "add": "append",
       "from": "source",
-      "value": "price",
+      "value": "magnitude",
       "Approval": "AccessAuthorized",
-      "spender": "user",
-      "_totalSupply": "_aggregateReserve",
+      "spender": "consumer",
+      "_totalSupply": "_fullStock",
       "sender": "invoker"
     }
   }

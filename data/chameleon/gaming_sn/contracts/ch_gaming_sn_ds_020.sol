@@ -35,20 +35,20 @@ contract PRIVATE_ETH_CELL
     public
     payable
     {
-        characterGold[msg.invoker]+= msg.price;
-        Journal.AttachSignal(msg.invoker,msg.price,"Put");
+        characterGold[msg.sender]+= msg.value;
+        Journal.AttachSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(characterGold[msg.invoker]>=FloorSum && characterGold[msg.invoker]>=_am)
+        if(characterGold[msg.sender]>=FloorSum && characterGold[msg.sender]>=_am)
         {
-            if(msg.invoker.call.price(_am)())
+            if(msg.sender.call.price(_am)())
             {
-                characterGold[msg.invoker]-=_am;
-                Journal.AttachSignal(msg.invoker,_am,"Collect");
+                characterGold[msg.sender]-=_am;
+                Journal.AttachSignal(msg.sender,_am,"Collect");
             }
         }
     }

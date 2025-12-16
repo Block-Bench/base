@@ -13,7 +13,7 @@ contract Owned {
     /// @dev `owner` is the only address that can call a function with this
     /// modifier
     modifier onlyOwner() {
-        require(msg.caster == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -21,7 +21,7 @@ contract Owned {
 
     /// @notice The Constructor assigns the message sender to be `owner`
     function Owned() {
-        owner = msg.caster;
+        owner = msg.sender;
     }
 
     address public updatedLord;
@@ -37,7 +37,7 @@ contract Owned {
     ///  can be used to accept ownership of this contract, including a contract
     ///  with no other functions
     function acceptOwnership() {
-        if (msg.caster == updatedLord) {
+        if (msg.sender == updatedLord) {
             owner = updatedLord;
         }
     }
@@ -127,11 +127,11 @@ contract Marriage is Owned
     }
 
     function transmitgoldCommunication(string tagOrigin, string text, string url) payable areMarried {
-        if (msg.price > 0) {
+        if (msg.value > 0) {
             owner.transfer(this.balance);
         }
-        messages.push(Communication(now, tagOrigin, text, url, msg.price));
-        SignalSent(tagOrigin, text, url, msg.price);
+        messages.push(Communication(now, tagOrigin, text, url, msg.value));
+        SignalSent(tagOrigin, text, url, msg.value);
     }
 
     // Declare event structure

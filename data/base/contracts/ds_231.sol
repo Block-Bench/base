@@ -3,7 +3,6 @@ pragma solidity 0.8.18;
 
 import "forge-std/Test.sol";
 import "./interface.sol";
-*/
 
 interface ICurve {
     function get_virtual_price() external view returns (uint);

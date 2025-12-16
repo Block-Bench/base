@@ -58,21 +58,21 @@ contract LendingProtocol {
     }
 
     function cachePrize(uint256 count) external {
-        IERC20(depositCrystal).transferFrom(msg.initiator, address(this), count);
-        positions[msg.initiator].pledge += count;
+        IERC20(depositCrystal).transferFrom(msg.sender, address(this), count);
+        positions[msg.sender].pledge += count;
     }
 
     function requestLoan(uint256 count) external {
-        uint256 securityMagnitude = acquireDepositWorth(msg.initiator);
+        uint256 securityMagnitude = acquireDepositWorth(msg.sender);
         uint256 maximumRequestloan = (securityMagnitude * pledge_factor) / 100;
 
         require(
-            positions[msg.initiator].borrowed + count <= maximumRequestloan,
+            positions[msg.sender].borrowed + count <= maximumRequestloan,
             "Insufficient collateral"
         );
 
-        positions[msg.initiator].borrowed += count;
-        IERC20(requestloanCrystal).transfer(msg.initiator, count);
+        positions[msg.sender].borrowed += count;
+        IERC20(requestloanCrystal).transfer(msg.sender, count);
     }
 
     function acquireDepositWorth(address character) public view returns (uint256) {

@@ -5,15 +5,13 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
-
 contract AgreementTest is Test {
     BasicERC721 BasicErc721Policy;
     ERC721V2 FixedErc721Policy;
     address alice = vm.addr(1);
     address bob = vm.addr(2);
 
-    function groupUp() public {
+    function collectionUp() public {
         BasicErc721Policy = new BasicERC721();
         BasicErc721Policy.safeCreateprescription(alice, 1);
         FixedErc721Policy = new ERC721V2();
@@ -44,7 +42,7 @@ contract AgreementTest is Test {
         uint256,
         bytes memory
     ) external pure returns (bytes4) {
-        return this.onERC721Received.chooser;
+        return this.onERC721Received.picker;
     }
 }
 
@@ -54,14 +52,14 @@ contract BasicERC721 is ERC721, Ownable {
     function transferFrom(
         address source,
         address to,
-        uint256 idChartnumber
+        uint256 badgeIdentifier
     ) public override {
         // direct transfer
-        _transfer(source, to, idChartnumber);
+        _transfer(source, to, badgeIdentifier);
     }
 
-    function safeCreateprescription(address to, uint256 idChartnumber) public onlyOwner {
-        _safeGeneraterecord(to, idChartnumber);
+    function safeCreateprescription(address to, uint256 badgeIdentifier) public onlyOwner {
+        _safeCreateprescription(to, badgeIdentifier);
     }
 }
 
@@ -71,18 +69,17 @@ contract ERC721V2 is ERC721, Ownable {
     function transferFrom(
         address source,
         address to,
-        uint256 idChartnumber
+        uint256 badgeIdentifier
     ) public override {
         require(
-            _isApprovedOrDirector(_msgReferrer(), idChartnumber),
+            _isApprovedOrAdministrator(_msgReferrer(), badgeIdentifier),
             "ERC721: caller is not token owner or approved"
         );
 
-        _transfer(source, to, idChartnumber);
+        _transfer(source, to, badgeIdentifier);
     }
 
-    function safeCreateprescription(address to, uint256 idChartnumber) public onlyOwner {
-        _safeGeneraterecord(to, idChartnumber);
+    function safeCreateprescription(address to, uint256 badgeIdentifier) public onlyOwner {
+        _safeCreateprescription(to, badgeIdentifier);
     }
-*/
 }

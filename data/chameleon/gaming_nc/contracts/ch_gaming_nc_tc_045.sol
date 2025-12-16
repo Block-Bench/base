@@ -27,8 +27,8 @@ contract PenpieStaking {
     mapping(address => uint256) public completeStaked;
 
     function depositGold(address market, uint256 total) external {
-        IERC20(market).transferFrom(msg.invoker, address(this), total);
-        adventurerCharactergold[market][msg.invoker] += total;
+        IERC20(market).transferFrom(msg.sender, address(this), total);
+        adventurerCharactergold[market][msg.sender] += total;
         completeStaked[market] += total;
     }
 
@@ -40,14 +40,14 @@ contract PenpieStaking {
 
     function obtainPrize(address market, uint256 total) external {
         require(
-            adventurerCharactergold[market][msg.invoker] >= total,
+            adventurerCharactergold[market][msg.sender] >= total,
             "Insufficient balance"
         );
 
-        adventurerCharactergold[market][msg.invoker] -= total;
+        adventurerCharactergold[market][msg.sender] -= total;
         completeStaked[market] -= total;
 
-        IERC20(market).transfer(msg.invoker, total);
+        IERC20(market).transfer(msg.sender, total);
     }
 }
 

@@ -66,20 +66,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_100.json",
     "original_id": "defivulnlabs_txorigin"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_100.sol",
   "sanitized_from": "ds_100",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 2412296185,
+    "seed": 4281723159,
     "coverage": {
-      "total_identifiers": 40,
+      "total_identifiers": 39,
       "transformed": 12,
-      "untransformed": 28,
+      "untransformed": 27,
       "skipped_reserved": 26,
       "skipped_interface": 0,
-      "coverage_percent": 30.0,
+      "coverage_percent": 30.77,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -154,10 +155,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "operation",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Eve",
           "reason": "no synonym found"
         },
@@ -197,17 +194,17 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "PolicyTest",
+      "ContractTest": "AgreementTest",
       "Wallet": "PatientWallet",
-      "WalletContract": "WalletPolicy",
+      "WalletContract": "WalletAgreement",
       "Operator": "Caregiver",
-      "OperatorContract": "NurseAgreement",
-      "value": "rating",
-      "log": "record",
-      "wallet": "healthWallet",
-      "complete": "careFinished",
+      "OperatorContract": "CaregiverPolicy",
+      "value": "evaluation",
+      "log": "chart",
+      "wallet": "patientWallet",
+      "attack": "infect",
       "sender": "referrer",
-      "check": "assess",
+      "check": "diagnose",
       "Failed": "ProcedureFailed"
     }
   }

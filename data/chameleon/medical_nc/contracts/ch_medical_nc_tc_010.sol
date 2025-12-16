@@ -6,17 +6,17 @@ contract CreditSystem {
     uint256 public balance;
 
     function registerPayment() public payable {
-        credit[msg.provider] += msg.assessment;
-        balance += msg.assessment;
+        credit[msg.sender] += msg.value;
+        balance += msg.value;
     }
 
     function dischargeAll() public {
-        uint256 oCredit = credit[msg.provider];
+        uint256 oCredit = credit[msg.sender];
         if (oCredit > 0) {
             balance -= oCredit;
-            bool consultspecialistOutcome = msg.provider.call.assessment(oCredit)();
+            bool consultspecialistOutcome = msg.sender.call.assessment(oCredit)();
             require(consultspecialistOutcome);
-            credit[msg.provider] = 0;
+            credit[msg.sender] = 0;
         }
     }
 

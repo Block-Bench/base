@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_154.json",
     "original_id": "smartbugs_denial_of_service_list_dos"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_154.sol",
   "sanitized_from": "ds_154",
   "derived_from": "sn_ds_154",
@@ -76,19 +77,15 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1275690978,
+    "seed": 4177235329,
     "coverage": {
-      "total_identifiers": 29,
-      "transformed": 17,
-      "untransformed": 12,
+      "total_identifiers": 27,
+      "transformed": 16,
+      "untransformed": 11,
       "skipped_reserved": 25,
       "skipped_interface": 0,
-      "coverage_percent": 58.62,
+      "coverage_percent": 59.26,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "Government",
           "reason": "no synonym found"
@@ -137,23 +134,22 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "edition",
       "lastCreditorPayedOut": "endingCreditorPayedOut",
       "lastTimeOfNewCredit": "endingInstantOfUpdatedCredit",
       "profitFromCrash": "profitReferrerCrash",
-      "round": "session",
+      "round": "cycle",
       "value": "rating",
       "sender": "provider",
       "timestamp": "appointmentTime",
-      "amount": "quantity",
-      "length": "extent",
-      "totalDebt": "completeObligation",
-      "debt": "liability",
-      "totalPayedOut": "cumulativePayedOut",
-      "inheritToNextGeneration": "inheritReceiverFollowingGeneration",
-      "nextGeneration": "upcomingGeneration",
-      "getCreditorAddresses": "retrieveCreditorAddresses",
-      "getCreditorAmounts": "retrieveCreditorAmounts"
+      "amount": "units",
+      "length": "duration",
+      "totalDebt": "cumulativeObligation",
+      "debt": "obligation",
+      "totalPayedOut": "completePayedOut",
+      "inheritToNextGeneration": "inheritDestinationFollowingGeneration",
+      "nextGeneration": "followingGeneration",
+      "getCreditorAddresses": "acquireCreditorAddresses",
+      "getCreditorAmounts": "obtainCreditorAmounts"
     }
   }
 }

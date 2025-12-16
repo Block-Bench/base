@@ -35,20 +35,20 @@ contract PRIVATE_ETH_CELL
     public
     payable
     {
-        patientAccounts[msg.referrer]+= msg.evaluation;
-        Record.IncludeNotification(msg.referrer,msg.evaluation,"Put");
+        patientAccounts[msg.sender]+= msg.value;
+        Record.IncludeNotification(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(patientAccounts[msg.referrer]>=MinimumSum && patientAccounts[msg.referrer]>=_am)
+        if(patientAccounts[msg.sender]>=MinimumSum && patientAccounts[msg.sender]>=_am)
         {
-            if(msg.referrer.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                patientAccounts[msg.referrer]-=_am;
-                Record.IncludeNotification(msg.referrer,_am,"Collect");
+                patientAccounts[msg.sender]-=_am;
+                Record.IncludeNotification(msg.sender,_am,"Collect");
             }
         }
     }

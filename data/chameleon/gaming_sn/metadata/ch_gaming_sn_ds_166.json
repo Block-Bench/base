@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_166.json",
     "original_id": "smartbugs_time_manipulation_lottopollo"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_166.sol",
   "sanitized_from": "ds_166",
   "transformation": {
@@ -74,12 +75,12 @@
     "source": "sanitized",
     "seed": 1182629015,
     "coverage": {
-      "total_identifiers": 16,
+      "total_identifiers": 15,
       "transformed": 3,
-      "untransformed": 13,
-      "skipped_reserved": 19,
+      "untransformed": 12,
+      "skipped_reserved": 20,
       "skipped_interface": 0,
-      "coverage_percent": 18.75,
+      "coverage_percent": 20.0,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -111,10 +112,6 @@
         },
         {
           "name": "rand",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

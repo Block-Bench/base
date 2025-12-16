@@ -1,0 +1,76 @@
+{
+  "id": "gs_solidity_0_8_nc_ds_107",
+  "contract_file": "contracts/gs_solidity_0_8_nc_ds_107.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "neutralized_by": "solidity_0_8",
+    "neutralization_reason": "Built-in overflow/underflow checks prevent arithmetic vulnerabilities"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_transientstoragemisuse.t",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.24",
+    "num_lines": 69,
+    "num_contracts": 2,
+    "contract_names": [
+      "SimpleVault",
+      "TransientStorageMisuseTest"
+    ],
+    "num_functions": 6,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "SIR (Storage Injection via Reentrancy) vulnerability transient storage test",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_107.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_107.json",
+    "original_id": "defivulnlabs_transientstoragemisuse.t"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_107.sol",
+  "sanitized_from": "ds_107",
+  "derived_from": "nc_ds_107",
+  "original_id": "ds_107",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "solidity_0_8",
+    "injection_details": {
+      "pragma_updated": false,
+      "safemath_removed": false,
+      "operators_replaced": 0,
+      "protection_type": "solidity_0_8"
+    }
+  }
+}

@@ -1,5 +1,3 @@
-*/
-
 contract OpenZoneLottery{
     struct SeedComponents{
         uint component1;
@@ -16,29 +14,29 @@ contract OpenZoneLottery{
     mapping (address => bool) winner;
 
     function OpenZoneLottery() {
-        owner = msg.caster;
-        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.gameTime));
+        owner = msg.sender;
+        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
     function participate() payable {
-        if(msg.price<0.1 ether)
+        if(msg.value<0.1 ether)
             return;
 
 
-        require(winner[msg.caster] == false);
+        require(winner[msg.sender] == false);
 
-        if(luckyNumberOfLocation(msg.caster) == LuckyNumber){
-            winner[msg.caster] = true;
+        if(luckyNumberOfLocation(msg.sender) == LuckyNumber){
+            winner[msg.sender] = true;
 
-            uint win=msg.price*7;
+            uint win=msg.value*7;
 
             if(win>this.balance)
                 win=this.balance;
-            msg.caster.transfer(win);
+            msg.sender.transfer(win);
         }
 
         if(block.number-endingReseed>1000)
-            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.gameTime));
+            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
     function luckyNumberOfLocation(address addr) constant returns(uint n){
@@ -57,16 +55,16 @@ contract OpenZoneLottery{
     }
 
     function kill() {
-        require(msg.caster==owner);
+        require(msg.sender==owner);
 
-        selfdestruct(msg.caster);
+        selfdestruct(msg.sender);
     }
 
     function forceReseed() {
-        require(msg.caster==owner);
+        require(msg.sender==owner);
 
         SeedComponents s;
-        s.component1 = uint(msg.caster);
+        s.component1 = uint(msg.sender);
         s.component2 = uint256(block.blockhash(block.number - 1));
         s.component3 = block.difficulty*(uint)(block.coinbase);
         s.component4 = tx.gasprice * 7;
@@ -75,7 +73,7 @@ contract OpenZoneLottery{
     }
 
     function () payable {
-        if(msg.price>=0.1 ether && msg.caster!=owner)
+        if(msg.value>=0.1 ether && msg.sender!=owner)
             participate();
     }
 

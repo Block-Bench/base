@@ -3,10 +3,8 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 import "./interface.sol";
 
-*/
-
-contract PactTest is DSTest {
-    IFantasticWeslie relicAgreement =
+contract AgreementTest is DSTest {
+    IFantasticWeslie artifactPact =
         IFantasticWeslie(0xf6FFBa463e46087FcdC3a51391bB675B0e2C1a40);
 
     CheatCodes cheats = CheatCodes(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
@@ -60,8 +58,8 @@ contract PactTest is DSTest {
             0x45c575962e5a88b5e8c3aedf4e3e74306d0124f4cc86c25bc4cd1bcae16c54a0
         );
 
-        relicAgreement.summon{worth: 0.12 ether}(merkleTreeVerification);
+        artifactPact.summon{price: 0.12 ether}(merkleTreeVerification);
 
-        console.record("Owner of NFT#142 : ", relicAgreement.ownerOf(142));
+        console.record("Owner of NFT#142 : ", artifactPact.ownerOf(142));
     }
 }

@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_089.json",
     "original_id": "defivulnlabs_recovererc20"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_089.sol",
   "sanitized_from": "ds_089",
   "derived_from": "sn_ds_089",
@@ -75,7 +76,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1686342257,
+    "seed": 504610896,
     "coverage": {
       "total_identifiers": 48,
       "transformed": 19,
@@ -205,24 +206,24 @@
     },
     "rename_map": {
       "token": "id",
-      "utils": "medicalUtils",
+      "utils": "careTools",
       "ContractTest": "AgreementTest",
-      "RewardToken": "CreditId",
+      "RewardToken": "BenefitId",
       "RewardTokenContract": "CreditCredentialPolicy",
-      "VulnStakingRewardsContract": "VulnStakingRewardsAgreement",
-      "FixedtakingRewardsContract": "FixedtakingRewardsPolicy",
-      "setUp": "groupUp",
-      "log": "chart",
+      "VulnStakingRewardsContract": "VulnStakingRewardsPolicy",
+      "FixedtakingRewardsContract": "FixedtakingRewardsAgreement",
+      "setUp": "collectionUp",
+      "log": "record",
       "recoverERC20": "healErc20",
-      "rewardsToken": "rewardsBadge",
-      "amount": "units",
-      "_rewardsToken": "_rewardsCredential",
+      "rewardsToken": "rewardsCredential",
+      "amount": "quantity",
+      "_rewardsToken": "_rewardsId",
       "sender": "referrer",
-      "tokenAddress": "idFacility",
-      "tokenAmount": "badgeDosage",
+      "tokenAddress": "badgeLocation",
+      "tokenAmount": "idMeasure",
       "safeTransfer": "secureReferral",
-      "withdraw": "claimCoverage",
-      "Reward": "Credit"
+      "withdraw": "dispenseMedication",
+      "Reward": "Benefit"
     }
   }
 }

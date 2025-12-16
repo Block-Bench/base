@@ -62,7 +62,7 @@ contract HedgeyGetpayoutCampaigns {
 
         if (donation.total > 0 && donation.medalLocker != address(0)) {
             (bool victory, ) = donation.medalLocker.call(
-                abi.encodeWithSeal(
+                abi.encodeWithSignature(
                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
                     campaign.crystal,
                     donation.total,
@@ -77,8 +77,8 @@ contract HedgeyGetpayoutCampaigns {
         }
     }
 
-    function cancelCampaign(bytes16 campaignTag) external {
-        require(campaigns[campaignTag].handler == msg.caster, "Not manager");
-        delete campaigns[campaignTag];
+    function cancelCampaign(bytes16 campaignIdentifier) external {
+        require(campaigns[campaignIdentifier].handler == msg.sender, "Not manager");
+        delete campaigns[campaignIdentifier];
     }
 }

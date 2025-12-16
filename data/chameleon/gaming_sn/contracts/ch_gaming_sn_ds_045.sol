@@ -9,15 +9,15 @@ pragma solidity ^0.4.15;
      }
 
      function attachDestinationLootbalance() payable{
-         heroRewardlevel[msg.initiator] += msg.magnitude;
+         heroRewardlevel[msg.sender] += msg.value;
      }
 
      function gathertreasureRewardlevel(){
          // send userBalance[msg.sender] ethers to msg.sender
          // if mgs.sender is a contract, it will call its fallback function
-         if( ! (msg.initiator.call.magnitude(heroRewardlevel[msg.initiator])() ) ){
+         if( ! (msg.sender.call.magnitude(heroRewardlevel[msg.sender])() ) ){
              throw;
          }
-         heroRewardlevel[msg.initiator] = 0;
+         heroRewardlevel[msg.sender] = 0;
      }
  }

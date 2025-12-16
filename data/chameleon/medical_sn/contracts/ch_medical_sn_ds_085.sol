@@ -17,6 +17,6 @@ pragma solidity ^0.4.18;
 
      function retrievesuppliesLeftOver() public {
          require(payedOut);
-         msg.provider.send(this.balance);
+         msg.sender.send(this.balance);
      }
  }

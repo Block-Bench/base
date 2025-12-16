@@ -3,10 +3,8 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    Collection ListAgreement;
+    Array CollectionAgreement;
 
     function testDetailsLocation() public {
         address alice = vm.addr(1);
@@ -14,14 +12,14 @@ contract AgreementTest is Test {
         vm.deal(address(alice), 1 ether);
         vm.deal(address(bob), 1 ether);
         //vm.startPrank(alice);
-        ListAgreement = new Collection();
-        ListAgreement.updaterewardOwing(100); // update rewardDebt to 100
-        (uint count, uint prizeObligation) = ListAgreement.heroData(address(this));
-        console.journal("Non-updated rewardDebt", prizeObligation);
+        CollectionAgreement = new Array();
+        CollectionAgreement.updaterewardObligation(100); // update rewardDebt to 100
+        (uint sum, uint treasureLiability) = CollectionAgreement.heroData(address(this));
+        console.journal("Non-updated rewardDebt", treasureLiability);
 
         console.journal("Update rewardDebt with storage");
-        ListAgreement.fixedupdaterewardLiability(100);
-        (uint newamount, uint newrewardOwing) = ListAgreement.heroData(
+        CollectionAgreement.fixedupdaterewardLiability(100);
+        (uint newamount, uint newrewardOwing) = CollectionAgreement.heroData(
             address(this)
         );
         console.journal("Updated rewardDebt", newrewardOwing);
@@ -30,21 +28,21 @@ contract AgreementTest is Test {
     receive() external payable {}
 }
 
-contract Collection is Test {
-    mapping(address => HeroData) public heroData; // storage
+contract Array is Test {
+    mapping(address => CharacterInfo) public heroData; // storage
 
-    struct HeroData {
-        uint256 count; // How many tokens got staked by user.
-        uint256 prizeObligation; // Reward debt. See Explanation below.
+    struct CharacterInfo {
+        uint256 sum; // How many tokens got staked by user.
+        uint256 treasureLiability; // Reward debt. See Explanation below.
     }
 
-    function updaterewardOwing(uint count) public {
-        HeroData memory character = heroData[msg.caster];
-        character.prizeObligation = count;
+    function updaterewardObligation(uint sum) public {
+        CharacterInfo memory character = heroData[msg.sender];
+        character.treasureLiability = sum;
     }
 
-    function fixedupdaterewardLiability(uint count) public {
-        HeroData storage character = heroData[msg.caster]; // storage
-        character.prizeObligation = count;
+    function fixedupdaterewardLiability(uint sum) public {
+        CharacterInfo storage character = heroData[msg.sender]; // storage
+        character.treasureLiability = sum;
     }
 }

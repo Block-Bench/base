@@ -18,7 +18,7 @@ contract KingOfTheEtherThrone {
     address wizardLocation;
 
 
-    modifier onlywizard { if (msg.invoker == wizardLocation) _; }
+    modifier onlywizard { if (msg.sender == wizardLocation) _; }
 
 
     uint constant startingGetpayoutCost = 100 finney;
@@ -42,13 +42,13 @@ contract KingOfTheEtherThrone {
 
 
     function KingOfTheEtherThrone() {
-        wizardLocation = msg.invoker;
+        wizardLocation = msg.sender;
         presentGetpayoutCost = startingGetpayoutCost;
         presentMonarch = Monarch(
             wizardLocation,
             "[Vacant]",
             0,
-            block.adventureTime
+            block.timestamp
         );
     }
 
@@ -65,24 +65,24 @@ contract KingOfTheEtherThrone {
 
 
     function() {
-        getpayoutThrone(string(msg.info));
+        getpayoutThrone(string(msg.data));
     }
 
 
     function getpayoutThrone(string name) {
 
-        uint pricePaid = msg.worth;
+        uint pricePaid = msg.value;
 
 
         if (pricePaid < presentGetpayoutCost) {
-            msg.invoker.send(pricePaid);
+            msg.sender.send(pricePaid);
             return;
         }
 
 
         if (pricePaid > presentGetpayoutCost) {
             uint excessPaid = pricePaid - presentGetpayoutCost;
-            msg.invoker.send(excessPaid);
+            msg.sender.send(excessPaid);
             pricePaid = pricePaid - excessPaid;
         }
 
@@ -100,10 +100,10 @@ contract KingOfTheEtherThrone {
 
         pastMonarchs.push(presentMonarch);
         presentMonarch = Monarch(
-            msg.invoker,
+            msg.sender,
             name,
             pricePaid,
-            block.adventureTime
+            block.timestamp
         );
 
 

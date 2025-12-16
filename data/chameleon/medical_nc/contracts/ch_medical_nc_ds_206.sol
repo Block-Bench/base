@@ -2,13 +2,13 @@ pragma solidity ^0.4.18;
 
 contract Test1
 {
-    address owner = msg.referrer;
+    address owner = msg.sender;
 
     function retrieveSupplies()
     payable
     public
     {
-        require(msg.referrer==owner);
+        require(msg.sender==owner);
         owner.transfer(this.balance);
     }
 
@@ -18,12 +18,12 @@ contract Test1
     payable
     public
     {
-        if(msg.rating>=1 ether)
+        if(msg.value>=1 ether)
         {
 
             var i1 = 1;
             var i2 = 0;
-            var amX2 = msg.rating*2;
+            var amX2 = msg.value*2;
 
             while(true)
             {
@@ -33,7 +33,7 @@ contract Test1
                 i2=i1;
                 i1++;
             }
-            msg.referrer.transfer(i2);
+            msg.sender.transfer(i2);
         }
     }
 }

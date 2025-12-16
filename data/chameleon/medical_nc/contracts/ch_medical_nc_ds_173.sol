@@ -2,13 +2,13 @@ pragma solidity ^0.4.11;
 
 contract Owned {
     function Owned() {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     address public owner;
 
 
-    modifier onlyOwner { if (msg.referrer == owner) _; }
+    modifier onlyOwner { if (msg.sender == owner) _; }
 
     function changeAdministrator(address _updatedDirector) onlyOwner {
         owner = _updatedDirector;

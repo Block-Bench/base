@@ -84,6 +84,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_040.json",
     "original_exploit_name": "Bedrock DeFi Exchange Rate Exploit"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_040.sol",
   "sanitized_from": "tc_040",
   "transformation": {
@@ -92,12 +93,12 @@
     "source": "sanitized",
     "seed": 227346701,
     "coverage": {
-      "total_identifiers": 44,
+      "total_identifiers": 42,
       "transformed": 26,
-      "untransformed": 18,
-      "skipped_reserved": 28,
+      "untransformed": 16,
+      "skipped_reserved": 30,
       "skipped_interface": 0,
-      "coverage_percent": 59.09,
+      "coverage_percent": 61.9,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -121,14 +122,6 @@
         },
         {
           "name": "IUniswapV3Router",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint24",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint160",
           "reason": "no synonym found"
         },
         {

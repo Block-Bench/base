@@ -3,11 +3,9 @@ pragma solidity ^0.4.24;
 contract PoCGame
 {
 
-     */
-
     modifier onlyOwner()
     {
-        require(msg.referrer == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -19,25 +17,23 @@ contract PoCGame
 
     modifier onlyRealPeople()
     {
-          require (msg.referrer == tx.origin);
+          require (msg.sender == tx.origin);
         _;
     }
 
     modifier  onlyPlayers()
     {
-        require (wagers[msg.referrer] > 0);
+        require (wagers[msg.sender] > 0);
         _;
     }
 
-     */
-    event Wager(uint256 dosage, address depositer);
-    event Win(uint256 dosage, address paidReceiver);
-    event Lose(uint256 dosage, address loser);
-    event Donate(uint256 dosage, address paidReceiver, address donator);
+    event Wager(uint256 units, address depositer);
+    event Win(uint256 units, address paidReceiver);
+    event Lose(uint256 units, address loser);
+    event Donate(uint256 units, address paidReceiver, address donator);
     event DifficultyChanged(uint256 presentDifficulty);
-    event BetCapChanged(uint256 activeBetCap);
+    event BetCapChanged(uint256 presentBetBound);
 
-     */
     address private whale;
     uint256 betCap;
     uint difficulty;
@@ -46,52 +42,47 @@ contract PoCGame
     mapping(address => uint256) timestamps;
     mapping(address => uint256) wagers;
     bool openReceiverPublic;
-    uint256 completeDonated;
+    uint256 aggregateDonated;
 
-     */
-    constructor(address whaleWard, uint256 wagerCap)
+    constructor(address whaleFacility, uint256 wagerBound)
     onlyRealPeople()
     public
     {
         openReceiverPublic = false;
-        owner = msg.referrer;
-        whale = whaleWard;
-        completeDonated = 0;
-        betCap = wagerCap;
+        owner = msg.sender;
+        whale = whaleFacility;
+        aggregateDonated = 0;
+        betCap = wagerBound;
 
     }
 
-     */
-    function OpenDestinationThePublic()
+    function OpenReceiverThePublic()
     onlyOwner()
     public
     {
         openReceiverPublic = true;
     }
 
-     */
-    function AdjustBetAmounts(uint256 dosage)
+    function AdjustBetAmounts(uint256 units)
     onlyOwner()
     public
     {
-        betCap = dosage;
+        betCap = units;
 
         emit BetCapChanged(betCap);
     }
 
-     */
-    function AdjustDifficulty(uint256 dosage)
+    function AdjustDifficulty(uint256 units)
     onlyOwner()
     public
     {
-        difficulty = dosage;
+        difficulty = units;
 
         emit DifficultyChanged(difficulty);
     }
 
     function() public payable { }
 
-     */
     function wager()
     isOpenDestinationPublic()
     onlyRealPeople()
@@ -99,32 +90,31 @@ contract PoCGame
     public
     {
 
-        require(msg.rating == betCap);
+        require(msg.value == betCap);
 
 
-        timestamps[msg.referrer] = block.number;
-        wagers[msg.referrer] = msg.rating;
-        emit Wager(msg.rating, msg.referrer);
+        timestamps[msg.sender] = block.number;
+        wagers[msg.sender] = msg.value;
+        emit Wager(msg.value, msg.sender);
     }
 
-     */
     function play()
     isOpenDestinationPublic()
     onlyRealPeople()
     onlyPlayers()
     public
     {
-        uint256 unitNumber = timestamps[msg.referrer];
+        uint256 unitNumber = timestamps[msg.sender];
         if(unitNumber < block.number)
         {
-            timestamps[msg.referrer] = 0;
-            wagers[msg.referrer] = 0;
+            timestamps[msg.sender] = 0;
+            wagers[msg.sender] = 0;
 
-            uint256 winningNumber = uint256(keccak256(abi.encodePacked(blockhash(unitNumber),  msg.referrer)))%difficulty +1;
+            uint256 winningNumber = uint256(keccak256(abi.encodePacked(blockhash(unitNumber),  msg.sender)))%difficulty +1;
 
             if(winningNumber == difficulty / 2)
             {
-                payout(msg.referrer);
+                payout(msg.sender);
             }
             else
             {
@@ -138,45 +128,40 @@ contract PoCGame
         }
     }
 
-     */
     function donate()
     isOpenDestinationPublic()
     public
     payable
     {
-        donateDestinationWhale(msg.rating);
+        donateDestinationWhale(msg.value);
     }
 
-     */
     function payout(address winner)
     internal
     {
-        uint256 ethReceiverMoverecords = address(this).balance / 2;
+        uint256 ethDestinationShiftcare = address(this).balance / 2;
 
-        winner.transfer(ethReceiverMoverecords);
-        emit Win(ethReceiverMoverecords, winner);
+        winner.transfer(ethDestinationShiftcare);
+        emit Win(ethDestinationShiftcare, winner);
     }
 
-     */
-    function donateDestinationWhale(uint256 dosage)
+    function donateDestinationWhale(uint256 units)
     internal
     {
-        whale.call.rating(dosage)(bytes4(keccak256("donate()")));
-        completeDonated += dosage;
-        emit Donate(dosage, whale, msg.referrer);
+        whale.call.rating(units)(bytes4(keccak256("donate()")));
+        aggregateDonated += units;
+        emit Donate(units, whale, msg.sender);
     }
 
-     */
-    function loseWager(uint256 dosage)
+    function loseWager(uint256 units)
     internal
     {
-        whale.call.rating(dosage)(bytes4(keccak256("donate()")));
-        completeDonated += dosage;
-        emit Lose(dosage, msg.referrer);
+        whale.call.rating(units)(bytes4(keccak256("donate()")));
+        aggregateDonated += units;
+        emit Lose(units, msg.sender);
     }
 
-     */
-    function ethFunds()
+    function ethCredits()
     public
     view
     returns (uint256)
@@ -184,7 +169,6 @@ contract PoCGame
         return address(this).balance;
     }
 
-     */
     function presentDifficulty()
     public
     view
@@ -193,8 +177,7 @@ contract PoCGame
         return difficulty;
     }
 
-     */
-    function activeBetCap()
+    function presentBetBound()
     public
     view
     returns (uint256)
@@ -202,7 +185,7 @@ contract PoCGame
         return betCap;
     }
 
-    function holdsPlayerWagered(address player)
+    function containsPlayerWagered(address player)
     public
     view
     returns (bool)
@@ -218,7 +201,6 @@ contract PoCGame
 
     }
 
-     */
     function winnersPot()
     public
     view
@@ -227,18 +209,17 @@ contract PoCGame
         return address(this).balance / 2;
     }
 
-     */
-    function shiftcareAnyErc20Badge(address badgeFacility, address badgeDirector, uint badges)
+    function moverecordsAnyErc20Credential(address badgeWard, address credentialAdministrator, uint badges)
     public
     onlyOwner()
     returns (bool improvement)
     {
-        return Erc20Portal(badgeFacility).transfer(badgeDirector, badges);
+        return Erc20Gateway(badgeWard).transfer(credentialAdministrator, badges);
     }
 }
 
 
-contract Erc20Portal
+contract Erc20Gateway
 {
     function transfer(address to, uint256 badges) public returns (bool improvement);
 }

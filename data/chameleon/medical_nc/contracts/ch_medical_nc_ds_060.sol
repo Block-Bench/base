@@ -3,7 +3,7 @@ pragma solidity ^0.4.19;
 contract Ownable
 {
     address currentDirector;
-    address owner = msg.provider;
+    address owner = msg.sender;
 
     function changeAdministrator(address addr)
     public
@@ -15,7 +15,7 @@ contract Ownable
     function confirmSupervisor()
     public
     {
-        if(msg.provider==currentDirector)
+        if(msg.sender==currentDirector)
         {
             owner=currentDirector;
         }
@@ -23,13 +23,13 @@ contract Ownable
 
     modifier onlyOwner
     {
-        if(owner == msg.provider)_;
+        if(owner == msg.sender)_;
     }
 }
 
 contract Credential is Ownable
 {
-    address owner = msg.provider;
+    address owner = msg.sender;
     function DispensemedicationBadge(address credential, uint256 dosage,address to)
     public
     onlyOwner
@@ -47,7 +47,7 @@ contract CredentialBank is Credential
     function initCredentialBank()
     public
     {
-        owner = msg.provider;
+        owner = msg.sender;
         FloorRegisterpayment = 1 ether;
     }
 
@@ -60,9 +60,9 @@ contract CredentialBank is Credential
     function RegisterPayment()
     payable
     {
-        if(msg.rating>FloorRegisterpayment)
+        if(msg.value>FloorRegisterpayment)
         {
-            Holders[msg.provider]+=msg.rating;
+            Holders[msg.sender]+=msg.value;
         }
     }
 

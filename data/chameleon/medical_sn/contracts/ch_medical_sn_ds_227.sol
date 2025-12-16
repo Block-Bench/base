@@ -3,44 +3,41 @@ pragma solidity ^0.7.0;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract PolicyTest is Test {
-    Invariant InvariantAgreement;
+contract AgreementTest is Test {
+    Invariant InvariantPolicy;
 
     function testInvariant() public {
-        InvariantAgreement = new Invariant();
-        InvariantAgreement.obtainresultsMoney{rating: 1 ether}();
+        InvariantPolicy = new Invariant();
+        InvariantPolicy.obtainresultsMoney{assessment: 1 ether}();
         console.chart(
             "BalanceReceived:",
-            InvariantAgreement.benefitsReceived(address(this))
+            InvariantPolicy.coverageReceived(address(this))
         );
 
-        InvariantAgreement.obtainresultsMoney{rating: 18 ether}();
+        InvariantPolicy.obtainresultsMoney{assessment: 18 ether}();
         console.chart(
             "testInvariant, BalanceReceived:",
-            InvariantAgreement.benefitsReceived(address(this))
+            InvariantPolicy.coverageReceived(address(this))
         );
-*/
     }
 
     receive() external payable {}
 }
 
 contract Invariant {
-    mapping(address => uint64) public benefitsReceived;
+    mapping(address => uint64) public coverageReceived;
 
     function obtainresultsMoney() public payable {
-        benefitsReceived[msg.referrer] += uint64(msg.rating);
+        coverageReceived[msg.sender] += uint64(msg.value);
     }
 
-    function claimcoverageMoney(address payable _to, uint64 _amount) public {
+    function extractspecimenMoney(address payable _to, uint64 _amount) public {
         require(
-            _amount <= benefitsReceived[msg.referrer],
+            _amount <= coverageReceived[msg.sender],
             "Not Enough Funds, aborting"
         );
 
-        benefitsReceived[msg.referrer] -= _amount;
+        coverageReceived[msg.sender] -= _amount;
         _to.transfer(_amount);
     }
 }

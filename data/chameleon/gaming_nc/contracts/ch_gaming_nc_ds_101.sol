@@ -2,16 +2,14 @@ pragma solidity ^0.7.6;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PactTest is Test {
-    GemWhaleChallenge GemWhaleChallengeAgreement;
+    CoinWhaleChallenge GemWhaleChallengeAgreement;
 
     function testCalculation() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
 
-        GemWhaleChallengeAgreement = new GemWhaleChallenge();
+        GemWhaleChallengeAgreement = new CoinWhaleChallenge();
         GemWhaleChallengeAgreement.CoinWhaleDeploy(address(this));
         console.record(
             "Player balance:",
@@ -37,7 +35,7 @@ contract PactTest is Test {
     receive() external payable {}
 }
 
-contract GemWhaleChallenge {
+contract CoinWhaleChallenge {
     address player;
 
     uint256 public totalSupply;
@@ -54,43 +52,43 @@ contract GemWhaleChallenge {
         balanceOf[player] = 1000;
     }
 
-    function verifyComplete() public view returns (bool) {
+    function testComplete() public view returns (bool) {
         return balanceOf[player] >= 1000000;
     }
 
-    event Transfer(address indexed origin, address indexed to, uint256 cost);
+    event Transfer(address indexed origin, address indexed to, uint256 magnitude);
 
-    function _transfer(address to, uint256 cost) internal {
-        balanceOf[msg.invoker] -= cost;
-        balanceOf[to] += cost;
+    function _transfer(address to, uint256 magnitude) internal {
+        balanceOf[msg.sender] -= magnitude;
+        balanceOf[to] += magnitude;
 
-        emit Transfer(msg.invoker, to, cost);
+        emit Transfer(msg.sender, to, magnitude);
     }
 
-    function transfer(address to, uint256 cost) public {
-        require(balanceOf[msg.invoker] >= cost);
-        require(balanceOf[to] + cost >= balanceOf[to]);
+    function transfer(address to, uint256 magnitude) public {
+        require(balanceOf[msg.sender] >= magnitude);
+        require(balanceOf[to] + magnitude >= balanceOf[to]);
 
-        _transfer(to, cost);
+        _transfer(to, magnitude);
     }
 
     event PermissionGranted(
         address indexed owner,
-        address indexed user,
-        uint256 cost
+        address indexed consumer,
+        uint256 magnitude
     );
 
-    function approve(address user, uint256 cost) public {
-        allowance[msg.invoker][user] = cost;
-        emit PermissionGranted(msg.invoker, user, cost);
+    function approve(address consumer, uint256 magnitude) public {
+        allowance[msg.sender][consumer] = magnitude;
+        emit PermissionGranted(msg.sender, consumer, magnitude);
     }
 
-    function transferFrom(address origin, address to, uint256 cost) public {
-        require(balanceOf[origin] >= cost);
-        require(balanceOf[to] + cost >= balanceOf[to]);
-        require(allowance[origin][msg.invoker] >= cost);
+    function transferFrom(address origin, address to, uint256 magnitude) public {
+        require(balanceOf[origin] >= magnitude);
+        require(balanceOf[to] + magnitude >= balanceOf[to]);
+        require(allowance[origin][msg.sender] >= magnitude);
 
-        allowance[origin][msg.invoker] -= cost;
-        _transfer(to, cost);
+        allowance[origin][msg.sender] -= magnitude;
+        _transfer(to, magnitude);
     }
 }

@@ -1,11 +1,10 @@
-added pragma edition
 pragma solidity ^0.4.0;
 
 contract Government {
 
 
-     uint32 public endingCreditorPayedOut;
-     uint public endingInstantOfUpdatedCredit;
+     uint32 public finalCreditorPayedOut;
+     uint public finalInstantOfUpdatedCredit;
      uint public profitSourceCrash;
      address[] public creditorAddresses;
      uint[] public creditorAmounts;
@@ -17,24 +16,24 @@ contract Government {
      function Government() {
 
 
-         profitSourceCrash = msg.worth;
-         corruptElite = msg.initiator;
-         endingInstantOfUpdatedCredit = block.adventureTime;
+         profitSourceCrash = msg.value;
+         corruptElite = msg.sender;
+         finalInstantOfUpdatedCredit = block.timestamp;
      }
 
      function lendGovernmentMoney(address buddy) returns (bool) {
-         uint sum = msg.worth;
+         uint sum = msg.value;
 
 
-         if (endingInstantOfUpdatedCredit + TWELVE_HOURS < block.adventureTime) {
+         if (finalInstantOfUpdatedCredit + TWELVE_HOURS < block.timestamp) {
 
-             msg.initiator.send(sum);
+             msg.sender.send(sum);
 
              creditorAddresses[creditorAddresses.extent - 1].send(profitSourceCrash);
              corruptElite.send(this.balance);
 
-             endingCreditorPayedOut = 0;
-             endingInstantOfUpdatedCredit = block.adventureTime;
+             finalCreditorPayedOut = 0;
+             finalInstantOfUpdatedCredit = block.timestamp;
              profitSourceCrash = 0;
              creditorAddresses = new address[](0);
              creditorAmounts = new uint[](0);
@@ -45,9 +44,9 @@ contract Government {
 
              if (sum >= 10 ** 18) {
 
-                 endingInstantOfUpdatedCredit = block.adventureTime;
+                 finalInstantOfUpdatedCredit = block.timestamp;
 
-                 creditorAddresses.push(msg.initiator);
+                 creditorAddresses.push(msg.sender);
                  creditorAmounts.push(sum * 110 / 100);
 
 
@@ -61,17 +60,17 @@ contract Government {
                  if(buddies[buddy] >= sum) {
                      buddy.send(sum * 5/100);
                  }
-                 buddies[msg.initiator] += sum * 110 / 100;
+                 buddies[msg.sender] += sum * 110 / 100;
 
-                 if (creditorAmounts[endingCreditorPayedOut] <= address(this).balance - profitSourceCrash) {
-                     creditorAddresses[endingCreditorPayedOut].send(creditorAmounts[endingCreditorPayedOut]);
-                     buddies[creditorAddresses[endingCreditorPayedOut]] -= creditorAmounts[endingCreditorPayedOut];
-                     endingCreditorPayedOut += 1;
+                 if (creditorAmounts[finalCreditorPayedOut] <= address(this).balance - profitSourceCrash) {
+                     creditorAddresses[finalCreditorPayedOut].send(creditorAmounts[finalCreditorPayedOut]);
+                     buddies[creditorAddresses[finalCreditorPayedOut]] -= creditorAmounts[finalCreditorPayedOut];
+                     finalCreditorPayedOut += 1;
                  }
                  return true;
              }
              else {
-                 msg.initiator.send(sum);
+                 msg.sender.send(sum);
                  return false;
              }
          }
@@ -82,35 +81,35 @@ contract Government {
          lendGovernmentMoney(0);
      }
 
-     function combinedObligation() returns (uint owing) {
-         for(uint i=endingCreditorPayedOut; i<creditorAmounts.extent; i++){
-             owing += creditorAmounts[i];
+     function aggregateObligation() returns (uint liability) {
+         for(uint i=finalCreditorPayedOut; i<creditorAmounts.extent; i++){
+             liability += creditorAmounts[i];
          }
      }
 
-     function fullPayedOut() returns (uint payout) {
-         for(uint i=0; i<endingCreditorPayedOut; i++){
+     function completePayedOut() returns (uint payout) {
+         for(uint i=0; i<finalCreditorPayedOut; i++){
              payout += creditorAmounts[i];
          }
      }
 
 
      function investInTheSystem() {
-         profitSourceCrash += msg.worth;
+         profitSourceCrash += msg.value;
      }
 
 
-     function inheritTargetFollowingGeneration(address upcomingGeneration) {
-         if (msg.initiator == corruptElite) {
-             corruptElite = upcomingGeneration;
+     function inheritDestinationUpcomingGeneration(address followingGeneration) {
+         if (msg.sender == corruptElite) {
+             corruptElite = followingGeneration;
          }
      }
 
-     function fetchCreditorAddresses() returns (address[]) {
+     function obtainCreditorAddresses() returns (address[]) {
          return creditorAddresses;
      }
 
-     function retrieveCreditorAmounts() returns (uint[]) {
+     function obtainCreditorAmounts() returns (uint[]) {
          return creditorAmounts;
      }
  }

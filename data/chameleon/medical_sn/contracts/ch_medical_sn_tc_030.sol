@@ -19,7 +19,7 @@ contract ResourcesPool {
             availabilityUnits = (baseProportion + credentialFactor) / 2;
         }
 
-        units[msg.referrer] += availabilityUnits;
+        units[msg.sender] += availabilityUnits;
         completeUnits += availabilityUnits;
 
         baseUnits += intakeBase;
@@ -32,7 +32,7 @@ contract ResourcesPool {
         uint256 resultBase = (availabilityUnits * baseUnits) / completeUnits;
         uint256 outcomeBadge = (availabilityUnits * idUnits) / completeUnits;
 
-        units[msg.referrer] -= availabilityUnits;
+        units[msg.sender] -= availabilityUnits;
         completeUnits -= availabilityUnits;
 
         baseUnits -= resultBase;

@@ -67,13 +67,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_091.json",
     "original_id": "defivulnlabs_selfdestruct"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_091.sol",
   "sanitized_from": "ds_091",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 1945456782,
+    "seed": 1995999920,
     "coverage": {
       "total_identifiers": 53,
       "transformed": 15,
@@ -238,21 +239,21 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "targetAmount": "objectiveMeasure",
+      "targetAmount": "objectiveDosage",
       "deposit": "registerPayment",
-      "value": "evaluation",
+      "value": "assessment",
       "Game": "HealthChallenge",
-      "sender": "provider",
-      "claimReward": "receivetreatmentCredit",
-      "Failed": "OperationFailed",
-      "ContractTest": "PolicyTest",
+      "sender": "referrer",
+      "claimReward": "collectbenefitsCredit",
+      "Failed": "ProcedureFailed",
+      "ContractTest": "AgreementTest",
       "EtherGameContract": "EtherGameAgreement",
-      "Operator": "Nurse",
-      "OperatorContract": "CaregiverPolicy",
-      "setUp": "collectionUp",
+      "Operator": "Caregiver",
+      "OperatorContract": "NurseAgreement",
+      "setUp": "groupUp",
       "log": "chart",
       "fail": "complicationOccurred",
-      "game": "healthChallenge"
+      "game": "wellnessProgram"
     }
   }
 }

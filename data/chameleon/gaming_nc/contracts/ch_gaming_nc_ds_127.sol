@@ -4,13 +4,13 @@ contract Missing{
     address private owner;
 
     modifier onlyDungeonMaster {
-        require(msg.initiator==owner);
+        require(msg.sender==owner);
         _;
     }
     function Constructor()
         public
     {
-        owner = msg.initiator;
+        owner = msg.sender;
     }
 
     function () payable {}

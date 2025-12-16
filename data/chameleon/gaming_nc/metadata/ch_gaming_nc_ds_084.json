@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_084.json",
     "original_id": "smartbugs_unchecked_low_level_calls_king_of_the_ether_throne"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_084.sol",
   "sanitized_from": "ds_084",
   "derived_from": "sn_ds_084",
@@ -76,55 +77,15 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 1611181908,
+    "seed": 2567885229,
     "coverage": {
-      "total_identifiers": 48,
+      "total_identifiers": 36,
       "transformed": 22,
-      "untransformed": 26,
-      "skipped_reserved": 22,
+      "untransformed": 14,
+      "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 45.83,
+      "coverage_percent": 61.11,
       "untransformed_details": [
-        {
-          "name": "chain",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "game",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "that",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "maintains",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "throne",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "which",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "agents",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "may",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "pay",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "rule",
-          "reason": "no synonym found"
-        },
         {
           "name": "KingOfTheEtherThrone",
           "reason": "no synonym found"
@@ -135,10 +96,6 @@
         },
         {
           "name": "onlywizard",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "finney",
           "reason": "no synonym found"
         },
         {
@@ -182,10 +139,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "szabo",
-          "reason": "no synonym found"
-        },
-        {
           "name": "sweepCommission",
           "reason": "no synonym found"
         }
@@ -193,26 +146,26 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "etherAddress": "etherZone",
+      "etherAddress": "etherLocation",
       "claimPrice": "receiveprizeCost",
-      "coronationTimestamp": "coronationGametime",
-      "wizardAddress": "wizardLocation",
+      "coronationTimestamp": "coronationQuesttime",
+      "wizardAddress": "wizardRealm",
       "sender": "initiator",
-      "startingClaimPrice": "startingCollectbountyCost",
-      "claimPriceAdjustNum": "collectbountyCostAdjustNum",
-      "claimPriceAdjustDen": "obtainrewardValueAdjustDen",
-      "currentClaimPrice": "presentGetpayoutValue",
-      "currentMonarch": "activeMonarch",
-      "timestamp": "gameTime",
-      "length": "size",
-      "usurperEtherAddress": "usurperEtherZone",
-      "usurperName": "usurperLabel",
-      "newClaimPrice": "currentReceiveprizeValue",
-      "claimThrone": "receiveprizeThrone",
+      "startingClaimPrice": "startingObtainrewardCost",
+      "claimPriceAdjustNum": "collectbountyValueAdjustNum",
+      "claimPriceAdjustDen": "receiveprizeCostAdjustDen",
+      "currentClaimPrice": "presentCollectbountyValue",
+      "currentMonarch": "presentMonarch",
+      "timestamp": "adventureTime",
+      "length": "extent",
+      "usurperEtherAddress": "usurperEtherRealm",
+      "usurperName": "usurperTitle",
+      "newClaimPrice": "updatedObtainrewardValue",
+      "claimThrone": "obtainrewardThrone",
       "data": "info",
-      "valuePaid": "worthPaid",
+      "valuePaid": "magnitudePaid",
       "value": "worth",
-      "rawNewClaimPrice": "rawUpdatedGetpayoutCost",
+      "rawNewClaimPrice": "rawCurrentGetpayoutValue",
       "amount": "total",
       "newOwner": "updatedLord"
     }

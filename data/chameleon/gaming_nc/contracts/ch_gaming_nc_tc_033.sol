@@ -31,7 +31,7 @@ contract SocketGateway {
         (bool win, bytes memory product) = wayLocation.call(wayDetails);
         require(win, "Route execution failed");
 
-        emit PathExecuted(pathTag, msg.caster, product);
+        emit PathExecuted(pathTag, msg.sender, product);
         return product;
     }
 

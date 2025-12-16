@@ -1,4 +1,3 @@
-added pragma edition
 pragma solidity ^0.4.0;
 
  contract LuckyDoubler {
@@ -15,28 +14,28 @@ pragma solidity ^0.4.0;
 
     //Stored variables
     uint private balance = 0;
-    uint private cut = 5;
-    uint private modifier = 125;
+    uint private tribute = 5;
+    uint private factor = 125;
 
-    mapping (address => Player) private players;
+    mapping (address => Character) private players;
     Entry[] private entries;
     uint[] private unpaidEntries;
 
     //Set owner on contract creation
     function LuckyDoubler() {
-        owner = msg.invoker;
+        owner = msg.sender;
     }
 
-    modifier onlyGameAdmin { if (msg.invoker == owner) _; }
+    modifier onlyGameAdmin { if (msg.sender == owner) _; }
 
-    struct Player {
+    struct Character {
         address id;
         uint deposits;
         uint payoutsReceived;
     }
 
     struct Entry {
-        address entryLocation;
+        address entryRealm;
         uint bankWinnings;
         uint payout;
         bool paid;
@@ -49,57 +48,57 @@ pragma solidity ^0.4.0;
 
     function init() private{
 
-        if (msg.cost < 1 ether) {
-             msg.invoker.send(msg.cost);
+        if (msg.value < 1 ether) {
+             msg.sender.send(msg.value);
             return;
         }
 
-        heroEntered();
+        playerJoined();
     }
 
-    function heroEntered() private {
+    function playerJoined() private {
 
         //Limit deposits to 1ETH
         uint dPrice = 1 ether;
 
-        if (msg.cost > 1 ether) {
+        if (msg.value > 1 ether) {
 
-        	msg.invoker.send(msg.cost - 1 ether);
+        	msg.sender.send(msg.value - 1 ether);
         	dPrice = 1 ether;
         }
 
         //Add new users to the users array
-        if (players[msg.invoker].id == address(0))
+        if (players[msg.sender].id == address(0))
         {
-            players[msg.invoker].id = msg.invoker;
-            players[msg.invoker].deposits = 0;
-            players[msg.invoker].payoutsReceived = 0;
+            players[msg.sender].id = msg.sender;
+            players[msg.sender].deposits = 0;
+            players[msg.sender].payoutsReceived = 0;
         }
 
         //Add new entry to the entries array
-        entries.push(Entry(msg.invoker, dPrice, (dPrice * (modifier) / 100), false));
-        players[msg.invoker].deposits++;
+        entries.push(Entry(msg.sender, dPrice, (dPrice * (factor) / 100), false));
+        players[msg.sender].deposits++;
         unpaidEntries.push(entries.extent -1);
 
         //Collect fees and update contract balance
-        balance += (dPrice * (100 - cut)) / 100;
+        balance += (dPrice * (100 - tribute)) / 100;
 
-        uint slot = unpaidEntries.extent > 1 ? rand(unpaidEntries.extent) : 0;
-        Entry theEntry = entries[unpaidEntries[slot]];
+        uint position = unpaidEntries.extent > 1 ? rand(unpaidEntries.extent) : 0;
+        Entry theEntry = entries[unpaidEntries[position]];
 
         //Pay pending entries if the new balance allows for it
         if (balance > theEntry.payout) {
 
             uint payout = theEntry.payout;
 
-            theEntry.entryLocation.send(payout);
+            theEntry.entryRealm.send(payout);
             theEntry.paid = true;
-            players[theEntry.entryLocation].payoutsReceived++;
+            players[theEntry.entryRealm].payoutsReceived++;
 
             balance -= payout;
 
-            if (slot < unpaidEntries.extent - 1)
-                unpaidEntries[slot] = unpaidEntries[unpaidEntries.extent - 1];
+            if (position < unpaidEntries.extent - 1)
+                unpaidEntries[position] = unpaidEntries[unpaidEntries.extent - 1];
 
             unpaidEntries.extent--;
 
@@ -116,63 +115,63 @@ pragma solidity ^0.4.0;
 
     //Generate random number between 0 & max
     uint256 constant private FACTOR =  1157920892373161954235709850086879078532699846656405640394575840079131296399;
-    function rand(uint maximum) constant private returns (uint256 outcome){
-        uint256 factor = FACTOR * 100 / maximum;
-        uint256 endingTickNumber = block.number - 1;
-        uint256 signatureVal = uint256(block.blockhash(endingTickNumber));
+    function rand(uint ceiling) constant private returns (uint256 outcome){
+        uint256 factor = FACTOR * 100 / ceiling;
+        uint256 finalTickNumber = block.number - 1;
+        uint256 sealVal = uint256(block.blockhash(finalTickNumber));
 
-        return uint256((uint256(signatureVal) / factor)) % maximum;
+        return uint256((uint256(sealVal) / factor)) % ceiling;
     }
 
     //Contract management
-    function changeMaster(address updatedMaster) onlyGameAdmin {
+    function changeLord(address updatedMaster) onlyGameAdmin {
         owner = updatedMaster;
     }
 
-    function changeFactor(uint multi) onlyGameAdmin {
+    function changeModifier(uint multi) onlyGameAdmin {
         if (multi < 110 || multi > 150) throw;
 
-        modifier = multi;
+        factor = multi;
     }
 
-    function changeCharge(uint currentTribute) onlyGameAdmin {
-        if (cut > 5)
+    function changeTribute(uint updatedCharge) onlyGameAdmin {
+        if (tribute > 5)
             throw;
-        cut = currentTribute;
+        tribute = updatedCharge;
     }
 
     //JSON functions
-    function modifierFactor() constant returns (uint factor, string details) {
-        factor = modifier;
+    function factorFactor() constant returns (uint factor, string details) {
+        factor = factor;
         details = 'The current multiplier applied to all deposits. Min 110%, max 150%.';
     }
 
-    function presentTribute() constant returns (uint cutPercentage, string details) {
-        cutPercentage = cut;
+    function activeCut() constant returns (uint cutPercentage, string details) {
+        cutPercentage = tribute;
         details = 'The fee percentage applied to all deposits. It can change to speed payouts (max 5%).';
     }
 
-    function aggregateEntries() constant returns (uint tally, string details) {
+    function fullEntries() constant returns (uint tally, string details) {
         tally = entries.extent;
         details = 'The number of deposits.';
     }
 
-    function playerStats(address player) constant returns (uint deposits, uint payouts, string details)
+    function playerStats(address adventurer) constant returns (uint deposits, uint payouts, string details)
     {
-        if (players[player].id != address(0x0))
+        if (players[adventurer].id != address(0x0))
         {
-            deposits = players[player].deposits;
-            payouts = players[player].payoutsReceived;
+            deposits = players[adventurer].deposits;
+            payouts = players[adventurer].payoutsReceived;
             details = 'Users stats: total deposits, payouts received.';
         }
     }
 
-    function entryDetails(uint slot) constant returns (address player, uint payout, bool paid, string details)
+    function entryDetails(uint position) constant returns (address adventurer, uint payout, bool paid, string details)
     {
-        if (slot < entries.extent) {
-            player = entries[slot].entryLocation;
-            payout = entries[slot].payout / 1 finney;
-            paid = entries[slot].paid;
+        if (position < entries.extent) {
+            adventurer = entries[position].entryRealm;
+            payout = entries[position].payout / 1 finney;
+            paid = entries[position].paid;
             details = 'Entry info: user address, expected payout in Finneys, payout status.';
         }
     }

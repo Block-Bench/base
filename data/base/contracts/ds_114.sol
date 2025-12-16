@@ -5,7 +5,6 @@ pragma solidity ^0.4.23;
 // contact : dave@akomba.com
 // released under Apache 2.0 licence
 contract Token {
-    */
     /// total amount of tokens
     uint256 public totalSupply;
 
@@ -210,7 +209,6 @@ contract HumanStandardToken is StandardToken {
 
     /* Public variables of the token */
 
-    */
     string public name;                   //fancy name: eg Simon Bucks
     uint8 public decimals;                //How many decimals to show. ie. There could 1000 base units with 3 decimals. Meaning 0.980 SBX = 980 base units. It's like comparing 1 wei to 1 ether.
     string public symbol;                 //An identifier: eg SBX

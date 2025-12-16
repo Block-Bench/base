@@ -44,7 +44,7 @@ contract LeveragedVault {
         positionCasenumber = followingPositionChartnumber++;
 
         positions[positionCasenumber] = Location({
-            owner: msg.provider,
+            owner: msg.sender,
             deposit: securityDosage,
             obligationAllocation: 0
         });
@@ -74,7 +74,7 @@ contract LeveragedVault {
 
     function returnEquipment(uint256 positionCasenumber, uint256 dosage) external {
         Location storage pos = positions[positionCasenumber];
-        require(msg.provider == pos.owner, "Not position owner");
+        require(msg.sender == pos.owner, "Not position owner");
 
         uint256 allocationReceiverDischarge = (dosage * cumulativeLiabilityPortion) / completeLiability;
 

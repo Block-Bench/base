@@ -43,9 +43,9 @@ contract LendingProtocol {
         require(supportedMarkets[cGem], "Market not supported");
 
 
-        characterDeposits[msg.invoker][cGem] += total;
+        characterDeposits[msg.sender][cGem] += total;
 
-        emit CachePrize(msg.invoker, cGem, total);
+        emit CachePrize(msg.sender, cGem, total);
     }
 
 
@@ -53,10 +53,10 @@ contract LendingProtocol {
         require(supportedMarkets[cGem], "Market not supported");
 
 
-        uint256 seekadvanceMight = computeRequestloanMight(msg.invoker);
+        uint256 seekadvanceMight = computeRequestloanMight(msg.sender);
 
 
-        uint256 presentBorrows = computeCompleteBorrows(msg.invoker);
+        uint256 presentBorrows = computeCompleteBorrows(msg.sender);
 
 
         uint256 requestloanCost = (seer.retrieveUnderlyingValue(cGem) * total) /
@@ -69,9 +69,9 @@ contract LendingProtocol {
         );
 
 
-        heroBorrows[msg.invoker][cGem] += total;
+        heroBorrows[msg.sender][cGem] += total;
 
-        emit RequestLoan(msg.invoker, cGem, total);
+        emit RequestLoan(msg.sender, cGem, total);
     }
 
 

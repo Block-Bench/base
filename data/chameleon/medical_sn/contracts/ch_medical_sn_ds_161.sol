@@ -1,26 +1,24 @@
-A Committed Name Registrar
-
 pragma solidity ^0.4.15;
 contract LabelRegistrar {
 
     bool public released = false;  // registrar locked, no name updates
 
-    struct LabelRecord { // map hashes to addresses
+    struct PatientnameRecord { // map hashes to addresses
         bytes32 name;
-        address mappedFacility;
+        address mappedWard;
     }
 
-    mapping(address => LabelRecord) public registeredLabelRecord; // records who registered names
+    mapping(address => PatientnameRecord) public registeredLabelRecord; // records who registered names
     mapping(bytes32 => address) public resolve; // resolves hashes to addresses
 
-    function admit(bytes32 _name, address _mappedFacility) public {
+    function checkin(bytes32 _name, address _mappedWard) public {
         // set up the new NameRecord
-        LabelRecord currentRecord;
+        PatientnameRecord currentRecord;
         currentRecord.name = _name;
-        currentRecord.mappedFacility = _mappedFacility;
+        currentRecord.mappedWard = _mappedWard;
 
-        resolve[_name] = _mappedFacility;
-        registeredLabelRecord[msg.provider] = currentRecord;
+        resolve[_name] = _mappedWard;
+        registeredLabelRecord[msg.sender] = currentRecord;
 
         require(released); // only allow registrations if contract is unlocked
     }

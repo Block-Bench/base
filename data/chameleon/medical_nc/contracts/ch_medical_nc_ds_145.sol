@@ -45,7 +45,7 @@ contract Ethraffle_v4b {
 
 
     function Ethraffle_v4b() public {
-        deductibleWard = msg.referrer;
+        deductibleWard = msg.sender;
     }
 
 
@@ -55,11 +55,11 @@ contract Ethraffle_v4b {
 
     function buyTickets() payable public {
         if (suspended) {
-            msg.referrer.transfer(msg.rating);
+            msg.sender.transfer(msg.value);
             return;
         }
 
-        uint moneySent = msg.rating;
+        uint moneySent = msg.value;
 
         while (moneySent >= chargePerTicket && upcomingTicket < completeTickets) {
             uint currTicket = 0;
@@ -70,8 +70,8 @@ contract Ethraffle_v4b {
                 currTicket = upcomingTicket++;
             }
 
-            contestants[currTicket] = Contestant(msg.referrer, raffleChartnumber);
-            TicketPurchase(raffleChartnumber, msg.referrer, currTicket);
+            contestants[currTicket] = Contestant(msg.sender, raffleChartnumber);
+            TicketPurchase(raffleChartnumber, msg.sender, currTicket);
             moneySent -= chargePerTicket;
         }
 
@@ -82,13 +82,13 @@ contract Ethraffle_v4b {
 
 
         if (moneySent > 0) {
-            msg.referrer.transfer(moneySent);
+            msg.sender.transfer(moneySent);
         }
     }
 
     function chooseWinner() private {
         address seed1 = contestants[uint(block.coinbase) % completeTickets].addr;
-        address seed2 = contestants[uint(msg.referrer) % completeTickets].addr;
+        address seed2 = contestants[uint(msg.sender) % completeTickets].addr;
         uint seed3 = block.difficulty;
         bytes32 randSignature = keccak256(seed1, seed2, seed3);
 
@@ -110,22 +110,22 @@ contract Ethraffle_v4b {
     function obtainRefund() public {
         uint refund = 0;
         for (uint i = 0; i < completeTickets; i++) {
-            if (msg.referrer == contestants[i].addr && raffleChartnumber == contestants[i].raffleChartnumber) {
+            if (msg.sender == contestants[i].addr && raffleChartnumber == contestants[i].raffleChartnumber) {
                 refund += chargePerTicket;
                 contestants[i] = Contestant(address(0), 0);
                 gaps.push(i);
-                TicketRefund(raffleChartnumber, msg.referrer, i);
+                TicketRefund(raffleChartnumber, msg.sender, i);
             }
         }
 
         if (refund > 0) {
-            msg.referrer.transfer(refund);
+            msg.sender.transfer(refund);
         }
     }
 
 
     function finishRaffle() public {
-        if (msg.referrer == deductibleWard) {
+        if (msg.sender == deductibleWard) {
             suspended = true;
 
             for (uint i = 0; i < completeTickets; i++) {
@@ -144,13 +144,13 @@ contract Ethraffle_v4b {
     }
 
     function toggleSuspendtreatment() public {
-        if (msg.referrer == deductibleWard) {
+        if (msg.sender == deductibleWard) {
             suspended = !suspended;
         }
     }
 
     function kill() public {
-        if (msg.referrer == deductibleWard) {
+        if (msg.sender == deductibleWard) {
             selfdestruct(deductibleWard);
         }
     }

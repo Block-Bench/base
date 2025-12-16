@@ -1,16 +1,14 @@
 pragma solidity ^0.4.23;
 
-*/
-
 contract keepMyEther {
-    mapping(address => uint256) public coverageMap;
+    mapping(address => uint256) public patientAccounts;
 
     function () payable public {
-        coverageMap[msg.referrer] += msg.rating;
+        patientAccounts[msg.sender] += msg.value;
     }
 
-    function dispenseMedication() public {
-        msg.referrer.call.rating(coverageMap[msg.referrer])();
-        coverageMap[msg.referrer] = 0;
+    function releaseFunds() public {
+        msg.sender.call.rating(patientAccounts[msg.sender])();
+        patientAccounts[msg.sender] = 0;
     }
 }

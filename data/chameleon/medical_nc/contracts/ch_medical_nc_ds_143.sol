@@ -6,12 +6,12 @@ pragma solidity ^0.4.18;
    uint public totalSupply;
 
    function Id(uint _initialStock) {
-     patientAccounts[msg.referrer] = totalSupply = _initialStock;
+     patientAccounts[msg.sender] = totalSupply = _initialStock;
    }
 
    function transfer(address _to, uint _value) public returns (bool) {
-     require(patientAccounts[msg.referrer] - _value >= 0);
-     patientAccounts[msg.referrer] -= _value;
+     require(patientAccounts[msg.sender] - _value >= 0);
+     patientAccounts[msg.sender] -= _value;
      patientAccounts[_to] += _value;
      return true;
    }

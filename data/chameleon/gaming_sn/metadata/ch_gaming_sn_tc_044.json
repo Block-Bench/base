@@ -84,6 +84,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_044.json",
     "original_exploit_name": "DeltaPrime"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_044.sol",
   "sanitized_from": "tc_044",
   "transformation": {
@@ -92,12 +93,12 @@
     "source": "sanitized",
     "seed": 1145311451,
     "coverage": {
-      "total_identifiers": 35,
-      "transformed": 21,
+      "total_identifiers": 34,
+      "transformed": 20,
       "untransformed": 14,
-      "skipped_reserved": 31,
+      "skipped_reserved": 32,
       "skipped_interface": 0,
-      "coverage_percent": 60.0,
+      "coverage_percent": 58.82,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -178,8 +179,7 @@
       "upgradePool": "enhancePool",
       "newImplementation": "updatedRealization",
       "success": "win",
-      "encodeWithSignature": "encodeWithMark",
-      "claimRewards": "getpayoutRewards"
+      "claimRewards": "receiveprizeRewards"
     }
   }
 }

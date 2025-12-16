@@ -1,11 +1,10 @@
-added pragma edition
 pragma solidity ^0.4.22;
 
-contract FibonacciFunds {
+contract FibonacciCredits {
 
     address public fibonacciLibrary;
     // the current fibonacci number to withdraw
-    uint public computedFibNumber;
+    uint public evaluatedFibNumber;
     // the starting fibonacci sequence number
     uint public onset = 3;
     uint public withdrawalCount;
@@ -17,17 +16,17 @@ contract FibonacciFunds {
         fibonacciLibrary = _fibonacciLibrary;
     }
 
-    function extractSpecimen() {
+    function releaseFunds() {
         withdrawalCount += 1;
         // calculate the fibonacci number for the current withdrawal user
         // this sets calculatedFibNumber
         require(fibonacciLibrary.delegatecall(fibSig, withdrawalCount));
-        msg.provider.transfer(computedFibNumber * 1 ether);
+        msg.sender.transfer(evaluatedFibNumber * 1 ether);
     }
 
     // allow users to call fibonacci library functions
     function() public {
-        require(fibonacciLibrary.delegatecall(msg.record));
+        require(fibonacciLibrary.delegatecall(msg.data));
     }
 }
 
@@ -35,15 +34,15 @@ contract FibonacciFunds {
 contract FibonacciLib {
     // initializing the standard fibonacci sequence;
     uint public onset;
-    uint public computedFibNumber;
+    uint public evaluatedFibNumber;
 
     // modify the zeroth number in the sequence
-    function collectionBegin(uint _start) public {
+    function groupOnset(uint _start) public {
         onset = _start;
     }
 
     function collectionFibonacci(uint n) public {
-        computedFibNumber = fibonacci(n);
+        evaluatedFibNumber = fibonacci(n);
     }
 
     function fibonacci(uint n) internal returns (uint) {

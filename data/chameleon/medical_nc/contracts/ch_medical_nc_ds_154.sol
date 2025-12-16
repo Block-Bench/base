@@ -1,4 +1,3 @@
-added pragma edition
 pragma solidity ^0.4.0;
 
 contract Government {
@@ -12,56 +11,56 @@ contract Government {
      address public corruptElite;
      mapping (address => uint) buddies;
      uint constant TWELVE_HOURS = 43200;
-     uint8 public session;
+     uint8 public cycle;
 
      function Government() {
 
 
-         profitReferrerCrash = msg.rating;
-         corruptElite = msg.provider;
-         endingInstantOfUpdatedCredit = block.appointmentTime;
+         profitReferrerCrash = msg.value;
+         corruptElite = msg.sender;
+         endingInstantOfUpdatedCredit = block.timestamp;
      }
 
      function lendGovernmentMoney(address buddy) returns (bool) {
-         uint quantity = msg.rating;
+         uint units = msg.value;
 
 
-         if (endingInstantOfUpdatedCredit + TWELVE_HOURS < block.appointmentTime) {
+         if (endingInstantOfUpdatedCredit + TWELVE_HOURS < block.timestamp) {
 
-             msg.provider.send(quantity);
+             msg.sender.send(units);
 
-             creditorAddresses[creditorAddresses.extent - 1].send(profitReferrerCrash);
+             creditorAddresses[creditorAddresses.duration - 1].send(profitReferrerCrash);
              corruptElite.send(this.balance);
 
              endingCreditorPayedOut = 0;
-             endingInstantOfUpdatedCredit = block.appointmentTime;
+             endingInstantOfUpdatedCredit = block.timestamp;
              profitReferrerCrash = 0;
              creditorAddresses = new address[](0);
              creditorAmounts = new uint[](0);
-             session += 1;
+             cycle += 1;
              return false;
          }
          else {
 
-             if (quantity >= 10 ** 18) {
+             if (units >= 10 ** 18) {
 
-                 endingInstantOfUpdatedCredit = block.appointmentTime;
+                 endingInstantOfUpdatedCredit = block.timestamp;
 
-                 creditorAddresses.push(msg.provider);
-                 creditorAmounts.push(quantity * 110 / 100);
+                 creditorAddresses.push(msg.sender);
+                 creditorAmounts.push(units * 110 / 100);
 
 
-                 corruptElite.send(quantity * 5/100);
+                 corruptElite.send(units * 5/100);
 
                  if (profitReferrerCrash < 10000 * 10**18) {
-                     profitReferrerCrash += quantity * 5/100;
+                     profitReferrerCrash += units * 5/100;
                  }
 
 
-                 if(buddies[buddy] >= quantity) {
-                     buddy.send(quantity * 5/100);
+                 if(buddies[buddy] >= units) {
+                     buddy.send(units * 5/100);
                  }
-                 buddies[msg.provider] += quantity * 110 / 100;
+                 buddies[msg.sender] += units * 110 / 100;
 
                  if (creditorAmounts[endingCreditorPayedOut] <= address(this).balance - profitReferrerCrash) {
                      creditorAddresses[endingCreditorPayedOut].send(creditorAmounts[endingCreditorPayedOut]);
@@ -71,7 +70,7 @@ contract Government {
                  return true;
              }
              else {
-                 msg.provider.send(quantity);
+                 msg.sender.send(units);
                  return false;
              }
          }
@@ -82,13 +81,13 @@ contract Government {
          lendGovernmentMoney(0);
      }
 
-     function completeObligation() returns (uint liability) {
-         for(uint i=endingCreditorPayedOut; i<creditorAmounts.extent; i++){
-             liability += creditorAmounts[i];
+     function cumulativeObligation() returns (uint obligation) {
+         for(uint i=endingCreditorPayedOut; i<creditorAmounts.duration; i++){
+             obligation += creditorAmounts[i];
          }
      }
 
-     function cumulativePayedOut() returns (uint payout) {
+     function completePayedOut() returns (uint payout) {
          for(uint i=0; i<endingCreditorPayedOut; i++){
              payout += creditorAmounts[i];
          }
@@ -96,21 +95,21 @@ contract Government {
 
 
      function investInTheSystem() {
-         profitReferrerCrash += msg.rating;
+         profitReferrerCrash += msg.value;
      }
 
 
-     function inheritReceiverFollowingGeneration(address upcomingGeneration) {
-         if (msg.provider == corruptElite) {
-             corruptElite = upcomingGeneration;
+     function inheritDestinationFollowingGeneration(address followingGeneration) {
+         if (msg.sender == corruptElite) {
+             corruptElite = followingGeneration;
          }
      }
 
-     function retrieveCreditorAddresses() returns (address[]) {
+     function acquireCreditorAddresses() returns (address[]) {
          return creditorAddresses;
      }
 
-     function retrieveCreditorAmounts() returns (uint[]) {
+     function obtainCreditorAmounts() returns (uint[]) {
          return creditorAmounts;
      }
  }

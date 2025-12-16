@@ -1,12 +1,8 @@
 // 0xbb9bc244d798123fde783fcc1c72d3bb8c189413#code
 
-*/
-
-*/
-
 /// @title Standard Token Contract.
 
-contract CrystalGateway {
+contract CoinGateway {
     mapping (address => uint256) userRewards;
     mapping (address => mapping (address => uint256)) allowed;
 
@@ -21,7 +17,7 @@ contract CrystalGateway {
     /// @param _to The address of the recipient
     /// @param _amount The amount of tokens to be transferred
     /// @return Whether the transfer was successful or not
-    function transfer(address _to, uint256 _amount) returns (bool win);
+    function transfer(address _to, uint256 _amount) returns (bool victory);
 
     /// @notice Send `_amount` tokens to `_to` from `_from` on the condition it
     /// is approved by `_from`
@@ -29,14 +25,14 @@ contract CrystalGateway {
     /// @param _to The address of the recipient
     /// @param _amount The amount of tokens to be transferred
     /// @return Whether the transfer was successful or not
-    function transferFrom(address _from, address _to, uint256 _amount) returns (bool win);
+    function transferFrom(address _from, address _to, uint256 _amount) returns (bool victory);
 
     /// @notice `msg.sender` approves `_spender` to spend `_amount` tokens on
     /// its behalf
     /// @param _spender The address of the account able to transfer the tokens
     /// @param _amount The amount of tokens to be approved for transfer
     /// @return Whether the approval was successful or not
-    function approve(address _spender, uint256 _amount) returns (bool win);
+    function approve(address _spender, uint256 _amount) returns (bool victory);
 
     /// @param _owner The address of the account owning tokens
     /// @param _spender The address of the account able to transfer the tokens
@@ -55,20 +51,20 @@ contract CrystalGateway {
     );
 }
 
-contract Coin is CrystalGateway {
+contract Medal is CoinGateway {
     // Protects users by preventing the execution of method calls that
     // inadvertently also transferred ether
-    modifier noEther() {if (msg.price > 0) throw; _}
+    modifier noEther() {if (msg.value > 0) throw; _;}
 
     function balanceOf(address _owner) constant returns (uint256 balance) {
         return userRewards[_owner];
     }
 
-    function transfer(address _to, uint256 _amount) noEther returns (bool win) {
-        if (userRewards[msg.initiator] >= _amount && _amount > 0) {
-            userRewards[msg.initiator] -= _amount;
+    function transfer(address _to, uint256 _amount) noEther returns (bool victory) {
+        if (userRewards[msg.sender] >= _amount && _amount > 0) {
+            userRewards[msg.sender] -= _amount;
             userRewards[_to] += _amount;
-            Transfer(msg.initiator, _to, _amount);
+            Transfer(msg.sender, _to, _amount);
             return true;
         } else {
            return false;
@@ -79,15 +75,15 @@ contract Coin is CrystalGateway {
         address _from,
         address _to,
         uint256 _amount
-    ) noEther returns (bool win) {
+    ) noEther returns (bool victory) {
 
         if (userRewards[_from] >= _amount
-            && allowed[_from][msg.initiator] >= _amount
+            && allowed[_from][msg.sender] >= _amount
             && _amount > 0) {
 
             userRewards[_to] += _amount;
             userRewards[_from] -= _amount;
-            allowed[_from][msg.initiator] -= _amount;
+            allowed[_from][msg.sender] -= _amount;
             Transfer(_from, _to, _amount);
             return true;
         } else {
@@ -95,9 +91,9 @@ contract Coin is CrystalGateway {
         }
     }
 
-    function approve(address _spender, uint256 _amount) returns (bool win) {
-        allowed[msg.initiator][_spender] = _amount;
-        PermissionGranted(msg.initiator, _spender, _amount);
+    function approve(address _spender, uint256 _amount) returns (bool victory) {
+        allowed[msg.sender][_spender] = _amount;
+        PermissionGranted(msg.sender, _spender, _amount);
         return true;
     }
 
@@ -106,17 +102,13 @@ contract Coin is CrystalGateway {
     }
 }
 
-*/
-
-*/
-
-contract ManagedCharacterPortal {
+contract ManagedProfilePortal {
     // The only address with permission to withdraw from this account
     address public owner;
     // If true, only the owner of the account can receive ether from it
     bool public payMasterOnly;
     // The sum of ether (in wei) which has been sent to this contract
-    uint public accumulatedSubmission;
+    uint public accumulatedEntry;
 
     /// @notice Sends `_amount` of wei to _recipient
     /// @param _amount The amount of wei to send to `_recipient`
@@ -127,25 +119,25 @@ contract ManagedCharacterPortal {
     event PayOut(address indexed _recipient, uint _amount);
 }
 
-contract ManagedCharacter is ManagedCharacterPortal{
+contract ManagedProfile is ManagedProfilePortal{
 
     // The constructor sets the owner of the account
-    function ManagedCharacter(address _owner, bool _payLordOnly) {
+    function ManagedProfile(address _owner, bool _payMasterOnly) {
         owner = _owner;
-        payMasterOnly = _payLordOnly;
+        payMasterOnly = _payMasterOnly;
     }
 
     // When the contract receives a transaction without data this is called.
     // It counts the amount of ether it receives and stores it in
     // accumulatedInput.
     function() {
-        accumulatedSubmission += msg.price;
+        accumulatedEntry += msg.value;
     }
 
     function payOut(address _recipient, uint _amount) returns (bool) {
-        if (msg.initiator != owner || msg.price > 0 || (payMasterOnly && _recipient != owner))
+        if (msg.sender != owner || msg.value > 0 || (payMasterOnly && _recipient != owner))
             throw;
-        if (_recipient.call.price(_amount)()) {
+        if (_recipient.call.magnitude(_amount)()) {
             PayOut(_recipient, _amount);
             return true;
         } else {
@@ -153,17 +145,14 @@ contract ManagedCharacter is ManagedCharacterPortal{
         }
     }
 }
-*/
 
-*/
-
-contract MedalCreationPortal {
+contract GemCreationPortal {
 
     // End of token creation, in Unix time
     uint public closingMoment;
     // Minimum fueling goal of the token creation, denominated in tokens to
     // be created
-    uint public minimumGemsDestinationCreate;
+    uint public floorGemsTargetCreate;
     // True if the DAO reached its minimum fueling goal, false otherwise
     bool public testFueled;
     // For DAO splits - if privateCreation is 0, then it is a public token
@@ -172,7 +161,7 @@ contract MedalCreationPortal {
     address public privateCreation;
     // hold extra ether which has been sent after the DAO token
     // creation rate has increased
-    ManagedCharacter public extraTreasureamount;
+    ManagedProfile public extraPrizecount;
     // tracks the amount of wei given from each contributor (used for refund)
     mapping (address => uint256) weiGiven;
 
@@ -271,9 +260,6 @@ contract TokenCreation is TokenCreationInterface, Token {
         }
     }
 }
-*/
-
-*/
 
 contract DAOInterface {
 
@@ -285,15 +271,15 @@ contract DAOInterface {
     // The minimum debate period that a split proposal can have
     uint constant minSplitDebatePeriod = 1 weeks;
     // Period of days inside which it's possible to execute a DAO split
-    uint constant separateExecutionDuration = 27 days;
+    uint constant separateExecutionInterval = 27 days;
     // Period of time after which the minimum Quorum is halved
-    uint constant quorumHalvingInterval = 25 weeks;
+    uint constant quorumHalvingDuration = 25 weeks;
     // Period after which a proposal is closed
     // (used in the case `executeProposal` fails because it throws)
-    uint constant completequestProposalInterval = 10 days;
+    uint constant performactionProposalInterval = 10 days;
     // Denotes the maximum proposal deposit that can be given. It is given as
     // a fraction of total Ether spent plus balance of the DAO
-    uint constant maximumBankwinningsDivisor = 100;
+    uint constant maximumDepositgoldDivisor = 100;
 
     // Proposals to spend the DAO's ether or to choose a new Curator
     Proposal[] public proposals;
@@ -364,14 +350,14 @@ contract DAOInterface {
         // the majority said yes
         bool proposalPassed;
         // A hash to check validity of a proposal
-        bytes32 proposalSignature;
+        bytes32 proposalSeal;
         // Deposit in wei the creator added when submitting their proposal. It
         // is taken from the msg.value of a newProposal call.
         uint proposalAddtreasure;
         // True if this proposal is to assign a new Curator
         bool updatedCurator;
         // Data needed for splitting the DAO
-        SeparateDetails[] separateDetails;
+        SeparateDetails[] divideDetails;
         // Number of Tokens in favor of the proposal
         uint yea;
         // Number of Tokens opposed to the proposal
@@ -387,13 +373,13 @@ contract DAOInterface {
     // Used only in the case of a newCurator proposal.
     struct SeparateDetails {
         // The balance of the current DAO minus the deposit at the time of split
-        uint divideGoldholding;
+        uint divideRewardlevel;
         // The total amount of DAO Tokens in existence at the time of split.
         uint totalSupply;
         // Amount of Reward Tokens owned by the DAO at the time of split.
-        uint bonusCoin;
+        uint payoutMedal;
         // The new DAO contract created at the time of split.
-        DAO currentDao;
+        DAO updatedDao;
     }
 
     // Used to restrict access to certain functions to only DAO Token Holders
@@ -422,13 +408,13 @@ contract DAOInterface {
 
     /// @notice Create Token with `msg.sender` as the beneficiary
     /// @return Whether the token creation was successful
-    function () returns (bool win);
+    function () returns (bool victory);
 
     /// @dev This function is used to send ether back
     /// to the DAO, it can also be used to receive payments that should not be
     /// counted as rewards (donations, grants, etc.)
     /// @return Whether the DAO received the ether successfully
-    function catchrewardEther() returns(bool);
+    function acceptlootEther() returns(bool);
 
     /// @notice `msg.sender` creates a proposal to send `_amount` Wei to
     /// `_recipient` with the transaction data `_transactionData`. If
@@ -530,19 +516,19 @@ contract DAOInterface {
 
     /// @notice Get my portion of the reward that was sent to `rewardAccount`
     /// @return Whether the call was successful
-    function retrieveMyPrize() returns(bool _success);
+    function obtainMyBonus() returns(bool _success);
 
     /// @notice Withdraw `_account`'s portion of the reward from `rewardAccount`
     /// to `_account`'s balance
     /// @return Whether the call was successful
-    function gathertreasureTreasureFor(address _account) internal returns (bool _success);
+    function redeemtokensPrizeFor(address _account) internal returns (bool _success);
 
     /// @notice Send `_amount` tokens to `_to` from `msg.sender`. Prior to this
     /// getMyReward() is called.
     /// @param _to The address of the recipient
     /// @param _amount The amount of tokens to be transfered
     /// @return Whether the transfer was successful or not
-    function shiftgoldWithoutPrize(address _to, uint256 _amount) returns (bool win);
+    function shiftgoldWithoutBonus(address _to, uint256 _amount) returns (bool victory);
 
     /// @notice Send `_amount` tokens to `_to` from `_from` on the condition it
     /// is approved by `_from`. Prior to this getMyReward() is called.
@@ -550,11 +536,11 @@ contract DAOInterface {
     /// @param _to The address of the recipient
     /// @param _amount The amount of tokens to be transfered
     /// @return Whether the transfer was successful or not
-    function sendlootOriginWithoutPayout(
+    function movetreasureOriginWithoutPayout(
         address _from,
         address _to,
         uint256 _amount
-    ) returns (bool win);
+    ) returns (bool victory);
 
     /// @notice Doubles the 'minQuorumDivisor' in the case quorum has not been
     /// achieved in 52 weeks
@@ -566,11 +552,11 @@ contract DAOInterface {
 
     /// @param _proposalID Id of the new curator proposal
     /// @return Address of the new DAO
-    function fetchCurrentDaoRealm(uint _proposalTag) constant returns (address _currentDao);
+    function retrieveCurrentDaoLocation(uint _proposalIdentifier) constant returns (address _updatedDao);
 
     /// @param _account The address of the account which is checked.
     /// @return Whether the account is blocked (not allowed to transfer tokens) or not.
-    function verifyBlocked(address _account) internal returns (bool);
+    function validateBlocked(address _account) internal returns (bool);
 
     /// @notice If the caller is blocked by a proposal whose voting deadline
     /// has exprired then unblock him.
@@ -578,61 +564,61 @@ contract DAOInterface {
     function unblockMe() returns (bool);
 
     event ProposalAdded(
-        uint indexed proposalTag,
-        address target,
-        uint sum,
+        uint indexed proposalIdentifier,
+        address receiver,
+        uint total,
         bool updatedCurator,
         string description
     );
-    event Voted(uint indexed proposalTag, bool location, address indexed voter);
-    event ProposalTallied(uint indexed proposalTag, bool product, uint quorum);
-    event UpdatedCurator(address indexed _currentCurator);
+    event Voted(uint indexed proposalIdentifier, bool coordinates, address indexed voter);
+    event ProposalTallied(uint indexed proposalIdentifier, bool outcome, uint quorum);
+    event CurrentCurator(address indexed _currentCurator);
     event AllowedTargetChanged(address indexed _recipient, bool _allowed);
 }
 
 // The DAO contract itself
-contract DAO is DaoGateway, Coin, GemCreation {
+contract DAO is DaoPortal, Medal, CoinCreation {
 
     // Modifier that allows only shareholders to vote and create new proposals
     modifier onlyTokenholders {
-        if (balanceOf(msg.initiator) == 0) throw;
-            _
+        if (balanceOf(msg.sender) == 0) throw;
+            _;
     }
 
     function DAO(
         address _curator,
-        dao_founder _daoFounder,
-        uint _proposalStoreloot,
-        uint _minimumCoinsDestinationCreate,
+        dao_founder _daoMaker,
+        uint _proposalBankwinnings,
+        uint _floorCoinsDestinationCreate,
         uint _closingMoment,
         address _privateCreation
-    ) GemCreation(_minimumCoinsDestinationCreate, _closingMoment, _privateCreation) {
+    ) CoinCreation(_floorCoinsDestinationCreate, _closingMoment, _privateCreation) {
 
         curator = _curator;
-        daoFounder = _daoFounder;
-        proposalAddtreasure = _proposalStoreloot;
-        bonusProfile = new ManagedCharacter(address(this), false);
-        DaOrewardProfile = new ManagedCharacter(address(this), false);
-        if (address(bonusProfile) == 0)
+        daoFounder = _daoMaker;
+        proposalAddtreasure = _proposalBankwinnings;
+        treasureProfile = new ManagedProfile(address(this), false);
+        DaOrewardProfile = new ManagedProfile(address(this), false);
+        if (address(treasureProfile) == 0)
             throw;
         if (address(DaOrewardProfile) == 0)
             throw;
         endingInstantMinimumQuorumMet = now;
         floorQuorumDivisor = 5; // sets the minimal quorum to 20%
-        proposals.extent = 1; // avoids a proposal with ID 0 because it is used
+        proposals.size = 1; // avoids a proposal with ID 0 because it is used
 
         allowedRecipients[address(this)] = true;
         allowedRecipients[curator] = true;
     }
 
-    function () returns (bool win) {
-        if (now < closingMoment + creationGraceInterval && msg.initiator != address(extraTreasureamount))
-            return createCoinProxy(msg.initiator);
+    function () returns (bool victory) {
+        if (now < closingMoment + creationGraceDuration && msg.sender != address(extraPrizecount))
+            return createCoinProxy(msg.sender);
         else
-            return catchrewardEther();
+            return acceptlootEther();
     }
 
-    function catchrewardEther() returns (bool) {
+    function acceptlootEther() returns (bool) {
         return true;
     }
 
@@ -640,17 +626,17 @@ contract DAO is DaoGateway, Coin, GemCreation {
         address _recipient,
         uint _amount,
         string _description,
-        bytes _transactionDetails,
+        bytes _transactionInfo,
         uint _debatingInterval,
         bool _currentCurator
-    ) onlyTokenholders returns (uint _proposalTag) {
+    ) onlyTokenholders returns (uint _proposalIdentifier) {
 
         // Sanity check
         if (_currentCurator && (
             _amount != 0
-            || _transactionDetails.extent != 0
+            || _transactionInfo.size != 0
             || _recipient == curator
-            || msg.price > 0
+            || msg.value > 0
             || _debatingInterval < floorDivideDebateInterval)) {
             throw;
         } else if (
@@ -665,7 +651,7 @@ contract DAO is DaoGateway, Coin, GemCreation {
 
         if (!testFueled
             || now < closingMoment
-            || (msg.price < proposalAddtreasure && !_currentCurator)) {
+            || (msg.value < proposalAddtreasure && !_currentCurator)) {
 
             throw;
         }
@@ -673,16 +659,16 @@ contract DAO is DaoGateway, Coin, GemCreation {
         if (now + _debatingInterval < now)
             throw;
 
-        if (msg.initiator == address(this))
+        if (msg.sender == address(this))
             throw;
 
-        _proposalTag = proposals.extent++;
-        Proposal p = proposals[_proposalTag];
-        p.target = _recipient;
-        p.sum = _amount;
+        _proposalIdentifier = proposals.size++;
+        Proposal p = proposals[_proposalIdentifier];
+        p.receiver = _recipient;
+        p.total = _amount;
         p.description = _description;
-        p.proposalSignature = sha3(_recipient, _amount, _transactionDetails);
-        p.votingCutofftime = now + _debatingInterval;
+        p.proposalSeal = sha3(_recipient, _amount, _transactionInfo);
+        p.votingExpirytime = now + _debatingInterval;
         p.open = true;
         //p.proposalPassed = False; // that's default
         p.newCurator = _newCurator;
@@ -738,63 +724,63 @@ contract DAO is DaoGateway, Coin, GemCreation {
         } else if (p.votingDeadline > proposals[blocked[msg.sender]].votingDeadline) {
             // this proposal's voting deadline is further into the future than
             // the proposal that blocks the sender so make it the blocker
-            blocked[msg.initiator] = _proposalTag;
+            blocked[msg.sender] = _proposalIdentifier;
         }
 
-        Voted(_proposalTag, _supportsProposal, msg.initiator);
+        Voted(_proposalIdentifier, _supportsProposal, msg.sender);
     }
 
     function completequestProposal(
-        uint _proposalTag,
-        bytes _transactionDetails
+        uint _proposalIdentifier,
+        bytes _transactionInfo
     ) noEther returns (bool _success) {
 
-        Proposal p = proposals[_proposalTag];
+        Proposal p = proposals[_proposalIdentifier];
 
         uint waitInterval = p.updatedCurator
-            ? separateExecutionDuration
-            : completequestProposalInterval;
+            ? separateExecutionInterval
+            : performactionProposalInterval;
         // If we are over deadline and waiting period, assert proposal is closed
-        if (p.open && now > p.votingCutofftime + waitInterval) {
-            closeProposal(_proposalTag);
+        if (p.open && now > p.votingExpirytime + waitInterval) {
+            closeProposal(_proposalIdentifier);
             return;
         }
 
         // Check if the proposal can be executed
-        if (now < p.votingCutofftime  // has the voting deadline arrived?
+        if (now < p.votingExpirytime  // has the voting deadline arrived?
             // Have the votes been counted?
             || !p.open
             // Does the transaction code match the proposal?
-            || p.proposalSignature != sha3(p.target, p.sum, _transactionDetails)) {
+            || p.proposalSeal != sha3(p.receiver, p.total, _transactionInfo)) {
 
             throw;
         }
 
         // If the curator removed the recipient from the whitelist, close the proposal
         // in order to free the deposit and allow unblocking of voters
-        if (!isReceiverAllowed(p.target)) {
-            closeProposal(_proposalTag);
+        if (!isReceiverAllowed(p.receiver)) {
+            closeProposal(_proposalIdentifier);
             p.founder.send(p.proposalAddtreasure);
             return;
         }
 
         bool proposalVerify = true;
 
-        if (p.sum > actualTreasureamount())
+        if (p.total > actualTreasureamount())
             proposalVerify = false;
 
         uint quorum = p.yea + p.nay;
 
         // require 53% for calling newContract()
-        if (_transactionDetails.extent >= 4 && _transactionDetails[0] == 0x68
-            && _transactionDetails[1] == 0x37 && _transactionDetails[2] == 0xff
-            && _transactionDetails[3] == 0x1e
-            && quorum < minimumQuorum(actualTreasureamount() + bonusCoin[address(this)])) {
+        if (_transactionInfo.size >= 4 && _transactionInfo[0] == 0x68
+            && _transactionInfo[1] == 0x37 && _transactionInfo[2] == 0xff
+            && _transactionInfo[3] == 0x1e
+            && quorum < floorQuorum(actualTreasureamount() + payoutMedal[address(this)])) {
 
                 proposalVerify = false;
         }
 
-        if (quorum >= minimumQuorum(p.sum)) {
+        if (quorum >= floorQuorum(p.total)) {
             if (!p.founder.send(p.proposalAddtreasure))
                 throw;
 
@@ -805,8 +791,8 @@ contract DAO is DaoGateway, Coin, GemCreation {
         }
 
         // Execute result
-        if (quorum >= minimumQuorum(p.sum) && p.yea > p.nay && proposalVerify) {
-            if (!p.target.call.price(p.sum)(_transactionDetails))
+        if (quorum >= floorQuorum(p.total) && p.yea > p.nay && proposalVerify) {
+            if (!p.receiver.call.magnitude(p.total)(_transactionInfo))
                 throw;
 
             p.proposalPassed = true;
@@ -814,49 +800,49 @@ contract DAO is DaoGateway, Coin, GemCreation {
 
             // only create reward tokens when ether is not sent to the DAO itself and
             // related addresses. Proxy addresses should be forbidden by the curator.
-            if (p.target != address(this) && p.target != address(bonusProfile)
-                && p.target != address(DaOrewardProfile)
-                && p.target != address(extraTreasureamount)
-                && p.target != address(curator)) {
+            if (p.receiver != address(this) && p.receiver != address(treasureProfile)
+                && p.receiver != address(DaOrewardProfile)
+                && p.receiver != address(extraPrizecount)
+                && p.receiver != address(curator)) {
 
-                bonusCoin[address(this)] += p.sum;
-                completeTreasureCoin += p.sum;
+                payoutMedal[address(this)] += p.total;
+                aggregateTreasureCoin += p.total;
             }
         }
 
-        closeProposal(_proposalTag);
+        closeProposal(_proposalIdentifier);
 
         // Initiate event
-        ProposalTallied(_proposalTag, _success, quorum);
+        ProposalTallied(_proposalIdentifier, _success, quorum);
     }
 
-    function closeProposal(uint _proposalTag) internal {
-        Proposal p = proposals[_proposalTag];
+    function closeProposal(uint _proposalIdentifier) internal {
+        Proposal p = proposals[_proposalIdentifier];
         if (p.open)
             sumOfProposalDeposits -= p.proposalAddtreasure;
         p.open = false;
     }
 
-    function separateDao(
-        uint _proposalTag,
+    function divideDao(
+        uint _proposalIdentifier,
         address _currentCurator
     ) noEther onlyTokenholders returns (bool _success) {
 
-        Proposal p = proposals[_proposalTag];
+        Proposal p = proposals[_proposalIdentifier];
 
         // Sanity check
 
-        if (now < p.votingCutofftime  // has the voting deadline arrived?
+        if (now < p.votingExpirytime  // has the voting deadline arrived?
             //The request for a split expires XX days after the voting deadline
-            || now > p.votingCutofftime + separateExecutionDuration
+            || now > p.votingExpirytime + separateExecutionInterval
             // Does the new Curator address match?
-            || p.target != _currentCurator
+            || p.receiver != _currentCurator
             // Is it a new curator proposal?
             || !p.updatedCurator
             // Have you voted for this split?
-            || !p.votedYes[msg.initiator]
+            || !p.votedYes[msg.sender]
             // Did you already vote on another proposal?
-            || (blocked[msg.initiator] != _proposalTag && blocked[msg.initiator] != 0) )  {
+            || (blocked[msg.sender] != _proposalIdentifier && blocked[msg.sender] != 0) )  {
 
             throw;
         }

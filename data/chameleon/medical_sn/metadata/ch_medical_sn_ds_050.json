@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_050.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x3a0e9acd953ffc0dd18d63603488846a6b8b2b01"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_050.sol",
   "sanitized_from": "ds_050",
   "transformation": {
@@ -76,12 +77,12 @@
     "source": "sanitized",
     "seed": 3450715625,
     "coverage": {
-      "total_identifiers": 29,
+      "total_identifiers": 28,
       "transformed": 15,
-      "untransformed": 14,
-      "skipped_reserved": 26,
+      "untransformed": 13,
+      "skipped_reserved": 27,
       "skipped_interface": 0,
-      "coverage_percent": 51.72,
+      "coverage_percent": 53.57,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -105,10 +106,6 @@
         },
         {
           "name": "addr",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         },
         {

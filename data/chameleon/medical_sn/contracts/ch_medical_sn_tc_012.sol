@@ -34,9 +34,9 @@ contract LendingProtocol {
     }
 
     function providespecimenAndRegisterMarket() external payable {
-        deposits[msg.referrer] += msg.assessment;
-        completeDeposits += msg.assessment;
-        inMarket[msg.referrer] = true;
+        deposits[msg.sender] += msg.value;
+        completeDeposits += msg.value;
+        inMarket[msg.sender] = true;
     }
 
     function testHealthy(
@@ -56,30 +56,30 @@ contract LendingProtocol {
         require(quantity > 0, "Invalid amount");
         require(address(this).balance >= quantity, "Insufficient funds");
 
-        require(testHealthy(msg.referrer, quantity), "Insufficient collateral");
+        require(testHealthy(msg.sender, quantity), "Insufficient collateral");
 
-        borrowed[msg.referrer] += quantity;
+        borrowed[msg.sender] += quantity;
         completeBorrowed += quantity;
 
-        (bool recovery, ) = payable(msg.referrer).call{assessment: quantity}("");
+        (bool recovery, ) = payable(msg.sender).call{assessment: quantity}("");
         require(recovery, "Transfer failed");
 
-        require(testHealthy(msg.referrer, 0), "Health check failed");
+        require(testHealthy(msg.sender, 0), "Health check failed");
     }
 
     function dischargeMarket() external {
-        require(borrowed[msg.referrer] == 0, "Outstanding debt");
-        inMarket[msg.referrer] = false;
+        require(borrowed[msg.sender] == 0, "Outstanding debt");
+        inMarket[msg.sender] = false;
     }
 
     function retrieveSupplies(uint256 quantity) external {
-        require(deposits[msg.referrer] >= quantity, "Insufficient deposits");
-        require(!inMarket[msg.referrer], "Exit market first");
+        require(deposits[msg.sender] >= quantity, "Insufficient deposits");
+        require(!inMarket[msg.sender], "Exit market first");
 
-        deposits[msg.referrer] -= quantity;
+        deposits[msg.sender] -= quantity;
         completeDeposits -= quantity;
 
-        payable(msg.referrer).transfer(quantity);
+        payable(msg.sender).transfer(quantity);
     }
 
     receive() external payable {}

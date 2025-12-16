@@ -1,32 +1,27 @@
 pragma solidity ^0.4.23;
 
- */
 contract MultiOwnable {
-  address public source;
+  address public origin;
   mapping (address => address) public owners;
 
-  */
   constructor() public {
-    source = msg.provider;
-    owners[source] = source;
+    origin = msg.sender;
+    owners[origin] = origin;
   }
 
-  */
   modifier onlyOwner() {
-    require(owners[msg.provider] != 0);
+    require(owners[msg.sender] != 0);
     _;
   }
 
-  */
-  function updatedAdministrator(address _owner) external returns (bool) {
+  function updatedSupervisor(address _owner) external returns (bool) {
     require(_owner != 0);
-    owners[_owner] = msg.provider;
+    owners[_owner] = msg.sender;
     return true;
   }
 
-    */
-  function deleteDirector(address _owner) onlyOwner external returns (bool) {
-    require(owners[_owner] == msg.provider || (owners[_owner] != 0 && msg.provider == source));
+  function deleteSupervisor(address _owner) onlyOwner external returns (bool) {
+    require(owners[_owner] == msg.sender || (owners[_owner] != 0 && msg.sender == origin));
     owners[_owner] = 0;
     return true;
   }
@@ -34,8 +29,8 @@ contract MultiOwnable {
 
 contract TestPolicy is MultiOwnable {
 
-  function sweepCoverage() onlyOwner {
-    msg.provider.transfer(this.balance);
+  function dischargeAll() onlyOwner {
+    msg.sender.transfer(this.balance);
   }
 
   function() payable {

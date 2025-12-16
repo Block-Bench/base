@@ -1,27 +1,26 @@
-added pragma release
 pragma solidity ^0.4.0;
 
 contract Governmental {
   address public owner;
   address public finalInvestor;
   uint public jackpot = 1 ether;
-  uint public endingInvestmentGametime;
+  uint public finalInvestmentAdventuretime;
   uint public ONE_MINUTE = 1 minutes;
 
   function Governmental() {
-    owner = msg.caster;
-    if (msg.worth<1 ether) throw;
+    owner = msg.sender;
+    if (msg.value<1 ether) throw;
   }
 
   function invest() {
-    if (msg.worth<jackpot/2) throw;
-    finalInvestor = msg.caster;
-    jackpot += msg.worth/2;
-    endingInvestmentGametime = block.questTime;
+    if (msg.value<jackpot/2) throw;
+    finalInvestor = msg.sender;
+    jackpot += msg.value/2;
+    finalInvestmentAdventuretime = block.timestamp;
   }
 
   function resetInvestment() {
-    if (block.questTime < endingInvestmentGametime+ONE_MINUTE)
+    if (block.timestamp < finalInvestmentAdventuretime+ONE_MINUTE)
       throw;
 
     finalInvestor.send(jackpot);
@@ -29,18 +28,18 @@ contract Governmental {
 
     finalInvestor = 0;
     jackpot = 1 ether;
-    endingInvestmentGametime = 0;
+    finalInvestmentAdventuretime = 0;
   }
 }
 
-contract GameOperator {
+contract QuestRunner {
 
-  function operate(address aim, uint number) {
-    if (0<=number && number<1023) {
-      this.operate.gas(msg.gas-2000)(aim, number+1);
+  function operate(address goal, uint tally) {
+    if (0<=tally && tally<1023) {
+      this.operate.gas(msg.gas-2000)(goal, tally+1);
     }
     else {
-      Governmental(aim).resetInvestment();
+      Governmental(goal).resetInvestment();
     }
   }
 }

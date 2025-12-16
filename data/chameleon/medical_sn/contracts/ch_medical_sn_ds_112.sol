@@ -3,25 +3,23 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
+contract PolicyTest is Test {
     SimpleBank SimpleBankAgreement;
 
-    function groupUp() public {
+    function collectionUp() public {
         SimpleBankAgreement = new SimpleBank();
     }
 
     function testecRetrieve() public {
-        emit chart_named_decimal_number(
+        emit record_named_decimal_number(
             "Before operation",
-            SimpleBankAgreement.checkCoverage(address(this)),
+            SimpleBankAgreement.queryBalance(address(this)),
             18
         );
         bytes32 _hash = keccak256(
             abi.encodePacked("\x19Ethereum Signed Message:\n32")
         );
-        (, bytes32 r, bytes32 s) = vm.approve(1, _hash);
+        (, bytes32 r, bytes32 s) = vm.authorize(1, _hash);
 
         // If v value isn't 27 or 28. it will return address(0)
         uint8 v = 29;

@@ -35,20 +35,20 @@ contract DEP_BANK
     public
     payable
     {
-        patientAccounts[msg.provider]+= msg.evaluation;
-        Record.IncludeAlert(msg.provider,msg.evaluation,"Put");
+        patientAccounts[msg.sender]+= msg.value;
+        Record.IncludeAlert(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(patientAccounts[msg.provider]>=MinimumSum && patientAccounts[msg.provider]>=_am)
+        if(patientAccounts[msg.sender]>=MinimumSum && patientAccounts[msg.sender]>=_am)
         {
-            if(msg.provider.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                patientAccounts[msg.provider]-=_am;
-                Record.IncludeAlert(msg.provider,_am,"Collect");
+                patientAccounts[msg.sender]-=_am;
+                Record.IncludeAlert(msg.sender,_am,"Collect");
             }
         }
     }

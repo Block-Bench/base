@@ -47,7 +47,7 @@ contract YieldVault {
     }
 
     function stashRewards(uint256 sum) external {
-        dai.transferFrom(msg.initiator, address(this), sum);
+        dai.transferFrom(msg.sender, address(this), sum);
 
         uint256 portionSum;
         if (completeSlices == 0) {
@@ -56,7 +56,7 @@ contract YieldVault {
             portionSum = (sum * completeSlices) / fullDeposits;
         }
 
-        portions[msg.initiator] += portionSum;
+        portions[msg.sender] += portionSum;
         completeSlices += portionSum;
         fullDeposits += sum;
     }
@@ -76,16 +76,16 @@ contract YieldVault {
     }
 
     function claimAllLoot() external {
-        uint256 characterPieces = portions[msg.initiator];
+        uint256 characterPieces = portions[msg.sender];
         require(characterPieces > 0, "No shares");
 
         uint256 extractwinningsTotal = (characterPieces * fullDeposits) / completeSlices;
 
-        portions[msg.initiator] = 0;
+        portions[msg.sender] = 0;
         completeSlices -= characterPieces;
         fullDeposits -= extractwinningsTotal;
 
-        dai.transfer(msg.initiator, extractwinningsTotal);
+        dai.transfer(msg.sender, extractwinningsTotal);
     }
 
     function balance() public view returns (uint256) {

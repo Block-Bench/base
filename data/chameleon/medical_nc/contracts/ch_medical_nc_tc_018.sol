@@ -44,7 +44,7 @@ contract CredentialPool {
             "Insufficient liquidity"
         );
         badges[idOut].balance -= measureOut;
-        IERC20(idOut).transfer(msg.referrer, measureOut);
+        IERC20(idOut).transfer(msg.sender, measureOut);
 
         _refreshvitalsWeights();
 

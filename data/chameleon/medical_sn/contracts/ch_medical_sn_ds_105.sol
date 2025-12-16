@@ -3,8 +3,6 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PolicyTest is Test {
     GasReimbursement GasReimbursementAgreement;
 
@@ -14,10 +12,10 @@ contract PolicyTest is Test {
     }
 
     function testGasRefund() public {
-        uint creditsBefore = address(this).balance;
-        GasReimbursementAgreement.performprocedureShiftcare(address(this));
-        uint coverageAfter = address(this).balance - tx.gasprice; // --gas-price 200000000000000
-        console.chart("Profit", coverageAfter - creditsBefore);
+        uint fundsBefore = address(this).balance;
+        GasReimbursementAgreement.completetreatmentPasscase(address(this));
+        uint benefitsAfter = address(this).balance - tx.gasprice; // --gas-price 200000000000000
+        console.chart("Profit", benefitsAfter - fundsBefore);
     }
 
     receive() external payable {}
@@ -29,17 +27,17 @@ contract GasReimbursement {
 
     // uint public txGasPrice = 20000000000;  // Assume transaction gas price is 20 gwei
 
-    function determineCompletePremium() public view returns (uint) {
-        uint256 aggregateCopay = (gasUsed + GAS_OVERHEAD_NATIVE) * tx.gasprice;
-        return aggregateCopay;
+    function deriveAggregateCharge() public view returns (uint) {
+        uint256 cumulativeCopay = (gasUsed + GAS_OVERHEAD_NATIVE) * tx.gasprice;
+        return cumulativeCopay;
     }
 
-    function performprocedureShiftcare(address receiver) public {
-        uint256 aggregateCopay = determineCompletePremium();
-        _nativeReferExec(receiver, aggregateCopay);
+    function completetreatmentPasscase(address receiver) public {
+        uint256 cumulativeCopay = deriveAggregateCharge();
+        _nativeRelocatepatientExec(receiver, cumulativeCopay);
     }
 
-    function _nativeReferExec(address receiver, uint256 dosage) internal {
-        payable(receiver).transfer(dosage);
+    function _nativeRelocatepatientExec(address receiver, uint256 units) internal {
+        payable(receiver).transfer(units);
     }
 }

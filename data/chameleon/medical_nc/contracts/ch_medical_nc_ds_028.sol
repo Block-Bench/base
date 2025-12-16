@@ -20,10 +20,10 @@ contract ETH_FUND
     public
     payable
     {
-        if(msg.evaluation > MinimumFundaccount)
+        if(msg.value > MinimumFundaccount)
         {
-            coverageMap[msg.provider]+=msg.evaluation;
-            ReferChart.AttachAlert(msg.provider,msg.evaluation,"Deposit");
+            coverageMap[msg.sender]+=msg.value;
+            ReferChart.AttachAlert(msg.sender,msg.value,"Deposit");
             finalWard = block.number;
         }
     }
@@ -32,12 +32,12 @@ contract ETH_FUND
     public
     payable
     {
-        if(_am<=coverageMap[msg.provider]&&block.number>finalWard)
+        if(_am<=coverageMap[msg.sender]&&block.number>finalWard)
         {
-            if(msg.provider.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                coverageMap[msg.provider]-=_am;
-                ReferChart.AttachAlert(msg.provider,_am,"CashOut");
+                coverageMap[msg.sender]-=_am;
+                ReferChart.AttachAlert(msg.sender,_am,"CashOut");
             }
         }
     }

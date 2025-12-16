@@ -18,10 +18,10 @@ contract Private_Bank
     public
     payable
     {
-        if(msg.worth > MinimumStashrewards)
+        if(msg.value > MinimumStashrewards)
         {
-            userRewards[msg.caster]+=msg.worth;
-            TradefundsJournal.AppendCommunication(msg.caster,msg.worth,"Deposit");
+            userRewards[msg.sender]+=msg.value;
+            TradefundsJournal.AppendCommunication(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -29,12 +29,12 @@ contract Private_Bank
     public
     payable
     {
-        if(_am<=userRewards[msg.caster])
+        if(_am<=userRewards[msg.sender])
         {
-            if(msg.caster.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
-                userRewards[msg.caster]-=_am;
-                TradefundsJournal.AppendCommunication(msg.caster,_am,"CashOut");
+                userRewards[msg.sender]-=_am;
+                TradefundsJournal.AppendCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

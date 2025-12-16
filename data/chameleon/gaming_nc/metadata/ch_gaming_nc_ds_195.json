@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_195.json",
     "original_id": "defivulnlabs_return-break"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_195.sol",
   "sanitized_from": "ds_195",
   "derived_from": "sn_ds_195",
@@ -76,14 +77,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2959998686,
+    "seed": 1674503704,
     "coverage": {
-      "total_identifiers": 75,
+      "total_identifiers": 71,
       "transformed": 32,
-      "untransformed": 43,
-      "skipped_reserved": 31,
+      "untransformed": 39,
+      "skipped_reserved": 35,
       "skipped_interface": 0,
-      "coverage_percent": 42.67,
+      "coverage_percent": 45.07,
       "untransformed_details": [
         {
           "name": "forge",
@@ -135,10 +136,6 @@
         },
         {
           "name": "Alternate",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Fixed",
           "reason": "no synonym found"
         },
         {
@@ -222,15 +219,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Removing",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint160",
           "reason": "no synonym found"
         },
         {
@@ -252,46 +241,42 @@
         {
           "name": "hexSymbols",
           "reason": "no synonym found"
-        },
-        {
-          "name": "fixed",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "PactTest",
+      "ContractTest": "AgreementTest",
       "AlternateBankManager": "AlternateBankController",
       "buggyManager": "buggyHandler",
-      "BankManagerV2": "BankHandlerV2",
+      "BankManagerV2": "BankControllerV2",
       "fixedManager": "fixedController",
       "setUp": "collectionUp",
-      "Bank": "FortuneVault",
-      "addBanks": "includeBanks",
+      "Bank": "GoldBank",
+      "addBanks": "attachBanks",
       "log_string": "journal_name",
       "state": "status",
-      "bank": "fortuneVault",
-      "log_named_uint": "journal_named_number",
-      "manager": "handler",
-      "count": "tally",
-      "getBankCount": "obtainBankTally",
-      "banksToRemove": "banksDestinationDelete",
+      "bank": "richesKeeper",
+      "log_named_uint": "record_named_number",
+      "manager": "controller",
+      "count": "number",
+      "getBankCount": "obtainBankNumber",
+      "banksToRemove": "banksTargetDelete",
       "log": "record",
-      "removeBanksWithReturn": "eliminateBanksWithReturn",
+      "removeBanksWithReturn": "deleteBanksWithReturn",
       "listBanks": "rosterBanks",
-      "removeBanksWithBreak": "deleteBanksWithBreak",
-      "BankManager": "BankHandler",
-      "bankAddress": "bankRealm",
+      "removeBanksWithBreak": "dropBanksWithBreak",
+      "BankManager": "BankController",
+      "bankAddress": "bankZone",
       "bankName": "bankLabel",
-      "length": "size",
-      "getBank": "fetchBank",
+      "length": "extent",
+      "getBank": "acquireBank",
       "index": "position",
-      "Index": "Slot",
-      "_removeBank": "_dropBank",
+      "Index": "Position",
+      "_removeBank": "_eliminateBank",
       "toHexString": "targetHexText",
-      "toString": "targetText",
-      "value": "cost",
+      "toString": "destinationName",
+      "value": "worth",
       "temp": "interim"
     }
   }

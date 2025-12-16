@@ -2,15 +2,13 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    CareLogic LogicPolicy;
+contract PolicyTest is Test {
+    CareLogic LogicAgreement;
     TransferHub ProxyAgreement;
 
     function testRepositoryCollision() public {
-        LogicPolicy = new CareLogic();
-        ProxyAgreement = new TransferHub(address(LogicPolicy));
+        LogicAgreement = new CareLogic();
+        ProxyAgreement = new TransferHub(address(LogicAgreement));
 
         console.record(
             "Current implementation contract address:",
@@ -35,21 +33,21 @@ contract TransferHub {
     }
 
     function testcollision() public {
-        bool recovery;
-        (recovery, ) = execution.delegatecall(
-            abi.encodeWithAuthorization("foo(address)", address(this))
+        bool improvement;
+        (improvement, ) = execution.delegatecall(
+            abi.encodeWithSignature("foo(address)", address(this))
         );
     }
 }
 
 contract CareLogic {
-    address public GuestFacility;
+    address public GuestWard;
 
     constructor() {
-        GuestFacility = address(0x0);
+        GuestWard = address(0x0);
     }
 
     function foo(address _addr) public {
-        GuestFacility = _addr;
+        GuestWard = _addr;
     }
 }

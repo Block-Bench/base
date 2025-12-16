@@ -4,46 +4,44 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
-
 contract AgreementTest is Test {
-    SimplePool SimplePoolAgreement;
-    MyCoin MyMedalAgreement;
+    SimplePool SimplePoolPact;
+    MyCoin MyCrystalAgreement;
 
     function groupUp() public {
-        MyMedalAgreement = new MyCoin();
-        SimplePoolAgreement = new SimplePool(address(MyMedalAgreement));
+        MyCrystalAgreement = new MyCoin();
+        SimplePoolPact = new SimplePool(address(MyCrystalAgreement));
     }
 
-    function testPrimaryDepositgold() public {
+    function testInitialDepositgold() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
-        MyMedalAgreement.transfer(alice, 1 ether + 1);
-        MyMedalAgreement.transfer(bob, 2 ether);
+        MyCrystalAgreement.transfer(alice, 1 ether + 1);
+        MyCrystalAgreement.transfer(bob, 2 ether);
 
-        vm.openingPrank(alice);
+        vm.beginPrank(alice);
 
-        MyMedalAgreement.approve(address(SimplePoolAgreement), 1);
-        SimplePoolAgreement.cachePrize(1);
+        MyCrystalAgreement.approve(address(SimplePoolPact), 1);
+        SimplePoolPact.depositGold(1);
 
 
-        MyMedalAgreement.transfer(address(SimplePoolAgreement), 1 ether);
+        MyCrystalAgreement.transfer(address(SimplePoolPact), 1 ether);
 
         vm.stopPrank();
-        vm.openingPrank(bob);
+        vm.beginPrank(bob);
 
 
-        MyMedalAgreement.approve(address(SimplePoolAgreement), 2 ether);
-        SimplePoolAgreement.cachePrize(2 ether);
+        MyCrystalAgreement.approve(address(SimplePoolPact), 2 ether);
+        SimplePoolPact.depositGold(2 ether);
         vm.stopPrank();
-        vm.openingPrank(alice);
+        vm.beginPrank(alice);
 
-        MyMedalAgreement.balanceOf(address(SimplePoolAgreement));
+        MyCrystalAgreement.balanceOf(address(SimplePoolPact));
 
 
-        SimplePoolAgreement.retrieveRewards(1);
-        assertEq(MyMedalAgreement.balanceOf(alice), 1.5 ether);
-        console.record("Alice balance", MyMedalAgreement.balanceOf(alice));
+        SimplePoolPact.redeemTokens(1);
+        assertEq(MyCrystalAgreement.balanceOf(alice), 1.5 ether);
+        console.record("Alice balance", MyCrystalAgreement.balanceOf(alice));
     }
 
     receive() external payable {}
@@ -51,72 +49,72 @@ contract AgreementTest is Test {
 
 contract MyCoin is ERC20, Ownable {
     constructor() ERC20("MyToken", "MTK") {
-        _mint(msg.caster, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 
-    function forge(address to, uint256 sum) public onlyOwner {
+    function summon(address to, uint256 sum) public onlyOwner {
         _mint(to, sum);
     }
 }
 
 contract SimplePool {
-    IERC20 public loanCoin;
+    IERC20 public loanMedal;
     uint public combinedPieces;
 
     mapping(address => uint) public balanceOf;
 
-    constructor(address _loanGem) {
-        loanCoin = IERC20(_loanGem);
+    constructor(address _loanMedal) {
+        loanMedal = IERC20(_loanMedal);
     }
 
-    function cachePrize(uint sum) external {
+    function depositGold(uint sum) external {
         require(sum > 0, "Amount must be greater than zero");
 
         uint _shares;
         if (combinedPieces == 0) {
             _shares = sum;
         } else {
-            _shares = coinTargetSlices(
+            _shares = gemDestinationPieces(
                 sum,
-                loanCoin.balanceOf(address(this)),
+                loanMedal.balanceOf(address(this)),
                 combinedPieces,
                 false
             );
         }
 
         require(
-            loanCoin.transferFrom(msg.caster, address(this), sum),
+            loanMedal.transferFrom(msg.sender, address(this), sum),
             "TransferFrom failed"
         );
-        balanceOf[msg.caster] += _shares;
+        balanceOf[msg.sender] += _shares;
         combinedPieces += _shares;
     }
 
-    function coinTargetSlices(
-        uint _coinQuantity,
+    function gemDestinationPieces(
+        uint _coinSum,
         uint _supplied,
-        uint _piecesCombinedStock,
-        bool waveUpVerify
+        uint _piecesCompleteStock,
+        bool waveUpInspect
     ) internal pure returns (uint) {
-        if (_supplied == 0) return _coinQuantity;
-        uint pieces = (_coinQuantity * _piecesCombinedStock) / _supplied;
+        if (_supplied == 0) return _coinSum;
+        uint portions = (_coinSum * _piecesCompleteStock) / _supplied;
         if (
-            waveUpVerify &&
-            pieces * _supplied < _coinQuantity * _piecesCombinedStock
-        ) pieces++;
-        return pieces;
+            waveUpInspect &&
+            portions * _supplied < _coinSum * _piecesCompleteStock
+        ) portions++;
+        return portions;
     }
 
-    function retrieveRewards(uint pieces) external {
-        require(pieces > 0, "Shares must be greater than zero");
-        require(balanceOf[msg.caster] >= pieces, "Insufficient balance");
+    function redeemTokens(uint portions) external {
+        require(portions > 0, "Shares must be greater than zero");
+        require(balanceOf[msg.sender] >= portions, "Insufficient balance");
 
-        uint crystalTotal = (pieces * loanCoin.balanceOf(address(this))) /
+        uint medalCount = (portions * loanMedal.balanceOf(address(this))) /
             combinedPieces;
 
-        balanceOf[msg.caster] -= pieces;
-        combinedPieces -= pieces;
+        balanceOf[msg.sender] -= portions;
+        combinedPieces -= portions;
 
-        require(loanCoin.transfer(msg.caster, crystalTotal), "Transfer failed");
+        require(loanMedal.transfer(msg.sender, medalCount), "Transfer failed");
     }
 }

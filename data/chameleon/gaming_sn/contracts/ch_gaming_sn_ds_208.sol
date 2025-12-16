@@ -1,4 +1,3 @@
-sol Wallet
 // Multi-sig, daily-limited account proxy/wallet.
 // @authors:
 // Gav Wood <g@ethdev.com>
@@ -30,7 +29,7 @@ contract WalletEvents {
   // Funds has arrived into the wallet (record how much).
   event Deposit(address _from, uint value);
   // Single transaction going out of the wallet (record who signed for it, how much, and to whom it's going).
-  event SingleTransact(address owner, uint price, address to, bytes info, address created);
+  event SingleTransact(address owner, uint cost, address to, bytes info, address created);
   // Multi-sig transaction going out of the wallet (record who signed for it last, the operation hash, how much, and to whom it's going).
   event MultiTransact(address owner, bytes32 operation, uint value, address to, bytes data, address created);
   // Confirmation still needed for a transaction.
@@ -55,9 +54,9 @@ contract WalletAbi {
   function hasConfirmed(bytes32 _operation, address _owner) external constant returns (bool);
 
   // (re)sets the daily limit. needs many of the owners to confirm. doesn't alter the amount already spent today.
-  function collectionDailyBound(uint _currentCap) external;
+  function collectionDailyCap(uint _currentCap) external;
 
-  function completeQuest(address _to, uint _value, bytes _data) external returns (bytes32 o_signature);
+  function performAction(address _to, uint _value, bytes _data) external returns (bytes32 o_signature);
   function confirm(bytes32 _h) returns (bool o_victory);
 }
 
@@ -65,16 +64,16 @@ contract WalletLibrary is WalletEvents {
   // TYPES
 
   // struct for the status of a pending operation.
-  struct QueuedCondition {
+  struct QueuedStatus {
     uint yetNeeded;
     uint ownersDone;
-    uint position;
+    uint slot;
   }
 
   // Transaction structure to remember details of transaction lest it need be saved for a later call.
   struct Transaction {
     address to;
-    uint price;
+    uint cost;
     bytes info;
   }
 
@@ -82,7 +81,7 @@ contract WalletLibrary is WalletEvents {
 
   // simple single-sig function modifier.
   modifier onlyGameAdmin {
-    if (isMaster(msg.initiator))
+    if (isMaster(msg.sender))
       _;
   }
   // multi-sig function modifier: the operation must have an intrinsic hash in order
@@ -98,16 +97,16 @@ contract WalletLibrary is WalletEvents {
   // gets called when no other function matches
   function() payable {
     // just being sent some cash?
-    if (msg.price > 0)
-      StashRewards(msg.initiator, msg.price);
+    if (msg.value > 0)
+      StashRewards(msg.sender, msg.value);
   }
 
   // constructor is given number of sigs required to do protected "onlymanyowners" transactions
   // as well as the selection of addresses capable of confirming them.
   function initMultiowned(address[] _owners, uint _required) {
     m_numOwners = _owners.size + 1;
-    m_owners[1] = uint(msg.initiator);
-    m_ownerIndex[uint(msg.initiator)] = 1;
+    m_owners[1] = uint(msg.sender);
+    m_ownerIndex[uint(msg.sender)] = 1;
     for (uint i = 0; i < _owners.size; ++i)
     {
       m_owners[2 + i] = uint(_owners[i]);
@@ -117,8 +116,8 @@ contract WalletLibrary is WalletEvents {
   }
 
   // Revokes a prior confirmation of the given operation
-  function rescind(bytes32 _operation) external {
-    uint lordPosition = m_ownerIndex[uint(msg.initiator)];
+  function cancel(bytes32 _operation) external {
+    uint masterPosition = m_ownerIndex[uint(msg.sender)];
     // make sure they're an owner
     if (ownerIndex == 0) return;
     uint ownerIndexBit = 2**ownerIndex;
@@ -190,11 +189,11 @@ contract WalletLibrary is WalletEvents {
     uint ownerIndex = m_ownerIndex[uint(_owner)];
 
     // make sure they're an owner
-    if (lordPosition == 0) return false;
+    if (masterPosition == 0) return false;
 
     // determine the bit to set for this owner.
-    uint masterPositionBit = 2**lordPosition;
-    return !(waiting.ownersDone & masterPositionBit == 0);
+    uint lordSlotBit = 2**masterPosition;
+    return !(waiting.ownersDone & lordSlotBit == 0);
   }
 
   // constructor - stores initial daily limit and records the present day's index.
@@ -203,11 +202,11 @@ contract WalletLibrary is WalletEvents {
     m_lastDay = today();
   }
   // (re)sets the daily limit. needs many of the owners to confirm. doesn't alter the amount already spent today.
-  function collectionDailyBound(uint _currentCap) onlymanyowners(sha3(msg.info)) external {
+  function collectionDailyCap(uint _currentCap) onlymanyowners(sha3(msg.data)) external {
     m_dailyLimit = _currentCap;
   }
   // resets the amount already spent today. needs many of the owners to confirm.
-  function resetSpentToday() onlymanyowners(sha3(msg.info)) external {
+  function resetSpentToday() onlymanyowners(sha3(msg.data)) external {
     m_spentToday = 0;
   }
 
@@ -219,7 +218,7 @@ contract WalletLibrary is WalletEvents {
   }
 
   // kills the contract sending everything to `_to`.
-  function kill(address _to) onlymanyowners(sha3(msg.info)) external {
+  function kill(address _to) onlymanyowners(sha3(msg.data)) external {
     suicide(_to);
   }
 
@@ -227,7 +226,7 @@ contract WalletLibrary is WalletEvents {
   // If not, goes into multisig process. We provide a hash on return to allow the sender to provide
   // shortcuts for the other confirmations (allowing them to avoid replicating the _to, _value
   // and _data arguments). They still get the option of using them if they want, anyways.
-  function completeQuest(address _to, uint _value, bytes _data) external onlyGameAdmin returns (bytes32 o_signature) {
+  function performAction(address _to, uint _value, bytes _data) external onlyGameAdmin returns (bytes32 o_signature) {
     // first, take the opportunity to check that we're under the daily limit.
     if ((_data.length == 0 && underLimit(_value)) || m_required == 1) {
       // yes - just execute the call.
@@ -243,37 +242,37 @@ contract WalletLibrary is WalletEvents {
       // determine our operation hash.
       o_hash = sha3(msg.data, block.number);
       // store if it's new
-      if (m_txs[o_signature].to == 0 && m_txs[o_signature].price == 0 && m_txs[o_signature].info.size == 0) {
+      if (m_txs[o_signature].to == 0 && m_txs[o_signature].cost == 0 && m_txs[o_signature].info.size == 0) {
         m_txs[o_signature].to = _to;
-        m_txs[o_signature].price = _value;
+        m_txs[o_signature].cost = _value;
         m_txs[o_signature].info = _data;
       }
       if (!confirm(o_signature)) {
-        ConfirmationNeeded(o_signature, msg.initiator, _value, _to, _data);
+        ConfirmationNeeded(o_signature, msg.sender, _value, _to, _data);
       }
     }
   }
 
-  function missionStarted(uint _value, bytes _code) internal returns (address o_addr) {
+  function questCreated(uint _value, bytes _code) internal returns (address o_addr) {
     assembly {
-      o_addr := missionStarted(_value, insert(_code, 0x20), mload(_code))
-      jumpi(invalidJumpLabel, validatezero(extcodesize(o_addr)))
+      o_addr := questCreated(_value, include(_code, 0x20), mload(_code))
+      jumpi(invalidJumpLabel, checkzero(extcodesize(o_addr)))
     }
   }
 
   // confirm a transaction through just the hash. we use the previous transactions map, m_txs, in order
   // to determine the body of the transaction from the hash provided.
   function confirm(bytes32 _h) onlymanyowners(_h) returns (bool o_victory) {
-    if (m_txs[_h].to != 0 || m_txs[_h].price != 0 || m_txs[_h].info.size != 0) {
+    if (m_txs[_h].to != 0 || m_txs[_h].cost != 0 || m_txs[_h].info.size != 0) {
       address created;
       if (m_txs[_h].to == 0) {
-        created = missionStarted(m_txs[_h].price, m_txs[_h].info);
+        created = questCreated(m_txs[_h].cost, m_txs[_h].info);
       } else {
-        if (!m_txs[_h].to.call.price(m_txs[_h].price)(m_txs[_h].info))
+        if (!m_txs[_h].to.call.cost(m_txs[_h].cost)(m_txs[_h].info))
           throw;
       }
 
-      MultiTransact(msg.initiator, _h, m_txs[_h].price, m_txs[_h].to, m_txs[_h].info, created);
+      MultiTransact(msg.sender, _h, m_txs[_h].cost, m_txs[_h].to, m_txs[_h].info, created);
       delete m_txs[_h];
       return true;
     }
@@ -283,7 +282,7 @@ contract WalletLibrary is WalletEvents {
 
   function confirmAndInspect(bytes32 _operation) internal returns (bool) {
     // determine what index the present sender is:
-    uint lordPosition = m_ownerIndex[uint(msg.initiator)];
+    uint masterPosition = m_ownerIndex[uint(msg.sender)];
     // make sure they're an owner
     if (ownerIndex == 0) return;
 
@@ -294,11 +293,11 @@ contract WalletLibrary is WalletEvents {
       waiting.yetNeeded = m_required;
       // reset which owners have confirmed (none) - set our bitmap to 0.
       waiting.ownersDone = 0;
-      waiting.position = m_pendingIndex.size++;
-      m_pendingIndex[waiting.position] = _operation;
+      waiting.slot = m_pendingIndex.size++;
+      m_pendingIndex[waiting.slot] = _operation;
     }
     // determine the bit to set for this owner.
-    uint masterPositionBit = 2**lordPosition;
+    uint lordSlotBit = 2**masterPosition;
     // make sure we (the message sender) haven't confirmed this operation previously.
     if (pending.ownersDone & ownerIndexBit == 0) {
       Confirmation(msg.sender, _operation);
@@ -353,14 +352,14 @@ contract WalletLibrary is WalletEvents {
   // determines today's index.
   function today() private constant returns (uint) { return now / 1 days; }
 
-  function clearQueued() internal {
+  function clearWaiting() internal {
     uint size = m_pendingIndex.size;
 
     for (uint i = 0; i < size; ++i) {
       delete m_txs[m_pendingIndex[i]];
 
       if (m_pendingIndex[i] != 0)
-        delete m_waiting[m_pendingIndex[i]];
+        delete m_queued[m_pendingIndex[i]];
     }
 
     delete m_pendingIndex;
@@ -385,7 +384,7 @@ contract WalletLibrary is WalletEvents {
   // index on the list of owners to allow reverse lookup
   mapping(uint => uint) m_ownerIndex;
   // the ongoing operations.
-  mapping(bytes32 => QueuedCondition) m_waiting;
+  mapping(bytes32 => QueuedStatus) m_queued;
   bytes32[] m_pendingIndex;
 
   // pending transactions we have at present.

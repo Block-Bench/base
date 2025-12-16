@@ -7,23 +7,23 @@ contract MY_BANK
     public
     payable
     {
-        var acc = Acc[msg.referrer];
-        acc.balance += msg.rating;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         acc.releasecoverageInstant = _openrecordInstant>now?_openrecordInstant:now;
-        ChartFile.IncludeAlert(msg.referrer,msg.rating,"Put");
+        ChartFile.IncludeAlert(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.referrer];
+        var acc = Acc[msg.sender];
         if( acc.balance>=FloorSum && acc.balance>=_am && now>acc.releasecoverageInstant)
         {
-            if(msg.referrer.call.rating(_am)())
+            if(msg.sender.call.rating(_am)())
             {
                 acc.balance-=_am;
-                ChartFile.IncludeAlert(msg.referrer,_am,"Collect");
+                ChartFile.IncludeAlert(msg.sender,_am,"Collect");
             }
         }
     }

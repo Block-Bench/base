@@ -3,7 +3,7 @@ pragma solidity ^0.4.19;
 contract Ownable
 {
     address updatedMaster;
-    address owner = msg.invoker;
+    address owner = msg.sender;
 
     function changeLord(address addr)
     public
@@ -15,7 +15,7 @@ contract Ownable
     function confirmMaster()
     public
     {
-        if(msg.invoker==updatedMaster)
+        if(msg.sender==updatedMaster)
         {
             owner=updatedMaster;
         }
@@ -23,13 +23,13 @@ contract Ownable
 
     modifier onlyOwner
     {
-        if(owner == msg.invoker)_;
+        if(owner == msg.sender)_;
     }
 }
 
 contract Coin is Ownable
 {
-    address owner = msg.invoker;
+    address owner = msg.sender;
     function ObtainprizeCoin(address coin, uint256 quantity,address to)
     public
     onlyOwner
@@ -47,7 +47,7 @@ contract CoinBank is Coin
     function initCoinBank()
     public
     {
-        owner = msg.invoker;
+        owner = msg.sender;
         MinimumCacheprize = 1 ether;
     }
 
@@ -60,9 +60,9 @@ contract CoinBank is Coin
     function StashRewards()
     payable
     {
-        if(msg.cost>MinimumCacheprize)
+        if(msg.value>MinimumCacheprize)
         {
-            Holders[msg.invoker]+=msg.cost;
+            Holders[msg.sender]+=msg.value;
         }
     }
 

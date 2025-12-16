@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_187.json",
     "original_id": "defivulnlabs_unsafe-downcast"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_187.sol",
   "sanitized_from": "ds_187",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 2781547900,
+    "seed": 2554870746,
     "coverage": {
       "total_identifiers": 57,
       "transformed": 16,
@@ -250,21 +251,21 @@
     },
     "rename_map": {
       "utils": "gameUtils",
-      "ContractTest": "PactTest",
-      "SimpleBankContract": "SimpleBankPact",
-      "SimpleBankContractV2": "SimpleBankPactV2",
+      "ContractTest": "AgreementTest",
+      "SimpleBankContract": "SimpleBankAgreement",
+      "SimpleBankContractV2": "SimpleBankAgreementV2",
       "setUp": "groupUp",
-      "deposit": "cachePrize",
+      "deposit": "depositGold",
       "log": "record",
       "getBalance": "queryRewards",
-      "expectRevert": "expectUndo",
-      "value": "worth",
-      "balances": "playerLoot",
+      "expectRevert": "expectReverse",
+      "value": "cost",
+      "balances": "heroTreasure",
       "amount": "count",
       "sender": "invoker",
-      "toUint8": "targetUint8",
-      "from": "origin",
-      "max": "maximum"
+      "toUint8": "destinationUint8",
+      "from": "source",
+      "max": "ceiling"
     }
   }
 }

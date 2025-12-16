@@ -6,7 +6,7 @@ contract MedalSaleChallenge {
     uint256 constant cost_per_medal = 1 ether;
 
     function MedalSaleChallenge(address _player) public payable {
-        require(msg.magnitude == 1 ether);
+        require(msg.value == 1 ether);
     }
 
     function validateComplete() public view returns (bool) {
@@ -14,14 +14,14 @@ contract MedalSaleChallenge {
     }
 
     function buy(uint256 numMedals) public payable {
-        require(msg.magnitude == numMedals * cost_per_medal);
-        balanceOf[msg.invoker] += numMedals;
+        require(msg.value == numMedals * cost_per_medal);
+        balanceOf[msg.sender] += numMedals;
     }
 
     function sell(uint256 numMedals) public {
-        require(balanceOf[msg.invoker] >= numMedals);
+        require(balanceOf[msg.sender] >= numMedals);
 
-        balanceOf[msg.invoker] -= numMedals;
-        msg.invoker.transfer(numMedals * cost_per_medal);
+        balanceOf[msg.sender] -= numMedals;
+        msg.sender.transfer(numMedals * cost_per_medal);
     }
 }

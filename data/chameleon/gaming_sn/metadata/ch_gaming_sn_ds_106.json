@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_106.json",
     "original_id": "defivulnlabs_array-deletion"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_106.sol",
   "sanitized_from": "ds_106",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 914107201,
+    "seed": 2332173461,
     "coverage": {
       "total_identifiers": 30,
       "transformed": 14,
@@ -150,19 +151,19 @@
     },
     "rename_map": {
       "ContractTest": "PactTest",
-      "ArrayDeletion": "ListDeletion",
+      "ArrayDeletion": "CollectionDeletion",
       "ArrayDeletionContract": "CollectionDeletionAgreement",
-      "ArrayDeletionV2": "CollectionDeletionV2",
-      "ArrayDeletionContractV2": "ListDeletionPactV2",
-      "setUp": "collectionUp",
-      "testArrayDeletion": "testCollectionDeletion",
-      "myArray": "myList",
-      "getLength": "acquireSize",
+      "ArrayDeletionV2": "ListDeletionV2",
+      "ArrayDeletionContractV2": "CollectionDeletionPactV2",
+      "setUp": "groupUp",
+      "testArrayDeletion": "testListDeletion",
+      "myArray": "myCollection",
+      "getLength": "obtainExtent",
       "testFixedArrayDeletion": "testFixedListDeletion",
-      "index": "slot",
+      "index": "position",
       "length": "extent",
-      "Swap": "BarterGoods",
-      "last": "final"
+      "Swap": "TradeTreasure",
+      "last": "ending"
     }
   }
 }

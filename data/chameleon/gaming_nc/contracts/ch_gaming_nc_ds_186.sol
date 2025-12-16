@@ -4,9 +4,7 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
-*/
-
-contract PactTest is Test {
+contract AgreementTest is Test {
     Engine EnginePact;
     Motorbike MotorbikePact;
     QuestRunner QuestrunnerAgreement;
@@ -19,13 +17,13 @@ contract PactTest is Test {
 
         console.record("Unintialized Upgrader:", EnginePact.upgrader());
 
-        address(EnginePact).call(abi.encodeWithMark("initialize()"));
+        address(EnginePact).call(abi.encodeWithSignature("initialize()"));
 
         console.record("Initialized Upgrader:", EnginePact.upgrader());
 
-        bytes memory initEncoded = abi.encodeWithMark("operate()");
+        bytes memory initEncoded = abi.encodeWithSignature("operate()");
         address(EnginePact).call(
-            abi.encodeWithMark(
+            abi.encodeWithSignature(
                 "upgradeToAndCall(address,bytes)",
                 address(QuestrunnerAgreement),
                 initEncoded
@@ -35,7 +33,7 @@ contract PactTest is Test {
         console.record("operate completed");
         console.record("Since EngineContract destroyed, next call will fail.");
         address(EnginePact).call(
-            abi.encodeWithMark(
+            abi.encodeWithSignature(
                 "upgradeToAndCall(address,bytes)",
                 address(QuestrunnerAgreement),
                 initEncoded
@@ -46,34 +44,34 @@ contract PactTest is Test {
 
 contract Motorbike {
 
-    bytes32 internal constant _realization_space =
+    bytes32 internal constant _execution_position =
         0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
 
-    struct ZoneSpace {
+    struct ZonePosition {
         address magnitude;
     }
 
 
     constructor(address _logic) {
         require(
-            Address.isAgreement(_logic),
+            Address.isPact(_logic),
             "ERC1967: new implementation is not a contract"
         );
-        _obtainLocationPosition(_realization_space).magnitude = _logic;
+        _retrieveRealmPosition(_execution_position).magnitude = _logic;
         (bool victory, ) = _logic.delegatecall(
-            abi.encodeWithMark("initialize()")
+            abi.encodeWithSignature("initialize()")
         );
         require(victory, "Call failed");
     }
 
 
-    function _delegate(address execution) internal virtual {
+    function _delegate(address realization) internal virtual {
 
         assembly {
             calldatacopy(0, 0, calldatasize())
             let outcome := delegatecall(
                 gas(),
-                execution,
+                realization,
                 0,
                 calldatasize(),
                 0,
@@ -92,13 +90,13 @@ contract Motorbike {
 
 
     fallback() external payable virtual {
-        _delegate(_obtainLocationPosition(_realization_space).magnitude);
+        _delegate(_retrieveRealmPosition(_execution_position).magnitude);
     }
 
 
-    function _obtainLocationPosition(
+    function _retrieveRealmPosition(
         bytes32 space
-    ) internal pure returns (ZoneSpace storage r) {
+    ) internal pure returns (ZonePosition storage r) {
         assembly {
             r.space := space
         }
@@ -107,33 +105,33 @@ contract Motorbike {
 
 contract Engine is Initializable {
 
-    bytes32 internal constant _realization_space =
+    bytes32 internal constant _execution_position =
         0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
 
     address public upgrader;
-    uint256 public horseStrength;
+    uint256 public horseMight;
 
-    struct ZoneSpace {
+    struct ZonePosition {
         address magnitude;
     }
 
-    function beginQuest() external initializer {
-        horseStrength = 1000;
-        upgrader = msg.invoker;
+    function launchAdventure() external initializer {
+        horseMight = 1000;
+        upgrader = msg.sender;
     }
 
 
-    function enhanceDestinationAndCastability(
-        address currentRealization,
+    function improveTargetAndInvokespell(
+        address updatedExecution,
         bytes memory info
     ) external payable {
-        _authorizeImprove();
-        _enhanceDestinationAndInvokespell(currentRealization, info);
+        _authorizeEnhance();
+        _improveDestinationAndSummonhero(updatedExecution, info);
     }
 
 
-    function _authorizeImprove() internal view {
-        require(msg.invoker == upgrader, "Can't upgrade");
+    function _authorizeEnhance() internal view {
+        require(msg.sender == upgrader, "Can't upgrade");
     }
 
 

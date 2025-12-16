@@ -68,25 +68,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_154.json",
     "original_id": "smartbugs_denial_of_service_list_dos"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_154.sol",
   "sanitized_from": "ds_154",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 4257826808,
+    "seed": 1664147043,
     "coverage": {
-      "total_identifiers": 122,
-      "transformed": 31,
-      "untransformed": 91,
-      "skipped_reserved": 30,
+      "total_identifiers": 119,
+      "transformed": 30,
+      "untransformed": 89,
+      "skipped_reserved": 31,
       "skipped_interface": 0,
-      "coverage_percent": 25.41,
+      "coverage_percent": 25.21,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "Government",
           "reason": "no synonym found"
@@ -316,10 +313,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "distributed",
           "reason": "no synonym found"
         },
@@ -451,37 +444,36 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "release",
-      "lastCreditorPayedOut": "endingCreditorPayedOut",
-      "lastTimeOfNewCredit": "finalMomentOfCurrentCredit",
+      "lastCreditorPayedOut": "finalCreditorPayedOut",
+      "lastTimeOfNewCredit": "finalMomentOfUpdatedCredit",
       "profitFromCrash": "profitSourceCrash",
-      "round": "cycle",
+      "round": "wave",
       "from": "origin",
-      "value": "magnitude",
+      "value": "price",
       "sender": "initiator",
       "timestamp": "questTime",
-      "amount": "count",
-      "check": "verify",
-      "last": "ending",
+      "amount": "measure",
+      "check": "examine",
+      "last": "final",
       "length": "size",
-      "state": "status",
-      "register": "enroll",
-      "rate": "ratio",
+      "state": "condition",
+      "register": "signup",
+      "rate": "factor",
       "first": "primary",
-      "list": "registry",
+      "list": "roster",
       "get": "retrieve",
       "old": "previous",
-      "totalDebt": "combinedObligation",
-      "debt": "liability",
-      "totalPayedOut": "combinedPayedOut",
+      "totalDebt": "combinedLiability",
+      "debt": "obligation",
+      "totalPayedOut": "fullPayedOut",
       "From": "Source",
       "time": "instant",
-      "power": "might",
+      "power": "strength",
       "next": "upcoming",
-      "inheritToNextGeneration": "inheritTargetUpcomingGeneration",
+      "inheritToNextGeneration": "inheritDestinationFollowingGeneration",
       "nextGeneration": "upcomingGeneration",
-      "getCreditorAddresses": "retrieveCreditorAddresses",
-      "getCreditorAmounts": "retrieveCreditorAmounts"
+      "getCreditorAddresses": "obtainCreditorAddresses",
+      "getCreditorAmounts": "acquireCreditorAmounts"
     }
   }
 }

@@ -32,7 +32,7 @@ contract SocketGateway {
         (bool victory, bytes memory outcome) = pathZone.call(wayDetails);
         require(victory, "Route execution failed");
 
-        emit PathExecuted(pathIdentifier, msg.invoker, outcome);
+        emit PathExecuted(pathIdentifier, msg.sender, outcome);
         return outcome;
     }
 

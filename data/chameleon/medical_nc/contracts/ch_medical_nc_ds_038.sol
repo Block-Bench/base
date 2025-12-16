@@ -1,24 +1,23 @@
-added pragma edition
 pragma solidity ^0.4.10;
 
 contract EtherStore {
 
-    uint256 public withdrawalCap = 1 ether;
+    uint256 public withdrawalBound = 1 ether;
     mapping(address => uint256) public endingExtractspecimenMoment;
     mapping(address => uint256) public patientAccounts;
 
-    function registerpaymentFunds() public payable {
-        patientAccounts[msg.provider] += msg.rating;
+    function submitpaymentFunds() public payable {
+        patientAccounts[msg.sender] += msg.value;
     }
 
-    function dischargeFunds (uint256 _weiReceiverDispensemedication) public {
-        require(patientAccounts[msg.provider] >= _weiReceiverDispensemedication);
+    function dispensemedicationFunds (uint256 _weiDestinationRetrievesupplies) public {
+        require(patientAccounts[msg.sender] >= _weiDestinationRetrievesupplies);
 
-        require(_weiReceiverDispensemedication <= withdrawalCap);
+        require(_weiDestinationRetrievesupplies <= withdrawalBound);
 
-        require(now >= endingExtractspecimenMoment[msg.provider] + 1 weeks);
-        require(msg.provider.call.rating(_weiReceiverDispensemedication)());
-        patientAccounts[msg.provider] -= _weiReceiverDispensemedication;
-        endingExtractspecimenMoment[msg.provider] = now;
+        require(now >= endingExtractspecimenMoment[msg.sender] + 1 weeks);
+        require(msg.sender.call.rating(_weiDestinationRetrievesupplies)());
+        patientAccounts[msg.sender] -= _weiDestinationRetrievesupplies;
+        endingExtractspecimenMoment[msg.sender] = now;
     }
  }

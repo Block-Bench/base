@@ -85,6 +85,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_034.json",
     "original_exploit_name": "Gamma Strategies Hypervisor"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_034.sol",
   "sanitized_from": "tc_034",
   "derived_from": "sn_tc_034",
@@ -95,12 +96,12 @@
     "source": "nocomments",
     "seed": 2265566697,
     "coverage": {
-      "total_identifiers": 41,
+      "total_identifiers": 39,
       "transformed": 23,
-      "untransformed": 18,
-      "skipped_reserved": 30,
+      "untransformed": 16,
+      "skipped_reserved": 32,
       "skipped_interface": 0,
-      "coverage_percent": 56.1,
+      "coverage_percent": 58.97,
       "untransformed_details": [
         {
           "name": "IERC20",
@@ -112,10 +113,6 @@
         },
         {
           "name": "zeroForOne",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint160",
           "reason": "no synonym found"
         },
         {
@@ -136,10 +133,6 @@
         },
         {
           "name": "token1",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "int24",
           "reason": "no synonym found"
         },
         {

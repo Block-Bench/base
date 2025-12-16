@@ -11,7 +11,7 @@ contract Splitter{
 
 
 	constructor() payable public{
-		owner = msg.referrer;
+		owner = msg.sender;
 		currentPuppet();
 		currentPuppet();
 		currentPuppet();
@@ -24,7 +24,7 @@ contract Splitter{
 
 
 	function obtainCare() public{
-		require(msg.referrer == owner);
+		require(msg.sender == owner);
 		owner.transfer(address(this).balance);
 	}
 
@@ -35,7 +35,7 @@ contract Splitter{
 
 
 	function currentPuppet() public returns(address currentPuppet){
-	    require(msg.referrer == owner);
+	    require(msg.sender == owner);
     	Puppet p = new Puppet();
     	puppets.push(p);
     	return p;
@@ -49,8 +49,8 @@ contract Splitter{
 
 
     function fundPuppets() public payable {
-        require(msg.referrer == owner);
-    	_share = SafeMath.div(msg.rating, 4);
+        require(msg.sender == owner);
+    	_share = SafeMath.div(msg.value, 4);
         extra[0].call.rating(_share).gas(800000)();
         extra[1].call.rating(_share).gas(800000)();
         extra[2].call.rating(_share).gas(800000)();
@@ -75,14 +75,14 @@ contract Puppet {
 
 
 	function() public payable{
-	    if(msg.referrer != goal[0]){
-			goal[0].call.rating(msg.rating).gas(600000)();
+	    if(msg.sender != goal[0]){
+			goal[0].call.rating(msg.value).gas(600000)();
 		}
     }
 
 
 	function obtainCare() public{
-		require(msg.referrer == master[0]);
+		require(msg.sender == master[0]);
 		master[0].transfer(address(this).balance);
 	}
 }

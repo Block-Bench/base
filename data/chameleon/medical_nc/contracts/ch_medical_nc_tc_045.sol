@@ -27,8 +27,8 @@ contract PenpieStaking {
     mapping(address => uint256) public aggregateStaked;
 
     function registerPayment(address market, uint256 quantity) external {
-        IERC20(market).transferFrom(msg.referrer, address(this), quantity);
-        memberBenefitsrecord[market][msg.referrer] += quantity;
+        IERC20(market).transferFrom(msg.sender, address(this), quantity);
+        memberBenefitsrecord[market][msg.sender] += quantity;
         aggregateStaked[market] += quantity;
     }
 
@@ -40,14 +40,14 @@ contract PenpieStaking {
 
     function extractSpecimen(address market, uint256 quantity) external {
         require(
-            memberBenefitsrecord[market][msg.referrer] >= quantity,
+            memberBenefitsrecord[market][msg.sender] >= quantity,
             "Insufficient balance"
         );
 
-        memberBenefitsrecord[market][msg.referrer] -= quantity;
+        memberBenefitsrecord[market][msg.sender] -= quantity;
         aggregateStaked[market] -= quantity;
 
-        IERC20(market).transfer(msg.referrer, quantity);
+        IERC20(market).transfer(msg.sender, quantity);
     }
 }
 

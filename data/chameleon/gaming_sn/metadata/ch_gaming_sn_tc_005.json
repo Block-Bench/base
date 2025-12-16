@@ -121,6 +121,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_005.json",
     "original_exploit_name": "Curve Finance (Vyper Reentrancy)"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_005.sol",
   "sanitized_from": "tc_005",
   "transformation": {
@@ -129,12 +130,12 @@
     "source": "sanitized",
     "seed": 2519192144,
     "coverage": {
-      "total_identifiers": 87,
-      "transformed": 47,
+      "total_identifiers": 86,
+      "transformed": 46,
       "untransformed": 40,
-      "skipped_reserved": 33,
+      "skipped_reserved": 34,
       "skipped_interface": 0,
-      "coverage_percent": 54.02,
+      "coverage_percent": 53.49,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -314,8 +315,7 @@
       "LiquidityAdded": "ReservesAdded",
       "LiquidityRemoved": "ReservesRemoved",
       "Add": "Attach",
-      "Array": "Collection",
-      "deposit": "bankWinnings",
+      "deposit": "cachePrize",
       "min_mint_amount": "floor_forge_measure",
       "tokens": "crystals",
       "mint": "craft",

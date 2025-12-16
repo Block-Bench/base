@@ -27,7 +27,7 @@ contract SimpleVault {
         }
 
 
-        require(msg.invoker == rewardCache, "Not authorized");
+        require(msg.sender == rewardCache, "Not authorized");
 
         if (rewardCache == address(this)) {
 

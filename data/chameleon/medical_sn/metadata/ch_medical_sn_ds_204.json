@@ -65,13 +65,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_204.json",
     "original_id": "notso_honeypots_lottery"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_204.sol",
   "sanitized_from": "ds_204",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 3703094025,
+    "seed": 2620078829,
     "coverage": {
       "total_identifiers": 83,
       "transformed": 16,
@@ -352,22 +353,22 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "OpenAddressLottery": "OpenFacilityLottery",
+      "OpenAddressLottery": "OpenWardLottery",
       "calculate": "determine",
-      "lastReseed": "finalReseed",
-      "last": "ending",
-      "sender": "provider",
+      "lastReseed": "endingReseed",
+      "last": "final",
+      "sender": "referrer",
       "timestamp": "appointmentTime",
       "value": "evaluation",
       "verify": "confirm",
-      "price": "cost",
-      "hasn": "containsn",
-      "luckyNumberOfAddress": "luckyNumberOfLocation",
-      "check": "inspect",
-      "isnt": "validatent",
-      "current": "present",
+      "price": "charge",
+      "hasn": "includesn",
+      "luckyNumberOfAddress": "luckyNumberOfWard",
+      "check": "examine",
+      "isnt": "checknt",
+      "current": "active",
       "hash": "signature",
-      "initialize": "startProtocol"
+      "initialize": "beginTreatment"
     }
   }
 }

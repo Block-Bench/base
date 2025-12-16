@@ -65,20 +65,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_184.json",
     "original_id": "defivulnlabs_approvescam"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_184.sol",
   "sanitized_from": "ds_184",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 4145093434,
+    "seed": 652152562,
     "coverage": {
-      "total_identifiers": 58,
+      "total_identifiers": 56,
       "transformed": 17,
-      "untransformed": 41,
-      "skipped_reserved": 41,
+      "untransformed": 39,
+      "skipped_reserved": 43,
       "skipped_interface": 0,
-      "coverage_percent": 29.31,
+      "coverage_percent": 30.36,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -205,10 +206,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "can",
           "reason": "no synonym found"
         },
@@ -218,10 +215,6 @@
         },
         {
           "name": "funds",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Now",
           "reason": "no synonym found"
         },
         {
@@ -248,23 +241,23 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "ERC20Contract": "Erc20Agreement",
-      "testApproveScam": "testGrantpermissionScam",
-      "mint": "forge",
-      "grant": "award",
+      "ContractTest": "PactTest",
+      "ERC20Contract": "Erc20Pact",
+      "testApproveScam": "testPermitaccessScam",
+      "mint": "spawn",
+      "grant": "bestow",
       "amount": "count",
-      "from": "source",
+      "from": "origin",
       "approval": "permissionGranted",
-      "max": "maximum",
-      "log": "record",
-      "account": "profile",
+      "max": "ceiling",
+      "log": "journal",
+      "account": "character",
       "recipient": "target",
-      "spender": "consumer",
-      "sender": "invoker",
+      "spender": "user",
+      "sender": "initiator",
       "value": "price",
       "Approval": "PermissionGranted",
-      "burn": "destroy"
+      "burn": "sacrifice"
     }
   }
 }

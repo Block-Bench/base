@@ -20,13 +20,13 @@ contract CompoundMarket {
         0x0000000000085d4780B73119b644AE5ecd22b376;
 
     constructor() {
-        serverOp = msg.invoker;
+        serverOp = msg.sender;
         underlying = previous_tusd;
     }
 
     function craft(uint256 measure) external {
         IERC20(current_tusd).transfer(address(this), measure);
-        characterCoins[msg.invoker] += measure;
+        characterCoins[msg.sender] += measure;
         totalSupply += measure;
     }
 
@@ -34,15 +34,15 @@ contract CompoundMarket {
         require(gem != underlying, "Cannot sweep underlying token");
 
         uint256 balance = IERC20(gem).balanceOf(address(this));
-        IERC20(gem).transfer(msg.invoker, balance);
+        IERC20(gem).transfer(msg.sender, balance);
     }
 
     function exchangeTokens(uint256 measure) external {
-        require(characterCoins[msg.invoker] >= measure, "Insufficient balance");
+        require(characterCoins[msg.sender] >= measure, "Insufficient balance");
 
-        characterCoins[msg.invoker] -= measure;
+        characterCoins[msg.sender] -= measure;
         totalSupply -= measure;
 
-        IERC20(current_tusd).transfer(msg.invoker, measure);
+        IERC20(current_tusd).transfer(msg.sender, measure);
     }
 }

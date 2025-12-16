@@ -3,44 +3,41 @@ pragma solidity ^0.7.0;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    Invariant InvariantPact;
+    Invariant InvariantAgreement;
 
     function testInvariant() public {
-        InvariantPact = new Invariant();
-        InvariantPact.catchrewardMoney{cost: 1 ether}();
-        console.journal(
+        InvariantAgreement = new Invariant();
+        InvariantAgreement.acceptlootMoney{cost: 1 ether}();
+        console.record(
             "BalanceReceived:",
-            InvariantPact.treasureamountReceived(address(this))
+            InvariantAgreement.prizecountReceived(address(this))
         );
 
-        InvariantPact.catchrewardMoney{cost: 18 ether}();
-        console.journal(
+        InvariantAgreement.acceptlootMoney{cost: 18 ether}();
+        console.record(
             "testInvariant, BalanceReceived:",
-            InvariantPact.treasureamountReceived(address(this))
+            InvariantAgreement.prizecountReceived(address(this))
         );
-*/
     }
 
     receive() external payable {}
 }
 
 contract Invariant {
-    mapping(address => uint64) public treasureamountReceived;
+    mapping(address => uint64) public prizecountReceived;
 
-    function catchrewardMoney() public payable {
-        treasureamountReceived[msg.initiator] += uint64(msg.cost);
+    function acceptlootMoney() public payable {
+        prizecountReceived[msg.sender] += uint64(msg.value);
     }
 
-    function claimlootMoney(address payable _to, uint64 _amount) public {
+    function retrieverewardsMoney(address payable _to, uint64 _amount) public {
         require(
-            _amount <= treasureamountReceived[msg.initiator],
+            _amount <= prizecountReceived[msg.sender],
             "Not Enough Funds, aborting"
         );
 
-        treasureamountReceived[msg.initiator] -= _amount;
+        prizecountReceived[msg.sender] -= _amount;
         _to.transfer(_amount);
     }
 }

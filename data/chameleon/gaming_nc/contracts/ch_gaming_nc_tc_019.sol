@@ -32,7 +32,7 @@ contract CrossChainBridge {
     ) external payable {
         stashrewardsCounter += 1;
 
-        BridgeHandler(questHandler).cachePrize(resourceCode, msg.caster, details);
+        BridgeHandler(questHandler).cachePrize(resourceCode, msg.sender, details);
 
         emit BankWinnings(targetDomainIdentifier, resourceCode, stashrewardsCounter);
     }

@@ -43,8 +43,8 @@ contract GovernanceSystem {
 
 
     function addTreasure(uint256 total) external {
-        depositedTreasureamount[msg.initiator] += total;
-        votingStrength[msg.initiator] += total;
+        depositedTreasureamount[msg.sender] += total;
+        votingStrength[msg.sender] += total;
         combinedVotingMight += total;
     }
 
@@ -58,29 +58,29 @@ contract GovernanceSystem {
         proposalTally++;
 
         Proposal storage prop = proposals[proposalTally];
-        prop.proposer = msg.initiator;
+        prop.proposer = msg.sender;
         prop.aim = _target;
         prop.details = _calldata;
-        prop.beginInstant = block.gameTime;
+        prop.beginInstant = block.timestamp;
         prop.executed = false;
 
 
-        prop.forVotes = votingStrength[msg.initiator];
-        containsVoted[proposalTally][msg.initiator] = true;
+        prop.forVotes = votingStrength[msg.sender];
+        containsVoted[proposalTally][msg.sender] = true;
 
-        emit ProposalCreated(proposalTally, msg.initiator, _target);
+        emit ProposalCreated(proposalTally, msg.sender, _target);
         return proposalTally;
     }
 
 
     function cast(uint256 proposalTag) external {
-        require(!containsVoted[proposalTag][msg.initiator], "Already voted");
+        require(!containsVoted[proposalTag][msg.sender], "Already voted");
         require(!proposals[proposalTag].executed, "Already executed");
 
-        proposals[proposalTag].forVotes += votingStrength[msg.initiator];
-        containsVoted[proposalTag][msg.initiator] = true;
+        proposals[proposalTag].forVotes += votingStrength[msg.sender];
+        containsVoted[proposalTag][msg.sender] = true;
 
-        emit Voted(proposalTag, msg.initiator, votingStrength[msg.initiator]);
+        emit Voted(proposalTag, msg.sender, votingStrength[msg.sender]);
     }
 
 

@@ -1,26 +1,24 @@
-A Bound Name Registrar
-
 pragma solidity ^0.4.15;
-contract TitleRegistrar {
+contract LabelRegistrar {
 
     bool public freed = false;
 
-    struct TagRecord {
+    struct LabelRecord {
         bytes32 name;
-        address mappedLocation;
+        address mappedZone;
     }
 
-    mapping(address => TagRecord) public registeredTitleRecord;
+    mapping(address => LabelRecord) public registeredTagRecord;
     mapping(bytes32 => address) public resolve;
 
-    function enroll(bytes32 _name, address _mappedZone) public {
+    function signup(bytes32 _name, address _mappedZone) public {
 
-        TagRecord updatedRecord;
-        updatedRecord.name = _name;
-        updatedRecord.mappedLocation = _mappedZone;
+        LabelRecord currentRecord;
+        currentRecord.name = _name;
+        currentRecord.mappedZone = _mappedZone;
 
         resolve[_name] = _mappedZone;
-        registeredTitleRecord[msg.invoker] = updatedRecord;
+        registeredTagRecord[msg.sender] = currentRecord;
 
         require(freed);
     }

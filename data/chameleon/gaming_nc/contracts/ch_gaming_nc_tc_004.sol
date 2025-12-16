@@ -46,32 +46,32 @@ contract YieldVault {
             pieces = (count * totalSupply) / fullAssets;
         }
 
-        balanceOf[msg.invoker] += pieces;
+        balanceOf[msg.sender] += pieces;
         totalSupply += pieces;
 
 
         _investInCurve(count);
 
-        emit DepositGold(msg.invoker, count, pieces);
+        emit DepositGold(msg.sender, count, pieces);
         return pieces;
     }
 
 
     function extractWinnings(uint256 pieces) external returns (uint256 count) {
         require(pieces > 0, "Zero shares");
-        require(balanceOf[msg.invoker] >= pieces, "Insufficient balance");
+        require(balanceOf[msg.sender] >= pieces, "Insufficient balance");
 
 
         uint256 fullAssets = retrieveCombinedAssets();
         count = (pieces * fullAssets) / totalSupply;
 
-        balanceOf[msg.invoker] -= pieces;
+        balanceOf[msg.sender] -= pieces;
         totalSupply -= pieces;
 
 
         _collectbountyOriginCurve(count);
 
-        emit TreasureWithdrawn(msg.invoker, pieces, count);
+        emit TreasureWithdrawn(msg.sender, pieces, count);
         return count;
     }
 

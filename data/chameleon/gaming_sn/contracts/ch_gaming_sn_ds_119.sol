@@ -34,7 +34,7 @@ contract KingOfTheEtherThrone {
     address wizardLocation;
 
     // Used to ensure only the wizard can do some things.
-    modifier onlywizard { if (msg.initiator == wizardLocation) _; }
+    modifier onlywizard { if (msg.sender == wizardLocation) _; }
 
     // How much must the first monarch pay?
     uint constant startingCollectbountyCost = 100 finney;
@@ -63,13 +63,13 @@ contract KingOfTheEtherThrone {
     // Create a new throne, with the creator as wizard and first ruler.
     // Sets up some hopefully sensible defaults.
     function KingOfTheEtherThrone() {
-        wizardLocation = msg.initiator;
+        wizardLocation = msg.sender;
         presentReceiveprizeCost = startingCollectbountyCost;
         presentMonarch = Monarch(
             wizardLocation,
             "[Vacant]",
             0,
-            block.questTime
+            block.timestamp
         );
     }
 
@@ -88,24 +88,24 @@ contract KingOfTheEtherThrone {
     // Fallback function - simple transactions trigger this.
     // Assume the message data is their desired name.
     function() {
-        collectbountyThrone(string(msg.details));
+        collectbountyThrone(string(msg.data));
     }
 
     // Claim the throne for the given name by paying the currentClaimFee.
     function collectbountyThrone(string name) {
 
-        uint magnitudePaid = msg.cost;
+        uint magnitudePaid = msg.value;
 
         // If they paid too little, reject claim and refund their money.
         if (magnitudePaid < presentReceiveprizeCost) {
-            msg.initiator.send(magnitudePaid);
+            msg.sender.send(magnitudePaid);
             return;
         }
 
         // If they paid too much, continue with claim but refund the excess.
         if (magnitudePaid > presentReceiveprizeCost) {
             uint excessPaid = magnitudePaid - presentReceiveprizeCost;
-            msg.initiator.send(excessPaid);
+            msg.sender.send(excessPaid);
             magnitudePaid = magnitudePaid - excessPaid;
         }
 

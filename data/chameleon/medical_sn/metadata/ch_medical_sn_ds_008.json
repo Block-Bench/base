@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_008.json",
     "original_id": "smartbugs_access_control_arbitrary_location_write_simple"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_008.sol",
   "sanitized_from": "ds_008",
   "transformation": {
@@ -74,12 +75,12 @@
     "source": "sanitized",
     "seed": 2818425495,
     "coverage": {
-      "total_identifiers": 26,
-      "transformed": 9,
+      "total_identifiers": 25,
+      "transformed": 8,
       "untransformed": 17,
-      "skipped_reserved": 18,
+      "skipped_reserved": 19,
       "skipped_interface": 0,
-      "coverage_percent": 34.62,
+      "coverage_percent": 32.0,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -159,9 +160,8 @@
       "PushBonusCode": "PushSupplementCode",
       "PopBonusCode": "PopExtraCode",
       "length": "duration",
-      "array": "collection",
-      "UpdateBonusCodeAt": "RefreshvitalsExtraCodeAt",
-      "index": "slot"
+      "UpdateBonusCodeAt": "UpdatechartSupplementCodeAt",
+      "index": "rank"
     }
   }
 }

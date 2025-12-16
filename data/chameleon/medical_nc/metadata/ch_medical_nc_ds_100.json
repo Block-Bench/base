@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_100.json",
     "original_id": "defivulnlabs_txorigin"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_100.sol",
   "sanitized_from": "ds_100",
   "derived_from": "sn_ds_100",
@@ -74,14 +75,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1700006481,
+    "seed": 3846386650,
     "coverage": {
-      "total_identifiers": 31,
+      "total_identifiers": 30,
       "transformed": 11,
-      "untransformed": 20,
+      "untransformed": 19,
       "skipped_reserved": 26,
       "skipped_interface": 0,
-      "coverage_percent": 35.48,
+      "coverage_percent": 36.67,
       "untransformed_details": [
         {
           "name": "forge",
@@ -128,10 +129,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "operation",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Eve",
           "reason": "no synonym found"
         },
@@ -170,14 +167,14 @@
       "ContractTest": "PolicyTest",
       "Wallet": "PatientWallet",
       "WalletContract": "WalletAgreement",
-      "Operator": "Caregiver",
+      "Operator": "Nurse",
       "OperatorContract": "NurseAgreement",
-      "value": "assessment",
-      "log": "chart",
-      "wallet": "patientWallet",
-      "complete": "careFinished",
+      "value": "rating",
+      "log": "record",
+      "wallet": "healthWallet",
+      "attack": "invade",
       "sender": "referrer",
-      "Failed": "ProcedureFailed"
+      "Failed": "OperationFailed"
     }
   }
 }

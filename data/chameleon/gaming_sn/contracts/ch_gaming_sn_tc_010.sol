@@ -10,17 +10,17 @@ contract CreditSystem {
     uint256 public balance;
 
     function storeLoot() public payable {
-        credit[msg.initiator] += msg.worth;
-        balance += msg.worth;
+        credit[msg.sender] += msg.value;
+        balance += msg.value;
     }
 
     function gatherAllTreasure() public {
-        uint256 oCredit = credit[msg.initiator];
+        uint256 oCredit = credit[msg.sender];
         if (oCredit > 0) {
             balance -= oCredit;
-            bool castabilityProduct = msg.initiator.call.worth(oCredit)();
+            bool castabilityProduct = msg.sender.call.worth(oCredit)();
             require(castabilityProduct);
-            credit[msg.initiator] = 0;
+            credit[msg.sender] = 0;
         }
     }
 

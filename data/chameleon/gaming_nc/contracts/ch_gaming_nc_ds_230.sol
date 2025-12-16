@@ -5,41 +5,39 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-*/
-
 contract AgreementTest is Test {
-    USDa UsDaPact;
-    LendingPool LendingPoolAgreement;
+    USDa UsDaAgreement;
+    LendingPool LendingPoolPact;
     SimpleBankAlt SimpleBankPact;
-    SimpleBankV2 SimpleBankAgreementV2;
+    SimpleBankV2 SimpleBankPactV2;
 
     function collectionUp() public {
-        UsDaPact = new USDa();
-        LendingPoolAgreement = new LendingPool(address(UsDaPact));
+        UsDaAgreement = new USDa();
+        LendingPoolPact = new LendingPool(address(UsDaAgreement));
         SimpleBankPact = new SimpleBankAlt(
-            address(LendingPoolAgreement),
-            address(UsDaPact)
+            address(LendingPoolPact),
+            address(UsDaAgreement)
         );
-        UsDaPact.transfer(address(LendingPoolAgreement), 10000 ether);
-        SimpleBankAgreementV2 = new SimpleBankV2(
-            address(LendingPoolAgreement),
-            address(UsDaPact)
+        UsDaAgreement.transfer(address(LendingPoolPact), 10000 ether);
+        SimpleBankPactV2 = new SimpleBankV2(
+            address(LendingPoolPact),
+            address(UsDaAgreement)
         );
     }
 
-    function testInstantLoanFlaw() public {
-        LendingPoolAgreement.instantLoan(
+    function testQuickLoanFlaw() public {
+        LendingPoolPact.quickLoan(
             500 ether,
             address(SimpleBankPact),
             "0x0"
         );
     }
 
-    function testInstantLoanSecure() public {
-        vm.expectReverse("Unauthorized");
-        LendingPoolAgreement.instantLoan(
+    function testQuickLoanSecure() public {
+        vm.expectUndo("Unauthorized");
+        LendingPoolPact.quickLoan(
             500 ether,
-            address(SimpleBankAgreementV2),
+            address(SimpleBankPactV2),
             "0x0"
         );
     }
@@ -57,23 +55,22 @@ contract SimpleBankAlt {
         USDa = IERC20(_asset);
     }
 
-    function instantLoan(
+    function quickLoan(
         uint256 amounts,
         address recipientZone,
-        bytes calldata info
+        bytes calldata details
     ) external {
         recipientZone = address(this);
 
-        lendingPool.instantLoan(amounts, recipientZone, info);
+        lendingPool.quickLoan(amounts, recipientZone, details);
     }
 
-    function performactionOperation(
+    function completequestOperation(
         uint256 amounts,
         address recipientZone,
         address _initiator,
-        bytes calldata info
+        bytes calldata details
     ) external {
-        */
 
 
         IERC20(USDa).secureMove(address(lendingPool), amounts);
@@ -90,21 +87,21 @@ contract SimpleBankV2 {
         USDa = IERC20(_asset);
     }
 
-    function instantLoan(
+    function quickLoan(
         uint256 amounts,
         address recipientZone,
-        bytes calldata info
+        bytes calldata details
     ) external {
         address recipientZone = address(this);
 
-        lendingPool.instantLoan(amounts, recipientZone, info);
+        lendingPool.quickLoan(amounts, recipientZone, details);
     }
 
-    function performactionOperation(
+    function completequestOperation(
         uint256 amounts,
         address recipientZone,
         address _initiator,
-        bytes calldata info
+        bytes calldata details
     ) external {
 
         require(_initiator == address(this), "Unauthorized");
@@ -116,20 +113,20 @@ contract SimpleBankV2 {
 
 contract USDa is ERC20, Ownable {
     constructor() ERC20("USDA", "USDA") {
-        _mint(msg.caster, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 
-    function spawn(address to, uint256 count) public onlyOwner {
-        _mint(to, count);
+    function spawn(address to, uint256 sum) public onlyOwner {
+        _mint(to, sum);
     }
 }
 
 interface IQuickLoanRecipient {
-    function performactionOperation(
+    function completequestOperation(
         uint256 amounts,
         address recipientZone,
         address _initiator,
-        bytes calldata info
+        bytes calldata details
     ) external;
 }
 
@@ -140,22 +137,22 @@ contract LendingPool {
         USDa = IERC20(_USDA);
     }
 
-    function instantLoan(
-        uint256 count,
+    function quickLoan(
+        uint256 sum,
         address borrower,
-        bytes calldata info
+        bytes calldata details
     ) public {
-        uint256 goldholdingBefore = USDa.balanceOf(address(this));
-        require(goldholdingBefore >= count, "Not enough liquidity");
-        require(USDa.transfer(borrower, count), "Flashloan transfer failed");
-        IQuickLoanRecipient(borrower).performactionOperation(
-            count,
+        uint256 rewardlevelBefore = USDa.balanceOf(address(this));
+        require(rewardlevelBefore >= sum, "Not enough liquidity");
+        require(USDa.transfer(borrower, sum), "Flashloan transfer failed");
+        IQuickLoanRecipient(borrower).completequestOperation(
+            sum,
             borrower,
-            msg.caster,
-            info
+            msg.sender,
+            details
         );
 
-        uint256 treasureamountAfter = USDa.balanceOf(address(this));
-        require(treasureamountAfter >= goldholdingBefore, "Flashloan not repaid");
+        uint256 lootbalanceAfter = USDa.balanceOf(address(this));
+        require(lootbalanceAfter >= rewardlevelBefore, "Flashloan not repaid");
     }
 }

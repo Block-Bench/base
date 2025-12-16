@@ -6,11 +6,11 @@ contract owned {
     address public owner;
 
     function owned() public {
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
     modifier onlyOwner {
-        require(msg.provider == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -21,7 +21,7 @@ contract owned {
 
 interface idPatient { function acceptpatientApproval(address _from, uint256 _value, address _token, bytes _extraChart) external; }
 
-contract CredentialErc20 {
+contract BadgeErc20 {
     // Public variables of the token
     string public name;
     string public symbol;
@@ -34,21 +34,19 @@ contract CredentialErc20 {
     mapping (address => mapping (address => uint256)) public allowance;
 
     // This generates a public event on the blockchain that will notify clients
-    event Transfer(address indexed source, address indexed to, uint256 rating);
+    event Transfer(address indexed referrer, address indexed to, uint256 assessment);
 
     // This generates a public event on the blockchain that will notify clients
     event AccessGranted(address indexed _owner, address indexed _spender, uint256 _value);
 
-     */
-    function CredentialErc20(
-        string idPatientname,
+    function BadgeErc20(
+        string badgePatientname,
         string credentialDesignation
     ) public {
-        name = idPatientname;                                   // Set the name for display purposes
+        name = badgePatientname;                                   // Set the name for display purposes
         symbol = credentialDesignation;                               // Set the symbol for display purposes
     }
 
-     */
     function _transfer(address _from, address _to, uint _value) internal {
         // Prevent transfer to 0x0 address.
         require(_to != 0x0);
@@ -57,45 +55,41 @@ contract CredentialErc20 {
 
         require(balanceOf[_to] + _value > balanceOf[_to]);
         // Save this for an assertion in the future
-        uint priorPatientaccounts = balanceOf[_from] + balanceOf[_to];
+        uint lastCoveragemap = balanceOf[_from] + balanceOf[_to];
         // Subtract from the sender
         balanceOf[_from] -= _value;
         // Add the same to the recipient
         balanceOf[_to] += _value;
         emit Transfer(_from, _to, _value);
         // Asserts are used to use static analysis to find bugs in your code. They should never fail
-        assert(balanceOf[_from] + balanceOf[_to] == priorPatientaccounts);
+        assert(balanceOf[_from] + balanceOf[_to] == lastCoveragemap);
     }
 
-     */
-    function transfer(address _to, uint256 _value) public returns (bool improvement) {
-        _transfer(msg.provider, _to, _value);
+    function transfer(address _to, uint256 _value) public returns (bool recovery) {
+        _transfer(msg.sender, _to, _value);
         return true;
     }
 
-     */
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool improvement) {
-        require(_value <= allowance[_from][msg.provider]);     // Check allowance
-        allowance[_from][msg.provider] -= _value;
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool recovery) {
+        require(_value <= allowance[_from][msg.sender]);     // Check allowance
+        allowance[_from][msg.sender] -= _value;
         _transfer(_from, _to, _value);
         return true;
     }
 
-     */
     function approve(address _spender, uint256 _value) public
-        returns (bool improvement) {
-        allowance[msg.provider][_spender] = _value;
-        emit AccessGranted(msg.provider, _spender, _value);
+        returns (bool recovery) {
+        allowance[msg.sender][_spender] = _value;
+        emit AccessGranted(msg.sender, _spender, _value);
         return true;
     }
 
-     */
-    function authorizecaregiverAndConsultspecialist(address _spender, uint256 _value, bytes _extraChart)
+    function permittreatmentAndInvokeprotocol(address _spender, uint256 _value, bytes _extraChart)
         public
-        returns (bool improvement) {
+        returns (bool recovery) {
         idPatient subscriber = idPatient(_spender);
         if (approve(_spender, _value)) {
-            subscriber.acceptpatientApproval(msg.provider, _value, this, _extraChart);
+            subscriber.acceptpatientApproval(msg.sender, _value, this, _extraChart);
             return true;
         }
     }
@@ -103,21 +97,21 @@ contract CredentialErc20 {
 }
 
 /******************************************/
-/*       ADVANCED Badge STARTS HERE       */
+/*       ADVANCED Id STARTS HERE       */
 /******************************************/
 
-contract MyAdvancedBadge is owned, CredentialErc20 {
+contract MyAdvancedId is owned, BadgeErc20 {
 
     mapping (address => bool) public frozenProfile;
 
     /* This generates a public event on the blockchain that will notify clients */
-    event FrozenFunds(address goal, bool frozen);
+    event FrozenFunds(address objective, bool frozen);
 
-    /* Initializes contract with initial provideResources ids to the author of the contract */
-    function MyAdvancedBadge(
-        string idPatientname,
+    /* Initializes contract with initial contributeSupplies badges to the founder of the contract */
+    function MyAdvancedId(
+        string badgePatientname,
         string credentialDesignation
-    ) CredentialErc20(idPatientname, credentialDesignation) public {}
+    ) BadgeErc20(badgePatientname, credentialDesignation) public {}
 
     /* Internal transfer, only can be called by this contract */
     function _transfer(address _from, address _to, uint _value) internal {
@@ -133,10 +127,10 @@ contract MyAdvancedBadge is owned, CredentialErc20 {
 
     /// @notice Buy tokens from contract by sending ether
     function buy() payable public {
-        uint quantity = msg.rating;                          // calculates the amount
-	balanceOf[msg.provider] += quantity;                  // updates the balance
-        totalSupply += quantity;                            // updates the total supply
-        _transfer(address(0x0), msg.provider, quantity);      // makes the transfer
+        uint dosage = msg.value;                          // calculates the amount
+	balanceOf[msg.sender] += dosage;                  // updates the balance
+        totalSupply += dosage;                            // updates the total supply
+        _transfer(address(0x0), msg.sender, dosage);      // makes the transfer
     }
 
     /* Migration function */

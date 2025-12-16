@@ -3,18 +3,16 @@ pragma solidity ^0.7.6;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    CredentialWhaleChallenge CredentialWhaleChallengePolicy;
+contract PolicyTest is Test {
+    IdWhaleChallenge CredentialWhaleChallengePolicy;
 
     function testCalculation() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
 
-        CredentialWhaleChallengePolicy = new CredentialWhaleChallenge();
+        CredentialWhaleChallengePolicy = new IdWhaleChallenge();
         CredentialWhaleChallengePolicy.CredentialWhaleDeploy(address(this));
-        console.record(
+        console.chart(
             "Player balance:",
             CredentialWhaleChallengePolicy.balanceOf(address(this))
         );
@@ -28,8 +26,8 @@ contract AgreementTest is Test {
             500
         );
 
-        console.record("operate completed, balance calculate");
-        console.record(
+        console.chart("operate completed, balance calculate");
+        console.chart(
             "Player balance:",
             CredentialWhaleChallengePolicy.balanceOf(address(this))
         );
@@ -38,7 +36,7 @@ contract AgreementTest is Test {
     receive() external payable {}
 }
 
-contract CredentialWhaleChallenge {
+contract IdWhaleChallenge {
     address player;
 
     uint256 public totalSupply;
@@ -55,43 +53,43 @@ contract CredentialWhaleChallenge {
         balanceOf[player] = 1000;
     }
 
-    function verifyComplete() public view returns (bool) {
+    function validateComplete() public view returns (bool) {
         return balanceOf[player] >= 1000000;
     }
 
-    event Transfer(address indexed referrer, address indexed to, uint256 evaluation);
+    event Transfer(address indexed source, address indexed to, uint256 rating);
 
-    function _transfer(address to, uint256 evaluation) internal {
-        balanceOf[msg.provider] -= evaluation;
-        balanceOf[to] += evaluation;
+    function _transfer(address to, uint256 rating) internal {
+        balanceOf[msg.sender] -= rating;
+        balanceOf[to] += rating;
 
-        emit Transfer(msg.provider, to, evaluation);
+        emit Transfer(msg.sender, to, rating);
     }
 
-    function transfer(address to, uint256 evaluation) public {
-        require(balanceOf[msg.provider] >= evaluation);
-        require(balanceOf[to] + evaluation >= balanceOf[to]);
+    function transfer(address to, uint256 rating) public {
+        require(balanceOf[msg.sender] >= rating);
+        require(balanceOf[to] + rating >= balanceOf[to]);
 
-        _transfer(to, evaluation);
+        _transfer(to, rating);
     }
 
     event AccessGranted(
         address indexed owner,
-        address indexed subscriber,
-        uint256 evaluation
+        address indexed payer,
+        uint256 rating
     );
 
-    function approve(address subscriber, uint256 evaluation) public {
-        allowance[msg.provider][subscriber] = evaluation;
-        emit AccessGranted(msg.provider, subscriber, evaluation);
+    function approve(address payer, uint256 rating) public {
+        allowance[msg.sender][payer] = rating;
+        emit AccessGranted(msg.sender, payer, rating);
     }
 
-    function transferFrom(address referrer, address to, uint256 evaluation) public {
-        require(balanceOf[referrer] >= evaluation);
-        require(balanceOf[to] + evaluation >= balanceOf[to]);
-        require(allowance[referrer][msg.provider] >= evaluation);
+    function transferFrom(address source, address to, uint256 rating) public {
+        require(balanceOf[source] >= rating);
+        require(balanceOf[to] + rating >= balanceOf[to]);
+        require(allowance[source][msg.sender] >= rating);
 
-        allowance[referrer][msg.provider] -= evaluation;
-        _transfer(to, evaluation);
+        allowance[source][msg.sender] -= rating;
+        _transfer(to, rating);
     }
 }

@@ -32,7 +32,7 @@ contract CrossChainBridge {
     ) external payable {
         fundaccountVisitnumber += 1;
 
-        BridgeHandler(caseHandler).registerPayment(resourceChartnumber, msg.provider, record);
+        BridgeHandler(caseHandler).registerPayment(resourceChartnumber, msg.sender, record);
 
         emit FundAccount(endpointDomainCasenumber, resourceChartnumber, fundaccountVisitnumber);
     }

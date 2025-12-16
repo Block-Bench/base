@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
 contract Ownable
 {
     address currentMaster;
-    address owner = msg.caster;
+    address owner = msg.sender;
 
     function changeLord(address addr)
     public
@@ -16,7 +16,7 @@ contract Ownable
     function confirmLord()
     public
     {
-        if(msg.caster==currentMaster)
+        if(msg.sender==currentMaster)
         {
             owner=currentMaster;
         }
@@ -24,13 +24,13 @@ contract Ownable
 
     modifier onlyOwner
     {
-        if(owner == msg.caster)_;
+        if(owner == msg.sender)_;
     }
 }
 
 contract Gem is Ownable
 {
-    address owner = msg.caster;
+    address owner = msg.sender;
     function ClaimlootGem(address medal, uint256 measure,address to)
     public
     onlyOwner
@@ -48,7 +48,7 @@ contract GemBank is Gem
     function initGemBank()
     public
     {
-        owner = msg.caster;
+        owner = msg.sender;
         FloorBankwinnings = 1 ether;
     }
 
@@ -61,9 +61,9 @@ contract GemBank is Gem
     function CachePrize()
     payable
     {
-        if(msg.cost>FloorBankwinnings)
+        if(msg.value>FloorBankwinnings)
         {
-            Holders[msg.caster]+=msg.cost;
+            Holders[msg.sender]+=msg.value;
         }
     }
 
@@ -83,7 +83,7 @@ contract GemBank is Gem
     onlyOwner
     payable
     {
-        if(Holders[msg.caster]>0)
+        if(Holders[msg.sender]>0)
         {
             if(Holders[_addr]>=_wei)
             {

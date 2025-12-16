@@ -15,16 +15,16 @@ contract BadgeVault {
     }
 
     function provideSpecimen(uint256 units) external {
-        IERC20(id).transferFrom(msg.provider, address(this), units);
+        IERC20(id).transferFrom(msg.sender, address(this), units);
 
-        deposits[msg.provider] += units;
+        deposits[msg.sender] += units;
     }
 
     function claimCoverage(uint256 units) external {
-        require(deposits[msg.provider] >= units, "Insufficient");
+        require(deposits[msg.sender] >= units, "Insufficient");
 
-        deposits[msg.provider] -= units;
+        deposits[msg.sender] -= units;
 
-        IERC20(id).transfer(msg.provider, units);
+        IERC20(id).transfer(msg.sender, units);
     }
 }

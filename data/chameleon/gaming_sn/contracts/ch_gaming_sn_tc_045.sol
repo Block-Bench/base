@@ -28,8 +28,8 @@ contract PenpieStaking {
     mapping(address => uint256) public fullStaked;
 
     function storeLoot(address market, uint256 sum) external {
-        IERC20(market).transferFrom(msg.initiator, address(this), sum);
-        heroPlayerloot[market][msg.initiator] += sum;
+        IERC20(market).transferFrom(msg.sender, address(this), sum);
+        heroPlayerloot[market][msg.sender] += sum;
         fullStaked[market] += sum;
     }
 
@@ -41,14 +41,14 @@ contract PenpieStaking {
 
     function retrieveRewards(address market, uint256 sum) external {
         require(
-            heroPlayerloot[market][msg.initiator] >= sum,
+            heroPlayerloot[market][msg.sender] >= sum,
             "Insufficient balance"
         );
 
-        heroPlayerloot[market][msg.initiator] -= sum;
+        heroPlayerloot[market][msg.sender] -= sum;
         fullStaked[market] -= sum;
 
-        IERC20(market).transfer(msg.initiator, sum);
+        IERC20(market).transfer(msg.sender, sum);
     }
 }
 

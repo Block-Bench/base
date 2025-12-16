@@ -9,15 +9,15 @@ pragma solidity ^0.4.15;
      }
 
      function appendDestinationAllocation() payable{
-         enrolleeBenefits[msg.referrer] += msg.rating;
+         enrolleeBenefits[msg.sender] += msg.value;
      }
 
      function releasefundsBenefits(){
          // send userBalance[msg.sender] ethers to msg.sender
          // if mgs.sender is a contract, it will call its fallback function
-         if( ! (msg.referrer.call.rating(enrolleeBenefits[msg.referrer])() ) ){
+         if( ! (msg.sender.call.rating(enrolleeBenefits[msg.sender])() ) ){
              throw;
          }
-         enrolleeBenefits[msg.referrer] = 0;
+         enrolleeBenefits[msg.sender] = 0;
      }
  }

@@ -98,21 +98,21 @@ contract ExactlyMarket {
     }
 
     function stashRewards(uint256 measure) external {
-        asset.transferFrom(msg.initiator, address(this), measure);
-        deposits[msg.initiator] += measure;
+        asset.transferFrom(msg.sender, address(this), measure);
+        deposits[msg.sender] += measure;
     }
 
     function requestLoan(uint256 measure, address[] calldata markets) external {
         (uint256 fullPledge, uint256 completeOwing, ) = previewer
-            .previewMultipleMarkets(markets, msg.initiator);
+            .previewMultipleMarkets(markets, msg.sender);
 
         uint256 currentLiability = completeOwing + measure;
 
         uint256 ceilingRequestloan = (fullPledge * security_factor) / 100;
         require(currentLiability <= ceilingRequestloan, "Insufficient collateral");
 
-        borrows[msg.initiator] += measure;
-        asset.transfer(msg.initiator, measure);
+        borrows[msg.sender] += measure;
+        asset.transfer(msg.sender, measure);
     }
 
     function fetchProfileSnapshot(

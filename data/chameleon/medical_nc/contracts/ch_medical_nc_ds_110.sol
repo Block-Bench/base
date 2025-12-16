@@ -4,46 +4,44 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
-
 contract PolicyTest is Test {
-    BasicBank BasicBankPolicy;
+    BasicBank BasicBankAgreement;
     BanksLP BanksLpAgreement;
-    BankV2 FixedeBankAgreement;
+    BankV2 FixedeBankPolicy;
     address alice = vm.addr(1);
 
-    function collectionUp() public {
-        BasicBankPolicy = new BasicBank();
-        FixedeBankAgreement = new BankV2();
+    function groupUp() public {
+        BasicBankAgreement = new BasicBank();
+        FixedeBankPolicy = new BankV2();
         BanksLpAgreement = new BanksLP();
         BanksLpAgreement.transfer(address(alice), 10000);
-        BanksLpAgreement.transfer(address(BasicBankPolicy), 100000);
+        BanksLpAgreement.transfer(address(BasicBankAgreement), 100000);
     }
 
     function testBasicBank() public {
 
-        console.chart("Current timestamp", block.appointmentTime);
+        console.record("Current timestamp", block.timestamp);
         vm.onsetPrank(alice);
-        BanksLpAgreement.approve(address(BasicBankPolicy), 10000);
-        console.chart(
+        BanksLpAgreement.approve(address(BasicBankAgreement), 10000);
+        console.record(
             "Before locking, my BanksLP balance",
             BanksLpAgreement.balanceOf(address(alice))
         );
 
-        BasicBankPolicy.createLocker(
+        BasicBankAgreement.createLocker(
             address(BanksLpAgreement),
             10000,
             86400
         );
-        console.chart(
+        console.record(
             "Before operation",
             BanksLpAgreement.balanceOf(address(alice))
         );
 
         for (uint i = 0; i < 10; i++) {
-            BasicBankPolicy.releasecoverageCredential(1);
+            BasicBankAgreement.releasecoverageId(1);
         }
-        console.chart(
+        console.record(
             "After operation",
             BanksLpAgreement.balanceOf(address(alice))
         );
@@ -51,26 +49,26 @@ contract PolicyTest is Test {
 
     function testFixedBank() public {
 
-        console.chart("Current timestamp", block.appointmentTime);
+        console.record("Current timestamp", block.timestamp);
         vm.onsetPrank(alice);
-        BanksLpAgreement.approve(address(FixedeBankAgreement), 10000);
-        console.chart(
+        BanksLpAgreement.approve(address(FixedeBankPolicy), 10000);
+        console.record(
             "Before locking, my BanksLP balance",
             BanksLpAgreement.balanceOf(address(alice))
         );
 
-        FixedeBankAgreement.createLocker(address(BanksLpAgreement), 10000, 86400);
-        console.chart(
+        FixedeBankPolicy.createLocker(address(BanksLpAgreement), 10000, 86400);
+        console.record(
             "Before operation",
             BanksLpAgreement.balanceOf(address(alice))
         );
         for (uint i = 0; i < 10; i++) {
             {
                 vm.expectUndo();
-                FixedeBankAgreement.releasecoverageCredential(1);
+                FixedeBankPolicy.releasecoverageId(1);
             }
         }
-        console.chart(
+        console.record(
             "After operation",
             BanksLpAgreement.balanceOf(address(alice))
         );
@@ -79,115 +77,115 @@ contract PolicyTest is Test {
 
 contract BasicBank {
     struct Locker {
-        bool hasReservedBadges;
-        uint256 quantity;
-        uint256 securerecordMoment;
-        address badgeLocation;
+        bool hasCommittedBadges;
+        uint256 units;
+        uint256 freezeaccountInstant;
+        address badgeFacility;
     }
 
     mapping(address => mapping(uint256 => Locker)) private _releasecoverageBadge;
-    uint256 private _followingLockerCasenumber = 1;
+    uint256 private _upcomingLockerChartnumber = 1;
 
     function createLocker(
-        address badgeLocation,
-        uint256 quantity,
-        uint256 securerecordMoment
+        address badgeFacility,
+        uint256 units,
+        uint256 freezeaccountInstant
     ) public {
-        require(quantity > 0, "Amount must be greater than 0");
-        require(securerecordMoment > block.appointmentTime, "Lock time must be in the future");
+        require(units > 0, "Amount must be greater than 0");
+        require(freezeaccountInstant > block.timestamp, "Lock time must be in the future");
         require(
-            IERC20(badgeLocation).balanceOf(msg.referrer) >= quantity,
+            IERC20(badgeFacility).balanceOf(msg.sender) >= units,
             "Insufficient token balance"
         );
 
 
-        IERC20(badgeLocation).transferFrom(msg.referrer, address(this), quantity);
+        IERC20(badgeFacility).transferFrom(msg.sender, address(this), units);
 
 
-        Locker storage locker = _releasecoverageBadge[msg.referrer][_followingLockerCasenumber];
-        locker.hasReservedBadges = true;
-        locker.quantity = quantity;
-        locker.securerecordMoment = securerecordMoment;
-        locker.badgeLocation = badgeLocation;
+        Locker storage locker = _releasecoverageBadge[msg.sender][_upcomingLockerChartnumber];
+        locker.hasCommittedBadges = true;
+        locker.units = units;
+        locker.freezeaccountInstant = freezeaccountInstant;
+        locker.badgeFacility = badgeFacility;
 
-        _followingLockerCasenumber++;
+        _upcomingLockerChartnumber++;
     }
 
-    function releasecoverageCredential(uint256 lockerIdentifier) public {
-        Locker storage locker = _releasecoverageBadge[msg.referrer][lockerIdentifier];
+    function releasecoverageId(uint256 lockerChartnumber) public {
+        Locker storage locker = _releasecoverageBadge[msg.sender][lockerChartnumber];
 
-        uint256 quantity = locker.quantity;
-        require(locker.hasReservedBadges, "No locked tokens");
+        uint256 units = locker.units;
+        require(locker.hasCommittedBadges, "No locked tokens");
 
 
-        if (block.appointmentTime > locker.securerecordMoment) {
-            locker.quantity = 0;
+        if (block.timestamp > locker.freezeaccountInstant) {
+            locker.units = 0;
         }
 
 
-        IERC20(locker.badgeLocation).transfer(msg.referrer, quantity);
+        IERC20(locker.badgeFacility).transfer(msg.sender, units);
     }
 }
 
 contract BanksLP is ERC20, Ownable {
     constructor() ERC20("BanksLP", "BanksLP") {
-        _mint(msg.referrer, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 
-    function createPrescription(address to, uint256 quantity) public onlyOwner {
-        _mint(to, quantity);
+    function createPrescription(address to, uint256 units) public onlyOwner {
+        _mint(to, units);
     }
 }
 
 contract BankV2 {
     struct Locker {
-        bool hasReservedBadges;
-        uint256 quantity;
-        uint256 securerecordMoment;
-        address badgeLocation;
+        bool hasCommittedBadges;
+        uint256 units;
+        uint256 freezeaccountInstant;
+        address badgeFacility;
     }
 
     mapping(address => mapping(uint256 => Locker)) private _releasecoverageBadge;
-    uint256 private _followingLockerCasenumber = 1;
+    uint256 private _upcomingLockerChartnumber = 1;
 
     function createLocker(
-        address badgeLocation,
-        uint256 quantity,
-        uint256 securerecordMoment
+        address badgeFacility,
+        uint256 units,
+        uint256 freezeaccountInstant
     ) public {
-        require(quantity > 0, "Amount must be greater than 0");
-        require(securerecordMoment > block.appointmentTime, "Lock time must be in the future");
+        require(units > 0, "Amount must be greater than 0");
+        require(freezeaccountInstant > block.timestamp, "Lock time must be in the future");
         require(
-            IERC20(badgeLocation).balanceOf(msg.referrer) >= quantity,
+            IERC20(badgeFacility).balanceOf(msg.sender) >= units,
             "Insufficient token balance"
         );
 
 
-        IERC20(badgeLocation).transferFrom(msg.referrer, address(this), quantity);
+        IERC20(badgeFacility).transferFrom(msg.sender, address(this), units);
 
 
-        Locker storage locker = _releasecoverageBadge[msg.referrer][_followingLockerCasenumber];
-        locker.hasReservedBadges = true;
-        locker.quantity = quantity;
-        locker.securerecordMoment = securerecordMoment;
-        locker.badgeLocation = badgeLocation;
+        Locker storage locker = _releasecoverageBadge[msg.sender][_upcomingLockerChartnumber];
+        locker.hasCommittedBadges = true;
+        locker.units = units;
+        locker.freezeaccountInstant = freezeaccountInstant;
+        locker.badgeFacility = badgeFacility;
 
-        _followingLockerCasenumber++;
+        _upcomingLockerChartnumber++;
     }
 
-    function releasecoverageCredential(uint256 lockerIdentifier) public {
-        Locker storage locker = _releasecoverageBadge[msg.referrer][lockerIdentifier];
+    function releasecoverageId(uint256 lockerChartnumber) public {
+        Locker storage locker = _releasecoverageBadge[msg.sender][lockerChartnumber];
 
-        require(locker.hasReservedBadges, "No locked tokens");
-        require(block.appointmentTime > locker.securerecordMoment, "Tokens are still locked");
+        require(locker.hasCommittedBadges, "No locked tokens");
+        require(block.timestamp > locker.freezeaccountInstant, "Tokens are still locked");
 
-        uint256 quantity = locker.quantity;
-
-
-        locker.hasReservedBadges = false;
-        locker.quantity = 0;
+        uint256 units = locker.units;
 
 
-        IERC20(locker.badgeLocation).transfer(msg.referrer, quantity);
+        locker.hasCommittedBadges = false;
+        locker.units = 0;
+
+
+        IERC20(locker.badgeFacility).transfer(msg.sender, units);
     }
 }

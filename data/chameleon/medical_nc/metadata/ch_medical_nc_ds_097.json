@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_097.json",
     "original_id": "defivulnlabs_privatedata"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_097.sol",
   "sanitized_from": "ds_097",
   "derived_from": "sn_ds_097",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3394114684,
+    "seed": 3823597475,
     "coverage": {
-      "total_identifiers": 24,
+      "total_identifiers": 23,
       "transformed": 12,
-      "untransformed": 12,
-      "skipped_reserved": 22,
+      "untransformed": 11,
+      "skipped_reserved": 23,
       "skipped_interface": 0,
-      "coverage_percent": 50.0,
+      "coverage_percent": 52.17,
       "untransformed_details": [
         {
           "name": "forge",
@@ -125,26 +126,22 @@
         {
           "name": "push",
           "reason": "no synonym found"
-        },
-        {
-          "name": "encodePacked",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "Vault": "ClinicalVault",
+      "ContractTest": "PolicyTest",
+      "Vault": "HealthArchive",
       "VaultContract": "VaultAgreement",
-      "log": "record",
-      "user": "member",
-      "getArrayLocation": "retrieveCollectionLocation",
-      "User": "Patient",
+      "log": "chart",
+      "user": "enrollee",
+      "getArrayLocation": "diagnoseListLocation",
+      "User": "Beneficiary",
       "users": "patients",
-      "idToUser": "casenumberDestinationBeneficiary",
+      "idToUser": "chartnumberReceiverMember",
       "slot": "opening",
-      "index": "rank",
+      "index": "position",
       "elementSize": "elementScale"
     }
   }

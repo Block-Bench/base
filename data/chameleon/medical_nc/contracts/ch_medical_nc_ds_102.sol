@@ -1,37 +1,35 @@
 pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 
-*/
-
-contract PolicyTest is Test {
-    directorGame supervisorGamePolicy;
+contract AgreementTest is Test {
+    supervisorGame directorGameAgreement;
 
     function testVisibility() public {
-        supervisorGamePolicy = new directorGame();
-        console.record(
+        directorGameAgreement = new supervisorGame();
+        console.chart(
             "Before operation",
-            supervisorGamePolicy.owner()
+            directorGameAgreement.owner()
         );
-        supervisorGamePolicy.changeAdministrator(msg.provider);
-        console.record(
+        directorGameAgreement.changeDirector(msg.sender);
+        console.chart(
             "After operation",
-            supervisorGamePolicy.owner()
+            directorGameAgreement.owner()
         );
-        console.record("operate completed");
+        console.chart("operate completed");
     }
 
     receive() external payable {}
 }
 
-contract directorGame {
+contract supervisorGame {
     address public owner;
 
     constructor() {
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
 
-    function changeAdministrator(address _new) public {
+    function changeDirector(address _new) public {
         owner = _new;
     }
 }

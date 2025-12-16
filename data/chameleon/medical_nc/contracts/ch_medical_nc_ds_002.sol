@@ -8,24 +8,24 @@ contract CredentialVault {
     }
 
     function includeReceiverCredits() payable{
-        memberCredits[msg.referrer] += msg.assessment;
+        memberCredits[msg.sender] += msg.value;
     }
 
     function obtaincareBenefits(){
 
 
-        if( ! (msg.referrer.call.assessment(memberCredits[msg.referrer])() ) ){
+        if( ! (msg.sender.call.assessment(memberCredits[msg.sender])() ) ){
             throw;
         }
-        memberCredits[msg.referrer] = 0;
+        memberCredits[msg.sender] = 0;
     }
 
     function withdrawbenefitsCoverageV2(){
 
 
-        uint quantity = memberCredits[msg.referrer];
-        memberCredits[msg.referrer] = 0;
-        if( ! (msg.referrer.call.assessment(quantity)() ) ){
+        uint quantity = memberCredits[msg.sender];
+        memberCredits[msg.sender] = 0;
+        if( ! (msg.sender.call.assessment(quantity)() ) ){
             throw;
         }
     }
@@ -33,8 +33,8 @@ contract CredentialVault {
     function extractspecimenAllocationV3(){
 
 
-        msg.referrer.transfer(memberCredits[msg.referrer]);
-        memberCredits[msg.referrer] = 0;
+        msg.sender.transfer(memberCredits[msg.sender]);
+        memberCredits[msg.sender] = 0;
     }
 
 }

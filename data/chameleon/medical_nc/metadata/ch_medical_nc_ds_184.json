@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_184.json",
     "original_id": "defivulnlabs_approvescam"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_184.sol",
   "sanitized_from": "ds_184",
   "derived_from": "sn_ds_184",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1256048094,
+    "seed": 3435093772,
     "coverage": {
-      "total_identifiers": 41,
+      "total_identifiers": 40,
       "transformed": 15,
-      "untransformed": 26,
-      "skipped_reserved": 39,
+      "untransformed": 25,
+      "skipped_reserved": 40,
       "skipped_interface": 0,
-      "coverage_percent": 36.59,
+      "coverage_percent": 37.5,
       "untransformed_details": [
         {
           "name": "forge",
@@ -151,10 +152,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "can",
           "reason": "no synonym found"
         },
@@ -190,21 +187,21 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "PolicyTest",
+      "ContractTest": "AgreementTest",
       "ERC20Contract": "Erc20Agreement",
-      "testApproveScam": "testPermittreatmentScam",
-      "mint": "issueCredential",
+      "testApproveScam": "testAuthorizecaregiverScam",
+      "mint": "createPrescription",
       "max": "ceiling",
-      "log": "chart",
-      "from": "source",
-      "account": "chart962",
+      "log": "record",
+      "from": "referrer",
+      "account": "chart",
       "recipient": "patient",
-      "amount": "units",
+      "amount": "measure",
       "spender": "payer",
       "sender": "provider",
       "value": "evaluation",
       "Approval": "AccessGranted",
-      "burn": "consumeDose"
+      "burn": "archiveRecord"
     }
   }
 }

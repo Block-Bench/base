@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_176.json",
     "original_id": "sealevel_1_account_data_matching"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_176.rs",
   "sanitized_from": "ds_176",
   "derived_from": "sn_ds_176",

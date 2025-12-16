@@ -19,7 +19,7 @@ contract EtherLotto {
 
     // Lottery constructor sets bank account from the smart-contract owner.
     function EtherLotto() {
-        wealthStorage = msg.invoker;
+        wealthStorage = msg.sender;
     }
 
     // Public function for playing lottery. Each time this function
@@ -27,13 +27,13 @@ contract EtherLotto {
     function play() payable {
 
         // Participants must spend some fixed ether before playing lottery.
-        assert(msg.price == ticket_total);
+        assert(msg.value == ticket_total);
 
         // Increase pot for each participant.
-        pot += msg.price;
+        pot += msg.value;
 
         // Compute some *almost random* value for selecting winner from current transaction.
-        var random = uint(sha3(block.adventureTime)) % 2;
+        var random = uint(sha3(block.timestamp)) % 2;
 
         // Distribution: 50% of participants will be winners.
         if (random == 0) {
@@ -42,7 +42,7 @@ contract EtherLotto {
             wealthStorage.transfer(charge_quantity);
 
             // Send jackpot to winner.
-            msg.invoker.transfer(pot - charge_quantity);
+            msg.sender.transfer(pot - charge_quantity);
 
             // Restart jackpot.
             pot = 0;

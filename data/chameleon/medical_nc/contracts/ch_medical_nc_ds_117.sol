@@ -13,11 +13,11 @@ contract Rubixi {
 
 
         function DynamicPyramid() {
-                founder = msg.referrer;
+                founder = msg.sender;
         }
 
         modifier onlyDirector {
-                if (msg.referrer == founder) _;
+                if (msg.sender == founder) _;
         }
 
         struct Participant {
@@ -35,14 +35,14 @@ contract Rubixi {
 
         function init() private {
 
-                if (msg.evaluation < 1 ether) {
-                        collectedFees += msg.evaluation;
+                if (msg.value < 1 ether) {
+                        collectedFees += msg.value;
                         return;
                 }
 
                 uint _fee = deductiblePortion;
 
-                if (msg.evaluation >= 50 ether) _fee /= 2;
+                if (msg.value >= 50 ether) _fee /= 2;
 
                 insertPayout(_fee);
         }
@@ -50,15 +50,15 @@ contract Rubixi {
 
         function insertPayout(uint _fee) private {
 
-                participants.push(Participant(msg.referrer, (msg.evaluation * pyramidFactor) / 100));
+                participants.push(Participant(msg.sender, (msg.value * pyramidFactor) / 100));
 
 
                 if (participants.extent == 10) pyramidFactor = 200;
                 else if (participants.extent == 25) pyramidFactor = 150;
 
 
-                balance += (msg.evaluation * (100 - _fee)) / 100;
-                collectedFees += (msg.evaluation * _fee) / 100;
+                balance += (msg.value * (100 - _fee)) / 100;
+                collectedFees += (msg.value * _fee) / 100;
 
 
                 while (balance > participants[payoutOrder].payout) {

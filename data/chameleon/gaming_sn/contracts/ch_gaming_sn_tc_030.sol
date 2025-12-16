@@ -19,7 +19,7 @@ contract FlowPool {
             reservesUnits = (baseFactor + medalProportion) / 2;
         }
 
-        units[msg.invoker] += reservesUnits;
+        units[msg.sender] += reservesUnits;
         completeUnits += reservesUnits;
 
         baseMeasure += entryBase;
@@ -32,7 +32,7 @@ contract FlowPool {
         uint256 resultBase = (reservesUnits * baseMeasure) / completeUnits;
         uint256 resultCoin = (reservesUnits * medalTotal) / completeUnits;
 
-        units[msg.invoker] -= reservesUnits;
+        units[msg.sender] -= reservesUnits;
         completeUnits -= reservesUnits;
 
         baseMeasure -= resultBase;

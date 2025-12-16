@@ -15,7 +15,7 @@ pragma solidity ^0.4.24;
          return map[accessor];
      }
      function claimCoverage() public{
-       require(msg.referrer == owner);
-       msg.referrer.transfer(address(this).balance);
+       require(msg.sender == owner);
+       msg.sender.transfer(address(this).balance);
      }
  }

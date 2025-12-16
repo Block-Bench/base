@@ -70,6 +70,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_122.json",
     "original_id": "notso_unprotected_function_walletlibrary"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_122.sol",
   "sanitized_from": "ds_122",
   "derived_from": "sn_ds_122",
@@ -80,12 +81,12 @@
     "source": "nocomments",
     "seed": 2657345750,
     "coverage": {
-      "total_identifiers": 106,
+      "total_identifiers": 103,
       "transformed": 39,
-      "untransformed": 67,
-      "skipped_reserved": 39,
+      "untransformed": 64,
+      "skipped_reserved": 42,
       "skipped_interface": 0,
-      "coverage_percent": 36.79,
+      "coverage_percent": 37.86,
       "untransformed_details": [
         {
           "name": "WalletEvents",
@@ -216,10 +217,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "sha3",
-          "reason": "no synonym found"
-        },
-        {
           "name": "c_maxOwners",
           "reason": "no synonym found"
         },
@@ -268,10 +265,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "suicide",
-          "reason": "no synonym found"
-        },
-        {
           "name": "number",
           "reason": "no synonym found"
         },
@@ -309,10 +302,6 @@
         },
         {
           "name": "free",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

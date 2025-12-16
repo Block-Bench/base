@@ -86,6 +86,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_012.json",
     "original_exploit_name": "Rari Capital Fuse"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_012.sol",
   "sanitized_from": "tc_012",
   "derived_from": "sn_tc_012",

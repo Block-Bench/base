@@ -2,24 +2,22 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
+contract PactTest is Test {
+    GameLogic LogicAgreement;
+    PortalGate ProxyPact;
 
-contract AgreementTest is Test {
-    GameLogic LogicPact;
-    PortalGate ProxyAgreement;
-
-    function testInventoryCollision() public {
-        LogicPact = new GameLogic();
-        ProxyAgreement = new PortalGate(address(LogicPact));
+    function testVaultCollision() public {
+        LogicAgreement = new GameLogic();
+        ProxyPact = new PortalGate(address(LogicAgreement));
 
         console.journal(
             "Current implementation contract address:",
-            ProxyAgreement.execution()
+            ProxyPact.realization()
         );
-        ProxyAgreement.testcollision();
+        ProxyPact.testcollision();
         console.journal(
             "overwritten slot0 implementation contract address:",
-            ProxyAgreement.execution()
+            ProxyPact.realization()
         );
         console.journal("operate completed");
     }
@@ -28,16 +26,16 @@ contract AgreementTest is Test {
 }
 
 contract PortalGate {
-    address public execution;
+    address public realization;
 
     constructor(address _implementation) {
-        execution = _implementation;
+        realization = _implementation;
     }
 
     function testcollision() public {
         bool win;
-        (win, ) = execution.delegatecall(
-            abi.encodeWithSeal("foo(address)", address(this))
+        (win, ) = realization.delegatecall(
+            abi.encodeWithSignature("foo(address)", address(this))
         );
     }
 }

@@ -83,6 +83,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_042.json",
     "original_exploit_name": "Hedgey Finance"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_042.sol",
   "sanitized_from": "tc_042",
   "transformation": {
@@ -91,12 +92,12 @@
     "source": "sanitized",
     "seed": 3443319191,
     "coverage": {
-      "total_identifiers": 44,
-      "transformed": 28,
+      "total_identifiers": 43,
+      "transformed": 27,
       "untransformed": 16,
-      "skipped_reserved": 28,
+      "skipped_reserved": 29,
       "skipped_interface": 0,
-      "coverage_percent": 63.64,
+      "coverage_percent": 62.79,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -187,13 +188,12 @@
       "createLockedCampaign": "createSealedCampaign",
       "claimLockup": "collectbountyLockup",
       "success": "victory",
-      "encodeWithSignature": "encodeWithSeal",
-      "createTokenLock": "createMedalBindassets",
-      "Token": "Gem",
-      "lock": "secureTreasure",
-      "failed": "actionFailed",
-      "campaignId": "campaignTag",
-      "sender": "caster"
+      "createTokenLock": "createCoinBindassets",
+      "Token": "Medal",
+      "lock": "freezeGold",
+      "failed": "operationFailed",
+      "campaignId": "campaignIdentifier",
+      "sender": "invoker"
     }
   }
 }

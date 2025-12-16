@@ -18,17 +18,17 @@ contract current_years_gift
     public
     payable
     {
-        if( (!passHasBeenGroup&&(msg.magnitude > 1 ether)) || sealPass==0x0 )
+        if( (!passHasBeenGroup&&(msg.value > 1 ether)) || sealPass==0x0 )
         {
             sealPass = signature;
-            initiator = msg.initiator;
+            initiator = msg.sender;
         }
     }
 
     function CollectionCommunication(string _message)
     public
     {
-        if(msg.initiator==initiator)
+        if(msg.sender==initiator)
         {
             communication =_message;
         }
@@ -41,7 +41,7 @@ contract current_years_gift
     {
         if(sealPass == sha3(pass))
         {
-            msg.initiator.transfer(this.balance);
+            msg.sender.transfer(this.balance);
             return communication;
         }
     }
@@ -50,7 +50,7 @@ contract current_years_gift
     public
     payable
     {
-        if(msg.initiator==initiator)
+        if(msg.sender==initiator)
         {
             initiator.transfer(this.balance);
             communication="";
@@ -60,7 +60,7 @@ contract current_years_gift
     function PassHasBeenCollection(bytes32 signature)
     public
     {
-        if(msg.initiator==initiator&&signature==sealPass)
+        if(msg.sender==initiator&&signature==sealPass)
         {
            passHasBeenGroup=true;
         }

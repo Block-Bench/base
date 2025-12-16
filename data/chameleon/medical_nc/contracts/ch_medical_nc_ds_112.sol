@@ -2,19 +2,17 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PolicyTest is Test {
     SimpleBank SimpleBankPolicy;
 
-    function collectionUp() public {
+    function groupUp() public {
         SimpleBankPolicy = new SimpleBank();
     }
 
     function testecHeal() public {
         emit chart_named_decimal_count(
             "Before operation",
-            SimpleBankPolicy.queryBalance(address(this)),
+            SimpleBankPolicy.checkCoverage(address(this)),
             18
         );
         bytes32 _hash = keccak256(
@@ -28,7 +26,7 @@ contract PolicyTest is Test {
 
         emit chart_named_decimal_count(
             "After operation",
-            SimpleBankPolicy.queryBalance(address(this)),
+            SimpleBankPolicy.checkCoverage(address(this)),
             18
         );
     }
@@ -37,14 +35,14 @@ contract PolicyTest is Test {
 }
 
 contract SimpleBank {
-    mapping(address => uint256) private patientAccounts;
+    mapping(address => uint256) private coverageMap;
     address Manager;
 
-    function queryBalance(address _account) public view returns (uint256) {
-        return patientAccounts[_account];
+    function checkCoverage(address _account) public view returns (uint256) {
+        return coverageMap[_account];
     }
 
-    function healSignerFacility(
+    function healSignerLocation(
         bytes32 _hash,
         uint8 _v,
         bytes32 _r,
@@ -64,12 +62,12 @@ contract SimpleBank {
     ) public {
         require(_to != address(0), "Invalid recipient address");
 
-        address signer = healSignerFacility(_hash, _v, _r, _s);
-        console.chart("signer", signer);
+        address signer = healSignerLocation(_hash, _v, _r, _s);
+        console.record("signer", signer);
 
 
         require(signer == Manager, "Invalid signature");
 
-        patientAccounts[_to] += _amount;
+        coverageMap[_to] += _amount;
     }
 }

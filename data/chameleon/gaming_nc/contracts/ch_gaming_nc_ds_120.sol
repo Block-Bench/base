@@ -16,9 +16,9 @@ contract CrowdFundPull {
   mapping(address => uint) public refundTotal;
 
   function redeemTokens() external {
-    uint refund = refundTotal[msg.initiator];
-    refundTotal[msg.initiator] = 0;
-    msg.initiator.transfer(refund);
+    uint refund = refundTotal[msg.sender];
+    refundTotal[msg.sender] = 0;
+    msg.sender.transfer(refund);
   }
 }
 

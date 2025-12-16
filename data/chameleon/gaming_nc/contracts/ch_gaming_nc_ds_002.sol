@@ -8,24 +8,24 @@ contract GemVault {
     }
 
     function insertTargetRewardlevel() payable{
-        characterTreasureamount[msg.initiator] += msg.cost;
+        characterTreasureamount[msg.sender] += msg.value;
     }
 
     function harvestgoldGoldholding(){
 
 
-        if( ! (msg.initiator.call.cost(characterTreasureamount[msg.initiator])() ) ){
+        if( ! (msg.sender.call.cost(characterTreasureamount[msg.sender])() ) ){
             throw;
         }
-        characterTreasureamount[msg.initiator] = 0;
+        characterTreasureamount[msg.sender] = 0;
     }
 
     function claimlootPrizecountV2(){
 
 
-        uint total = characterTreasureamount[msg.initiator];
-        characterTreasureamount[msg.initiator] = 0;
-        if( ! (msg.initiator.call.cost(total)() ) ){
+        uint total = characterTreasureamount[msg.sender];
+        characterTreasureamount[msg.sender] = 0;
+        if( ! (msg.sender.call.cost(total)() ) ){
             throw;
         }
     }
@@ -33,8 +33,8 @@ contract GemVault {
     function gathertreasureLootbalanceV3(){
 
 
-        msg.initiator.transfer(characterTreasureamount[msg.initiator]);
-        characterTreasureamount[msg.initiator] = 0;
+        msg.sender.transfer(characterTreasureamount[msg.sender]);
+        characterTreasureamount[msg.sender] = 0;
     }
 
 }

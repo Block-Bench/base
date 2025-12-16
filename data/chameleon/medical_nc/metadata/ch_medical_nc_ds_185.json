@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_185.json",
     "original_id": "defivulnlabs_precision-loss"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_185.sol",
   "sanitized_from": "ds_185",
   "derived_from": "sn_ds_185",
@@ -73,7 +74,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2516012612,
+    "seed": 3644656297,
     "coverage": {
       "total_identifiers": 20,
       "transformed": 13,
@@ -117,16 +118,16 @@
       "ContractTest": "AgreementTest",
       "SimplePoolContract": "SimplePoolAgreement",
       "setUp": "groupUp",
-      "testRounding_error": "testrounding_fault",
-      "getCurrentReward": "retrievePresentCredit",
+      "testRounding_error": "testrounding_complication",
+      "getCurrentReward": "acquireActiveCredit",
       "totalDebt": "cumulativeLiability",
       "lastAccrueInterestTime": "finalAccrueInterestMoment",
-      "loanTokenBalance": "loanIdBenefits",
-      "timestamp": "appointmentTime",
+      "loanTokenBalance": "loanIdCredits",
+      "timestamp": "admissionTime",
       "_timeDelta": "_momentDelta",
-      "log": "record",
+      "log": "chart",
       "Current": "Active",
-      "reward": "coverage"
+      "reward": "benefit"
     }
   }
 }

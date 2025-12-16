@@ -69,6 +69,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_117.json",
     "original_id": "notso_wrong_constructor_name_rubixi"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_117.sol",
   "sanitized_from": "ds_117",
   "transformation": {
@@ -77,12 +78,12 @@
     "source": "sanitized",
     "seed": 3712675464,
     "coverage": {
-      "total_identifiers": 147,
-      "transformed": 37,
+      "total_identifiers": 146,
+      "transformed": 36,
       "untransformed": 110,
-      "skipped_reserved": 35,
+      "skipped_reserved": 36,
       "skipped_interface": 0,
-      "coverage_percent": 25.17,
+      "coverage_percent": 24.66,
       "untransformed_details": [
         {
           "name": "Rubixi",
@@ -538,9 +539,8 @@
       "value": "cost",
       "fee": "cut",
       "addPayout": "insertPayout",
-      "array": "list",
-      "length": "extent",
-      "update": "syncProgress",
+      "length": "size",
+      "update": "updateLevel",
       "payoutToSend": "payoutDestinationTransmitgold",
       "Fee": "Charge",
       "collectPercentOfFees": "collectShareOfFees",

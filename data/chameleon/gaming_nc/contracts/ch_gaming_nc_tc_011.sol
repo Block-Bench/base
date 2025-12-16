@@ -24,7 +24,7 @@ contract LendingPool {
 
         require(crystal.transfer(address(this), measure), "Transfer failed");
 
-        supplied[msg.initiator][asset] += measure;
+        supplied[msg.sender][asset] += measure;
         fullSupplied[asset] += measure;
 
         return measure;
@@ -34,7 +34,7 @@ contract LendingPool {
         address asset,
         uint256 requestedTotal
     ) external returns (uint256) {
-        uint256 adventurerRewardlevel = supplied[msg.initiator][asset];
+        uint256 adventurerRewardlevel = supplied[msg.sender][asset];
         require(adventurerRewardlevel > 0, "No balance");
 
         uint256 redeemtokensTotal = requestedTotal;
@@ -43,9 +43,9 @@ contract LendingPool {
         }
         require(redeemtokensTotal <= adventurerRewardlevel, "Insufficient balance");
 
-        IERC777(asset).transfer(msg.initiator, redeemtokensTotal);
+        IERC777(asset).transfer(msg.sender, redeemtokensTotal);
 
-        supplied[msg.initiator][asset] -= redeemtokensTotal;
+        supplied[msg.sender][asset] -= redeemtokensTotal;
         fullSupplied[asset] -= redeemtokensTotal;
 
         return redeemtokensTotal;

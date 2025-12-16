@@ -1,6 +1,5 @@
-DAO Polska Id deployment
 pragma solidity ^0.4.11;
-interface badgePatient { function acceptpatientApproval(address _from, uint256 _value, address _token, bytes _extraInfo) public; }
+interface badgeReceiver { function acceptpatientApproval(address _from, uint256 _value, address _token, bytes _extraInfo) public; }
 
 
 contract MigrationAgent {
@@ -12,14 +11,13 @@ contract ERC20 {
   function balanceOf(address who) constant returns (uint);
   function allowance(address owner, address payer) constant returns (uint);
 
-  function transfer(address to, uint evaluation) returns (bool ok);
-  function transferFrom(address referrer, address to, uint evaluation) returns (bool ok);
-  function approve(address payer, uint evaluation) returns (bool ok);
-  event Transfer(address indexed referrer, address indexed to, uint evaluation);
-  event AccessGranted(address indexed owner, address indexed payer, uint evaluation);
+  function transfer(address to, uint assessment) returns (bool ok);
+  function transferFrom(address referrer, address to, uint assessment) returns (bool ok);
+  function approve(address payer, uint assessment) returns (bool ok);
+  event Transfer(address indexed referrer, address indexed to, uint assessment);
+  event TreatmentAuthorized(address indexed owner, address indexed payer, uint assessment);
 }
 
- */
 contract SafeMath {
   function safeMul(uint a, uint b) internal returns (uint) {
     uint c = a * b;
@@ -68,52 +66,51 @@ contract SafeMath {
   }
 }
 
- */
-contract StandardId is ERC20, SafeMath {
+contract StandardBadge is ERC20, SafeMath {
 
 
-  event Minted(address patient, uint units);
+  event Minted(address patient, uint dosage);
 
 
-  mapping(address => uint) benefitsRecord;
+  mapping(address => uint) patientAccounts;
 
-  mapping(address => uint) coveragemapRaw;
+  mapping(address => uint) benefitsrecordRaw;
 
   mapping (address => mapping (address => uint)) allowed;
 
 
-  function isBadge() public constant returns (bool weAre) {
+  function isId() public constant returns (bool weAre) {
     return true;
   }
 
   function transfer(address _to, uint _value) returns (bool recovery) {
-    benefitsRecord[msg.referrer295] = safeSub(benefitsRecord[msg.referrer295], _value);
-    benefitsRecord[_to] = safeAppend(benefitsRecord[_to], _value);
-    Transfer(msg.referrer295, _to, _value);
+    patientAccounts[msg.sender] = safeSub(patientAccounts[msg.sender], _value);
+    patientAccounts[_to] = safeAppend(patientAccounts[_to], _value);
+    Transfer(msg.sender, _to, _value);
     return true;
   }
 
   function transferFrom(address _from, address _to, uint _value) returns (bool recovery) {
-    uint _allowance = allowed[_from][msg.referrer295];
+    uint _allowance = allowed[_from][msg.sender];
 
-    benefitsRecord[_to] = safeAppend(benefitsRecord[_to], _value);
-    benefitsRecord[_from] = safeSub(benefitsRecord[_from], _value);
-    allowed[_from][msg.referrer295] = safeSub(_allowance, _value);
+    patientAccounts[_to] = safeAppend(patientAccounts[_to], _value);
+    patientAccounts[_from] = safeSub(patientAccounts[_from], _value);
+    allowed[_from][msg.sender] = safeSub(_allowance, _value);
     Transfer(_from, _to, _value);
     return true;
   }
 
   function balanceOf(address _owner) constant returns (uint balance) {
-    return benefitsRecord[_owner];
+    return patientAccounts[_owner];
   }
 
   function approve(address _spender, uint _value) returns (bool recovery) {
 
 
-    if ((_value != 0) && (allowed[msg.referrer295][_spender] != 0)) throw;
+    if ((_value != 0) && (allowed[msg.sender][_spender] != 0)) throw;
 
-    allowed[msg.referrer295][_spender] = _value;
-    AccessGranted(msg.referrer295, _spender, _value);
+    allowed[msg.sender][_spender] = _value;
+    TreatmentAuthorized(msg.sender, _spender, _value);
     return true;
   }
 
@@ -146,42 +143,42 @@ contract daoPOLSKAtokens{
 	address public Chain4 = 0x0;
 
 	address public migrationAgent=0x8585D5A25b1FA2A0E6c3BcfC098195bac9789BE2;
-    uint256 public aggregateMigrated;
+    uint256 public completeMigrated;
 
     event Migrate(address indexed _from, address indexed _to, uint256 _value);
     event Refund(address indexed _from, uint256 _value);
 
-	struct dispatchambulanceBadgeAway{
-		StandardId coinPolicy;
-		uint units;
-		address patient394;
+	struct dispatchambulanceCredentialAway{
+		StandardBadge coinAgreement;
+		uint dosage;
+		address patient597;
 	}
-	mapping(uint => dispatchambulanceBadgeAway) transfers;
+	mapping(uint => dispatchambulanceCredentialAway) transfers;
 	uint numTransfers=0;
 
-  mapping (address => uint256) benefitsRecord;
-mapping (address => uint256) coveragemapRaw;
+  mapping (address => uint256) patientAccounts;
+mapping (address => uint256) benefitsrecordRaw;
   mapping (address => mapping (address => uint256)) allowed;
 
-	event UpdatedBadgeInformation(string currentPatientname, string updatedCode);
+	event UpdatedIdInformation(string currentPatientname, string currentDesignation);
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
 	event receivedEther(address indexed _from,uint256 _value);
-  event AccessGranted(address indexed _owner, address indexed _spender, uint256 _value);
+  event TreatmentAuthorized(address indexed _owner, address indexed _spender, uint256 _value);
 
 
-    event ExpirePrescription(address indexed referrer, uint256 evaluation);
+    event ExpirePrescription(address indexed referrer, uint256 assessment);
 
   bool public supplylimitset = false;
   bool public otherchainstotalset = false;
 
   function daoPOLSKAtokens() {
-owner=msg.referrer295;
-migrationMaster=msg.referrer295;
+owner=msg.sender;
+migrationMaster=msg.sender;
 }
 
-function  groupInventory(uint256 stockLocker) public {
-    	   if (msg.referrer295 != owner) {
+function  groupStock(uint256 stockLocker) public {
+    	   if (msg.sender != owner) {
       throw;
     }
 		    	   if (supplylimitset != false) {
@@ -192,8 +189,8 @@ function  groupInventory(uint256 stockLocker) public {
 	supplylimit = stockLocker ** uint256(decimals);
 
   }
-function modifyotherchainstotalsupply(uint256 stockLocker) public {
-    	   if (msg.referrer295 != owner) {
+function adjustotherchainstotalsupply(uint256 stockLocker) public {
+    	   if (msg.sender != owner) {
       throw;
     }
 	    	   if (supplylimitset != false) {
@@ -204,32 +201,29 @@ function modifyotherchainstotalsupply(uint256 stockLocker) public {
 	otherchainstotalsupply = stockLocker ** uint256(decimals);
 
   }
-     */
-    function grantaccessAndRequestconsult(address _spender, uint256 _value, bytes _extraInfo)
+    function permittreatmentAndInvokeprotocol(address _spender, uint256 _value, bytes _extraInfo)
         public
         returns (bool recovery) {
-        badgePatient payer = badgePatient(_spender);
+        badgeReceiver payer = badgeReceiver(_spender);
         if (approve(_spender, _value)) {
-            payer.acceptpatientApproval(msg.referrer295, _value, this, _extraInfo);
+            payer.acceptpatientApproval(msg.sender, _value, this, _extraInfo);
             return true;
         }
     }
 
-     */
     function consumeDose(uint256 _value) public returns (bool recovery) {
-        require(benefitsRecord[msg.referrer295] >= _value);
-        benefitsRecord[msg.referrer295] -= _value;
+        require(patientAccounts[msg.sender] >= _value);
+        patientAccounts[msg.sender] -= _value;
         totalSupply -= _value;
-        ExpirePrescription(msg.referrer295, _value);
+        ExpirePrescription(msg.sender, _value);
         return true;
     }
 
-     */
-    function archiverecordReferrer(address _from, uint256 _value) public returns (bool recovery) {
-        require(benefitsRecord[_from] >= _value);
-        require(_value <= allowed[_from][msg.referrer295]);
-        benefitsRecord[_from] -= _value;
-        allowed[_from][msg.referrer295] -= _value;
+    function consumedoseReferrer(address _from, uint256 _value) public returns (bool recovery) {
+        require(patientAccounts[_from] >= _value);
+        require(_value <= allowed[_from][msg.sender]);
+        patientAccounts[_from] -= _value;
+        allowed[_from][msg.sender] -= _value;
         totalSupply -= _value;
         ExpirePrescription(_from, _value);
         return true;
@@ -238,34 +232,34 @@ function modifyotherchainstotalsupply(uint256 stockLocker) public {
   function transfer(address _to, uint256 _value) returns (bool recovery) {
 
 
-    if (benefitsRecord[msg.referrer295] >= _value && benefitsRecord[_to] + _value > benefitsRecord[_to]) {
+    if (patientAccounts[msg.sender] >= _value && patientAccounts[_to] + _value > patientAccounts[_to]) {
 
-      benefitsRecord[msg.referrer295] -= _value;
-      benefitsRecord[_to] += _value;
-      Transfer(msg.referrer295, _to, _value);
+      patientAccounts[msg.sender] -= _value;
+      patientAccounts[_to] += _value;
+      Transfer(msg.sender, _to, _value);
       return true;
     } else { return false; }
   }
 
   function transferFrom(address _from, address _to, uint256 _value) returns (bool recovery) {
 
-    if (benefitsRecord[_from] >= _value && allowed[_from][msg.referrer295] >= _value && benefitsRecord[_to] + _value > benefitsRecord[_to]) {
+    if (patientAccounts[_from] >= _value && allowed[_from][msg.sender] >= _value && patientAccounts[_to] + _value > patientAccounts[_to]) {
 
-      benefitsRecord[_to] += _value;
-      benefitsRecord[_from] -= _value;
-      allowed[_from][msg.referrer295] -= _value;
+      patientAccounts[_to] += _value;
+      patientAccounts[_from] -= _value;
+      allowed[_from][msg.sender] -= _value;
       Transfer(_from, _to, _value);
       return true;
     } else { return false; }
   }
 
   function balanceOf(address _owner) constant returns (uint256 balance) {
-    return benefitsRecord[_owner];
+    return patientAccounts[_owner];
   }
 
   function approve(address _spender, uint256 _value) returns (bool recovery) {
-    allowed[msg.referrer295][_spender] = _value;
-    AccessGranted(msg.referrer295, _spender, _value);
+    allowed[msg.sender][_spender] = _value;
+    TreatmentAuthorized(msg.sender, _spender, _value);
     return true;
   }
 
@@ -275,26 +269,26 @@ function modifyotherchainstotalsupply(uint256 stockLocker) public {
 
 	    function () payable  public {
 		 if(funding){
-        receivedEther(msg.referrer295, msg.evaluation);
-		benefitsRecord[msg.referrer295]=benefitsRecord[msg.referrer295]+msg.evaluation;
+        receivedEther(msg.sender, msg.value);
+		patientAccounts[msg.sender]=patientAccounts[msg.sender]+msg.value;
 		} else throw;
 
     }
 
   function groupBadgeInformation(string _name, string _symbol) {
 
-	   if (msg.referrer295 != owner) {
+	   if (msg.sender != owner) {
       throw;
     }
 	name = _name;
     symbol = _symbol;
 
-    UpdatedBadgeInformation(name, symbol);
+    UpdatedIdInformation(name, symbol);
   }
 
-function collectionChainsAddresses(address chainAd, int chainnumber) {
+function groupChainsAddresses(address chainAd, int chainnumber) {
 
-	   if (msg.referrer295 != owner) {
+	   if (msg.sender != owner) {
       throw;
     }
 	if(chainnumber==1){Chain1=chainAd;}
@@ -308,24 +302,24 @@ function collectionChainsAddresses(address chainAd, int chainnumber) {
 }
 
 
-	function transmitresultsBadgeAw(address StandardBadgeLocation, address patient, uint units){
-		if (msg.referrer295 != owner) {
+	function dispatchambulanceCredentialAw(address StandardIdWard, address patient, uint dosage){
+		if (msg.sender != owner) {
 		throw;
 		}
-		dispatchambulanceBadgeAway t = transfers[numTransfers];
-		t.coinPolicy = StandardId(StandardBadgeLocation);
-		t.units = units;
-		t.patient394 = patient;
-		t.coinPolicy.transfer(patient, units);
+		dispatchambulanceCredentialAway t = transfers[numTransfers];
+		t.coinAgreement = StandardBadge(StandardIdWard);
+		t.dosage = dosage;
+		t.patient597 = patient;
+		t.coinAgreement.transfer(patient, dosage);
 		numTransfers++;
 	}
 
 
 uint public badgeCreationFrequency=1000;
-uint public supplementCreationFrequency=1000;
+uint public supplementCreationFactor=1000;
 uint public CreationRatio=1761;
    uint256 public constant oneweek = 36000;
-uint256 public fundingDischargeWard = 5433616;
+uint256 public fundingDischargeUnit = 5433616;
 bool public funding = true;
 bool public refundstate = false;
 bool public migratestate= false;
@@ -334,71 +328,71 @@ bool public migratestate= false;
         if (!funding) throw;
 
 
-        if (msg.evaluation == 0) throw;
+        if (msg.value == 0) throw;
 
-        if (msg.evaluation > (supplylimit - totalSupply) / CreationRatio)
+        if (msg.value > (supplylimit - totalSupply) / CreationRatio)
           throw;
 
 
-	 var numIdsRaw = msg.evaluation;
+	 var numBadgesRaw = msg.value;
 
-        var numCredentials = msg.evaluation * CreationRatio;
-        totalSupply += numCredentials;
-
-
-        benefitsRecord[holder] += numCredentials;
-        coveragemapRaw[holder] += numIdsRaw;
-
-        Transfer(0, holder, numCredentials);
+        var numBadges = msg.value * CreationRatio;
+        totalSupply += numBadges;
 
 
-        uint256 shareOfComplete = 12;
-        uint256 additionalIds = 	numCredentials * shareOfComplete / (100);
+        patientAccounts[holder] += numBadges;
+        benefitsrecordRaw[holder] += numBadgesRaw;
 
-        totalSupply += additionalIds;
+        Transfer(0, holder, numBadges);
 
-        benefitsRecord[migrationMaster] += additionalIds;
-        Transfer(0, migrationMaster, additionalIds);
+
+        uint256 portionOfAggregate = 12;
+        uint256 additionalBadges = 	numBadges * portionOfAggregate / (100);
+
+        totalSupply += additionalBadges;
+
+        patientAccounts[migrationMaster] += additionalBadges;
+        Transfer(0, migrationMaster, additionalBadges);
 
 	}
-	function groupSupplementCreationRatio(uint currentFactor){
-	if(msg.referrer295 == owner) {
-	supplementCreationFrequency=currentFactor;
-	CreationRatio=badgeCreationFrequency+supplementCreationFrequency;
+	function collectionSupplementCreationFactor(uint updatedFactor){
+	if(msg.sender == owner) {
+	supplementCreationFactor=updatedFactor;
+	CreationRatio=badgeCreationFrequency+supplementCreationFactor;
 	}
 	}
 
-    function FundsRefer() external {
+    function FundsShiftcare() external {
 	if(funding==true) throw;
 		 	if (!owner.send(this.balance)) throw;
     }
 
     function PartialFundsRefer(uint SubX) external {
-	      if (msg.referrer295 != owner) throw;
+	      if (msg.sender != owner) throw;
         owner.send(this.balance - SubX);
 	}
 	function turnrefund() external {
-	      if (msg.referrer295 != owner) throw;
+	      if (msg.sender != owner) throw;
 	refundstate=!refundstate;
         }
 
 			function fundingCondition() external {
-	      if (msg.referrer295 != owner) throw;
+	      if (msg.sender != owner) throw;
 	funding=!funding;
         }
     function turnmigrate() external {
-	      if (msg.referrer295 != migrationMaster) throw;
+	      if (msg.sender != migrationMaster) throw;
 	migratestate=!migratestate;
 }
 
 
 function finalize() external {
-        if (block.number <= fundingDischargeWard+8*oneweek) throw;
+        if (block.number <= fundingDischargeUnit+8*oneweek) throw;
 
         funding = false;
 		refundstate=!refundstate;
 
-        if (msg.referrer295==owner)
+        if (msg.sender==owner)
 		owner.send(this.balance);
     }
     function migrate(uint256 _value) external {
@@ -407,13 +401,13 @@ function finalize() external {
 
 
         if (_value == 0) throw;
-        if (_value > benefitsRecord[msg.referrer295]) throw;
+        if (_value > patientAccounts[msg.sender]) throw;
 
-        benefitsRecord[msg.referrer295] -= _value;
+        patientAccounts[msg.sender] -= _value;
         totalSupply -= _value;
-        aggregateMigrated += _value;
-        MigrationAgent(migrationAgent).migrateSource(msg.referrer295, _value);
-        Migrate(msg.referrer295, migrationAgent, _value);
+        completeMigrated += _value;
+        MigrationAgent(migrationAgent).migrateSource(msg.sender, _value);
+        Migrate(msg.sender, migrationAgent, _value);
     }
 
 function refundTRA() external {
@@ -421,14 +415,14 @@ function refundTRA() external {
         if (funding) throw;
         if (!refundstate) throw;
 
-        var DaoplCredentialRating = benefitsRecord[msg.referrer295];
-        var EthAssessment = coveragemapRaw[msg.referrer295];
-        if (EthAssessment == 0) throw;
-        coveragemapRaw[msg.referrer295] = 0;
-        totalSupply -= DaoplCredentialRating;
+        var DaoplCredentialAssessment = patientAccounts[msg.sender];
+        var EthRating = benefitsrecordRaw[msg.sender];
+        if (EthRating == 0) throw;
+        benefitsrecordRaw[msg.sender] = 0;
+        totalSupply -= DaoplCredentialAssessment;
 
-        Refund(msg.referrer295, EthAssessment);
-        msg.referrer295.transfer(EthAssessment);
+        Refund(msg.sender, EthRating);
+        msg.sender.transfer(EthRating);
 }
 
 function preICOregulations() external returns(string wow) {

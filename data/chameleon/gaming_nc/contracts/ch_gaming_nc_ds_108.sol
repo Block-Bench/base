@@ -2,35 +2,33 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    Goal GoalPact;
-    FailedGameoperator FailedQuestrunnerPact;
-    QuestRunner QuestrunnerPact;
-    GoalV2 AimRemediatedPact;
+    Aim GoalPact;
+    FailedQuestrunner FailedGameoperatorAgreement;
+    GameOperator GameoperatorPact;
+    AimV2 AimRemediatedAgreement;
 
     constructor() {
-        GoalPact = new Goal();
-        FailedQuestrunnerPact = new FailedGameoperator();
-        AimRemediatedPact = new GoalV2();
+        GoalPact = new Aim();
+        FailedGameoperatorAgreement = new FailedQuestrunner();
+        AimRemediatedAgreement = new AimV2();
     }
 
-    function testBypassFailedPactInspect() public {
+    function testBypassFailedAgreementInspect() public {
         console.record(
             "Before operation",
             GoalPact.completed()
         );
         console.record("operate Failed");
-        FailedQuestrunnerPact.completeQuest(address(GoalPact));
+        FailedGameoperatorAgreement.performAction(address(GoalPact));
     }
 
-    function testBypassPactValidate() public {
+    function testBypassAgreementInspect() public {
         console.record(
             "Before operation",
             GoalPact.completed()
         );
-        QuestrunnerPact = new QuestRunner(address(GoalPact));
+        GameoperatorPact = new GameOperator(address(GoalPact));
         console.record(
             "After operation",
             GoalPact.completed()
@@ -41,58 +39,58 @@ contract AgreementTest is Test {
     receive() external payable {}
 }
 
-contract Goal {
+contract Aim {
     function isAgreement(address character) public view returns (bool) {
 
 
-        uint scale;
+        uint magnitude;
         assembly {
-            scale := extcodesize(character)
+            magnitude := extcodesize(character)
         }
-        return scale > 0;
+        return magnitude > 0;
     }
 
     bool public completed = false;
 
     function protected() external {
-        require(!isAgreement(msg.caster), "no contract allowed");
+        require(!isAgreement(msg.sender), "no contract allowed");
         completed = true;
     }
 }
 
-contract FailedGameoperator is Test {
+contract FailedQuestrunner is Test {
 
 
-    function completeQuest(address _target) external {
+    function performAction(address _target) external {
 
-        vm.expectReverse("no contract allowed");
-        Goal(_target).protected();
+        vm.expectUndo("no contract allowed");
+        Aim(_target).protected();
     }
 }
 
-contract QuestRunner {
+contract GameOperator {
     bool public isAgreement;
     address public addr;
 
 
     constructor(address _target) {
-        isAgreement = Goal(_target).isAgreement(address(this));
+        isAgreement = Aim(_target).isAgreement(address(this));
         addr = address(this);
 
-        Goal(_target).protected();
+        Aim(_target).protected();
     }
 }
 
-contract GoalV2 {
+contract AimV2 {
     function isAgreement(address character) public view returns (bool) {
-        require(tx.origin == msg.caster);
-        return character.code.size > 0;
+        require(tx.origin == msg.sender);
+        return character.code.extent > 0;
     }
 
     bool public completed = false;
 
     function protected() external {
-        require(!isAgreement(msg.caster), "no contract allowed");
+        require(!isAgreement(msg.sender), "no contract allowed");
         completed = true;
     }
 }

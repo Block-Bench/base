@@ -1,5 +1,4 @@
 pragma solidity ^0.4.19;
-*/
 
 contract OpenWardLottery{
     struct SeedComponents{
@@ -11,38 +10,38 @@ contract OpenWardLottery{
 
     address owner;
     uint private secretSeed;
-    uint private endingReseed;
+    uint private finalReseed;
     uint LuckyNumber = 7;
 
     mapping (address => bool) winner;
 
     function OpenWardLottery() {
-        owner = msg.referrer;
-        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.appointmentTime));
+        owner = msg.sender;
+        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
     function participate() payable {
-        if(msg.evaluation<0.1 ether)
+        if(msg.value<0.1 ether)
             return;
 
 
-        require(winner[msg.referrer] == false);
+        require(winner[msg.sender] == false);
 
-        if(luckyNumberOfFacility(msg.referrer) == LuckyNumber){
-            winner[msg.referrer] = true;
+        if(luckyNumberOfLocation(msg.sender) == LuckyNumber){
+            winner[msg.sender] = true;
 
-            uint win=msg.evaluation*7;
+            uint win=msg.value*7;
 
             if(win>this.balance)
                 win=this.balance;
-            msg.referrer.transfer(win);
+            msg.sender.transfer(win);
         }
 
-        if(block.number-endingReseed>1000)
-            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.appointmentTime));
+        if(block.number-finalReseed>1000)
+            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
-    function luckyNumberOfFacility(address addr) constant returns(uint n){
+    function luckyNumberOfLocation(address addr) constant returns(uint n){
 
         n = uint(keccak256(uint(addr), secretSeed)[0]) % 8;
     }
@@ -54,19 +53,19 @@ contract OpenWardLottery{
             components.component3,
             components.component4
         ));
-        endingReseed = block.number;
+        finalReseed = block.number;
     }
 
     function kill() {
-        require(msg.referrer==owner);
+        require(msg.sender==owner);
 
-        selfdestruct(msg.referrer);
+        selfdestruct(msg.sender);
     }
 
     function forceReseed() {
-        require(msg.referrer==owner);
+        require(msg.sender==owner);
         SeedComponents s;
-        s.component1 = uint(msg.referrer);
+        s.component1 = uint(msg.sender);
         s.component2 = uint256(block.blockhash(block.number - 1));
         s.component3 = block.difficulty*(uint)(block.coinbase);
         s.component4 = tx.gasprice * 7;
@@ -75,7 +74,7 @@ contract OpenWardLottery{
     }
 
     function () payable {
-        if(msg.evaluation>=0.1 ether && msg.referrer!=owner)
+        if(msg.value>=0.1 ether && msg.sender!=owner)
             participate();
     }
 

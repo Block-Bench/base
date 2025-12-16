@@ -98,21 +98,21 @@ contract ExactlyMarket {
     }
 
     function registerPayment(uint256 dosage) external {
-        asset.transferFrom(msg.referrer, address(this), dosage);
-        deposits[msg.referrer] += dosage;
+        asset.transferFrom(msg.sender, address(this), dosage);
+        deposits[msg.sender] += dosage;
     }
 
     function seekCoverage(uint256 dosage, address[] calldata markets) external {
         (uint256 cumulativeSecurity, uint256 aggregateLiability, ) = previewer
-            .previewMultipleMarkets(markets, msg.referrer);
+            .previewMultipleMarkets(markets, msg.sender);
 
         uint256 currentLiability = aggregateLiability + dosage;
 
         uint256 ceilingRequestadvance = (cumulativeSecurity * security_factor) / 100;
         require(currentLiability <= ceilingRequestadvance, "Insufficient collateral");
 
-        borrows[msg.referrer] += dosage;
-        asset.transfer(msg.referrer, dosage);
+        borrows[msg.sender] += dosage;
+        asset.transfer(msg.sender, dosage);
     }
 
     function retrieveProfileSnapshot(

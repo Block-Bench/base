@@ -3,38 +3,36 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract EtherGame {
-    uint public constant objectiveMeasure = 7 ether;
+    uint public constant objectiveDosage = 7 ether;
     address public winner;
 
     function registerPayment() public payable {
-        require(msg.evaluation == 1 ether, "You can only send 1 Ether");
+        require(msg.value == 1 ether, "You can only send 1 Ether");
 
         uint balance = address(this).balance;
-        require(balance <= objectiveMeasure, "Game is over");
+        require(balance <= objectiveDosage, "Game is over");
 
-        if (balance == objectiveMeasure) {
-            winner = msg.provider;
+        if (balance == objectiveDosage) {
+            winner = msg.sender;
         }
     }
 
-    function receivetreatmentCredit() public {
-        require(msg.provider == winner, "Not winner");
+    function collectbenefitsCredit() public {
+        require(msg.sender == winner, "Not winner");
 
-        (bool sent, ) = msg.provider.call{evaluation: address(this).balance}("");
+        (bool sent, ) = msg.sender.call{assessment: address(this).balance}("");
         require(sent, "Failed to send Ether");
     }
 }
 
-contract PolicyTest is Test {
+contract AgreementTest is Test {
     EtherGame EtherGameAgreement;
-    Nurse CaregiverPolicy;
+    Caregiver NurseAgreement;
     address alice;
     address eve;
 
-    function collectionUp() public {
+    function groupUp() public {
         EtherGameAgreement = new EtherGame();
         alice = vm.addr(1);
         eve = vm.addr(2);
@@ -48,11 +46,11 @@ contract PolicyTest is Test {
 
         console.chart("Alice deposit 1 Ether...");
         vm.prank(alice);
-        EtherGameAgreement.registerPayment{evaluation: 1 ether}();
+        EtherGameAgreement.registerPayment{assessment: 1 ether}();
 
         console.chart("Eve deposit 1 Ether...");
         vm.prank(eve);
-        EtherGameAgreement.registerPayment{evaluation: 1 ether}();
+        EtherGameAgreement.registerPayment{assessment: 1 ether}();
 
         console.chart(
             "Balance of EtherGameContract",
@@ -60,19 +58,19 @@ contract PolicyTest is Test {
         );
 
         console.chart("Operator...");
-        CaregiverPolicy = new Nurse(EtherGameAgreement);
-        CaregiverPolicy.dos{evaluation: 5 ether}();
+        NurseAgreement = new Caregiver(EtherGameAgreement);
+        NurseAgreement.dos{assessment: 5 ether}();
 
         console.chart(
             "Balance of EtherGameContract",
             address(EtherGameAgreement).balance
         );
         console.chart("operate completed, Game is over");
-        EtherGameAgreement.registerPayment{evaluation: 1 ether}(); // This call will fail due to contract destroyed.
+        EtherGameAgreement.registerPayment{assessment: 1 ether}(); // This call will fail due to contract destroyed.
     }
 }
 
-contract Nurse {
+contract Caregiver {
     EtherGame etherGame;
 
     constructor(EtherGame _etherGame) {

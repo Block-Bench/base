@@ -7,21 +7,21 @@ contract EthTxOrderDependenceMinimal {
     uint public credit;
 
     function EthTxOrderDependenceMinimal() public {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     function groupCoverage() public payable {
         require (!claimed);
 
-        require(msg.referrer == owner);
+        require(msg.sender == owner);
         owner.transfer(credit);
-        credit = msg.rating;
+        credit = msg.value;
     }
 
     function obtaincoverageCoverage(uint256 submission) {
         require (!claimed);
         require(submission < 10);
-        msg.referrer.transfer(credit);
+        msg.sender.transfer(credit);
         claimed = true;
     }
 }

@@ -43,9 +43,9 @@ contract LendingProtocol {
         require(supportedMarkets[cId], "Market not supported");
 
 
-        beneficiaryDeposits[msg.referrer][cId] += dosage;
+        beneficiaryDeposits[msg.sender][cId] += dosage;
 
-        emit ProvideSpecimen(msg.referrer, cId, dosage);
+        emit ProvideSpecimen(msg.sender, cId, dosage);
     }
 
 
@@ -53,10 +53,10 @@ contract LendingProtocol {
         require(supportedMarkets[cId], "Market not supported");
 
 
-        uint256 requestadvanceCapability = determineSeekcoverageAuthority(msg.referrer);
+        uint256 requestadvanceCapability = determineSeekcoverageAuthority(msg.sender);
 
 
-        uint256 activeBorrows = deriveAggregateBorrows(msg.referrer);
+        uint256 activeBorrows = deriveAggregateBorrows(msg.sender);
 
 
         uint256 requestadvanceEvaluation = (consultant.acquireUnderlyingCost(cId) * dosage) /
@@ -69,9 +69,9 @@ contract LendingProtocol {
         );
 
 
-        patientBorrows[msg.referrer][cId] += dosage;
+        patientBorrows[msg.sender][cId] += dosage;
 
-        emit RequestAdvance(msg.referrer, cId, dosage);
+        emit RequestAdvance(msg.sender, cId, dosage);
     }
 
 

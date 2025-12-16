@@ -67,20 +67,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_215.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x7d09edb07d23acb532a82be3da5c17d9d85806b4"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_215.sol",
   "sanitized_from": "ds_215",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1671666301,
+    "seed": 2545103568,
     "coverage": {
-      "total_identifiers": 73,
+      "total_identifiers": 72,
       "transformed": 27,
-      "untransformed": 46,
-      "skipped_reserved": 40,
+      "untransformed": 45,
+      "skipped_reserved": 41,
       "skipped_interface": 0,
-      "coverage_percent": 36.99,
+      "coverage_percent": 37.5,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -215,10 +216,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "payout",
           "reason": "no synonym found"
         },
@@ -270,32 +267,32 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "sender": "caster",
-      "isOpenToPublic": "isOpenDestinationPublic",
-      "openToPublic": "openTargetPublic",
+      "sender": "initiator",
+      "isOpenToPublic": "isOpenTargetPublic",
+      "openToPublic": "openDestinationPublic",
       "amount": "measure",
       "paidTo": "paidDestination",
-      "currentDifficulty": "activeDifficulty",
+      "currentDifficulty": "presentDifficulty",
       "BetLimitChanged": "BetBoundChanged",
-      "currentBetLimit": "activeBetCap",
+      "currentBetLimit": "activeBetBound",
       "betLimit": "betCap",
       "totalDonated": "aggregateDonated",
-      "whaleAddress": "whaleLocation",
+      "whaleAddress": "whaleZone",
       "wagerLimit": "wagerBound",
-      "OpenToThePublic": "OpenTargetThePublic",
-      "value": "magnitude",
+      "OpenToThePublic": "OpenDestinationThePublic",
+      "value": "cost",
       "log": "journal",
       "timestamp": "questTime",
-      "blockNumber": "tickNumber",
+      "blockNumber": "frameNumber",
       "donateToWhale": "donateDestinationWhale",
-      "ethToTransfer": "ethDestinationSendloot",
+      "ethToTransfer": "ethTargetSendloot",
       "ethBalance": "ethRewardlevel",
-      "hasPlayerWagered": "holdsPlayerWagered",
-      "transferAnyERC20Token": "tradefundsAnyErc20Gem",
-      "tokenAddress": "crystalLocation",
-      "tokenOwner": "medalLord",
+      "hasPlayerWagered": "includesPlayerWagered",
+      "transferAnyERC20Token": "tradefundsAnyErc20Coin",
+      "tokenAddress": "crystalZone",
+      "tokenOwner": "crystalMaster",
       "tokens": "crystals",
-      "success": "win",
+      "success": "victory",
       "ERC20Interface": "Erc20Gateway"
     }
   }

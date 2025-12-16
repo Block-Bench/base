@@ -1,5 +1,3 @@
-*/
-
 contract OpenLocationLottery{
     struct SeedComponents{
         uint component1;
@@ -16,32 +14,32 @@ contract OpenLocationLottery{
     mapping (address => bool) winner;
 
     function OpenLocationLottery() {
-        owner = msg.provider;
-        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.appointmentTime));
+        owner = msg.sender;
+        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
     function participate() payable {
-        if(msg.assessment<0.1 ether)
+        if(msg.value<0.1 ether)
             return;
 
 
-        require(winner[msg.provider] == false);
+        require(winner[msg.sender] == false);
 
-        if(luckyNumberOfFacility(msg.provider) == LuckyNumber){
-            winner[msg.provider] = true;
+        if(luckyNumberOfLocation(msg.sender) == LuckyNumber){
+            winner[msg.sender] = true;
 
-            uint win=msg.assessment*7;
+            uint win=msg.value*7;
 
             if(win>this.balance)
                 win=this.balance;
-            msg.provider.transfer(win);
+            msg.sender.transfer(win);
         }
 
         if(block.number-finalReseed>1000)
-            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.appointmentTime));
+            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
-    function luckyNumberOfFacility(address addr) constant returns(uint n){
+    function luckyNumberOfLocation(address addr) constant returns(uint n){
 
         n = uint(keccak256(uint(addr), secretSeed)[0]) % 8;
     }
@@ -57,16 +55,16 @@ contract OpenLocationLottery{
     }
 
     function kill() {
-        require(msg.provider==owner);
+        require(msg.sender==owner);
 
-        selfdestruct(msg.provider);
+        selfdestruct(msg.sender);
     }
 
     function forceReseed() {
-        require(msg.provider==owner);
+        require(msg.sender==owner);
 
         SeedComponents s;
-        s.component1 = uint(msg.provider);
+        s.component1 = uint(msg.sender);
         s.component2 = uint256(block.blockhash(block.number - 1));
         s.component3 = block.difficulty*(uint)(block.coinbase);
         s.component4 = tx.gasprice * 7;
@@ -75,7 +73,7 @@ contract OpenLocationLottery{
     }
 
     function () payable {
-        if(msg.assessment>=0.1 ether && msg.provider!=owner)
+        if(msg.value>=0.1 ether && msg.sender!=owner)
             participate();
     }
 

@@ -1,31 +1,32 @@
-// Contract file
+
+
 pragma solidity ^0.4.23;
 
 contract SingleTxCount {
-    uint public number = 1;
+    uint public tally = 1;
 
     function addtostate(uint256 entry) public {
-        number += entry;
+        tally += entry;
     }
 
     function multostate(uint256 entry) public {
-        number *= entry;
+        tally *= entry;
     }
 
     function underflowtostate(uint256 entry) public {
-        number -= entry;
+        tally -= entry;
     }
 
     function localcalc(uint256 entry) public {
-        uint res = number + entry;
+        uint res = tally + entry;
     }
 
     function mullocalonly(uint256 entry) public {
-        uint res = number * entry;
+        uint res = tally * entry;
     }
 
     function underflowlocalonly(uint256 entry) public {
-       	uint res = number - entry;
+       	uint res = tally - entry;
     }
 
 }

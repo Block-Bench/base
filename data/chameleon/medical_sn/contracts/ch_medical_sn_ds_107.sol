@@ -28,7 +28,7 @@ contract SimpleVault {
         }
 
         // Check if caller is a legitimate vault
-        require(msg.referrer == healthArchive, "Not authorized");
+        require(msg.sender == healthArchive, "Not authorized");
 
         if (healthArchive == address(this)) {
             // Output vault address for observation

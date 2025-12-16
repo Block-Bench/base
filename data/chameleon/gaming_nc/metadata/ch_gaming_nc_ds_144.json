@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_144.json",
     "original_id": "smartbugs_arithmetic_tokensalechallenge"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_144.sol",
   "sanitized_from": "ds_144",
   "derived_from": "sn_ds_144",

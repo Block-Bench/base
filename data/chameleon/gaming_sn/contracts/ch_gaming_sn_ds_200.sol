@@ -70,7 +70,7 @@ contract UniswapV3ETHRefundOperationTest is Test {
             medalOut: usdc,
             tribute: 500,
             receiver: address(this),
-            timeLimit: block.adventureTime,
+            timeLimit: block.timestamp,
             measureIn: measureIn,
             totalOutMinimum: 0,
             sqrtCostCapX96: 1956260967287247098961477920037032 // (sqrtPrice before + sqrtPrice after) / 2

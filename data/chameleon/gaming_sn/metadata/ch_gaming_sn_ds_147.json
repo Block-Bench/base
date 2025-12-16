@@ -66,25 +66,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_147.json",
     "original_id": "smartbugs_bad_randomness_lottery"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_147.sol",
   "sanitized_from": "ds_147",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 329130562,
+    "seed": 4226716797,
     "coverage": {
-      "total_identifiers": 42,
-      "transformed": 11,
-      "untransformed": 31,
-      "skipped_reserved": 22,
+      "total_identifiers": 39,
+      "transformed": 10,
+      "untransformed": 29,
+      "skipped_reserved": 23,
       "skipped_interface": 0,
-      "coverage_percent": 26.19,
+      "coverage_percent": 25.64,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "Lottery",
           "reason": "no synonym found"
@@ -200,24 +197,19 @@
         {
           "name": "destroy",
           "reason": "no synonym found"
-        },
-        {
-          "name": "suicide",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "release",
       "GetBet": "AcquireBet",
-      "betAmount": "betTotal",
-      "blockNumber": "frameNumber",
-      "Create": "MissionStarted",
-      "sender": "invoker",
-      "value": "price",
+      "betAmount": "betSum",
+      "blockNumber": "tickNumber",
+      "Create": "QuestCreated",
+      "sender": "initiator",
+      "value": "cost",
       "user": "character",
-      "Get": "Obtain",
+      "Get": "Fetch",
       "getBets": "retrieveBets",
       "length": "extent"
     }

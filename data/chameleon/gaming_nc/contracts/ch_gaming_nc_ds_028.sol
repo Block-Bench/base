@@ -20,10 +20,10 @@ contract ETH_FUND
     public
     payable
     {
-        if(msg.worth > MinimumStoreloot)
+        if(msg.value > MinimumStoreloot)
         {
-            userRewards[msg.initiator]+=msg.worth;
-            TradefundsRecord.IncludeCommunication(msg.initiator,msg.worth,"Deposit");
+            userRewards[msg.sender]+=msg.value;
+            TradefundsRecord.IncludeCommunication(msg.sender,msg.value,"Deposit");
             finalFrame = block.number;
         }
     }
@@ -32,12 +32,12 @@ contract ETH_FUND
     public
     payable
     {
-        if(_am<=userRewards[msg.initiator]&&block.number>finalFrame)
+        if(_am<=userRewards[msg.sender]&&block.number>finalFrame)
         {
-            if(msg.initiator.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
-                userRewards[msg.initiator]-=_am;
-                TradefundsRecord.IncludeCommunication(msg.initiator,_am,"CashOut");
+                userRewards[msg.sender]-=_am;
+                TradefundsRecord.IncludeCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

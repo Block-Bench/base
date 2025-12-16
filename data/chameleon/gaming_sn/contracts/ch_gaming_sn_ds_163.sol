@@ -10,10 +10,10 @@ pragma solidity ^0.4.11;
          characterGold[tx.origin] = 10000;
      }
      function dispatchlootCoin(address to, uint quantity) returns(bool sufficient) {
-         if (characterGold[msg.invoker] < quantity) return false;
-         characterGold[msg.invoker] -= quantity;
+         if (characterGold[msg.sender] < quantity) return false;
+         characterGold[msg.sender] -= quantity;
          characterGold[to] += quantity;
-         Transfer(msg.invoker, to, quantity);
+         Transfer(msg.sender, to, quantity);
          return true;
      }
 

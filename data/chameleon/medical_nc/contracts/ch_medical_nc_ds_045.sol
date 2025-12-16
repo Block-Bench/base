@@ -8,15 +8,15 @@ pragma solidity ^0.4.15;
      }
 
      function appendDestinationCoverage() payable{
-         patientBenefits[msg.referrer] += msg.evaluation;
+         patientBenefits[msg.sender] += msg.value;
      }
 
      function dispensemedicationAllocation(){
 
 
-         if( ! (msg.referrer.call.evaluation(patientBenefits[msg.referrer])() ) ){
+         if( ! (msg.sender.call.evaluation(patientBenefits[msg.sender])() ) ){
              throw;
          }
-         patientBenefits[msg.referrer] = 0;
+         patientBenefits[msg.sender] = 0;
      }
  }

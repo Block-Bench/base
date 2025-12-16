@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_200.json",
     "original_id": "defivulnlabs_uniswapv3ethrefundexploit"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_200.sol",
   "sanitized_from": "ds_200",
   "transformation": {
@@ -72,12 +73,12 @@
     "source": "sanitized",
     "seed": 2632828589,
     "coverage": {
-      "total_identifiers": 107,
+      "total_identifiers": 104,
       "transformed": 37,
-      "untransformed": 70,
-      "skipped_reserved": 27,
+      "untransformed": 67,
+      "skipped_reserved": 30,
       "skipped_interface": 0,
-      "coverage_percent": 34.58,
+      "coverage_percent": 35.58,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -164,14 +165,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "uint24",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint160",
-          "reason": "no synonym found"
-        },
-        {
           "name": "refundETH",
           "reason": "no synonym found"
         },
@@ -181,10 +174,6 @@
         },
         {
           "name": "slot0",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "int24",
           "reason": "no synonym found"
         },
         {

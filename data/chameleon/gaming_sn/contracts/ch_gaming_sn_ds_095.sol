@@ -3,11 +3,9 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    GuessTheRandomNumber GuessTheRandomNumberPact;
-    GameOperator GameoperatorPact;
+contract PactTest is Test {
+    GuessTheRandomNumber GuessTheRandomNumberAgreement;
+    GameOperator QuestrunnerPact;
 
     function testRandomness() public {
         address alice = vm.addr(1);
@@ -15,21 +13,21 @@ contract AgreementTest is Test {
         vm.deal(address(alice), 1 ether);
         vm.prank(alice);
 
-        GuessTheRandomNumberPact = new GuessTheRandomNumber{
-            cost: 1 ether
+        GuessTheRandomNumberAgreement = new GuessTheRandomNumber{
+            magnitude: 1 ether
         }();
-        vm.openingPrank(eve);
-        GameoperatorPact = new GameOperator();
-        console.record(
+        vm.beginPrank(eve);
+        QuestrunnerPact = new GameOperator();
+        console.journal(
             "Before operation",
-            address(GameoperatorPact).balance
+            address(QuestrunnerPact).balance
         );
-        GameoperatorPact.operate(GuessTheRandomNumberPact);
-        console.record(
+        QuestrunnerPact.operate(GuessTheRandomNumberAgreement);
+        console.journal(
             "Eve wins 1 Eth, Balance of OperatorContract:",
-            address(GameoperatorPact).balance
+            address(QuestrunnerPact).balance
         );
-        console.record("operate completed");
+        console.journal("operate completed");
     }
 
     receive() external payable {}
@@ -41,12 +39,12 @@ contract GuessTheRandomNumber {
     function guess(uint _guess) public {
         uint answer = uint(
             keccak256(
-                abi.encodePacked(blockhash(block.number - 1), block.questTime)
+                abi.encodePacked(blockhash(block.number - 1), block.timestamp)
             )
         );
 
         if (_guess == answer) {
-            (bool sent, ) = msg.initiator.call{cost: 1 ether}("");
+            (bool sent, ) = msg.sender.call{magnitude: 1 ether}("");
             require(sent, "Failed to send Ether");
         }
     }
@@ -58,7 +56,7 @@ contract GameOperator {
     function operate(GuessTheRandomNumber guessTheRandomNumber) public {
         uint answer = uint(
             keccak256(
-                abi.encodePacked(blockhash(block.number - 1), block.questTime)
+                abi.encodePacked(blockhash(block.number - 1), block.timestamp)
             )
         );
 
@@ -66,7 +64,7 @@ contract GameOperator {
     }
 
     // Helper function to check balance
-    function checkLoot() public view returns (uint) {
+    function viewTreasure() public view returns (uint) {
         return address(this).balance;
     }
 }

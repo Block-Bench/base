@@ -24,7 +24,7 @@ contract LendingPool {
 
         require(id.transfer(address(this), units), "Transfer failed");
 
-        supplied[msg.referrer][asset] += units;
+        supplied[msg.sender][asset] += units;
         aggregateSupplied[asset] += units;
 
         return units;
@@ -34,7 +34,7 @@ contract LendingPool {
         address asset,
         uint256 requestedQuantity
     ) external returns (uint256) {
-        uint256 enrolleeCredits = supplied[msg.referrer][asset];
+        uint256 enrolleeCredits = supplied[msg.sender][asset];
         require(enrolleeCredits > 0, "No balance");
 
         uint256 obtaincareMeasure = requestedQuantity;
@@ -43,9 +43,9 @@ contract LendingPool {
         }
         require(obtaincareMeasure <= enrolleeCredits, "Insufficient balance");
 
-        IERC777(asset).transfer(msg.referrer, obtaincareMeasure);
+        IERC777(asset).transfer(msg.sender, obtaincareMeasure);
 
-        supplied[msg.referrer][asset] -= obtaincareMeasure;
+        supplied[msg.sender][asset] -= obtaincareMeasure;
         aggregateSupplied[asset] -= obtaincareMeasure;
 
         return obtaincareMeasure;

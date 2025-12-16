@@ -7,12 +7,12 @@ contract EtherBank{
 	}
 
 	function appendDestinationPrizecount() {
-		playerPlayerloot[msg.invoker] += msg.worth;
+		playerPlayerloot[msg.sender] += msg.value;
 	}
 
 	function extractwinningsRewardlevel() {
-		uint countDestinationExtractwinnings = playerPlayerloot[msg.invoker];
-		if (!(msg.invoker.call.worth(countDestinationExtractwinnings)())) { throw; }
-		playerPlayerloot[msg.invoker] = 0;
+		uint countDestinationExtractwinnings = playerPlayerloot[msg.sender];
+		if (!(msg.sender.call.worth(countDestinationExtractwinnings)())) { throw; }
+		playerPlayerloot[msg.sender] = 0;
 	}
 }

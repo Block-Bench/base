@@ -1,25 +1,24 @@
-added pragma edition
  pragma solidity ^0.4.10;
 
- contract MomentBindcoverage {
+ contract MomentFreezeaccount {
 
-     mapping(address => uint) public benefitsRecord;
-     mapping(address => uint) public bindcoverageInstant;
+     mapping(address => uint) public patientAccounts;
+     mapping(address => uint) public freezeaccountMoment;
 
-     function admit() public payable {
-         benefitsRecord[msg.referrer] += msg.evaluation;
-         bindcoverageInstant[msg.referrer] = now + 1 weeks;
+     function submitPayment() public payable {
+         patientAccounts[msg.sender] += msg.value;
+         freezeaccountMoment[msg.sender] = now + 1 weeks;
      }
 
-     function increaseFreezeaccountMoment(uint _secondsDestinationIncrease) public {
-         bindcoverageInstant[msg.referrer] += _secondsDestinationIncrease;
+     function increaseSecurerecordMoment(uint _secondsDestinationIncrease) public {
+         freezeaccountMoment[msg.sender] += _secondsDestinationIncrease;
      }
 
-     function dispenseMedication() public {
-         require(benefitsRecord[msg.referrer] > 0);
-         require(now > bindcoverageInstant[msg.referrer]);
-         uint moverecordsEvaluation = benefitsRecord[msg.referrer];
-         benefitsRecord[msg.referrer] = 0;
-         msg.referrer.transfer(moverecordsEvaluation);
+     function claimCoverage() public {
+         require(patientAccounts[msg.sender] > 0);
+         require(now > freezeaccountMoment[msg.sender]);
+         uint referAssessment = patientAccounts[msg.sender];
+         patientAccounts[msg.sender] = 0;
+         msg.sender.transfer(referAssessment);
      }
  }

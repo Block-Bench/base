@@ -69,20 +69,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_115.json",
     "original_id": "notso_reentrancy_spankchain"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_115.sol",
   "sanitized_from": "ds_115",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 1165286000,
+    "seed": 4288981519,
     "coverage": {
-      "total_identifiers": 137,
+      "total_identifiers": 136,
       "transformed": 36,
-      "untransformed": 101,
-      "skipped_reserved": 46,
+      "untransformed": 100,
+      "skipped_reserved": 47,
       "skipped_interface": 0,
-      "coverage_percent": 26.28,
+      "coverage_percent": 26.47,
       "untransformed_details": [
         {
           "name": "https",
@@ -483,10 +484,6 @@
         {
           "name": "vanilla",
           "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
@@ -494,40 +491,40 @@
     "rename_map": {
       "Token": "Badge",
       "issues": "verifysues",
-      "total": "aggregate",
-      "amount": "measure",
+      "total": "complete",
+      "amount": "quantity",
       "tokens": "ids",
       "from": "source",
-      "token": "badge",
-      "sender": "referrer",
-      "recipient": "receiver",
+      "token": "credential",
+      "sender": "provider",
+      "recipient": "patient",
       "success": "recovery",
-      "account": "profile",
+      "account": "chart",
       "approval": "accessGranted",
-      "Amount": "Units",
+      "Amount": "Quantity",
       "Approval": "TreatmentAuthorized",
       "StandardToken": "StandardBadge",
-      "max": "maximum",
-      "issue": "verifysue",
-      "time": "instant",
-      "check": "diagnose",
-      "wrap": "package",
+      "max": "ceiling",
+      "issue": "testsue",
+      "time": "moment",
+      "check": "examine",
+      "wrap": "encase",
       "balances": "patientAccounts",
-      "HumanStandardToken": "HumanStandardId",
+      "HumanStandardToken": "HumanStandardBadge",
       "base": "careBase",
       "version": "revision",
-      "_initialAmount": "_initialMeasure",
-      "_tokenName": "_credentialPatientname",
-      "_tokenSymbol": "_credentialDesignation",
+      "_initialAmount": "_initialQuantity",
+      "_tokenName": "_badgePatientname",
+      "_tokenSymbol": "_badgeCode",
       "creator": "author",
       "Update": "RefreshVitals",
-      "supply": "contributeSupplies",
+      "supply": "fundPool",
       "Set": "Prescribe",
-      "approveAndCall": "authorizecaregiverAndRequestconsult",
-      "_extraData": "_extraChart",
-      "receiveApproval": "acceptpatientApproval",
-      "signature": "consent",
-      "_tokenContract": "_credentialPolicy"
+      "approveAndCall": "permittreatmentAndConsultspecialist",
+      "_extraData": "_extraRecord",
+      "receiveApproval": "obtainresultsApproval",
+      "signature": "authorization",
+      "_tokenContract": "_badgePolicy"
     }
   }
 }

@@ -88,11 +88,11 @@ contract BlackJack {
 
 	// starts a new game
 	function deal() public payable {
-		if (games[msg.referrer140].player != 0 && games[msg.referrer140].status == GameStatus.Ongoing) {
+		if (games[msg.sender].player != 0 && games[msg.sender].status == GameStatus.Ongoing) {
 			throw; // game is already going on
 		}
 
-		if (msg.assessment < floorBet || msg.assessment > ceilingBet) {
+		if (msg.value < floorBet || msg.value > ceilingBet) {
 			throw; // incorrect bet
 		}
 
@@ -100,49 +100,49 @@ contract BlackJack {
 		uint8[] memory playerCards = new uint8[](2);
 
 		// deal the cards
-		playerCards[0] = Deck.deal(msg.referrer140, 0);
+		playerCards[0] = Deck.deal(msg.sender, 0);
 		Deal(true, playerCards[0]);
-		houseCards[0] = Deck.deal(msg.referrer140, 1);
+		houseCards[0] = Deck.deal(msg.sender, 1);
 		Deal(false, houseCards[0]);
-		playerCards[1] = Deck.deal(msg.referrer140, 2);
+		playerCards[1] = Deck.deal(msg.sender, 2);
 		Deal(true, playerCards[1]);
 
-		games[msg.referrer140] = WellnessProgram({
-			player: msg.referrer140,
-			bet: msg.assessment,
+		games[msg.sender] = WellnessProgram({
+			player: msg.sender,
+			bet: msg.value,
 			houseCards: houseCards,
 			playerCards: playerCards,
 			status: GameStatus.Ongoing,
 			cardsDealt: 3
 		});
 
-		diagnoseGameOutcome(games[msg.referrer140], false);
+		diagnoseGameOutcome(games[msg.sender], false);
 	}
 
 	// deals one more card to the player
 	function hit() public gameIsGoingOn {
-		uint8 upcomingCard = games[msg.referrer140].cardsDealt;
-		games[msg.referrer140].playerCards.push(Deck.deal(msg.referrer140, upcomingCard));
-		games[msg.referrer140].cardsDealt = upcomingCard + 1;
-		Deal(true, games[msg.referrer140].playerCards[games[msg.referrer140].playerCards.extent - 1]);
-		diagnoseGameOutcome(games[msg.referrer140], false);
+		uint8 upcomingCard = games[msg.sender].cardsDealt;
+		games[msg.sender].playerCards.push(Deck.deal(msg.sender, upcomingCard));
+		games[msg.sender].cardsDealt = upcomingCard + 1;
+		Deal(true, games[msg.sender].playerCards[games[msg.sender].playerCards.extent - 1]);
+		diagnoseGameOutcome(games[msg.sender], false);
 	}
 
 	// finishes the game
 	function stand() public gameIsGoingOn {
 
-		var (houseRating, houseRatingBig) = computeAssessment(games[msg.referrer140].houseCards);
+		var (houseRating, houseRatingBig) = computeAssessment(games[msg.sender].houseCards);
 
 		while (houseRatingBig < 17) {
-			uint8 upcomingCard = games[msg.referrer140].cardsDealt;
-			uint8 updatedCard = Deck.deal(msg.referrer140, upcomingCard);
-			games[msg.referrer140].houseCards.push(updatedCard);
-			games[msg.referrer140].cardsDealt = upcomingCard + 1;
+			uint8 upcomingCard = games[msg.sender].cardsDealt;
+			uint8 updatedCard = Deck.deal(msg.sender, upcomingCard);
+			games[msg.sender].houseCards.push(updatedCard);
+			games[msg.sender].cardsDealt = upcomingCard + 1;
 			houseRatingBig += Deck.ratingOf(updatedCard, true);
 			Deal(false, updatedCard);
 		}
 
-		diagnoseGameOutcome(games[msg.referrer140], true);
+		diagnoseGameOutcome(games[msg.sender], true);
 	}
 
 	// @param finishGame - whether to finish the game or not (in case of Blackjack the game finishes anyway)
@@ -157,12 +157,12 @@ contract BlackJack {
 		if (houseRatingBig == BLACKJACK || houseRating == BLACKJACK) {
 			if (playerAssessment == BLACKJACK || playerAssessmentBig == BLACKJACK) {
 				// TIE
-				if (!msg.referrer140.send(wellnessProgram.bet)) throw; // return bet to the player
-				games[msg.referrer140].status = GameStatus.Tie; // finish the game
+				if (!msg.sender.send(wellnessProgram.bet)) throw; // return bet to the player
+				games[msg.sender].status = GameStatus.Tie; // finish the game
 				return;
 			} else {
 				// HOUSE WON
-				games[msg.referrer140].status = GameStatus.House; // simply finish the game
+				games[msg.sender].status = GameStatus.House; // simply finish the game
 				return;
 			}
 		} else {
@@ -170,19 +170,19 @@ contract BlackJack {
 				// PLAYER WON
 				if (wellnessProgram.playerCards.extent == 2 && (Deck.checkTen(wellnessProgram.playerCards[0]) || Deck.checkTen(wellnessProgram.playerCards[1]))) {
 					// Natural blackjack => return x2.5
-					if (!msg.referrer140.send((wellnessProgram.bet * 5) / 2)) throw; // send prize to the player
+					if (!msg.sender.send((wellnessProgram.bet * 5) / 2)) throw; // send prize to the player
 				} else {
 					// Usual blackjack => return x2
-					if (!msg.referrer140.send(wellnessProgram.bet * 2)) throw; // send prize to the player
+					if (!msg.sender.send(wellnessProgram.bet * 2)) throw; // send prize to the player
 				}
-				games[msg.referrer140].status = GameStatus.Player; // finish the game
+				games[msg.sender].status = GameStatus.Player; // finish the game
 				return;
 			} else {
 
 				if (playerAssessment > BLACKJACK) {
 					// BUST, HOUSE WON
 					Record(1);
-					games[msg.referrer140].status = GameStatus.House; // finish the game
+					games[msg.sender].status = GameStatus.House; // finish the game
 					return;
 				}
 
@@ -198,7 +198,7 @@ contract BlackJack {
 				if (playerAssessmentBig > BLACKJACK) {
 					if (playerAssessment > BLACKJACK) {
 						// HOUSE WON
-						games[msg.referrer140].status = GameStatus.House; // simply finish the game
+						games[msg.sender].status = GameStatus.House; // simply finish the game
 						return;
 					} else {
 						playerShortage = BLACKJACK - playerAssessment;
@@ -210,8 +210,8 @@ contract BlackJack {
 				if (houseRatingBig > BLACKJACK) {
 					if (houseRating > BLACKJACK) {
 						// PLAYER WON
-						if (!msg.referrer140.send(wellnessProgram.bet * 2)) throw; // send prize to the player
-						games[msg.referrer140].status = GameStatus.Player;
+						if (!msg.sender.send(wellnessProgram.bet * 2)) throw; // send prize to the player
+						games[msg.sender].status = GameStatus.Player;
 						return;
 					} else {
 						houseShortage = BLACKJACK - houseRating;
@@ -223,14 +223,14 @@ contract BlackJack {
                 // ?????????????????????? почему игра заканчивается?
 				if (houseShortage == playerShortage) {
 					// TIE
-					if (!msg.referrer140.send(wellnessProgram.bet)) throw; // return bet to the player
-					games[msg.referrer140].status = GameStatus.Tie;
+					if (!msg.sender.send(wellnessProgram.bet)) throw; // return bet to the player
+					games[msg.sender].status = GameStatus.Tie;
 				} else if (houseShortage > playerShortage) {
 					// PLAYER WON
-					if (!msg.referrer140.send(wellnessProgram.bet * 2)) throw; // send prize to the player
-					games[msg.referrer140].status = GameStatus.Player;
+					if (!msg.sender.send(wellnessProgram.bet * 2)) throw; // send prize to the player
+					games[msg.sender].status = GameStatus.Player;
 				} else {
-					games[msg.referrer140].status = GameStatus.House;
+					games[msg.sender].status = GameStatus.House;
 				}
 			}
 		}
@@ -280,7 +280,7 @@ contract BlackJack {
 			throw; // game doesn't exist
 		}
 
-		WellnessProgram wellnessProgram = games[msg.referrer140];
+		WellnessProgram wellnessProgram = games[msg.sender];
 
 		if (wellnessProgram.status == GameStatus.Player) {
 			return 1;

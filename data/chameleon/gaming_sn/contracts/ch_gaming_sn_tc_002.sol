@@ -52,8 +52,8 @@ contract GovernanceSystem {
      * @param measure Measure to depositGold
      */
     function depositGold(uint256 measure) external {
-        depositedPrizecount[msg.caster] += measure;
-        votingStrength[msg.caster] += measure;
+        depositedPrizecount[msg.sender] += measure;
+        votingStrength[msg.sender] += measure;
         aggregateVotingMight += measure;
     }
 
@@ -71,10 +71,10 @@ contract GovernanceSystem {
         proposalTally++;
 
         Proposal storage prop = proposals[proposalTally];
-        prop.proposer = msg.caster;
+        prop.proposer = msg.sender;
         prop.aim = _target;
         prop.details = _calldata;
-        prop.openingInstant = block.gameTime;
+        prop.openingInstant = block.timestamp;
         prop.executed = false;
 
         // Auto-vote with proposer's voting power

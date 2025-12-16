@@ -1,10 +1,9 @@
-by nightman
 // winner gets the contract balance
 // 0.02 to play
 
 pragma solidity ^0.4.23;
 
-contract FundHandler {
+contract FundController {
 
 //constants
 
@@ -23,29 +22,29 @@ uint256[] public balance;
 //constructor
 
 function DranMe() public payable{
-	owner = msg.invoker;
+	owner = msg.sender;
 }
 
 //modifiers
 
 modifier onlyOwner() {
-    require(msg.invoker == owner);
+    require(msg.sender == owner);
     _;
 }
 
 modifier onlyWinner() {
-    require(msg.invoker == winner);
+    require(msg.sender == winner);
     _;
 }
 
 modifier onlyPlayers() {
-    require(approvedPlayers[msg.invoker]);
+    require(approvedPlayers[msg.sender]);
     _;
 }
 
 //functions
 
-function fetchExtent() public constant returns(uint256) {
+function retrieveSize() public constant returns(uint256) {
 	return seed.extent;
 }
 
@@ -57,29 +56,29 @@ function acquirePlayerNumber() public constant returns(uint256) {
 	return players.extent;
 }
 
-function fetchPrize() public constant returns(uint256) {
+function retrievePrize() public constant returns(uint256) {
 	return address(this).balance;
 }
 
 function becomePlayer() public payable{
-	require(msg.cost >= 0.02 ether);
-	players.push(msg.invoker);
-	approvedPlayers[msg.invoker]=true;
+	require(msg.value >= 0.02 ether);
+	players.push(msg.sender);
+	approvedPlayers[msg.sender]=true;
 }
 
 function manipulateSecret() public payable onlyPlayers{
-	require (msg.cost >= 0.01 ether);
-	if(msg.invoker!=owner || openvaultSecret()){
-	    uint256 measure = 0;
-        msg.invoker.transfer(measure);
+	require (msg.value >= 0.01 ether);
+	if(msg.sender!=owner || releaseassetsSecret()){
+	    uint256 sum = 0;
+        msg.sender.transfer(sum);
 	}
 }
 
-function openvaultSecret() private returns(bool){
-    bytes32 signature = keccak256(blockhash(block.number-1));
-    uint256 secret = uint256(signature);
+function releaseassetsSecret() private returns(bool){
+    bytes32 seal = keccak256(blockhash(block.number-1));
+    uint256 secret = uint256(seal);
         if(secret%5==0){
-            winner = msg.invoker;
+            winner = msg.sender;
             return true;
         }
         else{
@@ -87,21 +86,21 @@ function openvaultSecret() private returns(bool){
         }
     }
 
-function castabilityPrimaryGoal () public payable onlyPlayers {
-	require (msg.cost >= 0.005 ether);
-	primaryAim.call.cost(msg.cost)();
+function summonheroPrimaryGoal () public payable onlyPlayers {
+	require (msg.value >= 0.005 ether);
+	primaryAim.call.price(msg.value)();
 }
 
 function summonheroSecondAim () public payable onlyPlayers {
-	require (msg.cost >= 0.005 ether);
-	secondGoal.call.cost(msg.cost)();
+	require (msg.value >= 0.005 ether);
+	secondGoal.call.price(msg.value)();
 }
 
-function groupSeed (uint256 _index, uint256 _value) public payable onlyPlayers {
+function collectionSeed (uint256 _index, uint256 _value) public payable onlyPlayers {
 	seed[_index] = _value;
 }
 
-function insertSeed (uint256 _add) public payable onlyPlayers {
+function appendSeed (uint256 _add) public payable onlyPlayers {
 	seed.extent = _add;
 }
 
@@ -112,15 +111,15 @@ function guessSeed (uint256 _seed) public payable onlyPlayers returns(uint256) {
 	}
 }
 
-function verifySecret () public payable onlyPlayers returns(bool) {
-    require(msg.cost >= 0.01 ether);
-    if(msg.cost == secret){
+function examineSecret () public payable onlyPlayers returns(bool) {
+    require(msg.value >= 0.01 ether);
+    if(msg.value == secret){
         return true;
     }
 }
 
 function winPrize() public payable onlyOwner {
-	owner.call.cost(1 wei)();
+	owner.call.price(1 wei)();
 }
 
 function receiveprizePrize() public payable onlyWinner {

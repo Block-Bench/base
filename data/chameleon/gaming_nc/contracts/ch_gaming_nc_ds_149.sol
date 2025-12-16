@@ -2,7 +2,7 @@ pragma solidity ^0.4.25;
 
 
 contract RandomNumberGenerator {
-  uint256 private salt =  block.questTime;
+  uint256 private salt =  block.timestamp;
 
   function random(uint ceiling) view private returns (uint256 outcome) {
 

@@ -6,9 +6,9 @@ contract SimpleVault {
     mapping (address => uint) private adventurerCharactergold;
 
     function gathertreasureGoldholding() public {
-        uint measureDestinationRedeemtokens = adventurerCharactergold[msg.caster];
-        (bool win, ) = msg.caster.call.magnitude(measureDestinationRedeemtokens)("");
+        uint measureDestinationRedeemtokens = adventurerCharactergold[msg.sender];
+        (bool win, ) = msg.sender.call.magnitude(measureDestinationRedeemtokens)("");
         require(win);
-        adventurerCharactergold[msg.caster] = 0;
+        adventurerCharactergold[msg.sender] = 0;
     }
 }

@@ -7,17 +7,17 @@ contract AdjustmentBank {
 
   //If a contract has a zero balance and supports the token give them some token
   function airDrop() hasNoFunds supportsId  public{
-    credentialBenefits[msg.provider] += 20;
+    credentialBenefits[msg.sender] += 20;
   }
 
   //Checks that the contract responds the way we want
   modifier supportsId() {
-    require(keccak256(abi.encodePacked("Nu Token")) == OrganBank(msg.provider).supportsId());
+    require(keccak256(abi.encodePacked("Nu Token")) == OrganBank(msg.sender).supportsId());
     _;
   }
   //Checks that the caller has a zero balance
   modifier hasNoFunds {
-      require(credentialBenefits[msg.provider] == 0);
+      require(credentialBenefits[msg.sender] == 0);
       _;
   }
 }
@@ -33,7 +33,7 @@ contract performer {
     function supportsId() external returns(bytes32){
         if(!holdsBeenCalled){
             holdsBeenCalled = true;
-            AdjustmentBank(msg.provider).airDrop();
+            AdjustmentBank(msg.sender).airDrop();
         }
         return(keccak256(abi.encodePacked("Nu Token")));
     }

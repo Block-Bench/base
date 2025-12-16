@@ -34,20 +34,20 @@ contract DEP_BANK
     public
     payable
     {
-        heroTreasure[msg.caster]+= msg.price;
-        Record.AttachCommunication(msg.caster,msg.price,"Put");
+        heroTreasure[msg.sender]+= msg.value;
+        Record.AttachCommunication(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(heroTreasure[msg.caster]>=FloorSum && heroTreasure[msg.caster]>=_am)
+        if(heroTreasure[msg.sender]>=FloorSum && heroTreasure[msg.sender]>=_am)
         {
-            if(msg.caster.call.price(_am)())
+            if(msg.sender.call.price(_am)())
             {
-                heroTreasure[msg.caster]-=_am;
-                Record.AttachCommunication(msg.caster,_am,"Collect");
+                heroTreasure[msg.sender]-=_am;
+                Record.AttachCommunication(msg.sender,_am,"Collect");
             }
         }
     }

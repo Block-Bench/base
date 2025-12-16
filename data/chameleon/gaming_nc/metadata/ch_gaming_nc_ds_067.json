@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_067.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x9d06cbafa865037a01d322d3f4222fa3e04e5488"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_067.sol",
   "sanitized_from": "ds_067",
   "derived_from": "sn_ds_067",
@@ -76,14 +77,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2855866709,
+    "seed": 3359440667,
     "coverage": {
-      "total_identifiers": 16,
+      "total_identifiers": 15,
       "transformed": 10,
-      "untransformed": 6,
-      "skipped_reserved": 27,
+      "untransformed": 5,
+      "skipped_reserved": 28,
       "skipped_interface": 0,
-      "coverage_percent": 62.5,
+      "coverage_percent": 66.67,
       "untransformed_details": [
         {
           "name": "Delta",
@@ -91,10 +92,6 @@
         },
         {
           "name": "owner2",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         },
         {
@@ -113,12 +110,12 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "active": "enabled",
-      "token_price": "crystal_value",
+      "active": "live",
+      "token_price": "coin_value",
       "tokens_buy": "coins_buy",
-      "value": "cost",
+      "value": "price",
       "sender": "invoker",
-      "withdraw": "redeemTokens",
+      "withdraw": "retrieveRewards",
       "result": "product",
       "change_token_price": "change_coin_cost",
       "_token_price": "_medal_value",

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.19;
-*/
 
 contract OpenWardLottery{
     struct SeedComponents{
@@ -12,18 +11,18 @@ contract OpenWardLottery{
 
     address owner; //address of the owner
     uint private secretSeed; //seed used to calculate number of an address
-    uint private finalReseed; //last reseed - used to automatically reseed the contract every 1000 blocks
+    uint private endingReseed; //last reseed - used to automatically reseed the contract every 1000 blocks
     uint LuckyNumber = 7; //if the number of an address equals 7, it wins
 
     mapping (address => bool) winner; //keeping track of addresses that have already won
 
     function OpenWardLottery() {
-        owner = msg.referrer;
-        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.admissionTime)); //generate a quality random seed
+        owner = msg.sender;
+        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp)); //generate a quality random seed
     }
 
     function participate() payable {
-        if(msg.evaluation<0.1 ether)
+        if(msg.value<0.1 ether)
             return; //verify ticket price
 
         // make sure he hasn't won already
@@ -36,11 +35,11 @@ contract OpenWardLottery{
 
             if(win>this.balance) //if the balance isnt sufficient...
                 win=this.balance; //...send everything we've got
-            msg.referrer.transfer(win);
+            msg.sender.transfer(win);
         }
 
-        if(block.number-finalReseed>1000) //reseed if needed
-            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.admissionTime)); //generate a quality random seed
+        if(block.number-endingReseed>1000) //reseed if needed
+            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp)); //generate a quality random seed
     }
 
     function luckyNumberOfWard(address addr) constant returns(uint n){
@@ -55,19 +54,19 @@ contract OpenWardLottery{
             components.component3,
             components.component4
         )); //hash the incoming parameters and use the hash to (re)initialize the seed
-        finalReseed = block.number;
+        endingReseed = block.number;
     }
 
     function kill() {
-        require(msg.referrer==owner);
+        require(msg.sender==owner);
 
-        selfdestruct(msg.referrer);
+        selfdestruct(msg.sender);
     }
 
     function forceReseed() { //reseed initiated by the owner - for testing purposes
-        require(msg.referrer==owner);
+        require(msg.sender==owner);
         SeedComponents s;
-        s.component1 = uint(msg.referrer);
+        s.component1 = uint(msg.sender);
         s.component2 = uint256(block.blockhash(block.number - 1));
         s.component3 = block.difficulty*(uint)(block.coinbase);
         s.component4 = tx.gasprice * 7;
@@ -76,7 +75,7 @@ contract OpenWardLottery{
     }
 
     function () payable { //if someone sends money without any function call, just assume he wanted to participate
-        if(msg.evaluation>=0.1 ether && msg.referrer!=owner) //owner can't participate, he can only fund the jackpot
+        if(msg.value>=0.1 ether && msg.sender!=owner) //owner can't participate, he can only fund the jackpot
             participate();
     }
 

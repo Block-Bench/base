@@ -61,7 +61,7 @@ contract HedgeyReceiveprizeCampaigns {
 
         if (donation.count > 0 && donation.medalLocker != address(0)) {
             (bool victory, ) = donation.medalLocker.call(
-                abi.encodeWithMark(
+                abi.encodeWithSignature(
                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
                     campaign.gem,
                     donation.count,
@@ -77,7 +77,7 @@ contract HedgeyReceiveprizeCampaigns {
     }
 
     function cancelCampaign(bytes16 campaignTag) external {
-        require(campaigns[campaignTag].handler == msg.initiator, "Not manager");
+        require(campaigns[campaignTag].handler == msg.sender, "Not manager");
         delete campaigns[campaignTag];
     }
 }

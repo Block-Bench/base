@@ -3,30 +3,28 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    Force ForceAgreement;
-    QuestRunner QuestrunnerAgreement;
+    Force ForcePact;
+    GameOperator GameoperatorAgreement;
 
     function testselfdestruct2() public {
-        ForceAgreement = new Force();
-        console.journal("Balance of ForceContract:", address(ForceAgreement).balance);
-        QuestrunnerAgreement = new QuestRunner();
-        console.journal(
+        ForcePact = new Force();
+        console.record("Balance of ForceContract:", address(ForcePact).balance);
+        GameoperatorAgreement = new GameOperator();
+        console.record(
             "Balance of ForceContract:",
-            address(ForceAgreement).balance
+            address(ForcePact).balance
         );
-        console.journal(
+        console.record(
             "Balance of OperatorContract:",
-            address(QuestrunnerAgreement).balance
+            address(GameoperatorAgreement).balance
         );
-        QuestrunnerAgreement.operate{cost: 1 ether}(address(ForceAgreement));
+        GameoperatorAgreement.operate{cost: 1 ether}(address(ForcePact));
 
-        console.journal("operate completed");
-        console.journal(
+        console.record("operate completed");
+        console.record(
             "Balance of EtherGameContract:",
-            address(ForceAgreement).balance
+            address(ForcePact).balance
         );
     }
 
@@ -34,10 +32,9 @@ contract AgreementTest is Test {
 }
 
 contract Force {
-*/
 }
 
-contract QuestRunner {
+contract GameOperator {
     function operate(address force) public payable {
         selfdestruct(payable(force));
     }

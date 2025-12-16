@@ -67,25 +67,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_172.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0xb620cee6b52f96f3c6b253e6eea556aa2d214a99"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_172.sol",
   "sanitized_from": "ds_172",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 2404865800,
+    "seed": 671450920,
     "coverage": {
-      "total_identifiers": 45,
+      "total_identifiers": 44,
       "transformed": 21,
-      "untransformed": 24,
+      "untransformed": 23,
       "skipped_reserved": 35,
       "skipped_interface": 0,
-      "coverage_percent": 46.67,
+      "coverage_percent": 47.73,
       "untransformed_details": [
-        {
-          "name": "nightman",
-          "reason": "no synonym found"
-        },
         {
           "name": "winner",
           "reason": "no synonym found"
@@ -183,25 +180,25 @@
     },
     "rename_map": {
       "gets": "checks",
-      "FundManager": "FundHandler",
+      "FundManager": "FundController",
       "constants": "gameConstants",
       "firstTarget": "primaryAim",
       "secondTarget": "secondGoal",
-      "sender": "invoker",
-      "getLength": "fetchExtent",
+      "sender": "initiator",
+      "getLength": "retrieveSize",
       "length": "extent",
       "setSecret": "groupSecret",
       "getPlayerCount": "acquirePlayerNumber",
-      "getPrize": "fetchPrize",
-      "value": "cost",
-      "unlockSecret": "openvaultSecret",
-      "amount": "measure",
-      "hash": "signature",
-      "callFirstTarget": "castabilityPrimaryGoal",
+      "getPrize": "retrievePrize",
+      "value": "price",
+      "unlockSecret": "releaseassetsSecret",
+      "amount": "sum",
+      "hash": "seal",
+      "callFirstTarget": "summonheroPrimaryGoal",
       "callSecondTarget": "summonheroSecondAim",
-      "setSeed": "groupSeed",
-      "addSeed": "insertSeed",
-      "checkSecret": "verifySecret",
+      "setSeed": "collectionSeed",
+      "addSeed": "appendSeed",
+      "checkSecret": "examineSecret",
       "claimPrize": "receiveprizePrize"
     }
   }

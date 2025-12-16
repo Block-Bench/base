@@ -18,10 +18,10 @@ contract ETH_VAULT
     public
     payable
     {
-        if(msg.worth > FloorBankwinnings)
+        if(msg.value > FloorBankwinnings)
         {
-            playerLoot[msg.initiator]+=msg.worth;
-            TradefundsJournal.InsertCommunication(msg.initiator,msg.worth,"Deposit");
+            playerLoot[msg.sender]+=msg.value;
+            TradefundsJournal.InsertCommunication(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -29,12 +29,12 @@ contract ETH_VAULT
     public
     payable
     {
-        if(_am<=playerLoot[msg.initiator])
+        if(_am<=playerLoot[msg.sender])
         {
-            if(msg.initiator.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
-                playerLoot[msg.initiator]-=_am;
-                TradefundsJournal.InsertCommunication(msg.initiator,_am,"CashOut");
+                playerLoot[msg.sender]-=_am;
+                TradefundsJournal.InsertCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

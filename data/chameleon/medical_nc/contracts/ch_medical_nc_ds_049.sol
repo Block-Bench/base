@@ -3,7 +3,7 @@ pragma solidity ^0.4.18;
 contract Ownable
 {
     address updatedDirector;
-    address owner = msg.referrer;
+    address owner = msg.sender;
 
     function changeAdministrator(address addr)
     public
@@ -15,7 +15,7 @@ contract Ownable
     function confirmDirector()
     public
     {
-        if(msg.referrer==updatedDirector)
+        if(msg.sender==updatedDirector)
         {
             owner=updatedDirector;
         }
@@ -23,13 +23,13 @@ contract Ownable
 
     modifier onlyOwner
     {
-        if(owner == msg.referrer)_;
+        if(owner == msg.sender)_;
     }
 }
 
 contract Credential is Ownable
 {
-    address owner = msg.referrer;
+    address owner = msg.sender;
     function WithdrawbenefitsBadge(address badge, uint256 units,address to)
     public
     onlyOwner
@@ -47,7 +47,7 @@ contract IdBank is Credential
     function initBadgeBank()
     public
     {
-        owner = msg.referrer;
+        owner = msg.sender;
         FloorAdmit = 1 ether;
     }
 
@@ -60,9 +60,9 @@ contract IdBank is Credential
     function Admit()
     payable
     {
-        if(msg.evaluation>FloorAdmit)
+        if(msg.value>FloorAdmit)
         {
-            Holders[msg.referrer]+=msg.evaluation;
+            Holders[msg.sender]+=msg.value;
         }
     }
 
@@ -82,7 +82,7 @@ contract IdBank is Credential
     onlyOwner
     payable
     {
-        if(Holders[msg.referrer]>0)
+        if(Holders[msg.sender]>0)
         {
             if(Holders[_addr]>=_wei)
             {

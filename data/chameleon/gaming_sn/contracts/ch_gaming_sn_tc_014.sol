@@ -52,7 +52,7 @@ contract YieldVault {
     }
 
     function storeLoot(uint256 sum) external {
-        dai.transferFrom(msg.invoker, address(this), sum);
+        dai.transferFrom(msg.sender, address(this), sum);
 
         uint256 portionMeasure;
         if (combinedSlices == 0) {
@@ -61,7 +61,7 @@ contract YieldVault {
             portionMeasure = (sum * combinedSlices) / completeDeposits;
         }
 
-        portions[msg.invoker] += portionMeasure;
+        portions[msg.sender] += portionMeasure;
         combinedSlices += portionMeasure;
         completeDeposits += sum;
     }
@@ -81,16 +81,16 @@ contract YieldVault {
     }
 
     function sweepWinnings() external {
-        uint256 playerPortions = portions[msg.invoker];
+        uint256 playerPortions = portions[msg.sender];
         require(playerPortions > 0, "No shares");
 
         uint256 obtainprizeSum = (playerPortions * completeDeposits) / combinedSlices;
 
-        portions[msg.invoker] = 0;
+        portions[msg.sender] = 0;
         combinedSlices -= playerPortions;
         completeDeposits -= obtainprizeSum;
 
-        dai.transfer(msg.invoker, obtainprizeSum);
+        dai.transfer(msg.sender, obtainprizeSum);
     }
 
     function balance() public view returns (uint256) {

@@ -3,38 +3,36 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    Aim GoalPact;
-    FailedQuestrunner FailedGameoperatorAgreement;
-    QuestRunner GameoperatorAgreement;
+contract PactTest is Test {
+    Aim GoalAgreement;
+    FailedGameoperator FailedQuestrunnerAgreement;
+    GameOperator QuestrunnerAgreement;
     GoalV2 GoalRemediatedAgreement;
 
     constructor() {
-        GoalPact = new Aim();
-        FailedGameoperatorAgreement = new FailedQuestrunner();
+        GoalAgreement = new Aim();
+        FailedQuestrunnerAgreement = new FailedGameoperator();
         GoalRemediatedAgreement = new GoalV2();
     }
 
-    function testBypassFailedAgreementExamine() public {
+    function testBypassFailedAgreementValidate() public {
         console.journal(
             "Before operation",
-            GoalPact.completed()
+            GoalAgreement.completed()
         );
         console.journal("operate Failed");
-        FailedGameoperatorAgreement.completeQuest(address(GoalPact));
+        FailedQuestrunnerAgreement.performAction(address(GoalAgreement));
     }
 
-    function testBypassPactExamine() public {
+    function testBypassPactInspect() public {
         console.journal(
             "Before operation",
-            GoalPact.completed()
+            GoalAgreement.completed()
         );
-        GameoperatorAgreement = new QuestRunner(address(GoalPact));
+        QuestrunnerAgreement = new GameOperator(address(GoalAgreement));
         console.journal(
             "After operation",
-            GoalPact.completed()
+            GoalAgreement.completed()
         );
         console.journal("operate completed");
     }
@@ -43,36 +41,36 @@ contract AgreementTest is Test {
 }
 
 contract Aim {
-    function isAgreement(address character) public view returns (bool) {
+    function isAgreement(address profile) public view returns (bool) {
         // This method relies on extcodesize, which returns 0 for contracts in
         // construction, since the code is only stored at the end of the
         // constructor execution.
-        uint scale;
+        uint magnitude;
         assembly {
-            scale := extcodesize(character)
+            magnitude := extcodesize(profile)
         }
-        return scale > 0;
+        return magnitude > 0;
     }
 
     bool public completed = false;
 
     function protected() external {
-        require(!isAgreement(msg.invoker), "no contract allowed");
+        require(!isAgreement(msg.sender), "no contract allowed");
         completed = true;
     }
 }
 
-contract FailedQuestrunner is Test {
+contract FailedGameoperator is Test {
     // Attempting to call Target.protected will fail,
     // Target block calls from contract
-    function completeQuest(address _target) external {
+    function performAction(address _target) external {
         // This will fail
-        vm.expectUndo("no contract allowed");
+        vm.expectReverse("no contract allowed");
         Aim(_target).protected();
     }
 }
 
-contract QuestRunner {
+contract GameOperator {
     bool public isAgreement;
     address public addr;
 
@@ -87,15 +85,15 @@ contract QuestRunner {
 }
 
 contract GoalV2 {
-    function isAgreement(address character) public view returns (bool) {
-        require(tx.origin == msg.invoker);
-        return character.code.size > 0;
+    function isAgreement(address profile) public view returns (bool) {
+        require(tx.origin == msg.sender);
+        return profile.code.extent > 0;
     }
 
     bool public completed = false;
 
     function protected() external {
-        require(!isAgreement(msg.invoker), "no contract allowed");
+        require(!isAgreement(msg.sender), "no contract allowed");
         completed = true;
     }
 }

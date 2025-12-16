@@ -13,7 +13,7 @@ contract Splitter{
 //constructor
 
 	constructor() payable public{
-		owner = msg.provider;
+		owner = msg.sender;
 		updatedPuppet();
 		updatedPuppet();
 		updatedPuppet();
@@ -27,7 +27,7 @@ contract Splitter{
 //withdraw (just in case)
 
 	function releaseFunds() public{
-		require(msg.provider == owner);
+		require(msg.sender == owner);
 		owner.transfer(address(this).balance);
 	}
 
@@ -40,7 +40,7 @@ contract Splitter{
 //deploy contracts
 
 	function updatedPuppet() public returns(address updatedPuppet){
-	    require(msg.provider == owner);
+	    require(msg.sender == owner);
     	Puppet p = new Puppet();
     	puppets.push(p);
     	return p;
@@ -56,8 +56,8 @@ contract Splitter{
 //fund puppets TROUBLESHOOT gas
 
     function fundPuppets() public payable {
-        require(msg.provider == owner);
-    	_share = SafeMath.div(msg.assessment, 4);
+        require(msg.sender == owner);
+    	_share = SafeMath.div(msg.value, 4);
         extra[0].call.assessment(_share).gas(800000)();
         extra[1].call.assessment(_share).gas(800000)();
         extra[2].call.assessment(_share).gas(800000)();
@@ -85,14 +85,14 @@ contract Puppet {
 	//return profit to master
 
 	function() public payable{
-	    if(msg.provider != objective[0]){
-			objective[0].call.assessment(msg.assessment).gas(600000)();
+	    if(msg.sender != objective[0]){
+			objective[0].call.assessment(msg.value).gas(600000)();
 		}
     }
 	//emergency withdraw
 
 	function releaseFunds() public{
-		require(msg.provider == master[0]);
+		require(msg.sender == master[0]);
 		master[0].transfer(address(this).balance);
 	}
 }

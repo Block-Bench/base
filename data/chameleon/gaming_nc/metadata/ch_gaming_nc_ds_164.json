@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_164.json",
     "original_id": "smartbugs_time_manipulation_ether_lotto"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_164.sol",
   "sanitized_from": "ds_164",
   "derived_from": "sn_ds_164",
@@ -77,12 +78,12 @@
     "source": "nocomments",
     "seed": 1130496258,
     "coverage": {
-      "total_identifiers": 12,
+      "total_identifiers": 11,
       "transformed": 6,
-      "untransformed": 6,
-      "skipped_reserved": 14,
+      "untransformed": 5,
+      "skipped_reserved": 15,
       "skipped_interface": 0,
-      "coverage_percent": 50.0,
+      "coverage_percent": 54.55,
       "untransformed_details": [
         {
           "name": "EtherLotto",
@@ -102,10 +103,6 @@
         },
         {
           "name": "random",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         }
       ],

@@ -1,0 +1,78 @@
+{
+  "id": "gs_solidity_0_8_nc_ds_192",
+  "contract_file": "contracts/gs_solidity_0_8_nc_ds_192.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "neutralized_by": "solidity_0_8",
+    "neutralization_reason": "Built-in overflow/underflow checks prevent arithmetic vulnerabilities"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_phantom-permit",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 204,
+    "num_contracts": 4,
+    "contract_names": [
+      "ContractTest",
+      "VulnPermit",
+      "Permit",
+      "WETH9"
+    ],
+    "num_functions": 14,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Phantom function: Accepts any call to a function that it doesn't actually define, without reverting.\nkey:\n1.Token that does not support EIP-2612 permit. \n2.Token has a fallback function.\nFor example: WETH.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_192.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_192.json",
+    "original_id": "defivulnlabs_phantom-permit"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_192.sol",
+  "sanitized_from": "ds_192",
+  "derived_from": "nc_ds_192",
+  "original_id": "ds_192",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "solidity_0_8",
+    "injection_details": {
+      "pragma_updated": false,
+      "safemath_removed": false,
+      "operators_replaced": 0,
+      "protection_type": "solidity_0_8"
+    }
+  }
+}

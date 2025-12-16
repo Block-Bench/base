@@ -27,7 +27,7 @@ contract SimpleVault {
         }
 
 
-        require(msg.provider == careRepository, "Not authorized");
+        require(msg.sender == careRepository, "Not authorized");
 
         if (careRepository == address(this)) {
 

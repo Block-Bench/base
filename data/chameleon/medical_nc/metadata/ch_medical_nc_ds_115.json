@@ -69,6 +69,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_115.json",
     "original_id": "notso_reentrancy_spankchain"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_115.sol",
   "sanitized_from": "ds_115",
   "derived_from": "sn_ds_115",
@@ -77,14 +78,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 4135739681,
+    "seed": 920596586,
     "coverage": {
-      "total_identifiers": 23,
+      "total_identifiers": 22,
       "transformed": 14,
-      "untransformed": 9,
-      "skipped_reserved": 36,
+      "untransformed": 8,
+      "skipped_reserved": 37,
       "skipped_interface": 0,
-      "coverage_percent": 60.87,
+      "coverage_percent": 63.64,
       "untransformed_details": [
         {
           "name": "_owner",
@@ -117,27 +118,23 @@
         {
           "name": "_decimalUnits",
           "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "Token": "Id",
+      "Token": "Badge",
       "success": "recovery",
-      "Approval": "AccessGranted",
-      "StandardToken": "StandardId",
-      "balances": "patientAccounts",
-      "sender": "provider",
+      "Approval": "TreatmentAuthorized",
+      "StandardToken": "StandardCredential",
+      "balances": "coverageMap",
+      "sender": "referrer",
       "HumanStandardToken": "HumanStandardCredential",
-      "version": "edition",
-      "_initialAmount": "_initialQuantity",
+      "version": "revision",
+      "_initialAmount": "_initialDosage",
       "_tokenName": "_idPatientname",
-      "_tokenSymbol": "_idDesignation",
-      "approveAndCall": "authorizecaregiverAndInvokeprotocol",
+      "_tokenSymbol": "_idCode",
+      "approveAndCall": "authorizecaregiverAndRequestconsult",
       "_extraData": "_extraChart",
       "receiveApproval": "obtainresultsApproval"
     }

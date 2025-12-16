@@ -66,25 +66,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_135.json",
     "original_id": "smartbugs_arithmetic_integer_overflow_mapping_sym_1"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_135.sol",
   "sanitized_from": "ds_135",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1651598168,
+    "seed": 2525156664,
     "coverage": {
-      "total_identifiers": 4,
+      "total_identifiers": 3,
       "transformed": 1,
-      "untransformed": 3,
-      "skipped_reserved": 8,
+      "untransformed": 2,
+      "skipped_reserved": 7,
       "skipped_interface": 0,
-      "coverage_percent": 25.0,
+      "coverage_percent": 33.33,
       "untransformed_details": [
-        {
-          "name": "file",
-          "reason": "no synonym found"
-        },
         {
           "name": "map",
           "reason": "no synonym found"

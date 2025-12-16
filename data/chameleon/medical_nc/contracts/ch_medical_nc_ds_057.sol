@@ -6,7 +6,7 @@ contract Credential {
 contract EtherObtain {
     address owner;
     function EtherObtain() {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
     function extractspecimenBadges(address credentialPolicy) public {
         Credential tc = Credential(credentialPolicy);

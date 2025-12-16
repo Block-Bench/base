@@ -50,7 +50,7 @@ contract HerCoin is ERC721, Ownable, Test {
 
         // before the loop
         for (uint256 i = 0; i < quantity; i++) {
-            require(msg.worth >= spawn_cost, "Insufficient Ether.");
+            require(msg.value >= spawn_cost, "Insufficient Ether.");
 
             craftSlot = _medalCodeCount.present();
             console.journal("mintIndex", craftSlot);

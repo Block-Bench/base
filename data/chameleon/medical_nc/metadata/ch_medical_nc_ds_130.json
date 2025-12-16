@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_130.json",
     "original_id": "smartbugs_access_control_unprotected0"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_130.sol",
   "sanitized_from": "ds_130",
   "derived_from": "sn_ds_130",
@@ -74,7 +75,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 932126235,
+    "seed": 4111208464,
     "coverage": {
       "total_identifiers": 5,
       "transformed": 4,
@@ -91,10 +92,10 @@
       "meets_threshold": true
     },
     "rename_map": {
-      "onlyowner": "onlyChiefMedical",
+      "onlyowner": "onlyAdministrator",
       "sender": "referrer",
-      "changeOwner": "changeAdministrator",
-      "_newOwner": "_currentAdministrator"
+      "changeOwner": "changeSupervisor",
+      "_newOwner": "_updatedDirector"
     }
   }
 }

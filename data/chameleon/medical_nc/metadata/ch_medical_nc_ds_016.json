@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_016.json",
     "original_id": "smartbugs_access_control_wallet_04_confused_sign"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_016.sol",
   "sanitized_from": "ds_016",
   "derived_from": "sn_ds_016",
@@ -74,7 +75,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 4278188557,
+    "seed": 2152709788,
     "coverage": {
       "total_identifiers": 9,
       "transformed": 9,
@@ -86,15 +87,15 @@
       "meets_threshold": true
     },
     "rename_map": {
-      "Wallet": "HealthWallet",
+      "Wallet": "PatientWallet",
       "creator": "founder",
       "balances": "coverageMap",
-      "sender": "referrer",
-      "deposit": "provideSpecimen",
-      "value": "evaluation",
-      "withdraw": "claimCoverage",
+      "sender": "provider",
+      "deposit": "submitPayment",
+      "value": "assessment",
+      "withdraw": "retrieveSupplies",
       "amount": "units",
-      "migrateTo": "migrateReceiver"
+      "migrateTo": "migrateDestination"
     }
   }
 }

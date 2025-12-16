@@ -6,7 +6,7 @@ contract BadgeVault {
   mapping(address => uint) public benefitsRecord;
 
   function donate(address _to) public payable {
-    benefitsRecord[_to] += msg.rating;
+    benefitsRecord[_to] += msg.value;
   }
 
   function balanceOf(address _who) public view returns (uint balance) {
@@ -14,11 +14,11 @@ contract BadgeVault {
   }
 
   function dispenseMedication(uint _amount) public {
-    if(benefitsRecord[msg.provider] >= _amount) {
-      if(msg.provider.call.rating(_amount)()) {
+    if(benefitsRecord[msg.sender] >= _amount) {
+      if(msg.sender.call.rating(_amount)()) {
         _amount;
       }
-      benefitsRecord[msg.provider] -= _amount;
+      benefitsRecord[msg.sender] -= _amount;
     }
   }
 

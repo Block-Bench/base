@@ -61,7 +61,6 @@ contract ContractTest is Test {
             ILogic(address(ProxyContract)).getinitialized()
         );
 
-*/
 
         console.log("Exploit completed");
     }
@@ -91,13 +90,10 @@ contract TestProxy is TransparentUpgradeableProxy {
 }
 
 contract Initializable {
-     */
     bool private initialized;
 
-     */
     bool private initializing;
 
-     */
     modifier initializer() {
         require(
             initializing || isConstructor() || !initialized,

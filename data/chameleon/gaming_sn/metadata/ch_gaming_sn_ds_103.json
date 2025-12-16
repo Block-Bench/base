@@ -66,20 +66,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_103.json",
     "original_id": "defivulnlabs_divmultiply"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_103.sol",
   "sanitized_from": "ds_103",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 3733759765,
+    "seed": 2246345197,
     "coverage": {
-      "total_identifiers": 43,
+      "total_identifiers": 42,
       "transformed": 7,
-      "untransformed": 36,
-      "skipped_reserved": 16,
+      "untransformed": 35,
+      "skipped_reserved": 17,
       "skipped_interface": 0,
-      "coverage_percent": 16.28,
+      "coverage_percent": 16.67,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -147,10 +148,6 @@
         },
         {
           "name": "off",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {
@@ -229,13 +226,13 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "PactTest",
-      "MiscalculationContract": "MiscalculationAgreement",
+      "ContractTest": "AgreementTest",
+      "MiscalculationContract": "MiscalculationPact",
       "CalculationContract": "CalculationPact",
       "log": "journal",
-      "price": "value",
+      "price": "cost",
       "get": "retrieve",
-      "round": "wave"
+      "round": "cycle"
     }
   }
 }

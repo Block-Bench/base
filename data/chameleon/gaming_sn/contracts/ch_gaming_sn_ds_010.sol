@@ -6,7 +6,7 @@ contract MyAgreement {
     address owner;
 
     function MyAgreement() public {
-        owner = msg.caster;
+        owner = msg.sender;
     }
 
     function forwardrewardsTarget(address recipient, uint measure) public {

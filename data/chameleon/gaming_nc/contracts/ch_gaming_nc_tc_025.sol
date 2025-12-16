@@ -24,16 +24,16 @@ contract LendingMarket {
     }
 
     function seekAdvance(uint256 measure) external {
-        profileBorrows[msg.caster] += measure;
+        profileBorrows[msg.sender] += measure;
         combinedBorrows += measure;
 
-        IERC20(underlying).transfer(msg.caster, measure);
+        IERC20(underlying).transfer(msg.sender, measure);
     }
 
     function returnloanRequestloan(uint256 measure) external {
-        IERC20(underlying).transferFrom(msg.caster, address(this), measure);
+        IERC20(underlying).transferFrom(msg.sender, address(this), measure);
 
-        profileBorrows[msg.caster] -= measure;
+        profileBorrows[msg.sender] -= measure;
         combinedBorrows -= measure;
     }
 }

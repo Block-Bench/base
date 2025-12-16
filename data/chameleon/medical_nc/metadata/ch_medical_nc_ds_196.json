@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_196.json",
     "original_id": "defivulnlabs_nftmint_exposedmetadata"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_196.sol",
   "sanitized_from": "ds_196",
   "derived_from": "sn_ds_196",
@@ -73,7 +74,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1238785371,
+    "seed": 2283416752,
     "coverage": {
       "total_identifiers": 23,
       "transformed": 9,
@@ -143,14 +144,14 @@
     },
     "rename_map": {
       "ContractTest": "AgreementTest",
-      "nftContract": "certificateAgreement",
+      "nftContract": "credentialAgreement",
       "merkleTreeProof": "merkleTreeVerification",
-      "setUp": "collectionUp",
-      "operator": "caregiver",
+      "setUp": "groupUp",
+      "operator": "nurse",
       "mint": "createPrescription",
       "value": "evaluation",
-      "log": "record",
-      "NFT": "Certificate"
+      "log": "chart",
+      "NFT": "Credential"
     }
   }
 }

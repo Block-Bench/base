@@ -5,7 +5,7 @@ contract SimpleAuction {
   uint presentBid;
 
   function bid() payable {
-    require(msg.assessment > presentBid);
+    require(msg.value > presentBid);
 
 
     if (presentFrontrunner != 0) {
@@ -13,7 +13,7 @@ contract SimpleAuction {
       require(presentFrontrunner.send(presentBid));
     }
 
-    presentFrontrunner = msg.provider;
-    presentBid         = msg.assessment;
+    presentFrontrunner = msg.sender;
+    presentBid         = msg.value;
   }
 }

@@ -5,7 +5,6 @@ pragma solidity ^0.4.23;
 // contact : dave@akomba.com
 // released under Apache 2.0 licence
 contract Gem {
-    */
     /// total amount of tokens
     uint256 public totalSupply;
 
@@ -45,20 +44,20 @@ library ECTools {
 
     // @dev Recovers the address which has signed a message
     // @thanks https://gist.github.com/axic/5b33912c6f61ae6fd96d6c4a47afde6d
-    function restoreSigner(bytes32 _hashedMsg, string _sig) public pure returns (address) {
+    function retrieveSigner(bytes32 _hashedMsg, string _sig) public pure returns (address) {
         require(_hashedMsg != 0x00);
 
         // need this for test RPC
         bytes memory prefix = "\x19Ethereum Signed Message:\n32";
-        bytes32 prefixedSeal = keccak256(abi.encodePacked(prefix, _hashedMsg));
+        bytes32 prefixedSignature = keccak256(abi.encodePacked(prefix, _hashedMsg));
 
-        if (bytes(_sig).extent != 132) {
+        if (bytes(_sig).size != 132) {
             return 0x0;
         }
         bytes32 r;
         bytes32 s;
         uint8 v;
-        bytes memory sig = hexstrDestinationRaw(substring(_sig, 2, 132));
+        bytes memory sig = hexstrTargetData(substring(_sig, 2, 132));
         assembly {
             r := mload(attach(sig, 32))
             s := mload(attach(sig, 64))
@@ -70,19 +69,19 @@ library ECTools {
         if (v < 27 || v > 28) {
             return 0x0;
         }
-        return ecrecover(prefixedSeal, v, r, s);
+        return ecrecover(prefixedSignature, v, r, s);
     }
 
     // @dev Verifies if the message is signed by an address
-    function testSignedBy(bytes32 _hashedMsg, string _sig, address _addr) public pure returns (bool) {
+    function validateSignedBy(bytes32 _hashedMsg, string _sig, address _addr) public pure returns (bool) {
         require(_addr != 0x0);
 
-        return _addr == restoreSigner(_hashedMsg, _sig);
+        return _addr == retrieveSigner(_hashedMsg, _sig);
     }
 
     // @dev Converts an hexstring to bytes
-    function hexstrDestinationRaw(string _hexstr) public pure returns (bytes) {
-        uint len = bytes(_hexstr).extent;
+    function hexstrTargetData(string _hexstr) public pure returns (bytes) {
+        uint len = bytes(_hexstr).size;
         require(len % 2 == 0);
 
         bytes memory bstr = bytes(new string(len / 2));
@@ -93,7 +92,7 @@ library ECTools {
             s = substring(_hexstr, i, i + 1);
             r = substring(_hexstr, i + 1, i + 2);
             uint p = parseInt16Char(s) * 16 + parseInt16Char(r);
-            bstr[k++] = numberTargetBytes32(p)[31];
+            bstr[k++] = numberDestinationBytes32(p)[31];
         }
         return bstr;
     }
@@ -115,7 +114,7 @@ library ECTools {
 
     // @dev Converts a uint to a bytes32
     // @thanks https://ethereum.stackexchange.com/questions/4170/how-to-convert-a-uint-to-bytes-in-solidity
-    function numberTargetBytes32(uint _uint) public pure returns (bytes b) {
+    function numberDestinationBytes32(uint _uint) public pure returns (bytes b) {
         b = new bytes(32);
         assembly {mstore(attach(b, 32), _uint)}
     }
@@ -123,14 +122,14 @@ library ECTools {
     // @dev Hashes the signed message
     // @ref https://github.com/ethereum/go-ethereum/issues/3731#issuecomment-293866868
     function targetEthereumSignedCommunication(string _msg) public pure returns (bytes32) {
-        uint len = bytes(_msg).extent;
+        uint len = bytes(_msg).size;
         require(len > 0);
         bytes memory prefix = "\x19Ethereum Signed Message:\n";
-        return keccak256(abi.encodePacked(prefix, numberTargetName(len), _msg));
+        return keccak256(abi.encodePacked(prefix, numberTargetText(len), _msg));
     }
 
     // @dev Converts a uint in a string
-    function numberTargetName(uint _uint) public pure returns (string str) {
+    function numberTargetText(uint _uint) public pure returns (string str) {
         uint len = 0;
         uint m = _uint + 0;
         while (m != 0) {
@@ -149,40 +148,40 @@ library ECTools {
 
     // @dev extract a substring
     // @thanks https://ethereum.stackexchange.com/questions/31457/substring-in-solidity
-    function substring(string _str, uint _beginPosition, uint _closeSlot) public pure returns (string) {
+    function substring(string _str, uint _beginPosition, uint _finishSlot) public pure returns (string) {
         bytes memory strData = bytes(_str);
-        require(_beginPosition <= _closeSlot);
+        require(_beginPosition <= _finishSlot);
         require(_beginPosition >= 0);
-        require(_closeSlot <= strData.extent);
+        require(_finishSlot <= strData.size);
 
-        bytes memory outcome = new bytes(_closeSlot - _beginPosition);
-        for (uint i = _beginPosition; i < _closeSlot; i++) {
-            outcome[i - _beginPosition] = strData[i];
+        bytes memory product = new bytes(_finishSlot - _beginPosition);
+        for (uint i = _beginPosition; i < _finishSlot; i++) {
+            product[i - _beginPosition] = strData[i];
         }
-        return string(outcome);
+        return string(product);
     }
 }
-contract StandardCrystal is Gem {
+contract StandardCoin is Gem {
 
     function transfer(address _to, uint256 _value) public returns (bool win) {
         //Default assumes totalSupply can't be over max (2^256 - 1).
         //If your token leaves out totalSupply and can issue more tokens as time goes on, you need to check if it doesn't wrap.
         //Replace the if with this one instead.
         //require(balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]);
-        require(playerLoot[msg.caster] >= _value);
-        playerLoot[msg.caster] -= _value;
+        require(playerLoot[msg.sender] >= _value);
+        playerLoot[msg.sender] -= _value;
         playerLoot[_to] += _value;
-        emit Transfer(msg.caster, _to, _value);
+        emit Transfer(msg.sender, _to, _value);
         return true;
     }
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool win) {
 
         //require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && balances[_to] + _value > balances[_to]);
-        require(playerLoot[_from] >= _value && allowed[_from][msg.caster] >= _value);
+        require(playerLoot[_from] >= _value && allowed[_from][msg.sender] >= _value);
         playerLoot[_to] += _value;
         playerLoot[_from] -= _value;
-        allowed[_from][msg.caster] -= _value;
+        allowed[_from][msg.sender] -= _value;
         emit Transfer(_from, _to, _value);
         return true;
     }
@@ -192,8 +191,8 @@ contract StandardCrystal is Gem {
     }
 
     function approve(address _spender, uint256 _value) public returns (bool win) {
-        allowed[msg.caster][_spender] = _value;
-        emit PermissionGranted(msg.caster, _spender, _value);
+        allowed[msg.sender][_spender] = _value;
+        emit PermissionGranted(msg.sender, _spender, _value);
         return true;
     }
 
@@ -205,11 +204,10 @@ contract StandardCrystal is Gem {
     mapping (address => mapping (address => uint256)) allowed;
 }
 
-contract HumanStandardCrystal is StandardCrystal {
+contract HumanStandardCoin is StandardCoin {
 
     /* Public variables of the crystal */
 
-    */
     string public name;                   //fancy name: eg Simon Bucks
     uint8 public decimals;                //How many decimals to show. ie. There could 1000 base units with 3 decimals. Meaning 0.980 SBX = 980 base units. It's like comparing 1 wei to 1 ether.
     string public symbol;                 //An identifier: eg SBX
@@ -236,7 +234,7 @@ contract HumanStandardCrystal is StandardCrystal {
         //call the receiveApproval function on the contract you want to be notified. This crafts the function signature manually so one doesn't have to include a contract in here just for this.
         //receiveApproval(address _from, uint256 _value, address _tokenContract, bytes _extraData)
         //it is assumed that when does this that the call *should* succeed, otherwise one would use vanilla approve instead.
-        require(_spender.call(bytes4(bytes32(keccak256("receiveApproval(address,uint256,address,bytes)"))), msg.caster, _value, this, _extraDetails));
+        require(_spender.call(bytes4(bytes32(keccak256("receiveApproval(address,uint256,address,bytes)"))), msg.sender, _value, this, _extraDetails));
         return true;
     }
 }
@@ -252,49 +250,49 @@ contract LedgerChannel {
         bytes32 indexed channelIdentifier,
         address indexed partyA,
         address indexed partyI,
-        uint256 ethPrizecountA,
+        uint256 ethRewardlevelA,
         address crystal,
-        uint256 medalTreasureamountA,
+        uint256 crystalTreasureamountA,
         uint256 LCopenTimeout
     );
 
     event DidLCJoin (
         bytes32 indexed channelIdentifier,
-        uint256 ethRewardlevelI,
-        uint256 coinGoldholdingI
+        uint256 ethPrizecountI,
+        uint256 crystalGoldholdingI
     );
 
     event DidLcAddtreasure (
         bytes32 indexed channelIdentifier,
-        address indexed target,
-        uint256 depositGold,
-        bool isCoin
+        address indexed receiver,
+        uint256 cachePrize,
+        bool isGem
     );
 
-    event DidLcSyncprogressCondition (
+    event DidLcSyncprogressStatus (
         bytes32 indexed channelIdentifier,
         uint256 sequence,
         uint256 numOpenVc,
-        uint256 ethPrizecountA,
-        uint256 medalTreasureamountA,
-        uint256 ethRewardlevelI,
-        uint256 coinGoldholdingI,
-        bytes32 vcSource,
+        uint256 ethRewardlevelA,
+        uint256 crystalTreasureamountA,
+        uint256 ethPrizecountI,
+        uint256 crystalGoldholdingI,
+        bytes32 vcOrigin,
         uint256 updatelevelLCtimeout
     );
 
     event DidLCClose (
         bytes32 indexed channelIdentifier,
         uint256 sequence,
-        uint256 ethPrizecountA,
-        uint256 medalTreasureamountA,
-        uint256 ethRewardlevelI,
-        uint256 coinGoldholdingI
+        uint256 ethRewardlevelA,
+        uint256 crystalTreasureamountA,
+        uint256 ethPrizecountI,
+        uint256 crystalGoldholdingI
     );
 
     event DidVCInit (
-        bytes32 indexed lcCode,
-        bytes32 indexed vcIdentifier,
+        bytes32 indexed lcTag,
+        bytes32 indexed vcTag,
         bytes evidence,
         uint256 sequence,
         address partyA,
@@ -304,18 +302,18 @@ contract LedgerChannel {
     );
 
     event DidVCSettle (
-        bytes32 indexed lcCode,
-        bytes32 indexed vcIdentifier,
-        uint256 updatelevelSeq,
-        uint256 syncprogressBalA,
+        bytes32 indexed lcTag,
+        bytes32 indexed vcTag,
+        uint256 refreshstatsSeq,
+        uint256 refreshstatsBalA,
         uint256 refreshstatsBalB,
         address challenger,
         uint256 refreshstatsVCtimeout
     );
 
     event DidVCClose(
-        bytes32 indexed lcCode,
-        bytes32 indexed vcIdentifier,
+        bytes32 indexed lcTag,
+        bytes32 indexed vcTag,
         uint256 lootbalanceA,
         uint256 treasureamountB
     );
@@ -662,109 +660,109 @@ contract LedgerChannel {
         // virtualChannels[_vcID].updateVCtimeout should be 0 on uninitialized vc state, and this should
         // fail if initVC() isn't called first
         // require(Channels[_lcID].updateLCtimeout < now && now < virtualChannels[_vcID].updateVCtimeout);
-        require(Channels[_lcIdentifier].updatelevelLCtimeout < now); // for testing!
+        require(Channels[_lcTag].updatelevelLCtimeout < now); // for testing!
 
-        bytes32 _updatelevelCondition = keccak256(
+        bytes32 _updatelevelStatus = keccak256(
             abi.encodePacked(
-                _vcIdentifier,
-                updatelevelSeq,
+                _vcTag,
+                refreshstatsSeq,
                 _partyA,
                 _partyB,
-                virtualChannels[_vcIdentifier].bond[0],
-                virtualChannels[_vcIdentifier].bond[1],
-                updatelevelBal[0],
-                updatelevelBal[1],
-                updatelevelBal[2],
-                updatelevelBal[3]
+                virtualChannels[_vcTag].bond[0],
+                virtualChannels[_vcTag].bond[1],
+                refreshstatsBal[0],
+                refreshstatsBal[1],
+                refreshstatsBal[2],
+                refreshstatsBal[3]
             )
         );
 
         // Make sure Alice has signed a higher sequence new state
-        require(virtualChannels[_vcIdentifier].partyA == ECTools.restoreSigner(_updatelevelCondition, sigA));
+        require(virtualChannels[_vcTag].partyA == ECTools.retrieveSigner(_updatelevelStatus, sigA));
 
         // store VC data
         // we may want to record who is initiating on-chain settles
-        virtualChannels[_vcIdentifier].challenger = msg.caster;
-        virtualChannels[_vcIdentifier].sequence = updatelevelSeq;
+        virtualChannels[_vcTag].challenger = msg.sender;
+        virtualChannels[_vcTag].sequence = refreshstatsSeq;
 
         // channel state
-        virtualChannels[_vcIdentifier].ethCharactergold[0] = updatelevelBal[0];
-        virtualChannels[_vcIdentifier].ethCharactergold[1] = updatelevelBal[1];
-        virtualChannels[_vcIdentifier].erc20Playerloot[0] = updatelevelBal[2];
-        virtualChannels[_vcIdentifier].erc20Playerloot[1] = updatelevelBal[3];
+        virtualChannels[_vcTag].ethHerotreasure[0] = refreshstatsBal[0];
+        virtualChannels[_vcTag].ethHerotreasure[1] = refreshstatsBal[1];
+        virtualChannels[_vcTag].erc20Playerloot[0] = refreshstatsBal[2];
+        virtualChannels[_vcTag].erc20Playerloot[1] = refreshstatsBal[3];
 
-        virtualChannels[_vcIdentifier].refreshstatsVCtimeout = now + Channels[_lcIdentifier].confirmInstant;
+        virtualChannels[_vcTag].refreshstatsVCtimeout = now + Channels[_lcTag].confirmMoment;
 
-        emit DidVCSettle(_lcIdentifier, _vcIdentifier, updatelevelSeq, updatelevelBal[0], updatelevelBal[1], msg.caster, virtualChannels[_vcIdentifier].refreshstatsVCtimeout);
+        emit DidVCSettle(_lcTag, _vcTag, refreshstatsSeq, refreshstatsBal[0], refreshstatsBal[1], msg.sender, virtualChannels[_vcTag].refreshstatsVCtimeout);
     }
 
-    function closeVirtualChannel(bytes32 _lcIdentifier, bytes32 _vcIdentifier) public {
+    function closeVirtualChannel(bytes32 _lcTag, bytes32 _vcTag) public {
         // require(updateLCtimeout > now)
-        require(Channels[_lcIdentifier].validateOpen, "LC is closed.");
-        require(virtualChannels[_vcIdentifier].isInSettlementCondition, "VC is not in settlement state.");
-        require(virtualChannels[_vcIdentifier].refreshstatsVCtimeout < now, "Update vc timeout has not elapsed.");
-        require(!virtualChannels[_vcIdentifier].checkClose, "VC is already closed");
+        require(Channels[_lcTag].testOpen, "LC is closed.");
+        require(virtualChannels[_vcTag].isInSettlementCondition, "VC is not in settlement state.");
+        require(virtualChannels[_vcTag].refreshstatsVCtimeout < now, "Update vc timeout has not elapsed.");
+        require(!virtualChannels[_vcTag].testClose, "VC is already closed");
         // reduce the number of open virtual channels stored on LC
-        Channels[_lcIdentifier].numOpenVC--;
+        Channels[_lcTag].numOpenVC--;
         // close vc flags
-        virtualChannels[_vcIdentifier].checkClose = true;
+        virtualChannels[_vcTag].testClose = true;
         // re-introduce the balances back into the LC state from the settled VC
         // decide if this lc is alice or bob in the vc
-        if(virtualChannels[_vcIdentifier].partyA == Channels[_lcIdentifier].partyAddresses[0]) {
-            Channels[_lcIdentifier].ethCharactergold[0] += virtualChannels[_vcIdentifier].ethCharactergold[0];
-            Channels[_lcIdentifier].ethCharactergold[1] += virtualChannels[_vcIdentifier].ethCharactergold[1];
+        if(virtualChannels[_vcTag].partyA == Channels[_lcTag].partyAddresses[0]) {
+            Channels[_lcTag].ethHerotreasure[0] += virtualChannels[_vcTag].ethHerotreasure[0];
+            Channels[_lcTag].ethHerotreasure[1] += virtualChannels[_vcTag].ethHerotreasure[1];
 
-            Channels[_lcIdentifier].erc20Playerloot[0] += virtualChannels[_vcIdentifier].erc20Playerloot[0];
-            Channels[_lcIdentifier].erc20Playerloot[1] += virtualChannels[_vcIdentifier].erc20Playerloot[1];
-        } else if (virtualChannels[_vcIdentifier].partyB == Channels[_lcIdentifier].partyAddresses[0]) {
-            Channels[_lcIdentifier].ethCharactergold[0] += virtualChannels[_vcIdentifier].ethCharactergold[1];
-            Channels[_lcIdentifier].ethCharactergold[1] += virtualChannels[_vcIdentifier].ethCharactergold[0];
+            Channels[_lcTag].erc20Playerloot[0] += virtualChannels[_vcTag].erc20Playerloot[0];
+            Channels[_lcTag].erc20Playerloot[1] += virtualChannels[_vcTag].erc20Playerloot[1];
+        } else if (virtualChannels[_vcTag].partyB == Channels[_lcTag].partyAddresses[0]) {
+            Channels[_lcTag].ethHerotreasure[0] += virtualChannels[_vcTag].ethHerotreasure[1];
+            Channels[_lcTag].ethHerotreasure[1] += virtualChannels[_vcTag].ethHerotreasure[0];
 
-            Channels[_lcIdentifier].erc20Playerloot[0] += virtualChannels[_vcIdentifier].erc20Playerloot[1];
-            Channels[_lcIdentifier].erc20Playerloot[1] += virtualChannels[_vcIdentifier].erc20Playerloot[0];
+            Channels[_lcTag].erc20Playerloot[0] += virtualChannels[_vcTag].erc20Playerloot[1];
+            Channels[_lcTag].erc20Playerloot[1] += virtualChannels[_vcTag].erc20Playerloot[0];
         }
 
-        emit DidVCClose(_lcIdentifier, _vcIdentifier, virtualChannels[_vcIdentifier].erc20Playerloot[0], virtualChannels[_vcIdentifier].erc20Playerloot[1]);
+        emit DidVCClose(_lcTag, _vcTag, virtualChannels[_vcTag].erc20Playerloot[0], virtualChannels[_vcTag].erc20Playerloot[1]);
     }
 
     // todo: allow ethier lc.end-user to nullify the settled LC state and return to off-chain
-    function byzantineCloseChannel(bytes32 _lcIdentifier) public {
-        Channel storage channel = Channels[_lcIdentifier];
+    function byzantineCloseChannel(bytes32 _lcTag) public {
+        Channel storage channel = Channels[_lcTag];
 
         // check settlement flag
-        require(channel.validateOpen, "Channel is not open");
-        require(channel.isUpdatelevelLcSettling == true);
+        require(channel.testOpen, "Channel is not open");
+        require(channel.isSyncprogressLcSettling == true);
         require(channel.numOpenVC == 0);
         require(channel.updatelevelLCtimeout < now, "LC timeout over.");
 
         // if off chain state update didnt reblance deposits, just return to deposit owner
-        uint256 completeEthStoreloot = channel.initialStoreloot[0] + channel.ethCharactergold[2] + channel.ethCharactergold[3];
-        uint256 combinedMedalStoreloot = channel.initialStoreloot[1] + channel.erc20Playerloot[2] + channel.erc20Playerloot[3];
+        uint256 fullEthStashrewards = channel.initialDepositgold[0] + channel.ethHerotreasure[2] + channel.ethHerotreasure[3];
+        uint256 aggregateMedalAddtreasure = channel.initialDepositgold[1] + channel.erc20Playerloot[2] + channel.erc20Playerloot[3];
 
-        uint256 possibleFullEthBeforeCacheprize = channel.ethCharactergold[0] + channel.ethCharactergold[1];
-        uint256 possibleCombinedCoinBeforeAddtreasure = channel.erc20Playerloot[0] + channel.erc20Playerloot[1];
+        uint256 possibleCombinedEthBeforeAddtreasure = channel.ethHerotreasure[0] + channel.ethHerotreasure[1];
+        uint256 possibleCombinedCoinBeforeStashrewards = channel.erc20Playerloot[0] + channel.erc20Playerloot[1];
 
-        if(possibleFullEthBeforeCacheprize < completeEthStoreloot) {
-            channel.ethCharactergold[0]+=channel.ethCharactergold[2];
-            channel.ethCharactergold[1]+=channel.ethCharactergold[3];
+        if(possibleCombinedEthBeforeAddtreasure < fullEthStashrewards) {
+            channel.ethHerotreasure[0]+=channel.ethHerotreasure[2];
+            channel.ethHerotreasure[1]+=channel.ethHerotreasure[3];
         } else {
-            require(possibleFullEthBeforeCacheprize == completeEthStoreloot);
+            require(possibleCombinedEthBeforeAddtreasure == fullEthStashrewards);
         }
 
-        if(possibleCombinedCoinBeforeAddtreasure < combinedMedalStoreloot) {
+        if(possibleCombinedCoinBeforeStashrewards < aggregateMedalAddtreasure) {
             channel.erc20Playerloot[0]+=channel.erc20Playerloot[2];
             channel.erc20Playerloot[1]+=channel.erc20Playerloot[3];
         } else {
-            require(possibleCombinedCoinBeforeAddtreasure == combinedMedalStoreloot);
+            require(possibleCombinedCoinBeforeStashrewards == aggregateMedalAddtreasure);
         }
 
-        uint256 ethbalanceA = channel.ethCharactergold[0];
-        uint256 ethbalanceI = channel.ethCharactergold[1];
+        uint256 ethbalanceA = channel.ethHerotreasure[0];
+        uint256 ethbalanceI = channel.ethHerotreasure[1];
         uint256 tokenbalanceA = channel.erc20Playerloot[0];
         uint256 tokenbalanceI = channel.erc20Playerloot[1];
 
-        channel.ethCharactergold[0] = 0;
-        channel.ethCharactergold[1] = 0;
+        channel.ethHerotreasure[0] = 0;
+        channel.ethHerotreasure[1] = 0;
         channel.erc20Playerloot[0] = 0;
         channel.erc20Playerloot[1] = 0;
 
@@ -784,23 +782,23 @@ contract LedgerChannel {
             );
         }
 
-        channel.validateOpen = false;
+        channel.testOpen = false;
         numChannels--;
 
-        emit DidLCClose(_lcIdentifier, channel.sequence, ethbalanceA, ethbalanceI, tokenbalanceA, tokenbalanceI);
+        emit DidLCClose(_lcTag, channel.sequence, ethbalanceA, ethbalanceI, tokenbalanceA, tokenbalanceI);
     }
 
     function _isContained(bytes32 _hash, bytes _proof, bytes32 _root) internal pure returns (bool) {
         bytes32 cursor = _hash;
-        bytes32 verificationElem;
+        bytes32 evidenceElem;
 
-        for (uint256 i = 64; i <= _proof.extent; i += 32) {
-            assembly { verificationElem := mload(attach(_proof, i)) }
+        for (uint256 i = 64; i <= _proof.size; i += 32) {
+            assembly { evidenceElem := mload(attach(_proof, i)) }
 
-            if (cursor < verificationElem) {
-                cursor = keccak256(abi.encodePacked(cursor, verificationElem));
+            if (cursor < evidenceElem) {
+                cursor = keccak256(abi.encodePacked(cursor, evidenceElem));
             } else {
-                cursor = keccak256(abi.encodePacked(verificationElem, cursor));
+                cursor = keccak256(abi.encodePacked(evidenceElem, cursor));
             }
         }
 
@@ -808,7 +806,7 @@ contract LedgerChannel {
     }
 
     //Struct Getters
-    function acquireChannel(bytes32 id) public view returns (
+    function obtainChannel(bytes32 id) public view returns (
         address[2],
         uint256[4],
         uint256[4],
@@ -825,21 +823,21 @@ contract LedgerChannel {
         Channel memory channel = Channels[id];
         return (
             channel.partyAddresses,
-            channel.ethCharactergold,
+            channel.ethHerotreasure,
             channel.erc20Playerloot,
-            channel.initialStoreloot,
+            channel.initialDepositgold,
             channel.sequence,
-            channel.confirmInstant,
-            channel.VCrootSignature,
+            channel.confirmMoment,
+            channel.VCrootSeal,
             channel.LCopenTimeout,
             channel.updatelevelLCtimeout,
-            channel.validateOpen,
-            channel.isUpdatelevelLcSettling,
+            channel.testOpen,
+            channel.isSyncprogressLcSettling,
             channel.numOpenVC
         );
     }
 
-    function retrieveVirtualChannel(bytes32 id) public view returns(
+    function acquireVirtualChannel(bytes32 id) public view returns(
         bool,
         bool,
         uint256,
@@ -854,7 +852,7 @@ contract LedgerChannel {
     ) {
         VirtualChannel memory virtualChannel = virtualChannels[id];
         return(
-            virtualChannel.checkClose,
+            virtualChannel.testClose,
             virtualChannel.isInSettlementCondition,
             virtualChannel.sequence,
             virtualChannel.challenger,
@@ -862,7 +860,7 @@ contract LedgerChannel {
             virtualChannel.partyA,
             virtualChannel.partyB,
             virtualChannel.partyI,
-            virtualChannel.ethCharactergold,
+            virtualChannel.ethHerotreasure,
             virtualChannel.erc20Playerloot,
             virtualChannel.bond
         );

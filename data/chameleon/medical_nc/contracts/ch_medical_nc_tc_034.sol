@@ -56,8 +56,8 @@ contract GammaHypervisor {
         uint256 total0 = token0.balanceOf(address(this));
         uint256 total1 = token1.balanceOf(address(this));
 
-        token0.transferFrom(msg.referrer, address(this), deposit0);
-        token1.transferFrom(msg.referrer, address(this), deposit1);
+        token0.transferFrom(msg.sender, address(this), deposit0);
+        token1.transferFrom(msg.sender, address(this), deposit1);
 
         if (totalSupply == 0) {
             portions = deposit0 + deposit1;
@@ -78,7 +78,7 @@ contract GammaHypervisor {
         uint256 portions,
         address to
     ) external returns (uint256 amount0, uint256 amount1) {
-        require(balanceOf[msg.referrer] >= portions, "Insufficient balance");
+        require(balanceOf[msg.sender] >= portions, "Insufficient balance");
 
         uint256 total0 = token0.balanceOf(address(this));
         uint256 total1 = token1.balanceOf(address(this));
@@ -86,7 +86,7 @@ contract GammaHypervisor {
         amount0 = (portions * total0) / totalSupply;
         amount1 = (portions * total1) / totalSupply;
 
-        balanceOf[msg.referrer] -= portions;
+        balanceOf[msg.sender] -= portions;
         totalSupply -= portions;
 
         token0.transfer(to, amount0);

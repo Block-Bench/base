@@ -5,7 +5,7 @@ contract SimpleAuction {
   uint activeBid;
 
   function bid() payable {
-    require(msg.assessment > activeBid);
+    require(msg.value > activeBid);
 
 
     if (activeFrontrunner != 0) {
@@ -13,8 +13,8 @@ contract SimpleAuction {
       require(activeFrontrunner.send(activeBid));
     }
 
-    activeFrontrunner = msg.referrer;
-    activeBid         = msg.assessment;
+    activeFrontrunner = msg.sender;
+    activeBid         = msg.value;
   }
 }
 
@@ -26,22 +26,22 @@ contract AuctionV2 {
 
 
   function bid() payable external {
-    require(msg.assessment > activeBid);
+    require(msg.value > activeBid);
 
     if (activeFrontrunner != 0) {
       refunds[activeFrontrunner] += activeBid;
     }
 
-    activeFrontrunner = msg.referrer;
-    activeBid         = msg.assessment;
+    activeFrontrunner = msg.sender;
+    activeBid         = msg.value;
   }
 
 
   function discharge() external {
 
-    uint refund = refunds[msg.referrer];
-    refunds[msg.referrer] = 0;
+    uint refund = refunds[msg.sender];
+    refunds[msg.sender] = 0;
 
-    msg.referrer.send(refund);
+    msg.sender.send(refund);
   }
 }

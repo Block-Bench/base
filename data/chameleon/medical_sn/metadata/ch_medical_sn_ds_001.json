@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_001.json",
     "original_id": "notso_bad_randomness_therun"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_001.sol",
   "sanitized_from": "ds_001",
   "transformation": {
@@ -72,12 +73,12 @@
     "source": "sanitized",
     "seed": 1366587152,
     "coverage": {
-      "total_identifiers": 136,
+      "total_identifiers": 134,
       "transformed": 41,
-      "untransformed": 95,
-      "skipped_reserved": 34,
+      "untransformed": 93,
+      "skipped_reserved": 36,
       "skipped_interface": 0,
-      "coverage_percent": 30.15,
+      "coverage_percent": 30.6,
       "untransformed_details": [
         {
           "name": "theRun",
@@ -188,10 +189,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "fixed",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Player",
           "reason": "no synonym found"
         },
@@ -217,10 +214,6 @@
         },
         {
           "name": "initiated",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "finney",
           "reason": "no synonym found"
         },
         {

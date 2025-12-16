@@ -67,13 +67,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_162.json",
     "original_id": "smartbugs_other_open_address_lottery"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_162.sol",
   "sanitized_from": "ds_162",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1324385767,
+    "seed": 3582585285,
     "coverage": {
       "total_identifiers": 87,
       "transformed": 16,
@@ -370,22 +371,22 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "OpenAddressLottery": "OpenZoneLottery",
-      "calculate": "figure",
+      "OpenAddressLottery": "OpenLocationLottery",
+      "calculate": "compute",
       "lastReseed": "finalReseed",
       "last": "final",
       "sender": "caster",
       "timestamp": "gameTime",
-      "value": "cost",
+      "value": "price",
       "verify": "validate",
       "price": "value",
-      "hasn": "containsn",
-      "luckyNumberOfAddress": "luckyNumberOfRealm",
-      "check": "verify",
+      "hasn": "includesn",
+      "luckyNumberOfAddress": "luckyNumberOfZone",
+      "check": "validate524",
       "isnt": "validatent",
-      "current": "active",
-      "hash": "seal",
-      "initialize": "beginQuest"
+      "current": "present",
+      "hash": "signature",
+      "initialize": "startGame"
     }
   }
 }

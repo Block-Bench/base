@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_014.json",
     "original_id": "smartbugs_access_control_wallet_02_refund_nosub"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_014.sol",
   "sanitized_from": "ds_014",
   "derived_from": "sn_ds_014",
@@ -74,7 +75,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2760104367,
+    "seed": 263741565,
     "coverage": {
       "total_identifiers": 10,
       "transformed": 9,
@@ -94,12 +95,12 @@
       "Wallet": "HealthWallet",
       "creator": "founder",
       "balances": "coverageMap",
-      "sender": "provider",
+      "sender": "referrer",
       "deposit": "registerPayment",
-      "value": "rating",
-      "withdraw": "claimCoverage",
-      "amount": "quantity",
-      "migrateTo": "migrateDestination"
+      "value": "evaluation",
+      "withdraw": "obtainCare",
+      "amount": "measure",
+      "migrateTo": "migrateReceiver"
     }
   }
 }

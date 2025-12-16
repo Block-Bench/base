@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.24;
 
- */
 library SafeMath {
 
-  */
   function mul(uint256 a, uint256 b) internal pure returns (uint256) {
     // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
     // benefit is lost if 'b' is also tested.
@@ -19,7 +17,6 @@ library SafeMath {
     return c;
   }
 
-  */
   function div(uint256 a, uint256 b) internal pure returns (uint256) {
     require(b > 0); // Solidity only automatically asserts when dividing by 0
     uint256 c = a / b;
@@ -28,7 +25,6 @@ library SafeMath {
     return c;
   }
 
-  */
   function sub(uint256 a, uint256 b) internal pure returns (uint256) {
     require(b <= a);
     uint256 c = a - b;
@@ -36,7 +32,6 @@ library SafeMath {
     return c;
   }
 
-  */
   function add(uint256 a, uint256 b) internal pure returns (uint256) {
     uint256 c = a + b;
     require(c >= a);
@@ -44,7 +39,6 @@ library SafeMath {
     return c;
   }
 
-  */
   function mod(uint256 a, uint256 b) internal pure returns (uint256) {
     require(b != 0);
     return a % b;

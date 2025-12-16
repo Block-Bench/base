@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_193.json",
     "original_id": "defivulnlabs_returnvalue"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_193.sol",
   "sanitized_from": "ds_193",
   "derived_from": "sn_ds_193",
@@ -72,7 +73,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2671805822,
+    "seed": 994818145,
     "coverage": {
       "total_identifiers": 25,
       "transformed": 11,
@@ -142,15 +143,15 @@
     },
     "rename_map": {
       "token": "id",
-      "utils": "careTools",
-      "value": "rating",
-      "account": "chart",
-      "spender": "subscriber",
-      "ContractTest": "AgreementTest",
-      "setUp": "groupUp",
+      "utils": "medicalUtils",
+      "value": "evaluation",
+      "account": "profile",
+      "spender": "payer",
+      "ContractTest": "PolicyTest",
+      "setUp": "collectionUp",
       "testTransfer": "testRelocatepatient",
       "startPrank": "beginPrank",
-      "testSafeTransfer": "testSafeRefer",
+      "testSafeTransfer": "testSafeMoverecords",
       "safeTransfer": "secureReferral"
     }
   }

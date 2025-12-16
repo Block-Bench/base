@@ -4,14 +4,14 @@ contract OpenAccess{
     address private owner;
 
     modifier onlyDirector {
-        require(msg.provider==owner);
+        require(msg.sender==owner);
         _;
     }
 
     function OpenAccess()
         public
     {
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
 

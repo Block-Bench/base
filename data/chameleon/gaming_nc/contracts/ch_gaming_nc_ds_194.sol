@@ -2,46 +2,44 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract TeleportHub {
+contract PortalGate {
     address public owner = address(0xdeadbeef);
     Assign entrust;
 
-    constructor(address _assignRealm) public {
-        entrust = Assign(_assignRealm);
+    constructor(address _entrustLocation) public {
+        entrust = Assign(_entrustLocation);
     }
 
     fallback() external {
-        (bool suc, ) = address(entrust).delegatecall(msg.info);
+        (bool suc, ) = address(entrust).delegatecall(msg.data);
         require(suc, "Delegatecall failed");
     }
 }
 
-contract PactTest is Test {
-    TeleportHub portalGate;
-    Assign AssignPact;
+contract AgreementTest is Test {
+    PortalGate portalGate;
+    Assign AssignAgreement;
     address alice;
 
-    function groupUp() public {
+    function collectionUp() public {
         alice = vm.addr(1);
     }
 
     function testDelegatecall() public {
-        AssignPact = new Assign();
-        portalGate = new TeleportHub(address(AssignPact));
+        AssignAgreement = new Assign();
+        portalGate = new PortalGate(address(AssignAgreement));
 
-        console.record("Alice address", alice);
-        console.record("DelegationContract owner", portalGate.owner());
+        console.journal("Alice address", alice);
+        console.journal("DelegationContract owner", portalGate.owner());
 
 
-        console.record("Change DelegationContract owner to Alice...");
+        console.journal("Change DelegationContract owner to Alice...");
         vm.prank(alice);
-        address(portalGate).call(abi.encodeWithSeal("execute()"));
+        address(portalGate).call(abi.encodeWithSignature("execute()"));
 
 
-        console.record("DelegationContract owner", portalGate.owner());
-        console.record(
+        console.journal("DelegationContract owner", portalGate.owner());
+        console.journal(
             "operate completed, proxy contract storage has been manipulated"
         );
     }
@@ -50,7 +48,7 @@ contract PactTest is Test {
 contract Assign {
     address public owner;
 
-    function performAction() public {
-        owner = msg.caster;
+    function completeQuest() public {
+        owner = msg.sender;
     }
 }

@@ -2,11 +2,9 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract PolicyTest is Test {
-    GuessTheRandomNumber GuessTheRandomNumberAgreement;
-    Nurse CaregiverPolicy;
+contract AgreementTest is Test {
+    GuessTheRandomNumber GuessTheRandomNumberPolicy;
+    Caregiver CaregiverPolicy;
 
     function testRandomness() public {
         address alice = vm.addr(1);
@@ -14,21 +12,21 @@ contract PolicyTest is Test {
         vm.deal(address(alice), 1 ether);
         vm.prank(alice);
 
-        GuessTheRandomNumberAgreement = new GuessTheRandomNumber{
-            rating: 1 ether
+        GuessTheRandomNumberPolicy = new GuessTheRandomNumber{
+            evaluation: 1 ether
         }();
         vm.beginPrank(eve);
-        CaregiverPolicy = new Nurse();
-        console.chart(
+        CaregiverPolicy = new Caregiver();
+        console.record(
             "Before operation",
             address(CaregiverPolicy).balance
         );
-        CaregiverPolicy.operate(GuessTheRandomNumberAgreement);
-        console.chart(
+        CaregiverPolicy.operate(GuessTheRandomNumberPolicy);
+        console.record(
             "Eve wins 1 Eth, Balance of OperatorContract:",
             address(CaregiverPolicy).balance
         );
-        console.chart("operate completed");
+        console.record("operate completed");
     }
 
     receive() external payable {}
@@ -40,24 +38,24 @@ contract GuessTheRandomNumber {
     function guess(uint _guess) public {
         uint answer = uint(
             keccak256(
-                abi.encodePacked(blockhash(block.number - 1), block.appointmentTime)
+                abi.encodePacked(blockhash(block.number - 1), block.timestamp)
             )
         );
 
         if (_guess == answer) {
-            (bool sent, ) = msg.referrer.call{rating: 1 ether}("");
+            (bool sent, ) = msg.sender.call{evaluation: 1 ether}("");
             require(sent, "Failed to send Ether");
         }
     }
 }
 
-contract Nurse {
+contract Caregiver {
     receive() external payable {}
 
     function operate(GuessTheRandomNumber guessTheRandomNumber) public {
         uint answer = uint(
             keccak256(
-                abi.encodePacked(blockhash(block.number - 1), block.appointmentTime)
+                abi.encodePacked(blockhash(block.number - 1), block.timestamp)
             )
         );
 

@@ -64,20 +64,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_229.json",
     "original_id": "defivulnlabs_oracle-stale"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_229.sol",
   "sanitized_from": "ds_229",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 3927282144,
+    "seed": 3567290289,
     "coverage": {
-      "total_identifiers": 40,
+      "total_identifiers": 39,
       "transformed": 14,
-      "untransformed": 26,
-      "skipped_reserved": 19,
+      "untransformed": 25,
+      "skipped_reserved": 20,
       "skipped_interface": 0,
-      "coverage_percent": 35.0,
+      "coverage_percent": 35.9,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -164,10 +165,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "uint80",
-          "reason": "no synonym found"
-        },
-        {
           "name": "updatedAt",
           "reason": "no synonym found"
         },
@@ -190,13 +187,13 @@
       "ContractTest": "AgreementTest",
       "AggregatorV3Interface": "AggregatorV3Portal",
       "priceFeed": "costFeed",
-      "setUp": "groupUp",
-      "testUnSafePrice": "testUnSafeValue",
+      "setUp": "collectionUp",
+      "testUnSafePrice": "testUnSafeCost",
       "oracle": "seer",
       "data": "info",
-      "price": "cost",
-      "latestRoundData": "latestWaveDetails",
-      "log_named_decimal_int": "record_named_decimal_number",
+      "price": "value",
+      "latestRoundData": "latestCycleDetails",
+      "log_named_decimal_int": "journal_named_decimal_number",
       "testSafePrice": "testSafeValue",
       "roundId": "waveIdentifier",
       "answeredInRound": "answeredInWave",

@@ -83,6 +83,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_042.json",
     "original_exploit_name": "Hedgey Finance"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_042.sol",
   "sanitized_from": "tc_042",
   "derived_from": "sn_tc_042",
@@ -93,12 +94,12 @@
     "source": "nocomments",
     "seed": 4273864789,
     "coverage": {
-      "total_identifiers": 40,
-      "transformed": 28,
+      "total_identifiers": 39,
+      "transformed": 27,
       "untransformed": 12,
-      "skipped_reserved": 28,
+      "skipped_reserved": 29,
       "skipped_interface": 0,
-      "coverage_percent": 70.0,
+      "coverage_percent": 69.23,
       "untransformed_details": [
         {
           "name": "IERC20",
@@ -173,13 +174,12 @@
       "createLockedCampaign": "createFrozenCampaign",
       "claimLockup": "getpayoutLockup",
       "success": "victory",
-      "encodeWithSignature": "encodeWithMark",
-      "createTokenLock": "createGemSecuretreasure",
-      "Token": "Coin",
-      "lock": "bindAssets",
+      "createTokenLock": "createCrystalFreezegold",
+      "Token": "Gem",
+      "lock": "secureTreasure",
       "failed": "operationFailed",
       "campaignId": "campaignTag",
-      "sender": "initiator"
+      "sender": "caster"
     }
   }
 }

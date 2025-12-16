@@ -1,0 +1,4370 @@
+{
+  "timestamp": "2025-12-16T16:46:46.714077",
+  "protection_type": "reentrancy_guard",
+  "source_dataset": "sanitized",
+  "total_files": 285,
+  "successful": 195,
+  "failed": 90,
+  "results": [
+    {
+      "original_id": "sn_ds_001",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_001",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "theRun",
+          "init",
+          "Participate",
+          "CollectAllFees",
+          "GetAndReduceFeesByFraction"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_002",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_002",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "addToBalance",
+          "withdrawBalance",
+          "withdrawBalanceV2",
+          "withdrawBalanceV3"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_003",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_003",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "VaultOperator",
+          "deposit",
+          "launch_handler"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_004",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_004",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_005",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_005",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "OpenAccess"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_006",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_006",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_007",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_007",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_008",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_008",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Destroy"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_009",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_009",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_010",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_010",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "MyContract",
+          "sendTo"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_011",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_011",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdrawAll"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_012",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_012",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_013",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_013",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "sudicideAnyone"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_014",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_014",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "withdraw",
+          "refund",
+          "migrateTo"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_015",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_015",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "initWallet",
+          "deposit",
+          "withdraw",
+          "migrateTo"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_016",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_016",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "withdraw",
+          "migrateTo"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_017",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_017",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_018",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_018",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "CashOut"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_019",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_019",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_020",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_020",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_021",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_021",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_022",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_022",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "confirmOwner",
+          "WithdrawToken",
+          "initTokenBank",
+          "Deposit",
+          "WithdrawToHolder"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_023",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_023",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Put",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_024",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_024",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "PrivateDeposit",
+          "Deposit",
+          "CashOut"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_025",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_025",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Put",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_026",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_026",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "CashOut"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_027",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_027",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Put",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_028",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_028",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "CashOut"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_029",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_029",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Put",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_030",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_030",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_031",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_031",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "CashOut"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_032",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_032",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "CashOut"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_033",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_033",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "CashOut"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_034",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_034",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Put",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_035",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_035",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Put",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_036",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_036",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Put",
+          "Collect"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_037",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_037",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "addToBalance",
+          "withdrawBalance"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_038",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_038",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "depositFunds",
+          "withdrawFunds"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_039",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 28, column 60']"
+    },
+    {
+      "original_id": "sn_ds_040",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_040",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_041",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_041",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdrawReward"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_042",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_042",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "transfer",
+          "withdrawBalance"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_043",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_043",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdrawAll",
+          "deposit"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_044",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_044",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdrawBalance"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_045",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_045",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "addToBalance",
+          "withdrawBalance"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_046",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_046",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_047",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_047",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "callAddress"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_048",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 6, column 98']"
+    },
+    {
+      "original_id": "sn_ds_049",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_049",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "confirmOwner",
+          "WithdrawToken",
+          "initTokenBank",
+          "Deposit",
+          "WithdrawToHolder"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_050",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_050",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "confirmOwner",
+          "WithdrawToken",
+          "initTokenBank",
+          "Deposit",
+          "WithdrawToHolder"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_051",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_051",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw",
+          "Command",
+          "multiplicate"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_052",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_052",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "redeem",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_053",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 8, column 96']"
+    },
+    {
+      "original_id": "sn_ds_054",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 10, column 68']"
+    },
+    {
+      "original_id": "sn_ds_055",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 8, column 96']"
+    },
+    {
+      "original_id": "sn_ds_056",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 8, column 37']"
+    },
+    {
+      "original_id": "sn_ds_057",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_057",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "EtherGet",
+          "withdrawTokens",
+          "withdrawEther",
+          "getTokens"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_058",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_058",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw",
+          "Command",
+          "multiplicate"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_059",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_059",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw",
+          "sendMoney"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_060",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_060",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "confirmOwner",
+          "WithdrawToken",
+          "initTokenBank",
+          "Deposit",
+          "WithdrawToHolder"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_061",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_061",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "GetHoneyFromJar",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_062",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_062",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "redeem",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_063",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_063",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "GetFreebie",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_064",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_064",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "GetPie",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_065",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_065",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Owned",
+          "acceptOwnership",
+          "execute"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_066",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_066",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "confirmOwner",
+          "WithdrawToken",
+          "initTokenBank",
+          "Deposit",
+          "WithdrawToHolder"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_067",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 33, column 50', 'Syntax error at line 53, column 74']"
+    },
+    {
+      "original_id": "sn_ds_068",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 20, column 23']"
+    },
+    {
+      "original_id": "sn_ds_069",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 8, column 98']"
+    },
+    {
+      "original_id": "sn_ds_070",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_070",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "proxy",
+          "Vault",
+          "deposit",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_071",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_071",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw",
+          "sendMoney"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_072",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_072",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_073",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_073",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "proxy",
+          "Vault",
+          "deposit",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_074",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_074",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "proxy",
+          "Vault",
+          "deposit",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_075",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_075",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Get",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_076",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 8, column 96']"
+    },
+    {
+      "original_id": "sn_ds_077",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_077",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "GetFreebie",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_078",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_078",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "GetFreebie",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_079",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_079",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "GetFreebie",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_080",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 8, column 112']"
+    },
+    {
+      "original_id": "sn_ds_081",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_081",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "makeOldFucks"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_082",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_082",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "go"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_083",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_083",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "GetFreebie",
+          "withdraw",
+          "Command"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_084",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_084",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "KingOfTheEtherThrone",
+          "claimThrone",
+          "sweepCommission"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_085",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_085",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "sendToWinner",
+          "withdrawLeftOver"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_086",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_086",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdrawBalance"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_087",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_087",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "callchecked",
+          "callnotchecked"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_088",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_088",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_089",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_089",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "setUp",
+          "testVulnStakingRewards",
+          "testFixedStakingRewards"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_090",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_090",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_091",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_091",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "claimReward"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_092",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_092",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testSelfTransfer",
+          "testFixedSelfTransfer"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_093",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_093",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "updaterewardDebt",
+          "fixedupdaterewardDebt"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_094",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_094",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_095",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_095",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "guess"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_096",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_096",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "claimThrone"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_097",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_097",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_098",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_098",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "increaseLockTime",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_099",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_099",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testVulnSignatureValidation",
+          "verifySignatures",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_100",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_100",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testtxorigin",
+          "transfer",
+          "operate"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_101",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_101",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testCalculation",
+          "_transfer",
+          "transfer",
+          "approve",
+          "transferFrom"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_102",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_102",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testVisibility"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_103",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_103",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_104",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_104",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_105",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_105",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "_nativeTransferExec"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_106",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_106",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_107",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_107",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "SwapCallback"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_108",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 46, column 69']"
+    },
+    {
+      "original_id": "sn_ds_109",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_109",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_110",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_110",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "setUp",
+          "createLocker",
+          "unlockToken"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_111",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_111",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testTransfer"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_112",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_112",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testecRecover"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_113",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 30, column 14', 'Syntax error at line 37, column 14', 'Syntax error at line 43, column 5']"
+    },
+    {
+      "original_id": "sn_ds_114",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 28, column 5', 'Syntax error at line 28, column 86', 'Syntax error at line 34, column 5']"
+    },
+    {
+      "original_id": "sn_ds_115",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 28, column 14', 'Syntax error at line 34, column 14', 'Syntax error at line 39, column 5']"
+    },
+    {
+      "original_id": "sn_ds_116",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_116",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "IamMissing",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_117",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_117",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "DynamicPyramid",
+          "addPayout",
+          "collectAllFees",
+          "collectFeesInEther",
+          "collectPercentOfFees"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_118",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 5, column 47']"
+    },
+    {
+      "original_id": "sn_ds_119",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_119",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "KingOfTheEtherThrone",
+          "claimThrone",
+          "sweepCommission"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_120",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_120",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "refundDos",
+          "withdraw",
+          "refundSafe"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_121",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_121",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "bid",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_122",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 48, column 12', 'Syntax error at line 64, column 3', 'Syntax error at line 64, column 55']"
+    },
+    {
+      "original_id": "sn_ds_123",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 70, column 82', 'Syntax error at line 75, column 101', 'Syntax error at line 83, column 32']"
+    },
+    {
+      "original_id": "sn_ds_124",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_124",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_125",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_125",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "IamMissing",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_126",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_126",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "missing",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_127",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_127",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Constructor",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_128",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 20, column 61', 'Syntax error at line 26, column 74']"
+    },
+    {
+      "original_id": "sn_ds_129",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_129",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "DynamicPyramid",
+          "addPayout",
+          "collectAllFees",
+          "collectFeesInEther",
+          "collectPercentOfFees"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_130",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_130",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "OpenAccess"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_131",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_131",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "transfer"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_132",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_132",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_133",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_133",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_134",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_134",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_135",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_135",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_136",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_136",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_137",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_137",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_138",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_138",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_139",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_139",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_140",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_140",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_141",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_141",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_142",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_142",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "increaseLockTime",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_143",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 15, column 70']"
+    },
+    {
+      "original_id": "sn_ds_144",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_144",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "buy",
+          "sell"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_145",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_145",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Ethraffle_v4b",
+          "buyTickets",
+          "chooseWinner",
+          "getRefund",
+          "endRaffle",
+          "togglePause",
+          "kill"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_146",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_146",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "guess"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_147",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_147",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Lottery",
+          "makeBet",
+          "getBets",
+          "destroy"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_148",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_148",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "lockInGuess",
+          "settle"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_149",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_149",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_150",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_150",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "bid"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_151",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 18, column 51']"
+    },
+    {
+      "original_id": "sn_ds_152",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_152",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_153",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 10, column 48']"
+    },
+    {
+      "original_id": "sn_ds_154",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 26, column 65']"
+    },
+    {
+      "original_id": "sn_ds_155",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_155",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "refundAll"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_156",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 75, column 70', 'Syntax error at line 84, column 74', 'Syntax error at line 91, column 88']"
+    },
+    {
+      "original_id": "sn_ds_157",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_157",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "solve"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_158",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_158",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "EthTxOrderDependenceMinimal",
+          "setReward",
+          "claimReward"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_159",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_159",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "OddsAndEvens",
+          "play",
+          "andTheWinnerIs",
+          "getProfit"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_160",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_160",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "CryptoRoulette",
+          "play",
+          "kill"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_161",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_161",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "register"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_162",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_162",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "OpenAddressLottery",
+          "participate",
+          "kill",
+          "forceReseed"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_163",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 14, column 74']"
+    },
+    {
+      "original_id": "sn_ds_164",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_164",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "EtherLotto",
+          "play"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_165",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_165",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Governmental",
+          "invest",
+          "resetInvestment"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_166",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_166",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "payOut"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_167",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_167",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_168",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_168",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_169",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 97, column 151', 'Syntax error at line 189, column 60']"
+    },
+    {
+      "original_id": "sn_ds_170",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_170",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Owned",
+          "acceptOwnership",
+          "execute",
+          "sendMessage"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_171",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 44, column 56']"
+    },
+    {
+      "original_id": "sn_ds_172",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 79, column 46']"
+    },
+    {
+      "original_id": "sn_ds_173",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_173",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Owned",
+          "execute",
+          "run"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_174",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_174",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "cash"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_175",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 6, column 1']"
+    },
+    {
+      "original_id": "sn_ds_176",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 5, column 14']"
+    },
+    {
+      "original_id": "sn_ds_177",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 7, column 1']"
+    },
+    {
+      "original_id": "sn_ds_178",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 5, column 16']"
+    },
+    {
+      "original_id": "sn_ds_179",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 5, column 8']"
+    },
+    {
+      "original_id": "sn_ds_180",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 7, column 1']"
+    },
+    {
+      "original_id": "sn_ds_181",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_181",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_182",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_182",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_183",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 76, column 5', 'Syntax error at line 76, column 71', 'Syntax error at line 78, column 5']"
+    },
+    {
+      "original_id": "sn_ds_184",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 51, column 5', 'Syntax error at line 54, column 21', 'Syntax error at line 58, column 5']"
+    },
+    {
+      "original_id": "sn_ds_185",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_185",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_186",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_186",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testUninitialized",
+          "initialize",
+          "_authorizeUpgrade",
+          "operate"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_187",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 51, column 54']"
+    },
+    {
+      "original_id": "sn_ds_188",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_188",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_189",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_189",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "mint"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_190",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 43, column 54']"
+    },
+    {
+      "original_id": "sn_ds_191",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_191",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testBasicERC721",
+          "testFixedERC721"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_192",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 173, column 67', 'Syntax error at line 179, column 68', 'Syntax error at line 187, column 29']"
+    },
+    {
+      "original_id": "sn_ds_193",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_193",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testTransfer"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_194",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_194",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testDelegatecall",
+          "execute"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_195",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_195",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_196",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_196",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_197",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_197",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "_transfer",
+          "transfer",
+          "approve",
+          "transferFrom",
+          "approveAndCallcode"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_198",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 24, column 45']"
+    },
+    {
+      "original_id": "sn_ds_199",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_199",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "withdrawFunds"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_200",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_200",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_201",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_201",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Deposit",
+          "CashOut"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_202",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_202",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw",
+          "multiplicate"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_203",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_203",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "Ownable",
+          "Stake",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_204",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_204",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "OpenAddressLottery",
+          "participate",
+          "kill",
+          "forceReseed"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_205",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 44, column 5']"
+    },
+    {
+      "original_id": "sn_ds_206",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_206",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw",
+          "Test"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_207",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_207",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "RaceCondition",
+          "buy",
+          "changePrice"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_208",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 46, column 12', 'Syntax error at line 62, column 3', 'Syntax error at line 62, column 55']"
+    },
+    {
+      "original_id": "sn_ds_209",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 46, column 12', 'Syntax error at line 62, column 3', 'Syntax error at line 62, column 55']"
+    },
+    {
+      "original_id": "sn_ds_210",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_210",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "LuckyDoubler",
+          "init",
+          "join"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_211",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 26, column 6', 'Syntax error at line 26, column 87', 'Syntax error at line 32, column 6']"
+    },
+    {
+      "original_id": "sn_ds_212",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 222, column 5']"
+    },
+    {
+      "original_id": "sn_ds_213",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 17, column 12', 'Syntax error at line 18, column 12', 'Syntax error at line 19, column 9']"
+    },
+    {
+      "original_id": "sn_ds_214",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 12, column 14', 'Syntax error at line 13, column 14', 'Syntax error at line 15, column 11']"
+    },
+    {
+      "original_id": "sn_ds_215",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 219, column 5']"
+    },
+    {
+      "original_id": "sn_ds_216",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 301, column 77', 'Syntax error at line 346, column 5']"
+    },
+    {
+      "original_id": "sn_ds_217",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 6, column 58']"
+    },
+    {
+      "original_id": "sn_ds_218",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 6, column 58']"
+    },
+    {
+      "original_id": "sn_ds_219",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 7, column 1']"
+    },
+    {
+      "original_id": "sn_ds_220",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 6, column 11']"
+    },
+    {
+      "original_id": "sn_ds_221",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 123, column 75']"
+    },
+    {
+      "original_id": "sn_ds_222",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 153, column 29']"
+    },
+    {
+      "original_id": "sn_ds_223",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_223",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_224",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_224",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testPrice_Manipulation",
+          "flashLoan",
+          "exchange"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_225",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_225",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testStorageCollision"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_226",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 24, column 16']"
+    },
+    {
+      "original_id": "sn_ds_227",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_227",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "receiveMoney",
+          "withdrawMoney"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_228",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_228",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "testFirstDeposit",
+          "deposit",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_229",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_229",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_230",
+      "transformed_id": "gs_reentrancy_guard_sn_ds_230",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "setUp",
+          "flashLoan"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_ds_231",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 51, column 55']"
+    },
+    {
+      "original_id": "sn_ds_232",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 36, column 9', 'Syntax error at line 63, column 3', 'Syntax error at line 63, column 67']"
+    },
+    {
+      "original_id": "sn_ds_233",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 93, column 56', 'Syntax error at line 126, column 56', 'Syntax error at line 136, column 55']"
+    },
+    {
+      "original_id": "sn_ds_234",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 24, column 9', 'Syntax error at line 31, column 12', 'Syntax error at line 32, column 3']"
+    },
+    {
+      "original_id": "sn_ds_235",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 3, column 1', 'Syntax error at line 3, column 25', 'Syntax error at line 7, column 1']"
+    },
+    {
+      "original_id": "sn_tc_001",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 42, column 77']"
+    },
+    {
+      "original_id": "sn_tc_002",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 72, column 34']"
+    },
+    {
+      "original_id": "sn_tc_003",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_003",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "kill",
+          "execute"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_004",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 50, column 72', 'Syntax error at line 76, column 73']"
+    },
+    {
+      "original_id": "sn_tc_005",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 47, column 42', 'Syntax error at line 136, column 42']"
+    },
+    {
+      "original_id": "sn_tc_006",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_006",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_007",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 93, column 31']"
+    },
+    {
+      "original_id": "sn_tc_008",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 19, column 5', 'Syntax error at line 19, column 51', 'Syntax error at line 19, column 64']"
+    },
+    {
+      "original_id": "sn_tc_009",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 58, column 59']"
+    },
+    {
+      "original_id": "sn_tc_010",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_010",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "withdrawAll"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_011",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 29, column 79', 'Syntax error at line 43, column 34']"
+    },
+    {
+      "original_id": "sn_tc_012",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 18, column 5', 'Syntax error at line 20, column 21']"
+    },
+    {
+      "original_id": "sn_tc_013",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_013",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "mintFor",
+          "getReward",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_014",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_014",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "withdrawAll"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_015",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_015",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "mint",
+          "sweepToken",
+          "redeem"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_016",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 14, column 5', 'Syntax error at line 14, column 55', 'Syntax error at line 64, column 44']"
+    },
+    {
+      "original_id": "sn_tc_017",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 20, column 48', 'Syntax error at line 26, column 14']"
+    },
+    {
+      "original_id": "sn_tc_018",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 36, column 44']"
+    },
+    {
+      "original_id": "sn_tc_019",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_019",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_020",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_020",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "borrow",
+          "repay",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_021",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 61, column 43']"
+    },
+    {
+      "original_id": "sn_tc_022",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_022",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "swap"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_023",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 46, column 45']"
+    },
+    {
+      "original_id": "sn_tc_024",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_024",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "borrow"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_025",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 13, column 14', 'Syntax error at line 14, column 14']"
+    },
+    {
+      "original_id": "sn_tc_026",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_026",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_027",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_027",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_028",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_028",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_029",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 28, column 77']"
+    },
+    {
+      "original_id": "sn_tc_030",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 13, column 108', 'Syntax error at line 33, column 90']"
+    },
+    {
+      "original_id": "sn_tc_031",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_031",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_032",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 70, column 34']"
+    },
+    {
+      "original_id": "sn_tc_033",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 29, column 47', 'Syntax error at line 55, column 42']"
+    },
+    {
+      "original_id": "sn_tc_034",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 58, column 41', 'Syntax error at line 83, column 59']"
+    },
+    {
+      "original_id": "sn_tc_035",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 50, column 46', 'Syntax error at line 75, column 49', 'Syntax error at line 100, column 46']"
+    },
+    {
+      "original_id": "sn_tc_036",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 23, column 5', 'Syntax error at line 31, column 15', 'Syntax error at line 31, column 28']"
+    },
+    {
+      "original_id": "sn_tc_037",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 54, column 14', 'Syntax error at line 62, column 5', 'Syntax error at line 66, column 24']"
+    },
+    {
+      "original_id": "sn_tc_038",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 49, column 77', 'Syntax error at line 61, column 34']"
+    },
+    {
+      "original_id": "sn_tc_039",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_039",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "uniswapV3SwapCallback",
+          "executeSettlement"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_040",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_040",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "mint",
+          "redeem"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_041",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 9, column 5', 'Syntax error at line 13, column 24', 'Syntax error at line 15, column 5']"
+    },
+    {
+      "original_id": "sn_tc_042",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_042",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "createLockedCampaign",
+          "cancelCampaign"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_043",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 30, column 65']"
+    },
+    {
+      "original_id": "sn_tc_044",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 30, column 73']"
+    },
+    {
+      "original_id": "sn_tc_045",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_045",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "withdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_046",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_046",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "withdraw",
+          "emergencyWithdraw"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_047",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 9, column 5', 'Syntax error at line 9, column 55', 'Syntax error at line 68, column 79']"
+    },
+    {
+      "original_id": "sn_tc_048",
+      "transformed_id": "",
+      "protection_type": "reentrancy_guard",
+      "success": false,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {},
+      "error": "Syntax errors: ['Syntax error at line 50, column 66', 'Syntax error at line 66, column 70']"
+    },
+    {
+      "original_id": "sn_tc_049",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_049",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "deposit",
+          "borrow"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    },
+    {
+      "original_id": "sn_tc_050",
+      "transformed_id": "gs_reentrancy_guard_sn_tc_050",
+      "protection_type": "reentrancy_guard",
+      "success": true,
+      "original_vulnerable": true,
+      "transformed_vulnerable": false,
+      "injection_details": {
+        "import_added": true,
+        "inheritance_added": true,
+        "functions_protected": [
+          "lock",
+          "unlock",
+          "emergencyUnlock"
+        ],
+        "protection_type": "reentrancy_guard"
+      },
+      "error": null
+    }
+  ]
+}

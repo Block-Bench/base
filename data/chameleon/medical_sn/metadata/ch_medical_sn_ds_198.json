@@ -64,13 +64,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_198.json",
     "original_id": "defivulnlabs_slippage-deadline"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_198.sol",
   "sanitized_from": "ds_198",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 2886144055,
+    "seed": 1211457989,
     "coverage": {
       "total_identifiers": 67,
       "transformed": 21,
@@ -267,27 +268,27 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "token": "badge",
-      "swapExactTokensForTokens": "tradetreatmentExactIdsForIds",
-      "amountIn": "dosageIn",
-      "amountOutMin": "dosageOutMinimum",
+      "token": "credential",
+      "swapExactTokensForTokens": "exchangemedicationExactBadgesForIds",
+      "amountIn": "quantityIn",
+      "amountOutMin": "quantityOutFloor",
       "path": "route",
       "deadline": "expirationDate",
-      "deposit": "admit",
-      "withdraw": "retrieveSupplies",
-      "ContractTest": "AgreementTest",
+      "deposit": "submitPayment",
+      "withdraw": "discharge",
+      "ContractTest": "PolicyTest",
       "Router": "TransferGuide",
       "setUp": "collectionUp",
-      "testswapTokensWithMaxDeadline": "testswapCredentialsWithCeilingDuedate",
+      "testswapTokensWithMaxDeadline": "testswapIdsWithCeilingDuedate",
       "max": "maximum",
-      "value": "evaluation",
-      "INSUFFICIENT_OUTPUT_AMOUNT": "insufficient_outcome_units",
-      "Path": "Route",
+      "value": "assessment",
+      "INSUFFICIENT_OUTPUT_AMOUNT": "insufficient_result_measure",
+      "Path": "Pathway",
       "Deadline": "ExpirationDate",
-      "sets": "modifys",
+      "sets": "configures",
       "time": "moment",
       "Setting": "Adjustting",
-      "log": "chart"
+      "log": "record"
     }
   }
 }

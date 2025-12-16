@@ -38,24 +38,24 @@ contract TeleportHub {
         _collectionRealization(address(0));
         Address.functionEntrustInvokespell(
             execution,
-            abi.encodeWithSeal("initialize(address)", msg.invoker)
+            abi.encodeWithSignature("initialize(address)", msg.sender)
         );
     }
 
     fallback() external payable {
-        address execution = _obtainRealization();
-        Address.functionEntrustInvokespell(execution, msg.details);
+        address execution = _acquireRealization();
+        Address.functionEntrustInvokespell(execution, msg.data);
     }
 
-    function _collectionRealization(address currentExecution) private {
+    function _collectionRealization(address updatedExecution) private {
         //require(Address.isContract(newImplementation), "ERC1967: new implementation is not a contract");
         VaultSpace
-            .retrieveLocationSpace(_realization_space)
-            .cost = currentExecution;
+            .obtainLocationSpace(_realization_space)
+            .worth = updatedExecution;
     }
 
-    function _obtainRealization() public view returns (address) {
-        return VaultSpace.retrieveLocationSpace(_realization_space).cost;
+    function _acquireRealization() public view returns (address) {
+        return VaultSpace.obtainLocationSpace(_realization_space).worth;
     }
 }
 

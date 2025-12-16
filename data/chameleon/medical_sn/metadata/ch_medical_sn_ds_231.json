@@ -67,20 +67,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_231.json",
     "original_id": "defivulnlabs_readonlyreentrancy"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_231.sol",
   "sanitized_from": "ds_231",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 325430793,
+    "seed": 1731162442,
     "coverage": {
-      "total_identifiers": 74,
-      "transformed": 41,
-      "untransformed": 33,
-      "skipped_reserved": 34,
+      "total_identifiers": 79,
+      "transformed": 42,
+      "untransformed": 37,
+      "skipped_reserved": 35,
       "skipped_interface": 0,
-      "coverage_percent": 55.41,
+      "coverage_percent": 53.16,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -187,6 +188,22 @@
           "reason": "no synonym found"
         },
         {
+          "name": "Read",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invoked",
+          "reason": "no synonym found"
+        },
+        {
           "name": "called",
           "reason": "no synonym found"
         },
@@ -218,47 +235,48 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "get_virtual_price": "diagnose_virtual_charge",
-      "add_liquidity": "insert_availability",
-      "min_mint_amount": "floor_generaterecord_dosage",
+      "get_virtual_price": "obtain_virtual_charge",
+      "add_liquidity": "insert_resources",
+      "min_mint_amount": "floor_generaterecord_units",
       "remove_liquidity": "eliminate_availability",
       "min_amounts": "minimum_amounts",
-      "remove_liquidity_one_coin": "discontinue_resources_one_coin",
-      "min_amount": "floor_dosage",
-      "LP_TOKEN": "lp_credential",
-      "Token": "Id",
+      "remove_liquidity_one_coin": "eliminate_availability_one_coin",
+      "min_amount": "minimum_quantity",
+      "LP_TOKEN": "lp_id",
+      "Token": "Credential",
       "CoreContract": "CoreAgreement",
-      "users": "patients",
+      "users": "beneficiaries",
       "stake": "pledgeTreatment",
-      "getReward": "obtainCredit",
+      "getReward": "retrieveBenefit",
       "current": "active",
-      "price": "charge",
-      "pool": "donorPool",
+      "price": "cost",
+      "pool": "treatmentPool",
       "token": "badge",
       "amount": "units",
       "sender": "provider",
-      "unstake": "unlockBenefits",
-      "tokens": "badges",
-      "reward": "benefit",
-      "OperatorContract": "NurseAgreement",
-      "lpToken": "lpCredential",
-      "target": "objective",
-      "Stake": "LockBenefits",
-      "stakeTokens": "commitmentIds",
+      "unstake": "releaseCoverage",
+      "tokens": "credentials",
+      "reward": "credit",
+      "OperatorContract": "CaregiverPolicy",
+      "lpToken": "lpBadge",
+      "target": "goal",
+      "Stake": "CommitCoverage",
+      "stakeTokens": "commitmentBadges",
       "value": "assessment",
       "log": "chart",
-      "staking": "careCommitment",
-      "performReadOnlyCallback": "performReadOnlyResponse",
-      "Add": "Attach",
-      "liquidity": "resources",
-      "Log": "Record",
-      "Remove": "Drop",
-      "from": "source",
-      "callback": "notification",
-      "complete": "treatmentCompleted",
+      "staking": "treatmentLock",
+      "performReadOnlyCallback": "performReadOnlyNotification",
+      "Add": "Include",
+      "liquidity": "availability",
+      "Log": "Chart",
+      "Remove": "Eliminate",
+      "from": "referrer",
+      "callback": "response",
+      "Reward": "Coverage",
+      "Reentrancy": "ReentryDetected",
       "OperatorTest": "CaregiverTest",
-      "execute": "runDiagnostic",
-      "setUp": "collectionUp"
+      "execute": "performProcedure",
+      "setUp": "groupUp"
     }
   }
 }

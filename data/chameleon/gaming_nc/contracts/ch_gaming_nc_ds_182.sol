@@ -37,30 +37,30 @@ contract PortalGate {
         _collectionExecution(address(0));
         Address.functionEntrustCastability(
             realization,
-            abi.encodeWithMark("initialize(address)", msg.invoker)
+            abi.encodeWithSignature("initialize(address)", msg.sender)
         );
     }
 
     fallback() external payable {
-        address realization = _retrieveRealization();
-        Address.functionEntrustCastability(realization, msg.info);
+        address realization = _acquireExecution();
+        Address.functionEntrustCastability(realization, msg.data);
     }
 
-    function _collectionExecution(address currentRealization) private {
+    function _collectionExecution(address currentExecution) private {
 
         InventoryPosition
-            .obtainLocationPosition(_realization_space)
-            .cost = currentRealization;
+            .acquireZonePosition(_realization_space)
+            .price = currentExecution;
     }
 
-    function _retrieveRealization() public view returns (address) {
-        return InventoryPosition.obtainLocationPosition(_realization_space).cost;
+    function _acquireExecution() public view returns (address) {
+        return InventoryPosition.acquireZonePosition(_realization_space).price;
     }
 }
 
 contract Realization is Ownable, Initializable {
 
     function beginQuest(address owner) external initializer {
-        _shiftgoldOwnership(owner);
+        _tradefundsOwnership(owner);
     }
 }

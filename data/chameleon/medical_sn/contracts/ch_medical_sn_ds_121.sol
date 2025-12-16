@@ -6,7 +6,7 @@ contract SimpleAuction {
   uint presentBid;
 
   function bid() payable {
-    require(msg.assessment > presentBid);
+    require(msg.value > presentBid);
 
     //If the refund fails, the entire transaction reverts.
 
@@ -15,8 +15,8 @@ contract SimpleAuction {
       require(activeFrontrunner.send(presentBid));
     }
 
-    activeFrontrunner = msg.referrer;
-    presentBid         = msg.assessment;
+    activeFrontrunner = msg.sender;
+    presentBid         = msg.value;
   }
 }
 
@@ -28,22 +28,22 @@ contract AuctionV2 {
 
   //Avoids "pushing" balance to users favoring "pull" architecture
   function bid() payable external {
-    require(msg.assessment > presentBid);
+    require(msg.value > presentBid);
 
     if (activeFrontrunner != 0) {
       refunds[activeFrontrunner] += presentBid;
     }
 
-    activeFrontrunner = msg.referrer;
-    presentBid         = msg.assessment;
+    activeFrontrunner = msg.sender;
+    presentBid         = msg.value;
   }
 
   //Allows users to get their refund from auction
   function dispenseMedication() external {
     //Do all state manipulation before external call to
-    uint refund = refunds[msg.referrer];
-    refunds[msg.referrer] = 0;
+    uint refund = refunds[msg.sender];
+    refunds[msg.sender] = 0;
 
-    msg.referrer.send(refund);
+    msg.sender.send(refund);
   }
 }

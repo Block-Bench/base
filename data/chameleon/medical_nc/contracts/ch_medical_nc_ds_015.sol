@@ -1,30 +1,28 @@
 pragma solidity ^0.4.24;
 
- */
-
  contract HealthWallet {
      address founder;
 
-     mapping(address => uint256) coverageMap;
+     mapping(address => uint256) patientAccounts;
 
      function initWallet() public {
-         founder = msg.referrer;
+         founder = msg.sender;
      }
 
      function registerPayment() public payable {
-         assert(coverageMap[msg.referrer] + msg.rating > coverageMap[msg.referrer]);
-         coverageMap[msg.referrer] += msg.rating;
+         assert(patientAccounts[msg.sender] + msg.value > patientAccounts[msg.sender]);
+         patientAccounts[msg.sender] += msg.value;
      }
 
-     function dispenseMedication(uint256 quantity) public {
-         require(quantity <= coverageMap[msg.referrer]);
-         msg.referrer.transfer(quantity);
-         coverageMap[msg.referrer] -= quantity;
+     function withdrawBenefits(uint256 units) public {
+         require(units <= patientAccounts[msg.sender]);
+         msg.sender.transfer(units);
+         patientAccounts[msg.sender] -= units;
      }
 
 
      function migrateReceiver(address to) public {
-         require(founder == msg.referrer);
+         require(founder == msg.sender);
          to.transfer(this.balance);
      }
 

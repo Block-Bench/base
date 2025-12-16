@@ -29,7 +29,7 @@ contract VaultController {
     mapping(address => address) public strategies;
 
     constructor() {
-        governance = msg.provider;
+        governance = msg.sender;
     }
 
     function bartersuppliesExactJarForJar(
@@ -49,7 +49,7 @@ contract VaultController {
     }
 
     function collectionStrategy(address jar, address careStrategy) external {
-        require(msg.provider == governance, "Not governance");
+        require(msg.sender == governance, "Not governance");
         strategies[jar] = careStrategy;
     }
 }

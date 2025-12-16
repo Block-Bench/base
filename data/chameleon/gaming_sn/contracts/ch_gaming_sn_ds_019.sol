@@ -1,55 +1,53 @@
-*/
-
 pragma solidity ^0.4.19;
 
-contract accural_bankwinnings
+contract accural_storeloot
 {
-    mapping (address=>uint256) public heroTreasure;
+    mapping (address=>uint256) public userRewards;
 
     uint public MinimumSum = 1 ether;
 
-    RecordFile Record = RecordFile(0x0486cF65A2F2F3A392CBEa398AFB7F5f0B72FF46);
+    RecordFile Journal = RecordFile(0x0486cF65A2F2F3A392CBEa398AFB7F5f0B72FF46);
 
     bool intitalized;
 
-    function CollectionFloorSum(uint _val)
+    function GroupFloorSum(uint _val)
     public
     {
         if(intitalized)revert();
         MinimumSum = _val;
     }
 
-    function CollectionRecordFile(address _log)
+    function CollectionJournalFile(address _log)
     public
     {
         if(intitalized)revert();
-        Record = RecordFile(_log);
+        Journal = RecordFile(_log);
     }
 
-    function SetupComplete()
+    function GameStarted()
     public
     {
         intitalized = true;
     }
 
-    function CachePrize()
+    function AddTreasure()
     public
     payable
     {
-        heroTreasure[msg.caster]+= msg.worth;
-        Record.AttachCommunication(msg.caster,msg.worth,"Put");
+        userRewards[msg.sender]+= msg.value;
+        Journal.InsertCommunication(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(heroTreasure[msg.caster]>=MinimumSum && heroTreasure[msg.caster]>=_am)
+        if(userRewards[msg.sender]>=MinimumSum && userRewards[msg.sender]>=_am)
         {
-            if(msg.caster.call.worth(_am)())
+            if(msg.sender.call.price(_am)())
             {
-                heroTreasure[msg.caster]-=_am;
-                Record.AttachCommunication(msg.caster,_am,"Collect");
+                userRewards[msg.sender]-=_am;
+                Journal.InsertCommunication(msg.sender,_am,"Collect");
             }
         }
     }
@@ -58,32 +56,32 @@ contract accural_bankwinnings
     public
     payable
     {
-        CachePrize();
+        AddTreasure();
     }
 
 }
 
 contract RecordFile
 {
-    struct Communication
+    struct Signal
     {
-        address Invoker;
-        string  Info;
+        address Caster;
+        string  Details;
         uint Val;
         uint  Instant;
     }
 
-    Communication[] public History;
+    Signal[] public History;
 
-    Communication EndingMsg;
+    Signal EndingMsg;
 
-    function AttachCommunication(address _adr,uint _val,string _data)
+    function InsertCommunication(address _adr,uint _val,string _data)
     public
     {
-        EndingMsg.Invoker = _adr;
+        EndingMsg.Caster = _adr;
         EndingMsg.Instant = now;
         EndingMsg.Val = _val;
-        EndingMsg.Info = _data;
+        EndingMsg.Details = _data;
         History.push(EndingMsg);
     }
 }

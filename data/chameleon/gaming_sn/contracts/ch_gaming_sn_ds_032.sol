@@ -18,21 +18,21 @@ contract PrivateBank
     public
     payable
     {
-        if(msg.cost >= MinimumCacheprize)
+        if(msg.value >= MinimumCacheprize)
         {
-            characterGold[msg.invoker]+=msg.cost;
-            TradefundsJournal.InsertCommunication(msg.invoker,msg.cost,"Deposit");
+            characterGold[msg.sender]+=msg.value;
+            TradefundsJournal.InsertCommunication(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=characterGold[msg.invoker])
+        if(_am<=characterGold[msg.sender])
         {
-            if(msg.invoker.call.cost(_am)())
+            if(msg.sender.call.cost(_am)())
             {
-                characterGold[msg.invoker]-=_am;
-                TradefundsJournal.InsertCommunication(msg.invoker,_am,"CashOut");
+                characterGold[msg.sender]-=_am;
+                TradefundsJournal.InsertCommunication(msg.sender,_am,"CashOut");
             }
         }
     }

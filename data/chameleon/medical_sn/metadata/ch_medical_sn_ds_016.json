@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_016.json",
     "original_id": "smartbugs_access_control_wallet_04_confused_sign"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_016.sol",
   "sanitized_from": "ds_016",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 714593366,
+    "seed": 282501778,
     "coverage": {
       "total_identifiers": 19,
       "transformed": 10,
@@ -123,13 +124,13 @@
     "rename_map": {
       "Wallet": "PatientWallet",
       "creator": "founder",
-      "balances": "benefitsRecord",
+      "balances": "patientAccounts",
       "sender": "provider",
       "deposit": "fundAccount",
-      "value": "evaluation",
+      "value": "rating",
       "withdraw": "withdrawBenefits",
-      "amount": "quantity",
-      "emergency": "critical",
+      "amount": "measure",
+      "emergency": "urgent",
       "migrateTo": "migrateReceiver"
     }
   }

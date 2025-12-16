@@ -65,13 +65,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_204.json",
     "original_id": "notso_honeypots_lottery"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_204.sol",
   "sanitized_from": "ds_204",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1857766968,
+    "seed": 3571623002,
     "coverage": {
       "total_identifiers": 83,
       "transformed": 16,
@@ -352,21 +353,21 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "OpenAddressLottery": "OpenLocationLottery",
-      "calculate": "compute",
+      "OpenAddressLottery": "OpenRealmLottery",
+      "calculate": "figure",
       "lastReseed": "finalReseed",
-      "last": "final",
-      "sender": "caster",
-      "timestamp": "questTime",
-      "value": "cost",
-      "verify": "validate",
-      "price": "cost955",
-      "hasn": "holdsn",
-      "luckyNumberOfAddress": "luckyNumberOfRealm",
-      "check": "validate227",
-      "isnt": "testnt",
-      "current": "present",
-      "hash": "seal",
+      "last": "ending",
+      "sender": "initiator",
+      "timestamp": "gameTime",
+      "value": "worth",
+      "verify": "confirm",
+      "price": "cost",
+      "hasn": "containsn",
+      "luckyNumberOfAddress": "luckyNumberOfLocation",
+      "check": "inspect",
+      "isnt": "checknt",
+      "current": "active",
+      "hash": "signature",
       "initialize": "launchAdventure"
     }
   }

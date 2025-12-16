@@ -21,35 +21,34 @@ contract Delta {
 	address public owner2 = 0x0C6561edad2017c01579Fd346a58197ea01A0Cf3;
 	uint public enabled = 1;
 
-	uint public crystal_value = 10**18*1/1000;
+	uint public gem_cost = 10**18*1/1000;
 
 	//default function for buy tokens
 	function() payable {
-	    coins_buy();
+	    medals_buy();
 	}
 
-	*/
-    function coins_buy() payable returns (bool) {
+    function medals_buy() payable returns (bool) {
 
         require(enabled > 0);
-        require(msg.worth >= crystal_value);
+        require(msg.value >= gem_cost);
 
-        uint coins_buy = msg.worth*10**18/crystal_value;
+        uint medals_buy = msg.value*10**18/gem_cost;
 
-        require(coins_buy > 0);
+        require(medals_buy > 0);
 
-        if(!c.call(bytes4(sha3("transferFrom(address,address,uint256)")),owner, msg.invoker,coins_buy)){
+        if(!c.call(bytes4(sha3("transferFrom(address,address,uint256)")),owner, msg.sender,medals_buy)){
         	return false;
         }
 
-        uint sum2 = msg.worth * 3 / 10;
+        uint sum2 = msg.value * 3 / 10;
         owner2.send(sum2);
 
         return true;
       }
 
       //Withdraw money from contract balance to owner
-      function retrieveRewards(uint256 _amount) onlyOwner returns (bool product) {
+      function extractWinnings(uint256 _amount) onlyOwner returns (bool product) {
           uint256 balance;
           balance = this.balance;
           if(_amount > 0) balance = _amount;
@@ -58,8 +57,8 @@ contract Delta {
       }
 
       //Change token
-      function change_gem_value(uint256 _coin_value) onlyOwner returns (bool product) {
-        crystal_value = _coin_value;
+      function change_gem_cost(uint256 _crystal_cost) onlyOwner returns (bool product) {
+        gem_cost = _crystal_cost;
         return true;
       }
 
@@ -71,7 +70,7 @@ contract Delta {
 
       // Functions with this modifier can only be executed by the owner
     	modifier onlyOwner() {
-        if (msg.invoker != owner) {
+        if (msg.sender != owner) {
             throw;
         }
         _;

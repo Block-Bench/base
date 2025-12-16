@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_233.json",
     "original_id": "smartbugs_bad_randomness_blackjack"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_233.sol",
   "sanitized_from": "ds_233",
   "derived_from": "sn_ds_233",
@@ -76,12 +77,12 @@
     "source": "nocomments",
     "seed": 2411450116,
     "coverage": {
-      "total_identifiers": 62,
+      "total_identifiers": 61,
       "transformed": 32,
-      "untransformed": 30,
-      "skipped_reserved": 38,
+      "untransformed": 29,
+      "skipped_reserved": 39,
       "skipped_interface": 0,
-      "coverage_percent": 51.61,
+      "coverage_percent": 52.46,
       "untransformed_details": [
         {
           "name": "Deck",
@@ -109,10 +110,6 @@
         },
         {
           "name": "BlackJack",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "finney",
           "reason": "no synonym found"
         },
         {

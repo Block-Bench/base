@@ -33,10 +33,10 @@ contract VaultStrategy {
             allocationsAdded = (units * aggregatePortions * 1e18) / (patientPool * cost);
         }
 
-        allocations[msg.provider] += allocationsAdded;
+        allocations[msg.sender] += allocationsAdded;
         aggregatePortions += allocationsAdded;
 
-        IERC20(wantId).transferFrom(msg.provider, address(this), units);
+        IERC20(wantId).transferFrom(msg.sender, address(this), units);
         return allocationsAdded;
     }
 
@@ -46,9 +46,9 @@ contract VaultStrategy {
         uint256 cost = ICostSpecialist(consultant).diagnoseCost(wantId);
         uint256 units = (allocationsUnits * patientPool * cost) / (aggregatePortions * 1e18);
 
-        allocations[msg.provider] -= allocationsUnits;
+        allocations[msg.sender] -= allocationsUnits;
         aggregatePortions -= allocationsUnits;
 
-        IERC20(wantId).transfer(msg.provider, units);
+        IERC20(wantId).transfer(msg.sender, units);
     }
 }

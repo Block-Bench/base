@@ -7,23 +7,23 @@ contract X_WALLET
     public
     payable
     {
-        var acc = Acc[msg.initiator];
-        acc.balance += msg.cost;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         acc.releaseassetsInstant = _releaseassetsMoment>now?_releaseassetsMoment:now;
-        RecordFile.InsertCommunication(msg.initiator,msg.cost,"Put");
+        RecordFile.InsertCommunication(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.initiator];
+        var acc = Acc[msg.sender];
         if( acc.balance>=MinimumSum && acc.balance>=_am && now>acc.releaseassetsInstant)
         {
-            if(msg.initiator.call.cost(_am)())
+            if(msg.sender.call.cost(_am)())
             {
                 acc.balance-=_am;
-                RecordFile.InsertCommunication(msg.initiator,_am,"Collect");
+                RecordFile.InsertCommunication(msg.sender,_am,"Collect");
             }
         }
     }

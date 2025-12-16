@@ -60,7 +60,7 @@ contract MigrateTroveZap {
         address lowerHint
     ) external {
         IERC20(wstETH).transferFrom(
-            msg.initiator,
+            msg.sender,
             address(this),
             depositQuantity
         );
@@ -77,7 +77,7 @@ contract MigrateTroveZap {
             lowerHint
         );
 
-        IERC20(mkUSD).transfer(msg.initiator, liabilityMeasure);
+        IERC20(mkUSD).transfer(msg.sender, liabilityMeasure);
     }
 
     function closeTroveFor(address troveHandler, address profile) external {
@@ -90,7 +90,7 @@ contract BorrowerOperations {
     ITroveController public troveHandler;
 
     function groupAssignApproval(address _delegate, bool _isApproved) external {
-        delegates[msg.initiator][_delegate] = _isApproved;
+        delegates[msg.sender][_delegate] = _isApproved;
     }
 
     function openTrove(
@@ -103,14 +103,14 @@ contract BorrowerOperations {
         address _lowerHint
     ) external {
         require(
-            msg.initiator == profile || delegates[profile][msg.initiator],
+            msg.sender == profile || delegates[profile][msg.sender],
             "Not authorized"
         );
     }
 
     function closeTrove(address _troveHandler, address profile) external {
         require(
-            msg.initiator == profile || delegates[profile][msg.initiator],
+            msg.sender == profile || delegates[profile][msg.sender],
             "Not authorized"
         );
     }

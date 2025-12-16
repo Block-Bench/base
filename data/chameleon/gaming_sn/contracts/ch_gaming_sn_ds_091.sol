@@ -3,38 +3,36 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract EtherGame {
-    uint public constant aimCount = 7 ether;
+    uint public constant goalSum = 7 ether;
     address public winner;
 
     function bankWinnings() public payable {
-        require(msg.price == 1 ether, "You can only send 1 Ether");
+        require(msg.value == 1 ether, "You can only send 1 Ether");
 
         uint balance = address(this).balance;
-        require(balance <= aimCount, "Game is over");
+        require(balance <= goalSum, "Game is over");
 
-        if (balance == aimCount) {
-            winner = msg.invoker;
+        if (balance == goalSum) {
+            winner = msg.sender;
         }
     }
 
-    function collectbountyBonus() public {
-        require(msg.invoker == winner, "Not winner");
+    function collectbountyPrize() public {
+        require(msg.sender == winner, "Not winner");
 
-        (bool sent, ) = msg.invoker.call{price: address(this).balance}("");
+        (bool sent, ) = msg.sender.call{magnitude: address(this).balance}("");
         require(sent, "Failed to send Ether");
     }
 }
 
 contract PactTest is Test {
     EtherGame EtherGamePact;
-    QuestRunner QuestrunnerAgreement;
+    GameOperator QuestrunnerPact;
     address alice;
     address eve;
 
-    function collectionUp() public {
+    function groupUp() public {
         EtherGamePact = new EtherGame();
         alice = vm.addr(1);
         eve = vm.addr(2);
@@ -43,36 +41,36 @@ contract PactTest is Test {
     }
 
     function testSelfdestruct() public {
-        console.record("Alice balance", alice.balance);
-        console.record("Eve balance", eve.balance);
+        console.journal("Alice balance", alice.balance);
+        console.journal("Eve balance", eve.balance);
 
-        console.record("Alice deposit 1 Ether...");
+        console.journal("Alice deposit 1 Ether...");
         vm.prank(alice);
-        EtherGamePact.bankWinnings{price: 1 ether}();
+        EtherGamePact.bankWinnings{magnitude: 1 ether}();
 
-        console.record("Eve deposit 1 Ether...");
+        console.journal("Eve deposit 1 Ether...");
         vm.prank(eve);
-        EtherGamePact.bankWinnings{price: 1 ether}();
+        EtherGamePact.bankWinnings{magnitude: 1 ether}();
 
-        console.record(
+        console.journal(
             "Balance of EtherGameContract",
             address(EtherGamePact).balance
         );
 
-        console.record("Operator...");
-        QuestrunnerAgreement = new QuestRunner(EtherGamePact);
-        QuestrunnerAgreement.dos{price: 5 ether}();
+        console.journal("Operator...");
+        QuestrunnerPact = new GameOperator(EtherGamePact);
+        QuestrunnerPact.dos{magnitude: 5 ether}();
 
-        console.record(
+        console.journal(
             "Balance of EtherGameContract",
             address(EtherGamePact).balance
         );
-        console.record("operate completed, Game is over");
-        EtherGamePact.bankWinnings{price: 1 ether}(); // This call will fail due to contract destroyed.
+        console.journal("operate completed, Game is over");
+        EtherGamePact.bankWinnings{magnitude: 1 ether}(); // This call will fail due to contract destroyed.
     }
 }
 
-contract QuestRunner {
+contract GameOperator {
     EtherGame etherGame;
 
     constructor(EtherGame _etherGame) {

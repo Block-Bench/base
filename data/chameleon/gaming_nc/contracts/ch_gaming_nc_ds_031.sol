@@ -17,10 +17,10 @@ contract Private_Bank
     public
     payable
     {
-        if(msg.magnitude > MinimumAddtreasure)
+        if(msg.value > MinimumAddtreasure)
         {
-            playerLoot[msg.initiator]+=msg.magnitude;
-            SendlootRecord.AppendSignal(msg.initiator,msg.magnitude,"Deposit");
+            playerLoot[msg.sender]+=msg.value;
+            SendlootRecord.AppendSignal(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -28,12 +28,12 @@ contract Private_Bank
     public
     payable
     {
-        if(_am<=playerLoot[msg.initiator])
+        if(_am<=playerLoot[msg.sender])
         {
-            if(msg.initiator.call.magnitude(_am)())
+            if(msg.sender.call.magnitude(_am)())
             {
-                playerLoot[msg.initiator]-=_am;
-                SendlootRecord.AppendSignal(msg.initiator,_am,"CashOut");
+                playerLoot[msg.sender]-=_am;
+                SendlootRecord.AppendSignal(msg.sender,_am,"CashOut");
             }
         }
     }

@@ -66,20 +66,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_197.json",
     "original_id": "defivulnlabs_unsafecall"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_197.sol",
   "sanitized_from": "ds_197",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 61551657,
+    "seed": 335737447,
     "coverage": {
-      "total_identifiers": 52,
-      "transformed": 20,
+      "total_identifiers": 51,
+      "transformed": 19,
       "untransformed": 32,
-      "skipped_reserved": 43,
+      "skipped_reserved": 44,
       "skipped_interface": 0,
-      "coverage_percent": 38.46,
+      "coverage_percent": 37.25,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -213,26 +214,25 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "TokenWhale": "IdWhale",
-      "TokenWhaleContract": "IdWhalePolicy",
+      "ContractTest": "PolicyTest",
+      "TokenWhale": "BadgeWhale",
+      "TokenWhaleContract": "CredentialWhalePolicy",
       "testAltCall": "testAltInvokeprotocol",
-      "TokenWhaleDeploy": "IdWhaleDeploy",
+      "TokenWhaleDeploy": "CredentialWhaleDeploy",
       "log": "chart",
       "payload": "data",
-      "encodeWithSignature": "encodeWithAuthorization",
-      "from": "referrer",
+      "from": "source",
       "approveAndCallcode": "allowprocedureAndCallcode",
-      "Simple": "BasicCare",
-      "Token": "Badge",
+      "Simple": "SimpleTreatment",
+      "Token": "Id",
       "SET": "Assign",
-      "isComplete": "checkComplete",
-      "value": "assessment",
-      "sender": "referrer200",
-      "Approval": "AccessGranted",
-      "spender": "payer",
+      "isComplete": "verifyComplete",
+      "value": "rating",
+      "sender": "referrer",
+      "Approval": "TreatmentAuthorized",
+      "spender": "subscriber",
       "_extraData": "_extraChart",
-      "success": "improvement"
+      "success": "recovery"
     }
   }
 }

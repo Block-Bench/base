@@ -77,7 +77,7 @@ contract UwuLendingPool is ILendingPool {
         address onBehalfOf,
         uint16 referralCode
     ) external override {
-        IERC20(asset).transferFrom(msg.provider, address(this), quantity);
+        IERC20(asset).transferFrom(msg.sender, address(this), quantity);
         deposits[onBehalfOf] += quantity;
     }
 
@@ -88,10 +88,10 @@ contract UwuLendingPool is ILendingPool {
         uint16 referralCode,
         address onBehalfOf
     ) external override {
-        uint256 depositCost = specialist.acquireAssetCost(msg.provider);
+        uint256 depositCost = specialist.acquireAssetCost(msg.sender);
         uint256 seekcoverageCharge = specialist.acquireAssetCost(asset);
 
-        uint256 securityRating = (deposits[msg.provider] * depositCost) /
+        uint256 securityRating = (deposits[msg.sender] * depositCost) /
             1e18;
         uint256 ceilingRequestadvance = (securityRating * LTV) / BASIS_POINTS;
 
@@ -99,7 +99,7 @@ contract UwuLendingPool is ILendingPool {
 
         require(requestadvanceRating <= ceilingRequestadvance, "Insufficient collateral");
 
-        borrows[msg.provider] += quantity;
+        borrows[msg.sender] += quantity;
         IERC20(asset).transfer(onBehalfOf, quantity);
     }
 
@@ -108,8 +108,8 @@ contract UwuLendingPool is ILendingPool {
         uint256 quantity,
         address to
     ) external override returns (uint256) {
-        require(deposits[msg.provider] >= quantity, "Insufficient balance");
-        deposits[msg.provider] -= quantity;
+        require(deposits[msg.sender] >= quantity, "Insufficient balance");
+        deposits[msg.sender] -= quantity;
         IERC20(asset).transfer(to, quantity);
         return quantity;
     }

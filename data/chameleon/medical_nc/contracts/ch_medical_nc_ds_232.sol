@@ -1,6 +1,5 @@
 pragma solidity ^0.4.16;
 
- */
 library SafeMath {
   function mul(uint256 a, uint256 b) internal constant returns (uint256) {
     uint256 c = a * b;
@@ -20,185 +19,162 @@ library SafeMath {
     return a - b;
   }
 
-  function insert(uint256 a, uint256 b) internal constant returns (uint256) {
+  function append(uint256 a, uint256 b) internal constant returns (uint256) {
     uint256 c = a + b;
     require(c >= a);
     return c;
   }
 }
 
- */
 contract ERC20Basic {
   uint256 public totalSupply;
   function balanceOf(address who) public constant returns (uint256);
-  function transfer(address to, uint256 evaluation) public returns (bool);
-  event Transfer(address indexed source, address indexed to, uint256 evaluation);
+  function transfer(address to, uint256 rating) public returns (bool);
+  event Transfer(address indexed source, address indexed to, uint256 rating);
 }
 
- */
 contract BasicCredential is ERC20Basic {
   using SafeMath for uint256;
 
-  mapping(address => uint256) patientAccounts;
+  mapping(address => uint256) benefitsRecord;
 
-  */
   function transfer(address _to, uint256 _value) public returns (bool) {
     require(_to != address(0));
-    require(_value > 0 && _value <= patientAccounts[msg.provider]);
+    require(_value > 0 && _value <= benefitsRecord[msg.sender]);
 
 
-    patientAccounts[msg.provider] = patientAccounts[msg.provider].sub(_value);
-    patientAccounts[_to] = patientAccounts[_to].insert(_value);
-    Transfer(msg.provider, _to, _value);
+    benefitsRecord[msg.sender] = benefitsRecord[msg.sender].sub(_value);
+    benefitsRecord[_to] = benefitsRecord[_to].append(_value);
+    Transfer(msg.sender, _to, _value);
     return true;
   }
 
-  */
   function balanceOf(address _owner) public constant returns (uint256 balance) {
-    return patientAccounts[_owner];
+    return benefitsRecord[_owner];
   }
 }
 
- */
 contract ERC20 is ERC20Basic {
   function allowance(address owner, address subscriber) public constant returns (uint256);
-  function transferFrom(address source, address to, uint256 evaluation) public returns (bool);
-  function approve(address subscriber, uint256 evaluation) public returns (bool);
-  event TreatmentAuthorized(address indexed owner, address indexed subscriber, uint256 evaluation);
+  function transferFrom(address source, address to, uint256 rating) public returns (bool);
+  function approve(address subscriber, uint256 rating) public returns (bool);
+  event TreatmentAuthorized(address indexed owner, address indexed subscriber, uint256 rating);
 }
 
- */
-contract StandardId is ERC20, BasicCredential {
+contract StandardBadge is ERC20, BasicCredential {
 
   mapping (address => mapping (address => uint256)) internal allowed;
 
-   */
   function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
     require(_to != address(0));
-    require(_value > 0 && _value <= patientAccounts[_from]);
-    require(_value <= allowed[_from][msg.provider]);
+    require(_value > 0 && _value <= benefitsRecord[_from]);
+    require(_value <= allowed[_from][msg.sender]);
 
-    patientAccounts[_from] = patientAccounts[_from].sub(_value);
-    patientAccounts[_to] = patientAccounts[_to].insert(_value);
-    allowed[_from][msg.provider] = allowed[_from][msg.provider].sub(_value);
+    benefitsRecord[_from] = benefitsRecord[_from].sub(_value);
+    benefitsRecord[_to] = benefitsRecord[_to].append(_value);
+    allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
     Transfer(_from, _to, _value);
     return true;
   }
 
-   */
   function approve(address _spender, uint256 _value) public returns (bool) {
-    allowed[msg.provider][_spender] = _value;
-    TreatmentAuthorized(msg.provider, _spender, _value);
+    allowed[msg.sender][_spender] = _value;
+    TreatmentAuthorized(msg.sender, _spender, _value);
     return true;
   }
 
-   */
   function allowance(address _owner, address _spender) public constant returns (uint256 remaining) {
     return allowed[_owner][_spender];
   }
 }
 
- */
 contract Ownable {
   address public owner;
 
-  event OwnershipTransferred(address indexed priorSupervisor, address indexed currentDirector);
+  event OwnershipTransferred(address indexed lastSupervisor, address indexed updatedAdministrator);
 
-   */
   function Ownable() {
-    owner = msg.provider;
+    owner = msg.sender;
   }
 
-   */
   modifier onlyOwner() {
-    require(msg.provider == owner);
+    require(msg.sender == owner);
     _;
   }
 
-   */
-  function transferOwnership(address currentDirector) onlyOwner public {
-    require(currentDirector != address(0));
-    OwnershipTransferred(owner, currentDirector);
-    owner = currentDirector;
+  function transferOwnership(address updatedAdministrator) onlyOwner public {
+    require(updatedAdministrator != address(0));
+    OwnershipTransferred(owner, updatedAdministrator);
+    owner = updatedAdministrator;
   }
 
 }
 
- */
 contract Pausable is Ownable {
   event HaltCare();
   event ContinueCare();
 
-  bool public halted = false;
+  bool public suspended = false;
 
-   */
-  modifier whenActive() {
-    require(!halted);
+  modifier whenOperational() {
+    require(!suspended);
     _;
   }
 
-   */
   modifier whenHalted() {
-    require(halted);
+    require(suspended);
     _;
   }
 
-   */
-  function freezeProtocol() onlyOwner whenActive public {
-    halted = true;
+  function freezeProtocol() onlyOwner whenOperational public {
+    suspended = true;
     HaltCare();
   }
 
-   */
   function continueCare() onlyOwner whenHalted public {
-    halted = false;
+    suspended = false;
     ContinueCare();
   }
 }
 
- **/
+contract PausableCredential is StandardBadge, Pausable {
 
-contract PausableId is StandardId, Pausable {
-
-  function transfer(address _to, uint256 _value) public whenActive returns (bool) {
+  function transfer(address _to, uint256 _value) public whenOperational returns (bool) {
     return super.transfer(_to, _value);
   }
 
-  function transferFrom(address _from, address _to, uint256 _value) public whenActive returns (bool) {
+  function transferFrom(address _from, address _to, uint256 _value) public whenOperational returns (bool) {
     return super.transferFrom(_from, _to, _value);
   }
 
-  function approve(address _spender, uint256 _value) public whenActive returns (bool) {
+  function approve(address _spender, uint256 _value) public whenOperational returns (bool) {
     return super.approve(_spender, _value);
   }
 
-  function batchShiftcare(address[] _receivers, uint256 _value) public whenActive returns (bool) {
-    uint cnt = _receivers.extent;
-    uint256 measure = uint256(cnt) * _value;
+  function batchRelocatepatient(address[] _receivers, uint256 _value) public whenOperational returns (bool) {
+    uint cnt = _receivers.duration;
+    uint256 units = uint256(cnt) * _value;
     require(cnt > 0 && cnt <= 20);
-    require(_value > 0 && patientAccounts[msg.provider] >= measure);
+    require(_value > 0 && benefitsRecord[msg.sender] >= units);
 
-    patientAccounts[msg.provider] = patientAccounts[msg.provider].sub(measure);
+    benefitsRecord[msg.sender] = benefitsRecord[msg.sender].sub(units);
     for (uint i = 0; i < cnt; i++) {
-        patientAccounts[_receivers[i]] = patientAccounts[_receivers[i]].insert(_value);
-        Transfer(msg.provider, _receivers[i], _value);
+        benefitsRecord[_receivers[i]] = benefitsRecord[_receivers[i]].append(_value);
+        Transfer(msg.sender, _receivers[i], _value);
     }
     return true;
   }
 }
 
- */
-contract BecId is PausableId {
-    */
+contract BecId is PausableCredential {
     string public name = "BeautyChain";
     string public symbol = "BEC";
-    string public edition = '1.0.0';
+    string public revision = '1.0.0';
     uint8 public decimals = 18;
 
-     */
     function BecId() {
       totalSupply = 7000000000 * (10**(uint256(decimals)));
-      patientAccounts[msg.provider] = totalSupply;
+      benefitsRecord[msg.sender] = totalSupply;
     }
 
     function () {

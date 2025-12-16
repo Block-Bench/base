@@ -43,8 +43,8 @@ contract GovernanceSystem {
 
 
     function fundAccount(uint256 quantity) external {
-        depositedBenefits[msg.provider] += quantity;
-        votingAuthority[msg.provider] += quantity;
+        depositedBenefits[msg.sender] += quantity;
+        votingAuthority[msg.sender] += quantity;
         completeVotingCapability += quantity;
     }
 
@@ -58,29 +58,29 @@ contract GovernanceSystem {
         proposalTally++;
 
         Proposal storage prop = proposals[proposalTally];
-        prop.proposer = msg.provider;
+        prop.proposer = msg.sender;
         prop.goal = _target;
         prop.info = _calldata;
-        prop.beginMoment = block.admissionTime;
+        prop.beginMoment = block.timestamp;
         prop.executed = false;
 
 
-        prop.forVotes = votingAuthority[msg.provider];
-        containsVoted[proposalTally][msg.provider] = true;
+        prop.forVotes = votingAuthority[msg.sender];
+        containsVoted[proposalTally][msg.sender] = true;
 
-        emit ProposalCreated(proposalTally, msg.provider, _target);
+        emit ProposalCreated(proposalTally, msg.sender, _target);
         return proposalTally;
     }
 
 
     function decide(uint256 proposalCasenumber) external {
-        require(!containsVoted[proposalCasenumber][msg.provider], "Already voted");
+        require(!containsVoted[proposalCasenumber][msg.sender], "Already voted");
         require(!proposals[proposalCasenumber].executed, "Already executed");
 
-        proposals[proposalCasenumber].forVotes += votingAuthority[msg.provider];
-        containsVoted[proposalCasenumber][msg.provider] = true;
+        proposals[proposalCasenumber].forVotes += votingAuthority[msg.sender];
+        containsVoted[proposalCasenumber][msg.sender] = true;
 
-        emit Voted(proposalCasenumber, msg.provider, votingAuthority[msg.provider]);
+        emit Voted(proposalCasenumber, msg.sender, votingAuthority[msg.sender]);
     }
 
 

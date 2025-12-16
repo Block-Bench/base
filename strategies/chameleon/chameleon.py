@@ -19,6 +19,21 @@ from typing import Optional, Dict, List, Set, Tuple
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
 
+# Import shared reserved keywords
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+from strategies.common import (
+    SOLIDITY_RESERVED,
+    SOLIDITY_DOT_PROPERTIES,
+    MSG_PROPERTIES,
+    BLOCK_PROPERTIES,
+    TX_PROPERTIES,
+    ABI_FUNCTIONS,
+    ADDRESS_MEMBERS,
+    is_solidity_reserved,
+    is_solidity_dot_property,
+)
+
 
 # =============================================================================
 # CONFIGURATION
@@ -391,8 +406,59 @@ class ChameleonTransformer:
         return int(hashlib.md5(seed_input.encode()).hexdigest(), 16) % (2**32)
 
     def _is_reserved(self, name: str) -> bool:
-        """Check if identifier is reserved."""
-        return name in RESERVED_WORDS or name.lower() in RESERVED_WORDS
+        """Check if identifier is reserved (standalone check, not context-aware)."""
+        # Check against local RESERVED_WORDS and shared SOLIDITY_RESERVED
+        if name in RESERVED_WORDS or name.lower() in RESERVED_WORDS:
+            return True
+        return is_solidity_reserved(name)
+
+    def _is_dot_property_context(self, code: str, pos: int) -> Optional[str]:
+        """
+        Check if the identifier at position is a dot property.
+        Returns the parent object name (msg, block, tx, etc.) if it's a dot property, None otherwise.
+        """
+        # Look backwards from position to find if preceded by "."
+        if pos <= 0:
+            return None
+
+        # Check what's before this identifier
+        before = code[:pos].rstrip()
+        if not before.endswith('.'):
+            return None
+
+        # Find the object before the dot
+        before_dot = before[:-1].rstrip()
+
+        # Extract the parent identifier
+        match = re.search(r'([a-zA-Z_][a-zA-Z0-9_]*)$', before_dot)
+        if not match:
+            return None
+
+        parent = match.group(1)
+
+        # Check if this is a special parent that has reserved properties
+        if parent in ('msg', 'block', 'tx', 'abi', 'type', 'address'):
+            return parent
+
+        return None
+
+    def _should_skip_rename(self, name: str, code: str, pos: int) -> bool:
+        """
+        Determine if an identifier should be skipped from renaming.
+        Considers both standalone reserved words and dot property context.
+        """
+        # Check standalone reserved
+        if self._is_reserved(name):
+            return True
+
+        # Check dot property context (e.g., msg.sender, block.timestamp)
+        parent = self._is_dot_property_context(code, pos)
+        if parent:
+            # Check if this identifier is a property of the parent
+            if is_solidity_dot_property(name):
+                return True
+
+        return False
 
     def _is_in_string_or_comment(self, code: str, pos: int) -> bool:
         """Check if position is inside a string literal or comment."""
@@ -587,8 +653,15 @@ class ChameleonTransformer:
         for name, start, end in all_identifiers:
             if name in rename_map:
                 # Skip if in string or comment
-                if not self._is_in_string_or_comment(source_code, start):
-                    edits.append((start, end, rename_map[name]))
+                if self._is_in_string_or_comment(source_code, start):
+                    continue
+
+                # Skip if this is a dot property context (e.g., msg.sender, block.timestamp)
+                # Even if 'sender' is in rename_map, don't rename it when part of msg.sender
+                if self._should_skip_rename(name, source_code, start):
+                    continue
+
+                edits.append((start, end, rename_map[name]))
 
         # Sort by position descending
         edits.sort(key=lambda x: x[0], reverse=True)

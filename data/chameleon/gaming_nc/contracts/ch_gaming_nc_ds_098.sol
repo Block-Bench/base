@@ -2,43 +2,41 @@ pragma solidity ^0.7.6;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract InstantSecuretreasure {
+contract MomentFreezegold {
     mapping(address => uint) public characterGold;
-    mapping(address => uint) public securetreasureInstant;
+    mapping(address => uint) public bindassetsInstant;
 
     function cachePrize() external payable {
-        characterGold[msg.invoker] += msg.cost;
-        securetreasureInstant[msg.invoker] = block.questTime + 1 weeks;
+        characterGold[msg.sender] += msg.value;
+        bindassetsInstant[msg.sender] = block.timestamp + 1 weeks;
     }
 
     function increaseBindassetsMoment(uint _secondsDestinationIncrease) public {
-        securetreasureInstant[msg.invoker] += _secondsDestinationIncrease;
+        bindassetsInstant[msg.sender] += _secondsDestinationIncrease;
     }
 
-    function retrieveRewards() public {
-        require(characterGold[msg.invoker] > 0, "Insufficient funds");
+    function gatherTreasure() public {
+        require(characterGold[msg.sender] > 0, "Insufficient funds");
         require(
-            block.questTime > securetreasureInstant[msg.invoker],
+            block.timestamp > bindassetsInstant[msg.sender],
             "Lock time not expired"
         );
 
-        uint total = characterGold[msg.invoker];
-        characterGold[msg.invoker] = 0;
+        uint total = characterGold[msg.sender];
+        characterGold[msg.sender] = 0;
 
-        (bool sent, ) = msg.invoker.call{cost: total}("");
+        (bool sent, ) = msg.sender.call{price: total}("");
         require(sent, "Failed to send Ether");
     }
 }
 
 contract AgreementTest is Test {
-    InstantSecuretreasure InstantSecuretreasureAgreement;
+    MomentFreezegold InstantSecuretreasureAgreement;
     address alice;
     address bob;
 
-    function collectionUp() public {
-        InstantSecuretreasureAgreement = new InstantSecuretreasure();
+    function groupUp() public {
+        InstantSecuretreasureAgreement = new MomentFreezegold();
         alice = vm.addr(1);
         bob = vm.addr(2);
         vm.deal(alice, 1 ether);
@@ -46,34 +44,34 @@ contract AgreementTest is Test {
     }
 
     function testCalculation() public {
-        console.record("Alice balance", alice.balance);
-        console.record("Bob balance", bob.balance);
+        console.journal("Alice balance", alice.balance);
+        console.journal("Bob balance", bob.balance);
 
-        console.record("Alice deposit 1 Ether...");
+        console.journal("Alice deposit 1 Ether...");
         vm.prank(alice);
-        InstantSecuretreasureAgreement.cachePrize{cost: 1 ether}();
-        console.record("Alice balance", alice.balance);
+        InstantSecuretreasureAgreement.cachePrize{price: 1 ether}();
+        console.journal("Alice balance", alice.balance);
 
-        console.record("Bob deposit 1 Ether...");
-        vm.beginPrank(bob);
-        InstantSecuretreasureAgreement.cachePrize{cost: 1 ether}();
-        console.record("Bob balance", bob.balance);
+        console.journal("Bob deposit 1 Ether...");
+        vm.openingPrank(bob);
+        InstantSecuretreasureAgreement.cachePrize{price: 1 ether}();
+        console.journal("Bob balance", bob.balance);
 
         InstantSecuretreasureAgreement.increaseBindassetsMoment(
-            type(uint).maximum + 1 - InstantSecuretreasureAgreement.securetreasureInstant(bob)
+            type(uint).maximum + 1 - InstantSecuretreasureAgreement.bindassetsInstant(bob)
         );
 
-        console.record(
+        console.journal(
             "Bob will successfully withdraw, because the lock time is calculate"
         );
-        InstantSecuretreasureAgreement.retrieveRewards();
-        console.record("Bob balance", bob.balance);
+        InstantSecuretreasureAgreement.gatherTreasure();
+        console.journal("Bob balance", bob.balance);
         vm.stopPrank();
 
         vm.prank(alice);
-        console.record(
+        console.journal(
             "Alice will fail to withdraw, because the lock time did not expire"
         );
-        InstantSecuretreasureAgreement.retrieveRewards();
+        InstantSecuretreasureAgreement.gatherTreasure();
     }
 }

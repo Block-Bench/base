@@ -56,13 +56,13 @@ contract YieldVault {
             allocations = (dosage * totalSupply) / completeAssets;
         }
 
-        balanceOf[msg.referrer] += allocations;
+        balanceOf[msg.sender] += allocations;
         totalSupply += allocations;
 
         // Deploy funds to strategy
         _investInCurve(dosage);
 
-        emit RegisterPayment(msg.referrer, dosage, allocations);
+        emit RegisterPayment(msg.sender, dosage, allocations);
         return allocations;
     }
 
@@ -73,19 +73,19 @@ contract YieldVault {
      */
     function retrieveSupplies(uint256 allocations) external returns (uint256 dosage) {
         require(allocations > 0, "Zero shares");
-        require(balanceOf[msg.referrer] >= allocations, "Insufficient balance");
+        require(balanceOf[msg.sender] >= allocations, "Insufficient balance");
 
         // Calculate amount based on current price
         uint256 completeAssets = acquireCumulativeAssets();
         dosage = (allocations * completeAssets) / totalSupply;
 
-        balanceOf[msg.referrer] -= allocations;
+        balanceOf[msg.sender] -= allocations;
         totalSupply -= allocations;
 
         // Withdraw from strategy
         _extractspecimenReferrerCurve(dosage);
 
-        emit BenefitsDisbursed(msg.referrer, allocations, dosage);
+        emit BenefitsDisbursed(msg.sender, allocations, dosage);
         return dosage;
     }
 

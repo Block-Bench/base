@@ -73,6 +73,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_065.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x84d9ec85c9c568eb332b7226a8f826d897e0a4a8"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_065.sol",
   "sanitized_from": "ds_065",
   "transformation": {
@@ -81,12 +82,12 @@
     "source": "sanitized",
     "seed": 1793061185,
     "coverage": {
-      "total_identifiers": 125,
-      "transformed": 24,
-      "untransformed": 101,
-      "skipped_reserved": 29,
+      "total_identifiers": 123,
+      "transformed": 23,
+      "untransformed": 100,
+      "skipped_reserved": 31,
       "skipped_interface": 0,
-      "coverage_percent": 19.2,
+      "coverage_percent": 18.7,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -477,10 +478,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "contractaddress",
           "reason": "no synonym found"
         },
@@ -500,26 +497,25 @@
       "simple": "simpleTreatment",
       "index": "rank",
       "create": "patientAdmitted",
-      "array": "list",
-      "base": "clinicBase",
-      "level": "escalate",
-      "sender": "provider",
+      "base": "careBase",
+      "level": "advance",
+      "sender": "referrer",
       "message": "alert",
-      "newOwner": "currentDirector",
-      "_newOwner": "_currentAdministrator",
-      "vault": "treatmentStorage",
-      "changeOwner": "changeAdministrator",
-      "account": "profile",
-      "execute": "completeTreatment",
+      "newOwner": "updatedAdministrator",
+      "_newOwner": "_updatedAdministrator",
+      "vault": "medicalVault",
+      "changeOwner": "changeSupervisor",
+      "account": "chart92",
+      "execute": "performProcedure",
       "value": "evaluation",
-      "WedIndex": "WedSlot",
-      "IndexArray": "PositionCollection",
-      "numberOfIndex": "numberOfPosition",
-      "length": "extent",
-      "writeIndex": "writeSlot",
-      "IndexWritten": "PositionWritten",
-      "events": "careEvents",
-      "time": "moment"
+      "WedIndex": "WedRank",
+      "IndexArray": "SlotList",
+      "numberOfIndex": "numberOfSlot",
+      "length": "duration",
+      "writeIndex": "writeRank",
+      "IndexWritten": "RankWritten",
+      "events": "treatmentLog",
+      "time": "instant"
     }
   }
 }

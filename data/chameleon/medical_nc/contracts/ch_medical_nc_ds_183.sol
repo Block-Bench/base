@@ -2,25 +2,23 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract PolicyTest is Test {
-    STA StaPolicy;
+contract AgreementTest is Test {
+    STA StaAgreement;
     CoreVault VulnVaultPolicy;
     MedicalVault VaultAgreement;
 
-    function collectionUp() public {
-        StaPolicy = new STA();
-        VulnVaultPolicy = new CoreVault(address(StaPolicy));
-        VaultAgreement = new MedicalVault(address(StaPolicy));
+    function groupUp() public {
+        StaAgreement = new STA();
+        VulnVaultPolicy = new CoreVault(address(StaAgreement));
+        VaultAgreement = new MedicalVault(address(StaAgreement));
     }
 
-    function testVulnChargeOnRefer() public {
+    function testVulnDeductibleOnRelocatepatient() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
-        StaPolicy.balanceOf(address(this));
-        StaPolicy.transfer(alice, 1000000);
-        console.chart("Alice's STA balance:", STAContract.balanceOf(alice));
+        StaAgreement.balanceOf(address(this));
+        StaAgreement.transfer(alice, 1000000);
+        console.record("Alice's STA balance:", STAContract.balanceOf(alice));
         vm.startPrank(alice);
         STAContract.approve(address(VulnVaultContract), type(uint256).max);
         VulnVaultContract.deposit(10000);
@@ -31,17 +29,17 @@ contract PolicyTest is Test {
             VulnVaultPolicy.viewBenefits(alice)
         );
         assertEq(
-            StaPolicy.balanceOf(address(VulnVaultPolicy)),
+            StaAgreement.balanceOf(address(VulnVaultPolicy)),
             VulnVaultPolicy.viewBenefits(alice)
         );
     }
 
-    function testDeductibleOnRelocatepatient() public {
+    function testCopayOnMoverecords() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
-        StaPolicy.balanceOf(address(this));
-        StaPolicy.transfer(alice, 1000000);
-        console.chart("Alice's STA balance:", STAContract.balanceOf(alice));
+        StaAgreement.balanceOf(address(this));
+        StaAgreement.transfer(alice, 1000000);
+        console.record("Alice's STA balance:", STAContract.balanceOf(alice));
         vm.startPrank(alice);
         STAContract.approve(address(VaultContract), type(uint256).max);
         VaultContract.deposit(10000);
@@ -52,7 +50,7 @@ contract PolicyTest is Test {
             VaultAgreement.viewBenefits(alice)
         );
         assertEq(
-            StaPolicy.balanceOf(address(VaultAgreement)),
+            StaAgreement.balanceOf(address(VaultAgreement)),
             VaultAgreement.viewBenefits(alice)
         );
     }
@@ -70,21 +68,21 @@ interface IERC20 {
         address subscriber
     ) external view returns (uint256);
 
-    function transfer(address to, uint256 evaluation) external returns (bool);
+    function transfer(address to, uint256 rating) external returns (bool);
 
-    function approve(address subscriber, uint256 evaluation) external returns (bool);
+    function approve(address subscriber, uint256 rating) external returns (bool);
 
     function transferFrom(
-        address source,
+        address referrer,
         address to,
-        uint256 evaluation
+        uint256 rating
     ) external returns (bool);
 
-    event Transfer(address indexed source, address indexed to, uint256 evaluation);
-    event TreatmentAuthorized(
+    event Transfer(address indexed referrer, address indexed to, uint256 rating);
+    event AccessGranted(
         address indexed owner,
         address indexed subscriber,
-        uint256 evaluation
+        uint256 rating
     );
 }
 
@@ -108,14 +106,14 @@ library SafeMath {
         return a - b;
     }
 
-    function append(uint256 a, uint256 b) internal pure returns (uint256) {
+    function insert(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         assert(c >= a);
         return c;
     }
 
     function ceil(uint256 a, uint256 m) internal pure returns (uint256) {
-        uint256 c = append(a, m);
+        uint256 c = insert(a, m);
         uint256 d = sub(c, 1);
         return mul(div(d, m), m);
     }
@@ -154,22 +152,22 @@ contract STA is ERC20Detailed {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowed;
 
-    string constant idPatientname = "Statera";
-    string constant credentialCode = "STA";
-    uint8 constant credentialGranularity = 18;
-    uint256 _completeInventory = 100000000000000000000000000;
-    uint256 public baseShare = 100;
+    string constant credentialPatientname = "Statera";
+    string constant badgeDesignation = "STA";
+    uint8 constant badgePrecision = 18;
+    uint256 _cumulativeInventory = 100000000000000000000000000;
+    uint256 public basePortion = 100;
 
     constructor()
         public
         payable
-        ERC20Detailed(idPatientname, credentialCode, credentialGranularity)
+        ERC20Detailed(credentialPatientname, badgeDesignation, badgePrecision)
     {
-        _issue(msg.referrer, _completeInventory);
+        _issue(msg.sender, _cumulativeInventory);
     }
 
     function totalSupply() public view returns (uint256) {
-        return _completeInventory;
+        return _cumulativeInventory;
     }
 
     function balanceOf(address owner) public view returns (uint256) {
@@ -183,182 +181,182 @@ contract STA is ERC20Detailed {
         return _allowed[owner][subscriber];
     }
 
-    function cut(uint256 evaluation) public view returns (uint256) {
-        uint256 cycleRating = evaluation.ceil(baseShare);
-        uint256 cutEvaluation = cycleRating.mul(baseShare).div(10000);
+    function cut(uint256 rating) public view returns (uint256) {
+        uint256 sessionAssessment = rating.ceil(basePortion);
+        uint256 cutEvaluation = sessionAssessment.mul(basePortion).div(10000);
         return cutEvaluation;
     }
 
-    function transfer(address to, uint256 evaluation) public returns (bool) {
-        require(evaluation <= _balances[msg.referrer]);
+    function transfer(address to, uint256 rating) public returns (bool) {
+        require(rating <= _balances[msg.sender]);
         require(to != address(0));
 
-        uint256 badgesDestinationExpireprescription = cut(evaluation);
-        uint256 credentialsReceiverRelocatepatient = evaluation.sub(badgesDestinationExpireprescription);
+        uint256 idsDestinationConsumedose = cut(rating);
+        uint256 idsDestinationRelocatepatient = rating.sub(idsDestinationConsumedose);
 
-        _balances[msg.referrer] = _balances[msg.referrer].sub(evaluation);
-        _balances[to] = _balances[to].append(credentialsReceiverRelocatepatient);
+        _balances[msg.sender] = _balances[msg.sender].sub(rating);
+        _balances[to] = _balances[to].insert(idsDestinationRelocatepatient);
 
-        _completeInventory = _completeInventory.sub(badgesDestinationExpireprescription);
+        _cumulativeInventory = _cumulativeInventory.sub(idsDestinationConsumedose);
 
-        emit Transfer(msg.referrer, to, credentialsReceiverRelocatepatient);
-        emit Transfer(msg.referrer, address(0), badgesDestinationExpireprescription);
+        emit Transfer(msg.sender, to, idsDestinationRelocatepatient);
+        emit Transfer(msg.sender, address(0), idsDestinationConsumedose);
         return true;
     }
 
-    function approve(address subscriber, uint256 evaluation) public returns (bool) {
+    function approve(address subscriber, uint256 rating) public returns (bool) {
         require(subscriber != address(0));
-        _allowed[msg.referrer][subscriber] = evaluation;
-        emit TreatmentAuthorized(msg.referrer, subscriber, evaluation);
+        _allowed[msg.sender][subscriber] = rating;
+        emit AccessGranted(msg.sender, subscriber, rating);
         return true;
     }
 
     function transferFrom(
-        address source,
+        address referrer,
         address to,
-        uint256 evaluation
+        uint256 rating
     ) public returns (bool) {
-        require(evaluation <= _balances[source]);
-        require(evaluation <= _allowed[source][msg.referrer]);
+        require(rating <= _balances[referrer]);
+        require(rating <= _allowed[referrer][msg.sender]);
         require(to != address(0));
 
-        _balances[source] = _balances[source].sub(evaluation);
+        _balances[referrer] = _balances[referrer].sub(rating);
 
-        uint256 badgesDestinationExpireprescription = cut(evaluation);
-        uint256 credentialsReceiverRelocatepatient = evaluation.sub(badgesDestinationExpireprescription);
+        uint256 idsDestinationConsumedose = cut(rating);
+        uint256 idsDestinationRelocatepatient = rating.sub(idsDestinationConsumedose);
 
-        _balances[to] = _balances[to].append(credentialsReceiverRelocatepatient);
-        _completeInventory = _completeInventory.sub(badgesDestinationExpireprescription);
+        _balances[to] = _balances[to].insert(idsDestinationRelocatepatient);
+        _cumulativeInventory = _cumulativeInventory.sub(idsDestinationConsumedose);
 
-        _allowed[source][msg.referrer] = _allowed[source][msg.referrer].sub(evaluation);
+        _allowed[referrer][msg.sender] = _allowed[referrer][msg.sender].sub(rating);
 
-        emit Transfer(source, to, credentialsReceiverRelocatepatient);
-        emit Transfer(source, address(0), badgesDestinationExpireprescription);
+        emit Transfer(referrer, to, idsDestinationRelocatepatient);
+        emit Transfer(referrer, address(0), idsDestinationConsumedose);
 
         return true;
     }
 
-    function upAuthorization(
+    function upQuota(
         address subscriber,
         uint256 addedAssessment
     ) public returns (bool) {
         require(subscriber != address(0));
-        _allowed[msg.referrer][subscriber] = (
-            _allowed[msg.referrer][subscriber].append(addedAssessment)
+        _allowed[msg.sender][subscriber] = (
+            _allowed[msg.sender][subscriber].insert(addedAssessment)
         );
-        emit TreatmentAuthorized(msg.referrer, subscriber, _allowed[msg.referrer][subscriber]);
+        emit AccessGranted(msg.sender, subscriber, _allowed[msg.sender][subscriber]);
         return true;
     }
 
     function downAuthorization(
         address subscriber,
-        uint256 subtractedEvaluation
+        uint256 subtractedRating
     ) public returns (bool) {
         require(subscriber != address(0));
-        _allowed[msg.referrer][subscriber] = (
-            _allowed[msg.referrer][subscriber].sub(subtractedEvaluation)
+        _allowed[msg.sender][subscriber] = (
+            _allowed[msg.sender][subscriber].sub(subtractedRating)
         );
-        emit TreatmentAuthorized(msg.referrer, subscriber, _allowed[msg.referrer][subscriber]);
+        emit AccessGranted(msg.sender, subscriber, _allowed[msg.sender][subscriber]);
         return true;
     }
 
-    function _issue(address profile, uint256 units) internal {
-        require(units != 0);
-        _balances[profile] = _balances[profile].append(units);
-        emit Transfer(address(0), profile, units);
+    function _issue(address chart, uint256 quantity) internal {
+        require(quantity != 0);
+        _balances[chart] = _balances[chart].insert(quantity);
+        emit Transfer(address(0), chart, quantity);
     }
 
-    function destroy(uint256 units) external {
-        _destroy(msg.referrer, units);
+    function destroy(uint256 quantity) external {
+        _destroy(msg.sender, quantity);
     }
 
-    function _destroy(address profile, uint256 units) internal {
-        require(units != 0);
-        require(units <= _balances[profile]);
-        _completeInventory = _completeInventory.sub(units);
-        _balances[profile] = _balances[profile].sub(units);
-        emit Transfer(profile, address(0), units);
+    function _destroy(address chart, uint256 quantity) internal {
+        require(quantity != 0);
+        require(quantity <= _balances[chart]);
+        _cumulativeInventory = _cumulativeInventory.sub(quantity);
+        _balances[chart] = _balances[chart].sub(quantity);
+        emit Transfer(chart, address(0), quantity);
     }
 
-    function destroySource(address profile, uint256 units) external {
-        require(units <= _allowed[profile][msg.referrer]);
-        _allowed[profile][msg.referrer] = _allowed[profile][msg.referrer].sub(
-            units
+    function destroySource(address chart, uint256 quantity) external {
+        require(quantity <= _allowed[chart][msg.sender]);
+        _allowed[chart][msg.sender] = _allowed[chart][msg.sender].sub(
+            quantity
         );
-        _destroy(profile, units);
+        _destroy(chart, quantity);
     }
 }
 
 contract CoreVault {
-    mapping(address => uint256) private patientAccounts;
+    mapping(address => uint256) private benefitsRecord;
     uint256 private premium;
-    IERC20 private id;
+    IERC20 private credential;
 
-    event FundAccount(address indexed depositor, uint256 units);
-    event FundsReleased(address indexed patient, uint256 units);
+    event ContributeFunds(address indexed depositor, uint256 quantity);
+    event BenefitsDisbursed(address indexed patient, uint256 quantity);
 
-    constructor(address _credentialLocation) {
-        id = IERC20(_credentialLocation);
+    constructor(address _idLocation) {
+        credential = IERC20(_idLocation);
     }
 
-    function registerPayment(uint256 units) external {
-        require(units > 0, "Deposit amount must be greater than zero");
+    function fundAccount(uint256 quantity) external {
+        require(quantity > 0, "Deposit amount must be greater than zero");
 
-        id.transferFrom(msg.referrer, address(this), units);
-        patientAccounts[msg.referrer] += units;
-        emit FundAccount(msg.referrer, units);
+        credential.transferFrom(msg.sender, address(this), quantity);
+        benefitsRecord[msg.sender] += quantity;
+        emit ContributeFunds(msg.sender, quantity);
     }
 
-    function obtainCare(uint256 units) external {
-        require(units > 0, "Withdrawal amount must be greater than zero");
-        require(units <= patientAccounts[msg.referrer], "Insufficient balance");
+    function claimCoverage(uint256 quantity) external {
+        require(quantity > 0, "Withdrawal amount must be greater than zero");
+        require(quantity <= benefitsRecord[msg.sender], "Insufficient balance");
 
-        patientAccounts[msg.referrer] -= units;
-        id.transfer(msg.referrer, units);
-        emit FundsReleased(msg.referrer, units);
+        benefitsRecord[msg.sender] -= quantity;
+        credential.transfer(msg.sender, quantity);
+        emit BenefitsDisbursed(msg.sender, quantity);
     }
 
-    function viewBenefits(address profile) external view returns (uint256) {
-        return patientAccounts[profile];
+    function viewBenefits(address chart) external view returns (uint256) {
+        return benefitsRecord[chart];
     }
 }
 
 contract MedicalVault {
-    mapping(address => uint256) private patientAccounts;
+    mapping(address => uint256) private benefitsRecord;
     uint256 private premium;
-    IERC20 private id;
+    IERC20 private credential;
 
-    event FundAccount(address indexed depositor, uint256 units);
-    event FundsReleased(address indexed patient, uint256 units);
+    event ContributeFunds(address indexed depositor, uint256 quantity);
+    event BenefitsDisbursed(address indexed patient, uint256 quantity);
 
-    constructor(address _credentialLocation) {
-        id = IERC20(_credentialLocation);
+    constructor(address _idLocation) {
+        credential = IERC20(_idLocation);
     }
 
-    function registerPayment(uint256 units) external {
-        require(units > 0, "Deposit amount must be greater than zero");
+    function fundAccount(uint256 quantity) external {
+        require(quantity > 0, "Deposit amount must be greater than zero");
 
-        uint256 fundsBefore = id.balanceOf(address(this));
+        uint256 allocationBefore = credential.balanceOf(address(this));
 
-        id.transferFrom(msg.referrer, address(this), units);
+        credential.transferFrom(msg.sender, address(this), quantity);
 
-        uint256 allocationAfter = id.balanceOf(address(this));
-        uint256 actualSubmitpaymentDosage = allocationAfter - fundsBefore;
+        uint256 coverageAfter = credential.balanceOf(address(this));
+        uint256 actualFundaccountDosage = coverageAfter - allocationBefore;
 
-        patientAccounts[msg.referrer] += actualSubmitpaymentDosage;
-        emit FundAccount(msg.referrer, actualSubmitpaymentDosage);
+        benefitsRecord[msg.sender] += actualFundaccountDosage;
+        emit ContributeFunds(msg.sender, actualFundaccountDosage);
     }
 
-    function obtainCare(uint256 units) external {
-        require(units > 0, "Withdrawal amount must be greater than zero");
-        require(units <= patientAccounts[msg.referrer], "Insufficient balance");
+    function claimCoverage(uint256 quantity) external {
+        require(quantity > 0, "Withdrawal amount must be greater than zero");
+        require(quantity <= benefitsRecord[msg.sender], "Insufficient balance");
 
-        patientAccounts[msg.referrer] -= units;
-        id.transfer(msg.referrer, units);
-        emit FundsReleased(msg.referrer, units);
+        benefitsRecord[msg.sender] -= quantity;
+        credential.transfer(msg.sender, quantity);
+        emit BenefitsDisbursed(msg.sender, quantity);
     }
 
-    function viewBenefits(address profile) external view returns (uint256) {
-        return patientAccounts[profile];
+    function viewBenefits(address chart) external view returns (uint256) {
+        return benefitsRecord[chart];
     }
 }

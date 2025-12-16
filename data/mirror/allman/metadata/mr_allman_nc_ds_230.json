@@ -1,0 +1,90 @@
+{
+  "id": "mr_allman_nc_ds_230",
+  "contract_file": "contracts/mr_allman_nc_ds_230.sol",
+  "subset": "mirror",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Missing flash loan initiator check refers to a potential security vulnerability in a flash loan implementation \nwhere the initiator of the flash loan is not properly verified or checked, anyone could exploit the flash loan \nfunctionality and set the receiver address to a vulnerable protocol.\n  \nBy doing so, an attacker could potentially manipulate balances, open trades, drain funds, \nor carry out other malicious actions within the vulnerable protocol. \nThis poses significant risks to the security and integrity of the protocol and its users.",
+    "attack_vector": "Missing flash loan initiator check refers to a potential security vulnerability in a flash loan implementation \nwhere the initiator of the flash loan is not properly verified or checked, anyone could exploit the flash loan \nfunctionality and set the receiver address to a vulnerable protocol.\n  \nBy doing so, an attacker could potentially manipulate balances, open trades, drain funds, \nor carry out other malicious actions within the vulnerable protocol. \nThis poses significant risks to the security and integrity of the protocol and its users.",
+    "impact": "Severity: critical",
+    "correct_fix": "Check the initiator of the flash loan and revert if the initiator is not authorized."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_flashloan-flaw",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 162,
+    "num_contracts": 5,
+    "contract_names": [
+      "ContractTest",
+      "SimpleBankBug",
+      "FixedSimpleBank",
+      "USDa",
+      "LendingPool"
+    ],
+    "num_functions": 10,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Missing flash loan initiator check refers to a potential security vulnerability in a flash loan implementation \nwhere the initiator of the flash loan is not properly verified or checked, anyone could exploit the flash loan \nfunctionality and set the receiver address to a vulnerable protocol.\n  \nBy doing so, an attacker could potentially manipulate balances, open trades, drain funds, \nor carry out other malicious actions within the vulnerable protocol. \nThis poses significant risks to the security and integrity of the protocol and its users.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_230.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_230.json",
+    "original_id": "defivulnlabs_flashloan-flaw"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_230.sol",
+  "sanitized_from": "ds_230",
+  "derived_from": "nc_ds_230",
+  "original_id": "ds_230",
+  "transformation": {
+    "strategy": "mirror",
+    "mode": "allman",
+    "details": {
+      "comments_removed": false,
+      "brace_style": "allman",
+      "mode": "allman",
+      "original_lines": 158,
+      "transformed_lines": 168,
+      "original_chars": 4074,
+      "transformed_chars": 3678,
+      "compression_ratio": 0.9
+    }
+  }
+}

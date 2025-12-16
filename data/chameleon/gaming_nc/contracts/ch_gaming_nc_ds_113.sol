@@ -1,10 +1,5 @@
-*/
-
-*/
-
-
-contract GemGateway {
-    mapping (address => uint256) userRewards;
+contract GemPortal {
+    mapping (address => uint256) heroTreasure;
     mapping (address => mapping (address => uint256)) allowed;
 
 
@@ -14,13 +9,13 @@ contract GemGateway {
     function balanceOf(address _owner) constant returns (uint256 balance);
 
 
-    function transfer(address _to, uint256 _amount) returns (bool win);
+    function transfer(address _to, uint256 _amount) returns (bool victory);
 
 
-    function transferFrom(address _from, address _to, uint256 _amount) returns (bool win);
+    function transferFrom(address _from, address _to, uint256 _amount) returns (bool victory);
 
 
-    function approve(address _spender, uint256 _amount) returns (bool win);
+    function approve(address _spender, uint256 _amount) returns (bool victory);
 
 
     function allowance(
@@ -36,20 +31,20 @@ contract GemGateway {
     );
 }
 
-contract Gem is GemGateway {
+contract Crystal is GemPortal {
 
 
-    modifier noEther() {if (msg.magnitude > 0) throw; _}
+    modifier noEther() {if (msg.value > 0) throw; _;}
 
     function balanceOf(address _owner) constant returns (uint256 balance) {
-        return userRewards[_owner];
+        return heroTreasure[_owner];
     }
 
-    function transfer(address _to, uint256 _amount) noEther returns (bool win) {
-        if (userRewards[msg.invoker] >= _amount && _amount > 0) {
-            userRewards[msg.invoker] -= _amount;
-            userRewards[_to] += _amount;
-            Transfer(msg.invoker, _to, _amount);
+    function transfer(address _to, uint256 _amount) noEther returns (bool victory) {
+        if (heroTreasure[msg.sender] >= _amount && _amount > 0) {
+            heroTreasure[msg.sender] -= _amount;
+            heroTreasure[_to] += _amount;
+            Transfer(msg.sender, _to, _amount);
             return true;
         } else {
            return false;
@@ -60,15 +55,15 @@ contract Gem is GemGateway {
         address _from,
         address _to,
         uint256 _amount
-    ) noEther returns (bool win) {
+    ) noEther returns (bool victory) {
 
-        if (userRewards[_from] >= _amount
-            && allowed[_from][msg.invoker] >= _amount
+        if (heroTreasure[_from] >= _amount
+            && allowed[_from][msg.sender] >= _amount
             && _amount > 0) {
 
-            userRewards[_to] += _amount;
-            userRewards[_from] -= _amount;
-            allowed[_from][msg.invoker] -= _amount;
+            heroTreasure[_to] += _amount;
+            heroTreasure[_from] -= _amount;
+            allowed[_from][msg.sender] -= _amount;
             Transfer(_from, _to, _amount);
             return true;
         } else {
@@ -76,9 +71,9 @@ contract Gem is GemGateway {
         }
     }
 
-    function approve(address _spender, uint256 _amount) returns (bool win) {
-        allowed[msg.invoker][_spender] = _amount;
-        AccessAuthorized(msg.invoker, _spender, _amount);
+    function approve(address _spender, uint256 _amount) returns (bool victory) {
+        allowed[msg.sender][_spender] = _amount;
+        AccessAuthorized(msg.sender, _spender, _amount);
         return true;
     }
 
@@ -87,17 +82,13 @@ contract Gem is GemGateway {
     }
 }
 
-*/
-
-*/
-
 contract ManagedCharacterPortal {
 
     address public owner;
 
     bool public payMasterOnly;
 
-    uint public accumulatedEntry;
+    uint public accumulatedSubmission;
 
 
     function payOut(address _recipient, uint _amount) returns (bool);
@@ -108,20 +99,20 @@ contract ManagedCharacterPortal {
 contract ManagedCharacter is ManagedCharacterPortal{
 
 
-    function ManagedCharacter(address _owner, bool _payMasterOnly) {
+    function ManagedCharacter(address _owner, bool _payLordOnly) {
         owner = _owner;
-        payMasterOnly = _payMasterOnly;
+        payMasterOnly = _payLordOnly;
     }
 
 
     function() {
-        accumulatedEntry += msg.magnitude;
+        accumulatedSubmission += msg.value;
     }
 
     function payOut(address _recipient, uint _amount) returns (bool) {
-        if (msg.invoker != owner || msg.magnitude > 0 || (payMasterOnly && _recipient != owner))
+        if (msg.sender != owner || msg.value > 0 || (payMasterOnly && _recipient != owner))
             throw;
-        if (_recipient.call.magnitude(_amount)()) {
+        if (_recipient.call.price(_amount)()) {
             PayOut(_recipient, _amount);
             return true;
         } else {
@@ -129,30 +120,27 @@ contract ManagedCharacter is ManagedCharacterPortal{
         }
     }
 }
-*/
 
-*/
-
-contract CoinCreationGateway {
+contract MedalCreationGateway {
 
 
     uint public closingInstant;
 
 
-    uint public floorCrystalsTargetCreate;
+    uint public minimumCrystalsTargetCreate;
 
-    bool public validateFueled;
+    bool public testFueled;
 
 
     address public privateCreation;
 
 
-    ManagedCharacter public extraPrizecount;
+    ManagedCharacter public extraGoldholding;
 
     mapping (address => uint256) weiGiven;
 
 
-    function createGemProxy(address _crystalHolder) returns (bool win);
+    function createCoinProxy(address _gemHolder) returns (bool victory);
 
 
     function refund();
@@ -160,35 +148,35 @@ contract CoinCreationGateway {
 
     function divisor() constant returns (uint divisor);
 
-    event FuelingTargetDate(uint magnitude);
-    event CreatedCrystal(address indexed to, uint total);
-    event Refund(address indexed to, uint magnitude);
+    event FuelingTargetDate(uint price);
+    event CreatedCoin(address indexed to, uint sum);
+    event Refund(address indexed to, uint price);
 }
 
-contract CrystalCreation is CoinCreationGateway, Gem {
-    function CrystalCreation(
-        uint _minimumGemsTargetCreate,
+contract GemCreation is MedalCreationGateway, Crystal {
+    function GemCreation(
+        uint _floorCrystalsTargetCreate,
         uint _closingMoment,
         address _privateCreation) {
 
         closingInstant = _closingMoment;
-        floorCrystalsTargetCreate = _minimumGemsTargetCreate;
+        minimumCrystalsTargetCreate = _floorCrystalsTargetCreate;
         privateCreation = _privateCreation;
-        extraPrizecount = new ManagedCharacter(address(this), true);
+        extraGoldholding = new ManagedCharacter(address(this), true);
     }
 
-    function createGemProxy(address _crystalHolder) returns (bool win) {
-        if (now < closingInstant && msg.magnitude > 0
-            && (privateCreation == 0 || privateCreation == msg.invoker)) {
+    function createCoinProxy(address _gemHolder) returns (bool victory) {
+        if (now < closingInstant && msg.value > 0
+            && (privateCreation == 0 || privateCreation == msg.sender)) {
 
-            uint coin = (msg.magnitude * 20) / divisor();
-            extraPrizecount.call.magnitude(msg.magnitude - coin)();
-            userRewards[_crystalHolder] += coin;
-            totalSupply += coin;
-            weiGiven[_crystalHolder] += msg.magnitude;
-            CreatedCrystal(_crystalHolder, coin);
-            if (totalSupply >= floorCrystalsTargetCreate && !validateFueled) {
-                validateFueled = true;
+            uint medal = (msg.value * 20) / divisor();
+            extraGoldholding.call.price(msg.value - medal)();
+            heroTreasure[_gemHolder] += medal;
+            totalSupply += medal;
+            weiGiven[_gemHolder] += msg.value;
+            CreatedCoin(_gemHolder, medal);
+            if (totalSupply >= minimumCrystalsTargetCreate && !testFueled) {
+                testFueled = true;
                 FuelingTargetDate(totalSupply);
             }
             return true;
@@ -197,17 +185,17 @@ contract CrystalCreation is CoinCreationGateway, Gem {
     }
 
     function refund() noEther {
-        if (now > closingInstant && !validateFueled) {
+        if (now > closingInstant && !testFueled) {
 
-            if (extraPrizecount.balance >= extraPrizecount.accumulatedEntry())
-                extraPrizecount.payOut(address(this), extraPrizecount.accumulatedEntry());
+            if (extraGoldholding.balance >= extraGoldholding.accumulatedSubmission())
+                extraGoldholding.payOut(address(this), extraGoldholding.accumulatedSubmission());
 
 
-            if (msg.invoker.call.magnitude(weiGiven[msg.invoker])()) {
-                Refund(msg.invoker, weiGiven[msg.invoker]);
-                totalSupply -= userRewards[msg.invoker];
-                userRewards[msg.invoker] = 0;
-                weiGiven[msg.invoker] = 0;
+            if (msg.sender.call.price(weiGiven[msg.sender])()) {
+                Refund(msg.sender, weiGiven[msg.sender]);
+                totalSupply -= heroTreasure[msg.sender];
+                heroTreasure[msg.sender] = 0;
+                weiGiven[msg.sender] = 0;
             }
         }
     }
@@ -226,28 +214,25 @@ contract CrystalCreation is CoinCreationGateway, Gem {
         }
     }
 }
-*/
-
-*/
 
 contract DaoPortal {
 
 
-    uint constant creationGraceInterval = 40 days;
+    uint constant creationGraceDuration = 40 days;
 
     uint constant floorProposalDebateInterval = 2 weeks;
 
-    uint constant floorDivideDebateInterval = 1 weeks;
+    uint constant minimumSeparateDebateInterval = 1 weeks;
 
     uint constant divideExecutionDuration = 27 days;
 
     uint constant quorumHalvingInterval = 25 weeks;
 
 
-    uint constant completequestProposalDuration = 10 days;
+    uint constant runmissionProposalInterval = 10 days;
 
 
-    uint constant ceilingCacheprizeDivisor = 100;
+    uint constant ceilingBankwinningsDivisor = 100;
 
 
     Proposal[] public proposals;
@@ -255,7 +240,7 @@ contract DaoPortal {
 
     uint public minimumQuorumDivisor;
 
-    uint  public finalInstantMinimumQuorumMet;
+    uint  public endingInstantMinimumQuorumMet;
 
 
     address public curator;
@@ -263,9 +248,9 @@ contract DaoPortal {
     mapping (address => bool) public allowedRecipients;
 
 
-    mapping (address => uint) public bountyCoin;
+    mapping (address => uint) public prizeGem;
 
-    uint public combinedPayoutGem;
+    uint public completePrizeCrystal;
 
 
     ManagedCharacter public bonusProfile;
@@ -289,15 +274,15 @@ contract DaoPortal {
     uint sumOfProposalDeposits;
 
 
-    dao_founder public daoFounder;
+    dao_maker public daoFounder;
 
 
     struct Proposal {
 
 
-        address target;
+        address receiver;
 
-        uint total;
+        uint sum;
 
         string description;
 
@@ -308,14 +293,14 @@ contract DaoPortal {
 
         bool proposalPassed;
 
-        bytes32 proposalSignature;
+        bytes32 proposalSeal;
 
 
         uint proposalAddtreasure;
 
-        bool currentCurator;
+        bool updatedCurator;
 
-        SeparateDetails[] divideInfo;
+        DivideInfo[] divideDetails;
 
         uint yea;
 
@@ -325,17 +310,17 @@ contract DaoPortal {
 
         mapping (address => bool) votedNo;
 
-        address founder;
+        address maker;
     }
 
 
-    struct SeparateDetails {
+    struct DivideInfo {
 
-        uint separateTreasureamount;
+        uint divideLootbalance;
 
         uint totalSupply;
 
-        uint bountyCoin;
+        uint prizeGem;
 
         DAO updatedDao;
     }
@@ -344,19 +329,19 @@ contract DaoPortal {
     modifier onlyTokenholders {}
 
 
-    function () returns (bool win);
+    function () returns (bool victory);
 
 
     function catchrewardEther() returns(bool);
 
 
-    function currentProposal(
+    function updatedProposal(
         address _recipient,
         uint _amount,
         string _description,
-        bytes _transactionDetails,
+        bytes _transactionInfo,
         uint _debatingDuration,
-        bool _currentCurator
+        bool _updatedCurator
     ) onlyTokenholders returns (uint _proposalCode);
 
 
@@ -364,54 +349,54 @@ contract DaoPortal {
         uint _proposalCode,
         address _recipient,
         uint _amount,
-        bytes _transactionDetails
+        bytes _transactionInfo
     ) constant returns (bool _codeChecksOut);
 
 
-    function cast(
+    function decide(
         uint _proposalCode,
         bool _supportsProposal
     ) onlyTokenholders returns (uint _castTag);
 
 
-    function runmissionProposal(
+    function performactionProposal(
         uint _proposalCode,
-        bytes _transactionDetails
+        bytes _transactionInfo
     ) returns (bool _success);
 
 
-    function divideDao(
+    function separateDao(
         uint _proposalCode,
-        address _currentCurator
+        address _updatedCurator
     ) returns (bool _success);
 
 
-    function updatedAgreement(address _updatedPact);
+    function currentAgreement(address _currentAgreement);
 
 
     function changeAllowedRecipients(address _recipient, bool _allowed) external returns (bool _success);
 
 
-    function changeProposalDepositgold(uint _proposalAddtreasure) external;
+    function changeProposalStashrewards(uint _proposalStoreloot) external;
 
 
-    function retrieveDaoPayout(bool _destinationMembers) external returns (bool _success);
+    function retrieveDaoTreasure(bool _targetMembers) external returns (bool _success);
 
 
-    function acquireMyBonus() returns(bool _success);
+    function retrieveMyBonus() returns(bool _success);
 
 
-    function claimlootPayoutFor(address _account) internal returns (bool _success);
+    function obtainprizeTreasureFor(address _account) internal returns (bool _success);
 
 
-    function relocateassetsWithoutPrize(address _to, uint256 _amount) returns (bool win);
+    function tradefundsWithoutPayout(address _to, uint256 _amount) returns (bool victory);
 
 
-    function sendlootOriginWithoutBounty(
+    function shiftgoldSourceWithoutPrize(
         address _from,
         address _to,
         uint256 _amount
-    ) returns (bool win);
+    ) returns (bool victory);
 
 
     function halveFloorQuorum() returns (bool _success);
@@ -420,55 +405,55 @@ contract DaoPortal {
     function numberOfProposals() constant returns (uint _numberOfProposals);
 
 
-    function retrieveUpdatedDaoZone(uint _proposalCode) constant returns (address _updatedDao);
+    function obtainUpdatedDaoZone(uint _proposalCode) constant returns (address _updatedDao);
 
 
-    function testBlocked(address _account) internal returns (bool);
+    function checkBlocked(address _account) internal returns (bool);
 
 
     function unblockMe() returns (bool);
 
     event ProposalAdded(
-        uint indexed proposalIdentifier,
-        address target,
-        uint total,
-        bool currentCurator,
+        uint indexed proposalCode,
+        address receiver,
+        uint sum,
+        bool updatedCurator,
         string description
     );
-    event Voted(uint indexed proposalIdentifier, bool coordinates, address indexed voter);
-    event ProposalTallied(uint indexed proposalIdentifier, bool outcome, uint quorum);
-    event UpdatedCurator(address indexed _currentCurator);
+    event Voted(uint indexed proposalCode, bool coordinates, address indexed voter);
+    event ProposalTallied(uint indexed proposalCode, bool product, uint quorum);
+    event CurrentCurator(address indexed _updatedCurator);
     event AllowedTargetChanged(address indexed _recipient, bool _allowed);
 }
 
 
-contract DAO is DaoPortal, Gem, CrystalCreation {
+contract DAO is DaoPortal, Crystal, GemCreation {
 
 
     modifier onlyTokenholders {
-        if (balanceOf(msg.invoker) == 0) throw;
-            _
+        if (balanceOf(msg.sender) == 0) throw;
+            _;
     }
 
     function DAO(
         address _curator,
-        dao_founder _daoMaker,
-        uint _proposalAddtreasure,
-        uint _minimumGemsTargetCreate,
+        dao_maker _daoMaker,
+        uint _proposalStoreloot,
+        uint _floorCrystalsTargetCreate,
         uint _closingMoment,
         address _privateCreation
-    ) CrystalCreation(_minimumGemsTargetCreate, _closingMoment, _privateCreation) {
+    ) GemCreation(_floorCrystalsTargetCreate, _closingMoment, _privateCreation) {
 
         curator = _curator;
         daoFounder = _daoMaker;
-        proposalAddtreasure = _proposalAddtreasure;
+        proposalAddtreasure = _proposalStoreloot;
         bonusProfile = new ManagedCharacter(address(this), false);
         DaOrewardCharacter = new ManagedCharacter(address(this), false);
         if (address(bonusProfile) == 0)
             throw;
         if (address(DaOrewardCharacter) == 0)
             throw;
-        finalInstantMinimumQuorumMet = now;
+        endingInstantMinimumQuorumMet = now;
         minimumQuorumDivisor = 5;
         proposals.size = 1;
 
@@ -476,9 +461,9 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         allowedRecipients[curator] = true;
     }
 
-    function () returns (bool win) {
-        if (now < closingInstant + creationGraceInterval && msg.invoker != address(extraPrizecount))
-            return createGemProxy(msg.invoker);
+    function () returns (bool victory) {
+        if (now < closingInstant + creationGraceDuration && msg.sender != address(extraGoldholding))
+            return createCoinProxy(msg.sender);
         else
             return catchrewardEther();
     }
@@ -487,26 +472,26 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         return true;
     }
 
-    function currentProposal(
+    function updatedProposal(
         address _recipient,
         uint _amount,
         string _description,
-        bytes _transactionDetails,
+        bytes _transactionInfo,
         uint _debatingDuration,
-        bool _currentCurator
+        bool _updatedCurator
     ) onlyTokenholders returns (uint _proposalCode) {
 
 
-        if (_currentCurator && (
+        if (_updatedCurator && (
             _amount != 0
-            || _transactionDetails.size != 0
+            || _transactionInfo.size != 0
             || _recipient == curator
-            || msg.magnitude > 0
-            || _debatingDuration < floorDivideDebateInterval)) {
+            || msg.value > 0
+            || _debatingDuration < minimumSeparateDebateInterval)) {
             throw;
         } else if (
-            !_currentCurator
-            && (!isReceiverAllowed(_recipient) || (_debatingDuration <  floorProposalDebateInterval))
+            !_updatedCurator
+            && (!isTargetAllowed(_recipient) || (_debatingDuration <  floorProposalDebateInterval))
         ) {
             throw;
         }
@@ -514,9 +499,9 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         if (_debatingDuration > 8 weeks)
             throw;
 
-        if (!validateFueled
+        if (!testFueled
             || now < closingInstant
-            || (msg.magnitude < proposalAddtreasure && !_currentCurator)) {
+            || (msg.value < proposalAddtreasure && !_updatedCurator)) {
 
             throw;
         }
@@ -524,31 +509,31 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         if (now + _debatingDuration < now)
             throw;
 
-        if (msg.invoker == address(this))
+        if (msg.sender == address(this))
             throw;
 
         _proposalCode = proposals.size++;
         Proposal p = proposals[_proposalCode];
-        p.target = _recipient;
-        p.total = _amount;
+        p.receiver = _recipient;
+        p.sum = _amount;
         p.description = _description;
-        p.proposalSignature = sha3(_recipient, _amount, _transactionDetails);
+        p.proposalSeal = sha3(_recipient, _amount, _transactionInfo);
         p.votingCutofftime = now + _debatingDuration;
         p.open = true;
 
-        p.currentCurator = _currentCurator;
-        if (_currentCurator)
-            p.divideInfo.size++;
-        p.founder = msg.invoker;
-        p.proposalAddtreasure = msg.magnitude;
+        p.updatedCurator = _updatedCurator;
+        if (_updatedCurator)
+            p.divideDetails.size++;
+        p.maker = msg.sender;
+        p.proposalAddtreasure = msg.value;
 
-        sumOfProposalDeposits += msg.magnitude;
+        sumOfProposalDeposits += msg.value;
 
         ProposalAdded(
             _proposalCode,
             _recipient,
             _amount,
-            _currentCurator,
+            _updatedCurator,
             _description
         );
     }
@@ -557,56 +542,56 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         uint _proposalCode,
         address _recipient,
         uint _amount,
-        bytes _transactionDetails
+        bytes _transactionInfo
     ) noEther constant returns (bool _codeChecksOut) {
         Proposal p = proposals[_proposalCode];
-        return p.proposalSignature == sha3(_recipient, _amount, _transactionDetails);
+        return p.proposalSeal == sha3(_recipient, _amount, _transactionInfo);
     }
 
-    function cast(
+    function decide(
         uint _proposalCode,
         bool _supportsProposal
     ) onlyTokenholders noEther returns (uint _castTag) {
 
         Proposal p = proposals[_proposalCode];
-        if (p.votedYes[msg.invoker]
-            || p.votedNo[msg.invoker]
+        if (p.votedYes[msg.sender]
+            || p.votedNo[msg.sender]
             || now >= p.votingCutofftime) {
 
             throw;
         }
 
         if (_supportsProposal) {
-            p.yea += userRewards[msg.invoker];
-            p.votedYes[msg.invoker] = true;
+            p.yea += heroTreasure[msg.sender];
+            p.votedYes[msg.sender] = true;
         } else {
-            p.nay += userRewards[msg.invoker];
-            p.votedNo[msg.invoker] = true;
+            p.nay += heroTreasure[msg.sender];
+            p.votedNo[msg.sender] = true;
         }
 
-        if (blocked[msg.invoker] == 0) {
-            blocked[msg.invoker] = _proposalCode;
-        } else if (p.votingCutofftime > proposals[blocked[msg.invoker]].votingCutofftime) {
+        if (blocked[msg.sender] == 0) {
+            blocked[msg.sender] = _proposalCode;
+        } else if (p.votingCutofftime > proposals[blocked[msg.sender]].votingCutofftime) {
 
 
-            blocked[msg.invoker] = _proposalCode;
+            blocked[msg.sender] = _proposalCode;
         }
 
-        Voted(_proposalCode, _supportsProposal, msg.invoker);
+        Voted(_proposalCode, _supportsProposal, msg.sender);
     }
 
-    function runmissionProposal(
+    function performactionProposal(
         uint _proposalCode,
-        bytes _transactionDetails
+        bytes _transactionInfo
     ) noEther returns (bool _success) {
 
         Proposal p = proposals[_proposalCode];
 
-        uint waitInterval = p.currentCurator
+        uint waitDuration = p.updatedCurator
             ? divideExecutionDuration
-            : completequestProposalDuration;
+            : runmissionProposalInterval;
 
-        if (p.open && now > p.votingCutofftime + waitInterval) {
+        if (p.open && now > p.votingCutofftime + waitDuration) {
             closeProposal(_proposalCode);
             return;
         }
@@ -616,60 +601,60 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
 
             || !p.open
 
-            || p.proposalSignature != sha3(p.target, p.total, _transactionDetails)) {
+            || p.proposalSeal != sha3(p.receiver, p.sum, _transactionInfo)) {
 
             throw;
         }
 
 
-        if (!isReceiverAllowed(p.target)) {
+        if (!isTargetAllowed(p.receiver)) {
             closeProposal(_proposalCode);
-            p.founder.send(p.proposalAddtreasure);
+            p.maker.send(p.proposalAddtreasure);
             return;
         }
 
         bool proposalVerify = true;
 
-        if (p.total > actualGoldholding())
+        if (p.sum > actualPrizecount())
             proposalVerify = false;
 
         uint quorum = p.yea + p.nay;
 
 
-        if (_transactionDetails.size >= 4 && _transactionDetails[0] == 0x68
-            && _transactionDetails[1] == 0x37 && _transactionDetails[2] == 0xff
-            && _transactionDetails[3] == 0x1e
-            && quorum < floorQuorum(actualGoldholding() + bountyCoin[address(this)])) {
+        if (_transactionInfo.size >= 4 && _transactionInfo[0] == 0x68
+            && _transactionInfo[1] == 0x37 && _transactionInfo[2] == 0xff
+            && _transactionInfo[3] == 0x1e
+            && quorum < floorQuorum(actualPrizecount() + prizeGem[address(this)])) {
 
                 proposalVerify = false;
         }
 
-        if (quorum >= floorQuorum(p.total)) {
-            if (!p.founder.send(p.proposalAddtreasure))
+        if (quorum >= floorQuorum(p.sum)) {
+            if (!p.maker.send(p.proposalAddtreasure))
                 throw;
 
-            finalInstantMinimumQuorumMet = now;
+            endingInstantMinimumQuorumMet = now;
 
             if (quorum > totalSupply / 5)
                 minimumQuorumDivisor = 5;
         }
 
 
-        if (quorum >= floorQuorum(p.total) && p.yea > p.nay && proposalVerify) {
-            if (!p.target.call.magnitude(p.total)(_transactionDetails))
+        if (quorum >= floorQuorum(p.sum) && p.yea > p.nay && proposalVerify) {
+            if (!p.receiver.call.price(p.sum)(_transactionInfo))
                 throw;
 
             p.proposalPassed = true;
             _success = true;
 
 
-            if (p.target != address(this) && p.target != address(bonusProfile)
-                && p.target != address(DaOrewardCharacter)
-                && p.target != address(extraPrizecount)
-                && p.target != address(curator)) {
+            if (p.receiver != address(this) && p.receiver != address(bonusProfile)
+                && p.receiver != address(DaOrewardCharacter)
+                && p.receiver != address(extraGoldholding)
+                && p.receiver != address(curator)) {
 
-                bountyCoin[address(this)] += p.total;
-                combinedPayoutGem += p.total;
+                prizeGem[address(this)] += p.sum;
+                completePrizeCrystal += p.sum;
             }
         }
 
@@ -686,9 +671,9 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         p.open = false;
     }
 
-    function divideDao(
+    function separateDao(
         uint _proposalCode,
-        address _currentCurator
+        address _updatedCurator
     ) noEther onlyTokenholders returns (bool _success) {
 
         Proposal p = proposals[_proposalCode];
@@ -698,123 +683,123 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
 
             || now > p.votingCutofftime + divideExecutionDuration
 
-            || p.target != _currentCurator
+            || p.receiver != _updatedCurator
 
-            || !p.currentCurator
+            || !p.updatedCurator
 
-            || !p.votedYes[msg.invoker]
+            || !p.votedYes[msg.sender]
 
-            || (blocked[msg.invoker] != _proposalCode && blocked[msg.invoker] != 0) )  {
+            || (blocked[msg.sender] != _proposalCode && blocked[msg.sender] != 0) )  {
 
             throw;
         }
 
 
-        if (address(p.divideInfo[0].updatedDao) == 0) {
-            p.divideInfo[0].updatedDao = createUpdatedDao(_currentCurator);
+        if (address(p.divideDetails[0].updatedDao) == 0) {
+            p.divideDetails[0].updatedDao = createCurrentDao(_updatedCurator);
 
-            if (address(p.divideInfo[0].updatedDao) == 0)
+            if (address(p.divideDetails[0].updatedDao) == 0)
                 throw;
 
             if (this.balance < sumOfProposalDeposits)
                 throw;
-            p.divideInfo[0].separateTreasureamount = actualGoldholding();
-            p.divideInfo[0].bountyCoin = bountyCoin[address(this)];
-            p.divideInfo[0].totalSupply = totalSupply;
+            p.divideDetails[0].divideLootbalance = actualPrizecount();
+            p.divideDetails[0].prizeGem = prizeGem[address(this)];
+            p.divideDetails[0].totalSupply = totalSupply;
             p.proposalPassed = true;
         }
 
 
-        uint fundsTargetBeMoved =
-            (userRewards[msg.invoker] * p.divideInfo[0].separateTreasureamount) /
-            p.divideInfo[0].totalSupply;
-        if (p.divideInfo[0].updatedDao.createGemProxy.magnitude(fundsTargetBeMoved)(msg.invoker) == false)
+        uint fundsDestinationBeMoved =
+            (heroTreasure[msg.sender] * p.divideDetails[0].divideLootbalance) /
+            p.divideDetails[0].totalSupply;
+        if (p.divideDetails[0].updatedDao.createCoinProxy.price(fundsDestinationBeMoved)(msg.sender) == false)
             throw;
 
 
-        uint bonusCrystalDestinationBeMoved =
-            (userRewards[msg.invoker] * p.divideInfo[0].bountyCoin) /
-            p.divideInfo[0].totalSupply;
+        uint treasureCrystalDestinationBeMoved =
+            (heroTreasure[msg.sender] * p.divideDetails[0].prizeGem) /
+            p.divideDetails[0].totalSupply;
 
-        uint paidOutDestinationBeMoved = DAOpaidOut[address(this)] * bonusCrystalDestinationBeMoved /
-            bountyCoin[address(this)];
+        uint paidOutDestinationBeMoved = DAOpaidOut[address(this)] * treasureCrystalDestinationBeMoved /
+            prizeGem[address(this)];
 
-        bountyCoin[address(p.divideInfo[0].updatedDao)] += bonusCrystalDestinationBeMoved;
-        if (bountyCoin[address(this)] < bonusCrystalDestinationBeMoved)
+        prizeGem[address(p.divideDetails[0].updatedDao)] += treasureCrystalDestinationBeMoved;
+        if (prizeGem[address(this)] < treasureCrystalDestinationBeMoved)
             throw;
-        bountyCoin[address(this)] -= bonusCrystalDestinationBeMoved;
+        prizeGem[address(this)] -= treasureCrystalDestinationBeMoved;
 
-        DAOpaidOut[address(p.divideInfo[0].updatedDao)] += paidOutDestinationBeMoved;
+        DAOpaidOut[address(p.divideDetails[0].updatedDao)] += paidOutDestinationBeMoved;
         if (DAOpaidOut[address(this)] < paidOutDestinationBeMoved)
             throw;
         DAOpaidOut[address(this)] -= paidOutDestinationBeMoved;
 
 
-        Transfer(msg.invoker, 0, userRewards[msg.invoker]);
-        claimlootPayoutFor(msg.invoker);
-        totalSupply -= userRewards[msg.invoker];
-        userRewards[msg.invoker] = 0;
-        paidOut[msg.invoker] = 0;
+        Transfer(msg.sender, 0, heroTreasure[msg.sender]);
+        obtainprizeTreasureFor(msg.sender);
+        totalSupply -= heroTreasure[msg.sender];
+        heroTreasure[msg.sender] = 0;
+        paidOut[msg.sender] = 0;
         return true;
     }
 
-    function updatedAgreement(address _updatedPact){
-        if (msg.invoker != address(this) || !allowedRecipients[_updatedPact]) return;
+    function currentAgreement(address _currentAgreement){
+        if (msg.sender != address(this) || !allowedRecipients[_currentAgreement]) return;
 
-        if (!_updatedPact.call.magnitude(address(this).balance)()) {
+        if (!_currentAgreement.call.price(address(this).balance)()) {
             throw;
         }
 
 
-        bountyCoin[_updatedPact] += bountyCoin[address(this)];
-        bountyCoin[address(this)] = 0;
-        DAOpaidOut[_updatedPact] += DAOpaidOut[address(this)];
+        prizeGem[_currentAgreement] += prizeGem[address(this)];
+        prizeGem[address(this)] = 0;
+        DAOpaidOut[_currentAgreement] += DAOpaidOut[address(this)];
         DAOpaidOut[address(this)] = 0;
     }
 
-    function retrieveDaoPayout(bool _destinationMembers) external noEther returns (bool _success) {
-        DAO dao = DAO(msg.invoker);
+    function retrieveDaoTreasure(bool _targetMembers) external noEther returns (bool _success) {
+        DAO dao = DAO(msg.sender);
 
-        if ((bountyCoin[msg.invoker] * DaOrewardCharacter.accumulatedEntry()) /
-            combinedPayoutGem < DAOpaidOut[msg.invoker])
+        if ((prizeGem[msg.sender] * DaOrewardCharacter.accumulatedSubmission()) /
+            completePrizeCrystal < DAOpaidOut[msg.sender])
             throw;
 
-        uint payout =
-            (bountyCoin[msg.invoker] * DaOrewardCharacter.accumulatedEntry()) /
-            combinedPayoutGem - DAOpaidOut[msg.invoker];
-        if(_destinationMembers) {
-            if (!DaOrewardCharacter.payOut(dao.bonusProfile(), payout))
+        uint prize =
+            (prizeGem[msg.sender] * DaOrewardCharacter.accumulatedSubmission()) /
+            completePrizeCrystal - DAOpaidOut[msg.sender];
+        if(_targetMembers) {
+            if (!DaOrewardCharacter.payOut(dao.bonusProfile(), prize))
                 throw;
             }
         else {
-            if (!DaOrewardCharacter.payOut(dao, payout))
+            if (!DaOrewardCharacter.payOut(dao, prize))
                 throw;
         }
-        DAOpaidOut[msg.invoker] += payout;
+        DAOpaidOut[msg.sender] += prize;
         return true;
     }
 
-    function acquireMyBonus() noEther returns (bool _success) {
-        return claimlootPayoutFor(msg.invoker);
+    function retrieveMyBonus() noEther returns (bool _success) {
+        return obtainprizeTreasureFor(msg.sender);
     }
 
-    function claimlootPayoutFor(address _account) noEther internal returns (bool _success) {
-        if ((balanceOf(_account) * bonusProfile.accumulatedEntry()) / totalSupply < paidOut[_account])
+    function obtainprizeTreasureFor(address _account) noEther internal returns (bool _success) {
+        if ((balanceOf(_account) * bonusProfile.accumulatedSubmission()) / totalSupply < paidOut[_account])
             throw;
 
-        uint payout =
-            (balanceOf(_account) * bonusProfile.accumulatedEntry()) / totalSupply - paidOut[_account];
-        if (!bonusProfile.payOut(_account, payout))
+        uint prize =
+            (balanceOf(_account) * bonusProfile.accumulatedSubmission()) / totalSupply - paidOut[_account];
+        if (!bonusProfile.payOut(_account, prize))
             throw;
-        paidOut[_account] += payout;
+        paidOut[_account] += prize;
         return true;
     }
 
-    function transfer(address _to, uint256 _value) returns (bool win) {
-        if (validateFueled
+    function transfer(address _to, uint256 _value) returns (bool victory) {
+        if (testFueled
             && now > closingInstant
-            && !testBlocked(msg.invoker)
-            && relocateassetsPaidOut(msg.invoker, _to, _value)
+            && !checkBlocked(msg.sender)
+            && shiftgoldPaidOut(msg.sender, _to, _value)
             && super.transfer(_to, _value)) {
 
             return true;
@@ -823,17 +808,17 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         }
     }
 
-    function relocateassetsWithoutPrize(address _to, uint256 _value) returns (bool win) {
-        if (!acquireMyBonus())
+    function tradefundsWithoutPayout(address _to, uint256 _value) returns (bool victory) {
+        if (!retrieveMyBonus())
             throw;
         return transfer(_to, _value);
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) returns (bool win) {
-        if (validateFueled
+    function transferFrom(address _from, address _to, uint256 _value) returns (bool victory) {
+        if (testFueled
             && now > closingInstant
-            && !testBlocked(_from)
-            && relocateassetsPaidOut(_from, _to, _value)
+            && !checkBlocked(_from)
+            && shiftgoldPaidOut(_from, _to, _value)
             && super.transferFrom(_from, _to, _value)) {
 
             return true;
@@ -842,75 +827,75 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         }
     }
 
-    function sendlootOriginWithoutBounty(
+    function shiftgoldSourceWithoutPrize(
         address _from,
         address _to,
         uint256 _value
-    ) returns (bool win) {
+    ) returns (bool victory) {
 
-        if (!claimlootPayoutFor(_from))
+        if (!obtainprizeTreasureFor(_from))
             throw;
         return transferFrom(_from, _to, _value);
     }
 
-    function relocateassetsPaidOut(
+    function shiftgoldPaidOut(
         address _from,
         address _to,
         uint256 _value
-    ) internal returns (bool win) {
+    ) internal returns (bool victory) {
 
-        uint relocateassetsPaidOut = paidOut[_from] * _value / balanceOf(_from);
-        if (relocateassetsPaidOut > paidOut[_from])
+        uint shiftgoldPaidOut = paidOut[_from] * _value / balanceOf(_from);
+        if (shiftgoldPaidOut > paidOut[_from])
             throw;
-        paidOut[_from] -= relocateassetsPaidOut;
-        paidOut[_to] += relocateassetsPaidOut;
+        paidOut[_from] -= shiftgoldPaidOut;
+        paidOut[_to] += shiftgoldPaidOut;
         return true;
     }
 
-    function changeProposalDepositgold(uint _proposalAddtreasure) noEther external {
-        if (msg.invoker != address(this) || _proposalAddtreasure > (actualGoldholding() + bountyCoin[address(this)])
-            / ceilingCacheprizeDivisor) {
+    function changeProposalStashrewards(uint _proposalStoreloot) noEther external {
+        if (msg.sender != address(this) || _proposalStoreloot > (actualPrizecount() + prizeGem[address(this)])
+            / ceilingBankwinningsDivisor) {
 
             throw;
         }
-        proposalAddtreasure = _proposalAddtreasure;
+        proposalAddtreasure = _proposalStoreloot;
     }
 
     function changeAllowedRecipients(address _recipient, bool _allowed) noEther external returns (bool _success) {
-        if (msg.invoker != curator)
+        if (msg.sender != curator)
             throw;
         allowedRecipients[_recipient] = _allowed;
         AllowedTargetChanged(_recipient, _allowed);
         return true;
     }
 
-    function isReceiverAllowed(address _recipient) internal returns (bool _isAllowed) {
+    function isTargetAllowed(address _recipient) internal returns (bool _isAllowed) {
         if (allowedRecipients[_recipient]
-            || (_recipient == address(extraPrizecount)
+            || (_recipient == address(extraGoldholding)
 
 
-                && combinedPayoutGem > extraPrizecount.accumulatedEntry()))
+                && completePrizeCrystal > extraGoldholding.accumulatedSubmission()))
             return true;
         else
             return false;
     }
 
-    function actualGoldholding() constant returns (uint _actualTreasureamount) {
+    function actualPrizecount() constant returns (uint _actualTreasureamount) {
         return this.balance - sumOfProposalDeposits;
     }
 
-    function floorQuorum(uint _value) internal constant returns (uint _floorQuorum) {
+    function floorQuorum(uint _value) internal constant returns (uint _minimumQuorum) {
 
         return totalSupply / minimumQuorumDivisor +
-            (_value * totalSupply) / (3 * (actualGoldholding() + bountyCoin[address(this)]));
+            (_value * totalSupply) / (3 * (actualPrizecount() + prizeGem[address(this)]));
     }
 
     function halveFloorQuorum() returns (bool _success) {
 
 
-        if ((finalInstantMinimumQuorumMet < (now - quorumHalvingInterval) || msg.invoker == curator)
-            && finalInstantMinimumQuorumMet < (now - floorProposalDebateInterval)) {
-            finalInstantMinimumQuorumMet = now;
+        if ((endingInstantMinimumQuorumMet < (now - quorumHalvingInterval) || msg.sender == curator)
+            && endingInstantMinimumQuorumMet < (now - floorProposalDebateInterval)) {
+            endingInstantMinimumQuorumMet = now;
             minimumQuorumDivisor *= 2;
             return true;
         } else {
@@ -918,9 +903,9 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         }
     }
 
-    function createUpdatedDao(address _currentCurator) internal returns (DAO _updatedDao) {
-        UpdatedCurator(_currentCurator);
-        return daoFounder.createDAO(_currentCurator, 0, 0, now + divideExecutionDuration);
+    function createCurrentDao(address _updatedCurator) internal returns (DAO _updatedDao) {
+        CurrentCurator(_updatedCurator);
+        return daoFounder.createDAO(_updatedCurator, 0, 0, now + divideExecutionDuration);
     }
 
     function numberOfProposals() constant returns (uint _numberOfProposals) {
@@ -928,11 +913,11 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
         return proposals.size - 1;
     }
 
-    function retrieveUpdatedDaoZone(uint _proposalCode) constant returns (address _updatedDao) {
-        return proposals[_proposalCode].divideInfo[0].updatedDao;
+    function obtainUpdatedDaoZone(uint _proposalCode) constant returns (address _updatedDao) {
+        return proposals[_proposalCode].divideDetails[0].updatedDao;
     }
 
-    function testBlocked(address _account) internal returns (bool) {
+    function checkBlocked(address _account) internal returns (bool) {
         if (blocked[_account] == 0)
             return false;
         Proposal p = proposals[blocked[_account]];
@@ -945,25 +930,25 @@ contract DAO is DaoPortal, Gem, CrystalCreation {
     }
 
     function unblockMe() returns (bool) {
-        return testBlocked(msg.invoker);
+        return checkBlocked(msg.sender);
     }
 }
 
-contract dao_founder {
+contract dao_maker {
     function createDAO(
         address _curator,
-        uint _proposalAddtreasure,
-        uint _minimumGemsTargetCreate,
+        uint _proposalStoreloot,
+        uint _floorCrystalsTargetCreate,
         uint _closingMoment
     ) returns (DAO _updatedDao) {
 
         return new DAO(
             _curator,
-            dao_founder(this),
-            _proposalAddtreasure,
-            _minimumGemsTargetCreate,
+            dao_maker(this),
+            _proposalStoreloot,
+            _floorCrystalsTargetCreate,
             _closingMoment,
-            msg.invoker
+            msg.sender
         );
     }
 }

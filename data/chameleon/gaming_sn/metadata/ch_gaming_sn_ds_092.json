@@ -66,20 +66,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_092.json",
     "original_id": "defivulnlabs_self-transfer"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_092.sol",
   "sanitized_from": "ds_092",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 4078921380,
+    "seed": 2837306543,
     "coverage": {
-      "total_identifiers": 32,
+      "total_identifiers": 31,
       "transformed": 10,
-      "untransformed": 22,
-      "skipped_reserved": 23,
+      "untransformed": 21,
+      "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 31.25,
+      "coverage_percent": 32.26,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -164,25 +165,21 @@
         {
           "name": "self",
           "reason": "no synonym found"
-        },
-        {
-          "name": "unchecked",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "PactTest",
-      "VSimpleBankContract": "VSimpleBankPact",
-      "SimpleBankContractV2": "SimpleBankPactV2",
+      "ContractTest": "AgreementTest",
+      "VSimpleBankContract": "VSimpleBankAgreement",
+      "SimpleBankContractV2": "SimpleBankAgreementV2",
       "setUp": "groupUp",
       "testSelfTransfer": "testSelfShiftgold",
-      "testFixedSelfTransfer": "testFixedSelfShiftgold",
-      "expectRevert": "expectReverse",
-      "check": "validate",
-      "_fromBalance": "_sourceTreasureamount",
-      "_toBalance": "_destinationRewardlevel"
+      "testFixedSelfTransfer": "testFixedSelfMovetreasure",
+      "expectRevert": "expectUndo",
+      "check": "examine",
+      "_fromBalance": "_sourceRewardlevel",
+      "_toBalance": "_targetRewardlevel"
     }
   }
 }

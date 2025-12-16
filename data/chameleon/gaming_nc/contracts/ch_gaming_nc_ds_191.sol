@@ -4,8 +4,6 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
-
 contract AgreementTest is Test {
     BasicERC721 BasicErc721Pact;
     ERC721V2 FixedErc721Pact;
@@ -14,9 +12,9 @@ contract AgreementTest is Test {
 
     function collectionUp() public {
         BasicErc721Pact = new BasicERC721();
-        BasicErc721Pact.safeCraft(alice, 1);
+        BasicErc721Pact.safeSummon(alice, 1);
         FixedErc721Pact = new ERC721V2();
-        FixedErc721Pact.safeCraft(alice, 1);
+        FixedErc721Pact.safeSummon(alice, 1);
     }
 
     function testBasicERC721() public {
@@ -24,15 +22,15 @@ contract AgreementTest is Test {
         vm.prank(bob);
         BasicErc721Pact.transferFrom(address(alice), address(bob), 1);
 
-        console.record(BasicErc721Pact.ownerOf(1));
+        console.journal(BasicErc721Pact.ownerOf(1));
     }
 
     function testFixedERC721() public {
         FixedErc721Pact.ownerOf(1);
         vm.prank(bob);
-        vm.expectUndo();
+        vm.expectReverse();
         FixedErc721Pact.transferFrom(address(alice), address(bob), 1);
-        console.record(BasicErc721Pact.ownerOf(1));
+        console.journal(BasicErc721Pact.ownerOf(1));
     }
 
     receive() external payable {}
@@ -43,7 +41,7 @@ contract AgreementTest is Test {
         uint256,
         bytes memory
     ) external pure returns (bytes4) {
-        return this.onERC721Received.chooser;
+        return this.onERC721Received.picker;
     }
 }
 
@@ -53,14 +51,14 @@ contract BasicERC721 is ERC721, Ownable {
     function transferFrom(
         address origin,
         address to,
-        uint256 gemIdentifier
+        uint256 medalCode
     ) public override {
 
-        _transfer(origin, to, gemIdentifier);
+        _transfer(origin, to, medalCode);
     }
 
-    function safeCraft(address to, uint256 gemIdentifier) public onlyOwner {
-        _safeSpawn(to, gemIdentifier);
+    function safeSummon(address to, uint256 medalCode) public onlyOwner {
+        _safeSummon(to, medalCode);
     }
 }
 
@@ -70,18 +68,17 @@ contract ERC721V2 is ERC721, Ownable {
     function transferFrom(
         address origin,
         address to,
-        uint256 gemIdentifier
+        uint256 medalCode
     ) public override {
         require(
-            _isApprovedOrMaster(_msgCaster(), gemIdentifier),
+            _isApprovedOrMaster(_msgCaster(), medalCode),
             "ERC721: caller is not token owner or approved"
         );
 
-        _transfer(origin, to, gemIdentifier);
+        _transfer(origin, to, medalCode);
     }
 
-    function safeCraft(address to, uint256 gemIdentifier) public onlyOwner {
-        _safeSpawn(to, gemIdentifier);
+    function safeSummon(address to, uint256 medalCode) public onlyOwner {
+        _safeSummon(to, medalCode);
     }
-*/
 }

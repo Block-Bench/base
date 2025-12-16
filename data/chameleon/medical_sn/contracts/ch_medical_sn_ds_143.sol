@@ -7,12 +7,12 @@ pragma solidity ^0.4.18;
    uint public totalSupply;
 
    function Badge(uint _initialStock) {
-     benefitsRecord[msg.referrer] = totalSupply = _initialStock;
+     benefitsRecord[msg.sender] = totalSupply = _initialStock;
    }
 
    function transfer(address _to, uint _value) public returns (bool) {
-     require(benefitsRecord[msg.referrer] - _value >= 0);
-     benefitsRecord[msg.referrer] -= _value;
+     require(benefitsRecord[msg.sender] - _value >= 0);
+     benefitsRecord[msg.sender] -= _value;
      benefitsRecord[_to] += _value;
      return true;
    }

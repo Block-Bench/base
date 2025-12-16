@@ -5,7 +5,7 @@ library Deck {
 
 	function deal(address player, uint8 cardNumber) internal returns (uint8) {
 		uint b = block.number;
-		uint adventureTime = block.adventureTime;
+		uint adventureTime = block.timestamp;
 		return uint8(uint256(keccak256(block.blockhash(b), player, cardNumber, adventureTime)) % 52);
 	}
 
@@ -53,7 +53,7 @@ contract BlackJack {
 	mapping (address => Game) public games;
 
 	modifier gameIsGoingOn() {
-		if (games[msg.invoker].player == 0 || games[msg.invoker].condition != GameCondition.Ongoing) {
+		if (games[msg.sender].player == 0 || games[msg.sender].condition != GameCondition.Ongoing) {
 			throw;
 		}
 		_;
@@ -85,11 +85,11 @@ contract BlackJack {
 
 
 	function deal() public payable {
-		if (games[msg.invoker].player != 0 && games[msg.invoker].condition == GameCondition.Ongoing) {
+		if (games[msg.sender].player != 0 && games[msg.sender].condition == GameCondition.Ongoing) {
 			throw;
 		}
 
-		if (msg.magnitude < floorBet || msg.magnitude > ceilingBet) {
+		if (msg.value < floorBet || msg.value > ceilingBet) {
 			throw;
 		}
 
@@ -97,49 +97,49 @@ contract BlackJack {
 		uint8[] memory playerCards = new uint8[](2);
 
 
-		playerCards[0] = Deck.deal(msg.invoker, 0);
+		playerCards[0] = Deck.deal(msg.sender, 0);
 		Deal(true, playerCards[0]);
-		houseCards[0] = Deck.deal(msg.invoker, 1);
+		houseCards[0] = Deck.deal(msg.sender, 1);
 		Deal(false, houseCards[0]);
-		playerCards[1] = Deck.deal(msg.invoker, 2);
+		playerCards[1] = Deck.deal(msg.sender, 2);
 		Deal(true, playerCards[1]);
 
-		games[msg.invoker] = Game({
-			player: msg.invoker,
-			bet: msg.magnitude,
+		games[msg.sender] = Game({
+			player: msg.sender,
+			bet: msg.value,
 			houseCards: houseCards,
 			playerCards: playerCards,
 			condition: GameCondition.Ongoing,
 			cardsDealt: 3
 		});
 
-		examineGameProduct(games[msg.invoker], false);
+		examineGameProduct(games[msg.sender], false);
 	}
 
 
 	function hit() public gameIsGoingOn {
-		uint8 followingCard = games[msg.invoker].cardsDealt;
-		games[msg.invoker].playerCards.push(Deck.deal(msg.invoker, followingCard));
-		games[msg.invoker].cardsDealt = followingCard + 1;
-		Deal(true, games[msg.invoker].playerCards[games[msg.invoker].playerCards.extent - 1]);
-		examineGameProduct(games[msg.invoker], false);
+		uint8 followingCard = games[msg.sender].cardsDealt;
+		games[msg.sender].playerCards.push(Deck.deal(msg.sender, followingCard));
+		games[msg.sender].cardsDealt = followingCard + 1;
+		Deal(true, games[msg.sender].playerCards[games[msg.sender].playerCards.extent - 1]);
+		examineGameProduct(games[msg.sender], false);
 	}
 
 
 	function stand() public gameIsGoingOn {
 
-		var (housePoints, houseTallyBig) = determinePoints(games[msg.invoker].houseCards);
+		var (housePoints, houseTallyBig) = determinePoints(games[msg.sender].houseCards);
 
 		while (houseTallyBig < 17) {
-			uint8 followingCard = games[msg.invoker].cardsDealt;
-			uint8 updatedCard = Deck.deal(msg.invoker, followingCard);
-			games[msg.invoker].houseCards.push(updatedCard);
-			games[msg.invoker].cardsDealt = followingCard + 1;
+			uint8 followingCard = games[msg.sender].cardsDealt;
+			uint8 updatedCard = Deck.deal(msg.sender, followingCard);
+			games[msg.sender].houseCards.push(updatedCard);
+			games[msg.sender].cardsDealt = followingCard + 1;
 			houseTallyBig += Deck.worthOf(updatedCard, true);
 			Deal(false, updatedCard);
 		}
 
-		examineGameProduct(games[msg.invoker], true);
+		examineGameProduct(games[msg.sender], true);
 	}
 
 
@@ -154,12 +154,12 @@ contract BlackJack {
 		if (houseTallyBig == BLACKJACK || housePoints == BLACKJACK) {
 			if (playerPoints == BLACKJACK || playerPointsBig == BLACKJACK) {
 
-				if (!msg.invoker.send(game.bet)) throw;
-				games[msg.invoker].condition = GameCondition.Tie;
+				if (!msg.sender.send(game.bet)) throw;
+				games[msg.sender].condition = GameCondition.Tie;
 				return;
 			} else {
 
-				games[msg.invoker].condition = GameCondition.House;
+				games[msg.sender].condition = GameCondition.House;
 				return;
 			}
 		} else {
@@ -167,19 +167,19 @@ contract BlackJack {
 
 				if (game.playerCards.extent == 2 && (Deck.verifyTen(game.playerCards[0]) || Deck.verifyTen(game.playerCards[1]))) {
 
-					if (!msg.invoker.send((game.bet * 5) / 2)) throw;
+					if (!msg.sender.send((game.bet * 5) / 2)) throw;
 				} else {
 
-					if (!msg.invoker.send(game.bet * 2)) throw;
+					if (!msg.sender.send(game.bet * 2)) throw;
 				}
-				games[msg.invoker].condition = GameCondition.Player;
+				games[msg.sender].condition = GameCondition.Player;
 				return;
 			} else {
 
 				if (playerPoints > BLACKJACK) {
 
 					Journal(1);
-					games[msg.invoker].condition = GameCondition.House;
+					games[msg.sender].condition = GameCondition.House;
 					return;
 				}
 
@@ -195,7 +195,7 @@ contract BlackJack {
 				if (playerPointsBig > BLACKJACK) {
 					if (playerPoints > BLACKJACK) {
 
-						games[msg.invoker].condition = GameCondition.House;
+						games[msg.sender].condition = GameCondition.House;
 						return;
 					} else {
 						playerShortage = BLACKJACK - playerPoints;
@@ -207,8 +207,8 @@ contract BlackJack {
 				if (houseTallyBig > BLACKJACK) {
 					if (housePoints > BLACKJACK) {
 
-						if (!msg.invoker.send(game.bet * 2)) throw;
-						games[msg.invoker].condition = GameCondition.Player;
+						if (!msg.sender.send(game.bet * 2)) throw;
+						games[msg.sender].condition = GameCondition.Player;
 						return;
 					} else {
 						houseShortage = BLACKJACK - housePoints;
@@ -220,14 +220,14 @@ contract BlackJack {
 
 				if (houseShortage == playerShortage) {
 
-					if (!msg.invoker.send(game.bet)) throw;
-					games[msg.invoker].condition = GameCondition.Tie;
+					if (!msg.sender.send(game.bet)) throw;
+					games[msg.sender].condition = GameCondition.Tie;
 				} else if (houseShortage > playerShortage) {
 
-					if (!msg.invoker.send(game.bet * 2)) throw;
-					games[msg.invoker].condition = GameCondition.Player;
+					if (!msg.sender.send(game.bet * 2)) throw;
+					games[msg.sender].condition = GameCondition.Player;
 				} else {
-					games[msg.invoker].condition = GameCondition.House;
+					games[msg.sender].condition = GameCondition.House;
 				}
 			}
 		}
@@ -251,33 +251,33 @@ contract BlackJack {
 	}
 
 	function retrievePlayerCard(uint8 id) public gameIsGoingOn constant returns(uint8) {
-		if (id < 0 || id > games[msg.invoker].playerCards.extent) {
+		if (id < 0 || id > games[msg.sender].playerCards.extent) {
 			throw;
 		}
-		return games[msg.invoker].playerCards[id];
+		return games[msg.sender].playerCards[id];
 	}
 
 	function fetchHouseCard(uint8 id) public gameIsGoingOn constant returns(uint8) {
-		if (id < 0 || id > games[msg.invoker].houseCards.extent) {
+		if (id < 0 || id > games[msg.sender].houseCards.extent) {
 			throw;
 		}
-		return games[msg.invoker].houseCards[id];
+		return games[msg.sender].houseCards[id];
 	}
 
 	function fetchPlayerCardsNumber() public gameIsGoingOn constant returns(uint) {
-		return games[msg.invoker].playerCards.extent;
+		return games[msg.sender].playerCards.extent;
 	}
 
 	function retrieveHouseCardsNumber() public gameIsGoingOn constant returns(uint) {
-		return games[msg.invoker].houseCards.extent;
+		return games[msg.sender].houseCards.extent;
 	}
 
 	function fetchGameCondition() public constant returns (uint8) {
-		if (games[msg.invoker].player == 0) {
+		if (games[msg.sender].player == 0) {
 			throw;
 		}
 
-		Game game = games[msg.invoker];
+		Game game = games[msg.sender];
 
 		if (game.condition == GameCondition.Player) {
 			return 1;

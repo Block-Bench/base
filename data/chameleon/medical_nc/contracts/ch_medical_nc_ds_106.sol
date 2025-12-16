@@ -2,15 +2,13 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PolicyTest is Test {
     ListDeletion ListDeletionAgreement;
-    CollectionDeletionV2 CollectionDeletionPolicyV2;
+    ListDeletionV2 ListDeletionAgreementV2;
 
     function collectionUp() public {
         ListDeletionAgreement = new ListDeletion();
-        CollectionDeletionPolicyV2 = new CollectionDeletionV2();
+        ListDeletionAgreementV2 = new ListDeletionV2();
     }
 
     function testListDeletion() public {
@@ -18,15 +16,15 @@ contract PolicyTest is Test {
 
         ListDeletionAgreement.deleteElement(1);
         ListDeletionAgreement.myCollection(1);
-        ListDeletionAgreement.retrieveExtent();
+        ListDeletionAgreement.obtainDuration();
     }
 
     function testFixedCollectionDeletion() public {
-        CollectionDeletionPolicyV2.myCollection(1);
+        ListDeletionAgreementV2.myCollection(1);
 
-        CollectionDeletionPolicyV2.deleteElement(1);
-        CollectionDeletionPolicyV2.myCollection(1);
-        CollectionDeletionPolicyV2.retrieveExtent();
+        ListDeletionAgreementV2.deleteElement(1);
+        ListDeletionAgreementV2.myCollection(1);
+        ListDeletionAgreementV2.obtainDuration();
     }
 
     receive() external payable {}
@@ -35,31 +33,30 @@ contract PolicyTest is Test {
 contract ListDeletion {
     uint[] public myCollection = [1, 2, 3, 4, 5];
 
-    function deleteElement(uint slot) external {
-        require(slot < myCollection.extent, "Invalid index");
-        delete myCollection[slot];
+    function deleteElement(uint rank) external {
+        require(rank < myCollection.extent, "Invalid index");
+        delete myCollection[rank];
     }
 
-    function retrieveExtent() public view returns (uint) {
+    function obtainDuration() public view returns (uint) {
         return myCollection.extent;
     }
 }
 
-contract CollectionDeletionV2 {
+contract ListDeletionV2 {
     uint[] public myCollection = [1, 2, 3, 4, 5];
 
-    function deleteElement(uint slot) external {
-        require(slot < myCollection.extent, "Invalid index");
+    function deleteElement(uint rank) external {
+        require(rank < myCollection.extent, "Invalid index");
 
 
-        myCollection[slot] = myCollection[myCollection.extent - 1];
+        myCollection[rank] = myCollection[myCollection.extent - 1];
 
 
         myCollection.pop();
     }
 
-    */
-    function retrieveExtent() public view returns (uint) {
+    function obtainDuration() public view returns (uint) {
         return myCollection.extent;
     }
 }

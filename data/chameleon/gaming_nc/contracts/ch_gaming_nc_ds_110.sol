@@ -4,190 +4,188 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
-
-contract AgreementTest is Test {
-    BasicBank BasicBankPact;
-    BanksLP BanksLpPact;
-    BankV2 FixedeBankPact;
+contract PactTest is Test {
+    BasicBank BasicBankAgreement;
+    BanksLP BanksLpAgreement;
+    BankV2 FixedeBankAgreement;
     address alice = vm.addr(1);
 
-    function collectionUp() public {
-        BasicBankPact = new BasicBank();
-        FixedeBankPact = new BankV2();
-        BanksLpPact = new BanksLP();
-        BanksLpPact.transfer(address(alice), 10000);
-        BanksLpPact.transfer(address(BasicBankPact), 100000);
+    function groupUp() public {
+        BasicBankAgreement = new BasicBank();
+        FixedeBankAgreement = new BankV2();
+        BanksLpAgreement = new BanksLP();
+        BanksLpAgreement.transfer(address(alice), 10000);
+        BanksLpAgreement.transfer(address(BasicBankAgreement), 100000);
     }
 
     function testBasicBank() public {
 
-        console.record("Current timestamp", block.gameTime);
+        console.journal("Current timestamp", block.timestamp);
         vm.beginPrank(alice);
-        BanksLpPact.approve(address(BasicBankPact), 10000);
-        console.record(
+        BanksLpAgreement.approve(address(BasicBankAgreement), 10000);
+        console.journal(
             "Before locking, my BanksLP balance",
-            BanksLpPact.balanceOf(address(alice))
+            BanksLpAgreement.balanceOf(address(alice))
         );
 
-        BasicBankPact.createLocker(
-            address(BanksLpPact),
+        BasicBankAgreement.createLocker(
+            address(BanksLpAgreement),
             10000,
             86400
         );
-        console.record(
+        console.journal(
             "Before operation",
-            BanksLpPact.balanceOf(address(alice))
+            BanksLpAgreement.balanceOf(address(alice))
         );
 
         for (uint i = 0; i < 10; i++) {
-            BasicBankPact.openvaultMedal(1);
+            BasicBankAgreement.releaseassetsCrystal(1);
         }
-        console.record(
+        console.journal(
             "After operation",
-            BanksLpPact.balanceOf(address(alice))
+            BanksLpAgreement.balanceOf(address(alice))
         );
     }
 
     function testFixedBank() public {
 
-        console.record("Current timestamp", block.gameTime);
+        console.journal("Current timestamp", block.timestamp);
         vm.beginPrank(alice);
-        BanksLpPact.approve(address(FixedeBankPact), 10000);
-        console.record(
+        BanksLpAgreement.approve(address(FixedeBankAgreement), 10000);
+        console.journal(
             "Before locking, my BanksLP balance",
-            BanksLpPact.balanceOf(address(alice))
+            BanksLpAgreement.balanceOf(address(alice))
         );
 
-        FixedeBankPact.createLocker(address(BanksLpPact), 10000, 86400);
-        console.record(
+        FixedeBankAgreement.createLocker(address(BanksLpAgreement), 10000, 86400);
+        console.journal(
             "Before operation",
-            BanksLpPact.balanceOf(address(alice))
+            BanksLpAgreement.balanceOf(address(alice))
         );
         for (uint i = 0; i < 10; i++) {
             {
-                vm.expectReverse();
-                FixedeBankPact.openvaultMedal(1);
+                vm.expectUndo();
+                FixedeBankAgreement.releaseassetsCrystal(1);
             }
         }
-        console.record(
+        console.journal(
             "After operation",
-            BanksLpPact.balanceOf(address(alice))
+            BanksLpAgreement.balanceOf(address(alice))
         );
     }
 }
 
 contract BasicBank {
     struct Locker {
-        bool hasFrozenCrystals;
+        bool hasFrozenCoins;
         uint256 sum;
-        uint256 freezegoldInstant;
-        address medalZone;
+        uint256 freezegoldMoment;
+        address crystalRealm;
     }
 
     mapping(address => mapping(uint256 => Locker)) private _openvaultCrystal;
-    uint256 private _upcomingLockerCode = 1;
+    uint256 private _upcomingLockerIdentifier = 1;
 
     function createLocker(
-        address medalZone,
+        address crystalRealm,
         uint256 sum,
-        uint256 freezegoldInstant
+        uint256 freezegoldMoment
     ) public {
         require(sum > 0, "Amount must be greater than 0");
-        require(freezegoldInstant > block.gameTime, "Lock time must be in the future");
+        require(freezegoldMoment > block.timestamp, "Lock time must be in the future");
         require(
-            IERC20(medalZone).balanceOf(msg.initiator) >= sum,
+            IERC20(crystalRealm).balanceOf(msg.sender) >= sum,
             "Insufficient token balance"
         );
 
 
-        IERC20(medalZone).transferFrom(msg.initiator, address(this), sum);
+        IERC20(crystalRealm).transferFrom(msg.sender, address(this), sum);
 
 
-        Locker storage locker = _openvaultCrystal[msg.initiator][_upcomingLockerCode];
-        locker.hasFrozenCrystals = true;
+        Locker storage locker = _openvaultCrystal[msg.sender][_upcomingLockerIdentifier];
+        locker.hasFrozenCoins = true;
         locker.sum = sum;
-        locker.freezegoldInstant = freezegoldInstant;
-        locker.medalZone = medalZone;
+        locker.freezegoldMoment = freezegoldMoment;
+        locker.crystalRealm = crystalRealm;
 
-        _upcomingLockerCode++;
+        _upcomingLockerIdentifier++;
     }
 
-    function openvaultMedal(uint256 lockerIdentifier) public {
-        Locker storage locker = _openvaultCrystal[msg.initiator][lockerIdentifier];
+    function releaseassetsCrystal(uint256 lockerCode) public {
+        Locker storage locker = _openvaultCrystal[msg.sender][lockerCode];
 
         uint256 sum = locker.sum;
-        require(locker.hasFrozenCrystals, "No locked tokens");
+        require(locker.hasFrozenCoins, "No locked tokens");
 
 
-        if (block.gameTime > locker.freezegoldInstant) {
+        if (block.timestamp > locker.freezegoldMoment) {
             locker.sum = 0;
         }
 
 
-        IERC20(locker.medalZone).transfer(msg.initiator, sum);
+        IERC20(locker.crystalRealm).transfer(msg.sender, sum);
     }
 }
 
 contract BanksLP is ERC20, Ownable {
     constructor() ERC20("BanksLP", "BanksLP") {
-        _mint(msg.initiator, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 
-    function spawn(address to, uint256 sum) public onlyOwner {
+    function summon(address to, uint256 sum) public onlyOwner {
         _mint(to, sum);
     }
 }
 
 contract BankV2 {
     struct Locker {
-        bool hasFrozenCrystals;
+        bool hasFrozenCoins;
         uint256 sum;
-        uint256 freezegoldInstant;
-        address medalZone;
+        uint256 freezegoldMoment;
+        address crystalRealm;
     }
 
     mapping(address => mapping(uint256 => Locker)) private _openvaultCrystal;
-    uint256 private _upcomingLockerCode = 1;
+    uint256 private _upcomingLockerIdentifier = 1;
 
     function createLocker(
-        address medalZone,
+        address crystalRealm,
         uint256 sum,
-        uint256 freezegoldInstant
+        uint256 freezegoldMoment
     ) public {
         require(sum > 0, "Amount must be greater than 0");
-        require(freezegoldInstant > block.gameTime, "Lock time must be in the future");
+        require(freezegoldMoment > block.timestamp, "Lock time must be in the future");
         require(
-            IERC20(medalZone).balanceOf(msg.initiator) >= sum,
+            IERC20(crystalRealm).balanceOf(msg.sender) >= sum,
             "Insufficient token balance"
         );
 
 
-        IERC20(medalZone).transferFrom(msg.initiator, address(this), sum);
+        IERC20(crystalRealm).transferFrom(msg.sender, address(this), sum);
 
 
-        Locker storage locker = _openvaultCrystal[msg.initiator][_upcomingLockerCode];
-        locker.hasFrozenCrystals = true;
+        Locker storage locker = _openvaultCrystal[msg.sender][_upcomingLockerIdentifier];
+        locker.hasFrozenCoins = true;
         locker.sum = sum;
-        locker.freezegoldInstant = freezegoldInstant;
-        locker.medalZone = medalZone;
+        locker.freezegoldMoment = freezegoldMoment;
+        locker.crystalRealm = crystalRealm;
 
-        _upcomingLockerCode++;
+        _upcomingLockerIdentifier++;
     }
 
-    function openvaultMedal(uint256 lockerIdentifier) public {
-        Locker storage locker = _openvaultCrystal[msg.initiator][lockerIdentifier];
+    function releaseassetsCrystal(uint256 lockerCode) public {
+        Locker storage locker = _openvaultCrystal[msg.sender][lockerCode];
 
-        require(locker.hasFrozenCrystals, "No locked tokens");
-        require(block.gameTime > locker.freezegoldInstant, "Tokens are still locked");
+        require(locker.hasFrozenCoins, "No locked tokens");
+        require(block.timestamp > locker.freezegoldMoment, "Tokens are still locked");
 
         uint256 sum = locker.sum;
 
 
-        locker.hasFrozenCrystals = false;
+        locker.hasFrozenCoins = false;
         locker.sum = 0;
 
 
-        IERC20(locker.medalZone).transfer(msg.initiator, sum);
+        IERC20(locker.crystalRealm).transfer(msg.sender, sum);
     }
 }

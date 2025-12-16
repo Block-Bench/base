@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_112.json",
     "original_id": "defivulnlabs_ecrecover"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_112.sol",
   "sanitized_from": "ds_112",
   "derived_from": "sn_ds_112",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 289583110,
+    "seed": 1837965871,
     "coverage": {
-      "total_identifiers": 34,
+      "total_identifiers": 33,
       "transformed": 15,
-      "untransformed": 19,
-      "skipped_reserved": 29,
+      "untransformed": 18,
+      "skipped_reserved": 30,
       "skipped_interface": 0,
-      "coverage_percent": 44.12,
+      "coverage_percent": 45.45,
       "untransformed_details": [
         {
           "name": "forge",
@@ -112,10 +113,6 @@
         },
         {
           "name": "_hash",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "encodePacked",
           "reason": "no synonym found"
         },
         {
@@ -166,17 +163,17 @@
       "SimpleBankContract": "SimpleBankPact",
       "setUp": "groupUp",
       "testecRecover": "testecRestore",
-      "log_named_decimal_uint": "record_named_decimal_number",
-      "getBalance": "queryRewards",
-      "Message": "Communication",
-      "sign": "approve",
+      "log_named_decimal_uint": "record_named_decimal_count",
+      "getBalance": "viewTreasure",
+      "Message": "Signal",
+      "sign": "authorize",
       "balances": "playerLoot",
       "Admin": "GameAdmin",
-      "recoverSignerAddress": "retrieveSignerRealm",
+      "recoverSignerAddress": "retrieveSignerZone",
       "recoveredAddress": "recoveredZone",
-      "recipient": "target",
-      "log": "record",
-      "signature": "mark"
+      "recipient": "receiver",
+      "log": "journal",
+      "signature": "seal"
     }
   }
 }

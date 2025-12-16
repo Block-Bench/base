@@ -66,20 +66,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_099.json",
     "original_id": "defivulnlabs_empty-loop"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_099.sol",
   "sanitized_from": "ds_099",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 3580302580,
+    "seed": 1283062291,
     "coverage": {
       "total_identifiers": 52,
-      "transformed": 19,
-      "untransformed": 33,
-      "skipped_reserved": 28,
+      "transformed": 17,
+      "untransformed": 35,
+      "skipped_reserved": 29,
       "skipped_interface": 0,
-      "coverage_percent": 36.54,
+      "coverage_percent": 32.69,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -174,7 +175,15 @@
           "reason": "no synonym found"
         },
         {
-          "name": "execution",
+          "name": "Afer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exploiting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Alice",
           "reason": "no synonym found"
         },
         {
@@ -217,21 +226,19 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "token": "coin",
+      "token": "gem",
       "ContractTest": "PactTest",
-      "SimpleBankContract": "SimpleBankAgreement",
-      "setUp": "collectionUp",
-      "testVulnSignatureValidation": "testVulnSealValidation",
-      "startPrank": "beginPrank",
+      "SimpleBankContract": "SimpleBankPact",
+      "setUp": "groupUp",
+      "testVulnSignatureValidation": "testVulnMarkValidation",
+      "startPrank": "openingPrank",
       "Signature": "Seal",
       "input": "submission",
-      "log": "journal",
-      "withdraw": "redeemTokens",
-      "array": "list",
-      "complete": "questCompleted",
-      "hash": "seal",
+      "log": "record",
+      "withdraw": "gatherTreasure",
+      "hash": "signature",
       "verifySignatures": "confirmSignatures",
-      "sender": "caster",
+      "sender": "invoker",
       "signature": "mark",
       "length": "size",
       "Verify": "Validate",

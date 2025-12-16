@@ -34,20 +34,20 @@ contract DEP_BANK
     public
     payable
     {
-        coverageMap[msg.referrer]+= msg.assessment;
-        Chart.IncludeAlert(msg.referrer,msg.assessment,"Put");
+        coverageMap[msg.sender]+= msg.value;
+        Chart.IncludeAlert(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(coverageMap[msg.referrer]>=FloorSum && coverageMap[msg.referrer]>=_am)
+        if(coverageMap[msg.sender]>=FloorSum && coverageMap[msg.sender]>=_am)
         {
-            if(msg.referrer.call.assessment(_am)())
+            if(msg.sender.call.assessment(_am)())
             {
-                coverageMap[msg.referrer]-=_am;
-                Chart.IncludeAlert(msg.referrer,_am,"Collect");
+                coverageMap[msg.sender]-=_am;
+                Chart.IncludeAlert(msg.sender,_am,"Collect");
             }
         }
     }

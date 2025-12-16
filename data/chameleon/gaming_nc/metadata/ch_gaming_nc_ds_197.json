@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_197.json",
     "original_id": "defivulnlabs_unsafecall"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_197.sol",
   "sanitized_from": "ds_197",
   "derived_from": "sn_ds_197",
@@ -74,14 +75,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2168142439,
+    "seed": 17441876,
     "coverage": {
-      "total_identifiers": 41,
-      "transformed": 19,
+      "total_identifiers": 40,
+      "transformed": 18,
       "untransformed": 22,
-      "skipped_reserved": 42,
+      "skipped_reserved": 43,
       "skipped_interface": 0,
-      "coverage_percent": 46.34,
+      "coverage_percent": 45.0,
       "untransformed_details": [
         {
           "name": "forge",
@@ -176,24 +177,23 @@
     },
     "rename_map": {
       "ContractTest": "PactTest",
-      "TokenWhale": "MedalWhale",
-      "TokenWhaleContract": "CoinWhaleAgreement",
+      "TokenWhale": "CoinWhale",
+      "TokenWhaleContract": "GemWhalePact",
       "testAltCall": "testAltSummonhero",
-      "TokenWhaleDeploy": "GemWhaleDeploy",
-      "log": "record",
+      "TokenWhaleDeploy": "MedalWhaleDeploy",
+      "log": "journal",
       "from": "source",
       "approveAndCallcode": "authorizespendingAndCallcode",
-      "encodeWithSignature": "encodeWithSeal",
       "Simple": "BasicDungeon",
-      "Token": "Gem",
-      "SET": "Configure",
-      "isComplete": "verifyComplete",
-      "value": "cost",
-      "sender": "initiator",
+      "Token": "Medal",
+      "SET": "Establish",
+      "isComplete": "validateComplete",
+      "value": "worth",
+      "sender": "caster",
       "Approval": "PermissionGranted",
       "spender": "user",
       "_extraData": "_extraInfo",
-      "success": "win"
+      "success": "victory"
     }
   }
 }

@@ -45,7 +45,7 @@ contract LeveragedVault {
         positionIdentifier = followingPositionCasenumber++;
 
         positions[positionIdentifier] = Location({
-            owner: msg.referrer286,
+            owner: msg.sender,
             security: securityDosage,
             obligationSegment: 0
         });
@@ -75,7 +75,7 @@ contract LeveragedVault {
 
     function returnEquipment(uint256 positionIdentifier, uint256 measure) external {
         Location storage pos = positions[positionIdentifier];
-        require(msg.referrer286 == pos.owner, "Not position owner");
+        require(msg.sender == pos.owner, "Not position owner");
 
         uint256 portionReceiverDrop = (measure * aggregateObligationAllocation) / cumulativeObligation;
 

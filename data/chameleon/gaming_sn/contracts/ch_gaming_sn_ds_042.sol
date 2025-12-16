@@ -6,16 +6,16 @@ contract CrossFunctionVault {
     mapping (address => uint) private adventurerHerotreasure;
 
     function transfer(address to, uint measure) {
-        if (adventurerHerotreasure[msg.invoker] >= measure) {
+        if (adventurerHerotreasure[msg.sender] >= measure) {
             adventurerHerotreasure[to] += measure;
-            adventurerHerotreasure[msg.invoker] -= measure;
+            adventurerHerotreasure[msg.sender] -= measure;
         }
     }
 
     function collectbountyPrizecount() public {
-        uint countDestinationRedeemtokens = adventurerHerotreasure[msg.invoker];
-        (bool win, ) = msg.invoker.call.magnitude(countDestinationRedeemtokens)("");
+        uint countDestinationRedeemtokens = adventurerHerotreasure[msg.sender];
+        (bool win, ) = msg.sender.call.magnitude(countDestinationRedeemtokens)("");
         require(win);
-        adventurerHerotreasure[msg.invoker] = 0;
+        adventurerHerotreasure[msg.sender] = 0;
     }
 }

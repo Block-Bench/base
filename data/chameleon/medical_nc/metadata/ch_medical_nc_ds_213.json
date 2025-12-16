@@ -72,6 +72,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_213.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x19cf8481ea15427a98ba3cdd6d9e14690011ab10"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_213.sol",
   "sanitized_from": "ds_213",
   "derived_from": "sn_ds_213",
@@ -80,27 +81,15 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2236906972,
+    "seed": 620546543,
     "coverage": {
-      "total_identifiers": 137,
+      "total_identifiers": 136,
       "transformed": 55,
-      "untransformed": 82,
+      "untransformed": 81,
       "skipped_reserved": 51,
       "skipped_interface": 0,
-      "coverage_percent": 40.15,
+      "coverage_percent": 40.44,
       "untransformed_details": [
-        {
-          "name": "DAO",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Polska",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "deployment",
-          "reason": "no synonym found"
-        },
         {
           "name": "_from",
           "reason": "no synonym found"
@@ -195,6 +184,10 @@
         },
         {
           "name": "daoPOLSKAtokens",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DAO",
           "reason": "no synonym found"
         },
         {
@@ -318,6 +311,10 @@
           "reason": "no synonym found"
         },
         {
+          "name": "Polska",
+          "reason": "no synonym found"
+        },
+        {
           "name": "network",
           "reason": "no synonym found"
         },
@@ -421,61 +418,61 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "Token": "Id",
-      "tokenRecipient": "badgePatient",
+      "tokenRecipient": "badgeReceiver",
       "receiveApproval": "acceptpatientApproval",
       "_extraData": "_extraInfo",
       "migrateFrom": "migrateSource",
       "spender": "payer",
-      "value": "evaluation",
+      "value": "assessment",
       "from": "referrer",
-      "Approval": "AccessGranted",
+      "Approval": "TreatmentAuthorized",
       "safeAdd": "safeAppend",
-      "StandardToken": "StandardId",
+      "StandardToken": "StandardBadge",
       "receiver": "patient",
-      "amount": "units",
-      "balances": "benefitsRecord",
-      "balancesRAW": "coveragemapRaw",
-      "isToken": "isBadge",
+      "amount": "dosage",
+      "balances": "patientAccounts",
+      "balancesRAW": "benefitsrecordRaw",
+      "isToken": "isId",
       "success": "recovery",
-      "sender": "referrer295",
+      "sender": "referrer516",
       "TOKEN": "Badge",
       "version": "revision",
-      "totalMigrated": "aggregateMigrated",
-      "sendTokenAway": "dispatchambulanceBadgeAway",
-      "coinContract": "coinPolicy",
-      "recipient": "patient394",
-      "UpdatedTokenInformation": "UpdatedBadgeInformation",
+      "totalMigrated": "completeMigrated",
+      "sendTokenAway": "dispatchambulanceCredentialAway",
+      "coinContract": "coinAgreement",
+      "recipient": "patient597",
+      "UpdatedTokenInformation": "UpdatedIdInformation",
       "newName": "currentPatientname",
-      "newSymbol": "updatedCode",
+      "newSymbol": "currentDesignation",
       "Burn": "ExpirePrescription",
-      "setSupply": "groupInventory",
+      "setSupply": "groupStock",
       "supplyLOCKER": "stockLocker",
-      "setotherchainstotalsupply": "modifyotherchainstotalsupply",
-      "approveAndCall": "grantaccessAndRequestconsult",
+      "setotherchainstotalsupply": "adjustotherchainstotalsupply",
+      "approveAndCall": "permittreatmentAndInvokeprotocol",
       "burn": "consumeDose",
-      "burnFrom": "archiverecordReferrer",
+      "burnFrom": "consumedoseReferrer",
       "setTokenInformation": "groupBadgeInformation",
-      "setChainsAddresses": "collectionChainsAddresses",
+      "setChainsAddresses": "groupChainsAddresses",
       "DAOPolskaTokenICOregulations": "DaoPolskaCredentialIcOregulations",
-      "commit": "confirm",
-      "sendTokenAw": "transmitresultsBadgeAw",
-      "StandardTokenAddress": "StandardBadgeLocation",
+      "Token": "Badge699",
+      "commit": "finalize",
+      "sendTokenAw": "dispatchambulanceCredentialAw",
+      "StandardTokenAddress": "StandardIdWard",
       "tokenCreationRate": "badgeCreationFrequency",
-      "bonusCreationRate": "supplementCreationFrequency",
+      "bonusCreationRate": "supplementCreationFactor",
       "CreationRate": "CreationRatio",
-      "fundingEndBlock": "fundingDischargeWard",
-      "numTokensRAW": "numIdsRaw",
-      "numTokens": "numCredentials",
-      "percentOfTotal": "shareOfComplete",
-      "additionalTokens": "additionalIds",
-      "setBonusCreationRate": "groupSupplementCreationRatio",
-      "newRate": "currentFactor",
-      "FundsTransfer": "FundsRefer",
+      "fundingEndBlock": "fundingDischargeUnit",
+      "numTokensRAW": "numBadgesRaw",
+      "numTokens": "numBadges",
+      "percentOfTotal": "portionOfAggregate",
+      "additionalTokens": "additionalBadges",
+      "setBonusCreationRate": "collectionSupplementCreationFactor",
+      "newRate": "updatedFactor",
+      "FundsTransfer": "FundsShiftcare",
       "PartialFundsTransfer": "PartialFundsRefer",
       "fundingState": "fundingCondition",
-      "DAOPLTokenValue": "DaoplCredentialRating",
-      "ETHValue": "EthAssessment"
+      "DAOPLTokenValue": "DaoplCredentialAssessment",
+      "ETHValue": "EthRating"
     }
   }
 }

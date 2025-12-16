@@ -3,70 +3,68 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    SimpleBank SimpleBankAgreement;
+contract PactTest is Test {
+    SimpleBank SimpleBankPact;
     SimpleBankV2 SimpleBankAgreementV2;
 
     function groupUp() public {
-        SimpleBankAgreement = new SimpleBank();
+        SimpleBankPact = new SimpleBank();
         SimpleBankAgreementV2 = new SimpleBankV2();
     }
 
-    function testRelocateassetsFail() public {
-        SimpleBankAgreement.stashRewards{cost: 1 ether}();
-        assertEq(SimpleBankAgreement.queryRewards(), 1 ether);
+    function testTradefundsFail() public {
+        SimpleBankPact.depositGold{worth: 1 ether}();
+        assertEq(SimpleBankPact.queryRewards(), 1 ether);
         vm.expectUndo();
-        SimpleBankAgreement.extractWinnings(1 ether);
+        SimpleBankPact.retrieveRewards(1 ether);
     }
 
     function testSummonhero() public {
-        SimpleBankAgreementV2.stashRewards{cost: 1 ether}();
+        SimpleBankAgreementV2.depositGold{worth: 1 ether}();
         assertEq(SimpleBankAgreementV2.queryRewards(), 1 ether);
-        SimpleBankAgreementV2.extractWinnings(1 ether);
+        SimpleBankAgreementV2.retrieveRewards(1 ether);
     }
 
     receive() external payable {
         //just a example for out of gas
-        SimpleBankAgreement.stashRewards{cost: 1 ether}();
+        SimpleBankPact.depositGold{worth: 1 ether}();
     }
 }
 
 contract SimpleBank {
-    mapping(address => uint) private characterGold;
+    mapping(address => uint) private userRewards;
 
-    function stashRewards() public payable {
-        characterGold[msg.invoker] += msg.cost;
+    function depositGold() public payable {
+        userRewards[msg.sender] += msg.value;
     }
 
     function queryRewards() public view returns (uint) {
-        return characterGold[msg.invoker];
+        return userRewards[msg.sender];
     }
 
-    function extractWinnings(uint quantity) public {
-        require(characterGold[msg.invoker] >= quantity);
-        characterGold[msg.invoker] -= quantity;
+    function retrieveRewards(uint total) public {
+        require(userRewards[msg.sender] >= total);
+        userRewards[msg.sender] -= total;
         // the issue is here
-        payable(msg.invoker).transfer(quantity);
+        payable(msg.sender).transfer(total);
     }
 }
 
 contract SimpleBankV2 {
-    mapping(address => uint) private characterGold;
+    mapping(address => uint) private userRewards;
 
-    function stashRewards() public payable {
-        characterGold[msg.invoker] += msg.cost;
+    function depositGold() public payable {
+        userRewards[msg.sender] += msg.value;
     }
 
     function queryRewards() public view returns (uint) {
-        return characterGold[msg.invoker];
+        return userRewards[msg.sender];
     }
 
-    function extractWinnings(uint quantity) public {
-        require(characterGold[msg.invoker] >= quantity);
-        characterGold[msg.invoker] -= quantity;
-        (bool victory, ) = payable(msg.invoker).call{cost: quantity}("");
+    function retrieveRewards(uint total) public {
+        require(userRewards[msg.sender] >= total);
+        userRewards[msg.sender] -= total;
+        (bool victory, ) = payable(msg.sender).call{worth: total}("");
         require(victory, " Transfer of ETH Failed");
     }
 }

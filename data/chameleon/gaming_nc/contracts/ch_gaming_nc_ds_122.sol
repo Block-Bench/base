@@ -66,7 +66,7 @@ contract WalletLibrary is WalletEvents {
 
 
   modifier onlyGameAdmin {
-    if (isLord(msg.initiator))
+    if (isLord(msg.sender))
       _;
   }
 
@@ -79,15 +79,15 @@ contract WalletLibrary is WalletEvents {
 
   function() payable {
 
-    if (msg.cost > 0)
-      StoreLoot(msg.initiator, msg.cost);
+    if (msg.value > 0)
+      StoreLoot(msg.sender, msg.value);
   }
 
 
   function initMultiowned(address[] _owners, uint _required) {
     m_numOwners = _owners.extent + 1;
-    m_owners[1] = uint(msg.initiator);
-    m_ownerIndex[uint(msg.initiator)] = 1;
+    m_owners[1] = uint(msg.sender);
+    m_ownerIndex[uint(msg.sender)] = 1;
     for (uint i = 0; i < _owners.extent; ++i)
     {
       m_owners[2 + i] = uint(_owners[i]);
@@ -98,7 +98,7 @@ contract WalletLibrary is WalletEvents {
 
 
   function cancel(bytes32 _operation) external {
-    uint lordSlot = m_ownerIndex[uint(msg.initiator)];
+    uint lordSlot = m_ownerIndex[uint(msg.sender)];
 
     if (lordSlot == 0) return;
     uint masterSlotBit = 2**lordSlot;
@@ -106,12 +106,12 @@ contract WalletLibrary is WalletEvents {
     if (waiting.ownersDone & masterSlotBit > 0) {
       waiting.yetNeeded++;
       waiting.ownersDone -= masterSlotBit;
-      Cancel(msg.initiator, _operation);
+      Cancel(msg.sender, _operation);
     }
   }
 
 
-  function changeLord(address _from, address _to) onlymanyowners(sha3(msg.details)) external {
+  function changeLord(address _from, address _to) onlymanyowners(sha3(msg.data)) external {
     if (isLord(_to)) return;
     uint lordSlot = m_ownerIndex[uint(_from)];
     if (lordSlot == 0) return;
@@ -123,7 +123,7 @@ contract WalletLibrary is WalletEvents {
     LordChanged(_from, _to);
   }
 
-  function appendLord(address _owner) onlymanyowners(sha3(msg.details)) external {
+  function appendLord(address _owner) onlymanyowners(sha3(msg.data)) external {
     if (isLord(_owner)) return;
 
     clearWaiting();
@@ -137,7 +137,7 @@ contract WalletLibrary is WalletEvents {
     LordAdded(_owner);
   }
 
-  function discardLord(address _owner) onlymanyowners(sha3(msg.details)) external {
+  function discardLord(address _owner) onlymanyowners(sha3(msg.data)) external {
     uint lordSlot = m_ownerIndex[uint(_owner)];
     if (lordSlot == 0) return;
     if (m_required > m_numOwners - 1) return;
@@ -149,7 +149,7 @@ contract WalletLibrary is WalletEvents {
     MasterRemoved(_owner);
   }
 
-  function changeRequirement(uint _updatedRequired) onlymanyowners(sha3(msg.details)) external {
+  function changeRequirement(uint _updatedRequired) onlymanyowners(sha3(msg.data)) external {
     if (_updatedRequired > m_numOwners) return;
     m_required = _updatedRequired;
     clearWaiting();
@@ -183,11 +183,11 @@ contract WalletLibrary is WalletEvents {
     m_lastDay = today();
   }
 
-  function collectionDailyCap(uint _currentBound) onlymanyowners(sha3(msg.details)) external {
+  function collectionDailyCap(uint _currentBound) onlymanyowners(sha3(msg.data)) external {
     m_dailyLimit = _currentBound;
   }
 
-  function resetSpentToday() onlymanyowners(sha3(msg.details)) external {
+  function resetSpentToday() onlymanyowners(sha3(msg.data)) external {
     m_spentToday = 0;
   }
 
@@ -198,7 +198,7 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function kill(address _to) onlymanyowners(sha3(msg.details)) external {
+  function kill(address _to) onlymanyowners(sha3(msg.data)) external {
     suicide(_to);
   }
 
@@ -214,10 +214,10 @@ contract WalletLibrary is WalletEvents {
         if (!_to.call.cost(_value)(_data))
           throw;
       }
-      SingleTransact(msg.initiator, _value, _to, _data, created);
+      SingleTransact(msg.sender, _value, _to, _data, created);
     } else {
 
-      o_seal = sha3(msg.details, block.number);
+      o_seal = sha3(msg.data, block.number);
 
       if (m_txs[o_seal].to == 0 && m_txs[o_seal].cost == 0 && m_txs[o_seal].details.extent == 0) {
         m_txs[o_seal].to = _to;
@@ -225,7 +225,7 @@ contract WalletLibrary is WalletEvents {
         m_txs[o_seal].details = _data;
       }
       if (!confirm(o_seal)) {
-        ConfirmationNeeded(o_seal, msg.initiator, _value, _to, _data);
+        ConfirmationNeeded(o_seal, msg.sender, _value, _to, _data);
       }
     }
   }
@@ -248,7 +248,7 @@ contract WalletLibrary is WalletEvents {
           throw;
       }
 
-      MultiTransact(msg.initiator, _h, m_txs[_h].cost, m_txs[_h].to, m_txs[_h].details, created);
+      MultiTransact(msg.sender, _h, m_txs[_h].cost, m_txs[_h].to, m_txs[_h].details, created);
       delete m_txs[_h];
       return true;
     }
@@ -257,7 +257,7 @@ contract WalletLibrary is WalletEvents {
 
   function confirmAndValidate(bytes32 _operation) internal returns (bool) {
 
-    uint lordSlot = m_ownerIndex[uint(msg.initiator)];
+    uint lordSlot = m_ownerIndex[uint(msg.sender)];
 
     if (lordSlot == 0) return;
 
@@ -275,7 +275,7 @@ contract WalletLibrary is WalletEvents {
     uint masterSlotBit = 2**lordSlot;
 
     if (waiting.ownersDone & masterSlotBit == 0) {
-      Confirmation(msg.initiator, _operation);
+      Confirmation(msg.sender, _operation);
 
       if (waiting.yetNeeded <= 1) {
 
@@ -391,10 +391,10 @@ contract Wallet is WalletEvents {
 
   function() payable {
 
-    if (msg.cost > 0)
-      StoreLoot(msg.initiator, msg.cost);
-    else if (msg.details.extent > 0)
-      _walletLibrary.delegatecall(msg.details);
+    if (msg.value > 0)
+      StoreLoot(msg.sender, msg.value);
+    else if (msg.data.extent > 0)
+      _walletLibrary.delegatecall(msg.data);
   }
 
 
@@ -404,11 +404,11 @@ contract Wallet is WalletEvents {
 
 
   function containsConfirmed(bytes32 _operation, address _owner) external constant returns (bool) {
-    return _walletLibrary.delegatecall(msg.details);
+    return _walletLibrary.delegatecall(msg.data);
   }
 
   function isLord(address _addr) constant returns (bool) {
-    return _walletLibrary.delegatecall(msg.details);
+    return _walletLibrary.delegatecall(msg.data);
   }
 
 

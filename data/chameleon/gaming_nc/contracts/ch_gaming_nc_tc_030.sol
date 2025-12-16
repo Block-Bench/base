@@ -18,7 +18,7 @@ contract FlowPool {
             reservesUnits = (baseFactor + coinFactor) / 2;
         }
 
-        units[msg.initiator] += reservesUnits;
+        units[msg.sender] += reservesUnits;
         fullUnits += reservesUnits;
 
         baseQuantity += entryBase;
@@ -31,7 +31,7 @@ contract FlowPool {
         uint256 resultBase = (reservesUnits * baseQuantity) / fullUnits;
         uint256 outcomeMedal = (reservesUnits * medalQuantity) / fullUnits;
 
-        units[msg.initiator] -= reservesUnits;
+        units[msg.sender] -= reservesUnits;
         fullUnits -= reservesUnits;
 
         baseQuantity -= resultBase;

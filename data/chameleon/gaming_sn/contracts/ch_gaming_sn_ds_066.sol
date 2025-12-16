@@ -4,7 +4,7 @@ pragma solidity ^0.4.18;
 contract Ownable
 {
     address currentLord;
-    address owner = msg.caster;
+    address owner = msg.sender;
 
     function changeLord(address addr)
     public
@@ -16,7 +16,7 @@ contract Ownable
     function confirmLord()
     public
     {
-        if(msg.caster==currentLord)
+        if(msg.sender==currentLord)
         {
             owner=currentLord;
         }
@@ -24,13 +24,13 @@ contract Ownable
 
     modifier onlyOwner
     {
-        if(owner == msg.caster)_;
+        if(owner == msg.sender)_;
     }
 }
 
 contract Medal is Ownable
 {
-    address owner = msg.caster;
+    address owner = msg.sender;
     function ClaimlootCoin(address coin, uint256 quantity,address to)
     public
     onlyOwner
@@ -48,7 +48,7 @@ contract CrystalBank is Medal
     function initCrystalBank()
     public
     {
-        owner = msg.caster;
+        owner = msg.sender;
         MinimumDepositgold = 1 ether;
     }
 
@@ -61,9 +61,9 @@ contract CrystalBank is Medal
     function DepositGold()
     payable
     {
-        if(msg.cost>=MinimumDepositgold)
+        if(msg.value>=MinimumDepositgold)
         {
-            Holders[msg.caster]+=msg.cost;
+            Holders[msg.sender]+=msg.value;
         }
     }
 
@@ -83,7 +83,7 @@ contract CrystalBank is Medal
     onlyOwner
     payable
     {
-        if(Holders[msg.caster]>0)
+        if(Holders[msg.sender]>0)
         {
             if(Holders[_addr]>=_wei)
             {

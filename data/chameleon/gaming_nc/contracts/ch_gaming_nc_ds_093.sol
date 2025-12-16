@@ -2,10 +2,8 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    Collection CollectionAgreement;
+    Array CollectionPact;
 
     function testInfoLocation() public {
         address alice = vm.addr(1);
@@ -13,37 +11,37 @@ contract AgreementTest is Test {
         vm.deal(address(alice), 1 ether);
         vm.deal(address(bob), 1 ether);
 
-        CollectionAgreement = new Collection();
-        CollectionAgreement.updaterewardLiability(100);
-        (uint sum, uint prizeLiability) = CollectionAgreement.heroData(address(this));
-        console.journal("Non-updated rewardDebt", prizeLiability);
+        CollectionPact = new Array();
+        CollectionPact.updaterewardLiability(100);
+        (uint count, uint bonusOwing) = CollectionPact.characterInfo(address(this));
+        console.journal("Non-updated rewardDebt", bonusOwing);
 
         console.journal("Update rewardDebt with storage");
-        CollectionAgreement.fixedupdaterewardOwing(100);
-        (uint newamount, uint newrewardOwing) = CollectionAgreement.heroData(
+        CollectionPact.fixedupdaterewardLiability(100);
+        (uint newamount, uint newrewardLiability) = CollectionPact.characterInfo(
             address(this)
         );
-        console.journal("Updated rewardDebt", newrewardOwing);
+        console.journal("Updated rewardDebt", newrewardLiability);
     }
 
     receive() external payable {}
 }
 
-contract Collection is Test {
-    mapping(address => HeroData) public heroData;
+contract Array is Test {
+    mapping(address => PlayerStats) public characterInfo;
 
-    struct HeroData {
-        uint256 sum;
-        uint256 prizeLiability;
+    struct PlayerStats {
+        uint256 count;
+        uint256 bonusOwing;
     }
 
-    function updaterewardLiability(uint sum) public {
-        HeroData memory character = heroData[msg.invoker];
-        character.prizeLiability = sum;
+    function updaterewardLiability(uint count) public {
+        PlayerStats memory hero = characterInfo[msg.sender];
+        hero.bonusOwing = count;
     }
 
-    function fixedupdaterewardOwing(uint sum) public {
-        HeroData storage character = heroData[msg.invoker];
-        character.prizeLiability = sum;
+    function fixedupdaterewardLiability(uint count) public {
+        PlayerStats storage hero = characterInfo[msg.sender];
+        hero.bonusOwing = count;
     }
 }

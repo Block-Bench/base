@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_188.json",
     "original_id": "defivulnlabs_struct-deletion"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_188.sol",
   "sanitized_from": "ds_188",
   "derived_from": "sn_ds_188",
@@ -74,7 +75,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 1948594335,
+    "seed": 520835607,
     "coverage": {
       "total_identifiers": 23,
       "transformed": 16,
@@ -115,21 +116,21 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "PactTest",
-      "StructDeletion": "RecordDeletion",
-      "StructDeletionContract": "EntryDeletionAgreement",
-      "StructDeletionV2": "RecordDeletionV2",
-      "StructDeletionContractV2": "RecordDeletionAgreementV2",
+      "ContractTest": "AgreementTest",
+      "StructDeletion": "EntryDeletion",
+      "StructDeletionContract": "RecordDeletionPact",
+      "StructDeletionV2": "EntryDeletionV2",
+      "StructDeletionContractV2": "EntryDeletionPactV2",
       "setUp": "groupUp",
       "testStructDeletion": "testRecordDeletion",
       "addStruct": "attachRecord",
-      "getStruct": "obtainEntry",
+      "getStruct": "obtainRecord",
       "deleteStruct": "deleteRecord",
       "testFixedStructDeletion": "testFixedEntryDeletion",
       "MyStruct": "MyEntry",
-      "structId": "entryTag",
-      "flagKeys": "markerKeys",
-      "newStruct": "currentEntry",
+      "structId": "entryIdentifier",
+      "flagKeys": "indicatorKeys",
+      "newStruct": "updatedEntry",
       "myStruct": "myEntry"
     }
   }

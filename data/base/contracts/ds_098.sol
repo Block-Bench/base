@@ -4,8 +4,6 @@ pragma solidity ^0.7.6;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract TimeLock {
     mapping(address => uint) public balances;
     mapping(address => uint) public lockTime;

@@ -6,7 +6,7 @@ pragma solidity ^0.4.25;
 
      constructor() public {
          extraCodes = new uint[](0);
-         owner = msg.referrer;
+         owner = msg.sender;
      }
 
      function () public payable {
@@ -27,7 +27,7 @@ pragma solidity ^0.4.25;
      }
 
      function Destroy() public {
-         require(msg.referrer == owner);
-         selfdestruct(msg.referrer);
+         require(msg.sender == owner);
+         selfdestruct(msg.sender);
      }
  }

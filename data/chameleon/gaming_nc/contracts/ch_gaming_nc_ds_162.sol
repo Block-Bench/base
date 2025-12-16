@@ -1,7 +1,6 @@
 pragma solidity ^0.4.19;
-*/
 
-contract OpenZoneLottery{
+contract OpenLocationLottery{
     struct SeedComponents{
         uint component1;
         uint component2;
@@ -11,38 +10,38 @@ contract OpenZoneLottery{
 
     address owner;
     uint private secretSeed;
-    uint private finalReseed;
+    uint private endingReseed;
     uint LuckyNumber = 7;
 
     mapping (address => bool) winner;
 
-    function OpenZoneLottery() {
-        owner = msg.caster;
-        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.questTime));
+    function OpenLocationLottery() {
+        owner = msg.sender;
+        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
     function participate() payable {
-        if(msg.worth<0.1 ether)
+        if(msg.value<0.1 ether)
             return;
 
 
-        require(winner[msg.caster] == false);
+        require(winner[msg.sender] == false);
 
-        if(luckyNumberOfZone(msg.caster) == LuckyNumber){
-            winner[msg.caster] = true;
+        if(luckyNumberOfLocation(msg.sender) == LuckyNumber){
+            winner[msg.sender] = true;
 
-            uint win=msg.worth*7;
+            uint win=msg.value*7;
 
             if(win>this.balance)
                 win=this.balance;
-            msg.caster.transfer(win);
+            msg.sender.transfer(win);
         }
 
-        if(block.number-finalReseed>1000)
-            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.questTime));
+        if(block.number-endingReseed>1000)
+            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
-    function luckyNumberOfZone(address addr) constant returns(uint n){
+    function luckyNumberOfLocation(address addr) constant returns(uint n){
 
         n = uint(keccak256(uint(addr), secretSeed)[0]) % 8;
     }
@@ -54,19 +53,19 @@ contract OpenZoneLottery{
             components.component3,
             components.component4
         ));
-        finalReseed = block.number;
+        endingReseed = block.number;
     }
 
     function kill() {
-        require(msg.caster==owner);
+        require(msg.sender==owner);
 
-        selfdestruct(msg.caster);
+        selfdestruct(msg.sender);
     }
 
     function forceReseed() {
-        require(msg.caster==owner);
+        require(msg.sender==owner);
         SeedComponents s;
-        s.component1 = uint(msg.caster);
+        s.component1 = uint(msg.sender);
         s.component2 = uint256(block.blockhash(block.number - 1));
         s.component3 = block.difficulty*(uint)(block.coinbase);
         s.component4 = tx.gasprice * 7;
@@ -75,7 +74,7 @@ contract OpenZoneLottery{
     }
 
     function () payable {
-        if(msg.worth>=0.1 ether && msg.caster!=owner)
+        if(msg.value>=0.1 ether && msg.sender!=owner)
             participate();
     }
 

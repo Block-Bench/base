@@ -4,7 +4,7 @@ contract GuessTheRandomNumberChallenge {
     uint8 answer;
 
     function GuessTheRandomNumberChallenge() public payable {
-        require(msg.rating == 1 ether);
+        require(msg.value == 1 ether);
         answer = uint8(keccak256(block.blockhash(block.number - 1), now));
     }
 
@@ -13,10 +13,10 @@ contract GuessTheRandomNumberChallenge {
     }
 
     function guess(uint8 n) public payable {
-        require(msg.rating == 1 ether);
+        require(msg.value == 1 ether);
 
         if (n == answer) {
-            msg.referrer.transfer(2 ether);
+            msg.sender.transfer(2 ether);
         }
     }
 }

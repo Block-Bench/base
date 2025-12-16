@@ -65,13 +65,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_102.json",
     "original_id": "defivulnlabs_visibility"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_102.sol",
   "sanitized_from": "ds_102",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1509733048,
+    "seed": 1503261687,
     "coverage": {
       "total_identifiers": 25,
       "transformed": 6,
@@ -160,12 +161,12 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "ownerGame": "masterGame",
-      "ownerGameContract": "masterGamePact",
+      "ContractTest": "PactTest",
+      "ownerGame": "lordGame",
+      "ownerGameContract": "lordGameAgreement",
       "log": "record",
-      "changeOwner": "changeMaster",
-      "sender": "invoker"
+      "changeOwner": "changeLord",
+      "sender": "caster"
     }
   }
 }

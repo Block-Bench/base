@@ -1,9 +1,7 @@
 // 0xbb9bc244d798123fde783fcc1c72d3bb8c189413#code
 
-*/
 
 
-*/
 
 /// @title Standard Token Contract.
 
@@ -60,7 +58,7 @@ contract TokenInterface {
 contract Token is TokenInterface {
     // Protects users by preventing the execution of method calls that
     // inadvertently also transferred ether
-    modifier noEther() {if (msg.value > 0) throw; _}
+    modifier noEther() {if (msg.value > 0) throw; _;}
 
     function balanceOf(address _owner) constant returns (uint256 balance) {
         return balances[_owner];
@@ -109,10 +107,8 @@ contract Token is TokenInterface {
 }
 
 
-*/
 
 
-*/
 
 contract ManagedAccountInterface {
     // The only address with permission to withdraw from this account
@@ -158,10 +154,8 @@ contract ManagedAccount is ManagedAccountInterface{
         }
     }
 }
-*/
 
 
-*/
 
 
 contract TokenCreationInterface {
@@ -279,10 +273,8 @@ contract TokenCreation is TokenCreationInterface, Token {
         }
     }
 }
-*/
 
 
-*/
 
 
 contract DAOInterface {
@@ -609,7 +601,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
     // Modifier that allows only shareholders to vote and create new proposals
     modifier onlyTokenholders {
         if (balanceOf(msg.sender) == 0) throw;
-            _
+            _;
     }
 
     function DAO(

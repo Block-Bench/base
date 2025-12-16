@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_104.json",
     "original_id": "defivulnlabs_selfdestruct2"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_104.sol",
   "sanitized_from": "ds_104",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 396519118,
+    "seed": 3067316605,
     "coverage": {
       "total_identifiers": 21,
       "transformed": 7,
@@ -142,10 +143,10 @@
     },
     "rename_map": {
       "ContractTest": "AgreementTest",
-      "ForceContract": "ForceAgreement",
-      "Operator": "QuestRunner",
-      "OperatorContract": "QuestrunnerAgreement",
-      "log": "journal",
+      "ForceContract": "ForcePact",
+      "Operator": "GameOperator",
+      "OperatorContract": "GameoperatorAgreement",
+      "log": "record",
       "value": "cost",
       "EtherGameContract": "EtherGamePact"
     }

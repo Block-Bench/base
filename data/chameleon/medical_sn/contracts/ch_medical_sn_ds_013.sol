@@ -1,9 +1,8 @@
-added prgma edition
 pragma solidity ^0.4.0;
 
 contract SimpleDestruct {
   function sudicideAnyone() {
-    selfdestruct(msg.provider);
+    selfdestruct(msg.sender);
   }
 
 }

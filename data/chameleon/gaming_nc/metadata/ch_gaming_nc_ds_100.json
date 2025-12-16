@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_100.json",
     "original_id": "defivulnlabs_txorigin"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_100.sol",
   "sanitized_from": "ds_100",
   "derived_from": "sn_ds_100",
@@ -74,14 +75,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 777186272,
+    "seed": 3390056570,
     "coverage": {
-      "total_identifiers": 31,
+      "total_identifiers": 30,
       "transformed": 9,
-      "untransformed": 22,
+      "untransformed": 21,
       "skipped_reserved": 26,
       "skipped_interface": 0,
-      "coverage_percent": 29.03,
+      "coverage_percent": 30.0,
       "untransformed_details": [
         {
           "name": "forge",
@@ -136,10 +137,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "operation",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Eve",
           "reason": "no synonym found"
         },
@@ -176,13 +173,13 @@
     },
     "rename_map": {
       "ContractTest": "AgreementTest",
-      "WalletContract": "WalletPact",
-      "Operator": "GameOperator",
-      "OperatorContract": "GameoperatorAgreement",
-      "value": "worth",
-      "log": "journal",
-      "complete": "missionAccomplished",
-      "sender": "invoker",
+      "WalletContract": "WalletAgreement",
+      "Operator": "QuestRunner",
+      "OperatorContract": "QuestrunnerPact",
+      "value": "magnitude",
+      "log": "record",
+      "attack": "assault",
+      "sender": "caster",
       "Failed": "OperationFailed"
     }
   }

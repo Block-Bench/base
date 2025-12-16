@@ -40,23 +40,23 @@ contract MONEY_BOX
     public
     payable
     {
-        var acc = Acc[msg.initiator];
-        acc.balance += msg.worth;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         if(now+_securetreasureMoment>acc.releaseassetsInstant)acc.releaseassetsInstant=now+_securetreasureMoment;
-        RecordFile.AttachSignal(msg.initiator,msg.worth,"Put");
+        RecordFile.AttachSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.initiator];
+        var acc = Acc[msg.sender];
         if( acc.balance>=MinimumSum && acc.balance>=_am && now>acc.releaseassetsInstant)
         {
-            if(msg.initiator.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
                 acc.balance-=_am;
-                RecordFile.AttachSignal(msg.initiator,_am,"Collect");
+                RecordFile.AttachSignal(msg.sender,_am,"Collect");
             }
         }
     }

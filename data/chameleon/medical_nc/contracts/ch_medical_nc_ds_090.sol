@@ -49,7 +49,7 @@ contract HerCredential is ERC721, Ownable, Test {
 
 
         for (uint256 i = 0; i < units; i++) {
-            require(msg.assessment >= issuecredential_charge, "Insufficient Ether.");
+            require(msg.value >= issuecredential_charge, "Insufficient Ether.");
 
             createprescriptionPosition = _badgeCasenumberTally.active();
             console.chart("mintIndex", createprescriptionPosition);

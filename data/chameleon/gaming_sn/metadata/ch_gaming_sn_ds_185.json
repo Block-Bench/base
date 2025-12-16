@@ -65,13 +65,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_185.json",
     "original_id": "defivulnlabs_precision-loss"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_185.sol",
   "sanitized_from": "ds_185",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 242352653,
+    "seed": 715475193,
     "coverage": {
       "total_identifiers": 45,
       "transformed": 21,
@@ -180,27 +181,27 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
+      "ContractTest": "PactTest",
       "SimplePoolContract": "SimplePoolPact",
-      "setUp": "groupUp",
+      "setUp": "collectionUp",
       "testRounding_error": "testrounding_fault",
-      "getCurrentReward": "acquireActiveBonus",
-      "totalDebt": "completeOwing",
-      "lastAccrueInterestTime": "endingAccrueInterestInstant",
-      "loanTokenBalance": "loanCoinTreasureamount",
-      "debt": "owing",
-      "token": "medal",
-      "timestamp": "gameTime",
+      "getCurrentReward": "acquirePresentPayout",
+      "totalDebt": "completeObligation",
+      "lastAccrueInterestTime": "finalAccrueInterestInstant",
+      "loanTokenBalance": "loanGemRewardlevel",
+      "debt": "liability",
+      "token": "gem",
+      "timestamp": "questTime",
       "Get": "Obtain",
       "time": "instant",
       "last": "ending",
-      "_timeDelta": "_instantDelta",
-      "reward": "payout",
-      "Calculate": "Derive",
-      "value": "cost",
+      "_timeDelta": "_momentDelta",
+      "reward": "bounty",
+      "Calculate": "Determine",
+      "value": "magnitude",
       "log": "journal",
-      "Current": "Active",
-      "_totalDebt": "_completeObligation"
+      "Current": "Present",
+      "_totalDebt": "_aggregateLiability"
     }
   }
 }

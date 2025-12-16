@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_161.json",
     "original_id": "smartbugs_other_name_registrar"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_161.sol",
   "sanitized_from": "ds_161"
 }

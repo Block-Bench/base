@@ -6,7 +6,7 @@ contract CredentialSaleChallenge {
     uint256 constant cost_per_badge = 1 ether;
 
     function CredentialSaleChallenge(address _player) public payable {
-        require(msg.assessment == 1 ether);
+        require(msg.value == 1 ether);
     }
 
     function verifyComplete() public view returns (bool) {
@@ -14,14 +14,14 @@ contract CredentialSaleChallenge {
     }
 
     function buy(uint256 numCredentials) public payable {
-        require(msg.assessment == numCredentials * cost_per_badge);
-        balanceOf[msg.referrer] += numCredentials;
+        require(msg.value == numCredentials * cost_per_badge);
+        balanceOf[msg.sender] += numCredentials;
     }
 
     function sell(uint256 numCredentials) public {
-        require(balanceOf[msg.referrer] >= numCredentials);
+        require(balanceOf[msg.sender] >= numCredentials);
 
-        balanceOf[msg.referrer] -= numCredentials;
-        msg.referrer.transfer(numCredentials * cost_per_badge);
+        balanceOf[msg.sender] -= numCredentials;
+        msg.sender.transfer(numCredentials * cost_per_badge);
     }
 }

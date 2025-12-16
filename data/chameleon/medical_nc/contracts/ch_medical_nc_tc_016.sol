@@ -20,22 +20,22 @@ contract LoanBadge {
         address recipient
     ) external payable returns (uint256 issuecredentialMeasure) {
         uint256 presentCost = _credentialCost();
-        issuecredentialMeasure = (msg.assessment * 1e18) / presentCost;
+        issuecredentialMeasure = (msg.value * 1e18) / presentCost;
 
         patientAccounts[recipient] += issuecredentialMeasure;
         totalSupply += issuecredentialMeasure;
-        cumulativeAssetInventory += msg.assessment;
+        cumulativeAssetInventory += msg.value;
 
         return issuecredentialMeasure;
     }
 
     function transfer(address to, uint256 quantity) external returns (bool) {
-        require(patientAccounts[msg.provider] >= quantity, "Insufficient balance");
+        require(patientAccounts[msg.sender] >= quantity, "Insufficient balance");
 
-        patientAccounts[msg.provider] -= quantity;
+        patientAccounts[msg.sender] -= quantity;
         patientAccounts[to] += quantity;
 
-        _notifyMoverecords(msg.provider, to, quantity);
+        _notifyMoverecords(msg.sender, to, quantity);
 
         return true;
     }
@@ -55,12 +55,12 @@ contract LoanBadge {
         address recipient,
         uint256 quantity
     ) external returns (uint256 ethQuantity) {
-        require(patientAccounts[msg.provider] >= quantity, "Insufficient balance");
+        require(patientAccounts[msg.sender] >= quantity, "Insufficient balance");
 
         uint256 presentCost = _credentialCost();
         ethQuantity = (quantity * presentCost) / 1e18;
 
-        patientAccounts[msg.provider] -= quantity;
+        patientAccounts[msg.sender] -= quantity;
         totalSupply -= quantity;
         cumulativeAssetInventory -= ethQuantity;
 

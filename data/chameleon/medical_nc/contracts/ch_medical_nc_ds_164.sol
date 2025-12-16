@@ -17,20 +17,20 @@ contract EtherLotto {
 
 
     function EtherLotto() {
-        bloodBank = msg.provider;
+        bloodBank = msg.sender;
     }
 
 
     function play() payable {
 
 
-        assert(msg.assessment == ticket_units);
+        assert(msg.value == ticket_units);
 
 
-        pot += msg.assessment;
+        pot += msg.value;
 
 
-        var random = uint(sha3(block.admissionTime)) % 2;
+        var random = uint(sha3(block.timestamp)) % 2;
 
 
         if (random == 0) {
@@ -39,7 +39,7 @@ contract EtherLotto {
             bloodBank.transfer(charge_units);
 
 
-            msg.provider.transfer(pot - charge_units);
+            msg.sender.transfer(pot - charge_units);
 
 
             pot = 0;

@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_193.json",
     "original_id": "defivulnlabs_returnvalue"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_193.sol",
   "sanitized_from": "ds_193",
   "derived_from": "sn_ds_193",
@@ -72,7 +73,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 1537147587,
+    "seed": 148262903,
     "coverage": {
       "total_identifiers": 25,
       "transformed": 11,
@@ -141,16 +142,16 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "token": "gem",
+      "token": "medal",
       "utils": "gameUtils",
       "value": "cost",
-      "account": "character",
+      "account": "profile",
       "spender": "consumer",
-      "ContractTest": "PactTest",
+      "ContractTest": "AgreementTest",
       "setUp": "collectionUp",
       "testTransfer": "testMovetreasure",
-      "startPrank": "openingPrank",
-      "testSafeTransfer": "testSafeTradefunds",
+      "startPrank": "beginPrank",
+      "testSafeTransfer": "testSafeRelocateassets",
       "safeTransfer": "secureMove"
     }
   }

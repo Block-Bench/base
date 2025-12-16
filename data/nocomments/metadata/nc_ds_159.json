@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_159.json",
     "original_id": "smartbugs_front_running_odds_and_evens"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_159.sol",
   "sanitized_from": "ds_159",
   "derived_from": "sn_ds_159",

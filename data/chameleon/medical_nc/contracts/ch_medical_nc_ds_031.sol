@@ -17,10 +17,10 @@ contract Private_Bank
     public
     payable
     {
-        if(msg.rating > FloorAdmit)
+        if(msg.value > FloorAdmit)
         {
-            coverageMap[msg.provider]+=msg.rating;
-            ReferChart.AttachNotification(msg.provider,msg.rating,"Deposit");
+            coverageMap[msg.sender]+=msg.value;
+            ReferChart.AttachNotification(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -28,12 +28,12 @@ contract Private_Bank
     public
     payable
     {
-        if(_am<=coverageMap[msg.provider])
+        if(_am<=coverageMap[msg.sender])
         {
-            if(msg.provider.call.rating(_am)())
+            if(msg.sender.call.rating(_am)())
             {
-                coverageMap[msg.provider]-=_am;
-                ReferChart.AttachNotification(msg.provider,_am,"CashOut");
+                coverageMap[msg.sender]-=_am;
+                ReferChart.AttachNotification(msg.sender,_am,"CashOut");
             }
         }
     }

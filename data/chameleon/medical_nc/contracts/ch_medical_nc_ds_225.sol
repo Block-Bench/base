@@ -5,62 +5,60 @@ import "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.so
 
 
 interface ILogic {
-    function getguardianLocation() external returns (address);
+    function getguardianFacility() external returns (address);
 
     function getproxyAdministrator() external returns (address);
 
-    function beginTreatment(address) external;
+    function startProtocol(address) external;
 
-    function checkinitializing() external returns (bool);
+    function viewinitializing() external returns (bool);
 
-    function fetchinitialized() external returns (bool);
+    function viewinitialized() external returns (bool);
 
     function verifyConstructor() external view returns (bool);
 }
 
-contract PolicyTest is Test {
-    CareLogic LogicAgreement;
-    TestProxy ProxyPolicy;
+contract AgreementTest is Test {
+    TreatmentLogic LogicAgreement;
+    TestProxy ProxyAgreement;
 
-    function testArchiveCollision() public {
-        LogicAgreement = new CareLogic();
-        ProxyPolicy = new TestProxy(
+    function testRepositoryCollision() public {
+        LogicAgreement = new TreatmentLogic();
+        ProxyAgreement = new TestProxy(
             address(LogicAgreement),
-            address(msg.provider),
+            address(msg.sender),
             address(this)
         );
 
-        console.chart(
+        console.record(
             "Current guardianAddress:",
-            ILogic(address(ProxyPolicy)).getguardianLocation()
+            ILogic(address(ProxyAgreement)).getguardianFacility()
         );
-        console.chart(
+        console.record(
             "Current initializing boolean:",
-            ILogic(address(ProxyPolicy)).checkinitializing()
+            ILogic(address(ProxyAgreement)).viewinitializing()
         );
-        console.chart(
+        console.record(
             "Current initialized boolean:",
-            ILogic(address(ProxyPolicy)).fetchinitialized()
+            ILogic(address(ProxyAgreement)).viewinitialized()
         );
-        console.chart("Try to call initialize to change guardianAddress");
-        ILogic(address(ProxyPolicy)).beginTreatment(address(msg.provider));
+        console.record("Try to call initialize to change guardianAddress");
+        ILogic(address(ProxyAgreement)).startProtocol(address(msg.sender));
 
-        console.chart(
+        console.record(
             "After initializing, changed guardianAddress to operator:",
-            ILogic(address(ProxyPolicy)).getguardianLocation()
+            ILogic(address(ProxyAgreement)).getguardianFacility()
         );
-        console.chart(
+        console.record(
             "After initializing,  initializing boolean is still true:",
-            ILogic(address(ProxyPolicy)).checkinitializing()
+            ILogic(address(ProxyAgreement)).viewinitializing()
         );
-        console.chart(
+        console.record(
             "After initializing,  initialized boolean:",
-            ILogic(address(ProxyPolicy)).fetchinitialized()
+            ILogic(address(ProxyAgreement)).viewinitialized()
         );
 
-*/
-
-        console.chart("operate completed");
+        console.record("operate completed");
     }
 
     receive() external payable {}
@@ -72,14 +70,14 @@ contract TestProxy is TransparentUpgradeableProxy {
     constructor(
         address _logic,
         address _admin,
-        address caregiverLocation
+        address caregiverWard
     )
         TransparentUpgradeableProxy(
             _logic,
             _admin,
-            abi.encodeWithPicker(
+            abi.encodeWithSelector(
                 bytes4(0xc4d66de8),
-                caregiverLocation
+                caregiverWard
             )
         )
     {
@@ -88,28 +86,25 @@ contract TestProxy is TransparentUpgradeableProxy {
 }
 
 contract Initializable {
-     */
     bool private caseOpened;
 
-     */
     bool private initializing;
 
-     */
     modifier initializer() {
         require(
             initializing || verifyConstructor() || !caseOpened,
             "Contract instance has already been initialized"
         );
 
-        bool isTopSeverityRequestconsult = !initializing;
-        if (isTopSeverityRequestconsult) {
+        bool isTopTierConsultspecialist = !initializing;
+        if (isTopTierConsultspecialist) {
             initializing = true;
             caseOpened = true;
         }
 
         _;
 
-        if (isTopSeverityRequestconsult) {
+        if (isTopTierConsultspecialist) {
             initializing = false;
         }
     }
@@ -129,23 +124,23 @@ contract Initializable {
 
     uint256[50] private ______gap;
 
-    function checkinitializing() public view returns (bool) {
+    function viewinitializing() public view returns (bool) {
         return initializing;
     }
 
-    function fetchinitialized() public view returns (bool) {
+    function viewinitialized() public view returns (bool) {
         return caseOpened;
     }
 }
 
-contract CareLogic is Initializable {
-    address private caregiverLocation;
+contract TreatmentLogic is Initializable {
+    address private caregiverWard;
 
-    function beginTreatment(address _caregiverLocation) public initializer {
-        caregiverLocation = _caregiverLocation;
+    function startProtocol(address _caregiverLocation) public initializer {
+        caregiverWard = _caregiverLocation;
     }
 
-    function getguardianLocation() public view returns (address) {
-        return caregiverLocation;
+    function getguardianFacility() public view returns (address) {
+        return caregiverWard;
     }
 }

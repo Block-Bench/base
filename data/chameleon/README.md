@@ -1,94 +1,111 @@
 # Chameleon Dataset
 
-<p align="center">
-  <img src="../../assets/mascot.svg" alt="BlockBench" width="64" height="64">
-</p>
+## Overview
 
-The chameleon dataset contains contracts with all user-defined identifiers renamed using randomized synonym pools, designed to test whether AI models rely on keyword patterns rather than understanding code semantics.
+The Chameleon dataset contains smart contracts transformed using the **Chameleon strategy** - a systematic identifier renaming transformation that tests whether AI models rely on keyword patterns rather than understanding code semantics.
 
-## Contents
+## Hypothesis
 
-| Directory | Contracts | Description |
-|-----------|-----------|-------------|
-| `gaming_sn/` | 285 | Gaming theme applied to sanitized contracts |
-| `gaming_nc/` | 285 | Gaming theme applied to nocomments contracts |
-| `medical_sn/` | 285 | Medical theme applied to sanitized contracts |
-| `medical_nc/` | 285 | Medical theme applied to nocomments contracts |
+> "If a model's detection accuracy drops significantly when financial/security terminology is replaced with domain-specific synonyms, the model relies on superficial keyword matching rather than semantic understanding."
 
-**Total: 1,140 transformed contracts**
+## Transformation Approach
+
+All user-defined identifiers (functions, variables, events, contracts) are renamed using themed synonym pools:
+
+**Before (DeFi terminology):**
+```solidity
+contract Vault {
+    mapping(address => uint256) public balances;
+
+    function withdraw(uint256 amount) public {
+        require(balances[msg.sender] >= amount);
+        balances[msg.sender] -= amount;
+        msg.sender.transfer(amount);
+    }
+}
+```
+
+**After (Gaming theme):**
+```solidity
+contract TreasureChest {
+    mapping(address => uint256) public lootBalances;
+
+    function claimReward(uint256 gems) public {
+        require(lootBalances[msg.sender] >= gems);
+        lootBalances[msg.sender] -= gems;
+        msg.sender.transfer(gems);
+    }
+}
+```
+
+The vulnerability (reentrancy risk) remains identical, but the keywords that pattern-matching models might rely on are removed.
+
+## Available Themes
+
+| Theme | Description | Example Renames |
+|-------|-------------|-----------------|
+| `gaming` | Video game / RPG terminology | withdraw→claimLoot, balance→treasureCount, deposit→storeLoot |
+| `medical` | Healthcare / medical records | withdraw→dischargePatient, balance→vitalSigns, transfer→referPatient |
+
+## Directory Structure
+
+```
+chameleon/
+├── gaming_nc/           # Gaming theme from nocomments source
+│   ├── contracts/       # Transformed .sol files
+│   ├── metadata/        # JSON metadata with rename maps
+│   ├── index.json       # Dataset index
+│   └── transformation_report.json
+├── gaming_sn/           # Gaming theme from sanitized source
+│   ├── contracts/
+│   ├── metadata/
+│   └── ...
+├── medical_nc/          # Medical theme from nocomments
+├── medical_sn/          # Medical theme from sanitized
+└── README.md
+```
 
 ## Naming Convention
 
-- `ch_gaming_sn_ds_001.sol` - Gaming theme, from sanitized ds_001
-- `ch_medical_nc_tc_042.sol` - Medical theme, from nocomments tc_042
+`ch_{theme}_{source}_{original_id}.sol`
 
-## Active Themes
+- `ch` - Chameleon strategy prefix
+- `{theme}` - Theme name (gaming, medical, etc.)
+- `{source}` - `nc` (nocomments) or `sn` (sanitized)
+- `{original_id}` - Original contract ID
 
-### Gaming Theme
-Comprehensive video game, RPG, MMO, and rewards terminology:
-- `withdraw` → `claimLoot`, `collectBounty`, `gatherTreasure`
-- `balance` → `goldHolding`, `treasureAmount`, `coinPurse`
-- `owner` → `guildMaster`, `gameAdmin`, `dungeonMaster`
-- `Vault` → `TreasureHold`, `LootVault`, `RewardCache`
+Example: `ch_gaming_nc_ds_001.sol`
 
-### Medical Theme
-Comprehensive healthcare, hospital, clinical, and patient care terminology:
-- `withdraw` → `discharge`, `dispenseMedication`, `releaseFunds`
-- `balance` → `coverage`, `benefits`, `credits`
-- `owner` → `administrator`, `director`, `chiefMedical`
-- `Vault` → `PatientRecords`, `MedicalVault`, `CareRepository`
+## Metadata
 
-## Transformations Applied
+Each contract has accompanying metadata that includes:
+- Original ground truth (vulnerability info preserved)
+- Complete rename map showing all identifier substitutions
+- Coverage statistics (% of identifiers transformed)
+- Transformation seed for reproducibility
 
-The Chameleon strategy renames identifiers using thematically consistent synonym pools:
+## Usage
 
-1. **Contract Names**: 40+ pattern categories
-2. **Function Names**: 90+ pattern categories
-3. **Variable Names**: 170+ pattern categories
-4. **Event Names**: 25+ pattern categories
-5. **Error Names**: 20+ pattern categories
-6. **Modifier Names**: 11+ pattern categories
-7. **Struct Names**: 8+ pattern categories
+```bash
+# Transform all contracts with gaming theme
+python3 -m strategies.chameleon.chameleon all --theme gaming --source nocomments
+
+# Transform a single file
+python3 -m strategies.chameleon.chameleon one nc_ds_001 --theme gaming
+
+# Transform from stdin
+echo "contract Foo { ... }" | python3 -m strategies.chameleon.chameleon code --theme gaming
+```
+
+## What This Tests
+
+1. **Keyword dependence**: Does the model rely on terms like "withdraw", "balance", "transfer"?
+2. **Semantic understanding**: Can the model recognize vulnerability patterns regardless of naming?
+3. **Domain transfer**: Does training on DeFi contracts generalize to other domains?
 
 ## Coverage Statistics
 
-| Source | Gaming | Medical |
-|--------|--------|---------|
-| Sanitized | ~40% | ~40% |
-| No-Comments | ~55% | ~55% |
-
-*Coverage = percentage of user-defined identifiers successfully transformed*
-
-## Metadata Schema
-
-Each metadata file includes:
-
-- `id`: Chameleon identifier (e.g., `ch_gaming_sn_ds_001`)
-- `contract_file`: Path to transformed source
-- `transformation`: Details including theme, seed, coverage, rename_map
-
-## Transformation Chain
-
-```
-base (ds_001) -> sanitized (sn_ds_001) -> chameleon (ch_gaming_sn_ds_001)
-                                       -> chameleon (ch_medical_sn_ds_001)
-
-base (ds_001) -> sanitized (sn_ds_001) -> nocomments (nc_ds_001) -> chameleon (ch_gaming_nc_ds_001)
-                                                                  -> chameleon (ch_medical_nc_ds_001)
-```
-
-## Generation
-
-Run the chameleon transformation:
-
-```bash
-# Transform all sanitized contracts with gaming theme
-python -m strategies.chameleon.chameleon all --theme gaming --source sanitized
-
-# Transform all nocomments contracts with medical theme
-python -m strategies.chameleon.chameleon all --theme medical --source nocomments
-```
-
----
-
-*Part of the BlockBench Smart Contract Security Evaluation Framework*
+The transformation aims for >75% identifier coverage. Untransformed identifiers include:
+- Solidity reserved words (`require`, `msg`, `block`, etc.)
+- Standard interface functions (ERC20, ERC721 if preserved)
+- Very short identifiers (single letters, loop variables)

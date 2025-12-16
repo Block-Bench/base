@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.24;
 
- */
 
  contract Wallet {
      address creator;

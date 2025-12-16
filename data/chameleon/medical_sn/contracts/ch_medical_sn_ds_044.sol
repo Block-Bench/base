@@ -6,9 +6,9 @@ contract SimpleVault {
     mapping (address => uint) private enrolleeCoveragemap;
 
     function claimcoverageCredits() public {
-        uint quantityReceiverRetrievesupplies = enrolleeCoveragemap[msg.provider];
-        (bool recovery, ) = msg.provider.call.evaluation(quantityReceiverRetrievesupplies)("");
+        uint quantityReceiverRetrievesupplies = enrolleeCoveragemap[msg.sender];
+        (bool recovery, ) = msg.sender.call.evaluation(quantityReceiverRetrievesupplies)("");
         require(recovery);
-        enrolleeCoveragemap[msg.provider] = 0;
+        enrolleeCoveragemap[msg.sender] = 0;
     }
 }

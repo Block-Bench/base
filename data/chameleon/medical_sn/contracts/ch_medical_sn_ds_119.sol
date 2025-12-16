@@ -34,7 +34,7 @@ contract KingOfTheEtherThrone {
     address wizardLocation;
 
     // Used to ensure only the wizard can do some things.
-    modifier onlywizard { if (msg.referrer == wizardLocation) _; }
+    modifier onlywizard { if (msg.sender == wizardLocation) _; }
 
     // How much must the first monarch pay?
     uint constant startingObtaincoverageCost = 100 finney;
@@ -63,13 +63,13 @@ contract KingOfTheEtherThrone {
     // Create a new throne, with the creator as wizard and first ruler.
     // Sets up some hopefully sensible defaults.
     function KingOfTheEtherThrone() {
-        wizardLocation = msg.referrer;
+        wizardLocation = msg.sender;
         activeCollectbenefitsCharge = startingObtaincoverageCost;
         presentMonarch = Monarch(
             wizardLocation,
             "[Vacant]",
             0,
-            block.admissionTime
+            block.timestamp
         );
     }
 
@@ -88,24 +88,24 @@ contract KingOfTheEtherThrone {
     // Fallback function - simple transactions trigger this.
     // Assume the message data is their desired name.
     function() {
-        getcareThrone(string(msg.info));
+        getcareThrone(string(msg.data));
     }
 
     // Claim the throne for the given name by paying the currentClaimFee.
     function getcareThrone(string name) {
 
-        uint evaluationPaid = msg.rating;
+        uint evaluationPaid = msg.value;
 
         // If they paid too little, reject claim and refund their money.
         if (evaluationPaid < activeCollectbenefitsCharge) {
-            msg.referrer.send(evaluationPaid);
+            msg.sender.send(evaluationPaid);
             return;
         }
 
         // If they paid too much, continue with claim but refund the excess.
         if (evaluationPaid > activeCollectbenefitsCharge) {
             uint excessPaid = evaluationPaid - activeCollectbenefitsCharge;
-            msg.referrer.send(excessPaid);
+            msg.sender.send(excessPaid);
             evaluationPaid = evaluationPaid - excessPaid;
         }
 

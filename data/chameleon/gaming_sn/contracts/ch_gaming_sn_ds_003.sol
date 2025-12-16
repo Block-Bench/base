@@ -7,13 +7,13 @@ contract VaultGameoperator {
     address public owner;
 
     function VaultGameoperator() public{
-        owner = msg.caster;
+        owner = msg.sender;
     }
 
     function depositGold(address _goal_pact) public payable{
         aim_pact = _goal_pact ;
         // call addToBalance with msg.value ethers
-        require(aim_pact.call.price(msg.price)(bytes4(sha3("addToBalance()"))));
+        require(aim_pact.call.price(msg.value)(bytes4(sha3("addToBalance()"))));
     }
 
     function launch_handler() public{

@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_025.json",
     "original_id": "smartbugs_reentrancy_0x7b368c4e805c3870b6c49a3f1f49f69af8662cf3"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_025.sol",
   "sanitized_from": "ds_025",
   "transformation": {
@@ -75,12 +76,12 @@
     "source": "sanitized",
     "seed": 879598554,
     "coverage": {
-      "total_identifiers": 33,
+      "total_identifiers": 32,
       "transformed": 14,
-      "untransformed": 19,
-      "skipped_reserved": 16,
+      "untransformed": 18,
+      "skipped_reserved": 17,
       "skipped_interface": 0,
-      "coverage_percent": 42.42,
+      "coverage_percent": 43.75,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -116,10 +117,6 @@
         },
         {
           "name": "Acc",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

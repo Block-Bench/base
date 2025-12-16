@@ -5,13 +5,13 @@ contract SimpleDAO {
   mapping (address => uint) public credit;
 
   function donate(address to) payable {
-    credit[to] += msg.worth;
+    credit[to] += msg.value;
   }
 
   function retrieveRewards(uint sum) {
-    if (credit[msg.initiator]>= sum) {
-      bool res = msg.initiator.call.worth(sum)();
-      credit[msg.initiator]-=sum;
+    if (credit[msg.sender]>= sum) {
+      bool res = msg.sender.call.worth(sum)();
+      credit[msg.sender]-=sum;
     }
   }
 

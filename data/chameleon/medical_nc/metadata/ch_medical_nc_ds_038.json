@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_038.json",
     "original_id": "smartbugs_reentrancy_etherstore"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_038.sol",
   "sanitized_from": "ds_038",
   "derived_from": "sn_ds_038",
@@ -74,40 +75,31 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1163588555,
+    "seed": 1401216282,
     "coverage": {
-      "total_identifiers": 12,
-      "transformed": 9,
-      "untransformed": 3,
-      "skipped_reserved": 14,
+      "total_identifiers": 9,
+      "transformed": 8,
+      "untransformed": 1,
+      "skipped_reserved": 15,
       "skipped_interface": 0,
-      "coverage_percent": 75.0,
+      "coverage_percent": 88.89,
       "untransformed_details": [
         {
-          "name": "added",
-          "reason": "no synonym found"
-        },
-        {
           "name": "EtherStore",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         }
       ],
       "meets_threshold": true
     },
     "rename_map": {
-      "version": "edition",
-      "withdrawalLimit": "withdrawalCap",
+      "withdrawalLimit": "withdrawalBound",
       "lastWithdrawTime": "endingExtractspecimenMoment",
       "balances": "patientAccounts",
-      "depositFunds": "registerpaymentFunds",
+      "depositFunds": "submitpaymentFunds",
       "sender": "provider",
       "value": "rating",
-      "withdrawFunds": "dischargeFunds",
-      "_weiToWithdraw": "_weiReceiverDispensemedication"
+      "withdrawFunds": "dispensemedicationFunds",
+      "_weiToWithdraw": "_weiDestinationRetrievesupplies"
     }
   }
 }

@@ -1,0 +1,87 @@
+{
+  "id": "mr_compressed_nc_ds_101",
+  "contract_file": "contracts/mr_compressed_nc_ds_101.sol",
+  "subset": "mirror",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "This contract demonstrates an integer underflow vulnerability in an ERC20 token contract. \nThe vulnerability exists in the implementation of the transferFrom function. Due to the lack \nof automatic overflow checking in Solidity versions before 0.8.0, attackers can exploit \nthis vulnerability to generate a large amount of tokens.\n\nHow it works:\n1. Contract initializes with deployer receiving 1000 tokens\n2. Deployer transfers 800 tokens to Alice\n3. Alice approves the attacker to spend 1000 tokens\n4. Attacker uses transferFrom to transfer 500 tokens from Alice to Bob\n5. Due to the lack of overflow checking in the _transfer function's subtraction operation, \n   an underflow occurs when Alice's balance is insufficient\n6. The underflow causes Alice's balance to become an extremely large number, \n   effectively creating tokens out of thin air",
+    "attack_vector": "This contract demonstrates an integer underflow vulnerability in an ERC20 token contract. \nThe vulnerability exists in the implementation of the transferFrom function. Due to the lack \nof automatic overflow checking in Solidity versions before 0.8.0, attackers can exploit \nthis vulnerability to generate a large amount of tokens.\n\nHow it works:\n1. Contract initializes with deployer receiving 1000 tokens\n2. Deployer transfers 800 tokens to Alice\n3. Alice approves the attacker to spend 1000 tokens\n4. Attacker uses transferFrom to transfer 500 tokens from Alice to Bob\n5. Due to the lack of overflow checking in the _transfer function's subtraction operation, \n   an underflow occurs when Alice's balance is insufficient\n6. The underflow causes Alice's balance to become an extremely large number, \n   effectively creating tokens out of thin air",
+    "impact": "Severity: high",
+    "correct_fix": "1. Use Solidity 0.8.0 or later which has built-in overflow checking\n2. Use SafeMath library for older versions\n3. Properly validate balances before transfers\n\nThis vulnerability demonstrates why proper integer overflow/underflow protection is crucial \nin smart contract development, particularly in token contracts where numerical operations \nare frequent and critical to the contract's security."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_overflow2",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.7.6",
+    "num_lines": 98,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "TokenWhaleChallenge"
+    ],
+    "num_functions": 7,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "This contract demonstrates an integer underflow vulnerability in an ERC20 token contract. \nThe vulnerability exists in the implementation of the transferFrom function. Due to the lack \nof automatic overflow checking in Solidity versions before 0.8.0, attackers can exploit \nthis vulnerability to generate a large amount of tokens.\n\nHow it works:\n1. Contract initializes with deployer receiving 1000 tokens\n2. Deployer transfers 800 tokens to Alice\n3. Alice approves the attacker to spend 1000 tokens\n4. Attacker uses transferFrom to transfer 500 tokens from Alice to Bob\n5. Due to the lack of overflow checking in the _transfer function's subtraction operation, \n   an underflow occurs when Alice's balance is insufficient\n6. The underflow causes Alice's balance to become an extremely large number, \n   effectively creating tokens out of thin air",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_101.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_101.json",
+    "original_id": "defivulnlabs_overflow2"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_101.sol",
+  "sanitized_from": "ds_101",
+  "derived_from": "nc_ds_101",
+  "original_id": "ds_101",
+  "transformation": {
+    "strategy": "mirror",
+    "mode": "compressed",
+    "details": {
+      "comments_removed": true,
+      "blank_lines_removed": 21,
+      "mode": "compressed",
+      "original_lines": 94,
+      "transformed_lines": 73,
+      "original_chars": 2679,
+      "transformed_chars": 2198,
+      "compression_ratio": 0.82
+    }
+  }
+}

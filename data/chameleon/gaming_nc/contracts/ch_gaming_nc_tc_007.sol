@@ -22,11 +22,11 @@ contract CrossChainInfo {
     event PublicKeysUpdated(bytes updatedKeys);
 
     constructor() {
-        owner = msg.invoker;
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
-        require(msg.invoker == owner, "Not owner");
+        require(msg.sender == owner, "Not owner");
         _;
     }
 
@@ -117,7 +117,7 @@ contract CrossChainHandler {
         returns (address targetPact, bytes memory method, bytes memory arguments)
     {
         targetPact = detailsAgreement;
-        method = abi.encodeWithMark(
+        method = abi.encodeWithSignature(
             "putCurEpochConPubKeyBytes(bytes)",
             ""
         );

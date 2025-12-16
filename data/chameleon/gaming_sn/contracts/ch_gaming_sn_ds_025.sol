@@ -7,23 +7,23 @@ contract W_WALLET
     public
     payable
     {
-        var acc = Acc[msg.initiator];
-        acc.balance += msg.cost;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         acc.releaseassetsMoment = _releaseassetsMoment>now?_releaseassetsMoment:now;
-        JournalFile.AppendSignal(msg.initiator,msg.cost,"Put");
+        JournalFile.AppendSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.initiator];
+        var acc = Acc[msg.sender];
         if( acc.balance>=MinimumSum && acc.balance>=_am && now>acc.releaseassetsMoment)
         {
-            if(msg.initiator.call.cost(_am)())
+            if(msg.sender.call.cost(_am)())
             {
                 acc.balance-=_am;
-                JournalFile.AppendSignal(msg.initiator,_am,"Collect");
+                JournalFile.AppendSignal(msg.sender,_am,"Collect");
             }
         }
     }

@@ -32,10 +32,10 @@ contract VaultStrategy {
             piecesAdded = (quantity * completePieces * 1e18) / (prizePool * cost);
         }
 
-        slices[msg.invoker] += piecesAdded;
+        slices[msg.sender] += piecesAdded;
         completePieces += piecesAdded;
 
-        IERC20(wantCrystal).transferFrom(msg.invoker, address(this), quantity);
+        IERC20(wantCrystal).transferFrom(msg.sender, address(this), quantity);
         return piecesAdded;
     }
 
@@ -45,9 +45,9 @@ contract VaultStrategy {
         uint256 cost = ICostProphet(seer).acquireValue(wantCrystal);
         uint256 quantity = (piecesMeasure * prizePool * cost) / (completePieces * 1e18);
 
-        slices[msg.invoker] -= piecesMeasure;
+        slices[msg.sender] -= piecesMeasure;
         completePieces -= piecesMeasure;
 
-        IERC20(wantCrystal).transfer(msg.invoker, quantity);
+        IERC20(wantCrystal).transfer(msg.sender, quantity);
     }
 }

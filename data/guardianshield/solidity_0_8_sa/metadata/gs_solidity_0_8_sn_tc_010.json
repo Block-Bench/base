@@ -1,0 +1,92 @@
+{
+  "id": "gs_solidity_0_8_sn_tc_010",
+  "contract_file": "contracts/gs_solidity_0_8_sn_tc_010.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "neutralized_by": "solidity_0_8",
+    "neutralization_reason": "Built-in overflow/underflow checks prevent arithmetic vulnerabilities"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2016-06-17",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 30,
+    "num_contracts": 1,
+    "contract_names": [
+      "CreditSystem"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "reentrancy",
+    "classic",
+    "historical",
+    "checks-effects-interactions",
+    "external-call"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2016-06-17",
+      "protocol_name": "The DAO",
+      "chain": "ethereum",
+      "funds_lost_usd": 60000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous The DAO exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_010.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_010.json",
+    "original_exploit_name": "The DAO"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_010.sol",
+  "sanitized_from": "tc_010",
+  "derived_from": "sn_tc_010",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "solidity_0_8",
+    "injection_details": {
+      "pragma_updated": true,
+      "safemath_removed": false,
+      "operators_replaced": 0,
+      "protection_type": "solidity_0_8"
+    }
+  }
+}

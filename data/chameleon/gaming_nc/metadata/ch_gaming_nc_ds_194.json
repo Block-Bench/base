@@ -70,6 +70,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_194.json",
     "original_id": "defivulnlabs_delegatecall"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_194.sol",
   "sanitized_from": "ds_194",
   "derived_from": "sn_ds_194",
@@ -78,14 +79,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 3191176412,
+    "seed": 2487927316,
     "coverage": {
-      "total_identifiers": 32,
-      "transformed": 15,
+      "total_identifiers": 31,
+      "transformed": 14,
       "untransformed": 17,
-      "skipped_reserved": 21,
+      "skipped_reserved": 22,
       "skipped_interface": 0,
-      "coverage_percent": 46.88,
+      "coverage_percent": 45.16,
       "untransformed_details": [
         {
           "name": "forge",
@@ -159,21 +160,20 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "Proxy": "TeleportHub",
+      "Proxy": "PortalGate",
       "Delegate": "Assign",
       "delegate": "entrust",
-      "_delegateAddress": "_assignRealm",
-      "data": "info",
+      "_delegateAddress": "_entrustLocation",
+      "data": "details",
       "failed": "actionFailed",
-      "ContractTest": "PactTest",
+      "ContractTest": "AgreementTest",
       "proxy": "portalGate",
-      "DelegateContract": "AssignPact",
-      "setUp": "groupUp",
-      "log": "record",
+      "DelegateContract": "AssignAgreement",
+      "setUp": "collectionUp",
+      "log": "journal",
       "DelegationContract": "DelegationAgreement",
-      "encodeWithSignature": "encodeWithSeal",
-      "execute": "performAction",
-      "sender": "caster"
+      "execute": "completeQuest",
+      "sender": "initiator"
     }
   }
 }

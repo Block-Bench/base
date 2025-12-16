@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_014.json",
     "original_id": "smartbugs_access_control_wallet_02_refund_nosub"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_014.sol",
   "sanitized_from": "ds_014",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 3794080337,
+    "seed": 2450627609,
     "coverage": {
       "total_identifiers": 20,
       "transformed": 10,
@@ -125,16 +126,16 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "Wallet": "PatientWallet",
-      "creator": "author",
+      "Wallet": "HealthWallet",
+      "creator": "founder",
       "balances": "coverageMap",
-      "sender": "provider",
+      "sender": "referrer",
       "deposit": "admit",
-      "value": "rating",
-      "withdraw": "claimCoverage",
-      "amount": "measure",
-      "emergency": "urgent",
-      "migrateTo": "migrateDestination"
+      "value": "assessment",
+      "withdraw": "extractSpecimen",
+      "amount": "dosage",
+      "emergency": "critical",
+      "migrateTo": "migrateReceiver"
     }
   }
 }

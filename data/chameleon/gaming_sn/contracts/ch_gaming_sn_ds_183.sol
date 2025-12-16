@@ -3,24 +3,22 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PactTest is Test {
-    STA StaPact;
-    CoreVault VulnVaultAgreement;
-    LootVault VaultAgreement;
+    STA StaAgreement;
+    CoreVault VulnVaultPact;
+    BountyStorage VaultPact;
 
-    function collectionUp() public {
-        StaPact = new STA();
-        VulnVaultAgreement = new CoreVault(address(StaPact));
-        VaultAgreement = new LootVault(address(StaPact));
+    function groupUp() public {
+        StaAgreement = new STA();
+        VulnVaultPact = new CoreVault(address(StaAgreement));
+        VaultPact = new BountyStorage(address(StaAgreement));
     }
 
-    function testVulnCutOnMovetreasure() public {
+    function testVulnChargeOnShiftgold() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
-        StaPact.balanceOf(address(this));
-        StaPact.transfer(alice, 1000000);
+        StaAgreement.balanceOf(address(this));
+        StaAgreement.transfer(alice, 1000000);
         console.record("Alice's STA balance:", STAContract.balanceOf(alice)); // charge 1% fee
         vm.startPrank(alice);
         STAContract.approve(address(VulnVaultContract), type(uint256).max);
@@ -29,19 +27,19 @@ contract PactTest is Test {
 
         console.log(
             "Alice deposit 10000 STA, but Alice's STA balance in VulnVaultContract:",
-            VulnVaultAgreement.viewTreasure(alice)
+            VulnVaultPact.viewTreasure(alice)
         ); // charge 1% fee
         assertEq(
-            StaPact.balanceOf(address(VulnVaultAgreement)),
-            VulnVaultAgreement.viewTreasure(alice)
+            StaAgreement.balanceOf(address(VulnVaultPact)),
+            VulnVaultPact.viewTreasure(alice)
         );
     }
 
-    function testTaxOnTradefunds() public {
+    function testTributeOnTradefunds() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
-        StaPact.balanceOf(address(this));
-        StaPact.transfer(alice, 1000000);
+        StaAgreement.balanceOf(address(this));
+        StaAgreement.transfer(alice, 1000000);
         console.record("Alice's STA balance:", STAContract.balanceOf(alice)); // charge 1% fee
         vm.startPrank(alice);
         STAContract.approve(address(VaultContract), type(uint256).max);
@@ -50,11 +48,11 @@ contract PactTest is Test {
 
         console.log(
             "Alice deposit 10000, Alice's STA balance in VaultContract:",
-            VaultAgreement.viewTreasure(alice)
+            VaultPact.viewTreasure(alice)
         ); // charge 1% fee
         assertEq(
-            StaPact.balanceOf(address(VaultAgreement)),
-            VaultAgreement.viewTreasure(alice)
+            StaAgreement.balanceOf(address(VaultPact)),
+            VaultPact.viewTreasure(alice)
         );
     }
 
@@ -71,21 +69,21 @@ interface IERC20 {
         address consumer
     ) external view returns (uint256);
 
-    function transfer(address to, uint256 price) external returns (bool);
+    function transfer(address to, uint256 worth) external returns (bool);
 
-    function approve(address consumer, uint256 price) external returns (bool);
+    function approve(address consumer, uint256 worth) external returns (bool);
 
     function transferFrom(
         address source,
         address to,
-        uint256 price
+        uint256 worth
     ) external returns (bool);
 
-    event Transfer(address indexed source, address indexed to, uint256 price);
+    event Transfer(address indexed source, address indexed to, uint256 worth);
     event PermissionGranted(
         address indexed owner,
         address indexed consumer,
-        uint256 price
+        uint256 worth
     );
 }
 
@@ -109,14 +107,14 @@ library SafeMath {
         return a - b;
     }
 
-    function attach(uint256 a, uint256 b) internal pure returns (uint256) {
+    function insert(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         assert(c >= a);
         return c;
     }
 
     function ceil(uint256 a, uint256 m) internal pure returns (uint256) {
-        uint256 c = attach(a, m);
+        uint256 c = insert(a, m);
         uint256 d = sub(c, 1);
         return mul(div(d, m), m);
     }
@@ -155,18 +153,18 @@ contract STA is ERC20Detailed {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowed;
 
-    string constant medalTag = "Statera";
+    string constant gemTitle = "Statera";
     string constant gemIcon = "STA";
     uint8 constant coinGranularity = 18;
     uint256 _combinedStock = 100000000000000000000000000;
-    uint256 public baseShare = 100;
+    uint256 public basePortion = 100;
 
     constructor()
         public
         payable
-        ERC20Detailed(medalTag, gemIcon, coinGranularity)
+        ERC20Detailed(gemTitle, gemIcon, coinGranularity)
     {
-        _issue(msg.caster, _combinedStock);
+        _issue(msg.sender, _combinedStock);
     }
 
     function totalSupply() public view returns (uint256) {
@@ -184,182 +182,182 @@ contract STA is ERC20Detailed {
         return _allowed[owner][consumer];
     }
 
-    function cut(uint256 price) public view returns (uint256) {
-        uint256 waveWorth = price.ceil(baseShare);
-        uint256 cutWorth = waveWorth.mul(baseShare).div(10000);
-        return cutWorth;
+    function cut(uint256 worth) public view returns (uint256) {
+        uint256 wavePrice = worth.ceil(basePortion);
+        uint256 cutMagnitude = wavePrice.mul(basePortion).div(10000);
+        return cutMagnitude;
     }
 
-    function transfer(address to, uint256 price) public returns (bool) {
-        require(price <= _balances[msg.caster]);
+    function transfer(address to, uint256 worth) public returns (bool) {
+        require(worth <= _balances[msg.sender]);
         require(to != address(0));
 
-        uint256 gemsDestinationSacrifice = cut(price);
-        uint256 crystalsDestinationShiftgold = price.sub(gemsDestinationSacrifice);
+        uint256 coinsTargetIncinerate = cut(worth);
+        uint256 crystalsDestinationTradefunds = worth.sub(coinsTargetIncinerate);
 
-        _balances[msg.caster] = _balances[msg.caster].sub(price);
-        _balances[to] = _balances[to].attach(crystalsDestinationShiftgold);
+        _balances[msg.sender] = _balances[msg.sender].sub(worth);
+        _balances[to] = _balances[to].insert(crystalsDestinationTradefunds);
 
-        _combinedStock = _combinedStock.sub(gemsDestinationSacrifice);
+        _combinedStock = _combinedStock.sub(coinsTargetIncinerate);
 
-        emit Transfer(msg.caster, to, crystalsDestinationShiftgold);
-        emit Transfer(msg.caster, address(0), gemsDestinationSacrifice);
+        emit Transfer(msg.sender, to, crystalsDestinationTradefunds);
+        emit Transfer(msg.sender, address(0), coinsTargetIncinerate);
         return true;
     }
 
-    function approve(address consumer, uint256 price) public returns (bool) {
+    function approve(address consumer, uint256 worth) public returns (bool) {
         require(consumer != address(0));
-        _allowed[msg.caster][consumer] = price;
-        emit PermissionGranted(msg.caster, consumer, price);
+        _allowed[msg.sender][consumer] = worth;
+        emit PermissionGranted(msg.sender, consumer, worth);
         return true;
     }
 
     function transferFrom(
         address source,
         address to,
-        uint256 price
+        uint256 worth
     ) public returns (bool) {
-        require(price <= _balances[source]);
-        require(price <= _allowed[source][msg.caster]);
+        require(worth <= _balances[source]);
+        require(worth <= _allowed[source][msg.sender]);
         require(to != address(0));
 
-        _balances[source] = _balances[source].sub(price);
+        _balances[source] = _balances[source].sub(worth);
 
-        uint256 gemsDestinationSacrifice = cut(price);
-        uint256 crystalsDestinationShiftgold = price.sub(gemsDestinationSacrifice);
+        uint256 coinsTargetIncinerate = cut(worth);
+        uint256 crystalsDestinationTradefunds = worth.sub(coinsTargetIncinerate);
 
-        _balances[to] = _balances[to].attach(crystalsDestinationShiftgold);
-        _combinedStock = _combinedStock.sub(gemsDestinationSacrifice);
+        _balances[to] = _balances[to].insert(crystalsDestinationTradefunds);
+        _combinedStock = _combinedStock.sub(coinsTargetIncinerate);
 
-        _allowed[source][msg.caster] = _allowed[source][msg.caster].sub(price);
+        _allowed[source][msg.sender] = _allowed[source][msg.sender].sub(worth);
 
-        emit Transfer(source, to, crystalsDestinationShiftgold);
-        emit Transfer(source, address(0), gemsDestinationSacrifice);
+        emit Transfer(source, to, crystalsDestinationTradefunds);
+        emit Transfer(source, address(0), coinsTargetIncinerate);
 
         return true;
     }
 
     function upPermission(
         address consumer,
-        uint256 addedPrice
+        uint256 addedWorth
     ) public returns (bool) {
         require(consumer != address(0));
-        _allowed[msg.caster][consumer] = (
-            _allowed[msg.caster][consumer].attach(addedPrice)
+        _allowed[msg.sender][consumer] = (
+            _allowed[msg.sender][consumer].insert(addedWorth)
         );
-        emit PermissionGranted(msg.caster, consumer, _allowed[msg.caster][consumer]);
+        emit PermissionGranted(msg.sender, consumer, _allowed[msg.sender][consumer]);
         return true;
     }
 
-    function downQuota(
+    function downPermission(
         address consumer,
-        uint256 subtractedPrice
+        uint256 subtractedCost
     ) public returns (bool) {
         require(consumer != address(0));
-        _allowed[msg.caster][consumer] = (
-            _allowed[msg.caster][consumer].sub(subtractedPrice)
+        _allowed[msg.sender][consumer] = (
+            _allowed[msg.sender][consumer].sub(subtractedCost)
         );
-        emit PermissionGranted(msg.caster, consumer, _allowed[msg.caster][consumer]);
+        emit PermissionGranted(msg.sender, consumer, _allowed[msg.sender][consumer]);
         return true;
     }
 
-    function _issue(address profile, uint256 quantity) internal {
-        require(quantity != 0);
-        _balances[profile] = _balances[profile].attach(quantity);
-        emit Transfer(address(0), profile, quantity);
+    function _issue(address profile, uint256 measure) internal {
+        require(measure != 0);
+        _balances[profile] = _balances[profile].insert(measure);
+        emit Transfer(address(0), profile, measure);
     }
 
-    function destroy(uint256 quantity) external {
-        _destroy(msg.caster, quantity);
+    function destroy(uint256 measure) external {
+        _destroy(msg.sender, measure);
     }
 
-    function _destroy(address profile, uint256 quantity) internal {
-        require(quantity != 0);
-        require(quantity <= _balances[profile]);
-        _combinedStock = _combinedStock.sub(quantity);
-        _balances[profile] = _balances[profile].sub(quantity);
-        emit Transfer(profile, address(0), quantity);
+    function _destroy(address profile, uint256 measure) internal {
+        require(measure != 0);
+        require(measure <= _balances[profile]);
+        _combinedStock = _combinedStock.sub(measure);
+        _balances[profile] = _balances[profile].sub(measure);
+        emit Transfer(profile, address(0), measure);
     }
 
-    function destroySource(address profile, uint256 quantity) external {
-        require(quantity <= _allowed[profile][msg.caster]);
-        _allowed[profile][msg.caster] = _allowed[profile][msg.caster].sub(
-            quantity
+    function destroySource(address profile, uint256 measure) external {
+        require(measure <= _allowed[profile][msg.sender]);
+        _allowed[profile][msg.sender] = _allowed[profile][msg.sender].sub(
+            measure
         );
-        _destroy(profile, quantity);
+        _destroy(profile, measure);
     }
 }
 
 contract CoreVault {
-    mapping(address => uint256) private userRewards;
-    uint256 private cut;
+    mapping(address => uint256) private playerLoot;
+    uint256 private charge;
     IERC20 private coin;
 
-    event StashRewards(address indexed depositor, uint256 quantity);
-    event RewardsCollected(address indexed target, uint256 quantity);
+    event CachePrize(address indexed depositor, uint256 measure);
+    event LootClaimed(address indexed receiver, uint256 measure);
 
-    constructor(address _gemLocation) {
-        coin = IERC20(_gemLocation);
+    constructor(address _medalRealm) {
+        coin = IERC20(_medalRealm);
     }
 
-    function addTreasure(uint256 quantity) external {
-        require(quantity > 0, "Deposit amount must be greater than zero");
+    function cachePrize(uint256 measure) external {
+        require(measure > 0, "Deposit amount must be greater than zero");
 
-        coin.transferFrom(msg.caster, address(this), quantity);
-        userRewards[msg.caster] += quantity;
-        emit StashRewards(msg.caster, quantity);
+        coin.transferFrom(msg.sender, address(this), measure);
+        playerLoot[msg.sender] += measure;
+        emit CachePrize(msg.sender, measure);
     }
 
-    function harvestGold(uint256 quantity) external {
-        require(quantity > 0, "Withdrawal amount must be greater than zero");
-        require(quantity <= userRewards[msg.caster], "Insufficient balance");
+    function obtainPrize(uint256 measure) external {
+        require(measure > 0, "Withdrawal amount must be greater than zero");
+        require(measure <= playerLoot[msg.sender], "Insufficient balance");
 
-        userRewards[msg.caster] -= quantity;
-        coin.transfer(msg.caster, quantity);
-        emit RewardsCollected(msg.caster, quantity);
+        playerLoot[msg.sender] -= measure;
+        coin.transfer(msg.sender, measure);
+        emit LootClaimed(msg.sender, measure);
     }
 
     function viewTreasure(address profile) external view returns (uint256) {
-        return userRewards[profile];
+        return playerLoot[profile];
     }
 }
 
-contract LootVault {
-    mapping(address => uint256) private userRewards;
-    uint256 private cut;
+contract BountyStorage {
+    mapping(address => uint256) private playerLoot;
+    uint256 private charge;
     IERC20 private coin;
 
-    event StashRewards(address indexed depositor, uint256 quantity);
-    event RewardsCollected(address indexed target, uint256 quantity);
+    event CachePrize(address indexed depositor, uint256 measure);
+    event LootClaimed(address indexed receiver, uint256 measure);
 
-    constructor(address _gemLocation) {
-        coin = IERC20(_gemLocation);
+    constructor(address _medalRealm) {
+        coin = IERC20(_medalRealm);
     }
 
-    function addTreasure(uint256 quantity) external {
-        require(quantity > 0, "Deposit amount must be greater than zero");
+    function cachePrize(uint256 measure) external {
+        require(measure > 0, "Deposit amount must be greater than zero");
 
-        uint256 goldholdingBefore = coin.balanceOf(address(this));
+        uint256 prizecountBefore = coin.balanceOf(address(this));
 
-        coin.transferFrom(msg.caster, address(this), quantity);
+        coin.transferFrom(msg.sender, address(this), measure);
 
         uint256 treasureamountAfter = coin.balanceOf(address(this));
-        uint256 actualBankwinningsTotal = treasureamountAfter - goldholdingBefore;
+        uint256 actualStashrewardsCount = treasureamountAfter - prizecountBefore;
 
-        userRewards[msg.caster] += actualBankwinningsTotal;
-        emit StashRewards(msg.caster, actualBankwinningsTotal);
+        playerLoot[msg.sender] += actualStashrewardsCount;
+        emit CachePrize(msg.sender, actualStashrewardsCount);
     }
 
-    function harvestGold(uint256 quantity) external {
-        require(quantity > 0, "Withdrawal amount must be greater than zero");
-        require(quantity <= userRewards[msg.caster], "Insufficient balance");
+    function obtainPrize(uint256 measure) external {
+        require(measure > 0, "Withdrawal amount must be greater than zero");
+        require(measure <= playerLoot[msg.sender], "Insufficient balance");
 
-        userRewards[msg.caster] -= quantity;
-        coin.transfer(msg.caster, quantity);
-        emit RewardsCollected(msg.caster, quantity);
+        playerLoot[msg.sender] -= measure;
+        coin.transfer(msg.sender, measure);
+        emit LootClaimed(msg.sender, measure);
     }
 
     function viewTreasure(address profile) external view returns (uint256) {
-        return userRewards[profile];
+        return playerLoot[profile];
     }
 }

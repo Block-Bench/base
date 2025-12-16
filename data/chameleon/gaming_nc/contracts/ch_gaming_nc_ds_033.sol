@@ -18,10 +18,10 @@ contract ETH_VAULT
     public
     payable
     {
-        if(msg.price > MinimumStoreloot)
+        if(msg.value > MinimumStoreloot)
         {
-            characterGold[msg.caster]+=msg.price;
-            SendlootJournal.AttachSignal(msg.caster,msg.price,"Deposit");
+            characterGold[msg.sender]+=msg.value;
+            SendlootJournal.AttachSignal(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -29,12 +29,12 @@ contract ETH_VAULT
     public
     payable
     {
-        if(_am<=characterGold[msg.caster])
+        if(_am<=characterGold[msg.sender])
         {
-            if(msg.caster.call.price(_am)())
+            if(msg.sender.call.price(_am)())
             {
-                characterGold[msg.caster]-=_am;
-                SendlootJournal.AttachSignal(msg.caster,_am,"CashOut");
+                characterGold[msg.sender]-=_am;
+                SendlootJournal.AttachSignal(msg.sender,_am,"CashOut");
             }
         }
     }

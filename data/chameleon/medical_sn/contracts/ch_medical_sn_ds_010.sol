@@ -6,7 +6,7 @@ contract MyPolicy {
     address owner;
 
     function MyPolicy() public {
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
     function transmitresultsDestination(address recipient, uint dosage) public {

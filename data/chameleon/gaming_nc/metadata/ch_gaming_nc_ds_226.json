@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_226.json",
     "original_id": "defivulnlabs_signaturereplaynba"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_226.sol",
   "sanitized_from": "ds_226",
   "derived_from": "sn_ds_226",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2383727272,
+    "seed": 4134769853,
     "coverage": {
-      "total_identifiers": 59,
+      "total_identifiers": 57,
       "transformed": 22,
-      "untransformed": 37,
-      "skipped_reserved": 30,
+      "untransformed": 35,
+      "skipped_reserved": 32,
       "skipped_interface": 0,
-      "coverage_percent": 37.29,
+      "coverage_percent": 38.6,
       "untransformed_details": [
         {
           "name": "forge",
@@ -183,10 +184,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encode",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Invalid",
           "reason": "no synonym found"
         },
@@ -211,10 +208,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "x19Ethereum",
           "reason": "no synonym found"
         },
@@ -234,24 +227,24 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "vData": "vDetails",
+      "vData": "vInfo",
       "mint_free": "forge_free",
-      "max_mint": "maximum_create",
+      "max_mint": "maximum_summon",
       "from": "source",
-      "start": "opening",
+      "start": "begin",
       "end": "close",
       "eth_price": "eth_value",
-      "dust_price": "dust_value",
-      "signature": "seal",
-      "mint_approved": "craft_approved",
+      "dust_price": "dust_cost",
+      "signature": "mark",
+      "mint_approved": "forge_approved",
       "info": "data",
-      "ContractTest": "AgreementTest",
-      "NBAContract": "NbaPact",
-      "testMintNFT": "testSpawnArtifact",
+      "ContractTest": "PactTest",
+      "NBAContract": "NbaAgreement",
+      "testMintNFT": "testCraftRelic",
       "verify": "confirm",
       "log": "journal",
-      "mint": "spawn",
-      "hash": "signature",
+      "mint": "craft",
+      "hash": "seal",
       "length": "size",
       "add": "append",
       "data": "info",

@@ -6,23 +6,23 @@ contract W_WALLET
     public
     payable
     {
-        var acc = Acc[msg.provider];
-        acc.balance += msg.evaluation;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         acc.openrecordInstant = _releasecoverageInstant>now?_releasecoverageInstant:now;
-        ChartFile.AppendAlert(msg.provider,msg.evaluation,"Put");
+        ChartFile.AppendAlert(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.provider];
+        var acc = Acc[msg.sender];
         if( acc.balance>=FloorSum && acc.balance>=_am && now>acc.openrecordInstant)
         {
-            if(msg.provider.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
                 acc.balance-=_am;
-                ChartFile.AppendAlert(msg.provider,_am,"Collect");
+                ChartFile.AppendAlert(msg.sender,_am,"Collect");
             }
         }
     }

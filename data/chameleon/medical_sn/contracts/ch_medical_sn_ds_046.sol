@@ -5,13 +5,13 @@ contract SimpleDAO {
   mapping (address => uint) public credit;
 
   function donate(address to) payable {
-    credit[to] += msg.rating;
+    credit[to] += msg.value;
   }
 
   function discharge(uint units) {
-    if (credit[msg.referrer]>= units) {
-      bool res = msg.referrer.call.rating(units)();
-      credit[msg.referrer]-=units;
+    if (credit[msg.sender]>= units) {
+      bool res = msg.sender.call.rating(units)();
+      credit[msg.sender]-=units;
     }
   }
 

@@ -1,36 +1,34 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.24;
 
- */
-
- contract PatientWallet {
-     address author;
+ contract HealthWallet {
+     address founder;
 
      mapping(address => uint256) coverageMap;
 
      constructor() public {
-         author = msg.provider;
+         founder = msg.sender;
      }
 
      function admit() public payable {
-         assert(coverageMap[msg.provider] + msg.rating > coverageMap[msg.provider]);
-         coverageMap[msg.provider] += msg.rating;
+         assert(coverageMap[msg.sender] + msg.value > coverageMap[msg.sender]);
+         coverageMap[msg.sender] += msg.value;
      }
 
-     function claimCoverage(uint256 measure) public {
-         require(measure <= coverageMap[msg.provider]);
-         msg.provider.transfer(measure);
-         coverageMap[msg.provider] -= measure;
+     function extractSpecimen(uint256 dosage) public {
+         require(dosage <= coverageMap[msg.sender]);
+         msg.sender.transfer(dosage);
+         coverageMap[msg.sender] -= dosage;
      }
 
      function refund() public {
-         msg.provider.transfer(coverageMap[msg.provider]);
+         msg.sender.transfer(coverageMap[msg.sender]);
      }
 
      // In an emergency the owner can migrate  allfunds to a different address.
 
-     function migrateDestination(address to) public {
-         require(author == msg.provider);
+     function migrateReceiver(address to) public {
+         require(founder == msg.sender);
          to.transfer(this.balance);
      }
 

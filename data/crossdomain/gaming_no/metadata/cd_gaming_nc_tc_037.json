@@ -1,0 +1,123 @@
+{
+  "id": "cd_gaming_nc_tc_037",
+  "contract_file": "contracts/cd_gaming_nc_tc_037.sol",
+  "subset": "crossdomain",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "UwuLendingPool",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $19,300,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_037",
+    "url": null,
+    "date_discovered": "2024-06-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 133,
+    "num_contracts": 2,
+    "contract_names": [
+      "UwuLendingPool",
+      "CurveOracle"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "lending",
+    "aave_fork",
+    "oracle_manipulation",
+    "flashloan",
+    "curve_pools",
+    "price_manipulation",
+    "collateral_inflation"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-06-01",
+      "protocol_name": "UwU Lend Oracle Manipulation",
+      "chain": "ethereum",
+      "funds_lost_usd": 19300000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous UwU Lend Oracle Manipulation exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_037.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_037.json",
+    "original_exploit_name": "UwU Lend Oracle Manipulation"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_037.sol",
+  "sanitized_from": "tc_037",
+  "derived_from": "nc_tc_037",
+  "original_id": "tc_037",
+  "transformation": {
+    "strategy": "cross_domain",
+    "source_domain": "defi",
+    "target_domain": "gaming",
+    "coverage": 0.43,
+    "identifiers_transformed": 21,
+    "rename_map": {
+      "transfer": "giveItems",
+      "transferFrom": "sharetreasureFrom",
+      "balanceOf": "gemtotalOf",
+      "account": "gamerProfile",
+      "approve": "allowTransfer",
+      "ICurvePool": "ICurveBountypool",
+      "ILendingPool": "IItemloanLootpool",
+      "deposit": "cacheTreasure",
+      "borrow": "requestLoan",
+      "interestRateMode": "bonusrateBonusrateMode",
+      "withdraw": "claimLoot",
+      "UwuLendingPool": "UwuQuestcreditBountypool",
+      "collateralPrice": "betPrice",
+      "borrowPrice": "takeadvancePrice",
+      "collateralValue": "betValue",
+      "maxBorrow": "maxRequestloan",
+      "borrowValue": "takeadvanceValue",
+      "curvePool": "curveRewardpool",
+      "_pool": "_lootpool",
+      "balance0": "goldholding0",
+      "balance1": "treasurecount1"
+    }
+  }
+}

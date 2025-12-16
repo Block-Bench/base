@@ -17,22 +17,22 @@ contract Private_Bank
     public
     payable
     {
-        if(msg.evaluation >= MinimumProvidespecimen)
+        if(msg.value >= MinimumProvidespecimen)
         {
-            coverageMap[msg.provider]+=msg.evaluation;
-            PasscaseChart.InsertNotification(msg.provider,msg.evaluation,"Deposit");
+            coverageMap[msg.sender]+=msg.value;
+            PasscaseChart.InsertNotification(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=coverageMap[msg.provider])
+        if(_am<=coverageMap[msg.sender])
         {
 
-            if(msg.provider.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                coverageMap[msg.provider]-=_am;
-                PasscaseChart.InsertNotification(msg.provider,_am,"CashOut");
+                coverageMap[msg.sender]-=_am;
+                PasscaseChart.InsertNotification(msg.sender,_am,"CashOut");
             }
         }
     }

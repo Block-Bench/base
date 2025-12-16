@@ -6,7 +6,7 @@ contract TransferHub {
   address owner;
 
   constructor() public {
-    owner = msg.referrer;
+    owner = msg.sender;
   }
 
   function forward(address callee, bytes _data) public {

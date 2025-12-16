@@ -1,6 +1,3 @@
-sol PatientWallet
-
-
 pragma solidity ^0.4.9;
 
 contract WalletEvents {
@@ -10,15 +7,15 @@ contract WalletEvents {
   event Withdraw(address owner, bytes32 operation);
 
 
-  event SupervisorChanged(address previousSupervisor, address updatedDirector);
-  event AdministratorAdded(address updatedDirector);
-  event DirectorRemoved(address previousSupervisor);
+  event SupervisorChanged(address previousDirector, address updatedSupervisor);
+  event DirectorAdded(address updatedSupervisor);
+  event DirectorRemoved(address previousDirector);
 
 
-  event RequirementChanged(uint updatedRequirement);
+  event RequirementChanged(uint currentRequirement);
 
 
-  event Admit(address _from, uint evaluation);
+  event SubmitPayment(address _from, uint evaluation);
 
   event SingleTransact(address owner, uint evaluation, address to, bytes record, address created);
 
@@ -29,35 +26,35 @@ contract WalletEvents {
 
 contract WalletAbi {
 
-  function cancel(bytes32 _operation) external;
+  function withdraw(bytes32 _operation) external;
 
 
-  function changeSupervisor(address _from, address _to) external;
+  function changeAdministrator(address _from, address _to) external;
 
-  function attachDirector(address _owner) external;
+  function attachAdministrator(address _owner) external;
 
-  function eliminateDirector(address _owner) external;
+  function dischargeDirector(address _owner) external;
 
   function changeRequirement(uint _currentRequired) external;
 
-  function isDirector(address _addr) constant returns (bool);
+  function isSupervisor(address _addr) constant returns (bool);
 
   function containsConfirmed(bytes32 _operation, address _owner) external constant returns (bool);
 
 
-  function collectionDailyBound(uint _updatedBound) external;
+  function collectionDailyCap(uint _currentBound) external;
 
-  function runDiagnostic(address _to, uint _value, bytes _data) external returns (bytes32 o_checksum);
+  function runDiagnostic(address _to, uint _value, bytes _data) external returns (bytes32 o_signature);
   function confirm(bytes32 _h) returns (bool o_improvement);
 }
 
 contract WalletLibrary is WalletEvents {
 
 
-  struct ScheduledStatus {
+  struct ScheduledCondition {
     uint yetNeeded;
     uint ownersDone;
-    uint position;
+    uint rank;
   }
 
 
@@ -68,30 +65,30 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  modifier onlyDirector {
-    if (isDirector(msg.provider))
+  modifier onlyAdministrator {
+    if (isSupervisor(msg.sender))
       _;
   }
 
 
   modifier onlymanyowners(bytes32 _operation) {
-    if (confirmAndExamine(_operation))
+    if (confirmAndAssess(_operation))
       _;
   }
 
 
   function() payable {
 
-    if (msg.evaluation > 0)
-      Admit(msg.provider, msg.evaluation);
+    if (msg.value > 0)
+      SubmitPayment(msg.sender, msg.value);
   }
 
 
   function initMultiowned(address[] _owners, uint _required) only_uninitialized {
-    m_numOwners = _owners.duration + 1;
-    m_owners[1] = uint(msg.provider);
-    m_ownerIndex[uint(msg.provider)] = 1;
-    for (uint i = 0; i < _owners.duration; ++i)
+    m_numOwners = _owners.extent + 1;
+    m_owners[1] = uint(msg.sender);
+    m_ownerIndex[uint(msg.sender)] = 1;
+    for (uint i = 0; i < _owners.extent; ++i)
     {
       m_owners[2 + i] = uint(_owners[i]);
       m_ownerIndex[uint(_owners[i])] = 2 + i;
@@ -100,34 +97,34 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function cancel(bytes32 _operation) external {
-    uint administratorRank = m_ownerIndex[uint(msg.provider)];
+  function withdraw(bytes32 _operation) external {
+    uint directorPosition = m_ownerIndex[uint(msg.sender)];
 
-    if (administratorRank == 0) return;
-    uint supervisorPositionBit = 2**administratorRank;
-    var awaiting = m_awaiting[_operation];
-    if (awaiting.ownersDone & supervisorPositionBit > 0) {
-      awaiting.yetNeeded++;
-      awaiting.ownersDone -= supervisorPositionBit;
-      Withdraw(msg.provider, _operation);
+    if (directorPosition == 0) return;
+    uint administratorSlotBit = 2**directorPosition;
+    var scheduled = m_awaiting[_operation];
+    if (scheduled.ownersDone & administratorSlotBit > 0) {
+      scheduled.yetNeeded++;
+      scheduled.ownersDone -= administratorSlotBit;
+      Withdraw(msg.sender, _operation);
     }
   }
 
 
-  function changeSupervisor(address _from, address _to) onlymanyowners(sha3(msg.record)) external {
-    if (isDirector(_to)) return;
-    uint administratorRank = m_ownerIndex[uint(_from)];
-    if (administratorRank == 0) return;
+  function changeAdministrator(address _from, address _to) onlymanyowners(sha3(msg.data)) external {
+    if (isSupervisor(_to)) return;
+    uint directorPosition = m_ownerIndex[uint(_from)];
+    if (directorPosition == 0) return;
 
     clearAwaiting();
-    m_owners[administratorRank] = uint(_to);
+    m_owners[directorPosition] = uint(_to);
     m_ownerIndex[uint(_from)] = 0;
-    m_ownerIndex[uint(_to)] = administratorRank;
+    m_ownerIndex[uint(_to)] = directorPosition;
     SupervisorChanged(_from, _to);
   }
 
-  function attachDirector(address _owner) onlymanyowners(sha3(msg.record)) external {
-    if (isDirector(_owner)) return;
+  function attachAdministrator(address _owner) onlymanyowners(sha3(msg.data)) external {
+    if (isSupervisor(_owner)) return;
 
     clearAwaiting();
     if (m_numOwners >= c_maxOwners)
@@ -137,22 +134,22 @@ contract WalletLibrary is WalletEvents {
     m_numOwners++;
     m_owners[m_numOwners] = uint(_owner);
     m_ownerIndex[uint(_owner)] = m_numOwners;
-    AdministratorAdded(_owner);
+    DirectorAdded(_owner);
   }
 
-  function eliminateDirector(address _owner) onlymanyowners(sha3(msg.record)) external {
-    uint administratorRank = m_ownerIndex[uint(_owner)];
-    if (administratorRank == 0) return;
+  function dischargeDirector(address _owner) onlymanyowners(sha3(msg.data)) external {
+    uint directorPosition = m_ownerIndex[uint(_owner)];
+    if (directorPosition == 0) return;
     if (m_required > m_numOwners - 1) return;
 
-    m_owners[administratorRank] = 0;
+    m_owners[directorPosition] = 0;
     m_ownerIndex[uint(_owner)] = 0;
     clearAwaiting();
     reorganizeOwners();
     DirectorRemoved(_owner);
   }
 
-  function changeRequirement(uint _currentRequired) onlymanyowners(sha3(msg.record)) external {
+  function changeRequirement(uint _currentRequired) onlymanyowners(sha3(msg.data)) external {
     if (_currentRequired > m_numOwners) return;
     m_required = _currentRequired;
     clearAwaiting();
@@ -160,24 +157,24 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function retrieveDirector(uint administratorRank) external constant returns (address) {
-    return address(m_owners[administratorRank + 1]);
+  function obtainDirector(uint directorPosition) external constant returns (address) {
+    return address(m_owners[directorPosition + 1]);
   }
 
-  function isDirector(address _addr) constant returns (bool) {
+  function isSupervisor(address _addr) constant returns (bool) {
     return m_ownerIndex[uint(_addr)] > 0;
   }
 
   function containsConfirmed(bytes32 _operation, address _owner) external constant returns (bool) {
-    var awaiting = m_awaiting[_operation];
-    uint administratorRank = m_ownerIndex[uint(_owner)];
+    var scheduled = m_awaiting[_operation];
+    uint directorPosition = m_ownerIndex[uint(_owner)];
 
 
-    if (administratorRank == 0) return false;
+    if (directorPosition == 0) return false;
 
 
-    uint supervisorPositionBit = 2**administratorRank;
-    return !(awaiting.ownersDone & supervisorPositionBit == 0);
+    uint administratorSlotBit = 2**directorPosition;
+    return !(scheduled.ownersDone & administratorSlotBit == 0);
   }
 
 
@@ -186,11 +183,11 @@ contract WalletLibrary is WalletEvents {
     m_lastDay = today();
   }
 
-  function collectionDailyBound(uint _updatedBound) onlymanyowners(sha3(msg.record)) external {
-    m_dailyLimit = _updatedBound;
+  function collectionDailyCap(uint _currentBound) onlymanyowners(sha3(msg.data)) external {
+    m_dailyLimit = _currentBound;
   }
 
-  function resetSpentToday() onlymanyowners(sha3(msg.record)) external {
+  function resetSpentToday() onlymanyowners(sha3(msg.data)) external {
     m_spentToday = 0;
   }
 
@@ -204,93 +201,92 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function kill(address _to) onlymanyowners(sha3(msg.record)) external {
+  function kill(address _to) onlymanyowners(sha3(msg.data)) external {
     suicide(_to);
   }
 
 
-  function runDiagnostic(address _to, uint _value, bytes _data) external onlyDirector returns (bytes32 o_checksum) {
+  function runDiagnostic(address _to, uint _value, bytes _data) external onlyAdministrator returns (bytes32 o_signature) {
 
-    if ((_data.duration == 0 && underBound(_value)) || m_required == 1) {
+    if ((_data.extent == 0 && underBound(_value)) || m_required == 1) {
 
       address created;
       if (_to == 0) {
-        created = caseOpened(_value, _data);
+        created = patientAdmitted(_value, _data);
       } else {
         if (!_to.call.evaluation(_value)(_data))
           throw;
       }
-      SingleTransact(msg.provider, _value, _to, _data, created);
+      SingleTransact(msg.sender, _value, _to, _data, created);
     } else {
 
-      o_checksum = sha3(msg.record, block.number);
+      o_signature = sha3(msg.data, block.number);
 
-      if (m_txs[o_checksum].to == 0 && m_txs[o_checksum].evaluation == 0 && m_txs[o_checksum].record.duration == 0) {
-        m_txs[o_checksum].to = _to;
-        m_txs[o_checksum].evaluation = _value;
-        m_txs[o_checksum].record = _data;
+      if (m_txs[o_signature].to == 0 && m_txs[o_signature].evaluation == 0 && m_txs[o_signature].record.extent == 0) {
+        m_txs[o_signature].to = _to;
+        m_txs[o_signature].evaluation = _value;
+        m_txs[o_signature].record = _data;
       }
-      if (!confirm(o_checksum)) {
-        ConfirmationNeeded(o_checksum, msg.provider, _value, _to, _data);
+      if (!confirm(o_signature)) {
+        ConfirmationNeeded(o_signature, msg.sender, _value, _to, _data);
       }
     }
   }
 
-  function caseOpened(uint _value, bytes _code) internal returns (address o_addr) {
-    */
+  function patientAdmitted(uint _value, bytes _code) internal returns (address o_addr) {
   }
 
 
   function confirm(bytes32 _h) onlymanyowners(_h) returns (bool o_improvement) {
-    if (m_txs[_h].to != 0 || m_txs[_h].evaluation != 0 || m_txs[_h].record.duration != 0) {
+    if (m_txs[_h].to != 0 || m_txs[_h].evaluation != 0 || m_txs[_h].record.extent != 0) {
       address created;
       if (m_txs[_h].to == 0) {
-        created = caseOpened(m_txs[_h].evaluation, m_txs[_h].record);
+        created = patientAdmitted(m_txs[_h].evaluation, m_txs[_h].record);
       } else {
         if (!m_txs[_h].to.call.evaluation(m_txs[_h].evaluation)(m_txs[_h].record))
           throw;
       }
 
-      MultiTransact(msg.provider, _h, m_txs[_h].evaluation, m_txs[_h].to, m_txs[_h].record, created);
+      MultiTransact(msg.sender, _h, m_txs[_h].evaluation, m_txs[_h].to, m_txs[_h].record, created);
       delete m_txs[_h];
       return true;
     }
   }
 
 
-  function confirmAndExamine(bytes32 _operation) internal returns (bool) {
+  function confirmAndAssess(bytes32 _operation) internal returns (bool) {
 
-    uint administratorRank = m_ownerIndex[uint(msg.provider)];
+    uint directorPosition = m_ownerIndex[uint(msg.sender)];
 
-    if (administratorRank == 0) return;
+    if (directorPosition == 0) return;
 
-    var awaiting = m_awaiting[_operation];
+    var scheduled = m_awaiting[_operation];
 
-    if (awaiting.yetNeeded == 0) {
+    if (scheduled.yetNeeded == 0) {
 
-      awaiting.yetNeeded = m_required;
+      scheduled.yetNeeded = m_required;
 
-      awaiting.ownersDone = 0;
-      awaiting.position = m_pendingIndex.duration++;
-      m_pendingIndex[awaiting.position] = _operation;
+      scheduled.ownersDone = 0;
+      scheduled.rank = m_pendingIndex.extent++;
+      m_pendingIndex[scheduled.rank] = _operation;
     }
 
-    uint supervisorPositionBit = 2**administratorRank;
+    uint administratorSlotBit = 2**directorPosition;
 
-    if (awaiting.ownersDone & supervisorPositionBit == 0) {
-      Confirmation(msg.provider, _operation);
+    if (scheduled.ownersDone & administratorSlotBit == 0) {
+      Confirmation(msg.sender, _operation);
 
-      if (awaiting.yetNeeded <= 1) {
+      if (scheduled.yetNeeded <= 1) {
 
-        delete m_pendingIndex[m_awaiting[_operation].position];
+        delete m_pendingIndex[m_awaiting[_operation].rank];
         delete m_awaiting[_operation];
         return true;
       }
       else
       {
 
-        awaiting.yetNeeded--;
-        awaiting.ownersDone |= supervisorPositionBit;
+        scheduled.yetNeeded--;
+        scheduled.ownersDone |= administratorSlotBit;
       }
     }
   }
@@ -311,7 +307,7 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function underBound(uint _value) internal onlyDirector returns (bool) {
+  function underBound(uint _value) internal onlyAdministrator returns (bool) {
 
     if (today() > m_lastDay) {
       m_spentToday = 0;
@@ -330,9 +326,9 @@ contract WalletLibrary is WalletEvents {
   function today() private constant returns (uint) { return now / 1 days; }
 
   function clearAwaiting() internal {
-    uint duration = m_pendingIndex.duration;
+    uint extent = m_pendingIndex.extent;
 
-    for (uint i = 0; i < duration; ++i) {
+    for (uint i = 0; i < extent; ++i) {
       delete m_txs[m_pendingIndex[i]];
 
       if (m_pendingIndex[i] != 0)
@@ -361,7 +357,7 @@ contract WalletLibrary is WalletEvents {
 
   mapping(uint => uint) m_ownerIndex;
 
-  mapping(bytes32 => ScheduledStatus) m_awaiting;
+  mapping(bytes32 => ScheduledCondition) m_awaiting;
   bytes32[] m_pendingIndex;
 
 

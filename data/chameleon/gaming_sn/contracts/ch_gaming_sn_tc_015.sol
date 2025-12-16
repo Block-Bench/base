@@ -25,13 +25,13 @@ contract CompoundMarket {
         0x0000000000085d4780B73119b644AE5ecd22b376;
 
     constructor() {
-        gameAdmin = msg.caster;
+        gameAdmin = msg.sender;
         underlying = former_tusd;
     }
 
     function summon(uint256 sum) external {
         IERC20(current_tusd).transfer(address(this), sum);
-        profileMedals[msg.caster] += sum;
+        profileMedals[msg.sender] += sum;
         totalSupply += sum;
     }
 
@@ -39,15 +39,15 @@ contract CompoundMarket {
         require(crystal != underlying, "Cannot sweep underlying token");
 
         uint256 balance = IERC20(crystal).balanceOf(address(this));
-        IERC20(crystal).transfer(msg.caster, balance);
+        IERC20(crystal).transfer(msg.sender, balance);
     }
 
     function cashOutRewards(uint256 sum) external {
-        require(profileMedals[msg.caster] >= sum, "Insufficient balance");
+        require(profileMedals[msg.sender] >= sum, "Insufficient balance");
 
-        profileMedals[msg.caster] -= sum;
+        profileMedals[msg.sender] -= sum;
         totalSupply -= sum;
 
-        IERC20(current_tusd).transfer(msg.caster, sum);
+        IERC20(current_tusd).transfer(msg.sender, sum);
     }
 }

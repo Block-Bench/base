@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_019.json",
     "original_id": "smartbugs_reentrancy_0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_019.sol",
   "sanitized_from": "ds_019",
   "derived_from": "sn_ds_019",
@@ -75,14 +76,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 958567887,
+    "seed": 487340980,
     "coverage": {
-      "total_identifiers": 29,
+      "total_identifiers": 28,
       "transformed": 17,
-      "untransformed": 12,
-      "skipped_reserved": 19,
+      "untransformed": 11,
+      "skipped_reserved": 20,
       "skipped_interface": 0,
-      "coverage_percent": 58.62,
+      "coverage_percent": 60.71,
       "untransformed_details": [
         {
           "name": "intitalized",
@@ -125,10 +126,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "push",
           "reason": "no synonym found"
         }
@@ -136,21 +133,21 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ACCURAL_DEPOSIT": "accural_fundaccount",
-      "balances": "benefitsRecord",
-      "MinSum": "FloorSum",
-      "LogFile": "ChartFile",
+      "ACCURAL_DEPOSIT": "accural_registerpayment",
+      "balances": "coverageMap",
+      "MinSum": "MinimumSum",
+      "LogFile": "RecordFile",
       "Log": "Record",
-      "SetMinSum": "GroupFloorSum",
-      "SetLogFile": "GroupRecordFile",
-      "Initialized": "PatientAdmitted",
-      "Deposit": "ContributeFunds",
+      "SetMinSum": "CollectionFloorSum",
+      "SetLogFile": "GroupChartFile",
+      "Initialized": "CaseOpened",
+      "Deposit": "Admit",
       "sender": "provider",
-      "value": "rating",
+      "value": "evaluation",
       "AddMessage": "AttachNotification",
       "Message": "Notification",
-      "Sender": "Referrer",
-      "Data": "Chart",
+      "Sender": "Provider",
+      "Data": "Info",
       "Time": "Moment",
       "LastMsg": "FinalMsg"
     }

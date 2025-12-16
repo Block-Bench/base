@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_101.json",
     "original_id": "defivulnlabs_overflow2"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_101.sol",
   "sanitized_from": "ds_101",
   "derived_from": "sn_ds_101",
@@ -73,7 +74,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3939859324,
+    "seed": 263258514,
     "coverage": {
       "total_identifiers": 32,
       "transformed": 15,
@@ -154,20 +155,20 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
+      "ContractTest": "PolicyTest",
       "TokenWhaleChallenge": "CredentialWhaleChallenge",
-      "TokenWhaleChallengeContract": "CredentialWhaleChallengeAgreement",
+      "TokenWhaleChallengeContract": "BadgeWhaleChallengePolicy",
       "TokenWhaleDeploy": "CredentialWhaleDeploy",
-      "log": "chart",
+      "log": "record",
       "calculate": "compute",
       "Simple": "BasicCare",
-      "Token": "Badge",
-      "SET": "Prescribe",
-      "isComplete": "validateComplete",
+      "Token": "Credential",
+      "SET": "Establish",
+      "isComplete": "checkComplete",
       "from": "source",
       "value": "evaluation",
       "sender": "provider",
-      "Approval": "AccessGranted",
+      "Approval": "TreatmentAuthorized",
       "spender": "payer"
     }
   }

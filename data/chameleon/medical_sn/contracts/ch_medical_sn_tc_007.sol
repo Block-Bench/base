@@ -28,11 +28,11 @@ contract CrossChainRecord {
     event PublicKeysUpdated(bytes updatedKeys);
 
     constructor() {
-        owner = msg.referrer103;
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
-        require(msg.referrer103 == owner, "Not owner");
+        require(msg.sender == owner, "Not owner");
         _;
     }
 
@@ -140,7 +140,7 @@ contract CrossChainCoordinator {
         returns (address destinationAgreement, bytes memory method, bytes memory criteria)
     {
         destinationAgreement = infoPolicy;
-        method = abi.encodeWithConsent(
+        method = abi.encodeWithSignature(
             "putCurEpochConPubKeyBytes(bytes)",
             ""
         );

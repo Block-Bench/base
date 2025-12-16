@@ -5,41 +5,39 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
-
 contract PolicyTest is Test {
     USDa UsDaAgreement;
-    USDb UsDbAgreement;
+    USDb UsDbPolicy;
     SimplePool SimplePoolAgreement;
-    SimpleBank SimpleBankPolicy;
+    SimpleBank SimpleBankAgreement;
 
-    function collectionUp() public {
+    function groupUp() public {
         UsDaAgreement = new USDa();
-        UsDbAgreement = new USDb();
+        UsDbPolicy = new USDb();
         SimplePoolAgreement = new SimplePool(
             address(UsDaAgreement),
-            address(UsDbAgreement)
+            address(UsDbPolicy)
         );
-        SimpleBankPolicy = new SimpleBank(
+        SimpleBankAgreement = new SimpleBank(
             address(UsDaAgreement),
             address(SimplePoolAgreement),
-            address(UsDbAgreement)
+            address(UsDbPolicy)
         );
     }
 
     function testPrice_Manipulation() public {
-        UsDbAgreement.transfer(address(SimpleBankPolicy), 9000 ether);
+        UsDbPolicy.transfer(address(SimpleBankAgreement), 9000 ether);
         UsDaAgreement.transfer(address(SimplePoolAgreement), 1000 ether);
-        UsDbAgreement.transfer(address(SimplePoolAgreement), 1000 ether);
+        UsDbPolicy.transfer(address(SimplePoolAgreement), 1000 ether);
         // Get the current price of USDa in terms of USDb (initially 1 USDa : 1 USDb)
-        SimplePoolAgreement.obtainCost(); // 1 USDa : 1 USDb
+        SimplePoolAgreement.diagnoseCharge(); // 1 USDa : 1 USDb
 
         console.chart(
             "There are 1000 USDa and USDb in the pool, so the price of USDa is 1 to 1 USDb."
         );
-        emit record_named_decimal_number(
+        emit chart_named_decimal_number(
             "Current USDa convert rate",
-            SimplePoolAgreement.obtainCost(),
+            SimplePoolAgreement.diagnoseCharge(),
             18
         );
         console.chart("Start price manipulation");

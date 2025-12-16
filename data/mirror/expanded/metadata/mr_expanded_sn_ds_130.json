@@ -1,0 +1,87 @@
+{
+  "id": "mr_expanded_sn_ds_130",
+  "contract_file": "contracts/mr_expanded_sn_ds_130.sol",
+  "subset": "mirror",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "Unprotected",
+      "function_name": "changeOwner",
+      "line_numbers": [
+        25
+      ]
+    },
+    "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 25",
+    "attack_vector": "Access control vulnerability - missing or incorrect authorization checks at line(s) 25",
+    "impact": "Severity: high",
+    "correct_fix": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_access_control_unprotected0",
+    "url": "https://github.com/trailofbits/not-so-smart-contracts/blob/master/unprotected_function/Unprotected.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.15",
+    "num_lines": 26,
+    "num_contracts": 1,
+    "contract_names": [
+      "Unprotected"
+    ],
+    "num_functions": 3,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Access control vulnerability - missing or incorrect authorization checks at line(s) 25",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_130.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_130.json",
+    "original_id": "smartbugs_access_control_unprotected0"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_130.sol",
+  "sanitized_from": "ds_130",
+  "derived_from": "sn_ds_130",
+  "transformation": {
+    "strategy": "mirror",
+    "mode": "expanded",
+    "details": {
+      "comments_removed": false,
+      "blank_lines_added": 1,
+      "mode": "expanded",
+      "original_lines": 25,
+      "transformed_lines": 26,
+      "original_chars": 426,
+      "transformed_chars": 402,
+      "compression_ratio": 0.94
+    }
+  }
+}

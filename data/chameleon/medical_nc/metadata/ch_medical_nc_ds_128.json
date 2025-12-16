@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_128.json",
     "original_id": "smartbugs_access_control_multiowned_vulnerable"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_128.sol",
   "sanitized_from": "ds_128",
   "derived_from": "sn_ds_128",
@@ -75,7 +76,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3952417649,
+    "seed": 3831817717,
     "coverage": {
       "total_identifiers": 9,
       "transformed": 6,
@@ -100,12 +101,12 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "root": "source",
-      "sender": "provider",
-      "newOwner": "updatedAdministrator",
-      "deleteOwner": "deleteDirector",
+      "root": "origin",
+      "sender": "referrer",
+      "newOwner": "updatedSupervisor",
+      "deleteOwner": "deleteSupervisor",
       "TestContract": "TestPolicy",
-      "withdrawAll": "sweepCoverage"
+      "withdrawAll": "dischargeAll"
     }
   }
 }

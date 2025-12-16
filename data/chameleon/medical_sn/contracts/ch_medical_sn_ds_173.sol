@@ -3,7 +3,7 @@ pragma solidity ^0.4.11; /* originally >=0.4.11 */
 
 contract Owned {
     function Owned() {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     address public owner;
@@ -11,7 +11,7 @@ contract Owned {
     // This contract only defines a modifier and a few useful functions
     // The function body is inserted where the special symbol "_" in the
     // definition of a modifier appears.
-    modifier onlyOwner { if (msg.referrer == owner) _; }
+    modifier onlyOwner { if (msg.sender == owner) _; }
 
     function changeDirector(address _updatedDirector) onlyOwner {
         owner = _updatedDirector;

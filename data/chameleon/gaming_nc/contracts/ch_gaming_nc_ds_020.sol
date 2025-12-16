@@ -34,20 +34,20 @@ contract PRIVATE_ETH_CELL
     public
     payable
     {
-        playerLoot[msg.initiator]+= msg.price;
-        Journal.IncludeSignal(msg.initiator,msg.price,"Put");
+        playerLoot[msg.sender]+= msg.value;
+        Journal.IncludeSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(playerLoot[msg.initiator]>=MinimumSum && playerLoot[msg.initiator]>=_am)
+        if(playerLoot[msg.sender]>=MinimumSum && playerLoot[msg.sender]>=_am)
         {
-            if(msg.initiator.call.price(_am)())
+            if(msg.sender.call.price(_am)())
             {
-                playerLoot[msg.initiator]-=_am;
-                Journal.IncludeSignal(msg.initiator,_am,"Collect");
+                playerLoot[msg.sender]-=_am;
+                Journal.IncludeSignal(msg.sender,_am,"Collect");
             }
         }
     }

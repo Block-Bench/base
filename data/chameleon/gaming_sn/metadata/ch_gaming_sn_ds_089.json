@@ -67,13 +67,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_089.json",
     "original_id": "defivulnlabs_recovererc20"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_089.sol",
   "sanitized_from": "ds_089",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 2474070706,
+    "seed": 660349010,
     "coverage": {
       "total_identifiers": 55,
       "transformed": 21,
@@ -222,27 +223,27 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "token": "medal",
+      "token": "gem",
       "utils": "gameUtils",
       "ContractTest": "PactTest",
-      "RewardToken": "BountyCoin",
-      "RewardTokenContract": "PrizeGemAgreement",
+      "RewardToken": "TreasureCrystal",
+      "RewardTokenContract": "PrizeCrystalPact",
       "VulnStakingRewardsContract": "VulnStakingRewardsAgreement",
       "FixedtakingRewardsContract": "FixedtakingRewardsAgreement",
-      "setUp": "collectionUp",
-      "log": "record",
-      "reward": "treasure",
-      "admin": "gameAdmin",
-      "recoverERC20": "retrieveErc20",
-      "rewardsToken": "rewardsMedal",
-      "amount": "measure",
-      "_rewardsToken": "_rewardsCoin",
+      "setUp": "groupUp",
+      "log": "journal",
+      "reward": "bounty",
+      "admin": "serverOp",
+      "recoverERC20": "restoreErc20",
+      "rewardsToken": "rewardsGem",
+      "amount": "total",
+      "_rewardsToken": "_rewardsMedal",
       "sender": "initiator",
-      "tokenAddress": "crystalLocation",
+      "tokenAddress": "crystalZone",
       "tokenAmount": "coinTotal",
       "safeTransfer": "secureMove",
-      "withdraw": "harvestGold",
-      "Reward": "Payout"
+      "withdraw": "retrieveRewards",
+      "Reward": "Bounty"
     }
   }
 }

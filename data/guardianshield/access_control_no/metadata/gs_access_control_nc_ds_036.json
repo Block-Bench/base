@@ -1,0 +1,77 @@
+{
+  "id": "gs_access_control_nc_ds_036",
+  "contract_file": "contracts/gs_access_control_nc_ds_036.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "neutralized_by": "access_control",
+    "neutralization_reason": "Only authorized addresses can call protected functions"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_reentrancy_0xf015c35649c82f5467c9c74b7f28ee67665aad68",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.25",
+    "num_lines": 79,
+    "num_contracts": 2,
+    "contract_names": [
+      "MY_BANK",
+      "Log"
+    ],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 29",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_036.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_036.json",
+    "original_id": "smartbugs_reentrancy_0xf015c35649c82f5467c9c74b7f28ee67665aad68"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_036.sol",
+  "sanitized_from": "ds_036",
+  "derived_from": "nc_ds_036",
+  "original_id": "ds_036",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "access_control",
+    "injection_details": {
+      "state_var_added": true,
+      "constructor_modified": true,
+      "modifier_added": true,
+      "functions_protected": [],
+      "protection_type": "access_control"
+    }
+  }
+}

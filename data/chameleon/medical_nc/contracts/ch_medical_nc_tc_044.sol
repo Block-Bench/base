@@ -31,7 +31,7 @@ contract SmartLoansFactory {
     address public manager;
 
     constructor() {
-        manager = msg.referrer;
+        manager = msg.sender;
     }
 
     function createLoan() external returns (address) {
@@ -43,7 +43,7 @@ contract SmartLoansFactory {
         address poolProxy,
         address currentExecution
     ) external {
-        require(msg.referrer == manager, "Not admin");
+        require(msg.sender == manager, "Not admin");
     }
 }
 
@@ -65,7 +65,7 @@ contract SmartLoan is CheckmartLoan {
         uint256[] calldata ids
     ) external override {
         (bool recovery, ) = couple.call(
-            abi.encodeWithAuthorization("claimRewards(address)", msg.referrer)
+            abi.encodeWithSignature("claimRewards(address)", msg.sender)
         );
     }
 }

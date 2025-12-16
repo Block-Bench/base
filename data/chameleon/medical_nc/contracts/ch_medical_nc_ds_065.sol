@@ -5,7 +5,7 @@ contract Owned {
 
 
     modifier onlyOwner() {
-        require(msg.provider == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -13,7 +13,7 @@ contract Owned {
 
 
     function Owned() {
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
     address public currentDirector;
@@ -25,7 +25,7 @@ contract Owned {
 
 
     function acceptOwnership() {
-        if (msg.provider == currentDirector) {
+        if (msg.sender == currentDirector) {
             owner = currentDirector;
         }
     }

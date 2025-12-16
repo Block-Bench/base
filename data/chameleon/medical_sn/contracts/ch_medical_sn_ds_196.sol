@@ -4,10 +4,8 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 import "./interface.sol";
 
-*/
-
 contract AgreementTest is DSTest {
-    IFantasticWeslie certificateAgreement =
+    IFantasticWeslie credentialPolicy =
         IFantasticWeslie(0xf6FFBa463e46087FcdC3a51391bB675B0e2C1a40); // Fantastic Weslie
 
     CheatCodes cheats = CheatCodes(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
@@ -28,8 +26,8 @@ contract AgreementTest is DSTest {
         //etherscan tx - 0xfa4434236d2a9717e3410d7cdc60eed6acfddb054f58bc779c07349a1f45ce6b
         //etherscan tx - 0x24af97355f6cec4ae02fff8bbf7144a02857e3ffd36a650aa295c62f6272cc83
 
-        address nurse = 0x1fCebBb5D3EACd26e70b0BD1E54a979a479906aA;
-        cheats.prank(nurse);
+        address caregiver = 0x1fCebBb5D3EACd26e70b0BD1E54a979a479906aA;
+        cheats.prank(caregiver);
 
         merkleTreeEvidence.push(
             0x0ea49bae9ab4f8b82fb0e0b5e876576c9a4a945edc2fa5a7b448fad470802ae6
@@ -68,8 +66,8 @@ contract AgreementTest is DSTest {
             0x45c575962e5a88b5e8c3aedf4e3e74306d0124f4cc86c25bc4cd1bcae16c54a0
         );
 
-        certificateAgreement.issueCredential{rating: 0.12 ether}(merkleTreeEvidence);
+        credentialPolicy.issueCredential{evaluation: 0.12 ether}(merkleTreeEvidence);
 
-        console.record("Owner of NFT#142 : ", certificateAgreement.ownerOf(142));
+        console.record("Owner of NFT#142 : ", credentialPolicy.ownerOf(142));
     }
 }

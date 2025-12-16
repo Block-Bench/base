@@ -3,20 +3,19 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-contract PactTest is Test {
-    Miscalculation MiscalculationAgreement;
+contract AgreementTest is Test {
+    Miscalculation MiscalculationPact;
     Calculation CalculationPact;
 
     function testMiscalculation() public {
-        MiscalculationAgreement = new Miscalculation();
+        MiscalculationPact = new Miscalculation();
         console.journal("Perform Miscalculation Contract");
         console.journal(
             "Scenario: DeFi store 10% off now, Then we buy 1 item price: $80."
         );
         console.journal(
             "Subtract the discount, get the sale price:",
-            MiscalculationAgreement.value(80, 90)
+            MiscalculationPact.cost(80, 90)
         );
         console.journal(
             "Solidity doesn't do decimals, so dividing before multiplying will round to zero. 0.8*90=0"

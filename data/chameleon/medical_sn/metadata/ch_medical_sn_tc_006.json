@@ -112,6 +112,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_006.json",
     "original_exploit_name": "Ronin Bridge"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_006.sol",
   "sanitized_from": "tc_006",
   "transformation": {
@@ -120,12 +121,12 @@
     "source": "sanitized",
     "seed": 1543318048,
     "coverage": {
-      "total_identifiers": 114,
+      "total_identifiers": 113,
       "transformed": 40,
-      "untransformed": 74,
-      "skipped_reserved": 38,
+      "untransformed": 73,
+      "skipped_reserved": 39,
       "skipped_interface": 0,
-      "coverage_percent": 35.09,
+      "coverage_percent": 35.4,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -337,10 +338,6 @@
         },
         {
           "name": "the",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "encodePacked",
           "reason": "no synonym found"
         },
         {

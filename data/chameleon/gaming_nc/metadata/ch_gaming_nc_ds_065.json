@@ -73,6 +73,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_065.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x84d9ec85c9c568eb332b7226a8f826d897e0a4a8"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_065.sol",
   "sanitized_from": "ds_065",
   "derived_from": "sn_ds_065",
@@ -83,12 +84,12 @@
     "source": "nocomments",
     "seed": 4049321586,
     "coverage": {
-      "total_identifiers": 29,
+      "total_identifiers": 28,
       "transformed": 13,
-      "untransformed": 16,
-      "skipped_reserved": 22,
+      "untransformed": 15,
+      "skipped_reserved": 23,
       "skipped_interface": 0,
-      "coverage_percent": 44.83,
+      "coverage_percent": 46.43,
       "untransformed_details": [
         {
           "name": "Owned",
@@ -136,10 +137,6 @@
         },
         {
           "name": "push",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

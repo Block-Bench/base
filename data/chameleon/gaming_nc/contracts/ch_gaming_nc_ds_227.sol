@@ -2,25 +2,22 @@ pragma solidity ^0.7.0;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    Invariant InvariantPact;
+contract PactTest is Test {
+    Invariant InvariantAgreement;
 
     function testInvariant() public {
-        InvariantPact = new Invariant();
-        InvariantPact.catchrewardMoney{cost: 1 ether}();
-        console.record(
+        InvariantAgreement = new Invariant();
+        InvariantAgreement.acceptlootMoney{price: 1 ether}();
+        console.journal(
             "BalanceReceived:",
-            InvariantPact.goldholdingReceived(address(this))
+            InvariantAgreement.goldholdingReceived(address(this))
         );
 
-        InvariantPact.catchrewardMoney{cost: 18 ether}();
-        console.record(
+        InvariantAgreement.acceptlootMoney{price: 18 ether}();
+        console.journal(
             "testInvariant, BalanceReceived:",
-            InvariantPact.goldholdingReceived(address(this))
+            InvariantAgreement.goldholdingReceived(address(this))
         );
-*/
     }
 
     receive() external payable {}
@@ -29,17 +26,17 @@ contract AgreementTest is Test {
 contract Invariant {
     mapping(address => uint64) public goldholdingReceived;
 
-    function catchrewardMoney() public payable {
-        goldholdingReceived[msg.initiator] += uint64(msg.cost);
+    function acceptlootMoney() public payable {
+        goldholdingReceived[msg.sender] += uint64(msg.value);
     }
 
-    function claimlootMoney(address payable _to, uint64 _amount) public {
+    function retrieverewardsMoney(address payable _to, uint64 _amount) public {
         require(
-            _amount <= goldholdingReceived[msg.initiator],
+            _amount <= goldholdingReceived[msg.sender],
             "Not Enough Funds, aborting"
         );
 
-        goldholdingReceived[msg.initiator] -= _amount;
+        goldholdingReceived[msg.sender] -= _amount;
         _to.transfer(_amount);
     }
 }

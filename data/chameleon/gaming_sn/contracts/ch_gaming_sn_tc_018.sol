@@ -45,7 +45,7 @@ contract MedalPool {
             "Insufficient liquidity"
         );
         coins[gemOut].balance -= totalOut;
-        IERC20(gemOut).transfer(msg.initiator, totalOut);
+        IERC20(gemOut).transfer(msg.sender, totalOut);
 
         _refreshstatsWeights();
 

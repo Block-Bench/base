@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_088.json",
     "original_id": "defivulnlabs_hash-collisions"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_088.sol",
   "sanitized_from": "ds_088",
   "derived_from": "sn_ds_088",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2002710404,
+    "seed": 3974011215,
     "coverage": {
-      "total_identifiers": 31,
+      "total_identifiers": 30,
       "transformed": 14,
-      "untransformed": 17,
-      "skipped_reserved": 25,
+      "untransformed": 16,
+      "skipped_reserved": 26,
       "skipped_interface": 0,
-      "coverage_percent": 45.16,
+      "coverage_percent": 46.67,
       "untransformed_details": [
         {
           "name": "forge",
@@ -131,10 +132,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "must",
           "reason": "no synonym found"
         },
@@ -156,18 +153,18 @@
     "rename_map": {
       "ContractTest": "PactTest",
       "HashCollision": "SignatureCollision",
-      "HashCollisionContract": "SealCollisionPact",
+      "HashCollisionContract": "SignatureCollisionPact",
       "setUp": "groupUp",
       "log_named_bytes32": "journal_named_bytes32",
       "Hash": "Signature",
       "createHash": "createSignature",
-      "deposit": "addTreasure",
-      "value": "magnitude",
-      "expectRevert": "expectUndo",
-      "balances": "characterGold",
-      "Deposit": "CachePrize",
-      "amount": "quantity",
-      "hash": "seal"
+      "deposit": "depositGold",
+      "value": "cost",
+      "expectRevert": "expectReverse",
+      "balances": "heroTreasure",
+      "Deposit": "StashRewards",
+      "amount": "count",
+      "hash": "signature"
     }
   }
 }

@@ -3,26 +3,24 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PolicyTest is Test {
-    LotteryGame LotteryGameAgreement;
+    LotteryGame LotteryGamePolicy;
 
     function testBackdoorInvokeprotocol() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
-        LotteryGameAgreement = new LotteryGame();
-        console.chart(
+        LotteryGamePolicy = new LotteryGame();
+        console.record(
             "Alice performs pickWinner, of course she will not be a winner"
         );
         vm.prank(alice);
-        LotteryGameAgreement.pickWinner(address(alice));
-        console.chart("Prize: ", LotteryGameAgreement.prize());
+        LotteryGamePolicy.pickWinner(address(alice));
+        console.record("Prize: ", LotteryGamePolicy.prize());
 
-        console.chart("transfer complete");
-        LotteryGameAgreement.pickWinner(address(bob));
-        console.chart("Admin manipulated winner: ", LotteryGameAgreement.winner());
-        console.chart("operate completed");
+        console.record("Now, admin sets the winner to drain out the prize.");
+        LotteryGamePolicy.pickWinner(address(bob));
+        console.record("Admin manipulated winner: ", LotteryGamePolicy.winner());
+        console.record("operate completed");
     }
 
     receive() external payable {}
@@ -31,13 +29,13 @@ contract PolicyTest is Test {
 contract LotteryGame {
     uint256 public prize = 1000;
     address public winner;
-    address public administrator = msg.provider;
+    address public manager = msg.sender;
 
-    modifier safeInspect() {
-        if (msg.provider == referee()) {
+    modifier safeAssess() {
+        if (msg.sender == referee()) {
             _;
         } else {
-            checkkWinner();
+            fetchkWinner();
         }
     }
 
@@ -48,15 +46,15 @@ contract LotteryGame {
         }
     }
 
-    function pickWinner(address random) public safeInspect {
+    function pickWinner(address random) public safeAssess {
         assembly {
             // admin backddoor which can set winner address
             sstore(1, random)
         }
     }
 
-    function checkkWinner() public view returns (address) {
-        console.chart("Current winner: ", winner);
+    function fetchkWinner() public view returns (address) {
+        console.record("Current winner: ", winner);
         return winner;
     }
 }

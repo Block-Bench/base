@@ -14,7 +14,7 @@ contract PolicyTest is Test {
             "Array element in h() not being zero::",
             Dirtybytesontract.h()
         );
-        console.chart(
+        console.record(
             "Such that the byte after the 63 bytes allocated below will be 0x02."
         );
     }

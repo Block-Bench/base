@@ -1,4 +1,3 @@
-// Contract file
 pragma solidity ^0.4.11;
 
 contract RegistryTally {

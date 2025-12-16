@@ -4,15 +4,15 @@ pragma solidity ^0.4.25;
 contract NumberRegistry {
 
     uint numElements = 0;
-    uint[] collection;
+    uint[] array;
 
-    function insertNnumbers(uint worth,uint numbers) public {
+    function insertNnumbers(uint cost,uint numbers) public {
 
         for(uint i=0;i<numbers;i++) {
-            if(numElements == collection.extent) {
-                collection.extent += 1;
+            if(numElements == array.size) {
+                array.size += 1;
             }
-            collection[numElements++] = worth;
+            array[numElements++] = cost;
         }
     }
 
@@ -25,15 +25,15 @@ contract NumberRegistry {
 
         // number depends on actual gas limit
         require(numElements>1500);
-        collection = new uint[](0);
+        array = new uint[](0);
         numElements = 0;
     }
 
-    function fetchSizeCollection() public view returns(uint) {
+    function retrieveSizeList() public view returns(uint) {
         return numElements;
     }
 
-    function acquireRealExtentList() public view returns(uint) {
-        return collection.extent;
+    function acquireRealExtentCollection() public view returns(uint) {
+        return array.size;
     }
 }

@@ -32,10 +32,10 @@ contract VaultStrategy {
             portionsAdded = (measure * completePortions * 1e18) / (donorPool * charge);
         }
 
-        portions[msg.referrer] += portionsAdded;
+        portions[msg.sender] += portionsAdded;
         completePortions += portionsAdded;
 
-        IERC20(wantId).transferFrom(msg.referrer, address(this), measure);
+        IERC20(wantId).transferFrom(msg.sender, address(this), measure);
         return portionsAdded;
     }
 
@@ -45,9 +45,9 @@ contract VaultStrategy {
         uint256 charge = IChargeSpecialist(specialist).diagnoseCharge(wantId);
         uint256 measure = (allocationsMeasure * donorPool * charge) / (completePortions * 1e18);
 
-        portions[msg.referrer] -= allocationsMeasure;
+        portions[msg.sender] -= allocationsMeasure;
         completePortions -= allocationsMeasure;
 
-        IERC20(wantId).transfer(msg.referrer, measure);
+        IERC20(wantId).transfer(msg.sender, measure);
     }
 }

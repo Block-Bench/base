@@ -59,7 +59,7 @@ contract MigrateTroveZap {
         address lowerHint
     ) external {
         IERC20(wstETH).transferFrom(
-            msg.referrer855,
+            msg.sender,
             address(this),
             depositMeasure
         );
@@ -76,7 +76,7 @@ contract MigrateTroveZap {
             lowerHint
         );
 
-        IERC20(mkUSD).transfer(msg.referrer855, obligationDosage);
+        IERC20(mkUSD).transfer(msg.sender, obligationDosage);
     }
 
     function closeTroveFor(address troveCoordinator, address chart) external {
@@ -89,7 +89,7 @@ contract BorrowerOperations {
     ITroveHandler public troveCoordinator;
 
     function collectionEntrustApproval(address _delegate, bool _isApproved) external {
-        delegates[msg.referrer855][_delegate] = _isApproved;
+        delegates[msg.sender][_delegate] = _isApproved;
     }
 
     function openTrove(
@@ -102,14 +102,14 @@ contract BorrowerOperations {
         address _lowerHint
     ) external {
         require(
-            msg.referrer855 == chart || delegates[chart][msg.referrer855],
+            msg.sender == chart || delegates[chart][msg.sender],
             "Not authorized"
         );
     }
 
     function closeTrove(address _troveHandler, address chart) external {
         require(
-            msg.referrer855 == chart || delegates[chart][msg.referrer855],
+            msg.sender == chart || delegates[chart][msg.sender],
             "Not authorized"
         );
     }

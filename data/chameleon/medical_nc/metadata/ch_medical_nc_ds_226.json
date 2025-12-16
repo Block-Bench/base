@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_226.json",
     "original_id": "defivulnlabs_signaturereplaynba"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_226.sol",
   "sanitized_from": "ds_226",
   "derived_from": "sn_ds_226",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1383831326,
+    "seed": 110017519,
     "coverage": {
-      "total_identifiers": 59,
+      "total_identifiers": 57,
       "transformed": 22,
-      "untransformed": 37,
-      "skipped_reserved": 30,
+      "untransformed": 35,
+      "skipped_reserved": 32,
       "skipped_interface": 0,
-      "coverage_percent": 37.29,
+      "coverage_percent": 38.6,
       "untransformed_details": [
         {
           "name": "forge",
@@ -183,10 +184,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encode",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Invalid",
           "reason": "no synonym found"
         },
@@ -211,10 +208,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "x19Ethereum",
           "reason": "no synonym found"
         },
@@ -234,28 +227,28 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "vData": "vRecord",
-      "mint_free": "issuecredential_free",
-      "max_mint": "maximum_generaterecord",
-      "from": "source",
-      "start": "begin",
+      "vData": "vInfo",
+      "mint_free": "generaterecord_free",
+      "max_mint": "ceiling_createprescription",
+      "from": "referrer",
+      "start": "onset",
       "end": "finish",
-      "eth_price": "eth_cost",
+      "eth_price": "eth_charge",
       "dust_price": "dust_charge",
       "signature": "consent",
-      "mint_approved": "generaterecord_approved",
+      "mint_approved": "issuecredential_approved",
       "info": "details",
-      "ContractTest": "AgreementTest",
+      "ContractTest": "PolicyTest",
       "NBAContract": "NbaAgreement",
-      "testMintNFT": "testCreateprescriptionCertificate",
+      "testMintNFT": "testGeneraterecordCredential",
       "verify": "validate",
       "log": "record",
-      "mint": "createPrescription",
+      "mint": "generateRecord",
       "hash": "checksum",
-      "length": "duration",
-      "add": "insert",
-      "data": "record496",
-      "Message": "Alert"
+      "length": "extent",
+      "add": "include",
+      "data": "info",
+      "Message": "Notification"
     }
   }
 }

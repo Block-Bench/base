@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_156.json",
     "original_id": "smartbugs_front_running_ERC20"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_156.sol",
   "sanitized_from": "ds_156",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 3485224591,
+    "seed": 3965575202,
     "coverage": {
       "total_identifiers": 50,
       "transformed": 7,
@@ -257,12 +258,12 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "add": "include",
-      "from": "source",
+      "add": "insert",
+      "from": "referrer",
       "value": "rating",
       "Approval": "AccessGranted",
       "spender": "subscriber",
-      "_totalSupply": "_aggregateInventory",
+      "_totalSupply": "_aggregateStock",
       "sender": "provider"
     }
   }

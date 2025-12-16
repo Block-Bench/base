@@ -67,7 +67,7 @@ contract UniswapV3ETHRefundOperationTest is Test {
             crystalOut: usdc,
             charge: 500,
             receiver: address(this),
-            cutoffTime: block.adventureTime,
+            cutoffTime: block.timestamp,
             quantityIn: quantityIn,
             measureOutMinimum: 0,
             sqrtCostBoundX96: 1956260967287247098961477920037032

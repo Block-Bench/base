@@ -53,27 +53,27 @@ contract SonneMarket {
         uint256 craftMedals = (createQuantity * 1e18) / exchangeRatioMantissa;
 
         totalSupply += craftMedals;
-        balanceOf[msg.initiator] += craftMedals;
+        balanceOf[msg.sender] += craftMedals;
 
-        underlying.transferFrom(msg.initiator, address(this), createQuantity);
+        underlying.transferFrom(msg.sender, address(this), createQuantity);
 
-        emit Create(msg.initiator, createQuantity, craftMedals);
+        emit Create(msg.sender, createQuantity, craftMedals);
         return craftMedals;
     }
 
     function exchangeTokens(uint256 convertprizeCrystals) external returns (uint256) {
-        require(balanceOf[msg.initiator] >= convertprizeCrystals, "Insufficient balance");
+        require(balanceOf[msg.sender] >= convertprizeCrystals, "Insufficient balance");
 
         uint256 exchangeRatioMantissa = exchangeFactor();
 
         uint256 tradelootMeasure = (convertprizeCrystals * exchangeRatioMantissa) / 1e18;
 
-        balanceOf[msg.initiator] -= convertprizeCrystals;
+        balanceOf[msg.sender] -= convertprizeCrystals;
         totalSupply -= convertprizeCrystals;
 
-        underlying.transfer(msg.initiator, tradelootMeasure);
+        underlying.transfer(msg.sender, tradelootMeasure);
 
-        emit TradeLoot(msg.initiator, tradelootMeasure, convertprizeCrystals);
+        emit TradeLoot(msg.sender, tradelootMeasure, convertprizeCrystals);
         return tradelootMeasure;
     }
 

@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_191.json",
     "original_id": "defivulnlabs_nft-transfer"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_191.sol",
   "sanitized_from": "ds_191",
   "derived_from": "sn_ds_191",
@@ -74,7 +75,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 609432129,
+    "seed": 3096114388,
     "coverage": {
       "total_identifiers": 39,
       "transformed": 16,
@@ -179,22 +180,22 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "token": "id",
+      "token": "badge",
       "ContractTest": "AgreementTest",
-      "BasicERC721Contract": "BasicErc721Policy",
-      "FixedERC721Contract": "FixedErc721Policy",
+      "BasicERC721Contract": "BasicErc721Agreement",
+      "FixedERC721Contract": "FixedErc721Agreement",
       "setUp": "collectionUp",
-      "safeMint": "safeGeneraterecord",
-      "log": "record",
-      "expectRevert": "expectReverse",
+      "safeMint": "safeIssuecredential",
+      "log": "chart",
+      "expectRevert": "expectUndo",
       "selector": "picker",
-      "MyNFT": "MyCredential",
-      "from": "source",
-      "tokenId": "badgeCasenumber",
-      "_safeMint": "_safeCreateprescription",
-      "_isApprovedOrOwner": "_isApprovedOrSupervisor",
+      "MyNFT": "MyCertificate",
+      "from": "referrer",
+      "tokenId": "credentialIdentifier",
+      "_safeMint": "_safeIssuecredential",
+      "_isApprovedOrOwner": "_isApprovedOrDirector",
       "_msgSender": "_msgProvider",
-      "caller": "provider"
+      "caller": "requestor"
     }
   }
 }

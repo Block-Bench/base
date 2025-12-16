@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_139.json",
     "original_id": "smartbugs_arithmetic_integer_overflow_multitx_onefunc_feasible"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_139.sol",
   "sanitized_from": "ds_139",
   "derived_from": "sn_ds_139",
@@ -74,27 +75,15 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1484313427,
+    "seed": 3689826337,
     "coverage": {
-      "total_identifiers": 8,
+      "total_identifiers": 5,
       "transformed": 3,
-      "untransformed": 5,
+      "untransformed": 2,
       "skipped_reserved": 9,
       "skipped_interface": 0,
-      "coverage_percent": 37.5,
+      "coverage_percent": 60.0,
       "untransformed_details": [
-        {
-          "name": "Multi",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "transactional",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "single",
-          "reason": "no synonym found"
-        },
         {
           "name": "SingleFuncCalculator",
           "reason": "no synonym found"
@@ -107,9 +96,9 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "initialized": "caseOpened",
+      "initialized": "patientAdmitted",
       "count": "number",
-      "input": "intake"
+      "input": "submission"
     }
   }
 }

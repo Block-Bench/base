@@ -5,39 +5,37 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-*/
-
-contract AgreementTest is Test {
+contract PolicyTest is Test {
     USDa UsDaPolicy;
-    LendingPool LendingPoolPolicy;
+    LendingPool LendingPoolAgreement;
     SimpleBankAlt SimpleBankPolicy;
     SimpleBankV2 SimpleBankPolicyV2;
 
     function collectionUp() public {
         UsDaPolicy = new USDa();
-        LendingPoolPolicy = new LendingPool(address(UsDaPolicy));
+        LendingPoolAgreement = new LendingPool(address(UsDaPolicy));
         SimpleBankPolicy = new SimpleBankAlt(
-            address(LendingPoolPolicy),
+            address(LendingPoolAgreement),
             address(UsDaPolicy)
         );
-        UsDaPolicy.transfer(address(LendingPoolPolicy), 10000 ether);
+        UsDaPolicy.transfer(address(LendingPoolAgreement), 10000 ether);
         SimpleBankPolicyV2 = new SimpleBankV2(
-            address(LendingPoolPolicy),
+            address(LendingPoolAgreement),
             address(UsDaPolicy)
         );
     }
 
     function testUrgentLoanFlaw() public {
-        LendingPoolPolicy.urgentLoan(
+        LendingPoolAgreement.emergencyLoan(
             500 ether,
             address(SimpleBankPolicy),
             "0x0"
         );
     }
 
-    function testEmergencyLoanSecure() public {
+    function testUrgentLoanSecure() public {
         vm.expectReverse("Unauthorized");
-        LendingPoolPolicy.urgentLoan(
+        LendingPoolAgreement.emergencyLoan(
             500 ether,
             address(SimpleBankPolicyV2),
             "0x0"
@@ -52,28 +50,27 @@ contract SimpleBankAlt {
     IERC20 public USDa;
     LendingPool public lendingPool;
 
-    constructor(address _lendingPoolWard, address _asset) {
-        lendingPool = LendingPool(_lendingPoolWard);
+    constructor(address _lendingPoolLocation, address _asset) {
+        lendingPool = LendingPool(_lendingPoolLocation);
         USDa = IERC20(_asset);
     }
 
-    function urgentLoan(
+    function emergencyLoan(
         uint256 amounts,
-        address recipientLocation,
-        bytes calldata record
+        address recipientWard,
+        bytes calldata info
     ) external {
-        recipientLocation = address(this);
+        recipientWard = address(this);
 
-        lendingPool.urgentLoan(amounts, recipientLocation, record);
+        lendingPool.emergencyLoan(amounts, recipientWard, info);
     }
 
     function completetreatmentOperation(
         uint256 amounts,
-        address recipientLocation,
+        address recipientWard,
         address _initiator,
-        bytes calldata record
+        bytes calldata info
     ) external {
-        */
 
 
         IERC20(USDa).secureReferral(address(lendingPool), amounts);
@@ -85,26 +82,26 @@ contract SimpleBankV2 {
     IERC20 public USDa;
     LendingPool public lendingPool;
 
-    constructor(address _lendingPoolWard, address _asset) {
-        lendingPool = LendingPool(_lendingPoolWard);
+    constructor(address _lendingPoolLocation, address _asset) {
+        lendingPool = LendingPool(_lendingPoolLocation);
         USDa = IERC20(_asset);
     }
 
-    function urgentLoan(
+    function emergencyLoan(
         uint256 amounts,
-        address recipientLocation,
-        bytes calldata record
+        address recipientWard,
+        bytes calldata info
     ) external {
-        address recipientLocation = address(this);
+        address recipientWard = address(this);
 
-        lendingPool.urgentLoan(amounts, recipientLocation, record);
+        lendingPool.emergencyLoan(amounts, recipientWard, info);
     }
 
     function completetreatmentOperation(
         uint256 amounts,
-        address recipientLocation,
+        address recipientWard,
         address _initiator,
-        bytes calldata record
+        bytes calldata info
     ) external {
 
         require(_initiator == address(this), "Unauthorized");
@@ -116,20 +113,20 @@ contract SimpleBankV2 {
 
 contract USDa is ERC20, Ownable {
     constructor() ERC20("USDA", "USDA") {
-        _mint(msg.provider, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 
-    function generateRecord(address to, uint256 dosage) public onlyOwner {
-        _mint(to, dosage);
+    function createPrescription(address to, uint256 measure) public onlyOwner {
+        _mint(to, measure);
     }
 }
 
-interface IEmergencyLoanPatient {
+interface IUrgentLoanPatient {
     function completetreatmentOperation(
         uint256 amounts,
-        address recipientLocation,
+        address recipientWard,
         address _initiator,
-        bytes calldata record
+        bytes calldata info
     ) external;
 }
 
@@ -140,22 +137,22 @@ contract LendingPool {
         USDa = IERC20(_USDA);
     }
 
-    function urgentLoan(
-        uint256 dosage,
+    function emergencyLoan(
+        uint256 measure,
         address borrower,
-        bytes calldata record
+        bytes calldata info
     ) public {
-        uint256 fundsBefore = USDa.balanceOf(address(this));
-        require(fundsBefore >= dosage, "Not enough liquidity");
-        require(USDa.transfer(borrower, dosage), "Flashloan transfer failed");
-        IEmergencyLoanPatient(borrower).completetreatmentOperation(
-            dosage,
+        uint256 allocationBefore = USDa.balanceOf(address(this));
+        require(allocationBefore >= measure, "Not enough liquidity");
+        require(USDa.transfer(borrower, measure), "Flashloan transfer failed");
+        IUrgentLoanPatient(borrower).completetreatmentOperation(
+            measure,
             borrower,
-            msg.provider,
-            record
+            msg.sender,
+            info
         );
 
         uint256 allocationAfter = USDa.balanceOf(address(this));
-        require(allocationAfter >= fundsBefore, "Flashloan not repaid");
+        require(allocationAfter >= allocationBefore, "Flashloan not repaid");
     }
 }

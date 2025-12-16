@@ -2,11 +2,11 @@
 pragma solidity ^0.4.24;
 
 contract SimpleWallet {
-    address public owner = msg.initiator;
+    address public owner = msg.sender;
     uint public depositsTally;
 
     modifier onlyOwner {
-        require(msg.initiator == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -19,7 +19,7 @@ contract SimpleWallet {
     }
 
     function collectBounty(uint _value) public onlyOwner {
-        msg.initiator.transfer(_value);
+        msg.sender.transfer(_value);
     }
 
     function transmitgoldMoney(address _target, uint _value, bytes _data) public onlyOwner {

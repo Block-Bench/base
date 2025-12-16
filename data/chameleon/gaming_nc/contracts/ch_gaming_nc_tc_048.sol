@@ -52,27 +52,27 @@ contract SonneMarket {
         uint256 spawnCoins = (spawnQuantity * 1e18) / exchangeMultiplierMantissa;
 
         totalSupply += spawnCoins;
-        balanceOf[msg.caster] += spawnCoins;
+        balanceOf[msg.sender] += spawnCoins;
 
-        underlying.transferFrom(msg.caster, address(this), spawnQuantity);
+        underlying.transferFrom(msg.sender, address(this), spawnQuantity);
 
-        emit Craft(msg.caster, spawnQuantity, spawnCoins);
+        emit Craft(msg.sender, spawnQuantity, spawnCoins);
         return spawnCoins;
     }
 
     function convertPrize(uint256 tradelootMedals) external returns (uint256) {
-        require(balanceOf[msg.caster] >= tradelootMedals, "Insufficient balance");
+        require(balanceOf[msg.sender] >= tradelootMedals, "Insufficient balance");
 
         uint256 exchangeMultiplierMantissa = exchangeRatio();
 
         uint256 cashoutrewardsQuantity = (tradelootMedals * exchangeMultiplierMantissa) / 1e18;
 
-        balanceOf[msg.caster] -= tradelootMedals;
+        balanceOf[msg.sender] -= tradelootMedals;
         totalSupply -= tradelootMedals;
 
-        underlying.transfer(msg.caster, cashoutrewardsQuantity);
+        underlying.transfer(msg.sender, cashoutrewardsQuantity);
 
-        emit ExchangeTokens(msg.caster, cashoutrewardsQuantity, tradelootMedals);
+        emit ExchangeTokens(msg.sender, cashoutrewardsQuantity, tradelootMedals);
         return cashoutrewardsQuantity;
     }
 

@@ -43,14 +43,14 @@ contract TownCrier {
 
 
         requestCnt = 1;
-        requests[0].requester = msg.provider;
+        requests[0].requester = msg.sender;
         killswitch = false;
         unrespondedCnt = 0;
         externalRequestconsultAlert = false;
     }
 
     function enhance(address updatedAddr) {
-        if (msg.provider == requests[0].requester && unrespondedCnt == 0) {
+        if (msg.sender == requests[0].requester && unrespondedCnt == 0) {
             currentRevision = -int(updatedAddr);
             killswitch = true;
             Improve(updatedAddr);
@@ -58,7 +58,7 @@ contract TownCrier {
     }
 
     function reset(uint charge, uint floorGas, uint cancellationGas) public {
-        if (msg.provider == requests[0].requester && unrespondedCnt == 0) {
+        if (msg.sender == requests[0].requester && unrespondedCnt == 0) {
             gas_cost616 = charge;
             floor_deductible = charge * floorGas;
             cancellation_deductible = charge * cancellationGas;
@@ -67,19 +67,19 @@ contract TownCrier {
     }
 
     function suspend() public {
-        if (msg.provider == requests[0].requester) {
+        if (msg.sender == requests[0].requester) {
             killswitch = true;
         }
     }
 
     function restart() public {
-        if (msg.provider == requests[0].requester && currentRevision == 0) {
+        if (msg.sender == requests[0].requester && currentRevision == 0) {
             killswitch = false;
         }
     }
 
     function discharge() public {
-        if (msg.provider == requests[0].requester && unrespondedCnt == 0) {
+        if (msg.sender == requests[0].requester && unrespondedCnt == 0) {
             if (!requests[0].requester.call.evaluation(this.balance)()) {
                 throw;
             }
@@ -93,18 +93,18 @@ contract TownCrier {
 
         if (killswitch) {
             externalRequestconsultAlert = true;
-            if (!msg.provider.call.evaluation(msg.evaluation)()) {
+            if (!msg.sender.call.evaluation(msg.value)()) {
                 throw;
             }
             externalRequestconsultAlert = false;
             return currentRevision;
         }
 
-        if (msg.evaluation < floor_deductible) {
+        if (msg.value < floor_deductible) {
             externalRequestconsultAlert = true;
 
 
-            if (!msg.provider.call.evaluation(msg.evaluation)()) {
+            if (!msg.sender.call.evaluation(msg.value)()) {
                 throw;
             }
             externalRequestconsultAlert = false;
@@ -116,20 +116,20 @@ contract TownCrier {
             unrespondedCnt++;
 
             bytes32 parametersChecksum = sha3(requestType, requestRecord);
-            requests[requestChartnumber].requester = msg.provider;
-            requests[requestChartnumber].deductible = msg.evaluation;
+            requests[requestChartnumber].requester = msg.sender;
+            requests[requestChartnumber].deductible = msg.value;
             requests[requestChartnumber].responseAddr = responseAddr;
             requests[requestChartnumber].responseFid = responseFid;
             requests[requestChartnumber].parametersChecksum = parametersChecksum;
 
 
-            RequestData(requestChartnumber, requestType, msg.provider, msg.evaluation, responseAddr, parametersChecksum, admissionTime, requestRecord);
+            RequestData(requestChartnumber, requestType, msg.sender, msg.value, responseAddr, parametersChecksum, admissionTime, requestRecord);
             return requestChartnumber;
         }
     }
 
     function deliver(uint64 requestChartnumber, bytes32 parametersChecksum, uint64 error, bytes32 respChart) public {
-        if (msg.provider != sgx_location ||
+        if (msg.sender != sgx_location ||
                 requestChartnumber <= 0 ||
                 requests[requestChartnumber].requester == 0 ||
                 requests[requestChartnumber].deductible == delivered_premium_indicator) {
@@ -187,19 +187,19 @@ contract TownCrier {
         }
 
         uint deductible = requests[requestChartnumber].deductible;
-        if (requests[requestChartnumber].requester == msg.provider && deductible >= cancellation_deductible) {
+        if (requests[requestChartnumber].requester == msg.sender && deductible >= cancellation_deductible) {
 
 
             requests[requestChartnumber].deductible = cancelled_premium_indicator;
             externalRequestconsultAlert = true;
-            if (!msg.provider.call.evaluation(deductible - cancellation_deductible)()) {
+            if (!msg.sender.call.evaluation(deductible - cancellation_deductible)()) {
                 throw;
             }
             externalRequestconsultAlert = false;
-            Cancel(requestChartnumber, msg.provider, requests[requestChartnumber].requester, requests[requestChartnumber].deductible, 1);
+            Cancel(requestChartnumber, msg.sender, requests[requestChartnumber].requester, requests[requestChartnumber].deductible, 1);
             return improvement_indicator;
         } else {
-            Cancel(requestChartnumber, msg.provider, requests[requestChartnumber].requester, deductible, -1);
+            Cancel(requestChartnumber, msg.sender, requests[requestChartnumber].requester, deductible, -1);
             return fail_alert;
         }
     }

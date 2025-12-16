@@ -73,6 +73,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_108.json",
     "original_id": "defivulnlabs_bypasscontract"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_108.sol",
   "sanitized_from": "ds_108",
   "derived_from": "sn_ds_108",
@@ -81,7 +82,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3571923910,
+    "seed": 3749290467,
     "coverage": {
       "total_identifiers": 36,
       "transformed": 20,
@@ -160,24 +161,24 @@
     "rename_map": {
       "ContractTest": "PolicyTest",
       "Target": "Goal",
-      "TargetContract": "GoalAgreement",
-      "FailedOperator": "FailedCaregiver",
+      "TargetContract": "ObjectivePolicy",
+      "FailedOperator": "FailedNurse",
       "FailedOperatorContract": "FailedNursePolicy",
       "Operator": "Caregiver",
-      "OperatorContract": "NursePolicy",
+      "OperatorContract": "CaregiverAgreement",
       "TargetV2": "GoalV2",
       "TargetRemediatedContract": "GoalRemediatedAgreement",
-      "testBypassFailedContractCheck": "testBypassFailedAgreementAssess",
+      "testBypassFailedContractCheck": "testBypassFailedAgreementInspect",
       "log": "chart",
       "Failed": "OperationFailed",
       "execute": "completeTreatment",
-      "testBypassContractCheck": "testBypassPolicyAssess",
+      "testBypassContractCheck": "testBypassAgreementExamine",
       "isContract": "isAgreement",
-      "account": "chart630",
-      "size": "scale",
+      "account": "profile",
+      "size": "magnitude",
       "sender": "provider",
       "expectRevert": "expectUndo",
-      "length": "extent"
+      "length": "duration"
     }
   }
 }

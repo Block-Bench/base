@@ -3,25 +3,23 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 import "./interface.sol";
 
-*/
-
 contract AgreementTest is DSTest {
-    IFantasticWeslie certificateAgreement =
+    IFantasticWeslie credentialAgreement =
         IFantasticWeslie(0xf6FFBa463e46087FcdC3a51391bB675B0e2C1a40);
 
     CheatCodes cheats = CheatCodes(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
 
     bytes32[] merkleTreeVerification;
 
-    function collectionUp() public {
+    function groupUp() public {
         cheats.createSelectFork("mainnet", 16023847);
     }
 
     function testOperation() public {
 
 
-        address caregiver = 0x1fCebBb5D3EACd26e70b0BD1E54a979a479906aA;
-        cheats.prank(caregiver);
+        address nurse = 0x1fCebBb5D3EACd26e70b0BD1E54a979a479906aA;
+        cheats.prank(nurse);
 
         merkleTreeVerification.push(
             0x0ea49bae9ab4f8b82fb0e0b5e876576c9a4a945edc2fa5a7b448fad470802ae6
@@ -60,8 +58,8 @@ contract AgreementTest is DSTest {
             0x45c575962e5a88b5e8c3aedf4e3e74306d0124f4cc86c25bc4cd1bcae16c54a0
         );
 
-        certificateAgreement.createPrescription{evaluation: 0.12 ether}(merkleTreeVerification);
+        credentialAgreement.createPrescription{evaluation: 0.12 ether}(merkleTreeVerification);
 
-        console.record("Owner of NFT#142 : ", certificateAgreement.ownerOf(142));
+        console.chart("Owner of NFT#142 : ", credentialAgreement.ownerOf(142));
     }
 }

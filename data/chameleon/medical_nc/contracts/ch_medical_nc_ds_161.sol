@@ -1,27 +1,25 @@
-A Reserved Name Registrar
-
 pragma solidity ^0.4.15;
-contract LabelRegistrar {
+contract PatientnameRegistrar {
 
-    bool public released = false;
+    bool public available = false;
 
-    struct PatientnameRecord {
+    struct LabelRecord {
         bytes32 name;
         address mappedLocation;
     }
 
-    mapping(address => PatientnameRecord) public registeredLabelRecord;
+    mapping(address => LabelRecord) public registeredPatientnameRecord;
     mapping(bytes32 => address) public resolve;
 
     function enroll(bytes32 _name, address _mappedWard) public {
 
-        PatientnameRecord currentRecord;
+        LabelRecord currentRecord;
         currentRecord.name = _name;
         currentRecord.mappedLocation = _mappedWard;
 
         resolve[_name] = _mappedWard;
-        registeredLabelRecord[msg.provider] = currentRecord;
+        registeredPatientnameRecord[msg.sender] = currentRecord;
 
-        require(released);
+        require(available);
     }
 }

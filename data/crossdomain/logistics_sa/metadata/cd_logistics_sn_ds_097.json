@@ -1,0 +1,86 @@
+{
+  "id": "cd_logistics_sn_ds_097",
+  "contract_file": "contracts/cd_logistics_sn_ds_097.sol",
+  "subset": "crossdomain",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Solidity stores the variables defined in the contract in slots. Each slot can accommodate up to 32 bytes or 256 bits. Given that all data stored on-chain, whether public or private, can be read, it is possible to read private data from the Vault contract by predicting the memory slot where the private data resides.\n\nIf the Vault contract is utilized in a production environment, malicious actors could employ similar techniques to access sensitive information such as user passwords.",
+    "attack_vector": "Solidity stores the variables defined in the contract in slots. Each slot can accommodate up to 32 bytes or 256 bits. Given that all data stored on-chain, whether public or private, can be read, it is possible to read private data from the Vault contract by predicting the memory slot where the private data resides.\n\nIf the Vault contract is utilized in a production environment, malicious actors could employ similar techniques to access sensitive information such as user passwords.",
+    "impact": "Severity: medium",
+    "correct_fix": "Avoid storing sensitive data on-chain"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_privatedata",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 58,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "Vault"
+    ],
+    "num_functions": 2,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Solidity stores the variables defined in the contract in slots. Each slot can accommodate up to 32 bytes or 256 bits. Given that all data stored on-chain, whether public or private, can be read, it is possible to read private data from the Vault contract by predicting the memory slot where the private data resides.\n\nIf the Vault contract is utilized in a production environment, malicious actors could employ similar techniques to access sensitive information such as user passwords.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_097.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_097.json",
+    "original_id": "defivulnlabs_privatedata"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_097.sol",
+  "sanitized_from": "ds_097",
+  "derived_from": "sn_ds_097",
+  "transformation": {
+    "strategy": "cross_domain",
+    "source_domain": "defi",
+    "target_domain": "logistics",
+    "coverage": 0.22,
+    "identifiers_transformed": 5,
+    "rename_map": {
+      "Vault": "CargoVault",
+      "VaultContract": "StoragevaultContract",
+      "user": "supplier",
+      "User": "Buyer",
+      "idToUser": "idToConsignee"
+    }
+  }
+}

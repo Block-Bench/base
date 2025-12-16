@@ -14,10 +14,10 @@ contract theRun {
         address private serverOp;
 
         function theRun() {
-            serverOp = msg.initiator;
+            serverOp = msg.sender;
         }
 
-        modifier onlyGameAdmin {if (msg.initiator == serverOp) _;  }
+        modifier onlyGameAdmin {if (msg.sender == serverOp) _;  }
 
         struct Player {
             address addr;
@@ -34,13 +34,13 @@ contract theRun {
 
 
         function init() private {
-            uint cachePrize=msg.price;
-            if (msg.price < 500 finney) {
-                    msg.initiator.send(msg.price);
+            uint cachePrize=msg.value;
+            if (msg.value < 500 finney) {
+                    msg.sender.send(msg.value);
                     return;
             }
-            if (msg.price > 20 ether) {
-                    msg.initiator.send(msg.price- (20 ether));
+            if (msg.value > 20 ether) {
+                    msg.sender.send(msg.value- (20 ether));
                     cachePrize=20 ether;
             }
             Participate(cachePrize);
@@ -59,7 +59,7 @@ contract theRun {
                 }
 
 
-                players.push(Player(msg.initiator, (cachePrize * aggregate_factor) / 1000, false));
+                players.push(Player(msg.sender, (cachePrize * aggregate_factor) / 1000, false));
 
 
                 WinningPot += (cachePrize * PotFrac) / 1000;
@@ -70,7 +70,7 @@ contract theRun {
                 if(  ( cachePrize > 1 ether ) && (cachePrize > players[payout_code].payout) ){
                     uint roll = random(100);
                     if( roll % 10 == 0 ){
-                        msg.initiator.send(WinningPot);
+                        msg.sender.send(WinningPot);
                         WinningPot=0;
                     }
 
@@ -87,7 +87,7 @@ contract theRun {
                 }
         }
 
-    uint256 constant private salt =  block.adventureTime;
+    uint256 constant private salt =  block.timestamp;
 
     function random(uint Ceiling) constant private returns (uint256 product){
 

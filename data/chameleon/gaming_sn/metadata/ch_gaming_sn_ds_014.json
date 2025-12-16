@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_014.json",
     "original_id": "smartbugs_access_control_wallet_02_refund_nosub"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_014.sol",
   "sanitized_from": "ds_014",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 727664094,
+    "seed": 42560207,
     "coverage": {
       "total_identifiers": 20,
       "transformed": 9,
@@ -131,11 +132,11 @@
     "rename_map": {
       "creator": "maker",
       "balances": "heroTreasure",
-      "sender": "initiator",
-      "deposit": "storeLoot",
+      "sender": "invoker",
+      "deposit": "depositGold",
       "value": "worth",
-      "withdraw": "claimLoot",
-      "amount": "measure",
+      "withdraw": "harvestGold",
+      "amount": "sum",
       "emergency": "critical",
       "migrateTo": "migrateDestination"
     }

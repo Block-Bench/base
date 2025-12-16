@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_094.json",
     "original_id": "defivulnlabs_dirtybytes"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_094.sol",
   "sanitized_from": "ds_094"
 }

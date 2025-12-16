@@ -5,7 +5,7 @@ contract Owned {
 
 
     modifier onlyOwner() {
-        require(msg.referrer == owner);
+        require(msg.sender == owner);
         _;
     }
 
@@ -13,7 +13,7 @@ contract Owned {
 
 
     function Owned() {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     address public updatedDirector;
@@ -25,7 +25,7 @@ contract Owned {
 
 
     function acceptOwnership() {
-        if (msg.referrer == updatedDirector) {
+        if (msg.sender == updatedDirector) {
             owner = updatedDirector;
         }
     }
@@ -113,11 +113,11 @@ contract Marriage is Owned
     }
 
     function dispatchambulanceAlert(string labelSource, string text, string url) payable areMarried {
-        if (msg.rating > 0) {
+        if (msg.value > 0) {
             owner.transfer(this.balance);
         }
-        messages.push(Alert(now, labelSource, text, url, msg.rating));
-        NotificationSent(labelSource, text, url, msg.rating);
+        messages.push(Alert(now, labelSource, text, url, msg.value));
+        NotificationSent(labelSource, text, url, msg.value);
     }
 
 

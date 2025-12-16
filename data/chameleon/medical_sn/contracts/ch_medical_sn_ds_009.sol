@@ -16,7 +16,7 @@ pragma solidity ^0.4.24;
          return map[identifier];
      }
      function withdrawBenefits() public{
-       require(msg.provider == owner);
-       msg.provider.transfer(address(this).balance);
+       require(msg.sender == owner);
+       msg.sender.transfer(address(this).balance);
      }
  }

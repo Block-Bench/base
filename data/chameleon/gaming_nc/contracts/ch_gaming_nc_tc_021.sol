@@ -44,8 +44,8 @@ contract FlowPool {
     function appendReserves(uint256 baseTotal, uint256 quoteTotal) external {
         require(checkInitialized, "Not initialized");
 
-        IERC20(baseCoin).transferFrom(msg.invoker, address(this), baseTotal);
-        IERC20(quoteMedal).transferFrom(msg.invoker, address(this), quoteTotal);
+        IERC20(baseCoin).transferFrom(msg.sender, address(this), baseTotal);
+        IERC20(quoteMedal).transferFrom(msg.sender, address(this), quoteTotal);
 
         baseRewardlevel += baseTotal;
         quoteTreasureamount += quoteTotal;
@@ -63,7 +63,7 @@ contract FlowPool {
             "Invalid token pair"
         );
 
-        IERC20(originCoin).transferFrom(msg.invoker, address(this), originMeasure);
+        IERC20(originCoin).transferFrom(msg.sender, address(this), originMeasure);
 
         if (originCoin == baseCoin) {
             targetMeasure = (quoteTreasureamount * originMeasure) / (baseRewardlevel + originMeasure);
@@ -78,14 +78,14 @@ contract FlowPool {
         uint256 tax = (targetMeasure * lpCutMultiplier) / 10000;
         targetMeasure -= tax;
 
-        IERC20(destinationMedal).transfer(msg.invoker, targetMeasure);
+        IERC20(destinationMedal).transfer(msg.sender, targetMeasure);
         IERC20(destinationMedal).transfer(maintainer, tax);
 
         return targetMeasure;
     }
 
     function obtainrewardFees() external {
-        require(msg.invoker == maintainer, "Only maintainer");
+        require(msg.sender == maintainer, "Only maintainer");
 
         uint256 baseGemRewardlevel = IERC20(baseCoin).balanceOf(address(this));
         uint256 quoteMedalPrizecount = IERC20(quoteMedal).balanceOf(address(this));

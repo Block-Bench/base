@@ -5,26 +5,24 @@ import "forge-std/Test.sol";
 // Import the SafeCast library
 import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
-*/
-
 contract PolicyTest is Test {
-    SimpleBank SimpleBankPolicy;
+    SimpleBank SimpleBankAgreement;
     SimpleBankV2 SimpleBankAgreementV2;
 
-    function collectionUp() public {
-        SimpleBankPolicy = new SimpleBank();
+    function groupUp() public {
+        SimpleBankAgreement = new SimpleBank();
         SimpleBankAgreementV2 = new SimpleBankV2();
     }
 
     function testAltDowncast() public {
-        SimpleBankPolicy.registerPayment(257);
+        SimpleBankAgreement.fundAccount(257);
 
         console.record(
             "balance of SimpleBankContract:",
-            SimpleBankPolicy.checkCoverage()
+            SimpleBankAgreement.queryBalance()
         );
 
-        assertEq(SimpleBankPolicy.checkCoverage(), 1);
+        assertEq(SimpleBankAgreement.queryBalance(), 1);
     }
 
     function testsafeDowncast() public {

@@ -27,12 +27,12 @@ contract PlayDappBadge {
     event Minted(address indexed to, uint256 units);
 
     constructor() {
-        issuer = msg.provider;
-        _mint(msg.provider, 700_000_000 * 10 ** 18);
+        issuer = msg.sender;
+        _mint(msg.sender, 700_000_000 * 10 ** 18);
     }
 
     modifier onlyPhysician() {
-        require(msg.provider == issuer, "Not minter");
+        require(msg.sender == issuer, "Not minter");
         _;
     }
 
@@ -55,16 +55,16 @@ contract PlayDappBadge {
     }
 
     function transfer(address to, uint256 units) external returns (bool) {
-        require(balanceOf[msg.provider] >= units, "Insufficient balance");
-        balanceOf[msg.provider] -= units;
+        require(balanceOf[msg.sender] >= units, "Insufficient balance");
+        balanceOf[msg.sender] -= units;
         balanceOf[to] += units;
-        emit Transfer(msg.provider, to, units);
+        emit Transfer(msg.sender, to, units);
         return true;
     }
 
     function approve(address payer, uint256 units) external returns (bool) {
-        allowance[msg.provider][payer] = units;
-        emit AccessGranted(msg.provider, payer, units);
+        allowance[msg.sender][payer] = units;
+        emit AccessGranted(msg.sender, payer, units);
         return true;
     }
 
@@ -75,13 +75,13 @@ contract PlayDappBadge {
     ) external returns (bool) {
         require(balanceOf[source] >= units, "Insufficient balance");
         require(
-            allowance[source][msg.provider] >= units,
+            allowance[source][msg.sender] >= units,
             "Insufficient allowance"
         );
 
         balanceOf[source] -= units;
         balanceOf[to] += units;
-        allowance[source][msg.provider] -= units;
+        allowance[source][msg.sender] -= units;
 
         emit Transfer(source, to, units);
         return true;

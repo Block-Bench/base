@@ -1,0 +1,89 @@
+{
+  "id": "mr_knr_nc_ds_153",
+  "contract_file": "contracts/mr_knr_nc_ds_153.sol",
+  "subset": "mirror",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "denial_of_service",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "DosOneFunc",
+      "function_name": "ifillArray",
+      "line_numbers": [
+        17,
+        18
+      ]
+    },
+    "root_cause": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 17, 18",
+    "attack_vector": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 17, 18",
+    "impact": "Severity: medium",
+    "correct_fix": "Avoid unbounded loops, implement pull payment pattern, add gas limits"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_denial_of_service_dos_simple",
+    "url": "https://github.com/SmartContractSecurity/SWC-registry/blob/master/test_cases/dos_gas_limit/dos_simple.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.25",
+    "num_lines": 20,
+    "num_contracts": 1,
+    "contract_names": [
+      "DosOneFunc"
+    ],
+    "num_functions": 1,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 17, 18",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_153.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_153.json",
+    "original_id": "smartbugs_denial_of_service_dos_simple"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_153.sol",
+  "sanitized_from": "ds_153",
+  "derived_from": "nc_ds_153",
+  "original_id": "ds_153",
+  "transformation": {
+    "strategy": "mirror",
+    "mode": "knr",
+    "details": {
+      "comments_removed": false,
+      "brace_style": "knr",
+      "mode": "knr",
+      "original_lines": 19,
+      "transformed_lines": 19,
+      "original_chars": 408,
+      "transformed_chars": 408,
+      "compression_ratio": 1.0
+    }
+  }
+}

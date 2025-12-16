@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_167.json",
     "original_id": "smartbugs_time_manipulation_roulette"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_167.sol",
   "sanitized_from": "ds_167",
   "transformation": {
@@ -74,12 +75,12 @@
     "source": "sanitized",
     "seed": 1845114281,
     "coverage": {
-      "total_identifiers": 22,
+      "total_identifiers": 21,
       "transformed": 3,
-      "untransformed": 19,
-      "skipped_reserved": 18,
+      "untransformed": 18,
+      "skipped_reserved": 19,
       "skipped_interface": 0,
-      "coverage_percent": 13.64,
+      "coverage_percent": 14.29,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -139,10 +140,6 @@
         },
         {
           "name": "play",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

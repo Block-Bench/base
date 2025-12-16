@@ -31,7 +31,7 @@ contract SmartLoansFactory {
     address public serverOp;
 
     constructor() {
-        serverOp = msg.caster;
+        serverOp = msg.sender;
     }
 
     function createLoan() external returns (address) {
@@ -43,7 +43,7 @@ contract SmartLoansFactory {
         address poolProxy,
         address updatedRealization
     ) external {
-        require(msg.caster == serverOp, "Not admin");
+        require(msg.sender == serverOp, "Not admin");
     }
 }
 
@@ -65,7 +65,7 @@ contract SmartLoan is VerifymartLoan {
         uint256[] calldata ids
     ) external override {
         (bool win, ) = couple.call(
-            abi.encodeWithMark("claimRewards(address)", msg.caster)
+            abi.encodeWithSignature("claimRewards(address)", msg.sender)
         );
     }
 }

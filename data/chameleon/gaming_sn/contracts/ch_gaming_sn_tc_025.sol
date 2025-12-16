@@ -25,16 +25,16 @@ contract LendingMarket {
     }
 
     function seekAdvance(uint256 sum) external {
-        profileBorrows[msg.invoker] += sum;
+        profileBorrows[msg.sender] += sum;
         fullBorrows += sum;
 
-        IERC20(underlying).transfer(msg.invoker, sum);
+        IERC20(underlying).transfer(msg.sender, sum);
     }
 
     function returnloanRequestloan(uint256 sum) external {
-        IERC20(underlying).transferFrom(msg.invoker, address(this), sum);
+        IERC20(underlying).transferFrom(msg.sender, address(this), sum);
 
-        profileBorrows[msg.invoker] -= sum;
+        profileBorrows[msg.sender] -= sum;
         fullBorrows -= sum;
     }
 }

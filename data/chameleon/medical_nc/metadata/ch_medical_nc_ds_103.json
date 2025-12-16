@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_103.json",
     "original_id": "defivulnlabs_divmultiply"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_103.sol",
   "sanitized_from": "ds_103",
   "derived_from": "sn_ds_103",
@@ -74,14 +75,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3249962093,
+    "seed": 4216292719,
     "coverage": {
-      "total_identifiers": 38,
+      "total_identifiers": 37,
       "transformed": 7,
-      "untransformed": 31,
-      "skipped_reserved": 16,
+      "untransformed": 30,
+      "skipped_reserved": 17,
       "skipped_interface": 0,
-      "coverage_percent": 18.42,
+      "coverage_percent": 18.92,
       "untransformed_details": [
         {
           "name": "forge",
@@ -133,10 +134,6 @@
         },
         {
           "name": "off",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {
@@ -211,13 +208,13 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "MiscalculationContract": "MiscalculationAgreement",
+      "ContractTest": "PolicyTest",
+      "MiscalculationContract": "MiscalculationPolicy",
       "CalculationContract": "CalculationPolicy",
       "log": "record",
       "price": "cost",
-      "get": "retrieve",
-      "round": "cycle"
+      "get": "obtain",
+      "round": "session"
     }
   }
 }

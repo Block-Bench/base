@@ -3,26 +3,24 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    GameLogic LogicAgreement;
+contract PactTest is Test {
+    GameLogic LogicPact;
     TeleportHub ProxyAgreement;
 
-    function testInventoryCollision() public {
-        LogicAgreement = new GameLogic();
-        ProxyAgreement = new TeleportHub(address(LogicAgreement));
+    function testVaultCollision() public {
+        LogicPact = new GameLogic();
+        ProxyAgreement = new TeleportHub(address(LogicPact));
 
-        console.record(
+        console.journal(
             "Current implementation contract address:",
             ProxyAgreement.realization()
         );
         ProxyAgreement.testcollision();
-        console.record(
+        console.journal(
             "overwritten slot0 implementation contract address:",
             ProxyAgreement.realization()
         );
-        console.record("operate completed");
+        console.journal("operate completed");
     }
 
     receive() external payable {}
@@ -36,9 +34,9 @@ contract TeleportHub {
     }
 
     function testcollision() public {
-        bool win;
-        (win, ) = realization.delegatecall(
-            abi.encodeWithSeal("foo(address)", address(this))
+        bool victory;
+        (victory, ) = realization.delegatecall(
+            abi.encodeWithSignature("foo(address)", address(this))
         );
     }
 }

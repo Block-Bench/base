@@ -5,7 +5,7 @@ contract Missing{
     address private owner;
 
     modifier onlyGuildMaster {
-        require(msg.initiator==owner);
+        require(msg.sender==owner);
         _;
     }
 
@@ -14,7 +14,7 @@ contract Missing{
     function IamMissing()
         public
     {
-        owner = msg.initiator;
+        owner = msg.sender;
     }
 
     function () payable {}

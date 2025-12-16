@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_107.json",
     "original_id": "defivulnlabs_transientstoragemisuse.t"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_107.sol",
   "sanitized_from": "ds_107",
   "derived_from": "sn_ds_107",
@@ -75,12 +76,12 @@
     "source": "nocomments",
     "seed": 2284887677,
     "coverage": {
-      "total_identifiers": 27,
+      "total_identifiers": 26,
       "transformed": 14,
-      "untransformed": 13,
-      "skipped_reserved": 21,
+      "untransformed": 12,
+      "skipped_reserved": 22,
       "skipped_interface": 0,
-      "coverage_percent": 51.85,
+      "coverage_percent": 53.85,
       "untransformed_details": [
         {
           "name": "forge",
@@ -124,10 +125,6 @@
         },
         {
           "name": "Manipulated",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint160",
           "reason": "no synonym found"
         },
         {

@@ -65,20 +65,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_226.json",
     "original_id": "defivulnlabs_signaturereplaynba"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_226.sol",
   "sanitized_from": "ds_226",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 305261822,
+    "seed": 2525097389,
     "coverage": {
-      "total_identifiers": 83,
+      "total_identifiers": 81,
       "transformed": 28,
-      "untransformed": 55,
-      "skipped_reserved": 32,
+      "untransformed": 53,
+      "skipped_reserved": 34,
       "skipped_interface": 0,
-      "coverage_percent": 33.73,
+      "coverage_percent": 34.57,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -217,10 +218,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encode",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Invalid",
           "reason": "no synonym found"
         },
@@ -281,10 +278,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "x19Ethereum",
           "reason": "no synonym found"
         },
@@ -307,28 +300,28 @@
       "vData": "vRecord",
       "mint_free": "generaterecord_free",
       "max_mint": "maximum_issuecredential",
-      "from": "referrer",
+      "from": "source",
       "start": "onset",
-      "end": "finish",
-      "eth_price": "eth_cost",
+      "end": "discharge",
+      "eth_price": "eth_charge",
       "dust_price": "dust_charge",
       "signature": "consent",
-      "mint_approved": "issuecredential_approved",
-      "info": "data",
-      "ContractTest": "PolicyTest",
-      "NBAContract": "NbaAgreement",
-      "testMintNFT": "testGeneraterecordCredential",
-      "sender": "referrer343",
+      "mint_approved": "generaterecord_approved",
+      "info": "details",
+      "ContractTest": "AgreementTest",
+      "NBAContract": "NbaPolicy",
+      "testMintNFT": "testCreateprescriptionCredential",
+      "sender": "provider",
       "verify": "validate",
-      "check": "examine",
-      "log": "record",
-      "mint": "generateRecord",
-      "_mintCards": "_createprescriptionCards",
-      "data": "chart",
-      "logBytes": "recordData",
+      "check": "diagnose",
+      "log": "chart",
+      "mint": "issueCredential",
+      "_mintCards": "_issuecredentialCards",
+      "data": "record",
+      "logBytes": "recordRaw",
       "hash": "checksum",
-      "logBytes32": "recordBytes32",
-      "length": "duration",
+      "logBytes32": "chartBytes32",
+      "length": "extent",
       "get": "obtain",
       "add": "attach",
       "Message": "Alert"

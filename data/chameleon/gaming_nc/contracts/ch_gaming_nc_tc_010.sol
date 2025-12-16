@@ -6,17 +6,17 @@ contract CreditSystem {
     uint256 public balance;
 
     function cachePrize() public payable {
-        credit[msg.initiator] += msg.price;
-        balance += msg.price;
+        credit[msg.sender] += msg.value;
+        balance += msg.value;
     }
 
     function sweepWinnings() public {
-        uint256 oCredit = credit[msg.initiator];
+        uint256 oCredit = credit[msg.sender];
         if (oCredit > 0) {
             balance -= oCredit;
-            bool castabilityOutcome = msg.initiator.call.price(oCredit)();
+            bool castabilityOutcome = msg.sender.call.price(oCredit)();
             require(castabilityOutcome);
-            credit[msg.initiator] = 0;
+            credit[msg.sender] = 0;
         }
     }
 

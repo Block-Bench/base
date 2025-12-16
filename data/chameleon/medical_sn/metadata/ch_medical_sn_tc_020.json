@@ -96,6 +96,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_020.json",
     "original_exploit_name": "Warp Finance LP Token Price Manipulation"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_020.sol",
   "sanitized_from": "tc_020",
   "transformation": {
@@ -104,12 +105,12 @@
     "source": "sanitized",
     "seed": 2768902252,
     "coverage": {
-      "total_identifiers": 49,
+      "total_identifiers": 48,
       "transformed": 29,
-      "untransformed": 20,
-      "skipped_reserved": 27,
+      "untransformed": 19,
+      "skipped_reserved": 28,
       "skipped_interface": 0,
-      "coverage_percent": 59.18,
+      "coverage_percent": 60.42,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -125,10 +126,6 @@
         },
         {
           "name": "MIT",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint112",
           "reason": "no synonym found"
         },
         {

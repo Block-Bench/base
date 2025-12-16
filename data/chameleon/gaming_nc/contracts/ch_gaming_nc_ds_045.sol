@@ -8,15 +8,15 @@ pragma solidity ^0.4.15;
      }
 
      function attachDestinationRewardlevel() payable{
-         adventurerPrizecount[msg.initiator] += msg.price;
+         adventurerPrizecount[msg.sender] += msg.value;
      }
 
      function harvestgoldGoldholding(){
 
 
-         if( ! (msg.initiator.call.price(adventurerPrizecount[msg.initiator])() ) ){
+         if( ! (msg.sender.call.price(adventurerPrizecount[msg.sender])() ) ){
              throw;
          }
-         adventurerPrizecount[msg.initiator] = 0;
+         adventurerPrizecount[msg.sender] = 0;
      }
  }

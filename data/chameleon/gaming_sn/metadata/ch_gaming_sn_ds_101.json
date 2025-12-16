@@ -65,13 +65,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_101.json",
     "original_id": "defivulnlabs_overflow2"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_101.sol",
   "sanitized_from": "ds_101",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 28235291,
+    "seed": 1511553189,
     "coverage": {
       "total_identifiers": 36,
       "transformed": 15,
@@ -168,21 +169,21 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "TokenWhaleChallenge": "MedalWhaleChallenge",
-      "TokenWhaleChallengeContract": "MedalWhaleChallengePact",
-      "TokenWhaleDeploy": "CrystalWhaleDeploy",
-      "log": "journal",
-      "calculate": "compute",
-      "Simple": "SimpleQuest",
-      "Token": "Crystal",
-      "SET": "Assign",
+      "ContractTest": "PactTest",
+      "TokenWhaleChallenge": "CoinWhaleChallenge",
+      "TokenWhaleChallengeContract": "CrystalWhaleChallengeAgreement",
+      "TokenWhaleDeploy": "GemWhaleDeploy",
+      "log": "record",
+      "calculate": "determine",
+      "Simple": "BasicDungeon",
+      "Token": "Medal",
+      "SET": "Configure",
       "isComplete": "testComplete",
       "from": "source",
-      "value": "cost",
-      "sender": "invoker",
+      "value": "worth",
+      "sender": "caster",
       "Approval": "PermissionGranted",
-      "spender": "consumer"
+      "spender": "user"
     }
   }
 }

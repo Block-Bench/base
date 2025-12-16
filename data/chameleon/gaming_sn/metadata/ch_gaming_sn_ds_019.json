@@ -67,20 +67,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_019.json",
     "original_id": "smartbugs_reentrancy_0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_019.sol",
   "sanitized_from": "ds_019",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 4171007690,
+    "seed": 3449587739,
     "coverage": {
-      "total_identifiers": 29,
+      "total_identifiers": 28,
       "transformed": 17,
-      "untransformed": 12,
-      "skipped_reserved": 19,
+      "untransformed": 11,
+      "skipped_reserved": 20,
       "skipped_interface": 0,
-      "coverage_percent": 58.62,
+      "coverage_percent": 60.71,
       "untransformed_details": [
         {
           "name": "intitalized",
@@ -123,10 +124,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
           "name": "push",
           "reason": "no synonym found"
         }
@@ -134,21 +131,21 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ACCURAL_DEPOSIT": "accural_bankwinnings",
-      "balances": "heroTreasure",
+      "ACCURAL_DEPOSIT": "accural_storeloot",
+      "balances": "userRewards",
       "MinSum": "MinimumSum",
       "LogFile": "RecordFile",
-      "Log": "Record",
-      "SetMinSum": "CollectionFloorSum",
-      "SetLogFile": "CollectionRecordFile",
-      "Initialized": "SetupComplete",
-      "Deposit": "CachePrize",
+      "Log": "Journal",
+      "SetMinSum": "GroupFloorSum",
+      "SetLogFile": "CollectionJournalFile",
+      "Initialized": "GameStarted",
+      "Deposit": "AddTreasure",
       "sender": "caster",
-      "value": "worth",
-      "AddMessage": "AttachCommunication",
-      "Message": "Communication",
-      "Sender": "Invoker",
-      "Data": "Info",
+      "value": "price",
+      "AddMessage": "InsertCommunication",
+      "Message": "Signal",
+      "Sender": "Caster",
+      "Data": "Details",
       "Time": "Instant",
       "LastMsg": "EndingMsg"
     }

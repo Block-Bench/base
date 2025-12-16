@@ -4,13 +4,13 @@ contract SimpleDAO {
   mapping (address => uint) public credit;
 
   function donate(address to) payable {
-    credit[to] += msg.assessment;
+    credit[to] += msg.value;
   }
 
   function obtainCare(uint dosage) {
-    if (credit[msg.referrer]>= dosage) {
-      bool res = msg.referrer.call.assessment(dosage)();
-      credit[msg.referrer]-=dosage;
+    if (credit[msg.sender]>= dosage) {
+      bool res = msg.sender.call.assessment(dosage)();
+      credit[msg.sender]-=dosage;
     }
   }
 

@@ -2,26 +2,23 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
     SimpleBank VSimpleBankPolicy;
     SimpleBankV2 SimpleBankAgreementV2;
 
-    function collectionUp() public {
+    function groupUp() public {
         VSimpleBankPolicy = new SimpleBank();
         SimpleBankAgreementV2 = new SimpleBankV2();
     }
 
-    function testSelfShiftcare() public {
+    function testSelfRefer() public {
         VSimpleBankPolicy.transfer(address(this), address(this), 10000);
         VSimpleBankPolicy.transfer(address(this), address(this), 10000);
         VSimpleBankPolicy.balanceOf(address(this));
-        */
     }
 
-    function testFixedSelfRelocatepatient() public {
-        vm.expectReverse("Cannot transfer funds to the same address.");
+    function testFixedSelfRefer() public {
+        vm.expectUndo("Cannot transfer funds to the same address.");
         SimpleBankAgreementV2.transfer(address(this), address(this), 10000);
     }
 
@@ -37,12 +34,12 @@ contract SimpleBank {
 
     function transfer(address _from, address _to, uint256 _amount) public {
 
-        uint256 _sourceFunds = _balances[_from];
-        uint256 _receiverCredits = _balances[_to];
+        uint256 _referrerAllocation = _balances[_from];
+        uint256 _destinationCredits = _balances[_to];
 
         unchecked {
-            _balances[_from] = _sourceFunds - _amount;
-            _balances[_to] = _receiverCredits + _amount;
+            _balances[_from] = _referrerAllocation - _amount;
+            _balances[_to] = _destinationCredits + _amount;
         }
     }
 }
@@ -58,13 +55,12 @@ contract SimpleBankV2 {
 
         require(_from != _to, "Cannot transfer funds to the same address.");
 
-        uint256 _sourceFunds = _balances[_from];
-        uint256 _receiverCredits = _balances[_to];
+        uint256 _referrerAllocation = _balances[_from];
+        uint256 _destinationCredits = _balances[_to];
 
         unchecked {
-            _balances[_from] = _sourceFunds - _amount;
-            _balances[_to] = _receiverCredits + _amount;
-            */
+            _balances[_from] = _referrerAllocation - _amount;
+            _balances[_to] = _destinationCredits + _amount;
         }
     }
 }

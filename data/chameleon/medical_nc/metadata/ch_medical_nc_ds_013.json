@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_013.json",
     "original_id": "smartbugs_access_control_simple_suicide"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_013.sol",
   "sanitized_from": "ds_013",
   "derived_from": "sn_ds_013",
@@ -75,23 +76,15 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2887988240,
+    "seed": 3770012018,
     "coverage": {
-      "total_identifiers": 6,
-      "transformed": 2,
-      "untransformed": 4,
+      "total_identifiers": 3,
+      "transformed": 1,
+      "untransformed": 2,
       "skipped_reserved": 6,
       "skipped_interface": 0,
       "coverage_percent": 33.33,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "prgma",
-          "reason": "no synonym found"
-        },
         {
           "name": "SimpleDestruct",
           "reason": "no synonym found"
@@ -104,7 +97,6 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "edition",
       "sender": "provider"
     }
   }

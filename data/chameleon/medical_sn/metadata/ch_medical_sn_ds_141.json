@@ -66,25 +66,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_141.json",
     "original_id": "smartbugs_arithmetic_overflow_single_tx"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_141.sol",
   "sanitized_from": "ds_141",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 1524935598,
+    "seed": 3828355628,
     "coverage": {
-      "total_identifiers": 11,
+      "total_identifiers": 10,
       "transformed": 3,
-      "untransformed": 8,
-      "skipped_reserved": 8,
+      "untransformed": 7,
+      "skipped_reserved": 7,
       "skipped_interface": 0,
-      "coverage_percent": 27.27,
+      "coverage_percent": 30.0,
       "untransformed_details": [
-        {
-          "name": "file",
-          "reason": "no synonym found"
-        },
         {
           "name": "addtostate",
           "reason": "no synonym found"
@@ -118,7 +115,7 @@
     },
     "rename_map": {
       "SingleTxCounter": "SingleTxTally",
-      "count": "tally",
+      "count": "number",
       "input": "submission"
     }
   }

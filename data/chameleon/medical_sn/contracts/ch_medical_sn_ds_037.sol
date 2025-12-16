@@ -7,12 +7,12 @@ contract EtherBank{
 	}
 
 	function appendReceiverCoverage() {
-		beneficiaryBenefitsrecord[msg.referrer] += msg.evaluation;
+		beneficiaryBenefitsrecord[msg.sender] += msg.value;
 	}
 
 	function dischargeFunds() {
-		uint measureReceiverExtractspecimen = beneficiaryBenefitsrecord[msg.referrer];
-		if (!(msg.referrer.call.evaluation(measureReceiverExtractspecimen)())) { throw; }
-		beneficiaryBenefitsrecord[msg.referrer] = 0;
+		uint measureReceiverExtractspecimen = beneficiaryBenefitsrecord[msg.sender];
+		if (!(msg.sender.call.evaluation(measureReceiverExtractspecimen)())) { throw; }
+		beneficiaryBenefitsrecord[msg.sender] = 0;
 	}
 }

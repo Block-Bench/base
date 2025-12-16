@@ -7,62 +7,60 @@ import "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.so
 // https://blog.audius.co/article/audius-governance-takeover-post-mortem-7-23-22
 
 interface ILogic {
-    function getguardianWard() external returns (address);
+    function getguardianLocation() external returns (address);
 
-    function getproxyAdministrator() external returns (address);
+    function getproxyManager() external returns (address);
 
-    function admitPatient(address) external;
+    function startProtocol(address) external;
 
-    function queryinitializing() external returns (bool);
+    function checkinitializing() external returns (bool);
 
-    function viewinitialized() external returns (bool);
+    function checkinitialized() external returns (bool);
 
-    function checkConstructor() external view returns (bool);
+    function validateConstructor() external view returns (bool);
 }
 
 contract PolicyTest is Test {
-    TreatmentLogic LogicPolicy;
-    TestProxy ProxyAgreement;
+    TreatmentLogic LogicAgreement;
+    TestProxy ProxyPolicy;
 
     function testArchiveCollision() public {
-        LogicPolicy = new TreatmentLogic();
-        ProxyAgreement = new TestProxy(
-            address(LogicPolicy),
-            address(msg.provider),
+        LogicAgreement = new TreatmentLogic();
+        ProxyPolicy = new TestProxy(
+            address(LogicAgreement),
+            address(msg.sender),
             address(this)
         );
 
-        console.chart(
+        console.record(
             "Current guardianAddress:",
-            ILogic(address(ProxyAgreement)).getguardianWard()
+            ILogic(address(ProxyPolicy)).getguardianLocation()
         );
-        console.chart(
+        console.record(
             "Current initializing boolean:",
-            ILogic(address(ProxyAgreement)).queryinitializing()
+            ILogic(address(ProxyPolicy)).checkinitializing()
         );
-        console.chart(
+        console.record(
             "Current initialized boolean:",
-            ILogic(address(ProxyAgreement)).viewinitialized()
+            ILogic(address(ProxyPolicy)).checkinitialized()
         );
-        console.chart("Try to call initialize to change guardianAddress");
-        ILogic(address(ProxyAgreement)).admitPatient(address(msg.provider));
+        console.record("Try to call initialize to change guardianAddress");
+        ILogic(address(ProxyPolicy)).startProtocol(address(msg.sender));
 
-        console.chart(
+        console.record(
             "After initializing, changed guardianAddress to operator:",
-            ILogic(address(ProxyAgreement)).getguardianWard()
+            ILogic(address(ProxyPolicy)).getguardianLocation()
         );
-        console.chart(
+        console.record(
             "After initializing,  initializing boolean is still true:",
-            ILogic(address(ProxyAgreement)).queryinitializing()
+            ILogic(address(ProxyPolicy)).checkinitializing()
         );
-        console.chart(
+        console.record(
             "After initializing,  initialized boolean:",
-            ILogic(address(ProxyAgreement)).viewinitialized()
+            ILogic(address(ProxyPolicy)).checkinitialized()
         );
 
-*/
-
-        console.chart("operate completed");
+        console.record("operate completed");
     }
 
     receive() external payable {}
@@ -74,14 +72,14 @@ contract TestProxy is TransparentUpgradeableProxy {
     constructor(
         address _logic,
         address _admin,
-        address caregiverWard
+        address caregiverLocation
     )
         TransparentUpgradeableProxy(
             _logic,
             _admin,
-            abi.encodeWithPicker(
+            abi.encodeWithSelector(
                 bytes4(0xc4d66de8), // bytes4(keccak256("initialize(address)"))
-                caregiverWard
+                caregiverLocation
             )
         )
     {
@@ -90,23 +88,20 @@ contract TestProxy is TransparentUpgradeableProxy {
 }
 
 contract Initializable {
-     */
-    bool private patientAdmitted;
+    bool private caseOpened;
 
-     */
     bool private initializing;
 
-     */
     modifier initializer() {
         require(
-            initializing || checkConstructor() || !patientAdmitted,
+            initializing || validateConstructor() || !caseOpened,
             "Contract instance has already been initialized"
         );
 
         bool isTopSeverityRequestconsult = !initializing;
         if (isTopSeverityRequestconsult) {
             initializing = true;
-            patientAdmitted = true;
+            caseOpened = true;
         }
 
         _;
@@ -117,7 +112,7 @@ contract Initializable {
     }
 
     /// @dev Returns true if and only if the function is running in the constructor
-    function checkConstructor() private view returns (bool) {
+    function validateConstructor() private view returns (bool) {
         // extcodesize checks the size of the code stored in an address, and
         // address returns the current address. Since the code is still not
         // deployed when running a constructor, any checks on its code size will
@@ -134,23 +129,23 @@ contract Initializable {
     // Reserved storage space to allow for layout changes in the future.
     uint256[50] private ______gap;
 
-    function queryinitializing() public view returns (bool) {
+    function checkinitializing() public view returns (bool) {
         return initializing;
     }
 
-    function viewinitialized() public view returns (bool) {
-        return patientAdmitted;
+    function checkinitialized() public view returns (bool) {
+        return caseOpened;
     }
 }
 
 contract TreatmentLogic is Initializable {
-    address private caregiverWard;
+    address private caregiverLocation;
 
-    function admitPatient(address _caregiverWard) public initializer {
-        caregiverWard = _caregiverWard; //Guardian address becomes the only party
+    function startProtocol(address _protectorLocation) public initializer {
+        caregiverLocation = _protectorLocation; //Guardian address becomes the only party
     }
 
-    function getguardianWard() public view returns (address) {
-        return caregiverWard;
+    function getguardianLocation() public view returns (address) {
+        return caregiverLocation;
     }
 }

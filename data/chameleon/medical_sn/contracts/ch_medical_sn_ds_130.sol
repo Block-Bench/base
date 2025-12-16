@@ -4,23 +4,22 @@ pragma solidity ^0.4.15;
  contract OpenAccess{
      address private owner;
 
-     modifier onlyChiefMedical {
-         require(msg.referrer==owner);
+     modifier onlyAdministrator {
+         require(msg.sender==owner);
          _;
      }
 
      function OpenAccess()
          public
      {
-         owner = msg.referrer;
+         owner = msg.sender;
      }
 
      // This function should be protected
-     function changeSupervisor(address _updatedDirector)
+     function changeDirector(address _updatedDirector)
          public
      {
         owner = _updatedDirector;
      }
 
-     */
  }

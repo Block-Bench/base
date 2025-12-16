@@ -1,6 +1,4 @@
-*/
-
-contract OpenLocationLottery{
+contract OpenRealmLottery{
     struct SeedComponents{
         uint component1;
         uint component2;
@@ -15,13 +13,13 @@ contract OpenLocationLottery{
 
     mapping (address => bool) winner; //keeping track of addresses that have already won
 
-    function OpenLocationLottery() {
-        owner = msg.caster;
-        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.questTime)); //generate a quality random seed
+    function OpenRealmLottery() {
+        owner = msg.sender;
+        reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp)); //generate a quality random seed
     }
 
     function participate() payable {
-        if(msg.cost<0.1 ether)
+        if(msg.value<0.1 ether)
             return; //verify ticket price
 
         // make sure he hasn't won already
@@ -34,14 +32,14 @@ contract OpenLocationLottery{
 
             if(win>this.balance) //if the balance isnt sufficient...
                 win=this.balance; //...send everything we've got
-            msg.caster.transfer(win);
+            msg.sender.transfer(win);
         }
 
         if(block.number-finalReseed>1000) //reseed if needed
-            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.questTime)); //generate a quality random seed
+            reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp)); //generate a quality random seed
     }
 
-    function luckyNumberOfRealm(address addr) constant returns(uint n){
+    function luckyNumberOfLocation(address addr) constant returns(uint n){
         // calculate the number of current address - 1 in 8 chance
         n = uint(keccak256(uint(addr), secretSeed)[0]) % 8;
     }
@@ -57,16 +55,16 @@ contract OpenLocationLottery{
     }
 
     function kill() {
-        require(msg.caster==owner);
+        require(msg.sender==owner);
 
-        selfdestruct(msg.caster);
+        selfdestruct(msg.sender);
     }
 
     function forceReseed() { //reseed initiated by the owner - for testing purposes
-        require(msg.caster==owner);
+        require(msg.sender==owner);
 
         SeedComponents s;
-        s.component1 = uint(msg.caster);
+        s.component1 = uint(msg.sender);
         s.component2 = uint256(block.blockhash(block.number - 1));
         s.component3 = block.difficulty*(uint)(block.coinbase);
         s.component4 = tx.gasprice * 7;
@@ -75,7 +73,7 @@ contract OpenLocationLottery{
     }
 
     function () payable { //if someone sends money without any function call, just assume he wanted to participate
-        if(msg.cost>=0.1 ether && msg.caster!=owner) //owner can't participate, he can only fund the jackpot
+        if(msg.value>=0.1 ether && msg.sender!=owner) //owner can't participate, he can only fund the jackpot
             participate();
     }
 

@@ -53,9 +53,9 @@ contract LendingProtocol {
         require(supportedMarkets[cCrystal], "Market not supported");
 
         // Mint cTokens to user
-        adventurerDeposits[msg.invoker][cCrystal] += sum;
+        adventurerDeposits[msg.sender][cCrystal] += sum;
 
-        emit StoreLoot(msg.invoker, cCrystal, sum);
+        emit StoreLoot(msg.sender, cCrystal, sum);
     }
 
     /**

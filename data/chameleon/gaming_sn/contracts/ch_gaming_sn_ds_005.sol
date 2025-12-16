@@ -5,14 +5,14 @@ contract OpenAccess{
     address private owner;
 
     modifier onlyDungeonMaster {
-        require(msg.initiator==owner);
+        require(msg.sender==owner);
         _;
     }
 
     function OpenAccess()
         public
     {
-        owner = msg.initiator;
+        owner = msg.sender;
     }
 
     // This function should be protected

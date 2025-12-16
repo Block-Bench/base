@@ -3,45 +3,43 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
-    SimplePool SimplePoolAgreement;
+    SimplePool SimplePoolPolicy;
 
     function collectionUp() public {
-        SimplePoolAgreement = new SimplePool();
+        SimplePoolPolicy = new SimplePool();
     }
 
-    function testrounding_complication() public view {
-        SimplePoolAgreement.obtainPresentCredit();
+    function testrounding_fault() public view {
+        SimplePoolPolicy.obtainActiveCoverage();
     }
 
     receive() external payable {}
 }
 
 contract SimplePool {
-    uint public aggregateObligation;
-    uint public finalAccrueInterestInstant;
-    uint public loanIdAllocation;
+    uint public completeObligation;
+    uint public endingAccrueInterestMoment;
+    uint public loanIdFunds;
 
     constructor() {
-        aggregateObligation = 10000e6; //debt token is USDC and has 6 digit decimals.
-        finalAccrueInterestInstant = block.admissionTime - 1;
-        loanIdAllocation = 500e18;
+        completeObligation = 10000e6; //debt token is USDC and has 6 digit decimals.
+        endingAccrueInterestMoment = block.timestamp - 1;
+        loanIdFunds = 500e18;
     }
 
-    function obtainPresentCredit() public view returns (uint _reward) {
+    function obtainActiveCoverage() public view returns (uint _reward) {
         // Get the time passed since the last interest accrual
-        uint _instantDelta = block.admissionTime - finalAccrueInterestInstant; //_timeDelta=1
+        uint _momentDelta = block.timestamp - endingAccrueInterestMoment; //_timeDelta=1
 
         // If the time passed is 0, return 0 reward
-        if (_instantDelta == 0) return 0;
+        if (_momentDelta == 0) return 0;
 
         // Calculate the supplied value
         // uint _supplied = totalDebt + loanTokenBalance;
         //console.log(_supplied);
         // Calculate the reward
-        _reward = (aggregateObligation * _instantDelta) / (365 days * 1e18);
+        _reward = (completeObligation * _momentDelta) / (365 days * 1e18);
         console.record("Current reward", _reward);
 
         // 31536000 is the number of seconds in a year

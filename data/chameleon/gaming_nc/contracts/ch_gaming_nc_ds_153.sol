@@ -7,7 +7,7 @@ contract SingleFuncRegistry {
     function ifillList() public returns (bool){
         if(rosterAddresses.extent<1500) {
             for(uint i=0;i<350;i++) {
-                rosterAddresses.push(msg.initiator);
+                rosterAddresses.push(msg.sender);
             }
             return true;
 

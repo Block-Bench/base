@@ -6,21 +6,21 @@ contract EthTxOrderDependenceMinimal {
     uint public bounty;
 
     function EthTxOrderDependenceMinimal() public {
-        owner = msg.invoker;
+        owner = msg.sender;
     }
 
     function collectionBounty() public payable {
         require (!claimed);
 
-        require(msg.invoker == owner);
+        require(msg.sender == owner);
         owner.transfer(bounty);
-        bounty = msg.worth;
+        bounty = msg.value;
     }
 
     function obtainrewardPrize(uint256 submission) {
         require (!claimed);
         require(submission < 10);
-        msg.invoker.transfer(bounty);
+        msg.sender.transfer(bounty);
         claimed = true;
     }
 }

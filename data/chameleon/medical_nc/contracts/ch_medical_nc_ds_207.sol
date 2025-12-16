@@ -20,7 +20,7 @@ contract RaceCondition{
     function RaceCondition(uint _price, ERC20 _token)
         public
     {
-        owner = msg.provider;
+        owner = msg.sender;
         charge = _price;
         badge = _token;
     }
@@ -29,17 +29,17 @@ contract RaceCondition{
     function buy(uint current_charge) payable
         public
     {
-        require(msg.rating >= charge);
+        require(msg.value >= charge);
 
 
-        badge.transferFrom(msg.provider, owner, charge);
+        badge.transferFrom(msg.sender, owner, charge);
 
         charge = current_charge;
-        owner = msg.provider;
+        owner = msg.sender;
     }
 
     function changeCost(uint current_charge){
-        require(msg.provider == owner);
+        require(msg.sender == owner);
         charge = current_charge;
     }
 

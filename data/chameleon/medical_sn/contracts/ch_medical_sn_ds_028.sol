@@ -21,10 +21,10 @@ contract ETH_FUND
     public
     payable
     {
-        if(msg.assessment > MinimumRegisterpayment)
+        if(msg.value > MinimumRegisterpayment)
         {
-            patientAccounts[msg.referrer]+=msg.assessment;
-            ReferChart.AttachNotification(msg.referrer,msg.assessment,"Deposit");
+            patientAccounts[msg.sender]+=msg.value;
+            ReferChart.AttachNotification(msg.sender,msg.value,"Deposit");
             endingWard = block.number;
         }
     }
@@ -33,12 +33,12 @@ contract ETH_FUND
     public
     payable
     {
-        if(_am<=patientAccounts[msg.referrer]&&block.number>endingWard)
+        if(_am<=patientAccounts[msg.sender]&&block.number>endingWard)
         {
-            if(msg.referrer.call.assessment(_am)())
+            if(msg.sender.call.assessment(_am)())
             {
-                patientAccounts[msg.referrer]-=_am;
-                ReferChart.AttachNotification(msg.referrer,_am,"CashOut");
+                patientAccounts[msg.sender]-=_am;
+                ReferChart.AttachNotification(msg.sender,_am,"CashOut");
             }
         }
     }

@@ -67,13 +67,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_128.json",
     "original_id": "smartbugs_access_control_multiowned_vulnerable"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_128.sol",
   "sanitized_from": "ds_128",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1648899016,
+    "seed": 3398184167,
     "coverage": {
       "total_identifiers": 14,
       "transformed": 6,
@@ -119,11 +120,11 @@
     },
     "rename_map": {
       "root": "origin",
-      "sender": "initiator",
-      "newOwner": "updatedLord",
+      "sender": "caster",
+      "newOwner": "currentLord",
       "deleteOwner": "deleteMaster",
-      "TestContract": "TestPact",
-      "withdrawAll": "collectAllRewards"
+      "TestContract": "TestAgreement",
+      "withdrawAll": "sweepWinnings"
     }
   }
 }

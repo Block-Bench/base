@@ -124,6 +124,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_003.json",
     "original_exploit_name": "Parity Wallet"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_003.sol",
   "sanitized_from": "tc_003",
   "derived_from": "sn_tc_003",

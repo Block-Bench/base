@@ -69,13 +69,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_199.json",
     "original_id": "defivulnlabs_reentrancy"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_199.sol",
   "sanitized_from": "ds_199",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 3893748463,
+    "seed": 1162936474,
     "coverage": {
       "total_identifiers": 35,
       "transformed": 16,
@@ -164,22 +165,22 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "balances": "playerLoot",
-      "deposit": "storeLoot",
+      "balances": "userRewards",
+      "deposit": "addTreasure",
       "sender": "invoker",
-      "value": "worth",
-      "withdrawFunds": "harvestgoldFunds",
-      "_weiToWithdraw": "_weiDestinationHarvestgold",
+      "value": "price",
+      "withdrawFunds": "obtainprizeFunds",
+      "_weiToWithdraw": "_weiDestinationClaimloot",
       "failed": "operationFailed",
       "locked": "sealed",
-      "nonReentrant": "singleEntry",
+      "nonReentrant": "oneAtATime",
       "ContractTest": "PactTest",
-      "EtherStoreOperator": "EtherStoreQuestrunner",
-      "operator": "gameOperator",
-      "operatorV2": "questrunnerV2",
+      "EtherStoreOperator": "EtherStoreGameoperator",
+      "operator": "questRunner",
+      "operatorV2": "gameoperatorV2",
       "setUp": "groupUp",
       "Operator": "QuestRunner",
-      "log": "journal"
+      "log": "record"
     }
   }
 }

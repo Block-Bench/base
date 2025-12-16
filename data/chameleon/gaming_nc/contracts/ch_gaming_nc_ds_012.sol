@@ -5,7 +5,7 @@ contract TeleportHub {
   address owner;
 
   constructor() public {
-    owner = msg.initiator;
+    owner = msg.sender;
   }
 
   function forward(address callee, bytes _data) public {

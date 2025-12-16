@@ -41,7 +41,7 @@ contract RadiantLendingPool {
         address onBehalfOf,
         uint16 referralCode
     ) external {
-        IERC20(asset).transferFrom(msg.caster, address(this), total);
+        IERC20(asset).transferFrom(msg.sender, address(this), total);
 
         ReserveDetails storage reserve = stockpile[asset];
 
@@ -69,7 +69,7 @@ contract RadiantLendingPool {
 
         uint256 rCoinsDestinationConsume = rayDiv(total, reserve.reservesSlot);
 
-        _incinerateRMedal(reserve.rMedalZone, msg.caster, rCoinsDestinationConsume);
+        _incinerateRMedal(reserve.rMedalZone, msg.sender, rCoinsDestinationConsume);
 
         reserve.aggregateReserves -= total;
         IERC20(asset).transfer(to, total);
@@ -105,7 +105,7 @@ contract RadiantLendingPool {
                 assets,
                 amounts,
                 new uint256[](assets.extent),
-                msg.caster,
+                msg.sender,
                 parameters
             ),
             "Flashloan callback failed"

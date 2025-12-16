@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_157.json",
     "original_id": "smartbugs_front_running_FindThisHash"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_157.sol",
   "sanitized_from": "ds_157",
   "transformation": {
@@ -74,12 +75,12 @@
     "source": "sanitized",
     "seed": 971935351,
     "coverage": {
-      "total_identifiers": 18,
+      "total_identifiers": 17,
       "transformed": 3,
-      "untransformed": 15,
-      "skipped_reserved": 16,
+      "untransformed": 14,
+      "skipped_reserved": 17,
       "skipped_interface": 0,
-      "coverage_percent": 16.67,
+      "coverage_percent": 17.65,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -135,10 +136,6 @@
         },
         {
           "name": "image",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         }
       ],

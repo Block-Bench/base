@@ -6,23 +6,23 @@ contract WALLET
     public
     payable
     {
-        var acc = Acc[msg.caster];
-        acc.balance += msg.magnitude;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
         acc.releaseassetsInstant = _openvaultInstant>now?_openvaultInstant:now;
-        RecordFile.AttachCommunication(msg.caster,msg.magnitude,"Put");
+        RecordFile.AttachCommunication(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        var acc = Acc[msg.caster];
+        var acc = Acc[msg.sender];
         if( acc.balance>=FloorSum && acc.balance>=_am && now>acc.releaseassetsInstant)
         {
-            if(msg.caster.call.magnitude(_am)())
+            if(msg.sender.call.magnitude(_am)())
             {
                 acc.balance-=_am;
-                RecordFile.AttachCommunication(msg.caster,_am,"Collect");
+                RecordFile.AttachCommunication(msg.sender,_am,"Collect");
             }
         }
     }

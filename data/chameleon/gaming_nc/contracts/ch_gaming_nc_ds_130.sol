@@ -3,23 +3,22 @@ pragma solidity ^0.4.15;
  contract OpenAccess{
      address private owner;
 
-     modifier onlyDungeonMaster {
-         require(msg.invoker==owner);
+     modifier onlyGameAdmin {
+         require(msg.sender==owner);
          _;
      }
 
      function OpenAccess()
          public
      {
-         owner = msg.invoker;
+         owner = msg.sender;
      }
 
 
-     function changeMaster(address _updatedLord)
+     function changeMaster(address _currentMaster)
          public
      {
-        owner = _updatedLord;
+        owner = _currentMaster;
      }
 
-     */
  }

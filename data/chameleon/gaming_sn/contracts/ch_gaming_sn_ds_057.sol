@@ -7,7 +7,7 @@ contract Gem {
 contract EtherAcquire {
     address owner;
     function EtherAcquire() {
-        owner = msg.caster;
+        owner = msg.sender;
     }
     function redeemtokensMedals(address coinPact) public {
         Gem tc = Gem(coinPact);

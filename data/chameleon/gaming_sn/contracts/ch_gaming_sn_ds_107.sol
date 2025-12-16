@@ -28,7 +28,7 @@ contract SimpleVault {
         }
 
         // Check if caller is a legitimate vault
-        require(msg.initiator == lootVault, "Not authorized");
+        require(msg.sender == lootVault, "Not authorized");
 
         if (lootVault == address(this)) {
             // Output vault address for observation

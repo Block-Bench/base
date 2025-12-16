@@ -19,10 +19,10 @@ contract ETH_VAULT
     public
     payable
     {
-        if(msg.assessment > MinimumContributefunds)
+        if(msg.value > MinimumContributefunds)
         {
-            benefitsRecord[msg.provider]+=msg.assessment;
-            MoverecordsRecord.IncludeAlert(msg.provider,msg.assessment,"Deposit");
+            benefitsRecord[msg.sender]+=msg.value;
+            MoverecordsRecord.IncludeAlert(msg.sender,msg.value,"Deposit");
         }
     }
 
@@ -30,12 +30,12 @@ contract ETH_VAULT
     public
     payable
     {
-        if(_am<=benefitsRecord[msg.provider])
+        if(_am<=benefitsRecord[msg.sender])
         {
-            if(msg.provider.call.assessment(_am)())
+            if(msg.sender.call.assessment(_am)())
             {
-                benefitsRecord[msg.provider]-=_am;
-                MoverecordsRecord.IncludeAlert(msg.provider,_am,"CashOut");
+                benefitsRecord[msg.sender]-=_am;
+                MoverecordsRecord.IncludeAlert(msg.sender,_am,"CashOut");
             }
         }
     }

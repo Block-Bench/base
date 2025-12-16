@@ -22,7 +22,7 @@ contract CryptoRoulette {
     Game[] public gamesPlayed;
 
     function CryptoRoulette() public {
-        masterAddr = msg.caster;
+        masterAddr = msg.sender;
         shuffle();
     }
 
@@ -32,15 +32,15 @@ contract CryptoRoulette {
     }
 
     function play(uint256 number) payable public {
-        require(msg.cost328 >= betCost && number <= 10);
+        require(msg.value >= betCost && number <= 10);
         Game game;
-        game.player = msg.caster;
+        game.player = msg.sender;
         game.number = number;
         gamesPlayed.push(game);
 
         if (number == secretNumber) {
             // win!
-            msg.caster.transfer(this.balance);
+            msg.sender.transfer(this.balance);
         }
 
         shuffle();
@@ -48,8 +48,8 @@ contract CryptoRoulette {
     }
 
     function kill() public {
-        if (msg.caster == masterAddr && now > finalPlayed + 1 days) {
-            suicide(msg.caster);
+        if (msg.sender == masterAddr && now > finalPlayed + 1 days) {
+            suicide(msg.sender);
         }
     }
 

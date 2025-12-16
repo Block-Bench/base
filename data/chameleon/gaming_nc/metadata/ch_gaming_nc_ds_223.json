@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_223.json",
     "original_id": "defivulnlabs_storage-collision"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_223.sol",
   "sanitized_from": "ds_223",
   "derived_from": "sn_ds_223",
@@ -76,14 +77,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 413297195,
+    "seed": 2646064009,
     "coverage": {
-      "total_identifiers": 25,
-      "transformed": 12,
+      "total_identifiers": 24,
+      "transformed": 11,
       "untransformed": 13,
-      "skipped_reserved": 17,
+      "skipped_reserved": 18,
       "skipped_interface": 0,
-      "coverage_percent": 48.0,
+      "coverage_percent": 45.83,
       "untransformed_details": [
         {
           "name": "forge",
@@ -141,17 +142,16 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
+      "ContractTest": "PactTest",
       "Logic": "GameLogic",
-      "LogicContract": "LogicPact",
+      "LogicContract": "LogicAgreement",
       "Proxy": "PortalGate",
-      "ProxyContract": "ProxyAgreement",
-      "testStorageCollision": "testInventoryCollision",
+      "ProxyContract": "ProxyPact",
+      "testStorageCollision": "testVaultCollision",
       "log": "journal",
-      "Current": "Present",
-      "implementation": "execution",
+      "Current": "Active",
+      "implementation": "realization",
       "success": "win",
-      "encodeWithSignature": "encodeWithSeal",
       "GuestAddress": "GuestLocation"
     }
   }

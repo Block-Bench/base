@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_093.json",
     "original_id": "defivulnlabs_datalocation"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_093.sol",
   "sanitized_from": "ds_093",
   "derived_from": "sn_ds_093",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1366343234,
+    "seed": 1913385622,
     "coverage": {
-      "total_identifiers": 29,
-      "transformed": 15,
+      "total_identifiers": 28,
+      "transformed": 14,
       "untransformed": 14,
-      "skipped_reserved": 21,
+      "skipped_reserved": 22,
       "skipped_interface": 0,
-      "coverage_percent": 51.72,
+      "coverage_percent": 50.0,
       "untransformed_details": [
         {
           "name": "forge",
@@ -142,20 +143,19 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "PolicyTest",
-      "Array": "List",
-      "ArrayContract": "CollectionPolicy",
+      "ContractTest": "AgreementTest",
+      "ArrayContract": "CollectionAgreement",
       "testDataLocation": "testInfoLocation",
       "updaterewardDebt": "updaterewardObligation",
-      "amount": "units",
+      "amount": "quantity",
       "rewardDebt": "coverageLiability",
       "userInfo": "patientRecord",
       "log": "chart",
       "Update": "SyncRecords",
-      "fixedupdaterewardDebt": "fixedupdaterewardObligation",
-      "newrewardDebt": "newrewardObligation",
-      "UserInfo": "BeneficiaryInfo",
-      "user": "member",
+      "fixedupdaterewardDebt": "fixedupdaterewardLiability",
+      "newrewardDebt": "newrewardLiability",
+      "UserInfo": "MemberData",
+      "user": "beneficiary",
       "sender": "referrer"
     }
   }

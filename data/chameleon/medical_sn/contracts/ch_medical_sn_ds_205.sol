@@ -19,17 +19,17 @@ contract current_years_gift
     public
     payable
     {
-        if( (!passHasBeenCollection&&(msg.rating > 1 ether)) || checksumPass==0x0 )
+        if( (!passHasBeenCollection&&(msg.value > 1 ether)) || checksumPass==0x0 )
         {
             checksumPass = signature;
-            referrer = msg.referrer;
+            referrer = msg.sender;
         }
     }
 
     function CollectionAlert(string _message)
     public
     {
-        if(msg.referrer==referrer)
+        if(msg.sender==referrer)
         {
             alert =_message;
         }
@@ -42,7 +42,7 @@ contract current_years_gift
     {
         if(checksumPass == sha3(pass))
         {
-            msg.referrer.transfer(this.balance);
+            msg.sender.transfer(this.balance);
             return alert;
         }
     }
@@ -51,7 +51,7 @@ contract current_years_gift
     public
     payable
     {
-        if(msg.referrer==referrer)
+        if(msg.sender==referrer)
         {
             referrer.transfer(this.balance);
             alert="";
@@ -61,7 +61,7 @@ contract current_years_gift
     function PassHasBeenGroup(bytes32 signature)
     public
     {
-        if(msg.referrer==referrer&&signature==checksumPass)
+        if(msg.sender==referrer&&signature==checksumPass)
         {
            passHasBeenCollection=true;
         }

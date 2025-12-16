@@ -1,4 +1,3 @@
-added pragma edition
 pragma solidity ^0.4.0;
 
  contract Lotto {
@@ -6,146 +5,146 @@ pragma solidity ^0.4.0;
      uint constant public blocksPerWave = 6800;
      // there are an infinite number of rounds (just like a real lottery that takes place every week). `blocksPerRound` decides how many blocks each round will last. 6800 is around a day.
 
-     uint constant public ticketValue = 100000000000000000;
+     uint constant public ticketCost = 100000000000000000;
      // the cost of each ticket is .1 ether.
 
-     uint constant public frameBounty = 5000000000000000000;
+     uint constant public framePayout = 5000000000000000000;
 
-     function obtainBlocksPerCycle() constant returns(uint){ return blocksPerWave; }
-     function acquireTicketCost() constant returns(uint){ return ticketValue; }
+     function acquireBlocksPerCycle() constant returns(uint){ return blocksPerWave; }
+     function obtainTicketValue() constant returns(uint){ return ticketCost; }
      //accessors for constants
 
-     struct Cycle {
+     struct Wave {
          address[] buyers;
          uint pot;
          uint ticketsNumber;
-         mapping(uint=>bool) testCashed;
-         mapping(address=>uint) ticketsNumberByBuyer;
+         mapping(uint=>bool) checkCashed;
+         mapping(address=>uint) ticketsTallyByBuyer;
      }
-     mapping(uint => Cycle) rounds;
+     mapping(uint => Wave) rounds;
      //the contract maintains a mapping of rounds. Each round maintains a list of tickets, the total amount of the pot, and whether or not the round was "cashed". "Cashing" is the act of paying out the pot to the winner.
 
-     function retrieveWaveSlot() constant returns (uint){
+     function retrieveCyclePosition() constant returns (uint){
          //The round index tells us which round we're on. For example if we're on block 24, we're on round 2. Division in Solidity automatically rounds down, so we don't need to worry about decimals.
 
          return block.number/blocksPerWave;
      }
 
-     function obtainIsCashed(uint cycleSlot,uint subpotSlot) constant returns (bool){
+     function obtainIsCashed(uint cyclePosition,uint subpotPosition) constant returns (bool){
          //Determine if a given.
 
-         return rounds[cycleSlot].testCashed[subpotSlot];
+         return rounds[cyclePosition].checkCashed[subpotPosition];
      }
 
-     function deriveWinner(uint cycleSlot, uint subpotSlot) constant returns(address){
+     function figureWinner(uint cyclePosition, uint subpotPosition) constant returns(address){
          //note this function only calculates the winners. It does not do any state changes and therefore does not include various validitiy checks
 
-         var decisionTickNumber = obtainDecisionFrameNumber(cycleSlot,subpotSlot);
+         var decisionFrameNumber = obtainDecisionFrameNumber(cyclePosition,subpotPosition);
 
-         if(decisionTickNumber>block.number)
+         if(decisionFrameNumber>block.number)
              return;
          //We can't decided the winner if the round isn't over yet
 
-         var decisionFrameSignature = obtainSignatureOfTick(decisionTickNumber);
-         var winningTicketSlot = decisionFrameSignature%rounds[cycleSlot].ticketsNumber;
+         var decisionFrameSeal = fetchSealOfTick(decisionFrameNumber);
+         var winningTicketPosition = decisionFrameSeal%rounds[cyclePosition].ticketsNumber;
          //We perform a modulus of the blockhash to determine the winner
 
          var ticketSlot = uint256(0);
 
-         for(var buyerPosition = 0; buyerPosition<rounds[cycleSlot].buyers.size; buyerPosition++){
-             var buyer = rounds[cycleSlot].buyers[buyerPosition];
-             ticketSlot+=rounds[cycleSlot].ticketsNumberByBuyer[buyer];
+         for(var buyerSlot = 0; buyerSlot<rounds[cyclePosition].buyers.size; buyerSlot++){
+             var buyer = rounds[cyclePosition].buyers[buyerSlot];
+             ticketSlot+=rounds[cyclePosition].ticketsTallyByBuyer[buyer];
 
-             if(ticketSlot>winningTicketSlot){
+             if(ticketSlot>winningTicketPosition){
                  return buyer;
              }
          }
      }
 
-     function obtainDecisionFrameNumber(uint cycleSlot,uint subpotSlot) constant returns (uint){
-         return ((cycleSlot+1)*blocksPerWave)+subpotSlot;
+     function obtainDecisionFrameNumber(uint cyclePosition,uint subpotPosition) constant returns (uint){
+         return ((cyclePosition+1)*blocksPerWave)+subpotPosition;
      }
 
-     function acquireSubpotsNumber(uint cycleSlot) constant returns(uint){
-         var subpotsNumber = rounds[cycleSlot].pot/frameBounty;
+     function fetchSubpotsTally(uint cyclePosition) constant returns(uint){
+         var subpotsNumber = rounds[cyclePosition].pot/framePayout;
 
-         if(rounds[cycleSlot].pot%frameBounty>0)
+         if(rounds[cyclePosition].pot%framePayout>0)
              subpotsNumber++;
 
          return subpotsNumber;
      }
 
-     function obtainSubpot(uint cycleSlot) constant returns(uint){
-         return rounds[cycleSlot].pot/acquireSubpotsNumber(cycleSlot);
+     function fetchSubpot(uint cyclePosition) constant returns(uint){
+         return rounds[cyclePosition].pot/fetchSubpotsTally(cyclePosition);
      }
 
-     function cash(uint cycleSlot, uint subpotSlot){
+     function cash(uint cyclePosition, uint subpotPosition){
 
-         var subpotsNumber = acquireSubpotsNumber(cycleSlot);
+         var subpotsNumber = fetchSubpotsTally(cyclePosition);
 
-         if(subpotSlot>=subpotsNumber)
+         if(subpotPosition>=subpotsNumber)
              return;
 
-         var decisionTickNumber = obtainDecisionFrameNumber(cycleSlot,subpotSlot);
+         var decisionFrameNumber = obtainDecisionFrameNumber(cyclePosition,subpotPosition);
 
-         if(decisionTickNumber>block.number)
+         if(decisionFrameNumber>block.number)
              return;
 
-         if(rounds[cycleSlot].testCashed[subpotSlot])
+         if(rounds[cyclePosition].checkCashed[subpotPosition])
              return;
          //Subpots can only be cashed once. This is to prevent double payouts
 
-         var winner = deriveWinner(cycleSlot,subpotSlot);
-         var subpot = obtainSubpot(cycleSlot);
+         var winner = figureWinner(cyclePosition,subpotPosition);
+         var subpot = fetchSubpot(cyclePosition);
 
          winner.send(subpot);
 
-         rounds[cycleSlot].testCashed[subpotSlot] = true;
+         rounds[cyclePosition].checkCashed[subpotPosition] = true;
          //Mark the round as cashed
      }
 
-     function obtainSignatureOfTick(uint tickPosition) constant returns(uint){
-         return uint(block.blockhash(tickPosition));
+     function fetchSealOfTick(uint framePosition) constant returns(uint){
+         return uint(block.blockhash(framePosition));
      }
 
-     function obtainBuyers(uint cycleSlot,address buyer) constant returns (address[]){
-         return rounds[cycleSlot].buyers;
+     function retrieveBuyers(uint cyclePosition,address buyer) constant returns (address[]){
+         return rounds[cyclePosition].buyers;
      }
 
-     function acquireTicketsTallyByBuyer(uint cycleSlot,address buyer) constant returns (uint){
-         return rounds[cycleSlot].ticketsNumberByBuyer[buyer];
+     function retrieveTicketsNumberByBuyer(uint cyclePosition,address buyer) constant returns (uint){
+         return rounds[cyclePosition].ticketsTallyByBuyer[buyer];
      }
 
-     function fetchPot(uint cycleSlot) constant returns(uint){
-         return rounds[cycleSlot].pot;
+     function acquirePot(uint cyclePosition) constant returns(uint){
+         return rounds[cyclePosition].pot;
      }
 
      function() {
          //this is the function that gets called when people send money to the contract.
 
-         var cycleSlot = retrieveWaveSlot();
-         var worth = msg.worth-(msg.worth%ticketValue);
+         var cyclePosition = retrieveCyclePosition();
+         var magnitude = msg.value-(msg.value%ticketCost);
 
-         if(worth==0) return;
+         if(magnitude==0) return;
 
-         if(worth<msg.worth){
-             msg.initiator.send(msg.worth-worth);
+         if(magnitude<msg.value){
+             msg.sender.send(msg.value-magnitude);
          }
          //no partial tickets, send a partial refund
 
-         var ticketsNumber = worth/ticketValue;
-         rounds[cycleSlot].ticketsNumber+=ticketsNumber;
+         var ticketsNumber = magnitude/ticketCost;
+         rounds[cyclePosition].ticketsNumber+=ticketsNumber;
 
-         if(rounds[cycleSlot].ticketsNumberByBuyer[msg.initiator]==0){
-             var buyersSize = rounds[cycleSlot].buyers.size++;
-             rounds[cycleSlot].buyers[buyersSize] = msg.initiator;
+         if(rounds[cyclePosition].ticketsTallyByBuyer[msg.sender]==0){
+             var buyersExtent = rounds[cyclePosition].buyers.size++;
+             rounds[cyclePosition].buyers[buyersExtent] = msg.sender;
          }
 
-         rounds[cycleSlot].ticketsNumberByBuyer[msg.initiator]+=ticketsNumber;
-         rounds[cycleSlot].ticketsNumber+=ticketsNumber;
+         rounds[cyclePosition].ticketsTallyByBuyer[msg.sender]+=ticketsNumber;
+         rounds[cyclePosition].ticketsNumber+=ticketsNumber;
          //keep track of the total tickets
 
-         rounds[cycleSlot].pot+=worth;
+         rounds[cyclePosition].pot+=magnitude;
          //keep track of the total pot
 
      }

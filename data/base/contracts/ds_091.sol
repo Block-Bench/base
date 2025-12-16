@@ -3,7 +3,6 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
 
 contract EtherGame {
     uint public constant targetAmount = 7 ether;

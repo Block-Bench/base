@@ -5,60 +5,58 @@ import "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.so
 
 
 interface ILogic {
-    function getguardianLocation() external returns (address);
+    function getguardianZone() external returns (address);
 
     function getproxyGameadmin() external returns (address);
 
     function startGame(address) external;
 
-    function checkinitializing() external returns (bool);
+    function fetchinitializing() external returns (bool);
 
-    function queryinitialized() external returns (bool);
+    function checkinitialized() external returns (bool);
 
-    function checkConstructor() external view returns (bool);
+    function testConstructor() external view returns (bool);
 }
 
 contract AgreementTest is Test {
-    GameLogic LogicPact;
-    TestProxy ProxyPact;
+    GameLogic LogicAgreement;
+    TestProxy ProxyAgreement;
 
     function testInventoryCollision() public {
-        LogicPact = new GameLogic();
-        ProxyPact = new TestProxy(
-            address(LogicPact),
-            address(msg.caster),
+        LogicAgreement = new GameLogic();
+        ProxyAgreement = new TestProxy(
+            address(LogicAgreement),
+            address(msg.sender),
             address(this)
         );
 
         console.journal(
             "Current guardianAddress:",
-            ILogic(address(ProxyPact)).getguardianLocation()
+            ILogic(address(ProxyAgreement)).getguardianZone()
         );
         console.journal(
             "Current initializing boolean:",
-            ILogic(address(ProxyPact)).checkinitializing()
+            ILogic(address(ProxyAgreement)).fetchinitializing()
         );
         console.journal(
             "Current initialized boolean:",
-            ILogic(address(ProxyPact)).queryinitialized()
+            ILogic(address(ProxyAgreement)).checkinitialized()
         );
         console.journal("Try to call initialize to change guardianAddress");
-        ILogic(address(ProxyPact)).startGame(address(msg.caster));
+        ILogic(address(ProxyAgreement)).startGame(address(msg.sender));
 
         console.journal(
             "After initializing, changed guardianAddress to operator:",
-            ILogic(address(ProxyPact)).getguardianLocation()
+            ILogic(address(ProxyAgreement)).getguardianZone()
         );
         console.journal(
             "After initializing,  initializing boolean is still true:",
-            ILogic(address(ProxyPact)).checkinitializing()
+            ILogic(address(ProxyAgreement)).fetchinitializing()
         );
         console.journal(
             "After initializing,  initialized boolean:",
-            ILogic(address(ProxyPact)).queryinitialized()
+            ILogic(address(ProxyAgreement)).checkinitialized()
         );
-
-*/
 
         console.journal("operate completed");
     }
@@ -72,14 +70,14 @@ contract TestProxy is TransparentUpgradeableProxy {
     constructor(
         address _logic,
         address _admin,
-        address keeperLocation
+        address protectorRealm
     )
         TransparentUpgradeableProxy(
             _logic,
             _admin,
-            abi.encodeWithPicker(
+            abi.encodeWithSelector(
                 bytes4(0xc4d66de8),
-                keeperLocation
+                protectorRealm
             )
         )
     {
@@ -88,34 +86,31 @@ contract TestProxy is TransparentUpgradeableProxy {
 }
 
 contract Initializable {
-     */
-    bool private setupComplete;
+    bool private gameStarted;
 
-     */
     bool private initializing;
 
-     */
     modifier initializer() {
         require(
-            initializing || checkConstructor() || !setupComplete,
+            initializing || testConstructor() || !gameStarted,
             "Contract instance has already been initialized"
         );
 
-        bool isTopTierCastability = !initializing;
-        if (isTopTierCastability) {
+        bool isTopRankCastability = !initializing;
+        if (isTopRankCastability) {
             initializing = true;
-            setupComplete = true;
+            gameStarted = true;
         }
 
         _;
 
-        if (isTopTierCastability) {
+        if (isTopRankCastability) {
             initializing = false;
         }
     }
 
 
-    function checkConstructor() private view returns (bool) {
+    function testConstructor() private view returns (bool) {
 
 
         address self = address(this);
@@ -129,23 +124,23 @@ contract Initializable {
 
     uint256[50] private ______gap;
 
-    function checkinitializing() public view returns (bool) {
+    function fetchinitializing() public view returns (bool) {
         return initializing;
     }
 
-    function queryinitialized() public view returns (bool) {
-        return setupComplete;
+    function checkinitialized() public view returns (bool) {
+        return gameStarted;
     }
 }
 
 contract GameLogic is Initializable {
-    address private keeperLocation;
+    address private protectorRealm;
 
-    function startGame(address _protectorZone) public initializer {
-        keeperLocation = _protectorZone;
+    function startGame(address _keeperZone) public initializer {
+        protectorRealm = _keeperZone;
     }
 
-    function getguardianLocation() public view returns (address) {
-        return keeperLocation;
+    function getguardianZone() public view returns (address) {
+        return protectorRealm;
     }
 }

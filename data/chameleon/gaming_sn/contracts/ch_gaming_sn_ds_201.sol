@@ -18,22 +18,22 @@ contract Private_Bank
     public
     payable
     {
-        if(msg.worth >= MinimumBankwinnings)
+        if(msg.value >= MinimumBankwinnings)
         {
-            playerLoot[msg.initiator]+=msg.worth;
-            SendlootJournal.AttachSignal(msg.initiator,msg.worth,"Deposit");
+            playerLoot[msg.sender]+=msg.value;
+            SendlootJournal.AttachSignal(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=playerLoot[msg.initiator])
+        if(_am<=playerLoot[msg.sender])
         {
 
-            if(msg.initiator.call.worth(_am)())
+            if(msg.sender.call.worth(_am)())
             {
-                playerLoot[msg.initiator]-=_am;
-                SendlootJournal.AttachSignal(msg.initiator,_am,"CashOut");
+                playerLoot[msg.sender]-=_am;
+                SendlootJournal.AttachSignal(msg.sender,_am,"CashOut");
             }
         }
     }

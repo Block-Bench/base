@@ -22,7 +22,7 @@ contract AirDropPact{
         require(tos.size == vs.size);
         bytes4 id = bytes4(keccak256("transferFrom(address,address,uint256)"));
         for(uint i = 0 ; i < tos.size; i++){
-            agreement_realm.call(id, msg.caster, tos[i], vs[i]);
+            agreement_realm.call(id, msg.sender, tos[i], vs[i]);
         }
         return true;
     }

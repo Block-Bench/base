@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_016.json",
     "original_id": "smartbugs_access_control_wallet_04_confused_sign"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_016.sol",
   "sanitized_from": "ds_016",
   "derived_from": "sn_ds_016",
@@ -74,7 +75,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2789879572,
+    "seed": 3067678522,
     "coverage": {
       "total_identifiers": 9,
       "transformed": 8,
@@ -92,11 +93,11 @@
     },
     "rename_map": {
       "creator": "founder",
-      "balances": "userRewards",
+      "balances": "playerLoot",
       "sender": "caster",
-      "deposit": "storeLoot",
+      "deposit": "depositGold",
       "value": "worth",
-      "withdraw": "collectBounty",
+      "withdraw": "redeemTokens",
       "amount": "count",
       "migrateTo": "migrateDestination"
     }

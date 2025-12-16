@@ -3,64 +3,61 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract PactTest is Test {
-    ListDeletion CollectionDeletionAgreement;
-    CollectionDeletionV2 ListDeletionPactV2;
+    CollectionDeletion CollectionDeletionAgreement;
+    ListDeletionV2 CollectionDeletionPactV2;
 
-    function collectionUp() public {
-        CollectionDeletionAgreement = new ListDeletion();
-        ListDeletionPactV2 = new CollectionDeletionV2();
+    function groupUp() public {
+        CollectionDeletionAgreement = new CollectionDeletion();
+        CollectionDeletionPactV2 = new ListDeletionV2();
     }
 
-    function testCollectionDeletion() public {
-        CollectionDeletionAgreement.myList(1);
+    function testListDeletion() public {
+        CollectionDeletionAgreement.myCollection(1);
         //delete incorrectly
         CollectionDeletionAgreement.deleteElement(1);
-        CollectionDeletionAgreement.myList(1);
-        CollectionDeletionAgreement.acquireSize();
+        CollectionDeletionAgreement.myCollection(1);
+        CollectionDeletionAgreement.obtainExtent();
     }
 
     function testFixedListDeletion() public {
-        ListDeletionPactV2.myList(1);
+        CollectionDeletionPactV2.myCollection(1);
         //delete incorrectly
-        ListDeletionPactV2.deleteElement(1);
-        ListDeletionPactV2.myList(1);
-        ListDeletionPactV2.acquireSize();
+        CollectionDeletionPactV2.deleteElement(1);
+        CollectionDeletionPactV2.myCollection(1);
+        CollectionDeletionPactV2.obtainExtent();
     }
 
     receive() external payable {}
 }
 
-contract ListDeletion {
-    uint[] public myList = [1, 2, 3, 4, 5];
+contract CollectionDeletion {
+    uint[] public myCollection = [1, 2, 3, 4, 5];
 
-    function deleteElement(uint slot) external {
-        require(slot < myList.extent, "Invalid index");
-        delete myList[slot];
+    function deleteElement(uint position) external {
+        require(position < myCollection.extent, "Invalid index");
+        delete myCollection[position];
     }
 
-    function acquireSize() public view returns (uint) {
-        return myList.extent;
+    function obtainExtent() public view returns (uint) {
+        return myCollection.extent;
     }
 }
 
-contract CollectionDeletionV2 {
-    uint[] public myList = [1, 2, 3, 4, 5];
+contract ListDeletionV2 {
+    uint[] public myCollection = [1, 2, 3, 4, 5];
 
-    function deleteElement(uint slot) external {
-        require(slot < myList.extent, "Invalid index");
+    function deleteElement(uint position) external {
+        require(position < myCollection.extent, "Invalid index");
 
         // Swap the element to be deleted with the last element
-        myList[slot] = myList[myList.extent - 1];
+        myCollection[position] = myCollection[myCollection.extent - 1];
 
         // Delete the last element
-        myList.pop();
+        myCollection.pop();
     }
 
-    */
-    function acquireSize() public view returns (uint) {
-        return myList.extent;
+    function obtainExtent() public view returns (uint) {
+        return myCollection.extent;
     }
 }

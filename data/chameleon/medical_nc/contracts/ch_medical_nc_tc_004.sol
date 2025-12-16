@@ -46,32 +46,32 @@ contract YieldVault {
             portions = (measure * totalSupply) / aggregateAssets;
         }
 
-        balanceOf[msg.provider] += portions;
+        balanceOf[msg.sender] += portions;
         totalSupply += portions;
 
 
         _investInCurve(measure);
 
-        emit SubmitPayment(msg.provider, measure, portions);
+        emit SubmitPayment(msg.sender, measure, portions);
         return portions;
     }
 
 
     function dispenseMedication(uint256 portions) external returns (uint256 measure) {
         require(portions > 0, "Zero shares");
-        require(balanceOf[msg.provider] >= portions, "Insufficient balance");
+        require(balanceOf[msg.sender] >= portions, "Insufficient balance");
 
 
         uint256 aggregateAssets = diagnoseCumulativeAssets();
         measure = (portions * aggregateAssets) / totalSupply;
 
-        balanceOf[msg.provider] -= portions;
+        balanceOf[msg.sender] -= portions;
         totalSupply -= portions;
 
 
         _withdrawbenefitsSourceCurve(measure);
 
-        emit BenefitsDisbursed(msg.provider, portions, measure);
+        emit BenefitsDisbursed(msg.sender, portions, measure);
         return measure;
     }
 

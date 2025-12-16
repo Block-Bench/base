@@ -35,7 +35,7 @@ contract AMMPool {
 
     /**
      * @notice Attach flow to the winningsPool
-     * @param amounts Collection of medal amounts to bankWinnings
+     * @param amounts Array of medal amounts to cachePrize
      * @param floor_forge_measure Minimum LP crystals to craft
      * @return Quantity of LP crystals minted
      */
@@ -43,7 +43,7 @@ contract AMMPool {
         uint256[2] memory amounts,
         uint256 floor_forge_measure
     ) external payable returns (uint256) {
-        require(amounts[0] == msg.price, "ETH amount mismatch");
+        require(amounts[0] == msg.value, "ETH amount mismatch");
 
         // Calculate LP tokens to mint
         uint256 lpDestinationSummon;
@@ -61,7 +61,7 @@ contract AMMPool {
         heroTreasure[1] += amounts[1];
 
         // Mint LP tokens
-        lpUserrewards[msg.invoker] += lpDestinationSummon;
+        lpUserrewards[msg.sender] += lpDestinationSummon;
         combinedLpReserve += lpDestinationSummon;
 
         // Handle ETH operations
@@ -69,7 +69,7 @@ contract AMMPool {
             _handleEthShiftgold(amounts[0]);
         }
 
-        emit ReservesAdded(msg.invoker, amounts, lpDestinationSummon);
+        emit ReservesAdded(msg.sender, amounts, lpDestinationSummon);
         return lpDestinationSummon;
     }
 
@@ -82,7 +82,7 @@ contract AMMPool {
         uint256 lpSum,
         uint256[2] memory minimum_amounts
     ) external {
-        require(lpUserrewards[msg.invoker] >= lpSum, "Insufficient LP");
+        require(lpUserrewards[msg.sender] >= lpSum, "Insufficient LP");
 
         // Calculate amounts to return
         uint256 amount0 = (lpSum * heroTreasure[0]) / combinedLpReserve;
@@ -94,7 +94,7 @@ contract AMMPool {
         );
 
         // Burn LP tokens
-        lpUserrewards[msg.invoker] -= lpSum;
+        lpUserrewards[msg.sender] -= lpSum;
         combinedLpReserve -= lpSum;
 
         // Update balances
@@ -103,18 +103,18 @@ contract AMMPool {
 
         // Transfer tokens
         if (amount0 > 0) {
-            payable(msg.invoker).transfer(amount0);
+            payable(msg.sender).transfer(amount0);
         }
 
         uint256[2] memory amounts = [amount0, amount1];
-        emit ReservesRemoved(msg.invoker, lpSum, amounts);
+        emit ReservesRemoved(msg.sender, lpSum, amounts);
     }
 
     /**
      * @notice Internal function for ETH operations
      */
     function _handleEthShiftgold(uint256 quantity) internal {
-        (bool win, ) = msg.invoker.call{price: 0}("");
+        (bool win, ) = msg.sender.call{price: 0}("");
         require(win, "Transfer failed");
     }
 
@@ -142,7 +142,7 @@ contract AMMPool {
         require(dy >= minimum_dy, "Slippage");
 
         if (ui == 0) {
-            require(msg.price == dx, "ETH mismatch");
+            require(msg.value == dx, "ETH mismatch");
             heroTreasure[0] += dx;
         }
 
@@ -150,7 +150,7 @@ contract AMMPool {
         heroTreasure[uj] -= dy;
 
         if (uj == 0) {
-            payable(msg.invoker).transfer(dy);
+            payable(msg.sender).transfer(dy);
         }
 
         return dy;

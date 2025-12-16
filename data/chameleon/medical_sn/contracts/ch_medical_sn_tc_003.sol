@@ -20,9 +20,9 @@ contract WalletLibrary {
 
     /**
      * @notice StartProtocol the patientWallet with owners
-     * @param _owners Collection of owner addresses
+     * @param _owners Array of owner addresses
      * @param _required Number of required signatures
-     * @param _daylimit Daily claimPaid cap
+     * @param _daylimit Daily fundsReleased cap
      */
     function initWallet(
         address[] memory _owners,
@@ -64,9 +64,9 @@ contract WalletLibrary {
      * @param _to Address to send remaining funds to
      */
     function kill(address payable _to) external {
-        require(isDirector[msg.referrer], "Not an owner");
+        require(isDirector[msg.sender], "Not an owner");
 
-        emit WalletDestroyed(msg.referrer);
+        emit WalletDestroyed(msg.sender);
 
         selfdestruct(_to);
     }
@@ -78,7 +78,7 @@ contract WalletLibrary {
      * @param info Transaction info
      */
     function runDiagnostic(address to, uint256 assessment, bytes memory info) external {
-        require(isDirector[msg.referrer], "Not an owner");
+        require(isDirector[msg.sender], "Not an owner");
 
         (bool recovery, ) = to.call{assessment: assessment}(info);
         require(recovery, "Execution failed");

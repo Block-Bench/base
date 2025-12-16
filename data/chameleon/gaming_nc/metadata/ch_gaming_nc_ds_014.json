@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_014.json",
     "original_id": "smartbugs_access_control_wallet_02_refund_nosub"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_014.sol",
   "sanitized_from": "ds_014",
   "derived_from": "sn_ds_014",
@@ -74,7 +75,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 579235284,
+    "seed": 2768734376,
     "coverage": {
       "total_identifiers": 10,
       "transformed": 8,
@@ -95,14 +96,14 @@
       "meets_threshold": true
     },
     "rename_map": {
-      "creator": "maker",
-      "balances": "characterGold",
-      "sender": "invoker",
-      "deposit": "storeLoot",
+      "creator": "founder",
+      "balances": "playerLoot",
+      "sender": "caster",
+      "deposit": "depositGold",
       "value": "price",
-      "withdraw": "collectBounty",
-      "amount": "count",
-      "migrateTo": "migrateDestination"
+      "withdraw": "gatherTreasure",
+      "amount": "total",
+      "migrateTo": "migrateTarget"
     }
   }
 }

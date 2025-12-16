@@ -65,13 +65,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_105.json",
     "original_id": "defivulnlabs_gas-price"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_105.sol",
   "sanitized_from": "ds_105",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 3051239984,
+    "seed": 3637594513,
     "coverage": {
       "total_identifiers": 37,
       "transformed": 15,
@@ -173,20 +174,20 @@
     },
     "rename_map": {
       "ContractTest": "PactTest",
-      "GasReimbursementContract": "GasReimbursementAgreement",
-      "setUp": "collectionUp",
-      "balanceBefore": "lootbalanceBefore",
-      "executeTransfer": "runmissionRelocateassets",
-      "balanceAfter": "goldholdingAfter",
+      "GasReimbursementContract": "GasReimbursementPact",
+      "setUp": "groupUp",
+      "balanceBefore": "goldholdingBefore",
+      "executeTransfer": "runmissionMovetreasure",
+      "balanceAfter": "lootbalanceAfter",
       "price": "cost",
-      "log": "record",
-      "token": "gem",
+      "log": "journal",
+      "token": "medal",
       "txGasPrice": "txGasValue",
-      "calculateTotalFee": "figureFullCut",
-      "totalFee": "fullCharge",
-      "recipient": "target",
-      "_nativeTransferExec": "_nativeSendlootExec",
-      "amount": "total"
+      "calculateTotalFee": "determineCompleteCharge",
+      "totalFee": "aggregateTax",
+      "recipient": "receiver",
+      "_nativeTransferExec": "_nativeTradefundsExec",
+      "amount": "quantity"
     }
   }
 }

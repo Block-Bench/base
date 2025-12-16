@@ -1,14 +1,12 @@
 pragma solidity ^0.4.24;
 
-*/
-
 contract FiftyFlip {
     uint constant DONATING_X = 20;
 
 
     uint constant jackpot_cut = 10;
     uint constant JACKPOT_MODULO = 1000;
-    uint constant dev_tax = 20;
+    uint constant dev_charge = 20;
     uint constant WIN_X = 1900;
 
 
@@ -24,18 +22,18 @@ contract FiftyFlip {
     address private whale;
 
 
-    uint256 public jackpotMagnitude;
-    uint256 public devCutScale;
+    uint256 public jackpotScale;
+    uint256 public devCutMagnitude;
 
 
     uint256 public sealedInBets;
-    uint256 public combinedSumDestinationWhale;
+    uint256 public aggregateSumDestinationWhale;
 
     struct Bet {
 
-        uint quantity;
+        uint count;
 
-        uint256 tickNumber;
+        uint256 frameNumber;
 
         bool betMask;
 
@@ -46,40 +44,40 @@ contract FiftyFlip {
     mapping (address => uint) donateQuantity;
 
 
-    event Wager(uint ticketTag, uint betQuantity, uint256 betFrameNumber, bool betMask, address betPlayer);
-    event Win(address winner, uint quantity, uint ticketTag, bool maskRes, uint jackpotRes);
-    event Lose(address loser, uint quantity, uint ticketTag, bool maskRes, uint jackpotRes);
-    event Refund(uint ticketTag, uint256 quantity, address requester);
-    event Donate(uint256 quantity, address donator);
-    event FailedPayment(address paidAdventurer, uint quantity);
-    event Payment(address noPaidPlayer, uint quantity);
-    event JackpotPayment(address player, uint ticketTag, uint jackpotWin);
+    event Wager(uint ticketCode, uint betCount, uint256 betTickNumber, bool betMask, address betPlayer);
+    event Win(address winner, uint count, uint ticketCode, bool maskRes, uint jackpotRes);
+    event Lose(address loser, uint count, uint ticketCode, bool maskRes, uint jackpotRes);
+    event Refund(uint ticketCode, uint256 count, address requester);
+    event Donate(uint256 count, address donator);
+    event FailedPayment(address paidHero, uint count);
+    event Payment(address noPaidAdventurer, uint count);
+    event JackpotPayment(address player, uint ticketCode, uint jackpotWin);
 
 
-    constructor (address whaleZone, address autoPlayBotZone, address secretSignerZone) public {
-        owner = msg.initiator;
-        autoPlayBot = autoPlayBotZone;
-        whale = whaleZone;
+    constructor (address whaleLocation, address autoPlayBotRealm, address secretSignerZone) public {
+        owner = msg.sender;
+        autoPlayBot = autoPlayBotRealm;
+        whale = whaleLocation;
         secretSigner = secretSignerZone;
-        jackpotMagnitude = 0;
-        devCutScale = 0;
+        jackpotScale = 0;
+        devCutMagnitude = 0;
         sealedInBets = 0;
-        combinedSumDestinationWhale = 0;
+        aggregateSumDestinationWhale = 0;
     }
 
 
     modifier onlyOwner() {
-        require (msg.initiator == owner, "You are not the owner of this contract!");
+        require (msg.sender == owner, "You are not the owner of this contract!");
         _;
     }
 
     modifier onlyBot() {
-        require (msg.initiator == autoPlayBot, "You are not the bot of this contract!");
+        require (msg.sender == autoPlayBot, "You are not the bot of this contract!");
         _;
     }
 
-    modifier examinePactHealth() {
-        require (address(this).balance >= sealedInBets + jackpotMagnitude + devCutScale, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
+    modifier validateAgreementHealth() {
+        require (address(this).balance >= sealedInBets + jackpotScale + devCutMagnitude, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
         _;
     }
 

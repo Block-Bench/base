@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_094.json",
     "original_id": "defivulnlabs_dirtybytes"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_094.sol",
   "sanitized_from": "ds_094",
   "derived_from": "sn_ds_094",
@@ -75,12 +76,12 @@
     "source": "nocomments",
     "seed": 3219698381,
     "coverage": {
-      "total_identifiers": 25,
-      "transformed": 4,
+      "total_identifiers": 24,
+      "transformed": 3,
       "untransformed": 21,
-      "skipped_reserved": 17,
+      "skipped_reserved": 18,
       "skipped_interface": 0,
-      "coverage_percent": 16.0,
+      "coverage_percent": 12.5,
       "untransformed_details": [
         {
           "name": "forge",
@@ -172,8 +173,7 @@
     "rename_map": {
       "ContractTest": "PolicyTest",
       "log_named_bytes": "chart_named_data",
-      "Array": "List",
-      "log": "chart"
+      "log": "record"
     }
   }
 }

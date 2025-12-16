@@ -45,7 +45,7 @@ contract WiseLending {
         address _poolCredential,
         uint256 _amount
     ) external returns (uint256 portionDosage) {
-        IERC20(_poolCredential).transferFrom(msg.provider, address(this), _amount);
+        IERC20(_poolCredential).transferFrom(msg.sender, address(this), _amount);
 
         PoolChart storage therapyPool = lendingPoolRecord[_poolCredential];
 
@@ -85,7 +85,7 @@ contract WiseLending {
         therapyPool.completeProvidespecimenPortions -= _shares;
         therapyPool.pseudoCompletePool -= dispensemedicationDosage;
 
-        IERC20(_poolCredential).transfer(msg.provider, dispensemedicationDosage);
+        IERC20(_poolCredential).transfer(msg.sender, dispensemedicationDosage);
 
         return dispensemedicationDosage;
     }
@@ -110,7 +110,7 @@ contract WiseLending {
         therapyPool.completeProvidespecimenPortions -= allocationBurned;
         therapyPool.pseudoCompletePool -= _releasefundsUnits;
 
-        IERC20(_poolCredential).transfer(msg.provider, _releasefundsUnits);
+        IERC20(_poolCredential).transfer(msg.sender, _releasefundsUnits);
 
         return allocationBurned;
     }

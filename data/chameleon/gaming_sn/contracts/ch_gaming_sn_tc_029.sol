@@ -33,10 +33,10 @@ contract VaultStrategy {
             piecesAdded = (measure * combinedPortions * 1e18) / (lootPool * cost);
         }
 
-        pieces[msg.caster] += piecesAdded;
+        pieces[msg.sender] += piecesAdded;
         combinedPortions += piecesAdded;
 
-        IERC20(wantCrystal).transferFrom(msg.caster, address(this), measure);
+        IERC20(wantCrystal).transferFrom(msg.sender, address(this), measure);
         return piecesAdded;
     }
 
@@ -46,9 +46,9 @@ contract VaultStrategy {
         uint256 cost = ICostSeer(seer).fetchCost(wantCrystal);
         uint256 measure = (piecesSum * lootPool * cost) / (combinedPortions * 1e18);
 
-        pieces[msg.caster] -= piecesSum;
+        pieces[msg.sender] -= piecesSum;
         combinedPortions -= piecesSum;
 
-        IERC20(wantCrystal).transfer(msg.caster, measure);
+        IERC20(wantCrystal).transfer(msg.sender, measure);
     }
 }

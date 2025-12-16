@@ -72,6 +72,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_208.json",
     "original_id": "smartbugs_access_control_parity_wallet_bug_1"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_208.sol",
   "sanitized_from": "ds_208",
   "derived_from": "sn_ds_208",
@@ -80,19 +81,15 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 3443012392,
+    "seed": 3252076480,
     "coverage": {
-      "total_identifiers": 107,
+      "total_identifiers": 103,
       "transformed": 40,
-      "untransformed": 67,
-      "skipped_reserved": 39,
+      "untransformed": 63,
+      "skipped_reserved": 42,
       "skipped_interface": 0,
-      "coverage_percent": 37.38,
+      "coverage_percent": 38.83,
       "untransformed_details": [
-        {
-          "name": "sol",
-          "reason": "no synonym found"
-        },
         {
           "name": "WalletEvents",
           "reason": "no synonym found"
@@ -222,10 +219,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "sha3",
-          "reason": "no synonym found"
-        },
-        {
           "name": "c_maxOwners",
           "reason": "no synonym found"
         },
@@ -274,10 +267,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "suicide",
-          "reason": "no synonym found"
-        },
-        {
           "name": "number",
           "reason": "no synonym found"
         },
@@ -315,10 +304,6 @@
         },
         {
           "name": "free",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {
@@ -361,45 +346,45 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "Wallet": "PatientWallet",
       "Revoke": "Withdraw",
-      "OwnerChanged": "DirectorChanged",
-      "oldOwner": "previousSupervisor",
-      "newOwner": "currentDirector",
-      "OwnerAdded": "DirectorAdded",
-      "OwnerRemoved": "DirectorRemoved",
-      "newRequirement": "currentRequirement",
-      "Deposit": "RegisterPayment",
-      "value": "rating",
-      "data": "record",
+      "OwnerChanged": "AdministratorChanged",
+      "oldOwner": "formerAdministrator",
+      "newOwner": "updatedAdministrator",
+      "OwnerAdded": "SupervisorAdded",
+      "OwnerRemoved": "AdministratorRemoved",
+      "newRequirement": "updatedRequirement",
+      "Deposit": "FundAccount",
+      "value": "assessment",
+      "data": "chart",
       "revoke": "cancel",
-      "changeOwner": "changeAdministrator",
-      "addOwner": "appendSupervisor",
-      "removeOwner": "discontinueSupervisor",
-      "_newRequired": "_updatedRequired",
-      "isOwner": "isSupervisor",
-      "hasConfirmed": "containsConfirmed",
-      "setDailyLimit": "collectionDailyBound",
+      "changeOwner": "changeDirector",
+      "addOwner": "includeSupervisor",
+      "removeOwner": "discontinueAdministrator",
+      "_newRequired": "_currentRequired",
+      "isOwner": "isAdministrator",
+      "hasConfirmed": "holdsConfirmed",
+      "setDailyLimit": "groupDailyCap",
       "_newLimit": "_updatedBound",
       "execute": "completeTreatment",
       "o_hash": "o_signature",
-      "o_success": "o_improvement",
-      "PendingState": "AwaitingCondition",
-      "index": "rank",
+      "o_success": "o_recovery",
+      "PendingState": "ScheduledCondition",
+      "index": "slot",
       "onlyowner": "onlyChiefMedical",
-      "sender": "provider",
-      "confirmAndCheck": "confirmAndDiagnose",
-      "length": "extent",
-      "ownerIndex": "supervisorSlot",
-      "ownerIndexBit": "supervisorPositionBit",
+      "sender": "referrer",
+      "confirmAndCheck": "confirmAndInspect",
+      "length": "duration",
+      "ownerIndex": "directorRank",
+      "ownerIndexBit": "supervisorRankBit",
       "pending": "awaiting",
       "m_pending": "m_scheduled",
-      "clearPending": "clearAwaiting",
-      "getOwner": "diagnoseDirector",
-      "underLimit": "underCap",
-      "create": "patientAdmitted",
-      "add": "insert",
-      "iszero": "verifyzero",
+      "clearPending": "clearScheduled",
+      "getOwner": "retrieveDirector",
+      "underLimit": "underBound",
+      "create": "caseOpened",
+      "add": "append",
+      "iszero": "testzero",
+      "Wallet": "PatientWallet",
       "target": "objective"
     }
   }

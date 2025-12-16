@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_138.json",
     "original_id": "smartbugs_arithmetic_integer_overflow_multitx_multifunc_feasible"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_138.sol",
   "sanitized_from": "ds_138",
   "derived_from": "sn_ds_138",
@@ -74,27 +75,15 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 4261325680,
+    "seed": 4081834496,
     "coverage": {
-      "total_identifiers": 9,
+      "total_identifiers": 6,
       "transformed": 3,
-      "untransformed": 6,
+      "untransformed": 3,
       "skipped_reserved": 9,
       "skipped_interface": 0,
-      "coverage_percent": 33.33,
+      "coverage_percent": 50.0,
       "untransformed_details": [
-        {
-          "name": "Multi",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "transactional",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "multi",
-          "reason": "no synonym found"
-        },
         {
           "name": "MultiTxCalculator",
           "reason": "no synonym found"
@@ -111,7 +100,7 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "initialized": "setupComplete",
+      "initialized": "gameStarted",
       "count": "tally",
       "input": "submission"
     }

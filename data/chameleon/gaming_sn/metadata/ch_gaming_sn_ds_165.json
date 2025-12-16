@@ -67,25 +67,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_165.json",
     "original_id": "smartbugs_time_manipulation_governmental_survey"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_165.sol",
   "sanitized_from": "ds_165",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1417837623,
+    "seed": 740474335,
     "coverage": {
-      "total_identifiers": 17,
-      "transformed": 9,
-      "untransformed": 8,
+      "total_identifiers": 15,
+      "transformed": 8,
+      "untransformed": 7,
       "skipped_reserved": 18,
       "skipped_interface": 0,
-      "coverage_percent": 52.94,
+      "coverage_percent": 53.33,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "Governmental",
           "reason": "no synonym found"
@@ -118,15 +115,14 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "release",
       "lastInvestor": "finalInvestor",
-      "lastInvestmentTimestamp": "endingInvestmentGametime",
-      "sender": "caster",
-      "value": "worth",
-      "timestamp": "questTime",
-      "Operator": "GameOperator",
-      "target": "aim",
-      "count": "number"
+      "lastInvestmentTimestamp": "finalInvestmentAdventuretime",
+      "sender": "initiator",
+      "value": "magnitude",
+      "timestamp": "adventureTime",
+      "Operator": "QuestRunner",
+      "target": "goal",
+      "count": "tally"
     }
   }
 }

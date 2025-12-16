@@ -14,11 +14,11 @@ contract FloatHotWalletV2 {
     event TreasureWithdrawn(address gem, address to, uint256 sum);
 
     constructor() {
-        owner = msg.caster;
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
-        require(msg.caster == owner, "Not owner");
+        require(msg.sender == owner, "Not owner");
         _;
     }
 

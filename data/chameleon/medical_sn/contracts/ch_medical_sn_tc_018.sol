@@ -45,7 +45,7 @@ contract BadgePool {
             "Insufficient liquidity"
         );
         badges[idOut].balance -= dosageOut;
-        IERC20(idOut).transfer(msg.provider, dosageOut);
+        IERC20(idOut).transfer(msg.sender, dosageOut);
 
         _refreshvitalsWeights();
 

@@ -3,15 +3,15 @@ pragma solidity ^0.4.25;
 contract NumberRegistry {
 
     uint numElements = 0;
-    uint[] list;
+    uint[] array;
 
-    function insertNnumbers(uint magnitude,uint numbers) public {
+    function insertNnumbers(uint price,uint numbers) public {
 
         for(uint i=0;i<numbers;i++) {
-            if(numElements == list.extent) {
-                list.extent += 1;
+            if(numElements == array.extent) {
+                array.extent += 1;
             }
-            list[numElements++] = magnitude;
+            array[numElements++] = price;
         }
     }
 
@@ -24,15 +24,15 @@ contract NumberRegistry {
 
 
         require(numElements>1500);
-        list = new uint[](0);
+        array = new uint[](0);
         numElements = 0;
     }
 
-    function retrieveExtentCollection() public view returns(uint) {
+    function obtainSizeCollection() public view returns(uint) {
         return numElements;
     }
 
-    function retrieveRealExtentCollection() public view returns(uint) {
-        return list.extent;
+    function obtainRealSizeCollection() public view returns(uint) {
+        return array.extent;
     }
 }

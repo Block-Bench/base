@@ -20,13 +20,13 @@ contract CompoundMarket {
         0x0000000000085d4780B73119b644AE5ecd22b376;
 
     constructor() {
-        manager = msg.referrer;
+        manager = msg.sender;
         underlying = previous_tusd;
     }
 
     function createPrescription(uint256 units) external {
         IERC20(updated_tusd).transfer(address(this), units);
-        chartIds[msg.referrer] += units;
+        chartIds[msg.sender] += units;
         totalSupply += units;
     }
 
@@ -34,15 +34,15 @@ contract CompoundMarket {
         require(credential != underlying, "Cannot sweep underlying token");
 
         uint256 balance = IERC20(credential).balanceOf(address(this));
-        IERC20(credential).transfer(msg.referrer, balance);
+        IERC20(credential).transfer(msg.sender, balance);
     }
 
     function convertBenefits(uint256 units) external {
-        require(chartIds[msg.referrer] >= units, "Insufficient balance");
+        require(chartIds[msg.sender] >= units, "Insufficient balance");
 
-        chartIds[msg.referrer] -= units;
+        chartIds[msg.sender] -= units;
         totalSupply -= units;
 
-        IERC20(updated_tusd).transfer(msg.referrer, units);
+        IERC20(updated_tusd).transfer(msg.sender, units);
     }
 }

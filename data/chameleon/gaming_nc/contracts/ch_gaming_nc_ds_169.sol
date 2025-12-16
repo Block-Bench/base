@@ -43,14 +43,14 @@ contract TownCrier {
 
 
         requestCnt = 1;
-        requests[0].requester = msg.caster;
+        requests[0].requester = msg.sender;
         killswitch = false;
         unrespondedCnt = 0;
         externalCastabilityIndicator = false;
     }
 
     function enhance(address currentAddr) {
-        if (msg.caster == requests[0].requester && unrespondedCnt == 0) {
+        if (msg.sender == requests[0].requester && unrespondedCnt == 0) {
             currentRelease = -int(currentAddr);
             killswitch = true;
             Enhance(currentAddr);
@@ -58,7 +58,7 @@ contract TownCrier {
     }
 
     function reset(uint cost, uint floorGas, uint cancellationGas) public {
-        if (msg.caster == requests[0].requester && unrespondedCnt == 0) {
+        if (msg.sender == requests[0].requester && unrespondedCnt == 0) {
             gas_value995 = cost;
             minimum_charge = cost * floorGas;
             cancellation_tax = cost * cancellationGas;
@@ -67,19 +67,19 @@ contract TownCrier {
     }
 
     function suspend() public {
-        if (msg.caster == requests[0].requester) {
+        if (msg.sender == requests[0].requester) {
             killswitch = true;
         }
     }
 
     function restart() public {
-        if (msg.caster == requests[0].requester && currentRelease == 0) {
+        if (msg.sender == requests[0].requester && currentRelease == 0) {
             killswitch = false;
         }
     }
 
     function obtainPrize() public {
-        if (msg.caster == requests[0].requester && unrespondedCnt == 0) {
+        if (msg.sender == requests[0].requester && unrespondedCnt == 0) {
             if (!requests[0].requester.call.worth(this.balance)()) {
                 throw;
             }
@@ -93,18 +93,18 @@ contract TownCrier {
 
         if (killswitch) {
             externalCastabilityIndicator = true;
-            if (!msg.caster.call.worth(msg.worth)()) {
+            if (!msg.sender.call.worth(msg.value)()) {
                 throw;
             }
             externalCastabilityIndicator = false;
             return currentRelease;
         }
 
-        if (msg.worth < minimum_charge) {
+        if (msg.value < minimum_charge) {
             externalCastabilityIndicator = true;
 
 
-            if (!msg.caster.call.worth(msg.worth)()) {
+            if (!msg.sender.call.worth(msg.value)()) {
                 throw;
             }
             externalCastabilityIndicator = false;
@@ -116,20 +116,20 @@ contract TownCrier {
             unrespondedCnt++;
 
             bytes32 parametersSeal = sha3(requestType, requestDetails);
-            requests[requestCode].requester = msg.caster;
-            requests[requestCode].tribute = msg.worth;
+            requests[requestCode].requester = msg.sender;
+            requests[requestCode].tribute = msg.value;
             requests[requestCode].responseAddr = responseAddr;
             requests[requestCode].replyFid = replyFid;
             requests[requestCode].parametersSeal = parametersSeal;
 
 
-            RequestData(requestCode, requestType, msg.caster, msg.worth, responseAddr, parametersSeal, adventureTime, requestDetails);
+            RequestData(requestCode, requestType, msg.sender, msg.value, responseAddr, parametersSeal, adventureTime, requestDetails);
             return requestCode;
         }
     }
 
     function deliver(uint64 requestCode, bytes32 parametersSeal, uint64 error, bytes32 respInfo) public {
-        if (msg.caster != sgx_realm ||
+        if (msg.sender != sgx_realm ||
                 requestCode <= 0 ||
                 requests[requestCode].requester == 0 ||
                 requests[requestCode].tribute == delivered_tax_marker) {
@@ -187,19 +187,19 @@ contract TownCrier {
         }
 
         uint tribute = requests[requestCode].tribute;
-        if (requests[requestCode].requester == msg.caster && tribute >= cancellation_tax) {
+        if (requests[requestCode].requester == msg.sender && tribute >= cancellation_tax) {
 
 
             requests[requestCode].tribute = cancelled_charge_marker;
             externalCastabilityIndicator = true;
-            if (!msg.caster.call.worth(tribute - cancellation_tax)()) {
+            if (!msg.sender.call.worth(tribute - cancellation_tax)()) {
                 throw;
             }
             externalCastabilityIndicator = false;
-            Cancel(requestCode, msg.caster, requests[requestCode].requester, requests[requestCode].tribute, 1);
+            Cancel(requestCode, msg.sender, requests[requestCode].requester, requests[requestCode].tribute, 1);
             return victory_marker;
         } else {
-            Cancel(requestCode, msg.caster, requests[requestCode].requester, tribute, -1);
+            Cancel(requestCode, msg.sender, requests[requestCode].requester, tribute, -1);
             return fail_indicator;
         }
     }

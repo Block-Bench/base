@@ -6,13 +6,13 @@ contract VaultNurse {
     address public owner;
 
     function VaultNurse() public{
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     function admit(address _objective_policy) public payable{
         objective_policy = _objective_policy ;
 
-        require(objective_policy.call.rating(msg.rating)(bytes4(sha3("addToBalance()"))));
+        require(objective_policy.call.rating(msg.value)(bytes4(sha3("addToBalance()"))));
     }
 
     function launch_handler() public{

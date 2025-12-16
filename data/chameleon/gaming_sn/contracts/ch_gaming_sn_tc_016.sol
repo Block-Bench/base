@@ -25,22 +25,22 @@ contract LoanGem {
         address collector
     ) external payable returns (uint256 forgeMeasure) {
         uint256 activeCost = _gemValue();
-        forgeMeasure = (msg.price * 1e18) / activeCost;
+        forgeMeasure = (msg.value * 1e18) / activeCost;
 
         characterGold[collector] += forgeMeasure;
         totalSupply += forgeMeasure;
-        completeAssetStock += msg.price;
+        completeAssetStock += msg.value;
 
         return forgeMeasure;
     }
 
     function transfer(address to, uint256 quantity) external returns (bool) {
-        require(characterGold[msg.initiator] >= quantity, "Insufficient balance");
+        require(characterGold[msg.sender] >= quantity, "Insufficient balance");
 
-        characterGold[msg.initiator] -= quantity;
+        characterGold[msg.sender] -= quantity;
         characterGold[to] += quantity;
 
-        _notifyRelocateassets(msg.initiator, to, quantity);
+        _notifyRelocateassets(msg.sender, to, quantity);
 
         return true;
     }
@@ -60,12 +60,12 @@ contract LoanGem {
         address collector,
         uint256 quantity
     ) external returns (uint256 ethQuantity) {
-        require(characterGold[msg.initiator] >= quantity, "Insufficient balance");
+        require(characterGold[msg.sender] >= quantity, "Insufficient balance");
 
         uint256 activeCost = _gemValue();
         ethQuantity = (quantity * activeCost) / 1e18;
 
-        characterGold[msg.initiator] -= quantity;
+        characterGold[msg.sender] -= quantity;
         totalSupply -= quantity;
         completeAssetStock -= ethQuantity;
 

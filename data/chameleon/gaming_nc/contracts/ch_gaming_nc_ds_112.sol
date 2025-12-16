@@ -2,8 +2,6 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
     SimpleBank SimpleBankPact;
 
@@ -12,23 +10,23 @@ contract AgreementTest is Test {
     }
 
     function testecRestore() public {
-        emit record_named_decimal_number(
+        emit record_named_decimal_count(
             "Before operation",
-            SimpleBankPact.queryRewards(address(this)),
+            SimpleBankPact.viewTreasure(address(this)),
             18
         );
         bytes32 _hash = keccak256(
             abi.encodePacked("\x19Ethereum Signed Message:\n32")
         );
-        (, bytes32 r, bytes32 s) = vm.approve(1, _hash);
+        (, bytes32 r, bytes32 s) = vm.authorize(1, _hash);
 
 
         uint8 v = 29;
         SimpleBankPact.transfer(address(this), 1 ether, _hash, v, r, s);
 
-        emit record_named_decimal_number(
+        emit record_named_decimal_count(
             "After operation",
-            SimpleBankPact.queryRewards(address(this)),
+            SimpleBankPact.viewTreasure(address(this)),
             18
         );
     }
@@ -40,11 +38,11 @@ contract SimpleBank {
     mapping(address => uint256) private playerLoot;
     address GameAdmin;
 
-    function queryRewards(address _account) public view returns (uint256) {
+    function viewTreasure(address _account) public view returns (uint256) {
         return playerLoot[_account];
     }
 
-    function retrieveSignerRealm(
+    function retrieveSignerZone(
         bytes32 _hash,
         uint8 _v,
         bytes32 _r,
@@ -64,8 +62,8 @@ contract SimpleBank {
     ) public {
         require(_to != address(0), "Invalid recipient address");
 
-        address signer = retrieveSignerRealm(_hash, _v, _r, _s);
-        console.record("signer", signer);
+        address signer = retrieveSignerZone(_hash, _v, _r, _s);
+        console.journal("signer", signer);
 
 
         require(signer == GameAdmin, "Invalid signature");

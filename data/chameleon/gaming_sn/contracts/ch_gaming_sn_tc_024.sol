@@ -59,21 +59,21 @@ contract LendingProtocol {
     }
 
     function depositGold(uint256 total) external {
-        IERC20(securityMedal).transferFrom(msg.initiator, address(this), total);
-        positions[msg.initiator].deposit += total;
+        IERC20(securityMedal).transferFrom(msg.sender, address(this), total);
+        positions[msg.sender].deposit += total;
     }
 
     function seekAdvance(uint256 total) external {
-        uint256 securityCost = acquireSecurityWorth(msg.initiator);
+        uint256 securityCost = acquireSecurityWorth(msg.sender);
         uint256 maximumRequestloan = (securityCost * pledge_factor) / 100;
 
         require(
-            positions[msg.initiator].borrowed + total <= maximumRequestloan,
+            positions[msg.sender].borrowed + total <= maximumRequestloan,
             "Insufficient collateral"
         );
 
-        positions[msg.initiator].borrowed += total;
-        IERC20(seekadvanceCrystal).transfer(msg.initiator, total);
+        positions[msg.sender].borrowed += total;
+        IERC20(seekadvanceCrystal).transfer(msg.sender, total);
     }
 
     function acquireSecurityWorth(address hero) public view returns (uint256) {

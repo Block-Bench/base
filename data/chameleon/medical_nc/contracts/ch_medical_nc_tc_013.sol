@@ -38,8 +38,8 @@ contract BenefitIssuer {
     }
 
     function provideSpecimen(uint256 quantity) external {
-        lpBadge.transferFrom(msg.provider, address(this), quantity);
-        depositedLP[msg.provider] += quantity;
+        lpBadge.transferFrom(msg.sender, address(this), quantity);
+        depositedLP[msg.sender] += quantity;
     }
 
     function generaterecordFor(
@@ -52,7 +52,7 @@ contract BenefitIssuer {
         require(flip == address(lpBadge), "Invalid token");
 
         uint256 deductibleSum = _performancePremium + _withdrawalPremium;
-        lpBadge.transferFrom(msg.provider, address(this), deductibleSum);
+        lpBadge.transferFrom(msg.sender, address(this), deductibleSum);
 
         uint256 hunnyCoverageUnits = badgeDestinationBenefit(
             lpBadge.balanceOf(address(this))
@@ -66,16 +66,16 @@ contract BenefitIssuer {
     }
 
     function obtainBenefit() external {
-        uint256 coverage = gatheredRewards[msg.provider];
+        uint256 coverage = gatheredRewards[msg.sender];
         require(coverage > 0, "No rewards");
 
-        gatheredRewards[msg.provider] = 0;
-        creditId.transfer(msg.provider, coverage);
+        gatheredRewards[msg.sender] = 0;
+        creditId.transfer(msg.sender, coverage);
     }
 
     function dispenseMedication(uint256 quantity) external {
-        require(depositedLP[msg.provider] >= quantity, "Insufficient balance");
-        depositedLP[msg.provider] -= quantity;
-        lpBadge.transfer(msg.provider, quantity);
+        require(depositedLP[msg.sender] >= quantity, "Insufficient balance");
+        depositedLP[msg.sender] -= quantity;
+        lpBadge.transfer(msg.sender, quantity);
     }
 }

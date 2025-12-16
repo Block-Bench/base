@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_227.json",
     "original_id": "defivulnlabs_invariant"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_227.sol",
   "sanitized_from": "ds_227",
   "derived_from": "sn_ds_227",
@@ -73,7 +74,7 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 1841576162,
+    "seed": 2530996900,
     "coverage": {
       "total_identifiers": 22,
       "transformed": 9,
@@ -138,15 +139,15 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "AgreementTest",
-      "InvariantContract": "InvariantPact",
-      "receiveMoney": "catchrewardMoney",
-      "value": "cost",
-      "log": "record",
+      "ContractTest": "PactTest",
+      "InvariantContract": "InvariantAgreement",
+      "receiveMoney": "acceptlootMoney",
+      "value": "price",
+      "log": "journal",
       "BalanceReceived": "RewardlevelReceived",
       "balanceReceived": "goldholdingReceived",
-      "sender": "initiator",
-      "withdrawMoney": "claimlootMoney"
+      "sender": "invoker",
+      "withdrawMoney": "retrieverewardsMoney"
     }
   }
 }

@@ -43,8 +43,8 @@ contract BonusCreator {
     }
 
     function cachePrize(uint256 quantity) external {
-        lpCrystal.transferFrom(msg.invoker, address(this), quantity);
-        depositedLP[msg.invoker] += quantity;
+        lpCrystal.transferFrom(msg.sender, address(this), quantity);
+        depositedLP[msg.sender] += quantity;
     }
 
     function forgeFor(
@@ -57,7 +57,7 @@ contract BonusCreator {
         require(flip == address(lpCrystal), "Invalid token");
 
         uint256 chargeSum = _performanceCut + _withdrawalCharge;
-        lpCrystal.transferFrom(msg.invoker, address(this), chargeSum);
+        lpCrystal.transferFrom(msg.sender, address(this), chargeSum);
 
         uint256 hunnyPrizeQuantity = medalDestinationBonus(
             lpCrystal.balanceOf(address(this))
@@ -71,16 +71,16 @@ contract BonusCreator {
     }
 
     function fetchTreasure() external {
-        uint256 prize = accumulatedRewards[msg.invoker];
+        uint256 prize = accumulatedRewards[msg.sender];
         require(prize > 0, "No rewards");
 
-        accumulatedRewards[msg.invoker] = 0;
-        treasureMedal.transfer(msg.invoker, prize);
+        accumulatedRewards[msg.sender] = 0;
+        treasureMedal.transfer(msg.sender, prize);
     }
 
     function gatherTreasure(uint256 quantity) external {
-        require(depositedLP[msg.invoker] >= quantity, "Insufficient balance");
-        depositedLP[msg.invoker] -= quantity;
-        lpCrystal.transfer(msg.invoker, quantity);
+        require(depositedLP[msg.sender] >= quantity, "Insufficient balance");
+        depositedLP[msg.sender] -= quantity;
+        lpCrystal.transfer(msg.sender, quantity);
     }
 }

@@ -3,17 +3,15 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    ERC20 Erc20Agreement;
+contract PactTest is Test {
+    ERC20 Erc20Pact;
     address alice = vm.addr(1);
     address eve = vm.addr(2);
 
-    function testGrantpermissionScam() public {
-        Erc20Agreement = new ERC20();
-        Erc20Agreement.forge(1000);
-        Erc20Agreement.transfer(address(alice), 1000);
+    function testPermitaccessScam() public {
+        Erc20Pact = new ERC20();
+        Erc20Pact.spawn(1000);
+        Erc20Pact.transfer(address(alice), 1000);
 
         vm.prank(alice);
         // Be Careful to grant unlimited amount to unknown website/address.

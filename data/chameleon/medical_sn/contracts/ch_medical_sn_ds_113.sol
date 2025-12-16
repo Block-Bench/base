@@ -1,13 +1,9 @@
 // 0xbb9bc244d798123fde783fcc1c72d3bb8c189413#code
 
-*/
-
-*/
-
 /// @title Standard Token Contract.
 
-contract BadgePortal {
-    mapping (address => uint256) benefitsRecord;
+contract IdGateway {
+    mapping (address => uint256) coverageMap;
     mapping (address => mapping (address => uint256)) allowed;
 
     /// Total amount of tokens
@@ -55,20 +51,20 @@ contract BadgePortal {
     );
 }
 
-contract Credential is BadgePortal {
+contract Id is IdGateway {
     // Protects users by preventing the execution of method calls that
     // inadvertently also transferred ether
-    modifier noEther() {if (msg.assessment > 0) throw; _}
+    modifier noEther() {if (msg.value > 0) throw; _;}
 
     function balanceOf(address _owner) constant returns (uint256 balance) {
-        return benefitsRecord[_owner];
+        return coverageMap[_owner];
     }
 
     function transfer(address _to, uint256 _amount) noEther returns (bool recovery) {
-        if (benefitsRecord[msg.referrer] >= _amount && _amount > 0) {
-            benefitsRecord[msg.referrer] -= _amount;
-            benefitsRecord[_to] += _amount;
-            Transfer(msg.referrer, _to, _amount);
+        if (coverageMap[msg.sender] >= _amount && _amount > 0) {
+            coverageMap[msg.sender] -= _amount;
+            coverageMap[_to] += _amount;
+            Transfer(msg.sender, _to, _amount);
             return true;
         } else {
            return false;
@@ -81,13 +77,13 @@ contract Credential is BadgePortal {
         uint256 _amount
     ) noEther returns (bool recovery) {
 
-        if (benefitsRecord[_from] >= _amount
-            && allowed[_from][msg.referrer] >= _amount
+        if (coverageMap[_from] >= _amount
+            && allowed[_from][msg.sender] >= _amount
             && _amount > 0) {
 
-            benefitsRecord[_to] += _amount;
-            benefitsRecord[_from] -= _amount;
-            allowed[_from][msg.referrer] -= _amount;
+            coverageMap[_to] += _amount;
+            coverageMap[_from] -= _amount;
+            allowed[_from][msg.sender] -= _amount;
             Transfer(_from, _to, _amount);
             return true;
         } else {
@@ -96,8 +92,8 @@ contract Credential is BadgePortal {
     }
 
     function approve(address _spender, uint256 _amount) returns (bool recovery) {
-        allowed[msg.referrer][_spender] = _amount;
-        TreatmentAuthorized(msg.referrer, _spender, _amount);
+        allowed[msg.sender][_spender] = _amount;
+        TreatmentAuthorized(msg.sender, _spender, _amount);
         return true;
     }
 
@@ -106,11 +102,7 @@ contract Credential is BadgePortal {
     }
 }
 
-*/
-
-*/
-
-contract ManagedChartPortal {
+contract ManagedProfileGateway {
     // The only address with permission to withdraw from this account
     address public owner;
     // If true, only the owner of the account can receive ether from it
@@ -127,10 +119,10 @@ contract ManagedChartPortal {
     event PayOut(address indexed _recipient, uint _amount);
 }
 
-contract ManagedProfile is ManagedChartPortal{
+contract ManagedChart is ManagedProfileGateway{
 
     // The constructor sets the owner of the account
-    function ManagedProfile(address _owner, bool _paySupervisorOnly) {
+    function ManagedChart(address _owner, bool _paySupervisorOnly) {
         owner = _owner;
         payDirectorOnly = _paySupervisorOnly;
     }
@@ -139,11 +131,11 @@ contract ManagedProfile is ManagedChartPortal{
     // It counts the amount of ether it receives and stores it in
     // accumulatedInput.
     function() {
-        accumulatedSubmission += msg.assessment;
+        accumulatedSubmission += msg.value;
     }
 
     function payOut(address _recipient, uint _amount) returns (bool) {
-        if (msg.referrer != owner || msg.assessment > 0 || (payDirectorOnly && _recipient != owner))
+        if (msg.sender != owner || msg.value > 0 || (payDirectorOnly && _recipient != owner))
             throw;
         if (_recipient.call.assessment(_amount)()) {
             PayOut(_recipient, _amount);
@@ -153,17 +145,14 @@ contract ManagedProfile is ManagedChartPortal{
         }
     }
 }
-*/
 
-*/
-
-contract CredentialCreationPortal {
+contract IdCreationGateway {
 
     // End of token creation, in Unix time
     uint public closingMoment;
     // Minimum fueling goal of the token creation, denominated in tokens to
     // be created
-    uint public minimumBadgesReceiverCreate;
+    uint public floorBadgesDestinationCreate;
     // True if the DAO reached its minimum fueling goal, false otherwise
     bool public testFueled;
     // For DAO splits - if privateCreation is 0, then it is a public token
@@ -172,7 +161,7 @@ contract CredentialCreationPortal {
     address public privateCreation;
     // hold extra ether which has been sent after the DAO token
     // creation rate has increased
-    ManagedProfile public extraCoverage;
+    ManagedChart public extraFunds;
     // tracks the amount of wei given from each contributor (used for refund)
     mapping (address => uint256) weiGiven;
 
@@ -271,9 +260,6 @@ contract TokenCreation is TokenCreationInterface, Token {
         }
     }
 }
-*/
-
-*/
 
 contract DAOInterface {
 
@@ -285,15 +271,15 @@ contract DAOInterface {
     // The minimum debate period that a split proposal can have
     uint constant minSplitDebatePeriod = 1 weeks;
     // Period of days inside which it's possible to execute a DAO split
-    uint constant separateExecutionDuration = 27 days;
+    uint constant divideExecutionDuration = 27 days;
     // Period of time after which the minimum Quorum is halved
     uint constant quorumHalvingInterval = 25 weeks;
     // Period after which a proposal is closed
     // (used in the case `executeProposal` fails because it throws)
-    uint constant rundiagnosticProposalInterval = 10 days;
+    uint constant performprocedureProposalInterval = 10 days;
     // Denotes the maximum proposal deposit that can be given. It is given as
     // a fraction of total Ether spent plus balance of the DAO
-    uint constant maximumSubmitpaymentDivisor = 100;
+    uint constant maximumFundaccountDivisor = 100;
 
     // Proposals to spend the DAO's ether or to choose a new Curator
     Proposal[] public proposals;
@@ -367,11 +353,11 @@ contract DAOInterface {
         bytes32 proposalChecksum;
         // Deposit in wei the creator added when submitting their proposal. It
         // is taken from the msg.value of a newProposal call.
-        uint proposalProvidespecimen;
+        uint proposalContributefunds;
         // True if this proposal is to assign a new Curator
-        bool currentCurator;
+        bool updatedCurator;
         // Data needed for splitting the DAO
-        DivideChart[] separateInfo;
+        SeparateChart[] divideRecord;
         // Number of Tokens in favor of the proposal
         uint yea;
         // Number of Tokens opposed to the proposal
@@ -381,17 +367,17 @@ contract DAOInterface {
         // Simple mapping to check if a shareholder has voted against it
         mapping (address => bool) votedNo;
         // Address of the shareholder who created the proposal
-        address founder;
+        address author;
     }
 
     // Used only in the case of a newCurator proposal.
-    struct DivideChart {
+    struct SeparateChart {
         // The balance of the current DAO minus the deposit at the time of split
-        uint divideFunds;
+        uint separateAllocation;
         // The total amount of DAO Tokens in existence at the time of split.
         uint totalSupply;
         // Amount of Reward Tokens owned by the DAO at the time of split.
-        uint benefitCredential;
+        uint benefitBadge;
         // The new DAO contract created at the time of split.
         DAO updatedDao;
     }
@@ -428,7 +414,7 @@ contract DAOInterface {
     /// to the DAO, it can also be used to receive payments that should not be
     /// counted as rewards (donations, grants, etc.)
     /// @return Whether the DAO received the ether successfully
-    function acceptpatientEther() returns(bool);
+    function obtainresultsEther() returns(bool);
 
     /// @notice `msg.sender` creates a proposal to send `_amount` Wei to
     /// `_recipient` with the transaction data `_transactionData`. If
@@ -530,19 +516,19 @@ contract DAOInterface {
 
     /// @notice Get my portion of the reward that was sent to `rewardAccount`
     /// @return Whether the call was successful
-    function obtainMyCredit() returns(bool _success);
+    function acquireMyCoverage() returns(bool _success);
 
     /// @notice Withdraw `_account`'s portion of the reward from `rewardAccount`
     /// to `_account`'s balance
     /// @return Whether the call was successful
-    function releasefundsBenefitFor(address _account) internal returns (bool _success);
+    function releasefundsCoverageFor(address _account) internal returns (bool _success);
 
     /// @notice Send `_amount` tokens to `_to` from `msg.sender`. Prior to this
     /// getMyReward() is called.
     /// @param _to The address of the recipient
     /// @param _amount The amount of tokens to be transfered
     /// @return Whether the transfer was successful or not
-    function passcaseWithoutCoverage(address _to, uint256 _amount) returns (bool recovery);
+    function shiftcareWithoutBenefit(address _to, uint256 _amount) returns (bool recovery);
 
     /// @notice Send `_amount` tokens to `_to` from `_from` on the condition it
     /// is approved by `_from`. Prior to this getMyReward() is called.
@@ -550,7 +536,7 @@ contract DAOInterface {
     /// @param _to The address of the recipient
     /// @param _amount The amount of tokens to be transfered
     /// @return Whether the transfer was successful or not
-    function moverecordsReferrerWithoutBenefit(
+    function moverecordsReferrerWithoutCoverage(
         address _from,
         address _to,
         uint256 _amount
@@ -566,11 +552,11 @@ contract DAOInterface {
 
     /// @param _proposalID Id of the new curator proposal
     /// @return Address of the new DAO
-    function obtainUpdatedDaoFacility(uint _proposalIdentifier) constant returns (address _updatedDao);
+    function retrieveCurrentDaoLocation(uint _proposalCasenumber) constant returns (address _updatedDao);
 
     /// @param _account The address of the account which is checked.
     /// @return Whether the account is blocked (not allowed to transfer tokens) or not.
-    function checkBlocked(address _account) internal returns (bool);
+    function validateBlocked(address _account) internal returns (bool);
 
     /// @notice If the caller is blocked by a proposal whose voting deadline
     /// has exprired then unblock him.
@@ -578,111 +564,111 @@ contract DAOInterface {
     function unblockMe() returns (bool);
 
     event ProposalAdded(
-        uint indexed proposalChartnumber,
-        address receiver,
-        uint dosage,
-        bool currentCurator,
+        uint indexed proposalCasenumber,
+        address patient,
+        uint units,
+        bool updatedCurator,
         string description
     );
-    event Voted(uint indexed proposalChartnumber, bool assignment, address indexed voter);
-    event ProposalTallied(uint indexed proposalChartnumber, bool outcome, uint quorum);
-    event UpdatedCurator(address indexed _updatedCurator);
+    event Voted(uint indexed proposalCasenumber, bool assignment, address indexed voter);
+    event ProposalTallied(uint indexed proposalCasenumber, bool finding, uint quorum);
+    event UpdatedCurator(address indexed _currentCurator);
     event AllowedPatientChanged(address indexed _recipient, bool _allowed);
 }
 
 // The DAO contract itself
-contract DAO is DaoPortal, Credential, CredentialCreation {
+contract DAO is DaoPortal, Id, CredentialCreation {
 
     // Modifier that allows only shareholders to vote and create new proposals
     modifier onlyTokenholders {
-        if (balanceOf(msg.referrer) == 0) throw;
-            _
+        if (balanceOf(msg.sender) == 0) throw;
+            _;
     }
 
     function DAO(
         address _curator,
-        dao_author _daoAuthor,
-        uint _proposalFundaccount,
-        uint _floorIdsDestinationCreate,
+        dao_author _daoFounder,
+        uint _proposalAdmit,
+        uint _minimumCredentialsDestinationCreate,
         uint _closingMoment,
         address _privateCreation
-    ) CredentialCreation(_floorIdsDestinationCreate, _closingMoment, _privateCreation) {
+    ) CredentialCreation(_minimumCredentialsDestinationCreate, _closingMoment, _privateCreation) {
 
         curator = _curator;
-        daoAuthor = _daoAuthor;
-        proposalProvidespecimen = _proposalFundaccount;
-        benefitProfile = new ManagedProfile(address(this), false);
-        DaOrewardProfile = new ManagedProfile(address(this), false);
-        if (address(benefitProfile) == 0)
+        daoFounder = _daoFounder;
+        proposalContributefunds = _proposalAdmit;
+        benefitChart = new ManagedChart(address(this), false);
+        DaOrewardChart = new ManagedChart(address(this), false);
+        if (address(benefitChart) == 0)
             throw;
-        if (address(DaOrewardProfile) == 0)
+        if (address(DaOrewardChart) == 0)
             throw;
-        finalInstantMinimumQuorumMet = now;
+        finalInstantFloorQuorumMet = now;
         floorQuorumDivisor = 5; // sets the minimal quorum to 20%
-        proposals.extent = 1; // avoids a proposal with ID 0 because it is used
+        proposals.duration = 1; // avoids a proposal with ID 0 because it is used
 
         allowedRecipients[address(this)] = true;
         allowedRecipients[curator] = true;
     }
 
     function () returns (bool recovery) {
-        if (now < closingMoment + creationGraceInterval && msg.referrer != address(extraCoverage))
-            return createBadgeProxy(msg.referrer);
+        if (now < closingMoment + creationGraceInterval && msg.sender != address(extraFunds))
+            return createBadgeProxy(msg.sender);
         else
-            return acceptpatientEther();
+            return obtainresultsEther();
     }
 
-    function acceptpatientEther() returns (bool) {
+    function obtainresultsEther() returns (bool) {
         return true;
     }
 
-    function updatedProposal(
+    function currentProposal(
         address _recipient,
         uint _amount,
         string _description,
         bytes _transactionRecord,
-        uint _debatingInterval,
-        bool _updatedCurator
-    ) onlyTokenholders returns (uint _proposalIdentifier) {
+        uint _debatingDuration,
+        bool _currentCurator
+    ) onlyTokenholders returns (uint _proposalCasenumber) {
 
         // Sanity check
-        if (_updatedCurator && (
+        if (_currentCurator && (
             _amount != 0
-            || _transactionRecord.extent != 0
+            || _transactionRecord.duration != 0
             || _recipient == curator
-            || msg.assessment > 0
-            || _debatingInterval < minimumSeparateDebateInterval)) {
+            || msg.value > 0
+            || _debatingDuration < floorSeparateDebateDuration)) {
             throw;
         } else if (
-            !_updatedCurator
-            && (!isPatientAllowed(_recipient) || (_debatingInterval <  floorProposalDebateDuration))
+            !_currentCurator
+            && (!isReceiverAllowed(_recipient) || (_debatingDuration <  floorProposalDebateInterval))
         ) {
             throw;
         }
 
-        if (_debatingInterval > 8 weeks)
+        if (_debatingDuration > 8 weeks)
             throw;
 
         if (!testFueled
             || now < closingMoment
-            || (msg.assessment < proposalProvidespecimen && !_updatedCurator)) {
+            || (msg.value < proposalContributefunds && !_currentCurator)) {
 
             throw;
         }
 
-        if (now + _debatingInterval < now)
+        if (now + _debatingDuration < now)
             throw;
 
-        if (msg.referrer == address(this))
+        if (msg.sender == address(this))
             throw;
 
-        _proposalIdentifier = proposals.extent++;
-        Proposal p = proposals[_proposalIdentifier];
-        p.receiver = _recipient;
-        p.dosage = _amount;
+        _proposalCasenumber = proposals.duration++;
+        Proposal p = proposals[_proposalCasenumber];
+        p.patient = _recipient;
+        p.units = _amount;
         p.description = _description;
         p.proposalChecksum = sha3(_recipient, _amount, _transactionRecord);
-        p.votingExpirationdate = now + _debatingInterval;
+        p.votingDuedate = now + _debatingDuration;
         p.open = true;
         //p.proposalPassed = False; // that's default
         p.newCurator = _newCurator;
@@ -738,75 +724,75 @@ contract DAO is DaoPortal, Credential, CredentialCreation {
         } else if (p.votingDeadline > proposals[blocked[msg.sender]].votingDeadline) {
             // this proposal's voting deadline is further into the future than
             // the proposal that blocks the sender so make it the blocker
-            blocked[msg.referrer] = _proposalIdentifier;
+            blocked[msg.sender] = _proposalCasenumber;
         }
 
-        Voted(_proposalIdentifier, _supportsProposal, msg.referrer);
+        Voted(_proposalCasenumber, _supportsProposal, msg.sender);
     }
 
-    function completetreatmentProposal(
-        uint _proposalIdentifier,
+    function performprocedureProposal(
+        uint _proposalCasenumber,
         bytes _transactionRecord
     ) noEther returns (bool _success) {
 
-        Proposal p = proposals[_proposalIdentifier];
+        Proposal p = proposals[_proposalCasenumber];
 
-        uint waitInterval = p.currentCurator
-            ? separateExecutionDuration
-            : rundiagnosticProposalInterval;
+        uint waitInterval = p.updatedCurator
+            ? divideExecutionDuration
+            : performprocedureProposalInterval;
         // If we are over deadline and waiting period, assert proposal is closed
-        if (p.open && now > p.votingExpirationdate + waitInterval) {
-            closeProposal(_proposalIdentifier);
+        if (p.open && now > p.votingDuedate + waitInterval) {
+            closeProposal(_proposalCasenumber);
             return;
         }
 
         // Check if the proposal can be executed
-        if (now < p.votingExpirationdate  // has the voting deadline arrived?
+        if (now < p.votingDuedate  // has the voting deadline arrived?
             // Have the votes been counted?
             || !p.open
             // Does the transaction code match the proposal?
-            || p.proposalChecksum != sha3(p.receiver, p.dosage, _transactionRecord)) {
+            || p.proposalChecksum != sha3(p.patient, p.units, _transactionRecord)) {
 
             throw;
         }
 
         // If the curator removed the recipient from the whitelist, close the proposal
         // in order to free the deposit and allow unblocking of voters
-        if (!isPatientAllowed(p.receiver)) {
-            closeProposal(_proposalIdentifier);
-            p.founder.send(p.proposalProvidespecimen);
+        if (!isReceiverAllowed(p.patient)) {
+            closeProposal(_proposalCasenumber);
+            p.author.send(p.proposalContributefunds);
             return;
         }
 
         bool proposalExamine = true;
 
-        if (p.dosage > actualAllocation())
+        if (p.units > actualBenefits())
             proposalExamine = false;
 
         uint quorum = p.yea + p.nay;
 
         // require 53% for calling newContract()
-        if (_transactionRecord.extent >= 4 && _transactionRecord[0] == 0x68
+        if (_transactionRecord.duration >= 4 && _transactionRecord[0] == 0x68
             && _transactionRecord[1] == 0x37 && _transactionRecord[2] == 0xff
             && _transactionRecord[3] == 0x1e
-            && quorum < floorQuorum(actualAllocation() + benefitCredential[address(this)])) {
+            && quorum < floorQuorum(actualBenefits() + benefitBadge[address(this)])) {
 
                 proposalExamine = false;
         }
 
-        if (quorum >= floorQuorum(p.dosage)) {
-            if (!p.founder.send(p.proposalProvidespecimen))
+        if (quorum >= floorQuorum(p.units)) {
+            if (!p.author.send(p.proposalContributefunds))
                 throw;
 
-            finalInstantMinimumQuorumMet = now;
+            finalInstantFloorQuorumMet = now;
             // set the minQuorum to 20% again, in the case it has been reached
             if (quorum > totalSupply / 5)
                 floorQuorumDivisor = 5;
         }
 
         // Execute result
-        if (quorum >= floorQuorum(p.dosage) && p.yea > p.nay && proposalExamine) {
-            if (!p.receiver.call.assessment(p.dosage)(_transactionRecord))
+        if (quorum >= floorQuorum(p.units) && p.yea > p.nay && proposalExamine) {
+            if (!p.patient.call.assessment(p.units)(_transactionRecord))
                 throw;
 
             p.proposalPassed = true;
@@ -814,49 +800,49 @@ contract DAO is DaoPortal, Credential, CredentialCreation {
 
             // only create reward tokens when ether is not sent to the DAO itself and
             // related addresses. Proxy addresses should be forbidden by the curator.
-            if (p.receiver != address(this) && p.receiver != address(benefitProfile)
-                && p.receiver != address(DaOrewardProfile)
-                && p.receiver != address(extraCoverage)
-                && p.receiver != address(curator)) {
+            if (p.patient != address(this) && p.patient != address(benefitChart)
+                && p.patient != address(DaOrewardChart)
+                && p.patient != address(extraFunds)
+                && p.patient != address(curator)) {
 
-                benefitCredential[address(this)] += p.dosage;
-                completeCoverageId += p.dosage;
+                benefitBadge[address(this)] += p.units;
+                cumulativeCreditId += p.units;
             }
         }
 
-        closeProposal(_proposalIdentifier);
+        closeProposal(_proposalCasenumber);
 
         // Initiate event
-        ProposalTallied(_proposalIdentifier, _success, quorum);
+        ProposalTallied(_proposalCasenumber, _success, quorum);
     }
 
-    function closeProposal(uint _proposalIdentifier) internal {
-        Proposal p = proposals[_proposalIdentifier];
+    function closeProposal(uint _proposalCasenumber) internal {
+        Proposal p = proposals[_proposalCasenumber];
         if (p.open)
-            sumOfProposalDeposits -= p.proposalProvidespecimen;
+            sumOfProposalDeposits -= p.proposalContributefunds;
         p.open = false;
     }
 
-    function divideDao(
-        uint _proposalIdentifier,
-        address _updatedCurator
+    function separateDao(
+        uint _proposalCasenumber,
+        address _currentCurator
     ) noEther onlyTokenholders returns (bool _success) {
 
-        Proposal p = proposals[_proposalIdentifier];
+        Proposal p = proposals[_proposalCasenumber];
 
         // Sanity check
 
-        if (now < p.votingExpirationdate  // has the voting deadline arrived?
+        if (now < p.votingDuedate  // has the voting deadline arrived?
             //The request for a split expires XX days after the voting deadline
-            || now > p.votingExpirationdate + separateExecutionDuration
+            || now > p.votingDuedate + divideExecutionDuration
             // Does the new Curator address match?
-            || p.receiver != _updatedCurator
+            || p.patient != _currentCurator
             // Is it a new curator proposal?
-            || !p.currentCurator
+            || !p.updatedCurator
             // Have you voted for this split?
-            || !p.votedYes[msg.referrer]
+            || !p.votedYes[msg.sender]
             // Did you already vote on another proposal?
-            || (blocked[msg.referrer] != _proposalIdentifier && blocked[msg.referrer] != 0) )  {
+            || (blocked[msg.sender] != _proposalCasenumber && blocked[msg.sender] != 0) )  {
 
             throw;
         }

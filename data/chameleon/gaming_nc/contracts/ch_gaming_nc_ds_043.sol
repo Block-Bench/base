@@ -5,17 +5,17 @@ contract CommunityVault {
     uint balance;
 
     function collectAllRewards() public {
-        uint oCredit = credit[msg.caster];
+        uint oCredit = credit[msg.sender];
         if (oCredit > 0) {
             balance -= oCredit;
-            bool summonheroProduct = msg.caster.call.magnitude(oCredit)();
+            bool summonheroProduct = msg.sender.call.magnitude(oCredit)();
             require (summonheroProduct);
-            credit[msg.caster] = 0;
+            credit[msg.sender] = 0;
         }
     }
 
     function addTreasure() public payable {
-        credit[msg.caster] += msg.magnitude;
-        balance += msg.magnitude;
+        credit[msg.sender] += msg.value;
+        balance += msg.value;
     }
 }

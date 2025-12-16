@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_231.json",
     "original_id": "defivulnlabs_readonlyreentrancy"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_231.sol",
   "sanitized_from": "ds_231",
   "derived_from": "sn_ds_231",
@@ -75,14 +76,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 336148582,
+    "seed": 1016507194,
     "coverage": {
-      "total_identifiers": 48,
+      "total_identifiers": 52,
       "transformed": 31,
-      "untransformed": 17,
-      "skipped_reserved": 32,
+      "untransformed": 21,
+      "skipped_reserved": 33,
       "skipped_interface": 0,
-      "coverage_percent": 64.58,
+      "coverage_percent": 59.62,
       "untransformed_details": [
         {
           "name": "forge",
@@ -137,6 +138,22 @@
           "reason": "no synonym found"
         },
         {
+          "name": "Read",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invoked",
+          "reason": "no synonym found"
+        },
+        {
           "name": "during",
           "reason": "no synonym found"
         },
@@ -156,35 +173,35 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "get_virtual_price": "acquire_virtual_charge",
-      "add_liquidity": "attach_availability",
-      "min_mint_amount": "minimum_createprescription_quantity",
-      "remove_liquidity": "eliminate_availability",
+      "get_virtual_price": "acquire_virtual_cost",
+      "add_liquidity": "attach_resources",
+      "min_mint_amount": "floor_createprescription_dosage",
+      "remove_liquidity": "discontinue_resources",
       "min_amounts": "minimum_amounts",
       "remove_liquidity_one_coin": "drop_resources_one_coin",
       "min_amount": "floor_measure",
-      "LP_TOKEN": "lp_credential",
-      "CoreContract": "CorePolicy",
+      "LP_TOKEN": "lp_id",
+      "CoreContract": "CoreAgreement",
       "token": "credential",
-      "pool": "carePool",
-      "stake": "commitCoverage",
-      "amount": "measure",
+      "pool": "patientPool",
+      "stake": "pledgeTreatment",
+      "amount": "units",
       "sender": "provider",
-      "unstake": "unlockBenefits",
-      "getReward": "acquireCredit",
+      "unstake": "freeTreatment",
+      "getReward": "obtainBenefit",
       "reward": "credit",
-      "OperatorContract": "NurseAgreement",
-      "lpToken": "lpId",
-      "target": "goal",
-      "stakeTokens": "commitmentBadges",
+      "OperatorContract": "CaregiverPolicy",
+      "lpToken": "lpCredential",
+      "target": "objective",
+      "stakeTokens": "commitmentCredentials",
       "value": "rating",
       "log": "record",
       "price": "cost",
-      "staking": "careCommitment",
+      "staking": "treatmentLock",
       "performReadOnlyCallback": "performReadOnlyResponse",
-      "callback": "response",
-      "complete": "careFinished",
-      "OperatorTest": "NurseTest",
+      "Reward": "Credit",
+      "Reentrancy": "DuplicateAdmission",
+      "OperatorTest": "CaregiverTest",
       "execute": "runDiagnostic",
       "setUp": "collectionUp"
     }

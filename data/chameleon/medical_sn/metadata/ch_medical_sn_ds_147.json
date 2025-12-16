@@ -66,25 +66,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_147.json",
     "original_id": "smartbugs_bad_randomness_lottery"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_147.sol",
   "sanitized_from": "ds_147",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 3421218707,
+    "seed": 1820328156,
     "coverage": {
-      "total_identifiers": 42,
-      "transformed": 13,
-      "untransformed": 29,
-      "skipped_reserved": 22,
+      "total_identifiers": 39,
+      "transformed": 12,
+      "untransformed": 27,
+      "skipped_reserved": 23,
       "skipped_interface": 0,
-      "coverage_percent": 30.95,
+      "coverage_percent": 30.77,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "won",
           "reason": "no synonym found"
@@ -192,27 +189,22 @@
         {
           "name": "destroy",
           "reason": "no synonym found"
-        },
-        {
-          "name": "suicide",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "version": "revision",
-      "Lottery": "DonorSelection",
-      "GetBet": "AcquireBet",
-      "betAmount": "betUnits",
+      "Lottery": "OrganLottery",
+      "GetBet": "DiagnoseBet",
+      "betAmount": "betQuantity",
       "blockNumber": "unitNumber",
       "Create": "PatientAdmitted",
       "lottery": "donorSelection",
-      "sender": "provider",
+      "sender": "referrer",
       "value": "evaluation",
       "user": "beneficiary",
       "Get": "Diagnose",
-      "getBets": "retrieveBets",
+      "getBets": "diagnoseBets",
       "length": "duration"
     }
   }

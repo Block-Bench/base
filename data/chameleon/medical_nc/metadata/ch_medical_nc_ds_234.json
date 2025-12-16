@@ -73,6 +73,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_234.json",
     "original_id": "smartbugs_bad_randomness_smart_billions"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_234.sol",
   "sanitized_from": "ds_234",
   "derived_from": "sn_ds_234",
@@ -81,14 +82,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 1393708381,
+    "seed": 785474133,
     "coverage": {
-      "total_identifiers": 145,
+      "total_identifiers": 140,
       "transformed": 66,
-      "untransformed": 79,
-      "skipped_reserved": 53,
+      "untransformed": 74,
+      "skipped_reserved": 58,
       "skipped_interface": 0,
-      "coverage_percent": 45.52,
+      "coverage_percent": 47.14,
       "untransformed_details": [
         {
           "name": "SafeMath",
@@ -159,19 +160,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "uint208",
-          "reason": "no synonym found"
-        },
-        {
           "name": "wallets",
           "reason": "no synonym found"
         },
         {
           "name": "Bet",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "uint192",
           "reason": "no synonym found"
         },
         {
@@ -275,10 +268,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "finney",
-          "reason": "no synonym found"
-        },
-        {
           "name": "keepbalance",
           "reason": "no synonym found"
         },
@@ -319,10 +308,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "uint24",
-          "reason": "no synonym found"
-        },
-        {
           "name": "_hash",
           "reason": "no synonym found"
         },
@@ -348,10 +333,6 @@
         },
         {
           "name": "playSystem",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sha3",
           "reason": "no synonym found"
         },
         {
@@ -410,72 +391,72 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "add": "include",
-      "value": "evaluation",
-      "from": "referrer",
-      "commitDividend": "finalizeDividend",
+      "add": "attach",
+      "value": "assessment",
+      "from": "source",
+      "commitDividend": "confirmDividend",
       "spender": "subscriber",
       "Approval": "TreatmentAuthorized",
-      "BasicToken": "BasicId",
-      "balances": "coverageMap",
-      "onlyPayloadSize": "onlyDataScale",
+      "BasicToken": "BasicCredential",
+      "balances": "benefitsRecord",
+      "onlyPayloadSize": "onlyContentMagnitude",
       "size": "magnitude",
       "data": "info",
-      "length": "extent",
-      "sender": "provider",
+      "length": "duration",
+      "sender": "referrer",
       "StandardToken": "StandardCredential",
       "Token": "Badge",
       "Wallet": "HealthWallet",
-      "lastDividendPeriod": "finalDividendDuration",
-      "nextWithdrawBlock": "followingDispensemedicationWard",
+      "lastDividendPeriod": "endingDividendInterval",
+      "nextWithdrawBlock": "upcomingExtractspecimenWard",
       "betHash": "betChecksum",
       "blockNum": "wardNum",
-      "walletBalance": "walletBenefits",
-      "investStart": "investOnset",
-      "investBalance": "investFunds",
-      "investBalanceMax": "investAllocationCeiling",
-      "dividendPeriod": "dividendInterval",
-      "maxWin": "maximumWin",
-      "hashFirst": "signatureInitial",
-      "hashLast": "signatureFinal",
-      "hashNext": "checksumFollowing",
-      "hashBetSum": "signatureBetSum",
-      "hashBetMax": "signatureBetMaximum",
-      "hashes": "includeshes",
+      "walletBalance": "walletAllocation",
+      "investStart": "investBegin",
+      "investBalance": "investCredits",
+      "investBalanceMax": "investFundsMaximum",
+      "dividendPeriod": "dividendDuration",
+      "maxWin": "ceilingWin",
+      "hashFirst": "checksumPrimary",
+      "hashLast": "signatureEnding",
+      "hashNext": "signatureUpcoming",
+      "hashBetSum": "checksumBetSum",
+      "hashBetMax": "checksumBetCeiling",
+      "hashes": "containshes",
       "hashesSize": "hashesMagnitude",
-      "coldStoreLast": "coldStoreEnding",
+      "coldStoreLast": "coldStoreFinal",
       "LogBet": "ChartBet",
-      "LogLoss": "RecordLoss",
-      "hash": "checksum",
-      "LogWin": "ChartWin",
+      "LogLoss": "ChartLoss",
+      "hash": "signature",
+      "LogWin": "RecordWin",
       "LogInvestment": "ChartInvestment",
-      "amount": "quantity",
+      "amount": "dosage",
       "LogRecordWin": "RecordRecordWin",
-      "LogLate": "RecordLate",
+      "LogLate": "ChartLate",
       "playerBlockNumber": "playerUnitNumber",
       "currentBlockNumber": "presentUnitNumber",
       "LogDividend": "RecordDividend",
-      "period": "duration",
+      "period": "duration871",
       "hashesLength": "hashesExtent",
-      "walletBalanceOf": "walletBenefitsOf",
+      "walletBalanceOf": "walletFundsOf",
       "walletPeriodOf": "walletDurationOf",
-      "walletBlockOf": "walletUnitOf",
-      "betValueOf": "betEvaluationOf",
+      "walletBlockOf": "walletWardOf",
+      "betValueOf": "betRatingOf",
       "betHashOf": "betSignatureOf",
-      "betBlockNumberOf": "betWardNumberOf",
-      "changeOwner": "changeSupervisor",
-      "setInvestStart": "collectionInvestBegin",
-      "setBetMax": "groupBetMaximum",
-      "senderBalance": "referrerAllocation",
+      "betBlockNumberOf": "betUnitNumberOf",
+      "changeOwner": "changeDirector",
+      "setInvestStart": "groupInvestBegin",
+      "setBetMax": "collectionBetMaximum",
+      "senderBalance": "referrerCoverage",
       "ownerBalance": "administratorAllocation",
-      "animatorBalance": "animatorFunds",
-      "last": "ending",
-      "share": "allocation",
+      "animatorBalance": "animatorBenefits",
+      "last": "final",
+      "share": "portion",
       "getHash": "obtainSignature",
-      "fee": "premium",
+      "fee": "deductible",
       "putHash": "putSignature",
-      "addHashes": "appendHashes",
-      "addHashes128": "attachHashes128"
+      "addHashes": "insertHashes",
+      "addHashes128": "includeHashes128"
     }
   }
 }

@@ -34,20 +34,20 @@ contract PERSONAL_BANK
     public
     payable
     {
-        heroTreasure[msg.invoker]+= msg.cost;
-        Record.IncludeSignal(msg.invoker,msg.cost,"Put");
+        heroTreasure[msg.sender]+= msg.value;
+        Record.IncludeSignal(msg.sender,msg.value,"Put");
     }
 
     function Collect(uint _am)
     public
     payable
     {
-        if(heroTreasure[msg.invoker]>=FloorSum && heroTreasure[msg.invoker]>=_am)
+        if(heroTreasure[msg.sender]>=FloorSum && heroTreasure[msg.sender]>=_am)
         {
-            if(msg.invoker.call.cost(_am)())
+            if(msg.sender.call.cost(_am)())
             {
-                heroTreasure[msg.invoker]-=_am;
-                Record.IncludeSignal(msg.invoker,_am,"Collect");
+                heroTreasure[msg.sender]-=_am;
+                Record.IncludeSignal(msg.sender,_am,"Collect");
             }
         }
     }

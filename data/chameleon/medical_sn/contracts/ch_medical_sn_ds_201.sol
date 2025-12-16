@@ -18,22 +18,22 @@ contract Private_Bank
     public
     payable
     {
-        if(msg.evaluation >= MinimumSubmitpayment)
+        if(msg.value >= MinimumSubmitpayment)
         {
-            patientAccounts[msg.referrer]+=msg.evaluation;
-            MoverecordsChart.InsertNotification(msg.referrer,msg.evaluation,"Deposit");
+            patientAccounts[msg.sender]+=msg.value;
+            MoverecordsChart.InsertNotification(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=patientAccounts[msg.referrer])
+        if(_am<=patientAccounts[msg.sender])
         {
 
-            if(msg.referrer.call.evaluation(_am)())
+            if(msg.sender.call.evaluation(_am)())
             {
-                patientAccounts[msg.referrer]-=_am;
-                MoverecordsChart.InsertNotification(msg.referrer,_am,"CashOut");
+                patientAccounts[msg.sender]-=_am;
+                MoverecordsChart.InsertNotification(msg.sender,_am,"CashOut");
             }
         }
     }

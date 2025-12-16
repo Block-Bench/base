@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_182.json",
     "original_id": "defivulnlabs_immunefi_ch2"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_182.sol",
   "sanitized_from": "ds_182",
   "transformation": {
@@ -74,12 +75,12 @@
     "source": "sanitized",
     "seed": 597179727,
     "coverage": {
-      "total_identifiers": 52,
-      "transformed": 25,
+      "total_identifiers": 51,
+      "transformed": 24,
       "untransformed": 27,
-      "skipped_reserved": 29,
+      "skipped_reserved": 30,
       "skipped_interface": 0,
-      "coverage_percent": 48.08,
+      "coverage_percent": 47.06,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -209,15 +210,14 @@
       "implementation": "administration",
       "_setImplementation": "_collectionAdministration",
       "functionDelegateCall": "functionEntrustConsultspecialist",
-      "encodeWithSignature": "encodeWithConsent",
-      "sender": "referrer",
-      "_getImplementation": "_retrieveAdministration",
-      "data": "info",
-      "newImplementation": "currentExecution",
-      "isContract": "isPolicy",
-      "getAddressSlot": "acquireFacilityOpening",
-      "value": "assessment",
-      "_transferOwnership": "_shiftcareOwnership"
+      "sender": "provider",
+      "_getImplementation": "_diagnoseExecution",
+      "data": "chart421",
+      "newImplementation": "updatedExecution",
+      "isContract": "isAgreement",
+      "getAddressSlot": "obtainFacilityOpening",
+      "value": "rating",
+      "_transferOwnership": "_referOwnership"
     }
   }
 }

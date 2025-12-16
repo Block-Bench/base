@@ -15,7 +15,7 @@ contract GasAuction {
 
     function appendCreditors() public returns (bool) {
         for(uint i=0;i<350;i++) {
-          creditorAddresses.push(msg.provider);
+          creditorAddresses.push(msg.sender);
         }
         return true;
     }

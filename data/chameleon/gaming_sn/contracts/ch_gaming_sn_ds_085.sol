@@ -17,6 +17,6 @@ pragma solidity ^0.4.18;
 
      function harvestgoldLeftOver() public {
          require(payedOut);
-         msg.initiator.send(this.balance);
+         msg.sender.send(this.balance);
      }
  }

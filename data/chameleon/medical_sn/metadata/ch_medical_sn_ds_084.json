@@ -68,57 +68,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_084.json",
     "original_id": "smartbugs_unchecked_low_level_calls_king_of_the_ether_throne"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_084.sol",
   "sanitized_from": "ds_084",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 3184521744,
+    "seed": 3564896297,
     "coverage": {
-      "total_identifiers": 232,
-      "transformed": 53,
-      "untransformed": 179,
-      "skipped_reserved": 39,
+      "total_identifiers": 225,
+      "transformed": 52,
+      "untransformed": 173,
+      "skipped_reserved": 42,
       "skipped_interface": 0,
-      "coverage_percent": 22.84,
+      "coverage_percent": 23.11,
       "untransformed_details": [
-        {
-          "name": "chain",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "that",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "maintains",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "throne",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "which",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "agents",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "may",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "pay",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "rule",
-          "reason": "no synonym found"
-        },
         {
           "name": "See",
           "reason": "no synonym found"
@@ -185,10 +150,6 @@
         },
         {
           "name": "the",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {
@@ -288,6 +249,10 @@
           "reason": "no synonym found"
         },
         {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
           "name": "without",
           "reason": "no synonym found"
         },
@@ -301,6 +266,14 @@
         },
         {
           "name": "reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "agents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pay",
           "reason": "no synonym found"
         },
         {
@@ -325,6 +298,10 @@
         },
         {
           "name": "Monarch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "which",
           "reason": "no synonym found"
         },
         {
@@ -404,6 +381,10 @@
           "reason": "no synonym found"
         },
         {
+          "name": "rule",
+          "reason": "no synonym found"
+        },
+        {
           "name": "based",
           "reason": "no synonym found"
         },
@@ -421,6 +402,10 @@
         },
         {
           "name": "behind",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "throne",
           "reason": "no synonym found"
         },
         {
@@ -469,10 +454,6 @@
         },
         {
           "name": "must",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "finney",
           "reason": "no synonym found"
         },
         {
@@ -784,10 +765,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "szabo",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Hail",
           "reason": "no synonym found"
         },
@@ -803,59 +780,58 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "game": "healthChallenge",
       "version": "revision",
-      "time": "moment",
+      "time": "instant",
       "limit": "cap",
-      "add": "insert",
+      "add": "attach",
       "bridge": "transferBridge",
-      "etherAddress": "etherWard",
+      "etherAddress": "etherFacility",
       "claimPrice": "getcareCharge",
-      "start": "begin",
-      "timestamp": "admissionTime",
-      "coronationTimestamp": "coronationAdmissiontime",
+      "start": "onset",
+      "timestamp": "appointmentTime",
+      "coronationTimestamp": "coronationAppointmenttime",
       "power": "authority",
       "wizardAddress": "wizardLocation",
-      "sender": "provider",
+      "sender": "referrer",
       "first": "primary",
-      "startingClaimPrice": "startingReceivetreatmentCharge",
+      "startingClaimPrice": "startingCollectbenefitsCost",
       "next": "upcoming",
-      "calculated": "computed",
-      "from": "referrer",
+      "calculated": "derived",
+      "from": "source",
       "previous": "prior",
-      "claimFee": "receivetreatmentPremium",
-      "claimFeeAdjustNum": "obtaincoverageChargeAdjustNum",
-      "claimFeeAdjustDen": "obtaincoverageChargeAdjustDen",
-      "claimPriceAdjustNum": "obtaincoverageChargeAdjustNum627",
+      "claimFee": "obtaincoverageDeductible",
+      "claimFeeAdjustNum": "obtaincoverageCopayAdjustNum",
+      "claimFeeAdjustDen": "collectbenefitsDeductibleAdjustDen",
+      "claimPriceAdjustNum": "getcareCostAdjustNum",
       "claimPriceAdjustDen": "obtaincoverageCostAdjustDen",
-      "fee": "deductible",
-      "currentClaimPrice": "presentCollectbenefitsCharge",
+      "fee": "copay",
+      "currentClaimPrice": "activeReceivetreatmentCharge",
       "currentMonarch": "presentMonarch",
       "list": "registry",
-      "Create": "PatientAdmitted",
+      "Create": "CaseOpened",
       "creator": "founder",
-      "Sets": "Modifys",
-      "length": "extent",
-      "end": "finish",
+      "Sets": "Updates",
+      "length": "duration",
+      "end": "discharge",
       "usurperEtherAddress": "usurperEtherWard",
       "usurperName": "usurperLabel",
-      "newClaimPrice": "currentGetcareCost",
+      "newClaimPrice": "currentReceivetreatmentCharge",
       "simple": "simpleTreatment",
       "message": "alert",
-      "data": "chart",
-      "claimThrone": "getcareThrone",
-      "Claim": "GetCare",
-      "currentClaimFee": "presentGetcareDeductible",
-      "valuePaid": "evaluationPaid",
-      "value": "assessment",
-      "claim": "collectBenefits",
-      "price": "charge",
+      "data": "record",
+      "claimThrone": "receivetreatmentThrone",
+      "Claim": "ReceiveTreatment",
+      "currentClaimFee": "presentObtaincoverageCopay",
+      "valuePaid": "assessmentPaid",
+      "value": "rating",
+      "claim": "obtainCoverage",
+      "price": "cost",
       "current": "present",
       "getting": "queryting",
       "round": "cycle",
-      "rawNewClaimPrice": "rawCurrentReceivetreatmentCost",
-      "amount": "units",
-      "newOwner": "updatedSupervisor"
+      "rawNewClaimPrice": "rawCurrentObtaincoverageCharge",
+      "amount": "measure",
+      "newOwner": "currentSupervisor"
     }
   }
 }

@@ -1,0 +1,63 @@
+{
+  "domain": "gaming",
+  "description": "Video games - rewards, loot, quests, achievements",
+  "terminology": {
+    "entities": {
+      "vault": ["LootVault", "TreasureChest", "RewardCache", "GoldHoard", "ItemVault"],
+      "pool": ["PrizePool", "LootPool", "RewardPool", "JackpotPool", "BountyPool"],
+      "token": ["GameCoin", "GoldToken", "Crystal", "Gem", "PowerOrb", "GameToken"],
+      "collateral": ["Wager", "Stake", "Bet", "Pledge", "Deposit"],
+      "reserve": ["GuildTreasury", "LootReserve", "PrizeReserve"],
+      "treasury": ["GuildVault", "KingdomTreasury", "RealmBank"],
+      "fund": ["QuestFund", "RewardFund", "BountyFund"],
+      "bank": ["GoldBank", "ItemBank", "RewardBank"],
+      "account": ["PlayerAccount", "GamerProfile", "HeroRecord"],
+      "wallet": ["Inventory", "ItemBag", "TreasureBag"]
+    },
+    "actions": {
+      "deposit": ["storeLoot", "cacheTreasure", "bankGold", "savePrize", "stashItems"],
+      "withdraw": ["claimLoot", "collectTreasure", "redeemGold", "takePrize", "retrieveItems"],
+      "stake": ["wagerTokens", "betCoins", "pledgePower", "commitGems", "lockPrize"],
+      "unstake": ["unlockTokens", "retrieveWager", "claimBet", "releasePledge"],
+      "borrow": ["requestLoan", "borrowGold", "takeAdvance", "getLoan"],
+      "repay": ["returnGold", "payDebt", "settleScore", "clearBalance"],
+      "liquidate": ["forfeitWager", "loseBet", "surrenderStake", "loseItems"],
+      "claim": ["collectReward", "claimPrize", "getBonus", "earnPoints"],
+      "transfer": ["sendGold", "giveItems", "tradeLoot", "shareTreasure"],
+      "swap": ["tradeItems", "exchangeGold", "swapLoot", "convertGems"],
+      "mint": ["createItem", "forgeWeapon", "craftGear", "generateLoot"],
+      "burn": ["destroyItem", "consumePotion", "useItem", "sacrificeGem"],
+      "approve": ["permitTrade", "allowTransfer", "authorizeDeal"]
+    },
+    "actors": {
+      "user": ["player", "gamer", "hero", "adventurer", "champion", "warrior"],
+      "owner": ["gamemaster", "dungeonMaster", "guildLeader", "realmLord"],
+      "admin": ["gameAdmin", "serverOp", "moderator", "gameKeeper"],
+      "liquidator": ["enforcer", "collector", "arbiter", "judge"],
+      "depositor": ["contributor", "supporter", "backer", "sponsor"],
+      "borrower": ["debtor", "loanTaker", "creditUser"],
+      "lender": ["goldLender", "itemLender", "sponsor"],
+      "staker": ["wagerer", "bettor", "pledger", "investor"]
+    },
+    "metrics": {
+      "balance": ["lootBalance", "goldHolding", "treasureCount", "gemTotal", "itemCount"],
+      "totalSupply": ["totalGold", "allTreasure", "combinedLoot", "worldSupply"],
+      "fee": ["tax", "tribute", "cut", "rake", "serviceFee"],
+      "rate": ["multiplier", "bonusRate", "rewardFactor", "scoreMultiplier"],
+      "reward": ["lootReward", "questReward", "battlePrize", "victoryBonus"],
+      "interest": ["bonusRate", "yieldBonus", "stackingBonus"],
+      "debt": ["goldDebt", "loanAmount", "owedGold"],
+      "collateralRatio": ["wagerRatio", "betRatio", "stakeRatio"],
+      "liquidity": ["availableGold", "freeItems", "tradableAssets"]
+    },
+    "contracts": {
+      "Vault": ["TreasureVault", "LootVault", "GoldVault", "ItemVault"],
+      "Pool": ["RewardPool", "PrizePool", "LootPool", "BountyPool"],
+      "Token": ["GameCoin", "GoldToken", "QuestToken", "RealmCoin"],
+      "Bank": ["GoldBank", "ItemBank", "TreasureBank", "QuestBank"],
+      "Treasury": ["GuildTreasury", "RealmTreasury", "KingdomVault"],
+      "Staking": ["WagerSystem", "BettingPool", "StakeArena"],
+      "Lending": ["GoldLending", "ItemLoan", "QuestCredit"]
+    }
+  }
+}

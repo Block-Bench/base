@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_098.json",
     "original_id": "defivulnlabs_overflow"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_098.sol",
   "sanitized_from": "ds_098",
   "derived_from": "sn_ds_098",
@@ -73,14 +74,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2985842513,
+    "seed": 3470845268,
     "coverage": {
       "total_identifiers": 48,
-      "transformed": 23,
-      "untransformed": 25,
+      "transformed": 24,
+      "untransformed": 24,
       "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 47.92,
+      "coverage_percent": 50.0,
       "untransformed_details": [
         {
           "name": "forge",
@@ -108,10 +109,6 @@
         },
         {
           "name": "not",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "expired",
           "reason": "no synonym found"
         },
         {
@@ -186,28 +183,29 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "TimeLock": "InstantSecuretreasure",
+      "TimeLock": "MomentFreezegold",
       "balances": "characterGold",
-      "lockTime": "securetreasureInstant",
+      "lockTime": "bindassetsInstant",
       "deposit": "cachePrize",
       "sender": "invoker",
-      "value": "cost",
-      "timestamp": "questTime",
+      "value": "price",
+      "timestamp": "adventureTime",
       "increaseLockTime": "increaseBindassetsMoment",
       "_secondsToIncrease": "_secondsDestinationIncrease",
-      "withdraw": "retrieveRewards",
-      "Lock": "SecureTreasure",
+      "withdraw": "gatherTreasure",
+      "Lock": "BindAssets",
       "time": "instant",
+      "expired": "timedOut",
       "amount": "total",
       "Failed": "OperationFailed",
       "ContractTest": "AgreementTest",
       "TimeLockContract": "InstantSecuretreasureAgreement",
-      "setUp": "collectionUp",
-      "log": "record",
-      "startPrank": "beginPrank",
+      "setUp": "groupUp",
+      "log": "journal",
+      "startPrank": "openingPrank",
       "max": "maximum",
-      "lock": "freezeGold",
-      "calculate": "figure",
+      "lock": "secureTreasure",
+      "calculate": "determine",
       "fail": "questFailed"
     }
   }

@@ -97,21 +97,21 @@ contract ExactlyMarket {
     }
 
     function storeLoot(uint256 count) external {
-        asset.transferFrom(msg.initiator, address(this), count);
-        deposits[msg.initiator] += count;
+        asset.transferFrom(msg.sender, address(this), count);
+        deposits[msg.sender] += count;
     }
 
     function requestLoan(uint256 count, address[] calldata markets) external {
         (uint256 completeDeposit, uint256 combinedObligation, ) = previewer
-            .previewMultipleMarkets(markets, msg.initiator);
+            .previewMultipleMarkets(markets, msg.sender);
 
         uint256 currentLiability = combinedObligation + count;
 
         uint256 maximumRequestloan = (completeDeposit * deposit_factor) / 100;
         require(currentLiability <= maximumRequestloan, "Insufficient collateral");
 
-        borrows[msg.initiator] += count;
-        asset.transfer(msg.initiator, count);
+        borrows[msg.sender] += count;
+        asset.transfer(msg.sender, count);
     }
 
     function obtainCharacterSnapshot(

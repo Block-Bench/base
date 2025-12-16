@@ -66,25 +66,22 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_038.json",
     "original_id": "smartbugs_reentrancy_etherstore"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_038.sol",
   "sanitized_from": "ds_038",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 3495067113,
+    "seed": 2847106178,
     "coverage": {
-      "total_identifiers": 18,
-      "transformed": 13,
-      "untransformed": 5,
-      "skipped_reserved": 14,
+      "total_identifiers": 15,
+      "transformed": 12,
+      "untransformed": 3,
+      "skipped_reserved": 15,
       "skipped_interface": 0,
-      "coverage_percent": 72.22,
+      "coverage_percent": 80.0,
       "untransformed_details": [
-        {
-          "name": "added",
-          "reason": "no synonym found"
-        },
         {
           "name": "EtherStore",
           "reason": "no synonym found"
@@ -96,28 +93,23 @@
         {
           "name": "allowed",
           "reason": "no synonym found"
-        },
-        {
-          "name": "now",
-          "reason": "no synonym found"
         }
       ],
-      "meets_threshold": false
+      "meets_threshold": true
     },
     "rename_map": {
-      "version": "edition",
-      "withdrawalLimit": "withdrawalCap",
-      "lastWithdrawTime": "finalRedeemtokensInstant",
+      "withdrawalLimit": "withdrawalBound",
+      "lastWithdrawTime": "finalGathertreasureInstant",
       "balances": "userRewards",
-      "depositFunds": "depositgoldFunds",
-      "sender": "invoker",
-      "value": "worth",
-      "withdrawFunds": "redeemtokensFunds",
+      "depositFunds": "addtreasureFunds",
+      "sender": "caster",
+      "value": "price",
+      "withdrawFunds": "collectbountyFunds",
       "_weiToWithdraw": "_weiDestinationHarvestgold",
       "limit": "cap",
-      "withdrawal": "rewardsCollected",
-      "time": "instant",
-      "withdraw": "claimLoot"
+      "withdrawal": "treasureWithdrawn",
+      "time": "moment",
+      "withdraw": "obtainPrize"
     }
   }
 }

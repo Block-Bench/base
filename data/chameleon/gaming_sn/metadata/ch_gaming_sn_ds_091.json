@@ -67,13 +67,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_091.json",
     "original_id": "defivulnlabs_selfdestruct"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_091.sol",
   "sanitized_from": "ds_091",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 1550464033,
+    "seed": 3029271236,
     "coverage": {
       "total_identifiers": 53,
       "transformed": 13,
@@ -246,18 +247,18 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "targetAmount": "aimCount",
+      "targetAmount": "goalSum",
       "deposit": "bankWinnings",
-      "value": "price",
-      "sender": "invoker",
-      "claimReward": "collectbountyBonus",
-      "Failed": "ActionFailed",
+      "value": "magnitude",
+      "sender": "caster",
+      "claimReward": "collectbountyPrize",
+      "Failed": "OperationFailed",
       "ContractTest": "PactTest",
       "EtherGameContract": "EtherGamePact",
-      "Operator": "QuestRunner",
-      "OperatorContract": "QuestrunnerAgreement",
-      "setUp": "collectionUp",
-      "log": "record",
+      "Operator": "GameOperator",
+      "OperatorContract": "QuestrunnerPact",
+      "setUp": "groupUp",
+      "log": "journal",
       "fail": "missionAborted"
     }
   }

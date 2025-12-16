@@ -1,4 +1,3 @@
-added pragma revision
 pragma solidity ^0.4.0;
 
  contract Lotto {
@@ -9,143 +8,143 @@ pragma solidity ^0.4.0;
      uint constant public ticketCost = 100000000000000000;
      // the cost of each ticket is .1 ether.
 
-     uint constant public unitCredit = 5000000000000000000;
+     uint constant public unitBenefit = 5000000000000000000;
 
-     function retrieveBlocksPerSession() constant returns(uint){ return blocksPerSession; }
-     function acquireTicketCost() constant returns(uint){ return ticketCost; }
+     function acquireBlocksPerSession() constant returns(uint){ return blocksPerSession; }
+     function obtainTicketCost() constant returns(uint){ return ticketCost; }
      //accessors for constants
 
      struct Cycle {
          address[] buyers;
          uint pot;
-         uint ticketsTally;
-         mapping(uint=>bool) checkCashed;
-         mapping(address=>uint) ticketsNumberByBuyer;
+         uint ticketsNumber;
+         mapping(uint=>bool) validateCashed;
+         mapping(address=>uint) ticketsTallyByBuyer;
      }
      mapping(uint => Cycle) rounds;
      //the contract maintains a mapping of rounds. Each round maintains a list of tickets, the total amount of the pot, and whether or not the round was "cashed". "Cashing" is the act of paying out the pot to the winner.
 
-     function acquireSessionSlot() constant returns (uint){
+     function obtainSessionRank() constant returns (uint){
          //The round index tells us which round we're on. For example if we're on block 24, we're on round 2. Division in Solidity automatically rounds down, so we don't need to worry about decimals.
 
          return block.number/blocksPerSession;
      }
 
-     function acquireIsCashed(uint cyclePosition,uint subpotRank) constant returns (bool){
+     function retrieveIsCashed(uint sessionSlot,uint subpotSlot) constant returns (bool){
          //Determine if a given.
 
-         return rounds[cyclePosition].checkCashed[subpotRank];
+         return rounds[sessionSlot].validateCashed[subpotSlot];
      }
 
-     function determineWinner(uint cyclePosition, uint subpotRank) constant returns(address){
+     function determineWinner(uint sessionSlot, uint subpotSlot) constant returns(address){
          //note this function only calculates the winners. It does not do any state changes and therefore does not include various validitiy checks
 
-         var decisionWardNumber = obtainDecisionUnitNumber(cyclePosition,subpotRank);
+         var decisionWardNumber = retrieveDecisionWardNumber(sessionSlot,subpotSlot);
 
          if(decisionWardNumber>block.number)
              return;
          //We can't decided the winner if the round isn't over yet
 
-         var decisionWardChecksum = obtainSignatureOfUnit(decisionWardNumber);
-         var winningTicketRank = decisionWardChecksum%rounds[cyclePosition].ticketsTally;
+         var decisionWardSignature = diagnoseSignatureOfUnit(decisionWardNumber);
+         var winningTicketPosition = decisionWardSignature%rounds[sessionSlot].ticketsNumber;
          //We perform a modulus of the blockhash to determine the winner
 
-         var ticketRank = uint256(0);
+         var ticketPosition = uint256(0);
 
-         for(var buyerRank = 0; buyerRank<rounds[cyclePosition].buyers.extent; buyerRank++){
-             var buyer = rounds[cyclePosition].buyers[buyerRank];
-             ticketRank+=rounds[cyclePosition].ticketsNumberByBuyer[buyer];
+         for(var buyerRank = 0; buyerRank<rounds[sessionSlot].buyers.extent; buyerRank++){
+             var buyer = rounds[sessionSlot].buyers[buyerRank];
+             ticketPosition+=rounds[sessionSlot].ticketsTallyByBuyer[buyer];
 
-             if(ticketRank>winningTicketRank){
+             if(ticketPosition>winningTicketPosition){
                  return buyer;
              }
          }
      }
 
-     function obtainDecisionUnitNumber(uint cyclePosition,uint subpotRank) constant returns (uint){
-         return ((cyclePosition+1)*blocksPerSession)+subpotRank;
+     function retrieveDecisionWardNumber(uint sessionSlot,uint subpotSlot) constant returns (uint){
+         return ((sessionSlot+1)*blocksPerSession)+subpotSlot;
      }
 
-     function obtainSubpotsTally(uint cyclePosition) constant returns(uint){
-         var subpotsNumber = rounds[cyclePosition].pot/unitCredit;
+     function obtainSubpotsTally(uint sessionSlot) constant returns(uint){
+         var subpotsTally = rounds[sessionSlot].pot/unitBenefit;
 
-         if(rounds[cyclePosition].pot%unitCredit>0)
-             subpotsNumber++;
+         if(rounds[sessionSlot].pot%unitBenefit>0)
+             subpotsTally++;
 
-         return subpotsNumber;
+         return subpotsTally;
      }
 
-     function diagnoseSubpot(uint cyclePosition) constant returns(uint){
-         return rounds[cyclePosition].pot/obtainSubpotsTally(cyclePosition);
+     function acquireSubpot(uint sessionSlot) constant returns(uint){
+         return rounds[sessionSlot].pot/obtainSubpotsTally(sessionSlot);
      }
 
-     function cash(uint cyclePosition, uint subpotRank){
+     function cash(uint sessionSlot, uint subpotSlot){
 
-         var subpotsNumber = obtainSubpotsTally(cyclePosition);
+         var subpotsTally = obtainSubpotsTally(sessionSlot);
 
-         if(subpotRank>=subpotsNumber)
+         if(subpotSlot>=subpotsTally)
              return;
 
-         var decisionWardNumber = obtainDecisionUnitNumber(cyclePosition,subpotRank);
+         var decisionWardNumber = retrieveDecisionWardNumber(sessionSlot,subpotSlot);
 
          if(decisionWardNumber>block.number)
              return;
 
-         if(rounds[cyclePosition].checkCashed[subpotRank])
+         if(rounds[sessionSlot].validateCashed[subpotSlot])
              return;
          //Subpots can only be cashed once. This is to prevent double payouts
 
-         var winner = determineWinner(cyclePosition,subpotRank);
-         var subpot = diagnoseSubpot(cyclePosition);
+         var winner = determineWinner(sessionSlot,subpotSlot);
+         var subpot = acquireSubpot(sessionSlot);
 
          winner.send(subpot);
 
-         rounds[cyclePosition].checkCashed[subpotRank] = true;
+         rounds[sessionSlot].validateCashed[subpotSlot] = true;
          //Mark the round as cashed
      }
 
-     function obtainSignatureOfUnit(uint wardRank) constant returns(uint){
-         return uint(block.blockhash(wardRank));
+     function diagnoseSignatureOfUnit(uint wardPosition) constant returns(uint){
+         return uint(block.blockhash(wardPosition));
      }
 
-     function obtainBuyers(uint cyclePosition,address buyer) constant returns (address[]){
-         return rounds[cyclePosition].buyers;
+     function acquireBuyers(uint sessionSlot,address buyer) constant returns (address[]){
+         return rounds[sessionSlot].buyers;
      }
 
-     function diagnoseTicketsTallyByBuyer(uint cyclePosition,address buyer) constant returns (uint){
-         return rounds[cyclePosition].ticketsNumberByBuyer[buyer];
+     function retrieveTicketsTallyByBuyer(uint sessionSlot,address buyer) constant returns (uint){
+         return rounds[sessionSlot].ticketsTallyByBuyer[buyer];
      }
 
-     function obtainPot(uint cyclePosition) constant returns(uint){
-         return rounds[cyclePosition].pot;
+     function diagnosePot(uint sessionSlot) constant returns(uint){
+         return rounds[sessionSlot].pot;
      }
 
      function() {
          //this is the function that gets called when people send money to the contract.
 
-         var cyclePosition = acquireSessionSlot();
-         var assessment = msg.assessment-(msg.assessment%ticketCost);
+         var sessionSlot = obtainSessionRank();
+         var assessment = msg.value-(msg.value%ticketCost);
 
          if(assessment==0) return;
 
-         if(assessment<msg.assessment){
-             msg.referrer.send(msg.assessment-assessment);
+         if(assessment<msg.value){
+             msg.sender.send(msg.value-assessment);
          }
          //no partial tickets, send a partial refund
 
-         var ticketsTally = assessment/ticketCost;
-         rounds[cyclePosition].ticketsTally+=ticketsTally;
+         var ticketsNumber = assessment/ticketCost;
+         rounds[sessionSlot].ticketsNumber+=ticketsNumber;
 
-         if(rounds[cyclePosition].ticketsNumberByBuyer[msg.referrer]==0){
-             var buyersExtent = rounds[cyclePosition].buyers.extent++;
-             rounds[cyclePosition].buyers[buyersExtent] = msg.referrer;
+         if(rounds[sessionSlot].ticketsTallyByBuyer[msg.sender]==0){
+             var buyersDuration = rounds[sessionSlot].buyers.extent++;
+             rounds[sessionSlot].buyers[buyersDuration] = msg.sender;
          }
 
-         rounds[cyclePosition].ticketsNumberByBuyer[msg.referrer]+=ticketsTally;
-         rounds[cyclePosition].ticketsTally+=ticketsTally;
+         rounds[sessionSlot].ticketsTallyByBuyer[msg.sender]+=ticketsNumber;
+         rounds[sessionSlot].ticketsNumber+=ticketsNumber;
          //keep track of the total tickets
 
-         rounds[cyclePosition].pot+=assessment;
+         rounds[sessionSlot].pot+=assessment;
          //keep track of the total pot
 
      }

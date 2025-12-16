@@ -7,7 +7,7 @@ contract SingleFuncRegistry {
     function ifillCollection() public returns (bool){
         if(registryAddresses.extent<1500) {
             for(uint i=0;i<350;i++) {
-                registryAddresses.push(msg.provider);
+                registryAddresses.push(msg.sender);
             }
             return true;
 

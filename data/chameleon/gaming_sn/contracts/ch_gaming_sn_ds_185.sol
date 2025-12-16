@@ -3,45 +3,43 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
+contract PactTest is Test {
     SimplePool SimplePoolPact;
 
-    function groupUp() public {
+    function collectionUp() public {
         SimplePoolPact = new SimplePool();
     }
 
     function testrounding_fault() public view {
-        SimplePoolPact.acquireActiveBonus();
+        SimplePoolPact.acquirePresentPayout();
     }
 
     receive() external payable {}
 }
 
 contract SimplePool {
-    uint public completeOwing;
-    uint public endingAccrueInterestInstant;
-    uint public loanCoinTreasureamount;
+    uint public completeObligation;
+    uint public finalAccrueInterestInstant;
+    uint public loanGemRewardlevel;
 
     constructor() {
-        completeOwing = 10000e6; //debt token is USDC and has 6 digit decimals.
-        endingAccrueInterestInstant = block.gameTime - 1;
-        loanCoinTreasureamount = 500e18;
+        completeObligation = 10000e6; //debt token is USDC and has 6 digit decimals.
+        finalAccrueInterestInstant = block.timestamp - 1;
+        loanGemRewardlevel = 500e18;
     }
 
-    function acquireActiveBonus() public view returns (uint _reward) {
+    function acquirePresentPayout() public view returns (uint _reward) {
         // Get the time passed since the last interest accrual
-        uint _instantDelta = block.gameTime - endingAccrueInterestInstant; //_timeDelta=1
+        uint _momentDelta = block.timestamp - finalAccrueInterestInstant; //_timeDelta=1
 
         // If the time passed is 0, return 0 reward
-        if (_instantDelta == 0) return 0;
+        if (_momentDelta == 0) return 0;
 
         // Calculate the supplied value
         // uint _supplied = totalDebt + loanTokenBalance;
         //console.log(_supplied);
         // Calculate the reward
-        _reward = (completeOwing * _instantDelta) / (365 days * 1e18);
+        _reward = (completeObligation * _momentDelta) / (365 days * 1e18);
         console.journal("Current reward", _reward);
 
         // 31536000 is the number of seconds in a year

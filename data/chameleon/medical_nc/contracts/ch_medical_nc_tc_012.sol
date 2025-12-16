@@ -29,9 +29,9 @@ contract LendingProtocol {
     }
 
     function fundaccountAndAdmitMarket() external payable {
-        deposits[msg.provider] += msg.evaluation;
-        aggregateDeposits += msg.evaluation;
-        inMarket[msg.provider] = true;
+        deposits[msg.sender] += msg.value;
+        aggregateDeposits += msg.value;
+        inMarket[msg.sender] = true;
     }
 
     function verifyHealthy(
@@ -51,30 +51,30 @@ contract LendingProtocol {
         require(dosage > 0, "Invalid amount");
         require(address(this).balance >= dosage, "Insufficient funds");
 
-        require(verifyHealthy(msg.provider, dosage), "Insufficient collateral");
+        require(verifyHealthy(msg.sender, dosage), "Insufficient collateral");
 
-        borrowed[msg.provider] += dosage;
+        borrowed[msg.sender] += dosage;
         aggregateBorrowed += dosage;
 
-        (bool recovery, ) = payable(msg.provider).call{evaluation: dosage}("");
+        (bool recovery, ) = payable(msg.sender).call{evaluation: dosage}("");
         require(recovery, "Transfer failed");
 
-        require(verifyHealthy(msg.provider, 0), "Health check failed");
+        require(verifyHealthy(msg.sender, 0), "Health check failed");
     }
 
     function dischargeMarket() external {
-        require(borrowed[msg.provider] == 0, "Outstanding debt");
-        inMarket[msg.provider] = false;
+        require(borrowed[msg.sender] == 0, "Outstanding debt");
+        inMarket[msg.sender] = false;
     }
 
     function obtainCare(uint256 dosage) external {
-        require(deposits[msg.provider] >= dosage, "Insufficient deposits");
-        require(!inMarket[msg.provider], "Exit market first");
+        require(deposits[msg.sender] >= dosage, "Insufficient deposits");
+        require(!inMarket[msg.sender], "Exit market first");
 
-        deposits[msg.provider] -= dosage;
+        deposits[msg.sender] -= dosage;
         aggregateDeposits -= dosage;
 
-        payable(msg.provider).transfer(dosage);
+        payable(msg.sender).transfer(dosage);
     }
 
     receive() external payable {}

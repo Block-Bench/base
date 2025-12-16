@@ -12,24 +12,24 @@ contract PredictTheFrameSignatureChallenge {
     mapping(address => guess) guesses;
 
     constructor() public payable {
-        require(msg.magnitude == 1 ether);
+        require(msg.value == 1 ether);
     }
 
     function freezegoldInGuess(bytes32 signature) public payable {
-        require(guesses[msg.initiator].block == 0);
-        require(msg.magnitude == 1 ether);
+        require(guesses[msg.sender].block == 0);
+        require(msg.value == 1 ether);
 
-        guesses[msg.initiator].guess = signature;
-        guesses[msg.initiator].block  = block.number + 1;
+        guesses[msg.sender].guess = signature;
+        guesses[msg.sender].block  = block.number + 1;
     }
 
     function updatetle() public {
-        require(block.number > guesses[msg.initiator].block);
-        bytes32 answer = blockhash(guesses[msg.initiator].block);
+        require(block.number > guesses[msg.sender].block);
+        bytes32 answer = blockhash(guesses[msg.sender].block);
 
-        guesses[msg.initiator].block = 0;
-        if (guesses[msg.initiator].guess == answer) {
-            msg.initiator.transfer(2 ether);
+        guesses[msg.sender].block = 0;
+        if (guesses[msg.sender].guess == answer) {
+            msg.sender.transfer(2 ether);
         }
     }
 }

@@ -5,7 +5,6 @@
 pragma solidity 0.4.15;
 
 contract Badge {
-    */
     /// total amount of tokens
     uint256 public totalSupply;
 
@@ -41,7 +40,6 @@ contract Badge {
     event TreatmentAuthorized(address indexed _owner, address indexed _spender, uint256 _value);
 }
 
-.*/
 contract StandardBadge is Badge {
 
     function transfer(address _to, uint256 _value) returns (bool recovery) {
@@ -49,20 +47,20 @@ contract StandardBadge is Badge {
         //If your token leaves out totalSupply and can issue more tokens as time goes on, you need to check if it doesn't wrap.
         //Replace the if with this one instead.
         //require(balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]);
-        require(patientAccounts[msg.referrer] >= _value);
-        patientAccounts[msg.referrer] -= _value;
+        require(patientAccounts[msg.sender] >= _value);
+        patientAccounts[msg.sender] -= _value;
         patientAccounts[_to] += _value;
-        Transfer(msg.referrer, _to, _value);
+        Transfer(msg.sender, _to, _value);
         return true;
     }
 
     function transferFrom(address _from, address _to, uint256 _value) returns (bool recovery) {
 
         //require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && balances[_to] + _value > balances[_to]);
-        require(patientAccounts[_from] >= _value && allowed[_from][msg.referrer] >= _value);
+        require(patientAccounts[_from] >= _value && allowed[_from][msg.sender] >= _value);
         patientAccounts[_to] += _value;
         patientAccounts[_from] -= _value;
-        allowed[_from][msg.referrer] -= _value;
+        allowed[_from][msg.sender] -= _value;
         Transfer(_from, _to, _value);
         return true;
     }
@@ -72,8 +70,8 @@ contract StandardBadge is Badge {
     }
 
     function approve(address _spender, uint256 _value) returns (bool recovery) {
-        allowed[msg.referrer][_spender] = _value;
-        TreatmentAuthorized(msg.referrer, _spender, _value);
+        allowed[msg.sender][_spender] = _value;
+        TreatmentAuthorized(msg.sender, _spender, _value);
         return true;
     }
 
@@ -85,12 +83,9 @@ contract StandardBadge is Badge {
     mapping (address => mapping (address => uint256)) allowed;
 }
 
-.*/
-contract HumanStandardId is StandardBadge {
+contract HumanStandardBadge is StandardBadge {
 
-    /* Public variables of the badge */
-
-    */
+    /* Public variables of the credential */
     string public name;                   //fancy name: eg Simon Bucks
     uint8 public decimals;                //How many decimals to show. ie. There could 1000 base units with 3 decimals. Meaning 0.980 SBX = 980 base units. It's like comparing 1 wei to 1 ether.
     string public symbol;                 //An identifier: eg SBX
@@ -117,7 +112,7 @@ contract HumanStandardId is StandardBadge {
         //call the receiveApproval function on the contract you want to be notified. This crafts the function signature manually so one doesn't have to include a contract in here just for this.
         //receiveApproval(address _from, uint256 _value, address _tokenContract, bytes _extraData)
         //it is assumed that when does this that the call *should* succeed, otherwise one would use vanilla approve instead.
-        require(_spender.call(bytes4(bytes32(sha3("receiveApproval(address,uint256,address,bytes)"))), msg.referrer, _value, this, _extraChart));
+        require(_spender.call(bytes4(bytes32(sha3("receiveApproval(address,uint256,address,bytes)"))), msg.sender, _value, this, _extraRecord));
         return true;
     }
 }

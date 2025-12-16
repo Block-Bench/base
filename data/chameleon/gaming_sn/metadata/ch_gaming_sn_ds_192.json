@@ -67,20 +67,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_192.json",
     "original_id": "defivulnlabs_phantom-permit"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_192.sol",
   "sanitized_from": "ds_192",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 29128404,
+    "seed": 309998255,
     "coverage": {
-      "total_identifiers": 52,
-      "transformed": 23,
+      "total_identifiers": 51,
+      "transformed": 22,
       "untransformed": 29,
-      "skipped_reserved": 49,
+      "skipped_reserved": 50,
       "skipped_interface": 0,
-      "coverage_percent": 44.23,
+      "coverage_percent": 43.14,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -202,29 +203,28 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "token": "coin",
-      "ContractTest": "PactTest",
-      "PermitToken": "PermitCrystal",
-      "VulnPermitContract": "VulnPermitPact",
-      "WETH9Contract": "Weth9Agreement",
-      "setUp": "groupUp",
-      "startPrank": "openingPrank",
-      "deposit": "cachePrize",
+      "token": "medal",
+      "ContractTest": "AgreementTest",
+      "PermitToken": "PermitMedal",
+      "VulnPermitContract": "VulnPermitAgreement",
+      "WETH9Contract": "Weth9Pact",
+      "setUp": "collectionUp",
+      "startPrank": "beginPrank",
+      "deposit": "addTreasure",
       "value": "cost",
-      "max": "maximum",
-      "log": "record",
+      "max": "ceiling",
+      "log": "journal",
       "start": "opening",
       "depositWithPermit": "stashrewardsWithPermit",
-      "withdraw": "harvestGold",
-      "amount": "count",
+      "withdraw": "extractWinnings",
+      "amount": "quantity",
       "sender": "initiator",
-      "failed": "actionFailed",
+      "failed": "operationFailed",
       "target": "aim",
-      "success": "victory",
-      "encodeWithSignature": "encodeWithMark",
+      "success": "win",
       "Approval": "PermissionGranted",
-      "Deposit": "BankWinnings",
-      "Withdrawal": "GoldExtracted"
+      "Deposit": "DepositGold",
+      "Withdrawal": "LootClaimed"
     }
   }
 }

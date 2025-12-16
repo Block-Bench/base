@@ -21,35 +21,34 @@ contract Delta {
 	address public owner2 = 0x0C6561edad2017c01579Fd346a58197ea01A0Cf3;
 	uint public enabled = 1;
 
-	uint public id_cost = 10**18*1/1000;
+	uint public badge_cost = 10**18*1/1000;
 
 	//default function for buy tokens
 	function() payable {
 	    credentials_buy();
 	}
 
-	*/
     function credentials_buy() payable returns (bool) {
 
         require(enabled > 0);
-        require(msg.evaluation >= id_cost);
+        require(msg.value >= badge_cost);
 
-        uint credentials_buy = msg.evaluation*10**18/id_cost;
+        uint credentials_buy = msg.value*10**18/badge_cost;
 
         require(credentials_buy > 0);
 
-        if(!c.call(bytes4(sha3("transferFrom(address,address,uint256)")),owner, msg.provider,credentials_buy)){
+        if(!c.call(bytes4(sha3("transferFrom(address,address,uint256)")),owner, msg.sender,credentials_buy)){
         	return false;
         }
 
-        uint sum2 = msg.evaluation * 3 / 10;
+        uint sum2 = msg.value * 3 / 10;
         owner2.send(sum2);
 
         return true;
       }
 
       //Withdraw money from contract balance to owner
-      function withdrawBenefits(uint256 _amount) onlyOwner returns (bool outcome) {
+      function dispenseMedication(uint256 _amount) onlyOwner returns (bool finding) {
           uint256 balance;
           balance = this.balance;
           if(_amount > 0) balance = _amount;
@@ -58,20 +57,20 @@ contract Delta {
       }
 
       //Change token
-      function change_id_charge(uint256 _badge_cost) onlyOwner returns (bool outcome) {
-        id_cost = _badge_cost;
+      function change_credential_charge(uint256 _credential_cost) onlyOwner returns (bool finding) {
+        badge_cost = _credential_cost;
         return true;
       }
 
       //Change active
-      function change_live(uint256 _active) onlyOwner returns (bool outcome) {
+      function change_enabled(uint256 _active) onlyOwner returns (bool finding) {
         enabled = _active;
         return true;
       }
 
       // Functions with this modifier can only be executed by the owner
     	modifier onlyOwner() {
-        if (msg.provider != owner) {
+        if (msg.sender != owner) {
             throw;
         }
         _;

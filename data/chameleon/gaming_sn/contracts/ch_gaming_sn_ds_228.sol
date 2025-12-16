@@ -5,120 +5,118 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
-
-contract AgreementTest is Test {
-    SimplePool SimplePoolAgreement;
-    MyCrystal MyCrystalAgreement;
+contract PactTest is Test {
+    SimplePool SimplePoolPact;
+    MyMedal MyCoinPact;
 
     function collectionUp() public {
-        MyCrystalAgreement = new MyCrystal();
-        SimplePoolAgreement = new SimplePool(address(MyCrystalAgreement));
+        MyCoinPact = new MyMedal();
+        SimplePoolPact = new SimplePool(address(MyCoinPact));
     }
 
-    function testPrimaryDepositgold() public {
+    function testInitialAddtreasure() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
-        MyCrystalAgreement.transfer(alice, 1 ether + 1);
-        MyCrystalAgreement.transfer(bob, 2 ether);
+        MyCoinPact.transfer(alice, 1 ether + 1);
+        MyCoinPact.transfer(bob, 2 ether);
 
         vm.openingPrank(alice);
         // Alice deposits 1 wei, gets 1 pool token
-        MyCrystalAgreement.approve(address(SimplePoolAgreement), 1);
-        SimplePoolAgreement.stashRewards(1);
+        MyCoinPact.approve(address(SimplePoolPact), 1);
+        SimplePoolPact.addTreasure(1);
 
         // Alice transfers 1 ether to the pool, inflating the pool token price
-        MyCrystalAgreement.transfer(address(SimplePoolAgreement), 1 ether);
+        MyCoinPact.transfer(address(SimplePoolPact), 1 ether);
 
         vm.stopPrank();
         vm.openingPrank(bob);
         // Bob deposits 2 ether, gets 1 pool token due to inflated price
         // uint shares = _tokenAmount * _sharesTotalSupply / _supplied;
         // shares = 2000000000000000000 * 1 / 1000000000000000001 = 1.9999999999999999999 => round down to 1.
-        MyCrystalAgreement.approve(address(SimplePoolAgreement), 2 ether);
-        SimplePoolAgreement.stashRewards(2 ether);
+        MyCoinPact.approve(address(SimplePoolPact), 2 ether);
+        SimplePoolPact.addTreasure(2 ether);
         vm.stopPrank();
         vm.openingPrank(alice);
 
-        MyCrystalAgreement.balanceOf(address(SimplePoolAgreement));
+        MyCoinPact.balanceOf(address(SimplePoolPact));
 
         // Alice withdraws and gets 1.5 ether, making a profit
-        SimplePoolAgreement.collectBounty(1);
-        assertEq(MyCrystalAgreement.balanceOf(alice), 1.5 ether);
-        console.record("Alice balance", MyCrystalAgreement.balanceOf(alice));
+        SimplePoolPact.collectBounty(1);
+        assertEq(MyCoinPact.balanceOf(alice), 1.5 ether);
+        console.record("Alice balance", MyCoinPact.balanceOf(alice));
     }
 
     receive() external payable {}
 }
 
-contract MyCrystal is ERC20, Ownable {
+contract MyMedal is ERC20, Ownable {
     constructor() ERC20("MyToken", "MTK") {
-        _mint(msg.invoker, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 
-    function forge(address to, uint256 sum) public onlyOwner {
-        _mint(to, sum);
+    function spawn(address to, uint256 quantity) public onlyOwner {
+        _mint(to, quantity);
     }
 }
 
 contract SimplePool {
-    IERC20 public loanMedal;
-    uint public completeSlices;
+    IERC20 public loanCrystal;
+    uint public fullPieces;
 
     mapping(address => uint) public balanceOf;
 
-    constructor(address _loanCrystal) {
-        loanMedal = IERC20(_loanCrystal);
+    constructor(address _loanGem) {
+        loanCrystal = IERC20(_loanGem);
     }
 
-    function stashRewards(uint sum) external {
-        require(sum > 0, "Amount must be greater than zero");
+    function addTreasure(uint quantity) external {
+        require(quantity > 0, "Amount must be greater than zero");
 
         uint _shares;
-        if (completeSlices == 0) {
-            _shares = sum;
+        if (fullPieces == 0) {
+            _shares = quantity;
         } else {
-            _shares = medalTargetPortions(
-                sum,
-                loanMedal.balanceOf(address(this)),
-                completeSlices,
+            _shares = crystalDestinationPieces(
+                quantity,
+                loanCrystal.balanceOf(address(this)),
+                fullPieces,
                 false
             );
         }
 
         require(
-            loanMedal.transferFrom(msg.invoker, address(this), sum),
+            loanCrystal.transferFrom(msg.sender, address(this), quantity),
             "TransferFrom failed"
         );
-        balanceOf[msg.invoker] += _shares;
-        completeSlices += _shares;
+        balanceOf[msg.sender] += _shares;
+        fullPieces += _shares;
     }
 
-    function medalTargetPortions(
-        uint _crystalTotal,
+    function crystalDestinationPieces(
+        uint _gemTotal,
         uint _supplied,
-        uint _slicesCompleteStock,
-        bool waveUpExamine
+        uint _piecesCompleteReserve,
+        bool cycleUpVerify
     ) internal pure returns (uint) {
-        if (_supplied == 0) return _crystalTotal;
-        uint portions = (_crystalTotal * _slicesCompleteStock) / _supplied;
+        if (_supplied == 0) return _gemTotal;
+        uint pieces = (_gemTotal * _piecesCompleteReserve) / _supplied;
         if (
-            waveUpExamine &&
-            portions * _supplied < _crystalTotal * _slicesCompleteStock
-        ) portions++;
-        return portions;
+            cycleUpVerify &&
+            pieces * _supplied < _gemTotal * _piecesCompleteReserve
+        ) pieces++;
+        return pieces;
     }
 
-    function collectBounty(uint portions) external {
-        require(portions > 0, "Shares must be greater than zero");
-        require(balanceOf[msg.invoker] >= portions, "Insufficient balance");
+    function collectBounty(uint pieces) external {
+        require(pieces > 0, "Shares must be greater than zero");
+        require(balanceOf[msg.sender] >= pieces, "Insufficient balance");
 
-        uint medalCount = (portions * loanMedal.balanceOf(address(this))) /
-            completeSlices;
+        uint coinQuantity = (pieces * loanCrystal.balanceOf(address(this))) /
+            fullPieces;
 
-        balanceOf[msg.invoker] -= portions;
-        completeSlices -= portions;
+        balanceOf[msg.sender] -= pieces;
+        fullPieces -= pieces;
 
-        require(loanMedal.transfer(msg.invoker, medalCount), "Transfer failed");
+        require(loanCrystal.transfer(msg.sender, coinQuantity), "Transfer failed");
     }
 }

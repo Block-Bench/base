@@ -33,7 +33,7 @@ contract CrossChainBridge {
     ) external payable {
         storelootCounter += 1;
 
-        BridgeHandler(eventHandler).addTreasure(resourceCode, msg.initiator, info);
+        BridgeHandler(eventHandler).addTreasure(resourceCode, msg.sender, info);
 
         emit StashRewards(endpointDomainTag, resourceCode, storelootCounter);
     }

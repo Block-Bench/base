@@ -6,66 +6,64 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-*/
-
 contract PactTest is Test {
-    BountyCoin PrizeGemAgreement;
+    TreasureCrystal PrizeCrystalPact;
     StakingRewards VulnStakingRewardsAgreement;
     StakingRewardsV2 FixedtakingRewardsAgreement;
     address alice = vm.addr(1);
 
-    function collectionUp() public {
-        PrizeGemAgreement = new BountyCoin();
+    function groupUp() public {
+        PrizeCrystalPact = new TreasureCrystal();
         VulnStakingRewardsAgreement = new StakingRewards(
-            address(PrizeGemAgreement)
+            address(PrizeCrystalPact)
         );
-        PrizeGemAgreement.transfer(address(alice), 10000 ether);
+        PrizeCrystalPact.transfer(address(alice), 10000 ether);
         FixedtakingRewardsAgreement = new StakingRewardsV2(
-            address(PrizeGemAgreement)
+            address(PrizeCrystalPact)
         );
         //RewardTokenContract.transfer(address(alice),10000 ether);
     }
 
     function testVulnStakingRewards() public {
-        console.record(
+        console.journal(
             "Before rug RewardToken balance in VulnStakingRewardsContract",
-            PrizeGemAgreement.balanceOf(address(this))
+            PrizeCrystalPact.balanceOf(address(this))
         );
         vm.prank(alice);
         //If alice transfer reward token to VulnStakingRewardsContract
-        PrizeGemAgreement.transfer(
+        PrizeCrystalPact.transfer(
             address(VulnStakingRewardsAgreement),
             10000 ether
         );
         //admin can rug reward token over recoverERC20()
-        VulnStakingRewardsAgreement.retrieveErc20(
-            address(PrizeGemAgreement),
+        VulnStakingRewardsAgreement.restoreErc20(
+            address(PrizeCrystalPact),
             1000 ether
         );
-        console.record(
+        console.journal(
             "After rug RewardToken balance in VulnStakingRewardsContract",
-            PrizeGemAgreement.balanceOf(address(this))
+            PrizeCrystalPact.balanceOf(address(this))
         );
     }
 
     function testFixedStakingRewards() public {
-        console.record(
+        console.journal(
             "Before rug RewardToken balance in VulnStakingRewardsContract",
-            PrizeGemAgreement.balanceOf(address(this))
+            PrizeCrystalPact.balanceOf(address(this))
         );
         vm.prank(alice);
         //If alice transfer reward token to VulnStakingRewardsContract
-        PrizeGemAgreement.transfer(
+        PrizeCrystalPact.transfer(
             address(FixedtakingRewardsAgreement),
             10000 ether
         );
-        FixedtakingRewardsAgreement.retrieveErc20(
-            address(PrizeGemAgreement),
+        FixedtakingRewardsAgreement.restoreErc20(
+            address(PrizeCrystalPact),
             1000 ether
         );
-        console.record(
+        console.journal(
             "After rug RewardToken balance in VulnStakingRewardsContract",
-            PrizeGemAgreement.balanceOf(address(this))
+            PrizeCrystalPact.balanceOf(address(this))
         );
     }
 
@@ -75,63 +73,63 @@ contract PactTest is Test {
 contract StakingRewards {
     using SafeERC20 for IERC20;
 
-    IERC20 public rewardsMedal;
+    IERC20 public rewardsGem;
     address public owner;
 
-    event Recovered(address medal, uint256 measure);
+    event Recovered(address gem, uint256 total);
 
-    constructor(address _rewardsCoin) {
-        rewardsMedal = IERC20(_rewardsCoin);
-        owner = msg.initiator;
+    constructor(address _rewardsMedal) {
+        rewardsGem = IERC20(_rewardsMedal);
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
-        require(msg.initiator == owner, "Only owner can call this function");
+        require(msg.sender == owner, "Only owner can call this function");
         _;
     }
 
-    function retrieveErc20(
-        address crystalLocation,
+    function restoreErc20(
+        address crystalZone,
         uint256 coinTotal
     ) public onlyOwner {
-        IERC20(crystalLocation).secureMove(owner, coinTotal);
-        emit Recovered(crystalLocation, coinTotal);
+        IERC20(crystalZone).secureMove(owner, coinTotal);
+        emit Recovered(crystalZone, coinTotal);
     }
 }
 
 contract StakingRewardsV2 {
     using SafeERC20 for IERC20;
 
-    IERC20 public rewardsMedal;
+    IERC20 public rewardsGem;
     address public owner;
 
-    event Recovered(address medal, uint256 measure);
+    event Recovered(address gem, uint256 total);
 
-    constructor(address _rewardsCoin) {
-        rewardsMedal = IERC20(_rewardsCoin);
-        owner = msg.initiator;
+    constructor(address _rewardsMedal) {
+        rewardsGem = IERC20(_rewardsMedal);
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
-        require(msg.initiator == owner, "Only owner can call this function");
+        require(msg.sender == owner, "Only owner can call this function");
         _;
     }
 
-    function retrieveErc20(
-        address crystalLocation,
+    function restoreErc20(
+        address crystalZone,
         uint256 coinTotal
     ) external onlyOwner {
         require(
-            crystalLocation != address(rewardsMedal),
+            crystalZone != address(rewardsGem),
             "Cannot withdraw the rewardsToken"
         );
-        IERC20(crystalLocation).secureMove(owner, coinTotal);
-        emit Recovered(crystalLocation, coinTotal);
+        IERC20(crystalZone).secureMove(owner, coinTotal);
+        emit Recovered(crystalZone, coinTotal);
     }
 }
 
-contract BountyCoin is ERC20, Ownable {
+contract TreasureCrystal is ERC20, Ownable {
     constructor() ERC20("Rewardoken", "Reward") {
-        _mint(msg.initiator, 10000 * 10 ** decimals());
+        _mint(msg.sender, 10000 * 10 ** decimals());
     }
 }

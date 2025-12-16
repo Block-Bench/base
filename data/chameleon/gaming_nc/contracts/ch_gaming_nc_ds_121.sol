@@ -5,7 +5,7 @@ contract SimpleAuction {
   uint activeBid;
 
   function bid() payable {
-    require(msg.price > activeBid);
+    require(msg.value > activeBid);
 
 
     if (presentFrontrunner != 0) {
@@ -13,8 +13,8 @@ contract SimpleAuction {
       require(presentFrontrunner.send(activeBid));
     }
 
-    presentFrontrunner = msg.invoker;
-    activeBid         = msg.price;
+    presentFrontrunner = msg.sender;
+    activeBid         = msg.value;
   }
 }
 
@@ -26,22 +26,22 @@ contract AuctionV2 {
 
 
   function bid() payable external {
-    require(msg.price > activeBid);
+    require(msg.value > activeBid);
 
     if (presentFrontrunner != 0) {
       refunds[presentFrontrunner] += activeBid;
     }
 
-    presentFrontrunner = msg.invoker;
-    activeBid         = msg.price;
+    presentFrontrunner = msg.sender;
+    activeBid         = msg.value;
   }
 
 
   function obtainPrize() external {
 
-    uint refund = refunds[msg.invoker];
-    refunds[msg.invoker] = 0;
+    uint refund = refunds[msg.sender];
+    refunds[msg.sender] = 0;
 
-    msg.invoker.send(refund);
+    msg.sender.send(refund);
   }
 }

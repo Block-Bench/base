@@ -65,13 +65,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_189.json",
     "original_id": "defivulnlabs_unprotected-callback"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_189.sol",
   "sanitized_from": "ds_189",
   "transformation": {
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "sanitized",
-    "seed": 3295290609,
+    "seed": 2888321678,
     "coverage": {
       "total_identifiers": 45,
       "transformed": 18,
@@ -193,23 +194,23 @@
     },
     "rename_map": {
       "token": "medal",
-      "ContractTest": "PactTest",
+      "ContractTest": "AgreementTest",
       "MaxMint721": "CeilingMint721",
-      "MaxMint721Contract": "CeilingMint721Agreement",
-      "complete": "questCompleted",
-      "maxMints": "ceilingMints",
+      "MaxMint721Contract": "CeilingMint721Pact",
+      "complete": "missionAccomplished",
+      "maxMints": "maximumMints",
       "testSafeMint": "testSafeSpawn",
-      "mint": "create",
+      "mint": "craft",
       "log": "record",
-      "NFT": "Artifact",
-      "selector": "chooser",
-      "MAX_PER_USER": "maximum_per_character",
+      "NFT": "Relic",
+      "selector": "picker",
+      "MAX_PER_USER": "maximum_per_hero",
       "amount": "total",
-      "sender": "invoker",
-      "max": "ceiling",
-      "user": "character",
-      "mintIndex": "spawnSlot",
-      "_safeMint": "_safeCraft"
+      "sender": "caster",
+      "max": "maximum",
+      "user": "adventurer",
+      "mintIndex": "spawnPosition",
+      "_safeMint": "_safeForge"
     }
   }
 }

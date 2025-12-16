@@ -1,0 +1,75 @@
+{
+  "id": "gs_reentrancy_guard_sn_ds_094",
+  "contract_file": "contracts/gs_reentrancy_guard_sn_ds_094.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "neutralized_by": "reentrancy_guard",
+    "neutralization_reason": "Mutex lock prevents recursive calls during execution"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_dirtybytes",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "0.8.0",
+    "num_lines": 44,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "Dirtybytes"
+    ],
+    "num_functions": 2,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Dirtybytes in > Solidity 0.8.15",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_094.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_094.json",
+    "original_id": "defivulnlabs_dirtybytes"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_094.sol",
+  "sanitized_from": "ds_094",
+  "derived_from": "sn_ds_094",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "reentrancy_guard",
+    "injection_details": {
+      "import_added": true,
+      "inheritance_added": true,
+      "functions_protected": [],
+      "protection_type": "reentrancy_guard"
+    }
+  }
+}

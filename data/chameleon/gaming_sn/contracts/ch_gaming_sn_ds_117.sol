@@ -14,11 +14,11 @@ contract Rubixi {
 
         //Sets creator
         function DynamicPyramid() {
-                founder = msg.caster;
+                founder = msg.sender;
         }
 
         modifier onlyDungeonMaster {
-                if (msg.caster == founder) _;
+                if (msg.sender == founder) _;
         }
 
         struct Participant {
@@ -36,14 +36,14 @@ contract Rubixi {
         //init function run on fallback
         function init() private {
                 //Ensures only tx with value of 1 ether or greater are processed and added to pyramid
-                if (msg.cost < 1 ether) {
-                        collectedFees += msg.cost;
+                if (msg.value < 1 ether) {
+                        collectedFees += msg.value;
                         return;
                 }
 
                 uint _fee = cutShare;
                 //50% fee rebate on any ether value of 50 or greater
-                if (msg.cost >= 50 ether) _fee /= 2;
+                if (msg.value >= 50 ether) _fee /= 2;
 
                 insertPayout(_fee);
         }
@@ -51,15 +51,15 @@ contract Rubixi {
         //Function called for valid tx to the contract
         function insertPayout(uint _fee) private {
                 //Adds new address to participant array
-                participants.push(Participant(msg.caster, (msg.cost * pyramidModifier) / 100));
+                participants.push(Participant(msg.sender, (msg.value * pyramidModifier) / 100));
 
                 //These statements ensure a quicker payout system to later pyramid entrants, so the pyramid has a longer lifespan
-                if (participants.extent == 10) pyramidModifier = 200;
-                else if (participants.extent == 25) pyramidModifier = 150;
+                if (participants.size == 10) pyramidModifier = 200;
+                else if (participants.size == 25) pyramidModifier = 150;
 
                 // collect fees and update contract balance
-                balance += (msg.cost * (100 - _fee)) / 100;
-                collectedFees += (msg.cost * _fee) / 100;
+                balance += (msg.value * (100 - _fee)) / 100;
+                collectedFees += (msg.value * _fee) / 100;
 
                 //Pays earlier participiants if balance sufficient
                 while (balance > participants[payoutOrder].payout) {
@@ -139,15 +139,15 @@ contract Rubixi {
         }
 
         function aggregateParticipants() constant returns(uint tally) {
-                tally = participants.extent;
+                tally = participants.size;
         }
 
         function numberOfParticipantsWaitingForPayout() constant returns(uint tally) {
-                tally = participants.extent - payoutOrder;
+                tally = participants.size - payoutOrder;
         }
 
         function participantDetails(uint orderInPyramid) constant returns(address Address, uint Payout) {
-                if (orderInPyramid <= participants.extent) {
+                if (orderInPyramid <= participants.size) {
                         Address = participants[orderInPyramid].etherRealm;
                         Payout = participants[orderInPyramid].payout / 1 ether;
                 }

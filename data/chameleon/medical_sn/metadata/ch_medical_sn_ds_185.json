@@ -65,13 +65,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_185.json",
     "original_id": "defivulnlabs_precision-loss"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_185.sol",
   "sanitized_from": "ds_185",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 3568639387,
+    "seed": 3824953886,
     "coverage": {
       "total_identifiers": 45,
       "transformed": 21,
@@ -181,26 +182,26 @@
     },
     "rename_map": {
       "ContractTest": "AgreementTest",
-      "SimplePoolContract": "SimplePoolAgreement",
+      "SimplePoolContract": "SimplePoolPolicy",
       "setUp": "collectionUp",
-      "testRounding_error": "testrounding_complication",
-      "getCurrentReward": "obtainPresentCredit",
-      "totalDebt": "aggregateObligation",
-      "lastAccrueInterestTime": "finalAccrueInterestInstant",
-      "loanTokenBalance": "loanIdAllocation",
+      "testRounding_error": "testrounding_fault",
+      "getCurrentReward": "obtainActiveCoverage",
+      "totalDebt": "completeObligation",
+      "lastAccrueInterestTime": "endingAccrueInterestMoment",
+      "loanTokenBalance": "loanIdFunds",
       "debt": "liability",
-      "token": "id",
-      "timestamp": "admissionTime",
-      "Get": "Obtain",
+      "token": "badge",
+      "timestamp": "appointmentTime",
+      "Get": "Diagnose",
       "time": "moment",
-      "last": "final",
-      "_timeDelta": "_instantDelta",
-      "reward": "coverage",
-      "Calculate": "Derive",
-      "value": "assessment",
+      "last": "ending",
+      "_timeDelta": "_momentDelta",
+      "reward": "credit",
+      "Calculate": "Determine",
+      "value": "rating",
       "log": "record",
-      "Current": "Present",
-      "_totalDebt": "_cumulativeLiability"
+      "Current": "Active",
+      "_totalDebt": "_aggregateObligation"
     }
   }
 }

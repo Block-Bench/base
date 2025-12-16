@@ -66,20 +66,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_099.json",
     "original_id": "defivulnlabs_empty-loop"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_099.sol",
   "sanitized_from": "ds_099",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 1538131113,
+    "seed": 698075977,
     "coverage": {
       "total_identifiers": 52,
-      "transformed": 19,
-      "untransformed": 33,
-      "skipped_reserved": 28,
+      "transformed": 17,
+      "untransformed": 35,
+      "skipped_reserved": 29,
       "skipped_interface": 0,
-      "coverage_percent": 36.54,
+      "coverage_percent": 32.69,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -174,7 +175,15 @@
           "reason": "no synonym found"
         },
         {
-          "name": "execution",
+          "name": "Afer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exploiting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Alice",
           "reason": "no synonym found"
         },
         {
@@ -218,24 +227,22 @@
     },
     "rename_map": {
       "token": "badge",
-      "ContractTest": "PolicyTest",
-      "SimpleBankContract": "SimpleBankAgreement",
+      "ContractTest": "AgreementTest",
+      "SimpleBankContract": "SimpleBankPolicy",
       "setUp": "groupUp",
-      "testVulnSignatureValidation": "testVulnAuthorizationValidation",
+      "testVulnSignatureValidation": "testVulnConsentValidation",
       "startPrank": "beginPrank",
-      "Signature": "Consent",
-      "input": "submission",
+      "Signature": "Authorization",
+      "input": "intake",
       "log": "record",
-      "withdraw": "withdrawBenefits",
-      "array": "list",
-      "complete": "careFinished",
+      "withdraw": "releaseFunds",
       "hash": "signature",
       "verifySignatures": "confirmSignatures",
-      "sender": "provider",
-      "signature": "consent",
-      "length": "duration",
+      "sender": "referrer",
+      "signature": "authorization",
+      "length": "extent",
       "Verify": "Confirm",
-      "verify": "confirm"
+      "verify": "validate"
     }
   }
 }

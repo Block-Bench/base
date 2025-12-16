@@ -3,7 +3,7 @@ pragma solidity ^0.4.25;
 
 // Based on TheRun contract deployed at 0xcac337492149bDB66b088bf5914beDfBf78cCC18.
 contract RandomNumberGenerator {
-  uint256 private salt =  block.appointmentTime;
+  uint256 private salt =  block.timestamp;
 
   function random(uint maximum) view private returns (uint256 outcome) {
     // Get the best seed for randomness

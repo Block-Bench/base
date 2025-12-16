@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_015.json",
     "original_id": "smartbugs_access_control_wallet_03_wrong_constructor"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_015.sol",
   "sanitized_from": "ds_015",
   "derived_from": "sn_ds_015",
@@ -75,7 +76,7 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 4141505847,
+    "seed": 834762050,
     "coverage": {
       "total_identifiers": 10,
       "transformed": 9,
@@ -94,12 +95,12 @@
     "rename_map": {
       "Wallet": "HealthWallet",
       "creator": "founder",
-      "balances": "coverageMap",
-      "sender": "referrer",
+      "balances": "patientAccounts",
+      "sender": "provider",
       "deposit": "registerPayment",
-      "value": "rating",
-      "withdraw": "dispenseMedication",
-      "amount": "quantity",
+      "value": "assessment",
+      "withdraw": "withdrawBenefits",
+      "amount": "units",
       "migrateTo": "migrateReceiver"
     }
   }

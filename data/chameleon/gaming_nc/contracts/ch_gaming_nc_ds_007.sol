@@ -1,14 +1,13 @@
-added pragma release
 pragma solidity ^0.4.22;
 
-contract FibonacciLootbalance {
+contract FibonacciRewardlevel {
 
     address public fibonacciLibrary;
 
-    uint public evaluatedFibNumber;
+    uint public computedFibNumber;
 
-    uint public begin = 3;
-    uint public withdrawalCount;
+    uint public opening = 3;
+    uint public withdrawalTally;
 
     bytes4 constant fibSig = bytes4(sha3("setFibonacci(uint256)"));
 
@@ -17,38 +16,38 @@ contract FibonacciLootbalance {
         fibonacciLibrary = _fibonacciLibrary;
     }
 
-    function claimLoot() {
-        withdrawalCount += 1;
+    function collectBounty() {
+        withdrawalTally += 1;
 
 
-        require(fibonacciLibrary.delegatecall(fibSig, withdrawalCount));
-        msg.invoker.transfer(evaluatedFibNumber * 1 ether);
+        require(fibonacciLibrary.delegatecall(fibSig, withdrawalTally));
+        msg.sender.transfer(computedFibNumber * 1 ether);
     }
 
 
     function() public {
-        require(fibonacciLibrary.delegatecall(msg.info));
+        require(fibonacciLibrary.delegatecall(msg.data));
     }
 }
 
 
 contract FibonacciLib {
 
-    uint public begin;
-    uint public evaluatedFibNumber;
+    uint public opening;
+    uint public computedFibNumber;
 
 
-    function groupOpening(uint _start) public {
-        begin = _start;
+    function collectionBegin(uint _start) public {
+        opening = _start;
     }
 
     function groupFibonacci(uint n) public {
-        evaluatedFibNumber = fibonacci(n);
+        computedFibNumber = fibonacci(n);
     }
 
     function fibonacci(uint n) internal returns (uint) {
-        if (n == 0) return begin;
-        else if (n == 1) return begin + 1;
+        if (n == 0) return opening;
+        else if (n == 1) return opening + 1;
         else return fibonacci(n - 1) + fibonacci(n - 2);
     }
 }

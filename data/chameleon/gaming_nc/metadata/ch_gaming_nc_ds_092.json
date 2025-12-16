@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_092.json",
     "original_id": "defivulnlabs_self-transfer"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_092.sol",
   "sanitized_from": "ds_092",
   "derived_from": "sn_ds_092",
@@ -74,14 +75,14 @@
     "strategy": "chameleon",
     "theme": "gaming",
     "source": "nocomments",
-    "seed": 2356659004,
+    "seed": 3277002419,
     "coverage": {
-      "total_identifiers": 25,
+      "total_identifiers": 24,
       "transformed": 9,
-      "untransformed": 16,
-      "skipped_reserved": 23,
+      "untransformed": 15,
+      "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 36.0,
+      "coverage_percent": 37.5,
       "untransformed_details": [
         {
           "name": "forge",
@@ -142,24 +143,20 @@
         {
           "name": "_amount",
           "reason": "no synonym found"
-        },
-        {
-          "name": "unchecked",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
       "ContractTest": "PactTest",
-      "VSimpleBankContract": "VSimpleBankPact",
-      "SimpleBankContractV2": "SimpleBankPactV2",
-      "setUp": "groupUp",
-      "testSelfTransfer": "testSelfMovetreasure",
+      "VSimpleBankContract": "VSimpleBankAgreement",
+      "SimpleBankContractV2": "SimpleBankAgreementV2",
+      "setUp": "collectionUp",
+      "testSelfTransfer": "testSelfTradefunds",
       "testFixedSelfTransfer": "testFixedSelfMovetreasure",
       "expectRevert": "expectUndo",
-      "_fromBalance": "_sourcePrizecount",
-      "_toBalance": "_destinationTreasureamount"
+      "_fromBalance": "_sourceLootbalance",
+      "_toBalance": "_destinationLootbalance"
     }
   }
 }

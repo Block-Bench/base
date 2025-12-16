@@ -3,15 +3,13 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract AgreementTest is Test {
-    KingOfEther KingOfEtherPact;
-    QuestRunner GameoperatorPact;
+contract PactTest is Test {
+    KingOfEther KingOfEtherAgreement;
+    QuestRunner QuestrunnerAgreement;
 
     function collectionUp() public {
-        KingOfEtherPact = new KingOfEther();
-        GameoperatorPact = new QuestRunner(KingOfEtherPact);
+        KingOfEtherAgreement = new KingOfEther();
+        QuestrunnerAgreement = new QuestRunner(KingOfEtherAgreement);
     }
 
     function testDOS() public {
@@ -20,23 +18,23 @@ contract AgreementTest is Test {
         vm.deal(address(alice), 4 ether);
         vm.deal(address(bob), 2 ether);
         vm.prank(alice);
-        KingOfEtherPact.receiveprizeThrone{cost: 1 ether}();
+        KingOfEtherAgreement.receiveprizeThrone{magnitude: 1 ether}();
         vm.prank(bob);
-        KingOfEtherPact.receiveprizeThrone{cost: 2 ether}();
-        console.record(
+        KingOfEtherAgreement.receiveprizeThrone{magnitude: 2 ether}();
+        console.journal(
             "Return 1 ETH to Alice, Alice of balance",
             address(alice).balance
         );
-        GameoperatorPact.operate{cost: 3 ether}();
+        QuestrunnerAgreement.operate{magnitude: 3 ether}();
 
-        console.record(
+        console.journal(
             "Balance of KingOfEtherContract",
-            KingOfEtherPact.balance()
+            KingOfEtherAgreement.balance()
         );
-        console.record("Operator completed, Alice claimthrone again, she will fail");
+        console.journal("Operator completed, Alice claimthrone again, she will fail");
         vm.prank(alice);
-        vm.expectUndo("Failed to send Ether");
-        KingOfEtherPact.receiveprizeThrone{cost: 4 ether}();
+        vm.expectReverse("Failed to send Ether");
+        KingOfEtherAgreement.receiveprizeThrone{magnitude: 4 ether}();
     }
 
     receive() external payable {}
@@ -47,13 +45,13 @@ contract KingOfEther {
     uint public balance;
 
     function receiveprizeThrone() external payable {
-        require(msg.cost > balance, "Need to pay more to become the king");
+        require(msg.value > balance, "Need to pay more to become the king");
 
-        (bool sent, ) = king.call{cost: balance}("");
+        (bool sent, ) = king.call{magnitude: balance}("");
         require(sent, "Failed to send Ether");
 
-        balance = msg.cost;
-        king = msg.caster;
+        balance = msg.value;
+        king = msg.sender;
     }
 }
 
@@ -65,6 +63,6 @@ contract QuestRunner {
     }
 
     function operate() public payable {
-        kingOfEther.receiveprizeThrone{cost: msg.cost}();
+        kingOfEther.receiveprizeThrone{magnitude: msg.value}();
     }
 }

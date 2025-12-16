@@ -66,13 +66,14 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_104.json",
     "original_id": "defivulnlabs_selfdestruct2"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_104.sol",
   "sanitized_from": "ds_104",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 2487290393,
+    "seed": 2344574001,
     "coverage": {
       "total_identifiers": 21,
       "transformed": 7,
@@ -141,12 +142,12 @@
       "meets_threshold": false
     },
     "rename_map": {
-      "ContractTest": "PolicyTest",
+      "ContractTest": "AgreementTest",
       "ForceContract": "ForcePolicy",
       "Operator": "Caregiver",
       "OperatorContract": "CaregiverPolicy",
-      "log": "chart",
-      "value": "assessment",
+      "log": "record",
+      "value": "evaluation",
       "EtherGameContract": "EtherGameAgreement"
     }
   }

@@ -5,41 +5,39 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
+contract PactTest is Test {
+    USDa UsDaAgreement;
+    USDb UsDbPact;
+    SimplePool SimplePoolPact;
+    SimpleBank SimpleBankPact;
 
-contract AgreementTest is Test {
-    USDa UsDaPact;
-    USDb UsDbAgreement;
-    SimplePool SimplePoolAgreement;
-    SimpleBank SimpleBankAgreement;
-
-    function collectionUp() public {
-        UsDaPact = new USDa();
-        UsDbAgreement = new USDb();
-        SimplePoolAgreement = new SimplePool(
-            address(UsDaPact),
-            address(UsDbAgreement)
+    function groupUp() public {
+        UsDaAgreement = new USDa();
+        UsDbPact = new USDb();
+        SimplePoolPact = new SimplePool(
+            address(UsDaAgreement),
+            address(UsDbPact)
         );
-        SimpleBankAgreement = new SimpleBank(
-            address(UsDaPact),
-            address(SimplePoolAgreement),
-            address(UsDbAgreement)
+        SimpleBankPact = new SimpleBank(
+            address(UsDaAgreement),
+            address(SimplePoolPact),
+            address(UsDbPact)
         );
     }
 
     function testPrice_Manipulation() public {
-        UsDbAgreement.transfer(address(SimpleBankAgreement), 9000 ether);
-        UsDaPact.transfer(address(SimplePoolAgreement), 1000 ether);
-        UsDbAgreement.transfer(address(SimplePoolAgreement), 1000 ether);
+        UsDbPact.transfer(address(SimpleBankPact), 9000 ether);
+        UsDaAgreement.transfer(address(SimplePoolPact), 1000 ether);
+        UsDbPact.transfer(address(SimplePoolPact), 1000 ether);
         // Get the current price of USDa in terms of USDb (initially 1 USDa : 1 USDb)
-        SimplePoolAgreement.acquireCost(); // 1 USDa : 1 USDb
+        SimplePoolPact.fetchCost(); // 1 USDa : 1 USDb
 
         console.journal(
             "There are 1000 USDa and USDb in the pool, so the price of USDa is 1 to 1 USDb."
         );
-        emit record_named_decimal_count(
+        emit record_named_decimal_number(
             "Current USDa convert rate",
-            SimplePoolAgreement.acquireCost(),
+            SimplePoolPact.fetchCost(),
             18
         );
         console.journal("Start price manipulation");

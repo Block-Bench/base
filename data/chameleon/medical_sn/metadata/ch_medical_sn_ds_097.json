@@ -65,20 +65,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_097.json",
     "original_id": "defivulnlabs_privatedata"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_097.sol",
   "sanitized_from": "ds_097",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 3407830314,
+    "seed": 1793463250,
     "coverage": {
-      "total_identifiers": 38,
-      "transformed": 16,
-      "untransformed": 22,
-      "skipped_reserved": 22,
+      "total_identifiers": 36,
+      "transformed": 15,
+      "untransformed": 21,
+      "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 42.11,
+      "coverage_percent": 41.67,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -163,31 +164,26 @@
         {
           "name": "push",
           "reason": "no synonym found"
-        },
-        {
-          "name": "encodePacked",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
       "ContractTest": "AgreementTest",
-      "Vault": "CareRepository",
+      "Vault": "PatientRecords",
       "VaultContract": "VaultAgreement",
       "log": "chart",
-      "users": "patients",
+      "users": "members",
       "slot": "opening",
-      "length": "extent",
-      "array": "list",
+      "length": "duration",
       "from": "referrer",
       "hash": "signature",
-      "index": "slot",
+      "index": "rank",
       "elementSize": "elementMagnitude",
       "user": "beneficiary",
-      "getArrayLocation": "retrieveCollectionLocation",
-      "User": "Member",
-      "idToUser": "chartnumberDestinationMember"
+      "getArrayLocation": "obtainCollectionLocation",
+      "User": "Enrollee",
+      "idToUser": "chartnumberReceiverMember"
     }
   }
 }

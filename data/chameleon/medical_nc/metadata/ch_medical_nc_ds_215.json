@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_215.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x7d09edb07d23acb532a82be3da5c17d9d85806b4"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_215.sol",
   "sanitized_from": "ds_215",
   "derived_from": "sn_ds_215",
@@ -75,14 +76,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 2076326869,
+    "seed": 395910629,
     "coverage": {
-      "total_identifiers": 55,
+      "total_identifiers": 54,
       "transformed": 25,
-      "untransformed": 30,
-      "skipped_reserved": 39,
+      "untransformed": 29,
+      "skipped_reserved": 40,
       "skipped_interface": 0,
-      "coverage_percent": 45.45,
+      "coverage_percent": 46.3,
       "untransformed_details": [
         {
           "name": "PoCGame",
@@ -177,10 +178,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "encodePacked",
-          "reason": "no synonym found"
-        },
-        {
           "name": "payout",
           "reason": "no synonym found"
         },
@@ -211,28 +208,28 @@
       "sender": "referrer",
       "isOpenToPublic": "isOpenDestinationPublic",
       "openToPublic": "openReceiverPublic",
-      "amount": "dosage",
+      "amount": "units",
       "paidTo": "paidReceiver",
       "currentDifficulty": "presentDifficulty",
       "BetLimitChanged": "BetCapChanged",
-      "currentBetLimit": "activeBetCap",
+      "currentBetLimit": "presentBetBound",
       "betLimit": "betCap",
-      "totalDonated": "completeDonated",
-      "whaleAddress": "whaleWard",
-      "wagerLimit": "wagerCap",
-      "OpenToThePublic": "OpenDestinationThePublic",
+      "totalDonated": "aggregateDonated",
+      "whaleAddress": "whaleFacility",
+      "wagerLimit": "wagerBound",
+      "OpenToThePublic": "OpenReceiverThePublic",
       "value": "rating",
       "blockNumber": "unitNumber",
       "donateToWhale": "donateDestinationWhale",
-      "ethToTransfer": "ethReceiverMoverecords",
-      "ethBalance": "ethFunds",
-      "hasPlayerWagered": "holdsPlayerWagered",
-      "transferAnyERC20Token": "shiftcareAnyErc20Badge",
-      "tokenAddress": "badgeFacility",
-      "tokenOwner": "badgeDirector",
+      "ethToTransfer": "ethDestinationShiftcare",
+      "ethBalance": "ethCredits",
+      "hasPlayerWagered": "containsPlayerWagered",
+      "transferAnyERC20Token": "moverecordsAnyErc20Credential",
+      "tokenAddress": "badgeWard",
+      "tokenOwner": "credentialAdministrator",
       "tokens": "badges",
       "success": "improvement",
-      "ERC20Interface": "Erc20Portal"
+      "ERC20Interface": "Erc20Gateway"
     }
   }
 }

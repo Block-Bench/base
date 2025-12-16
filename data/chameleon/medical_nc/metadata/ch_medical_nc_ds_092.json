@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_092.json",
     "original_id": "defivulnlabs_self-transfer"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_092.sol",
   "sanitized_from": "ds_092",
   "derived_from": "sn_ds_092",
@@ -74,14 +75,14 @@
     "strategy": "chameleon",
     "theme": "medical",
     "source": "nocomments",
-    "seed": 4218616617,
+    "seed": 2787505371,
     "coverage": {
-      "total_identifiers": 25,
+      "total_identifiers": 24,
       "transformed": 9,
-      "untransformed": 16,
-      "skipped_reserved": 23,
+      "untransformed": 15,
+      "skipped_reserved": 24,
       "skipped_interface": 0,
-      "coverage_percent": 36.0,
+      "coverage_percent": 37.5,
       "untransformed_details": [
         {
           "name": "forge",
@@ -142,10 +143,6 @@
         {
           "name": "_amount",
           "reason": "no synonym found"
-        },
-        {
-          "name": "unchecked",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
@@ -154,12 +151,12 @@
       "ContractTest": "AgreementTest",
       "VSimpleBankContract": "VSimpleBankPolicy",
       "SimpleBankContractV2": "SimpleBankAgreementV2",
-      "setUp": "collectionUp",
-      "testSelfTransfer": "testSelfShiftcare",
-      "testFixedSelfTransfer": "testFixedSelfRelocatepatient",
-      "expectRevert": "expectReverse",
-      "_fromBalance": "_sourceFunds",
-      "_toBalance": "_receiverCredits"
+      "setUp": "groupUp",
+      "testSelfTransfer": "testSelfRefer",
+      "testFixedSelfTransfer": "testFixedSelfRefer",
+      "expectRevert": "expectUndo",
+      "_fromBalance": "_referrerAllocation",
+      "_toBalance": "_destinationCredits"
     }
   }
 }

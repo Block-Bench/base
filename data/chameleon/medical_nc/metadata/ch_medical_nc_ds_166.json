@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_166.json",
     "original_id": "smartbugs_time_manipulation_lottopollo"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_166.sol",
   "sanitized_from": "ds_166",
   "derived_from": "sn_ds_166",
@@ -76,12 +77,12 @@
     "source": "nocomments",
     "seed": 3761483068,
     "coverage": {
-      "total_identifiers": 12,
+      "total_identifiers": 11,
       "transformed": 3,
-      "untransformed": 9,
-      "skipped_reserved": 19,
+      "untransformed": 8,
+      "skipped_reserved": 20,
       "skipped_interface": 0,
-      "coverage_percent": 25.0,
+      "coverage_percent": 27.27,
       "untransformed_details": [
         {
           "name": "lottopollo",
@@ -97,10 +98,6 @@
         },
         {
           "name": "rand",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
           "reason": "no synonym found"
         },
         {

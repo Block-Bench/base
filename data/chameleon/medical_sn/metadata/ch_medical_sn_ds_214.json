@@ -158,20 +158,21 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_214.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x663e4229142a27f00bafb5d087e1e730648314c3"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_214.sol",
   "sanitized_from": "ds_214",
   "transformation": {
     "strategy": "chameleon",
     "theme": "medical",
     "source": "sanitized",
-    "seed": 2537848882,
+    "seed": 1316121329,
     "coverage": {
-      "total_identifiers": 812,
-      "transformed": 193,
-      "untransformed": 619,
-      "skipped_reserved": 89,
+      "total_identifiers": 1413,
+      "transformed": 279,
+      "untransformed": 1134,
+      "skipped_reserved": 110,
       "skipped_interface": 0,
-      "coverage_percent": 23.77,
+      "coverage_percent": 19.75,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -874,139 +875,35 @@
           "reason": "no synonym found"
         },
         {
-          "name": "Clock",
+          "name": "adapted",
           "reason": "no synonym found"
         },
         {
-          "name": "non",
+          "name": "OpenZeppelin",
           "reason": "no synonym found"
         },
         {
-          "name": "fungible",
+          "name": "allow",
           "reason": "no synonym found"
         },
         {
-          "name": "notice",
+          "name": "NOT",
           "reason": "no synonym found"
         },
         {
-          "name": "omit",
+          "name": "Called",
           "reason": "no synonym found"
         },
         {
-          "name": "prevent",
+          "name": "Used",
           "reason": "no synonym found"
         },
         {
-          "name": "accidental",
+          "name": "Unpauses",
           "reason": "no synonym found"
         },
         {
-          "name": "sends",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "ClockAuction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "ClockAuctionBase",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Ref",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "InterfaceSignature_ERC721",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "creates",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "ownership",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "verifies",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "cut",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "valid",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "range",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "deployed",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "implementing",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Nonfungible",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_cut",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "takes",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "must",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "between",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "all",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "which",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "cuts",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "well",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sent",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "directly",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Always",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "transfers",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "but",
+          "name": "Can",
           "reason": "no synonym found"
         },
         {
@@ -1014,23 +911,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "either",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "method",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "make",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sure",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "even",
+          "name": "since",
           "reason": "no synonym found"
         },
         {
@@ -1038,263 +919,15 @@
           "reason": "no synonym found"
         },
         {
-          "name": "fails",
+          "name": "reason",
           "reason": "no synonym found"
         },
         {
-          "name": "will",
+          "name": "compromised",
           "reason": "no synonym found"
         },
         {
-          "name": "still",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "work",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "res",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Creates",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "begins",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "item",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "beginning",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_duration",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "move",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "starting",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "ending",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_seller",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Seller",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "not",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "createAuction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "store",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "them",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_owns",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_escrow",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Auction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "now",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Bids",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "open",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "completing",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "transferring",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "enough",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "supplied",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "bid",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_bid",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_transfer",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Cancels",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "been",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "won",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "yet",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "original",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "modifying",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "cancelAuction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_isOnAuction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "seller",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_cancelAuction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "NFTs",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "returned",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "used",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "emergencies",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "cancel",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "startedAt",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "checking",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Reverse",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "modified",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "siring",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "SiringClockAuction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Sanity",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "allows",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "ensure",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "pointing",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "right",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Since",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "wrapped",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Places",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Requires",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "because",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Also",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "panda",
+          "name": "notice",
           "reason": "no synonym found"
         },
         {
@@ -1306,95 +939,19 @@
           "reason": "no synonym found"
         },
         {
-          "name": "winner",
+          "name": "derived",
           "reason": "no synonym found"
         },
         {
-          "name": "checks",
+          "name": "was",
           "reason": "no synonym found"
         },
         {
-          "name": "back",
+          "name": "Holds",
           "reason": "no synonym found"
         },
         {
-          "name": "offspring",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sale",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "SaleClockAuction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Tracks",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sales",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "finney",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "CommonPanda",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "RarePanda",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "createGen0Auction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Updates",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Otherwise",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "works",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "same",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "default",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Track",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "createPanda",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_type",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "push",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "surprisePanda",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "number",
+          "name": "all",
           "reason": "no synonym found"
         },
         {
@@ -1402,35 +959,775 @@
           "reason": "no synonym found"
         },
         {
-          "name": "surprise",
+          "name": "structs",
           "reason": "no synonym found"
         },
         {
-          "name": "sum",
+          "name": "variables",
           "reason": "no synonym found"
         },
         {
-          "name": "SaleClockAuctionERC20",
+          "name": "PandaBase",
           "reason": "no synonym found"
         },
         {
-          "name": "AuctionERC20Created",
+          "name": "Birth",
           "reason": "no synonym found"
         },
         {
-          "name": "erc20ContractsSwitcher",
+          "name": "fired",
           "reason": "no synonym found"
         },
         {
-          "name": "_erc20address",
+          "name": "whenever",
           "reason": "no synonym found"
         },
         {
-          "name": "_onoff",
+          "name": "comes",
           "reason": "no synonym found"
         },
         {
-          "name": "Adds",
+          "name": "into",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "existence",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "obviously",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "includes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cat",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "through",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "giveBirth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "method",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "but",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "defined",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "draft",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Emitted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "every",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ownership",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assigned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "including",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "births",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "main",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Panda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Every",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "represented",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "copy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "structure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "great",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "care",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "taken",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ensure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "neatly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exactly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "two",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "words",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Note",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "members",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ref",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "http",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readthedocs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "develop",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "miscellaneous",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "html",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "packed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "format",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sooper",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sekret",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "never",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "came",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "minimum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "after",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "which",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "engage",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "breeding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "activities",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "again",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "same",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pregnancy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "timer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "matrons",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "well",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "siring",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "panda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unsigned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "integers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "limits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mere",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "billion",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "might",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "seem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "small",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "until",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "you",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "realize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "currently",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "about",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "million",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transactions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "per",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "year",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "definitely",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "won",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "problem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "several",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "even",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "learns",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "scale",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pregnant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "otherwise",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "non",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "know",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "retrieve",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "material",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "birth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transpires",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "see",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "below",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "represents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "starts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "floor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "generation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "others",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Incremented",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "successful",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "action",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "regardless",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "acting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "matron",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Cats",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "minted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sale",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "larger",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numbers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "plus",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lookup",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "table",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "indicating",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sires",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Designed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "such",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "roughly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "doubles",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bred",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "encouraging",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "just",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "keep",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "over",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Caps",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "week",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "breed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unbounded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "times",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maximum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "always",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "seven",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cooldowns",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "approximation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "many",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "between",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blocks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "containing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pandas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "actually",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "negacat",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unPanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mythical",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "beast",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bizarre",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creature",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "both",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IDs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owns",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "them",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "All",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "some",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "valid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "internally",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inside",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "resolve",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaIDs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "been",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "means",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "outstanding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "via",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "breedWith",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ClockAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "handles",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sales",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "peer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initiated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SaleClockAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "saleAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "custom",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subclassed",
           "reason": "no synonym found"
         },
         {
@@ -1438,11 +1735,1711 @@
           "reason": "no synonym found"
         },
         {
-          "name": "fires",
+          "name": "Needs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "separate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "because",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "quite",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "different",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SiringClockAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "siringAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sibling",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "implement",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "algorithm",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "geneScience",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SaleClockAuctionERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "saleAuctionERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wizzPandaQuota",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_tp",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_total",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_id",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "specific",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_transfer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creating",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kittens",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "once",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transferred",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clear",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowances",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "previously",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stores",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "known",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "generate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_generation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "must",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "computed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_genes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inital",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "except",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_createPanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "These",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requires",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "strictly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "necessary",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calling",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "make",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "conditions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "broken",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "However",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expensive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hurt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "especially",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "careful",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "structures",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ref",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "null",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pureDegree",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gensis",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "increase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gen1",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_panda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "probably",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "going",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "happen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LOT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fix",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "observed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "secs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "responsible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "generating",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "metadata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721Metadata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Given",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "byte",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "converted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buffer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Hello",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "World",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "would",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "choose",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "medi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Lorem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ipsum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dolor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "amet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accumsan",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dapibus",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "augue",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lorem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tristique",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "vestibulum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "libero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "suscipit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "varius",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sapien",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "aliquam",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compliant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaOwnership",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fungible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaEarth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "InterfaceSignature_ERC165",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "InterfaceSignature_ERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Introspection",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "standardized",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "implemented",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DEBUG",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ONLY",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "utility",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "functions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assume",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "arguments",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sanitize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inputs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "follow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "required",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Checks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_claimant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "validating",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "against",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owns",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confirming",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_approvedFor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Marks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "being",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "overwriting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_approved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clears",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NOTE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_approve",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "does",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "together",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "putting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "there",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "spamming",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "case",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compliance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Transfers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "another",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transferring",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "VERY",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CAREFUL",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "aware",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "specifically",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "your",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lost",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forever",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Seriously",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Safety",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prevent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unexpected",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "default",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Disallow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transfers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accidental",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "misuse",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "own",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "very",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "briefly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "goes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Auction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "take",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "flow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "You",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reassign",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "approvals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "right",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "preferred",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transfering",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NFTs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "granted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pass",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "succeeds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "replacing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transfered",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "emits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whose",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MUST",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NEVER",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fairly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "walks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "entire",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "looking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "belonging",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dynamic",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "supported",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "web3",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calls",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "empty",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "starting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "increasing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sequentially",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Adapted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "memcpy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "arachnid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Nick",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Johnson",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notdot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "net",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "licenced",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "under",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Apache",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Arachnid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stringutils",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blob",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "strings",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_memcpy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_dest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_src",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_len",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Copy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "word",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "chunks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "possible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mstore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "remaining",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mask",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "srcpart",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "destpart",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "slice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "var",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gestation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaBreeding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pregnant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "successfully",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "begins",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Abortion",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "breedWithAuto",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "towards",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cost",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "paid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whatever",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dynamically",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "updated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pregnantPandas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_address",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "GeneScience",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "point",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forward",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "what",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Lunyr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "crowdsale",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cfadd15986c30521d8ba7d5b6f57b4fefcc7ac38",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "L117",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "able",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Requires",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "finished",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_kit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addition",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "need",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pregnacy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "authorized",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "permission",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_isSiringPermitted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Siring",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "okay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "they",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "based",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Also",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "increments",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unless",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_kitten",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "needs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "started",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Compute",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "estimation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Increment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clamping",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "could",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "coding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "saves",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Yay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Grants",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Updates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "giveBirthAuto",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "offset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "incurred",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "autobirth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "daemon",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "val",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_matron",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "middle",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inquire",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "field",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mating",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DOES",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "permissions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "potential",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_sire",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "short",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "circuit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "either",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "full",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "half",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "siblings",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Everything",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "seems",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cool",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DTF",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "skips",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_canBreedWithViaAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Does",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ready",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "still",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "TODO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Shouldn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "canBreedWith",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initiate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assumes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requirements",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checked",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_breedWith",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "real",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gender",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Grab",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Mark",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "keeping",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Trigger",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Clear",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "avoid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confusion",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "incremented",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Breed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "entirely",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pre",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "begin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Neither",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "during",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "normal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "don",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "explicitly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "house",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Similarly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cleared",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "oustanding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Thus",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "spend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Make",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "give",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Looks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "combines",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Upon",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "completion",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "willing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mother",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_childGenes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_factors",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "come",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Determine",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "higher",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parentGen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mixing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "childGenes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "probability",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "REQUIRED",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Having",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "marks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gives",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decremented",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "person",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "made",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Contains",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "models",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "omit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sends",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ClockAuctionBase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Represents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "seller",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "beginning",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "concluded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "startedAt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tracking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Cut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "takes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "measured",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "basis",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "points",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Values",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "map",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Map",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "corresponding",
           "reason": "no synonym found"
         },
         {
           "name": "AuctionCreated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AuctionSuccessful",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AuctionCancelled",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "claimant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "claiming",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Escrows",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assigning",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Throws",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "escrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fails",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_escrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_receiver",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Adds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "open",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fires",
           "reason": "no synonym found"
         },
         {
@@ -1470,19 +3467,19 @@
           "reason": "no synonym found"
         },
         {
-          "name": "nothing",
+          "name": "Cancels",
           "reason": "no synonym found"
         },
         {
-          "name": "bidERC20",
+          "name": "unconditionally",
           "reason": "no synonym found"
         },
         {
-          "name": "_amount",
+          "name": "_cancelAuction",
           "reason": "no synonym found"
         },
         {
-          "name": "_bidERC20",
+          "name": "_seller",
           "reason": "no synonym found"
         },
         {
@@ -1494,19 +3491,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "Does",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "NOT",
+          "name": "_bid",
           "reason": "no synonym found"
         },
         {
           "name": "Explicitly",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "currently",
           "reason": "no synonym found"
         },
         {
@@ -1518,27 +3507,15 @@
           "reason": "no synonym found"
         },
         {
-          "name": "Ethereum",
-          "reason": "no synonym found"
-        },
-        {
           "name": "mappings",
           "reason": "no synonym found"
         },
         {
-          "name": "just",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "lookup",
+          "name": "work",
           "reason": "no synonym found"
         },
         {
           "name": "failing",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "invalid",
           "reason": "no synonym found"
         },
         {
@@ -1550,19 +3527,19 @@
           "reason": "no synonym found"
         },
         {
+          "name": "_isOnAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bid",
+          "reason": "no synonym found"
+        },
+        {
           "name": "greater",
           "reason": "no synonym found"
         },
         {
           "name": "equal",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Grab",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "before",
           "reason": "no synonym found"
         },
         {
@@ -1586,15 +3563,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "there",
-          "reason": "no synonym found"
-        },
-        {
           "name": "auctioneer",
           "reason": "no synonym found"
         },
         {
-          "name": "NOTE",
+          "name": "cut",
           "reason": "no synonym found"
         },
         {
@@ -1622,7 +3595,79 @@
           "reason": "no synonym found"
         },
         {
-          "name": "Erc20",
+          "name": "Doing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "complex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "like",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "generally",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "discouraged",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "thing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accident",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancelAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "excess",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "included",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "anything",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "worth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "worrying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "back",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bidder",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bidExcess",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Similar",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "removed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "occur",
           "reason": "no synonym found"
         },
         {
@@ -1634,15 +3679,419 @@
           "reason": "no synonym found"
         },
         {
-          "name": "AuctionSuccessful",
+          "name": "Removes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Broken",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "computes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "computation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "easily",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "works",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "correctly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "secondsPassed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "insurance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "values",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wraparound",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Probably",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "guarnatees",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "variable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ever",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "backwards",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Factored",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "run",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extensive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tests",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "turn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "suite",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_duration",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_secondsPassed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SafeMath",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "similar",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "carefully",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "currency",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "statement",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reached",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pricing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "portion",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Starting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ending",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "often",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delta",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "product",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "magnitude",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "positive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_price",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Sale",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "entry",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Clock",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "verifies",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "range",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deployed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "implementing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Nonfungible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_cut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cuts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "directly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Always",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "res",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Creates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "item",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "move",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Seller",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "store",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bids",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "completing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enough",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "supplied",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "original",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "modifying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "returned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "emergencies",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reverse",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "modified",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Sanity",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allows",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pointing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Since",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wrapped",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Places",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "offspring",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Tracks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CommonPanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "RarePanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createGen0Auction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Otherwise",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Track",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createPanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_type",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "surprisePanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "surprise",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AuctionERC20Created",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "erc20ContractsSwitcher",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_erc20address",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_onoff",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nothing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bidERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_bidERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Erc20",
           "reason": "no synonym found"
         },
         {
           "name": "Handles",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "creating",
           "reason": "no synonym found"
         },
         {
@@ -1654,10 +4103,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "with",
-          "reason": "no synonym found"
-        },
-        {
           "name": "transaction",
           "reason": "no synonym found"
         },
@@ -1666,35 +4111,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "PandaBreeding",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "variables",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "defined",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "PandaBase",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "allow",
-          "reason": "no synonym found"
-        },
-        {
           "name": "refer",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "PandaOwnership",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "saleAuction",
           "reason": "no synonym found"
         },
         {
@@ -1706,55 +4123,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "siringAuction",
-          "reason": "no synonym found"
-        },
-        {
           "name": "rights",
           "reason": "no synonym found"
         },
         {
-          "name": "_address",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "what",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Lunyr",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "crowdsale",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "blob",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "cfadd15986c30521d8ba7d5b6f57b4fefcc7ac38",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sol",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "L117",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "saleAuctionERC20",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Put",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "some",
           "reason": "no synonym found"
         },
         {
@@ -1770,19 +4143,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "already",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "owned",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Ensure",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "pregnant",
           "reason": "no synonym found"
         },
         {
@@ -1794,31 +4155,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "allowed",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_approve",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Sale",
-          "reason": "no synonym found"
-        },
-        {
           "name": "throws",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "inputs",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "clears",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "after",
           "reason": "no synonym found"
         },
         {
@@ -1858,10 +4195,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "Siring",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Completes",
           "reason": "no synonym found"
         },
@@ -1882,19 +4215,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "matron",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "bidder",
-          "reason": "no synonym found"
-        },
-        {
           "name": "bidOnSiringAuction",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_canBreedWithViaAuction",
           "reason": "no synonym found"
         },
         {
@@ -1902,35 +4223,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "_breedWith",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Transfers",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "two",
-          "reason": "no synonym found"
-        },
-        {
           "name": "step",
           "reason": "no synonym found"
         },
         {
-          "name": "calls",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "functions",
-          "reason": "no synonym found"
-        },
-        {
           "name": "related",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "kittens",
           "reason": "no synonym found"
         },
         {
@@ -1942,23 +4239,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "ever",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Counts",
           "reason": "no synonym found"
         },
         {
-          "name": "has",
-          "reason": "no synonym found"
-        },
-        {
           "name": "callable",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_genes",
           "reason": "no synonym found"
         },
         {
@@ -1982,14 +4267,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "_generation",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_createPanda",
-          "reason": "no synonym found"
-        },
-        {
           "name": "pandaWithGenes",
           "reason": "no synonym found"
         },
@@ -2002,19 +4279,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "generation",
-          "reason": "no synonym found"
-        },
-        {
           "name": "average",
           "reason": "no synonym found"
         },
         {
           "name": "past",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "never",
           "reason": "no synonym found"
         },
         {
@@ -2034,19 +4303,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "main",
-          "reason": "no synonym found"
-        },
-        {
           "name": "keeps",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "they",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "don",
           "reason": "no synonym found"
         },
         {
@@ -2058,19 +4315,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "lost",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "keep",
-          "reason": "no synonym found"
-        },
-        {
           "name": "seperated",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "into",
           "reason": "no synonym found"
         },
         {
@@ -2082,15 +4327,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "broken",
-          "reason": "no synonym found"
-        },
-        {
           "name": "ways",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "several",
           "reason": "no synonym found"
         },
         {
@@ -2099,10 +4336,6 @@
         },
         {
           "name": "instantiated",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "sibling",
           "reason": "no synonym found"
         },
         {
@@ -2118,27 +4351,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "algorithm",
-          "reason": "no synonym found"
-        },
-        {
           "name": "seperate",
           "reason": "no synonym found"
         },
         {
-          "name": "since",
-          "reason": "no synonym found"
-        },
-        {
           "name": "somewhat",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "complex",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "always",
           "reason": "no synonym found"
         },
         {
@@ -2151,14 +4368,6 @@
         },
         {
           "name": "bugs",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "keeping",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "own",
           "reason": "no synonym found"
         },
         {
@@ -2246,10 +4455,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "together",
-          "reason": "no synonym found"
-        },
-        {
           "name": "avoiding",
           "reason": "no synonym found"
         },
@@ -2298,14 +4503,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "includes",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "plus",
-          "reason": "no synonym found"
-        },
-        {
           "name": "managing",
           "reason": "no synonym found"
         },
@@ -2326,10 +4523,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "specific",
-          "reason": "no synonym found"
-        },
-        {
           "name": "Namely",
           "reason": "no synonym found"
         },
@@ -2338,23 +4531,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "required",
-          "reason": "no synonym found"
-        },
-        {
           "name": "basic",
           "reason": "no synonym found"
         },
         {
-          "name": "transactions",
-          "reason": "no synonym found"
-        },
-        {
           "name": "following",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "draft",
           "reason": "no synonym found"
         },
         {
@@ -2363,18 +4544,6 @@
         },
         {
           "name": "contains",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "necessary",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "breed",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "including",
           "reason": "no synonym found"
         },
         {
@@ -2410,19 +4579,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "creation",
-          "reason": "no synonym found"
-        },
-        {
           "name": "mostly",
           "reason": "no synonym found"
         },
         {
           "name": "mediated",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "through",
           "reason": "no synonym found"
         },
         {
@@ -2434,15 +4595,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "others",
-          "reason": "no synonym found"
-        },
-        {
           "name": "immediately",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "via",
           "reason": "no synonym found"
         },
         {
@@ -2458,15 +4611,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "hard",
-          "reason": "no synonym found"
-        },
-        {
           "name": "After",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "case",
           "reason": "no synonym found"
         },
         {
@@ -2486,34 +4631,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "gas",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "wizzPandaQuota",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "run",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "once",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "mythical",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "parent",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Used",
-          "reason": "no synonym found"
-        },
-        {
           "name": "mark",
           "reason": "no synonym found"
         },
@@ -2522,19 +4639,11 @@
           "reason": "no synonym found"
         },
         {
-          "name": "indicating",
-          "reason": "no synonym found"
-        },
-        {
           "name": "clients",
           "reason": "no synonym found"
         },
         {
           "name": "indefinitely",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "such",
           "reason": "no synonym found"
         },
         {
@@ -2547,14 +4656,6 @@
         },
         {
           "name": "Reject",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "being",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "unless",
           "reason": "no synonym found"
         },
         {
@@ -2574,27 +4675,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "about",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "_id",
-          "reason": "no synonym found"
-        },
-        {
           "name": "interest",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "Panda",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "kit",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "variable",
           "reason": "no synonym found"
         },
         {
@@ -2602,23 +4683,7 @@
           "reason": "no synonym found"
         },
         {
-          "name": "requires",
-          "reason": "no synonym found"
-        },
-        {
           "name": "unpaused",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "was",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "expensive",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "geneScience",
           "reason": "no synonym found"
         },
         {
@@ -2644,51 +4709,47 @@
         {
           "name": "subtractFees",
           "reason": "no synonym found"
-        },
-        {
-          "name": "pregnantPandas",
-          "reason": "no synonym found"
         }
       ],
       "meets_threshold": false
     },
     "rename_map": {
-      "supply": "contributeSupplies",
+      "supply": "provideResources",
       "value": "assessment",
-      "spender": "subscriber",
+      "spender": "payer",
       "from": "referrer",
-      "Approval": "TreatmentAuthorized",
+      "Approval": "AccessGranted",
       "sender": "provider",
-      "newOwner": "currentSupervisor",
-      "Tokens": "Badges",
+      "newOwner": "updatedSupervisor",
+      "Tokens": "Ids",
       "total": "complete",
-      "_tokenId": "_credentialIdentifier",
-      "Events": "CareEvents",
+      "_tokenId": "_idCasenumber",
+      "Events": "TreatmentLog",
       "tokenId": "badgeIdentifier",
-      "tokensOfOwner": "badgesOfAdministrator",
+      "tokensOfOwner": "credentialsOfDirector",
       "tokenIds": "badgeIds",
-      "tokenMetadata": "badgeMetadata",
-      "infoUrl": "dataUrl",
-      "issues": "testsues",
-      "supportsInterface": "supportsPortal",
-      "_interfaceID": "_gatewayCasenumber",
-      "GeneScienceInterface": "GeneSciencePortal",
-      "isGeneScience": "testGeneScience",
+      "tokenMetadata": "credentialMetadata",
+      "infoUrl": "detailsUrl",
+      "issues": "verifysues",
+      "supportsInterface": "supportsGateway",
+      "_interfaceID": "_portalIdentifier",
+      "GeneScienceInterface": "GeneScienceGateway",
+      "isGeneScience": "validateGeneScience",
       "targetBlock": "goalWard",
-      "getPureFromGene": "diagnosePureSourceGene",
-      "get": "diagnose",
-      "getSex": "acquireSex",
-      "getWizzType": "diagnoseWizzType",
+      "getPureFromGene": "retrievePureReferrerGene",
+      "get": "retrieve",
+      "getSex": "diagnoseSex",
+      "getWizzType": "acquireWizzType",
       "unpause": "continueCare",
       "set": "establish",
-      "withdraw": "discharge",
-      "mint": "createPrescription",
-      "account": "profile",
-      "ContractUpgrade": "AgreementImprove",
+      "withdraw": "extractSpecimen",
+      "mint": "issueCredential",
+      "account": "chart",
+      "ContractUpgrade": "AgreementEnhance",
       "newContract": "currentAgreement",
-      "execute": "runDiagnostic",
-      "ceoAddress": "ceoFacility",
-      "cfoAddress": "cfoLocation",
+      "execute": "completeTreatment",
+      "ceoAddress": "ceoLocation",
+      "cfoAddress": "cfoFacility",
       "cooAddress": "cooWard",
       "paused": "suspended",
       "onlyCLevel": "onlyCSeverity",
@@ -2696,156 +4757,242 @@
       "_newCEO": "_updatedCeo",
       "setCEO": "groupCeo",
       "_newCFO": "_updatedCfo",
-      "setCFO": "groupCfo",
+      "setCFO": "collectionCfo",
       "_newCOO": "_updatedCoo",
       "setCOO": "groupCoo",
-      "Pause": "HaltCare",
-      "Unpause": "ContinueCare",
       "whenNotPaused": "whenOperational",
-      "whenPaused": "whenHalted",
-      "pause": "suspendTreatment",
-      "tokens": "badges",
-      "signature": "consent",
-      "reference": "citation",
-      "NFT": "Credential",
-      "_nftAddress": "_credentialWard",
-      "percent": "share",
-      "ownerCut": "supervisorCut",
-      "candidateContract": "candidatePolicy",
-      "nonFungibleContract": "nonFungibleAgreement",
-      "Remove": "Eliminate",
-      "withdrawBalance": "claimcoverageCredits",
-      "nftAddress": "credentialFacility",
-      "token": "id",
-      "_startingPrice": "_startingCharge",
-      "Price": "Charge",
-      "_endingPrice": "_endingCost",
-      "end": "discharge850",
-      "Length": "Extent",
-      "time": "moment",
-      "price": "charge",
-      "message": "alert",
-      "_addAuction": "_attachAuction",
-      "hasn": "containsn",
-      "state": "status",
-      "tokenIdToAuction": "idIdentifierReceiverAuction",
-      "cancelAuctionWhenPaused": "cancelAuctionWhenHalted",
-      "info": "details",
-      "getAuction": "acquireAuction",
-      "startingPrice": "startingCost",
-      "endingPrice": "endingCost",
+      "whenPaused": "whenSuspended",
+      "level": "progress",
+      "pause": "freezeProtocol",
+      "Base": "CareBase",
+      "events": "treatmentLog",
+      "base": "clinicBase",
+      "EVENTS": "CareEvents",
+      "GEN0_TOTAL_COUNT": "gen0_aggregate_tally",
+      "gen0CreatedCount": "gen0CreatedTally",
+      "time": "instant",
+      "pandaId": "pandaChartnumber",
+      "matronId": "matronIdentifier",
+      "sireId": "sireIdentifier",
+      "DATA": "Chart",
+      "TYPES": "TreatmentTypes",
+      "order": "prescription",
+      "timestamp": "appointmentTime",
+      "birthTime": "birthMoment",
+      "cooldown": "recovery",
+      "cooldownEndBlock": "restFinishWard",
+      "limit": "bound",
+      "Set": "Establish",
+      "siringWithId": "siringWithCasenumber",
+      "index": "rank",
       "duration": "treatmentPeriod",
-      "getCurrentPrice": "acquirePresentCharge",
-      "_currentPrice": "_activeCost",
-      "check": "inspect",
+      "initialized": "caseOpened",
+      "cooldownIndex": "restSlot",
+      "max": "maximum",
+      "CONSTANTS": "CareRules",
+      "secondsPerBlock": "secondsPerWard",
+      "pandaIndexToOwner": "pandaRankDestinationSupervisor",
+      "count": "number",
+      "tokens": "ids",
+      "ownershipTokenCount": "ownershipCredentialNumber",
+      "approval": "accessGranted",
+      "pandaIndexToApproved": "pandaRankReceiverApproved",
+      "sireAllowedToAddress": "sireAllowedDestinationWard",
+      "success": "recovery814",
+      "wizzPandaCount": "wizzPandaTally",
+      "getWizzPandaQuotaOf": "obtainWizzPandaQuotaOf",
+      "getWizzPandaCountOf": "acquireWizzPandaNumberOf",
+      "setTotalWizzPandaOf": "collectionCumulativeWizzPandaOf",
+      "getWizzTypeOf": "retrieveWizzTypeOf",
+      "exchange": "pharmacyExchange",
+      "input": "submission",
+      "data": "info",
+      "_matronId": "_matronChartnumber",
+      "_sireId": "_sireCasenumber",
+      "caller": "requestor",
+      "length": "duration",
+      "counter": "tally",
+      "newKittenId": "currentKittenIdentifier",
+      "setSecondsPerBlock": "groupSecondsPerWard",
+      "token": "badge",
+      "getMetadata": "obtainMetadata",
+      "core": "careCore",
+      "leave": "memberUnenrolled",
+      "logic": "careLogic",
+      "transferApproval": "referApproval",
+      "previous": "last",
+      "Setting": "Adjustting",
+      "log": "chart357",
+      "check": "diagnose",
+      "recipient": "patient",
+      "user": "patient940",
+      "pending": "scheduled",
+      "Grant": "Bestow",
+      "grant": "bestow",
+      "Register": "Enroll",
+      "Check": "Inspect",
+      "list": "roster",
+      "First": "Initial",
+      "ownerTokens": "directorCredentials",
+      "tokenCount": "badgeNumber",
+      "result": "outcome",
+      "totalCats": "aggregateCats",
+      "resultIndex": "outcomeRank",
+      "totalCat": "cumulativeCat",
+      "catId": "catCasenumber",
+      "toString": "receiverName",
+      "_toString": "_destinationText",
+      "_rawBytes": "_rawRaw",
+      "_stringLength": "_textExtent",
+      "outputString": "resultText",
+      "outputPtr": "resultPtr",
+      "bytesPtr": "dataPtr",
+      "add": "include",
+      "GENSIS_TOTAL_COUNT": "gensis_complete_number",
+      "failed": "operationFailed",
+      "fee": "charge",
+      "price": "charge561",
+      "autoBirthFee": "autoBirthPremium",
+      "childOwner": "childSupervisor",
+      "Update": "UpdateChart",
+      "instance": "occurrence",
+      "setGeneScienceAddress": "collectionGeneScienceWard",
+      "candidateContract": "candidateAgreement",
+      "verify": "validate",
+      "LunyrToken": "LunyrId",
+      "_isReadyToBreed": "_isReadyReceiverBreed",
+      "period": "interval",
+      "end": "finish",
+      "approveSiring": "authorizecaregiverSiring",
+      "matronOwner": "matronAdministrator",
+      "sireOwner": "sireSupervisor",
+      "cooldownEndTime": "restFinishInstant",
+      "cap": "maximum818",
+      "reference": "citation",
+      "_triggerCooldown": "_triggerRecovery",
+      "size": "scale",
+      "setAutoBirthFee": "collectionAutoBirthCopay",
+      "_isReadyToGiveBirth": "_isReadyReceiverGiveBirth",
+      "_pandaId": "_pandaChartnumber",
+      "isReadyToBreed": "isReadyReceiverBreed",
+      "isPregnant": "checkPregnant",
+      "pair": "couple",
+      "_isValidMatingPair": "_isValidMatingCouple",
+      "fail": "complicationOccurred",
+      "_exchangeMatronSireId": "_exchangeMatronSireChartnumber",
+      "gets": "querys",
+      "first": "initial",
+      "Caller": "Requestor",
+      "isn": "checkn",
+      "create": "patientAdmitted",
+      "kittenId": "kittenIdentifier",
+      "Core": "HealthCore",
+      "NFT": "Credential",
+      "Current": "Present",
+      "Price": "Cost",
+      "startingPrice": "startingCost",
+      "endingPrice": "endingCharge",
+      "Duration": "StayLength",
+      "Time": "Instant",
+      "isGen0": "testGen0",
+      "Reference": "Link",
+      "nonFungibleContract": "nonFungibleAgreement",
+      "percent": "portion",
+      "ownerCut": "supervisorCut",
+      "tokenIdToAuction": "badgeCasenumberReceiverAuction",
+      "totalPrice": "aggregateCost",
+      "_addAuction": "_insertAuction",
+      "getting": "queryting",
+      "_removeAuction": "_discontinueAuction",
+      "_bidAmount": "_bidUnits",
+      "Get": "Acquire",
+      "_currentPrice": "_activeCharge",
+      "Remove": "Discharge",
+      "Calculate": "Derive",
+      "amount": "dosage",
+      "_computeCurrentPrice": "_computeActiveCost",
+      "_startingPrice": "_startingCost",
+      "_endingPrice": "_endingCost",
+      "totalPriceChange": "cumulativeCostChange",
+      "currentPriceChange": "activeCostChange",
+      "currentPrice": "activeCost",
+      "Pause": "SuspendTreatment",
+      "Unpause": "ResumeTreatment",
+      "signature": "authorization",
+      "_nftAddress": "_credentialWard",
+      "withdrawBalance": "extractspecimenFunds",
+      "nftAddress": "certificateWard",
+      "Length": "Duration",
+      "message": "alert",
+      "hasn": "containsn",
+      "state": "condition",
+      "cancelAuctionWhenPaused": "cancelAuctionWhenSuspended",
+      "info": "details",
+      "getAuction": "diagnoseAuction",
+      "getCurrentPrice": "diagnoseActiveCharge",
       "setSiringAuctionAddress": "groupSiringAuctionWard",
       "isSiringClockAuction": "testSiringClockAuction",
-      "Delegate": "Assign",
+      "Delegate": "Entrust",
       "_nftAddr": "_credentialAddr",
-      "setSaleAuctionAddress": "groupSaleAuctionWard",
-      "isSaleClockAuction": "validateSaleClockAuction",
+      "setSaleAuctionAddress": "collectionSaleAuctionLocation",
+      "isSaleClockAuction": "checkSaleClockAuction",
       "last": "ending",
-      "gen0SaleCount": "gen0SaleNumber",
+      "gen0SaleCount": "gen0SaleTally",
       "lastGen0SalePrices": "finalGen0SaleCosts",
       "SurpriseValue": "SurpriseAssessment",
       "CommonPandaIndex": "CommonPandaPosition",
-      "RarePandaIndex": "RarePandaPosition",
+      "RarePandaIndex": "RarePandaSlot",
       "lastSalePrice": "finalSaleCost",
-      "nft": "credential",
-      "size": "magnitude",
-      "isGen0": "testGen0",
+      "nft": "certificate",
       "exit": "checkout",
       "prices": "costs",
-      "bHash": "bChecksum",
-      "PandaIndex": "PandaRank",
-      "length": "duration",
-      "packageCount": "packageTally",
+      "bHash": "bSignature",
+      "PandaIndex": "PandaSlot",
+      "packageCount": "packageNumber",
       "averageGen0SalePrice": "averageGen0SaleCharge",
-      "erc20Contract": "erc20Policy",
-      "isSaleClockAuctionERC20": "testSaleClockAuctionERC20",
-      "tokenIdToErc20Address": "idChartnumberReceiverErc20Facility",
-      "balances": "coverageMap",
-      "erc20ContractSwitch": "erc20PolicySwitch",
+      "erc20Contract": "erc20Agreement",
+      "isSaleClockAuctionERC20": "verifySaleClockAuctionERC20",
+      "tokenIdToErc20Address": "idCasenumberReceiverErc20Ward",
+      "balances": "patientAccounts",
+      "erc20ContractSwitch": "erc20AgreementSwitch",
       "_erc20Address": "_erc20Location",
-      "_addAuctionERC20": "_includeAuctionErc20",
-      "list": "registry",
-      "add": "insert",
-      "getting": "checkting",
-      "withdrawERC20Balance": "withdrawbenefitsErc20Credits",
+      "_addAuctionERC20": "_appendAuctionErc20",
+      "withdrawERC20Balance": "claimcoverageErc20Benefits",
       "_buyerAddress": "_buyerFacility",
-      "_bidAmount": "_bidUnits",
-      "Get": "Obtain",
-      "count": "number",
-      "Check": "Diagnose",
-      "gets": "querys",
-      "_removeAuction": "_eliminateAuction",
-      "Calculate": "Determine",
-      "Token": "Credential965",
-      "Reference": "Link",
-      "wrapper": "treatmentWrapper",
-      "users": "beneficiaries",
-      "create": "patientAdmitted",
+      "Token": "Id",
+      "wrapper": "careEnhancer",
+      "users": "patients",
       "Sets": "Configures",
-      "verify": "validate",
-      "LunyrToken": "LunyrCredential",
-      "Set": "Prescribe",
-      "setSaleAuctionERC20Address": "groupSaleAuctionErc20Ward",
-      "_pandaId": "_pandaCasenumber",
-      "input": "submission",
-      "cooldown": "recovery",
-      "isPregnant": "validatePregnant",
-      "approval": "treatmentAuthorized",
-      "isReadyToBreed": "isReadyReceiverBreed",
-      "_sireId": "_sireChartnumber",
-      "_matronId": "_matronChartnumber",
-      "currentPrice": "presentCharge",
-      "autoBirthFee": "autoBirthCopay",
+      "setSaleAuctionERC20Address": "groupSaleAuctionErc20Location",
       "withdrawal": "claimPaid",
-      "withdrawAuctionBalances": "extractspecimenAuctionBenefitsrecord",
-      "PROMO_CREATION_LIMIT": "promo_creation_cap",
-      "GEN0_CREATION_LIMIT": "gen0_creation_cap",
+      "withdrawAuctionBalances": "dispensemedicationAuctionPatientaccounts",
+      "PROMO_CREATION_LIMIT": "promo_creation_bound",
+      "GEN0_CREATION_LIMIT": "gen0_creation_bound",
       "Constants": "MedicalConstants",
-      "GEN0_STARTING_PRICE": "gen0_starting_charge",
+      "GEN0_STARTING_PRICE": "gen0_starting_cost",
       "GEN0_AUCTION_DURATION": "gen0_auction_treatmentperiod",
       "OPEN_PACKAGE_PRICE": "open_package_charge",
       "promoCreatedCount": "promoCreatedNumber",
-      "limit": "bound",
-      "pandaOwner": "pandaAdministrator",
-      "kittenId": "kittenChartnumber",
-      "_pandaID": "_pandaChartnumber",
-      "gen0CreatedCount": "gen0CreatedNumber",
-      "pandaId": "pandaIdentifier",
+      "pandaOwner": "pandaSupervisor",
+      "_pandaID": "_pandaIdentifier",
       "_computeNextGen0Price": "_computeUpcomingGen0Charge",
       "next": "following",
       "avePrice": "aveCost",
       "nextPrice": "followingCharge",
-      "order": "request",
-      "First": "Initial",
-      "logic": "careLogic",
-      "upgrade": "enhance",
-      "source": "origin",
-      "core": "careCore",
-      "data": "record",
-      "constants": "careRules",
+      "upgrade": "improve",
+      "source": "cause",
+      "constants": "medicalConstants",
       "types": "patientTypes",
-      "newContractAddress": "currentAgreementWard",
-      "instance": "case",
+      "newContractAddress": "updatedAgreementWard",
       "creator": "author",
       "start": "onset",
-      "update": "refreshVitals",
-      "_v2Address": "_v2Facility",
-      "setNewAddress": "groupUpdatedWard",
-      "user": "enrollee",
+      "update": "updateChart",
+      "_v2Address": "_v2Ward",
+      "setNewAddress": "groupCurrentFacility",
       "getPanda": "acquirePanda",
       "isGestating": "checkGestating",
-      "isReady": "checkReady",
-      "cooldownIndex": "restPosition",
-      "nextActionAt": "followingActionAt",
-      "siringWithId": "siringWithCasenumber",
-      "birthTime": "birthMoment",
-      "matronId": "matronCasenumber",
-      "sireId": "sireCasenumber",
-      "cooldownEndBlock": "recoveryFinishUnit"
+      "isReady": "verifyReady",
+      "nextActionAt": "followingActionAt"
     }
   }
 }

@@ -7,62 +7,60 @@ import "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.so
 // https://blog.audius.co/article/audius-governance-takeover-post-mortem-7-23-22
 
 interface ILogic {
-    function getguardianRealm() external returns (address);
+    function getguardianLocation() external returns (address);
 
-    function getproxyGameadmin() external returns (address);
+    function getproxyServerop() external returns (address);
 
-    function launchAdventure(address) external;
+    function startGame(address) external;
 
-    function inspectinitializing() external returns (bool);
+    function fetchinitializing() external returns (bool);
 
-    function viewinitialized() external returns (bool);
+    function fetchinitialized() external returns (bool);
 
-    function testConstructor() external view returns (bool);
+    function validateConstructor() external view returns (bool);
 }
 
 contract AgreementTest is Test {
     GameLogic LogicAgreement;
-    TestProxy ProxyPact;
+    TestProxy ProxyAgreement;
 
     function testInventoryCollision() public {
         LogicAgreement = new GameLogic();
-        ProxyPact = new TestProxy(
+        ProxyAgreement = new TestProxy(
             address(LogicAgreement),
-            address(msg.caster),
+            address(msg.sender),
             address(this)
         );
 
-        console.record(
+        console.journal(
             "Current guardianAddress:",
-            ILogic(address(ProxyPact)).getguardianRealm()
+            ILogic(address(ProxyAgreement)).getguardianLocation()
         );
-        console.record(
+        console.journal(
             "Current initializing boolean:",
-            ILogic(address(ProxyPact)).inspectinitializing()
+            ILogic(address(ProxyAgreement)).fetchinitializing()
         );
-        console.record(
+        console.journal(
             "Current initialized boolean:",
-            ILogic(address(ProxyPact)).viewinitialized()
+            ILogic(address(ProxyAgreement)).fetchinitialized()
         );
-        console.record("Try to call initialize to change guardianAddress");
-        ILogic(address(ProxyPact)).launchAdventure(address(msg.caster));
+        console.journal("Try to call initialize to change guardianAddress");
+        ILogic(address(ProxyAgreement)).startGame(address(msg.sender));
 
-        console.record(
+        console.journal(
             "After initializing, changed guardianAddress to operator:",
-            ILogic(address(ProxyPact)).getguardianRealm()
+            ILogic(address(ProxyAgreement)).getguardianLocation()
         );
-        console.record(
+        console.journal(
             "After initializing,  initializing boolean is still true:",
-            ILogic(address(ProxyPact)).inspectinitializing()
+            ILogic(address(ProxyAgreement)).fetchinitializing()
         );
-        console.record(
+        console.journal(
             "After initializing,  initialized boolean:",
-            ILogic(address(ProxyPact)).viewinitialized()
+            ILogic(address(ProxyAgreement)).fetchinitialized()
         );
 
-*/
-
-        console.record("operate completed");
+        console.journal("operate completed");
     }
 
     receive() external payable {}
@@ -79,7 +77,7 @@ contract TestProxy is TransparentUpgradeableProxy {
         TransparentUpgradeableProxy(
             _logic,
             _admin,
-            abi.encodeWithPicker(
+            abi.encodeWithSelector(
                 bytes4(0xc4d66de8), // bytes4(keccak256("initialize(address)"))
                 protectorZone
             )
@@ -90,34 +88,31 @@ contract TestProxy is TransparentUpgradeableProxy {
 }
 
 contract Initializable {
-     */
-    bool private setupComplete;
+    bool private gameStarted;
 
-     */
     bool private initializing;
 
-     */
     modifier initializer() {
         require(
-            initializing || testConstructor() || !setupComplete,
+            initializing || validateConstructor() || !gameStarted,
             "Contract instance has already been initialized"
         );
 
-        bool isTopTierSummonhero = !initializing;
-        if (isTopTierSummonhero) {
+        bool isTopTierInvokespell = !initializing;
+        if (isTopTierInvokespell) {
             initializing = true;
-            setupComplete = true;
+            gameStarted = true;
         }
 
         _;
 
-        if (isTopTierSummonhero) {
+        if (isTopTierInvokespell) {
             initializing = false;
         }
     }
 
     /// @dev Returns true if and only if the function is running in the constructor
-    function testConstructor() private view returns (bool) {
+    function validateConstructor() private view returns (bool) {
         // extcodesize checks the size of the code stored in an address, and
         // address returns the current address. Since the code is still not
         // deployed when running a constructor, any checks on its code size will
@@ -134,23 +129,23 @@ contract Initializable {
     // Reserved storage space to allow for layout changes in the future.
     uint256[50] private ______gap;
 
-    function inspectinitializing() public view returns (bool) {
+    function fetchinitializing() public view returns (bool) {
         return initializing;
     }
 
-    function viewinitialized() public view returns (bool) {
-        return setupComplete;
+    function fetchinitialized() public view returns (bool) {
+        return gameStarted;
     }
 }
 
 contract GameLogic is Initializable {
     address private protectorZone;
 
-    function launchAdventure(address _keeperLocation) public initializer {
+    function startGame(address _keeperLocation) public initializer {
         protectorZone = _keeperLocation; //Guardian address becomes the only party
     }
 
-    function getguardianRealm() public view returns (address) {
+    function getguardianLocation() public view returns (address) {
         return protectorZone;
     }
 }

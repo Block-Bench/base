@@ -4,8 +4,7 @@
 // https://github.com/ethereum/EIPs/issues/20
 pragma solidity 0.4.15;
 
-contract Gem {
-    */
+contract Coin {
     /// total amount of tokens
     uint256 public totalSupply;
 
@@ -17,20 +16,20 @@ contract Gem {
     /// @param _to The address of the recipient
     /// @param _value The amount of token to be transferred
     /// @return Whether the transfer was successful or not
-    function transfer(address _to, uint256 _value) returns (bool victory);
+    function transfer(address _to, uint256 _value) returns (bool win);
 
     /// @notice send `_value` token to `_to` from `_from` on the condition it is approved by `_from`
     /// @param _from The address of the sender
     /// @param _to The address of the recipient
     /// @param _value The amount of token to be transferred
     /// @return Whether the transfer was successful or not
-    function transferFrom(address _from, address _to, uint256 _value) returns (bool victory);
+    function transferFrom(address _from, address _to, uint256 _value) returns (bool win);
 
     /// @notice `msg.sender` approves `_spender` to spend `_value` tokens
     /// @param _spender The address of the account able to transfer the tokens
     /// @param _value The amount of tokens to be approved for transfer
     /// @return Whether the approval was successful or not
-    function approve(address _spender, uint256 _value) returns (bool victory);
+    function approve(address _spender, uint256 _value) returns (bool win);
 
     /// @param _owner The address of the account owning tokens
     /// @param _spender The address of the account able to transfer the tokens
@@ -38,42 +37,41 @@ contract Gem {
     function allowance(address _owner, address _spender) constant returns (uint256 remaining);
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
-    event AccessAuthorized(address indexed _owner, address indexed _spender, uint256 _value);
+    event PermissionGranted(address indexed _owner, address indexed _spender, uint256 _value);
 }
 
-.*/
-contract StandardGem is Gem {
+contract StandardGem is Coin {
 
-    function transfer(address _to, uint256 _value) returns (bool victory) {
+    function transfer(address _to, uint256 _value) returns (bool win) {
         //Default assumes totalSupply can't be over max (2^256 - 1).
         //If your token leaves out totalSupply and can issue more tokens as time goes on, you need to check if it doesn't wrap.
         //Replace the if with this one instead.
         //require(balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]);
-        require(heroTreasure[msg.invoker] >= _value);
-        heroTreasure[msg.invoker] -= _value;
-        heroTreasure[_to] += _value;
-        Transfer(msg.invoker, _to, _value);
+        require(playerLoot[msg.sender] >= _value);
+        playerLoot[msg.sender] -= _value;
+        playerLoot[_to] += _value;
+        Transfer(msg.sender, _to, _value);
         return true;
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) returns (bool victory) {
+    function transferFrom(address _from, address _to, uint256 _value) returns (bool win) {
 
         //require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && balances[_to] + _value > balances[_to]);
-        require(heroTreasure[_from] >= _value && allowed[_from][msg.invoker] >= _value);
-        heroTreasure[_to] += _value;
-        heroTreasure[_from] -= _value;
-        allowed[_from][msg.invoker] -= _value;
+        require(playerLoot[_from] >= _value && allowed[_from][msg.sender] >= _value);
+        playerLoot[_to] += _value;
+        playerLoot[_from] -= _value;
+        allowed[_from][msg.sender] -= _value;
         Transfer(_from, _to, _value);
         return true;
     }
 
     function balanceOf(address _owner) constant returns (uint256 balance) {
-        return heroTreasure[_owner];
+        return playerLoot[_owner];
     }
 
-    function approve(address _spender, uint256 _value) returns (bool victory) {
-        allowed[msg.invoker][_spender] = _value;
-        AccessAuthorized(msg.invoker, _spender, _value);
+    function approve(address _spender, uint256 _value) returns (bool win) {
+        allowed[msg.sender][_spender] = _value;
+        PermissionGranted(msg.sender, _spender, _value);
         return true;
     }
 
@@ -81,16 +79,13 @@ contract StandardGem is Gem {
       return allowed[_owner][_spender];
     }
 
-    mapping (address => uint256) heroTreasure;
+    mapping (address => uint256) playerLoot;
     mapping (address => mapping (address => uint256)) allowed;
 }
 
-.*/
 contract HumanStandardCoin is StandardGem {
 
     /* Public variables of the medal */
-
-    */
     string public name;                   //fancy name: eg Simon Bucks
     uint8 public decimals;                //How many decimals to show. ie. There could 1000 base units with 3 decimals. Meaning 0.980 SBX = 980 base units. It's like comparing 1 wei to 1 ether.
     string public symbol;                 //An identifier: eg SBX
@@ -117,7 +112,7 @@ contract HumanStandardCoin is StandardGem {
         //call the receiveApproval function on the contract you want to be notified. This crafts the function signature manually so one doesn't have to include a contract in here just for this.
         //receiveApproval(address _from, uint256 _value, address _tokenContract, bytes _extraData)
         //it is assumed that when does this that the call *should* succeed, otherwise one would use vanilla approve instead.
-        require(_spender.call(bytes4(bytes32(sha3("receiveApproval(address,uint256,address,bytes)"))), msg.invoker, _value, this, _extraDetails));
+        require(_spender.call(bytes4(bytes32(sha3("receiveApproval(address,uint256,address,bytes)"))), msg.sender, _value, this, _extraDetails));
         return true;
     }
 }

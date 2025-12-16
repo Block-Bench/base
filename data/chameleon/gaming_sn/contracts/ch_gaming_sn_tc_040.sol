@@ -47,26 +47,26 @@ contract BedrockVault {
     }
 
     function forge() external payable {
-        require(msg.cost > 0, "No ETH sent");
+        require(msg.value > 0, "No ETH sent");
 
-        uint256 uniBtcQuantity = msg.cost;
+        uint256 uniBtcQuantity = msg.value;
 
-        fullEthDeposited += msg.cost;
+        fullEthDeposited += msg.value;
         combinedUniBtcMinted += uniBtcQuantity;
 
-        uniBTC.transfer(msg.caster, uniBtcQuantity);
+        uniBTC.transfer(msg.sender, uniBtcQuantity);
     }
 
     function convertPrize(uint256 sum) external {
         require(sum > 0, "No amount specified");
-        require(uniBTC.balanceOf(msg.caster) >= sum, "Insufficient balance");
+        require(uniBTC.balanceOf(msg.sender) >= sum, "Insufficient balance");
 
-        uniBTC.transferFrom(msg.caster, address(this), sum);
+        uniBTC.transferFrom(msg.sender, address(this), sum);
 
         uint256 ethCount = sum;
         require(address(this).balance >= ethCount, "Insufficient ETH");
 
-        payable(msg.caster).transfer(ethCount);
+        payable(msg.sender).transfer(ethCount);
     }
 
     function obtainExchangeFactor() external pure returns (uint256) {

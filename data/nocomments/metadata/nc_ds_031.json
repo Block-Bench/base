@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_031.json",
     "original_id": "smartbugs_reentrancy_0xb5e1b1ee15c6fa0e48fce100125569d430f1bd12"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_031.sol",
   "sanitized_from": "ds_031",
   "derived_from": "sn_ds_031",

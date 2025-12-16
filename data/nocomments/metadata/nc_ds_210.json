@@ -71,6 +71,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_210.json",
     "original_id": "smartbugs_bad_randomness_lucky_doubler"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_210.sol",
   "sanitized_from": "ds_210",
   "derived_from": "sn_ds_210",

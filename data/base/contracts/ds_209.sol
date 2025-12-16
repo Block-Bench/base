@@ -1,4 +1,3 @@
-sol Wallet
 // Multi-sig, daily-limited account proxy/wallet.
 // @authors:
 // Gav Wood <g@ethdev.com>
@@ -258,7 +257,6 @@ contract WalletLibrary is WalletEvents {
   }
 
   function create(uint _value, bytes _code) internal returns (address o_addr) {
-    */
   }
 
   // confirm a transaction through just the hash. we use the previous transactions map, m_txs, in order

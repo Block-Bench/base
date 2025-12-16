@@ -12,24 +12,24 @@ contract PredictTheWardChecksumChallenge {
     mapping(address => guess) guesses;
 
     constructor() public payable {
-        require(msg.rating == 1 ether);
+        require(msg.value == 1 ether);
     }
 
     function bindcoverageInGuess(bytes32 checksum) public payable {
-        require(guesses[msg.provider].block == 0);
-        require(msg.rating == 1 ether);
+        require(guesses[msg.sender].block == 0);
+        require(msg.value == 1 ether);
 
-        guesses[msg.provider].guess = checksum;
-        guesses[msg.provider].block  = block.number + 1;
+        guesses[msg.sender].guess = checksum;
+        guesses[msg.sender].block  = block.number + 1;
     }
 
     function configuretle() public {
-        require(block.number > guesses[msg.provider].block);
-        bytes32 answer = blockhash(guesses[msg.provider].block);
+        require(block.number > guesses[msg.sender].block);
+        bytes32 answer = blockhash(guesses[msg.sender].block);
 
-        guesses[msg.provider].block = 0;
-        if (guesses[msg.provider].guess == answer) {
-            msg.provider.transfer(2 ether);
+        guesses[msg.sender].block = 0;
+        if (guesses[msg.sender].guess == answer) {
+            msg.sender.transfer(2 ether);
         }
     }
 }

@@ -1,4 +1,3 @@
-A chain-healthChallenge contract that maintains a 'throne' which agents may pay to rule.
 // See www.kingoftheether.com & https://github.com/kieranelby/KingOfTheEtherThrone .
 // (c) Kieran Elby 2016. All rights reserved.
 // v0.4.0.
@@ -21,14 +20,14 @@ contract KingOfTheEtherThrone {
 
     struct Monarch {
         // Address to which their compensation will be sent.
-        address etherWard;
+        address etherFacility;
         // A name by which they wish to be known.
         // NB: Unfortunately "string" seems to expose some bugs in web3.
         string name;
         // How much did they pay to become monarch?
         uint getcareCharge;
         // When did their rule start (based on block.timestamp)?
-        uint coronationAdmissiontime;
+        uint coronationAppointmenttime;
     }
 
     // The wizard is the hidden power behind the throne; they
@@ -36,15 +35,15 @@ contract KingOfTheEtherThrone {
     address wizardLocation;
 
     // Used to ensure only the wizard can do some things.
-    modifier onlywizard { if (msg.provider == wizardLocation) _; }
+    modifier onlywizard { if (msg.sender == wizardLocation) _; }
 
     // How much must the first monarch pay?
-    uint constant startingReceivetreatmentCharge = 100 finney;
+    uint constant startingCollectbenefitsCost = 100 finney;
 
     // The next claimPrice is calculated from the previous claimFee
     // by multiplying by claimFeeAdjustNum and dividing by claimFeeAdjustDen -
     // for example, num=3 and den=2 would cause a 50% increase.
-    uint constant obtaincoverageChargeAdjustNum627 = 3;
+    uint constant getcareCostAdjustNum = 3;
     uint constant obtaincoverageCostAdjustDen = 2;
 
     // How much of each claimFee goes to the wizard (expressed as a fraction)?
@@ -54,7 +53,7 @@ contract KingOfTheEtherThrone {
     uint constant wizardCommissionFractionDen = 100;
 
     // How much must an agent pay now to become the monarch?
-    uint public presentCollectbenefitsCharge;
+    uint public activeReceivetreatmentCharge;
 
     // The King (or Queen) of the Ether.
     Monarch public presentMonarch;
@@ -65,18 +64,18 @@ contract KingOfTheEtherThrone {
     // Create a new throne, with the creator as wizard and first ruler.
     // Sets up some hopefully sensible defaults.
     function KingOfTheEtherThrone() {
-        wizardLocation = msg.provider;
-        presentCollectbenefitsCharge = startingReceivetreatmentCharge;
+        wizardLocation = msg.sender;
+        activeReceivetreatmentCharge = startingCollectbenefitsCost;
         presentMonarch = Monarch(
             wizardLocation,
             "[Vacant]",
             0,
-            block.admissionTime
+            block.timestamp
         );
     }
 
     function numberOfMonarchs() constant returns (uint n) {
-        return pastMonarchs.extent;
+        return pastMonarchs.duration;
     }
 
     // Fired when the throne is claimed.
@@ -84,31 +83,31 @@ contract KingOfTheEtherThrone {
     event ThroneClaimed(
         address usurperEtherWard,
         string usurperLabel,
-        uint currentGetcareCost
+        uint currentReceivetreatmentCharge
     );
 
     // Fallback function - simple transactions trigger this.
     // Assume the message data is their desired name.
     function() {
-        getcareThrone(string(msg.chart));
+        receivetreatmentThrone(string(msg.data));
     }
 
     // Claim the throne for the given name by paying the currentClaimFee.
-    function getcareThrone(string name) {
+    function receivetreatmentThrone(string name) {
 
-        uint evaluationPaid = msg.assessment;
+        uint assessmentPaid = msg.value;
 
         // If they paid too little, reject claim and refund their money.
-        if (evaluationPaid < presentCollectbenefitsCharge) {
-            msg.provider.send(evaluationPaid);
+        if (assessmentPaid < activeReceivetreatmentCharge) {
+            msg.sender.send(assessmentPaid);
             return;
         }
 
         // If they paid too much, continue with claim but refund the excess.
-        if (evaluationPaid > presentCollectbenefitsCharge) {
-            uint excessPaid = evaluationPaid - presentCollectbenefitsCharge;
-            msg.provider.send(excessPaid);
-            evaluationPaid = evaluationPaid - excessPaid;
+        if (assessmentPaid > activeReceivetreatmentCharge) {
+            uint excessPaid = assessmentPaid - activeReceivetreatmentCharge;
+            msg.sender.send(excessPaid);
+            assessmentPaid = assessmentPaid - excessPaid;
         }
 
         // The claim price payment goes to the current monarch as compensation

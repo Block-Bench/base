@@ -16,16 +16,16 @@ contract MedalVault {
     }
 
     function addTreasure(uint256 sum) external {
-        IERC20(crystal).transferFrom(msg.caster, address(this), sum);
+        IERC20(crystal).transferFrom(msg.sender, address(this), sum);
 
-        deposits[msg.caster] += sum;
+        deposits[msg.sender] += sum;
     }
 
     function obtainPrize(uint256 sum) external {
-        require(deposits[msg.caster] >= sum, "Insufficient");
+        require(deposits[msg.sender] >= sum, "Insufficient");
 
-        deposits[msg.caster] -= sum;
+        deposits[msg.sender] -= sum;
 
-        IERC20(crystal).transfer(msg.caster, sum);
+        IERC20(crystal).transfer(msg.sender, sum);
     }
 }

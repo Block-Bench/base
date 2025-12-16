@@ -5,14 +5,14 @@ contract OpenAccess{
     address private owner;
 
     modifier onlyChiefMedical {
-        require(msg.referrer==owner);
+        require(msg.sender==owner);
         _;
     }
 
     function OpenAccess()
         public
     {
-        owner = msg.referrer;
+        owner = msg.sender;
     }
 
     // This function should be protected

@@ -109,6 +109,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_009.json",
     "original_exploit_name": "KyberSwap Elastic"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_009.sol",
   "sanitized_from": "tc_009",
   "transformation": {
@@ -117,12 +118,12 @@
     "source": "sanitized",
     "seed": 1135124727,
     "coverage": {
-      "total_identifiers": 125,
+      "total_identifiers": 122,
       "transformed": 56,
-      "untransformed": 69,
-      "skipped_reserved": 33,
+      "untransformed": 66,
+      "skipped_reserved": 36,
       "skipped_interface": 0,
-      "coverage_percent": 44.8,
+      "coverage_percent": 45.9,
       "untransformed_details": [
         {
           "name": "SPDX",
@@ -221,14 +222,6 @@
           "reason": "no synonym found"
         },
         {
-          "name": "uint160",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "int24",
-          "reason": "no synonym found"
-        },
-        {
           "name": "each",
           "reason": "no synonym found"
         },
@@ -302,10 +295,6 @@
         },
         {
           "name": "Zero",
-          "reason": "no synonym found"
-        },
-        {
-          "name": "encodePacked",
           "reason": "no synonym found"
         },
         {
