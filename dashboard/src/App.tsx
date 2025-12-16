@@ -8,8 +8,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/explorer" element={<Explorer />} />
-        <Route path="/sample/:id" element={<CodeViewer />} />
+        <Route path="/explorer" element={<Navigate to="/explorer/difficulty_stratified" replace />} />
+        <Route path="/explorer/:datasetType" element={<Explorer />} />
+        <Route path="/sample/:datasetType/:sampleId" element={<CodeViewer />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
