@@ -1,7 +1,7 @@
 {
-  "id": "ds_194",
-  "contract_file": "contracts/ds_194.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_194",
+  "contract_file": "contracts/sn_ds_194.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -70,6 +70,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_194.json",
     "original_id": "defivulnlabs_delegatecall"
   },
-  "sanitized_from": "ds_194",
-  "sanitized_id": "sn_ds_194"
+  "original_contract_file": "contracts/ds_194.sol",
+  "sanitized_from": "ds_194"
 }

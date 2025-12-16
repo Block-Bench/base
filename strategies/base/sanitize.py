@@ -747,13 +747,19 @@ def _save_sanitized(
     output_path = SANITIZED_DIR / 'contracts' / f"{sanitized_id}{extension}"
     output_path.write_text(sanitized_code)
 
-    # Copy metadata unchanged (only contracts are sanitized)
+    # Copy metadata with updated references (only contracts are sanitized)
     if original_metadata_path and original_metadata_path.exists():
         metadata = json.loads(original_metadata_path.read_text())
 
-        # Add sanitization reference
+        # Store original contract file reference
+        original_contract_file = metadata.get('contract_file', f"contracts/{file_id}{extension}")
+
+        # Update metadata for sanitized version
+        metadata['id'] = sanitized_id
+        metadata['contract_file'] = f"contracts/{sanitized_id}{extension}"
+        metadata['original_contract_file'] = original_contract_file
         metadata['sanitized_from'] = file_id
-        metadata['sanitized_id'] = sanitized_id
+        metadata['subset'] = 'sanitized'
 
         output_metadata = SANITIZED_DIR / 'metadata' / f"{sanitized_id}.json"
         output_metadata.write_text(json.dumps(metadata, indent=2))
@@ -893,7 +899,94 @@ def sanitize_all() -> SanitizationReport:
     report_path = SANITIZED_DIR / "sanitization_report_all.json"
     report_path.write_text(json.dumps(report.to_dict(), indent=2))
 
+    # Generate index.json
+    _generate_index()
+
     return report
+
+
+def _generate_index():
+    """Generate index.json for the sanitized dataset."""
+    metadata_dir = SANITIZED_DIR / 'metadata'
+    if not metadata_dir.exists():
+        return
+
+    samples = []
+    stats = {
+        'total_samples': 0,
+        'vulnerable_count': 0,
+        'safe_count': 0,
+        'by_vulnerability_type': {},
+        'by_severity': {},
+        'by_original_subset': {'difficulty_stratified': 0, 'temporal_contamination': 0}
+    }
+
+    for meta_file in sorted(metadata_dir.glob('*.json')):
+        try:
+            metadata = json.loads(meta_file.read_text())
+            sample = {
+                'id': metadata.get('id'),
+                'contract_file': metadata.get('contract_file'),
+                'metadata_file': f"metadata/{meta_file.name}",
+                'original_contract_file': metadata.get('original_contract_file'),
+                'sanitized_from': metadata.get('sanitized_from'),
+            }
+
+            # Extract ground truth info
+            ground_truth = metadata.get('ground_truth', {})
+            sample['is_vulnerable'] = ground_truth.get('is_vulnerable', True)
+            sample['vulnerability_type'] = ground_truth.get('vulnerability_type', 'unknown')
+            sample['severity'] = ground_truth.get('severity', 'unknown')
+
+            samples.append(sample)
+
+            # Update stats
+            stats['total_samples'] += 1
+            if sample['is_vulnerable']:
+                stats['vulnerable_count'] += 1
+            else:
+                stats['safe_count'] += 1
+
+            vuln_type = sample['vulnerability_type']
+            stats['by_vulnerability_type'][vuln_type] = stats['by_vulnerability_type'].get(vuln_type, 0) + 1
+
+            severity = sample['severity']
+            stats['by_severity'][severity] = stats['by_severity'].get(severity, 0) + 1
+
+            # Track original subset
+            orig_id = metadata.get('sanitized_from', '')
+            if orig_id.startswith('tc_'):
+                stats['by_original_subset']['temporal_contamination'] += 1
+            elif orig_id.startswith('ds_'):
+                stats['by_original_subset']['difficulty_stratified'] += 1
+
+        except Exception as e:
+            print(f"Warning: Error processing {meta_file}: {e}")
+            continue
+
+    index = {
+        'dataset_name': 'sanitized',
+        'version': '1.0.0',
+        'created_date': datetime.now().strftime('%Y-%m-%d'),
+        'last_updated': datetime.now().strftime('%Y-%m-%d'),
+        'description': 'Sanitized contracts with vulnerability hints removed from identifiers and comments. '
+                       'Derived from difficulty_stratified and temporal_contamination datasets.',
+        'transformation': {
+            'type': 'sanitization',
+            'source_datasets': ['difficulty_stratified', 'temporal_contamination'],
+            'changes_applied': [
+                'Renamed vulnerability-hinting identifiers (contract names, function names, variables)',
+                'Removed hint comments and vulnerability descriptions',
+                'Sanitized console.log and emit statements',
+                'Replaced raw text file headers'
+            ]
+        },
+        'statistics': stats,
+        'samples': samples
+    }
+
+    index_path = SANITIZED_DIR / 'index.json'
+    index_path.write_text(json.dumps(index, indent=2))
 
 
 # =============================================================================

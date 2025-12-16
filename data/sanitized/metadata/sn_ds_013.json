@@ -1,7 +1,7 @@
 {
-  "id": "ds_013",
-  "contract_file": "contracts/ds_013.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_013",
+  "contract_file": "contracts/sn_ds_013.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "access_control",
@@ -67,6 +67,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_013.json",
     "original_id": "smartbugs_access_control_simple_suicide"
   },
-  "sanitized_from": "ds_013",
-  "sanitized_id": "sn_ds_013"
+  "original_contract_file": "contracts/ds_013.sol",
+  "sanitized_from": "ds_013"
 }

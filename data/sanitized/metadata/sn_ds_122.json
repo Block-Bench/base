@@ -1,7 +1,7 @@
 {
-  "id": "ds_122",
-  "contract_file": "contracts/ds_122.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_122",
+  "contract_file": "contracts/sn_ds_122.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "access_control",
@@ -70,6 +70,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_122.json",
     "original_id": "notso_unprotected_function_walletlibrary"
   },
-  "sanitized_from": "ds_122",
-  "sanitized_id": "sn_ds_122"
+  "original_contract_file": "contracts/ds_122.sol",
+  "sanitized_from": "ds_122"
 }

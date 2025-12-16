@@ -1,7 +1,7 @@
 {
-  "id": "ds_204",
-  "contract_file": "contracts/ds_204.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_204",
+  "contract_file": "contracts/sn_ds_204.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -65,6 +65,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_204.json",
     "original_id": "notso_honeypots_lottery"
   },
-  "sanitized_from": "ds_204",
-  "sanitized_id": "sn_ds_204"
+  "original_contract_file": "contracts/ds_204.sol",
+  "sanitized_from": "ds_204"
 }

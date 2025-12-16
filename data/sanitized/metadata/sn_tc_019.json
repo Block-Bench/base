@@ -1,7 +1,7 @@
 {
-  "id": "tc_019",
-  "contract_file": "contracts/tc_019.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_019",
+  "contract_file": "contracts/sn_tc_019.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "logic_error",
@@ -97,6 +97,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_019.json",
     "original_exploit_name": "Qubit Bridge Zero Address Bypass"
   },
-  "sanitized_from": "tc_019",
-  "sanitized_id": "sn_tc_019"
+  "original_contract_file": "contracts/tc_019.sol",
+  "sanitized_from": "tc_019"
 }

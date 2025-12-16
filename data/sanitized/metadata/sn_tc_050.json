@@ -1,7 +1,7 @@
 {
-  "id": "tc_050",
-  "contract_file": "contracts/tc_050.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_050",
+  "contract_file": "contracts/sn_tc_050.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "access_control",
@@ -83,6 +83,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_050.json",
     "original_exploit_name": "Munchables"
   },
-  "sanitized_from": "tc_050",
-  "sanitized_id": "sn_tc_050"
+  "original_contract_file": "contracts/tc_050.sol",
+  "sanitized_from": "tc_050"
 }

@@ -1,7 +1,7 @@
 {
-  "id": "tc_045",
-  "contract_file": "contracts/tc_045.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_045",
+  "contract_file": "contracts/sn_tc_045.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "reentrancy",
@@ -84,6 +84,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_045.json",
     "original_exploit_name": "Penpie"
   },
-  "sanitized_from": "tc_045",
-  "sanitized_id": "sn_tc_045"
+  "original_contract_file": "contracts/tc_045.sol",
+  "sanitized_from": "tc_045"
 }

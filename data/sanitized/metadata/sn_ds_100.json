@@ -1,7 +1,7 @@
 {
-  "id": "ds_100",
-  "contract_file": "contracts/ds_100.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_100",
+  "contract_file": "contracts/sn_ds_100.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_100.json",
     "original_id": "defivulnlabs_txorigin"
   },
-  "sanitized_from": "ds_100",
-  "sanitized_id": "sn_ds_100"
+  "original_contract_file": "contracts/ds_100.sol",
+  "sanitized_from": "ds_100"
 }

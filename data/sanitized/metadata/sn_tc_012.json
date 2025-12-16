@@ -1,7 +1,7 @@
 {
-  "id": "tc_012",
-  "contract_file": "contracts/tc_012.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_012",
+  "contract_file": "contracts/sn_tc_012.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "reentrancy",
@@ -86,6 +86,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_012.json",
     "original_exploit_name": "Rari Capital Fuse"
   },
-  "sanitized_from": "tc_012",
-  "sanitized_id": "sn_tc_012"
+  "original_contract_file": "contracts/tc_012.sol",
+  "sanitized_from": "tc_012"
 }

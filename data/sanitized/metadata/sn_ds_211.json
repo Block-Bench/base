@@ -1,7 +1,7 @@
 {
-  "id": "ds_211",
-  "contract_file": "contracts/ds_211.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_211",
+  "contract_file": "contracts/sn_ds_211.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "reentrancy",
@@ -71,6 +71,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_211.json",
     "original_id": "smartbugs_reentrancy_spank_chain_payment"
   },
-  "sanitized_from": "ds_211",
-  "sanitized_id": "sn_ds_211"
+  "original_contract_file": "contracts/ds_211.sol",
+  "sanitized_from": "ds_211"
 }

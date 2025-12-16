@@ -1,7 +1,7 @@
 {
-  "id": "ds_217",
-  "contract_file": "contracts/ds_217.rs",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_217",
+  "contract_file": "contracts/sn_ds_217.rs",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "logic_error",
@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_217.json",
     "original_id": "sealevel_3_type_cosplay"
   },
-  "sanitized_from": "ds_217",
-  "sanitized_id": "sn_ds_217"
+  "original_contract_file": "contracts/ds_217.rs",
+  "sanitized_from": "ds_217"
 }

@@ -1,7 +1,7 @@
 {
-  "id": "tc_037",
-  "contract_file": "contracts/tc_037.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_037",
+  "contract_file": "contracts/sn_tc_037.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "oracle_manipulation",
@@ -85,6 +85,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_037.json",
     "original_exploit_name": "UwU Lend Oracle Manipulation"
   },
-  "sanitized_from": "tc_037",
-  "sanitized_id": "sn_tc_037"
+  "original_contract_file": "contracts/tc_037.sol",
+  "sanitized_from": "tc_037"
 }

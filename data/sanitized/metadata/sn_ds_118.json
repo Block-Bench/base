@@ -1,7 +1,7 @@
 {
-  "id": "ds_118",
-  "contract_file": "contracts/ds_118.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_118",
+  "contract_file": "contracts/sn_ds_118.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -65,6 +65,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_118.json",
     "original_id": "notso_variable shadowing_inherited_state"
   },
-  "sanitized_from": "ds_118",
-  "sanitized_id": "sn_ds_118"
+  "original_contract_file": "contracts/ds_118.sol",
+  "sanitized_from": "ds_118"
 }

@@ -1,7 +1,7 @@
 {
-  "id": "ds_219",
-  "contract_file": "contracts/ds_219.rs",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_219",
+  "contract_file": "contracts/sn_ds_219.rs",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_219.json",
     "original_id": "sealevel_7_bump_seed_canonicalization"
   },
-  "sanitized_from": "ds_219",
-  "sanitized_id": "sn_ds_219"
+  "original_contract_file": "contracts/ds_219.rs",
+  "sanitized_from": "ds_219"
 }

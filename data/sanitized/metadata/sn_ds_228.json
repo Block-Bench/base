@@ -1,7 +1,7 @@
 {
-  "id": "ds_228",
-  "contract_file": "contracts/ds_228.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_228",
+  "contract_file": "contracts/sn_ds_228.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_228.json",
     "original_id": "defivulnlabs_first-deposit"
   },
-  "sanitized_from": "ds_228",
-  "sanitized_id": "sn_ds_228"
+  "original_contract_file": "contracts/ds_228.sol",
+  "sanitized_from": "ds_228"
 }

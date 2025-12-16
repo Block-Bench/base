@@ -1,7 +1,7 @@
 {
-  "id": "ds_022",
-  "contract_file": "contracts/ds_022.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_022",
+  "contract_file": "contracts/sn_ds_022.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "reentrancy",
@@ -68,6 +68,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_022.json",
     "original_id": "smartbugs_reentrancy_0x627fa62ccbb1c1b04ffaecd72a53e37fc0e17839"
   },
-  "sanitized_from": "ds_022",
-  "sanitized_id": "sn_ds_022"
+  "original_contract_file": "contracts/ds_022.sol",
+  "sanitized_from": "ds_022"
 }

@@ -1,7 +1,7 @@
 {
-  "id": "ds_162",
-  "contract_file": "contracts/ds_162.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_162",
+  "contract_file": "contracts/sn_ds_162.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "logic_error",
@@ -67,6 +67,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_162.json",
     "original_id": "smartbugs_other_open_address_lottery"
   },
-  "sanitized_from": "ds_162",
-  "sanitized_id": "sn_ds_162"
+  "original_contract_file": "contracts/ds_162.sol",
+  "sanitized_from": "ds_162"
 }

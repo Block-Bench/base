@@ -1,7 +1,7 @@
 {
-  "id": "tc_022",
-  "contract_file": "contracts/tc_022.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_022",
+  "contract_file": "contracts/sn_tc_022.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "integer_overflow",
@@ -91,6 +91,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_022.json",
     "original_exploit_name": "Uranium Finance AMM Miscalculation"
   },
-  "sanitized_from": "tc_022",
-  "sanitized_id": "sn_tc_022"
+  "original_contract_file": "contracts/tc_022.sol",
+  "sanitized_from": "tc_022"
 }

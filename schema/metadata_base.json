@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://blockbench.io/schema/metadata_base.json",
+  "title": "BlockBench Base Metadata Schema",
+  "description": "Schema for base dataset metadata (difficulty_stratified, temporal_contamination)",
+  "type": "object",
+  "required": ["id", "contract_file", "subset", "ground_truth"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier (e.g., ds_001, tc_001)",
+      "pattern": "^(ds|tc)_\\d{3}$"
+    },
+    "contract_file": {
+      "type": "string",
+      "description": "Path to contract file relative to dataset root",
+      "pattern": "^contracts/.*\\.(sol|rs)$"
+    },
+    "subset": {
+      "type": "string",
+      "enum": ["difficulty_stratified", "temporal_contamination"],
+      "description": "Dataset subset this sample belongs to"
+    },
+    "ground_truth": {
+      "type": "object",
+      "required": ["is_vulnerable", "vulnerability_type", "severity"],
+      "properties": {
+        "is_vulnerable": {
+          "type": "boolean",
+          "description": "Whether the contract contains a vulnerability"
+        },
+        "vulnerability_type": {
+          "type": "string",
+          "description": "Type of vulnerability"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low"],
+          "description": "Severity of the vulnerability"
+        },
+        "vulnerable_location": {
+          "type": "object",
+          "properties": {
+            "contract_name": {"type": "string"},
+            "function_name": {"type": "string"},
+            "line_numbers": {
+              "type": "array",
+              "items": {"type": "integer"}
+            }
+          }
+        },
+        "root_cause": {"type": "string"},
+        "attack_vector": {"type": "string"},
+        "impact": {"type": "string"},
+        "correct_fix": {"type": "string"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "source": {"type": "string"},
+        "original_id": {"type": "string"},
+        "url": {"type": ["string", "null"]},
+        "date_discovered": {"type": ["string", "null"]},
+        "date_added": {"type": "string"},
+        "added_by": {"type": "string"}
+      }
+    },
+    "code_metadata": {
+      "type": "object",
+      "properties": {
+        "solidity_version": {"type": "string"},
+        "num_lines": {"type": "integer"},
+        "num_contracts": {"type": "integer"},
+        "contract_names": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "num_functions": {"type": "integer"},
+        "has_imports": {"type": "boolean"},
+        "has_inheritance": {"type": "boolean"},
+        "has_modifiers": {"type": "boolean"},
+        "has_events": {"type": "boolean"},
+        "has_assembly": {"type": "boolean"}
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "notes": {"type": ["string", "null"]},
+    "difficulty_fields": {
+      "type": "object",
+      "description": "Fields specific to difficulty_stratified subset"
+    },
+    "temporal_fields": {
+      "type": "object",
+      "description": "Fields specific to temporal_contamination subset"
+    }
+  }
+}

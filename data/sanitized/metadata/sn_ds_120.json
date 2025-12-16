@@ -1,7 +1,7 @@
 {
-  "id": "ds_120",
-  "contract_file": "contracts/ds_120.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_120",
+  "contract_file": "contracts/sn_ds_120.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "denial_of_service",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_120.json",
     "original_id": "notso_denial_of_service_list_dos"
   },
-  "sanitized_from": "ds_120",
-  "sanitized_id": "sn_ds_120"
+  "original_contract_file": "contracts/ds_120.sol",
+  "sanitized_from": "ds_120"
 }

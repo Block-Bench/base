@@ -1,7 +1,7 @@
 {
-  "id": "ds_150",
-  "contract_file": "contracts/ds_150.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_150",
+  "contract_file": "contracts/sn_ds_150.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "denial_of_service",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_150.json",
     "original_id": "smartbugs_denial_of_service_auction"
   },
-  "sanitized_from": "ds_150",
-  "sanitized_id": "sn_ds_150"
+  "original_contract_file": "contracts/ds_150.sol",
+  "sanitized_from": "ds_150"
 }

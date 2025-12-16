@@ -1,7 +1,7 @@
 {
-  "id": "tc_035",
-  "contract_file": "contracts/tc_035.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_035",
+  "contract_file": "contracts/sn_tc_035.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "integer_overflow",
@@ -83,6 +83,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_035.json",
     "original_exploit_name": "Wise Lending Rounding Error"
   },
-  "sanitized_from": "tc_035",
-  "sanitized_id": "sn_tc_035"
+  "original_contract_file": "contracts/tc_035.sol",
+  "sanitized_from": "tc_035"
 }

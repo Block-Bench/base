@@ -1,7 +1,7 @@
 {
-  "id": "ds_084",
-  "contract_file": "contracts/ds_084.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_084",
+  "contract_file": "contracts/sn_ds_084.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -68,6 +68,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_084.json",
     "original_id": "smartbugs_unchecked_low_level_calls_king_of_the_ether_throne"
   },
-  "sanitized_from": "ds_084",
-  "sanitized_id": "sn_ds_084"
+  "original_contract_file": "contracts/ds_084.sol",
+  "sanitized_from": "ds_084"
 }

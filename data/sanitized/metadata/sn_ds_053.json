@@ -1,7 +1,7 @@
 {
-  "id": "ds_053",
-  "contract_file": "contracts/ds_053.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_053",
+  "contract_file": "contracts/sn_ds_053.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_053.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x4051334adc52057aca763453820cb0e045076ef3"
   },
-  "sanitized_from": "ds_053",
-  "sanitized_id": "sn_ds_053"
+  "original_contract_file": "contracts/ds_053.sol",
+  "sanitized_from": "ds_053"
 }

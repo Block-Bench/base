@@ -1,7 +1,7 @@
 {
-  "id": "ds_201",
-  "contract_file": "contracts/ds_201.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_201",
+  "contract_file": "contracts/sn_ds_201.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -65,6 +65,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_201.json",
     "original_id": "notso_honeypots_privatebank"
   },
-  "sanitized_from": "ds_201",
-  "sanitized_id": "sn_ds_201"
+  "original_contract_file": "contracts/ds_201.sol",
+  "sanitized_from": "ds_201"
 }

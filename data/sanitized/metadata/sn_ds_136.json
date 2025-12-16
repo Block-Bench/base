@@ -1,7 +1,7 @@
 {
-  "id": "ds_136",
-  "contract_file": "contracts/ds_136.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_136",
+  "contract_file": "contracts/sn_ds_136.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "integer_overflow",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_136.json",
     "original_id": "smartbugs_arithmetic_integer_overflow_minimal"
   },
-  "sanitized_from": "ds_136",
-  "sanitized_id": "sn_ds_136"
+  "original_contract_file": "contracts/ds_136.sol",
+  "sanitized_from": "ds_136"
 }

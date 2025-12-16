@@ -1,7 +1,7 @@
 {
-  "id": "tc_007",
-  "contract_file": "contracts/tc_007.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_007",
+  "contract_file": "contracts/sn_tc_007.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "access_control",
@@ -123,6 +123,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_007.json",
     "original_exploit_name": "Poly Network"
   },
-  "sanitized_from": "tc_007",
-  "sanitized_id": "sn_tc_007"
+  "original_contract_file": "contracts/tc_007.sol",
+  "sanitized_from": "tc_007"
 }

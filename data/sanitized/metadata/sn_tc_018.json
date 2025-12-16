@@ -1,7 +1,7 @@
 {
-  "id": "tc_018",
-  "contract_file": "contracts/tc_018.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_018",
+  "contract_file": "contracts/sn_tc_018.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "price_manipulation",
@@ -95,6 +95,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_018.json",
     "original_exploit_name": "Indexed Finance Pool Manipulation"
   },
-  "sanitized_from": "tc_018",
-  "sanitized_id": "sn_tc_018"
+  "original_contract_file": "contracts/tc_018.sol",
+  "sanitized_from": "tc_018"
 }

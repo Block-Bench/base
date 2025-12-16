@@ -1,7 +1,7 @@
 {
-  "id": "ds_089",
-  "contract_file": "contracts/ds_089.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_089",
+  "contract_file": "contracts/sn_ds_089.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "logic_error",
@@ -67,6 +67,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_089.json",
     "original_id": "defivulnlabs_recovererc20"
   },
-  "sanitized_from": "ds_089",
-  "sanitized_id": "sn_ds_089"
+  "original_contract_file": "contracts/ds_089.sol",
+  "sanitized_from": "ds_089"
 }

@@ -1,7 +1,7 @@
 {
-  "id": "ds_207",
-  "contract_file": "contracts/ds_207.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_207",
+  "contract_file": "contracts/sn_ds_207.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "front_running",
@@ -65,6 +65,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_207.json",
     "original_id": "notso_race_condition_racecondition"
   },
-  "sanitized_from": "ds_207",
-  "sanitized_id": "sn_ds_207"
+  "original_contract_file": "contracts/ds_207.sol",
+  "sanitized_from": "ds_207"
 }

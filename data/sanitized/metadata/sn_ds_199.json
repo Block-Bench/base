@@ -1,7 +1,7 @@
 {
-  "id": "ds_199",
-  "contract_file": "contracts/ds_199.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_199",
+  "contract_file": "contracts/sn_ds_199.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "reentrancy",
@@ -69,6 +69,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_199.json",
     "original_id": "defivulnlabs_reentrancy"
   },
-  "sanitized_from": "ds_199",
-  "sanitized_id": "sn_ds_199"
+  "original_contract_file": "contracts/ds_199.sol",
+  "sanitized_from": "ds_199"
 }

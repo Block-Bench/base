@@ -1,7 +1,7 @@
 {
-  "id": "ds_185",
-  "contract_file": "contracts/ds_185.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_185",
+  "contract_file": "contracts/sn_ds_185.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -65,6 +65,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_185.json",
     "original_id": "defivulnlabs_precision-loss"
   },
-  "sanitized_from": "ds_185",
-  "sanitized_id": "sn_ds_185"
+  "original_contract_file": "contracts/ds_185.sol",
+  "sanitized_from": "ds_185"
 }

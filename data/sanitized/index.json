@@ -1,0 +1,2900 @@
+{
+  "dataset_name": "sanitized",
+  "version": "1.0.0",
+  "created_date": "2025-12-16",
+  "last_updated": "2025-12-16",
+  "description": "Sanitized contracts with vulnerability hints removed from identifiers and comments. Derived from difficulty_stratified and temporal_contamination datasets.",
+  "transformation": {
+    "type": "sanitization",
+    "source_datasets": [
+      "difficulty_stratified",
+      "temporal_contamination"
+    ],
+    "changes_applied": [
+      "Renamed vulnerability-hinting identifiers (contract names, function names, variables)",
+      "Removed hint comments and vulnerability descriptions",
+      "Sanitized console.log and emit statements",
+      "Replaced raw text file headers"
+    ]
+  },
+  "statistics": {
+    "total_samples": 285,
+    "vulnerable_count": 285,
+    "safe_count": 0,
+    "by_vulnerability_type": {
+      "timestamp_dependency": 15,
+      "reentrancy": 47,
+      "integer_overflow": 25,
+      "access_control": 44,
+      "other": 93,
+      "logic_error": 34,
+      "denial_of_service": 9,
+      "front_running": 5,
+      "oracle_manipulation": 10,
+      "price_manipulation": 2,
+      "signature_replay": 1
+    },
+    "by_severity": {
+      "low": 16,
+      "high": 114,
+      "medium": 114,
+      "critical": 41
+    },
+    "by_original_subset": {
+      "difficulty_stratified": 235,
+      "temporal_contamination": 50
+    }
+  },
+  "samples": [
+    {
+      "id": "sn_ds_001",
+      "contract_file": "contracts/sn_ds_001.sol",
+      "metadata_file": "metadata/sn_ds_001.json",
+      "original_contract_file": "contracts/ds_001.sol",
+      "sanitized_from": "ds_001",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_002",
+      "contract_file": "contracts/sn_ds_002.sol",
+      "metadata_file": "metadata/sn_ds_002.json",
+      "original_contract_file": "contracts/ds_002.sol",
+      "sanitized_from": "ds_002",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_003",
+      "contract_file": "contracts/sn_ds_003.sol",
+      "metadata_file": "metadata/sn_ds_003.json",
+      "original_contract_file": "contracts/ds_003.sol",
+      "sanitized_from": "ds_003",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_004",
+      "contract_file": "contracts/sn_ds_004.sol",
+      "metadata_file": "metadata/sn_ds_004.json",
+      "original_contract_file": "contracts/ds_004.sol",
+      "sanitized_from": "ds_004",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_005",
+      "contract_file": "contracts/sn_ds_005.sol",
+      "metadata_file": "metadata/sn_ds_005.json",
+      "original_contract_file": "contracts/ds_005.sol",
+      "sanitized_from": "ds_005",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_006",
+      "contract_file": "contracts/sn_ds_006.sol",
+      "metadata_file": "metadata/sn_ds_006.json",
+      "original_contract_file": "contracts/ds_006.sol",
+      "sanitized_from": "ds_006",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_007",
+      "contract_file": "contracts/sn_ds_007.sol",
+      "metadata_file": "metadata/sn_ds_007.json",
+      "original_contract_file": "contracts/ds_007.sol",
+      "sanitized_from": "ds_007",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_008",
+      "contract_file": "contracts/sn_ds_008.sol",
+      "metadata_file": "metadata/sn_ds_008.json",
+      "original_contract_file": "contracts/ds_008.sol",
+      "sanitized_from": "ds_008",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_009",
+      "contract_file": "contracts/sn_ds_009.sol",
+      "metadata_file": "metadata/sn_ds_009.json",
+      "original_contract_file": "contracts/ds_009.sol",
+      "sanitized_from": "ds_009",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_010",
+      "contract_file": "contracts/sn_ds_010.sol",
+      "metadata_file": "metadata/sn_ds_010.json",
+      "original_contract_file": "contracts/ds_010.sol",
+      "sanitized_from": "ds_010",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_011",
+      "contract_file": "contracts/sn_ds_011.sol",
+      "metadata_file": "metadata/sn_ds_011.json",
+      "original_contract_file": "contracts/ds_011.sol",
+      "sanitized_from": "ds_011",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_012",
+      "contract_file": "contracts/sn_ds_012.sol",
+      "metadata_file": "metadata/sn_ds_012.json",
+      "original_contract_file": "contracts/ds_012.sol",
+      "sanitized_from": "ds_012",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_013",
+      "contract_file": "contracts/sn_ds_013.sol",
+      "metadata_file": "metadata/sn_ds_013.json",
+      "original_contract_file": "contracts/ds_013.sol",
+      "sanitized_from": "ds_013",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_014",
+      "contract_file": "contracts/sn_ds_014.sol",
+      "metadata_file": "metadata/sn_ds_014.json",
+      "original_contract_file": "contracts/ds_014.sol",
+      "sanitized_from": "ds_014",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_015",
+      "contract_file": "contracts/sn_ds_015.sol",
+      "metadata_file": "metadata/sn_ds_015.json",
+      "original_contract_file": "contracts/ds_015.sol",
+      "sanitized_from": "ds_015",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_016",
+      "contract_file": "contracts/sn_ds_016.sol",
+      "metadata_file": "metadata/sn_ds_016.json",
+      "original_contract_file": "contracts/ds_016.sol",
+      "sanitized_from": "ds_016",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_017",
+      "contract_file": "contracts/sn_ds_017.sol",
+      "metadata_file": "metadata/sn_ds_017.json",
+      "original_contract_file": "contracts/ds_017.sol",
+      "sanitized_from": "ds_017",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_018",
+      "contract_file": "contracts/sn_ds_018.sol",
+      "metadata_file": "metadata/sn_ds_018.json",
+      "original_contract_file": "contracts/ds_018.sol",
+      "sanitized_from": "ds_018",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_019",
+      "contract_file": "contracts/sn_ds_019.sol",
+      "metadata_file": "metadata/sn_ds_019.json",
+      "original_contract_file": "contracts/ds_019.sol",
+      "sanitized_from": "ds_019",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_020",
+      "contract_file": "contracts/sn_ds_020.sol",
+      "metadata_file": "metadata/sn_ds_020.json",
+      "original_contract_file": "contracts/ds_020.sol",
+      "sanitized_from": "ds_020",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_021",
+      "contract_file": "contracts/sn_ds_021.sol",
+      "metadata_file": "metadata/sn_ds_021.json",
+      "original_contract_file": "contracts/ds_021.sol",
+      "sanitized_from": "ds_021",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_022",
+      "contract_file": "contracts/sn_ds_022.sol",
+      "metadata_file": "metadata/sn_ds_022.json",
+      "original_contract_file": "contracts/ds_022.sol",
+      "sanitized_from": "ds_022",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_023",
+      "contract_file": "contracts/sn_ds_023.sol",
+      "metadata_file": "metadata/sn_ds_023.json",
+      "original_contract_file": "contracts/ds_023.sol",
+      "sanitized_from": "ds_023",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_024",
+      "contract_file": "contracts/sn_ds_024.sol",
+      "metadata_file": "metadata/sn_ds_024.json",
+      "original_contract_file": "contracts/ds_024.sol",
+      "sanitized_from": "ds_024",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_025",
+      "contract_file": "contracts/sn_ds_025.sol",
+      "metadata_file": "metadata/sn_ds_025.json",
+      "original_contract_file": "contracts/ds_025.sol",
+      "sanitized_from": "ds_025",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_026",
+      "contract_file": "contracts/sn_ds_026.sol",
+      "metadata_file": "metadata/sn_ds_026.json",
+      "original_contract_file": "contracts/ds_026.sol",
+      "sanitized_from": "ds_026",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_027",
+      "contract_file": "contracts/sn_ds_027.sol",
+      "metadata_file": "metadata/sn_ds_027.json",
+      "original_contract_file": "contracts/ds_027.sol",
+      "sanitized_from": "ds_027",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_028",
+      "contract_file": "contracts/sn_ds_028.sol",
+      "metadata_file": "metadata/sn_ds_028.json",
+      "original_contract_file": "contracts/ds_028.sol",
+      "sanitized_from": "ds_028",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_029",
+      "contract_file": "contracts/sn_ds_029.sol",
+      "metadata_file": "metadata/sn_ds_029.json",
+      "original_contract_file": "contracts/ds_029.sol",
+      "sanitized_from": "ds_029",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_030",
+      "contract_file": "contracts/sn_ds_030.sol",
+      "metadata_file": "metadata/sn_ds_030.json",
+      "original_contract_file": "contracts/ds_030.sol",
+      "sanitized_from": "ds_030",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_031",
+      "contract_file": "contracts/sn_ds_031.sol",
+      "metadata_file": "metadata/sn_ds_031.json",
+      "original_contract_file": "contracts/ds_031.sol",
+      "sanitized_from": "ds_031",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_032",
+      "contract_file": "contracts/sn_ds_032.sol",
+      "metadata_file": "metadata/sn_ds_032.json",
+      "original_contract_file": "contracts/ds_032.sol",
+      "sanitized_from": "ds_032",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_033",
+      "contract_file": "contracts/sn_ds_033.sol",
+      "metadata_file": "metadata/sn_ds_033.json",
+      "original_contract_file": "contracts/ds_033.sol",
+      "sanitized_from": "ds_033",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_034",
+      "contract_file": "contracts/sn_ds_034.sol",
+      "metadata_file": "metadata/sn_ds_034.json",
+      "original_contract_file": "contracts/ds_034.sol",
+      "sanitized_from": "ds_034",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_035",
+      "contract_file": "contracts/sn_ds_035.sol",
+      "metadata_file": "metadata/sn_ds_035.json",
+      "original_contract_file": "contracts/ds_035.sol",
+      "sanitized_from": "ds_035",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_036",
+      "contract_file": "contracts/sn_ds_036.sol",
+      "metadata_file": "metadata/sn_ds_036.json",
+      "original_contract_file": "contracts/ds_036.sol",
+      "sanitized_from": "ds_036",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_037",
+      "contract_file": "contracts/sn_ds_037.sol",
+      "metadata_file": "metadata/sn_ds_037.json",
+      "original_contract_file": "contracts/ds_037.sol",
+      "sanitized_from": "ds_037",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_038",
+      "contract_file": "contracts/sn_ds_038.sol",
+      "metadata_file": "metadata/sn_ds_038.json",
+      "original_contract_file": "contracts/ds_038.sol",
+      "sanitized_from": "ds_038",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_039",
+      "contract_file": "contracts/sn_ds_039.sol",
+      "metadata_file": "metadata/sn_ds_039.json",
+      "original_contract_file": "contracts/ds_039.sol",
+      "sanitized_from": "ds_039",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_040",
+      "contract_file": "contracts/sn_ds_040.sol",
+      "metadata_file": "metadata/sn_ds_040.json",
+      "original_contract_file": "contracts/ds_040.sol",
+      "sanitized_from": "ds_040",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_041",
+      "contract_file": "contracts/sn_ds_041.sol",
+      "metadata_file": "metadata/sn_ds_041.json",
+      "original_contract_file": "contracts/ds_041.sol",
+      "sanitized_from": "ds_041",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_042",
+      "contract_file": "contracts/sn_ds_042.sol",
+      "metadata_file": "metadata/sn_ds_042.json",
+      "original_contract_file": "contracts/ds_042.sol",
+      "sanitized_from": "ds_042",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_043",
+      "contract_file": "contracts/sn_ds_043.sol",
+      "metadata_file": "metadata/sn_ds_043.json",
+      "original_contract_file": "contracts/ds_043.sol",
+      "sanitized_from": "ds_043",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_044",
+      "contract_file": "contracts/sn_ds_044.sol",
+      "metadata_file": "metadata/sn_ds_044.json",
+      "original_contract_file": "contracts/ds_044.sol",
+      "sanitized_from": "ds_044",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_045",
+      "contract_file": "contracts/sn_ds_045.sol",
+      "metadata_file": "metadata/sn_ds_045.json",
+      "original_contract_file": "contracts/ds_045.sol",
+      "sanitized_from": "ds_045",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_046",
+      "contract_file": "contracts/sn_ds_046.sol",
+      "metadata_file": "metadata/sn_ds_046.json",
+      "original_contract_file": "contracts/ds_046.sol",
+      "sanitized_from": "ds_046",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_047",
+      "contract_file": "contracts/sn_ds_047.sol",
+      "metadata_file": "metadata/sn_ds_047.json",
+      "original_contract_file": "contracts/ds_047.sol",
+      "sanitized_from": "ds_047",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_048",
+      "contract_file": "contracts/sn_ds_048.sol",
+      "metadata_file": "metadata/sn_ds_048.json",
+      "original_contract_file": "contracts/ds_048.sol",
+      "sanitized_from": "ds_048",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_049",
+      "contract_file": "contracts/sn_ds_049.sol",
+      "metadata_file": "metadata/sn_ds_049.json",
+      "original_contract_file": "contracts/ds_049.sol",
+      "sanitized_from": "ds_049",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_050",
+      "contract_file": "contracts/sn_ds_050.sol",
+      "metadata_file": "metadata/sn_ds_050.json",
+      "original_contract_file": "contracts/ds_050.sol",
+      "sanitized_from": "ds_050",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_051",
+      "contract_file": "contracts/sn_ds_051.sol",
+      "metadata_file": "metadata/sn_ds_051.json",
+      "original_contract_file": "contracts/ds_051.sol",
+      "sanitized_from": "ds_051",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_052",
+      "contract_file": "contracts/sn_ds_052.sol",
+      "metadata_file": "metadata/sn_ds_052.json",
+      "original_contract_file": "contracts/ds_052.sol",
+      "sanitized_from": "ds_052",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_053",
+      "contract_file": "contracts/sn_ds_053.sol",
+      "metadata_file": "metadata/sn_ds_053.json",
+      "original_contract_file": "contracts/ds_053.sol",
+      "sanitized_from": "ds_053",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_054",
+      "contract_file": "contracts/sn_ds_054.sol",
+      "metadata_file": "metadata/sn_ds_054.json",
+      "original_contract_file": "contracts/ds_054.sol",
+      "sanitized_from": "ds_054",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_055",
+      "contract_file": "contracts/sn_ds_055.sol",
+      "metadata_file": "metadata/sn_ds_055.json",
+      "original_contract_file": "contracts/ds_055.sol",
+      "sanitized_from": "ds_055",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_056",
+      "contract_file": "contracts/sn_ds_056.sol",
+      "metadata_file": "metadata/sn_ds_056.json",
+      "original_contract_file": "contracts/ds_056.sol",
+      "sanitized_from": "ds_056",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_057",
+      "contract_file": "contracts/sn_ds_057.sol",
+      "metadata_file": "metadata/sn_ds_057.json",
+      "original_contract_file": "contracts/ds_057.sol",
+      "sanitized_from": "ds_057",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_058",
+      "contract_file": "contracts/sn_ds_058.sol",
+      "metadata_file": "metadata/sn_ds_058.json",
+      "original_contract_file": "contracts/ds_058.sol",
+      "sanitized_from": "ds_058",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_059",
+      "contract_file": "contracts/sn_ds_059.sol",
+      "metadata_file": "metadata/sn_ds_059.json",
+      "original_contract_file": "contracts/ds_059.sol",
+      "sanitized_from": "ds_059",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_060",
+      "contract_file": "contracts/sn_ds_060.sol",
+      "metadata_file": "metadata/sn_ds_060.json",
+      "original_contract_file": "contracts/ds_060.sol",
+      "sanitized_from": "ds_060",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_061",
+      "contract_file": "contracts/sn_ds_061.sol",
+      "metadata_file": "metadata/sn_ds_061.json",
+      "original_contract_file": "contracts/ds_061.sol",
+      "sanitized_from": "ds_061",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_062",
+      "contract_file": "contracts/sn_ds_062.sol",
+      "metadata_file": "metadata/sn_ds_062.json",
+      "original_contract_file": "contracts/ds_062.sol",
+      "sanitized_from": "ds_062",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_063",
+      "contract_file": "contracts/sn_ds_063.sol",
+      "metadata_file": "metadata/sn_ds_063.json",
+      "original_contract_file": "contracts/ds_063.sol",
+      "sanitized_from": "ds_063",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_064",
+      "contract_file": "contracts/sn_ds_064.sol",
+      "metadata_file": "metadata/sn_ds_064.json",
+      "original_contract_file": "contracts/ds_064.sol",
+      "sanitized_from": "ds_064",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_065",
+      "contract_file": "contracts/sn_ds_065.sol",
+      "metadata_file": "metadata/sn_ds_065.json",
+      "original_contract_file": "contracts/ds_065.sol",
+      "sanitized_from": "ds_065",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_066",
+      "contract_file": "contracts/sn_ds_066.sol",
+      "metadata_file": "metadata/sn_ds_066.json",
+      "original_contract_file": "contracts/ds_066.sol",
+      "sanitized_from": "ds_066",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_067",
+      "contract_file": "contracts/sn_ds_067.sol",
+      "metadata_file": "metadata/sn_ds_067.json",
+      "original_contract_file": "contracts/ds_067.sol",
+      "sanitized_from": "ds_067",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_068",
+      "contract_file": "contracts/sn_ds_068.sol",
+      "metadata_file": "metadata/sn_ds_068.json",
+      "original_contract_file": "contracts/ds_068.sol",
+      "sanitized_from": "ds_068",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_069",
+      "contract_file": "contracts/sn_ds_069.sol",
+      "metadata_file": "metadata/sn_ds_069.json",
+      "original_contract_file": "contracts/ds_069.sol",
+      "sanitized_from": "ds_069",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_070",
+      "contract_file": "contracts/sn_ds_070.sol",
+      "metadata_file": "metadata/sn_ds_070.json",
+      "original_contract_file": "contracts/ds_070.sol",
+      "sanitized_from": "ds_070",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_071",
+      "contract_file": "contracts/sn_ds_071.sol",
+      "metadata_file": "metadata/sn_ds_071.json",
+      "original_contract_file": "contracts/ds_071.sol",
+      "sanitized_from": "ds_071",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_072",
+      "contract_file": "contracts/sn_ds_072.sol",
+      "metadata_file": "metadata/sn_ds_072.json",
+      "original_contract_file": "contracts/ds_072.sol",
+      "sanitized_from": "ds_072",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_073",
+      "contract_file": "contracts/sn_ds_073.sol",
+      "metadata_file": "metadata/sn_ds_073.json",
+      "original_contract_file": "contracts/ds_073.sol",
+      "sanitized_from": "ds_073",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_074",
+      "contract_file": "contracts/sn_ds_074.sol",
+      "metadata_file": "metadata/sn_ds_074.json",
+      "original_contract_file": "contracts/ds_074.sol",
+      "sanitized_from": "ds_074",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_075",
+      "contract_file": "contracts/sn_ds_075.sol",
+      "metadata_file": "metadata/sn_ds_075.json",
+      "original_contract_file": "contracts/ds_075.sol",
+      "sanitized_from": "ds_075",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_076",
+      "contract_file": "contracts/sn_ds_076.sol",
+      "metadata_file": "metadata/sn_ds_076.json",
+      "original_contract_file": "contracts/ds_076.sol",
+      "sanitized_from": "ds_076",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_077",
+      "contract_file": "contracts/sn_ds_077.sol",
+      "metadata_file": "metadata/sn_ds_077.json",
+      "original_contract_file": "contracts/ds_077.sol",
+      "sanitized_from": "ds_077",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_078",
+      "contract_file": "contracts/sn_ds_078.sol",
+      "metadata_file": "metadata/sn_ds_078.json",
+      "original_contract_file": "contracts/ds_078.sol",
+      "sanitized_from": "ds_078",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_079",
+      "contract_file": "contracts/sn_ds_079.sol",
+      "metadata_file": "metadata/sn_ds_079.json",
+      "original_contract_file": "contracts/ds_079.sol",
+      "sanitized_from": "ds_079",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_080",
+      "contract_file": "contracts/sn_ds_080.sol",
+      "metadata_file": "metadata/sn_ds_080.json",
+      "original_contract_file": "contracts/ds_080.sol",
+      "sanitized_from": "ds_080",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_081",
+      "contract_file": "contracts/sn_ds_081.sol",
+      "metadata_file": "metadata/sn_ds_081.json",
+      "original_contract_file": "contracts/ds_081.sol",
+      "sanitized_from": "ds_081",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_082",
+      "contract_file": "contracts/sn_ds_082.sol",
+      "metadata_file": "metadata/sn_ds_082.json",
+      "original_contract_file": "contracts/ds_082.sol",
+      "sanitized_from": "ds_082",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_083",
+      "contract_file": "contracts/sn_ds_083.sol",
+      "metadata_file": "metadata/sn_ds_083.json",
+      "original_contract_file": "contracts/ds_083.sol",
+      "sanitized_from": "ds_083",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_084",
+      "contract_file": "contracts/sn_ds_084.sol",
+      "metadata_file": "metadata/sn_ds_084.json",
+      "original_contract_file": "contracts/ds_084.sol",
+      "sanitized_from": "ds_084",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_085",
+      "contract_file": "contracts/sn_ds_085.sol",
+      "metadata_file": "metadata/sn_ds_085.json",
+      "original_contract_file": "contracts/ds_085.sol",
+      "sanitized_from": "ds_085",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_086",
+      "contract_file": "contracts/sn_ds_086.sol",
+      "metadata_file": "metadata/sn_ds_086.json",
+      "original_contract_file": "contracts/ds_086.sol",
+      "sanitized_from": "ds_086",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_087",
+      "contract_file": "contracts/sn_ds_087.sol",
+      "metadata_file": "metadata/sn_ds_087.json",
+      "original_contract_file": "contracts/ds_087.sol",
+      "sanitized_from": "ds_087",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_088",
+      "contract_file": "contracts/sn_ds_088.sol",
+      "metadata_file": "metadata/sn_ds_088.json",
+      "original_contract_file": "contracts/ds_088.sol",
+      "sanitized_from": "ds_088",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_089",
+      "contract_file": "contracts/sn_ds_089.sol",
+      "metadata_file": "metadata/sn_ds_089.json",
+      "original_contract_file": "contracts/ds_089.sol",
+      "sanitized_from": "ds_089",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_090",
+      "contract_file": "contracts/sn_ds_090.sol",
+      "metadata_file": "metadata/sn_ds_090.json",
+      "original_contract_file": "contracts/ds_090.sol",
+      "sanitized_from": "ds_090",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_091",
+      "contract_file": "contracts/sn_ds_091.sol",
+      "metadata_file": "metadata/sn_ds_091.json",
+      "original_contract_file": "contracts/ds_091.sol",
+      "sanitized_from": "ds_091",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_092",
+      "contract_file": "contracts/sn_ds_092.sol",
+      "metadata_file": "metadata/sn_ds_092.json",
+      "original_contract_file": "contracts/ds_092.sol",
+      "sanitized_from": "ds_092",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_093",
+      "contract_file": "contracts/sn_ds_093.sol",
+      "metadata_file": "metadata/sn_ds_093.json",
+      "original_contract_file": "contracts/ds_093.sol",
+      "sanitized_from": "ds_093",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_094",
+      "contract_file": "contracts/sn_ds_094.sol",
+      "metadata_file": "metadata/sn_ds_094.json",
+      "original_contract_file": "contracts/ds_094.sol",
+      "sanitized_from": "ds_094",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_095",
+      "contract_file": "contracts/sn_ds_095.sol",
+      "metadata_file": "metadata/sn_ds_095.json",
+      "original_contract_file": "contracts/ds_095.sol",
+      "sanitized_from": "ds_095",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_096",
+      "contract_file": "contracts/sn_ds_096.sol",
+      "metadata_file": "metadata/sn_ds_096.json",
+      "original_contract_file": "contracts/ds_096.sol",
+      "sanitized_from": "ds_096",
+      "is_vulnerable": true,
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_097",
+      "contract_file": "contracts/sn_ds_097.sol",
+      "metadata_file": "metadata/sn_ds_097.json",
+      "original_contract_file": "contracts/ds_097.sol",
+      "sanitized_from": "ds_097",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_098",
+      "contract_file": "contracts/sn_ds_098.sol",
+      "metadata_file": "metadata/sn_ds_098.json",
+      "original_contract_file": "contracts/ds_098.sol",
+      "sanitized_from": "ds_098",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_099",
+      "contract_file": "contracts/sn_ds_099.sol",
+      "metadata_file": "metadata/sn_ds_099.json",
+      "original_contract_file": "contracts/ds_099.sol",
+      "sanitized_from": "ds_099",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_100",
+      "contract_file": "contracts/sn_ds_100.sol",
+      "metadata_file": "metadata/sn_ds_100.json",
+      "original_contract_file": "contracts/ds_100.sol",
+      "sanitized_from": "ds_100",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_101",
+      "contract_file": "contracts/sn_ds_101.sol",
+      "metadata_file": "metadata/sn_ds_101.json",
+      "original_contract_file": "contracts/ds_101.sol",
+      "sanitized_from": "ds_101",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_102",
+      "contract_file": "contracts/sn_ds_102.sol",
+      "metadata_file": "metadata/sn_ds_102.json",
+      "original_contract_file": "contracts/ds_102.sol",
+      "sanitized_from": "ds_102",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_103",
+      "contract_file": "contracts/sn_ds_103.sol",
+      "metadata_file": "metadata/sn_ds_103.json",
+      "original_contract_file": "contracts/ds_103.sol",
+      "sanitized_from": "ds_103",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_104",
+      "contract_file": "contracts/sn_ds_104.sol",
+      "metadata_file": "metadata/sn_ds_104.json",
+      "original_contract_file": "contracts/ds_104.sol",
+      "sanitized_from": "ds_104",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_105",
+      "contract_file": "contracts/sn_ds_105.sol",
+      "metadata_file": "metadata/sn_ds_105.json",
+      "original_contract_file": "contracts/ds_105.sol",
+      "sanitized_from": "ds_105",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_106",
+      "contract_file": "contracts/sn_ds_106.sol",
+      "metadata_file": "metadata/sn_ds_106.json",
+      "original_contract_file": "contracts/ds_106.sol",
+      "sanitized_from": "ds_106",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_107",
+      "contract_file": "contracts/sn_ds_107.sol",
+      "metadata_file": "metadata/sn_ds_107.json",
+      "original_contract_file": "contracts/ds_107.sol",
+      "sanitized_from": "ds_107",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_108",
+      "contract_file": "contracts/sn_ds_108.sol",
+      "metadata_file": "metadata/sn_ds_108.json",
+      "original_contract_file": "contracts/ds_108.sol",
+      "sanitized_from": "ds_108",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_109",
+      "contract_file": "contracts/sn_ds_109.sol",
+      "metadata_file": "metadata/sn_ds_109.json",
+      "original_contract_file": "contracts/ds_109.sol",
+      "sanitized_from": "ds_109",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_110",
+      "contract_file": "contracts/sn_ds_110.sol",
+      "metadata_file": "metadata/sn_ds_110.json",
+      "original_contract_file": "contracts/ds_110.sol",
+      "sanitized_from": "ds_110",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_111",
+      "contract_file": "contracts/sn_ds_111.sol",
+      "metadata_file": "metadata/sn_ds_111.json",
+      "original_contract_file": "contracts/ds_111.sol",
+      "sanitized_from": "ds_111",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_112",
+      "contract_file": "contracts/sn_ds_112.sol",
+      "metadata_file": "metadata/sn_ds_112.json",
+      "original_contract_file": "contracts/ds_112.sol",
+      "sanitized_from": "ds_112",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_113",
+      "contract_file": "contracts/sn_ds_113.sol",
+      "metadata_file": "metadata/sn_ds_113.json",
+      "original_contract_file": "contracts/ds_113.sol",
+      "sanitized_from": "ds_113",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_114",
+      "contract_file": "contracts/sn_ds_114.sol",
+      "metadata_file": "metadata/sn_ds_114.json",
+      "original_contract_file": "contracts/ds_114.sol",
+      "sanitized_from": "ds_114",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_115",
+      "contract_file": "contracts/sn_ds_115.sol",
+      "metadata_file": "metadata/sn_ds_115.json",
+      "original_contract_file": "contracts/ds_115.sol",
+      "sanitized_from": "ds_115",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_116",
+      "contract_file": "contracts/sn_ds_116.sol",
+      "metadata_file": "metadata/sn_ds_116.json",
+      "original_contract_file": "contracts/ds_116.sol",
+      "sanitized_from": "ds_116",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_117",
+      "contract_file": "contracts/sn_ds_117.sol",
+      "metadata_file": "metadata/sn_ds_117.json",
+      "original_contract_file": "contracts/ds_117.sol",
+      "sanitized_from": "ds_117",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_118",
+      "contract_file": "contracts/sn_ds_118.sol",
+      "metadata_file": "metadata/sn_ds_118.json",
+      "original_contract_file": "contracts/ds_118.sol",
+      "sanitized_from": "ds_118",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_119",
+      "contract_file": "contracts/sn_ds_119.sol",
+      "metadata_file": "metadata/sn_ds_119.json",
+      "original_contract_file": "contracts/ds_119.sol",
+      "sanitized_from": "ds_119",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_120",
+      "contract_file": "contracts/sn_ds_120.sol",
+      "metadata_file": "metadata/sn_ds_120.json",
+      "original_contract_file": "contracts/ds_120.sol",
+      "sanitized_from": "ds_120",
+      "is_vulnerable": true,
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_121",
+      "contract_file": "contracts/sn_ds_121.sol",
+      "metadata_file": "metadata/sn_ds_121.json",
+      "original_contract_file": "contracts/ds_121.sol",
+      "sanitized_from": "ds_121",
+      "is_vulnerable": true,
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_122",
+      "contract_file": "contracts/sn_ds_122.sol",
+      "metadata_file": "metadata/sn_ds_122.json",
+      "original_contract_file": "contracts/ds_122.sol",
+      "sanitized_from": "ds_122",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_123",
+      "contract_file": "contracts/sn_ds_123.sol",
+      "metadata_file": "metadata/sn_ds_123.json",
+      "original_contract_file": "contracts/ds_123.sol",
+      "sanitized_from": "ds_123",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_124",
+      "contract_file": "contracts/sn_ds_124.sol",
+      "metadata_file": "metadata/sn_ds_124.json",
+      "original_contract_file": "contracts/ds_124.sol",
+      "sanitized_from": "ds_124",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_125",
+      "contract_file": "contracts/sn_ds_125.sol",
+      "metadata_file": "metadata/sn_ds_125.json",
+      "original_contract_file": "contracts/ds_125.sol",
+      "sanitized_from": "ds_125",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_126",
+      "contract_file": "contracts/sn_ds_126.sol",
+      "metadata_file": "metadata/sn_ds_126.json",
+      "original_contract_file": "contracts/ds_126.sol",
+      "sanitized_from": "ds_126",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_127",
+      "contract_file": "contracts/sn_ds_127.sol",
+      "metadata_file": "metadata/sn_ds_127.json",
+      "original_contract_file": "contracts/ds_127.sol",
+      "sanitized_from": "ds_127",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_128",
+      "contract_file": "contracts/sn_ds_128.sol",
+      "metadata_file": "metadata/sn_ds_128.json",
+      "original_contract_file": "contracts/ds_128.sol",
+      "sanitized_from": "ds_128",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_129",
+      "contract_file": "contracts/sn_ds_129.sol",
+      "metadata_file": "metadata/sn_ds_129.json",
+      "original_contract_file": "contracts/ds_129.sol",
+      "sanitized_from": "ds_129",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_130",
+      "contract_file": "contracts/sn_ds_130.sol",
+      "metadata_file": "metadata/sn_ds_130.json",
+      "original_contract_file": "contracts/ds_130.sol",
+      "sanitized_from": "ds_130",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_131",
+      "contract_file": "contracts/sn_ds_131.sol",
+      "metadata_file": "metadata/sn_ds_131.json",
+      "original_contract_file": "contracts/ds_131.sol",
+      "sanitized_from": "ds_131",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_132",
+      "contract_file": "contracts/sn_ds_132.sol",
+      "metadata_file": "metadata/sn_ds_132.json",
+      "original_contract_file": "contracts/ds_132.sol",
+      "sanitized_from": "ds_132",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_133",
+      "contract_file": "contracts/sn_ds_133.sol",
+      "metadata_file": "metadata/sn_ds_133.json",
+      "original_contract_file": "contracts/ds_133.sol",
+      "sanitized_from": "ds_133",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_134",
+      "contract_file": "contracts/sn_ds_134.sol",
+      "metadata_file": "metadata/sn_ds_134.json",
+      "original_contract_file": "contracts/ds_134.sol",
+      "sanitized_from": "ds_134",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_135",
+      "contract_file": "contracts/sn_ds_135.sol",
+      "metadata_file": "metadata/sn_ds_135.json",
+      "original_contract_file": "contracts/ds_135.sol",
+      "sanitized_from": "ds_135",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_136",
+      "contract_file": "contracts/sn_ds_136.sol",
+      "metadata_file": "metadata/sn_ds_136.json",
+      "original_contract_file": "contracts/ds_136.sol",
+      "sanitized_from": "ds_136",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_137",
+      "contract_file": "contracts/sn_ds_137.sol",
+      "metadata_file": "metadata/sn_ds_137.json",
+      "original_contract_file": "contracts/ds_137.sol",
+      "sanitized_from": "ds_137",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_138",
+      "contract_file": "contracts/sn_ds_138.sol",
+      "metadata_file": "metadata/sn_ds_138.json",
+      "original_contract_file": "contracts/ds_138.sol",
+      "sanitized_from": "ds_138",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_139",
+      "contract_file": "contracts/sn_ds_139.sol",
+      "metadata_file": "metadata/sn_ds_139.json",
+      "original_contract_file": "contracts/ds_139.sol",
+      "sanitized_from": "ds_139",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_140",
+      "contract_file": "contracts/sn_ds_140.sol",
+      "metadata_file": "metadata/sn_ds_140.json",
+      "original_contract_file": "contracts/ds_140.sol",
+      "sanitized_from": "ds_140",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_141",
+      "contract_file": "contracts/sn_ds_141.sol",
+      "metadata_file": "metadata/sn_ds_141.json",
+      "original_contract_file": "contracts/ds_141.sol",
+      "sanitized_from": "ds_141",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_142",
+      "contract_file": "contracts/sn_ds_142.sol",
+      "metadata_file": "metadata/sn_ds_142.json",
+      "original_contract_file": "contracts/ds_142.sol",
+      "sanitized_from": "ds_142",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_143",
+      "contract_file": "contracts/sn_ds_143.sol",
+      "metadata_file": "metadata/sn_ds_143.json",
+      "original_contract_file": "contracts/ds_143.sol",
+      "sanitized_from": "ds_143",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_144",
+      "contract_file": "contracts/sn_ds_144.sol",
+      "metadata_file": "metadata/sn_ds_144.json",
+      "original_contract_file": "contracts/ds_144.sol",
+      "sanitized_from": "ds_144",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_145",
+      "contract_file": "contracts/sn_ds_145.sol",
+      "metadata_file": "metadata/sn_ds_145.json",
+      "original_contract_file": "contracts/ds_145.sol",
+      "sanitized_from": "ds_145",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_146",
+      "contract_file": "contracts/sn_ds_146.sol",
+      "metadata_file": "metadata/sn_ds_146.json",
+      "original_contract_file": "contracts/ds_146.sol",
+      "sanitized_from": "ds_146",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_147",
+      "contract_file": "contracts/sn_ds_147.sol",
+      "metadata_file": "metadata/sn_ds_147.json",
+      "original_contract_file": "contracts/ds_147.sol",
+      "sanitized_from": "ds_147",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_148",
+      "contract_file": "contracts/sn_ds_148.sol",
+      "metadata_file": "metadata/sn_ds_148.json",
+      "original_contract_file": "contracts/ds_148.sol",
+      "sanitized_from": "ds_148",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_149",
+      "contract_file": "contracts/sn_ds_149.sol",
+      "metadata_file": "metadata/sn_ds_149.json",
+      "original_contract_file": "contracts/ds_149.sol",
+      "sanitized_from": "ds_149",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_150",
+      "contract_file": "contracts/sn_ds_150.sol",
+      "metadata_file": "metadata/sn_ds_150.json",
+      "original_contract_file": "contracts/ds_150.sol",
+      "sanitized_from": "ds_150",
+      "is_vulnerable": true,
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_151",
+      "contract_file": "contracts/sn_ds_151.sol",
+      "metadata_file": "metadata/sn_ds_151.json",
+      "original_contract_file": "contracts/ds_151.sol",
+      "sanitized_from": "ds_151",
+      "is_vulnerable": true,
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_152",
+      "contract_file": "contracts/sn_ds_152.sol",
+      "metadata_file": "metadata/sn_ds_152.json",
+      "original_contract_file": "contracts/ds_152.sol",
+      "sanitized_from": "ds_152",
+      "is_vulnerable": true,
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_153",
+      "contract_file": "contracts/sn_ds_153.sol",
+      "metadata_file": "metadata/sn_ds_153.json",
+      "original_contract_file": "contracts/ds_153.sol",
+      "sanitized_from": "ds_153",
+      "is_vulnerable": true,
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_154",
+      "contract_file": "contracts/sn_ds_154.sol",
+      "metadata_file": "metadata/sn_ds_154.json",
+      "original_contract_file": "contracts/ds_154.sol",
+      "sanitized_from": "ds_154",
+      "is_vulnerable": true,
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_155",
+      "contract_file": "contracts/sn_ds_155.sol",
+      "metadata_file": "metadata/sn_ds_155.json",
+      "original_contract_file": "contracts/ds_155.sol",
+      "sanitized_from": "ds_155",
+      "is_vulnerable": true,
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_156",
+      "contract_file": "contracts/sn_ds_156.sol",
+      "metadata_file": "metadata/sn_ds_156.json",
+      "original_contract_file": "contracts/ds_156.sol",
+      "sanitized_from": "ds_156",
+      "is_vulnerable": true,
+      "vulnerability_type": "front_running",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_157",
+      "contract_file": "contracts/sn_ds_157.sol",
+      "metadata_file": "metadata/sn_ds_157.json",
+      "original_contract_file": "contracts/ds_157.sol",
+      "sanitized_from": "ds_157",
+      "is_vulnerable": true,
+      "vulnerability_type": "front_running",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_158",
+      "contract_file": "contracts/sn_ds_158.sol",
+      "metadata_file": "metadata/sn_ds_158.json",
+      "original_contract_file": "contracts/ds_158.sol",
+      "sanitized_from": "ds_158",
+      "is_vulnerable": true,
+      "vulnerability_type": "front_running",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_159",
+      "contract_file": "contracts/sn_ds_159.sol",
+      "metadata_file": "metadata/sn_ds_159.json",
+      "original_contract_file": "contracts/ds_159.sol",
+      "sanitized_from": "ds_159",
+      "is_vulnerable": true,
+      "vulnerability_type": "front_running",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_160",
+      "contract_file": "contracts/sn_ds_160.sol",
+      "metadata_file": "metadata/sn_ds_160.json",
+      "original_contract_file": "contracts/ds_160.sol",
+      "sanitized_from": "ds_160",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_161",
+      "contract_file": "contracts/sn_ds_161.sol",
+      "metadata_file": "metadata/sn_ds_161.json",
+      "original_contract_file": "contracts/ds_161.sol",
+      "sanitized_from": "ds_161",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_162",
+      "contract_file": "contracts/sn_ds_162.sol",
+      "metadata_file": "metadata/sn_ds_162.json",
+      "original_contract_file": "contracts/ds_162.sol",
+      "sanitized_from": "ds_162",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_163",
+      "contract_file": "contracts/sn_ds_163.sol",
+      "metadata_file": "metadata/sn_ds_163.json",
+      "original_contract_file": "contracts/ds_163.sol",
+      "sanitized_from": "ds_163",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_164",
+      "contract_file": "contracts/sn_ds_164.sol",
+      "metadata_file": "metadata/sn_ds_164.json",
+      "original_contract_file": "contracts/ds_164.sol",
+      "sanitized_from": "ds_164",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_165",
+      "contract_file": "contracts/sn_ds_165.sol",
+      "metadata_file": "metadata/sn_ds_165.json",
+      "original_contract_file": "contracts/ds_165.sol",
+      "sanitized_from": "ds_165",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_166",
+      "contract_file": "contracts/sn_ds_166.sol",
+      "metadata_file": "metadata/sn_ds_166.json",
+      "original_contract_file": "contracts/ds_166.sol",
+      "sanitized_from": "ds_166",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_167",
+      "contract_file": "contracts/sn_ds_167.sol",
+      "metadata_file": "metadata/sn_ds_167.json",
+      "original_contract_file": "contracts/ds_167.sol",
+      "sanitized_from": "ds_167",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_168",
+      "contract_file": "contracts/sn_ds_168.sol",
+      "metadata_file": "metadata/sn_ds_168.json",
+      "original_contract_file": "contracts/ds_168.sol",
+      "sanitized_from": "ds_168",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_169",
+      "contract_file": "contracts/sn_ds_169.sol",
+      "metadata_file": "metadata/sn_ds_169.json",
+      "original_contract_file": "contracts/ds_169.sol",
+      "sanitized_from": "ds_169",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_170",
+      "contract_file": "contracts/sn_ds_170.sol",
+      "metadata_file": "metadata/sn_ds_170.json",
+      "original_contract_file": "contracts/ds_170.sol",
+      "sanitized_from": "ds_170",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_171",
+      "contract_file": "contracts/sn_ds_171.sol",
+      "metadata_file": "metadata/sn_ds_171.json",
+      "original_contract_file": "contracts/ds_171.sol",
+      "sanitized_from": "ds_171",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_172",
+      "contract_file": "contracts/sn_ds_172.sol",
+      "metadata_file": "metadata/sn_ds_172.json",
+      "original_contract_file": "contracts/ds_172.sol",
+      "sanitized_from": "ds_172",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_173",
+      "contract_file": "contracts/sn_ds_173.sol",
+      "metadata_file": "metadata/sn_ds_173.json",
+      "original_contract_file": "contracts/ds_173.sol",
+      "sanitized_from": "ds_173",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_174",
+      "contract_file": "contracts/sn_ds_174.sol",
+      "metadata_file": "metadata/sn_ds_174.json",
+      "original_contract_file": "contracts/ds_174.sol",
+      "sanitized_from": "ds_174",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_175",
+      "contract_file": "contracts/sn_ds_175.rs",
+      "metadata_file": "metadata/sn_ds_175.json",
+      "original_contract_file": "contracts/ds_175.rs",
+      "sanitized_from": "ds_175",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_176",
+      "contract_file": "contracts/sn_ds_176.rs",
+      "metadata_file": "metadata/sn_ds_176.json",
+      "original_contract_file": "contracts/ds_176.rs",
+      "sanitized_from": "ds_176",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_177",
+      "contract_file": "contracts/sn_ds_177.rs",
+      "metadata_file": "metadata/sn_ds_177.json",
+      "original_contract_file": "contracts/ds_177.rs",
+      "sanitized_from": "ds_177",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_178",
+      "contract_file": "contracts/sn_ds_178.rs",
+      "metadata_file": "metadata/sn_ds_178.json",
+      "original_contract_file": "contracts/ds_178.rs",
+      "sanitized_from": "ds_178",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_179",
+      "contract_file": "contracts/sn_ds_179.rs",
+      "metadata_file": "metadata/sn_ds_179.json",
+      "original_contract_file": "contracts/ds_179.rs",
+      "sanitized_from": "ds_179",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_180",
+      "contract_file": "contracts/sn_ds_180.rs",
+      "metadata_file": "metadata/sn_ds_180.json",
+      "original_contract_file": "contracts/ds_180.rs",
+      "sanitized_from": "ds_180",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_181",
+      "contract_file": "contracts/sn_ds_181.sol",
+      "metadata_file": "metadata/sn_ds_181.json",
+      "original_contract_file": "contracts/ds_181.sol",
+      "sanitized_from": "ds_181",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_182",
+      "contract_file": "contracts/sn_ds_182.sol",
+      "metadata_file": "metadata/sn_ds_182.json",
+      "original_contract_file": "contracts/ds_182.sol",
+      "sanitized_from": "ds_182",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_183",
+      "contract_file": "contracts/sn_ds_183.sol",
+      "metadata_file": "metadata/sn_ds_183.json",
+      "original_contract_file": "contracts/ds_183.sol",
+      "sanitized_from": "ds_183",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_184",
+      "contract_file": "contracts/sn_ds_184.sol",
+      "metadata_file": "metadata/sn_ds_184.json",
+      "original_contract_file": "contracts/ds_184.sol",
+      "sanitized_from": "ds_184",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_185",
+      "contract_file": "contracts/sn_ds_185.sol",
+      "metadata_file": "metadata/sn_ds_185.json",
+      "original_contract_file": "contracts/ds_185.sol",
+      "sanitized_from": "ds_185",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_186",
+      "contract_file": "contracts/sn_ds_186.sol",
+      "metadata_file": "metadata/sn_ds_186.json",
+      "original_contract_file": "contracts/ds_186.sol",
+      "sanitized_from": "ds_186",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_187",
+      "contract_file": "contracts/sn_ds_187.sol",
+      "metadata_file": "metadata/sn_ds_187.json",
+      "original_contract_file": "contracts/ds_187.sol",
+      "sanitized_from": "ds_187",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_188",
+      "contract_file": "contracts/sn_ds_188.sol",
+      "metadata_file": "metadata/sn_ds_188.json",
+      "original_contract_file": "contracts/ds_188.sol",
+      "sanitized_from": "ds_188",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_189",
+      "contract_file": "contracts/sn_ds_189.sol",
+      "metadata_file": "metadata/sn_ds_189.json",
+      "original_contract_file": "contracts/ds_189.sol",
+      "sanitized_from": "ds_189",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_190",
+      "contract_file": "contracts/sn_ds_190.sol",
+      "metadata_file": "metadata/sn_ds_190.json",
+      "original_contract_file": "contracts/ds_190.sol",
+      "sanitized_from": "ds_190",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_191",
+      "contract_file": "contracts/sn_ds_191.sol",
+      "metadata_file": "metadata/sn_ds_191.json",
+      "original_contract_file": "contracts/ds_191.sol",
+      "sanitized_from": "ds_191",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_192",
+      "contract_file": "contracts/sn_ds_192.sol",
+      "metadata_file": "metadata/sn_ds_192.json",
+      "original_contract_file": "contracts/ds_192.sol",
+      "sanitized_from": "ds_192",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_193",
+      "contract_file": "contracts/sn_ds_193.sol",
+      "metadata_file": "metadata/sn_ds_193.json",
+      "original_contract_file": "contracts/ds_193.sol",
+      "sanitized_from": "ds_193",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_194",
+      "contract_file": "contracts/sn_ds_194.sol",
+      "metadata_file": "metadata/sn_ds_194.json",
+      "original_contract_file": "contracts/ds_194.sol",
+      "sanitized_from": "ds_194",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_195",
+      "contract_file": "contracts/sn_ds_195.sol",
+      "metadata_file": "metadata/sn_ds_195.json",
+      "original_contract_file": "contracts/ds_195.sol",
+      "sanitized_from": "ds_195",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_196",
+      "contract_file": "contracts/sn_ds_196.sol",
+      "metadata_file": "metadata/sn_ds_196.json",
+      "original_contract_file": "contracts/ds_196.sol",
+      "sanitized_from": "ds_196",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_197",
+      "contract_file": "contracts/sn_ds_197.sol",
+      "metadata_file": "metadata/sn_ds_197.json",
+      "original_contract_file": "contracts/ds_197.sol",
+      "sanitized_from": "ds_197",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_198",
+      "contract_file": "contracts/sn_ds_198.sol",
+      "metadata_file": "metadata/sn_ds_198.json",
+      "original_contract_file": "contracts/ds_198.sol",
+      "sanitized_from": "ds_198",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_199",
+      "contract_file": "contracts/sn_ds_199.sol",
+      "metadata_file": "metadata/sn_ds_199.json",
+      "original_contract_file": "contracts/ds_199.sol",
+      "sanitized_from": "ds_199",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_200",
+      "contract_file": "contracts/sn_ds_200.sol",
+      "metadata_file": "metadata/sn_ds_200.json",
+      "original_contract_file": "contracts/ds_200.sol",
+      "sanitized_from": "ds_200",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_201",
+      "contract_file": "contracts/sn_ds_201.sol",
+      "metadata_file": "metadata/sn_ds_201.json",
+      "original_contract_file": "contracts/ds_201.sol",
+      "sanitized_from": "ds_201",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_202",
+      "contract_file": "contracts/sn_ds_202.sol",
+      "metadata_file": "metadata/sn_ds_202.json",
+      "original_contract_file": "contracts/ds_202.sol",
+      "sanitized_from": "ds_202",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_203",
+      "contract_file": "contracts/sn_ds_203.sol",
+      "metadata_file": "metadata/sn_ds_203.json",
+      "original_contract_file": "contracts/ds_203.sol",
+      "sanitized_from": "ds_203",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_204",
+      "contract_file": "contracts/sn_ds_204.sol",
+      "metadata_file": "metadata/sn_ds_204.json",
+      "original_contract_file": "contracts/ds_204.sol",
+      "sanitized_from": "ds_204",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_205",
+      "contract_file": "contracts/sn_ds_205.sol",
+      "metadata_file": "metadata/sn_ds_205.json",
+      "original_contract_file": "contracts/ds_205.sol",
+      "sanitized_from": "ds_205",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_206",
+      "contract_file": "contracts/sn_ds_206.sol",
+      "metadata_file": "metadata/sn_ds_206.json",
+      "original_contract_file": "contracts/ds_206.sol",
+      "sanitized_from": "ds_206",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "low"
+    },
+    {
+      "id": "sn_ds_207",
+      "contract_file": "contracts/sn_ds_207.sol",
+      "metadata_file": "metadata/sn_ds_207.json",
+      "original_contract_file": "contracts/ds_207.sol",
+      "sanitized_from": "ds_207",
+      "is_vulnerable": true,
+      "vulnerability_type": "front_running",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_208",
+      "contract_file": "contracts/sn_ds_208.sol",
+      "metadata_file": "metadata/sn_ds_208.json",
+      "original_contract_file": "contracts/ds_208.sol",
+      "sanitized_from": "ds_208",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_209",
+      "contract_file": "contracts/sn_ds_209.sol",
+      "metadata_file": "metadata/sn_ds_209.json",
+      "original_contract_file": "contracts/ds_209.sol",
+      "sanitized_from": "ds_209",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_210",
+      "contract_file": "contracts/sn_ds_210.sol",
+      "metadata_file": "metadata/sn_ds_210.json",
+      "original_contract_file": "contracts/ds_210.sol",
+      "sanitized_from": "ds_210",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_211",
+      "contract_file": "contracts/sn_ds_211.sol",
+      "metadata_file": "metadata/sn_ds_211.json",
+      "original_contract_file": "contracts/ds_211.sol",
+      "sanitized_from": "ds_211",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_212",
+      "contract_file": "contracts/sn_ds_212.sol",
+      "metadata_file": "metadata/sn_ds_212.json",
+      "original_contract_file": "contracts/ds_212.sol",
+      "sanitized_from": "ds_212",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_213",
+      "contract_file": "contracts/sn_ds_213.sol",
+      "metadata_file": "metadata/sn_ds_213.json",
+      "original_contract_file": "contracts/ds_213.sol",
+      "sanitized_from": "ds_213",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_214",
+      "contract_file": "contracts/sn_ds_214.sol",
+      "metadata_file": "metadata/sn_ds_214.json",
+      "original_contract_file": "contracts/ds_214.sol",
+      "sanitized_from": "ds_214",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_215",
+      "contract_file": "contracts/sn_ds_215.sol",
+      "metadata_file": "metadata/sn_ds_215.json",
+      "original_contract_file": "contracts/ds_215.sol",
+      "sanitized_from": "ds_215",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_216",
+      "contract_file": "contracts/sn_ds_216.sol",
+      "metadata_file": "metadata/sn_ds_216.json",
+      "original_contract_file": "contracts/ds_216.sol",
+      "sanitized_from": "ds_216",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_217",
+      "contract_file": "contracts/sn_ds_217.rs",
+      "metadata_file": "metadata/sn_ds_217.json",
+      "original_contract_file": "contracts/ds_217.rs",
+      "sanitized_from": "ds_217",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_218",
+      "contract_file": "contracts/sn_ds_218.rs",
+      "metadata_file": "metadata/sn_ds_218.json",
+      "original_contract_file": "contracts/ds_218.rs",
+      "sanitized_from": "ds_218",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_219",
+      "contract_file": "contracts/sn_ds_219.rs",
+      "metadata_file": "metadata/sn_ds_219.json",
+      "original_contract_file": "contracts/ds_219.rs",
+      "sanitized_from": "ds_219",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_220",
+      "contract_file": "contracts/sn_ds_220.rs",
+      "metadata_file": "metadata/sn_ds_220.json",
+      "original_contract_file": "contracts/ds_220.rs",
+      "sanitized_from": "ds_220",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_221",
+      "contract_file": "contracts/sn_ds_221.sol",
+      "metadata_file": "metadata/sn_ds_221.json",
+      "original_contract_file": "contracts/ds_221.sol",
+      "sanitized_from": "ds_221",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_222",
+      "contract_file": "contracts/sn_ds_222.sol",
+      "metadata_file": "metadata/sn_ds_222.json",
+      "original_contract_file": "contracts/ds_222.sol",
+      "sanitized_from": "ds_222",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_223",
+      "contract_file": "contracts/sn_ds_223.sol",
+      "metadata_file": "metadata/sn_ds_223.json",
+      "original_contract_file": "contracts/ds_223.sol",
+      "sanitized_from": "ds_223",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_224",
+      "contract_file": "contracts/sn_ds_224.sol",
+      "metadata_file": "metadata/sn_ds_224.json",
+      "original_contract_file": "contracts/ds_224.sol",
+      "sanitized_from": "ds_224",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_225",
+      "contract_file": "contracts/sn_ds_225.sol",
+      "metadata_file": "metadata/sn_ds_225.json",
+      "original_contract_file": "contracts/ds_225.sol",
+      "sanitized_from": "ds_225",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_226",
+      "contract_file": "contracts/sn_ds_226.sol",
+      "metadata_file": "metadata/sn_ds_226.json",
+      "original_contract_file": "contracts/ds_226.sol",
+      "sanitized_from": "ds_226",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_227",
+      "contract_file": "contracts/sn_ds_227.sol",
+      "metadata_file": "metadata/sn_ds_227.json",
+      "original_contract_file": "contracts/ds_227.sol",
+      "sanitized_from": "ds_227",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_228",
+      "contract_file": "contracts/sn_ds_228.sol",
+      "metadata_file": "metadata/sn_ds_228.json",
+      "original_contract_file": "contracts/ds_228.sol",
+      "sanitized_from": "ds_228",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_229",
+      "contract_file": "contracts/sn_ds_229.sol",
+      "metadata_file": "metadata/sn_ds_229.json",
+      "original_contract_file": "contracts/ds_229.sol",
+      "sanitized_from": "ds_229",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_230",
+      "contract_file": "contracts/sn_ds_230.sol",
+      "metadata_file": "metadata/sn_ds_230.json",
+      "original_contract_file": "contracts/ds_230.sol",
+      "sanitized_from": "ds_230",
+      "is_vulnerable": true,
+      "vulnerability_type": "other",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_231",
+      "contract_file": "contracts/sn_ds_231.sol",
+      "metadata_file": "metadata/sn_ds_231.json",
+      "original_contract_file": "contracts/ds_231.sol",
+      "sanitized_from": "ds_231",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_ds_232",
+      "contract_file": "contracts/sn_ds_232.sol",
+      "metadata_file": "metadata/sn_ds_232.json",
+      "original_contract_file": "contracts/ds_232.sol",
+      "sanitized_from": "ds_232",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_ds_233",
+      "contract_file": "contracts/sn_ds_233.sol",
+      "metadata_file": "metadata/sn_ds_233.json",
+      "original_contract_file": "contracts/ds_233.sol",
+      "sanitized_from": "ds_233",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_234",
+      "contract_file": "contracts/sn_ds_234.sol",
+      "metadata_file": "metadata/sn_ds_234.json",
+      "original_contract_file": "contracts/ds_234.sol",
+      "sanitized_from": "ds_234",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_ds_235",
+      "contract_file": "contracts/sn_ds_235.rs",
+      "metadata_file": "metadata/sn_ds_235.json",
+      "original_contract_file": "contracts/ds_235.rs",
+      "sanitized_from": "ds_235",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_001",
+      "contract_file": "contracts/sn_tc_001.sol",
+      "metadata_file": "metadata/sn_tc_001.json",
+      "original_contract_file": "contracts/tc_001.sol",
+      "sanitized_from": "tc_001",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_002",
+      "contract_file": "contracts/sn_tc_002.sol",
+      "metadata_file": "metadata/sn_tc_002.json",
+      "original_contract_file": "contracts/tc_002.sol",
+      "sanitized_from": "tc_002",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_003",
+      "contract_file": "contracts/sn_tc_003.sol",
+      "metadata_file": "metadata/sn_tc_003.json",
+      "original_contract_file": "contracts/tc_003.sol",
+      "sanitized_from": "tc_003",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_004",
+      "contract_file": "contracts/sn_tc_004.sol",
+      "metadata_file": "metadata/sn_tc_004.json",
+      "original_contract_file": "contracts/tc_004.sol",
+      "sanitized_from": "tc_004",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_005",
+      "contract_file": "contracts/sn_tc_005.sol",
+      "metadata_file": "metadata/sn_tc_005.json",
+      "original_contract_file": "contracts/tc_005.sol",
+      "sanitized_from": "tc_005",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_006",
+      "contract_file": "contracts/sn_tc_006.sol",
+      "metadata_file": "metadata/sn_tc_006.json",
+      "original_contract_file": "contracts/tc_006.sol",
+      "sanitized_from": "tc_006",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_007",
+      "contract_file": "contracts/sn_tc_007.sol",
+      "metadata_file": "metadata/sn_tc_007.json",
+      "original_contract_file": "contracts/tc_007.sol",
+      "sanitized_from": "tc_007",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_008",
+      "contract_file": "contracts/sn_tc_008.sol",
+      "metadata_file": "metadata/sn_tc_008.json",
+      "original_contract_file": "contracts/tc_008.sol",
+      "sanitized_from": "tc_008",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_009",
+      "contract_file": "contracts/sn_tc_009.sol",
+      "metadata_file": "metadata/sn_tc_009.json",
+      "original_contract_file": "contracts/tc_009.sol",
+      "sanitized_from": "tc_009",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_010",
+      "contract_file": "contracts/sn_tc_010.sol",
+      "metadata_file": "metadata/sn_tc_010.json",
+      "original_contract_file": "contracts/tc_010.sol",
+      "sanitized_from": "tc_010",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_011",
+      "contract_file": "contracts/sn_tc_011.sol",
+      "metadata_file": "metadata/sn_tc_011.json",
+      "original_contract_file": "contracts/tc_011.sol",
+      "sanitized_from": "tc_011",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_012",
+      "contract_file": "contracts/sn_tc_012.sol",
+      "metadata_file": "metadata/sn_tc_012.json",
+      "original_contract_file": "contracts/tc_012.sol",
+      "sanitized_from": "tc_012",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_013",
+      "contract_file": "contracts/sn_tc_013.sol",
+      "metadata_file": "metadata/sn_tc_013.json",
+      "original_contract_file": "contracts/tc_013.sol",
+      "sanitized_from": "tc_013",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_014",
+      "contract_file": "contracts/sn_tc_014.sol",
+      "metadata_file": "metadata/sn_tc_014.json",
+      "original_contract_file": "contracts/tc_014.sol",
+      "sanitized_from": "tc_014",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_015",
+      "contract_file": "contracts/sn_tc_015.sol",
+      "metadata_file": "metadata/sn_tc_015.json",
+      "original_contract_file": "contracts/tc_015.sol",
+      "sanitized_from": "tc_015",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_016",
+      "contract_file": "contracts/sn_tc_016.sol",
+      "metadata_file": "metadata/sn_tc_016.json",
+      "original_contract_file": "contracts/tc_016.sol",
+      "sanitized_from": "tc_016",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_017",
+      "contract_file": "contracts/sn_tc_017.sol",
+      "metadata_file": "metadata/sn_tc_017.json",
+      "original_contract_file": "contracts/tc_017.sol",
+      "sanitized_from": "tc_017",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_018",
+      "contract_file": "contracts/sn_tc_018.sol",
+      "metadata_file": "metadata/sn_tc_018.json",
+      "original_contract_file": "contracts/tc_018.sol",
+      "sanitized_from": "tc_018",
+      "is_vulnerable": true,
+      "vulnerability_type": "price_manipulation",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_019",
+      "contract_file": "contracts/sn_tc_019.sol",
+      "metadata_file": "metadata/sn_tc_019.json",
+      "original_contract_file": "contracts/tc_019.sol",
+      "sanitized_from": "tc_019",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_020",
+      "contract_file": "contracts/sn_tc_020.sol",
+      "metadata_file": "metadata/sn_tc_020.json",
+      "original_contract_file": "contracts/tc_020.sol",
+      "sanitized_from": "tc_020",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_021",
+      "contract_file": "contracts/sn_tc_021.sol",
+      "metadata_file": "metadata/sn_tc_021.json",
+      "original_contract_file": "contracts/tc_021.sol",
+      "sanitized_from": "tc_021",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_022",
+      "contract_file": "contracts/sn_tc_022.sol",
+      "metadata_file": "metadata/sn_tc_022.json",
+      "original_contract_file": "contracts/tc_022.sol",
+      "sanitized_from": "tc_022",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_023",
+      "contract_file": "contracts/sn_tc_023.sol",
+      "metadata_file": "metadata/sn_tc_023.json",
+      "original_contract_file": "contracts/tc_023.sol",
+      "sanitized_from": "tc_023",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_024",
+      "contract_file": "contracts/sn_tc_024.sol",
+      "metadata_file": "metadata/sn_tc_024.json",
+      "original_contract_file": "contracts/tc_024.sol",
+      "sanitized_from": "tc_024",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_025",
+      "contract_file": "contracts/sn_tc_025.sol",
+      "metadata_file": "metadata/sn_tc_025.json",
+      "original_contract_file": "contracts/tc_025.sol",
+      "sanitized_from": "tc_025",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_026",
+      "contract_file": "contracts/sn_tc_026.sol",
+      "metadata_file": "metadata/sn_tc_026.json",
+      "original_contract_file": "contracts/tc_026.sol",
+      "sanitized_from": "tc_026",
+      "is_vulnerable": true,
+      "vulnerability_type": "signature_replay",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_027",
+      "contract_file": "contracts/sn_tc_027.sol",
+      "metadata_file": "metadata/sn_tc_027.json",
+      "original_contract_file": "contracts/tc_027.sol",
+      "sanitized_from": "tc_027",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_028",
+      "contract_file": "contracts/sn_tc_028.sol",
+      "metadata_file": "metadata/sn_tc_028.json",
+      "original_contract_file": "contracts/tc_028.sol",
+      "sanitized_from": "tc_028",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_029",
+      "contract_file": "contracts/sn_tc_029.sol",
+      "metadata_file": "metadata/sn_tc_029.json",
+      "original_contract_file": "contracts/tc_029.sol",
+      "sanitized_from": "tc_029",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_030",
+      "contract_file": "contracts/sn_tc_030.sol",
+      "metadata_file": "metadata/sn_tc_030.json",
+      "original_contract_file": "contracts/tc_030.sol",
+      "sanitized_from": "tc_030",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_031",
+      "contract_file": "contracts/sn_tc_031.sol",
+      "metadata_file": "metadata/sn_tc_031.json",
+      "original_contract_file": "contracts/tc_031.sol",
+      "sanitized_from": "tc_031",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_032",
+      "contract_file": "contracts/sn_tc_032.sol",
+      "metadata_file": "metadata/sn_tc_032.json",
+      "original_contract_file": "contracts/tc_032.sol",
+      "sanitized_from": "tc_032",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_033",
+      "contract_file": "contracts/sn_tc_033.sol",
+      "metadata_file": "metadata/sn_tc_033.json",
+      "original_contract_file": "contracts/tc_033.sol",
+      "sanitized_from": "tc_033",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_034",
+      "contract_file": "contracts/sn_tc_034.sol",
+      "metadata_file": "metadata/sn_tc_034.json",
+      "original_contract_file": "contracts/tc_034.sol",
+      "sanitized_from": "tc_034",
+      "is_vulnerable": true,
+      "vulnerability_type": "price_manipulation",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_035",
+      "contract_file": "contracts/sn_tc_035.sol",
+      "metadata_file": "metadata/sn_tc_035.json",
+      "original_contract_file": "contracts/tc_035.sol",
+      "sanitized_from": "tc_035",
+      "is_vulnerable": true,
+      "vulnerability_type": "integer_overflow",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_036",
+      "contract_file": "contracts/sn_tc_036.sol",
+      "metadata_file": "metadata/sn_tc_036.json",
+      "original_contract_file": "contracts/tc_036.sol",
+      "sanitized_from": "tc_036",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_037",
+      "contract_file": "contracts/sn_tc_037.sol",
+      "metadata_file": "metadata/sn_tc_037.json",
+      "original_contract_file": "contracts/tc_037.sol",
+      "sanitized_from": "tc_037",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_038",
+      "contract_file": "contracts/sn_tc_038.sol",
+      "metadata_file": "metadata/sn_tc_038.json",
+      "original_contract_file": "contracts/tc_038.sol",
+      "sanitized_from": "tc_038",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_039",
+      "contract_file": "contracts/sn_tc_039.sol",
+      "metadata_file": "metadata/sn_tc_039.json",
+      "original_contract_file": "contracts/tc_039.sol",
+      "sanitized_from": "tc_039",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_tc_040",
+      "contract_file": "contracts/sn_tc_040.sol",
+      "metadata_file": "metadata/sn_tc_040.json",
+      "original_contract_file": "contracts/tc_040.sol",
+      "sanitized_from": "tc_040",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_041",
+      "contract_file": "contracts/sn_tc_041.sol",
+      "metadata_file": "metadata/sn_tc_041.json",
+      "original_contract_file": "contracts/tc_041.sol",
+      "sanitized_from": "tc_041",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_042",
+      "contract_file": "contracts/sn_tc_042.sol",
+      "metadata_file": "metadata/sn_tc_042.json",
+      "original_contract_file": "contracts/tc_042.sol",
+      "sanitized_from": "tc_042",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_043",
+      "contract_file": "contracts/sn_tc_043.sol",
+      "metadata_file": "metadata/sn_tc_043.json",
+      "original_contract_file": "contracts/tc_043.sol",
+      "sanitized_from": "tc_043",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_044",
+      "contract_file": "contracts/sn_tc_044.sol",
+      "metadata_file": "metadata/sn_tc_044.json",
+      "original_contract_file": "contracts/tc_044.sol",
+      "sanitized_from": "tc_044",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_045",
+      "contract_file": "contracts/sn_tc_045.sol",
+      "metadata_file": "metadata/sn_tc_045.json",
+      "original_contract_file": "contracts/tc_045.sol",
+      "sanitized_from": "tc_045",
+      "is_vulnerable": true,
+      "vulnerability_type": "reentrancy",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_046",
+      "contract_file": "contracts/sn_tc_046.sol",
+      "metadata_file": "metadata/sn_tc_046.json",
+      "original_contract_file": "contracts/tc_046.sol",
+      "sanitized_from": "tc_046",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_047",
+      "contract_file": "contracts/sn_tc_047.sol",
+      "metadata_file": "metadata/sn_tc_047.json",
+      "original_contract_file": "contracts/tc_047.sol",
+      "sanitized_from": "tc_047",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_048",
+      "contract_file": "contracts/sn_tc_048.sol",
+      "metadata_file": "metadata/sn_tc_048.json",
+      "original_contract_file": "contracts/tc_048.sol",
+      "sanitized_from": "tc_048",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_049",
+      "contract_file": "contracts/sn_tc_049.sol",
+      "metadata_file": "metadata/sn_tc_049.json",
+      "original_contract_file": "contracts/tc_049.sol",
+      "sanitized_from": "tc_049",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "critical"
+    },
+    {
+      "id": "sn_tc_050",
+      "contract_file": "contracts/sn_tc_050.sol",
+      "metadata_file": "metadata/sn_tc_050.json",
+      "original_contract_file": "contracts/tc_050.sol",
+      "sanitized_from": "tc_050",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "critical"
+    }
+  ]
+}

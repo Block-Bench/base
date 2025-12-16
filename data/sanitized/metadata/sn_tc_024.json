@@ -1,7 +1,7 @@
 {
-  "id": "tc_024",
-  "contract_file": "contracts/tc_024.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_024",
+  "contract_file": "contracts/sn_tc_024.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "oracle_manipulation",
@@ -97,6 +97,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_024.json",
     "original_exploit_name": "Inverse Finance Oracle Manipulation"
   },
-  "sanitized_from": "tc_024",
-  "sanitized_id": "sn_tc_024"
+  "original_contract_file": "contracts/tc_024.sol",
+  "sanitized_from": "tc_024"
 }

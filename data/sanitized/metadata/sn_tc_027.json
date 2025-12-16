@@ -1,7 +1,7 @@
 {
-  "id": "tc_027",
-  "contract_file": "contracts/tc_027.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_027",
+  "contract_file": "contracts/sn_tc_027.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "logic_error",
@@ -90,6 +90,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_027.json",
     "original_exploit_name": "BurgerSwap Fake Token"
   },
-  "sanitized_from": "tc_027",
-  "sanitized_id": "sn_tc_027"
+  "original_contract_file": "contracts/tc_027.sol",
+  "sanitized_from": "tc_027"
 }

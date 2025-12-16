@@ -1,7 +1,7 @@
 {
-  "id": "tc_049",
-  "contract_file": "contracts/tc_049.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_049",
+  "contract_file": "contracts/sn_tc_049.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "oracle_manipulation",
@@ -84,6 +84,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_049.json",
     "original_exploit_name": "Exactly Protocol"
   },
-  "sanitized_from": "tc_049",
-  "sanitized_id": "sn_tc_049"
+  "original_contract_file": "contracts/tc_049.sol",
+  "sanitized_from": "tc_049"
 }

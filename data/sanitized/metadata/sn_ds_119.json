@@ -1,7 +1,7 @@
 {
-  "id": "ds_119",
-  "contract_file": "contracts/ds_119.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_119",
+  "contract_file": "contracts/sn_ds_119.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_119.json",
     "original_id": "notso_unchecked_external_call_kingoftheetherthrone"
   },
-  "sanitized_from": "ds_119",
-  "sanitized_id": "sn_ds_119"
+  "original_contract_file": "contracts/ds_119.sol",
+  "sanitized_from": "ds_119"
 }

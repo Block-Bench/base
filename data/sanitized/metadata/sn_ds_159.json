@@ -1,7 +1,7 @@
 {
-  "id": "ds_159",
-  "contract_file": "contracts/ds_159.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_159",
+  "contract_file": "contracts/sn_ds_159.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "front_running",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_159.json",
     "original_id": "smartbugs_front_running_odds_and_evens"
   },
-  "sanitized_from": "ds_159",
-  "sanitized_id": "sn_ds_159"
+  "original_contract_file": "contracts/ds_159.sol",
+  "sanitized_from": "ds_159"
 }

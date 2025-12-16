@@ -1,7 +1,7 @@
 {
-  "id": "ds_125",
-  "contract_file": "contracts/ds_125.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_125",
+  "contract_file": "contracts/sn_ds_125.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "access_control",
@@ -67,6 +67,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_125.json",
     "original_id": "smartbugs_access_control_incorrect_constructor_name1"
   },
-  "sanitized_from": "ds_125",
-  "sanitized_id": "sn_ds_125"
+  "original_contract_file": "contracts/ds_125.sol",
+  "sanitized_from": "ds_125"
 }

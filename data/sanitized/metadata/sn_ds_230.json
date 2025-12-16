@@ -1,7 +1,7 @@
 {
-  "id": "ds_230",
-  "contract_file": "contracts/ds_230.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_230",
+  "contract_file": "contracts/sn_ds_230.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "other",
@@ -68,6 +68,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_230.json",
     "original_id": "defivulnlabs_flashloan-flaw"
   },
-  "sanitized_from": "ds_230",
-  "sanitized_id": "sn_ds_230"
+  "original_contract_file": "contracts/ds_230.sol",
+  "sanitized_from": "ds_230"
 }

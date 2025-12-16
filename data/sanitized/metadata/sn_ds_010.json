@@ -1,7 +1,7 @@
 {
-  "id": "ds_010",
-  "contract_file": "contracts/ds_010.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_010",
+  "contract_file": "contracts/sn_ds_010.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "access_control",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_010.json",
     "original_id": "smartbugs_access_control_mycontract"
   },
-  "sanitized_from": "ds_010",
-  "sanitized_id": "sn_ds_010"
+  "original_contract_file": "contracts/ds_010.sol",
+  "sanitized_from": "ds_010"
 }

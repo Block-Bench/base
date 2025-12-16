@@ -1,7 +1,7 @@
 {
-  "id": "tc_030",
-  "contract_file": "contracts/tc_030.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_030",
+  "contract_file": "contracts/sn_tc_030.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "integer_overflow",
@@ -90,6 +90,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_030.json",
     "original_exploit_name": "Spartan Protocol Liquidity Miscalculation"
   },
-  "sanitized_from": "tc_030",
-  "sanitized_id": "sn_tc_030"
+  "original_contract_file": "contracts/tc_030.sol",
+  "sanitized_from": "tc_030"
 }

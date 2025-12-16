@@ -1,7 +1,7 @@
 {
-  "id": "tc_020",
-  "contract_file": "contracts/tc_020.sol",
-  "subset": "temporal_contamination",
+  "id": "sn_tc_020",
+  "contract_file": "contracts/sn_tc_020.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "oracle_manipulation",
@@ -96,6 +96,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_020.json",
     "original_exploit_name": "Warp Finance LP Token Price Manipulation"
   },
-  "sanitized_from": "tc_020",
-  "sanitized_id": "sn_tc_020"
+  "original_contract_file": "contracts/tc_020.sol",
+  "sanitized_from": "tc_020"
 }

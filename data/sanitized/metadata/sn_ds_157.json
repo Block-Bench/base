@@ -1,7 +1,7 @@
 {
-  "id": "ds_157",
-  "contract_file": "contracts/ds_157.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_157",
+  "contract_file": "contracts/sn_ds_157.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "front_running",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_157.json",
     "original_id": "smartbugs_front_running_FindThisHash"
   },
-  "sanitized_from": "ds_157",
-  "sanitized_id": "sn_ds_157"
+  "original_contract_file": "contracts/ds_157.sol",
+  "sanitized_from": "ds_157"
 }

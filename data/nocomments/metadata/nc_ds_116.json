@@ -1,0 +1,72 @@
+{
+  "id": "nc_ds_116",
+  "contract_file": "contracts/nc_ds_116.sol",
+  "subset": "nocomments",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "Missing",
+      "function_name": "IamMissing",
+      "line_numbers": []
+    },
+    "root_cause": "# Wrong Constructor Name",
+    "attack_vector": "# Wrong Constructor Name",
+    "impact": "Severity: high",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_wrong_constructor_name_incorrect_constructor",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.15",
+    "num_lines": 26,
+    "num_contracts": 2,
+    "contract_names": [
+      "Missing",
+      "is"
+    ],
+    "num_functions": 2,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Wrong Constructor Name",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_116.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_116.json",
+    "original_id": "notso_wrong_constructor_name_incorrect_constructor"
+  },
+  "original_contract_file": "contracts/ds_116.sol",
+  "sanitized_from": "ds_116",
+  "derived_from": "sn_ds_116",
+  "original_id": "ds_116"
+}

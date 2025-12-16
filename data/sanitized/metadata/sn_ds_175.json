@@ -1,7 +1,7 @@
 {
-  "id": "ds_175",
-  "contract_file": "contracts/ds_175.rs",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_175",
+  "contract_file": "contracts/sn_ds_175.rs",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "access_control",
@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_175.json",
     "original_id": "sealevel_0_signer_authorization"
   },
-  "sanitized_from": "ds_175",
-  "sanitized_id": "sn_ds_175"
+  "original_contract_file": "contracts/ds_175.rs",
+  "sanitized_from": "ds_175"
 }

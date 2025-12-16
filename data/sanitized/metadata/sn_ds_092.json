@@ -1,7 +1,7 @@
 {
-  "id": "ds_092",
-  "contract_file": "contracts/ds_092.sol",
-  "subset": "difficulty_stratified",
+  "id": "sn_ds_092",
+  "contract_file": "contracts/sn_ds_092.sol",
+  "subset": "sanitized",
   "ground_truth": {
     "is_vulnerable": true,
     "vulnerability_type": "logic_error",
@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_092.json",
     "original_id": "defivulnlabs_self-transfer"
   },
-  "sanitized_from": "ds_092",
-  "sanitized_id": "sn_ds_092"
+  "original_contract_file": "contracts/ds_092.sol",
+  "sanitized_from": "ds_092"
 }
