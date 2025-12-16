@@ -1,7 +1,7 @@
 {
   "name": "Gold Standard Dataset",
   "description": "Curated vulnerability samples from professional security audits",
-  "total_items": 35,
+  "total_items": 34,
   "generated_at": "2025-12-16T17:05:55.661000",
   "items": [
     {
@@ -92,16 +92,6 @@
       "difficulty_tier": 3,
       "context_level": "single_file",
       "has_context": false,
-      "source_platform": "code4rena"
-    },
-    {
-      "id": "gs_010",
-      "original_id": "gs_c4_2025-10-hybra-finance_M09",
-      "vulnerability_type": "access_control",
-      "severity": "medium",
-      "difficulty_tier": 3,
-      "context_level": "multi_file",
-      "has_context": true,
       "source_platform": "code4rena"
     },
     {
