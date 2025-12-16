@@ -14,7 +14,7 @@
   "vulnerability_type": "access_control",
   "severity": "high",
   "difficulty_tier": 3,
-  "context_level": "multi_file",
+  "context_level": "single_file",
   "is_vulnerable": true,
   "finding_title": "Chained signature with checkpoint usage disabled can bypass all checkpointer validation",
   "finding_description": "When a wallet is behind a checkpointer and a chained signature is used with bit 6 (checkpointer usage flag) set to zero, BaseSig.recover skips the checkpointer validation block (BaseSig.sol:88-106). This leaves _checkpointer and snapshot unset (zero-valued). In recoverChained, the checkpointer is ignored, and the signature validation passes even if the checkpointer should be enforced. The final validation succeeds because snapshot.imageHash == bytes32(0) as the checkpointer is ignored.",
