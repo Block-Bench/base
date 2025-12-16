@@ -1,0 +1,83 @@
+{
+  "id": "cd_gaming_sn_ds_069",
+  "contract_file": "contracts/cd_gaming_sn_ds_069.sol",
+  "subset": "crossdomain",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "EBU",
+      "function_name": "transfer",
+      "line_numbers": [
+        16
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 16",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 16",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xa46edd6a9a93feec36576ee5048146870ea2c3ae",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.18",
+    "num_lines": 14,
+    "num_contracts": 1,
+    "contract_names": [
+      "EBU"
+    ],
+    "num_functions": 1,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 16",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_069.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_069.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xa46edd6a9a93feec36576ee5048146870ea2c3ae"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_069.sol",
+  "sanitized_from": "ds_069",
+  "derived_from": "sn_ds_069",
+  "transformation": {
+    "strategy": "cross_domain",
+    "source_domain": "defi",
+    "target_domain": "gaming",
+    "coverage": 0.1,
+    "identifiers_transformed": 1,
+    "rename_map": {
+      "transfer": "tradeLoot"
+    }
+  }
+}

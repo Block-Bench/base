@@ -1,0 +1,63 @@
+{
+  "domain": "defi",
+  "description": "Decentralized finance - lending, staking, trading",
+  "terminology": {
+    "entities": {
+      "vault": "vault",
+      "pool": "pool",
+      "token": "token",
+      "collateral": "collateral",
+      "reserve": "reserve",
+      "treasury": "treasury",
+      "fund": "fund",
+      "bank": "bank",
+      "account": "account",
+      "wallet": "wallet"
+    },
+    "actions": {
+      "deposit": "deposit",
+      "withdraw": "withdraw",
+      "stake": "stake",
+      "unstake": "unstake",
+      "borrow": "borrow",
+      "repay": "repay",
+      "liquidate": "liquidate",
+      "claim": "claim",
+      "transfer": "transfer",
+      "swap": "swap",
+      "mint": "mint",
+      "burn": "burn",
+      "approve": "approve"
+    },
+    "actors": {
+      "user": "user",
+      "owner": "owner",
+      "admin": "admin",
+      "liquidator": "liquidator",
+      "depositor": "depositor",
+      "borrower": "borrower",
+      "lender": "lender",
+      "staker": "staker"
+    },
+    "metrics": {
+      "balance": "balance",
+      "totalSupply": "totalSupply",
+      "fee": "fee",
+      "rate": "rate",
+      "reward": "reward",
+      "interest": "interest",
+      "debt": "debt",
+      "collateralRatio": "collateralRatio",
+      "liquidity": "liquidity"
+    },
+    "contracts": {
+      "Vault": "Vault",
+      "Pool": "Pool",
+      "Token": "Token",
+      "Bank": "Bank",
+      "Treasury": "Treasury",
+      "Staking": "Staking",
+      "Lending": "Lending"
+    }
+  }
+}

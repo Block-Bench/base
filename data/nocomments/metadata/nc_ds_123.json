@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_123.json",
     "original_id": "notso_forced_ether_reception_coin"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_123.sol",
   "sanitized_from": "ds_123",
   "derived_from": "sn_ds_123",

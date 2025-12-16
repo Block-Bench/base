@@ -1,0 +1,204 @@
+{
+  "id": "ch_gaming_sn_tc_023",
+  "contract_file": "contracts/ch_gaming_sn_tc_023.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "AlphaHomoraBank",
+        "functions": [
+          {
+            "name": "_borrow",
+            "vulnerability": "Debt share calculation relies on manipulatable totalDebt value"
+          },
+          {
+            "name": "getPositionDebt",
+            "vulnerability": "Returns debt based on potentially manipulated share ratio"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "Debt share calculation depended on totalDebt value that could be manipulated via external pool state changes. The share-to-amount conversion (amount * totalDebtShare / totalDebt) was vulnerable when totalDebt was artificially inflated through pool manipulation, resulting in attackers receiving fewer debt shares than they should for borrowed amounts.",
+    "attack_vector": "1) Attacker opened leveraged position and borrowed initial funds from Iron Bank. 2) Used flash loans to manipulate sUSD/USDC pool reserves. 3) Pool manipulation caused totalDebt calculations to become stale/incorrect. 4) Opened second position with manipulated totalDebt value. 5) Debt share calculation: (borrowAmount * totalDebtShare) / inflatedTotalDebt resulted in fewer shares than deserved. 6) When converting back, attacker's debt appeared much smaller than actual borrowed amount. 7) Repaid calculated debt and withdrew collateral, keeping difference. 8) Repeated to drain $37M.",
+    "impact": "Funds lost: $37,000,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2021-02-13",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 109,
+    "num_contracts": 1,
+    "contract_names": [
+      "LeveragedVault"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "leverage",
+    "iron_bank",
+    "cream_finance",
+    "debt_accounting",
+    "share_calculation",
+    "flash_loan"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2021-02-13",
+      "protocol_name": "Alpha Homora Credit Account Manipulation",
+      "chain": "ethereum",
+      "funds_lost_usd": 37000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Alpha Homora Credit Account Manipulation exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_023.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_023.json",
+    "original_exploit_name": "Alpha Homora Credit Account Manipulation"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_023.sol",
+  "sanitized_from": "tc_023",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 2344623138,
+    "coverage": {
+      "total_identifiers": 39,
+      "transformed": 24,
+      "untransformed": 15,
+      "skipped_reserved": 27,
+      "skipped_interface": 0,
+      "coverage_percent": 61.54,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ICErc20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LeveragedVault",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "positions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openPosition",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_borrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pos",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Excessive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "repayment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "healthy",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "account": "profile",
+      "amount": "sum",
+      "from": "source",
+      "borrow": "requestLoan",
+      "borrowBalanceCurrent": "requestloanLootbalanceActive",
+      "Position": "Coordinates",
+      "collateral": "pledge",
+      "debtShare": "liabilityPiece",
+      "nextPositionId": "upcomingPositionIdentifier",
+      "cToken": "cCrystal",
+      "totalDebt": "fullObligation",
+      "totalDebtShare": "aggregateOwingPortion",
+      "_cToken": "_cMedal",
+      "collateralAmount": "securityCount",
+      "borrowAmount": "requestloanQuantity",
+      "positionId": "positionCode",
+      "sender": "invoker",
+      "share": "portion",
+      "repay": "settleDebt",
+      "position": "location",
+      "shareToRemove": "portionDestinationEliminate",
+      "getPositionDebt": "acquirePositionObligation",
+      "liquidate": "convertToGold",
+      "debt": "obligation"
+    }
+  }
+}

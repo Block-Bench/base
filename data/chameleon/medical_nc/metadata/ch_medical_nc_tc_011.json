@@ -1,0 +1,157 @@
+{
+  "id": "ch_medical_nc_tc_011",
+  "contract_file": "contracts/ch_medical_nc_tc_011.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "lendf_me.sol",
+      "function_name": "withdraw",
+      "line_numbers": [
+        91,
+        94,
+        95
+      ]
+    },
+    "root_cause": "Token transfer before state update, combined with ERC-777 tokensToSend hook that allows reentrancy. Same checks-effects-interactions violation but with token hooks instead of fallback.",
+    "attack_vector": "Attacker supplied ERC-777 tokens (imBTC), then called withdraw. During token transfer, ERC-777 triggered attacker's tokensToSend hook, which re-entered withdraw before balance update.",
+    "impact": "Funds lost: $25,000,000",
+    "correct_fix": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2020-04-19",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 65,
+    "num_contracts": 1,
+    "contract_names": [
+      "LendingPool"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "reentrancy",
+    "erc777",
+    "token-hooks",
+    "checks-effects-interactions",
+    "lending"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2020-04-19",
+      "protocol_name": "Lendf.Me",
+      "chain": "ethereum",
+      "funds_lost_usd": 25000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Lendf.Me exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_011.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_011.json",
+    "original_exploit_name": "Lendf.Me"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_011.sol",
+  "sanitized_from": "tc_011",
+  "derived_from": "sn_tc_011",
+  "original_id": "tc_011",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 3818842518,
+    "coverage": {
+      "total_identifiers": 23,
+      "transformed": 16,
+      "untransformed": 7,
+      "skipped_reserved": 24,
+      "skipped_interface": 0,
+      "coverage_percent": 69.57,
+      "untransformed_details": [
+        {
+          "name": "IERC777",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC1820Registry",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "implementer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LendingPool",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "supplied",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "asset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Insufficient",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "amount": "units",
+      "account": "chart",
+      "setInterfaceImplementer": "groupGatewayImplementer",
+      "interfaceHash": "portalChecksum",
+      "totalSupplied": "aggregateSupplied",
+      "supply": "contributeSupplies",
+      "token": "id",
+      "failed": "operationFailed",
+      "sender": "referrer",
+      "withdraw": "withdrawBenefits",
+      "requestedAmount": "requestedQuantity",
+      "userBalance": "enrolleeCredits",
+      "withdrawAmount": "obtaincareMeasure",
+      "max": "maximum",
+      "getSupplied": "obtainSupplied",
+      "user": "beneficiary"
+    }
+  }
+}

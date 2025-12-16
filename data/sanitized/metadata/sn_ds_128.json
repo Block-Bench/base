@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_128.json",
     "original_id": "smartbugs_access_control_multiowned_vulnerable"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_128.sol",
   "sanitized_from": "ds_128"
 }

@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_180.json",
     "original_id": "sealevel_9_closing_accounts"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_180.rs",
   "sanitized_from": "ds_180"
 }

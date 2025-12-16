@@ -1,0 +1,424 @@
+{
+  "id": "ch_gaming_nc_ds_113",
+  "contract_file": "contracts/ch_gaming_nc_ds_113.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "TokenInterface",
+      "function_name": "balanceOf",
+      "line_numbers": []
+    },
+    "root_cause": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
+    "attack_vector": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
+    "impact": "Severity: high",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_reentrancy_dao",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 1154,
+    "num_contracts": 17,
+    "contract_names": [
+      "TokenInterface",
+      "Token",
+      "ManagedAccountInterface",
+      "uint",
+      "ManagedAccount",
+      "receives",
+      "TokenCreationInterface",
+      "TokenCreation",
+      "DAOInterface",
+      "created",
+      "able",
+      "able",
+      "of",
+      "function",
+      "itself",
+      "DAO",
+      "DAO_Creator"
+    ],
+    "num_functions": 72,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_113.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_113.json",
+    "original_id": "notso_reentrancy_dao"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_113.sol",
+  "sanitized_from": "ds_113",
+  "derived_from": "sn_ds_113",
+  "original_id": "ds_113",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "nocomments",
+    "seed": 2886666393,
+    "coverage": {
+      "total_identifiers": 152,
+      "transformed": 97,
+      "untransformed": 55,
+      "skipped_reserved": 45,
+      "skipped_interface": 0,
+      "coverage_percent": 63.82,
+      "untransformed_details": [
+        {
+          "name": "allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_spender",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "remaining",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "noEther",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_recipient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PayOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "privateCreation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "weiGiven",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "refund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "divisor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Refund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_privateCreation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Proposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "curator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowedRecipients",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DAOpaidOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "paidOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blocked",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sumOfProposalDeposits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "description",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "open",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposalPassed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yea",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votedYes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votedNo",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DAO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlyTokenholders",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_description",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_codeChecksOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_supportsProposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_success",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changeAllowedRecipients",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_account",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numberOfProposals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_numberOfProposals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unblockMe",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProposalAdded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Voted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProposalTallied",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "quorum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_curator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "closeProposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dao",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_isAllowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createDAO",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "TokenInterface": "GemPortal",
+      "balances": "heroTreasure",
+      "success": "victory",
+      "Approval": "AccessAuthorized",
+      "Token": "Crystal",
+      "value": "price",
+      "sender": "caster",
+      "ManagedAccountInterface": "ManagedCharacterPortal",
+      "payOwnerOnly": "payMasterOnly",
+      "accumulatedInput": "accumulatedSubmission",
+      "ManagedAccount": "ManagedCharacter",
+      "_payOwnerOnly": "_payLordOnly",
+      "TokenCreationInterface": "MedalCreationGateway",
+      "closingTime": "closingInstant",
+      "minTokensToCreate": "minimumCrystalsTargetCreate",
+      "isFueled": "testFueled",
+      "extraBalance": "extraGoldholding",
+      "createTokenProxy": "createCoinProxy",
+      "_tokenHolder": "_gemHolder",
+      "FuelingToDate": "FuelingTargetDate",
+      "CreatedToken": "CreatedCoin",
+      "amount": "sum",
+      "TokenCreation": "GemCreation",
+      "_minTokensToCreate": "_floorCrystalsTargetCreate",
+      "_closingTime": "_closingMoment",
+      "token": "medal",
+      "DAOInterface": "DaoPortal",
+      "creationGracePeriod": "creationGraceDuration",
+      "minProposalDebatePeriod": "floorProposalDebateInterval",
+      "minSplitDebatePeriod": "minimumSeparateDebateInterval",
+      "splitExecutionPeriod": "divideExecutionDuration",
+      "quorumHalvingPeriod": "quorumHalvingInterval",
+      "executeProposalPeriod": "runmissionProposalInterval",
+      "maxDepositDivisor": "ceilingBankwinningsDivisor",
+      "minQuorumDivisor": "minimumQuorumDivisor",
+      "lastTimeMinQuorumMet": "endingInstantMinimumQuorumMet",
+      "rewardToken": "prizeGem",
+      "totalRewardToken": "completePrizeCrystal",
+      "rewardAccount": "bonusProfile",
+      "DAOrewardAccount": "DaOrewardCharacter",
+      "proposalDeposit": "proposalAddtreasure",
+      "DAO_Creator": "dao_maker",
+      "daoCreator": "daoFounder",
+      "recipient": "receiver",
+      "votingDeadline": "votingCutofftime",
+      "proposalHash": "proposalSeal",
+      "newCurator": "updatedCurator",
+      "SplitData": "DivideInfo",
+      "splitData": "divideDetails",
+      "creator": "maker",
+      "splitBalance": "divideLootbalance",
+      "newDAO": "updatedDao",
+      "receiveEther": "catchrewardEther",
+      "newProposal": "updatedProposal",
+      "_transactionData": "_transactionInfo",
+      "_debatingPeriod": "_debatingDuration",
+      "_newCurator": "_updatedCurator",
+      "_proposalID": "_proposalCode",
+      "checkProposalCode": "inspectProposalCode",
+      "vote": "decide",
+      "_voteID": "_castTag",
+      "executeProposal": "performactionProposal",
+      "splitDAO": "separateDao",
+      "newContract": "currentAgreement",
+      "_newContract": "_currentAgreement",
+      "changeProposalDeposit": "changeProposalStashrewards",
+      "_proposalDeposit": "_proposalStoreloot",
+      "retrieveDAOReward": "retrieveDaoTreasure",
+      "_toMembers": "_targetMembers",
+      "getMyReward": "retrieveMyBonus",
+      "withdrawRewardFor": "obtainprizeTreasureFor",
+      "transferWithoutReward": "tradefundsWithoutPayout",
+      "transferFromWithoutReward": "shiftgoldSourceWithoutPrize",
+      "halveMinQuorum": "halveFloorQuorum",
+      "getNewDAOAddress": "obtainUpdatedDaoZone",
+      "_newDAO": "_updatedDao",
+      "isBlocked": "checkBlocked",
+      "proposalID": "proposalCode",
+      "position": "coordinates",
+      "result": "product",
+      "NewCurator": "CurrentCurator",
+      "AllowedRecipientChanged": "AllowedTargetChanged",
+      "_daoCreator": "_daoMaker",
+      "length": "size",
+      "isRecipientAllowed": "isTargetAllowed",
+      "waitPeriod": "waitDuration",
+      "proposalCheck": "proposalVerify",
+      "actualBalance": "actualPrizecount",
+      "minQuorum": "floorQuorum",
+      "createNewDAO": "createCurrentDao",
+      "fundsToBeMoved": "fundsDestinationBeMoved",
+      "rewardTokenToBeMoved": "treasureCrystalDestinationBeMoved",
+      "paidOutToBeMoved": "paidOutDestinationBeMoved",
+      "reward": "prize",
+      "transferPaidOut": "shiftgoldPaidOut",
+      "_actualBalance": "_actualTreasureamount",
+      "_minQuorum": "_minimumQuorum"
+    }
+  }
+}

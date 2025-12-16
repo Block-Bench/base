@@ -1,0 +1,1046 @@
+{
+  "id": "ch_medical_nc_ds_214",
+  "contract_file": "contracts/ch_medical_nc_ds_214.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ERC20",
+      "function_name": "unknown",
+      "line_numbers": [
+        1152
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 1152",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 1152",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x663e4229142a27f00bafb5d087e1e730648314c3",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.24",
+    "num_lines": 2433,
+    "num_contracts": 93,
+    "contract_names": [
+      "ERC20",
+      "Ownable",
+      "ERC721",
+      "GeneScienceInterface",
+      "we",
+      "documentation",
+      "facets",
+      "PandaAccessControl",
+      "in",
+      "is",
+      "is",
+      "IS",
+      "IS",
+      "is",
+      "was",
+      "for",
+      "documentation",
+      "facets",
+      "PandaBase",
+      "that",
+      "handles",
+      "that",
+      "that",
+      "creation",
+      "that",
+      "ERC721Metadata",
+      "that",
+      "documentation",
+      "facets",
+      "PandaOwnership",
+      "be",
+      "to",
+      "should",
+      "to",
+      "should",
+      "code",
+      "calls",
+      "documentation",
+      "facets",
+      "PandaBreeding",
+      "instance",
+      "is",
+      "address",
+      "ClockAuctionBase",
+      "tracking",
+      "to",
+      "with",
+      "Pausable",
+      "ClockAuction",
+      "implementing",
+      "address",
+      "is",
+      "is",
+      "SiringClockAuction",
+      "because",
+      "SaleClockAuction",
+      "SaleClockAuctionERC20",
+      "require",
+      "PandaAuction",
+      "variables",
+      "is",
+      "address",
+      "is",
+      "address",
+      "is",
+      "address",
+      "checks",
+      "accidentally",
+      "checks",
+      "accidentally",
+      "checks",
+      "checks",
+      "PandaMinting",
+      "owner",
+      "owner",
+      "COO",
+      "PandaCore",
+      "that",
+      "into",
+      "manages",
+      "is",
+      "instance",
+      "is",
+      "is",
+      "function",
+      "as",
+      "and",
+      "to",
+      "address",
+      "will",
+      "addresses",
+      "can",
+      "was"
+    ],
+    "num_functions": 144,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 1152",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_214.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_214.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x663e4229142a27f00bafb5d087e1e730648314c3"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_214.sol",
+  "sanitized_from": "ds_214",
+  "derived_from": "sn_ds_214",
+  "original_id": "ds_214",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 3141405800,
+    "coverage": {
+      "total_identifiers": 336,
+      "transformed": 161,
+      "untransformed": 175,
+      "skipped_reserved": 69,
+      "skipped_interface": 0,
+      "coverage_percent": 47.92,
+      "untransformed_details": [
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "who",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_allowance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ownable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "approved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mixGenes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "genes1",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "genes2",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gene",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clearWizzType",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_gene",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaAccessControl",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlyCEO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlyCFO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlyCOO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaBase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Birth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "genes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Panda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "generation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cooldowns",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pandas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SaleClockAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "saleAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SiringClockAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "siringAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "geneScience",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SaleClockAuctionERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "saleAuctionERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wizzPandaQuota",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_tp",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_total",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_id",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_transfer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_createPanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_generation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_genes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pureDegree",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_panda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "secs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721Metadata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buffer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Hello",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "World",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "would",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "definitely",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "choose",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "medi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Lorem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ipsum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dolor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "amet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accumsan",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dapibus",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "augue",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lorem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tristique",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "vestibulum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "libero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "suscipit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "varius",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sapien",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "aliquam",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaOwnership",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaEarth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "InterfaceSignature_ERC165",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "InterfaceSignature_ERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owns",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_claimant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_approvedFor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_approve",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_approved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_memcpy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_dest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_src",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_len",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mstore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mask",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "srcpart",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "destpart",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "var",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaBreeding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pregnant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Abortion",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pregnantPandas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_address",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_kit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_isSiringPermitted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_kitten",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "val",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_matron",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_sire",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_canBreedWithViaAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "matron",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sire",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "canBreedWith",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_breedWith",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "breedWithAuto",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "giveBirth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_childGenes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_factors",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parentGen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "childGenes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "probability",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ClockAuctionBase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Auction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "seller",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "startedAt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AuctionCreated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AuctionSuccessful",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AuctionCancelled",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_escrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_receiver",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_auction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_cancelAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_seller",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_bid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "auction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_isOnAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "auctioneerCut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_computeCut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sellerProceeds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bidExcess",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "secondsPassed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_duration",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_secondsPassed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_price",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pausable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ClockAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_cut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "res",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancelAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CommonPanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "RarePanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createGen0Auction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createPanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_type",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "surprisePanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "common",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "surprise",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AuctionERC20Created",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "erc20ContractsSwitcher",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_erc20address",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_onoff",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bidERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_bidERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createSaleAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createSaleAuctionERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "switchSaleAuctionERC20For",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createSiringAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bidOnSiringAuction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaMinting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createWizzPanda",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PandaCore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "init",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subtractFees",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "supply": "provideResources",
+      "value": "assessment",
+      "spender": "payer",
+      "from": "source",
+      "Approval": "TreatmentAuthorized",
+      "sender": "provider",
+      "newOwner": "updatedDirector",
+      "total": "cumulative",
+      "_tokenId": "_credentialCasenumber",
+      "tokenId": "badgeIdentifier",
+      "supportsInterface": "supportsPortal",
+      "_interfaceID": "_portalChartnumber",
+      "GeneScienceInterface": "GeneScienceGateway",
+      "isGeneScience": "checkGeneScience",
+      "targetBlock": "goalWard",
+      "getPureFromGene": "diagnosePureReferrerGene",
+      "getSex": "retrieveSex",
+      "getWizzType": "diagnoseWizzType",
+      "ContractUpgrade": "PolicyImprove",
+      "newContract": "currentPolicy",
+      "ceoAddress": "ceoFacility",
+      "cfoAddress": "cfoLocation",
+      "cooAddress": "cooLocation",
+      "paused": "suspended",
+      "onlyCLevel": "onlyCTier",
+      "setCEO": "collectionCeo",
+      "_newCEO": "_updatedCeo",
+      "setCFO": "collectionCfo",
+      "_newCFO": "_updatedCfo",
+      "setCOO": "collectionCoo",
+      "_newCOO": "_updatedCoo",
+      "whenNotPaused": "whenOperational",
+      "whenPaused": "whenSuspended",
+      "pause": "freezeProtocol",
+      "unpause": "resumeTreatment",
+      "GEN0_TOTAL_COUNT": "gen0_complete_tally",
+      "gen0CreatedCount": "gen0CreatedTally",
+      "pandaId": "pandaIdentifier",
+      "matronId": "matronCasenumber",
+      "sireId": "sireIdentifier",
+      "birthTime": "birthInstant",
+      "cooldownEndBlock": "recoveryFinishWard",
+      "siringWithId": "siringWithIdentifier",
+      "cooldownIndex": "recoveryPosition",
+      "secondsPerBlock": "secondsPerWard",
+      "pandaIndexToOwner": "pandaSlotDestinationAdministrator",
+      "ownershipTokenCount": "ownershipCredentialTally",
+      "pandaIndexToApproved": "pandaPositionReceiverApproved",
+      "sireAllowedToAddress": "sireAllowedReceiverWard",
+      "wizzPandaCount": "wizzPandaTally",
+      "getWizzPandaQuotaOf": "obtainWizzPandaQuotaOf",
+      "getWizzPandaCountOf": "retrieveWizzPandaTallyOf",
+      "setTotalWizzPandaOf": "collectionCompleteWizzPandaOf",
+      "getWizzTypeOf": "acquireWizzTypeOf",
+      "_matronId": "_matronChartnumber",
+      "_sireId": "_sireChartnumber",
+      "length": "extent",
+      "newKittenId": "currentKittenCasenumber",
+      "setSecondsPerBlock": "collectionSecondsPerUnit",
+      "getMetadata": "diagnoseMetadata",
+      "count": "number",
+      "tokensOfOwner": "idsOfSupervisor",
+      "tokenMetadata": "badgeMetadata",
+      "ownerTokens": "directorIds",
+      "tokenCount": "badgeTally",
+      "result": "outcome",
+      "totalCats": "completeCats",
+      "resultIndex": "outcomePosition",
+      "catId": "catChartnumber",
+      "_toString": "_destinationText",
+      "_rawBytes": "_rawRaw",
+      "_stringLength": "_textDuration",
+      "outputString": "resultName",
+      "outputPtr": "outcomePtr",
+      "bytesPtr": "dataPtr",
+      "add": "append",
+      "GENSIS_TOTAL_COUNT": "gensis_cumulative_tally",
+      "autoBirthFee": "autoBirthCharge",
+      "childOwner": "childSupervisor",
+      "setGeneScienceAddress": "collectionGeneScienceWard",
+      "candidateContract": "candidatePolicy",
+      "_isReadyToBreed": "_isReadyReceiverBreed",
+      "matronOwner": "matronSupervisor",
+      "sireOwner": "sireSupervisor",
+      "_triggerCooldown": "_triggerRest",
+      "approveSiring": "authorizecaregiverSiring",
+      "setAutoBirthFee": "collectionAutoBirthPremium",
+      "_isReadyToGiveBirth": "_isReadyDestinationGiveBirth",
+      "isReadyToBreed": "isReadyDestinationBreed",
+      "_pandaId": "_pandaCasenumber",
+      "isPregnant": "testPregnant",
+      "_isValidMatingPair": "_isValidMatingCouple",
+      "_exchangeMatronSireId": "_exchangeMatronSireIdentifier",
+      "kittenId": "kittenChartnumber",
+      "startingPrice": "startingCharge",
+      "endingPrice": "endingCost",
+      "duration": "stayLength",
+      "isGen0": "verifyGen0",
+      "nonFungibleContract": "nonFungiblePolicy",
+      "ownerCut": "administratorCut",
+      "tokenIdToAuction": "idIdentifierDestinationAuction",
+      "totalPrice": "aggregateCost",
+      "_addAuction": "_appendAuction",
+      "_removeAuction": "_discontinueAuction",
+      "_bidAmount": "_bidDosage",
+      "price": "cost",
+      "_currentPrice": "_presentCost",
+      "_computeCurrentPrice": "_computePresentCharge",
+      "_startingPrice": "_startingCharge",
+      "_endingPrice": "_endingCost",
+      "totalPriceChange": "completeChargeChange",
+      "currentPriceChange": "activeCostChange",
+      "currentPrice": "activeCharge",
+      "Pause": "FreezeProtocol",
+      "Unpause": "ContinueCare",
+      "_nftAddress": "_certificateLocation",
+      "withdrawBalance": "dispensemedicationAllocation",
+      "nftAddress": "certificateWard",
+      "cancelAuctionWhenPaused": "cancelAuctionWhenHalted",
+      "getAuction": "obtainAuction",
+      "getCurrentPrice": "obtainPresentCost",
+      "isSiringClockAuction": "verifySiringClockAuction",
+      "_nftAddr": "_credentialAddr",
+      "isSaleClockAuction": "testSaleClockAuction",
+      "gen0SaleCount": "gen0SaleNumber",
+      "lastGen0SalePrices": "finalGen0SaleCharges",
+      "SurpriseValue": "SurpriseEvaluation",
+      "CommonPandaIndex": "CommonPandaRank",
+      "RarePandaIndex": "RarePandaRank",
+      "bHash": "bChecksum",
+      "PandaIndex": "PandaPosition",
+      "packageCount": "packageNumber",
+      "averageGen0SalePrice": "averageGen0SaleCost",
+      "erc20Contract": "erc20Policy",
+      "isSaleClockAuctionERC20": "testSaleClockAuctionERC20",
+      "tokenIdToErc20Address": "badgeIdentifierReceiverErc20Ward",
+      "balances": "benefitsRecord",
+      "erc20ContractSwitch": "erc20PolicySwitch",
+      "_erc20Address": "_erc20Ward",
+      "_addAuctionERC20": "_insertAuctionErc20",
+      "withdrawERC20Balance": "extractspecimenErc20Allocation",
+      "_buyerAddress": "_buyerWard",
+      "setSaleAuctionAddress": "collectionSaleAuctionWard",
+      "setSaleAuctionERC20Address": "groupSaleAuctionErc20Facility",
+      "setSiringAuctionAddress": "groupSiringAuctionLocation",
+      "withdrawAuctionBalances": "claimcoverageAuctionPatientaccounts",
+      "GEN0_CREATION_LIMIT": "gen0_creation_cap",
+      "GEN0_STARTING_PRICE": "gen0_starting_charge",
+      "GEN0_AUCTION_DURATION": "gen0_auction_staylength",
+      "OPEN_PACKAGE_PRICE": "open_package_cost",
+      "pandaOwner": "pandaAdministrator",
+      "_computeNextGen0Price": "_computeFollowingGen0Charge",
+      "avePrice": "aveCost",
+      "nextPrice": "upcomingCost",
+      "newContractAddress": "currentAgreementLocation",
+      "setNewAddress": "groupUpdatedFacility",
+      "_v2Address": "_v2Facility",
+      "getPanda": "acquirePanda",
+      "isGestating": "testGestating",
+      "isReady": "checkReady",
+      "nextActionAt": "followingActionAt"
+    }
+  }
+}

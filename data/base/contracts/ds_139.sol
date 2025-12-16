@@ -1,4 +1,3 @@
-Multi-transactional, single function
 //Arithmetic instruction reachable
 
 pragma solidity ^0.4.23;

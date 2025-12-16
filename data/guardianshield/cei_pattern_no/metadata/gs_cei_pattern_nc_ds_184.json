@@ -1,0 +1,76 @@
+{
+  "id": "gs_cei_pattern_nc_ds_184",
+  "contract_file": "contracts/gs_cei_pattern_nc_ds_184.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "other",
+    "neutralized_by": "cei_pattern",
+    "neutralization_reason": "State updates before external calls prevent reentrancy"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_approvescam",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 112,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "ERC20"
+    ],
+    "num_functions": 12,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "This vulnerability is associated with the approval process in ERC20 tokens. \nIn this scenario, Alice approves Eve to transfer an unlimited (type(uint256).max) amount of tokens \nfrom Alice's account. Later, Eve exploits this permission and transfers 1000 tokens from Alice's account to hers.\n\nMost current scams use approve or setApprovalForAll to defraud your transfer rights. Be especially careful with this part.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_184.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_184.json",
+    "original_id": "defivulnlabs_approvescam"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_184.sol",
+  "sanitized_from": "ds_184",
+  "derived_from": "nc_ds_184",
+  "original_id": "ds_184",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "cei_pattern",
+    "injection_details": {
+      "reordered": false,
+      "function": null,
+      "reason": "No vulnerable function found",
+      "protection_type": "cei_pattern"
+    }
+  }
+}

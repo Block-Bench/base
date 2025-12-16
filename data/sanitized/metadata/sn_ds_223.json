@@ -68,6 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_223.json",
     "original_id": "defivulnlabs_storage-collision"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_223.sol",
   "sanitized_from": "ds_223"
 }

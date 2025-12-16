@@ -5,7 +5,6 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-*/
 
 contract ContractTest is Test {
     SimplePool SimplePoolContract;

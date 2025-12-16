@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_095.json",
     "original_id": "defivulnlabs_randomness"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_095.sol",
   "sanitized_from": "ds_095"
 }

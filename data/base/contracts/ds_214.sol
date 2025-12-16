@@ -14,25 +14,21 @@ contract ERC20 {
     event Transfer( address indexed from, address indexed to, uint value);
     event Approval( address indexed owner, address indexed spender, uint value);
 }
- */
 contract Ownable {
   address public owner;
 
 
-   */
   function Ownable() {
     owner = msg.sender;
   }
 
 
-   */
   modifier onlyOwner() {
     require(msg.sender == owner);
     _;
   }
 
 
-   */
   function transferOwnership(address newOwner) onlyOwner {
     if (newOwner != address(0)) {
       owner = newOwner;
@@ -1386,7 +1382,6 @@ contract ClockAuctionBase {
 
 
 
- */
 contract Pausable is Ownable {
   event Pause();
   event Unpause();
@@ -1394,26 +1389,22 @@ contract Pausable is Ownable {
   bool public paused = false;
 
 
-   */
   modifier whenNotPaused() {
     require(!paused);
     _;
   }
 
-   */
   modifier whenPaused {
     require(paused);
     _;
   }
 
-   */
   function pause() onlyOwner whenNotPaused returns (bool) {
     paused = true;
     Pause();
     return true;
   }
 
-   */
   function unpause() onlyOwner whenPaused returns (bool) {
     paused = false;
     Unpause();

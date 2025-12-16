@@ -1,0 +1,330 @@
+{
+  "id": "ch_medical_sn_ds_226",
+  "contract_file": "contracts/ch_medical_sn_ds_226.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "We use NBA NFT incident as an example.",
+    "attack_vector": "We use NBA NFT incident as an example.",
+    "impact": "Severity: high",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_signaturereplaynba",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 114,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "NBA"
+    ],
+    "num_functions": 4,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "We use NBA NFT incident as an example.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_226.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_226.json",
+    "original_id": "defivulnlabs_signaturereplaynba"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_226.sol",
+  "sanitized_from": "ds_226",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 2525097389,
+    "coverage": {
+      "total_identifiers": 81,
+      "transformed": 28,
+      "untransformed": 53,
+      "skipped_reserved": 34,
+      "skipped_interface": 0,
+      "coverage_percent": 34.57,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "INBA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number_of_items_requested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_batchNumber",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NBA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Copy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "successful",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "etherscan",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "https",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "b3589c052ba90e14654d1fac78fb2fd9708355e1a686bed502f65e7ac0a47ad722dcc6c0dcc9445f608162648e000dcc8a845c2ed523202465dc9bdd239484b51b",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "batchNumber",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "batch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Unauthorised",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "access",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "secret",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whitelist",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Verified",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "you",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "You",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "INVALID_SIGNER",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cat",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sigR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sigS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sigV",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "takes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parameters",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "way",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "them",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "currently",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "byte",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "x19Ethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Signed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "n32",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "recovered",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "vData": "vRecord",
+      "mint_free": "generaterecord_free",
+      "max_mint": "maximum_issuecredential",
+      "from": "source",
+      "start": "onset",
+      "end": "discharge",
+      "eth_price": "eth_charge",
+      "dust_price": "dust_charge",
+      "signature": "consent",
+      "mint_approved": "generaterecord_approved",
+      "info": "details",
+      "ContractTest": "AgreementTest",
+      "NBAContract": "NbaPolicy",
+      "testMintNFT": "testCreateprescriptionCredential",
+      "sender": "provider",
+      "verify": "validate",
+      "check": "diagnose",
+      "log": "chart",
+      "mint": "issueCredential",
+      "_mintCards": "_issuecredentialCards",
+      "data": "record",
+      "logBytes": "recordRaw",
+      "hash": "checksum",
+      "logBytes32": "chartBytes32",
+      "length": "extent",
+      "get": "obtain",
+      "add": "attach",
+      "Message": "Alert"
+    }
+  }
+}

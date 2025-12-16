@@ -1,0 +1,479 @@
+{
+  "id": "ch_medical_sn_ds_154",
+  "contract_file": "contracts/ch_medical_sn_ds_154.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "denial_of_service",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Government",
+      "function_name": "lendGovernmentMoney",
+      "line_numbers": [
+        46
+      ]
+    },
+    "root_cause": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 46",
+    "attack_vector": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 46",
+    "impact": "Severity: medium",
+    "correct_fix": "Avoid unbounded loops, implement pull payment pattern, add gas limits"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_denial_of_service_list_dos",
+    "url": "https://etherscan.io/address/0xf45717552f12ef7cb65e95476f217ea008167ae3#code",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.0",
+    "num_lines": 116,
+    "num_contracts": 3,
+    "contract_names": [
+      "Government",
+      "money",
+      "state"
+    ],
+    "num_functions": 9,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 46",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_154.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_154.json",
+    "original_id": "smartbugs_denial_of_service_list_dos"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_154.sol",
+  "sanitized_from": "ds_154",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 539306640,
+    "coverage": {
+      "total_identifiers": 119,
+      "transformed": 30,
+      "untransformed": 89,
+      "skipped_reserved": 31,
+      "skipped_interface": 0,
+      "coverage_percent": 25.21,
+      "untransformed_details": [
+        {
+          "name": "Government",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Global",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Variables",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creditorAddresses",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creditorAmounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "corruptElite",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buddies",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "TWELVE_HOURS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "corrupt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "elite",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "establishes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "government",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "commitment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Elite",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "everything",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "saved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "crash",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lendGovernmentMoney",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buddy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "system",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "broke",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "down",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creditor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gives",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "credit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "brake",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "average",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "money",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Sends",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "all",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "needs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "collect",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "least",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "profit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "System",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "received",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fresh",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "survive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "leat",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "more",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "his",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "distributed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "grabs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "thieves",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "going",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "into",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "economy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "they",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "increase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "person",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "seeing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "comming",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "you",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "your",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "credits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Make",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "him",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "out",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creditors",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payout",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "better",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "don",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unless",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "want",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "establish",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "trust",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "investInTheSystem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inherits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "generation",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "lastCreditorPayedOut": "finalCreditorPayedOut",
+      "lastTimeOfNewCredit": "finalMomentOfUpdatedCredit",
+      "profitFromCrash": "profitReferrerCrash",
+      "round": "session",
+      "from": "referrer",
+      "value": "evaluation",
+      "sender": "referrer191",
+      "timestamp": "appointmentTime",
+      "amount": "units",
+      "check": "assess",
+      "last": "final",
+      "length": "extent",
+      "state": "status",
+      "register": "enroll",
+      "rate": "factor",
+      "first": "primary",
+      "list": "roster",
+      "get": "acquire",
+      "old": "former",
+      "totalDebt": "completeObligation",
+      "debt": "obligation",
+      "totalPayedOut": "completePayedOut",
+      "From": "Source",
+      "time": "moment",
+      "power": "capability",
+      "next": "following",
+      "inheritToNextGeneration": "inheritDestinationFollowingGeneration",
+      "nextGeneration": "upcomingGeneration",
+      "getCreditorAddresses": "retrieveCreditorAddresses",
+      "getCreditorAmounts": "obtainCreditorAmounts"
+    }
+  }
+}

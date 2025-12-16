@@ -1,0 +1,391 @@
+{
+  "id": "ch_medical_nc_ds_208",
+  "contract_file": "contracts/ch_medical_nc_ds_208.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "that",
+      "function_name": "initWallet",
+      "line_numbers": [
+        223
+      ]
+    },
+    "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 223",
+    "attack_vector": "Access control vulnerability - missing or incorrect authorization checks at line(s) 223",
+    "impact": "Severity: high",
+    "correct_fix": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_access_control_parity_wallet_bug_1",
+    "url": "https://github.com/paritytech/parity-ethereum/blob/4d08e7b0aec46443bf26547b17d10cb302672835/js/src/contracts/snippets/enhanced-wallet.sol#L216",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "0.4.9",
+    "num_lines": 461,
+    "num_contracts": 7,
+    "contract_names": [
+      "that",
+      "WalletEvents",
+      "only",
+      "WalletAbi",
+      "WalletLibrary",
+      "sending",
+      "Wallet"
+    ],
+    "num_functions": 41,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Access control vulnerability - missing or incorrect authorization checks at line(s) 223",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_208.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_208.json",
+    "original_id": "smartbugs_access_control_parity_wallet_bug_1"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_208.sol",
+  "sanitized_from": "ds_208",
+  "derived_from": "sn_ds_208",
+  "original_id": "ds_208",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 3252076480,
+    "coverage": {
+      "total_identifiers": 103,
+      "transformed": 40,
+      "untransformed": 63,
+      "skipped_reserved": 42,
+      "skipped_interface": 0,
+      "coverage_percent": 38.83,
+      "untransformed_details": [
+        {
+          "name": "WalletEvents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Confirmation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "RequirementChanged",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SingleTransact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "created",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MultiTransact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ConfirmationNeeded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initiator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WalletAbi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changeRequirement",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_data",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confirm",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WalletLibrary",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yetNeeded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ownersDone",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Transaction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlymanyowners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initMultiowned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_required",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_numOwners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_owners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_ownerIndex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_required",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "var",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "c_maxOwners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reorganizeOwners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initDaylimit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_limit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_dailyLimit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_lastDay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "today",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "resetSpentToday",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_spentToday",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initWallet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_daylimit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kill",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_txs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_code",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "o_addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "jumpi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invalidJumpLabel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extcodesize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_pendingIndex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "free",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_walletLibrary",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "argarraysize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "argsize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mstore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "codecopy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sub",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "codesize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "Revoke": "Withdraw",
+      "OwnerChanged": "AdministratorChanged",
+      "oldOwner": "formerAdministrator",
+      "newOwner": "updatedAdministrator",
+      "OwnerAdded": "SupervisorAdded",
+      "OwnerRemoved": "AdministratorRemoved",
+      "newRequirement": "updatedRequirement",
+      "Deposit": "FundAccount",
+      "value": "assessment",
+      "data": "chart",
+      "revoke": "cancel",
+      "changeOwner": "changeDirector",
+      "addOwner": "includeSupervisor",
+      "removeOwner": "discontinueAdministrator",
+      "_newRequired": "_currentRequired",
+      "isOwner": "isAdministrator",
+      "hasConfirmed": "holdsConfirmed",
+      "setDailyLimit": "groupDailyCap",
+      "_newLimit": "_updatedBound",
+      "execute": "completeTreatment",
+      "o_hash": "o_signature",
+      "o_success": "o_recovery",
+      "PendingState": "ScheduledCondition",
+      "index": "slot",
+      "onlyowner": "onlyChiefMedical",
+      "sender": "referrer",
+      "confirmAndCheck": "confirmAndInspect",
+      "length": "duration",
+      "ownerIndex": "directorRank",
+      "ownerIndexBit": "supervisorRankBit",
+      "pending": "awaiting",
+      "m_pending": "m_scheduled",
+      "clearPending": "clearScheduled",
+      "getOwner": "retrieveDirector",
+      "underLimit": "underBound",
+      "create": "caseOpened",
+      "add": "append",
+      "iszero": "testzero",
+      "Wallet": "PatientWallet",
+      "target": "objective"
+    }
+  }
+}

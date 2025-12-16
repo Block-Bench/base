@@ -1,0 +1,216 @@
+{
+  "id": "ch_medical_nc_ds_192",
+  "contract_file": "contracts/ch_medical_nc_ds_192.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Phantom function: Accepts any call to a function that it doesn't actually define, without reverting.\nkey:\n1.Token that does not support EIP-2612 permit. \n2.Token has a fallback function.\nFor example: WETH.",
+    "attack_vector": "Phantom function: Accepts any call to a function that it doesn't actually define, without reverting.\nkey:\n1.Token that does not support EIP-2612 permit. \n2.Token has a fallback function.\nFor example: WETH.",
+    "impact": "Severity: medium",
+    "correct_fix": "Use SafeERC20's safePermit - Revert on invalid signature.\nhttps://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/utils/SafeERC20.sol#LL89C14-L89C24"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_phantom-permit",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 204,
+    "num_contracts": 4,
+    "contract_names": [
+      "ContractTest",
+      "VulnPermit",
+      "Permit",
+      "WETH9"
+    ],
+    "num_functions": 14,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Phantom function: Accepts any call to a function that it doesn't actually define, without reverting.\nkey:\n1.Token that does not support EIP-2612 permit. \n2.Token has a fallback function.\nFor example: WETH.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_192.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_192.json",
+    "original_id": "defivulnlabs_phantom-permit"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_192.sol",
+  "sanitized_from": "ds_192",
+  "derived_from": "sn_ds_192",
+  "original_id": "ds_192",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 4221117229,
+    "coverage": {
+      "total_identifiers": 47,
+      "transformed": 22,
+      "untransformed": 25,
+      "skipped_reserved": 50,
+      "skipped_interface": 0,
+      "coverage_percent": 46.81,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WETH9",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testVulnPhantomPermit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stopPrank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wbal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_token",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "permit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Permit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Wrapped",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "src",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "guy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wad",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dst",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "token": "id",
+      "ContractTest": "PolicyTest",
+      "PermitToken": "PermitBadge",
+      "VulnPermitContract": "VulnPermitAgreement",
+      "WETH9Contract": "Weth9Policy",
+      "setUp": "groupUp",
+      "startPrank": "beginPrank",
+      "deposit": "contributeFunds",
+      "value": "rating",
+      "max": "maximum",
+      "log": "chart",
+      "start": "onset",
+      "depositWithPermit": "providespecimenWithPermit",
+      "withdraw": "releaseFunds",
+      "amount": "dosage",
+      "sender": "referrer",
+      "failed": "operationFailed",
+      "target": "goal",
+      "success": "improvement",
+      "Approval": "AccessGranted",
+      "Deposit": "Admit",
+      "Withdrawal": "FundsReleased"
+    }
+  }
+}

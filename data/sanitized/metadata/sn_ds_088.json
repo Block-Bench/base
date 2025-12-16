@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_088.json",
     "original_id": "defivulnlabs_hash-collisions"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_088.sol",
   "sanitized_from": "ds_088"
 }

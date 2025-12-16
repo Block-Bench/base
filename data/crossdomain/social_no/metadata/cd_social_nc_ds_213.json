@@ -1,0 +1,120 @@
+{
+  "id": "cd_social_nc_ds_213",
+  "contract_file": "contracts/cd_social_nc_ds_213.sol",
+  "subset": "crossdomain",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "MigrationAgent",
+      "function_name": "PartialFundsTransfer",
+      "line_numbers": [
+        439
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 439",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 439",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x19cf8481ea15427a98ba3cdd6d9e14690011ab10",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.11",
+    "num_lines": 470,
+    "num_contracts": 7,
+    "contract_names": [
+      "MigrationAgent",
+      "ERC20",
+      "SafeMath",
+      "StandardToken",
+      "daoPOLSKAtokens",
+      "and",
+      "you"
+    ],
+    "num_functions": 48,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 439",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_213.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_213.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x19cf8481ea15427a98ba3cdd6d9e14690011ab10"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_213.sol",
+  "sanitized_from": "ds_213",
+  "derived_from": "nc_ds_213",
+  "original_id": "ds_213",
+  "transformation": {
+    "strategy": "cross_domain",
+    "source_domain": "defi",
+    "target_domain": "social",
+    "coverage": 0.24,
+    "identifiers_transformed": 31,
+    "rename_map": {
+      "tokenRecipient": "reputationtokenRecipient",
+      "_token": "_karmatoken",
+      "totalSupply": "pooledInfluence",
+      "balanceOf": "standingOf",
+      "owner": "communityLead",
+      "transfer": "giveCredit",
+      "transferFrom": "givecreditFrom",
+      "approve": "permitTransfer",
+      "Transfer": "GiveCredit",
+      "StandardToken": "StandardSocialtoken",
+      "isToken": "isKarmatoken",
+      "_owner": "_admin",
+      "balance": "influence",
+      "sendTokenAway": "sendInfluencetokenAway",
+      "UpdatedTokenInformation": "UpdatedInfluencetokenInformation",
+      "Burn": "LoseKarma",
+      "approveAndCall": "permittransferAndCall",
+      "burn": "loseKarma",
+      "burnFrom": "spendinfluenceFrom",
+      "setTokenInformation": "setInfluencetokenInformation",
+      "DAOPolskaTokenICOregulations": "DaoPolskaReputationtokenIcOregulations",
+      "sendTokenAw": "sendReputationtokenAw",
+      "StandardTokenAddress": "StandardInfluencetokenAddress",
+      "tokenCreationRate": "influencetokenCreationReputationmultiplier",
+      "bonusCreationRate": "bonusCreationReputationmultiplier",
+      "CreationRate": "CreationReputationmultiplier",
+      "setBonusCreationRate": "setBonusCreationEngagementrate",
+      "newRate": "newKarmarate",
+      "FundsTransfer": "FundsSendtip",
+      "PartialFundsTransfer": "PartialFundsPassinfluence",
+      "DAOPLTokenValue": "DaoplKarmatokenValue"
+    }
+  }
+}

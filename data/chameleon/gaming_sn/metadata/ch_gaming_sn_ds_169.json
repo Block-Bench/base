@@ -1,0 +1,586 @@
+{
+  "id": "ch_gaming_sn_ds_169",
+  "contract_file": "contracts/ch_gaming_sn_ds_169.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "TownCrier",
+      "function_name": "deliver",
+      "line_numbers": [
+        162
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 162",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 162",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x89c1b3807d4c67df034fffb62f3509561218d30b",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.9",
+    "num_lines": 213,
+    "num_contracts": 4,
+    "contract_names": [
+      "TownCrier",
+      "to",
+      "to",
+      "externalCallFlag"
+    ],
+    "num_functions": 13,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 162",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_169.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_169.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x89c1b3807d4c67df034fffb62f3509561218d30b"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_169.sol",
+  "sanitized_from": "ds_169",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 166435973,
+    "coverage": {
+      "total_identifiers": 159,
+      "transformed": 48,
+      "untransformed": 111,
+      "skipped_reserved": 46,
+      "skipped_interface": 0,
+      "coverage_percent": 30.19,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "TownCrier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Request",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "structure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "request",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requester",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pays",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delivering",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "response",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "specification",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parameters",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requestType",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requests",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Town",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Crier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "server",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "watches",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "processes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "responses",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Cancel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "canceller",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancellations",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SGX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "minimum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "required",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "such",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "could",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deliver",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "charged",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancels",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "responded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "killswitch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requestCnt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unrespondedCnt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "but",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "define",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exception",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sending",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "back",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "was",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "different",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "you",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "want",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "your",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "implement",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IDs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "two",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reasons",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "denote",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ids",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unsigned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "more",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expensive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "something",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "non",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "means",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "randomly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancellationGas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "suspend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "restart",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "too",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "little",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "much",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "refund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "discard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Record",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delivered",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "been",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "correct",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "security",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "concern",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancelled",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancellation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "goes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "having",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Either",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "occurs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "query",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "its",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gasprice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "left",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "information",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "application",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "money",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "then",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "data": "info",
+      "fee": "tax",
+      "amount": "sum",
+      "callbackAddr": "replyAddr",
+      "callbackFID": "responseFid",
+      "callback": "response",
+      "paramsHash": "parametersSignature",
+      "hash": "signature",
+      "Upgrade": "Enhance",
+      "newAddr": "updatedAddr",
+      "gas_price": "gas_value",
+      "min_fee": "floor_charge",
+      "cancellation_fee": "cancellation_tribute",
+      "RequestInfo": "RequestDetails",
+      "timestamp": "gameTime",
+      "requestData": "requestDetails",
+      "log": "record",
+      "DeliverInfo": "DeliverData",
+      "requestId": "requestIdentifier",
+      "gasPrice": "gasCost",
+      "callbackGas": "replyGas",
+      "respData": "respInfo",
+      "flag": "marker",
+      "SGX_ADDRESS": "sgx_realm",
+      "account": "profile",
+      "GAS_PRICE": "gas_cost",
+      "MIN_FEE": "minimum_cut",
+      "CANCELLATION_FEE": "cancellation_cut",
+      "CANCELLED_FEE_FLAG": "cancelled_cut_marker",
+      "DELIVERED_FEE_FLAG": "delivered_charge_marker",
+      "FAIL_FLAG": "fail_indicator",
+      "SUCCESS_FLAG": "win_indicator",
+      "externalCallFlag": "externalInvokespellIndicator",
+      "newVersion": "updatedRelease",
+      "Start": "Begin",
+      "from": "source",
+      "first": "primary",
+      "isn": "verifyn",
+      "sender": "caster",
+      "upgrade": "enhance",
+      "price": "value",
+      "minGas": "minimumGas",
+      "withdraw": "harvestGold",
+      "value": "worth",
+      "Log": "Record",
+      "process": "execute",
+      "set": "configure",
+      "user": "player"
+    }
+  }
+}

@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_228.json",
     "original_id": "defivulnlabs_first-deposit"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_228.sol",
   "sanitized_from": "ds_228",
   "derived_from": "sn_ds_228",

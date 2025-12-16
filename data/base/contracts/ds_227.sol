@@ -4,9 +4,6 @@ pragma solidity ^0.7.0;
 
 import "forge-std/Test.sol";
 
-*/
-
-
 contract ContractTest is Test {
     Invariant InvariantContract;
 
@@ -23,7 +20,6 @@ contract ContractTest is Test {
             "testInvariant, BalanceReceived:",
             InvariantContract.balanceReceived(address(this))
         );
-*/
     }
 
     receive() external payable {}

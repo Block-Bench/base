@@ -1,0 +1,216 @@
+{
+  "id": "ch_medical_sn_ds_189",
+  "contract_file": "contracts/ch_medical_sn_ds_189.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The contract ContractTest is exploiting a callback feature to bypass the maximum mint limit \nset by the MaxMint721 contract. This is achieved by triggering the onERC721Received function,\nwhich internally calls the mint function again. Therefore, although MaxMint721 attempts \nto limit the number of tokens that a user can mint to MAX_PER_USER, the ContractTest contract \nsuccessfully mints more tokens than this limit.",
+    "attack_vector": "The contract ContractTest is exploiting a callback feature to bypass the maximum mint limit \nset by the MaxMint721 contract. This is achieved by triggering the onERC721Received function,\nwhich internally calls the mint function again. Therefore, although MaxMint721 attempts \nto limit the number of tokens that a user can mint to MAX_PER_USER, the ContractTest contract \nsuccessfully mints more tokens than this limit.",
+    "impact": "Severity: high",
+    "correct_fix": "Follow check-effect-interaction and use OpenZeppelin Reentrancy Guard."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_unprotected-callback",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 56,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "MaxMint721"
+    ],
+    "num_functions": 3,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The contract ContractTest is exploiting a callback feature to bypass the maximum mint limit \nset by the MaxMint721 contract. This is achieved by triggering the onERC721Received function,\nwhich internally calls the mint function again. Therefore, although MaxMint721 attempts \nto limit the number of tokens that a user can mint to MAX_PER_USER, the ContractTest contract \nsuccessfully mints more tokens than this limit.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_189.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_189.json",
+    "original_id": "defivulnlabs_unprotected-callback"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_189.sol",
+  "sanitized_from": "ds_189",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 488875954,
+    "coverage": {
+      "total_identifiers": 45,
+      "transformed": 18,
+      "untransformed": 27,
+      "skipped_reserved": 28,
+      "skipped_interface": 0,
+      "coverage_percent": 40.0,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extensions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721Enumerable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "eve",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bypassed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "got",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NFTs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assertEq",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "minted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onERC721Received",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Called",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exceed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "per",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "token": "credential",
+      "ContractTest": "PolicyTest",
+      "MaxMint721": "CeilingMint721",
+      "MaxMint721Contract": "MaximumMint721Policy",
+      "complete": "careFinished",
+      "maxMints": "maximumMints",
+      "testSafeMint": "testSafeGeneraterecord",
+      "mint": "generateRecord",
+      "log": "chart",
+      "NFT": "Credential",
+      "selector": "picker",
+      "MAX_PER_USER": "maximum_per_patient",
+      "amount": "quantity",
+      "sender": "referrer",
+      "max": "maximum",
+      "user": "member",
+      "mintIndex": "generaterecordRank",
+      "_safeMint": "_safeIssuecredential"
+    }
+  }
+}

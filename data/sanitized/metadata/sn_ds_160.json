@@ -69,6 +69,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_160.json",
     "original_id": "smartbugs_other_crypto_roulette"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_160.sol",
   "sanitized_from": "ds_160"
 }

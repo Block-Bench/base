@@ -1,0 +1,855 @@
+{
+  "id": "ch_gaming_sn_ds_216",
+  "contract_file": "contracts/ch_gaming_sn_ds_216.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "FiftyFlip",
+      "function_name": "wager",
+      "line_numbers": [
+        150
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 150",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 150",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xe09b1ab8111c2729a76f16de96bc86a7af837928",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.24",
+    "num_lines": 358,
+    "num_contracts": 6,
+    "contract_names": [
+      "FiftyFlip",
+      "address",
+      "doesn",
+      "will",
+      "owner",
+      "ERC20Interface"
+    ],
+    "num_functions": 21,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 150",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_216.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_216.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xe09b1ab8111c2729a76f16de96bc86a7af837928"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_216.sol",
+  "sanitized_from": "ds_216",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 1657794752,
+    "coverage": {
+      "total_identifiers": 240,
+      "transformed": 67,
+      "untransformed": 173,
+      "skipped_reserved": 60,
+      "skipped_interface": 0,
+      "coverage_percent": 27.92,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "FiftyFlip",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DONATING_X",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kujira",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Need",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "discussed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "jackpot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "JACKPOT_MODULO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "jackpotwin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "devfee",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WIN_X",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "There",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "minimum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maximum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bets",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BET_EXPIRATION_BLOCKS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PoC",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "autoPlayBot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "secretSigner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whale",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Accumulated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Funds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "potentially",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winning",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Wager",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "placeBet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mask",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "representing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "outcomes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "see",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "comment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "betMask",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "player",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "out",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "betPlayer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Win",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maskRes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "jackpotRes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Lose",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "loser",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Refund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requester",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Donate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "donator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "FailedPayment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Payment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "JackpotPayment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "jackpotWin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "modifiers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "You",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlyBot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "doesn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enough",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stopped",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "till",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "someone",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "donate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "game",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "betMast",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "front",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "back",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_secretSigner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wager",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bMask",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ticket",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "one",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Your",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lower",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "than",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "higher",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accept",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "danger",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expired",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "x19Ethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Signed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "n37",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "web3",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "vrs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "valid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "method",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "determine",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "losers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "play",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "correct",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "random",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tossWin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payout",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "loseWager",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "going",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "more",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "you",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "donated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "refund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ticket",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "withdrawl",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "trying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "developer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "funds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "may",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "destroyed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "there",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ongoing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "either",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "refunded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "All",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transferred",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kill",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "should",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "processed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "self",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "destruct",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Payout",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "routine",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "loses",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bulk",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clean",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clearProcessedBet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "move",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "into",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "overwrite",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zeros",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "additionally",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prevent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cleanup",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "which",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signatures",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whitepaper",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "details",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "trap",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "door",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sends",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "other",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "intended",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ones",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "overseers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decide",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "where",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "them",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Define",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PoCWHALE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accidently",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sent",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "JACKPOT_FEE": "jackpot_charge",
+      "DEV_FEE": "dev_charge",
+      "MIN_BET": "floor_bet",
+      "MAX_BET": "ceiling_bet",
+      "jackpotSize": "jackpotMagnitude",
+      "devFeeSize": "devTaxMagnitude",
+      "locked": "frozen",
+      "lockedInBets": "frozenInBets",
+      "totalAmountToWhale": "completeSumDestinationWhale",
+      "amount": "count",
+      "blockNumber": "frameNumber",
+      "MAX_MASK_MODULO": "ceiling_mask_modulo",
+      "donateAmount": "donateCount",
+      "events": "gameEvents",
+      "ticketID": "ticketTag",
+      "betAmount": "betSum",
+      "betBlockNumber": "betTickNumber",
+      "paidUser": "paidPlayer",
+      "noPaidUser": "noPaidHero",
+      "whaleAddress": "whaleLocation",
+      "autoPlayBotAddress": "autoPlayBotZone",
+      "secretSignerAddress": "secretSignerLocation",
+      "sender": "caster",
+      "checkContractHealth": "validateAgreementHealth",
+      "setBotAddress": "groupBotLocation",
+      "setSecretSigner": "groupSecretSigner",
+      "ticketLastBlock": "ticketEndingTick",
+      "value": "worth",
+      "getCollateralBalance": "retrievePledgeGoldholding",
+      "signatureHash": "sealSignature",
+      "Message": "Signal",
+      "signature": "seal",
+      "donate_amount": "donate_count",
+      "ticketReveal": "ticketShow",
+      "TicketID": "TicketIdentifier",
+      "tossWinAmount": "tossWinCount",
+      "donateForContractHealth": "donateForPactHealth",
+      "withdrawDonation": "collectbountyDonation",
+      "withdraw": "collectBounty",
+      "sendFunds": "transmitgoldFunds",
+      "sendRefund": "transmitgoldRefund",
+      "withdrawDevFee": "redeemtokensDevCharge",
+      "withdrawAddress": "retrieverewardsZone",
+      "withdrawAmount": "collectbountySum",
+      "fee": "tax",
+      "withdrawBotFee": "retrieverewardsBotTax",
+      "Get": "Obtain",
+      "Info": "Details",
+      "from": "origin",
+      "getBetInfo": "retrieveBetDetails",
+      "getContractBalance": "retrieveAgreementLootbalance",
+      "Collateral": "Deposit",
+      "settled": "configuretled",
+      "ethToTransfer": "ethTargetSendloot",
+      "Helper": "BattleAssist",
+      "process": "execute",
+      "success": "victory",
+      "clearStorage": "clearInventory",
+      "toCleanTicketIDs": "targetCleanTicketIDs",
+      "length": "extent",
+      "state": "condition",
+      "active": "live",
+      "tokens": "crystals",
+      "transferAnyERC20Token": "movetreasureAnyErc20Coin",
+      "tokenAddress": "coinLocation",
+      "tokenOwner": "crystalLord",
+      "ERC20Interface": "Erc20Portal"
+    }
+  }
+}

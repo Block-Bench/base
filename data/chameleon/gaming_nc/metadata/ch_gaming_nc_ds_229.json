@@ -1,0 +1,155 @@
+{
+  "id": "ch_gaming_nc_ds_229",
+  "contract_file": "contracts/ch_gaming_nc_ds_229.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Chainlink price feed latestRoundData is used to retrieve price feed from chainlink. \nWe need to makes sure that the answer is not negative and  price is not stale.",
+    "attack_vector": "Chainlink price feed latestRoundData is used to retrieve price feed from chainlink. \nWe need to makes sure that the answer is not negative and  price is not stale.",
+    "impact": "Severity: critical",
+    "correct_fix": "latestAnswer function is deprecated. Instead, use the latestRoundData function \nto retrieve the price and make sure to add checks for stale data."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_oracle-stale",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 54,
+    "num_contracts": 1,
+    "contract_names": [
+      "ContractTest"
+    ],
+    "num_functions": 4,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Chainlink price feed latestRoundData is used to retrieve price feed from chainlink. \nWe need to makes sure that the answer is not negative and  price is not stale.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_229.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_229.json",
+    "original_id": "defivulnlabs_oracle-stale"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_229.sol",
+  "sanitized_from": "ds_229",
+  "derived_from": "sn_ds_229",
+  "original_id": "ds_229",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "nocomments",
+    "seed": 161375376,
+    "coverage": {
+      "total_identifiers": 25,
+      "transformed": 12,
+      "untransformed": 13,
+      "skipped_reserved": 19,
+      "skipped_interface": 0,
+      "coverage_percent": 48.0,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createSelectFork",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mainnet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "answer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "updatedAt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stale",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "incomplete",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "feed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "startedAt",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "ContractTest": "AgreementTest",
+      "AggregatorV3Interface": "AggregatorV3Gateway",
+      "priceFeed": "costFeed",
+      "setUp": "groupUp",
+      "testUnSafePrice": "testUnSafeCost",
+      "latestRoundData": "latestWaveInfo",
+      "log_named_decimal_int": "record_named_decimal_value",
+      "price": "cost",
+      "testSafePrice": "testSafeCost",
+      "roundId": "cycleIdentifier",
+      "answeredInRound": "answeredInWave",
+      "round": "cycle"
+    }
+  }
+}

@@ -84,6 +84,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_049.json",
     "original_exploit_name": "Exactly Protocol"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_049.sol",
   "sanitized_from": "tc_049",
   "derived_from": "sn_tc_049",

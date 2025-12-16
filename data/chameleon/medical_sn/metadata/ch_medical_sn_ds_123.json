@@ -1,0 +1,418 @@
+{
+  "id": "ch_medical_sn_ds_123",
+  "contract_file": "contracts/ch_medical_sn_ds_123.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "low",
+    "vulnerable_location": {
+      "contract_name": "owned",
+      "function_name": "owned",
+      "line_numbers": []
+    },
+    "root_cause": "# Contracts can be forced to receive ether",
+    "attack_vector": "# Contracts can be forced to receive ether",
+    "impact": "Severity: low",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_forced_ether_reception_coin",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.16",
+    "num_lines": 147,
+    "num_contracts": 5,
+    "contract_names": [
+      "owned",
+      "TokenERC20",
+      "MyAdvancedToken",
+      "with",
+      "by"
+    ],
+    "num_functions": 13,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Contracts can be forced to receive ether",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_123.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_123.json",
+    "original_id": "notso_forced_ether_reception_coin"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_123.sol",
+  "sanitized_from": "ds_123",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 2463704601,
+    "coverage": {
+      "total_identifiers": 106,
+      "transformed": 33,
+      "untransformed": 73,
+      "skipped_reserved": 52,
+      "skipped_interface": 0,
+      "coverage_percent": 31.13,
+      "untransformed_details": [
+        {
+          "name": "taken",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "https",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "www",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "org",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "coin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_token",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "variables",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "strongly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "suggested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "default",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "avoid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "all",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "generates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blockchain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notify",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clients",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_spender",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "display",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "purposes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_transfer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Prevent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enough",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Save",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assertion",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "future",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Subtract",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "same",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Asserts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "static",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "analysis",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "find",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bugs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "your",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "They",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "should",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "never",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ADVANCED",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "STARTS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "HERE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "FrozenFunds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "frozen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Initializes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initial",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "called",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Buy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sending",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "updates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "makes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Migration",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "migrate_and_destroy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "consistency",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kill",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "from": "referrer",
+      "token": "id",
+      "sender": "referrer572",
+      "newOwner": "currentSupervisor",
+      "tokenRecipient": "idPatient",
+      "receiveApproval": "acceptpatientApproval",
+      "_extraData": "_extraChart",
+      "TokenERC20": "BadgeErc20",
+      "balances": "benefitsRecord",
+      "value": "assessment",
+      "Approval": "AccessGranted",
+      "tokenName": "badgePatientname",
+      "tokenSymbol": "credentialDesignation",
+      "Set": "Assign",
+      "Check": "Inspect",
+      "previousBalances": "lastCoveragemap",
+      "Add": "Insert",
+      "recipient": "receiver",
+      "fail": "complicationOccurred",
+      "success": "recovery",
+      "approveAndCall": "permittreatmentAndInvokeprotocol",
+      "spender": "subscriber",
+      "TOKEN": "Id",
+      "MyAdvancedToken": "MyAdvancedId",
+      "frozenAccount": "frozenProfile",
+      "target": "objective",
+      "supply": "contributeSupplies",
+      "tokens": "badges",
+      "creator": "founder",
+      "amount": "dosage",
+      "calculates": "derives",
+      "total": "cumulative",
+      "check": "diagnose"
+    }
+  }
+}

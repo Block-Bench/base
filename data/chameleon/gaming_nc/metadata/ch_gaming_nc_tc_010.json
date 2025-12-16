@@ -1,0 +1,131 @@
+{
+  "id": "ch_gaming_nc_tc_010",
+  "contract_file": "contracts/ch_gaming_nc_tc_010.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "the_dao.sol",
+      "function_name": "withdrawAll",
+      "line_numbers": [
+        51,
+        53
+      ]
+    },
+    "root_cause": "External call to msg.sender before updating internal state (credit balance). Violation of checks-effects-interactions pattern.",
+    "attack_vector": "Attacker deposited ETH, then called withdrawAll from a malicious contract with a fallback function that re-entered withdrawAll, draining funds before balance was updated.",
+    "impact": "Funds lost: $60,000,000",
+    "correct_fix": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2016-06-17",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 30,
+    "num_contracts": 1,
+    "contract_names": [
+      "CreditSystem"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "reentrancy",
+    "classic",
+    "historical",
+    "checks-effects-interactions",
+    "external-call"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2016-06-17",
+      "protocol_name": "The DAO",
+      "chain": "ethereum",
+      "funds_lost_usd": 60000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous The DAO exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_010.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_010.json",
+    "original_exploit_name": "The DAO"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_010.sol",
+  "sanitized_from": "tc_010",
+  "derived_from": "sn_tc_010",
+  "original_id": "tc_010",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "nocomments",
+    "seed": 611765329,
+    "coverage": {
+      "total_identifiers": 10,
+      "transformed": 7,
+      "untransformed": 3,
+      "skipped_reserved": 18,
+      "skipped_interface": 0,
+      "coverage_percent": 70.0,
+      "untransformed_details": [
+        {
+          "name": "CreditSystem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "credit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "oCredit",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "deposit": "cachePrize",
+      "sender": "initiator",
+      "value": "price",
+      "withdrawAll": "sweepWinnings",
+      "callResult": "castabilityOutcome",
+      "getCredit": "obtainCredit",
+      "user": "player"
+    }
+  }
+}

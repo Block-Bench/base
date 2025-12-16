@@ -64,6 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_178.json",
     "original_id": "sealevel_2_owner_checks"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_178.rs",
   "sanitized_from": "ds_178",
   "derived_from": "sn_ds_178",

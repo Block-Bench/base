@@ -1,0 +1,229 @@
+{
+  "id": "ch_medical_nc_ds_089",
+  "contract_file": "contracts/ch_medical_nc_ds_089.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The recoverERC20() function in StakingRewards.sol can potentially serve as a backdoor for the owner to retrieve rewardsToken.\nThere is no corresponding check against the rewardsToken. This creates an administrative privilege where the owner can sweep the rewards tokens, potentially using it as a means to exploit depositors.\nIt's similar to a forked issue if you forked vulnerable code.",
+    "attack_vector": "The recoverERC20() function in StakingRewards.sol can potentially serve as a backdoor for the owner to retrieve rewardsToken.\nThere is no corresponding check against the rewardsToken. This creates an administrative privilege where the owner can sweep the rewards tokens, potentially using it as a means to exploit depositors.\nIt's similar to a forked issue if you forked vulnerable code.",
+    "impact": "Severity: medium",
+    "correct_fix": "disallowing recovery of the rewardToken within the recoverErc20 function"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_recovererc20",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 137,
+    "num_contracts": 4,
+    "contract_names": [
+      "ContractTest",
+      "VulnStakingRewards",
+      "FixedtakingRewards",
+      "RewardToken"
+    ],
+    "num_functions": 5,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The recoverERC20() function in StakingRewards.sol can potentially serve as a backdoor for the owner to retrieve rewardsToken.\nThere is no corresponding check against the rewardsToken. This creates an administrative privilege where the owner can sweep the rewards tokens, potentially using it as a means to exploit depositors.\nIt's similar to a forked issue if you forked vulnerable code.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_089.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_089.json",
+    "original_id": "defivulnlabs_recovererc20"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_089.sol",
+  "sanitized_from": "ds_089",
+  "derived_from": "sn_ds_089",
+  "original_id": "ds_089",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 504610896,
+    "coverage": {
+      "total_identifiers": 48,
+      "transformed": 19,
+      "untransformed": 29,
+      "skipped_reserved": 30,
+      "skipped_interface": 0,
+      "coverage_percent": 39.58,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "access",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ownable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SafeERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "StakingRewards",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "StakingRewardsV2",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testVulnStakingRewards",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rug",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "After",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testFixedStakingRewards",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Recovered",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Cannot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Rewardoken",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_mint",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "token": "id",
+      "utils": "careTools",
+      "ContractTest": "AgreementTest",
+      "RewardToken": "BenefitId",
+      "RewardTokenContract": "CreditCredentialPolicy",
+      "VulnStakingRewardsContract": "VulnStakingRewardsPolicy",
+      "FixedtakingRewardsContract": "FixedtakingRewardsAgreement",
+      "setUp": "collectionUp",
+      "log": "record",
+      "recoverERC20": "healErc20",
+      "rewardsToken": "rewardsCredential",
+      "amount": "quantity",
+      "_rewardsToken": "_rewardsId",
+      "sender": "referrer",
+      "tokenAddress": "badgeLocation",
+      "tokenAmount": "idMeasure",
+      "safeTransfer": "secureReferral",
+      "withdraw": "dispenseMedication",
+      "Reward": "Benefit"
+    }
+  }
+}

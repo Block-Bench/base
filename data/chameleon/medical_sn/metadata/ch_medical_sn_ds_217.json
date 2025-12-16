@@ -1,0 +1,192 @@
+{
+  "id": "ch_medical_sn_ds_217",
+  "contract_file": "contracts/ch_medical_sn_ds_217.rs",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "type_cosplay_insecure",
+      "function_name": "type_cosplay_insecure",
+      "line_numbers": []
+    },
+    "root_cause": "Account type confusion - accounts can impersonate other account types",
+    "attack_vector": "Account type confusion - accounts can impersonate other account types",
+    "impact": "Severity: high",
+    "correct_fix": "Use Anchor's Account<'info, T> type to enforce account type validation"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "sealevel_3_type_cosplay",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "N/A",
+    "num_lines": 37,
+    "num_contracts": 1,
+    "contract_names": [
+      "type_cosplay_insecure"
+    ],
+    "num_functions": 1,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "sealevel_attacks",
+    "tier_3_hard",
+    "rust"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Account type confusion - accounts can impersonate other account types",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_217.rs",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_217.json",
+    "original_id": "sealevel_3_type_cosplay"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_217.rs",
+  "sanitized_from": "ds_217",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 743539810,
+    "coverage": {
+      "total_identifiers": 40,
+      "transformed": 19,
+      "untransformed": 21,
+      "skipped_reserved": 6,
+      "skipped_interface": 0,
+      "coverage_percent": 47.5,
+      "untransformed_details": [
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "anchor_lang",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prelude",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "borsh",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BorshDeserialize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BorshSerialize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "program",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pub",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mod",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "type_cosplay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ctx",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Context",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Err",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "authority",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "derive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Signer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pubkey",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Metadata",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "declare_id": "declare_chartnumber",
+      "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS": "Fg6PaFpoGXkYsidEnergyWtk6W2BeZ7FEfcYkg476zPFsLnS",
+      "update_user": "refreshvitals_enrollee",
+      "UpdateUser": "UpdatechartPatient",
+      "ProgramResult": "ProgramOutcome",
+      "user": "patient",
+      "User": "Patient",
+      "try_from_slice": "try_referrer_slice",
+      "data": "chart",
+      "borrow": "requestAdvance",
+      "unwrap": "release",
+      "program_id": "program_identifier",
+      "ProgramError": "ProgramComplication",
+      "IllegalOwner": "IllegalAdministrator",
+      "key": "accessor",
+      "InvalidAccountData": "InvalidChartRecord",
+      "info": "data",
+      "AccountInfo": "ProfileDetails",
+      "account": "chart8"
+    }
+  }
+}

@@ -3,7 +3,6 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
 
 contract ContractTest is Test {
     AggregatorV3Interface internal priceFeed;
@@ -30,7 +29,6 @@ contract ContractTest is Test {
             uint256 updatedAt,
             uint80 answeredInRound
         ) = priceFeed.latestRoundData();
-        */
         require(answeredInRound >= roundId, "answer is stale");
         require(updatedAt > 0, "round is incomplete");
         require(answer > 0, "Invalid feed answer");

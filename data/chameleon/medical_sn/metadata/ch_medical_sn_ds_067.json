@@ -1,0 +1,320 @@
+{
+  "id": "ch_medical_sn_ds_067",
+  "contract_file": "contracts/ch_medical_sn_ds_067.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "https",
+      "function_name": "tokens_buy",
+      "line_numbers": [
+        54
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 54",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 54",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x9d06cbafa865037a01d322d3f4222fa3e04e5488",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.23",
+    "num_lines": 81,
+    "num_contracts": 3,
+    "contract_names": [
+      "https",
+      "Delta",
+      "balance"
+    ],
+    "num_functions": 5,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 54",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_067.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_067.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x9d06cbafa865037a01d322d3f4222fa3e04e5488"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_067.sol",
+  "sanitized_from": "ds_067",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 621281749,
+    "coverage": {
+      "total_identifiers": 68,
+      "transformed": 15,
+      "untransformed": 53,
+      "skipped_reserved": 31,
+      "skipped_interface": 0,
+      "coverage_percent": 22.06,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Project",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Delta",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DELTA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Crypto",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Platform",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "own",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cryptocurrency",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "verified",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "smart",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "multi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blockchains",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "future",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "you",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "coin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Site",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "http",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delta",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "money",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Telegram",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Chat",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deltacoin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "News",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deltaico",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CEO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Nechesov",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Andrey",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "facebook",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "com",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ltd",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Working",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "https",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "etherscan",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owner2",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "default",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sum2",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Change",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_active",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Functions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "executed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "token": "badge",
+      "get": "obtain",
+      "active": "enabled",
+      "token_price": "badge_cost",
+      "tokens": "ids",
+      "tokens_buy": "credentials_buy",
+      "value": "rating",
+      "sender": "referrer",
+      "Withdraw": "DispenseMedication",
+      "from": "referrer843",
+      "withdraw": "dispenseMedication",
+      "result": "finding",
+      "change_token_price": "change_credential_charge",
+      "_token_price": "_credential_cost",
+      "change_active": "change_enabled"
+    }
+  }
+}

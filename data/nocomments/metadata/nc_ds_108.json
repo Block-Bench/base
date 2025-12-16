@@ -73,6 +73,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_108.json",
     "original_id": "defivulnlabs_bypasscontract"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_108.sol",
   "sanitized_from": "ds_108",
   "derived_from": "sn_ds_108",

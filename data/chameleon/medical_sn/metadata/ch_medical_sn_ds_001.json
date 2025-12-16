@@ -1,0 +1,502 @@
+{
+  "id": "ch_medical_sn_ds_001",
+  "contract_file": "contracts/ch_medical_sn_ds_001.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "timestamp_dependency",
+    "severity": "low",
+    "vulnerable_location": {
+      "contract_name": "theRun",
+      "function_name": "theRun",
+      "line_numbers": []
+    },
+    "root_cause": "# Bad Randomness",
+    "attack_vector": "# Bad Randomness",
+    "impact": "Severity: low",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_bad_randomness_therun",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 173,
+    "num_contracts": 1,
+    "contract_names": [
+      "theRun"
+    ],
+    "num_functions": 17,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Bad Randomness",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_001.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_001.json",
+    "original_id": "notso_bad_randomness_therun"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_001.sol",
+  "sanitized_from": "ds_001",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 1366587152,
+    "coverage": {
+      "total_identifiers": 134,
+      "transformed": 41,
+      "untransformed": 93,
+      "skipped_reserved": 36,
+      "skipped_interface": 0,
+      "coverage_percent": 30.6,
+      "untransformed_details": [
+        {
+          "name": "theRun",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WinningPot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Fees",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "necessary",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "very",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "low",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maintain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "website",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fees",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decrease",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "they",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "collected",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "just",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "here",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "beginning",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "progressively",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Fraction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "per",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "thousand",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PotFrac",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Player",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payout",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "paid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "players",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "init",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initiated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "participation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accepted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Participate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "apply",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "future",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initiate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Every",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "participant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "play",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "smart",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "player",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "UPDATING",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "STATS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "take",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "some",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winning",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "collect",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maintenance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Winning",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Condition",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "paying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "least",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "people",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "having",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "luck",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "roll",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "random",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "between",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lucky",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Chances",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "out",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bravo",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Classic",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "participants",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "man",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "please",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "salt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "best",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "seed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "randomness",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "management",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "functions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ChangeOwnership",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CollectAllFees",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reduce",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "informations",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WatchFees",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CollectedFees",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WatchWinningPot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NumberOfPlayers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Payout",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "Payout_id": "payout_casenumber",
+      "Last_Payout": "final_payout",
+      "Min_multiplier": "minimum_factor",
+      "set": "prescribe",
+      "time": "moment",
+      "feeFrac": "chargeFrac",
+      "percent": "portion",
+      "admin": "manager",
+      "sender": "referrer",
+      "onlyowner": "onlyChiefMedical",
+      "deposit": "submitPayment",
+      "value": "rating",
+      "Core": "HealthCore",
+      "game": "healthChallenge",
+      "calculate": "determine",
+      "multiplier": "factor",
+      "total_multiplier": "complete_factor",
+      "length": "extent",
+      "gets": "querys",
+      "bonus": "extra",
+      "add": "attach",
+      "queue": "waitlist",
+      "update": "refreshVitals",
+      "timestamp": "appointmentTime",
+      "Max": "Ceiling",
+      "result": "finding",
+      "get": "obtain",
+      "WatchBalance": "WatchAllocation",
+      "TotalBalance": "CumulativeCredits",
+      "WatchBalanceInEther": "WatchBenefitsInEther",
+      "TotalBalanceInEther": "CompleteFundsInEther",
+      "Fee": "Charge",
+      "creator": "founder",
+      "GetAndReduceFeesByFraction": "ObtainAndReduceFeesByFraction",
+      "NextPayout": "FollowingPayout",
+      "WatchLastPayout": "WatchFinalPayout",
+      "Total_of_Players": "aggregate_of_players",
+      "PlayerInfo": "PlayerDetails",
+      "UserPaid": "MemberPaid",
+      "PayoutQueueSize": "PayoutWaitlistMagnitude",
+      "QueueSize": "WaitlistMagnitude"
+    }
+  }
+}

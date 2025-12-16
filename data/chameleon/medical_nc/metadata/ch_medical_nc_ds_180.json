@@ -1,0 +1,177 @@
+{
+  "id": "ch_medical_nc_ds_180",
+  "contract_file": "contracts/ch_medical_nc_ds_180.rs",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "closing_accounts_insecure",
+      "function_name": "closing_accounts_insecure",
+      "line_numbers": []
+    },
+    "root_cause": "Improper account closure leaves accounts open to revival attacks",
+    "attack_vector": "Improper account closure leaves accounts open to revival attacks",
+    "impact": "Severity: high",
+    "correct_fix": "Zero out data and transfer lamports to recipient, use close constraint in Anchor"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "sealevel_9_closing_accounts",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "N/A",
+    "num_lines": 30,
+    "num_contracts": 1,
+    "contract_names": [
+      "closing_accounts_insecure"
+    ],
+    "num_functions": 1,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "sealevel_attacks",
+    "tier_2_medium",
+    "rust"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Improper account closure leaves accounts open to revival attacks",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_180.rs",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_180.json",
+    "original_id": "sealevel_9_closing_accounts"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_180.rs",
+  "sanitized_from": "ds_180",
+  "derived_from": "sn_ds_180",
+  "original_id": "ds_180",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 912581190,
+    "coverage": {
+      "total_identifiers": 32,
+      "transformed": 14,
+      "untransformed": 18,
+      "skipped_reserved": 2,
+      "skipped_interface": 0,
+      "coverage_percent": 43.75,
+      "untransformed_details": [
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "anchor_lang",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prelude",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "program",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pub",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mod",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "closing_accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "close",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ctx",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Context",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Close",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dest_starting_lamports",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lamports",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "derive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "u64",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "declare_id": "declare_chartnumber",
+      "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS": "Fg6PaFpoGXkYsidEnergyWtk6W2BeZ7FEfcYkg476zPFsLnS",
+      "ProgramResult": "ProgramFinding",
+      "destination": "endpoint",
+      "borrow_mut": "requestadvance_mut",
+      "checked_add": "checked_attach",
+      "account": "chart",
+      "to_account_info": "destination_chart_details",
+      "unwrap": "unpack",
+      "info": "details",
+      "Account": "Profile",
+      "Data": "Record",
+      "AccountInfo": "ChartDetails",
+      "data": "chart628"
+    }
+  }
+}

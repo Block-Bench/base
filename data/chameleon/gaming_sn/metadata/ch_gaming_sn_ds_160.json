@@ -1,0 +1,229 @@
+{
+  "id": "ch_gaming_sn_ds_160",
+  "contract_file": "contracts/ch_gaming_sn_ds_160.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "balance",
+      "function_name": "play",
+      "line_numbers": [
+        40,
+        41,
+        42
+      ]
+    },
+    "root_cause": "Security vulnerability at line(s) 40, 41, 42",
+    "attack_vector": "Security vulnerability at line(s) 40, 41, 42",
+    "impact": "Severity: medium",
+    "correct_fix": "Apply security best practices to fix this vulnerability"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_other_crypto_roulette",
+    "url": "https://github.com/thec00n/smart-contract-honeypots/blob/master/CryptoRoulette.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 57,
+    "num_contracts": 2,
+    "contract_names": [
+      "balance",
+      "CryptoRoulette"
+    ],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Security vulnerability at line(s) 40, 41, 42",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_160.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_160.json",
+    "original_id": "smartbugs_other_crypto_roulette"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_160.sol",
+  "sanitized_from": "ds_160",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 1309163619,
+    "coverage": {
+      "total_identifiers": 39,
+      "transformed": 7,
+      "untransformed": 32,
+      "skipped_reserved": 29,
+      "skipped_interface": 0,
+      "coverage_percent": 17.95,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CryptoRoulette",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Guess",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "secretly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stored",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blockchain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "win",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whole",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "randomly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "chosen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "after",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "play",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "method",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "guessed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "secretNumber",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Game",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "player",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gamesPlayed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "shuffle",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "between",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "game",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kill",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "price": "cost",
+      "lastPlayed": "finalPlayed",
+      "betPrice": "betCost",
+      "ownerAddr": "masterAddr",
+      "sender": "caster",
+      "set": "establish",
+      "value": "cost328"
+    }
+  }
+}

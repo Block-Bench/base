@@ -28,7 +28,6 @@ contract Delta {
 	    tokens_buy();        
 	}
 
-	*/
     function tokens_buy() payable returns (bool) {         
         
         require(active > 0);

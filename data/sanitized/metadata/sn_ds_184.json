@@ -65,6 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_184.json",
     "original_id": "defivulnlabs_approvescam"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_184.sol",
   "sanitized_from": "ds_184"
 }

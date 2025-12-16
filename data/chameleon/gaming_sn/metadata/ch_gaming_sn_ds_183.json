@@ -1,0 +1,307 @@
+{
+  "id": "ch_gaming_sn_ds_183",
+  "contract_file": "contracts/ch_gaming_sn_ds_183.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The actual deposited amount might be lower than the specified depositAmount of the function parameter.",
+    "attack_vector": "The actual deposited amount might be lower than the specified depositAmount of the function parameter.",
+    "impact": "Severity: medium",
+    "correct_fix": "Transfer the tokens first and compare pre-/after token balances to compute the actual deposited amount."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_fee-on-transfer",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 367,
+    "num_contracts": 5,
+    "contract_names": [
+      "ContractTest",
+      "ERC20Detailed",
+      "STA",
+      "VulnVault",
+      "Vault"
+    ],
+    "num_functions": 36,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The actual deposited amount might be lower than the specified depositAmount of the function parameter.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_183.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_183.json",
+    "original_id": "defivulnlabs_fee-on-transfer"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_183.sol",
+  "sanitized_from": "ds_183",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 4236070312,
+    "coverage": {
+      "total_identifiers": 88,
+      "transformed": 46,
+      "untransformed": 42,
+      "skipped_reserved": 53,
+      "skipped_interface": 0,
+      "coverage_percent": 52.27,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "STA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CoreVault",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bob",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "charge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "but",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assertEq",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "who",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SafeMath",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mul",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "div",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sub",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ceil",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20Detailed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_name",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_symbol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_decimals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_balances",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Statera",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_issue",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "destroy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_destroy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "depositor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "must",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "greater",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "than",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Insufficient",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "ContractTest": "PactTest",
+      "STAContract": "StaAgreement",
+      "VulnVaultContract": "VulnVaultPact",
+      "Vault": "BountyStorage",
+      "VaultContract": "VaultPact",
+      "setUp": "groupUp",
+      "testVulnFeeOnTransfer": "testVulnChargeOnShiftgold",
+      "log": "record",
+      "fee": "charge",
+      "startPrank": "beginPrank",
+      "max": "ceiling",
+      "deposit": "cachePrize",
+      "getBalance": "viewTreasure",
+      "testFeeOnTransfer": "testTributeOnTradefunds",
+      "spender": "consumer",
+      "value": "worth",
+      "from": "source",
+      "Approval": "PermissionGranted",
+      "add": "insert",
+      "tokenName": "gemTitle",
+      "tokenSymbol": "gemIcon",
+      "tokenDecimals": "coinGranularity",
+      "_totalSupply": "_combinedStock",
+      "basePercent": "basePortion",
+      "sender": "invoker",
+      "roundValue": "wavePrice",
+      "cutValue": "cutMagnitude",
+      "tokensToBurn": "coinsTargetIncinerate",
+      "tokensToTransfer": "crystalsDestinationTradefunds",
+      "upAllowance": "upPermission",
+      "addedValue": "addedWorth",
+      "downAllowance": "downPermission",
+      "subtractedValue": "subtractedCost",
+      "account": "profile",
+      "amount": "measure",
+      "destroyFrom": "destroySource",
+      "balances": "playerLoot",
+      "token": "coin",
+      "Deposit": "CachePrize",
+      "Withdrawal": "LootClaimed",
+      "recipient": "receiver",
+      "_tokenAddress": "_medalRealm",
+      "withdraw": "obtainPrize",
+      "balanceBefore": "prizecountBefore",
+      "balanceAfter": "treasureamountAfter",
+      "actualDepositAmount": "actualStashrewardsCount"
+    }
+  }
+}

@@ -67,6 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_015.json",
     "original_id": "smartbugs_access_control_wallet_03_wrong_constructor"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_015.sol",
   "sanitized_from": "ds_015"
 }

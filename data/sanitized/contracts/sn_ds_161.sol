@@ -1,5 +1,3 @@
-A Locked Name Registrar
-
 pragma solidity ^0.4.15;
 contract NameRegistrar {
 

@@ -1,0 +1,233 @@
+{
+  "id": "ch_medical_sn_ds_107",
+  "contract_file": "contracts/ch_medical_sn_ds_107.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "SimpleVault",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "SIR (Storage Injection via Reentrancy) vulnerability transient storage test",
+    "attack_vector": "SIR (Storage Injection via Reentrancy) vulnerability transient storage test",
+    "impact": "Severity: critical",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_transientstoragemisuse.t",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.24",
+    "num_lines": 69,
+    "num_contracts": 2,
+    "contract_names": [
+      "SimpleVault",
+      "TransientStorageMisuseTest"
+    ],
+    "num_functions": 6,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "SIR (Storage Injection via Reentrancy) vulnerability transient storage test",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_107.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_107.json",
+    "original_id": "defivulnlabs_transientstoragemisuse.t"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_107.sol",
+  "sanitized_from": "ds_107",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 3368030240,
+    "coverage": {
+      "total_identifiers": 53,
+      "transformed": 23,
+      "untransformed": 30,
+      "skipped_reserved": 26,
+      "skipped_interface": 0,
+      "coverage_percent": 43.4,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SimpleVault",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Write",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tstore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Directly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "own",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Simulate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Read",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "legitimate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "authorized",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "observation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "returned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Manipulated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "what",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "want",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "needed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "mint": "generateRecord",
+      "amountToDeposit": "dosageDestinationAdmit",
+      "vault": "healthArchive",
+      "callback": "response",
+      "SwapCallback": "BartersuppliesResponse",
+      "amount": "measure",
+      "data": "chart",
+      "from": "source",
+      "Check": "Diagnose",
+      "caller": "provider",
+      "sender": "referrer",
+      "Output": "Result",
+      "log": "record",
+      "TransientStorageMisuseTest": "TransientArchiveMisuseTest",
+      "setUp": "groupUp",
+      "testStorageOperation": "testArchiveOperation",
+      "First": "Initial",
+      "check": "inspect",
+      "get": "obtain",
+      "Target": "Goal",
+      "Convert": "Transform",
+      "log_named_uint": "record_named_number",
+      "Amount": "Quantity"
+    }
+  }
+}

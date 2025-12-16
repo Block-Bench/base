@@ -1,0 +1,230 @@
+{
+  "id": "ch_medical_sn_ds_098",
+  "contract_file": "contracts/ch_medical_sn_ds_098.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "TimeLock",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The TimeLock has a flaw in the smart contract code that allows \nan attacker to prematurely withdraw their deposited funds from the TimeLock contract. \nThe vulnerability arises due to an overflow in the increaseLockTime function, \nwhich manipulates the lock time in a way that causes it to wrap around to 0, \nenabling the attacker to withdraw their funds before the actual waiting period expires.\n\nThis contract is designed to act as a time vault.\nUser can deposit into this contract but cannot withdraw for atleast a week.\nUser can also extend the wait time beyond the 1 week waiting period.\n\n/*\n1. Alice and bob both have 1 Ether balance\n2. Deploy TimeLock Contract\n3. Alice and bob both deposit 1 Ether to TimeLock, they need to wait 1 week to unlock Ether\n4. Bob caused an overflow on his lockTime\n5, Alice can't withdraw 1 Ether, because the lock time not expired.\n6. Bob can withdraw 1 Ether, because the lockTime is overflow to 0\n\nWhat happened?\nAttack caused the TimeLock.lockTime to overflow,\nand was able to withdraw before the 1 week waiting period.",
+    "attack_vector": "The TimeLock has a flaw in the smart contract code that allows \nan attacker to prematurely withdraw their deposited funds from the TimeLock contract. \nThe vulnerability arises due to an overflow in the increaseLockTime function, \nwhich manipulates the lock time in a way that causes it to wrap around to 0, \nenabling the attacker to withdraw their funds before the actual waiting period expires.\n\nThis contract is designed to act as a time vault.\nUser can deposit into this contract but cannot withdraw for atleast a week.\nUser can also extend the wait time beyond the 1 week waiting period.\n\n/*\n1. Alice and bob both have 1 Ether balance\n2. Deploy TimeLock Contract\n3. Alice and bob both deposit 1 Ether to TimeLock, they need to wait 1 week to unlock Ether\n4. Bob caused an overflow on his lockTime\n5, Alice can't withdraw 1 Ether, because the lock time not expired.\n6. Bob can withdraw 1 Ether, because the lockTime is overflow to 0\n\nWhat happened?\nAttack caused the TimeLock.lockTime to overflow,\nand was able to withdraw before the 1 week waiting period.",
+    "impact": "Severity: high",
+    "correct_fix": "To mitigate the Overflow vulnerability, use SafeMath library or use Solidity > 0.8"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_overflow",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.7.6",
+    "num_lines": 81,
+    "num_contracts": 2,
+    "contract_names": [
+      "TimeLock",
+      "ContractTest"
+    ],
+    "num_functions": 5,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The TimeLock has a flaw in the smart contract code that allows \nan attacker to prematurely withdraw their deposited funds from the TimeLock contract. \nThe vulnerability arises due to an overflow in the increaseLockTime function, \nwhich manipulates the lock time in a way that causes it to wrap around to 0, \nenabling the attacker to withdraw their funds before the actual waiting period expires.\n\nThis contract is designed to act as a time vault.\nUser can deposit into this contract but cannot withdraw for atleast a week.\nUser can also extend the wait time beyond the 1 week waiting period.\n\n/*\n1. Alice and bob both have 1 Ether balance\n2. Deploy TimeLock Contract\n3. Alice and bob both deposit 1 Ether to TimeLock, they need to wait 1 week to unlock Ether\n4. Bob caused an overflow on his lockTime\n5, Alice can't withdraw 1 Ether, because the lock time not expired.\n6. Bob can withdraw 1 Ether, because the lockTime is overflow to 0\n\nWhat happened?\nAttack caused the TimeLock.lockTime to overflow,\nand was able to withdraw before the 1 week waiting period.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_098.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_098.json",
+    "original_id": "defivulnlabs_overflow"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_098.sol",
+  "sanitized_from": "ds_098",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 582479772,
+    "coverage": {
+      "total_identifiers": 53,
+      "transformed": 24,
+      "untransformed": 29,
+      "skipped_reserved": 25,
+      "skipped_interface": 0,
+      "coverage_percent": 45.28,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Insufficient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "funds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bob",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testCalculation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bob",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "successfully",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "because",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stopPrank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "did",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expire",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expect",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "TimeLock": "MomentBindcoverage",
+      "balances": "coverageMap",
+      "lockTime": "securerecordInstant",
+      "deposit": "registerPayment",
+      "sender": "provider",
+      "value": "rating",
+      "timestamp": "admissionTime",
+      "increaseLockTime": "increaseFreezeaccountMoment",
+      "_secondsToIncrease": "_secondsDestinationIncrease",
+      "withdraw": "releaseFunds",
+      "Lock": "BindCoverage",
+      "time": "moment",
+      "expired": "coverageExpired",
+      "amount": "quantity",
+      "Failed": "ProcedureFailed",
+      "ContractTest": "PolicyTest",
+      "TimeLockContract": "MomentSecurerecordPolicy",
+      "setUp": "groupUp",
+      "log": "record",
+      "startPrank": "beginPrank",
+      "max": "maximum",
+      "lock": "bindCoverage",
+      "calculate": "compute",
+      "fail": "treatmentFailed"
+    }
+  }
+}

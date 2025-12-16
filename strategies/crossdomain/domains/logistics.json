@@ -1,0 +1,63 @@
+{
+  "domain": "logistics",
+  "description": "Supply chain - shipments, inventory, warehousing, freight",
+  "terminology": {
+    "entities": {
+      "vault": ["Warehouse", "StorageFacility", "InventoryHub", "DepotCenter", "CargoHold"],
+      "pool": ["ShipmentPool", "CargoAggregate", "FreightCollection", "InventoryPool"],
+      "token": ["ShipmentUnit", "CargoCredit", "FreightToken", "InventoryUnit", "LogisticsToken"],
+      "collateral": ["SecurityDeposit", "InsuranceBond", "CargoGuarantee", "ShipmentBond"],
+      "reserve": ["InventoryReserve", "CargoReserve", "StockReserve"],
+      "treasury": ["LogisticsTreasury", "FreightFund", "OperationsFund"],
+      "fund": ["ShippingFund", "CargoFund", "FreightFund"],
+      "bank": ["InventoryBank", "CargoBank", "ShipmentBank"],
+      "account": ["ShipperAccount", "CargoProfile", "LogisticsAccount"],
+      "wallet": ["CargoManifest", "ShipmentRecord", "InventoryList"]
+    },
+    "actions": {
+      "deposit": ["storeGoods", "receiveShipment", "checkInCargo", "stockInventory", "warehouseItems"],
+      "withdraw": ["releaseGoods", "dispatchShipment", "checkOutCargo", "shipItems", "deliverGoods"],
+      "stake": ["reserveCapacity", "commitStorage", "allocateSpace", "bookCapacity"],
+      "unstake": ["releaseCapacity", "freeStorage", "cancelReservation"],
+      "borrow": ["requestCapacity", "borrowStorage", "rentSpace", "leaseCapacity"],
+      "repay": ["returnCapacity", "clearRental", "settleStorage"],
+      "liquidate": ["auctionGoods", "disposeInventory", "liquidateStock", "clearWarehouse"],
+      "claim": ["collectShipment", "receiveDelivery", "claimGoods", "pickupCargo"],
+      "transfer": ["moveGoods", "relocateCargo", "transferInventory", "shiftStock"],
+      "swap": ["exchangeCargo", "tradeGoods", "swapInventory"],
+      "mint": ["registerShipment", "createManifest", "logInventory", "recordCargo"],
+      "burn": ["removeFromInventory", "delistGoods", "clearRecord", "archiveShipment"],
+      "approve": ["authorizeShipment", "permitRelease", "clearCargo", "approveDispatch"]
+    },
+    "actors": {
+      "user": ["shipper", "consignee", "merchant", "vendor", "supplier", "buyer"],
+      "owner": ["warehouseManager", "facilityOperator", "logisticsAdmin", "depotOwner"],
+      "admin": ["inventoryManager", "cargoAdmin", "operationsManager", "systemAdmin"],
+      "liquidator": ["auctioneer", "disposalAgent", "liquidationManager", "clearanceAgent"],
+      "depositor": ["consignor", "shipper", "stockDepositor", "goodsOwner"],
+      "borrower": ["capacityRenter", "storageUser", "spaceLeaser"],
+      "lender": ["capacityProvider", "spaceOwner", "storageLeaser"],
+      "staker": ["capacityHolder", "spaceReserver", "warehouseUser"]
+    },
+    "metrics": {
+      "balance": ["inventory", "stockLevel", "cargoCount", "goodsOnHand", "warehouseLevel"],
+      "totalSupply": ["totalInventory", "warehouseCapacity", "totalGoods", "aggregateStock"],
+      "fee": ["storageFee", "handlingFee", "processingCharge", "shippingFee", "warehouseFee"],
+      "rate": ["utilizationRate", "turnoverRate", "throughputRate", "occupancyRate"],
+      "reward": ["deliveryBonus", "efficiencyReward", "performanceBonus"],
+      "interest": ["storageRate", "capacityRate", "rentalRate"],
+      "debt": ["outstandingFees", "unpaidStorage", "pendingCharges"],
+      "collateralRatio": ["inventoryRatio", "capacityRatio", "utilizationRatio"],
+      "liquidity": ["availableSpace", "freeCapacity", "openSlots"]
+    },
+    "contracts": {
+      "Vault": ["Warehouse", "StorageVault", "InventoryVault", "CargoVault"],
+      "Pool": ["ShipmentPool", "CargoPool", "InventoryPool", "FreightPool"],
+      "Token": ["CargoToken", "InventoryToken", "ShipmentToken", "FreightCredit"],
+      "Bank": ["InventoryBank", "CargoBank", "LogisticsBank", "FreightBank"],
+      "Treasury": ["LogisticsTreasury", "OperationsTreasury", "FreightTreasury"],
+      "Staking": ["CapacityReservation", "SpaceAllocation", "StorageBooking"],
+      "Lending": ["CapacityLease", "StorageRental", "SpaceLoan"]
+    }
+  }
+}

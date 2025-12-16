@@ -39,7 +39,6 @@ contract TokenERC20 {
     // This generates a public event on the blockchain that will notify clients
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
-     */
     function TokenERC20(
         string tokenName,
         string tokenSymbol
@@ -48,7 +47,6 @@ contract TokenERC20 {
         symbol = tokenSymbol;                               // Set the symbol for display purposes
     }
 
-     */
     function _transfer(address _from, address _to, uint _value) internal {
         // Prevent transfer to 0x0 address. 
         require(_to != 0x0);
@@ -67,13 +65,11 @@ contract TokenERC20 {
         assert(balanceOf[_from] + balanceOf[_to] == previousBalances);
     }
 
-     */
     function transfer(address _to, uint256 _value) public returns (bool success) {
         _transfer(msg.sender, _to, _value);
         return true;
     }
 
-     */
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
         require(_value <= allowance[_from][msg.sender]);     // Check allowance
         allowance[_from][msg.sender] -= _value;
@@ -81,7 +77,6 @@ contract TokenERC20 {
         return true;
     }
 
-     */
     function approve(address _spender, uint256 _value) public
         returns (bool success) {
         allowance[msg.sender][_spender] = _value;
@@ -89,7 +84,6 @@ contract TokenERC20 {
         return true;
     }
 
-     */
     function approveAndCall(address _spender, uint256 _value, bytes _extraData)
         public
         returns (bool success) {

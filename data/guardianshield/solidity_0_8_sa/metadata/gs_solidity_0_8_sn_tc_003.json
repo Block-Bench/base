@@ -1,0 +1,97 @@
+{
+  "id": "gs_solidity_0_8_sn_tc_003",
+  "contract_file": "contracts/gs_solidity_0_8_sn_tc_003.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "neutralized_by": "solidity_0_8",
+    "neutralization_reason": "Built-in overflow/underflow checks prevent arithmetic vulnerabilities"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "temporal_parity_001",
+    "url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2017-11/Parity_kill_exp.sol",
+    "date_discovered": "2017-11-06",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 118,
+    "num_contracts": 4,
+    "contract_names": [
+      "for",
+      "WalletLibrary",
+      "that",
+      "WalletProxy"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "delegatecall",
+    "selfdestruct",
+    "proxy_pattern",
+    "library",
+    "initialization",
+    "access_control",
+    "historical"
+  ],
+  "notes": "Historic Ethereum bug from 2017. Funds remain frozen to this day. Triggered accidentally by a user testing functions, not by a malicious attacker. Demonstrated the extreme danger of selfdestruct in shared library contracts. Led to significant changes in how proxy patterns are implemented.",
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2017-11-06",
+      "protocol_name": "Parity Wallet",
+      "chain": "ethereum",
+      "funds_lost_usd": 150000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Parity Wallet exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_003.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_003.json",
+    "original_exploit_name": "Parity Wallet"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_003.sol",
+  "sanitized_from": "tc_003",
+  "derived_from": "sn_tc_003",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "solidity_0_8",
+    "injection_details": {
+      "pragma_updated": false,
+      "safemath_removed": false,
+      "operators_replaced": 0,
+      "protection_type": "solidity_0_8"
+    }
+  }
+}

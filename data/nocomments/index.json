@@ -12,8 +12,7 @@
       "Removed all multi-line comments (/* */)",
       "Removed all NatSpec comments (/** */)",
       "Cleaned up excessive blank lines"
-    ],
-    "original_dataset": "base"
+    ]
   },
   "statistics": {
     "total_samples": 285,

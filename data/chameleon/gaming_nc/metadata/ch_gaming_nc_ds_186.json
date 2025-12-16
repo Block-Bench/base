@@ -1,0 +1,277 @@
+{
+  "id": "ch_gaming_nc_ds_186",
+  "contract_file": "contracts/ch_gaming_nc_ds_186.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Uninitialized local storage variables may contain the value of other storage variables in the contract; \nthis fact can cause unintentional vulnerabilities, or be exploited deliberately.",
+    "attack_vector": "Uninitialized local storage variables may contain the value of other storage variables in the contract; \nthis fact can cause unintentional vulnerabilities, or be exploited deliberately.",
+    "impact": "Severity: medium",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_uninitialized_variables",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 180,
+    "num_contracts": 7,
+    "contract_names": [
+      "ContractTest",
+      "is",
+      "to",
+      "Motorbike",
+      "matches",
+      "Engine",
+      "Attack"
+    ],
+    "num_functions": 13,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Uninitialized local storage variables may contain the value of other storage variables in the contract; \nthis fact can cause unintentional vulnerabilities, or be exploited deliberately.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_186.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_186.json",
+    "original_id": "defivulnlabs_uninitialized_variables"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_186.sol",
+  "sanitized_from": "ds_186",
+  "derived_from": "sn_ds_186",
+  "original_id": "ds_186",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "nocomments",
+    "seed": 637069983,
+    "coverage": {
+      "total_identifiers": 69,
+      "transformed": 32,
+      "untransformed": 37,
+      "skipped_reserved": 42,
+      "skipped_interface": 0,
+      "coverage_percent": 46.38,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Initializable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Engine",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Motorbike",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testUninitialized",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Unintialized",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Upgrader",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "upgrader",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initEncoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "completed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Since",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "destroyed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_logic",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC1967",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_delegate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calldatacopy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calldatasize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "returndatacopy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "returndatasize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "switch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "case",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "default",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initializer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Returny",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "greetMe",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "utils": "gameUtils",
+      "proxy": "portalGate",
+      "ContractTest": "AgreementTest",
+      "EngineContract": "EnginePact",
+      "MotorbikeContract": "MotorbikePact",
+      "Operator": "QuestRunner",
+      "OperatorContract": "QuestrunnerAgreement",
+      "log": "record",
+      "initialize": "launchAdventure",
+      "Initialized": "SetupComplete",
+      "upgradeToAndCall": "improveTargetAndInvokespell",
+      "next": "upcoming",
+      "fail": "questFailed",
+      "_IMPLEMENTATION_SLOT": "_execution_position",
+      "AddressSlot": "ZonePosition",
+      "value": "magnitude",
+      "isContract": "isPact",
+      "implementation": "realization",
+      "_getAddressSlot": "_retrieveRealmPosition",
+      "success": "victory",
+      "failed": "actionFailed",
+      "result": "outcome",
+      "slot": "space",
+      "horsePower": "horseMight",
+      "sender": "caster",
+      "newImplementation": "updatedExecution",
+      "data": "info",
+      "_authorizeUpgrade": "_authorizeEnhance",
+      "_upgradeToAndCall": "_improveDestinationAndSummonhero",
+      "upgrade": "enhance",
+      "_setImplementation": "_groupRealization",
+      "length": "size"
+    }
+  }
+}

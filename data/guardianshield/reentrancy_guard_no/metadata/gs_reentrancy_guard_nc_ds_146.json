@@ -1,0 +1,77 @@
+{
+  "id": "gs_reentrancy_guard_nc_ds_146",
+  "contract_file": "contracts/gs_reentrancy_guard_nc_ds_146.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "timestamp_dependency",
+    "neutralized_by": "reentrancy_guard",
+    "neutralization_reason": "Mutex lock prevents recursive calls during execution"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_bad_randomness_guess_the_random_number",
+    "url": "https://capturetheether.com/challenges/lotteries/guess-the-random-number/",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.21",
+    "num_lines": 23,
+    "num_contracts": 1,
+    "contract_names": [
+      "GuessTheRandomNumberChallenge"
+    ],
+    "num_functions": 3,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Weak randomness - predictable random number generation at line(s) 15",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_146.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_146.json",
+    "original_id": "smartbugs_bad_randomness_guess_the_random_number"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_146.sol",
+  "sanitized_from": "ds_146",
+  "derived_from": "nc_ds_146",
+  "original_id": "ds_146",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "reentrancy_guard",
+    "injection_details": {
+      "import_added": true,
+      "inheritance_added": true,
+      "functions_protected": [
+        "guess"
+      ],
+      "protection_type": "reentrancy_guard"
+    }
+  }
+}

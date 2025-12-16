@@ -1,4 +1,3 @@
-Single transaction overflow
 //Post-transaction effect: overflow never escapes function
 
 pragma solidity ^0.4.19;

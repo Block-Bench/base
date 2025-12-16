@@ -1,0 +1,90 @@
+{
+  "id": "hy_int_sn_ds_226",
+  "contract_file": "contracts/hy_int_sn_ds_226.sol",
+  "subset": "hydra_internal_external",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "We use NBA NFT incident as an example.",
+    "attack_vector": "We use NBA NFT incident as an example.",
+    "impact": "Severity: high",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_signaturereplaynba",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 114,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "NBA"
+    ],
+    "num_functions": 4,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "We use NBA NFT incident as an example.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_226.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_226.json",
+    "original_id": "defivulnlabs_signaturereplaynba"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_226.sol",
+  "sanitized_from": "ds_226",
+  "transformation": {
+    "strategy": "hydra",
+    "split_type": "internal_external",
+    "source": "sanitized",
+    "seed": 534722352,
+    "split_details": {
+      "original_function": "mint_approved",
+      "helpers_created": [
+        "_performMint_approvedLogic"
+      ],
+      "helpers_categories": [
+        "internal"
+      ],
+      "statements_per_helper": [
+        1
+      ],
+      "vulnerability_spans_functions": true
+    }
+  }
+}

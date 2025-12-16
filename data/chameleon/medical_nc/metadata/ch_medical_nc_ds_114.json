@@ -1,0 +1,652 @@
+{
+  "id": "ch_medical_nc_ds_114",
+  "contract_file": "contracts/ch_medical_nc_ds_114.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "Token",
+      "function_name": "totalSupply",
+      "line_numbers": []
+    },
+    "root_cause": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
+    "attack_vector": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
+    "impact": "Severity: high",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_reentrancy_spankchain_payment",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.23",
+    "num_lines": 874,
+    "num_contracts": 6,
+    "contract_names": [
+      "Token",
+      "StandardToken",
+      "HumanStandardToken",
+      "you",
+      "in",
+      "LedgerChannel"
+    ],
+    "num_functions": 34,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_114.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_114.json",
+    "original_id": "notso_reentrancy_spankchain_payment"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_114.sol",
+  "sanitized_from": "ds_114",
+  "derived_from": "sn_ds_114",
+  "original_id": "ds_114",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 2593374707,
+    "coverage": {
+      "total_identifiers": 202,
+      "transformed": 84,
+      "untransformed": 118,
+      "skipped_reserved": 62,
+      "skipped_interface": 0,
+      "coverage_percent": 41.58,
+      "untransformed_details": [
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_spender",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "remaining",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ECTools",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_hashedMsg",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_sig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prefix",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "x19Ethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Signed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "n32",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "substring",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "byte",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_hexstr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "len",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bstr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parseInt16Char",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_char",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bresult",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_uint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mstore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_msg",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "str",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "remainder",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_str",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_decimalUnits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LedgerChannel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ledger",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Channel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numChannels",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DidLCOpen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partyA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partyI",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LCopenTimeout",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DidLCJoin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sequence",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numOpenVc",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DidLCClose",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DidVCInit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partyB",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DidVCSettle",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "challenger",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DidVCClose",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partyAddresses",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numOpenVC",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "VirtualChannel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bond",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "virtualChannels",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Channels",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createChannel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_partyI",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_token",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_balances",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "been",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "created",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "provided",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cannot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "negative",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Eth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "does",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "match",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CreateChannel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "failure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LCOpenTimeout",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "joinChannel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_balance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Tried",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "adding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "funds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "closed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "channel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "consensusCloseChannel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_sequence",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_sigA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_sigI",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_state",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "happyCloseChannel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_VCroot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initVCstate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_proof",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_partyA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_partyB",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_bond",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sigA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "timeout",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "over",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_isContained",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "higher",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "than",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "updates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "may",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "increase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Incorrect",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bonded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "closeVirtualChannel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "elapsed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "byzantineCloseChannel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "open",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ethbalanceA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ethbalanceI",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tokenbalanceA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tokenbalanceI",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_hash",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_root",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cursor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "virtualChannel",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "Token": "Id",
+      "success": "recovery",
+      "Approval": "AccessGranted",
+      "recoverSigner": "healSigner",
+      "Message": "Notification",
+      "prefixedHash": "prefixedSignature",
+      "length": "extent",
+      "hexstrToBytes": "hexstrReceiverData",
+      "add": "include",
+      "isSignedBy": "checkSignedBy",
+      "uintToBytes32": "countReceiverBytes32",
+      "toEthereumSignedMessage": "destinationEthereumSignedAlert",
+      "uintToString": "numberReceiverText",
+      "_startIndex": "_beginSlot",
+      "_endIndex": "_finishSlot",
+      "strBytes": "strData",
+      "result": "finding",
+      "StandardToken": "StandardBadge",
+      "balances": "benefitsRecord",
+      "sender": "provider",
+      "HumanStandardToken": "HumanStandardId",
+      "version": "edition",
+      "_initialAmount": "_initialDosage",
+      "_tokenName": "_credentialLabel",
+      "_tokenSymbol": "_badgeDesignation",
+      "approveAndCall": "authorizecaregiverAndInvokeprotocol",
+      "_extraData": "_extraRecord",
+      "receiveApproval": "acceptpatientApproval",
+      "VERSION": "Edition",
+      "channelId": "channelChartnumber",
+      "ethBalanceA": "ethCoverageA",
+      "token": "id",
+      "tokenBalanceA": "credentialCreditsA",
+      "ethBalanceI": "ethCoverageI",
+      "tokenBalanceI": "idCreditsI",
+      "DidLCDeposit": "DidLcAdmit",
+      "recipient": "receiver",
+      "deposit": "fundAccount",
+      "isToken": "isBadge",
+      "DidLCUpdateState": "DidLcUpdatechartStatus",
+      "vcRoot": "vcSource",
+      "updateLCtimeout": "updatechartLCtimeout",
+      "lcId": "lcIdentifier",
+      "vcId": "vcIdentifier",
+      "proof": "evidence",
+      "balanceA": "creditsA",
+      "balanceB": "benefitsB",
+      "updateSeq": "refreshvitalsSeq",
+      "updateBalA": "refreshvitalsBalA",
+      "updateBalB": "syncrecordsBalB",
+      "updateVCtimeout": "updatechartVCtimeout",
+      "ethBalances": "ethPatientaccounts",
+      "erc20Balances": "erc20Benefitsrecord",
+      "initialDeposit": "initialFundaccount",
+      "confirmTime": "confirmMoment",
+      "VCrootHash": "VCrootChecksum",
+      "isOpen": "checkOpen",
+      "isUpdateLCSettling": "isRefreshvitalsLcSettling",
+      "isClose": "testClose",
+      "isInSettlementState": "isInSettlementCondition",
+      "_lcID": "_lcChartnumber",
+      "_confirmTime": "_confirmMoment",
+      "Balances": "BenefitsRecord",
+      "value": "evaluation",
+      "state": "status",
+      "totalEthDeposit": "cumulativeEthProvidespecimen",
+      "totalTokenDeposit": "aggregateBadgeSubmitpayment",
+      "updateLCstate": "updatechartLCstate",
+      "updateParams": "refreshvitalsSettings",
+      "_vcID": "_vcChartnumber",
+      "_initState": "_initCondition",
+      "settleVC": "modifytleVC",
+      "updateBal": "syncrecordsBal",
+      "update": "refreshVitals",
+      "State": "Condition",
+      "amount": "dosage",
+      "_updateState": "_refreshvitalsStatus",
+      "settlement": "modifytlement",
+      "Update": "UpdateChart",
+      "possibleTotalEthBeforeDeposit": "possibleCumulativeEthBeforeFundaccount",
+      "possibleTotalTokenBeforeDeposit": "possibleCumulativeCredentialBeforeAdmit",
+      "proofElem": "verificationElem",
+      "getChannel": "retrieveChannel",
+      "getVirtualChannel": "obtainVirtualChannel"
+    }
+  }
+}

@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_139.json",
     "original_id": "smartbugs_arithmetic_integer_overflow_multitx_onefunc_feasible"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_139.sol",
   "sanitized_from": "ds_139",
   "derived_from": "sn_ds_139",

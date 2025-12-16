@@ -3,9 +3,6 @@ pragma solidity ^0.8.24;
 
 import "forge-std/Test.sol";
 
-*/
-
-
 contract SimpleVault {
     // mint function
     function mint(uint256 amountToDeposit) external returns (uint256) {

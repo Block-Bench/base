@@ -1,0 +1,1 @@
+// Full file content could not be retrieved from GitHub raw (access issue); using vulnerable code snippet from report: [L165-189, 185-189, 197-201] - _createGauge skips verification for type 1.

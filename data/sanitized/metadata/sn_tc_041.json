@@ -84,6 +84,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_041.json",
     "original_exploit_name": "Shezmu Protocol"
   },
+  "original_subset": "temporal_contamination",
   "original_contract_file": "base/contracts/tc_041.sol",
   "sanitized_from": "tc_041"
 }

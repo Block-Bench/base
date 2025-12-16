@@ -1,0 +1,95 @@
+{
+  "id": "gs_access_control_sn_tc_020",
+  "contract_file": "contracts/gs_access_control_sn_tc_020.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "oracle_manipulation",
+    "neutralized_by": "access_control",
+    "neutralization_reason": "Only authorized addresses can call protected functions"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2020-12-17",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 104,
+    "num_contracts": 1,
+    "contract_names": [
+      "LendingVault"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "flash_loan",
+    "lp_tokens",
+    "uniswap",
+    "price_manipulation",
+    "oracle",
+    "collateral_valuation",
+    "defi_lending"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2020-12-17",
+      "protocol_name": "Warp Finance LP Token Price Manipulation",
+      "chain": "ethereum",
+      "funds_lost_usd": 7700000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Warp Finance LP Token Price Manipulation exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_020.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_020.json",
+    "original_exploit_name": "Warp Finance LP Token Price Manipulation"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_020.sol",
+  "sanitized_from": "tc_020",
+  "derived_from": "sn_tc_020",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "access_control",
+    "injection_details": {
+      "state_var_added": true,
+      "constructor_modified": true,
+      "modifier_added": true,
+      "functions_protected": [],
+      "protection_type": "access_control"
+    }
+  }
+}

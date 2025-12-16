@@ -1,0 +1,220 @@
+{
+  "id": "ch_gaming_nc_ds_103",
+  "contract_file": "contracts/ch_gaming_nc_ds_103.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The contracts demonstrate a common issue when performing division operations in Solidity, \nas Solidity doesn't support floating-point numbers. The order of operations can affect the result due to integer truncation.\n\nIn the Miscalculation contract, the function price performs the division before the\nmultiplication (price / 100) * discount. Due to the fact that Solidity truncates integers\nwhen dividing, the result of price / 100 will be 0 if the price is less than 100. \nThis causes the result of the multiplication to be 0 as well.\n\nOn the other hand, in the Calculation contract, the function price performs the multiplication\nbefore the division (price * discount) / 100. This way, the result will be correct as the multiplication\ndoesn't get truncated, only the final result does.",
+    "attack_vector": "The contracts demonstrate a common issue when performing division operations in Solidity, \nas Solidity doesn't support floating-point numbers. The order of operations can affect the result due to integer truncation.\n\nIn the Miscalculation contract, the function price performs the division before the\nmultiplication (price / 100) * discount. Due to the fact that Solidity truncates integers\nwhen dividing, the result of price / 100 will be 0 if the price is less than 100. \nThis causes the result of the multiplication to be 0 as well.\n\nOn the other hand, in the Calculation contract, the function price performs the multiplication\nbefore the division (price * discount) / 100. This way, the result will be correct as the multiplication\ndoesn't get truncated, only the final result does.",
+    "impact": "Severity: critical",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_divmultiply",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 56,
+    "num_contracts": 3,
+    "contract_names": [
+      "ContractTest",
+      "Miscalculation",
+      "Calculation"
+    ],
+    "num_functions": 3,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The contracts demonstrate a common issue when performing division operations in Solidity, \nas Solidity doesn't support floating-point numbers. The order of operations can affect the result due to integer truncation.\n\nIn the Miscalculation contract, the function price performs the division before the\nmultiplication (price / 100) * discount. Due to the fact that Solidity truncates integers\nwhen dividing, the result of price / 100 will be 0 if the price is less than 100. \nThis causes the result of the multiplication to be 0 as well.\n\nOn the other hand, in the Calculation contract, the function price performs the multiplication\nbefore the division (price * discount) / 100. This way, the result will be correct as the multiplication\ndoesn't get truncated, only the final result does.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_103.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_103.json",
+    "original_id": "defivulnlabs_divmultiply"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_103.sol",
+  "sanitized_from": "ds_103",
+  "derived_from": "sn_ds_103",
+  "original_id": "ds_103",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "nocomments",
+    "seed": 791149581,
+    "coverage": {
+      "total_identifiers": 37,
+      "transformed": 7,
+      "untransformed": 30,
+      "skipped_reserved": 17,
+      "skipped_interface": 0,
+      "coverage_percent": 18.92,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Miscalculation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Calculation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testMiscalculation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Perform",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Scenario",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DeFi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "store",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "off",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Then",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "item",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Subtract",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "discount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sale",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "doesn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dividing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "multiplying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Correct",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calculation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Multiply",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "correct",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "ContractTest": "PactTest",
+      "MiscalculationContract": "MiscalculationPact",
+      "CalculationContract": "CalculationPact",
+      "log": "record",
+      "price": "value",
+      "get": "fetch",
+      "round": "cycle"
+    }
+  }
+}

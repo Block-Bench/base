@@ -1,0 +1,182 @@
+{
+  "id": "ch_medical_sn_ds_176",
+  "contract_file": "contracts/ch_medical_sn_ds_176.rs",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "account_data_matching_insecure",
+      "function_name": "account_data_matching_insecure",
+      "line_numbers": []
+    },
+    "root_cause": "Lack of account data validation allows account substitution attacks",
+    "attack_vector": "Lack of account data validation allows account substitution attacks",
+    "impact": "Severity: high",
+    "correct_fix": "Validate account data matches expected values before use"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "sealevel_1_account_data_matching",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "N/A",
+    "num_lines": 22,
+    "num_contracts": 1,
+    "contract_names": [
+      "account_data_matching_insecure"
+    ],
+    "num_functions": 1,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "sealevel_attacks",
+    "tier_2_medium",
+    "rust"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Lack of account data validation allows account substitution attacks",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_176.rs",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_176.json",
+    "original_id": "sealevel_1_account_data_matching"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_176.rs",
+  "sanitized_from": "ds_176",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 1162796765,
+    "coverage": {
+      "total_identifiers": 36,
+      "transformed": 17,
+      "untransformed": 19,
+      "skipped_reserved": 5,
+      "skipped_interface": 0,
+      "coverage_percent": 47.22,
+      "untransformed_details": [
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "anchor_lang",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prelude",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "solana_program",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "program_pack",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pack",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "program",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pub",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mod",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ctx",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Context",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unpack",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Your",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "derive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "authority",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Signer",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "spl_token": "spl_badge",
+      "state": "condition",
+      "Account": "Profile",
+      "SplTokenAccount": "SplCredentialChart",
+      "declare_id": "declare_casenumber",
+      "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS": "Fg6PaFpoGXkYsidEnergyWtk6W2BeZ7FEfcYkg476zPFsLnS",
+      "account_data_matching": "profile_chart_matching",
+      "log_message": "record_alert",
+      "LogMessage": "RecordNotification",
+      "ProgramResult": "ProgramFinding",
+      "token": "credential",
+      "data": "record",
+      "borrow": "requestAdvance",
+      "account": "chart",
+      "amount": "measure",
+      "info": "data",
+      "AccountInfo": "ProfileDetails"
+    }
+  }
+}

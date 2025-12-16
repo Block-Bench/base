@@ -1,0 +1,42 @@
+{
+  "id": "gs_014",
+  "original_id": "gs_spearbit_aragon-lock-to-vote_M02",
+  "source_dataset": "gold_standard",
+  "source_file": "aragon.json",
+  "language": "solidity",
+  "chain": "ethereum",
+  "source_platform": "spearbit",
+  "source_report": "Aragon DAO Gov Plugin Security Review",
+  "source_finding_id": "M-02",
+  "report_url": "https://github.com/spearbit/portfolio/blob/master/pdfs/Aragon-Spearbit-Security-Review-July-2025.pdf",
+  "github_repo_url": "https://github.com/aragon/lock-to-vote-plugin/tree/b3c5503c",
+  "contest_date": "2025-09-11",
+  "vulnerability_type": "logic_error",
+  "severity": "medium",
+  "difficulty_tier": 1,
+  "context_level": "single_file",
+  "is_vulnerable": true,
+  "finding_title": "Lock fails for unlimited approvals",
+  "finding_description": "The lock() function intends to lock the user's entire approved balance, but this will fail for the most common case: Most users give contracts they interact with an unlimited allowance by setting it to type(uint256).max. The _incomingTokenBalance() function at line 32 returns just 'erc20Token.allowance(msg.sender, address(this))' which would be type(uint256).max for unlimited approvals. The lock() function then attempts to transfer this impossible amount.",
+  "attack_scenario": "1. User approves LockManager with unlimited allowance: approve(lockManager, type(uint256).max).\n2. User calls lock() without specifying an amount.\n3. _incomingTokenBalance() returns type(uint256).max.\n4. _doLockTransfer attempts to transfer type(uint256).max tokens.\n5. Transaction reverts because user doesn't have that many tokens.\n6. User cannot use the standard lock() function.",
+  "fix_description": "Have _incomingTokenBalance() return either the actual balance or the allowance depending on whichever is smallest: 'return (allowance >= balance) ? balance : allowance;'",
+  "call_flow": "User.approve(LockManager, type(uint256).max) -> User.lock() -> LockManagerBase._lock(_incomingTokenBalance()) -> LockManagerERC20._incomingTokenBalance() returns type(uint256).max -> _doLockTransfer(type(uint256).max) -> REVERTS",
+  "context_hint": "The _incomingTokenBalance() function at line 32 just returns 'erc20Token.allowance(msg.sender, address(this))'. For unlimited approvals (type(uint256).max), this returns an impossibly large number. When lock() tries to transfer this amount, it fails. The fix is to return min(allowance, balance).",
+  "primary_file_path": "src/LockManagerERC20.sol",
+  "vulnerable_lines": [
+    31,
+    32,
+    33
+  ],
+  "vulnerable_functions": [
+    "_incomingTokenBalance"
+  ],
+  "context_files": [
+    {
+      "filename": "context_01_LockManagerBase.sol",
+      "original_path": "src/base/LockManagerBase.sol",
+      "relevance": "Contains the lock() function at lines 74-76 that calls _incomingTokenBalance() to determine how many tokens to lock."
+    }
+  ],
+  "has_context": true
+}

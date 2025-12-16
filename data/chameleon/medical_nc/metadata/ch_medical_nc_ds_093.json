@@ -1,0 +1,162 @@
+{
+  "id": "ch_medical_nc_ds_093",
+  "contract_file": "contracts/ch_medical_nc_ds_093.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Misuse of storage and memory references of the user in the updaterewardDebt function.\n\nThe function updaterewardDebt is updating the rewardDebt value of a UserInfo struct \nthat is stored in memory. The issue is that this won't persist between function calls. \nAs soon as the function finishes executing, the memory is cleared and the changes are lost.",
+    "attack_vector": "Misuse of storage and memory references of the user in the updaterewardDebt function.\n\nThe function updaterewardDebt is updating the rewardDebt value of a UserInfo struct \nthat is stored in memory. The issue is that this won't persist between function calls. \nAs soon as the function finishes executing, the memory is cleared and the changes are lost.",
+    "impact": "Severity: medium",
+    "correct_fix": "Ensure the correct usage of memory and storage in the function parameters. Make all the locations explicit."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_datalocation",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 50,
+    "num_contracts": 2,
+    "contract_names": [
+      "ContractTest",
+      "Array"
+    ],
+    "num_functions": 3,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Misuse of storage and memory references of the user in the updaterewardDebt function.\n\nThe function updaterewardDebt is updating the rewardDebt value of a UserInfo struct \nthat is stored in memory. The issue is that this won't persist between function calls. \nAs soon as the function finishes executing, the memory is cleared and the changes are lost.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_093.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_093.json",
+    "original_id": "defivulnlabs_datalocation"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_093.sol",
+  "sanitized_from": "ds_093",
+  "derived_from": "sn_ds_093",
+  "original_id": "ds_093",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 1913385622,
+    "coverage": {
+      "total_identifiers": 28,
+      "transformed": 14,
+      "untransformed": 14,
+      "skipped_reserved": 22,
+      "skipped_interface": 0,
+      "coverage_percent": 50.0,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bob",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Non",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "updated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "newamount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Updated",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "ContractTest": "AgreementTest",
+      "ArrayContract": "CollectionAgreement",
+      "testDataLocation": "testInfoLocation",
+      "updaterewardDebt": "updaterewardObligation",
+      "amount": "quantity",
+      "rewardDebt": "coverageLiability",
+      "userInfo": "patientRecord",
+      "log": "chart",
+      "Update": "SyncRecords",
+      "fixedupdaterewardDebt": "fixedupdaterewardLiability",
+      "newrewardDebt": "newrewardLiability",
+      "UserInfo": "MemberData",
+      "user": "beneficiary",
+      "sender": "referrer"
+    }
+  }
+}

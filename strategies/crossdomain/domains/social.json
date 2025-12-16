@@ -1,0 +1,63 @@
+{
+  "domain": "social",
+  "description": "Social platforms - reputation, tipping, communities, creators",
+  "terminology": {
+    "entities": {
+      "vault": ["CommunityFund", "TipJar", "CreatorVault", "PatronPool", "SupportVault"],
+      "pool": ["SupportPool", "DonationPool", "CommunityReserve", "TipPool", "FundingPool"],
+      "token": ["KarmaPoint", "ReputationToken", "InfluenceCredit", "SocialToken", "TrustPoint"],
+      "collateral": ["Pledge", "Commitment", "Bond", "Backing", "Guarantee"],
+      "reserve": ["CommunityReserve", "TipReserve", "PatronReserve"],
+      "treasury": ["CreatorTreasury", "CommunityTreasury", "PlatformFund"],
+      "fund": ["SupportFund", "CreatorFund", "CommunityFund"],
+      "bank": ["TipBank", "ReputationBank", "SocialBank"],
+      "account": ["Profile", "SocialProfile", "CreatorAccount", "MemberAccount"],
+      "wallet": ["TipWallet", "RewardWallet", "SocialWallet"]
+    },
+    "actions": {
+      "deposit": ["contribute", "donate", "tip", "support", "fund", "back"],
+      "withdraw": ["collect", "cashOut", "redeemKarma", "withdrawTips", "claimEarnings"],
+      "stake": ["pledge", "commit", "vouch", "endorse", "back"],
+      "unstake": ["revokePledge", "withdrawSupport", "cancelBacking"],
+      "borrow": ["requestSupport", "seekFunding", "askForBacking"],
+      "repay": ["returnSupport", "repayBacking", "fulfillPledge"],
+      "liquidate": ["revokePledge", "removeBacking", "cancelSupport", "withdrawEndorsement"],
+      "claim": ["collectTips", "claimKarma", "redeemReputation", "getReward"],
+      "transfer": ["sendTip", "shareKarma", "giveCredit", "passInfluence"],
+      "swap": ["exchangeKarma", "tradeInfluence", "convertPoints"],
+      "mint": ["earnKarma", "gainReputation", "buildInfluence", "createContent"],
+      "burn": ["loseKarma", "reduceReputation", "spendInfluence"],
+      "approve": ["allowTip", "permitTransfer", "authorizeGift"]
+    },
+    "actors": {
+      "user": ["member", "creator", "supporter", "patron", "contributor", "follower"],
+      "owner": ["moderator", "admin", "communityLead", "founder", "groupOwner"],
+      "admin": ["platformAdmin", "communityMod", "contentMod", "systemAdmin"],
+      "liquidator": ["moderator", "arbiter", "reviewer", "disputeResolver"],
+      "depositor": ["supporter", "patron", "backer", "donor", "tipper"],
+      "borrower": ["fundSeeker", "creatorInNeed", "supportSeeker"],
+      "lender": ["patron", "supporter", "backer"],
+      "staker": ["endorser", "voucher", "backer", "supporter"]
+    },
+    "metrics": {
+      "balance": ["reputation", "karma", "influence", "standing", "credibility"],
+      "totalSupply": ["totalKarma", "communityReputation", "pooledInfluence", "allTips"],
+      "fee": ["platformFee", "serviceFee", "processingFee", "creatorCut"],
+      "rate": ["engagementRate", "reputationMultiplier", "karmaRate", "influenceGain"],
+      "reward": ["tipReward", "karmaBonus", "reputationGain", "communityReward"],
+      "interest": ["growthRate", "influenceGrowth", "reputationGain"],
+      "debt": ["negativeKarma", "reputationDebt", "pendingObligation"],
+      "collateralRatio": ["trustRatio", "reputationRatio", "backingRatio"],
+      "liquidity": ["availableKarma", "spendableInfluence", "liquidReputation"]
+    },
+    "contracts": {
+      "Vault": ["TipVault", "CreatorVault", "CommunityVault", "PatronVault"],
+      "Pool": ["TipPool", "SupportPool", "FundingPool", "DonationPool"],
+      "Token": ["KarmaToken", "ReputationToken", "SocialToken", "InfluenceToken"],
+      "Bank": ["TipBank", "KarmaBank", "ReputationBank", "SocialBank"],
+      "Treasury": ["CommunityTreasury", "CreatorTreasury", "PlatformTreasury"],
+      "Staking": ["EndorsementSystem", "VouchingPool", "BackingContract"],
+      "Lending": ["SocialCredit", "KarmaLoan", "ReputationAdvance"]
+    }
+  }
+}

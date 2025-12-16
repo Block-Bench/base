@@ -4,7 +4,6 @@ pragma solidity ^0.4.24;
 contract PoCGame
 {
     
-     */
      
     modifier onlyOwner()
     {
@@ -31,7 +30,6 @@ contract PoCGame
     }
     
    
-     */
     event Wager(uint256 amount, address depositer);
     event Win(uint256 amount, address paidTo);
     event Lose(uint256 amount, address loser);
@@ -39,7 +37,6 @@ contract PoCGame
     event DifficultyChanged(uint256 currentDifficulty);
     event BetLimitChanged(uint256 currentBetLimit);
 
-     */
     address private whale;
     uint256 betLimit;
     uint difficulty;
@@ -50,7 +47,6 @@ contract PoCGame
     bool openToPublic;
     uint256 totalDonated;
 
-     */
     constructor(address whaleAddress, uint256 wagerLimit) 
     onlyRealPeople()
     public 
@@ -63,8 +59,6 @@ contract PoCGame
         
     }
 
-
-     */
     function OpenToThePublic() 
     onlyOwner()
     public
@@ -72,7 +66,6 @@ contract PoCGame
         openToPublic = true;
     }
     
-     */
     function AdjustBetAmounts(uint256 amount) 
     onlyOwner()
     public
@@ -82,7 +75,6 @@ contract PoCGame
         emit BetLimitChanged(betLimit);
     }
     
-     */
     function AdjustDifficulty(uint256 amount) 
     onlyOwner()
     public
@@ -95,7 +87,6 @@ contract PoCGame
     
     function() public payable { }
 
-     */
     function wager()
     isOpenToPublic()
     onlyRealPeople() 
@@ -114,7 +105,6 @@ contract PoCGame
         emit Wager(msg.value, msg.sender);
     }
     
-     */
     function play()
     isOpenToPublic()
     onlyRealPeople()
@@ -145,7 +135,6 @@ contract PoCGame
         }
     }
 
-     */
     function donate()
     isOpenToPublic()
     public 
@@ -154,7 +143,6 @@ contract PoCGame
         donateToWhale(msg.value);
     }
 
-     */
     function payout(address winner) 
     internal 
     {
@@ -164,7 +152,6 @@ contract PoCGame
         emit Win(ethToTransfer, winner);
     }
 
-     */
     function donateToWhale(uint256 amount) 
     internal 
     {
@@ -173,7 +160,6 @@ contract PoCGame
         emit Donate(amount, whale, msg.sender);
     }
 
-     */
     function loseWager(uint256 amount) 
     internal 
     {
@@ -182,8 +168,6 @@ contract PoCGame
         emit Lose(amount, msg.sender);
     }
     
-
-     */
     function ethBalance() 
     public 
     view 
@@ -193,7 +177,6 @@ contract PoCGame
     }
     
     
-     */
     function currentDifficulty() 
     public 
     view 
@@ -203,7 +186,6 @@ contract PoCGame
     }
     
     
-     */
     function currentBetLimit() 
     public 
     view 
@@ -228,7 +210,6 @@ contract PoCGame
         
     }
 
-     */
     function winnersPot() 
     public 
     view 
@@ -237,7 +218,6 @@ contract PoCGame
         return address(this).balance / 2;
     }
 
-     */
     function transferAnyERC20Token(address tokenAddress, address tokenOwner, uint tokens) 
     public 
     onlyOwner() 

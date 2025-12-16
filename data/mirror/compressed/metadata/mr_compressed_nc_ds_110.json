@@ -1,0 +1,91 @@
+{
+  "id": "mr_compressed_nc_ds_110",
+  "contract_file": "contracts/mr_compressed_nc_ds_110.sol",
+  "subset": "mirror",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The bug lies in the unlockToken function, which lacks a check to ensure that block.timestamp is larger than locktime. \nThis allows tokens to be unlocked multiple times before the lock period has elapsed, \npotentially leading to significant financial loss.",
+    "attack_vector": "The bug lies in the unlockToken function, which lacks a check to ensure that block.timestamp is larger than locktime. \nThis allows tokens to be unlocked multiple times before the lock period has elapsed, \npotentially leading to significant financial loss.",
+    "impact": "Severity: medium",
+    "correct_fix": "Add a require statement to check that the current time is greater than the lock time before the tokens can be unlocked.\n\nor fix:\nuint256 amount = locker.amount;\nif (block.timestamp > locker.lockTime) {\n    IERC20(locker.tokenAddress).transfer(msg.sender, amount);\n    locker.amount = 0;\n    }"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_incorrect_sanity_checks",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 195,
+    "num_contracts": 6,
+    "contract_names": [
+      "ContractTest",
+      "VulnerableBank",
+      "IERC20",
+      "BanksLP",
+      "FixedeBank",
+      "IERC20"
+    ],
+    "num_functions": 8,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The bug lies in the unlockToken function, which lacks a check to ensure that block.timestamp is larger than locktime. \nThis allows tokens to be unlocked multiple times before the lock period has elapsed, \npotentially leading to significant financial loss.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_110.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_110.json",
+    "original_id": "defivulnlabs_incorrect_sanity_checks"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_110.sol",
+  "sanitized_from": "ds_110",
+  "derived_from": "nc_ds_110",
+  "original_id": "ds_110",
+  "transformation": {
+    "strategy": "mirror",
+    "mode": "compressed",
+    "details": {
+      "comments_removed": true,
+      "blank_lines_removed": 33,
+      "mode": "compressed",
+      "original_lines": 191,
+      "transformed_lines": 150,
+      "original_chars": 5333,
+      "transformed_chars": 4208,
+      "compression_ratio": 0.79
+    }
+  }
+}

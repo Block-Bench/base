@@ -73,6 +73,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_234.json",
     "original_id": "smartbugs_bad_randomness_smart_billions"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_234.sol",
   "sanitized_from": "ds_234"
 }

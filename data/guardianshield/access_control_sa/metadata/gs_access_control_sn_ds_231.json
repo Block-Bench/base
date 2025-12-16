@@ -1,0 +1,80 @@
+{
+  "id": "gs_access_control_sn_ds_231",
+  "contract_file": "contracts/gs_access_control_sn_ds_231.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "neutralized_by": "access_control",
+    "neutralization_reason": "Only authorized addresses can call protected functions"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_readonlyreentrancy",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "0.8.18",
+    "num_lines": 138,
+    "num_contracts": 4,
+    "contract_names": [
+      "VulnContract",
+      "ExploitContract",
+      "ExploitTest",
+      "hack"
+    ],
+    "num_functions": 11,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The Read-Only Reentrancy Vulnerability is a flaw in smart contract design that allows attackers \nto exploit the \"read-only\" nature of a function to make unintended changes to the contract's state. \nSpecifically, the vulnerability arises when an attacker uses the remove_liquidity function of the ICurve contract \nto trigger the receive function in the ExploitContract. This is achieved by an external call \nfrom a secure smart contract \"A\" invoking the fallback() function in the attacker's contract.\n\nThrough this exploit, the attacker gains the ability to execute code within the fallback() function\nagainst a target contract \"B,\" which is indirectly related to contract \"A.\" Contract \"B\" derives\nthe price of the LP token from Contract \"A,\" making it susceptible to manipulation and unintended price changes\nthrough the reentrancy attack.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_231.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_231.json",
+    "original_id": "defivulnlabs_readonlyreentrancy"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_231.sol",
+  "sanitized_from": "ds_231",
+  "derived_from": "sn_ds_231",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "access_control",
+    "injection_details": {
+      "state_var_added": true,
+      "constructor_modified": true,
+      "modifier_added": true,
+      "functions_protected": [
+        "setUp"
+      ],
+      "protection_type": "access_control"
+    }
+  }
+}

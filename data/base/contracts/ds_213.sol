@@ -1,4 +1,3 @@
-DAO Polska Token deployment
 pragma solidity ^0.4.11;
 interface tokenRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData) public; }
 
@@ -22,7 +21,6 @@ contract ERC20 {
 
 
 
- */
 contract SafeMath {
   function safeMul(uint a, uint b) internal returns (uint) {
     uint c = a * b;
@@ -73,7 +71,6 @@ contract SafeMath {
 
 
 
- */
 contract StandardToken is ERC20, SafeMath {
 
   /* Token supply got increased and a new owner received these tokens */
@@ -217,7 +214,6 @@ function setotherchainstotalsupply(uint256 supplyLOCKER) public {
 	otherchainstotalsupply = supplyLOCKER ** uint256(decimals);
 	
   } 
-     */
     function approveAndCall(address _spender, uint256 _value, bytes _extraData)
         public
         returns (bool success) {
@@ -228,7 +224,6 @@ function setotherchainstotalsupply(uint256 supplyLOCKER) public {
         }
     }
 
-     */
     function burn(uint256 _value) public returns (bool success) {
         require(balances[msg.sender] >= _value);   // Check if the sender has enough
         balances[msg.sender] -= _value;            // Subtract from the sender
@@ -237,7 +232,6 @@ function setotherchainstotalsupply(uint256 supplyLOCKER) public {
         return true;
     }
 
-     */
     function burnFrom(address _from, uint256 _value) public returns (bool success) {
         require(balances[_from] >= _value);                // Check if the targeted balance is enough
         require(_value <= allowed[_from][msg.sender]);    // Check allowance

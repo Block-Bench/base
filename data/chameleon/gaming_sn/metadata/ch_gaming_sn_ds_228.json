@@ -1,0 +1,294 @@
+{
+  "id": "ch_gaming_sn_ds_228",
+  "contract_file": "contracts/ch_gaming_sn_ds_228.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "First pool depositor can be front-run and have part of their deposit stolen\nIn this case, we can control the variable \"_supplied.\" \nBy depositing a small amount of loan tokens to obtain pool tokens, \nwe can front-run other depositors' transactions and inflate the price of pool tokens through a substantial \"donation.\"\nConsequently, the attacker can withdraw a greater quantity of loan tokens than they initially possessed.\n\nThis calculation issue arises because, in Solidity, if the pool token value for a user becomes less than 1,\nit is essentially rounded down to 0.",
+    "attack_vector": "First pool depositor can be front-run and have part of their deposit stolen\nIn this case, we can control the variable \"_supplied.\" \nBy depositing a small amount of loan tokens to obtain pool tokens, \nwe can front-run other depositors' transactions and inflate the price of pool tokens through a substantial \"donation.\"\nConsequently, the attacker can withdraw a greater quantity of loan tokens than they initially possessed.\n\nThis calculation issue arises because, in Solidity, if the pool token value for a user becomes less than 1,\nit is essentially rounded down to 0.",
+    "impact": "Severity: medium",
+    "correct_fix": "Consider minting a minimal amount of pool tokens during the first deposit \nand sending them to zero address, this increases the cost of the attack. \nUniswap V2 solved this problem by sending the first 1000 LP tokens to the zero address. \nThe same can be done in this case i.e. when totalSupply() == 0, \nsend the first min liquidity LP tokens to the zero address to enable share dilution."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_first-deposit",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.15",
+    "num_lines": 124,
+    "num_contracts": 3,
+    "contract_names": [
+      "ContractTest",
+      "MyToken",
+      "SimplePool"
+    ],
+    "num_functions": 6,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "First pool depositor can be front-run and have part of their deposit stolen\nIn this case, we can control the variable \"_supplied.\" \nBy depositing a small amount of loan tokens to obtain pool tokens, \nwe can front-run other depositors' transactions and inflate the price of pool tokens through a substantial \"donation.\"\nConsequently, the attacker can withdraw a greater quantity of loan tokens than they initially possessed.\n\nThis calculation issue arises because, in Solidity, if the pool token value for a user becomes less than 1,\nit is essentially rounded down to 0.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_228.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_228.json",
+    "original_id": "defivulnlabs_first-deposit"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_228.sol",
+  "sanitized_from": "ds_228",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 3488149738,
+    "coverage": {
+      "total_identifiers": 74,
+      "transformed": 31,
+      "untransformed": 43,
+      "skipped_reserved": 37,
+      "skipped_interface": 0,
+      "coverage_percent": 41.89,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "access",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ownable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SimplePool",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bob",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deposits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transfers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inflating",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stopPrank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bob",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "due",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inflated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_supplied",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "down",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "withdraws",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "making",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "profit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assertEq",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MTK",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_mint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "must",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "greater",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "than",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_shares",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Insufficient",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "token": "gem",
+      "ContractTest": "PactTest",
+      "SimplePoolContract": "SimplePoolPact",
+      "MyToken": "MyMedal",
+      "MyTokenContract": "MyCoinPact",
+      "setUp": "collectionUp",
+      "testFirstDeposit": "testInitialAddtreasure",
+      "startPrank": "openingPrank",
+      "gets": "inspects",
+      "pool": "bountyPool",
+      "deposit": "addTreasure",
+      "price": "cost",
+      "shares": "pieces",
+      "_tokenAmount": "_gemTotal",
+      "_sharesTotalSupply": "_piecesCompleteReserve",
+      "round": "cycle",
+      "withdraw": "collectBounty",
+      "log": "record",
+      "sender": "caster",
+      "mint": "spawn",
+      "amount": "quantity",
+      "loanToken": "loanCrystal",
+      "totalShares": "fullPieces",
+      "_loanToken": "_loanGem",
+      "Amount": "Total",
+      "tokenToShares": "crystalDestinationPieces",
+      "TransferFrom": "MoveFrom",
+      "failed": "actionFailed",
+      "roundUpCheck": "cycleUpVerify",
+      "Shares": "Pieces",
+      "tokenAmount": "coinQuantity"
+    }
+  }
+}

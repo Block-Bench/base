@@ -1,0 +1,88 @@
+{
+  "id": "mr_compressed_sn_ds_033",
+  "contract_file": "contracts/mr_compressed_sn_ds_033.sol",
+  "subset": "mirror",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "ETH_VAULT",
+      "function_name": "CashOut",
+      "line_numbers": [
+        41
+      ]
+    },
+    "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 41",
+    "attack_vector": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 41",
+    "impact": "Severity: high",
+    "correct_fix": "Apply checks-effects-interactions pattern: update state before external calls, or use ReentrancyGuard"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_reentrancy_0xbaf51e761510c1a11bf48dd87c0307ac8a8c8a4f",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 71,
+    "num_contracts": 2,
+    "contract_names": [
+      "ETH_VAULT",
+      "Log"
+    ],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 41",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_033.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_033.json",
+    "original_id": "smartbugs_reentrancy_0xbaf51e761510c1a11bf48dd87c0307ac8a8c8a4f"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_033.sol",
+  "sanitized_from": "ds_033",
+  "derived_from": "sn_ds_033",
+  "transformation": {
+    "strategy": "mirror",
+    "mode": "compressed",
+    "details": {
+      "comments_removed": true,
+      "blank_lines_removed": 14,
+      "mode": "compressed",
+      "original_lines": 71,
+      "transformed_lines": 47,
+      "original_chars": 1270,
+      "transformed_chars": 895,
+      "compression_ratio": 0.7
+    }
+  }
+}

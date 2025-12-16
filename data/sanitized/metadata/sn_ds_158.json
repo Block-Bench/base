@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_158.json",
     "original_id": "smartbugs_front_running_eth_tx_order_dependence_minimal"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_158.sol",
   "sanitized_from": "ds_158"
 }

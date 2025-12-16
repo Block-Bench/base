@@ -1,4 +1,3 @@
-A chain-game contract that maintains a 'throne' which agents may pay to rule.
 // See www.kingoftheether.com & https://github.com/kieranelby/KingOfTheEtherThrone .
 // (c) Kieran Elby 2016. All rights reserved.
 // v0.4.0.

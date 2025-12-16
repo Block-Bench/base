@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_187.json",
     "original_id": "defivulnlabs_unsafe-downcast"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_187.sol",
   "sanitized_from": "ds_187"
 }

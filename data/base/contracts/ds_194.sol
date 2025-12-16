@@ -3,7 +3,6 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-*/
  
 contract Proxy {
     address public owner = address(0xdeadbeef); // slot0

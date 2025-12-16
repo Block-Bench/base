@@ -5,7 +5,6 @@ import "forge-std/Test.sol";
 // Import the SafeCast library
 import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
-*/
 
 contract ContractTest is Test {
     SimpleBank SimpleBankContract;

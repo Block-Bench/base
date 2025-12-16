@@ -1,0 +1,145 @@
+{
+  "id": "mr_allman_nc_tc_007",
+  "contract_file": "contracts/mr_allman_nc_tc_007.sol",
+  "subset": "mirror",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "VulnerableEthCrossChainManager",
+      "function_name": "verifyHeaderAndExecuteTx",
+      "line_numbers": [
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ]
+    },
+    "root_cause": "EthCrossChainManager validated cross-chain transactions (headers, proofs) but didn't restrict which contracts could be targeted for execution. It allowed calling EthCrossChainData, which trusted EthCrossChainManager as owner. This created an access control bypass where anyone could call privileged functions on EthCrossChainData by routing through EthCrossChainManager with a valid cross-chain transaction.",
+    "attack_vector": "Attacker creates valid cross-chain transaction on Poly Network sidechain with target set to EthCrossChainData (the privileged data contract), not a user contract. Transaction calls putCurEpochConPubKeyBytes() to change validator public keys. EthCrossChainManager verifies header signatures and Merkle proof (both valid), then executes transaction by calling EthCrossChainData. Since msg.sender is EthCrossChainManager, the onlyOwner check passes. Attacker's keys become validator keys, allowing them to forge any cross-chain transaction and drain bridge.",
+    "impact": "Funds lost: $611,000,000",
+    "correct_fix": "Implement whitelist of allowed target contracts, explicitly excluding privileged contracts like EthCrossChainData. Use blacklist to forbid critical system contracts as targets. Separate privilege levels for cross-chain execution. Replace msg.sender-based authorization with more granular access controls. Add multi-sig requirements for critical operations like validator key updates. Implement emergency pause mechanisms. Add rate limiting and anomaly detection for cross-chain transactions."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "temporal_poly_001",
+    "url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2021-08/PolyNetwork_exp.sol",
+    "date_discovered": "2021-08-10",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 149,
+    "num_contracts": 2,
+    "contract_names": [
+      "CrossChainData",
+      "CrossChainManager"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "bridge",
+    "cross_chain",
+    "access_control",
+    "privilege_escalation",
+    "proxy_bypass",
+    "historical",
+    "mega_hack"
+  ],
+  "notes": "One of the largest crypto hacks ever ($611M). Uniquely, the attacker returned most funds, suggesting white hat intentions or demonstrating vulnerability for recognition. Attacker communicated via embedded transaction messages. Classic access control bypass via proxy pattern. Demonstrates importance of restricting execution targets in proxy/manager contracts. Affected multiple chains (Ethereum, BSC, Polygon).",
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2021-08-10",
+      "protocol_name": "Poly Network",
+      "chain": "ethereum",
+      "funds_lost_usd": 611000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Poly Network exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_007.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_007.json",
+    "original_exploit_name": "Poly Network"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_007.sol",
+  "sanitized_from": "tc_007",
+  "derived_from": "nc_tc_007",
+  "original_id": "tc_007",
+  "transformation": {
+    "strategy": "mirror",
+    "mode": "allman",
+    "details": {
+      "comments_removed": false,
+      "brace_style": "allman",
+      "mode": "allman",
+      "original_lines": 126,
+      "transformed_lines": 137,
+      "original_chars": 2890,
+      "transformed_chars": 2470,
+      "compression_ratio": 0.85
+    }
+  }
+}

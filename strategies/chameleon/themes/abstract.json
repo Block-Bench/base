@@ -1,0 +1,73 @@
+{
+  "theme_name": "abstract",
+  "description": "Domain-neutral technical and procedural terminology",
+  "pools": {
+    "contract_names": {
+      "vault": ["StateContainer", "DataHolder", "ValueStore", "EntityManager", "RecordKeeper", "StorageUnit"],
+      "bank": ["DataRepository", "RecordStore", "EntityBank", "ValueRegistry"],
+      "pool": ["AggregateStore", "CollectionManager", "SetContainer", "GroupHolder"],
+      "treasury": ["CentralStore", "MasterRegistry", "PrimaryHolder", "CoreContainer"],
+      "token": ["UnitMarker", "ValueIndicator", "EntityToken", "RecordToken"],
+      "protocol": ["ProcessEngine", "OperationSystem", "ExecutionCore", "LogicHandler"],
+      "manager": ["EntityController", "StateManager", "ProcessHandler", "OperationManager"],
+      "staking": ["StateLock", "ValueCommit", "EntityBond", "RecordLock"]
+    },
+    "function_names": {
+      "withdraw": ["executeOutflow", "processExtraction", "performRetrieval", "initiateRelease", "triggerOutbound", "runExtract", "doRelease"],
+      "deposit": ["executeInflow", "processInsertion", "performAddition", "initiateDeposit", "triggerInbound", "runInsert"],
+      "transfer": ["executeTransition", "processMovement", "performShift", "initiateTransfer", "triggerReassignment"],
+      "getbalance": ["queryState", "fetchValue", "retrieveData", "readRecord", "getStatus"],
+      "balanceof": ["stateOf", "valueOf", "recordOf", "dataOf"],
+      "stake": ["commitState", "lockValue", "bindEntity", "fixRecord"],
+      "unstake": ["releaseState", "unlockValue", "freeEntity", "unfixRecord"],
+      "claim": ["executeCollection", "processAcquisition", "performRetrieval", "obtainValue"],
+      "harvest": ["collectOutput", "gatherResult", "extractYield", "processReturn"],
+      "totalsupply": ["totalState", "completeValue", "fullRecord", "entireData"],
+      "initialize": ["setupProcess", "initializeState", "startSystem", "launchOperation"],
+      "pause": ["haltProcess", "suspendOperation", "freezeState", "stopExecution"],
+      "unpause": ["resumeProcess", "continueOperation", "unfreezeState", "restartExecution"]
+    },
+    "variable_names": {
+      "balance": ["stateValue", "recordedAmount", "storedQuantity", "heldValue"],
+      "balances": ["stateMap", "valueRecords", "entityData", "recordMap"],
+      "amount": ["delta", "magnitude", "quantity", "measure"],
+      "value": ["data", "state", "record", "magnitude"],
+      "total": ["aggregate", "sum", "cumulative", "complete"],
+      "user": ["entity", "subject", "actor", "principal"],
+      "owner": ["controller", "authority", "administrator", "supervisor"],
+      "fee": ["cost", "charge", "overhead", "expense"],
+      "reward": ["output", "result", "yield", "return"],
+      "rate": ["factor", "coefficient", "ratio", "multiplier"],
+      "pending": ["queued", "deferred", "scheduled", "awaiting"],
+      "locked": ["fixed", "bound", "committed", "reserved"],
+      "share": ["portion", "fraction", "segment", "part"],
+      "timestamp": ["timeValue", "instant", "moment"],
+      "duration": ["interval", "period", "span"],
+      "deadline": ["limit", "boundary", "terminus"]
+    },
+    "event_names": {
+      "deposit": ["InflowExecuted", "InsertionComplete", "AdditionProcessed", "StateUpdated"],
+      "withdrawal": ["OutflowExecuted", "ExtractionComplete", "ReleaseProcessed", "StateReduced"],
+      "transfer": ["TransitionExecuted", "MovementComplete", "ShiftProcessed"],
+      "stake": ["CommitmentExecuted", "LockComplete", "BindingProcessed"],
+      "unstake": ["ReleaseExecuted", "UnlockComplete", "UnbindingProcessed"]
+    },
+    "error_names": {
+      "insufficientbalance": ["InsufficientState", "ValueShortfall", "RecordDeficit", "DataLacking"],
+      "unauthorized": ["NotAuthorized", "AccessDenied", "OperationForbidden", "PermissionRequired"],
+      "invalidamount": ["InvalidMagnitude", "BadQuantity", "WrongValue", "IncorrectDelta"],
+      "zeroamount": ["ZeroMagnitude", "EmptyValue", "NoData"],
+      "transferfailed": ["TransitionFailed", "MovementError", "ShiftError"]
+    },
+    "modifier_names": {
+      "onlyowner": ["onlyController", "onlyAuthority", "onlyAdministrator"],
+      "whennotpaused": ["whenActive", "whenOperational", "whenRunning"],
+      "nonreentrant": ["singleExecution", "exclusiveOperation", "atomicProcess"]
+    },
+    "struct_names": {
+      "userinfo": ["EntityRecord", "SubjectData", "ActorInfo", "PrincipalProfile"],
+      "poolinfo": ["AggregateData", "CollectionRecord", "SetInfo"],
+      "stakeinfo": ["CommitmentRecord", "LockData", "BindingInfo"]
+    }
+  }
+}

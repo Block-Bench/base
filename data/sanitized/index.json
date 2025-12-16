@@ -3,20 +3,16 @@
   "version": "1.0.0",
   "created_date": "2025-12-16",
   "last_updated": "2025-12-16",
-  "description": "Sanitized contracts with vulnerability hints removed from identifiers and comments. Derived from difficulty_stratified and temporal_contamination datasets.",
+  "description": "Sanitized contracts with vulnerability hints removed from identifiers and comments. Derived from the base dataset.",
   "transformation": {
     "type": "sanitization",
-    "source_datasets": [
-      "difficulty_stratified",
-      "temporal_contamination"
-    ],
+    "source_dataset": "base",
     "changes_applied": [
       "Renamed vulnerability-hinting identifiers (contract names, function names, variables)",
       "Removed hint comments and vulnerability descriptions",
       "Sanitized console.log and emit statements",
       "Replaced raw text file headers"
-    ],
-    "source_dataset": "base"
+    ]
   },
   "statistics": {
     "total_samples": 285,

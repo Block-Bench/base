@@ -1,0 +1,109 @@
+{
+  "id": "ch_medical_nc_ds_085",
+  "contract_file": "contracts/ch_medical_nc_ds_085.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Lotto",
+      "function_name": "sendToWinner",
+      "line_numbers": [
+        20
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 20",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 20",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_lotto",
+    "url": "https://github.com/sigp/solidity-security-blog",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.18",
+    "num_lines": 22,
+    "num_contracts": 1,
+    "contract_names": [
+      "Lotto"
+    ],
+    "num_functions": 2,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 20",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_085.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_085.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_lotto"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_085.sol",
+  "sanitized_from": "ds_085",
+  "derived_from": "sn_ds_085",
+  "original_id": "ds_085",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 3576578456,
+    "coverage": {
+      "total_identifiers": 7,
+      "transformed": 4,
+      "untransformed": 3,
+      "skipped_reserved": 15,
+      "skipped_interface": 0,
+      "coverage_percent": 57.14,
+      "untransformed_details": [
+        {
+          "name": "Lotto",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payedOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winner",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "winAmount": "winMeasure",
+      "sendToWinner": "forwardrecordsReceiverWinner",
+      "withdrawLeftOver": "releasefundsLeftOver",
+      "sender": "provider"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "id": "mr_expanded_nc_tc_047",
+  "contract_file": "contracts/mr_expanded_nc_tc_047.sol",
+  "subset": "mirror",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "PlayDappToken",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $290,000,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_047",
+    "url": null,
+    "date_discovered": "2024-02-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 90,
+    "num_contracts": 1,
+    "contract_names": [
+      "PlayDappToken"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "token",
+    "minting",
+    "private_key_compromise",
+    "supply_manipulation",
+    "single_key",
+    "erc20"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-02-01",
+      "protocol_name": "PlayDapp",
+      "chain": "ethereum",
+      "funds_lost_usd": 290000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous PlayDapp exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_047.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_047.json",
+    "original_exploit_name": "PlayDapp"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_047.sol",
+  "sanitized_from": "tc_047",
+  "derived_from": "nc_tc_047",
+  "original_id": "tc_047",
+  "transformation": {
+    "strategy": "mirror",
+    "mode": "expanded",
+    "details": {
+      "comments_removed": false,
+      "blank_lines_added": 1,
+      "mode": "expanded",
+      "original_lines": 89,
+      "transformed_lines": 90,
+      "original_chars": 2437,
+      "transformed_chars": 2178,
+      "compression_ratio": 0.89
+    }
+  }
+}

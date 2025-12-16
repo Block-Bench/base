@@ -1,5 +1,3 @@
-Single transaction overflow
-
 pragma solidity ^0.4.11;
 
 contract IntegerOverflowMappingSym1 {

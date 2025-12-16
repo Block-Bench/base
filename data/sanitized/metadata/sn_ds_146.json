@@ -66,6 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_146.json",
     "original_id": "smartbugs_bad_randomness_guess_the_random_number"
   },
+  "original_subset": "difficulty_stratified",
   "original_contract_file": "base/contracts/ds_146.sol",
   "sanitized_from": "ds_146"
 }

@@ -1,4 +1,3 @@
-sol Wallet
 // Multi-sig, daily-limited account proxy/wallet.
 // @authors:
 // Gav Wood <g@ethdev.com>

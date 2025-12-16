@@ -1,0 +1,111 @@
+{
+  "id": "ch_medical_nc_ds_071",
+  "contract_file": "contracts/ch_medical_nc_ds_071.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "SimpleWallet",
+      "function_name": "sendMoney",
+      "line_numbers": [
+        33
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 33",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 33",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xb37f18af15bafb869a065b61fc83cfc44ed9cc27",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.24",
+    "num_lines": 29,
+    "num_contracts": 1,
+    "contract_names": [
+      "SimpleWallet"
+    ],
+    "num_functions": 3,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 33",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_071.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_071.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xb37f18af15bafb869a065b61fc83cfc44ed9cc27"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_071.sol",
+  "sanitized_from": "ds_071",
+  "derived_from": "sn_ds_071",
+  "original_id": "ds_071",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 3027938130,
+    "coverage": {
+      "total_identifiers": 9,
+      "transformed": 6,
+      "untransformed": 3,
+      "skipped_reserved": 17,
+      "skipped_interface": 0,
+      "coverage_percent": 66.67,
+      "untransformed_details": [
+        {
+          "name": "SimpleWallet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_target",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "sender": "provider",
+      "depositsCount": "depositsNumber",
+      "withdrawAll": "collectAllBenefits",
+      "withdraw": "discharge",
+      "sendMoney": "dispatchambulanceMoney",
+      "value": "assessment"
+    }
+  }
+}
