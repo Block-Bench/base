@@ -90,6 +90,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_026.json",
     "original_exploit_name": "Anyswap Permit Bypass"
   },
-  "original_contract_file": "contracts/tc_026.sol",
+  "original_contract_file": "base/contracts/tc_026.sol",
   "sanitized_from": "tc_026"
 }

@@ -69,6 +69,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_199.json",
     "original_id": "defivulnlabs_reentrancy"
   },
-  "original_contract_file": "contracts/ds_199.sol",
+  "original_contract_file": "base/contracts/ds_199.sol",
   "sanitized_from": "ds_199"
 }

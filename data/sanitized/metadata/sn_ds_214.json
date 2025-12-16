@@ -158,6 +158,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_214.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x663e4229142a27f00bafb5d087e1e730648314c3"
   },
-  "original_contract_file": "contracts/ds_214.sol",
+  "original_contract_file": "base/contracts/ds_214.sol",
   "sanitized_from": "ds_214"
 }

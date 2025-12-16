@@ -67,6 +67,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_162.json",
     "original_id": "smartbugs_other_open_address_lottery"
   },
-  "original_contract_file": "contracts/ds_162.sol",
+  "original_contract_file": "base/contracts/ds_162.sol",
   "sanitized_from": "ds_162"
 }

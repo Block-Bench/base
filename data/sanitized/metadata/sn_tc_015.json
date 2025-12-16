@@ -86,6 +86,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_015.json",
     "original_exploit_name": "Compound cTUSD"
   },
-  "original_contract_file": "contracts/tc_015.sol",
+  "original_contract_file": "base/contracts/tc_015.sol",
   "sanitized_from": "tc_015"
 }

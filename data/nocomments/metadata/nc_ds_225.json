@@ -68,7 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_225.json",
     "original_id": "defivulnlabs_storage-collision-audio"
   },
-  "original_contract_file": "contracts/ds_225.sol",
+  "original_contract_file": "base/contracts/ds_225.sol",
   "sanitized_from": "ds_225",
   "derived_from": "sn_ds_225",
   "original_id": "ds_225"

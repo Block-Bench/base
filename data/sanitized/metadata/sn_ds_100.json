@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_100.json",
     "original_id": "defivulnlabs_txorigin"
   },
-  "original_contract_file": "contracts/ds_100.sol",
+  "original_contract_file": "base/contracts/ds_100.sol",
   "sanitized_from": "ds_100"
 }

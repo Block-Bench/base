@@ -64,7 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_219.json",
     "original_id": "sealevel_7_bump_seed_canonicalization"
   },
-  "original_contract_file": "contracts/ds_219.rs",
+  "original_contract_file": "base/contracts/ds_219.rs",
   "sanitized_from": "ds_219",
   "derived_from": "sn_ds_219",
   "original_id": "ds_219"

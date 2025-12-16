@@ -65,7 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_102.json",
     "original_id": "defivulnlabs_visibility"
   },
-  "original_contract_file": "contracts/ds_102.sol",
+  "original_contract_file": "base/contracts/ds_102.sol",
   "sanitized_from": "ds_102",
   "derived_from": "sn_ds_102",
   "original_id": "ds_102"

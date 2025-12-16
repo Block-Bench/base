@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_218.json",
     "original_id": "sealevel_5_arbitrary_cpi"
   },
-  "original_contract_file": "contracts/ds_218.rs",
+  "original_contract_file": "base/contracts/ds_218.rs",
   "sanitized_from": "ds_218"
 }

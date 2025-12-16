@@ -85,7 +85,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_038.json",
     "original_exploit_name": "Blueberry Protocol Oracle Manipulation"
   },
-  "original_contract_file": "contracts/tc_038.sol",
+  "original_contract_file": "base/contracts/tc_038.sol",
   "sanitized_from": "tc_038",
   "derived_from": "sn_tc_038",
   "original_id": "tc_038"

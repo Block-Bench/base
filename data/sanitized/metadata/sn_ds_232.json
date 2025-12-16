@@ -73,6 +73,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_232.json",
     "original_id": "smartbugs_arithmetic_BECToken"
   },
-  "original_contract_file": "contracts/ds_232.sol",
+  "original_contract_file": "base/contracts/ds_232.sol",
   "sanitized_from": "ds_232"
 }

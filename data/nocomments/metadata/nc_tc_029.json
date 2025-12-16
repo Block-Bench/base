@@ -95,7 +95,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_029.json",
     "original_exploit_name": "Belt Finance Strategy Exploit"
   },
-  "original_contract_file": "contracts/tc_029.sol",
+  "original_contract_file": "base/contracts/tc_029.sol",
   "sanitized_from": "tc_029",
   "derived_from": "sn_tc_029",
   "original_id": "tc_029"

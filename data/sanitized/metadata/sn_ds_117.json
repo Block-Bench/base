@@ -69,6 +69,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_117.json",
     "original_id": "notso_wrong_constructor_name_rubixi"
   },
-  "original_contract_file": "contracts/ds_117.sol",
+  "original_contract_file": "base/contracts/ds_117.sol",
   "sanitized_from": "ds_117"
 }

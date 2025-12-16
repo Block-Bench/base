@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_155.json",
     "original_id": "smartbugs_denial_of_service_send_loop"
   },
-  "original_contract_file": "contracts/ds_155.sol",
+  "original_contract_file": "base/contracts/ds_155.sol",
   "sanitized_from": "ds_155"
 }

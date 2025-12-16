@@ -66,7 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_163.json",
     "original_id": "smartbugs_short_addresses_short_address_example"
   },
-  "original_contract_file": "contracts/ds_163.sol",
+  "original_contract_file": "base/contracts/ds_163.sol",
   "sanitized_from": "ds_163",
   "derived_from": "sn_ds_163",
   "original_id": "ds_163"

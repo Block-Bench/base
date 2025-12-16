@@ -71,7 +71,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_211.json",
     "original_id": "smartbugs_reentrancy_spank_chain_payment"
   },
-  "original_contract_file": "contracts/ds_211.sol",
+  "original_contract_file": "base/contracts/ds_211.sol",
   "sanitized_from": "ds_211",
   "derived_from": "sn_ds_211",
   "original_id": "ds_211"

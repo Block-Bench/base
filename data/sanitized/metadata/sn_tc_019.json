@@ -97,6 +97,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_019.json",
     "original_exploit_name": "Qubit Bridge Zero Address Bypass"
   },
-  "original_contract_file": "contracts/tc_019.sol",
+  "original_contract_file": "base/contracts/tc_019.sol",
   "sanitized_from": "tc_019"
 }

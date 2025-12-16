@@ -67,7 +67,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_013.json",
     "original_id": "smartbugs_access_control_simple_suicide"
   },
-  "original_contract_file": "contracts/ds_013.sol",
+  "original_contract_file": "base/contracts/ds_013.sol",
   "sanitized_from": "ds_013",
   "derived_from": "sn_ds_013",
   "original_id": "ds_013"

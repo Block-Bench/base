@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_175.json",
     "original_id": "sealevel_0_signer_authorization"
   },
-  "original_contract_file": "contracts/ds_175.rs",
+  "original_contract_file": "base/contracts/ds_175.rs",
   "sanitized_from": "ds_175"
 }

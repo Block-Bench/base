@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_126.json",
     "original_id": "smartbugs_access_control_incorrect_constructor_name2"
   },
-  "original_contract_file": "contracts/ds_126.sol",
+  "original_contract_file": "base/contracts/ds_126.sol",
   "sanitized_from": "ds_126"
 }

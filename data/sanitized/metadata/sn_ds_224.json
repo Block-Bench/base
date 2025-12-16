@@ -68,6 +68,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_224.json",
     "original_id": "defivulnlabs_price_manipulation"
   },
-  "original_contract_file": "contracts/ds_224.sol",
+  "original_contract_file": "base/contracts/ds_224.sol",
   "sanitized_from": "ds_224"
 }

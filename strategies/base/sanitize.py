@@ -25,10 +25,8 @@ from datetime import datetime
 # Base paths
 BASE_DIR = Path(__file__).parent.parent.parent
 DATA_DIR = BASE_DIR / "data"
+BASE_DATA_DIR = DATA_DIR / "base"
 SANITIZED_DIR = DATA_DIR / "sanitized"
-
-# Dataset subsets
-DATASETS = ["difficulty_stratified", "temporal_contamination"]
 
 # =============================================================================
 # REPLACEMENT PATTERNS
@@ -686,33 +684,32 @@ def sanitize_code(code: str) -> tuple[str, list[str]]:
 
 def _get_file_paths(file_id: str) -> tuple[Optional[Path], Optional[Path], str]:
     """
-    Get the paths for a file ID.
+    Get the paths for a file ID from the base dataset.
 
     Args:
         file_id: The file ID (e.g., 'tc_001', 'ds_001')
 
     Returns:
-        Tuple of (contract_path, metadata_path, dataset_name) or (None, None, '') if not found
+        Tuple of (contract_path, metadata_path, original_subset) or (None, None, '') if not found
     """
-    # Determine dataset from prefix
-    if file_id.startswith('tc_'):
-        dataset = 'temporal_contamination'
-    elif file_id.startswith('ds_'):
-        dataset = 'difficulty_stratified'
-    else:
+    # Validate prefix
+    if not (file_id.startswith('tc_') or file_id.startswith('ds_')):
         return None, None, ''
 
-    # Check for .sol or .rs extension
-    contract_dir = DATA_DIR / dataset / 'contracts'
-    metadata_dir = DATA_DIR / dataset / 'metadata'
+    # Determine original subset from prefix
+    original_subset = 'temporal_contamination' if file_id.startswith('tc_') else 'difficulty_stratified'
+
+    # Check for .sol or .rs extension in base folder
+    contract_dir = BASE_DATA_DIR / 'contracts'
+    metadata_dir = BASE_DATA_DIR / 'metadata'
 
     for ext in ['.sol', '.rs']:
         contract_path = contract_dir / f"{file_id}{ext}"
         if contract_path.exists():
             metadata_path = metadata_dir / f"{file_id}.json"
-            return contract_path, metadata_path, dataset
+            return contract_path, metadata_path, original_subset
 
-    return None, None, dataset
+    return None, None, original_subset
 
 
 def _ensure_output_dirs():
@@ -751,13 +748,10 @@ def _save_sanitized(
     if original_metadata_path and original_metadata_path.exists():
         metadata = json.loads(original_metadata_path.read_text())
 
-        # Store original contract file reference
-        original_contract_file = metadata.get('contract_file', f"contracts/{file_id}{extension}")
-
         # Update metadata for sanitized version
         metadata['id'] = sanitized_id
         metadata['contract_file'] = f"contracts/{sanitized_id}{extension}"
-        metadata['original_contract_file'] = original_contract_file
+        metadata['original_contract_file'] = f"base/contracts/{file_id}{extension}"
         metadata['sanitized_from'] = file_id
         metadata['subset'] = 'sanitized'
 
@@ -819,31 +813,25 @@ def sanitize_one(file_id: str, save: bool = True) -> SanitizationResult:
         )
 
 
-def sanitize_subset(subset_name: str) -> SanitizationReport:
+def sanitize_all() -> SanitizationReport:
     """
-    Sanitize all files in a dataset subset.
-
-    Args:
-        subset_name: The subset name ('difficulty_stratified' or 'temporal_contamination')
+    Sanitize all contracts from the base dataset.
 
     Returns:
         SanitizationReport with details of all operations
     """
-    if subset_name not in DATASETS:
-        raise ValueError(f"Unknown subset: {subset_name}. Must be one of {DATASETS}")
-
-    contracts_dir = DATA_DIR / subset_name / 'contracts'
+    contracts_dir = BASE_DATA_DIR / 'contracts'
 
     if not contracts_dir.exists():
-        raise FileNotFoundError(f"Contracts directory not found: {contracts_dir}")
+        raise FileNotFoundError(f"Base contracts directory not found: {contracts_dir}")
 
     results = []
 
-    # Get all contract files
+    # Get all contract files from base
     contract_files = list(contracts_dir.glob('*.sol')) + list(contracts_dir.glob('*.rs'))
 
     for contract_path in sorted(contract_files):
-        file_id = contract_path.stem  # e.g., 'tc_001'
+        file_id = contract_path.stem  # e.g., 'tc_001', 'ds_001'
         result = sanitize_one(file_id, save=True)
         results.append(result)
 
@@ -860,43 +848,7 @@ def sanitize_subset(subset_name: str) -> SanitizationReport:
 
     # Save report
     _ensure_output_dirs()
-    report_path = SANITIZED_DIR / f"sanitization_report_{subset_name}.json"
-    report_path.write_text(json.dumps(report.to_dict(), indent=2))
-
-    return report
-
-
-def sanitize_all() -> SanitizationReport:
-    """
-    Sanitize all contracts in all datasets.
-
-    Returns:
-        SanitizationReport with details of all operations
-    """
-    all_results = []
-
-    for subset in DATASETS:
-        try:
-            subset_report = sanitize_subset(subset)
-            all_results.extend(subset_report.results)
-        except FileNotFoundError:
-            print(f"Warning: Subset {subset} not found, skipping...")
-            continue
-
-    successful = sum(1 for r in all_results if r.success)
-    failed = len(all_results) - successful
-
-    report = SanitizationReport(
-        timestamp=datetime.now().isoformat(),
-        total_files=len(all_results),
-        successful=successful,
-        failed=failed,
-        results=all_results
-    )
-
-    # Save combined report
-    _ensure_output_dirs()
-    report_path = SANITIZED_DIR / "sanitization_report_all.json"
+    report_path = SANITIZED_DIR / "sanitization_report.json"
     report_path.write_text(json.dumps(report.to_dict(), indent=2))
 
     # Generate index.json
@@ -970,10 +922,10 @@ def _generate_index():
         'created_date': datetime.now().strftime('%Y-%m-%d'),
         'last_updated': datetime.now().strftime('%Y-%m-%d'),
         'description': 'Sanitized contracts with vulnerability hints removed from identifiers and comments. '
-                       'Derived from difficulty_stratified and temporal_contamination datasets.',
+                       'Derived from the base dataset.',
         'transformation': {
             'type': 'sanitization',
-            'source_datasets': ['difficulty_stratified', 'temporal_contamination'],
+            'source_dataset': 'base',
             'changes_applied': [
                 'Renamed vulnerability-hinting identifiers (contract names, function names, variables)',
                 'Removed hint comments and vulnerability descriptions',
@@ -1004,26 +956,22 @@ def main():
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
 
     # sanitize all
-    subparsers.add_parser('all', help='Sanitize all contracts in all datasets')
-
-    # sanitize subset
-    subset_parser = subparsers.add_parser('subset', help='Sanitize a specific dataset subset')
-    subset_parser.add_argument('name', choices=DATASETS, help='Subset name')
+    subparsers.add_parser('all', help='Sanitize all contracts from the base dataset')
 
     # sanitize one
     one_parser = subparsers.add_parser('one', help='Sanitize a single file')
     one_parser.add_argument('file_id', help='File ID (e.g., tc_001, ds_001)')
 
     # sanitize code (from stdin)
-    code_parser = subparsers.add_parser('code', help='Sanitize code from stdin')
+    subparsers.add_parser('code', help='Sanitize code from stdin')
 
     args = parser.parse_args()
 
     if args.command == 'all':
-        print("Sanitizing all contracts...")
+        print("Sanitizing all contracts from base dataset...")
         report = sanitize_all()
         print(f"\nCompleted: {report.successful}/{report.total_files} successful")
-        print(f"Report saved to: {SANITIZED_DIR / 'sanitization_report_all.json'}")
+        print(f"Report saved to: {SANITIZED_DIR / 'sanitization_report.json'}")
 
         # Show files with changes
         files_with_changes = [r for r in report.results if r.changes_made]
@@ -1033,11 +981,6 @@ def main():
                 print(f"  {r.original_id}: {len(r.changes_made)} changes")
             if len(files_with_changes) > 10:
                 print(f"  ... and {len(files_with_changes) - 10} more")
-
-    elif args.command == 'subset':
-        print(f"Sanitizing {args.name}...")
-        report = sanitize_subset(args.name)
-        print(f"\nCompleted: {report.successful}/{report.total_files} successful")
 
     elif args.command == 'one':
         result = sanitize_one(args.file_id)

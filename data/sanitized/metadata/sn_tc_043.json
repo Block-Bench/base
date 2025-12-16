@@ -83,6 +83,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_043.json",
     "original_exploit_name": "Seneca Protocol (Chamber)"
   },
-  "original_contract_file": "contracts/tc_043.sol",
+  "original_contract_file": "base/contracts/tc_043.sol",
   "sanitized_from": "tc_043"
 }

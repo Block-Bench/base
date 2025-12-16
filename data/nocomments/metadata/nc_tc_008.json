@@ -114,7 +114,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_008.json",
     "original_exploit_name": "Cream Finance"
   },
-  "original_contract_file": "contracts/tc_008.sol",
+  "original_contract_file": "base/contracts/tc_008.sol",
   "sanitized_from": "tc_008",
   "derived_from": "sn_tc_008",
   "original_id": "tc_008"

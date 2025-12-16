@@ -67,6 +67,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_153.json",
     "original_id": "smartbugs_denial_of_service_dos_simple"
   },
-  "original_contract_file": "contracts/ds_153.sol",
+  "original_contract_file": "base/contracts/ds_153.sol",
   "sanitized_from": "ds_153"
 }

@@ -72,6 +72,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_129.json",
     "original_id": "smartbugs_access_control_rubixi"
   },
-  "original_contract_file": "contracts/ds_129.sol",
+  "original_contract_file": "base/contracts/ds_129.sol",
   "sanitized_from": "ds_129"
 }

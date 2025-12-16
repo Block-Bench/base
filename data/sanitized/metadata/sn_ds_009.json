@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_009.json",
     "original_id": "smartbugs_access_control_mapping_write"
   },
-  "original_contract_file": "contracts/ds_009.sol",
+  "original_contract_file": "base/contracts/ds_009.sol",
   "sanitized_from": "ds_009"
 }

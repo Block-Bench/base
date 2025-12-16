@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_182.json",
     "original_id": "defivulnlabs_immunefi_ch2"
   },
-  "original_contract_file": "contracts/ds_182.sol",
+  "original_contract_file": "base/contracts/ds_182.sol",
   "sanitized_from": "ds_182"
 }

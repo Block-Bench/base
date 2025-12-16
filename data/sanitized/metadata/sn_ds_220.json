@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_220.json",
     "original_id": "sealevel_8_pda_sharing"
   },
-  "original_contract_file": "contracts/ds_220.rs",
+  "original_contract_file": "base/contracts/ds_220.rs",
   "sanitized_from": "ds_220"
 }

@@ -66,7 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_096.json",
     "original_id": "defivulnlabs_dos"
   },
-  "original_contract_file": "contracts/ds_096.sol",
+  "original_contract_file": "base/contracts/ds_096.sol",
   "sanitized_from": "ds_096",
   "derived_from": "sn_ds_096",
   "original_id": "ds_096"

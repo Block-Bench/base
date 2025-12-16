@@ -67,6 +67,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_089.json",
     "original_id": "defivulnlabs_recovererc20"
   },
-  "original_contract_file": "contracts/ds_089.sol",
+  "original_contract_file": "base/contracts/ds_089.sol",
   "sanitized_from": "ds_089"
 }

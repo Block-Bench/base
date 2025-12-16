@@ -84,6 +84,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_032.json",
     "original_exploit_name": "Radiant Capital Rounding Exploit"
   },
-  "original_contract_file": "contracts/tc_032.sol",
+  "original_contract_file": "base/contracts/tc_032.sol",
   "sanitized_from": "tc_032"
 }

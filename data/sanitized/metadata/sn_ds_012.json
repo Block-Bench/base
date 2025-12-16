@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_012.json",
     "original_id": "smartbugs_access_control_proxy"
   },
-  "original_contract_file": "contracts/ds_012.sol",
+  "original_contract_file": "base/contracts/ds_012.sol",
   "sanitized_from": "ds_012"
 }

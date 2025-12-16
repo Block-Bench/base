@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_198.json",
     "original_id": "defivulnlabs_slippage-deadline"
   },
-  "original_contract_file": "contracts/ds_198.sol",
+  "original_contract_file": "base/contracts/ds_198.sol",
   "sanitized_from": "ds_198"
 }

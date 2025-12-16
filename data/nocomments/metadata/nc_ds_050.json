@@ -68,7 +68,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_050.json",
     "original_id": "smartbugs_unchecked_low_level_calls_0x3a0e9acd953ffc0dd18d63603488846a6b8b2b01"
   },
-  "original_contract_file": "contracts/ds_050.sol",
+  "original_contract_file": "base/contracts/ds_050.sol",
   "sanitized_from": "ds_050",
   "derived_from": "sn_ds_050",
   "original_id": "ds_050"

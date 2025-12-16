@@ -72,6 +72,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_208.json",
     "original_id": "smartbugs_access_control_parity_wallet_bug_1"
   },
-  "original_contract_file": "contracts/ds_208.sol",
+  "original_contract_file": "base/contracts/ds_208.sol",
   "sanitized_from": "ds_208"
 }

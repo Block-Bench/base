@@ -64,7 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_235.json",
     "original_id": "sealevel_6_duplicate_mutable_accounts"
   },
-  "original_contract_file": "contracts/ds_235.rs",
+  "original_contract_file": "base/contracts/ds_235.rs",
   "sanitized_from": "ds_235",
   "derived_from": "sn_ds_235",
   "original_id": "ds_235"

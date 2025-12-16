@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_190.json",
     "original_id": "defivulnlabs_payable-transfer"
   },
-  "original_contract_file": "contracts/ds_190.sol",
+  "original_contract_file": "base/contracts/ds_190.sol",
   "sanitized_from": "ds_190"
 }

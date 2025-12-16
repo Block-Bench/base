@@ -97,7 +97,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_024.json",
     "original_exploit_name": "Inverse Finance Oracle Manipulation"
   },
-  "original_contract_file": "contracts/tc_024.sol",
+  "original_contract_file": "base/contracts/tc_024.sol",
   "sanitized_from": "tc_024",
   "derived_from": "sn_tc_024",
   "original_id": "tc_024"

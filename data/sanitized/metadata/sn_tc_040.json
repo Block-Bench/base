@@ -84,6 +84,6 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_040.json",
     "original_exploit_name": "Bedrock DeFi Exchange Rate Exploit"
   },
-  "original_contract_file": "contracts/tc_040.sol",
+  "original_contract_file": "base/contracts/tc_040.sol",
   "sanitized_from": "tc_040"
 }

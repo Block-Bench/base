@@ -65,7 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_203.json",
     "original_id": "notso_honeypots_koth"
   },
-  "original_contract_file": "contracts/ds_203.sol",
+  "original_contract_file": "base/contracts/ds_203.sol",
   "sanitized_from": "ds_203",
   "derived_from": "sn_ds_203",
   "original_id": "ds_203"

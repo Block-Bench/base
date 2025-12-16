@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_188.json",
     "original_id": "defivulnlabs_struct-deletion"
   },
-  "original_contract_file": "contracts/ds_188.sol",
+  "original_contract_file": "base/contracts/ds_188.sol",
   "sanitized_from": "ds_188"
 }

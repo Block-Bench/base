@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_132.json",
     "original_id": "smartbugs_arithmetic_integer_overflow_1"
   },
-  "original_contract_file": "contracts/ds_132.sol",
+  "original_contract_file": "base/contracts/ds_132.sol",
   "sanitized_from": "ds_132"
 }

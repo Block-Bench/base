@@ -84,7 +84,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_013.json",
     "original_exploit_name": "PancakeHunny (PancakeBunny)"
   },
-  "original_contract_file": "contracts/tc_013.sol",
+  "original_contract_file": "base/contracts/tc_013.sol",
   "sanitized_from": "tc_013",
   "derived_from": "sn_tc_013",
   "original_id": "tc_013"

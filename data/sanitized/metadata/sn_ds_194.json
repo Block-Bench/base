@@ -70,6 +70,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_194.json",
     "original_id": "defivulnlabs_delegatecall"
   },
-  "original_contract_file": "contracts/ds_194.sol",
+  "original_contract_file": "base/contracts/ds_194.sol",
   "sanitized_from": "ds_194"
 }

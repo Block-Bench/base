@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_193.json",
     "original_id": "defivulnlabs_returnvalue"
   },
-  "original_contract_file": "contracts/ds_193.sol",
+  "original_contract_file": "base/contracts/ds_193.sol",
   "sanitized_from": "ds_193"
 }

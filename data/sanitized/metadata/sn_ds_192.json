@@ -67,6 +67,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_192.json",
     "original_id": "defivulnlabs_phantom-permit"
   },
-  "original_contract_file": "contracts/ds_192.sol",
+  "original_contract_file": "base/contracts/ds_192.sol",
   "sanitized_from": "ds_192"
 }

@@ -68,6 +68,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_183.json",
     "original_id": "defivulnlabs_fee-on-transfer"
   },
-  "original_contract_file": "contracts/ds_183.sol",
+  "original_contract_file": "base/contracts/ds_183.sol",
   "sanitized_from": "ds_183"
 }

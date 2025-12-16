@@ -64,7 +64,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_111.json",
     "original_id": "defivulnlabs_returnfalse"
   },
-  "original_contract_file": "contracts/ds_111.sol",
+  "original_contract_file": "base/contracts/ds_111.sol",
   "sanitized_from": "ds_111",
   "derived_from": "sn_ds_111",
   "original_id": "ds_111"

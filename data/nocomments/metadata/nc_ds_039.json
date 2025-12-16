@@ -70,7 +70,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_039.json",
     "original_id": "smartbugs_reentrancy_modifier_reentrancy"
   },
-  "original_contract_file": "contracts/ds_039.sol",
+  "original_contract_file": "base/contracts/ds_039.sol",
   "sanitized_from": "ds_039",
   "derived_from": "sn_ds_039",
   "original_id": "ds_039"

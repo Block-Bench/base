@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_037.json",
     "original_id": "smartbugs_reentrancy_etherbank"
   },
-  "original_contract_file": "contracts/ds_037.sol",
+  "original_contract_file": "base/contracts/ds_037.sol",
   "sanitized_from": "ds_037"
 }

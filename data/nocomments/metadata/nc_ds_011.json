@@ -66,7 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_011.json",
     "original_id": "smartbugs_access_control_phishable"
   },
-  "original_contract_file": "contracts/ds_011.sol",
+  "original_contract_file": "base/contracts/ds_011.sol",
   "sanitized_from": "ds_011",
   "derived_from": "sn_ds_011",
   "original_id": "ds_011"

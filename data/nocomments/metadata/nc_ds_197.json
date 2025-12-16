@@ -66,7 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_197.json",
     "original_id": "defivulnlabs_unsafecall"
   },
-  "original_contract_file": "contracts/ds_197.sol",
+  "original_contract_file": "base/contracts/ds_197.sol",
   "sanitized_from": "ds_197",
   "derived_from": "sn_ds_197",
   "original_id": "ds_197"

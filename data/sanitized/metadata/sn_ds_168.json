@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_168.json",
     "original_id": "smartbugs_time_manipulation_timed_crowdsale"
   },
-  "original_contract_file": "contracts/ds_168.sol",
+  "original_contract_file": "base/contracts/ds_168.sol",
   "sanitized_from": "ds_168"
 }

@@ -65,6 +65,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_204.json",
     "original_id": "notso_honeypots_lottery"
   },
-  "original_contract_file": "contracts/ds_204.sol",
+  "original_contract_file": "base/contracts/ds_204.sol",
   "sanitized_from": "ds_204"
 }

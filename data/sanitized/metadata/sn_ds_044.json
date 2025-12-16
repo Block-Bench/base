@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_044.json",
     "original_id": "smartbugs_reentrancy_reentrancy_insecure"
   },
-  "original_contract_file": "contracts/ds_044.sol",
+  "original_contract_file": "base/contracts/ds_044.sol",
   "sanitized_from": "ds_044"
 }

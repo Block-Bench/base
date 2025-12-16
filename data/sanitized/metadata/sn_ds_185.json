@@ -65,6 +65,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_185.json",
     "original_id": "defivulnlabs_precision-loss"
   },
-  "original_contract_file": "contracts/ds_185.sol",
+  "original_contract_file": "base/contracts/ds_185.sol",
   "sanitized_from": "ds_185"
 }

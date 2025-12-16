@@ -66,6 +66,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_141.json",
     "original_id": "smartbugs_arithmetic_overflow_single_tx"
   },
-  "original_contract_file": "contracts/ds_141.sol",
+  "original_contract_file": "base/contracts/ds_141.sol",
   "sanitized_from": "ds_141"
 }

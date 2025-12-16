@@ -66,7 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_156.json",
     "original_id": "smartbugs_front_running_ERC20"
   },
-  "original_contract_file": "contracts/ds_156.sol",
+  "original_contract_file": "base/contracts/ds_156.sol",
   "sanitized_from": "ds_156",
   "derived_from": "sn_ds_156",
   "original_id": "ds_156"

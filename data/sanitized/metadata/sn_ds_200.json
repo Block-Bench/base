@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_200.json",
     "original_id": "defivulnlabs_uniswapv3ethrefundexploit"
   },
-  "original_contract_file": "contracts/ds_200.sol",
+  "original_contract_file": "base/contracts/ds_200.sol",
   "sanitized_from": "ds_200"
 }

@@ -66,7 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_016.json",
     "original_id": "smartbugs_access_control_wallet_04_confused_sign"
   },
-  "original_contract_file": "contracts/ds_016.sol",
+  "original_contract_file": "base/contracts/ds_016.sol",
   "sanitized_from": "ds_016",
   "derived_from": "sn_ds_016",
   "original_id": "ds_016"

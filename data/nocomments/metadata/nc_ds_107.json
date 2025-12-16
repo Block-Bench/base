@@ -65,7 +65,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_107.json",
     "original_id": "defivulnlabs_transientstoragemisuse.t"
   },
-  "original_contract_file": "contracts/ds_107.sol",
+  "original_contract_file": "base/contracts/ds_107.sol",
   "sanitized_from": "ds_107",
   "derived_from": "sn_ds_107",
   "original_id": "ds_107"

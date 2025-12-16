@@ -83,7 +83,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_048.json",
     "original_exploit_name": "Sonne Finance"
   },
-  "original_contract_file": "contracts/tc_048.sol",
+  "original_contract_file": "base/contracts/tc_048.sol",
   "sanitized_from": "tc_048",
   "derived_from": "sn_tc_048",
   "original_id": "tc_048"

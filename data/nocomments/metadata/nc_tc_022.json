@@ -91,7 +91,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_022.json",
     "original_exploit_name": "Uranium Finance AMM Miscalculation"
   },
-  "original_contract_file": "contracts/tc_022.sol",
+  "original_contract_file": "base/contracts/tc_022.sol",
   "sanitized_from": "tc_022",
   "derived_from": "sn_tc_022",
   "original_id": "tc_022"

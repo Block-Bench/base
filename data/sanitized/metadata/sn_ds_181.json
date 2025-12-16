@@ -64,6 +64,6 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_181.json",
     "original_id": "defivulnlabs_sensefinance_exp"
   },
-  "original_contract_file": "contracts/ds_181.sol",
+  "original_contract_file": "base/contracts/ds_181.sol",
   "sanitized_from": "ds_181"
 }

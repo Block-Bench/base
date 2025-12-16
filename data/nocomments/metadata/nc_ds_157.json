@@ -66,7 +66,7 @@
     "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_157.json",
     "original_id": "smartbugs_front_running_FindThisHash"
   },
-  "original_contract_file": "contracts/ds_157.sol",
+  "original_contract_file": "base/contracts/ds_157.sol",
   "sanitized_from": "ds_157",
   "derived_from": "sn_ds_157",
   "original_id": "ds_157"

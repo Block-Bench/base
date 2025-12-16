@@ -90,7 +90,7 @@
     "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_028.json",
     "original_exploit_name": "BVaults SafeMoon Drain"
   },
-  "original_contract_file": "contracts/tc_028.sol",
+  "original_contract_file": "base/contracts/tc_028.sol",
   "sanitized_from": "tc_028",
   "derived_from": "sn_tc_028",
   "original_id": "tc_028"
