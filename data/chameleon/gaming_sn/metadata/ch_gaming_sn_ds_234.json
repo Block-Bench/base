@@ -1,0 +1,965 @@
+{
+  "id": "ch_gaming_sn_ds_234",
+  "contract_file": "contracts/ch_gaming_sn_ds_234.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "timestamp_dependency",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ERC20Basic",
+      "function_name": "betOf",
+      "line_numbers": [
+        523
+      ]
+    },
+    "root_cause": "Weak randomness - predictable random number generation at line(s) 523",
+    "attack_vector": "Weak randomness - predictable random number generation at line(s) 523",
+    "impact": "Severity: medium",
+    "correct_fix": "Use Chainlink VRF or commit-reveal scheme for randomness"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_bad_randomness_smart_billions",
+    "url": "https://etherscan.io/address/0x5ace17f87c7391e5792a7683069a8025b83bbd85#code",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.13",
+    "num_lines": 646,
+    "num_contracts": 8,
+    "contract_names": [
+      "ERC20Basic",
+      "ERC20",
+      "BasicToken",
+      "StandardToken",
+      "SmartBillions",
+      "state",
+      "is",
+      "is"
+    ],
+    "num_functions": 49,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Weak randomness - predictable random number generation at line(s) 523",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_234.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_234.json",
+    "original_id": "smartbugs_bad_randomness_smart_billions"
+  },
+  "original_contract_file": "base/contracts/ds_234.sol",
+  "sanitized_from": "ds_234",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 921131223,
+    "coverage": {
+      "total_identifiers": 283,
+      "transformed": 88,
+      "untransformed": 195,
+      "skipped_reserved": 58,
+      "skipped_interface": 0,
+      "coverage_percent": 31.1,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SafeMath",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sub",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20Basic",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "animator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "who",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pays",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "remaining",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dividend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "var",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_allowance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_spender",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "https",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "github",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "com",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "EIPs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SmartBillions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "metadata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PLAY",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Wallet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "uint208",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "processed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "possible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "after",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wallets",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "uint192",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "selected",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numbers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blocknumber",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lottery",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "runs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bets",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "funds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "investment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parameters",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "closed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "preparation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "funding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "investors",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maximum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dividends",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dividens",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "collected",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "per",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "growing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "betting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "won",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "building",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "database",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "saved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "available",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "volume",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "space",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "storing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "results",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DEBUG",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ONLY",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blocks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cold",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "store",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "player",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bethash",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "betsize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "investor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlyAnimator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dividendsBlocks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "administrative",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "functions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_who",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changeAnimator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_maxsum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "resetBet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "coldStore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "houseKeeping",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "additional",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "jackpot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "protection",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hotStore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "housekeeping",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payments",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payWallet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maxpay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "finney",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "keepbalance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wait",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "month",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "more",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "investDirect",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_partner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "implemented",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "investing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "close",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "back",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "immediately",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "marketing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "affiliates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initial",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "developers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "etherscan",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "disinvest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initialInvestment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stays",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "same",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reduced",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payDividends",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "betPrize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_player",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "uint24",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_hash",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "house",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "matches",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "betOf",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "load",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "there",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "too",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "long",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ago",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lost",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "open",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "even",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ready",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "but",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "must",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "collect",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "within",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "run",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "during",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ICO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "treated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "running",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "play",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "other",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assets",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nothing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "playSystem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sha3",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "playRandom",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "did",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "win",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "finished",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "players",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "help",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "collecing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_sadd",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "make",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assume",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calcHashes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_lastb",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_delta",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_block",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delta",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "incorrect",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "slotp",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lastb",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blockn256",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "useless",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testnet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "num",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "putHashes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_num",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "add": "include",
+      "value": "magnitude",
+      "from": "origin",
+      "commitDividend": "confirmDividend",
+      "spender": "user",
+      "Approval": "AccessAuthorized",
+      "BasicToken": "BasicCrystal",
+      "balances": "playerLoot",
+      "onlyPayloadSize": "onlyCargoMagnitude",
+      "size": "scale",
+      "data": "info",
+      "length": "size",
+      "sender": "initiator",
+      "StandardToken": "StandardCoin",
+      "issues": "verifysues",
+      "issuecomment": "verifysuecomment",
+      "Token": "Gem",
+      "state": "condition",
+      "current": "active",
+      "user": "character",
+      "lastDividendPeriod": "endingDividendInterval",
+      "last": "final",
+      "period": "duration",
+      "tokens": "medals",
+      "nextWithdrawBlock": "upcomingExtractwinningsTick",
+      "next": "upcoming",
+      "withdrawal": "goldExtracted",
+      "betHash": "betSeal",
+      "blockNum": "tickNum",
+      "walletBalance": "walletLootbalance",
+      "investStart": "investBegin",
+      "start": "begin",
+      "investBalance": "investGoldholding",
+      "investBalanceMax": "investPrizecountMaximum",
+      "dividendPeriod": "dividendDuration",
+      "array": "list",
+      "maxWin": "maximumWin",
+      "hashFirst": "sealInitial",
+      "time": "instant",
+      "hashes": "includeshes",
+      "hashLast": "signatureFinal",
+      "hashNext": "signatureFollowing",
+      "hashBetSum": "signatureBetSum",
+      "hashBetMax": "sealBetCeiling",
+      "constants": "gameConstants",
+      "hashesSize": "hashesMagnitude",
+      "coldStoreLast": "coldStoreEnding",
+      "events": "gameEvents",
+      "LogBet": "RecordBet",
+      "LogLoss": "RecordLoss",
+      "hash": "signature",
+      "LogWin": "RecordWin",
+      "LogInvestment": "RecordInvestment",
+      "amount": "measure",
+      "LogRecordWin": "JournalRecordWin",
+      "LogLate": "JournalLate",
+      "playerBlockNumber": "playerTickNumber",
+      "currentBlockNumber": "presentTickNumber",
+      "LogDividend": "RecordDividend",
+      "getters": "viewters",
+      "hashesLength": "hashesExtent",
+      "walletBalanceOf": "walletPrizecountOf",
+      "walletPeriodOf": "walletIntervalOf",
+      "walletBlockOf": "walletFrameOf",
+      "betValueOf": "betPriceOf",
+      "betHashOf": "betSignatureOf",
+      "betBlockNumberOf": "betFrameNumberOf",
+      "changeOwner": "changeMaster",
+      "setInvestStart": "collectionInvestBegin",
+      "setBetMax": "collectionBetMaximum",
+      "fromUSA": "sourceUsa",
+      "round": "wave",
+      "senderBalance": "initiatorGoldholding",
+      "ownerBalance": "masterLootbalance",
+      "animatorBalance": "animatorGoldholding",
+      "shares": "slices",
+      "share": "piece",
+      "fee": "tax",
+      "getHash": "acquireSeal",
+      "failed": "operationFailed",
+      "create": "missionStarted",
+      "active": "live",
+      "swap": "barterGoods",
+      "check": "examine",
+      "putHash": "putSignature",
+      "addHashes": "attachHashes",
+      "burn": "destroy",
+      "addHashes128": "attachHashes128"
+    }
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "id": "ch_medical_sn_ds_092",
+  "contract_file": "contracts/ch_medical_sn_ds_092.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The vulnerability in the code stems from the absence of a check to prevent self-transfers. \nThis oversight allows the transfer function to erroneously transfer funds to the same address. \nConsequently, funds are lost as the code fails to deduct the transferred amount from the sender's balance.\nThis vulnerability undermines the correctness of fund transfers within the contract and poses a risk \nto the integrity of user balances.",
+    "attack_vector": "The vulnerability in the code stems from the absence of a check to prevent self-transfers. \nThis oversight allows the transfer function to erroneously transfer funds to the same address. \nConsequently, funds are lost as the code fails to deduct the transferred amount from the sender's balance.\nThis vulnerability undermines the correctness of fund transfers within the contract and poses a risk \nto the integrity of user balances.",
+    "impact": "Severity: medium",
+    "correct_fix": "Add condition to prevent transfer between same addresses"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_self-transfer",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 71,
+    "num_contracts": 3,
+    "contract_names": [
+      "ContractTest",
+      "SimpleBank",
+      "FixedSimpleBank"
+    ],
+    "num_functions": 7,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The vulnerability in the code stems from the absence of a check to prevent self-transfers. \nThis oversight allows the transfer function to erroneously transfer funds to the same address. \nConsequently, funds are lost as the code fails to deduct the transferred amount from the sender's balance.\nThis vulnerability undermines the correctness of fund transfers within the contract and poses a risk \nto the integrity of user balances.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_092.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_092.json",
+    "original_id": "defivulnlabs_self-transfer"
+  },
+  "original_contract_file": "base/contracts/ds_092.sol",
+  "sanitized_from": "ds_092",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 913165844,
+    "coverage": {
+      "total_identifiers": 32,
+      "transformed": 10,
+      "untransformed": 22,
+      "skipped_reserved": 23,
+      "skipped_interface": 0,
+      "coverage_percent": 31.25,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SimpleBank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SimpleBankV2",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Cannot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "funds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "same",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_balances",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_account",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "self",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unchecked",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "ContractTest": "PolicyTest",
+      "VSimpleBankContract": "VSimpleBankAgreement",
+      "SimpleBankContractV2": "SimpleBankAgreementV2",
+      "setUp": "groupUp",
+      "testSelfTransfer": "testSelfRefer",
+      "testFixedSelfTransfer": "testFixedSelfPasscase",
+      "expectRevert": "expectUndo",
+      "check": "assess",
+      "_fromBalance": "_referrerAllocation",
+      "_toBalance": "_destinationAllocation"
+    }
+  }
+}

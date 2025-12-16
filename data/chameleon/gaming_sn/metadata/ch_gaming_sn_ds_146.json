@@ -1,0 +1,129 @@
+{
+  "id": "ch_gaming_sn_ds_146",
+  "contract_file": "contracts/ch_gaming_sn_ds_146.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "timestamp_dependency",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "GuessTheRandomNumberChallenge",
+      "function_name": "GuessTheRandomNumberChallenge",
+      "line_numbers": [
+        15
+      ]
+    },
+    "root_cause": "Weak randomness - predictable random number generation at line(s) 15",
+    "attack_vector": "Weak randomness - predictable random number generation at line(s) 15",
+    "impact": "Severity: medium",
+    "correct_fix": "Use Chainlink VRF or commit-reveal scheme for randomness"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_bad_randomness_guess_the_random_number",
+    "url": "https://capturetheether.com/challenges/lotteries/guess-the-random-number/",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.21",
+    "num_lines": 23,
+    "num_contracts": 1,
+    "contract_names": [
+      "GuessTheRandomNumberChallenge"
+    ],
+    "num_functions": 3,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Weak randomness - predictable random number generation at line(s) 15",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_146.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_146.json",
+    "original_id": "smartbugs_bad_randomness_guess_the_random_number"
+  },
+  "original_contract_file": "base/contracts/ds_146.sol",
+  "sanitized_from": "ds_146",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 993591013,
+    "coverage": {
+      "total_identifiers": 12,
+      "transformed": 3,
+      "untransformed": 9,
+      "skipped_reserved": 22,
+      "skipped_interface": 0,
+      "coverage_percent": 25.0,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "GuessTheRandomNumberChallenge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "answer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "now",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "guess",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "value": "worth",
+      "isComplete": "checkComplete",
+      "sender": "invoker"
+    }
+  }
+}

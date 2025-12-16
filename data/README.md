@@ -21,7 +21,8 @@ data/
 ├── base/           # Original unmodified contracts
 ├── annotated/      # Contracts with detailed vulnerability labeling
 ├── sanitized/      # Hint-removed contracts for adversarial evaluation
-└── nocomments/     # Comment-stripped contracts for minimal evaluation
+├── nocomments/     # Comment-stripped contracts for minimal evaluation
+└── chameleon/      # Identifier-renamed contracts for semantic testing
 ```
 
 ## Datasets
@@ -74,6 +75,25 @@ Minimal evaluation surface with all comments stripped. Derived from sanitized co
 
 **Naming:** `nc_{original_id}` (e.g., `nc_ds_001`)
 
+### Chameleon
+
+Adversarial variants with all user-defined identifiers renamed using randomized synonym pools. Tests whether models rely on keyword patterns rather than semantic understanding.
+
+**Themes:**
+- `gaming`: Video game, RPG, loot, rewards terminology
+- `resource`: Business, allocation, resource management
+- `abstract`: Domain-neutral technical terminology
+- `medical`: Healthcare and medical terminology
+- `social`: Social media and community terminology
+
+**Transformations:**
+- Function names: `withdraw` → `claimLoot`, `collectBounty`, etc.
+- Variable names: `balance` → `goldHolding`, `treasureAmount`, etc.
+- Contract names: `Vault` → `TreasureHold`, `LootVault`, etc.
+- Compound decomposition: `getUserBalance` → `fetchPlayerGold`
+
+**Naming:** `ch_{theme}_{source}_{original_id}` (e.g., `ch_gaming_sn_ds_001`)
+
 ## Transformation Pipeline
 
 ```
@@ -84,7 +104,11 @@ base/
         │
         └── sanitized/sn_ds_001.sol (hints removed)
                 │
-                └── nocomments/nc_ds_001.sol (comments stripped)
+                ├── nocomments/nc_ds_001.sol (comments stripped)
+                │       │
+                │       └── chameleon/ch_{theme}_nc_ds_001.sol (identifiers renamed)
+                │
+                └── chameleon/ch_{theme}_sn_ds_001.sol (identifiers renamed)
 ```
 
 ## File Organization
@@ -134,10 +158,16 @@ def load_dataset(name: str):
 
 ```bash
 # Generate sanitized contracts from base
-python -m strategies.base.sanitize all
+python -m strategies.sanitize.sanitize all
 
 # Generate no-comments contracts from sanitized
 python -m strategies.nocomments.nocomment all
+
+# Generate chameleon contracts (gaming theme from sanitized)
+python -m strategies.chameleon.chameleon all --theme gaming --source sanitized
+
+# Generate chameleon contracts (gaming theme from nocomments)
+python -m strategies.chameleon.chameleon all --theme gaming --source nocomments
 ```
 
 ## Quality Assurance

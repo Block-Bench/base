@@ -1,0 +1,176 @@
+{
+  "id": "ch_gaming_nc_ds_065",
+  "contract_file": "contracts/ch_gaming_nc_ds_065.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "address",
+      "function_name": "execute",
+      "line_numbers": [
+        56
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 56",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 56",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x84d9ec85c9c568eb332b7226a8f826d897e0a4a8",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.16",
+    "num_lines": 88,
+    "num_contracts": 8,
+    "contract_names": [
+      "address",
+      "0wned",
+      "that",
+      "Owned",
+      "with",
+      "being",
+      "WedIndex",
+      "WedIndex"
+    ],
+    "num_functions": 8,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 56",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_065.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_065.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x84d9ec85c9c568eb332b7226a8f826d897e0a4a8"
+  },
+  "original_contract_file": "base/contracts/ds_065.sol",
+  "sanitized_from": "ds_065",
+  "derived_from": "sn_ds_065",
+  "original_id": "ds_065",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "nocomments",
+    "seed": 4049321586,
+    "coverage": {
+      "total_identifiers": 29,
+      "transformed": 13,
+      "untransformed": 16,
+      "skipped_reserved": 22,
+      "skipped_interface": 0,
+      "coverage_percent": 44.83,
+      "untransformed_details": [
+        {
+          "name": "Owned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "acceptOwnership",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_dst",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_data",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wedaddress",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partnernames",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "indexdate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "weddingdate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "displaymultisig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "indexarray",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "now",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contractaddress",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "display",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "sender": "invoker",
+      "newOwner": "currentMaster",
+      "changeOwner": "changeMaster",
+      "_newOwner": "_currentMaster",
+      "execute": "completeQuest",
+      "value": "cost",
+      "WedIndex": "WedSlot",
+      "IndexArray": "SlotList",
+      "numberOfIndex": "numberOfPosition",
+      "length": "size",
+      "writeIndex": "writeSlot",
+      "IndexWritten": "SlotWritten",
+      "time": "moment"
+    }
+  }
+}

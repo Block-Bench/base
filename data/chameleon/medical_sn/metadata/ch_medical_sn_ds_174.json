@@ -1,0 +1,500 @@
+{
+  "id": "ch_medical_sn_ds_174",
+  "contract_file": "contracts/ch_medical_sn_ds_174.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Lotto",
+      "function_name": "cash",
+      "line_numbers": [
+        109
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 109",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 109",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_etherpot_lotto",
+    "url": "https://github.com/etherpot/contract/blob/master/app/contracts/lotto.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.0",
+    "num_lines": 154,
+    "num_contracts": 2,
+    "contract_names": [
+      "Lotto",
+      "maintains"
+    ],
+    "num_functions": 15,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 109",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_174.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_174.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_etherpot_lotto"
+  },
+  "original_contract_file": "base/contracts/ds_174.sol",
+  "sanitized_from": "ds_174",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 641857760,
+    "coverage": {
+      "total_identifiers": 136,
+      "transformed": 45,
+      "untransformed": 91,
+      "skipped_reserved": 29,
+      "skipped_interface": 0,
+      "coverage_percent": 33.09,
+      "untransformed_details": [
+        {
+          "name": "added",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Lotto",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "there",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "infinite",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rounds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "just",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "like",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "real",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "takes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "place",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "every",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "week",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decides",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "how",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "many",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blocks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "around",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "day",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cost",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ticket",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accessors",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buyers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maintains",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tickets",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whether",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "was",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cashed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Cashing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "act",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "paying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "out",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tells",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "which",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "example",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Division",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "automatically",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "down",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "don",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "need",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "worry",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "about",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Determine",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "given",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "note",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "does",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "therefore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "include",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "various",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "validitiy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "var",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decided",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "over",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "perform",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "modulus",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "determine",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buyer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cash",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Subpots",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "once",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prevent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "double",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payouts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subpot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Mark",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "called",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "people",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "money",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partial",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "refund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "keep",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "track",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "version": "revision",
+      "blocksPerRound": "blocksPerSession",
+      "lottery": "organLottery",
+      "round": "cycle",
+      "last": "final",
+      "ticketPrice": "ticketCost",
+      "blockReward": "unitCredit",
+      "getBlocksPerRound": "retrieveBlocksPerSession",
+      "getTicketPrice": "acquireTicketCost",
+      "constants": "careRules",
+      "Round": "Cycle",
+      "ticketsCount": "ticketsTally",
+      "isCashed": "checkCashed",
+      "ticketsCountByBuyer": "ticketsNumberByBuyer",
+      "list": "registry",
+      "total": "cumulative",
+      "amount": "measure",
+      "getRoundIndex": "acquireSessionSlot",
+      "index": "slot",
+      "getIsCashed": "acquireIsCashed",
+      "roundIndex": "cyclePosition",
+      "subpotIndex": "subpotRank",
+      "calculateWinner": "determineWinner",
+      "calculates": "evaluates",
+      "state": "condition",
+      "decisionBlockNumber": "decisionWardNumber",
+      "getDecisionBlockNumber": "obtainDecisionUnitNumber",
+      "isn": "verifyn",
+      "decisionBlockHash": "decisionWardChecksum",
+      "getHashOfBlock": "obtainSignatureOfUnit",
+      "winningTicketIndex": "winningTicketRank",
+      "ticketIndex": "ticketRank",
+      "buyerIndex": "buyerRank",
+      "length": "extent",
+      "getSubpotsCount": "obtainSubpotsTally",
+      "subpotsCount": "subpotsNumber",
+      "getSubpot": "diagnoseSubpot",
+      "blockIndex": "wardRank",
+      "getBuyers": "obtainBuyers",
+      "getTicketsCountByBuyer": "diagnoseTicketsTallyByBuyer",
+      "getPot": "obtainPot",
+      "gets": "views",
+      "value": "assessment",
+      "sender": "referrer",
+      "buyersLength": "buyersExtent"
+    }
+  }
+}

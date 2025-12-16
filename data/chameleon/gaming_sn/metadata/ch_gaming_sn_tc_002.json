@@ -1,0 +1,367 @@
+{
+  "id": "ch_gaming_sn_tc_002",
+  "contract_file": "contracts/ch_gaming_sn_tc_002.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "VulnerableBeanstalkGovernance",
+      "function_name": "emergencyCommit",
+      "line_numbers": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        99,
+        100,
+        101,
+        102,
+        103,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ]
+    },
+    "root_cause": "Governance system allowed instant voting power from deposits with no time-weighting or holding period. The emergencyCommit() function enabled immediate execution of proposals that reached 66% approval, with no time delay for community review. This combination made flash loan governance attacks trivial to execute.",
+    "attack_vector": "Attacker takes massive flash loan from Aave ($1B in stablecoins), swaps for Curve 3pool LP tokens, deposits into Beanstalk Silo gaining >66% voting power, creates malicious governance proposal to transfer all funds, votes with flash-loan-funded power, immediately executes via emergencyCommit(), drains protocol, repays flash loan with profit.",
+    "impact": "Funds lost: $182,000,000",
+    "correct_fix": "Implement time-weighted voting where voting power increases with duration of deposit. Add minimum holding period before deposits grant voting rights. Implement mandatory time delay (timelock) between proposal creation and execution. Remove or heavily restrict emergencyCommit() function. Use snapshot-based voting to prevent same-block deposit and vote. Add multi-sig or guardian oversight for emergency functions."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "temporal_beanstalk_001",
+    "url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2022-04/Beanstalk_exp.sol",
+    "date_discovered": "2022-04-17",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 121,
+    "num_contracts": 2,
+    "contract_names": [
+      "GovernanceSystem",
+      "to"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "governance",
+    "flash_loan",
+    "voting",
+    "timelock",
+    "defi",
+    "historical",
+    "mega_hack"
+  ],
+  "notes": "One of the most significant governance attacks in DeFi history. Demonstrated that on-chain governance without time-weighting or timelocks is vulnerable to flash loan manipulation. The attacker used $1B in borrowed capital to completely control the protocol for a single block.",
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2022-04-17",
+      "protocol_name": "Beanstalk",
+      "chain": "ethereum",
+      "funds_lost_usd": 182000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Beanstalk exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_002.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_002.json",
+    "original_exploit_name": "Beanstalk"
+  },
+  "original_contract_file": "base/contracts/tc_002.sol",
+  "sanitized_from": "tc_002",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 446825410,
+    "coverage": {
+      "total_identifiers": 84,
+      "transformed": 34,
+      "untransformed": 50,
+      "skipped_reserved": 29,
+      "skipped_interface": 0,
+      "coverage_percent": 40.48,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "title",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Governance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "System",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Manages",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "governance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Allows",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "holders",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IDiamondCut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "FacetCut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "action",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "functionSelectors",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "GovernanceSystem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Voting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "based",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deposits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Proposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "structure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forVotes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "executed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProposalCreated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Voted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProposalExecuted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "param",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_target",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_calldata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prop",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Auto",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "immediately",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Insufficient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Execution",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "protocol": "rewardEngine",
+      "token": "crystal",
+      "propose": "submit",
+      "vote": "cast",
+      "facetAddress": "facetRealm",
+      "power": "might",
+      "depositedBalance": "depositedPrizecount",
+      "votingPower": "votingStrength",
+      "target": "aim",
+      "data": "details",
+      "startTime": "openingInstant",
+      "hasVoted": "holdsVoted",
+      "proposalCount": "proposalTally",
+      "totalVotingPower": "aggregateVotingMight",
+      "Constants": "GameConstants",
+      "EMERGENCY_THRESHOLD": "critical_limit",
+      "proposalId": "proposalIdentifier",
+      "Deposit": "BankWinnings",
+      "tokens": "coins",
+      "amount": "measure",
+      "Amount": "Measure",
+      "deposit": "depositGold",
+      "sender": "caster",
+      "Create": "MissionStarted",
+      "execute": "runMission",
+      "timestamp": "gameTime",
+      "Vote": "Decide",
+      "Emergency": "Critical",
+      "commit": "confirm",
+      "emergencyCommit": "urgentConfirm",
+      "votePercentage": "castPercentage",
+      "Execute": "PerformAction",
+      "success": "win",
+      "failed": "actionFailed"
+    }
+  }
+}

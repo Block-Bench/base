@@ -1,0 +1,405 @@
+{
+  "id": "ch_gaming_sn_ds_200",
+  "contract_file": "contracts/ch_gaming_sn_ds_200.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "UniswapV3ETHRefundExploitTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "",
+    "attack_vector": "",
+    "impact": "Severity: medium",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_uniswapv3ethrefundexploit",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 104,
+    "num_contracts": 1,
+    "contract_names": [
+      "UniswapV3ETHRefundExploitTest"
+    ],
+    "num_functions": 6,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_200.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_200.json",
+    "original_id": "defivulnlabs_uniswapv3ethrefundexploit"
+  },
+  "original_contract_file": "base/contracts/ds_200.sol",
+  "sanitized_from": "ds_200",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 2632828589,
+    "coverage": {
+      "total_identifiers": 107,
+      "transformed": 37,
+      "untransformed": 70,
+      "skipped_reserved": 27,
+      "skipped_interface": 0,
+      "coverage_percent": 34.58,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "UNLICENSED",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "excersise",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "specific",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "refund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "https",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "github",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "com",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Jeiwan",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "uniswapv3",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unrefunded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "eth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "poc",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "article",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "uint24",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "uint160",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "refundETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IPool",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "slot0",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "int24",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tick",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "observationCardinality",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IWETH9",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "guy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wad",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "UniswapV3ETHRefundOperationTest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "weth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "usdc",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testOperation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createSelectFork",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mainnet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "label",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sells",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "USDC",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "They",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "after",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Full",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "along",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bought",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "some",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "However",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "full",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wasn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assertEq",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "remaining",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "still",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MEV",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transfers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calling",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "loss",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "UniSwapV3": "UniBartergoodsV3",
+      "issue": "checksue",
+      "ExactInputSingleParams": "ExactEntrySingleParameters",
+      "tokenIn": "coinIn",
+      "tokenOut": "medalOut",
+      "fee": "tribute",
+      "recipient": "receiver",
+      "deadline": "timeLimit",
+      "amountIn": "measureIn",
+      "amountOutMinimum": "totalOutMinimum",
+      "sqrtPriceLimitX96": "sqrtCostCapX96",
+      "ISwapRouter": "IBartergoodsRouter",
+      "exactInputSingle": "exactSubmissionSingle",
+      "params": "settings",
+      "amountOut": "quantityOut",
+      "sqrtPriceX96": "sqrtCostX96",
+      "observationIndex": "observationSlot",
+      "observationCardinalityNext": "observationCardinalityFollowing",
+      "feeProtocol": "chargeProtocol",
+      "unlocked": "freed",
+      "router": "questRouter",
+      "pool": "bountyPool",
+      "user": "character",
+      "Users": "Adventurers",
+      "limit": "bound",
+      "price": "value",
+      "set": "assign",
+      "timestamp": "adventureTime",
+      "sqrtPrice": "sqrtCost",
+      "input": "submission",
+      "amount": "sum",
+      "value": "price",
+      "User": "Character",
+      "Router": "QuestRouter",
+      "routerBeforeBalance": "routerBeforeLootbalance",
+      "routerAfterBalance": "routerAfterLootbalance",
+      "log": "record"
+    }
+  }
+}

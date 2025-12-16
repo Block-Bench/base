@@ -1,0 +1,298 @@
+{
+  "id": "ch_medical_nc_ds_195",
+  "contract_file": "contracts/ch_medical_nc_ds_195.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "This demonstrates the difference between using 'return' and 'break' in nested loop iterations.\nWhen removing multiple banks from a list, using 'return' in the BuggyBankManager will prematurely exit the function\nafter removing only the first bank, leaving other banks untouched.\nIn contrast, the FixedBankManager uses 'break' correctly to only exit the current inner loop iteration,\nallowing the outer loop to continue processing other banks.\n\nThis is similar to a real bug where a function intended to allow the removal of multiple DEXes approved for swaps,\nbut would only remove the first DEX because 'return' was used instead of 'break' in the inner for loop.",
+    "attack_vector": "This demonstrates the difference between using 'return' and 'break' in nested loop iterations.\nWhen removing multiple banks from a list, using 'return' in the BuggyBankManager will prematurely exit the function\nafter removing only the first bank, leaving other banks untouched.\nIn contrast, the FixedBankManager uses 'break' correctly to only exit the current inner loop iteration,\nallowing the outer loop to continue processing other banks.\n\nThis is similar to a real bug where a function intended to allow the removal of multiple DEXes approved for swaps,\nbut would only remove the first DEX because 'return' was used instead of 'break' in the inner for loop.",
+    "impact": "Severity: medium",
+    "correct_fix": "Use break instead of return when you only want to exit the current loop, not the entire function."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_return-break",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 237,
+    "num_contracts": 5,
+    "contract_names": [
+      "ContractTest",
+      "with",
+      "BankManager",
+      "BuggyBankManager",
+      "FixedBankManager"
+    ],
+    "num_functions": 22,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "This demonstrates the difference between using 'return' and 'break' in nested loop iterations.\nWhen removing multiple banks from a list, using 'return' in the BuggyBankManager will prematurely exit the function\nafter removing only the first bank, leaving other banks untouched.\nIn contrast, the FixedBankManager uses 'break' correctly to only exit the current inner loop iteration,\nallowing the outer loop to continue processing other banks.\n\nThis is similar to a real bug where a function intended to allow the removal of multiple DEXes approved for swaps,\nbut would only remove the first DEX because 'return' was used instead of 'break' in the inner for loop.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_195.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_195.json",
+    "original_id": "defivulnlabs_return-break"
+  },
+  "original_contract_file": "base/contracts/ds_195.sol",
+  "sanitized_from": "ds_195",
+  "derived_from": "sn_ds_195",
+  "original_id": "ds_195",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 1928880912,
+    "coverage": {
+      "total_identifiers": 75,
+      "transformed": 32,
+      "untransformed": 43,
+      "skipped_reserved": 31,
+      "skipped_interface": 0,
+      "coverage_percent": 42.67,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initialBanks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initialNames",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ABC",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "XYZ",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Global",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Initial",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "both",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "managers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Alternate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Fixed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testReturnVsBreak",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nRemoving",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "banks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "marked",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "removal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Testing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "after",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addresses",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "names",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Arrays",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "must",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "same",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "out",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bounds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pop",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "encodePacked",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Removing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "uint160",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Banks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buggy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "digits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buffer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hexSymbols",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fixed",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "ContractTest": "AgreementTest",
+      "AlternateBankManager": "AlternateBankHandler",
+      "buggyManager": "buggyHandler",
+      "BankManagerV2": "BankCoordinatorV2",
+      "fixedManager": "fixedCoordinator",
+      "setUp": "groupUp",
+      "Bank": "PlasmaBank",
+      "addBanks": "insertBanks",
+      "log_string": "record_text",
+      "state": "status",
+      "bank": "plasmaBank",
+      "log_named_uint": "chart_named_count",
+      "manager": "handler",
+      "count": "number",
+      "getBankCount": "retrieveBankNumber",
+      "banksToRemove": "banksDestinationDrop",
+      "log": "record",
+      "removeBanksWithReturn": "dischargeBanksWithReturn",
+      "listBanks": "rosterBanks",
+      "removeBanksWithBreak": "dropBanksWithBreak",
+      "BankManager": "BankHandler",
+      "bankAddress": "bankLocation",
+      "bankName": "bankLabel",
+      "length": "duration",
+      "getBank": "acquireBank",
+      "index": "slot",
+      "Index": "Rank",
+      "_removeBank": "_dischargeBank",
+      "toHexString": "receiverHexName",
+      "toString": "receiverName",
+      "value": "rating",
+      "temp": "temporary"
+    }
+  }
+}

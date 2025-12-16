@@ -1,0 +1,150 @@
+{
+  "id": "ch_gaming_nc_ds_111",
+  "contract_file": "contracts/ch_gaming_nc_ds_111.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Some tokens do not revert on failure, but instead return false (e.g. ZRX).\n\nZRX transfer return false:\n    function transfer(address _to, uint _value) returns (bool) {\n        //Default assumes totalSupply can't be over max (2^256 - 1).\n        if (balances[msg.sender] >= _value && balances[_to] + _value >= balances[_to]) {\n            balances[msg.sender] -= _value;\n            balances[_to] += _value;\n            Transfer(msg.sender, _to, _value);\n            return true;\n        } else { return false; }\n    }",
+    "attack_vector": "Some tokens do not revert on failure, but instead return false (e.g. ZRX).\n\nZRX transfer return false:\n    function transfer(address _to, uint _value) returns (bool) {\n        //Default assumes totalSupply can't be over max (2^256 - 1).\n        if (balances[msg.sender] >= _value && balances[_to] + _value >= balances[_to]) {\n            balances[msg.sender] -= _value;\n            balances[_to] += _value;\n            Transfer(msg.sender, _to, _value);\n            return true;\n        } else { return false; }\n    }",
+    "impact": "Severity: medium",
+    "correct_fix": "Use OpenZeppelin\u2019s\u00a0SafeERC20\u00a0library and change\u00a0transfer\u00a0to\u00a0safeTransfer."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_returnfalse",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 36,
+    "num_contracts": 1,
+    "contract_names": [
+      "ContractTest"
+    ],
+    "num_functions": 3,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Some tokens do not revert on failure, but instead return false (e.g. ZRX).\n\nZRX transfer return false:\n    function transfer(address _to, uint _value) returns (bool) {\n        //Default assumes totalSupply can't be over max (2^256 - 1).\n        if (balances[msg.sender] >= _value && balances[_to] + _value >= balances[_to]) {\n            balances[msg.sender] -= _value;\n            balances[_to] += _value;\n            Transfer(msg.sender, _to, _value);\n            return true;\n        } else { return false; }\n    }",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_111.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_111.json",
+    "original_id": "defivulnlabs_returnfalse"
+  },
+  "original_contract_file": "base/contracts/ds_111.sol",
+  "sanitized_from": "ds_111",
+  "derived_from": "sn_ds_111",
+  "original_id": "ds_111",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "nocomments",
+    "seed": 3958814201,
+    "coverage": {
+      "total_identifiers": 21,
+      "transformed": 8,
+      "untransformed": 13,
+      "skipped_reserved": 16,
+      "skipped_interface": 0,
+      "coverage_percent": 38.1,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SafeERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zrx",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createSelectFork",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mainnet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stopPrank",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "token": "crystal",
+      "utils": "gameUtils",
+      "ContractTest": "AgreementTest",
+      "setUp": "groupUp",
+      "testTransfer": "testMovetreasure",
+      "startPrank": "beginPrank",
+      "testSafeTransferFail": "testSafeRelocateassetsFail",
+      "safeTransfer": "secureMove"
+    }
+  }
+}

@@ -1,0 +1,1309 @@
+{
+  "id": "ch_medical_sn_ds_122",
+  "contract_file": "contracts/ch_medical_sn_ds_122.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "that",
+      "function_name": "revoke",
+      "line_numbers": []
+    },
+    "root_cause": "# Unprotected function\nMissing (or incorrectly used) modifier on a function allows an attacker to use sensitive functionality in the contract.",
+    "attack_vector": "# Unprotected function\nMissing (or incorrectly used) modifier on a function allows an attacker to use sensitive functionality in the contract.",
+    "impact": "Severity: high",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_unprotected_function_walletlibrary",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.9",
+    "num_lines": 462,
+    "num_contracts": 7,
+    "contract_names": [
+      "that",
+      "WalletEvents",
+      "only",
+      "WalletAbi",
+      "WalletLibrary",
+      "sending",
+      "Wallet"
+    ],
+    "num_functions": 41,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Unprotected function\nMissing (or incorrectly used) modifier on a function allows an attacker to use sensitive functionality in the contract.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_122.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_122.json",
+    "original_id": "notso_unprotected_function_walletlibrary"
+  },
+  "original_contract_file": "base/contracts/ds_122.sol",
+  "sanitized_from": "ds_122",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 464738397,
+    "coverage": {
+      "total_identifiers": 363,
+      "transformed": 79,
+      "untransformed": 284,
+      "skipped_reserved": 53,
+      "skipped_interface": 0,
+      "coverage_percent": 21.76,
+      "untransformed_details": [
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Multi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "daily",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "limited",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "authors",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Gav",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Wood",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ethdev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "com",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inheritable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "property",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enables",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "methods",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "protected",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requiring",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "acquiescence",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "either",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "single",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "crucially",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "designated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "usage",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "modifiers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "just",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "own",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlymanyowners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whereby",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "same",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "must",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "provided",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "some",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "specified",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "modifiable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interior",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "executed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WalletEvents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "six",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accept",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confirmation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "which",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "case",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "record",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alongside",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Confirmation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "others",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "one",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "emitted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "required",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signatures",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "change",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "RequirementChanged",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Funds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "arrived",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "into",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "how",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "much",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Single",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transaction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "going",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "out",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "who",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whom",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SingleTransact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "created",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MultiTransact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "still",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "needed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ConfirmationNeeded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initiator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WalletAbi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Revokes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prior",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "given",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Replaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "another",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changeRequirement",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "needs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "many",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confirm",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "doesn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "spent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "today",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_data",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WalletLibrary",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yetNeeded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ownersDone",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Transaction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "structure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "remember",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "details",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "need",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "saved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "later",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MODIFIERS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "multi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "intrinsic",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "attempts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "realised",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "underlying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "thus",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confirmations",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "METHODS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "called",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "other",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "matches",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "being",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cash",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sigs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transactions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "well",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "selection",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addresses",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "capable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confirming",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "them",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initMultiowned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_required",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_numOwners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_owners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_ownerIndex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_required",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "make",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "they",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "var",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sha3",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "c_maxOwners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reorganizeOwners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_numOwner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "equal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "always",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "points",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "optimal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "free",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numOwners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "determine",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stores",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initial",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "records",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "present",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "day",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initDaylimit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_limit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_dailyLimit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_lastDay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "resets",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "resetSpentToday",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_spentToday",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pass",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "multiowned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "daylimit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initWallet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_daylimit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kills",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sending",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "everything",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kill",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "suicide",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Outside",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "visible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "entry",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "point",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Executes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "immediately",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "below",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "spend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "goes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "multisig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "provide",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "shortcuts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "avoid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "replicating",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "arguments",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "They",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "option",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "want",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "anyways",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "take",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "opportunity",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "under",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "our",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "store",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_txs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_code",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "o_addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "jumpi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invalidJumpLabel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extcodesize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "through",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "map",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "body",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "what",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "working",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "switch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "over",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confirmed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "none",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bitmap",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "m_pendingIndex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "haven",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "previously",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enough",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ahead",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "run",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "particular",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "see",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "there",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "least",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "left",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subtracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "otherwise",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "different",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subtract",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "determines",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "now",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "FIELDS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_walletLibrary",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "find",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reverse",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lookup",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ongoing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operations",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calls",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "method",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "context",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "init",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Compute",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "arrays",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "offset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "plus",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "per",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "element",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "argarraysize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "argsize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mstore",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "codecopy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sub",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "codesize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "statement",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unavailable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "explicit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "here",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "Wallet": "HealthWallet",
+      "account": "chart",
+      "proxy": "transferHub",
+      "wallet": "patientWallet",
+      "onlyowner": "onlyAdministrator",
+      "hash": "signature",
+      "set": "prescribe",
+      "EVENTS": "TreatmentLog",
+      "types": "patientTypes",
+      "events": "treatmentLog",
+      "Revoke": "Cancel",
+      "OwnerChanged": "AdministratorChanged",
+      "oldOwner": "previousDirector",
+      "newOwner": "currentSupervisor",
+      "OwnerAdded": "SupervisorAdded",
+      "OwnerRemoved": "SupervisorRemoved",
+      "last": "ending",
+      "newRequirement": "currentRequirement",
+      "Deposit": "RegisterPayment",
+      "value": "evaluation",
+      "data": "record",
+      "revoke": "withdraw",
+      "changeOwner": "changeSupervisor",
+      "addOwner": "insertSupervisor",
+      "removeOwner": "eliminateAdministrator",
+      "_newRequired": "_currentRequired",
+      "isOwner": "isAdministrator",
+      "hasConfirmed": "includesConfirmed",
+      "sets": "updates",
+      "limit": "bound",
+      "amount": "dosage",
+      "setDailyLimit": "collectionDailyCap",
+      "_newLimit": "_currentCap",
+      "execute": "performProcedure",
+      "o_hash": "o_signature",
+      "o_success": "o_improvement",
+      "TYPES": "PatientTypes",
+      "status": "state",
+      "pending": "scheduled",
+      "PendingState": "ScheduledCondition",
+      "index": "position",
+      "simple": "basicCare",
+      "sender": "provider",
+      "order": "prescription",
+      "count": "tally",
+      "confirmAndCheck": "confirmAndExamine",
+      "gets": "views",
+      "length": "duration",
+      "ownerIndex": "administratorPosition",
+      "ownerIndexBit": "administratorPositionBit",
+      "m_pending": "m_awaiting",
+      "clearPending": "clearScheduled",
+      "slot": "opening",
+      "Gets": "Views",
+      "position": "assignment",
+      "getOwner": "retrieveDirector",
+      "array": "collection",
+      "process": "handle",
+      "get": "diagnose",
+      "first": "initial",
+      "check": "examine",
+      "underLimit": "underBound",
+      "create": "patientAdmitted",
+      "add": "insert",
+      "iszero": "checkzero",
+      "previous": "prior",
+      "from": "referrer",
+      "message": "alert",
+      "time": "moment",
+      "pointer": "reference",
+      "list": "roster",
+      "WALLET": "HealthWallet206",
+      "Signature": "Authorization",
+      "target": "objective",
+      "size": "scale",
+      "Add": "Insert",
+      "signature": "consent",
+      "end": "discharge",
+      "Delegate": "Entrust"
+    }
+  }
+}

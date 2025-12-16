@@ -1,0 +1,73 @@
+{
+  "theme_name": "resource",
+  "description": "Generic resource allocation and business terminology",
+  "pools": {
+    "contract_names": {
+      "vault": ["ResourceManager", "AssetController", "AllocationVault", "UnitRepository", "ValueStore", "HoldingsFacility", "CapitalManager", "ReserveController"],
+      "bank": ["AllocationCenter", "ResourceBank", "AssetReserve", "CapitalStore", "UnitBank", "ValueRepository"],
+      "pool": ["ResourcePool", "AllocationPool", "UnitAggregate", "AssetCollection", "CapitalPool", "SharedReserve"],
+      "treasury": ["CentralReserve", "MasterAllocation", "PrimaryVault", "CoreTreasury", "MainRepository"],
+      "token": ["UnitToken", "ResourceToken", "AllocationToken", "AssetToken", "ValueToken"],
+      "protocol": ["ResourceEngine", "AllocationSystem", "AssetProtocol", "UnitManager"],
+      "manager": ["ResourceController", "AllocationManager", "AssetHandler", "UnitProcessor"],
+      "staking": ["UnitStaking", "ResourceLock", "AllocationCommit", "AssetBond"]
+    },
+    "function_names": {
+      "withdraw": ["releaseUnits", "extractResources", "deallocate", "disburseFunds", "liberateAssets", "withdrawAllocation", "pullResources", "retrieveUnits", "reclaimAssets", "obtainAllocation"],
+      "deposit": ["allocateUnits", "contributeResources", "assignFunds", "provisionAssets", "submitAllocation", "addResources", "insertUnits", "placeAssets"],
+      "transfer": ["reassignUnits", "reallocateResources", "shiftAllocation", "moveAssets", "redirectFunds", "relocateUnits"],
+      "getbalance": ["queryAllocation", "checkUnits", "viewResources", "inspectHoldings", "fetchAllocation"],
+      "balanceof": ["allocationOf", "unitsOf", "resourcesOf", "holdingsOf"],
+      "stake": ["commitUnits", "lockResources", "pledgeAllocation", "bindAssets"],
+      "unstake": ["releaseUnits", "unlockResources", "freeAllocation", "unbindAssets"],
+      "claim": ["collectAllocation", "obtainUnits", "receiveResources", "getPayout"],
+      "harvest": ["gatherYield", "collectReturns", "extractProceeds", "harvestUnits"],
+      "totalsupply": ["totalUnits", "totalResources", "allAllocations", "completeHoldings"],
+      "initialize": ["setupSystem", "initializeManager", "startController", "launchProtocol"],
+      "pause": ["haltOperations", "suspendSystem", "freezeAllocations", "stopProcessing"],
+      "unpause": ["resumeOperations", "restartSystem", "unfreezeAllocations", "continueProcessing"]
+    },
+    "variable_names": {
+      "balance": ["allocation", "units", "holdings", "resources", "position"],
+      "balances": ["allocations", "unitMappings", "resourceRecords", "holdingsMap"],
+      "amount": ["quantity", "units", "magnitude", "measure", "count"],
+      "value": ["worth", "assessment", "valuation", "appraisal"],
+      "total": ["aggregate", "combined", "cumulative", "overall"],
+      "user": ["entity", "account", "participant", "stakeholder", "member"],
+      "owner": ["administrator", "controller", "supervisor", "manager"],
+      "fee": ["serviceCharge", "processingFee", "handlingCost", "operationalCharge"],
+      "reward": ["incentive", "yield", "return", "proceeds", "earnings"],
+      "rate": ["coefficient", "factor", "ratio", "percentage"],
+      "pending": ["queued", "processing", "awaiting", "scheduled"],
+      "locked": ["reserved", "committed", "allocated", "assigned"],
+      "share": ["portion", "allocation", "segment", "fraction"],
+      "timestamp": ["recordTime", "operationTime", "processTime"],
+      "duration": ["period", "timeframe", "interval"],
+      "deadline": ["cutoff", "expiration", "terminus"]
+    },
+    "event_names": {
+      "deposit": ["UnitsAllocated", "ResourcesAdded", "FundsReceived", "AssetsDeposited"],
+      "withdrawal": ["UnitsReleased", "ResourcesExtracted", "FundsDisbursed", "AssetsWithdrawn"],
+      "transfer": ["UnitsReassigned", "ResourcesMoved", "AllocationShifted"],
+      "stake": ["UnitsCommitted", "ResourcesLocked", "AllocationPledged"],
+      "unstake": ["UnitsReleased", "ResourcesUnlocked", "AllocationFreed"]
+    },
+    "error_names": {
+      "insufficientbalance": ["InsufficientUnits", "ResourceShortfall", "AllocationDeficit", "HoldingsLacking"],
+      "unauthorized": ["NotAuthorized", "AccessRestricted", "PermissionDenied", "OperationForbidden"],
+      "invalidamount": ["InvalidQuantity", "BadUnits", "WrongAllocation", "IncorrectMeasure"],
+      "zeroamount": ["ZeroUnits", "EmptyAllocation", "NoResources"],
+      "transferfailed": ["ReassignmentFailed", "AllocationError", "TransferError"]
+    },
+    "modifier_names": {
+      "onlyowner": ["onlyAdministrator", "onlyController", "onlySupervisor", "onlyManager"],
+      "whennotpaused": ["whenOperational", "whenActive", "whenRunning"],
+      "nonreentrant": ["singleOperation", "exclusiveAccess", "lockedProcess"]
+    },
+    "struct_names": {
+      "userinfo": ["EntityRecord", "AccountData", "ParticipantInfo", "MemberProfile"],
+      "poolinfo": ["PoolData", "AllocationRecord", "ResourceInfo"],
+      "stakeinfo": ["CommitmentRecord", "LockData", "AllocationInfo"]
+    }
+  }
+}

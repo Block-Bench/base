@@ -1,0 +1,154 @@
+{
+  "id": "ch_medical_nc_tc_045",
+  "contract_file": "contracts/ch_medical_nc_tc_045.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "PenpieStaking",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $27,000,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_045",
+    "url": null,
+    "date_discovered": "2024-09-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 61,
+    "num_contracts": 2,
+    "contract_names": [
+      "PenpieStaking",
+      "PendleMarketRegister"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "yield_optimization",
+    "reentrancy",
+    "pendle",
+    "fake_market",
+    "reward_manipulation",
+    "cei_violation"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-09-01",
+      "protocol_name": "Penpie",
+      "chain": "ethereum",
+      "funds_lost_usd": 27000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Penpie exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_045.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_045.json",
+    "original_exploit_name": "Penpie"
+  },
+  "original_contract_file": "base/contracts/tc_045.sol",
+  "sanitized_from": "tc_045",
+  "derived_from": "sn_tc_045",
+  "original_id": "tc_045",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 2867076014,
+    "coverage": {
+      "total_identifiers": 23,
+      "transformed": 16,
+      "untransformed": 7,
+      "skipped_reserved": 24,
+      "skipped_interface": 0,
+      "coverage_percent": 69.57,
+      "untransformed_details": [
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IPendleMarket",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PenpieStaking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "market",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rewards",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Insufficient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "registeredMarkets",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "amount": "quantity",
+      "from": "source",
+      "account": "profile",
+      "spender": "payer",
+      "getRewardTokens": "diagnoseCreditBadges",
+      "rewardIndexesCurrent": "creditIndexesActive",
+      "claimRewards": "collectbenefitsRewards",
+      "user": "member",
+      "userBalances": "memberBenefitsrecord",
+      "totalStaked": "aggregateStaked",
+      "deposit": "registerPayment",
+      "sender": "referrer",
+      "length": "extent",
+      "withdraw": "extractSpecimen",
+      "PendleMarketRegister": "PendleMarketAdmit",
+      "registerMarket": "admitMarket"
+    }
+  }
+}

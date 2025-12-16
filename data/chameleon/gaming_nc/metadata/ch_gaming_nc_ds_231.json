@@ -1,0 +1,192 @@
+{
+  "id": "ch_gaming_nc_ds_231",
+  "contract_file": "contracts/ch_gaming_nc_ds_231.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "VulnContract",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The Read-Only Reentrancy Vulnerability is a flaw in smart contract design that allows attackers \nto exploit the \"read-only\" nature of a function to make unintended changes to the contract's state. \nSpecifically, the vulnerability arises when an attacker uses the remove_liquidity function of the ICurve contract \nto trigger the receive function in the ExploitContract. This is achieved by an external call \nfrom a secure smart contract \"A\" invoking the fallback() function in the attacker's contract.\n\nThrough this exploit, the attacker gains the ability to execute code within the fallback() function\nagainst a target contract \"B,\" which is indirectly related to contract \"A.\" Contract \"B\" derives\nthe price of the LP token from Contract \"A,\" making it susceptible to manipulation and unintended price changes\nthrough the reentrancy attack.",
+    "attack_vector": "The Read-Only Reentrancy Vulnerability is a flaw in smart contract design that allows attackers \nto exploit the \"read-only\" nature of a function to make unintended changes to the contract's state. \nSpecifically, the vulnerability arises when an attacker uses the remove_liquidity function of the ICurve contract \nto trigger the receive function in the ExploitContract. This is achieved by an external call \nfrom a secure smart contract \"A\" invoking the fallback() function in the attacker's contract.\n\nThrough this exploit, the attacker gains the ability to execute code within the fallback() function\nagainst a target contract \"B,\" which is indirectly related to contract \"A.\" Contract \"B\" derives\nthe price of the LP token from Contract \"A,\" making it susceptible to manipulation and unintended price changes\nthrough the reentrancy attack.",
+    "impact": "Severity: critical",
+    "correct_fix": "Avoid any state-changing operations within functions that are intended to be read-only.\nMakerdao example:\n        // This will revert if called during execution of a state-modifying pool function.\n        if (nonreentrant) {\n            uint256[2] calldata amounts;\n            CurvePoolLike(pool).remove_liquidity(0, amounts);\n        }"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_readonlyreentrancy",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "0.8.18",
+    "num_lines": 138,
+    "num_contracts": 4,
+    "contract_names": [
+      "VulnContract",
+      "ExploitContract",
+      "ExploitTest",
+      "hack"
+    ],
+    "num_functions": 11,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The Read-Only Reentrancy Vulnerability is a flaw in smart contract design that allows attackers \nto exploit the \"read-only\" nature of a function to make unintended changes to the contract's state. \nSpecifically, the vulnerability arises when an attacker uses the remove_liquidity function of the ICurve contract \nto trigger the receive function in the ExploitContract. This is achieved by an external call \nfrom a secure smart contract \"A\" invoking the fallback() function in the attacker's contract.\n\nThrough this exploit, the attacker gains the ability to execute code within the fallback() function\nagainst a target contract \"B,\" which is indirectly related to contract \"A.\" Contract \"B\" derives\nthe price of the LP token from Contract \"A,\" making it susceptible to manipulation and unintended price changes\nthrough the reentrancy attack.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_231.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_231.json",
+    "original_id": "defivulnlabs_readonlyreentrancy"
+  },
+  "original_contract_file": "base/contracts/ds_231.sol",
+  "sanitized_from": "ds_231",
+  "derived_from": "sn_ds_231",
+  "original_id": "ds_231",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "nocomments",
+    "seed": 706760872,
+    "coverage": {
+      "total_identifiers": 48,
+      "transformed": 31,
+      "untransformed": 17,
+      "skipped_reserved": 32,
+      "skipped_interface": 0,
+      "coverage_percent": 64.58,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ICurve",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "amounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "STETH_POOL",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_target",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "after",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "into",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "during",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createSelectFork",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mainnet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testExecution",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "get_virtual_price": "acquire_virtual_cost",
+      "add_liquidity": "append_flow",
+      "min_mint_amount": "floor_craft_total",
+      "remove_liquidity": "eliminate_reserves",
+      "min_amounts": "minimum_amounts",
+      "remove_liquidity_one_coin": "discard_reserves_one_coin",
+      "min_amount": "minimum_total",
+      "LP_TOKEN": "lp_crystal",
+      "CoreContract": "CoreAgreement",
+      "token": "gem",
+      "pool": "winningsPool",
+      "stake": "commitPower",
+      "amount": "total",
+      "sender": "invoker",
+      "unstake": "withdrawStake",
+      "getReward": "acquireTreasure",
+      "reward": "bonus",
+      "OperatorContract": "GameoperatorPact",
+      "lpToken": "lpCrystal",
+      "target": "goal",
+      "stakeTokens": "commitmentMedals",
+      "value": "price",
+      "log": "record",
+      "price": "cost",
+      "staking": "levelStaking",
+      "performReadOnlyCallback": "performReadOnlyResponse",
+      "callback": "reply",
+      "complete": "questCompleted",
+      "OperatorTest": "GameoperatorTest",
+      "execute": "completeQuest",
+      "setUp": "collectionUp"
+    }
+  }
+}

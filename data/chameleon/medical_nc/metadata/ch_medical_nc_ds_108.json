@@ -1,0 +1,183 @@
+{
+  "id": "ch_medical_nc_ds_108",
+  "contract_file": "contracts/ch_medical_nc_ds_108.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The attacker only needs to write the code in the constructor of the smart contract \nto bypass the detection mechanism of whether it is a smart contract.",
+    "attack_vector": "The attacker only needs to write the code in the constructor of the smart contract \nto bypass the detection mechanism of whether it is a smart contract.",
+    "impact": "Severity: medium",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_bypasscontract",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 101,
+    "num_contracts": 10,
+    "contract_names": [
+      "ContractTest",
+      "Target",
+      "allowed",
+      "FailedAttack",
+      "function",
+      "allowed",
+      "Attack",
+      "is",
+      "TargetRemediated",
+      "allowed"
+    ],
+    "num_functions": 7,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The attacker only needs to write the code in the constructor of the smart contract \nto bypass the detection mechanism of whether it is a smart contract.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_108.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_108.json",
+    "original_id": "defivulnlabs_bypasscontract"
+  },
+  "original_contract_file": "base/contracts/ds_108.sol",
+  "sanitized_from": "ds_108",
+  "derived_from": "sn_ds_108",
+  "original_id": "ds_108",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 3571923910,
+    "coverage": {
+      "total_identifiers": 36,
+      "transformed": 20,
+      "untransformed": 16,
+      "skipped_reserved": 26,
+      "skipped_interface": 0,
+      "coverage_percent": 55.56,
+      "untransformed_details": [
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "completed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "After",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extcodesize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "protected",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_target",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "origin",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "ContractTest": "PolicyTest",
+      "Target": "Goal",
+      "TargetContract": "GoalAgreement",
+      "FailedOperator": "FailedCaregiver",
+      "FailedOperatorContract": "FailedNursePolicy",
+      "Operator": "Caregiver",
+      "OperatorContract": "NursePolicy",
+      "TargetV2": "GoalV2",
+      "TargetRemediatedContract": "GoalRemediatedAgreement",
+      "testBypassFailedContractCheck": "testBypassFailedAgreementAssess",
+      "log": "chart",
+      "Failed": "OperationFailed",
+      "execute": "completeTreatment",
+      "testBypassContractCheck": "testBypassPolicyAssess",
+      "isContract": "isAgreement",
+      "account": "chart630",
+      "size": "scale",
+      "sender": "provider",
+      "expectRevert": "expectUndo",
+      "length": "extent"
+    }
+  }
+}

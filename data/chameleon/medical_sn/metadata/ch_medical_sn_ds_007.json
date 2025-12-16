@@ -1,0 +1,202 @@
+{
+  "id": "ch_medical_sn_ds_007",
+  "contract_file": "contracts/ch_medical_sn_ds_007.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "FibonacciBalance",
+      "function_name": "withdraw",
+      "line_numbers": [
+        31
+      ]
+    },
+    "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 31",
+    "attack_vector": "Access control vulnerability - missing or incorrect authorization checks at line(s) 31",
+    "impact": "Severity: high",
+    "correct_fix": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_access_control_FibonacciBalance",
+    "url": "https://github.com/sigp/solidity-security-blog",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.22",
+    "num_lines": 54,
+    "num_contracts": 3,
+    "contract_names": [
+      "FibonacciBalance",
+      "with",
+      "FibonacciLib"
+    ],
+    "num_functions": 5,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Access control vulnerability - missing or incorrect authorization checks at line(s) 31",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_007.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_007.json",
+    "original_id": "smartbugs_access_control_FibonacciBalance"
+  },
+  "original_contract_file": "base/contracts/ds_007.sol",
+  "sanitized_from": "ds_007",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 3889672551,
+    "coverage": {
+      "total_identifiers": 41,
+      "transformed": 18,
+      "untransformed": 23,
+      "skipped_reserved": 26,
+      "skipped_interface": 0,
+      "coverage_percent": 43.9,
+      "untransformed_details": [
+        {
+          "name": "added",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fibonacciLibrary",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fibonacci",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "starting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sequence",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fibonancci",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fibSig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sha3",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "loads",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_fibonacciLibrary",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "functions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "like",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numbers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "FibonacciLib",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initializing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "standard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "modify",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zeroth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_start",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "version": "edition",
+      "FibonacciBalance": "FibonacciFunds",
+      "current": "present",
+      "withdraw": "extractSpecimen",
+      "calculatedFibNumber": "computedFibNumber",
+      "start": "onset",
+      "withdrawalCounter": "withdrawalCount",
+      "selector": "chooser",
+      "setFibonacci": "collectionFibonacci",
+      "calculate": "derive",
+      "withdrawal": "fundsReleased",
+      "user": "enrollee",
+      "sets": "modifys",
+      "sender": "provider",
+      "users": "patients",
+      "data": "record",
+      "calculates": "evaluates",
+      "setStart": "collectionBegin"
+    }
+  }
+}

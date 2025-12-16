@@ -1,0 +1,164 @@
+{
+  "id": "ch_gaming_sn_ds_032",
+  "contract_file": "contracts/ch_gaming_sn_ds_032.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "PrivateBank",
+      "function_name": "CashOut",
+      "line_numbers": [
+        38
+      ]
+    },
+    "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 38",
+    "attack_vector": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 38",
+    "impact": "Severity: high",
+    "correct_fix": "Apply checks-effects-interactions pattern: update state before external calls, or use ReentrancyGuard"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_reentrancy_0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 68,
+    "num_contracts": 2,
+    "contract_names": [
+      "PrivateBank",
+      "Log"
+    ],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 38",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_032.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_032.json",
+    "original_id": "smartbugs_reentrancy_0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e"
+  },
+  "original_contract_file": "base/contracts/ds_032.sol",
+  "sanitized_from": "ds_032",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 1750426721,
+    "coverage": {
+      "total_identifiers": 28,
+      "transformed": 13,
+      "untransformed": 15,
+      "skipped_reserved": 15,
+      "skipped_interface": 0,
+      "coverage_percent": 46.43,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PrivateBank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_lib",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CashOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_am",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Val",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "History",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_adr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_val",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_data",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "now",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "balances": "characterGold",
+      "MinDeposit": "MinimumCacheprize",
+      "Log": "Journal",
+      "TransferLog": "TradefundsJournal",
+      "Deposit": "AddTreasure",
+      "value": "cost",
+      "sender": "invoker",
+      "AddMessage": "InsertCommunication",
+      "Message": "Communication",
+      "Sender": "Initiator",
+      "Data": "Details",
+      "Time": "Instant",
+      "LastMsg": "FinalMsg"
+    }
+  }
+}

@@ -1,0 +1,361 @@
+{
+  "id": "ch_gaming_sn_tc_001",
+  "contract_file": "contracts/ch_gaming_sn_tc_001.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "VulnerableNomadReplica",
+      "function_name": "process",
+      "line_numbers": [
+        74,
+        75,
+        78,
+        96,
+        97,
+        98,
+        99
+      ]
+    },
+    "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
+    "attack_vector": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation. The process() function incorrectly accepts these messages, triggering token transfers without corresponding deposits on the source chain.",
+    "impact": "Funds lost: $190,000,000",
+    "correct_fix": "Proper initialization of acceptedRoot after contract upgrades. Implement strict validation that acceptedRoot can never be 0x00...00. Add additional checks to ensure messages are properly committed to a merkle tree before processing. Implement emergency pause mechanisms."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "temporal_nomad_001",
+    "url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2022-08/NomadBridge_exp.sol",
+    "date_discovered": "2022-08-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 84,
+    "num_contracts": 1,
+    "contract_names": [
+      "BridgeReplica"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "bridge",
+    "cross-chain",
+    "initialization",
+    "message_validation",
+    "upgrade",
+    "historical",
+    "mega_hack"
+  ],
+  "notes": "One of the largest bridge hacks in history. Hundreds of copycat attackers repeated the exploit within hours once the vulnerability was discovered. The hack demonstrated the critical importance of proper state initialization during contract upgrades.",
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2022-08-01",
+      "protocol_name": "Nomad Bridge",
+      "chain": "ethereum",
+      "funds_lost_usd": 190000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Nomad Bridge exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_001.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_001.json",
+    "original_exploit_name": "Nomad Bridge"
+  },
+  "original_contract_file": "base/contracts/tc_001.sol",
+  "sanitized_from": "tc_001",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 4216384455,
+    "coverage": {
+      "total_identifiers": 83,
+      "transformed": 29,
+      "untransformed": 54,
+      "skipped_reserved": 31,
+      "skipped_interface": 0,
+      "coverage_percent": 34.94,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "title",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bridge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Replica",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Processes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cross",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "chain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "messages",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Validates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "executes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "based",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "merkle",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proofs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BridgeReplica",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "None",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Processed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confirmed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "handles",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "actual",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transfers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bridgeRouter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tracking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nonces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_bridgeRouter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "param",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_message",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "formatted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Whether",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "was",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "successfully",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "processed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "been",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Mark",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Forward",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bridge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Derive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Verifies",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "against",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Simplified",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "verification",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accepted",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "from": "origin",
+      "source": "root",
+      "destination": "target",
+      "Message": "Communication",
+      "status": "state",
+      "MessageStatus": "CommunicationCondition",
+      "Pending": "Queued",
+      "message": "communication",
+      "hash": "signature",
+      "root": "source",
+      "acceptedRoot": "acceptedOrigin",
+      "router": "pathFinder",
+      "token": "medal",
+      "Nonce": "Sequence",
+      "MessageProcessed": "SignalProcessed",
+      "messageHash": "signalSeal",
+      "success": "win",
+      "Process": "Execute",
+      "process": "execute",
+      "Check": "Validate",
+      "Validate": "Confirm",
+      "_messageRoot": "_signalSource",
+      "routerSuccess": "routerVictory",
+      "proof": "verification",
+      "length": "size",
+      "Set": "Assign",
+      "admin": "gameAdmin",
+      "setAcceptedRoot": "collectionAcceptedSource",
+      "_newRoot": "_updatedOrigin"
+    }
+  }
+}

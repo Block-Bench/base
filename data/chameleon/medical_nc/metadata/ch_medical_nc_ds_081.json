@@ -1,0 +1,107 @@
+{
+  "id": "ch_medical_nc_ds_081",
+  "contract_file": "contracts/ch_medical_nc_ds_081.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "RealOldFuckMaker",
+      "function_name": "makeOldFucks",
+      "line_numbers": [
+        18
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 18",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 18",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xf2570186500a46986f3139f65afedc2afe4f445d",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.16",
+    "num_lines": 15,
+    "num_contracts": 1,
+    "contract_names": [
+      "RealOldFuckMaker"
+    ],
+    "num_functions": 1,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 18",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_081.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_081.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xf2570186500a46986f3139f65afedc2afe4f445d"
+  },
+  "original_contract_file": "base/contracts/ds_081.sol",
+  "sanitized_from": "ds_081",
+  "derived_from": "sn_ds_081",
+  "original_id": "ds_081",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 3464233622,
+    "coverage": {
+      "total_identifiers": 6,
+      "transformed": 3,
+      "untransformed": 3,
+      "skipped_reserved": 9,
+      "skipped_interface": 0,
+      "coverage_percent": 50.0,
+      "untransformed_details": [
+        {
+          "name": "fuck",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sha3",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "RealOldFuckMaker": "RealFormerFuckMaker",
+      "makeOldFucks": "makePreviousFucks",
+      "giveBlockReward": "giveUnitCredit"
+    }
+  }
+}

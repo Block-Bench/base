@@ -1,0 +1,191 @@
+{
+  "id": "ch_medical_sn_tc_038",
+  "contract_file": "contracts/ch_medical_sn_tc_038.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "BlueberryLending",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $1,400,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_038",
+    "url": null,
+    "date_discovered": "2024-02-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 94,
+    "num_contracts": 2,
+    "contract_names": [
+      "BlueberryLending",
+      "ManipulableOracle"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "lending",
+    "leveraged_yield",
+    "oracle_manipulation",
+    "flashloan",
+    "dex_manipulation",
+    "collateral_inflation",
+    "low_liquidity"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-02-01",
+      "protocol_name": "Blueberry Protocol Oracle Manipulation",
+      "chain": "ethereum",
+      "funds_lost_usd": 1400000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Blueberry Protocol Oracle Manipulation exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_038.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_038.json",
+    "original_exploit_name": "Blueberry Protocol Oracle Manipulation"
+  },
+  "original_contract_file": "base/contracts/tc_038.sol",
+  "sanitized_from": "tc_038",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 2410524370,
+    "coverage": {
+      "total_identifiers": 46,
+      "transformed": 34,
+      "untransformed": 12,
+      "skipped_reserved": 30,
+      "skipped_interface": 0,
+      "coverage_percent": 73.91,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BlueberryLending",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Market",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "markets",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BASIS_POINTS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "results",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Insufficient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "borrower",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "amount": "quantity",
+      "from": "source",
+      "account": "profile",
+      "spender": "subscriber",
+      "IPriceOracle": "IChargeConsultant",
+      "getPrice": "acquireCharge",
+      "token": "badge",
+      "isListed": "checkListed",
+      "collateralFactor": "depositFactor",
+      "accountCollateral": "profileDeposit",
+      "accountBorrows": "profileBorrows",
+      "oracle": "consultant",
+      "COLLATERAL_FACTOR": "deposit_factor",
+      "enterMarkets": "checkinMarkets",
+      "vTokens": "vIds",
+      "length": "duration",
+      "mint": "generateRecord",
+      "sender": "referrer",
+      "price": "cost",
+      "borrow": "requestAdvance",
+      "borrowToken": "seekcoverageCredential",
+      "borrowAmount": "seekcoverageMeasure",
+      "totalCollateralValue": "cumulativeDepositAssessment",
+      "borrowPrice": "seekcoverageCharge",
+      "borrowValue": "seekcoverageAssessment",
+      "maxBorrowValue": "ceilingSeekcoverageRating",
+      "collateral": "deposit",
+      "liquidate": "convertAssets",
+      "repayToken": "settlebalanceCredential",
+      "repayAmount": "settlebalanceUnits",
+      "collateralToken": "depositId",
+      "ManipulableOracle": "ManipulableConsultant",
+      "prices": "charges",
+      "setPrice": "groupCharge"
+    }
+  }
+}

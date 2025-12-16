@@ -1,0 +1,391 @@
+{
+  "id": "ch_medical_sn_ds_162",
+  "contract_file": "contracts/ch_medical_sn_ds_162.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "OpenAddressLottery",
+      "function_name": "forceReseed",
+      "line_numbers": [
+        91
+      ]
+    },
+    "root_cause": "Security vulnerability at line(s) 91",
+    "attack_vector": "Security vulnerability at line(s) 91",
+    "impact": "Severity: medium",
+    "correct_fix": "Apply security best practices to fix this vulnerability"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_other_open_address_lottery",
+    "url": "https://etherscan.io/address/0x741f1923974464efd0aa70e77800ba5d9ed18902#code",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 83,
+    "num_contracts": 2,
+    "contract_names": [
+      "OpenAddressLottery",
+      "every"
+    ],
+    "num_functions": 7,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Security vulnerability at line(s) 91",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_162.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_162.json",
+    "original_id": "smartbugs_other_open_address_lottery"
+  },
+  "original_contract_file": "base/contracts/ds_162.sol",
+  "sanitized_from": "ds_162",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 4031480025,
+    "coverage": {
+      "total_identifiers": 87,
+      "transformed": 16,
+      "untransformed": 71,
+      "skipped_reserved": 34,
+      "skipped_interface": 0,
+      "coverage_percent": 18.39,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SeedComponents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "component1",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "component2",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "component3",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "component4",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "secretSeed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "seed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reseed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "automatically",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "every",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blocks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LuckyNumber",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "equals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wins",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "winner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "keeping",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "track",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addresses",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "won",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "coinbase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "difficulty",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gaslimit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "generate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "quality",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "random",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "participate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ticket",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "make",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "win",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "once",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "times",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sufficient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "everything",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "got",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "needed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "chance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "components",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "incoming",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parameters",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kill",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forceReseed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initiated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "purposes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gasprice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "someone",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sends",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "money",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "without",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "just",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assume",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wanted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "jackpot",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "OpenAddressLottery": "OpenWardLottery",
+      "calculate": "derive",
+      "lastReseed": "finalReseed",
+      "last": "ending",
+      "sender": "referrer",
+      "timestamp": "admissionTime",
+      "value": "evaluation",
+      "verify": "validate",
+      "price": "charge",
+      "hasn": "containsn",
+      "luckyNumberOfAddress": "luckyNumberOfWard",
+      "check": "diagnose",
+      "isnt": "validatent",
+      "current": "active",
+      "hash": "signature",
+      "initialize": "startProtocol"
+    }
+  }
+}

@@ -1,0 +1,861 @@
+{
+  "id": "ch_gaming_sn_ds_119",
+  "contract_file": "contracts/ch_gaming_sn_ds_119.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "that",
+      "function_name": "KingOfTheEtherThrone",
+      "line_numbers": []
+    },
+    "root_cause": "# Unchecked External Call",
+    "attack_vector": "# Unchecked External Call",
+    "impact": "Severity: medium",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_unchecked_external_call_kingoftheetherthrone",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 170,
+    "num_contracts": 3,
+    "contract_names": [
+      "that",
+      "lives",
+      "KingOfTheEtherThrone"
+    ],
+    "num_functions": 5,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Unchecked External Call",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_119.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_119.json",
+    "original_id": "notso_unchecked_external_call_kingoftheetherthrone"
+  },
+  "original_contract_file": "base/contracts/ds_119.sol",
+  "sanitized_from": "ds_119",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 2769798303,
+    "coverage": {
+      "total_identifiers": 231,
+      "transformed": 51,
+      "untransformed": 180,
+      "skipped_reserved": 39,
+      "skipped_interface": 0,
+      "coverage_percent": 22.08,
+      "untransformed_details": [
+        {
+          "name": "chain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "game",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maintains",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "throne",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "which",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "agents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "may",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rule",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "See",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "www",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kingoftheether",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "com",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "https",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "github",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kieranelby",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "KingOfTheEtherThrone",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Kieran",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Elby",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "All",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rights",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reserved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Inspired",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ethereumpyramid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "now",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gone",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "magnificent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bitcoin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gem",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lives",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blockchain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "was",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compiled",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "optimization",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fad2d4df",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Emscripten",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clang",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "linked",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "libethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "future",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "versions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "would",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "TODO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enforce",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reign",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "without",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "action",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "random",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bridge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maybe",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "different",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Monarch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "their",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compensation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "they",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wish",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "known",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Unfortunately",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "seems",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expose",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "some",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bugs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "web3",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "How",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "much",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "did",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "become",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "monarch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "When",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "based",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wizard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hidden",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "behind",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "occupy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "during",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gaps",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "succession",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "collect",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fees",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ensure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "things",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlywizard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "must",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "finney",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "multiplying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dividing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "example",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "num",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "den",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cause",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "increase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "goes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expressed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fraction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deduct",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "leaving",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "usurped",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wizardCommissionFractionNum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wizardCommissionFractionDen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "agent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "King",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Queen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Earliest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "holders",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pastMonarchs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ruler",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hopefully",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sensible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "defaults",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Vacant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numberOfMonarchs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Fired",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "claimed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "theory",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "help",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "build",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "front",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ThroneClaimed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transactions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "trigger",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Assume",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "desired",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "given",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "paying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "paid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "too",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "little",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reject",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "refund",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "money",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "but",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "excess",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "excessPaid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "commission",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "held",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "back",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payments",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accumulate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "avoid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wasting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sending",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "small",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wizardCommission",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "vacant",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accumulates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Usurp",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "replacing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "them",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "one",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Increase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Stop",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "trailing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "silly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "szabo",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Hail",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "his",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sweepCommission",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "version": "release",
+      "time": "instant",
+      "limit": "bound",
+      "add": "append",
+      "etherAddress": "etherRealm",
+      "claimPrice": "collectbountyValue",
+      "start": "opening",
+      "timestamp": "questTime",
+      "coronationTimestamp": "coronationGametime",
+      "power": "strength",
+      "wizardAddress": "wizardLocation",
+      "sender": "initiator",
+      "first": "primary",
+      "startingClaimPrice": "startingCollectbountyCost",
+      "next": "following",
+      "calculated": "derived",
+      "from": "source",
+      "previous": "last",
+      "claimFee": "getpayoutTribute",
+      "claimFeeAdjustNum": "getpayoutTaxAdjustNum",
+      "claimFeeAdjustDen": "receiveprizeChargeAdjustDen",
+      "claimPriceAdjustNum": "collectbountyValueAdjustNum",
+      "claimPriceAdjustDen": "getpayoutCostAdjustDen",
+      "fee": "tribute",
+      "currentClaimPrice": "presentReceiveprizeCost",
+      "currentMonarch": "presentMonarch",
+      "list": "registry",
+      "Create": "QuestCreated",
+      "creator": "maker",
+      "Sets": "Updates",
+      "length": "size",
+      "end": "close",
+      "usurperEtherAddress": "usurperEtherLocation",
+      "usurperName": "usurperTag",
+      "newClaimPrice": "updatedCollectbountyCost",
+      "simple": "simpleQuest",
+      "message": "signal",
+      "data": "details",
+      "claimThrone": "collectbountyThrone",
+      "Claim": "CollectBounty",
+      "currentClaimFee": "presentObtainrewardCharge",
+      "valuePaid": "magnitudePaid",
+      "value": "cost",
+      "claim": "getPayout",
+      "price": "cost618",
+      "current": "active",
+      "getting": "queryting",
+      "round": "wave",
+      "rawNewClaimPrice": "rawUpdatedObtainrewardCost",
+      "amount": "count",
+      "newOwner": "updatedLord"
+    }
+  }
+}

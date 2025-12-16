@@ -1,0 +1,73 @@
+{
+  "theme_name": "social",
+  "description": "Social media and community platform terminology",
+  "pools": {
+    "contract_names": {
+      "vault": ["CommunityFund", "CreatorVault", "SupporterPool", "TipJar", "PatronageVault"],
+      "bank": ["ReputationBank", "KarmaStorage", "InfluenceVault", "SocialBank"],
+      "pool": ["SupportPool", "CommunityPool", "CreatorPool", "FanPool"],
+      "treasury": ["CommunityTreasury", "CreatorFund", "PatronReserve", "SocialFund"],
+      "token": ["ReputationToken", "KarmaPoint", "InfluenceToken", "SocialCredit"],
+      "protocol": ["CommunityEngine", "SocialProtocol", "EngagementSystem", "InteractionCore"],
+      "manager": ["CommunityManager", "EngagementHandler", "SocialController", "InteractionManager"],
+      "staking": ["ReputationStake", "KarmaCommit", "InfluenceLock"]
+    },
+    "function_names": {
+      "withdraw": ["claimTips", "withdrawSupport", "collectDonations", "redeemKarma", "cashOutEarnings", "retrieveContributions"],
+      "deposit": ["sendTip", "supportCreator", "contributeFunds", "donateKarma", "addSupport"],
+      "transfer": ["shareKarma", "passInfluence", "giveSupport", "transferReputation"],
+      "getbalance": ["checkReputation", "viewKarma", "inspectInfluence", "queryStanding"],
+      "balanceof": ["reputationOf", "karmaOf", "influenceOf", "standingOf"],
+      "stake": ["commitReputation", "pledgeKarma", "lockInfluence"],
+      "unstake": ["releaseReputation", "freeKarma", "unlockInfluence"],
+      "claim": ["collectTips", "obtainSupport", "receiveDonations", "getDonation"],
+      "harvest": ["gatherTips", "collectSupport", "extractDonations"],
+      "totalsupply": ["totalReputation", "completeKarma", "fullInfluence"],
+      "initialize": ["setupCommunity", "initializeChannel", "startPlatform"],
+      "pause": ["suspendChannel", "haltCommunity", "freezePlatform"],
+      "unpause": ["resumeChannel", "continueCommunity", "restartPlatform"]
+    },
+    "variable_names": {
+      "balance": ["reputation", "karma", "influence", "support", "standing"],
+      "balances": ["reputationMap", "karmaRecords", "influenceData", "standingMap"],
+      "amount": ["contribution", "donation", "tip", "gift"],
+      "value": ["worth", "rating", "score"],
+      "total": ["aggregate", "combined", "cumulative"],
+      "user": ["member", "creator", "supporter", "fan", "patron"],
+      "owner": ["moderator", "admin", "communityLead", "founder"],
+      "fee": ["platformFee", "serviceCut", "processingFee"],
+      "reward": ["tip", "donation", "support", "contribution"],
+      "rate": ["ratio", "factor", "percentage"],
+      "pending": ["awaiting", "queued", "upcoming"],
+      "locked": ["committed", "pledged", "reserved"],
+      "share": ["portion", "cut", "split"],
+      "timestamp": ["postTime", "interactionTime", "engagementTime"],
+      "duration": ["campaignPeriod", "supportPeriod", "membershipDuration"],
+      "deadline": ["campaignEnd", "fundingDeadline", "expiryDate"]
+    },
+    "event_names": {
+      "deposit": ["TipReceived", "SupportAdded", "DonationMade", "ContributionReceived"],
+      "withdrawal": ["TipsCollected", "SupportWithdrawn", "DonationsClaimed", "EarningsRetrieved"],
+      "transfer": ["KarmaShared", "InfluencePassed", "SupportTransferred"],
+      "stake": ["ReputationCommitted", "KarmaLocked", "InfluencePledged"],
+      "unstake": ["ReputationReleased", "KarmaUnlocked", "InfluenceFreed"]
+    },
+    "error_names": {
+      "insufficientbalance": ["InsufficientReputation", "KarmaShortfall", "InfluenceLacking", "NotEnoughSupport"],
+      "unauthorized": ["NotAuthorized", "AccessDenied", "NotMember", "Forbidden"],
+      "invalidamount": ["InvalidContribution", "BadTip", "WrongDonation"],
+      "zeroamount": ["ZeroContribution", "EmptyTip", "NoDonation"],
+      "transferfailed": ["ShareFailed", "TransferError", "SupportFailed"]
+    },
+    "modifier_names": {
+      "onlyowner": ["onlyModerator", "onlyAdmin", "onlyFounder", "onlyCommunityLead"],
+      "whennotpaused": ["whenActive", "whenLive", "whenOpen"],
+      "nonreentrant": ["singleInteraction", "exclusiveAction"]
+    },
+    "struct_names": {
+      "userinfo": ["MemberProfile", "CreatorData", "SupporterInfo", "FanRecord"],
+      "poolinfo": ["CommunityData", "PoolRecord", "FundInfo"],
+      "stakeinfo": ["ReputationRecord", "KarmaData", "InfluenceInfo"]
+    }
+  }
+}

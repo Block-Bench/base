@@ -1,0 +1,446 @@
+{
+  "id": "ch_medical_sn_ds_186",
+  "contract_file": "contracts/ch_medical_sn_ds_186.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Uninitialized local storage variables may contain the value of other storage variables in the contract; \nthis fact can cause unintentional vulnerabilities, or be exploited deliberately.",
+    "attack_vector": "Uninitialized local storage variables may contain the value of other storage variables in the contract; \nthis fact can cause unintentional vulnerabilities, or be exploited deliberately.",
+    "impact": "Severity: medium",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_uninitialized_variables",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 180,
+    "num_contracts": 7,
+    "contract_names": [
+      "ContractTest",
+      "is",
+      "to",
+      "Motorbike",
+      "matches",
+      "Engine",
+      "Attack"
+    ],
+    "num_functions": 13,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": true,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Uninitialized local storage variables may contain the value of other storage variables in the contract; \nthis fact can cause unintentional vulnerabilities, or be exploited deliberately.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_186.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_186.json",
+    "original_id": "defivulnlabs_uninitialized_variables"
+  },
+  "original_contract_file": "base/contracts/ds_186.sol",
+  "sanitized_from": "ds_186",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 720523523,
+    "coverage": {
+      "total_identifiers": 118,
+      "transformed": 40,
+      "untransformed": 78,
+      "skipped_reserved": 44,
+      "skipped_interface": 0,
+      "coverage_percent": 33.9,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Initializable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Engine",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Motorbike",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testUninitialized",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Unintialized",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Upgrader",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "upgrader",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Malicious",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calls",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "become",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "becomes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initEncoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "completed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Since",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "destroyed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "keccak",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "eip1967",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subtracted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Initializes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "upgradeable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initial",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "specified",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_logic",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC1967",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Delegates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_delegate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calldatacopy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calldatasize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "returndatacopy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "returndatasize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "switch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "case",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "default",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delegates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "returned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_implementation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "run",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "other",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "matches",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "member",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "located",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initializer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subsequently",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Restrict",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "role",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Perform",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "security",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "UUPS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proxies",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "additional",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Initial",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Returny",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "greetMe",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Stores",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "EIP1967",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "utils": "medicalUtils",
+      "proxy": "referralGate",
+      "ContractTest": "AgreementTest",
+      "EngineContract": "EnginePolicy",
+      "MotorbikeContract": "MotorbikeAgreement",
+      "Operator": "Caregiver",
+      "OperatorContract": "NurseAgreement",
+      "initialized": "caseOpened",
+      "log": "chart",
+      "user": "enrollee",
+      "initialize": "admitPatient",
+      "encodeWithSignature": "encodeWithAuthorization",
+      "Initialized": "CaseOpened",
+      "upgradeToAndCall": "enhanceDestinationAndConsultspecialist",
+      "next": "upcoming",
+      "fail": "treatmentFailed",
+      "hash": "checksum",
+      "implementation": "execution",
+      "_IMPLEMENTATION_SLOT": "_administration_appointment",
+      "AddressSlot": "WardOpening",
+      "value": "rating",
+      "isContract": "isAgreement",
+      "_getAddressSlot": "_obtainWardOpening",
+      "success": "improvement",
+      "failed": "operationFailed",
+      "current": "present",
+      "result": "finding",
+      "data": "chart45",
+      "slot": "opening",
+      "horsePower": "horseAuthority",
+      "sender": "referrer",
+      "Upgrade": "Enhance",
+      "newImplementation": "updatedAdministration",
+      "execute": "completeTreatment",
+      "_authorizeUpgrade": "_authorizeImprove",
+      "_upgradeToAndCall": "_improveReceiverAndInvokeprotocol",
+      "upgrade": "enhance",
+      "setup": "updateup",
+      "_setImplementation": "_groupExecution",
+      "length": "extent"
+    }
+  }
+}

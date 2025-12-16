@@ -1,0 +1,525 @@
+{
+  "id": "ch_gaming_sn_ds_065",
+  "contract_file": "contracts/ch_gaming_sn_ds_065.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "address",
+      "function_name": "execute",
+      "line_numbers": [
+        56
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 56",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 56",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x84d9ec85c9c568eb332b7226a8f826d897e0a4a8",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.16",
+    "num_lines": 88,
+    "num_contracts": 8,
+    "contract_names": [
+      "address",
+      "0wned",
+      "that",
+      "Owned",
+      "with",
+      "being",
+      "WedIndex",
+      "WedIndex"
+    ],
+    "num_functions": 8,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 56",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_065.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_065.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x84d9ec85c9c568eb332b7226a8f826d897e0a4a8"
+  },
+  "original_contract_file": "base/contracts/ds_065.sol",
+  "sanitized_from": "ds_065",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 2781136992,
+    "coverage": {
+      "total_identifiers": 125,
+      "transformed": 24,
+      "untransformed": 101,
+      "skipped_reserved": 29,
+      "skipped_interface": 0,
+      "coverage_percent": 19.2,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "author",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Bowen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Sanders",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sections",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "built",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "work",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Jordi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Baylina",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Owned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "structure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "smartwedindex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contains",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "couple",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "actual",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "marriage",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "date",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "displayValues",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "all",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SmartWed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deployed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "licesned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "under",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "GNU",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assigns",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "later",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "step",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "down",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assign",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "some",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "other",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "role",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "param",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unowned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "neutral",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "however",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cannot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "undone",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accept",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ownership",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transferred",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ability",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "acceptOwnership",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "including",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "functions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "general",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "safty",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allows",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "things",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unlikely",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "something",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "goes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wrong",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_dst",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "being",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "called",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "making",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "like",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "multisig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_data",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "declare",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "variables",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wedaddress",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partnernames",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "indexdate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "weddingdate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "displaymultisig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "indexarray",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "make",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "write",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "read",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "entries",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nubmer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "now",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contractaddress",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partners",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "display",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "data": "info",
+      "simple": "simpleQuest",
+      "index": "slot",
+      "create": "questCreated",
+      "array": "collection",
+      "base": "stronghold",
+      "level": "rankUp",
+      "sender": "caster",
+      "message": "signal",
+      "newOwner": "updatedLord",
+      "_newOwner": "_currentLord",
+      "vault": "treasureHold",
+      "changeOwner": "changeMaster",
+      "account": "profile",
+      "execute": "completeQuest",
+      "value": "magnitude",
+      "WedIndex": "WedSlot",
+      "IndexArray": "SlotList",
+      "numberOfIndex": "numberOfSlot",
+      "length": "size",
+      "writeIndex": "writeSlot",
+      "IndexWritten": "PositionWritten",
+      "events": "gameEvents",
+      "time": "moment"
+    }
+  }
+}

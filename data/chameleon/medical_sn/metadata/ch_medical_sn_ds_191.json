@@ -1,0 +1,218 @@
+{
+  "id": "ch_medical_sn_ds_191",
+  "contract_file": "contracts/ch_medical_sn_ds_191.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "Custom transferFrom function in contract VulnerableERC721, \ndoes not properly check if msg.sender is the current owner of the token or an approved address.\nAs a result, any address can call the transferFrom function to transfer any token, \nregardless of who the current owner is. \nThis allows unauthorized users to transfer tokens they do not own, leading to potential theft of assets.",
+    "attack_vector": "Custom transferFrom function in contract VulnerableERC721, \ndoes not properly check if msg.sender is the current owner of the token or an approved address.\nAs a result, any address can call the transferFrom function to transfer any token, \nregardless of who the current owner is. \nThis allows unauthorized users to transfer tokens they do not own, leading to potential theft of assets.",
+    "impact": "Severity: medium",
+    "correct_fix": "To ensure that msg.sender is the current owner of the token or an approved address."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_nft-transfer",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 90,
+    "num_contracts": 3,
+    "contract_names": [
+      "ContractTest",
+      "VulnerableERC721",
+      "FixedERC721"
+    ],
+    "num_functions": 9,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Custom transferFrom function in contract VulnerableERC721, \ndoes not properly check if msg.sender is the current owner of the token or an approved address.\nAs a result, any address can call the transferFrom function to transfer any token, \nregardless of who the current owner is. \nThis allows unauthorized users to transfer tokens they do not own, leading to potential theft of assets.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_191.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_191.json",
+    "original_id": "defivulnlabs_nft-transfer"
+  },
+  "original_contract_file": "base/contracts/ds_191.sol",
+  "sanitized_from": "ds_191",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "sanitized",
+    "seed": 2360202549,
+    "coverage": {
+      "total_identifiers": 44,
+      "transformed": 16,
+      "untransformed": 28,
+      "skipped_reserved": 28,
+      "skipped_interface": 0,
+      "coverage_percent": 36.36,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "forge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Test",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "access",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ownable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BasicERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721V2",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "alice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bob",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testBasicERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "console",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "testFixedERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onERC721Received",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MNFT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "direct",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_transfer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "approved",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "token": "credential",
+      "ContractTest": "AgreementTest",
+      "BasicERC721Contract": "BasicErc721Policy",
+      "FixedERC721Contract": "FixedErc721Policy",
+      "setUp": "groupUp",
+      "safeMint": "safeCreateprescription",
+      "log": "record",
+      "expectRevert": "expectReverse",
+      "selector": "chooser",
+      "MyNFT": "MyCredential",
+      "from": "source",
+      "tokenId": "idChartnumber",
+      "_safeMint": "_safeGeneraterecord",
+      "_isApprovedOrOwner": "_isApprovedOrDirector",
+      "_msgSender": "_msgReferrer",
+      "caller": "requestor"
+    }
+  }
+}
