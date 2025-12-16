@@ -1,0 +1,71 @@
+{
+  "id": "ds_139",
+  "contract_file": "contracts/ds_139.sol",
+  "subset": "difficulty_stratified",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "IntegerOverflowMultiTxOneFuncFeasible",
+      "function_name": "run",
+      "line_numbers": [
+        22
+      ]
+    },
+    "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 22",
+    "attack_vector": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 22",
+    "impact": "Severity: high",
+    "correct_fix": "Use SafeMath library or Solidity 0.8+ with built-in overflow checks"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_arithmetic_integer_overflow_multitx_onefunc_feasible",
+    "url": "https://github.com/ConsenSys/evm-analyzer-benchmark-suite",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.23",
+    "num_lines": 17,
+    "num_contracts": 1,
+    "contract_names": [
+      "IntegerOverflowMultiTxOneFuncFeasible"
+    ],
+    "num_functions": 1,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 22",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_139.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_139.json",
+    "original_id": "smartbugs_arithmetic_integer_overflow_multitx_onefunc_feasible"
+  },
+  "sanitized_from": "ds_139",
+  "sanitized_id": "sn_ds_139"
+}

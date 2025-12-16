@@ -1,0 +1,2069 @@
+{
+  "timestamp": "2025-12-16T10:23:05.304366",
+  "total_files": 235,
+  "successful": 235,
+  "failed": 0,
+  "results": [
+    {
+      "original_id": "ds_001",
+      "sanitized_id": "sn_ds_001",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_002",
+      "sanitized_id": "sn_ds_002",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // to protect against re-entrancy, the state varia...",
+        "Removed comment: // send() and transfer() are safe against reentran...",
+        "Renamed: Reentrance \u2192 TokenVault",
+        "Renamed: withdrawBalance_fixed \u2192 withdrawBalanceV2",
+        "Renamed: withdrawBalance_fixed_2 \u2192 withdrawBalanceV3"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_003",
+      "sanitized_id": "sn_ds_003",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // withdrawBalance calls the fallback of Reentranc...",
+        "Removed comment: // otherwise there is a loop between withdrawBalan...",
+        "Renamed: ReentranceExploit \u2192 VaultOperator",
+        "Renamed: _attack \u2192 _handler",
+        "Renamed: attackModeIsOn \u2192 operationActive",
+        "Renamed: vulnerable_contract \u2192 target_contract",
+        "Renamed: _vulnerable_ \u2192 _target_"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_004",
+      "sanitized_id": "sn_ds_004",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // possible overflow...",
+        "Renamed: Overflow \u2192 Ledger"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_005",
+      "sanitized_id": "sn_ds_005",
+      "success": true,
+      "changes_made": [
+        "Renamed: Unprotected \u2192 OpenAccess",
+        "Renamed: _fixed \u2192 V2"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_006",
+      "sanitized_id": "sn_ds_006",
+      "success": true,
+      "changes_made": [
+        "Renamed: _fixed \u2192 V2"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_007",
+      "sanitized_id": "sn_ds_007",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_008",
+      "sanitized_id": "sn_ds_008",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // an underflow can be caused here..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_009",
+      "sanitized_id": "sn_ds_009",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_010",
+      "sanitized_id": "sn_ds_010",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_011",
+      "sanitized_id": "sn_ds_011",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_012",
+      "sanitized_id": "sn_ds_012",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Use delegatecall with caution and make sure to n..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_013",
+      "sanitized_id": "sn_ds_013",
+      "success": true,
+      "changes_made": [
+        "Renamed: SimpleSuicide \u2192 SimpleDestruct"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_014",
+      "sanitized_id": "sn_ds_014",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_015",
+      "sanitized_id": "sn_ds_015",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_016",
+      "sanitized_id": "sn_ds_016",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_017",
+      "sanitized_id": "sn_ds_017",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_018",
+      "sanitized_id": "sn_ds_018",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_019",
+      "sanitized_id": "sn_ds_019",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_020",
+      "sanitized_id": "sn_ds_020",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_021",
+      "sanitized_id": "sn_ds_021",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_022",
+      "sanitized_id": "sn_ds_022",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_023",
+      "sanitized_id": "sn_ds_023",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_024",
+      "sanitized_id": "sn_ds_024",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_025",
+      "sanitized_id": "sn_ds_025",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_026",
+      "sanitized_id": "sn_ds_026",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_027",
+      "sanitized_id": "sn_ds_027",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_028",
+      "sanitized_id": "sn_ds_028",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_029",
+      "sanitized_id": "sn_ds_029",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_030",
+      "sanitized_id": "sn_ds_030",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_031",
+      "sanitized_id": "sn_ds_031",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_032",
+      "sanitized_id": "sn_ds_032",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_033",
+      "sanitized_id": "sn_ds_033",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_034",
+      "sanitized_id": "sn_ds_034",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_035",
+      "sanitized_id": "sn_ds_035",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_036",
+      "sanitized_id": "sn_ds_036",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_037",
+      "sanitized_id": "sn_ds_037",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_038",
+      "sanitized_id": "sn_ds_038",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_039",
+      "sanitized_id": "sn_ds_039",
+      "success": true,
+      "changes_made": [
+        "Renamed: ModifierEntrancy \u2192 ModifierBank",
+        "Renamed: contract attack{ \u2192 contract executor {"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_040",
+      "sanitized_id": "sn_ds_040",
+      "success": true,
+      "changes_made": [
+        "Renamed: Reentrance \u2192 TokenVault"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_041",
+      "sanitized_id": "sn_ds_041",
+      "success": true,
+      "changes_made": [
+        "Removed comment: INSECURE...",
+        "Renamed: Reentrancy_bonus \u2192 BonusVault"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_042",
+      "sanitized_id": "sn_ds_042",
+      "success": true,
+      "changes_made": [
+        "Removed comment: INSECURE...",
+        "Removed comment: // At this point, the caller's code is executed, a...",
+        "Renamed: Reentrancy_cross_function \u2192 CrossFunctionVault"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_043",
+      "sanitized_id": "sn_ds_043",
+      "success": true,
+      "changes_made": [
+        "Renamed: ReentrancyDAO \u2192 CommunityVault"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_044",
+      "sanitized_id": "sn_ds_044",
+      "success": true,
+      "changes_made": [
+        "Removed comment: INSECURE...",
+        "Removed comment: // At this point, the caller's code is executed, a...",
+        "Renamed: Reentrancy_insecure \u2192 SimpleVault"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_045",
+      "sanitized_id": "sn_ds_045",
+      "success": true,
+      "changes_made": [
+        "Renamed: Reentrance \u2192 TokenVault"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_046",
+      "sanitized_id": "sn_ds_046",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_047",
+      "sanitized_id": "sn_ds_047",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_048",
+      "sanitized_id": "sn_ds_048",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_049",
+      "sanitized_id": "sn_ds_049",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_050",
+      "sanitized_id": "sn_ds_050",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_051",
+      "sanitized_id": "sn_ds_051",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_052",
+      "sanitized_id": "sn_ds_052",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_053",
+      "sanitized_id": "sn_ds_053",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_054",
+      "sanitized_id": "sn_ds_054",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_055",
+      "sanitized_id": "sn_ds_055",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_056",
+      "sanitized_id": "sn_ds_056",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_057",
+      "sanitized_id": "sn_ds_057",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_058",
+      "sanitized_id": "sn_ds_058",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_059",
+      "sanitized_id": "sn_ds_059",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_060",
+      "sanitized_id": "sn_ds_060",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_061",
+      "sanitized_id": "sn_ds_061",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_062",
+      "sanitized_id": "sn_ds_062",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_063",
+      "sanitized_id": "sn_ds_063",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_064",
+      "sanitized_id": "sn_ds_064",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_065",
+      "sanitized_id": "sn_ds_065",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_066",
+      "sanitized_id": "sn_ds_066",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_067",
+      "sanitized_id": "sn_ds_067",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_068",
+      "sanitized_id": "sn_ds_068",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_069",
+      "sanitized_id": "sn_ds_069",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_070",
+      "sanitized_id": "sn_ds_070",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_071",
+      "sanitized_id": "sn_ds_071",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_072",
+      "sanitized_id": "sn_ds_072",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_073",
+      "sanitized_id": "sn_ds_073",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_074",
+      "sanitized_id": "sn_ds_074",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_075",
+      "sanitized_id": "sn_ds_075",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_076",
+      "sanitized_id": "sn_ds_076",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_077",
+      "sanitized_id": "sn_ds_077",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_078",
+      "sanitized_id": "sn_ds_078",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_079",
+      "sanitized_id": "sn_ds_079",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_080",
+      "sanitized_id": "sn_ds_080",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_081",
+      "sanitized_id": "sn_ds_081",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_082",
+      "sanitized_id": "sn_ds_082",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_083",
+      "sanitized_id": "sn_ds_083",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_084",
+      "sanitized_id": "sn_ds_084",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_085",
+      "sanitized_id": "sn_ds_085",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_086",
+      "sanitized_id": "sn_ds_086",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_087",
+      "sanitized_id": "sn_ds_087",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_088",
+      "sanitized_id": "sn_ds_088",
+      "success": true,
+      "changes_made": [
+        "Renamed: HashCollisionBug \u2192 HashCollision",
+        "Renamed: HashCollision \u2192 \\1Contract"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_089",
+      "sanitized_id": "sn_ds_089",
+      "success": true,
+      "changes_made": [
+        "Renamed: VulnStakingRewards \u2192 StakingRewards",
+        "Renamed: FixedtakingRewards \u2192 StakingRewardsV2"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_090",
+      "sanitized_id": "sn_ds_090",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // no reentrancy issue, because we can not control...",
+        "Removed comment: // Immunefi #spotthebugchallenge!...",
+        "Removed comment: //fix require(msg.value >= MINT_PRICE * amount, \"I...",
+        "Removed comment: // https://twitter.com/immunefi/status/15573017125..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_091",
+      "sanitized_id": "sn_ds_091",
+      "success": true,
+      "changes_made": [
+        "Removed comment: vulnerable...",
+        "Renamed: AttackerContract \u2192 OperatorContract",
+        "Renamed: Attack \u2192 Operator",
+        "Renamed: Exploit \u2192 operate"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_092",
+      "sanitized_id": "sn_ds_092",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Mitigation...",
+        "Renamed: FixedSimpleBank \u2192 SimpleBankV2",
+        "Renamed: SimpleBankContract \u2192 \\1V2"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_093",
+      "sanitized_id": "sn_ds_093",
+      "success": true,
+      "changes_made": [
+        "Removed comment: vulnerable..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_094",
+      "sanitized_id": "sn_ds_094",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_095",
+      "sanitized_id": "sn_ds_095",
+      "success": true,
+      "changes_made": [
+        "Renamed: AttackerContract \u2192 OperatorContract",
+        "Renamed: Attack \u2192 Operator",
+        "Renamed: Exploit \u2192 operate",
+        "Renamed: function attack( \u2192 function operate(",
+        "Renamed: .attack( \u2192 .operate(",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_096",
+      "sanitized_id": "sn_ds_096",
+      "success": true,
+      "changes_made": [
+        "Renamed: AttackerContract \u2192 OperatorContract",
+        "Renamed: Attack \u2192 Operator",
+        "Renamed: function attack( \u2192 function operate(",
+        "Renamed: .attack{ \u2192 .operate{"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_097",
+      "sanitized_id": "sn_ds_097",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_098",
+      "sanitized_id": "sn_ds_098",
+      "success": true,
+      "changes_made": [
+        "Removed comment: vulnerable...",
+        "Removed comment: // this need to be older version of solidity from ...",
+        "Renamed: testOverflow \u2192 testCalculation",
+        "Renamed: overflowed \u2192 calculate"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_099",
+      "sanitized_id": "sn_ds_099",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // Mitigation: Check the number of signatures...",
+        "Sanitized console/emit statement",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_100",
+      "sanitized_id": "sn_ds_100",
+      "success": true,
+      "changes_made": [
+        "Removed comment: Attack...",
+        "Renamed: AttackerContract \u2192 OperatorContract",
+        "Renamed: Attack \u2192 Operator",
+        "Renamed: function attack( \u2192 function operate(",
+        "Renamed: .attack( \u2192 .operate(",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_101",
+      "sanitized_id": "sn_ds_101",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // this need to be older version of solidity from ...",
+        "Renamed: Exploit \u2192 operate",
+        "Renamed: testOverflow2 \u2192 testCalculation",
+        "Renamed: overflowed \u2192 calculate"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_102",
+      "sanitized_id": "sn_ds_102",
+      "success": true,
+      "changes_made": [
+        "Renamed: Exploit \u2192 operate",
+        "Sanitized console/emit statement",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_103",
+      "sanitized_id": "sn_ds_103",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_104",
+      "sanitized_id": "sn_ds_104",
+      "success": true,
+      "changes_made": [
+        "Renamed: AttackerContract \u2192 OperatorContract",
+        "Renamed: Attack \u2192 Operator",
+        "Renamed: Exploit \u2192 operate",
+        "Renamed: function attack( \u2192 function operate(",
+        "Renamed: .attack{ \u2192 .operate{"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_105",
+      "sanitized_id": "sn_ds_105",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_106",
+      "sanitized_id": "sn_ds_106",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Mitigation 1: By copying the last element and pl...",
+        "Renamed: ArrayDeletionBug \u2192 ArrayDeletion",
+        "Renamed: FixedArrayDeletion \u2192 ArrayDeletionV2",
+        "Renamed: ArrayDeletionContract \u2192 \\1V2",
+        "Renamed: ArrayDeletion \u2192 \\1Contract"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_107",
+      "sanitized_id": "sn_ds_107",
+      "success": true,
+      "changes_made": [
+        "Removed comment: Exploit...",
+        "Renamed: testStorageExploit \u2192 testStorageOperation"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_108",
+      "sanitized_id": "sn_ds_108",
+      "success": true,
+      "changes_made": [
+        "Renamed: FailedAttack \u2192 FailedOperator",
+        "Renamed: AttackerContract \u2192 OperatorContract",
+        "Renamed: Attack \u2192 Operator",
+        "Renamed: Exploit \u2192 operate",
+        "Renamed: pwn \u2192 execute",
+        "Renamed: TargetRemediated \u2192 TargetV2",
+        "Renamed: pwned \u2192 completed",
+        "Renamed: FailedAttackContract \u2192 FailedOperatorContract",
+        "Sanitized console/emit statement",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_109",
+      "sanitized_id": "sn_ds_109",
+      "success": true,
+      "changes_made": [
+        "Renamed: Exploit \u2192 operate",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_110",
+      "sanitized_id": "sn_ds_110",
+      "success": true,
+      "changes_made": [
+        "Renamed: VulnerableBank \u2192 BasicBank",
+        "Renamed: FixedeBank \u2192 BankV2",
+        "Renamed: Bank \u2192 Basic\\1Contract",
+        "Renamed: testVulnerableBank \u2192 testBasicBank",
+        "Sanitized console/emit statement",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_111",
+      "sanitized_id": "sn_ds_111",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_112",
+      "sanitized_id": "sn_ds_112",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Mitigation...",
+        "Sanitized console/emit statement",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_113",
+      "sanitized_id": "sn_ds_113",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // prevents overflow..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_114",
+      "sanitized_id": "sn_ds_114",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // reentrancy...",
+        "Removed comment: //same as above. Replace this line with the follow..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_115",
+      "sanitized_id": "sn_ds_115",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //same as above. Replace this line with the follow..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_116",
+      "sanitized_id": "sn_ds_116",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // Anyone can call the IamMissing once the contrac..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_117",
+      "sanitized_id": "sn_ds_117",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_118",
+      "sanitized_id": "sn_ds_118",
+      "success": true,
+      "changes_made": [
+        "Renamed: Suicidal \u2192 Destructible"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_119",
+      "sanitized_id": "sn_ds_119",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_120",
+      "sanitized_id": "sn_ds_120",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //This is safe against the list length causing out...",
+        "Removed comment: //but is not safe against the payee causing the ex...",
+        "Renamed: CrowdFundBad \u2192 CrowdFundBasic"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_121",
+      "sanitized_id": "sn_ds_121",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Secure auction that cannot be DoS'd...",
+        "Removed comment: //Store refunds in mapping to avoid DoS...",
+        "Removed comment: //Takes in bid, refunding the frontrunner if they ...",
+        "Removed comment: //Therefore a frontrunner who always fails will wi...",
+        "Renamed: DosAuction \u2192 SimpleAuction",
+        "Renamed: SecureAuction \u2192 AuctionV2"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_122",
+      "sanitized_id": "sn_ds_122",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // overflow protection                    // daily..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_123",
+      "sanitized_id": "sn_ds_123",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // Check for overflows...",
+        "Removed comment: // Check for overflows..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_124",
+      "sanitized_id": "sn_ds_124",
+      "success": true,
+      "changes_made": [
+        "Renamed: _fixed \u2192 V2"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_125",
+      "sanitized_id": "sn_ds_125",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // Anyone can call the IamMissing once the contrac..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_126",
+      "sanitized_id": "sn_ds_126",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_127",
+      "sanitized_id": "sn_ds_127",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_128",
+      "sanitized_id": "sn_ds_128",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_129",
+      "sanitized_id": "sn_ds_129",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //anyone can call this..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_130",
+      "sanitized_id": "sn_ds_130",
+      "success": true,
+      "changes_made": [
+        "Renamed: Unprotected \u2192 OpenAccess"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_131",
+      "sanitized_id": "sn_ds_131",
+      "success": true,
+      "changes_made": [
+        "Removed comment: INSECURE...",
+        "Renamed: IntegerOverflowAdd \u2192 AdditionCounter"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_132",
+      "sanitized_id": "sn_ds_132",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // possible overflow...",
+        "Renamed: Overflow \u2192 Ledger"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_133",
+      "sanitized_id": "sn_ds_133",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Post-transaction effect: overflow escapes to pub...",
+        "Renamed: IntegerOverflowAdd \u2192 AdditionCounter",
+        "Replaced raw text: Single transaction overflow\n\n..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_134",
+      "sanitized_id": "sn_ds_134",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Post-transaction effect: overflow never escapes ...",
+        "Renamed: IntegerOverflowBenign1 \u2192 BenignCounter",
+        "Replaced raw text: Single transaction overflow\n\n..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_135",
+      "sanitized_id": "sn_ds_135",
+      "success": true,
+      "changes_made": [
+        "Renamed: IntegerOverflowMappingSym1 \u2192 MappingCounter",
+        "Replaced raw text: Single transaction overflow\n..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_136",
+      "sanitized_id": "sn_ds_136",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Post-transaction effect: overflow escapes to pub...",
+        "Renamed: IntegerOverflowMinimal \u2192 MinimalCounter",
+        "Replaced raw text: Single transaction overflow\n\n..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_137",
+      "sanitized_id": "sn_ds_137",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Post-transaction effect: overflow escapes to pub...",
+        "Renamed: IntegerOverflowMul \u2192 MultiplyCounter",
+        "Replaced raw text: Single transaction overflow\n\n..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_138",
+      "sanitized_id": "sn_ds_138",
+      "success": true,
+      "changes_made": [
+        "Renamed: IntegerOverflowMultiTxMultiFuncFeasible \u2192 MultiTxCalculator"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_139",
+      "sanitized_id": "sn_ds_139",
+      "success": true,
+      "changes_made": [
+        "Renamed: IntegerOverflowMultiTxOneFuncFeasible \u2192 SingleFuncCalculator"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_140",
+      "sanitized_id": "sn_ds_140",
+      "success": true,
+      "changes_made": [
+        "Renamed: Overflow_Add \u2192 AdditionLedger"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_141",
+      "sanitized_id": "sn_ds_141",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Post-transaction effect: overflow escapes to pub...",
+        "Removed comment: // ADD overflow with result stored in state variab...",
+        "Removed comment: // MUL overflow with result stored in state variab...",
+        "Removed comment: // ADD Overflow, no effect on state....",
+        "Removed comment: // MUL Overflow, no effect on state....",
+        "Removed comment: // Underflow with result stored in state variable....",
+        "Removed comment: // Underflow, no effect on state....",
+        "Renamed: IntegerOverflowSingleTransaction \u2192 SingleTxCounter",
+        "Renamed: overflowaddtostate \u2192 addtostate",
+        "Renamed: overflowmultostate \u2192 multostate",
+        "Renamed: overflowlocalonly \u2192 localcalc",
+        "Renamed: overflowmulocalonly \u2192 mullocalonly",
+        "Replaced raw text: Single transaction overflow\n\n..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_142",
+      "sanitized_id": "sn_ds_142",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_143",
+      "sanitized_id": "sn_ds_143",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_144",
+      "sanitized_id": "sn_ds_144",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_145",
+      "sanitized_id": "sn_ds_145",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_146",
+      "sanitized_id": "sn_ds_146",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_147",
+      "sanitized_id": "sn_ds_147",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // (note: this is a terrible source of randomness,...",
+        "Removed comment: // Suicide :(..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_148",
+      "sanitized_id": "sn_ds_148",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_149",
+      "sanitized_id": "sn_ds_149",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_150",
+      "sanitized_id": "sn_ds_150",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Takes in bid, refunding the frontrunner if they ...",
+        "Removed comment: //Therefore a frontrunner who always fails will wi...",
+        "Renamed: DosAuction \u2192 SimpleAuction"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_151",
+      "sanitized_id": "sn_ds_151",
+      "success": true,
+      "changes_made": [
+        "Renamed: DosGas \u2192 GasAuction"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_152",
+      "sanitized_id": "sn_ds_152",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // Gas DOS if number > 382 more or less, it depend...",
+        "Removed comment: // Gas DOS clear...",
+        "Renamed: DosNumber \u2192 NumberRegistry"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_153",
+      "sanitized_id": "sn_ds_153",
+      "success": true,
+      "changes_made": [
+        "Renamed: DosOneFunc \u2192 SingleFuncRegistry"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_154",
+      "sanitized_id": "sn_ds_154",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_155",
+      "sanitized_id": "sn_ds_155",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_156",
+      "sanitized_id": "sn_ds_156",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_157",
+      "sanitized_id": "sn_ds_157",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_158",
+      "sanitized_id": "sn_ds_158",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_159",
+      "sanitized_id": "sn_ds_159",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_160",
+      "sanitized_id": "sn_ds_160",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //Uninitialized storage pointer...",
+        "Removed comment: // https://www.reddit.com/r/ethdev/comments/7wp363..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_161",
+      "sanitized_id": "sn_ds_161",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_162",
+      "sanitized_id": "sn_ds_162",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_163",
+      "sanitized_id": "sn_ds_163",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_164",
+      "sanitized_id": "sn_ds_164",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_165",
+      "sanitized_id": "sn_ds_165",
+      "success": true,
+      "changes_made": [
+        "Renamed: Attacker \u2192 Operator",
+        "Renamed: function attack( \u2192 function operate(",
+        "Renamed: this.attack \u2192 this.operate"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_166",
+      "sanitized_id": "sn_ds_166",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_167",
+      "sanitized_id": "sn_ds_167",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_168",
+      "sanitized_id": "sn_ds_168",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_169",
+      "sanitized_id": "sn_ds_169",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_170",
+      "sanitized_id": "sn_ds_170",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_171",
+      "sanitized_id": "sn_ds_171",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_172",
+      "sanitized_id": "sn_ds_172",
+      "success": true,
+      "changes_made": [
+        "Renamed: DrainMe \u2192 FundManager"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_173",
+      "sanitized_id": "sn_ds_173",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // Set the contract as finalized to avoid reentran..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_174",
+      "sanitized_id": "sn_ds_174",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_175",
+      "sanitized_id": "sn_ds_175",
+      "success": true,
+      "changes_made": [
+        "Renamed: signer_authorization_insecure \u2192 signer_authorization"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_176",
+      "sanitized_id": "sn_ds_176",
+      "success": true,
+      "changes_made": [
+        "Renamed: account_data_matching_insecure \u2192 account_data_matching"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_177",
+      "sanitized_id": "sn_ds_177",
+      "success": true,
+      "changes_made": [
+        "Renamed: mod insecure \u2192 mod core_logic"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_178",
+      "sanitized_id": "sn_ds_178",
+      "success": true,
+      "changes_made": [
+        "Renamed: owner_checks_insecure \u2192 owner_checks"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_179",
+      "sanitized_id": "sn_ds_179",
+      "success": true,
+      "changes_made": [
+        "Renamed: initialization_insecure \u2192 initialization"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_180",
+      "sanitized_id": "sn_ds_180",
+      "success": true,
+      "changes_made": [
+        "Renamed: closing_accounts_insecure \u2192 closing_accounts"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_181",
+      "sanitized_id": "sn_ds_181",
+      "success": true,
+      "changes_made": [
+        "Renamed: testExploit \u2192 testOperation"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_182",
+      "sanitized_id": "sn_ds_182",
+      "success": true,
+      "changes_made": [
+        "Removed comment: bug...",
+        "Removed comment: //#SpotTheBugChallenge...",
+        "Removed comment: //https://twitter.com/immunefi/status/156285838624..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_183",
+      "sanitized_id": "sn_ds_183",
+      "success": true,
+      "changes_made": [
+        "Removed comment: vulnerable...",
+        "Removed comment: //Mitigated vault...",
+        "Renamed: VulnVault \u2192 CoreVault"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_184",
+      "sanitized_id": "sn_ds_184",
+      "success": true,
+      "changes_made": [
+        "Renamed: Exploit \u2192 operate",
+        "Sanitized console/emit statement",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_185",
+      "sanitized_id": "sn_ds_185",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_186",
+      "sanitized_id": "sn_ds_186",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // solhint-disable-next-line no-inline-assembly...",
+        "Renamed: Attack \u2192 Operator",
+        "Renamed: Exploit \u2192 operate",
+        "Renamed: function attack( \u2192 function operate(",
+        "Renamed: AttackContract \u2192 OperatorContract",
+        "Renamed: abi.encodeWithSignature(\"attack()\" \u2192 abi.encodeWithSignature(\"operate()\""
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_187",
+      "sanitized_id": "sn_ds_187",
+      "success": true,
+      "changes_made": [
+        "Removed comment: unsafe...",
+        "Removed comment: //overflowed...",
+        "Removed comment: // balance is 1, because of overflowed...",
+        "Removed comment: // This could lead to unexpected results due to ov...",
+        "Renamed: FixedSimpleBank \u2192 SimpleBankV2",
+        "Renamed: SimpleBankContract \u2192 \\1V2",
+        "Renamed: Downcast \u2192 testAlt\\1"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_188",
+      "sanitized_id": "sn_ds_188",
+      "success": true,
+      "changes_made": [
+        "Renamed: StructDeletionBug \u2192 StructDeletion",
+        "Renamed: FixedStructDeletion \u2192 StructDeletionV2",
+        "Renamed: StructDeletionContract \u2192 \\1V2",
+        "Renamed: StructDeletion \u2192 \\1Contract"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_189",
+      "sanitized_id": "sn_ds_189",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_190",
+      "sanitized_id": "sn_ds_190",
+      "success": true,
+      "changes_made": [
+        "Renamed: FixedSimpleBank \u2192 SimpleBankV2",
+        "Renamed: SimpleBankContract \u2192 \\1V2"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_191",
+      "sanitized_id": "sn_ds_191",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //custom transferFrom function which missing NFT o...",
+        "Removed comment: //Mitigation: add token owner check...",
+        "Renamed: VulnerableERC721 \u2192 BasicERC721",
+        "Renamed: FixedERC721 \u2192 ERC721V2",
+        "Renamed: VulnerableERC721Contract \u2192 BasicERC721Contract",
+        "Renamed: testVulnerableERC721 \u2192 testBasicERC721"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_192",
+      "sanitized_id": "sn_ds_192",
+      "success": true,
+      "changes_made": [
+        "Renamed: VulnPermit \u2192 PermitToken"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_193",
+      "sanitized_id": "sn_ds_193",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_194",
+      "sanitized_id": "sn_ds_194",
+      "success": true,
+      "changes_made": [
+        "Removed comment: vulnerable...",
+        "Renamed: Exploit \u2192 operate",
+        "Renamed: pwn \u2192 execute"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_195",
+      "sanitized_id": "sn_ds_195",
+      "success": true,
+      "changes_made": [
+        "Removed comment: BUG...",
+        "Removed comment: BUG...",
+        "Removed comment: // FIXED: Using proper iteration to remove multipl...",
+        "Removed comment: // FIXED: Only break from the inner loop, continue...",
+        "Renamed: BuggyBankManager \u2192 AlternateBankManager",
+        "Renamed: Buggy \u2192 Alternate",
+        "Renamed: BankManager \u2192 \\1V2"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_196",
+      "sanitized_id": "sn_ds_196",
+      "success": true,
+      "changes_made": [
+        "Removed comment: vulnerable...",
+        "Renamed: testExploit \u2192 testOperation",
+        "Renamed: attacker \u2192 operator"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_197",
+      "sanitized_id": "sn_ds_197",
+      "success": true,
+      "changes_made": [
+        "Removed comment: unsafe...",
+        "Renamed: Exploit \u2192 operate",
+        "Renamed: Call \u2192 testAlt\\1"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_198",
+      "sanitized_id": "sn_ds_198",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_199",
+      "sanitized_id": "sn_ds_199",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // check if after send still enough to avoid under...",
+        "Renamed: EtherStoreAttack \u2192 EtherStoreOperator",
+        "Renamed: Attack \u2192 Operator",
+        "Renamed: testReentrancy \u2192 testWithdrawal",
+        "Renamed: attackRemediated \u2192 operatorV2",
+        "Renamed: EtherStoreOperator \u2192 \\1 operator;",
+        "Renamed: attack = new \u2192 operator = new",
+        "Renamed: attack. \u2192 operator.",
+        "Renamed: (attack) \u2192 (operator)"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_200",
+      "sanitized_id": "sn_ds_200",
+      "success": true,
+      "changes_made": [
+        "Removed comment: bug...",
+        "Renamed: testExploit \u2192 testOperation",
+        "Renamed: s \u2192 transfer\\1",
+        "Renamed: UniswapV3ETHRefundExploitTest \u2192 UniswapV3ETHRefundOperationTest"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_201",
+      "sanitized_id": "sn_ds_201",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_202",
+      "sanitized_id": "sn_ds_202",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_203",
+      "sanitized_id": "sn_ds_203",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_204",
+      "sanitized_id": "sn_ds_204",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_205",
+      "sanitized_id": "sn_ds_205",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_206",
+      "sanitized_id": "sn_ds_206",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_207",
+      "sanitized_id": "sn_ds_207",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_208",
+      "sanitized_id": "sn_ds_208",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // overflow protection                    // daily..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_209",
+      "sanitized_id": "sn_ds_209",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // overflow protection                    // daily..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_210",
+      "sanitized_id": "sn_ds_210",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_211",
+      "sanitized_id": "sn_ds_211",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // reentrancy...",
+        "Removed comment: //same as above. Replace this line with the follow..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_212",
+      "sanitized_id": "sn_ds_212",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_213",
+      "sanitized_id": "sn_ds_213",
+      "success": true,
+      "changes_made": [
+        "Removed comment: //same as above. Replace this line with the follow..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_214",
+      "sanitized_id": "sn_ds_214",
+      "success": true,
+      "changes_made": [
+        "Removed comment: bug...",
+        "Removed comment: // Since the number of kittens is capped to 2^32 w...",
+        "Removed comment: // This multiplication can't overflow, _secondsPas...",
+        "Removed comment: // Sanity check that no inputs overflow how many b...",
+        "Removed comment: // Sanity check that no inputs overflow how many b...",
+        "Removed comment: // Sanity check that no inputs overflow how many b...",
+        "Removed comment: // Sanity check that no inputs overflow how many b...",
+        "Removed comment: // Sanity check that no inputs overflow how many b...",
+        "Removed comment: // Sanity check to ensure we don't overflow arithm...",
+        "Removed comment: // equal to the price so this cannot underflow....",
+        "Removed comment: // can DoS is the sale of their own asset! (And if...",
+        "Removed comment: ///  new kitten will be ready to breed again. Note...",
+        "Removed block comment with vulnerability hint"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_215",
+      "sanitized_id": "sn_ds_215",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_216",
+      "sanitized_id": "sn_ds_216",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_217",
+      "sanitized_id": "sn_ds_217",
+      "success": true,
+      "changes_made": [
+        "Renamed: type_cosplay_insecure \u2192 type_cosplay"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_218",
+      "sanitized_id": "sn_ds_218",
+      "success": true,
+      "changes_made": [
+        "Renamed: arbitrary_cpi_insecure \u2192 arbitrary_cpi"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_219",
+      "sanitized_id": "sn_ds_219",
+      "success": true,
+      "changes_made": [
+        "Renamed: bump_seed_canonicalization_insecure \u2192 bump_seed_canonicalization"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_220",
+      "sanitized_id": "sn_ds_220",
+      "success": true,
+      "changes_made": [
+        "Renamed: pda_sharing_insecure \u2192 pda_sharing"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_221",
+      "sanitized_id": "sn_ds_221",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // Do not follow check-effect-interaction...",
+        "Renamed: testERC777Reentrancy \u2192 testERC777Callback",
+        "Sanitized console/emit statement",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_222",
+      "sanitized_id": "sn_ds_222",
+      "success": true,
+      "changes_made": [
+        "Renamed: attacker \u2192 operator"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_223",
+      "sanitized_id": "sn_ds_223",
+      "success": true,
+      "changes_made": [
+        "Renamed: Exploit \u2192 operate"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_224",
+      "sanitized_id": "sn_ds_224",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // Use flashloan to borrow 500 USDa...",
+        "Removed comment: // Repay the flashloan by transferring 500 USDb to..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_225",
+      "sanitized_id": "sn_ds_225",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // slot 0 - storage collision here...",
+        "Removed comment: // We take Audius as an example. For more details,...",
+        "Renamed: Exploit \u2192 operate",
+        "Renamed: attacker \u2192 operator"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_226",
+      "sanitized_id": "sn_ds_226",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_227",
+      "sanitized_id": "sn_ds_227",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // this need to be older version of solidity from ..."
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_228",
+      "sanitized_id": "sn_ds_228",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_229",
+      "sanitized_id": "sn_ds_229",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_230",
+      "sanitized_id": "sn_ds_230",
+      "success": true,
+      "changes_made": [
+        "Removed comment: // Mitigation: make sure to check the initiator...",
+        "Renamed: SimpleBankBug \u2192 SimpleBankAlt",
+        "Renamed: FixedSimpleBank \u2192 SimpleBankV2",
+        "Renamed: SimpleBankContract \u2192 \\1V2",
+        "Renamed: SimpleBank \u2192 \\1Contract"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_231",
+      "sanitized_id": "sn_ds_231",
+      "success": true,
+      "changes_made": [
+        "Removed comment: Attack...",
+        "Removed comment: Attack...",
+        "Removed comment: vulnerable...",
+        "Removed comment: // Perform Read-Only Reentrancy...",
+        "Renamed: VulnContract \u2192 CoreContract",
+        "Renamed: ExploitContract \u2192 OperatorContract",
+        "Renamed: ExploitTest \u2192 OperatorTest",
+        "Renamed: hack \u2192 execute",
+        "Renamed: testPwn \u2192 testExecution",
+        "Renamed: performReadOnlyReentrnacy \u2192 performReadOnlyCallback",
+        "Sanitized console/emit statement"
+      ],
+      "error": null
+    },
+    {
+      "original_id": "ds_232",
+      "sanitized_id": "sn_ds_232",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_233",
+      "sanitized_id": "sn_ds_233",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_234",
+      "sanitized_id": "sn_ds_234",
+      "success": true,
+      "changes_made": [],
+      "error": null
+    },
+    {
+      "original_id": "ds_235",
+      "sanitized_id": "sn_ds_235",
+      "success": true,
+      "changes_made": [
+        "Renamed: duplicate_mutable_accounts_insecure \u2192 duplicate_mutable_accounts"
+      ],
+      "error": null
+    }
+  ]
+}

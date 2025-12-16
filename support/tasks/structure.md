@@ -188,22 +188,25 @@ contracts/
 
 ### 4.2 Adversarial Contrastive ID Variants
 
-**Pattern:** `ac_{number}_{variant_type}[_{parameter}]`
+**Pattern:** `ac_{original_dataset_id}_{variant_type}[_{parameter}]`
 
-| Variant Type     | Parameters      | Example                         |
-| ---------------- | --------------- | ------------------------------- |
-| `original`       | None            | `ac_001_original`               |
-| `patched`        | None            | `ac_001_patched`                |
-| `chameleon`      | Theme name      | `ac_001_chameleon_gaming`       |
-| `mirror`         | Mode name       | `ac_001_mirror_compressed`      |
-| `crossdomain`    | Target domain   | `ac_001_crossdomain_nft`        |
-| `guardian`       | Protection type | `ac_001_guardian_reentrancy`    |
-| `hydra`          | None            | `ac_001_hydra`                  |
-| `chimera`        | None            | `ac_001_chimera`                |
-| `shapeshifter`   | Level           | `ac_001_shapeshifter_L5`        |
-| `falseprophet`   | Claim type      | `ac_001_falseprophet_safeclaim` |
-| `confidencetrap` | Trap type       | `ac_001_confidencetrap_nomiss`  |
-| `trojanhorse`    | None            | `ac_001_trojanhorse`            |
+The adversarial contrastive ID preserves the full original dataset ID to maintain traceability.
+
+| Variant Type     | Parameters      | Example (from tc_001)              | Example (from ds_015)              |
+| ---------------- | --------------- | ---------------------------------- | ---------------------------------- |
+| `chameleon`      | Theme name      | `ac_tc_001_chameleon_gaming`       | `ac_ds_015_chameleon_gaming`       |
+| `chameleon`      | Theme name      | `ac_tc_001_chameleon_resource`     | `ac_ds_015_chameleon_resource`     |
+| `mirror`         | Mode name       | `ac_tc_001_mirror_compressed`      | `ac_ds_015_mirror_compressed`      |
+| `mirror`         | Mode name       | `ac_tc_001_mirror_allman`          | `ac_ds_015_mirror_allman`          |
+| `crossdomain`    | Target domain   | `ac_tc_001_crossdomain_nft`        | `ac_ds_015_crossdomain_gaming`     |
+| `guardian`       | Protection type | `ac_tc_001_guardian_reentrancy`    | `ac_ds_015_guardian_cei`           |
+| `patched`        | None            | `ac_tc_001_patched`                | `ac_ds_015_patched`                |
+
+**Naming Rules:**
+- `ac_` prefix indicates adversarial contrastive dataset
+- `{original_dataset_id}` is the full ID from source dataset (e.g., `tc_001`, `ds_015`)
+- `{variant_type}` is the transformation strategy applied
+- `{parameter}` is the strategy-specific parameter (theme, mode, etc.)
 
 ### 4.3 Group IDs (Adversarial Only)
 
@@ -857,16 +860,48 @@ Each dataset extends the base schema with additional required fields.
         }
       },
 
+      "original_reference": {
+        "type": "object",
+        "required": ["original_id", "original_dataset"],
+        "properties": {
+          "original_id": {
+            "type": "string",
+            "description": "Full ID of the source sample (e.g., tc_001, ds_015)",
+            "pattern": "^(tc|ds)_[0-9]{3}$"
+          },
+
+          "original_dataset": {
+            "type": "string",
+            "enum": ["temporal_contamination", "difficulty_stratified"],
+            "description": "Which dataset the original sample came from"
+          },
+
+          "original_contract_path": {
+            "type": "string",
+            "description": "Path to original contract file",
+            "example": "data/temporal_contamination/contracts/tc_001.sol"
+          },
+
+          "original_metadata_path": {
+            "type": "string",
+            "description": "Path to original metadata file",
+            "example": "data/temporal_contamination/metadata/tc_001.json"
+          },
+
+          "original_annotation_path": {
+            "type": "string",
+            "description": "Path to original annotated contract in labelled_data",
+            "example": "labelled_data/temporal_contamination/contracts/tc_001.sol"
+          }
+        }
+      },
+
       "transformation": {
         "type": "object",
         "properties": {
-          "source_id": {
-            "type": ["string", "null"],
-            "description": "ID of the original sample this was transformed from"
-          },
-
           "strategy": {
-            "type": ["string", "null"],
+            "type": "string",
+            "enum": ["chameleon", "mirror", "crossdomain", "guardian", "patched"],
             "description": "Transformation strategy applied"
           },
 
@@ -883,13 +918,20 @@ Each dataset extends the base schema with additional required fields.
 
           "automated": {
             "type": "boolean",
-            "default": false,
+            "default": true,
             "description": "Whether transformation was automated"
           },
 
           "transformation_tool": {
-            "type": ["string", "null"],
-            "description": "Tool used for transformation if automated"
+            "type": "string",
+            "default": "adversarial_toolkit_v1",
+            "description": "Tool used for transformation"
+          },
+
+          "transformation_timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the transformation was performed"
           }
         }
       },

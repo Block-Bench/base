@@ -1,0 +1,71 @@
+{
+  "id": "ds_168",
+  "contract_file": "contracts/ds_168.sol",
+  "subset": "difficulty_stratified",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "timestamp_dependency",
+    "severity": "low",
+    "vulnerable_location": {
+      "contract_name": "TimedCrowdsale",
+      "function_name": "isSaleFinished",
+      "line_numbers": [
+        13
+      ]
+    },
+    "root_cause": "Timestamp dependency - reliance on block.timestamp for critical logic at line(s) 13",
+    "attack_vector": "Timestamp dependency - reliance on block.timestamp for critical logic at line(s) 13",
+    "impact": "Severity: low",
+    "correct_fix": "Use block.number for time-based logic or accept timestamp manipulation risk"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_time_manipulation_timed_crowdsale",
+    "url": "https://github.com/SmartContractSecurity/SWC-registry/blob/master/test_cases/timestamp_dependence/timed_crowdsale.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.25",
+    "num_lines": 9,
+    "num_contracts": 1,
+    "contract_names": [
+      "TimedCrowdsale"
+    ],
+    "num_functions": 1,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Timestamp dependency - reliance on block.timestamp for critical logic at line(s) 13",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_168.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_168.json",
+    "original_id": "smartbugs_time_manipulation_timed_crowdsale"
+  },
+  "sanitized_from": "ds_168",
+  "sanitized_id": "sn_ds_168"
+}

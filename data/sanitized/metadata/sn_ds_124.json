@@ -1,0 +1,70 @@
+{
+  "id": "ds_124",
+  "contract_file": "contracts/ds_124.sol",
+  "subset": "difficulty_stratified",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "low",
+    "vulnerable_location": {
+      "contract_name": "Alice",
+      "function_name": "set",
+      "line_numbers": []
+    },
+    "root_cause": "# Incorrect interface\nA contract interface defines functions with a different type signature than the implementation, causing two different method id's to be created.\nAs a result, when the interfact is called, the fallback method will be executed.",
+    "attack_vector": "# Incorrect interface\nA contract interface defines functions with a different type signature than the implementation, causing two different method id's to be created.\nAs a result, when the interfact is called, the fallback method will be executed.",
+    "impact": "Severity: low",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_incorrect_interface_bob",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.15",
+    "num_lines": 17,
+    "num_contracts": 2,
+    "contract_names": [
+      "Alice",
+      "Bob"
+    ],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Incorrect interface\nA contract interface defines functions with a different type signature than the implementation, causing two different method id's to be created.\nAs a result, when the interfact is called, the fallback method will be executed.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_124.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_124.json",
+    "original_id": "notso_incorrect_interface_bob"
+  },
+  "sanitized_from": "ds_124",
+  "sanitized_id": "sn_ds_124"
+}
