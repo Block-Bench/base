@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://blockbench.io/schema/index.json",
+  "title": "BlockBench Dataset Index Schema",
+  "description": "Schema for dataset index.json files",
+  "type": "object",
+  "required": ["dataset_name", "version", "created_date", "statistics", "samples"],
+  "properties": {
+    "dataset_name": {
+      "type": "string",
+      "description": "Name of the dataset",
+      "enum": ["difficulty_stratified", "temporal_contamination", "sanitized", "nocomments"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the dataset",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the dataset was created"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the dataset was last updated"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the dataset"
+    },
+    "transformation": {
+      "type": "object",
+      "description": "Transformation details for derived datasets",
+      "properties": {
+        "type": {"type": "string"},
+        "source_dataset": {"type": "string"},
+        "source_datasets": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "changes_applied": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "required": ["total_samples"],
+      "properties": {
+        "total_samples": {
+          "type": "integer",
+          "description": "Total number of samples in the dataset"
+        },
+        "vulnerable_count": {
+          "type": "integer",
+          "description": "Number of vulnerable samples"
+        },
+        "safe_count": {
+          "type": "integer",
+          "description": "Number of safe samples"
+        },
+        "by_vulnerability_type": {
+          "type": "object",
+          "additionalProperties": {"type": "integer"}
+        },
+        "by_severity": {
+          "type": "object",
+          "additionalProperties": {"type": "integer"}
+        },
+        "by_original_subset": {
+          "type": "object",
+          "description": "For derived datasets, count by original subset",
+          "additionalProperties": {"type": "integer"}
+        }
+      }
+    },
+    "samples": {
+      "type": "array",
+      "description": "List of all samples in the dataset",
+      "items": {
+        "type": "object",
+        "required": ["id", "contract_file", "metadata_file"],
+        "properties": {
+          "id": {"type": "string"},
+          "contract_file": {"type": "string"},
+          "metadata_file": {"type": "string"},
+          "original_contract_file": {"type": "string"},
+          "derived_from": {"type": "string"},
+          "sanitized_from": {"type": "string"},
+          "original_id": {"type": "string"},
+          "is_vulnerable": {"type": "boolean"},
+          "vulnerability_type": {"type": "string"},
+          "severity": {"type": "string"}
+        }
+      }
+    }
+  }
+}

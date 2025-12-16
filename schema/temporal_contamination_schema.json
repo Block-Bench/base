@@ -1,0 +1,422 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Temporal Contamination Sample Schema",
+  "description": "Schema for temporal contamination dataset samples - pre/post cutoff exploits for testing memorization vs. reasoning",
+  "type": "object",
+  "required": [
+    "id",
+    "contract_file",
+    "subset",
+    "ground_truth",
+    "provenance",
+    "code_metadata",
+    "temporal_fields",
+    "evaluation_support"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this sample",
+      "pattern": "^tc_[0-9]{3}$"
+    },
+
+    "contract_file": {
+      "type": "string",
+      "description": "Relative path to .sol file from dataset root",
+      "pattern": "^contracts/tc_[0-9]{3}\\.sol$"
+    },
+
+    "subset": {
+      "type": "string",
+      "const": "temporal_contamination",
+      "description": "Dataset this sample belongs to"
+    },
+
+    "ground_truth": {
+      "type": "object",
+      "required": ["is_vulnerable"],
+      "properties": {
+        "is_vulnerable": {
+          "type": "boolean",
+          "description": "Whether the contract contains an exploitable vulnerability"
+        },
+
+        "vulnerability_type": {
+          "type": ["string", "null"],
+          "enum": [
+            "reentrancy",
+            "access_control",
+            "integer_overflow",
+            "integer_underflow",
+            "unchecked_return",
+            "tx_origin",
+            "timestamp_dependency",
+            "front_running",
+            "denial_of_service",
+            "logic_error",
+            "oracle_manipulation",
+            "flash_loan",
+            "price_manipulation",
+            "signature_replay",
+            "delegate_call",
+            "self_destruct",
+            "uninitialized_storage",
+            "other",
+            null
+          ],
+          "description": "Primary vulnerability type (null if not vulnerable)"
+        },
+
+        "severity": {
+          "type": ["string", "null"],
+          "enum": ["critical", "high", "medium", "low", null],
+          "description": "Severity rating (null if not vulnerable)"
+        },
+
+        "vulnerable_location": {
+          "type": ["object", "null"],
+          "properties": {
+            "contract_name": {
+              "type": "string",
+              "description": "Name of the contract containing vulnerability"
+            },
+            "function_name": {
+              "type": ["string", "null"],
+              "description": "Function where vulnerability exists"
+            },
+            "line_numbers": {
+              "type": "array",
+              "items": { "type": "integer" },
+              "description": "Line numbers of vulnerable code"
+            }
+          },
+          "description": "Location details of the vulnerability"
+        },
+
+        "root_cause": {
+          "type": ["string", "null"],
+          "description": "Technical explanation of why the vulnerability exists"
+        },
+
+        "attack_vector": {
+          "type": ["string", "null"],
+          "description": "How an attacker would exploit this vulnerability"
+        },
+
+        "impact": {
+          "type": ["string", "null"],
+          "description": "Consequences of successful exploitation"
+        },
+
+        "correct_fix": {
+          "type": ["string", "null"],
+          "description": "How to remediate the vulnerability"
+        }
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "required": ["source"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": [
+            "code4rena",
+            "sherlock",
+            "immunefi",
+            "solodit",
+            "rekt_news",
+            "trail_of_bits",
+            "spearbit",
+            "cyfrin",
+            "pashov",
+            "guardian",
+            "openzeppelin",
+            "consensys",
+            "dedaub",
+            "synthetic",
+            "manual",
+            "other"
+          ],
+          "description": "Origin of this sample"
+        },
+
+        "original_id": {
+          "type": ["string", "null"],
+          "description": "ID from the original source"
+        },
+
+        "url": {
+          "type": ["string", "null"],
+          "format": "uri",
+          "description": "URL to original report/finding"
+        },
+
+        "date_discovered": {
+          "type": ["string", "null"],
+          "format": "date",
+          "description": "When the vulnerability was discovered/reported"
+        },
+
+        "date_added": {
+          "type": "string",
+          "format": "date",
+          "description": "When this sample was added to the benchmark"
+        },
+
+        "added_by": {
+          "type": ["string", "null"],
+          "description": "Who added this sample"
+        }
+      }
+    },
+
+    "code_metadata": {
+      "type": "object",
+      "required": ["solidity_version", "num_lines"],
+      "properties": {
+        "solidity_version": {
+          "type": "string",
+          "description": "Solidity pragma version",
+          "pattern": "^\\^?[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+
+        "num_lines": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Total lines of code"
+        },
+
+        "num_contracts": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1,
+          "description": "Number of contracts in the file"
+        },
+
+        "contract_names": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Names of all contracts in the file"
+        },
+
+        "num_functions": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of functions"
+        },
+
+        "has_imports": {
+          "type": "boolean",
+          "description": "Whether the contract has import statements"
+        },
+
+        "imports": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of imported files/packages"
+        },
+
+        "has_inheritance": {
+          "type": "boolean",
+          "description": "Whether any contract uses inheritance"
+        },
+
+        "inherits_from": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of inherited contracts"
+        },
+
+        "has_modifiers": {
+          "type": "boolean",
+          "description": "Whether custom modifiers are defined"
+        },
+
+        "has_events": {
+          "type": "boolean",
+          "description": "Whether events are defined"
+        },
+
+        "has_assembly": {
+          "type": "boolean",
+          "description": "Whether inline assembly is used"
+        },
+
+        "compilation_verified": {
+          "type": "boolean",
+          "description": "Whether this compiles successfully"
+        },
+
+        "compiler_version_used": {
+          "type": ["string", "null"],
+          "description": "Exact compiler version used for verification"
+        }
+      }
+    },
+
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Additional categorization tags",
+      "default": []
+    },
+
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Any additional notes about this sample"
+    },
+
+    "temporal_fields": {
+      "type": "object",
+      "required": ["temporal_split", "exploit_info"],
+      "description": "Temporal contamination specific fields",
+      "properties": {
+        "temporal_split": {
+          "type": "object",
+          "required": ["split", "cutoff_date"],
+          "properties": {
+            "split": {
+              "type": "string",
+              "enum": ["pre_cutoff", "post_cutoff"],
+              "description": "Whether this is before or after knowledge cutoff"
+            },
+
+            "cutoff_date": {
+              "type": "string",
+              "format": "date",
+              "description": "The cutoff date used for splitting"
+            },
+
+            "days_from_cutoff": {
+              "type": ["integer", "null"],
+              "description": "Days before (negative) or after (positive) cutoff"
+            },
+
+            "model_cutoffs": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "format": "date"
+              },
+              "description": "Mapping of model names to their cutoff dates",
+              "examples": [{
+                "claude_sonnet_4": "2025-03-01",
+                "gpt4_turbo": "2024-12-01",
+                "gpt4o": "2024-10-01"
+              }]
+            }
+          }
+        },
+
+        "exploit_info": {
+          "type": "object",
+          "required": ["exploit_date", "protocol_name"],
+          "properties": {
+            "exploit_date": {
+              "type": ["string", "null"],
+              "format": "date",
+              "description": "When the exploit occurred"
+            },
+
+            "protocol_name": {
+              "type": "string",
+              "description": "Name of the exploited protocol"
+            },
+
+            "chain": {
+              "type": "string",
+              "enum": [
+                "ethereum",
+                "bsc",
+                "binance_smart_chain",
+                "polygon",
+                "arbitrum",
+                "optimism",
+                "avalanche",
+                "fantom",
+                "gnosis",
+                "blast",
+                "base",
+                "other"
+              ],
+              "description": "Blockchain where exploit occurred"
+            },
+
+            "funds_lost_usd": {
+              "type": ["number", "null"],
+              "minimum": 0,
+              "description": "Estimated funds lost in USD"
+            },
+
+            "rekt_news_url": {
+              "type": ["string", "null"],
+              "format": "uri",
+              "description": "Rekt.news article URL"
+            },
+
+            "transaction_hash": {
+              "type": ["string", "null"],
+              "description": "Transaction hash of the exploit"
+            },
+
+            "attacker_address": {
+              "type": ["string", "null"],
+              "description": "Attacker's address"
+            }
+          }
+        },
+
+        "public_exposure": {
+          "type": "object",
+          "properties": {
+            "news_coverage": {
+              "type": "boolean",
+              "description": "Whether this received significant news coverage"
+            },
+
+            "twitter_viral": {
+              "type": "boolean",
+              "description": "Whether this went viral on Twitter/X"
+            },
+
+            "likely_in_training": {
+              "type": "boolean",
+              "description": "Whether this is likely in model training data"
+            },
+
+            "exposure_notes": {
+              "type": ["string", "null"],
+              "description": "Notes on public exposure"
+            }
+          }
+        }
+      }
+    },
+
+    "evaluation_support": {
+      "type": "object",
+      "required": ["annotated_contract", "detailed_metadata"],
+      "description": "References to annotated versions for judge evaluation",
+      "properties": {
+        "annotated_contract": {
+          "type": "string",
+          "description": "Path to annotated .sol file with vulnerability comments",
+          "pattern": "^labelled_data/temporal_contamination/contracts/tc_[0-9]{3}\\.sol$"
+        },
+
+        "detailed_metadata": {
+          "type": "string",
+          "description": "Path to detailed metadata JSON with full exploit context",
+          "pattern": "^labelled_data/temporal_contamination/metadata/tc_[0-9]{3}\\.json$"
+        },
+
+        "original_exploit_name": {
+          "type": "string",
+          "description": "Original name of the exploit/protocol"
+        }
+      }
+    }
+  }
+}

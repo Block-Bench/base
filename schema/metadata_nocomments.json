@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://blockbench.io/schema/metadata_nocomments.json",
+  "title": "BlockBench No-Comments Metadata Schema",
+  "description": "Schema for nocomments dataset metadata - contracts with all comments removed",
+  "type": "object",
+  "required": ["id", "contract_file", "subset", "ground_truth", "original_contract_file", "derived_from", "original_id"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier (e.g., nc_ds_001, nc_tc_001)",
+      "pattern": "^nc_(ds|tc)_\\d{3}$"
+    },
+    "contract_file": {
+      "type": "string",
+      "description": "Path to no-comments contract file",
+      "pattern": "^contracts/nc_.*\\.(sol|rs)$"
+    },
+    "original_contract_file": {
+      "type": "string",
+      "description": "Path to original contract file in base dataset",
+      "pattern": "^contracts/(ds|tc)_\\d{3}\\.(sol|rs)$"
+    },
+    "derived_from": {
+      "type": "string",
+      "description": "Sanitized file ID this was derived from",
+      "pattern": "^sn_(ds|tc)_\\d{3}$"
+    },
+    "original_id": {
+      "type": "string",
+      "description": "Original base dataset file ID",
+      "pattern": "^(ds|tc)_\\d{3}$"
+    },
+    "sanitized_from": {
+      "type": "string",
+      "description": "Inherited - original file ID before sanitization",
+      "pattern": "^(ds|tc)_\\d{3}$"
+    },
+    "subset": {
+      "type": "string",
+      "const": "nocomments",
+      "description": "Always 'nocomments' for this dataset"
+    },
+    "ground_truth": {
+      "type": "object",
+      "description": "Inherited from original metadata"
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Inherited from original metadata"
+    },
+    "code_metadata": {
+      "type": "object",
+      "description": "Inherited from original metadata"
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "notes": {"type": ["string", "null"]},
+    "difficulty_fields": {
+      "type": "object",
+      "description": "Inherited if from difficulty_stratified"
+    },
+    "temporal_fields": {
+      "type": "object",
+      "description": "Inherited if from temporal_contamination"
+    }
+  }
+}

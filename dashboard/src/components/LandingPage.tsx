@@ -1,93 +1,205 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Database, Shield, Layers, Code } from 'lucide-react'
-import { loadDataset, generateSummary } from '../data/loader'
-import type { DatasetSummary } from '../types'
+import { ArrowRight, Layers, Clock, Database, Shield, FlaskConical } from 'lucide-react'
+import { loadDatasetIndex, formatCurrency } from '../data/loader'
+import type { DatasetIndex, DatasetType } from '../types'
+import { Logo } from './Logo'
+import { Mascot } from './Mascot'
 
 export default function LandingPage() {
-  const [summary, setSummary] = useState<DatasetSummary | null>(null)
+  const [indices, setIndices] = useState<Record<DatasetType, DatasetIndex | null>>({
+    difficulty_stratified: null,
+    temporal_contamination: null,
+  })
 
   useEffect(() => {
-    loadDataset().then((data) => {
-      setSummary(generateSummary(data))
+    Promise.all([
+      loadDatasetIndex('difficulty_stratified'),
+      loadDatasetIndex('temporal_contamination'),
+    ]).then(([ds, tc]) => {
+      setIndices({
+        difficulty_stratified: ds,
+        temporal_contamination: tc,
+      })
     })
   }, [])
 
+  const totalSamples = Object.values(indices).reduce(
+    (sum, idx) => sum + (idx?.statistics.total_samples || 0),
+    0
+  )
+
+  const dsStats = indices.difficulty_stratified?.statistics
+  const tcStats = indices.temporal_contamination?.statistics
+
   return (
-    <div className="min-h-screen bg-anthropic-cream dark:bg-anthropic-dark">
-      {/* Hero Section */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
-        <div className="text-center space-y-6">
-          <h1 className="text-6xl font-light tracking-tight text-gray-900 dark:text-gray-100">
-            BlockBench
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-light">
-            A rigorous benchmark to evaluate AI domain expertise in blockchain
-            security
-          </p>
-          <div className="pt-8">
-            <Link
-              to="/explorer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-anthropic-orange text-white rounded-full hover:bg-opacity-90 font-medium"
-            >
-              Explore Dataset
-              <ArrowRight className="w-5 h-5" />
+    <div className="min-h-screen bg-cream-100">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 glass">
+        <div className="max-w-6xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2">
+              <Logo size={32} />
+              <span className="font-semibold text-neutral-800">BlockBench</span>
             </Link>
+            <div className="flex items-center gap-6">
+              <Link
+                to="/explorer/difficulty_stratified"
+                className="text-sm text-neutral-600 hover:text-neutral-800 transition-colors"
+              >
+                Explorer
+              </Link>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-neutral-600 hover:text-neutral-800 transition-colors"
+              >
+                GitHub
+              </a>
+            </div>
           </div>
         </div>
+      </nav>
 
-        {/* Stats Grid */}
-        {summary && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
-            <StatCard
-              icon={<Database className="w-6 h-6" />}
-              label="Total Samples"
-              value={summary.total.toString()}
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Mascot */}
+          <div className="mb-8 flex justify-center">
+            <Mascot size={120} />
+          </div>
+
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-cream-200 rounded-full text-sm text-neutral-600 mb-8">
+            <FlaskConical className="w-4 h-4" />
+            <span>NeurIPS 2025 Submission</span>
+          </div>
+
+          <h1 className="text-5xl md:text-6xl font-light tracking-tight text-neutral-900 mb-6 text-balance">
+            Benchmark for AI
+            <br />
+            <span className="text-neutral-500">Security Analysis</span>
+          </h1>
+
+          <p className="text-xl text-neutral-500 max-w-2xl mx-auto mb-12 leading-relaxed">
+            A rigorous evaluation framework to measure whether AI models genuinely
+            reason about smart contract vulnerabilities or merely pattern-match
+            on memorized examples.
+          </p>
+
+          <div className="flex items-center justify-center gap-4">
+            <Link
+              to="/explorer/difficulty_stratified"
+              className="btn-primary py-3 px-6"
+            >
+              <span>Explore Dataset</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href="#datasets"
+              className="btn-secondary py-3 px-6"
+            >
+              Learn More
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="py-12 border-y border-cream-300 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <Stat value={totalSamples.toString()} label="Total Samples" />
+            <Stat value="4" label="Difficulty Tiers" />
+            <Stat
+              value={tcStats?.total_funds_lost_usd ? formatCurrency(tcStats.total_funds_lost_usd) : '-'}
+              label="Historical Exploits"
             />
-            <StatCard
+            <Stat value="2" label="Languages" />
+          </div>
+        </div>
+      </section>
+
+      {/* Datasets Section */}
+      <section id="datasets" className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-light text-neutral-900 mb-4">
+              Dataset Collections
+            </h2>
+            <p className="text-neutral-500 max-w-xl mx-auto">
+              Multiple complementary datasets designed to test different aspects
+              of AI security analysis capabilities.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <DatasetCard
               icon={<Layers className="w-6 h-6" />}
-              label="Languages"
-              value={Object.keys(summary.by_language).length.toString()}
+              title="Difficulty Stratified"
+              description="235 samples organized into 4 difficulty tiers, from textbook patterns to expert-level exploits requiring multi-step reasoning."
+              stats={[
+                { label: 'Samples', value: dsStats?.total_samples?.toString() || '235' },
+                { label: 'Tiers', value: '4' },
+                { label: 'Languages', value: 'Solidity, Rust' },
+              ]}
+              href="/explorer/difficulty_stratified"
+              available
             />
-            <StatCard
+
+            <DatasetCard
+              icon={<Clock className="w-6 h-6" />}
+              title="Temporal Contamination"
+              description="50 famous pre-cutoff DeFi exploits to measure memorization vs. genuine reasoning capabilities."
+              stats={[
+                { label: 'Samples', value: tcStats?.total_samples?.toString() || '50' },
+                { label: 'Total Lost', value: tcStats?.total_funds_lost_usd ? formatCurrency(tcStats.total_funds_lost_usd) : '$3.2B' },
+                { label: 'Era', value: '2016-2024' },
+              ]}
+              href="/explorer/temporal_contamination"
+              available
+            />
+
+            <DatasetCard
               icon={<Shield className="w-6 h-6" />}
-              label="Vulnerability Types"
-              value={Object.keys(summary.by_type).length.toString()}
+              title="Gold Standard"
+              description="Post-cutoff high-quality vulnerabilities from Code4rena and Sherlock audits."
+              stats={[
+                { label: 'Status', value: 'Coming Soon' },
+                { label: 'Target', value: '150+ samples' },
+              ]}
+              href="#"
+              available={false}
             />
-            <StatCard
-              icon={<Code className="w-6 h-6" />}
-              label="Difficulty Tiers"
-              value="4"
+
+            <DatasetCard
+              icon={<Database className="w-6 h-6" />}
+              title="Adversarial Contrastive"
+              description="Transformed variants to test robustness against surface-level changes and semantic decoys."
+              stats={[
+                { label: 'Status', value: 'Coming Soon' },
+                { label: 'Strategies', value: '12 types' },
+              ]}
+              href="#"
+              available={false}
             />
           </div>
-        )}
-
-        {/* Features Section */}
-        <div className="mt-32 space-y-20">
-          <Feature
-            title="Difficulty Stratified"
-            description="235 samples across 4 difficulty tiers, from textbook patterns to expert-level exploits requiring multi-step reasoning."
-            stats={summary?.by_tier}
-          />
-          <Feature
-            title="Multi-Language Support"
-            description="Comprehensive coverage of Solidity (EVM) and Rust (Solana/Anchor) with plans to expand to Move and Cairo."
-            stats={summary?.by_language}
-            reverse
-          />
-          <Feature
-            title="Research Quality"
-            description="Sourced from SmartBugs, DeFiVulnLabs, Trail of Bits, and Coral XYZ. Every sample includes vulnerability description, fix recommendations, and metadata."
-            stats={summary?.by_severity}
-          />
         </div>
+      </section>
 
-        {/* Research Goals */}
-        <div className="mt-32 py-20 border-t border-gray-200 dark:border-gray-800">
-          <h2 className="text-3xl font-light text-center mb-12">
-            Research Questions
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      {/* Research Questions */}
+      <section className="py-24 px-6 bg-white border-t border-cream-300">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-light text-neutral-900 mb-4">
+              Research Questions
+            </h2>
+            <p className="text-neutral-500">
+              Core hypotheses we aim to test with this benchmark.
+            </p>
+          </div>
+
+          <div className="space-y-6">
             <ResearchQuestion
               number="01"
               question="What is the boundary between memorization and generalization in AI vulnerability detection?"
@@ -102,82 +214,88 @@ export default function LandingPage() {
             />
             <ResearchQuestion
               number="04"
-              question="How does performance degrade as reasoning context expands?"
+              question="How does performance degrade as reasoning context expands across contracts?"
             />
           </div>
         </div>
+      </section>
 
-        {/* Footer */}
-        <div className="mt-20 text-center text-sm text-gray-500">
-          <p>Target Venue: NeurIPS (Datasets & Benchmarks Track)</p>
-          <p className="mt-2">© 2025 BlockBench Project</p>
+      {/* Footer */}
+      <footer className="py-12 px-6 border-t border-cream-300">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <Logo size={24} />
+              <span className="text-sm text-neutral-600">BlockBench</span>
+            </div>
+            <p className="text-sm text-neutral-500">
+              Target Venue: NeurIPS 2025 (Datasets & Benchmarks Track)
+            </p>
+          </div>
         </div>
-      </div>
+      </footer>
     </div>
   )
 }
 
-function StatCard({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode
-  label: string
-  value: string
-}) {
+function Stat({ value, label }: { value: string; label: string }) {
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800">
-      <div className="text-anthropic-orange mb-3">{icon}</div>
-      <div className="text-3xl font-light mb-1">{value}</div>
-      <div className="text-sm text-gray-500">{label}</div>
+    <div className="text-center">
+      <div className="text-3xl font-light text-neutral-900 mb-1">{value}</div>
+      <div className="text-sm text-neutral-500">{label}</div>
     </div>
   )
 }
 
-function Feature({
+function DatasetCard({
+  icon,
   title,
   description,
   stats,
-  reverse = false,
+  href,
+  available,
 }: {
+  icon: React.ReactNode
   title: string
   description: string
-  stats?: Record<string, number>
-  reverse?: boolean
+  stats: { label: string; value: string }[]
+  href: string
+  available: boolean
 }) {
-  return (
+  const content = (
     <div
-      className={`flex flex-col ${
-        reverse ? 'md:flex-row-reverse' : 'md:flex-row'
-      } gap-12 items-center`}
+      className={`card p-6 h-full ${
+        available ? 'hover:border-cream-400 hover:shadow-soft-md cursor-pointer' : 'opacity-60'
+      } transition-all duration-200`}
     >
-      <div className="flex-1 space-y-4">
-        <h3 className="text-3xl font-light">{title}</h3>
-        <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-          {description}
-        </p>
-      </div>
-      {stats && (
-        <div className="flex-1 bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-800">
-          {Object.entries(stats)
-            .sort(([, a], [, b]) => b - a)
-            .slice(0, 5)
-            .map(([key, value]) => (
-              <div
-                key={key}
-                className="flex justify-between items-center py-3 border-b border-gray-100 dark:border-gray-800 last:border-0"
-              >
-                <span className="text-gray-700 dark:text-gray-300 capitalize">
-                  {key.replace(/_/g, ' ')}
-                </span>
-                <span className="font-medium">{value}</span>
-              </div>
-            ))}
+      <div className="flex items-start justify-between mb-4">
+        <div className="p-2.5 bg-cream-200 rounded-lg text-neutral-700">
+          {icon}
         </div>
-      )}
+        {!available && (
+          <span className="badge-neutral text-2xs">Coming Soon</span>
+        )}
+      </div>
+
+      <h3 className="text-lg font-medium text-neutral-900 mb-2">{title}</h3>
+      <p className="text-sm text-neutral-500 mb-6 leading-relaxed">{description}</p>
+
+      <div className="grid grid-cols-3 gap-4 pt-4 border-t border-cream-200">
+        {stats.map((stat) => (
+          <div key={stat.label}>
+            <div className="text-sm font-medium text-neutral-800">{stat.value}</div>
+            <div className="text-2xs text-neutral-400">{stat.label}</div>
+          </div>
+        ))}
+      </div>
     </div>
   )
+
+  if (available) {
+    return <Link to={href}>{content}</Link>
+  }
+
+  return content
 }
 
 function ResearchQuestion({
@@ -188,11 +306,11 @@ function ResearchQuestion({
   question: string
 }) {
   return (
-    <div className="space-y-2">
-      <div className="text-anthropic-orange font-mono text-sm">{number}</div>
-      <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-        {question}
-      </p>
+    <div className="flex gap-6 p-6 card">
+      <div className="flex-shrink-0 w-10 h-10 bg-cream-200 rounded-lg flex items-center justify-center">
+        <span className="text-sm font-mono text-neutral-600">{number}</span>
+      </div>
+      <p className="text-neutral-700 leading-relaxed pt-2">{question}</p>
     </div>
   )
 }

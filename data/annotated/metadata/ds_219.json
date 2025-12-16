@@ -1,0 +1,27 @@
+{
+  "id": "ds_219",
+  "original_id": "sealevel_7_bump_seed_canonicalization",
+  "source_dataset": "sealevel-attacks",
+  "language": "rust",
+  "chain": "solana",
+  "file_name": "7-bump-seed-canonicalization_insecure.rs",
+  "vulnerable_function": "bump_seed_canonicalization_insecure",
+  "vulnerable_lines": [],
+  "vulnerability_type": "pda_manipulation",
+  "original_category": "7-bump-seed-canonicalization",
+  "severity": "high",
+  "difficulty_tier": 3,
+  "description": "Non-canonical bump seeds in PDA derivation can be exploited",
+  "fix_description": "Use canonical bump: let (pda, bump) = Pubkey::find_program_address(&[seed], program_id); require!(bump == provided_bump)",
+  "is_vulnerable": true,
+  "context_level": "single_file",
+  "original_source_path": "programs/7-bump-seed-canonicalization/insecure/src/lib.rs",
+  "source_url": "Coral XYZ / Sealevel Attacks",
+  "references": [
+    "https://github.com/coral-xyz/sealevel-attacks"
+  ],
+  "framework": "anchor",
+  "contract_file": "contracts/ds_219.rs",
+  "subset": "annotated",
+  "original_subset": "difficulty_stratified"
+}

@@ -1,0 +1,98 @@
+TEMPORAL CONTAMINATION DATASET EXPANSION
+========================================
+
+Target: Add 20 samples (031-050) from 2024-Aug 2025
+Current: 30 samples (001-030) from 2016-2023
+
+CANDIDATE EXPLOITS (2024-2025)
+==============================
+
+HIGH PRIORITY - MAJOR EXPLOITS:
+
+1. Radiant Capital (2024-01, Arbitrum)
+   - Flash loan + oracle manipulation
+   - Lending protocol
+   - File: 2024-01/RadiantCapital_exp.sol
+
+2. Socket Gateway (2024-01, Multi-chain)
+   - Bridge vulnerability
+   - Input validation
+   - File: 2024-01/SocketGateway_exp.sol
+
+3. Orbit Chain (2024-01, $81M)
+   - Bridge exploit
+   - Multi-sig compromise
+   - File: 2024-01/OrbitChain_exp.sol
+
+4. Gamma (2024-01)
+   - AMM liquidity management
+   - Price manipulation
+   - File: 2024-01/Gamma_exp.sol
+
+5. Wise Lending (2024-01, Multiple incidents)
+   - Lending protocol
+   - Oracle/calculation issues
+   - Files: 2024-01/WiseLending02_exp.sol, WiseLending03_exp.sol
+
+6. Seneca Protocol (2024-02)
+   - DeFi protocol
+   - Flash loan attack
+   - File: 2024-02/Seneca_exp.sol
+
+7. Blueberry Protocol (2024-02)
+   - Leveraged yield farming
+   - Oracle manipulation
+   - File: 2024-02/BlueberryProtocol_exp.sol
+
+8. Affine DeFi (2024-02)
+   - Vault protocol
+   - Strategy exploit
+   - File: 2024-02/AffineDeFi_exp.sol
+
+9. Prisma Finance (2024-03, $10M+)
+   - Liquid staking
+   - Flash loan attack
+   - File: 2024-03/Prisma_exp.sol
+
+10. WooFi (2024-03, $8.5M)
+    - DEX protocol
+    - Price manipulation
+    - File: 2024-03/Woofi_exp.sol
+
+11. UwU Lend (2024-06, $19M+, Two attacks)
+    - Lending protocol
+    - Price oracle manipulation
+    - Files: 2024-06/UwuLend_First_exp.sol, UwuLend_Second_exp.sol
+
+12. Bedrock DeFi (2024-09)
+    - Liquid staking
+    - Unistake vulnerability
+    - File: 2024-09/Bedrock_DeFi_exp.sol
+
+13. DeltaPrime (2024-11, $6M)
+    - Prime protocol
+    - Private key compromise
+    - File: 2024-11/DeltaPrime_exp.sol
+
+ADDITIONAL CANDIDATES TO REVIEW:
+
+14-20. Need to survey more 2024-2025 exploits for:
+   - Munchables
+   - FixedFloat
+   - Platypus Finance
+   - PlayDapp
+   - Sturdy Finance
+   - And other high-value 2024-2025 incidents
+
+SELECTION CRITERIA:
+- Must be different from existing 30 samples
+- High value or educational significance
+- Clear vulnerability pattern
+- Good documentation available
+- Diverse attack vectors
+
+NEXT STEPS:
+1. Read through candidates to verify details
+2. Check for duplicates with existing samples
+3. Select final 20 based on value/diversity
+4. Extract in batches similar to phase 1-4

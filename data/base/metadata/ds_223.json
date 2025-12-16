@@ -1,0 +1,72 @@
+{
+  "id": "ds_223",
+  "contract_file": "contracts/ds_223.sol",
+  "subset": "base",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "ContractTest",
+      "function_name": "multiple",
+      "line_numbers": []
+    },
+    "root_cause": "The vulnerability is that both the Proxy and Logic contracts use the same storage slot (slot 0) to store important variables,\nnamely the implementation address in the Proxy contract and the GuestAddress in the Logic contract. \nSince the Proxy contract is using the delegatecall method to interact with the Logic contract, \nthey share the same storage. If the foo function is called,\nit overwrites the implementation address in the Proxy contract, which results in an unexpected behavior.",
+    "attack_vector": "The vulnerability is that both the Proxy and Logic contracts use the same storage slot (slot 0) to store important variables,\nnamely the implementation address in the Proxy contract and the GuestAddress in the Logic contract. \nSince the Proxy contract is using the delegatecall method to interact with the Logic contract, \nthey share the same storage. If the foo function is called,\nit overwrites the implementation address in the Proxy contract, which results in an unexpected behavior.",
+    "impact": "Severity: high",
+    "correct_fix": "One approach to mitigating this issue is to design the storage layout of the proxy and logic contracts to be consistent with each other."
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "defivulnlabs_storage-collision",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.18",
+    "num_lines": 56,
+    "num_contracts": 5,
+    "contract_names": [
+      "ContractTest",
+      "address",
+      "address",
+      "Proxy",
+      "Logic"
+    ],
+    "num_functions": 3,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "defivulnlabs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "The vulnerability is that both the Proxy and Logic contracts use the same storage slot (slot 0) to store important variables,\nnamely the implementation address in the Proxy contract and the GuestAddress in the Logic contract. \nSince the Proxy contract is using the delegatecall method to interact with the Logic contract, \nthey share the same storage. If the foo function is called,\nit overwrites the implementation address in the Proxy contract, which results in an unexpected behavior.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_223.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_223.json",
+    "original_id": "defivulnlabs_storage-collision"
+  },
+  "original_subset": "difficulty_stratified"
+}

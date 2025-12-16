@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://blockbench.io/schema/metadata_sanitized.json",
+  "title": "BlockBench Sanitized Metadata Schema",
+  "description": "Schema for sanitized dataset metadata - contracts with vulnerability hints removed",
+  "type": "object",
+  "required": ["id", "contract_file", "subset", "ground_truth", "original_contract_file", "sanitized_from"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier (e.g., sn_ds_001, sn_tc_001)",
+      "pattern": "^sn_(ds|tc)_\\d{3}$"
+    },
+    "contract_file": {
+      "type": "string",
+      "description": "Path to sanitized contract file",
+      "pattern": "^contracts/sn_.*\\.(sol|rs)$"
+    },
+    "original_contract_file": {
+      "type": "string",
+      "description": "Path to original contract file in source dataset",
+      "pattern": "^contracts/(ds|tc)_\\d{3}\\.(sol|rs)$"
+    },
+    "sanitized_from": {
+      "type": "string",
+      "description": "Original file ID this was sanitized from",
+      "pattern": "^(ds|tc)_\\d{3}$"
+    },
+    "subset": {
+      "type": "string",
+      "const": "sanitized",
+      "description": "Always 'sanitized' for this dataset"
+    },
+    "ground_truth": {
+      "type": "object",
+      "description": "Inherited from original metadata"
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Inherited from original metadata"
+    },
+    "code_metadata": {
+      "type": "object",
+      "description": "Inherited from original metadata"
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "notes": {"type": ["string", "null"]},
+    "difficulty_fields": {
+      "type": "object",
+      "description": "Inherited if from difficulty_stratified"
+    },
+    "temporal_fields": {
+      "type": "object",
+      "description": "Inherited if from temporal_contamination"
+    }
+  }
+}
