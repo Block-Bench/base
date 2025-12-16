@@ -1,0 +1,24 @@
+{
+  "id": "ds_180",
+  "original_id": "sealevel_9_closing_accounts",
+  "source_dataset": "sealevel-attacks",
+  "language": "rust",
+  "chain": "solana",
+  "file_name": "9-closing-accounts_insecure.rs",
+  "vulnerable_function": "closing_accounts_insecure",
+  "vulnerable_lines": [],
+  "vulnerability_type": "unclosed_accounts",
+  "original_category": "9-closing-accounts",
+  "severity": "high",
+  "difficulty_tier": 2,
+  "description": "Improper account closure leaves accounts open to revival attacks",
+  "fix_description": "Zero out data and transfer lamports to recipient, use close constraint in Anchor",
+  "is_vulnerable": true,
+  "context_level": "single_file",
+  "original_source_path": "programs/9-closing-accounts/insecure/src/lib.rs",
+  "source_url": "Coral XYZ / Sealevel Attacks",
+  "references": [
+    "https://github.com/coral-xyz/sealevel-attacks"
+  ],
+  "framework": "anchor"
+}

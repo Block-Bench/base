@@ -1,0 +1,67 @@
+{
+  "id": "ds_235",
+  "contract_file": "contracts/ds_235.rs",
+  "subset": "difficulty_stratified",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "duplicate_mutable_accounts_insecure",
+      "function_name": "duplicate_mutable_accounts_insecure",
+      "line_numbers": []
+    },
+    "root_cause": "Passing the same account twice as mutable can cause unexpected behavior",
+    "attack_vector": "Passing the same account twice as mutable can cause unexpected behavior",
+    "impact": "Severity: high",
+    "correct_fix": "Add constraint to ensure accounts are different: #[account(constraint = account1.key() != account2.key())]"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "sealevel_6_duplicate_mutable_accounts",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "N/A",
+    "num_lines": 28,
+    "num_contracts": 1,
+    "contract_names": [
+      "duplicate_mutable_accounts_insecure"
+    ],
+    "num_functions": 1,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "sealevel_attacks",
+    "tier_4_expert",
+    "rust"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Passing the same account twice as mutable can cause unexpected behavior",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_235.rs",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_235.json",
+    "original_id": "sealevel_6_duplicate_mutable_accounts"
+  }
+}

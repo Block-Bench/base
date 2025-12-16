@@ -1,0 +1,98 @@
+{
+  "id": "tc_029",
+  "contract_file": "contracts/tc_029.sol",
+  "subset": "temporal_contamination",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "BeltStrategy",
+        "functions": [
+          {
+            "name": "deposit",
+            "vulnerability": "Uses manipulatable oracle price for share calculation"
+          },
+          {
+            "name": "withdraw",
+            "vulnerability": "Uses manipulatable price for withdrawal amount"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "Vault share pricing relied on oracle that could be manipulated within single transaction. No TWAP or manipulation resistance. Share calculations used instantaneous price values vulnerable to flash loan attacks.",
+    "attack_vector": "1) Flash loan large amounts to manipulate price oracle down. 2) Deposit to vault when price is artificially low. 3) Share calculation: sharesAdded = (amount * totalShares) / (pool * price), so low price = more shares. 4) Release flash loan, price recovers. 5) Withdraw with inflated share count. 6) Withdrawal amount = (shares * pool * price) / totalShares, high price = more tokens. 7) Profit $6.2M from price manipulation cycle.",
+    "impact": "Funds lost: $6,200,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2021-05-30",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 54,
+    "num_contracts": 1,
+    "contract_names": [
+      "VaultStrategy"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "vault",
+    "strategy",
+    "oracle",
+    "flash_loan",
+    "bsc",
+    "share_price"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2021-05-30",
+      "protocol_name": "Belt Finance Strategy Exploit",
+      "chain": "binance_smart_chain",
+      "funds_lost_usd": 6200000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Belt Finance Strategy Exploit exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_029.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_029.json",
+    "original_exploit_name": "Belt Finance Strategy Exploit"
+  }
+}
