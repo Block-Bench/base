@@ -1,0 +1,1 @@
+// Full file content not directly retrievable; vulnerable sections: L406-L421 (hashCallWithReplayProtection missing wallet)
