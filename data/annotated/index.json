@@ -2665,7 +2665,7 @@
       "severity": "critical"
     },
     {
-      "id": null,
+      "id": "gs_001",
       "contract_file": "contracts/gs_001.sol",
       "metadata_file": "metadata/gs_001.json",
       "original_subset": "gold_standard",
@@ -2674,7 +2674,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_002",
       "contract_file": "contracts/gs_002.sol",
       "metadata_file": "metadata/gs_002.json",
       "original_subset": "gold_standard",
@@ -2683,7 +2683,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_003",
       "contract_file": "contracts/gs_003.sol",
       "metadata_file": "metadata/gs_003.json",
       "original_subset": "gold_standard",
@@ -2692,7 +2692,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_004",
       "contract_file": "contracts/gs_004.sol",
       "metadata_file": "metadata/gs_004.json",
       "original_subset": "gold_standard",
@@ -2701,7 +2701,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_005",
       "contract_file": "contracts/gs_005.sol",
       "metadata_file": "metadata/gs_005.json",
       "original_subset": "gold_standard",
@@ -2710,7 +2710,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_006",
       "contract_file": "contracts/gs_006.sol",
       "metadata_file": "metadata/gs_006.json",
       "original_subset": "gold_standard",
@@ -2719,7 +2719,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_007",
       "contract_file": "contracts/gs_007.sol",
       "metadata_file": "metadata/gs_007.json",
       "original_subset": "gold_standard",
@@ -2728,7 +2728,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_008",
       "contract_file": "contracts/gs_008.sol",
       "metadata_file": "metadata/gs_008.json",
       "original_subset": "gold_standard",
@@ -2737,7 +2737,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_009",
       "contract_file": "contracts/gs_009.sol",
       "metadata_file": "metadata/gs_009.json",
       "original_subset": "gold_standard",
@@ -2746,7 +2746,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_011",
       "contract_file": "contracts/gs_011.sol",
       "metadata_file": "metadata/gs_011.json",
       "original_subset": "gold_standard",
@@ -2755,7 +2755,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_012",
       "contract_file": "contracts/gs_012.sol",
       "metadata_file": "metadata/gs_012.json",
       "original_subset": "gold_standard",
@@ -2764,7 +2764,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_013",
       "contract_file": "contracts/gs_013.sol",
       "metadata_file": "metadata/gs_013.json",
       "original_subset": "gold_standard",
@@ -2773,7 +2773,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_014",
       "contract_file": "contracts/gs_014.sol",
       "metadata_file": "metadata/gs_014.json",
       "original_subset": "gold_standard",
@@ -2782,7 +2782,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_015",
       "contract_file": "contracts/gs_015.sol",
       "metadata_file": "metadata/gs_015.json",
       "original_subset": "gold_standard",
@@ -2791,7 +2791,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_016",
       "contract_file": "contracts/gs_016.sol",
       "metadata_file": "metadata/gs_016.json",
       "original_subset": "gold_standard",
@@ -2800,7 +2800,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_017",
       "contract_file": "contracts/gs_017.sol",
       "metadata_file": "metadata/gs_017.json",
       "original_subset": "gold_standard",
@@ -2809,7 +2809,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_018",
       "contract_file": "contracts/gs_018.sol",
       "metadata_file": "metadata/gs_018.json",
       "original_subset": "gold_standard",
@@ -2818,7 +2818,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_019",
       "contract_file": "contracts/gs_019.sol",
       "metadata_file": "metadata/gs_019.json",
       "original_subset": "gold_standard",
@@ -2827,7 +2827,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_020",
       "contract_file": "contracts/gs_020.sol",
       "metadata_file": "metadata/gs_020.json",
       "original_subset": "gold_standard",
@@ -2836,7 +2836,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_021",
       "contract_file": "contracts/gs_021.sol",
       "metadata_file": "metadata/gs_021.json",
       "original_subset": "gold_standard",
@@ -2845,7 +2845,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_022",
       "contract_file": "contracts/gs_022.sol",
       "metadata_file": "metadata/gs_022.json",
       "original_subset": "gold_standard",
@@ -2854,7 +2854,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_023",
       "contract_file": "contracts/gs_023.sol",
       "metadata_file": "metadata/gs_023.json",
       "original_subset": "gold_standard",
@@ -2863,7 +2863,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_024",
       "contract_file": "contracts/gs_024.sol",
       "metadata_file": "metadata/gs_024.json",
       "original_subset": "gold_standard",
@@ -2872,7 +2872,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_025",
       "contract_file": "contracts/gs_025.sol",
       "metadata_file": "metadata/gs_025.json",
       "original_subset": "gold_standard",
@@ -2881,7 +2881,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_026",
       "contract_file": "contracts/gs_026.sol",
       "metadata_file": "metadata/gs_026.json",
       "original_subset": "gold_standard",
@@ -2890,7 +2890,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_027",
       "contract_file": "contracts/gs_027.sol",
       "metadata_file": "metadata/gs_027.json",
       "original_subset": "gold_standard",
@@ -2899,7 +2899,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_028",
       "contract_file": "contracts/gs_028.sol",
       "metadata_file": "metadata/gs_028.json",
       "original_subset": "gold_standard",
@@ -2908,7 +2908,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_029",
       "contract_file": "contracts/gs_029.sol",
       "metadata_file": "metadata/gs_029.json",
       "original_subset": "gold_standard",
@@ -2917,7 +2917,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_030",
       "contract_file": "contracts/gs_030.sol",
       "metadata_file": "metadata/gs_030.json",
       "original_subset": "gold_standard",
@@ -2926,7 +2926,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_031",
       "contract_file": "contracts/gs_031.sol",
       "metadata_file": "metadata/gs_031.json",
       "original_subset": "gold_standard",
@@ -2935,7 +2935,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_032",
       "contract_file": "contracts/gs_032.sol",
       "metadata_file": "metadata/gs_032.json",
       "original_subset": "gold_standard",
@@ -2944,7 +2944,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_033",
       "contract_file": "contracts/gs_033.sol",
       "metadata_file": "metadata/gs_033.json",
       "original_subset": "gold_standard",
@@ -2953,7 +2953,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_034",
       "contract_file": "contracts/gs_034.sol",
       "metadata_file": "metadata/gs_034.json",
       "original_subset": "gold_standard",
@@ -2962,7 +2962,7 @@
       "severity": ""
     },
     {
-      "id": null,
+      "id": "gs_035",
       "contract_file": "contracts/gs_035.sol",
       "metadata_file": "metadata/gs_035.json",
       "original_subset": "gold_standard",
