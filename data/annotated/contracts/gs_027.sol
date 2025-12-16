@@ -1,6 +1,40 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+/**
+ * @title Missing freshness check on oracle data in Staking.totalControlled() enables stale-rate arbitrage
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_027
+ * @dev Source: MIXBYTES - Mantle mETH x Aave Integration Security Audit
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: oracle_manipulation
+ * - Severity: MEDIUM
+ * - Finding ID: M-5
+ *
+ * DESCRIPTION:
+ * Staking.totalControlled() derives the mETH/ETH exchange rate inputs from
+ * oracle.latestRecord() without validating the record timestamp. If the oracle lags
+ * significant state changes (e.g., validator rewards or slashing), the resulting
+ * rate becomes stale. An attacker can exploit this by timing mint/burn operations
+ * against outdated totals: redeeming mETH for excess ETH when a slashing is not yet
+ * reflected (overstated totalControlled()), or depositing ETH to mint excess mETH
+ * when recent rewards are not yet reflected (understated totalControlled()),
+ * extracting value from other users.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - totalControlled()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 230, 231, 232, 233, 234, 235, 236, 237, 238, 239... (+2 more)
+ *
+ * RECOMMENDED FIX:
+ * Enforce freshness validation for oracle records when minting or burning mETH. The
+ * Oracle.latestRecord() function has no sanity checks - it simply returns
+ * _records[_records.length - 1]. The validations should be implemented on the caller
+ * side, specifically in the Staking.totalControlled() function.
+ */
+
+
 import {Initializable} from "openzeppelin-upgradeable/proxy/utils/Initializable.sol";
 import {AccessControlEnumerableUpgradeable} from
     "openzeppelin-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
@@ -194,17 +228,28 @@ contract Staking is Initializable, AccessControlEnumerableUpgradeable, IStaking,
 
     function unstakeRequest(uint128 methAmount, uint128 minETHAmount) external returns (uint256) {
         return _unstakeRequest(methAmount, minETHAmount);
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     function unstakeRequestWithPermit(
+    // ^^^ VULNERABLE LINE ^^^
         uint128 methAmount,
+        // ^^^ VULNERABLE LINE ^^^
         uint128 minETHAmount,
+        // ^^^ VULNERABLE LINE ^^^
         uint256 deadline,
+        // ^^^ VULNERABLE LINE ^^^
         uint8 v,
+        // ^^^ VULNERABLE LINE ^^^
         bytes32 r,
+        // ^^^ VULNERABLE LINE ^^^
         bytes32 s
+        // ^^^ VULNERABLE LINE ^^^
     ) external returns (uint256) {
+    // ^^^ VULNERABLE LINE ^^^
         SafeERC20Upgradeable.safePermit(mETH, msg.sender, address(this), methAmount, deadline, v, r, s);
+        // ^^^ VULNERABLE LINE ^^^
         return _unstakeRequest(methAmount, minETHAmount);
     }
 
@@ -248,6 +293,7 @@ contract Staking is Initializable, AccessControlEnumerableUpgradeable, IStaking,
         return Math.mulDiv(mETHAmount, totalControlled(), mETH.totalSupply());
     }
 
+    // @audit-issue VULNERABLE FUNCTION: totalControlled
     function totalControlled() public view returns (uint256) {
         OracleRecord memory record = oracle.latestRecord();
         uint256 total = 0;

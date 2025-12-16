@@ -1,6 +1,42 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
+/**
+ * @title Quotes can be frontrun by replaying them through the router
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_022
+ * @dev Source: SPEARBIT - Uniswap Foundation: Kyber Hook Security Review
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: front_running
+ * - Severity: MEDIUM
+ * - Finding ID: M-02
+ *
+ * DESCRIPTION:
+ * Both hooks accept swaps when SignatureChecker validates
+ * keccak256(abi.encode(sender, key, ..., nonce, expiryTime)). The sender field is
+ * the router contract that called the pool manager. That restricts execution to
+ * Kyber's router, but not to any particular user. Because the router is public,
+ * anyone can forward the calldata and signature. If Alice broadcasts a signed swap,
+ * an MEV bot can copy the calldata, submit it first and the hook sees the same
+ * router address and quote terms: the attacker's swap succeeds, consuming the nonce.
+ * Alice's transaction then reverts at _useUnorderedNonce because the nonce is
+ * already marked as used. The attacker, this way, can invalidate the quote with a
+ * dust swap. Designers intended router-level exclusivity, yet end users receive no
+ * front-running protection, exposing every quote to mempool sniping.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - beforeSwap()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 93, 94, 116, 118, 119, 120, 130, 131
+ *
+ * RECOMMENDED FIX:
+ * Include the router's original caller in the signature. The original caller can be
+ * retrieved by the hook by calling router.msgSender() function. This ensures the
+ * signature is bound to a specific end user, not just the router contract.
+ */
+
+
 import {BaseKEMHook} from './base/BaseKEMHook.sol';
 import {IKEMHook} from './interfaces/IKEMHook.sol';
 import {HookDataDecoder} from './libraries/HookDataDecoder.sol';
@@ -55,7 +91,9 @@ contract UniswapV4KEMHook is BaseKEMHook, IUnlockCallback {
   }
 
   function unlockCallback(bytes calldata data) public onlyPoolManager returns (bytes memory) {
+  // ^^^ VULNERABLE LINE ^^^
     (address[] memory tokens, uint256[] memory amounts) = abi.decode(data, (address[], uint256[]));
+    // ^^^ VULNERABLE LINE ^^^
 
     for (uint256 i = 0; i < tokens.length; i++) {
       uint256 id = uint256(uint160(tokens[i]));
@@ -78,10 +116,14 @@ contract UniswapV4KEMHook is BaseKEMHook, IUnlockCallback {
       beforeAddLiquidity: false,
       afterAddLiquidity: false,
       beforeRemoveLiquidity: false,
+      // ^^^ VULNERABLE LINE ^^^
       afterRemoveLiquidity: false,
       beforeSwap: true,
+      // ^^^ VULNERABLE LINE ^^^
       afterSwap: true,
+      // ^^^ VULNERABLE LINE ^^^
       beforeDonate: false,
+      // ^^^ VULNERABLE LINE ^^^
       afterDonate: false,
       beforeSwapReturnDelta: false,
       afterSwapReturnDelta: true,
@@ -90,9 +132,12 @@ contract UniswapV4KEMHook is BaseKEMHook, IUnlockCallback {
     });
   }
 
+    // @audit-issue VULNERABLE FUNCTION: beforeSwap
   function beforeSwap(
     address sender,
+    // ^^^ VULNERABLE LINE ^^^
     PoolKey calldata key,
+    // ^^^ VULNERABLE LINE ^^^
     IPoolManager.SwapParams calldata params,
     bytes calldata hookData
   ) external onlyPoolManager returns (bytes4, BeforeSwapDelta, uint24) {

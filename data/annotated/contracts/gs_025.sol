@@ -1,6 +1,36 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+/**
+ * @title Front-running unstakeRequestWithPermit() can invalidate user transaction
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_025
+ * @dev Source: MIXBYTES - Mantle mETH x Aave Integration Security Audit
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: front_running
+ * - Severity: MEDIUM
+ * - Finding ID: M-3
+ *
+ * DESCRIPTION:
+ * An attacker can read the v, r, s from the mempool and call mETH.permit() first,
+ * consuming the user's signature and updating the nonce. The subsequent user
+ * transaction Staking.unstakeRequestWithPermit() then reverts on the permit() call
+ * due to an invalidated signature/nonce, preventing the unstake flow from executing,
+ * even though allowance is already set.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - unstakeRequestWithPermit()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 194, 195, 196, 197, 198, 199, 200, 201, 202, 203... (+1 more)
+ *
+ * RECOMMENDED FIX:
+ * Wrap the permit() invocation in a try-catch clause and proceed with the unstake if
+ * allowance is already sufficient, avoiding a hard revert when signatures are
+ * pre-consumed.
+ */
+
+
 import {Initializable} from "openzeppelin-upgradeable/proxy/utils/Initializable.sol";
 import {AccessControlEnumerableUpgradeable} from
     "openzeppelin-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
@@ -162,16 +192,25 @@ contract Staking is Initializable, AccessControlEnumerableUpgradeable, IStaking,
     }
         
     function initializeV2(ILiquidityBuffer lb) public reinitializer(2) {
+    // ^^^ VULNERABLE LINE ^^^
         liquidityBuffer = lb;
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     function stake(uint256 minMETHAmount) external payable {
+    // ^^^ VULNERABLE LINE ^^^
         if (pauser.isStakingPaused()) {
+        // ^^^ VULNERABLE LINE ^^^
             revert Paused();
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         if (isStakingAllowlist) {
+        // ^^^ VULNERABLE LINE ^^^
             _checkRole(STAKING_ALLOWLIST_ROLE);
+            // ^^^ VULNERABLE LINE ^^^
         }
 
         if (msg.value < minimumStakeBound) {
@@ -196,6 +235,7 @@ contract Staking is Initializable, AccessControlEnumerableUpgradeable, IStaking,
         return _unstakeRequest(methAmount, minETHAmount);
     }
 
+    // @audit-issue VULNERABLE FUNCTION: unstakeRequestWithPermit
     function unstakeRequestWithPermit(
         uint128 methAmount,
         uint128 minETHAmount,

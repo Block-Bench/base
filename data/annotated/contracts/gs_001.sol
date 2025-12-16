@@ -1,6 +1,47 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+/**
+ * @title Assets deposited before calculating shares amount to mint will cause users to mint less shares
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_001
+ * @dev Source: CODE4RENA - 2025-10-hybra-finance
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: HIGH
+ * - Finding ID: H-01
+ *
+ * DESCRIPTION:
+ * As we can see, the `GovernanceHYBR::deposit` function first deposits the HYBR into
+ * the votingEscrow before calculating and minting shares. This will deposit the
+ * tokens first increasing the `totalAssets()` and the new `totalAssets()` will be
+ * used in `shares = calculateShares(amount)`. This results in incorrect calculation
+ * of shares for the users because their deposits are treated as rewards and they are
+ * minted shares with the new rate and will suffer slippage from their own tokens.
+ * Example: - Initially Bob has a deposit of 100 gHYBR : 100 HYBR, ie.. 1:1 shares to
+ * asset ratio - Alice also enter with 100 assets(HYBR), - In an ideal condition,
+ * Alice is expected to recieve 100 shares because the ratio is 1:1 at the time of
+ * deposit - but because deposit is done first before calculating shares, - Alice
+ * will get, shares = 100 * 100 / (100 +100) i.e. only 50 shares Impact Loss of
+ * assets for users by minting less shares.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - deposit()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 137, 138, 139, 140, 141, 142, 143, 144
+ *
+ * RECOMMENDED FIX:
+ * Make sure that the ratio at the time of deposit must be used to calculate the
+ * shares to mint: IERC20(HYBR).transferFrom(msg.sender, address(this), amount); +
+ * uint256 shares = calculateShares(amount); // Initialize veNFT on first deposit if
+ * (veTokenId == 0) { _initializeVeNFT(amount); } else { // Add to existing veNFT
+ * IERC20(HYBR).approve(votingEscrow, amount);
+ * IVotingEscrow(votingEscrow).deposit_for(veTokenId,
+ * ...
+ */
+
+
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -94,12 +135,17 @@ contract GrowthHYBR is ERC20, Ownable, ReentrancyGuard {
         lastCompoundTime = block.timestamp;
         operator = msg.sender; // Initially set deployer as operator
     }
+    // ^^^ VULNERABLE LINE ^^^
     
     
     function setRewardsDistributor(address _rewardsDistributor) external onlyOwner {
+    // ^^^ VULNERABLE LINE ^^^
         require(_rewardsDistributor != address(0), "Invalid rewards distributor");
+        // ^^^ VULNERABLE LINE ^^^
         rewardsDistributor = _rewardsDistributor;
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
     
     function setGaugeManager(address _gaugeManager) external onlyOwner {
         require(_gaugeManager != address(0), "Invalid gauge manager");
@@ -121,6 +167,7 @@ contract GrowthHYBR is ERC20, Ownable, ReentrancyGuard {
      * @param amount Amount of HYBR to deposit
      * @param recipient Recipient of gHYBR shares
      */
+    // @audit-issue VULNERABLE FUNCTION: deposit
     function deposit(uint256 amount, address recipient) external nonReentrant {
         require(amount > 0, "Zero amount");
         recipient = recipient == address(0) ? msg.sender : recipient;

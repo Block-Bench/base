@@ -1,6 +1,35 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+/**
+ * @title Claiming rewards in GovernanceHYBR will always revert
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_008
+ * @dev Source: CODE4RENA - 2025-10-hybra-finance
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-07
+ *
+ * DESCRIPTION:
+ * `claimRewards()` uses `IVoter.poolVote(veTokenId)` incorrectly; `poolVote` is a
+ * mapping, not a function returning an array, causing a revert.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - claimRewards()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 370
+ *
+ * ATTACK SCENARIO:
+ * A test votes on pools, warps time, and `claimRewards()` reverts due to invalid g
+ *
+ * RECOMMENDED FIX:
+ * Add `getPoolVote(veTokenId)` in `VoterV3.sol` to return the array. Status:
+ * Mitigation confirmed.
+ */
+
+
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -359,6 +388,7 @@ contract GrowthHYBR is ERC20, Ownable, ReentrancyGuard {
     /**
      * @notice Claim all rewards from voting and rebase
      */
+    // @audit-issue VULNERABLE FUNCTION: claimRewards
     function claimRewards() external onlyOperator {
         require(voter != address(0), "Voter not set");
         require(rewardsDistributor != address(0), "Distributor not set");

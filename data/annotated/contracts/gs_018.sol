@@ -1,6 +1,44 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity ^0.8.13;
 
+/**
+ * @title currentTokenSupply() can be gamed risk-free to manipulate either side of votes in certain assets
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_018
+ * @dev Source: SPEARBIT - Aragon DAO Gov Plugin Security Review
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-06
+ *
+ * DESCRIPTION:
+ * The currentTokenSupply() function at LockToVotePlugin line 249-251 returns
+ * IERC20(lockManager.token()).totalSupply(). This is used in threshold checks
+ * (isMinVotingPowerReached, isMinApprovalReached). For tokens like ERC4626 shares,
+ * flash-mintable tokens (DAI, WETH), or tokens with permissionless minting,
+ * attackers can manipulate totalSupply to skew voting thresholds. This is especially
+ * impactful during the last block of a proposal.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - currentTokenSupply()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 248, 249, 250, 251
+ *
+ * ATTACK SCENARIO:
+ * 1. A proposal is close to passing based on participation threshold.
+ * 2. Attacker flash-mints large amount of tokens (e.g., via ERC4626 vault deposit)
+ * 3. currentTokenSupply() returns inflated totalSupply.
+ * 4. isMinVotingPowerReached() calculates: votes / inflatedSupply.
+ * 5. Participation ratio appears lower than required.
+ *
+ * RECOMMENDED FIX:
+ * Avoid using currentTotalSupply where it can be skewed. Consider recording
+ * totalSupply at proposal creation time. Document token compatibility requirements.
+ * Use conservative figures if supply changes significantly.
+ */
+
+
 import {ILockManager} from "./interfaces/ILockManager.sol";
 import {LockToGovernBase} from "./base/LockToGovernBase.sol";
 import {ILockToVote} from "./interfaces/ILockToVote.sol";
@@ -209,8 +247,11 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
 
     /// @inheritdoc ILockToVote
     function clearVote(uint256 _proposalId, address _voter) external auth(LOCK_MANAGER_PERMISSION_ID) {
+    // ^^^ VULNERABLE LINE ^^^
         Proposal storage proposal_ = proposals[_proposalId];
+        // ^^^ VULNERABLE LINE ^^^
         if (!_isProposalOpen(proposal_)) {
+        // ^^^ VULNERABLE LINE ^^^
             revert VoteRemovalForbidden(_proposalId, _voter);
         } else if (proposal_.parameters.votingMode != VotingMode.VoteReplacement) {
             revert VoteRemovalForbidden(_proposalId, _voter);
@@ -246,6 +287,7 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
     }
 
     /// @inheritdoc MajorityVotingBase
+    // @audit-issue VULNERABLE FUNCTION: currentTokenSupply
     function currentTokenSupply() public view override returns (uint256) {
         return IERC20(lockManager.token()).totalSupply();
     }

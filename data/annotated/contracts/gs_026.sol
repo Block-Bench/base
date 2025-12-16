@@ -1,6 +1,44 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+/**
+ * @title Emergency admin can transfer aWETH from the PositionManager
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_026
+ * @dev Source: MIXBYTES - Mantle mETH x Aave Integration Security Audit
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: access_control
+ * - Severity: MEDIUM
+ * - Finding ID: M-4
+ *
+ * DESCRIPTION:
+ * EMERGENCY_ROLE in PositionManager can transfer aWETH from the contract to any
+ * address without restrictions, which may be unintended and creates additional risks
+ * in case this role is compromised. The emergencyTokenTransfer function allows
+ * unrestricted transfer of any ERC20 token, including aWETH which represents the
+ * protocol's position in Aave.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - emergencyTokenTransfer()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 155, 156, 157, 158, 159, 160, 161, 162, 163, 164
+ *
+ * ATTACK SCENARIO:
+ * 1. Attacker compromises the account holding EMERGENCY_ROLE
+ * 2. Attacker calls emergencyTokenTransfer(aWETH, attackerAddress, aWETH.balanceOf
+ * 3. All aWETH tokens (representing ETH deposited in Aave) are transferred to the 
+ * 4. Protocol loses all funds deposited through this position manager
+ * 5. The attack bypasses the normal withdraw() flow which goes through LiquidityBu
+ *
+ * RECOMMENDED FIX:
+ * Disallow aWETH emergency transfers or approvals from the PositionManager contract,
+ * since withdrawals are already handled via the more transparent withdraw() flow.
+ * The team acknowledged this is intentional for rapid fund withdrawal in critical
+ * situations and noted EMERGENCY_ROLE will not be configured at launch.
+ */
+
+
 import {Initializable} from "openzeppelin-upgradeable/proxy/utils/Initializable.sol";
 import {AccessControlEnumerableUpgradeable} from
     "openzeppelin-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
@@ -115,15 +153,23 @@ contract PositionManager is Initializable, AccessControlEnumerableUpgradeable, I
     function setUserEMode(uint8 categoryId) external override onlyRole(MANAGER_ROLE) {
         // Set user E-mode category
         pool.setUserEMode(categoryId);
+        // ^^^ VULNERABLE LINE ^^^
         
         emit SetUserEMode(msg.sender, categoryId);
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
     function approveToken(address token, address addr, uint256 wad) external override onlyRole(MANAGER_ROLE) {
+    // ^^^ VULNERABLE LINE ^^^
         IERC20(token).safeApprove(addr, wad);
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     function revokeToken(address token, address addr) external override onlyRole(MANAGER_ROLE) {
+    // ^^^ VULNERABLE LINE ^^^
         IERC20(token).safeApprove(addr, 0);
+        // ^^^ VULNERABLE LINE ^^^
     }
 
     // Additional helper functions
@@ -159,6 +205,7 @@ contract PositionManager is Initializable, AccessControlEnumerableUpgradeable, I
     * @param to recipient of the transfer
     * @param amount amount to send
     */
+    // @audit-issue VULNERABLE FUNCTION: emergencyTokenTransfer
     function emergencyTokenTransfer(address token, address to, uint256 amount) external onlyRole(EMERGENCY_ROLE) {
         IERC20(token).safeTransfer(to, amount);
     }

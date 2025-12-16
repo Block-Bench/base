@@ -1,6 +1,46 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity ^0.8.13;
 
+/**
+ * @title Proposals created with voting mode EarlyExecution are vulnerable to flashloan attacks
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_012
+ * @dev Source: SPEARBIT - Aragon DAO Gov Plugin Security Review
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: flash_loan
+ * - Severity: HIGH
+ * - Finding ID: H-02
+ *
+ * DESCRIPTION:
+ * If the token used by the LockManager can be flashloaned (or flashminted) and a
+ * proposal is created with the voting mode EarlyExecution, anyone could be able to
+ * 'early execute' it by flashloaning tokens, locking them, casting a YES vote to
+ * trigger early execution, unlocking tokens, and repaying the flashloan - all in one
+ * transaction. The vulnerable code is in LockToVotePlugin.vote() at lines 205-207
+ * which calls _attemptEarlyExecution() when VotingMode.EarlyExecution is set.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - vote()
+ * - _attemptEarlyExecution()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 145, 146, 147, 148, 149, 150, 151, 152, 153, 154... (+63 more)
+ *
+ * ATTACK SCENARIO:
+ * 1. Flashloan the needed amount.
+ * 2. Lock the flashloaned amount via LockManager.lock().
+ * 3. Cast a 'YES' vote via LockManager.vote() which triggers LockToVotePlugin._att
+ * 4. Proposal executes immediately in same transaction.
+ * 5. Unlock the tokens via LockManager.unlock().
+ *
+ * RECOMMENDED FIX:
+ * Avoid allowing the early execution in the very same block that the vote has been
+ * made. This would require tracking the 'success' of a proposal in a separate flag,
+ * stored in the proposal struct. Alternatively, remove the EarlyExecution voting
+ * mode entirely.
+ */
+
+
 import {ILockManager} from "./interfaces/ILockManager.sol";
 import {LockToGovernBase} from "./base/LockToGovernBase.sol";
 import {ILockToVote} from "./interfaces/ILockToVote.sol";
@@ -103,69 +143,113 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
 
         // Store proposal related information
         Proposal storage proposal_ = proposals[proposalId];
+        // ^^^ VULNERABLE LINE ^^^
 
         proposal_.parameters.votingMode = votingMode();
+        // ^^^ VULNERABLE LINE ^^^
         proposal_.parameters.supportThresholdRatio = supportThresholdRatio();
+        // ^^^ VULNERABLE LINE ^^^
         proposal_.parameters.startDate = _startDate;
+        // ^^^ VULNERABLE LINE ^^^
         proposal_.parameters.endDate = _endDate;
+        // ^^^ VULNERABLE LINE ^^^
         proposal_.parameters.minParticipationRatio = minParticipationRatio();
+        // ^^^ VULNERABLE LINE ^^^
         proposal_.parameters.minApprovalRatio = minApprovalRatio();
+        // ^^^ VULNERABLE LINE ^^^
 
         proposal_.targetConfig = getTargetConfig();
+        // ^^^ VULNERABLE LINE ^^^
 
         // Reduce costs
         if (_allowFailureMap != 0) {
+        // ^^^ VULNERABLE LINE ^^^
             proposal_.allowFailureMap = _allowFailureMap;
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         for (uint256 i; i < _actions.length;) {
+        // ^^^ VULNERABLE LINE ^^^
             proposal_.actions.push(_actions[i]);
+            // ^^^ VULNERABLE LINE ^^^
             unchecked {
+            // ^^^ VULNERABLE LINE ^^^
                 ++i;
+                // ^^^ VULNERABLE LINE ^^^
             }
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         emit ProposalCreated(proposalId, _msgSender(), _startDate, _endDate, _metadata, _actions, _allowFailureMap);
+        // ^^^ VULNERABLE LINE ^^^
 
         lockManager.proposalCreated(proposalId);
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @inheritdoc ILockToVote
     /// @dev Reverts if the proposal with the given `_proposalId` does not exist.
     function canVote(uint256 _proposalId, address _voter, VoteOption _voteOption) public view returns (bool) {
+    // ^^^ VULNERABLE LINE ^^^
         if (!_proposalExists(_proposalId)) {
+        // ^^^ VULNERABLE LINE ^^^
             revert NonexistentProposal(_proposalId);
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         Proposal storage proposal_ = proposals[_proposalId];
+        // ^^^ VULNERABLE LINE ^^^
         return _canVote(proposal_, _voter, _voteOption, lockManager.getLockedBalance(_voter));
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @inheritdoc ILockToVote
+    // @audit-issue VULNERABLE FUNCTION: vote
     function vote(uint256 _proposalId, address _voter, VoteOption _voteOption, uint256 _newVotingPower)
+    // ^^^ VULNERABLE LINE ^^^
         public
+        // ^^^ VULNERABLE LINE ^^^
         override
+        // ^^^ VULNERABLE LINE ^^^
         auth(LOCK_MANAGER_PERMISSION_ID)
+        // ^^^ VULNERABLE LINE ^^^
     {
+    // ^^^ VULNERABLE LINE ^^^
         Proposal storage proposal_ = proposals[_proposalId];
+        // ^^^ VULNERABLE LINE ^^^
 
         if (!_canVote(proposal_, _voter, _voteOption, _newVotingPower)) {
+        // ^^^ VULNERABLE LINE ^^^
             revert VoteCastForbidden(_proposalId, _voter);
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         // Same vote
         if (_voteOption == proposal_.votes[_voter].voteOption) {
+        // ^^^ VULNERABLE LINE ^^^
             // Same value, nothing to do
             if (_newVotingPower == proposal_.votes[_voter].votingPower) return;
+            // ^^^ VULNERABLE LINE ^^^
 
             // More balance
             /// @dev diff > 0 is guaranteed, as _canVote() above will return false and revert otherwise
             uint256 diff = _newVotingPower - proposal_.votes[_voter].votingPower;
+            // ^^^ VULNERABLE LINE ^^^
             proposal_.votes[_voter].votingPower = _newVotingPower;
+            // ^^^ VULNERABLE LINE ^^^
 
             if (proposal_.votes[_voter].voteOption == VoteOption.Yes) {
+            // ^^^ VULNERABLE LINE ^^^
                 proposal_.tally.yes += diff;
+                // ^^^ VULNERABLE LINE ^^^
             } else if (proposal_.votes[_voter].voteOption == VoteOption.No) {
+            // ^^^ VULNERABLE LINE ^^^
                 proposal_.tally.no += diff;
             } else {
                 /// @dev Voting none is not possible, as _canVote() above will return false and revert if so
@@ -260,14 +344,21 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
     function _canVote(Proposal storage proposal_, address _voter, VoteOption _voteOption, uint256 _newVotingPower)
         internal
         view
+        // ^^^ VULNERABLE LINE ^^^
         returns (bool)
+        // ^^^ VULNERABLE LINE ^^^
     {
+    // ^^^ VULNERABLE LINE ^^^
         uint256 _currentVotingPower = proposal_.votes[_voter].votingPower;
+        // ^^^ VULNERABLE LINE ^^^
 
         // The proposal vote hasn't started or has already ended.
         if (!_isProposalOpen(proposal_)) {
+        // ^^^ VULNERABLE LINE ^^^
             return false;
+            // ^^^ VULNERABLE LINE ^^^
         } else if (_voteOption == VoteOption.None) {
+        // ^^^ VULNERABLE LINE ^^^
             return false;
         }
         // Standard voting + early execution
@@ -299,6 +390,7 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
         return true;
     }
 
+    // @audit-issue VULNERABLE FUNCTION: _attemptEarlyExecution
     function _attemptEarlyExecution(uint256 _proposalId, address _voteCaller) internal {
         if (!_canExecute(_proposalId)) {
             return;

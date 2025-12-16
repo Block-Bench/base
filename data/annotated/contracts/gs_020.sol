@@ -3,6 +3,37 @@
 // (c) Gearbox Foundation, 2024.
 pragma solidity ^0.8.23;
 
+/**
+ * @title withdrawPhantomToken May Withdraw an Unexpected Underlying
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_020
+ * @dev Source: MIXBYTES - Gearbox Midas Integration Security Audit Report
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: input_validation
+ * - Severity: MEDIUM
+ * - Finding ID: M-01
+ *
+ * DESCRIPTION:
+ * MidasRedemptionVaultAdapter.withdrawPhantomToken(token, amount) only checks that a
+ * phantom token is registered for the given token address
+ * (phantomTokenToOutputToken[token] != address(0)) and does not verify that the
+ * pending redemption's tokenOut matches the expected underlying. This means the
+ * integration may receive a different token than expected if the redemption request
+ * was made for a different output token than what the phantom token tracks.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - withdrawPhantomToken()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 140, 141, 142, 143, 144
+ *
+ * RECOMMENDED FIX:
+ * Add validation in setTokenAllowedStatusBatch() to ensure that the phantom token's
+ * tokenOut matches the output token it was added alongside with. This prevents
+ * mismatched phantom token configurations.
+ */
+
+
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/interfaces/IERC20Metadata.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
@@ -107,10 +138,15 @@ contract MidasRedemptionVaultAdapter is AbstractAdapter, IMidasRedemptionVaultAd
     /// @param amountMTokenIn Amount of mToken to redeem
     /// @dev Returns `true` to allow safe pricing for the withdrawal phantom token
     function redeemRequest(address tokenOut, uint256 amountMTokenIn)
+    // ^^^ VULNERABLE LINE ^^^
         external
+        // ^^^ VULNERABLE LINE ^^^
         override
+        // ^^^ VULNERABLE LINE ^^^
         creditFacadeOnly
+        // ^^^ VULNERABLE LINE ^^^
         returns (bool)
+        // ^^^ VULNERABLE LINE ^^^
     {
         if (!isTokenAllowed(tokenOut) || outputTokenToPhantomToken[tokenOut] == address(0)) {
             revert TokenNotAllowedException();
@@ -137,6 +173,7 @@ contract MidasRedemptionVaultAdapter is AbstractAdapter, IMidasRedemptionVaultAd
     /// @notice Withdraws phantom token balance
     /// @param token Phantom token address
     /// @param amount Amount to withdraw
+    // @audit-issue VULNERABLE FUNCTION: withdrawPhantomToken
     function withdrawPhantomToken(address token, uint256 amount) external override creditFacadeOnly returns (bool) {
         if (phantomTokenToOutputToken[token] == address(0)) revert IncorrectStakedPhantomTokenException();
         _withdraw(amount);

@@ -1,6 +1,35 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+/**
+ * @title Incorrect voting power calculation when create_lock and increase_amount are called in the same transaction
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_009
+ * @dev Source: CODE4RENA - 2025-10-hybra-finance
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-08
+ *
+ * DESCRIPTION:
+ * `_checkpoint` creates a new epoch with the same timestamp for `increase_amount`,
+ * ignoring the new lock in `balanceOfNFT`, reducing voting power.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - _checkpoint()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 760
+ *
+ * ATTACK SCENARIO:
+ * A test locks 500e18, increases by 500e18 in one tx, and shows reduced bribe rewa
+ *
+ * RECOMMENDED FIX:
+ * In `_checkpoint`, overwrite the latest point if timestamps match, else append a
+ * new one. Status: Mitigation confirmed.
+ */
+
+
 import {IERC721, IERC721Metadata} from "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {IERC20} from "./interfaces/IERC20.sol";
@@ -622,6 +651,7 @@ contract VotingEscrow is IERC721, IERC721Metadata, IHybraVotes {
     /// @param _tokenId NFT token ID. No user checkpoint if 0
     /// @param old_locked Pevious locked amount / end lock time for the user
     /// @param new_locked New locked amount / end lock time for the user
+    // @audit-issue VULNERABLE FUNCTION: _checkpoint
     function _checkpoint(
         uint _tokenId,
         IVotingEscrow.LockedBalance memory old_locked,
@@ -729,6 +759,7 @@ contract VotingEscrow is IERC721, IERC721Metadata, IHybraVotes {
             }
             if (last_point.bias < 0) {
                 last_point.bias = 0;
+                // ^^^ VULNERABLE LINE ^^^
             }
             last_point.permanent = permanentLockBalance;
         }

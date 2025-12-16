@@ -1,6 +1,46 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity =0.7.6;
 
+/**
+ * @title CLFactory ignores dynamic fees above 10% and silently falls back to default
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_002
+ * @dev Source: CODE4RENA - 2025-10-hybra-finance
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-01
+ *
+ * DESCRIPTION:
+ * Governance can configure `DynamicSwapFeeModule` with fees up to 50%, but
+ * `CLFactory.getSwapFee` discards any value above 100_000 ppm (10%) and falls back
+ * to the tick-spacing default (often 500 ppm = 0.05%) without reverting or logging.
+ * Operators see the module reporting 20%, yet users continue paying the tiny default
+ * fee. The silent fallback misleads governance into believing higher fees are
+ * active. Impact - Governance believes a protective high fee is set (e.g., during
+ * launch anti-MEV), but the effective fee drops back to the default (e.g., 0.05%). -
+ * Traders are charged far less than intended, defeating protective or revenue
+ * objectives. - The misconfiguration has no on-chain signal, so the mistake can
+ * persist unnoticed. Root Cause - getSwapFee checks fee <= 100_000 ; larger values
+ * are ignored and the function returns tickSpacingToFee . - The module itself allows
+ * feeCap up to 500_000 (50%), so governance can set a value the factory immediately
+ * discards in favor of the default.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - getSwapFee()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 176, 177, 178, 179, 180, 181, 182, 183, 184, 185... (+4 more)
+ *
+ * RECOMMENDED FIX:
+ * Either revert when the module returns > 100_000 or raise the factory ceiling to
+ * match the module’s cap. Emit events or add admin tooling to surface out-of-range
+ * configurations so operators can correct them. Hybra Finance mitigated: Added
+ * setMaxFee() function to make the fee cap configurable by the owner (up to
+ * ...
+ */
+
+
 import "./interfaces/ICLFactory.sol";
 import "./interfaces/fees/IFeeModule.sol";
 
@@ -134,19 +174,31 @@ contract CLFactory is ICLFactory {
 
     /// @inheritdoc ICLFactory
     function setSwapFeeModule(address _swapFeeModule) external override {
+    // ^^^ VULNERABLE LINE ^^^
         require(msg.sender == swapFeeManager);
+        // ^^^ VULNERABLE LINE ^^^
         require(_swapFeeModule != address(0));
+        // ^^^ VULNERABLE LINE ^^^
         address oldFeeModule = swapFeeModule;
+        // ^^^ VULNERABLE LINE ^^^
         swapFeeModule = _swapFeeModule;
+        // ^^^ VULNERABLE LINE ^^^
         emit SwapFeeModuleChanged(oldFeeModule, _swapFeeModule);
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @inheritdoc ICLFactory
     function setUnstakedFeeModule(address _unstakedFeeModule) external override {
+    // ^^^ VULNERABLE LINE ^^^
         require(msg.sender == unstakedFeeManager);
+        // ^^^ VULNERABLE LINE ^^^
         require(_unstakedFeeModule != address(0));
+        // ^^^ VULNERABLE LINE ^^^
         address oldFeeModule = unstakedFeeModule;
+        // ^^^ VULNERABLE LINE ^^^
         unstakedFeeModule = _unstakedFeeModule;
+        // ^^^ VULNERABLE LINE ^^^
         emit UnstakedFeeModuleChanged(oldFeeModule, _unstakedFeeModule);
     }
 
@@ -173,6 +225,7 @@ contract CLFactory is ICLFactory {
     }
 
     /// @inheritdoc ICLFactory
+    // @audit-issue VULNERABLE FUNCTION: getSwapFee
     function getSwapFee(address pool) external view override returns (uint24) {
         if (swapFeeModule != address(0)) {
             (bool success, bytes memory data) = swapFeeModule.excessivelySafeStaticCall(

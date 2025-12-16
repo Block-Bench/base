@@ -1,6 +1,37 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity ^0.8.13;
 
+/**
+ * @title Misuse of isProposalOpen() function
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_015
+ * @dev Source: SPEARBIT - Aragon DAO Gov Plugin Security Review
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-03
+ *
+ * DESCRIPTION:
+ * The isProposalOpen() function returns true if a proposal is open for voting. It
+ * returns false if it's too late OR too early for voting. But in
+ * _withdrawActiveVotingPower() at line 225, it was being used as an
+ * 'isProposalStillOpen()' function, forgetting that it will also be false when the
+ * proposal hasn't started yet. This means proposals with future start dates get
+ * incorrectly removed from knownProposalIds tracking.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - _withdrawActiveVotingPower()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 221, 222, 223, 224, 225, 226, 227, 228, 229, 230... (+16 more)
+ *
+ * RECOMMENDED FIX:
+ * Create and use an isProposalEnded() function specifically for this use case. It
+ * should return true only if the proposal has actually ended (endDate passed or
+ * executed), not just because it hasn't started.
+ */
+
+
 import {ILockManager, LockManagerSettings, PluginMode} from "../interfaces/ILockManager.sol";
 import {ILockToGovernBase} from "../interfaces/ILockToGovernBase.sol";
 import {ILockToVote} from "../interfaces/ILockToVote.sol";
@@ -190,34 +221,47 @@ abstract contract LockManagerBase is ILockManager {
 
     /// @notice Takes the user's tokens and registers the received amount.
     function _lock(uint256 _amount) internal virtual {
+    // ^^^ VULNERABLE LINE ^^^
         if (_amount == 0) {
+        // ^^^ VULNERABLE LINE ^^^
             revert NoBalance();
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         /// @dev Reverts if not enough balance is approved
         _doLockTransfer(_amount);
+        // ^^^ VULNERABLE LINE ^^^
 
         lockedBalances[msg.sender] += _amount;
+        // ^^^ VULNERABLE LINE ^^^
         emit BalanceLocked(msg.sender, _amount);
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @notice Triggers the transfer needed in order to complete the token locking flow.
     ///     Reverts if the requested amount cannot be locked.
     function _doLockTransfer(uint256 _amount) internal virtual;
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @notice Transfers the requested amount of tokens to the recipient
     /// @param _recipient The address that will receive the locked tokens back
     /// @param _amount The amount of tokens that the recipient will get
     function _doUnlockTransfer(address _recipient, uint256 _amount) internal virtual;
+    // ^^^ VULNERABLE LINE ^^^
 
     function _vote(uint256 _proposalId, IMajorityVoting.VoteOption _voteOption) internal virtual {
+    // ^^^ VULNERABLE LINE ^^^
         uint256 _currentVotingPower = getLockedBalance(msg.sender);
+        // ^^^ VULNERABLE LINE ^^^
 
         /// @dev The voting power value is checked within plugin.vote()
 
         ILockToVote(address(plugin)).vote(_proposalId, msg.sender, _voteOption, _currentVotingPower);
     }
 
+    // @audit-issue VULNERABLE FUNCTION: _withdrawActiveVotingPower
     function _withdrawActiveVotingPower() internal virtual {
         uint256 _proposalCount = knownProposalIds.length();
         for (uint256 _i; _i < _proposalCount;) {

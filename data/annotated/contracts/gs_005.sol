@@ -1,6 +1,58 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
+/**
+ * @title Dust vote on one pool prevents poke()
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_005
+ * @dev Source: CODE4RENA - 2025-10-hybra-finance
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: dos
+ * - Severity: MEDIUM
+ * - Finding ID: M-04
+ *
+ * DESCRIPTION:
+ * Before describing the vulnerability, we should know that in ve3.3 systems, `poke`
+ * is important to make anyone reflect the decaying vote weight to prevent users from
+ * being inactive on votes to have their full weight votes on a pool. In `VoterV3`
+ * users choose what pools they want to vote for and the contract retrieves their
+ * `ve` weight upon doing so: uint256 _weight =
+ * IVotingEscrow(_ve).balanceOfNFT(_tokenId); And upon voting for a pool, that weight
+ * affects the claimable share distribution of that pool compared to other pools.
+ * Since now we know the importance of the voting weight, and since ve NFT weight
+ * decay with time, there is a poke function to update the voting weight made on a
+ * pool previously to the decayed weight of that NFT. The `poke()` function is
+ * guarded to be called by the owner or through the `ve` contract which can have
+ * anyone depositing for a user or increasing his locked value even by `1wei` to poke
+ * him to reflect his new decayed weight on the voted pools. An attacker can do the
+ * following: 1. vote his full weight - 1wei on a dedicated pool 2. vote 1 wei on
+ * another pool 3. time passes with inactivity from his side - his ve decay but is
+ * not reflected on voted pools 4. users try to poke() him through known functions of
+ * the ve contract 5. poke() function reverts here File: VoterV3.sol 208: uint256
+ * _poolWeight = _weights[i] * _weight / _totalVoteWeight; 209: 210:
+ * require(votes[_tokenId][_pool] == 0, "ZV"); 211: require(_poolWeight != 0, "ZV");
+ * Since the `1wei` vote multiplied by the decayed weight divided by totalVoteWeight
+ * rounds down to 0, hence this user becomes unpokable. Impact: The voted for pool
+ * will have inflated rewards distributed to him compared to other pools that have
+ * pokable users. Thinking of this attack at scale, the user will have advantage of
+ * having full voting weight if he votes immediately like having permanent lock
+ * weight without actually locking his balance permanently. Preventing anyone from
+ * preserving this invariant `A single veNFT’s total vote allocation ≤ its available
+ * voting power.` on his vote balance too.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - poke()
+ * - vote()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 208, 209, 210, 211
+ *
+ * RECOMMENDED FIX:
+ * Change `require(_poolWeight != 0, "ZV")` to `if (_poolWeight == 0) continue;` to
+ * skip dust votes.
+ */
+
+
 import './libraries/Math.sol';
 import './interfaces/IBribe.sol';
 import './interfaces/IERC20.sol';
@@ -155,8 +207,11 @@ contract VoterV3 is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     /// @notice Recast the saved votes of a given TokenID
+    // @audit-issue VULNERABLE FUNCTION: poke
     function poke(uint256 _tokenId) external nonReentrant {
+    // ^^^ VULNERABLE LINE ^^^
         uint256 _timestamp = block.timestamp;
+        // ^^^ VULNERABLE LINE ^^^
         if (_timestamp <= HybraTimeLibrary.epochVoteStart(_timestamp)){
             revert("DW");
         }
@@ -177,6 +232,7 @@ contract VoterV3 is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     /// @param  _tokenId    veNFT tokenID used to vote
     /// @param  _poolVote   array of LPs addresses to vote  (eg.: [sAMM usdc-usdt   , sAMM busd-usdt, vAMM wbnb-the ,...])
     /// @param  _weights    array of weights for each LPs   (eg.: [10               , 90            , 45             ,...])  
+    // @audit-issue VULNERABLE FUNCTION: vote
     function vote(uint256 _tokenId, address[] calldata _poolVote, uint256[] calldata _weights) 
         external onlyNewEpoch(_tokenId) nonReentrant {
         require(IVotingEscrow(_ve).isApprovedOrOwner(msg.sender, _tokenId), "NAO");

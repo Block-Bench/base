@@ -1,6 +1,41 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+/**
+ * @title Default manager deactivation in LiquidityBuffer can break auto-allocation
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_023
+ * @dev Source: MIXBYTES - Mantle mETH x Aave Integration Security Audit
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-1
+ *
+ * DESCRIPTION:
+ * Staking.allocateETH() forwards ETH to LiquidityBuffer.depositETH(), which
+ * auto-allocates to defaultManagerId when shouldExecuteAllocation is true. If the
+ * current default manager is deactivated via
+ * LiquidityBuffer.updatePositionManager()/togglePositionManagerStatus() without
+ * first switching defaultManagerId or disabling auto-allocation,
+ * _allocateETHToManager(defaultManagerId, …) reverts with
+ * LiquidityBuffer__ManagerInactive(). This can unexpectedly block allocation flows.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - updatePositionManager()
+ * - togglePositionManagerStatus()
+ * - depositETH()
+ * - _allocateETHToManager()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 230, 231, 232, 233, 234, 235, 236, 237, 238, 239... (+38 more)
+ *
+ * RECOMMENDED FIX:
+ * Prevent deactivation of the current defaultManagerId while auto-allocation is
+ * enabled: require shouldExecuteAllocation == false or switch defaultManagerId to an
+ * active manager before deactivation.
+ */
+
+
 import {AccessControlEnumerableUpgradeable} from "openzeppelin-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import {Initializable} from "openzeppelin-upgradeable/proxy/utils/Initializable.sol";
 import {Address} from "openzeppelin/utils/Address.sol";
@@ -193,47 +228,82 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
                 uint256 managerBalance = manager.getUnderlyingBalance();
                 totalBalance += managerBalance;
             }
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
         
         return totalBalance;
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     // ========================================= ADMIN FUNCTIONS =========================================
 
     function addPositionManager(
+    // ^^^ VULNERABLE LINE ^^^
         address managerAddress,
+        // ^^^ VULNERABLE LINE ^^^
         uint256 allocationCap
+        // ^^^ VULNERABLE LINE ^^^
     ) external onlyRole(POSITION_MANAGER_ROLE) returns (uint256 managerId) {
+    // ^^^ VULNERABLE LINE ^^^
         if (isRegisteredManager[managerAddress]) revert LiquidityBuffer__ManagerAlreadyRegistered();
+        // ^^^ VULNERABLE LINE ^^^
         managerId = positionManagerCount;
+        // ^^^ VULNERABLE LINE ^^^
         positionManagerCount++;
+        // ^^^ VULNERABLE LINE ^^^
 
         positionManagerConfigs[managerId] = PositionManagerConfig({
+        // ^^^ VULNERABLE LINE ^^^
             managerAddress: managerAddress,
+            // ^^^ VULNERABLE LINE ^^^
             allocationCap: allocationCap,
+            // ^^^ VULNERABLE LINE ^^^
             isActive: true
+            // ^^^ VULNERABLE LINE ^^^
         });
+        // ^^^ VULNERABLE LINE ^^^
         positionAccountants[managerId] = PositionAccountant({
+        // ^^^ VULNERABLE LINE ^^^
             allocatedBalance: 0,
+            // ^^^ VULNERABLE LINE ^^^
             interestClaimedFromManager: 0
+            // ^^^ VULNERABLE LINE ^^^
         });
+        // ^^^ VULNERABLE LINE ^^^
         isRegisteredManager[managerAddress] = true;
+        // ^^^ VULNERABLE LINE ^^^
 
         totalAllocationCapacity += allocationCap;
         emit ProtocolConfigChanged(
+        // ^^^ VULNERABLE LINE ^^^
             this.addPositionManager.selector,
+            // ^^^ VULNERABLE LINE ^^^
             "addPositionManager(address,uint256)",
+            // ^^^ VULNERABLE LINE ^^^
             abi.encode(managerAddress, allocationCap)
+            // ^^^ VULNERABLE LINE ^^^
         );
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
+    // @audit-issue VULNERABLE FUNCTION: updatePositionManager
     function updatePositionManager(
+    // ^^^ VULNERABLE LINE ^^^
         uint256 managerId,
+        // ^^^ VULNERABLE LINE ^^^
         uint256 newAllocationCap,
+        // ^^^ VULNERABLE LINE ^^^
         bool isActive
+        // ^^^ VULNERABLE LINE ^^^
     ) external onlyRole(POSITION_MANAGER_ROLE) {
+    // ^^^ VULNERABLE LINE ^^^
         if (managerId >= positionManagerCount) {
+        // ^^^ VULNERABLE LINE ^^^
             revert LiquidityBuffer__ManagerNotFound();
+            // ^^^ VULNERABLE LINE ^^^
         }
 
         PositionManagerConfig storage config = positionManagerConfigs[managerId];
@@ -255,6 +325,7 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
         );
     }
 
+    // @audit-issue VULNERABLE FUNCTION: togglePositionManagerStatus
     function togglePositionManagerStatus(uint256 managerId) external onlyRole(POSITION_MANAGER_ROLE) {
         if (managerId >= positionManagerCount) {
             revert LiquidityBuffer__ManagerNotFound();
@@ -297,12 +368,16 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
             abi.encode(newDefaultManagerId)
         );
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @notice Sets the fees basis points.
     /// @param newBasisPoints The new fees basis points.
     function setFeeBasisPoints(uint16 newBasisPoints) external onlyRole(POSITION_MANAGER_ROLE) {
+    // ^^^ VULNERABLE LINE ^^^
         if (newBasisPoints > _BASIS_POINTS_DENOMINATOR) {
+        // ^^^ VULNERABLE LINE ^^^
             revert LiquidityBuffer__InvalidConfiguration();
+            // ^^^ VULNERABLE LINE ^^^
         }
 
         feesBasisPoints = newBasisPoints;
@@ -331,6 +406,7 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
 
     // ========================================= LIQUIDITY MANAGEMENT =========================================
 
+    // @audit-issue VULNERABLE FUNCTION: depositETH
     function depositETH() external payable onlyRole(LIQUIDITY_MANAGER_ROLE) {
         if (pauser.isLiquidityBufferPaused()) revert LiquidityBuffer__Paused();
         _receiveETHFromStaking(msg.value);
@@ -487,6 +563,7 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
         stakingContract.receiveReturnsFromLiquidityBuffer{value: amount}();
     }
 
+    // @audit-issue VULNERABLE FUNCTION: _allocateETHToManager
     function _allocateETHToManager(uint256 managerId, uint256 amount) internal {
         if (pauser.isLiquidityBufferPaused()) {
             revert LiquidityBuffer__Paused();

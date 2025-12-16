@@ -1,6 +1,43 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
+/**
+ * @title Signed swap digest lacks a domain separator
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_021
+ * @dev Source: SPEARBIT - Uniswap Foundation: Kyber Hook Security Review
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: signature_replay
+ * - Severity: MEDIUM
+ * - Finding ID: M-01
+ *
+ * DESCRIPTION:
+ * Both UniswapV4KEMHook and PancakeSwapInfinityKEMHook rebuild a quote digest by
+ * hashing sender, key, params.zeroForOne, maxAmountIn, maxExchangeRate,
+ * exchangeRateDenom, nonce, and expiryTime. The tuple ties the authorization to the
+ * router (sender), the full PoolKey (which includes the hook address), trade
+ * direction, price and input caps, nonce and expiry. Crucially, no domain separator
+ * is folded in: chain ID, deployment salt, and contract identity outside key are
+ * absent. If the same hook instance (or the same PoolKey) is deployed on multiple
+ * networks, as CREATE3-based salt mining allows, an attacker can lift any valid
+ * signature+nonce from chain A and replay it on chain B. Because the digest matches,
+ * SignatureChecker.isValidSignatureNow succeeds and the swap executes without the
+ * signer's intention. That breaks the core guarantee that signed quotes are
+ * single-instance authorizations, allowing cross-chain replay swaps.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - beforeSwap()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 118, 119, 120, 121, 122, 123, 124, 125, 126, 127... (+2 more)
+ *
+ * RECOMMENDED FIX:
+ * Introduce domain separation for the signed payload in both hooks. Adopt an EIP712
+ * domain that at minimum commits to chainid. This ensures signatures are only valid
+ * on the intended chain.
+ */
+
+
 import {BaseKEMHook} from './base/BaseKEMHook.sol';
 import {IKEMHook} from './interfaces/IKEMHook.sol';
 import {HookDataDecoder} from './libraries/HookDataDecoder.sol';
@@ -79,17 +116,29 @@ contract UniswapV4KEMHook is BaseKEMHook, IUnlockCallback {
       afterAddLiquidity: false,
       beforeRemoveLiquidity: false,
       afterRemoveLiquidity: false,
+      // ^^^ VULNERABLE LINE ^^^
       beforeSwap: true,
+      // ^^^ VULNERABLE LINE ^^^
       afterSwap: true,
+      // ^^^ VULNERABLE LINE ^^^
       beforeDonate: false,
+      // ^^^ VULNERABLE LINE ^^^
       afterDonate: false,
+      // ^^^ VULNERABLE LINE ^^^
       beforeSwapReturnDelta: false,
+      // ^^^ VULNERABLE LINE ^^^
       afterSwapReturnDelta: true,
+      // ^^^ VULNERABLE LINE ^^^
       afterAddLiquidityReturnDelta: false,
+      // ^^^ VULNERABLE LINE ^^^
       afterRemoveLiquidityReturnDelta: false
+      // ^^^ VULNERABLE LINE ^^^
     });
+    // ^^^ VULNERABLE LINE ^^^
   }
+  // ^^^ VULNERABLE LINE ^^^
 
+    // @audit-issue VULNERABLE FUNCTION: beforeSwap
   function beforeSwap(
     address sender,
     PoolKey calldata key,

@@ -1,6 +1,42 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+/**
+ * @title Fixed exchange rate at unstaking fails to socialize slashing and distorts rewards
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_028
+ * @dev Source: MIXBYTES - Mantle mETH x Aave Integration Security Audit
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-6
+ *
+ * DESCRIPTION:
+ * When Staking.unstakeRequest() is called, the mETH/ETH rate is fixed and does not
+ * reflect slashing or rewards that may occur by the time
+ * Staking.claimUnstakeRequest() is executed. If two users create requests
+ * concurrently and losses arrive afterward, those losses are not socialized across
+ * them. One request may be fully paid while the other may revert on claim due to
+ * insufficient allocated funds. This can be exacerbated by frontrunning updates to
+ * LiquidityBuffer.cumulativeDrawdown(), enabling informed actors to anticipate loss
+ * application. Rewards are also misallocated: requests lock mETH but do not burn it
+ * until UnstakeRequestsManager.claim(), so these shares continue participating in
+ * reward distribution, diluting rewards for users who have not requested to unstake.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - _unstakeRequest()
+ * - mETHToETH()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 207, 208, 209, 210, 211, 212, 213, 214, 215, 216... (+12 more)
+ *
+ * RECOMMENDED FIX:
+ * Align withdrawal settlement with the latest protocol state to socialize slashing
+ * and adjust reward accounting so pending unstakes do not accrue or dilute rewards.
+ * The client acknowledged this as a protocol design trade-off.
+ */
+
+
 import {Initializable} from "openzeppelin-upgradeable/proxy/utils/Initializable.sol";
 import {AccessControlEnumerableUpgradeable} from
     "openzeppelin-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
@@ -169,27 +205,44 @@ contract Staking is Initializable, AccessControlEnumerableUpgradeable, IStaking,
         if (pauser.isStakingPaused()) {
             revert Paused();
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         if (isStakingAllowlist) {
+        // ^^^ VULNERABLE LINE ^^^
             _checkRole(STAKING_ALLOWLIST_ROLE);
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         if (msg.value < minimumStakeBound) {
+        // ^^^ VULNERABLE LINE ^^^
             revert MinimumStakeBoundNotSatisfied();
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         uint256 mETHMintAmount = ethToMETH(msg.value);
+        // ^^^ VULNERABLE LINE ^^^
         if (mETHMintAmount + mETH.totalSupply() > maximumMETHSupply) {
+        // ^^^ VULNERABLE LINE ^^^
             revert MaximumMETHSupplyExceeded();
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
         if (mETHMintAmount < minMETHAmount) {
+        // ^^^ VULNERABLE LINE ^^^
             revert StakeBelowMinimumMETHAmount(mETHMintAmount, minMETHAmount);
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         unallocatedETH += msg.value;
+        // ^^^ VULNERABLE LINE ^^^
 
         emit Staked(msg.sender, msg.value, mETHMintAmount);
+        // ^^^ VULNERABLE LINE ^^^
         mETH.mint(msg.sender, mETHMintAmount);
+        // ^^^ VULNERABLE LINE ^^^
     }
 
     function unstakeRequest(uint128 methAmount, uint128 minETHAmount) external returns (uint256) {
@@ -208,6 +261,7 @@ contract Staking is Initializable, AccessControlEnumerableUpgradeable, IStaking,
         return _unstakeRequest(methAmount, minETHAmount);
     }
 
+    // @audit-issue VULNERABLE FUNCTION: _unstakeRequest
     function _unstakeRequest(uint128 methAmount, uint128 minETHAmount) internal returns (uint256) {
         if (pauser.isUnstakeRequestsAndClaimsPaused()) {
             revert Paused();
@@ -241,6 +295,7 @@ contract Staking is Initializable, AccessControlEnumerableUpgradeable, IStaking,
         return Math.mulDiv(ethAmount, mETH.totalSupply(), adjustedTotalControlled);
     }
 
+    // @audit-issue VULNERABLE FUNCTION: mETHToETH
     function mETHToETH(uint256 mETHAmount) public view returns (uint256) {
         if (mETH.totalSupply() == 0) {
             return mETHAmount;

@@ -1,5 +1,42 @@
 pragma solidity 0.8.13;
 
+/**
+ * @title Rollover rewards are permanently lost due to flawed rewardRate calculation
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_006
+ * @dev Source: CODE4RENA - 2025-10-hybra-finance
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-05
+ *
+ * DESCRIPTION:
+ * The `notifyRewardAmount()` function miscalculates the `rewardRate` when a new
+ * epoch begins, causing `rollover` rewards from previous epochs to be permanently
+ * lost. When `block.timestamp >= _periodFinish`, the function adds both the new
+ * `rewardAmount` and the previous epoch’s `clPool.rollover()` to form the
+ * `totalRewardAmount`. However, the `rewardRate` is derived only from
+ * `rewardAmount`, ignoring the rollover portion: // @audit The total amount to be
+ * reserved includes rollover... uint256 totalRewardAmount = rewardAmount +
+ * clPool.rollover(); // @audit but the rate calculation completely ignores the
+ * rollover. rewardRate = rewardAmount / epochTimeRemaining; // @audit The pool is
+ * synced with a CORRECT
+ *
+ * VULNERABLE FUNCTIONS:
+ * - notifyRewardAmount()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 251
+ *
+ * ATTACK SCENARIO:
+ * Refer to original submission for PoC (not detailed here).
+ *
+ * RECOMMENDED FIX:
+ * Use `totalRewardAmount = rewardAmount + clPool.rollover()` for `rewardRate =
+ * totalRewardAmount / epochTimeRemaining`. Status: Mitigation confirmed.
+ */
+
+
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -212,6 +249,7 @@ contract GaugeCL is ReentrancyGuard, Ownable, IERC721Receiver {
 
         emit Withdraw(msg.sender, tokenId);
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     
 
@@ -236,6 +274,7 @@ contract GaugeCL is ReentrancyGuard, Ownable, IERC721Receiver {
         emit Harvest(msg.sender, rewardAmount);
     }
 
+    // @audit-issue VULNERABLE FUNCTION: notifyRewardAmount
     function notifyRewardAmount(address token, uint256 rewardAmount) external nonReentrant
         isNotEmergency onlyDistribution returns (uint256 currentRate) {
         require(token == address(rewardToken), "Invalid reward token");

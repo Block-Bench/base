@@ -1,6 +1,47 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+/**
+ * @title First depositor attack possible through multiple attack paths because the deposit function does not check 0 shares received
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_004
+ * @dev Source: CODE4RENA - 2025-10-hybra-finance
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-03
+ *
+ * DESCRIPTION:
+ * The gHYBR contract is just another veNFT position holder from the perspective of
+ * votingEscrow contract, while the gHYBR contract acts as a vault. And the deposit
+ * does not ensure that we mint at least one gHYBR share. This can lead to a
+ * condition where the first depositor attacks another user. Example: - Alice
+ * deposits dust shares, 1 share : 1 asset - Alice donates 1000e18 assets before Bob
+ * deposits, through deposit_for, and he increased the ratio by 1 shares : 1000e18
+ * assets - Bob deposits 100e18 assets, the shares calculation goes 100e18 * 1 /
+ * 1000e18 and rounds down to 0 - Receives 0 shares - All bob’s deposit is captured
+ * by Alice’s shares - Bob deposits 100e18 assets and receives 0 shares - Alice has 1
+ * share worth 1000e18 + 100e18(bob's) assets The entry points the attacker can use
+ * to perform this attack are: 1. The votingEscrow contract allows anyone to deposit
+ * assets for any position through its public deposit_for(uint _tokenId, uint _value)
+ * external nonreentrant function. 2. The receivePenaltyReward function in
+ * GovernanceHYBR contract lacks access control, which allows an attacker to donate
+ * to increase totalAssets. 3. Attacker can utilize multiSplit through withdraw, by
+ * first depositing 1000:1000 and withdrawing so that the leftover is 1:1 ratio dust.
+ * Impact: Alice captures all of Bob’s deposits.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - deposit()
+ * - receivePenaltyReward()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 144, 238, 492, 493, 494, 495, 496, 497, 498, 499... (+10 more)
+ *
+ * RECOMMENDED FIX:
+ * Require `shares > 0` in `deposit`; add access control to `receivePenaltyReward`.
+ */
+
+
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -121,6 +162,7 @@ contract GrowthHYBR is ERC20, Ownable, ReentrancyGuard {
      * @param amount Amount of HYBR to deposit
      * @param recipient Recipient of gHYBR shares
      */
+    // @audit-issue VULNERABLE FUNCTION: deposit
     function deposit(uint256 amount, address recipient) external nonReentrant {
         require(amount > 0, "Zero amount");
         recipient = recipient == address(0) ? msg.sender : recipient;
@@ -195,6 +237,7 @@ contract GrowthHYBR is ERC20, Ownable, ReentrancyGuard {
 
         // Use multiSplit to create two NFTs: one for user, one for contract
         uint256[] memory amounts = new uint256[](3);
+        // ^^^ VULNERABLE LINE ^^^
         amounts[0] = remainingAmount; // Amount staying with gHYBR 
         amounts[1] = userAmount;      // Amount going to user (after fee)
         amounts[2] = feeAmount;      // Amount going to fee recipient
@@ -449,18 +492,26 @@ contract GrowthHYBR is ERC20, Ownable, ReentrancyGuard {
         uint256 hybrBalance = IERC20(HYBR).balanceOf(address(this));
         
         if (hybrBalance > 0) {
+        // ^^^ VULNERABLE LINE ^^^
             // Lock all HYBR to existing veNFT  
             IERC20(HYBR).safeApprove(votingEscrow, hybrBalance);
+            // ^^^ VULNERABLE LINE ^^^
             IVotingEscrow(votingEscrow).deposit_for(veTokenId, hybrBalance);
+            // ^^^ VULNERABLE LINE ^^^
 
             // Extend lock to maximum duration
             _extendLockToMax();
+            // ^^^ VULNERABLE LINE ^^^
 
             lastCompoundTime = block.timestamp;
+            // ^^^ VULNERABLE LINE ^^^
 
             emit Compound(hybrBalance, totalAssets());
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
     
     /**
      * @notice Vote for gauges using the veNFT
@@ -489,6 +540,7 @@ contract GrowthHYBR is ERC20, Ownable, ReentrancyGuard {
     /**
      * @notice Receive penalty rewards from rHYBR conversions
      */
+    // @audit-issue VULNERABLE FUNCTION: receivePenaltyReward
     function receivePenaltyReward(uint256 amount) external {
         
         // Auto-compound penalty rewards to existing veNFT

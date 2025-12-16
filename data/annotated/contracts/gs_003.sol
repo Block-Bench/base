@@ -1,6 +1,51 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.13;
 
+/**
+ * @title Users emergency withdrawing will lose all past accrued rewards
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_003
+ * @dev Source: CODE4RENA - 2025-10-hybra-finance
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-02
+ *
+ * DESCRIPTION:
+ * in the `GaugeV2` contract, if the contract was emergency activated, users calling
+ * `emergencyWithdraw()` will lose all past accrued rewards that didn’t have
+ * `updateReward()` called on it previously for a user to earn rewards, he gets his
+ * mappings updated here modifier updateReward(address account) {
+ * rewardPerTokenStored = rewardPerToken(); lastUpdateTime =
+ * lastTimeRewardApplicable(); if (account != address(0)) { rewards[account] =
+ * earned(account); userRewardPerTokenPaid[account] = rewardPerTokenStored; } _; } as
+ * we see above, rewards mapping is registered as the return data from `earned()`,
+    // @audit-issue VULNERABLE FUNCTION: earned
+ * and when we look at it we see function earned(address account) public view returns
+ * (uint256) { rewards[account] + _balanceOf(account) * (rewardPerToken() -
+ * userRewardPerTokenPaid[account]) / 1e18; } we see that it returns old rewards +
+ * current balance of the user multiplied by the rewardPerToken (abstractly) so what
+ * happen will be as follows: 1. User stake 100e18 tokens 2. emergency activated 3.
+ * he had already earnt before the emergency 10e18 tokens not registered on his
+ * rewards mapping since he didn’t call deposit/withdraw/getRewards to update his
+ * rewards 4. call emergencyWithdraw and his balance now is 0. 5. now earned()
+ * function return 0 rewards since his balance is 0 * rewardPerToken = 0 also the
+ * left-off rewards tokens are stuck in the contract forever. Impact: Loss of rewards
+ * for users and stuck reward tokens in the contract
+ *
+ * VULNERABLE FUNCTIONS:
+ * - emergencyWithdraw()
+ * - updateReward()
+ * - earned()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 270, 271, 272, 273, 274, 275, 276, 277, 278, 279... (+2 more)
+ *
+ * RECOMMENDED FIX:
+ * Add the `updateReward` modifier to the `emergencyWithdraw()` call
+ */
+
+
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -226,15 +271,23 @@ contract GaugeV2 is ReentrancyGuard, Ownable {
 
     ///@notice deposit internal
     function _deposit(uint256 amount, address account) internal nonReentrant isNotEmergency updateReward(account) {
+    // ^^^ VULNERABLE LINE ^^^
         require(amount > 0, "ZV");
+        // ^^^ VULNERABLE LINE ^^^
 
         _balances[account] = _balances[account] + amount;
+        // ^^^ VULNERABLE LINE ^^^
         _totalSupply = _totalSupply + amount;
+        // ^^^ VULNERABLE LINE ^^^
         if (address(gaugeRewarder) != address(0)) {
+        // ^^^ VULNERABLE LINE ^^^
             IRewarder(gaugeRewarder).onReward(account, account, _balanceOf(account));
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         TOKEN.safeTransferFrom(account, address(this), amount);
+        // ^^^ VULNERABLE LINE ^^^
 
         emit Deposit(account, amount);
     }
@@ -267,6 +320,7 @@ contract GaugeV2 is ReentrancyGuard, Ownable {
         emit Withdraw(msg.sender, amount);
     }
 
+    // @audit-issue VULNERABLE FUNCTION: emergencyWithdraw
     function emergencyWithdraw() external nonReentrant {
         require(emergency, "EMER");
         uint256 _amount = _balanceOf(msg.sender);

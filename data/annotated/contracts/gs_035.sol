@@ -1,26 +1,69 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity >=0.8.19 <0.9.0;
 
+/**
+ * @title Unclaimed Fees Become Inaccessible After V2Locker.unlock()
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_035
+ * @dev Source: MIXBYTES - Velodrome Pool Launcher Security Audit Report
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-1
+ *
+ * DESCRIPTION:
+ * The Locker.claimFees() function is protected by the onlyLocked modifier, which
+ * requires lockedUntil != 0. Inside V2Locker.unlock(), the contract sets lockedUntil
+ * = 0 (via delete lockedUntil) before transferring the LP tokens to the recipient.
+ * During the LP token transfer, the underlying pool credits all accumulated fees to
+ * the locker contract. Once the LP tokens are transferred out, the locker can no
+ * longer call claimFees() because it is no longer locked (lockedUntil == 0), leaving
+ * those fees permanently stranded on the contract. A user who forgets to call
+ * claimFees() before unlocking will lose the entire fee balance earned up to that
+ * moment.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - unlock()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 42, 43, 44, 45, 46, 47, 48, 49, 50, 51... (+7 more)
+ *
+ * RECOMMENDED FIX:
+ * Claim swap fees within the V2Locker.unlock() function before setting lockedUntil
+ * to 0. This ensures all accumulated fees are sent to the recipient before the lock
+ * state is cleared.
+ */
+
+
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {IV2Pool} from "../../external/IV2Pool.sol";
 import {IV2Router} from "../../external/IV2Router.sol";
+// ^^^ VULNERABLE LINE ^^^
 import {IV2LockerFactory} from "../../interfaces/extensions/v2/IV2LockerFactory.sol";
+// ^^^ VULNERABLE LINE ^^^
 import {IV2Locker} from "../../interfaces/extensions/v2/IV2Locker.sol";
+// ^^^ VULNERABLE LINE ^^^
 import {ILocker} from "../../interfaces/ILocker.sol";
+// ^^^ VULNERABLE LINE ^^^
 import {Locker} from "../../Locker.sol";
+// ^^^ VULNERABLE LINE ^^^
 
 /// @title V2Locker
 /// @author velodrome.finance
 /// @notice Manages locking liquidity, staking, and claiming rewards for V2 pools.
 contract V2Locker is Locker, IV2Locker {
+// ^^^ VULNERABLE LINE ^^^
     using SafeERC20 for IERC20;
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @inheritdoc IV2Locker
     address public immutable router;
+    // ^^^ VULNERABLE LINE ^^^
 
     uint256 internal _lp;
+    // ^^^ VULNERABLE LINE ^^^
 
     constructor(
         bool _root,
@@ -39,6 +82,7 @@ contract V2Locker is Locker, IV2Locker {
     }
 
     /// @inheritdoc Locker
+    // @audit-issue VULNERABLE FUNCTION: unlock
     function unlock(address _recipient) external override(Locker, ILocker) onlyLocked nonReentrant returns (uint256) {
         if (msg.sender != factory) revert NotFactory();
 

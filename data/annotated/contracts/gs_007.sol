@@ -1,5 +1,36 @@
 pragma solidity 0.8.13;
 
+/**
+ * @title ClaimFees steals staking rewards
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_007
+ * @dev Source: CODE4RENA - 2025-10-hybra-finance
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-06
+ *
+ * DESCRIPTION:
+ * _claimFees() sweeps the entire balance of `token0`/`token1` after `collectFees()`,
+ * stealing rewards if `rewardToken` matches `token0` or `token1`. Impact: Bribe
+ * contract receives staking rewards instead of fees.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - _claimFees()
+ * - claimFees()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 304, 305, 306, 307, 308, 309, 310, 311, 312, 313... (+22 more)
+ *
+ * ATTACK SCENARIO:
+ * A test deposits 10 HYBR rewards, adds 0.1 HYBR fees, and `claimFees()` sweeps al
+ *
+ * RECOMMENDED FIX:
+ * Transfer only the difference in balance before/after `collectFees()`; add access
+ * control to `claimFees`. Status: Mitigation confirmed.
+ */
+
+
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -272,36 +303,53 @@ contract GaugeCL is ReentrancyGuard, Ownable, IERC721Receiver {
 
         // Store reward rate for current epoch tracking
         rewardRateByEpoch[HybraTimeLibrary.epochStart(block.timestamp)] = rewardRate;
+        // ^^^ VULNERABLE LINE ^^^
 
         // Transfer reward tokens from distributor to gauge
         rewardToken.safeTransferFrom(DISTRIBUTION, address(this), rewardAmount);
+        // ^^^ VULNERABLE LINE ^^^
 
         // Verify contract has sufficient balance to support calculated reward rate
         uint256 contractBalance = rewardToken.balanceOf(address(this));
+        // ^^^ VULNERABLE LINE ^^^
         require(rewardRate <= contractBalance / epochTimeRemaining, "Insufficient balance for reward rate");
+        // ^^^ VULNERABLE LINE ^^^
 
         // Update period finish time and return current rate
         _periodFinish = epochEndTimestamp;
+        // ^^^ VULNERABLE LINE ^^^
         currentRate = rewardRate;
+        // ^^^ VULNERABLE LINE ^^^
 
         emit RewardAdded(rewardAmount);
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     function gaugeBalances() external view returns (uint256 token0, uint256 token1){
+    // ^^^ VULNERABLE LINE ^^^
         
         (token0, token1) = clPool.gaugeFees();
+        // ^^^ VULNERABLE LINE ^^^
 
     }
+    // ^^^ VULNERABLE LINE ^^^
 
   
 
 
 
+    // @audit-issue VULNERABLE FUNCTION: claimFees
     function claimFees() external nonReentrant returns (uint256 claimed0, uint256 claimed1) {
+    // ^^^ VULNERABLE LINE ^^^
         return _claimFees();
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
+    // @audit-issue VULNERABLE FUNCTION: _claimFees
     function _claimFees() internal returns (uint256 claimed0, uint256 claimed1) {
+    // ^^^ VULNERABLE LINE ^^^
         if (!isForPair) {
             return (0, 0);
         }

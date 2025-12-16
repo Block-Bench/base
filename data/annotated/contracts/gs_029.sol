@@ -1,6 +1,42 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.27;
 
+/**
+ * @title Chained signature with checkpoint usage disabled can bypass all checkpointer validation
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_029
+ * @dev Source: CODE4RENA - 2025-10-sequence
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: access_control
+ * - Severity: HIGH
+ * - Finding ID: H-01
+ *
+ * DESCRIPTION:
+ * When a wallet is behind a checkpointer and a chained signature is used with bit 6
+ * (checkpointer usage flag) set to zero, BaseSig.recover skips the checkpointer
+ * validation block (BaseSig.sol:88-106). This leaves _checkpointer and snapshot
+ * unset (zero-valued). In recoverChained, the checkpointer is ignored, and the
+ * signature validation passes even if the checkpointer should be enforced. The final
+ * validation succeeds because snapshot.imageHash == bytes32(0) as the checkpointer
+ * is ignored.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - recover()
+ * - recoverChained()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 88, 89, 90, 91, 92, 93, 94, 95, 96, 97... (+27 more)
+ *
+ * ATTACK SCENARIO:
+ * An evicted signer can sign a payload valid under stale wallet configuration and 
+ *
+ * RECOMMENDED FIX:
+ * Do not permit checkpointer to be disabled (bit 6 unset) if chained signature is
+ * used. Revert in this case with custom error. Example fix in BaseSig.sol: if
+ * (signatureFlag & 0x40 == 0) { revert MissingCheckpointer(); }
+ */
+
+
 import { LibBytes } from "../../utils/LibBytes.sol";
 import { LibOptim } from "../../utils/LibOptim.sol";
 import { Payload } from "../Payload.sol";
@@ -50,24 +86,41 @@ library BaseSig {
 
   function _leafForSapient(address _addr, uint256 _weight, bytes32 _imageHash) internal pure returns (bytes32) {
     return keccak256(abi.encodePacked("Sequence sapient config:\n", _addr, _weight, _imageHash));
+    // ^^^ VULNERABLE LINE ^^^
   }
+  // ^^^ VULNERABLE LINE ^^^
 
   function _leafForHardcodedSubdigest(
+  // ^^^ VULNERABLE LINE ^^^
     bytes32 _subdigest
+    // ^^^ VULNERABLE LINE ^^^
   ) internal pure returns (bytes32) {
+  // ^^^ VULNERABLE LINE ^^^
     return keccak256(abi.encodePacked("Sequence static digest:\n", _subdigest));
+    // ^^^ VULNERABLE LINE ^^^
   }
+  // ^^^ VULNERABLE LINE ^^^
 
   function _leafForAnyAddressSubdigest(
+  // ^^^ VULNERABLE LINE ^^^
     bytes32 _anyAddressSubdigest
+    // ^^^ VULNERABLE LINE ^^^
   ) internal pure returns (bytes32) {
+  // ^^^ VULNERABLE LINE ^^^
     return keccak256(abi.encodePacked("Sequence any address subdigest:\n", _anyAddressSubdigest));
+    // ^^^ VULNERABLE LINE ^^^
   }
+  // ^^^ VULNERABLE LINE ^^^
 
+    // @audit-issue VULNERABLE FUNCTION: recover
   function recover(
+  // ^^^ VULNERABLE LINE ^^^
     Payload.Decoded memory _payload,
+    // ^^^ VULNERABLE LINE ^^^
     bytes calldata _signature,
+    // ^^^ VULNERABLE LINE ^^^
     bool _ignoreCheckpointer,
+    // ^^^ VULNERABLE LINE ^^^
     address _checkpointer
   ) internal view returns (uint256 threshold, uint256 weight, bytes32 imageHash, uint256 checkpoint, bytes32 opHash) {
     // First byte is the signature flag
@@ -100,8 +153,10 @@ library BaseSig {
 
         // Call the middleware
         snapshot = ICheckpointer(_checkpointer).snapshotFor(address(this), checkpointerData);
+        // ^^^ VULNERABLE LINE ^^^
 
         rindex += checkpointerDataSize;
+        // ^^^ VULNERABLE LINE ^^^
       }
     }
 
@@ -140,20 +195,33 @@ library BaseSig {
     }
   }
 
+    // @audit-issue VULNERABLE FUNCTION: recoverChained
   function recoverChained(
+  // ^^^ VULNERABLE LINE ^^^
     Payload.Decoded memory _payload,
+    // ^^^ VULNERABLE LINE ^^^
     address _checkpointer,
+    // ^^^ VULNERABLE LINE ^^^
     Snapshot memory _snapshot,
+    // ^^^ VULNERABLE LINE ^^^
     bytes calldata _signature
+    // ^^^ VULNERABLE LINE ^^^
   ) internal view returns (uint256 threshold, uint256 weight, bytes32 imageHash, uint256 checkpoint, bytes32 opHash) {
+  // ^^^ VULNERABLE LINE ^^^
     Payload.Decoded memory linkedPayload;
+    // ^^^ VULNERABLE LINE ^^^
     linkedPayload.kind = Payload.KIND_CONFIG_UPDATE;
+    // ^^^ VULNERABLE LINE ^^^
 
     uint256 rindex;
+    // ^^^ VULNERABLE LINE ^^^
     uint256 prevCheckpoint = type(uint256).max;
+    // ^^^ VULNERABLE LINE ^^^
 
     while (rindex < _signature.length) {
+    // ^^^ VULNERABLE LINE ^^^
       uint256 nrindex;
+      // ^^^ VULNERABLE LINE ^^^
 
       {
         uint256 sigSize;

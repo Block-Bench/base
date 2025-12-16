@@ -1,6 +1,38 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity ^0.8.13;
 
+/**
+ * @title Proposal's action should not be able to target the voting contract or the lock manager
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_016
+ * @dev Source: SPEARBIT - Aragon DAO Gov Plugin Security Review
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: access_control
+ * - Severity: MEDIUM
+ * - Finding ID: M-04
+ *
+ * DESCRIPTION:
+ * The LockToVotePlugin.createProposal() at lines 77-131 does not perform any
+ * validation on the actions bound to the proposal. The for loop at lines 121-126
+ * just pushes actions without checking targets. If the plugin's targetConfig is set
+ * to execute with delegatecall, actions targeting the LockManager will be executed
+ * on behalf of the plugin, allowing attackers to call proposalEnded() to remove
+ * active proposals from tracking.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - createProposal()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 77, 78, 79, 80, 81, 82, 83, 84, 85, 86... (+45 more)
+ *
+ * RECOMMENDED FIX:
+ * Prevent the creation of new proposals when the action's target is address(this)
+ * (the plugin) or address(lockManager). Add validation in createProposal: 'if
+ * (_actions[i].to == address(this) || _actions[i].to == address(lockManager)) revert
+ * InvalidTarget();'
+ */
+
+
 import {ILockManager} from "./interfaces/ILockManager.sol";
 import {LockToGovernBase} from "./base/LockToGovernBase.sol";
 import {ILockToVote} from "./interfaces/ILockToVote.sol";
@@ -43,59 +75,98 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
     function initialize(
         IDAO _dao,
         ILockManager _lockManager,
+        // ^^^ VULNERABLE LINE ^^^
         VotingSettings calldata _votingSettings,
+        // ^^^ VULNERABLE LINE ^^^
         IPlugin.TargetConfig calldata _targetConfig,
+        // ^^^ VULNERABLE LINE ^^^
         bytes calldata _pluginMetadata
+        // ^^^ VULNERABLE LINE ^^^
     ) external onlyCallAtInitialization reinitializer(1) {
+    // ^^^ VULNERABLE LINE ^^^
         __MajorityVotingBase_init(_dao, _votingSettings, _targetConfig, _pluginMetadata);
+        // ^^^ VULNERABLE LINE ^^^
         __LockToGovernBase_init(_lockManager);
+        // ^^^ VULNERABLE LINE ^^^
 
         emit MembershipContractAnnounced({definingContract: address(_lockManager.token())});
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @notice Checks if this or the parent contract supports an interface by its ID.
     /// @param _interfaceId The ID of the interface.
     /// @return Returns `true` if the interface is supported.
     function supportsInterface(bytes4 _interfaceId)
+    // ^^^ VULNERABLE LINE ^^^
         public
+        // ^^^ VULNERABLE LINE ^^^
         view
+        // ^^^ VULNERABLE LINE ^^^
         virtual
+        // ^^^ VULNERABLE LINE ^^^
         override(MajorityVotingBase, LockToGovernBase)
+        // ^^^ VULNERABLE LINE ^^^
         returns (bool)
+        // ^^^ VULNERABLE LINE ^^^
     {
+    // ^^^ VULNERABLE LINE ^^^
         return _interfaceId == LOCK_TO_VOTE_INTERFACE_ID || _interfaceId == type(ILockToVote).interfaceId
+        // ^^^ VULNERABLE LINE ^^^
             || super.supportsInterface(_interfaceId);
+            // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @inheritdoc IProposal
     function customProposalParamsABI() external pure override returns (string memory) {
+    // ^^^ VULNERABLE LINE ^^^
         return "(uint256 allowFailureMap)";
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     /// @inheritdoc IProposal
     /// @dev Requires the `CREATE_PROPOSAL_PERMISSION_ID` permission.
+    // @audit-issue VULNERABLE FUNCTION: createProposal
     function createProposal(
+    // ^^^ VULNERABLE LINE ^^^
         bytes calldata _metadata,
+        // ^^^ VULNERABLE LINE ^^^
         Action[] memory _actions,
+        // ^^^ VULNERABLE LINE ^^^
         uint64 _startDate,
+        // ^^^ VULNERABLE LINE ^^^
         uint64 _endDate,
+        // ^^^ VULNERABLE LINE ^^^
         bytes memory _data
+        // ^^^ VULNERABLE LINE ^^^
     ) external auth(CREATE_PROPOSAL_PERMISSION_ID) returns (uint256 proposalId) {
+    // ^^^ VULNERABLE LINE ^^^
         uint256 _allowFailureMap;
+        // ^^^ VULNERABLE LINE ^^^
 
         if (_data.length != 0) {
+        // ^^^ VULNERABLE LINE ^^^
             (_allowFailureMap) = abi.decode(_data, (uint256));
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         if (currentTokenSupply() == 0) {
+        // ^^^ VULNERABLE LINE ^^^
             revert NoVotingPower();
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         /// @dev `minProposerVotingPower` is checked at the the permission condition behind auth(CREATE_PROPOSAL_PERMISSION_ID)
 
         (_startDate, _endDate) = _validateProposalDates(_startDate, _endDate);
+        // ^^^ VULNERABLE LINE ^^^
 
         proposalId = _createProposalId(keccak256(abi.encode(_actions, _metadata)));
+        // ^^^ VULNERABLE LINE ^^^
 
         if (_proposalExists(proposalId)) {
             revert ProposalAlreadyExists(proposalId);

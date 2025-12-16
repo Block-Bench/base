@@ -1,6 +1,36 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.27;
 
+/**
+ * @title BaseAuth.recoverSapientSignature returns a constant instead of signer image hash, breaking sapient signer flows
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_033
+ * @dev Source: CODE4RENA - 
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-03
+ *
+ * DESCRIPTION:
+ * BaseAuth.recoverSapientSignature returns bytes32(uint256(1)) instead of actual
+ * signer imageHash, violating ISapient interface. Breaks Merkle leaf construction in
+ * BaseSig.recoverBranch.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - recoverSapientSignature()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 120, 121, 122, 123, 124, 125, 126, 127, 128, 129... (+11 more)
+ *
+ * ATTACK SCENARIO:
+ * Wallet uses another wallet as sapient signer → signature validation fails due to
+ *
+ * RECOMMENDED FIX:
+ * Return actual image hash from recoverSapientSignature. Extend signatureValidation
+ * to return imageHash or call BaseSig.recover.
+ */
+
+
 import { Payload } from "../Payload.sol";
 
 import { Storage } from "../Storage.sol";
@@ -89,24 +119,37 @@ abstract contract BaseAuth is IAuth, IPartialAuth, ISapient, IERC1271, SelfAuth 
       opHash = _payload.hash();
 
       (address addr, uint256 timestamp) = _getStaticSignature(opHash);
+      // ^^^ VULNERABLE LINE ^^^
       if (timestamp <= block.timestamp) {
+      // ^^^ VULNERABLE LINE ^^^
         revert InvalidStaticSignatureExpired(opHash, timestamp);
+        // ^^^ VULNERABLE LINE ^^^
       }
+      // ^^^ VULNERABLE LINE ^^^
 
       if (addr != address(0) && addr != msg.sender) {
+      // ^^^ VULNERABLE LINE ^^^
         revert InvalidStaticSignatureWrongCaller(opHash, msg.sender, addr);
+        // ^^^ VULNERABLE LINE ^^^
       }
+      // ^^^ VULNERABLE LINE ^^^
 
       return (true, opHash);
+      // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     // Static signature is not used, recover and validate imageHash
 
     uint256 threshold;
+    // ^^^ VULNERABLE LINE ^^^
     uint256 weight;
+    // ^^^ VULNERABLE LINE ^^^
     bytes32 imageHash;
+    // ^^^ VULNERABLE LINE ^^^
 
     (threshold, weight, imageHash,, opHash) = BaseSig.recover(_payload, _signature, false, address(0));
+    // ^^^ VULNERABLE LINE ^^^
 
     // Validate the weight
     if (weight < threshold) {
@@ -117,6 +160,7 @@ abstract contract BaseAuth is IAuth, IPartialAuth, ISapient, IERC1271, SelfAuth 
   }
 
   /// @inheritdoc ISapient
+    // @audit-issue VULNERABLE FUNCTION: recoverSapientSignature
   function recoverSapientSignature(
     Payload.Decoded memory _payload,
     bytes calldata _signature

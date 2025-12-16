@@ -1,6 +1,47 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+/**
+ * @title Inactive managers may under-report funds
+ * @notice VULNERABLE CONTRACT - Gold Standard Benchmark Item gs_024
+ * @dev Source: MIXBYTES - Mantle mETH x Aave Integration Security Audit
+ *
+ * VULNERABILITY INFORMATION:
+ * - Type: logic_error
+ * - Severity: MEDIUM
+ * - Finding ID: M-2
+ *
+ * DESCRIPTION:
+ * LiquidityBuffer.getControlledBalance() sums balances of managers with isActive ==
+ * true only. If an admin deactivates a manager via
+ * updatePositionManager()/togglePositionManagerStatus() before evacuating funds, any
+ * residual underlying on that manager is excluded from the total, causing
+ * under-reporting. Moreover, withdrawals from inactive managers are blocked
+ * (_withdrawETHFromManager and onlyPositionManagerContract both require the manager
+ * to be active), so the funds remain inaccessible until the manager is reactivated.
+ *
+ * VULNERABLE FUNCTIONS:
+ * - getControlledBalance()
+ * - _withdrawETHFromManager()
+ * - onlyPositionManagerContract()
+ *
+ * VULNERABLE LINES:
+ * - Lines: 183, 184, 185, 186, 187, 188, 189, 190, 191, 192... (+32 more)
+ *
+ * ATTACK SCENARIO:
+ * 1. Position manager 0 has 1000 ETH allocated to it in Aave
+ * 2. Admin calls togglePositionManagerStatus(0) to deactivate manager 0 without fi
+ * 3. getControlledBalance() now returns a value that is 1000 ETH less than the act
+ * 4. _withdrawETHFromManager(0, amount) reverts with LiquidityBuffer__ManagerInact
+ * 5. The 1000 ETH is effectively locked and invisible to the protocol accounting u
+ *
+ * RECOMMENDED FIX:
+ * Check underlying balance before deactivation and use a dedicated forceDeactivate()
+ * if it's not zero. This was fixed in commit
+ * 93280383c0858c559270ceaec6f5d04f9be0a8e7.
+ */
+
+
 import {AccessControlEnumerableUpgradeable} from "openzeppelin-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import {Initializable} from "openzeppelin-upgradeable/proxy/utils/Initializable.sol";
 import {Address} from "openzeppelin/utils/Address.sol";
@@ -141,18 +182,29 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
         __AccessControlEnumerable_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, init.admin);
+        // ^^^ VULNERABLE LINE ^^^
         _grantRole(LIQUIDITY_MANAGER_ROLE, init.liquidityManager);
+        // ^^^ VULNERABLE LINE ^^^
         _grantRole(POSITION_MANAGER_ROLE, init.positionManager);
+        // ^^^ VULNERABLE LINE ^^^
         _grantRole(INTEREST_TOPUP_ROLE, init.interestTopUp);
+        // ^^^ VULNERABLE LINE ^^^
         _grantRole(DRAWDOWN_MANAGER_ROLE, init.drawdownManager);
+        // ^^^ VULNERABLE LINE ^^^
         
         stakingContract = init.staking;
+        // ^^^ VULNERABLE LINE ^^^
         pauser = init.pauser;
+        // ^^^ VULNERABLE LINE ^^^
         feesReceiver = init.feesReceiver;
+        // ^^^ VULNERABLE LINE ^^^
         shouldExecuteAllocation = true;
+        // ^^^ VULNERABLE LINE ^^^
         
         _grantRole(LIQUIDITY_MANAGER_ROLE, address(stakingContract));
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     // ========================================= VIEW FUNCTIONS =========================================
 
@@ -180,6 +232,7 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
         return totalFundsReceived - totalFundsReturned;
     }
 
+    // @audit-issue VULNERABLE FUNCTION: getControlledBalance
     function getControlledBalance() public view returns (uint256) {
         uint256 totalBalance = address(this).balance;
         
@@ -398,12 +451,19 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
         if (amount > pendingInterest) {
             revert LiquidityBuffer__ExceedsPendingInterest();
         }
+        // ^^^ VULNERABLE LINE ^^^
         pendingInterest -= amount;
+        // ^^^ VULNERABLE LINE ^^^
         uint256 fees = Math.mulDiv(feesBasisPoints, amount, _BASIS_POINTS_DENOMINATOR);
+        // ^^^ VULNERABLE LINE ^^^
         uint256 topUpAmount = amount - fees;
+        // ^^^ VULNERABLE LINE ^^^
         stakingContract.topUp{value: topUpAmount}();
+        // ^^^ VULNERABLE LINE ^^^
         totalInterestToppedUp += topUpAmount;
+        // ^^^ VULNERABLE LINE ^^^
         emit InterestToppedUp(topUpAmount);
+        // ^^^ VULNERABLE LINE ^^^
 
         if (fees > 0) {
             Address.sendValue(feesReceiver, fees);
@@ -438,6 +498,7 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
         return interestAmount;
     }
 
+    // @audit-issue VULNERABLE FUNCTION: _withdrawETHFromManager
     function _withdrawETHFromManager(uint256 managerId, uint256 amount) internal {
         if (pauser.isLiquidityBufferPaused()) {
             revert LiquidityBuffer__Paused();
@@ -502,22 +563,34 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
         // check position manager is active
         PositionManagerConfig memory config = positionManagerConfigs[managerId];
         if (!config.isActive) revert LiquidityBuffer__ManagerInactive();
+        // ^^^ VULNERABLE LINE ^^^
         // check allocation cap
         PositionAccountant storage accounting = positionAccountants[managerId];
+        // ^^^ VULNERABLE LINE ^^^
         if (accounting.allocatedBalance + amount > config.allocationCap) {
+        // ^^^ VULNERABLE LINE ^^^
             revert LiquidityBuffer__ExceedsAllocationCap();
+            // ^^^ VULNERABLE LINE ^^^
         }
+        // ^^^ VULNERABLE LINE ^^^
 
         // Update accounting BEFORE external call (Checks-Effects-Interactions pattern)
         accounting.allocatedBalance += amount;
+        // ^^^ VULNERABLE LINE ^^^
         totalAllocatedBalance += amount;
+        // ^^^ VULNERABLE LINE ^^^
         pendingPrincipal -= amount;
+        // ^^^ VULNERABLE LINE ^^^
         emit ETHAllocatedToManager(managerId, amount);
+        // ^^^ VULNERABLE LINE ^^^
 
         // deposit to position manager AFTER state updates
         IPositionManager manager = IPositionManager(config.managerAddress);
+        // ^^^ VULNERABLE LINE ^^^
         manager.deposit{value: amount}(0);
+        // ^^^ VULNERABLE LINE ^^^
     }
+    // ^^^ VULNERABLE LINE ^^^
 
     function _receiveETHFromStaking(uint256 amount) internal {
         totalFundsReceived += amount;
