@@ -74,5 +74,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_021.json",
     "original_finding_title": "Signed swap digest lacks a domain separator"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_021/",
+  "context_files": [
+    "context_01_PancakeSwapInfinityKEMHook.sol"
+  ]
 }

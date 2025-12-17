@@ -1,0 +1,888 @@
+{
+  "id": "ch_gaming_sn_gs_029",
+  "contract_file": "contracts/ch_gaming_sn_gs_029.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "BaseSig",
+      "function_name": "recover",
+      "line_numbers": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        138,
+        139,
+        140,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193
+      ]
+    },
+    "root_cause": "When a wallet is behind a checkpointer and a chained signature is used with bit 6 (checkpointer usage flag) set to zero, BaseSig.recover skips the checkpointer validation block (BaseSig.sol:88-106). This leaves _checkpointer and snapshot unset (zero-valued). In recoverChained, the checkpointer is ignored, and the signature validation passes even if the checkpointer should be enforced. The final validation succeeds because snapshot.imageHash == bytes32(0) as the checkpointer is ignored.",
+    "attack_vector": "An evicted signer can sign a payload valid under stale wallet configuration and bypass checkpointer validation. PoC: Add test case to BaseSigTest and run forge test --match-test test_PoC_checkpointer_bypass. The test constructs a chained signature with checkpointer disabled, mocks the checkpointer response, and asserts successful recovery with correct image hash.",
+    "impact": "Severity: high",
+    "correct_fix": "Do not permit checkpointer to be disabled (bit 6 unset) if chained signature is used. Revert in this case with custom error. Example fix in BaseSig.sol:\nif (signatureFlag & 0x40 == 0) {\n    revert MissingCheckpointer();\n}"
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-sequence_H01",
+    "url": "https://code4rena.com/reports/2025-10-sequence",
+    "date_discovered": "2025-10-07",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 500,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "access_control",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "Chained signatures can disable checkpointer enforcement via flag, allowing bypass of intended validation and use of evicted/stale signers.",
+  "gold_standard_fields": {
+    "source_report": "2025-10-sequence",
+    "source_finding_id": "H-01",
+    "finding_title": "Chained signature with checkpoint usage disabled can bypass all checkpointer validation",
+    "difficulty_tier": 3,
+    "context_level": "single_file",
+    "has_context": false,
+    "call_flow": "User.submit(chained sig with checkpointer flag off) -> BaseSig.recover() skips checkpointer -> recoverChained() ignores checkpointer -> validation passes with stale config"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_029.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_029.json",
+    "original_finding_title": "Chained signature with checkpoint usage disabled can bypass all checkpointer validation"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_029.sol",
+  "sanitized_from": "gs_029",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 2599731647,
+    "coverage": {
+      "total_identifiers": 257,
+      "transformed": 88,
+      "untransformed": 169,
+      "skipped_reserved": 47,
+      "skipped_interface": 0,
+      "coverage_percent": 34.24,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Apache",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LibOptim",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ICheckpointer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Snapshot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC1271",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Decoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "title",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BaseSig",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "author",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Agustin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Aguilar",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Michael",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Standen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "William",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Hua",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Shun",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Kakinoki",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "recovering",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signatures",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "auth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "thrown",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "too",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "low",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "chained",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_signature",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_threshold",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_weight",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC1271",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_signer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checkpoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wrong",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WrongChainedCheckpointOrder",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_checkpoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "snapshot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unused",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "UnusedSnapshot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_snapshot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_flag",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Sequence",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_leafForNested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_node",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_leafForSapient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sapient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_leafForHardcodedSubdigest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_subdigest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "static",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "digest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subdigest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_payload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_ignoreCheckpointer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_checkpointer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "byte",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rindex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "possible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "flags",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "normal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "chain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "XX00",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checkpointer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "X000",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reserved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "but",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "passed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "argument",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "takes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "precedence",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "since",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "defined",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ideal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "don",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "much",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "room",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "determine",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readUint24",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Read",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "middleware",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "snapshotFor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tree",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fkeccak256",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "either",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "must",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "match",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "greater",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "than",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kind",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prevCheckpoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nrindex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Iterate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "until",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "image",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "completed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "half",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "top",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nibble",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "second",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "freely",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "part",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "item",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readUint8",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Free",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "layout",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dynamic",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "read",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yParityAndS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yParity",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "remaining",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readRSVCompact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "node",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "without",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Compute",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "merkle",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WITHOUT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "adding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "valid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compute",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Node",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "left",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readBytes32",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Branch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "XXXX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "branch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nweight",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Nested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Unused",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "free",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readUint16",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Subdigest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hardcoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "always",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accepted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pushes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maximum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "x19Ethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Signed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "n32",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "similar",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allows",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "factual",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payloads",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Sapient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Compact",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "LibBytes": "LibData",
+      "from": "origin",
+      "utils": "gameUtils",
+      "Payload": "Load",
+      "IERC1271_MAGIC_VALUE_HASH": "ierc1271_magic_worth_signature",
+      "ISapient": "Validateapient",
+      "ISapientCompact": "CheckapientCompact",
+      "base": "stronghold",
+      "payload": "load",
+      "FLAG_SIGNATURE_HASH": "indicator_seal_signature",
+      "FLAG_ADDRESS": "indicator_zone",
+      "FLAG_SIGNATURE_ERC1271": "indicator_mark_erc1271",
+      "FLAG_NODE": "marker_node",
+      "FLAG_BRANCH": "marker_branch",
+      "FLAG_SUBDIGEST": "indicator_subdigest",
+      "FLAG_NESTED": "marker_nested",
+      "FLAG_SIGNATURE_ETH_SIGN": "marker_seal_eth_authorize",
+      "FLAG_SIGNATURE_ANY_ADDRESS_SUBDIGEST": "marker_seal_any_zone_subdigest",
+      "FLAG_SIGNATURE_SAPIENT": "indicator_mark_sapient",
+      "FLAG_SIGNATURE_SAPIENT_COMPACT": "marker_seal_sapient_compact",
+      "weight": "influence",
+      "signature": "seal",
+      "LowWeightChainedSignature": "LowInfluenceChainedSeal",
+      "InvalidERC1271Signature": "InvalidErc1271Seal",
+      "_opHash": "_opSignature",
+      "order": "request",
+      "_nextCheckpoint": "_upcomingCheckpoint",
+      "flag": "marker",
+      "InvalidSignatureFlag": "InvalidSealIndicator",
+      "_leafForAddressAndWeight": "_leafForZoneAndInfluence",
+      "config": "settings",
+      "_imageHash": "_imageSignature",
+      "_leafForAnyAddressSubdigest": "_leafForAnyRealmSubdigest",
+      "_anyAddressSubdigest": "_anyRealmSubdigest",
+      "recover": "restore",
+      "threshold": "limit",
+      "imageHash": "imageSeal",
+      "opHash": "opSignature",
+      "First": "Primary",
+      "signatureFlag": "markIndicator",
+      "readFirstUint8": "readInitialUint8",
+      "size": "scale",
+      "set": "assign",
+      "Recover": "Retrieve",
+      "stack": "heap",
+      "readAddress": "readLocation",
+      "Next": "Upcoming",
+      "data": "info",
+      "checkpointerDataSize": "checkpointerInfoMagnitude",
+      "checkpointerData": "checkpointerInfo",
+      "recoverChained": "restoreChained",
+      "noChainId": "noChainIdentifier",
+      "checkpointSize": "checkpointMagnitude",
+      "readUintX": "readNumberX",
+      "thresholdSize": "triggerScale",
+      "hash": "seal814",
+      "recoverBranch": "restoreBranch",
+      "linkedPayload": "linkedCargo",
+      "KIND_CONFIG_UPDATE": "kind_configuration_refreshstats",
+      "max": "maximum",
+      "length": "size",
+      "sigSize": "sigMagnitude",
+      "root": "source",
+      "first": "initial",
+      "next": "following",
+      "firstByte": "primaryByte",
+      "Signature": "Seal",
+      "Weight": "Influence",
+      "addrWeight": "addrInfluence",
+      "sizeSize": "scaleScale",
+      "check": "examine",
+      "isValidSignature": "isValidMark",
+      "Add": "Insert",
+      "Size": "Magnitude",
+      "Enter": "StartMission",
+      "Threshold": "Trigger",
+      "externalWeight": "externalInfluence",
+      "internalThreshold": "internalTrigger",
+      "internalWeight": "internalInfluence",
+      "internalRoot": "internalOrigin",
+      "Sign": "Approve",
+      "Message": "Signal",
+      "counter": "tally",
+      "anyAddressOpHash": "anyRealmOpSeal",
+      "hashFor": "sealFor",
+      "sapientImageHash": "sapientImageSeal",
+      "recoverSapientSignature": "retrieveSapientMark",
+      "recoverSapientSignatureCompact": "retrieveSapientSealCompact"
+    }
+  }
+}

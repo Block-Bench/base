@@ -51,7 +51,7 @@ BASE_DIR = Path(__file__).parent.parent.parent
 DATA_DIR = BASE_DIR / "data"
 SANITIZED_DIR = DATA_DIR / "sanitized"
 NOCOMMENTS_DIR = DATA_DIR / "nocomments"
-GUARDIANSHIELD_DIR = DATA_DIR / "guardianshield"
+GUARDIANSHIELD_DIR = DATA_DIR / "guardian"  # Part of combined Guardian strategy
 
 # Valid protection types
 VALID_PROTECTIONS = ['reentrancy_guard', 'cei_pattern', 'access_control', 'solidity_0_8']

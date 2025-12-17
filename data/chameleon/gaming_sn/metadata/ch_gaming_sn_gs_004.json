@@ -1,0 +1,1136 @@
+{
+  "id": "ch_gaming_sn_gs_004",
+  "contract_file": "contracts/ch_gaming_sn_gs_004.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "GovernanceHYBR",
+      "function_name": "deposit",
+      "line_numbers": [
+        144,
+        238,
+        492,
+        493,
+        494,
+        495,
+        496,
+        497,
+        498,
+        499,
+        500,
+        501,
+        502,
+        503,
+        504,
+        505,
+        506,
+        507,
+        508,
+        509
+      ]
+    },
+    "root_cause": "The gHYBR contract is just another veNFT position holder from the perspective of votingEscrow contract, while the gHYBR contract acts as a vault. And the deposit does not ensure that we mint at least one gHYBR share. This can lead to a condition where the first depositor attacks another user. Example: - Alice deposits dust shares, 1 share : 1 asset - Alice donates 1000e18 assets before Bob deposits, through deposit_for, and he increased the ratio by 1 shares : 1000e18 assets - Bob deposits 100e18 assets, the shares calculation goes 100e18 * 1 / 1000e18 and rounds down to 0 - Receives 0 shares - All bob\u2019s deposit is captured by Alice\u2019s shares - Bob deposits 100e18 assets and receives 0 shares - Alice has 1 share worth 1000e18 + 100e18(bob's) assets The entry points the attacker can use to perform this attack are: 1. The votingEscrow contract allows anyone to deposit assets for any position through its public deposit_for(uint _tokenId, uint _value) external nonreentrant function. 2. The receivePenaltyReward function in GovernanceHYBR contract lacks access control, which allows an attacker to donate to increase totalAssets. 3. Attacker can utilize multiSplit through withdraw, by first depositing 1000:1000 and withdrawing so that the leftover is 1:1 ratio dust. Impact: Alice captures all of Bob\u2019s deposits.",
+    "attack_vector": "function test_submissionValidity() external { // first depositor attack address alice = makeAddr(\"alice\"); address bob = makeAddr(\"bob\"); vm.startPrank(address(minter)); hybr.mint(alice, 2000e18); hybr.mint(bob, 100e18); vm.stopPrank(); vm.startPrank(alice); hybr.approve(address(gHybr), type(uint).max); gHybr.deposit(2, alice); hybr.transfer(address(gHybr), 1000e18); // alice transfers 1000 HYBR to gHYBR gHybr.receivePenaltyReward(1000e18); // alice donates 1000 through the receivePenaltyReward function vm.stopPrank(); // bob deposits vm.startPrank(bob); hybr.approve(address(gHybr), 100e18); gHybr.deposit(100e18, bob); vm.stopPrank(); console.log(\"alice's shares: \", gHybr.balanceOf(alice)); console.log(\"bob's shares: \", gHybr.balanceOf(bob)); console.log(\"gHYBR total assets: \", gHybr.totalAssets()); } Run this test and see the result: - Alice\u2019s shares: 2 - Bob\u2019s shares: 0 - gHYBR total assets: 1100000000000000000002 Alice captures all of Bob\u2019s deposits.",
+    "impact": "Severity: medium",
+    "correct_fix": "Require `shares > 0` in `deposit`; add access control to `receivePenaltyReward`."
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-hybra-finance_M03",
+    "url": "https://code4rena.com/reports/2025-10-hybra-finance",
+    "date_discovered": "2025-10-06",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 636,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "Missing minimum share check in deposit allows first depositor to inflate asset ratio via donations or deposit_for, capturing subsequent deposits.",
+  "gold_standard_fields": {
+    "source_report": "2025-10-hybra-finance",
+    "source_finding_id": "M-03",
+    "finding_title": "First depositor attack possible through multiple attack paths because the deposit function does not check 0 shares received",
+    "difficulty_tier": 3,
+    "context_level": "single_file",
+    "has_context": false,
+    "call_flow": "Attacker.deposit(dust) -> receivePenaltyReward(donation) -> Victim.deposit(amount) -> calculateShares rounds to 0 -> Attacker captures assets"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_004.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_004.json",
+    "original_finding_title": "First depositor attack possible through multiple attack paths because the deposit function does not check 0 shares received"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_004.sol",
+  "sanitized_from": "gs_004",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 3312675139,
+    "coverage": {
+      "total_identifiers": 393,
+      "transformed": 181,
+      "untransformed": 212,
+      "skipped_reserved": 74,
+      "skipped_interface": 0,
+      "coverage_percent": 46.06,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "access",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Ownable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "security",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ReentrancyGuard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IVotingEscrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IVoter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IBribe",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IRewardsDistributor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "libraries",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SafeERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "title",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "GovernanceHYBR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gHYBR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Auto",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compounding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "locks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "HYBR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "veHYBR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compounds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rewards",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Implements",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "restrictions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deposits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "automatic",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "GrowthHYBR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "configurable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "between",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "configuration",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "basis",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "points",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "default",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "minimum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maximum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BASIS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Team",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fees",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rebase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votingYield",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tracking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votingEscrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rewardsDistributor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "manage",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "module",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "swapper",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NOT_AUTHORIZED",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Compound",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SwapperUpdated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AutoVotingEnabled",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enabled",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DefaultVotingStrategyUpdated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pools",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "weights",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_HYBR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_votingEscrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Growth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Initially",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deployer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_rewardsDistributor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "distributor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gauge",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "authorization",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "param",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Zero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "existing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Extend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "based",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_mint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proportional",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Creates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maintain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ownership",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "created",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Insufficient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Cannot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assets",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "receives",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "minus",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "too",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "small",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "after",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "actual",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "entire",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "full",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_burn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "two",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NFTs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "one",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "amounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "staying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "going",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Note",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transferred",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "they",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "their",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "own",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initial",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Preview",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "available",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "currently",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "previewAvailable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "arr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Clean",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clean",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "freed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_cleanExpired",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "len",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "write",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pop",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "implement",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mechanism",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Step",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cached",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pass",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "directly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enough",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "recalculate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "finalAvailable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "final",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "all",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Distributor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "RewardsDistributor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bribes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votedPools",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gauges",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Prepare",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "arrays",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "single",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bribe",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "trading",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "internalBribe",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "internal_bribes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "externalBribe",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "external_bribes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "through",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "configured",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_params",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parameters",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Swapper",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "before",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "spend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hybrReceived",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "safety",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ready",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "into",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "restricted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "authorized",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compound",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_weights",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rHYBR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "conversions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_period",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_fee",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_time",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_swapper",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "team",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_team",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_operator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "safely",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "needed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reach",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WEEK",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "difference",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "more",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "than",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Extension",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "successful",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "without",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "happen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "possible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "other",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "constraints",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "token": "coin",
+      "IGaugeManager": "IGaugeController",
+      "ISwapper": "Checkwapper",
+      "HybraTimeLibrary": "HybraInstantLibrary",
+      "from": "source",
+      "utils": "gameUtils",
+      "staking": "energyLock",
+      "reward": "treasure",
+      "Lock": "SecureTreasure",
+      "period": "interval",
+      "transferLockPeriod": "shiftgoldSecuretreasureInterval",
+      "MIN_LOCK_PERIOD": "floor_freezegold_duration",
+      "MAX_LOCK_PERIOD": "maximum_bindassets_duration",
+      "head_not_withdraw_time": "head_not_claimloot_instant",
+      "tail_not_withdraw_time": "tail_not_obtainprize_moment",
+      "Withdraw": "HarvestGold",
+      "fee": "tribute",
+      "withdrawFee": "harvestgoldTribute",
+      "MIN_WITHDRAW_FEE": "minimum_collectbounty_tribute",
+      "MAX_WITHDRAW_FEE": "ceiling_redeemtokens_charge",
+      "penalty": "debuff",
+      "User": "Hero",
+      "deposit": "addTreasure",
+      "UserLock": "AdventurerSecuretreasure",
+      "amount": "count",
+      "unlockTime": "releaseassetsInstant",
+      "userLocks": "characterLocks",
+      "lockedBalance": "frozenTreasureamount",
+      "Core": "GameCore",
+      "gaugeManager": "gaugeHandler",
+      "veTokenId": "veCrystalIdentifier",
+      "veNFT": "veRelic",
+      "strategy": "battleStrategy",
+      "operator": "questRunner",
+      "lastVoteEpoch": "finalDecideEra",
+      "Last": "Ending",
+      "epoch": "era",
+      "Reward": "Treasure",
+      "lastRebaseTime": "endingRebaseMoment",
+      "lastCompoundTime": "endingCompoundMoment",
+      "Swap": "TradeTreasure",
+      "Errors": "GameErrors",
+      "Events": "GameEvents",
+      "Deposit": "StoreLoot",
+      "user": "character",
+      "hybrAmount": "hybrSum",
+      "sharesReceived": "portionsReceived",
+      "shares": "slices",
+      "newTotalLocked": "currentCombinedFrozen",
+      "PenaltyRewardReceived": "MalusTreasureReceived",
+      "TransferLockPeriodUpdated": "TradefundsSecuretreasureDurationUpdated",
+      "oldPeriod": "previousInterval",
+      "newPeriod": "updatedInterval",
+      "oldSwapper": "previousSwapper",
+      "newSwapper": "currentSwapper",
+      "VoterSet": "VoterGroup",
+      "EmergencyUnlock": "UrgentReleaseassets",
+      "OperatorUpdated": "QuestrunnerUpdated",
+      "oldOperator": "formerQuestrunner",
+      "newOperator": "updatedQuestrunner",
+      "AutoVoteExecuted": "AutoDecideExecuted",
+      "timestamp": "questTime",
+      "sender": "caster",
+      "set": "establish",
+      "setRewardsDistributor": "groupRewardsDistributor",
+      "setGaugeManager": "groupGaugeHandler",
+      "_gaugeManager": "_gaugeController",
+      "manager": "handler",
+      "check": "inspect",
+      "onlyOperator": "onlyQuestRunner",
+      "Amount": "Sum",
+      "recipient": "target",
+      "Recipient": "Target",
+      "nonReentrant": "singleEntry",
+      "first": "initial",
+      "Initialize": "StartGame",
+      "_initializeVeNFT": "_startgameVeRelic",
+      "Add": "Attach",
+      "deposit_for": "stashrewards_for",
+      "lock": "secureTreasure",
+      "duration": "missionTime",
+      "_extendLockToMax": "_extendBindassetsDestinationMaximum",
+      "Calculate": "Compute",
+      "mint": "summon",
+      "current": "active",
+      "totalAssets": "completeAssets",
+      "calculateShares": "computePortions",
+      "Mint": "Craft",
+      "_addTransferLock": "_includeShiftgoldFreezegold",
+      "multiSplit": "multiDivide",
+      "burn": "incinerate",
+      "userTokenId": "playerGemIdentifier",
+      "withdraw": "harvestGold",
+      "initialized": "gameStarted",
+      "epochStart": "ageBegin",
+      "epochNext": "eraFollowing",
+      "calculateAssets": "figureAssets",
+      "feeAmount": "tributeSum",
+      "userAmount": "playerTotal",
+      "Get": "Retrieve",
+      "locked": "sealed",
+      "power": "might",
+      "veBalance": "vePrizecount",
+      "remainingAmount": "remainingSum",
+      "Burn": "Consume",
+      "create": "missionStarted",
+      "newTokenIds": "currentCrystalIds",
+      "Update": "UpdateLevel",
+      "feeTokenId": "cutGemTag",
+      "time": "moment",
+      "initialize": "launchAdventure",
+      "initialAmount": "initialCount",
+      "Create": "QuestCreated",
+      "max": "ceiling",
+      "lockTime": "bindassetsInstant",
+      "MAX_LOCK_DURATION": "ceiling_securetreasure_missiontime",
+      "create_lock_for": "create_bindassets_for",
+      "_totalSupply": "_completeReserve",
+      "_totalAssets": "_combinedAssets",
+      "value": "magnitude",
+      "total": "full",
+      "LockedBalance": "BoundLootbalance",
+      "totalBalance": "aggregateRewardlevel",
+      "currentLocked": "presentSealed",
+      "length": "extent",
+      "expired": "timedOut",
+      "update": "updateLevel",
+      "tokens": "medals",
+      "_beforeTokenTransfer": "_beforeGemMovetreasure",
+      "Check": "Validate",
+      "currentAvailable": "presentAvailable",
+      "Tokens": "Medals",
+      "Claim": "CollectBounty",
+      "claimRewards": "collectbountyRewards",
+      "rebaseAmount": "rebaseTotal",
+      "claim": "receivePrize",
+      "poolVote": "poolCast",
+      "tokenCount": "crystalTally",
+      "rewardsListLength": "rewardsRegistrySize",
+      "bribeTokens": "bribeCoins",
+      "claimBribes": "obtainrewardBribes",
+      "Execute": "CompleteQuest",
+      "swap": "barterGoods",
+      "executeSwap": "performactionExchangeloot",
+      "SwapParams": "BartergoodsSettings",
+      "tokenBalance": "crystalTreasureamount",
+      "tokenIn": "medalIn",
+      "amountIn": "sumIn",
+      "safeApprove": "safeGrantpermission",
+      "swapToHYBR": "exchangelootDestinationHybr",
+      "approval": "permissionGranted",
+      "users": "adventurers",
+      "hybrBalance": "hybrRewardlevel",
+      "Vote": "Decide",
+      "_poolVote": "_poolCast",
+      "vote": "cast",
+      "pool": "prizePool",
+      "receivePenaltyReward": "acceptlootMalusBonus",
+      "Set": "Configure",
+      "setVoter": "groupVoter",
+      "setTransferLockPeriod": "collectionTradefundsSecuretreasureDuration",
+      "Fee": "Charge",
+      "setWithdrawFee": "groupObtainprizeTribute",
+      "setHeadNotWithdrawTime": "collectionHeadNotHarvestgoldInstant",
+      "setTailNotWithdrawTime": "groupTailNotRedeemtokensInstant",
+      "setSwapper": "groupSwapper",
+      "setTeam": "collectionTeam",
+      "Emergency": "Urgent",
+      "unlock": "releaseAssets",
+      "emergencyUnlock": "criticalOpenvault",
+      "info": "details",
+      "getUserLocks": "obtainPlayerLocks",
+      "setOperator": "groupGameoperator",
+      "end": "finish",
+      "getLockEndTime": "retrieveSecuretreasureFinishInstant",
+      "helper": "questHelper",
+      "Calculates": "Derives",
+      "isPermanent": "checkPermanent",
+      "maxUnlockTime": "maximumOpenvaultMoment",
+      "increase_unlock_time": "increase_releaseassets_moment",
+      "failed": "operationFailed"
+    }
+  }
+}

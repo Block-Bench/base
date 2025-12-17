@@ -1,0 +1,114 @@
+{
+  "id": "gd_im_fak_sn_tc_024",
+  "contract_file": "contracts/gd_im_fak_sn_tc_024.sol",
+  "subset": "guardian",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "InverseLending + SimplifiedOracle",
+        "functions": [
+          {
+            "name": "getPrice",
+            "vulnerability": "Reads Curve virtual_price directly without TWAP or manipulation resistance"
+          },
+          {
+            "name": "borrow",
+            "vulnerability": "Relies on manipulatable oracle price for collateral valuation"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "The price oracle for Yearn Curve 3crypto LP tokens relied on Curve's get_virtual_price() which reflects current pool state. Flash loan attackers added massive liquidity in one transaction, inflating virtual_price. The oracle had no time-weighted averaging or manipulation resistance, so it reported the inflated price, allowing massive overborrowing.",
+    "attack_vector": "1) Flash loan 2700 WBTC from Aave. 2) Add 2677.5 WBTC + 22,500 USDT to Curve 3crypto pool. 3) Massive liquidity addition inflates Curve virtual_price from $1.00 to ~$1.50. 4) Deposit yvCrv3Crypto tokens as collateral. 5) Oracle reads inflated price, valuing collateral 50% higher than true worth. 6) Borrow maximum DOLA based on inflated collateral value (80% of $1.50 = $1.20 per token vs should be $0.80). 7) Remove liquidity from Curve, price normalizes. 8) Repay flash loan, keep overborrowed $15.6M DOLA.",
+    "impact": "Funds lost: $15,600,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2022-04-02",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 85,
+    "num_contracts": 2,
+    "contract_names": [
+      "PriceOracle",
+      "LendingProtocol"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "oracle",
+    "curve",
+    "flash_loan",
+    "lp_tokens",
+    "price_manipulation",
+    "yearn",
+    "lending"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2022-04-02",
+      "protocol_name": "Inverse Finance Oracle Manipulation",
+      "chain": "ethereum",
+      "funds_lost_usd": 15600000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Inverse Finance Oracle Manipulation exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_024.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_024.json",
+    "original_exploit_name": "Inverse Finance Oracle Manipulation"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_024.sol",
+  "sanitized_from": "tc_024",
+  "derived_from": "sn_tc_024",
+  "transformation": {
+    "strategy": "guardian",
+    "mode": "implicit",
+    "variant": "fake_guard",
+    "changes": [
+      "Added unused _notEntered guard variable",
+      "Added misleading protection comments"
+    ],
+    "still_vulnerable": true
+  }
+}

@@ -138,5 +138,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_030.json",
     "original_finding_title": "Partial signature replay/frontrunning attack on session calls"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_030/",
+  "context_files": [
+    "context_01_SessionSig.sol"
+  ]
 }

@@ -88,5 +88,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_015.json",
     "original_finding_title": "Misuse of isProposalOpen() function"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_015/",
+  "context_files": [
+    "context_01_MajorityVotingBase.sol"
+  ]
 }

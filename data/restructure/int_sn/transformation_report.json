@@ -1,0 +1,5924 @@
+{
+  "timestamp": "2025-12-17T13:25:48.238496",
+  "split_type": "internal_external",
+  "source": "sanitized",
+  "total_files": 252,
+  "successful": 227,
+  "failed": 25,
+  "results": [
+    {
+      "original_id": "sn_ds_001",
+      "hydra_id": "hy_int_sn_ds_001",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 51620475,
+      "split_details": {
+        "original_function": "theRun",
+        "helpers_created": [
+          "_handleTheRunLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_002",
+      "hydra_id": "hy_int_sn_ds_002",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1109686406,
+      "split_details": {
+        "original_function": "addToBalance",
+        "helpers_created": [
+          "_doAddToBalanceHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_003",
+      "hydra_id": "hy_int_sn_ds_003",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 295938010,
+      "split_details": {
+        "original_function": "VaultOperator",
+        "helpers_created": [
+          "_executeVaultOperatorHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_004",
+      "hydra_id": "hy_int_sn_ds_004",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1969446946,
+      "split_details": {
+        "original_function": "safe_add",
+        "helpers_created": [
+          "_handleSafe_addLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_005",
+      "hydra_id": "hy_int_sn_ds_005",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3037110030,
+      "split_details": {
+        "original_function": "OpenAccess",
+        "helpers_created": [
+          "_executeOpenAccessLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_006",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_007",
+      "hydra_id": "hy_int_sn_ds_007",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 402044132,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_executeWithdrawImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_008",
+      "hydra_id": "hy_int_sn_ds_008",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 767812602,
+      "split_details": {
+        "original_function": "PopBonusCode",
+        "helpers_created": [
+          "_performPopBonusCodeImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_009",
+      "hydra_id": "hy_int_sn_ds_009",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1304965482,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_WithdrawLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_010",
+      "hydra_id": "hy_int_sn_ds_010",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3656817915,
+      "split_details": {
+        "original_function": "MyContract",
+        "helpers_created": [
+          "_doMyContractCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_011",
+      "hydra_id": "hy_int_sn_ds_011",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2713656536,
+      "split_details": {
+        "original_function": "withdrawAll",
+        "helpers_created": [
+          "_doWithdrawAllImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_012",
+      "hydra_id": "hy_int_sn_ds_012",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2809247749,
+      "split_details": {
+        "original_function": "forward",
+        "helpers_created": [
+          "_handleForwardCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_013",
+      "hydra_id": "hy_int_sn_ds_013",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 169330385,
+      "split_details": {
+        "original_function": "sudicideAnyone",
+        "helpers_created": [
+          "_handleSudicideAnyoneLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_014",
+      "hydra_id": "hy_int_sn_ds_014",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2172739727,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_DepositImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_015",
+      "hydra_id": "hy_int_sn_ds_015",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4268952330,
+      "split_details": {
+        "original_function": "initWallet",
+        "helpers_created": [
+          "_doInitWalletLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_016",
+      "hydra_id": "hy_int_sn_ds_016",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1026390050,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_DepositLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_017",
+      "hydra_id": "hy_int_sn_ds_017",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 330117395,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_doDepositLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_018",
+      "hydra_id": "hy_int_sn_ds_018",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2903797993,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_executeDepositCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_019",
+      "hydra_id": "hy_int_sn_ds_019",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 882156440,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_performDepositLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_020",
+      "hydra_id": "hy_int_sn_ds_020",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3605706198,
+      "split_details": {
+        "original_function": "SetMinSum",
+        "helpers_created": [
+          "_handleSetMinSumInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_021",
+      "hydra_id": "hy_int_sn_ds_021",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1843006100,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_executeDepositLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_022",
+      "hydra_id": "hy_int_sn_ds_022",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3941104590,
+      "split_details": {
+        "original_function": "confirmOwner",
+        "helpers_created": [
+          "_performConfirmOwnerHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_023",
+      "hydra_id": "hy_int_sn_ds_023",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3199097175,
+      "split_details": {
+        "original_function": "Put",
+        "helpers_created": [
+          "_doPutInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_024",
+      "hydra_id": "hy_int_sn_ds_024",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4008492968,
+      "split_details": {
+        "original_function": "PrivateDeposit",
+        "helpers_created": [
+          "_performPrivateDepositHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_025",
+      "hydra_id": "hy_int_sn_ds_025",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1774946462,
+      "split_details": {
+        "original_function": "Put",
+        "helpers_created": [
+          "_PutLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_026",
+      "hydra_id": "hy_int_sn_ds_026",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2411781142,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_performDepositInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_027",
+      "hydra_id": "hy_int_sn_ds_027",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2638596345,
+      "split_details": {
+        "original_function": "Put",
+        "helpers_created": [
+          "_PutImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_028",
+      "hydra_id": "hy_int_sn_ds_028",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1121898916,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_executeDepositCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_029",
+      "hydra_id": "hy_int_sn_ds_029",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2989804132,
+      "split_details": {
+        "original_function": "Put",
+        "helpers_created": [
+          "_PutImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_030",
+      "hydra_id": "hy_int_sn_ds_030",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1812638725,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_performDepositImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_031",
+      "hydra_id": "hy_int_sn_ds_031",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3626258336,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_DepositImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_032",
+      "hydra_id": "hy_int_sn_ds_032",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1307959020,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_doDepositInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_033",
+      "hydra_id": "hy_int_sn_ds_033",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 19815283,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_executeDepositLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_034",
+      "hydra_id": "hy_int_sn_ds_034",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1666013664,
+      "split_details": {
+        "original_function": "Put",
+        "helpers_created": [
+          "_handlePutInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_035",
+      "hydra_id": "hy_int_sn_ds_035",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 40272839,
+      "split_details": {
+        "original_function": "Put",
+        "helpers_created": [
+          "_PutHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_036",
+      "hydra_id": "hy_int_sn_ds_036",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4134604272,
+      "split_details": {
+        "original_function": "Put",
+        "helpers_created": [
+          "_handlePutCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_037",
+      "hydra_id": "hy_int_sn_ds_037",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 411588010,
+      "split_details": {
+        "original_function": "addToBalance",
+        "helpers_created": [
+          "_AddToBalanceCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_038",
+      "hydra_id": "hy_int_sn_ds_038",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 624143901,
+      "split_details": {
+        "original_function": "depositFunds",
+        "helpers_created": [
+          "_executeDepositFundsHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_039",
+      "hydra_id": "hy_int_sn_ds_039",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3237474677,
+      "split_details": {
+        "original_function": "airDrop",
+        "helpers_created": [
+          "_doAirDropHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_040",
+      "hydra_id": "hy_int_sn_ds_040",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3162918822,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_handleWithdrawInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_041",
+      "hydra_id": "hy_int_sn_ds_041",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2683618806,
+      "split_details": {
+        "original_function": "withdrawReward",
+        "helpers_created": [
+          "_doWithdrawRewardLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_042",
+      "hydra_id": "hy_int_sn_ds_042",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1231973610,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_TransferHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_043",
+      "hydra_id": "hy_int_sn_ds_043",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3973193761,
+      "split_details": {
+        "original_function": "withdrawAll",
+        "helpers_created": [
+          "_doWithdrawAllCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_044",
+      "hydra_id": "hy_int_sn_ds_044",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2566767458,
+      "split_details": {
+        "original_function": "withdrawBalance",
+        "helpers_created": [
+          "_WithdrawBalanceImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_045",
+      "hydra_id": "hy_int_sn_ds_045",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3368921182,
+      "split_details": {
+        "original_function": "addToBalance",
+        "helpers_created": [
+          "_handleAddToBalanceInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_046",
+      "hydra_id": "hy_int_sn_ds_046",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3503353925,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_doWithdrawHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_047",
+      "hydra_id": "hy_int_sn_ds_047",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 220092284,
+      "split_details": {
+        "original_function": "callAddress",
+        "helpers_created": [
+          "_executeCallAddressCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_048",
+      "hydra_id": "hy_int_sn_ds_048",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2997787913,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_performTransferInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_049",
+      "hydra_id": "hy_int_sn_ds_049",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3165417196,
+      "split_details": {
+        "original_function": "confirmOwner",
+        "helpers_created": [
+          "_performConfirmOwnerInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_050",
+      "hydra_id": "hy_int_sn_ds_050",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1678193034,
+      "split_details": {
+        "original_function": "confirmOwner",
+        "helpers_created": [
+          "_executeConfirmOwnerCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_051",
+      "hydra_id": "hy_int_sn_ds_051",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2682696971,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_performWithdrawCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_052",
+      "hydra_id": "hy_int_sn_ds_052",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1896739885,
+      "split_details": {
+        "original_function": "redeem",
+        "helpers_created": [
+          "_doRedeemLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_053",
+      "hydra_id": "hy_int_sn_ds_053",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3060347794,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_executeTransferLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_054",
+      "hydra_id": "hy_int_sn_ds_054",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 746883741,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_TransferImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_055",
+      "hydra_id": "hy_int_sn_ds_055",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1447127992,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_performTransferCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_056",
+      "hydra_id": "hy_int_sn_ds_056",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1326357384,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_executeTransferLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_057",
+      "hydra_id": "hy_int_sn_ds_057",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3234027768,
+      "split_details": {
+        "original_function": "EtherGet",
+        "helpers_created": [
+          "_performEtherGetImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_058",
+      "hydra_id": "hy_int_sn_ds_058",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3224567784,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_doWithdrawCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_059",
+      "hydra_id": "hy_int_sn_ds_059",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1160646040,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_doWithdrawImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_060",
+      "hydra_id": "hy_int_sn_ds_060",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3941104590,
+      "split_details": {
+        "original_function": "confirmOwner",
+        "helpers_created": [
+          "_performConfirmOwnerHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_061",
+      "hydra_id": "hy_int_sn_ds_061",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3248857459,
+      "split_details": {
+        "original_function": "GetHoneyFromJar",
+        "helpers_created": [
+          "_GetHoneyFromJarHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_062",
+      "hydra_id": "hy_int_sn_ds_062",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1526522200,
+      "split_details": {
+        "original_function": "redeem",
+        "helpers_created": [
+          "_handleRedeemInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_063",
+      "hydra_id": "hy_int_sn_ds_063",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3449536768,
+      "split_details": {
+        "original_function": "GetFreebie",
+        "helpers_created": [
+          "_performGetFreebieHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_064",
+      "hydra_id": "hy_int_sn_ds_064",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3450277123,
+      "split_details": {
+        "original_function": "GetPie",
+        "helpers_created": [
+          "_GetPieImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_065",
+      "hydra_id": "hy_int_sn_ds_065",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 932084778,
+      "split_details": {
+        "original_function": "Owned",
+        "helpers_created": [
+          "_doOwnedLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_066",
+      "hydra_id": "hy_int_sn_ds_066",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3828755920,
+      "split_details": {
+        "original_function": "confirmOwner",
+        "helpers_created": [
+          "_executeConfirmOwnerHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_067",
+      "hydra_id": "hy_int_sn_ds_067",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3076414170,
+      "split_details": {
+        "original_function": "tokens_buy",
+        "helpers_created": [
+          "_executeTokens_buyCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_068",
+      "hydra_id": "hy_int_sn_ds_068",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1052366184,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_performTransferCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_069",
+      "hydra_id": "hy_int_sn_ds_069",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2880798775,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_doTransferImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_070",
+      "hydra_id": "hy_int_sn_ds_070",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 205469875,
+      "split_details": {
+        "original_function": "proxy",
+        "helpers_created": [
+          "_performProxyImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_071",
+      "hydra_id": "hy_int_sn_ds_071",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3689495577,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_handleWithdrawImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_072",
+      "hydra_id": "hy_int_sn_ds_072",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3273730679,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_performWithdrawInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_073",
+      "hydra_id": "hy_int_sn_ds_073",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3436429941,
+      "split_details": {
+        "original_function": "proxy",
+        "helpers_created": [
+          "_executeProxyInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_074",
+      "hydra_id": "hy_int_sn_ds_074",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1756770550,
+      "split_details": {
+        "original_function": "proxy",
+        "helpers_created": [
+          "_performProxyCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_075",
+      "hydra_id": "hy_int_sn_ds_075",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2805326710,
+      "split_details": {
+        "original_function": "Get",
+        "helpers_created": [
+          "_executeGetInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_076",
+      "hydra_id": "hy_int_sn_ds_076",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1071046364,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_executeTransferImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_077",
+      "hydra_id": "hy_int_sn_ds_077",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3977727691,
+      "split_details": {
+        "original_function": "GetFreebie",
+        "helpers_created": [
+          "_doGetFreebieCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_078",
+      "hydra_id": "hy_int_sn_ds_078",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1409608878,
+      "split_details": {
+        "original_function": "GetFreebie",
+        "helpers_created": [
+          "_executeGetFreebieImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_079",
+      "hydra_id": "hy_int_sn_ds_079",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2995018251,
+      "split_details": {
+        "original_function": "GetFreebie",
+        "helpers_created": [
+          "_performGetFreebieLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_080",
+      "hydra_id": "hy_int_sn_ds_080",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2565904693,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_handleTransferCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_081",
+      "hydra_id": "hy_int_sn_ds_081",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1975734718,
+      "split_details": {
+        "original_function": "makeOldFucks",
+        "helpers_created": [
+          "_doMakeOldFucksInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_082",
+      "hydra_id": "hy_int_sn_ds_082",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2677913298,
+      "split_details": {
+        "original_function": "go",
+        "helpers_created": [
+          "_handleGoLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_083",
+      "hydra_id": "hy_int_sn_ds_083",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3876789713,
+      "split_details": {
+        "original_function": "GetFreebie",
+        "helpers_created": [
+          "_handleGetFreebieInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_084",
+      "hydra_id": "hy_int_sn_ds_084",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4194217459,
+      "split_details": {
+        "original_function": "KingOfTheEtherThrone",
+        "helpers_created": [
+          "_doKingOfTheEtherThroneHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_085",
+      "hydra_id": "hy_int_sn_ds_085",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3705981866,
+      "split_details": {
+        "original_function": "sendToWinner",
+        "helpers_created": [
+          "_executeSendToWinnerHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_086",
+      "hydra_id": "hy_int_sn_ds_086",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4068233412,
+      "split_details": {
+        "original_function": "withdrawBalance",
+        "helpers_created": [
+          "_performWithdrawBalanceInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_087",
+      "hydra_id": "hy_int_sn_ds_087",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1697844135,
+      "split_details": {
+        "original_function": "callchecked",
+        "helpers_created": [
+          "_executeCallcheckedHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_113",
+      "hydra_id": "hy_int_sn_ds_113",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1187231754,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_TransferImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_114",
+      "hydra_id": "hy_int_sn_ds_114",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 662281038,
+      "split_details": {
+        "original_function": "recoverSigner",
+        "helpers_created": [
+          "_RecoverSignerHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_115",
+      "hydra_id": "hy_int_sn_ds_115",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 923917510,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_doTransferLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_116",
+      "hydra_id": "hy_int_sn_ds_116",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2788324809,
+      "split_details": {
+        "original_function": "IamMissing",
+        "helpers_created": [
+          "_IamMissingImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_117",
+      "hydra_id": "hy_int_sn_ds_117",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3286180798,
+      "split_details": {
+        "original_function": "DynamicPyramid",
+        "helpers_created": [
+          "_handleDynamicPyramidHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_118",
+      "hydra_id": "hy_int_sn_ds_118",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3300290335,
+      "split_details": {
+        "original_function": "suicide",
+        "helpers_created": [
+          "_SuicideCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_119",
+      "hydra_id": "hy_int_sn_ds_119",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1649528438,
+      "split_details": {
+        "original_function": "KingOfTheEtherThrone",
+        "helpers_created": [
+          "_performKingOfTheEtherThroneImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_120",
+      "hydra_id": "hy_int_sn_ds_120",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1054800564,
+      "split_details": {
+        "original_function": "refundDos",
+        "helpers_created": [
+          "_executeRefundDosCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_121",
+      "hydra_id": "hy_int_sn_ds_121",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1150551686,
+      "split_details": {
+        "original_function": "bid",
+        "helpers_created": [
+          "_performBidHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_122",
+      "hydra_id": "hy_int_sn_ds_122",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 88633907,
+      "split_details": {
+        "original_function": "initMultiowned",
+        "helpers_created": [
+          "_InitMultiownedLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_123",
+      "hydra_id": "hy_int_sn_ds_123",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1663235760,
+      "split_details": {
+        "original_function": "owned",
+        "helpers_created": [
+          "_handleOwnedImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_124",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_125",
+      "hydra_id": "hy_int_sn_ds_125",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3666364071,
+      "split_details": {
+        "original_function": "IamMissing",
+        "helpers_created": [
+          "_executeIamMissingHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_126",
+      "hydra_id": "hy_int_sn_ds_126",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3666952066,
+      "split_details": {
+        "original_function": "missing",
+        "helpers_created": [
+          "_executeMissingCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_127",
+      "hydra_id": "hy_int_sn_ds_127",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1651271200,
+      "split_details": {
+        "original_function": "Constructor",
+        "helpers_created": [
+          "_doConstructorImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_128",
+      "hydra_id": "hy_int_sn_ds_128",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 732417257,
+      "split_details": {
+        "original_function": "newOwner",
+        "helpers_created": [
+          "_handleNewOwnerInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_129",
+      "hydra_id": "hy_int_sn_ds_129",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1131975325,
+      "split_details": {
+        "original_function": "DynamicPyramid",
+        "helpers_created": [
+          "_doDynamicPyramidInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_130",
+      "hydra_id": "hy_int_sn_ds_130",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 408709550,
+      "split_details": {
+        "original_function": "OpenAccess",
+        "helpers_created": [
+          "_doOpenAccessCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_131",
+      "hydra_id": "hy_int_sn_ds_131",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2099227217,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_executeTransferHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_132",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_133",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_134",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_135",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_136",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_137",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_138",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_139",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_140",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_141",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_142",
+      "hydra_id": "hy_int_sn_ds_142",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 486994635,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_executeDepositHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_143",
+      "hydra_id": "hy_int_sn_ds_143",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1060284677,
+      "split_details": {
+        "original_function": "Token",
+        "helpers_created": [
+          "_handleTokenLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_144",
+      "hydra_id": "hy_int_sn_ds_144",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2627523071,
+      "split_details": {
+        "original_function": "TokenSaleChallenge",
+        "helpers_created": [
+          "_handleTokenSaleChallengeInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_145",
+      "hydra_id": "hy_int_sn_ds_145",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1734106947,
+      "split_details": {
+        "original_function": "Ethraffle_v4b",
+        "helpers_created": [
+          "_doEthraffle_v4bInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_146",
+      "hydra_id": "hy_int_sn_ds_146",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2797441592,
+      "split_details": {
+        "original_function": "GuessTheRandomNumberChallenge",
+        "helpers_created": [
+          "_doGuessTheRandomNumberChallengeCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_147",
+      "hydra_id": "hy_int_sn_ds_147",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4050589480,
+      "split_details": {
+        "original_function": "Lottery",
+        "helpers_created": [
+          "_doLotteryImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_148",
+      "hydra_id": "hy_int_sn_ds_148",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4208092470,
+      "split_details": {
+        "original_function": "lockInGuess",
+        "helpers_created": [
+          "_doLockInGuessCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_149",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_150",
+      "hydra_id": "hy_int_sn_ds_150",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3192406815,
+      "split_details": {
+        "original_function": "bid",
+        "helpers_created": [
+          "_executeBidImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_151",
+      "hydra_id": "hy_int_sn_ds_151",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1915350394,
+      "split_details": {
+        "original_function": "addCreditors",
+        "helpers_created": [
+          "_doAddCreditorsImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_152",
+      "hydra_id": "hy_int_sn_ds_152",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3531356889,
+      "split_details": {
+        "original_function": "clear",
+        "helpers_created": [
+          "_doClearHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_153",
+      "hydra_id": "hy_int_sn_ds_153",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1942436832,
+      "split_details": {
+        "original_function": "ifillArray",
+        "helpers_created": [
+          "_handleIfillArrayHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_154",
+      "hydra_id": "hy_int_sn_ds_154",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3460857165,
+      "split_details": {
+        "original_function": "Government",
+        "helpers_created": [
+          "_performGovernmentLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_155",
+      "hydra_id": "hy_int_sn_ds_155",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 795069006,
+      "split_details": {
+        "original_function": "refundAll",
+        "helpers_created": [
+          "_doRefundAllImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_156",
+      "hydra_id": "hy_int_sn_ds_156",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2333984609,
+      "split_details": {
+        "original_function": "mul",
+        "helpers_created": [
+          "_performMulInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_157",
+      "hydra_id": "hy_int_sn_ds_157",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2651614384,
+      "split_details": {
+        "original_function": "solve",
+        "helpers_created": [
+          "_SolveInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_158",
+      "hydra_id": "hy_int_sn_ds_158",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2408421739,
+      "split_details": {
+        "original_function": "EthTxOrderDependenceMinimal",
+        "helpers_created": [
+          "_EthTxOrderDependenceMinimalInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_159",
+      "hydra_id": "hy_int_sn_ds_159",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2322253530,
+      "split_details": {
+        "original_function": "OddsAndEvens",
+        "helpers_created": [
+          "_handleOddsAndEvensHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_160",
+      "hydra_id": "hy_int_sn_ds_160",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3274905553,
+      "split_details": {
+        "original_function": "CryptoRoulette",
+        "helpers_created": [
+          "_CryptoRouletteCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_161",
+      "hydra_id": "hy_int_sn_ds_161",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4005738803,
+      "split_details": {
+        "original_function": "register",
+        "helpers_created": [
+          "_performRegisterImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_162",
+      "hydra_id": "hy_int_sn_ds_162",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2829115310,
+      "split_details": {
+        "original_function": "OpenAddressLottery",
+        "helpers_created": [
+          "_executeOpenAddressLotteryHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_163",
+      "hydra_id": "hy_int_sn_ds_163",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 867780808,
+      "split_details": {
+        "original_function": "sendCoin",
+        "helpers_created": [
+          "_SendCoinInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_164",
+      "hydra_id": "hy_int_sn_ds_164",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1009346376,
+      "split_details": {
+        "original_function": "EtherLotto",
+        "helpers_created": [
+          "_doEtherLottoImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_165",
+      "hydra_id": "hy_int_sn_ds_165",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3144648669,
+      "split_details": {
+        "original_function": "Governmental",
+        "helpers_created": [
+          "_doGovernmentalLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_166",
+      "hydra_id": "hy_int_sn_ds_166",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2338223243,
+      "split_details": {
+        "original_function": "payOut",
+        "helpers_created": [
+          "_PayOutLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_167",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_168",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_ds_169",
+      "hydra_id": "hy_int_sn_ds_169",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4179417746,
+      "split_details": {
+        "original_function": "TownCrier",
+        "helpers_created": [
+          "_executeTownCrierInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_170",
+      "hydra_id": "hy_int_sn_ds_170",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1657358251,
+      "split_details": {
+        "original_function": "Owned",
+        "helpers_created": [
+          "_executeOwnedImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_171",
+      "hydra_id": "hy_int_sn_ds_171",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1483708705,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_performWithdrawImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_172",
+      "hydra_id": "hy_int_sn_ds_172",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2135631717,
+      "split_details": {
+        "original_function": "DranMe",
+        "helpers_created": [
+          "_executeDranMeLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_173",
+      "hydra_id": "hy_int_sn_ds_173",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4085803125,
+      "split_details": {
+        "original_function": "Owned",
+        "helpers_created": [
+          "_executeOwnedHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_174",
+      "hydra_id": "hy_int_sn_ds_174",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3452736117,
+      "split_details": {
+        "original_function": "cash",
+        "helpers_created": [
+          "_handleCashHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_201",
+      "hydra_id": "hy_int_sn_ds_201",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 316020583,
+      "split_details": {
+        "original_function": "Deposit",
+        "helpers_created": [
+          "_performDepositInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_202",
+      "hydra_id": "hy_int_sn_ds_202",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2001895228,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_performWithdrawHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_203",
+      "hydra_id": "hy_int_sn_ds_203",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2521632080,
+      "split_details": {
+        "original_function": "Ownable",
+        "helpers_created": [
+          "_OwnableInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_204",
+      "hydra_id": "hy_int_sn_ds_204",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2902872261,
+      "split_details": {
+        "original_function": "OpenAddressLottery",
+        "helpers_created": [
+          "_doOpenAddressLotteryInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_205",
+      "hydra_id": "hy_int_sn_ds_205",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 911159170,
+      "split_details": {
+        "original_function": "SetPass",
+        "helpers_created": [
+          "_SetPassInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_206",
+      "hydra_id": "hy_int_sn_ds_206",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3256782929,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_performWithdrawCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_207",
+      "hydra_id": "hy_int_sn_ds_207",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3890775096,
+      "split_details": {
+        "original_function": "RaceCondition",
+        "helpers_created": [
+          "_performRaceConditionImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_208",
+      "hydra_id": "hy_int_sn_ds_208",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 142428700,
+      "split_details": {
+        "original_function": "initMultiowned",
+        "helpers_created": [
+          "_InitMultiownedInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_209",
+      "hydra_id": "hy_int_sn_ds_209",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 460179080,
+      "split_details": {
+        "original_function": "initMultiowned",
+        "helpers_created": [
+          "_handleInitMultiownedInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_210",
+      "hydra_id": "hy_int_sn_ds_210",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3250360476,
+      "split_details": {
+        "original_function": "LuckyDoubler",
+        "helpers_created": [
+          "_performLuckyDoublerImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_211",
+      "hydra_id": "hy_int_sn_ds_211",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3634389728,
+      "split_details": {
+        "original_function": "recoverSigner",
+        "helpers_created": [
+          "_executeRecoverSignerLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_212",
+      "hydra_id": "hy_int_sn_ds_212",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 823499828,
+      "split_details": {
+        "original_function": "wager",
+        "helpers_created": [
+          "_handleWagerCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_213",
+      "hydra_id": "hy_int_sn_ds_213",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2882124053,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_doTransferInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_214",
+      "hydra_id": "hy_int_sn_ds_214",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3963052452,
+      "split_details": {
+        "original_function": "Ownable",
+        "helpers_created": [
+          "_executeOwnableImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_215",
+      "hydra_id": "hy_int_sn_ds_215",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 354353172,
+      "split_details": {
+        "original_function": "wager",
+        "helpers_created": [
+          "_doWagerHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_216",
+      "hydra_id": "hy_int_sn_ds_216",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2026602962,
+      "split_details": {
+        "original_function": "wager",
+        "helpers_created": [
+          "_doWagerHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_232",
+      "hydra_id": "hy_int_sn_ds_232",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 581526468,
+      "split_details": {
+        "original_function": "mul",
+        "helpers_created": [
+          "_performMulLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_233",
+      "hydra_id": "hy_int_sn_ds_233",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3415456537,
+      "split_details": {
+        "original_function": "er].",
+        "helpers_created": [
+          "_handleEr].Core"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": false,
+        "syntax_ok": false,
+        "helpers_callable": true,
+        "errors": [
+          "Syntax error at line 91, column 3",
+          "Syntax error at line 91, column 43",
+          "Syntax error at line 95, column 23",
+          "Syntax error at line 96, column 46",
+          "Syntax error at line 99, column 12",
+          "Syntax error at line 102, column 9",
+          "Syntax error at line 105, column 9",
+          "Syntax error at line 112, column 15",
+          "Syntax error at line 114, column 19",
+          "Syntax error at line 117, column 19",
+          "Syntax error at line 122, column 9",
+          "Syntax error at line 126, column 32",
+          "Syntax error at line 298, column 1"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_ds_234",
+      "hydra_id": "hy_int_sn_ds_234",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 444831287,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_handleTransferCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_001",
+      "hydra_id": "hy_int_sn_gs_001",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 330759948,
+      "split_details": {
+        "original_function": "setRewardsDistributor",
+        "helpers_created": [
+          "_doSetRewardsDistributorHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_002",
+      "hydra_id": "hy_int_sn_gs_002",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1270757146,
+      "split_details": {
+        "original_function": "setGaugeManager",
+        "helpers_created": [
+          "_SetGaugeManagerInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_003",
+      "hydra_id": "hy_int_sn_gs_003",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 63609069,
+      "split_details": {
+        "original_function": "setDistribution",
+        "helpers_created": [
+          "_handleSetDistributionLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_004",
+      "hydra_id": "hy_int_sn_gs_004",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 330759948,
+      "split_details": {
+        "original_function": "setRewardsDistributor",
+        "helpers_created": [
+          "_doSetRewardsDistributorHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_005",
+      "hydra_id": "hy_int_sn_gs_005",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 69716357,
+      "split_details": {
+        "original_function": "setPermissionsRegistry",
+        "helpers_created": [
+          "_handleSetPermissionsRegistryInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_006",
+      "hydra_id": "hy_int_sn_gs_006",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 395599419,
+      "split_details": {
+        "original_function": "activateEmergencyMode",
+        "helpers_created": [
+          "_performActivateEmergencyModeCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_007",
+      "hydra_id": "hy_int_sn_gs_007",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 395599419,
+      "split_details": {
+        "original_function": "activateEmergencyMode",
+        "helpers_created": [
+          "_performActivateEmergencyModeCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_008",
+      "hydra_id": "hy_int_sn_gs_008",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 330759948,
+      "split_details": {
+        "original_function": "setRewardsDistributor",
+        "helpers_created": [
+          "_doSetRewardsDistributorHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_009",
+      "hydra_id": "hy_int_sn_gs_009",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 635007034,
+      "split_details": {
+        "original_function": "setTeam",
+        "helpers_created": [
+          "_performSetTeamCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_011",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_gs_012",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_gs_013",
+      "hydra_id": "hy_int_sn_gs_013",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2484663262,
+      "split_details": {
+        "original_function": "_incomingTokenBalance",
+        "helpers_created": [
+          "_do_incomingTokenBalanceCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_014",
+      "hydra_id": "hy_int_sn_gs_014",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2484663262,
+      "split_details": {
+        "original_function": "_incomingTokenBalance",
+        "helpers_created": [
+          "_do_incomingTokenBalanceCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_015",
+      "hydra_id": "hy_int_sn_gs_015",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2151339847,
+      "split_details": {
+        "original_function": "unlock",
+        "helpers_created": [
+          "_handleUnlockInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_016",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_gs_017",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_gs_018",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_gs_019",
+      "hydra_id": "hy_int_sn_gs_019",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 816005195,
+      "split_details": {
+        "original_function": "redeemInstant",
+        "helpers_created": [
+          "_handleRedeemInstantCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_020",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_gs_021",
+      "hydra_id": "hy_int_sn_gs_021",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4087080518,
+      "split_details": {
+        "original_function": "claimEgTokens",
+        "helpers_created": [
+          "_ClaimEgTokensImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_022",
+      "hydra_id": "hy_int_sn_gs_022",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4087080518,
+      "split_details": {
+        "original_function": "claimEgTokens",
+        "helpers_created": [
+          "_ClaimEgTokensImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_023",
+      "hydra_id": "hy_int_sn_gs_023",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 340687505,
+      "split_details": {
+        "original_function": "_topUpInterestToStakingAndCollectFees",
+        "helpers_created": [
+          "_execute_topUpInterestToStakingAndCollectFeesLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_024",
+      "hydra_id": "hy_int_sn_gs_024",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 340687505,
+      "split_details": {
+        "original_function": "_topUpInterestToStakingAndCollectFees",
+        "helpers_created": [
+          "_execute_topUpInterestToStakingAndCollectFeesLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_025",
+      "hydra_id": "hy_int_sn_gs_025",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1221410008,
+      "split_details": {
+        "original_function": "stake",
+        "helpers_created": [
+          "_executeStakeCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_026",
+      "hydra_id": "hy_int_sn_gs_026",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 895162475,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_doDepositLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_027",
+      "hydra_id": "hy_int_sn_gs_027",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1221410008,
+      "split_details": {
+        "original_function": "stake",
+        "helpers_created": [
+          "_executeStakeCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_028",
+      "hydra_id": "hy_int_sn_gs_028",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1221410008,
+      "split_details": {
+        "original_function": "stake",
+        "helpers_created": [
+          "_executeStakeCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_029",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_gs_030",
+      "hydra_id": "hy_int_sn_gs_030",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1502805581,
+      "split_details": {
+        "original_function": "_execute",
+        "helpers_created": [
+          "_do_executeInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_031",
+      "hydra_id": "hy_int_sn_gs_031",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1197283574,
+      "split_details": {
+        "original_function": "recoverSignature",
+        "helpers_created": [
+          "_executeRecoverSignatureImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_032",
+      "hydra_id": "hy_int_sn_gs_032",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1621161219,
+      "split_details": {
+        "original_function": "validateUserOp",
+        "helpers_created": [
+          "_doValidateUserOpCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_033",
+      "hydra_id": "hy_int_sn_gs_033",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3855308393,
+      "split_details": {
+        "original_function": "signatureValidation",
+        "helpers_created": [
+          "_doSignatureValidationHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_gs_034",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_gs_035",
+      "hydra_id": "hy_int_sn_gs_035",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3178439411,
+      "split_details": {
+        "original_function": "unlock",
+        "helpers_created": [
+          "_handleUnlockLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_001",
+      "hydra_id": "hy_int_sn_tc_001",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1154947056,
+      "split_details": {
+        "original_function": "process",
+        "helpers_created": [
+          "_ProcessCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_002",
+      "hydra_id": "hy_int_sn_tc_002",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 58765193,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_performDepositInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_003",
+      "hydra_id": "hy_int_sn_tc_003",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4003696436,
+      "split_details": {
+        "original_function": "initWallet",
+        "helpers_created": [
+          "_InitWalletImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_004",
+      "hydra_id": "hy_int_sn_tc_004",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1607312295,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_doDepositInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_005",
+      "hydra_id": "hy_int_sn_tc_005",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2826552829,
+      "split_details": {
+        "original_function": "add_liquidity",
+        "helpers_created": [
+          "_handleAdd_liquidityInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_006",
+      "hydra_id": "hy_int_sn_tc_006",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 359820632,
+      "split_details": {
+        "original_function": "withdrawERC20For",
+        "helpers_created": [
+          "_handleWithdrawERC20ForHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_007",
+      "hydra_id": "hy_int_sn_tc_007",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4101143763,
+      "split_details": {
+        "original_function": "transferOwnership",
+        "helpers_created": [
+          "_doTransferOwnershipCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_008",
+      "hydra_id": "hy_int_sn_tc_008",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2113344790,
+      "split_details": {
+        "original_function": "mint",
+        "helpers_created": [
+          "_executeMintCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_009",
+      "hydra_id": "hy_int_sn_tc_009",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1989696708,
+      "split_details": {
+        "original_function": "addLiquidity",
+        "helpers_created": [
+          "_performAddLiquidityLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_010",
+      "hydra_id": "hy_int_sn_tc_010",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 789842511,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_performDepositCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_011",
+      "hydra_id": "hy_int_sn_tc_011",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1151051381,
+      "split_details": {
+        "original_function": "supply",
+        "helpers_created": [
+          "_executeSupplyCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_012",
+      "hydra_id": "hy_int_sn_tc_012",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1477903992,
+      "split_details": {
+        "original_function": "depositAndEnterMarket",
+        "helpers_created": [
+          "_doDepositAndEnterMarketInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_013",
+      "hydra_id": "hy_int_sn_tc_013",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1176482386,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_doDepositImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_014",
+      "hydra_id": "hy_int_sn_tc_014",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 261288295,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_performDepositHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_015",
+      "hydra_id": "hy_int_sn_tc_015",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2920058101,
+      "split_details": {
+        "original_function": "mint",
+        "helpers_created": [
+          "_handleMintLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_016",
+      "hydra_id": "hy_int_sn_tc_016",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4130770092,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_TransferLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_017",
+      "hydra_id": "hy_int_sn_tc_017",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 831114483,
+      "split_details": {
+        "original_function": "swapExactJarForJar",
+        "helpers_created": [
+          "_executeSwapExactJarForJarLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_018",
+      "hydra_id": "hy_int_sn_tc_018",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 398332285,
+      "split_details": {
+        "original_function": "swap",
+        "helpers_created": [
+          "_SwapHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_019",
+      "hydra_id": "hy_int_sn_tc_019",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2997992666,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_DepositInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_020",
+      "hydra_id": "hy_int_sn_tc_020",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4228113840,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_DepositCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_021",
+      "hydra_id": "hy_int_sn_tc_021",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2042297671,
+      "split_details": {
+        "original_function": "addLiquidity",
+        "helpers_created": [
+          "_executeAddLiquidityLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_022",
+      "hydra_id": "hy_int_sn_tc_022",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3567538272,
+      "split_details": {
+        "original_function": "swap",
+        "helpers_created": [
+          "_SwapHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_023",
+      "hydra_id": "hy_int_sn_tc_023",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1154196995,
+      "split_details": {
+        "original_function": "openPosition",
+        "helpers_created": [
+          "_handleOpenPositionImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_024",
+      "hydra_id": "hy_int_sn_tc_024",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1551255648,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_DepositHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_025",
+      "hydra_id": "hy_int_sn_tc_025",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 564790952,
+      "split_details": {
+        "original_function": "borrow",
+        "helpers_created": [
+          "_executeBorrowCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_026",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_tc_027",
+      "hydra_id": "",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": false,
+      "seed": 0,
+      "error": "No suitable function found for splitting"
+    },
+    {
+      "original_id": "sn_tc_028",
+      "hydra_id": "hy_int_sn_tc_028",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 269132003,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_handleDepositLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_029",
+      "hydra_id": "hy_int_sn_tc_029",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1054077800,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_performDepositHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_030",
+      "hydra_id": "hy_int_sn_tc_030",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2036301272,
+      "split_details": {
+        "original_function": "addLiquidity",
+        "helpers_created": [
+          "_executeAddLiquidityImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_031",
+      "hydra_id": "hy_int_sn_tc_031",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2674566113,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_WithdrawLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_032",
+      "hydra_id": "hy_int_sn_tc_032",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2100154135,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_DepositImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_033",
+      "hydra_id": "hy_int_sn_tc_033",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 777359825,
+      "split_details": {
+        "original_function": "executeRoute",
+        "helpers_created": [
+          "_handleExecuteRouteCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_034",
+      "hydra_id": "hy_int_sn_tc_034",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2499047972,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_executeDepositLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_035",
+      "hydra_id": "hy_int_sn_tc_035",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4025134956,
+      "split_details": {
+        "original_function": "depositExactAmount",
+        "helpers_created": [
+          "_handleDepositExactAmountHandler"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_036",
+      "hydra_id": "hy_int_sn_tc_036",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1392259547,
+      "split_details": {
+        "original_function": "openTroveAndMigrate",
+        "helpers_created": [
+          "_handleOpenTroveAndMigrateInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_037",
+      "hydra_id": "hy_int_sn_tc_037",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1702348724,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_doDepositCore"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_038",
+      "hydra_id": "hy_int_sn_tc_038",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1613586419,
+      "split_details": {
+        "original_function": "mint",
+        "helpers_created": [
+          "_MintInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_039",
+      "hydra_id": "hy_int_sn_tc_039",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2814559657,
+      "split_details": {
+        "original_function": "uniswapV3SwapCallback",
+        "helpers_created": [
+          "_executeUniswapV3SwapCallbackImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_040",
+      "hydra_id": "hy_int_sn_tc_040",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2412931114,
+      "split_details": {
+        "original_function": "mint",
+        "helpers_created": [
+          "_performMintLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_041",
+      "hydra_id": "hy_int_sn_tc_041",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2246432759,
+      "split_details": {
+        "original_function": "transfer",
+        "helpers_created": [
+          "_executeTransferImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_042",
+      "hydra_id": "hy_int_sn_tc_042",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3084763906,
+      "split_details": {
+        "original_function": "createLockedCampaign",
+        "helpers_created": [
+          "_performCreateLockedCampaignInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_043",
+      "hydra_id": "hy_int_sn_tc_043",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1811817780,
+      "split_details": {
+        "original_function": "performOperations",
+        "helpers_created": [
+          "_PerformOperationsImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_044",
+      "hydra_id": "hy_int_sn_tc_044",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1359313640,
+      "split_details": {
+        "original_function": "upgradePool",
+        "helpers_created": [
+          "_executeUpgradePoolLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_045",
+      "hydra_id": "hy_int_sn_tc_045",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 1462531225,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_DepositImpl"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_046",
+      "hydra_id": "hy_int_sn_tc_046",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2656715244,
+      "split_details": {
+        "original_function": "withdraw",
+        "helpers_created": [
+          "_performWithdrawLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_047",
+      "hydra_id": "hy_int_sn_tc_047",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2642774088,
+      "split_details": {
+        "original_function": "_mint",
+        "helpers_created": [
+          "_handle_mintInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_048",
+      "hydra_id": "hy_int_sn_tc_048",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 3830724320,
+      "split_details": {
+        "original_function": "mint",
+        "helpers_created": [
+          "_performMintLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_049",
+      "hydra_id": "hy_int_sn_tc_049",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 4229945227,
+      "split_details": {
+        "original_function": "deposit",
+        "helpers_created": [
+          "_DepositInternal"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "sn_tc_050",
+      "hydra_id": "hy_int_sn_tc_050",
+      "split_type": "internal_external",
+      "source": "sanitized",
+      "success": true,
+      "seed": 2311484316,
+      "split_details": {
+        "original_function": "lock",
+        "helpers_created": [
+          "_handleLockLogic"
+        ],
+        "split_type": "internal_external",
+        "statements_per_helper": [
+          1
+        ]
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "helpers_callable": true,
+        "errors": [],
+        "warnings": []
+      }
+    }
+  ]
+}

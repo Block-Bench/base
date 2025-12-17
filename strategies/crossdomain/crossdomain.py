@@ -43,7 +43,7 @@ BASE_DIR = Path(__file__).parent.parent.parent
 DATA_DIR = BASE_DIR / "data"
 SANITIZED_DIR = DATA_DIR / "sanitized"
 NOCOMMENTS_DIR = DATA_DIR / "nocomments"
-CROSSDOMAIN_DIR = DATA_DIR / "crossdomain"
+CROSSDOMAIN_DIR = DATA_DIR / "chameleon"  # Part of combined Chameleon strategy
 DOMAINS_DIR = Path(__file__).parent / "domains"
 
 # Available target domains

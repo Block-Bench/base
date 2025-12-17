@@ -1,8 +1,8 @@
 {
   "dataset_name": "sanitized",
   "version": "1.0.0",
-  "created_date": "2025-12-16",
-  "last_updated": "2025-12-16",
+  "created_date": "2025-12-17",
+  "last_updated": "2025-12-17",
   "description": "Sanitized contracts with vulnerability hints removed from identifiers and comments. Derived from the base dataset.",
   "transformation": {
     "type": "sanitization",
@@ -15,31 +15,36 @@
     ]
   },
   "statistics": {
-    "total_samples": 285,
-    "vulnerable_count": 285,
+    "total_samples": 319,
+    "vulnerable_count": 319,
     "safe_count": 0,
     "by_vulnerability_type": {
       "timestamp_dependency": 15,
       "reentrancy": 47,
       "integer_overflow": 25,
-      "access_control": 44,
+      "access_control": 47,
       "other": 93,
-      "logic_error": 34,
+      "logic_error": 52,
       "denial_of_service": 9,
-      "front_running": 5,
-      "oracle_manipulation": 10,
-      "price_manipulation": 2,
-      "signature_replay": 1
+      "front_running": 7,
+      "dos": 3,
+      "flash_loan": 2,
+      "unchecked_return": 1,
+      "input_validation": 1,
+      "signature_replay": 4,
+      "oracle_manipulation": 11,
+      "price_manipulation": 2
     },
     "by_severity": {
       "low": 16,
-      "high": 114,
-      "medium": 114,
+      "high": 120,
+      "medium": 142,
       "critical": 41
     },
     "by_original_subset": {
       "difficulty_stratified": 235,
-      "temporal_contamination": 50
+      "temporal_contamination": 50,
+      "gold_standard": 34
     }
   },
   "samples": [
@@ -2392,6 +2397,346 @@
       "is_vulnerable": true,
       "vulnerability_type": "logic_error",
       "severity": "high"
+    },
+    {
+      "id": "sn_gs_001",
+      "contract_file": "contracts/sn_gs_001.sol",
+      "metadata_file": "metadata/sn_gs_001.json",
+      "original_contract_file": "base/contracts/gs_001.sol",
+      "sanitized_from": "gs_001",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_gs_002",
+      "contract_file": "contracts/sn_gs_002.sol",
+      "metadata_file": "metadata/sn_gs_002.json",
+      "original_contract_file": "base/contracts/gs_002.sol",
+      "sanitized_from": "gs_002",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_003",
+      "contract_file": "contracts/sn_gs_003.sol",
+      "metadata_file": "metadata/sn_gs_003.json",
+      "original_contract_file": "base/contracts/gs_003.sol",
+      "sanitized_from": "gs_003",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_004",
+      "contract_file": "contracts/sn_gs_004.sol",
+      "metadata_file": "metadata/sn_gs_004.json",
+      "original_contract_file": "base/contracts/gs_004.sol",
+      "sanitized_from": "gs_004",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_005",
+      "contract_file": "contracts/sn_gs_005.sol",
+      "metadata_file": "metadata/sn_gs_005.json",
+      "original_contract_file": "base/contracts/gs_005.sol",
+      "sanitized_from": "gs_005",
+      "is_vulnerable": true,
+      "vulnerability_type": "dos",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_006",
+      "contract_file": "contracts/sn_gs_006.sol",
+      "metadata_file": "metadata/sn_gs_006.json",
+      "original_contract_file": "base/contracts/gs_006.sol",
+      "sanitized_from": "gs_006",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_007",
+      "contract_file": "contracts/sn_gs_007.sol",
+      "metadata_file": "metadata/sn_gs_007.json",
+      "original_contract_file": "base/contracts/gs_007.sol",
+      "sanitized_from": "gs_007",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_008",
+      "contract_file": "contracts/sn_gs_008.sol",
+      "metadata_file": "metadata/sn_gs_008.json",
+      "original_contract_file": "base/contracts/gs_008.sol",
+      "sanitized_from": "gs_008",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_009",
+      "contract_file": "contracts/sn_gs_009.sol",
+      "metadata_file": "metadata/sn_gs_009.json",
+      "original_contract_file": "base/contracts/gs_009.sol",
+      "sanitized_from": "gs_009",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_011",
+      "contract_file": "contracts/sn_gs_011.sol",
+      "metadata_file": "metadata/sn_gs_011.json",
+      "original_contract_file": "base/contracts/gs_011.sol",
+      "sanitized_from": "gs_011",
+      "is_vulnerable": true,
+      "vulnerability_type": "flash_loan",
+      "severity": "high"
+    },
+    {
+      "id": "sn_gs_012",
+      "contract_file": "contracts/sn_gs_012.sol",
+      "metadata_file": "metadata/sn_gs_012.json",
+      "original_contract_file": "base/contracts/gs_012.sol",
+      "sanitized_from": "gs_012",
+      "is_vulnerable": true,
+      "vulnerability_type": "flash_loan",
+      "severity": "high"
+    },
+    {
+      "id": "sn_gs_013",
+      "contract_file": "contracts/sn_gs_013.sol",
+      "metadata_file": "metadata/sn_gs_013.json",
+      "original_contract_file": "base/contracts/gs_013.sol",
+      "sanitized_from": "gs_013",
+      "is_vulnerable": true,
+      "vulnerability_type": "unchecked_return",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_014",
+      "contract_file": "contracts/sn_gs_014.sol",
+      "metadata_file": "metadata/sn_gs_014.json",
+      "original_contract_file": "base/contracts/gs_014.sol",
+      "sanitized_from": "gs_014",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_015",
+      "contract_file": "contracts/sn_gs_015.sol",
+      "metadata_file": "metadata/sn_gs_015.json",
+      "original_contract_file": "base/contracts/gs_015.sol",
+      "sanitized_from": "gs_015",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_016",
+      "contract_file": "contracts/sn_gs_016.sol",
+      "metadata_file": "metadata/sn_gs_016.json",
+      "original_contract_file": "base/contracts/gs_016.sol",
+      "sanitized_from": "gs_016",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_017",
+      "contract_file": "contracts/sn_gs_017.sol",
+      "metadata_file": "metadata/sn_gs_017.json",
+      "original_contract_file": "base/contracts/gs_017.sol",
+      "sanitized_from": "gs_017",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_018",
+      "contract_file": "contracts/sn_gs_018.sol",
+      "metadata_file": "metadata/sn_gs_018.json",
+      "original_contract_file": "base/contracts/gs_018.sol",
+      "sanitized_from": "gs_018",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_019",
+      "contract_file": "contracts/sn_gs_019.sol",
+      "metadata_file": "metadata/sn_gs_019.json",
+      "original_contract_file": "base/contracts/gs_019.sol",
+      "sanitized_from": "gs_019",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high"
+    },
+    {
+      "id": "sn_gs_020",
+      "contract_file": "contracts/sn_gs_020.sol",
+      "metadata_file": "metadata/sn_gs_020.json",
+      "original_contract_file": "base/contracts/gs_020.sol",
+      "sanitized_from": "gs_020",
+      "is_vulnerable": true,
+      "vulnerability_type": "input_validation",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_021",
+      "contract_file": "contracts/sn_gs_021.sol",
+      "metadata_file": "metadata/sn_gs_021.json",
+      "original_contract_file": "base/contracts/gs_021.sol",
+      "sanitized_from": "gs_021",
+      "is_vulnerable": true,
+      "vulnerability_type": "signature_replay",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_022",
+      "contract_file": "contracts/sn_gs_022.sol",
+      "metadata_file": "metadata/sn_gs_022.json",
+      "original_contract_file": "base/contracts/gs_022.sol",
+      "sanitized_from": "gs_022",
+      "is_vulnerable": true,
+      "vulnerability_type": "front_running",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_023",
+      "contract_file": "contracts/sn_gs_023.sol",
+      "metadata_file": "metadata/sn_gs_023.json",
+      "original_contract_file": "base/contracts/gs_023.sol",
+      "sanitized_from": "gs_023",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_024",
+      "contract_file": "contracts/sn_gs_024.sol",
+      "metadata_file": "metadata/sn_gs_024.json",
+      "original_contract_file": "base/contracts/gs_024.sol",
+      "sanitized_from": "gs_024",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_025",
+      "contract_file": "contracts/sn_gs_025.sol",
+      "metadata_file": "metadata/sn_gs_025.json",
+      "original_contract_file": "base/contracts/gs_025.sol",
+      "sanitized_from": "gs_025",
+      "is_vulnerable": true,
+      "vulnerability_type": "front_running",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_026",
+      "contract_file": "contracts/sn_gs_026.sol",
+      "metadata_file": "metadata/sn_gs_026.json",
+      "original_contract_file": "base/contracts/gs_026.sol",
+      "sanitized_from": "gs_026",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_027",
+      "contract_file": "contracts/sn_gs_027.sol",
+      "metadata_file": "metadata/sn_gs_027.json",
+      "original_contract_file": "base/contracts/gs_027.sol",
+      "sanitized_from": "gs_027",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_028",
+      "contract_file": "contracts/sn_gs_028.sol",
+      "metadata_file": "metadata/sn_gs_028.json",
+      "original_contract_file": "base/contracts/gs_028.sol",
+      "sanitized_from": "gs_028",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_029",
+      "contract_file": "contracts/sn_gs_029.sol",
+      "metadata_file": "metadata/sn_gs_029.json",
+      "original_contract_file": "base/contracts/gs_029.sol",
+      "sanitized_from": "gs_029",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high"
+    },
+    {
+      "id": "sn_gs_030",
+      "contract_file": "contracts/sn_gs_030.sol",
+      "metadata_file": "metadata/sn_gs_030.json",
+      "original_contract_file": "base/contracts/gs_030.sol",
+      "sanitized_from": "gs_030",
+      "is_vulnerable": true,
+      "vulnerability_type": "signature_replay",
+      "severity": "high"
+    },
+    {
+      "id": "sn_gs_031",
+      "contract_file": "contracts/sn_gs_031.sol",
+      "metadata_file": "metadata/sn_gs_031.json",
+      "original_contract_file": "base/contracts/gs_031.sol",
+      "sanitized_from": "gs_031",
+      "is_vulnerable": true,
+      "vulnerability_type": "signature_replay",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_032",
+      "contract_file": "contracts/sn_gs_032.sol",
+      "metadata_file": "metadata/sn_gs_032.json",
+      "original_contract_file": "base/contracts/gs_032.sol",
+      "sanitized_from": "gs_032",
+      "is_vulnerable": true,
+      "vulnerability_type": "dos",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_033",
+      "contract_file": "contracts/sn_gs_033.sol",
+      "metadata_file": "metadata/sn_gs_033.json",
+      "original_contract_file": "base/contracts/gs_033.sol",
+      "sanitized_from": "gs_033",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_034",
+      "contract_file": "contracts/sn_gs_034.sol",
+      "metadata_file": "metadata/sn_gs_034.json",
+      "original_contract_file": "base/contracts/gs_034.sol",
+      "sanitized_from": "gs_034",
+      "is_vulnerable": true,
+      "vulnerability_type": "dos",
+      "severity": "medium"
+    },
+    {
+      "id": "sn_gs_035",
+      "contract_file": "contracts/sn_gs_035.sol",
+      "metadata_file": "metadata/sn_gs_035.json",
+      "original_contract_file": "base/contracts/gs_035.sol",
+      "sanitized_from": "gs_035",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium"
     },
     {
       "id": "sn_tc_001",

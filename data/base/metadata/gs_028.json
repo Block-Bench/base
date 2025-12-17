@@ -84,5 +84,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_028.json",
     "original_finding_title": "Fixed exchange rate at unstaking fails to socialize slashing and distorts rewards"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_028/",
+  "context_files": [
+    "context_01_UnstakeRequestsManager.sol"
+  ]
 }

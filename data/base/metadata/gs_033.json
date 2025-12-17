@@ -83,5 +83,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_033.json",
     "original_finding_title": "BaseAuth.recoverSapientSignature returns a constant instead of signer image hash, breaking sapient signer flows"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_033/",
+  "context_files": [
+    "context_01_ISapient.sol"
+  ]
 }

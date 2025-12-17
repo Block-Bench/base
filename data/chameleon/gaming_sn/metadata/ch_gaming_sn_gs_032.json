@@ -1,0 +1,274 @@
+{
+  "id": "ch_gaming_sn_gs_032",
+  "contract_file": "contracts/ch_gaming_sn_gs_032.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "dos",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "ERC4337v07",
+      "function_name": "validateUserOp",
+      "line_numbers": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ]
+    },
+    "root_cause": "In ERC-4337, validateUserOp uses external self-call to isValidSignature, changing msg.sender to wallet instead of entrypoint. BaseAuth.signatureValidation enforces caller binding, causing revert for static signatures bound to entrypoint.",
+    "attack_vector": "Deploy wallet with static signature bound to entrypoint. Attempt validateUserOp \u2192 reverts with InvalidStaticSignatureWrongCaller. PoC: Add test to test/modules/ERC4337v07.t.sol: test_validateUserOp_staticSig_callerMismatch_reverts. Uses server and forge test.",
+    "impact": "Severity: medium",
+    "correct_fix": "Avoid external self-call; propagate intended caller into validation."
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-sequence_M02",
+    "url": "https://code4rena.com/reports/2025-10-sequence",
+    "date_discovered": "2025-10-07",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 73,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "dos",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "ERC-4337 validation changes msg.sender via self-call, breaking static signatures bound to the original caller (EntryPoint).",
+  "gold_standard_fields": {
+    "source_report": "",
+    "source_finding_id": "M-02",
+    "finding_title": "Static signatures bound to caller revert under ERC-4337, causing DoS",
+    "difficulty_tier": 2,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "EntryPoint.validateUserOp() -> Wallet.self-call isValidSignature() -> msg.sender = wallet -> BaseAuth check fails for entrypoint-bound sig"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_032.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_032.json",
+    "original_finding_title": "Static signatures bound to caller revert under ERC-4337, causing DoS"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_032.sol",
+  "sanitized_from": "gs_032",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 769049713,
+    "coverage": {
+      "total_identifiers": 57,
+      "transformed": 22,
+      "untransformed": 35,
+      "skipped_reserved": 28,
+      "skipped_interface": 0,
+      "coverage_percent": 38.6,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Apache",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Calls",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ReentrancyGuard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC1271",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IEntryPoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "title",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC4337v07",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "author",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Agustin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Aguilar",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Michael",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Standen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC4337",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "support",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SIG_VALIDATION_FAILED",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "entrypoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "InvalidEntryPoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_entrypoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC4337Disabled",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inheritdoc",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "validated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "param",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_payload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "packed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "EntryPoint",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "from": "source",
+      "IAccount": "ICharacter",
+      "PackedUserOperation": "PackedHeroOperation",
+      "IERC1271_MAGIC_VALUE_HASH": "ierc1271_magic_magnitude_signature",
+      "validateUserOp": "verifyAdventurerOp",
+      "userOp": "adventurerOp",
+      "userOpHash": "adventurerOpSeal",
+      "missingAccountFunds": "missingProfileFunds",
+      "validationData": "validationDetails",
+      "sender": "invoker",
+      "nonce": "sequence",
+      "depositTo": "addtreasureDestination",
+      "value": "price",
+      "isValidSignature": "isValidSeal",
+      "signature": "mark",
+      "Execute": "RunMission",
+      "user": "player",
+      "payload": "cargo",
+      "execute": "performAction",
+      "executeUserOp": "performactionPlayerOp",
+      "nonReentrant": "singleEntry",
+      "selfExecute": "selfCompletequest"
+    }
+  }
+}

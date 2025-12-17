@@ -75,5 +75,10 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_011.json",
     "original_finding_title": "MinVotingPowerCondition logic can be bypassed via flashloans"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_011/",
+  "context_files": [
+    "context_01_LockToVotePlugin.sol",
+    "context_02_LockManagerBase.sol"
+  ]
 }

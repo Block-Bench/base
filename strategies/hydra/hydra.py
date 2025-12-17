@@ -52,7 +52,7 @@ DATA_DIR = BASE_DIR / "data"
 SANITIZED_DIR = DATA_DIR / "sanitized"
 NOCOMMENTS_DIR = DATA_DIR / "nocomments"
 CHAMELEON_DIR = DATA_DIR / "chameleon"
-HYDRA_DIR = DATA_DIR / "hydra"
+HYDRA_DIR = DATA_DIR / "restructure"  # Part of combined Restructure strategy
 
 # Split patterns
 # Note: 'sequential' is experimental and may produce code that doesn't compile

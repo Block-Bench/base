@@ -1,0 +1,465 @@
+{
+  "id": "ch_gaming_sn_gs_030",
+  "contract_file": "contracts/ch_gaming_sn_gs_030.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "signature_replay",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "Calls",
+      "function_name": "executeSessionCalls",
+      "line_numbers": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123
+      ]
+    },
+    "root_cause": "When a session call with BEHAVIOR_REVERT_ON_ERROR fails, the transaction reverts but nonce is not consumed. The signature remains valid and can be replayed for partial calls. Session signatures are validated per-call using individual call hashes, enabling partial replay. Frontrunners can execute subsets of calls to grief or cause financial loss.",
+    "attack_vector": "Original payload: Calls [A, B, C] with signatures [SigA, SigB, SigC]. Execution: [A succeed, B succeed, C revert]. Result: Revert, nonce unused. Attack: Replay [A, B] with [SigA, SigB]. PoC: File POC.t.sol with test testSubmissionValidity. It builds a 2-call payload, expects revert on second call, then replays partial payload successfully.",
+    "impact": "Severity: high",
+    "correct_fix": "Bind session call signatures to the complete payload hash to prevent partial signature replay."
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-sequence_H02",
+    "url": "https://code4rena.com/reports/2025-10-sequence",
+    "date_discovered": "2025-10-07",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 124,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "signature_replay",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "Session signatures are per-call, and failed batches preserve nonce, allowing replay of successful subsets for griefing or frontrunning.",
+  "gold_standard_fields": {
+    "source_report": "",
+    "source_finding_id": "H-02",
+    "finding_title": "Partial signature replay/frontrunning attack on session calls",
+    "difficulty_tier": 3,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "User.submit(session calls [A,B,C]) -> C fails -> revert (nonce preserved) -> Attacker/Frontrunner.submit([A,B]) -> succeeds with partial sigs"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_030.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_030.json",
+    "original_finding_title": "Partial signature replay/frontrunning attack on session calls"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_030.sol",
+  "sanitized_from": "gs_030",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 3190134561,
+    "coverage": {
+      "total_identifiers": 104,
+      "transformed": 38,
+      "untransformed": 66,
+      "skipped_reserved": 37,
+      "skipped_interface": 0,
+      "coverage_percent": 36.54,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Apache",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LibOptim",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ReentrancyGuard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BaseAuth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "auth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IDelegatedExtension",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "title",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Calls",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "author",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Agustin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Aguilar",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Michael",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Standen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "William",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Hua",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "executing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calls",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Emitted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "succeeds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_index",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fails",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "aborted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "skipped",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "thrown",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reverts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reverted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Decoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_payload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_signature",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "there",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enough",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NotEnoughGas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_gasLeft",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "param",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "startingGas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "space",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_execute",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Callable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "itself",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlySelf",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_startingGas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_decoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numCalls",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Skip",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlyFallback",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "occurred",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "apply",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "immediately",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "preceding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transaction",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "from": "source",
+      "utils": "gameUtils",
+      "Nonce": "Sequence",
+      "Payload": "Cargo",
+      "CallSucceeded": "SummonheroSucceeded",
+      "_opHash": "_opSignature",
+      "CallFailed": "InvokespellFailed",
+      "_returnData": "_returnInfo",
+      "CallAborted": "SummonheroAborted",
+      "CallSkipped": "CastabilitySkipped",
+      "signature": "mark",
+      "InvalidSignature": "InvalidSeal",
+      "Execute": "CompleteQuest",
+      "payload": "load",
+      "execute": "runMission",
+      "nonReentrant": "singleEntry",
+      "fromPackedCalls": "sourcePackedCalls",
+      "_consumeNonce": "_consumeCounter",
+      "nonce": "counter",
+      "isValid": "verifyValid",
+      "opHash": "opSeal",
+      "signatureValidation": "markValidation",
+      "selfExecute": "selfCompletequest",
+      "hash": "seal",
+      "errorFlag": "failureIndicator",
+      "length": "extent",
+      "flag": "marker",
+      "gasLimit": "gasCap",
+      "success": "win",
+      "handleSequenceDelegateCall": "handleSequenceEntrustInvokespell",
+      "selector": "chooser",
+      "data": "info",
+      "value": "worth",
+      "behaviorOnError": "behaviorOnFailure",
+      "BEHAVIOR_IGNORE_ERROR": "behavior_ignore_fault",
+      "returnData": "returnDetails",
+      "BEHAVIOR_REVERT_ON_ERROR": "behavior_reverse_on_fault",
+      "BEHAVIOR_ABORT_ON_ERROR": "behavior_abort_on_fault"
+    }
+  }
+}

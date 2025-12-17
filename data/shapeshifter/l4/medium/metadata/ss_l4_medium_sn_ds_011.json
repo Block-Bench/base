@@ -1,0 +1,83 @@
+{
+  "id": "ss_l4_medium_sn_ds_011",
+  "contract_file": "contracts/ss_l4_medium_sn_ds_011.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "Phishable",
+      "function_name": "withdrawAll",
+      "line_numbers": [
+        20
+      ]
+    },
+    "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 20",
+    "attack_vector": "Access control vulnerability - missing or incorrect authorization checks at line(s) 20",
+    "impact": "Severity: high",
+    "correct_fix": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_access_control_phishable",
+    "url": "https://github.com/sigp/solidity-security-blog",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.22",
+    "num_lines": 17,
+    "num_contracts": 1,
+    "contract_names": [
+      "Phishable"
+    ],
+    "num_functions": 1,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Access control vulnerability - missing or incorrect authorization checks at line(s) 20",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_011.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_011.json",
+    "original_id": "smartbugs_access_control_phishable"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_011.sol",
+  "sanitized_from": "ds_011",
+  "derived_from": "sn_ds_011",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l4",
+    "variant": "medium",
+    "changes": [
+      "Renamed 4 identifiers using hex style",
+      "Injected dead code after function start"
+    ],
+    "rename_map_size": 4
+  }
+}

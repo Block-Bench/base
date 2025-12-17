@@ -79,5 +79,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_035.json",
     "original_finding_title": "Unclaimed Fees Become Inaccessible After V2Locker.unlock()"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_035/",
+  "context_files": [
+    "context_01_Locker.sol"
+  ]
 }

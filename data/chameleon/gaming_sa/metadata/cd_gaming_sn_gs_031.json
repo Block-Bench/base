@@ -1,0 +1,93 @@
+{
+  "id": "cd_gaming_sn_gs_031",
+  "contract_file": "contracts/cd_gaming_sn_gs_031.sol",
+  "subset": "crossdomain",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "signature_replay",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "SessionSig",
+      "function_name": "hashCallWithReplayProtection",
+      "line_numbers": [
+        406,
+        407,
+        408,
+        409,
+        410,
+        411,
+        412,
+        413,
+        414,
+        415,
+        416,
+        417,
+        418,
+        419,
+        420,
+        421
+      ]
+    },
+    "root_cause": "SessionSig.hashCallWithReplayProtection omits wallet address in hash, allowing signatures for one wallet to replay on another with same config and nonce. SessionManager.recoverSapientSignature and BaseAuth.signatureValidation do not bind to msg.sender.",
+    "attack_vector": "Sign payload for Wallet A, replay on Wallet B (same config, nonce). Drains both wallets. PoC: test/extensions/sessions/SessionReplay.t.sol, run forge test --match-test test_crossWalletSessionReplayDrainsSiblingWallet -vv. Logs show attacker draining two wallets.",
+    "impact": "Severity: medium",
+    "correct_fix": "Include address(this) in hashCallWithReplayProtection. Update SDK to hash (wallet, chainId, space, nonce, callIdx, call details)."
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-sequence_M01",
+    "url": "https://code4rena.com/reports/2025-10-sequence",
+    "date_discovered": "2025-10-07",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 1,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "signature_replay",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "Session signature hashes omit the wallet address, enabling cross-wallet replay attacks on identically configured wallets.",
+  "gold_standard_fields": {
+    "source_report": "2025-10-sequence",
+    "source_finding_id": "M-01",
+    "finding_title": "Session signatures replay across wallets due to missing wallet binding",
+    "difficulty_tier": 3,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "Sign session for WalletA -> Submit to WalletB (same config/nonce) -> Validation passes -> Drain WalletB"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_031.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_031.json",
+    "original_finding_title": "Session signatures replay across wallets due to missing wallet binding"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_031.sol",
+  "sanitized_from": "gs_031",
+  "derived_from": "sn_gs_031",
+  "transformation": {
+    "strategy": "cross_domain",
+    "source_domain": "defi",
+    "target_domain": "gaming",
+    "coverage": 0.0,
+    "identifiers_transformed": 0,
+    "rename_map": {}
+  }
+}
