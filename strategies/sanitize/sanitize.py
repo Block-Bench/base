@@ -103,6 +103,12 @@ NAME_REPLACEMENTS = [
     (r'\bDosGas\b', 'GasAuction', 0),
     (r'\bDosNumber\b', 'NumberRegistry', 0),
     (r'\bDosOneFunc\b', 'SingleFuncRegistry', 0),
+    (r'\brefundDos\b', 'refundAll', 0),
+    (r'\bCrowdFundSafe\b', 'CrowdFundBatched', 0),
+    (r'\brefundSafe\b', 'refundBatched', 0),
+
+    # Front-running/Race condition patterns -> neutral names
+    (r'\bRaceCondition\b', 'TokenExchange', 0),
 
     # Other hint patterns -> neutral names
     (r'\bUnprotected\b', 'OpenAccess', 0),
