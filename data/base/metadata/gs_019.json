@@ -106,5 +106,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_019.json",
     "original_finding_title": "rejectRequest() Leads to Adverse Consequences"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_019/",
+  "context_files": [
+    "context_01_MidasRedemptionVaultPhantomToken.sol"
+  ]
 }

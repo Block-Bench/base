@@ -40,6 +40,35 @@ The canonical source dataset containing original smart contracts. All derived da
 **Composition:**
 - `ds_*` (235): Difficulty-stratified samples across five complexity tiers
 - `tc_*` (50): Temporal contamination samples from pre-cutoff exploits
+- `gs_*` (35): Gold standard samples from professional security audits
+
+#### Multi-File Entries (Context Required)
+
+The following gold standard entries require context files for proper vulnerability detection. These are **multi-file vulnerabilities** where the bug cannot be fully understood without examining related contracts. These entries should only be evaluated using the `base` dataset (not sanitized, nocomments, or other transformations).
+
+| Entry ID | Context Files | Vulnerability Type |
+|----------|---------------|-------------------|
+| `gs_008` | VoterV3.sol | Interface treats mapping as function |
+| `gs_011` | LockToVotePlugin.sol, LockManagerBase.sol | Flash loan via balanceOf check |
+| `gs_012` | LockManagerBase.sol, MajorityVotingBase.sol | Early execution flash loan |
+| `gs_014` | LockManagerBase.sol | Returns allowance not balance |
+| `gs_015` | MajorityVotingBase.sol | isProposalOpen semantics |
+| `gs_016` | LockManagerBase.sol | Missing action target validation |
+| `gs_018` | MajorityVotingBase.sol | Flash-mintable totalSupply |
+| `gs_019` | MidasRedemptionVaultPhantomToken.sol | No handling of rejected requests |
+| `gs_021` | PancakeSwapInfinityKEMHook.sol | Missing domain separator |
+| `gs_022` | UnorderedNonce.sol | Router-level signature (not user-level) |
+| `gs_027` | Oracle.sol | Oracle staleness not checked |
+| `gs_028` | UnstakeRequestsManager.sol | Rate fixed at request, not claim |
+| `gs_030` | SessionSig.sol | Per-call signatures enable partial replay |
+| `gs_031` | SessionManager.sol, BaseAuth.sol, Stage2Auth.sol | Missing wallet address in session hash |
+| `gs_032` | BaseAuth.sol | Self-call changes msg.sender |
+| `gs_033` | ISapient.sol | Returns hardcoded constant |
+| `gs_035` | Locker.sol | Fees locked after unlock() |
+
+Context files are located in `base/context/{entry_id}/` and referenced in each entry's metadata via the `context` and `context_files` fields.
+
+**Why base only?** Sanitization renames identifiers which would break cross-file references. Since nocomments and other transformations derive from sanitized, context files would have mismatched references in those datasets.
 
 ### Annotated
 
@@ -119,9 +148,14 @@ Each dataset follows a consistent structure:
 {dataset}/
 ├── contracts/      # Source code files (.sol, .rs)
 ├── metadata/       # JSON metadata files
+├── context/        # Context files for multi-file entries (base only)
+│   └── {entry_id}/ # e.g., gs_008/
+│       └── *.sol   # Supporting contract files
 ├── index.json      # Dataset manifest
 └── README.md       # Dataset documentation
 ```
+
+Note: The `context/` folder only exists in the `base` dataset for multi-file vulnerability entries.
 
 ## Metadata Schema
 
