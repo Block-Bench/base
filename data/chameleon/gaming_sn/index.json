@@ -1,7 +1,7 @@
 {
   "dataset_name": "chameleon_gaming_sn",
   "version": "1.0.0",
-  "created_date": "2025-12-16",
+  "created_date": "2025-12-17",
   "description": "Chameleon-transformed contracts using gaming theme, derived from sanitized dataset. All user-defined identifiers renamed using randomized synonym pools.",
   "transformation": {
     "strategy": "chameleon",
@@ -9,29 +9,33 @@
     "source_dataset": "sanitized"
   },
   "statistics": {
-    "total_samples": 285,
-    "vulnerable_count": 285,
+    "total_samples": 263,
+    "vulnerable_count": 263,
     "safe_count": 0,
     "by_vulnerability_type": {
-      "timestamp_dependency": 15,
-      "reentrancy": 47,
-      "integer_overflow": 25,
-      "access_control": 44,
-      "other": 93,
-      "logic_error": 34,
-      "denial_of_service": 9,
-      "front_running": 5,
-      "oracle_manipulation": 10,
-      "price_manipulation": 2,
-      "signature_replay": 1
+      "timestamp_dependency": 14,
+      "reentrancy": 43,
+      "integer_overflow": 22,
+      "access_control": 46,
+      "other": 68,
+      "denial_of_service": 8,
+      "front_running": 7,
+      "logic_error": 31,
+      "dos": 3,
+      "flash_loan": 2,
+      "unchecked_return": 1,
+      "input_validation": 1,
+      "signature_replay": 4,
+      "oracle_manipulation": 11,
+      "price_manipulation": 2
     },
     "by_severity": {
       "low": 16,
-      "high": 114,
-      "medium": 114,
-      "critical": 41
+      "high": 111,
+      "medium": 108,
+      "critical": 28
     },
-    "average_coverage": 40.25
+    "average_coverage": 41.18
   },
   "samples": [
     {
@@ -818,231 +822,6 @@
       "coverage_percent": 12.5
     },
     {
-      "id": "ch_gaming_sn_ds_088",
-      "contract_file": "contracts/ch_gaming_sn_ds_088.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_088.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 38.46
-    },
-    {
-      "id": "ch_gaming_sn_ds_089",
-      "contract_file": "contracts/ch_gaming_sn_ds_089.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_089.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 38.18
-    },
-    {
-      "id": "ch_gaming_sn_ds_090",
-      "contract_file": "contracts/ch_gaming_sn_ds_090.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_090.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 39.29
-    },
-    {
-      "id": "ch_gaming_sn_ds_091",
-      "contract_file": "contracts/ch_gaming_sn_ds_091.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_091.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "critical",
-      "coverage_percent": 24.53
-    },
-    {
-      "id": "ch_gaming_sn_ds_092",
-      "contract_file": "contracts/ch_gaming_sn_ds_092.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_092.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 32.26
-    },
-    {
-      "id": "ch_gaming_sn_ds_093",
-      "contract_file": "contracts/ch_gaming_sn_ds_093.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_093.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 43.18
-    },
-    {
-      "id": "ch_gaming_sn_ds_094",
-      "contract_file": "contracts/ch_gaming_sn_ds_094.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_094.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 11.29
-    },
-    {
-      "id": "ch_gaming_sn_ds_095",
-      "contract_file": "contracts/ch_gaming_sn_ds_095.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_095.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "timestamp_dependency",
-      "severity": "medium",
-      "coverage_percent": 30.95
-    },
-    {
-      "id": "ch_gaming_sn_ds_096",
-      "contract_file": "contracts/ch_gaming_sn_ds_096.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_096.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "denial_of_service",
-      "severity": "medium",
-      "coverage_percent": 26.67
-    },
-    {
-      "id": "ch_gaming_sn_ds_097",
-      "contract_file": "contracts/ch_gaming_sn_ds_097.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_097.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 41.67
-    },
-    {
-      "id": "ch_gaming_sn_ds_098",
-      "contract_file": "contracts/ch_gaming_sn_ds_098.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_098.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "integer_overflow",
-      "severity": "high",
-      "coverage_percent": 43.4
-    },
-    {
-      "id": "ch_gaming_sn_ds_099",
-      "contract_file": "contracts/ch_gaming_sn_ds_099.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_099.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 32.69
-    },
-    {
-      "id": "ch_gaming_sn_ds_100",
-      "contract_file": "contracts/ch_gaming_sn_ds_100.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_100.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 25.64
-    },
-    {
-      "id": "ch_gaming_sn_ds_101",
-      "contract_file": "contracts/ch_gaming_sn_ds_101.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_101.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "integer_overflow",
-      "severity": "high",
-      "coverage_percent": 41.67
-    },
-    {
-      "id": "ch_gaming_sn_ds_102",
-      "contract_file": "contracts/ch_gaming_sn_ds_102.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_102.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "access_control",
-      "severity": "high",
-      "coverage_percent": 24.0
-    },
-    {
-      "id": "ch_gaming_sn_ds_103",
-      "contract_file": "contracts/ch_gaming_sn_ds_103.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_103.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "critical",
-      "coverage_percent": 16.67
-    },
-    {
-      "id": "ch_gaming_sn_ds_104",
-      "contract_file": "contracts/ch_gaming_sn_ds_104.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_104.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "critical",
-      "coverage_percent": 33.33
-    },
-    {
-      "id": "ch_gaming_sn_ds_105",
-      "contract_file": "contracts/ch_gaming_sn_ds_105.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_105.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "critical",
-      "coverage_percent": 40.54
-    },
-    {
-      "id": "ch_gaming_sn_ds_106",
-      "contract_file": "contracts/ch_gaming_sn_ds_106.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_106.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 46.67
-    },
-    {
-      "id": "ch_gaming_sn_ds_107",
-      "contract_file": "contracts/ch_gaming_sn_ds_107.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_107.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "reentrancy",
-      "severity": "critical",
-      "coverage_percent": 43.4
-    },
-    {
-      "id": "ch_gaming_sn_ds_108",
-      "contract_file": "contracts/ch_gaming_sn_ds_108.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_108.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 38.71
-    },
-    {
-      "id": "ch_gaming_sn_ds_109",
-      "contract_file": "contracts/ch_gaming_sn_ds_109.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_109.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 28.3
-    },
-    {
-      "id": "ch_gaming_sn_ds_110",
-      "contract_file": "contracts/ch_gaming_sn_ds_110.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_110.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 36.59
-    },
-    {
-      "id": "ch_gaming_sn_ds_111",
-      "contract_file": "contracts/ch_gaming_sn_ds_111.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_111.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 27.78
-    },
-    {
-      "id": "ch_gaming_sn_ds_112",
-      "contract_file": "contracts/ch_gaming_sn_ds_112.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_112.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 41.46
-    },
-    {
       "id": "ch_gaming_sn_ds_113",
       "contract_file": "contracts/ch_gaming_sn_ds_113.sol",
       "metadata_file": "metadata/ch_gaming_sn_ds_113.json",
@@ -1655,186 +1434,6 @@
       "coverage_percent": 43.75
     },
     {
-      "id": "ch_gaming_sn_ds_181",
-      "contract_file": "contracts/ch_gaming_sn_ds_181.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_181.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 39.22
-    },
-    {
-      "id": "ch_gaming_sn_ds_182",
-      "contract_file": "contracts/ch_gaming_sn_ds_182.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_182.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 47.06
-    },
-    {
-      "id": "ch_gaming_sn_ds_183",
-      "contract_file": "contracts/ch_gaming_sn_ds_183.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_183.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 52.27
-    },
-    {
-      "id": "ch_gaming_sn_ds_184",
-      "contract_file": "contracts/ch_gaming_sn_ds_184.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_184.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 30.36
-    },
-    {
-      "id": "ch_gaming_sn_ds_185",
-      "contract_file": "contracts/ch_gaming_sn_ds_185.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_185.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 46.67
-    },
-    {
-      "id": "ch_gaming_sn_ds_186",
-      "contract_file": "contracts/ch_gaming_sn_ds_186.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_186.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 33.33
-    },
-    {
-      "id": "ch_gaming_sn_ds_187",
-      "contract_file": "contracts/ch_gaming_sn_ds_187.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_187.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 28.07
-    },
-    {
-      "id": "ch_gaming_sn_ds_188",
-      "contract_file": "contracts/ch_gaming_sn_ds_188.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_188.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 51.52
-    },
-    {
-      "id": "ch_gaming_sn_ds_189",
-      "contract_file": "contracts/ch_gaming_sn_ds_189.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_189.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "high",
-      "coverage_percent": 40.0
-    },
-    {
-      "id": "ch_gaming_sn_ds_190",
-      "contract_file": "contracts/ch_gaming_sn_ds_190.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_190.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 48.57
-    },
-    {
-      "id": "ch_gaming_sn_ds_191",
-      "contract_file": "contracts/ch_gaming_sn_ds_191.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_191.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 36.36
-    },
-    {
-      "id": "ch_gaming_sn_ds_192",
-      "contract_file": "contracts/ch_gaming_sn_ds_192.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_192.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 43.14
-    },
-    {
-      "id": "ch_gaming_sn_ds_193",
-      "contract_file": "contracts/ch_gaming_sn_ds_193.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_193.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 37.93
-    },
-    {
-      "id": "ch_gaming_sn_ds_194",
-      "contract_file": "contracts/ch_gaming_sn_ds_194.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_194.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "critical",
-      "coverage_percent": 35.56
-    },
-    {
-      "id": "ch_gaming_sn_ds_195",
-      "contract_file": "contracts/ch_gaming_sn_ds_195.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_195.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 39.66
-    },
-    {
-      "id": "ch_gaming_sn_ds_196",
-      "contract_file": "contracts/ch_gaming_sn_ds_196.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_196.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 17.86
-    },
-    {
-      "id": "ch_gaming_sn_ds_197",
-      "contract_file": "contracts/ch_gaming_sn_ds_197.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_197.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 37.25
-    },
-    {
-      "id": "ch_gaming_sn_ds_198",
-      "contract_file": "contracts/ch_gaming_sn_ds_198.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_198.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "critical",
-      "coverage_percent": 31.34
-    },
-    {
-      "id": "ch_gaming_sn_ds_199",
-      "contract_file": "contracts/ch_gaming_sn_ds_199.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_199.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "reentrancy",
-      "severity": "critical",
-      "coverage_percent": 45.71
-    },
-    {
-      "id": "ch_gaming_sn_ds_200",
-      "contract_file": "contracts/ch_gaming_sn_ds_200.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_200.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "logic_error",
-      "severity": "medium",
-      "coverage_percent": 35.58
-    },
-    {
       "id": "ch_gaming_sn_ds_201",
       "contract_file": "contracts/ch_gaming_sn_ds_201.sol",
       "metadata_file": "metadata/ch_gaming_sn_ds_201.json",
@@ -2015,105 +1614,6 @@
       "coverage_percent": 46.81
     },
     {
-      "id": "ch_gaming_sn_ds_221",
-      "contract_file": "contracts/ch_gaming_sn_ds_221.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_221.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "reentrancy",
-      "severity": "critical",
-      "coverage_percent": 36.84
-    },
-    {
-      "id": "ch_gaming_sn_ds_222",
-      "contract_file": "contracts/ch_gaming_sn_ds_222.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_222.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "high",
-      "coverage_percent": 31.46
-    },
-    {
-      "id": "ch_gaming_sn_ds_223",
-      "contract_file": "contracts/ch_gaming_sn_ds_223.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_223.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "high",
-      "coverage_percent": 39.29
-    },
-    {
-      "id": "ch_gaming_sn_ds_224",
-      "contract_file": "contracts/ch_gaming_sn_ds_224.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_224.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "critical",
-      "coverage_percent": 42.0
-    },
-    {
-      "id": "ch_gaming_sn_ds_225",
-      "contract_file": "contracts/ch_gaming_sn_ds_225.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_225.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "high",
-      "coverage_percent": 26.04
-    },
-    {
-      "id": "ch_gaming_sn_ds_226",
-      "contract_file": "contracts/ch_gaming_sn_ds_226.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_226.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "high",
-      "coverage_percent": 34.57
-    },
-    {
-      "id": "ch_gaming_sn_ds_227",
-      "contract_file": "contracts/ch_gaming_sn_ds_227.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_227.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "integer_overflow",
-      "severity": "high",
-      "coverage_percent": 34.62
-    },
-    {
-      "id": "ch_gaming_sn_ds_228",
-      "contract_file": "contracts/ch_gaming_sn_ds_228.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_228.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "medium",
-      "coverage_percent": 41.89
-    },
-    {
-      "id": "ch_gaming_sn_ds_229",
-      "contract_file": "contracts/ch_gaming_sn_ds_229.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_229.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "critical",
-      "coverage_percent": 35.9
-    },
-    {
-      "id": "ch_gaming_sn_ds_230",
-      "contract_file": "contracts/ch_gaming_sn_ds_230.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_230.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "other",
-      "severity": "critical",
-      "coverage_percent": 41.54
-    },
-    {
-      "id": "ch_gaming_sn_ds_231",
-      "contract_file": "contracts/ch_gaming_sn_ds_231.sol",
-      "metadata_file": "metadata/ch_gaming_sn_ds_231.json",
-      "is_vulnerable": true,
-      "vulnerability_type": "reentrancy",
-      "severity": "critical",
-      "coverage_percent": 53.16
-    },
-    {
       "id": "ch_gaming_sn_ds_232",
       "contract_file": "contracts/ch_gaming_sn_ds_232.sol",
       "metadata_file": "metadata/ch_gaming_sn_ds_232.json",
@@ -2148,6 +1648,312 @@
       "vulnerability_type": "logic_error",
       "severity": "high",
       "coverage_percent": 44.44
+    },
+    {
+      "id": "ch_gaming_sn_gs_001",
+      "contract_file": "contracts/ch_gaming_sn_gs_001.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_001.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high",
+      "coverage_percent": 46.06
+    },
+    {
+      "id": "ch_gaming_sn_gs_002",
+      "contract_file": "contracts/ch_gaming_sn_gs_002.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_002.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 44.81
+    },
+    {
+      "id": "ch_gaming_sn_gs_003",
+      "contract_file": "contracts/ch_gaming_sn_gs_003.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_003.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 46.93
+    },
+    {
+      "id": "ch_gaming_sn_gs_004",
+      "contract_file": "contracts/ch_gaming_sn_gs_004.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_004.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 46.06
+    },
+    {
+      "id": "ch_gaming_sn_gs_005",
+      "contract_file": "contracts/ch_gaming_sn_gs_005.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_005.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "dos",
+      "severity": "medium",
+      "coverage_percent": 42.44
+    },
+    {
+      "id": "ch_gaming_sn_gs_006",
+      "contract_file": "contracts/ch_gaming_sn_gs_006.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_006.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 47.21
+    },
+    {
+      "id": "ch_gaming_sn_gs_007",
+      "contract_file": "contracts/ch_gaming_sn_gs_007.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_007.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 47.21
+    },
+    {
+      "id": "ch_gaming_sn_gs_008",
+      "contract_file": "contracts/ch_gaming_sn_gs_008.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_008.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 46.06
+    },
+    {
+      "id": "ch_gaming_sn_gs_009",
+      "contract_file": "contracts/ch_gaming_sn_gs_009.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_009.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 34.99
+    },
+    {
+      "id": "ch_gaming_sn_gs_011",
+      "contract_file": "contracts/ch_gaming_sn_gs_011.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_011.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "flash_loan",
+      "severity": "high",
+      "coverage_percent": 25.33
+    },
+    {
+      "id": "ch_gaming_sn_gs_012",
+      "contract_file": "contracts/ch_gaming_sn_gs_012.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_012.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "flash_loan",
+      "severity": "high",
+      "coverage_percent": 28.57
+    },
+    {
+      "id": "ch_gaming_sn_gs_013",
+      "contract_file": "contracts/ch_gaming_sn_gs_013.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_013.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "unchecked_return",
+      "severity": "medium",
+      "coverage_percent": 32.31
+    },
+    {
+      "id": "ch_gaming_sn_gs_014",
+      "contract_file": "contracts/ch_gaming_sn_gs_014.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_014.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 32.31
+    },
+    {
+      "id": "ch_gaming_sn_gs_015",
+      "contract_file": "contracts/ch_gaming_sn_gs_015.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_015.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 33.97
+    },
+    {
+      "id": "ch_gaming_sn_gs_016",
+      "contract_file": "contracts/ch_gaming_sn_gs_016.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_016.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "medium",
+      "coverage_percent": 28.57
+    },
+    {
+      "id": "ch_gaming_sn_gs_017",
+      "contract_file": "contracts/ch_gaming_sn_gs_017.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_017.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 25.33
+    },
+    {
+      "id": "ch_gaming_sn_gs_018",
+      "contract_file": "contracts/ch_gaming_sn_gs_018.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_018.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 28.57
+    },
+    {
+      "id": "ch_gaming_sn_gs_019",
+      "contract_file": "contracts/ch_gaming_sn_gs_019.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_019.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "high",
+      "coverage_percent": 38.93
+    },
+    {
+      "id": "ch_gaming_sn_gs_020",
+      "contract_file": "contracts/ch_gaming_sn_gs_020.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_020.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "input_validation",
+      "severity": "medium",
+      "coverage_percent": 40.34
+    },
+    {
+      "id": "ch_gaming_sn_gs_021",
+      "contract_file": "contracts/ch_gaming_sn_gs_021.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_021.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "signature_replay",
+      "severity": "medium",
+      "coverage_percent": 62.99
+    },
+    {
+      "id": "ch_gaming_sn_gs_022",
+      "contract_file": "contracts/ch_gaming_sn_gs_022.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_022.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "front_running",
+      "severity": "medium",
+      "coverage_percent": 62.99
+    },
+    {
+      "id": "ch_gaming_sn_gs_023",
+      "contract_file": "contracts/ch_gaming_sn_gs_023.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_023.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 50.0
+    },
+    {
+      "id": "ch_gaming_sn_gs_024",
+      "contract_file": "contracts/ch_gaming_sn_gs_024.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_024.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 50.0
+    },
+    {
+      "id": "ch_gaming_sn_gs_025",
+      "contract_file": "contracts/ch_gaming_sn_gs_025.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_025.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "front_running",
+      "severity": "medium",
+      "coverage_percent": 58.82
+    },
+    {
+      "id": "ch_gaming_sn_gs_026",
+      "contract_file": "contracts/ch_gaming_sn_gs_026.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_026.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "medium",
+      "coverage_percent": 49.02
+    },
+    {
+      "id": "ch_gaming_sn_gs_027",
+      "contract_file": "contracts/ch_gaming_sn_gs_027.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_027.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "medium",
+      "coverage_percent": 58.82
+    },
+    {
+      "id": "ch_gaming_sn_gs_028",
+      "contract_file": "contracts/ch_gaming_sn_gs_028.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_028.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 58.82
+    },
+    {
+      "id": "ch_gaming_sn_gs_029",
+      "contract_file": "contracts/ch_gaming_sn_gs_029.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_029.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "access_control",
+      "severity": "high",
+      "coverage_percent": 34.24
+    },
+    {
+      "id": "ch_gaming_sn_gs_030",
+      "contract_file": "contracts/ch_gaming_sn_gs_030.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_030.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "signature_replay",
+      "severity": "high",
+      "coverage_percent": 36.54
+    },
+    {
+      "id": "ch_gaming_sn_gs_031",
+      "contract_file": "contracts/ch_gaming_sn_gs_031.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_031.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "signature_replay",
+      "severity": "medium",
+      "coverage_percent": 37.14
+    },
+    {
+      "id": "ch_gaming_sn_gs_032",
+      "contract_file": "contracts/ch_gaming_sn_gs_032.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_032.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "dos",
+      "severity": "medium",
+      "coverage_percent": 38.6
+    },
+    {
+      "id": "ch_gaming_sn_gs_033",
+      "contract_file": "contracts/ch_gaming_sn_gs_033.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_033.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 40.32
+    },
+    {
+      "id": "ch_gaming_sn_gs_034",
+      "contract_file": "contracts/ch_gaming_sn_gs_034.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_034.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "dos",
+      "severity": "medium",
+      "coverage_percent": 8.06
+    },
+    {
+      "id": "ch_gaming_sn_gs_035",
+      "contract_file": "contracts/ch_gaming_sn_gs_035.sol",
+      "metadata_file": "metadata/ch_gaming_sn_gs_035.json",
+      "is_vulnerable": true,
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "coverage_percent": 41.27
     },
     {
       "id": "ch_gaming_sn_tc_001",

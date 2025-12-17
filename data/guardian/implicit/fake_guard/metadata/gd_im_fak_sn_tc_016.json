@@ -1,0 +1,104 @@
+{
+  "id": "gd_im_fak_sn_tc_016",
+  "contract_file": "contracts/gd_im_fak_sn_tc_016.sol",
+  "subset": "guardian",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "bzx_protocol.sol",
+      "function_name": "transfer",
+      "line_numbers": [
+        82,
+        83,
+        85,
+        100
+      ]
+    },
+    "root_cause": "Token transfer function called external contract during state update. Callback occurred after balance updates but before finalization, creating state inconsistency exploitable through repeated self-transfers.",
+    "attack_vector": "Attacker minted tokens, then transferred to self 4 times in loop. Each transfer triggered callback with inconsistent state. After iterations, token balance inflated. Burned inflated tokens back to ETH for profit.",
+    "impact": "Funds lost: $8,000,000",
+    "correct_fix": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2020-09-14",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 97,
+    "num_contracts": 1,
+    "contract_names": [
+      "LoanToken"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "reentrancy",
+    "callback-manipulation",
+    "token-transfer",
+    "state-inconsistency",
+    "bzx"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2020-09-14",
+      "protocol_name": "bZx Protocol",
+      "chain": "ethereum",
+      "funds_lost_usd": 8000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous bZx Protocol exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_016.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_016.json",
+    "original_exploit_name": "bZx Protocol"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_016.sol",
+  "sanitized_from": "tc_016",
+  "derived_from": "sn_tc_016",
+  "transformation": {
+    "strategy": "guardian",
+    "mode": "implicit",
+    "variant": "fake_guard",
+    "changes": [
+      "Added unused _notEntered guard variable",
+      "Added misleading protection comments"
+    ],
+    "still_vulnerable": true
+  }
+}

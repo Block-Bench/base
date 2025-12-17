@@ -1,0 +1,554 @@
+{
+  "id": "ch_gaming_sn_gs_025",
+  "contract_file": "contracts/ch_gaming_sn_gs_025.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "front_running",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Staking",
+      "function_name": "unstakeRequestWithPermit",
+      "line_numbers": [
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204
+      ]
+    },
+    "root_cause": "An attacker can read the v, r, s from the mempool and call mETH.permit() first, consuming the user's signature and updating the nonce. The subsequent user transaction Staking.unstakeRequestWithPermit() then reverts on the permit() call due to an invalidated signature/nonce, preventing the unstake flow from executing, even though allowance is already set.",
+    "attack_vector": "1. User submits unstakeRequestWithPermit() transaction with signature (v, r, s) to the mempool\n2. Attacker monitors mempool and extracts the permit signature parameters\n3. Attacker front-runs with a direct call to mETH.permit() using the extracted (v, r, s)\n4. The permit succeeds, consuming the user's nonce and setting the allowance\n5. User's original unstakeRequestWithPermit() transaction is mined\n6. The SafeERC20Upgradeable.safePermit() call inside unstakeRequestWithPermit() reverts because the nonce is already used\n7. User's unstake request fails even though the allowance was set",
+    "impact": "Severity: medium",
+    "correct_fix": "Wrap the permit() invocation in a try-catch clause and proceed with the unstake if allowance is already sufficient, avoiding a hard revert when signatures are pre-consumed."
+  },
+  "provenance": {
+    "source": "mixbytes",
+    "original_id": "gs_mixbytes_mantle-meth-aave_M03",
+    "url": "https://github.com/mixbytes/audits_public/tree/master/Mantle%20Network/mETH%20x%20Aave%20Integration",
+    "date_discovered": "2025-10-22",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 309,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "front_running",
+    "mixbytes",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "The unstakeRequestWithPermit function uses safePermit which will revert if the permit has already been used. An attacker can extract the signature from the mempool and front-run by calling permit directly, causing the user's transaction to fail even though the approval was set.",
+  "gold_standard_fields": {
+    "source_report": "Mantle mETH x Aave Integration Security Audit",
+    "source_finding_id": "M-3",
+    "finding_title": "Front-running unstakeRequestWithPermit() can invalidate user transaction",
+    "difficulty_tier": 2,
+    "context_level": "single_file",
+    "has_context": false,
+    "call_flow": "User submits unstakeRequestWithPermit(methAmount, minETHAmount, deadline, v, r, s) -> Attacker front-runs with mETH.permit(user, staking, methAmount, deadline, v, r, s) -> User's safePermit() reverts due to invalid nonce"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_025.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_025.json",
+    "original_finding_title": "Front-running unstakeRequestWithPermit() can invalidate user transaction"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_025.sol",
+  "sanitized_from": "gs_025",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 3451821119,
+    "coverage": {
+      "total_identifiers": 204,
+      "transformed": 120,
+      "untransformed": 84,
+      "skipped_reserved": 47,
+      "skipped_interface": 0,
+      "coverage_percent": 58.82,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Initializable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "upgradeable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AccessControlEnumerableUpgradeable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "access",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Math",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "math",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SafeERC20Upgradeable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProtocolEvents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IMETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "emitted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "StakingEvents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Emitted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "receives",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Staked",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "staker",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unstakes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "claims",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "their",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "request",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "been",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initiated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pubkey",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allocated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deposits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "into",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "received",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ReturnsReceived",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "buffer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "title",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Manages",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requests",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "InvalidConfiguration",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NotEnoughUnallocatedETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NotReturnsAggregator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expectedMinimum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "InvalidWithdrawalCredentialsNotETH1",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ALLOCATOR_SERVICE_ROLE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ALLOCATER_SERVICE_ROLE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "INITIATOR_SERVICE_ROLE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "STAKING_ALLOWLIST_ROLE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "TOP_UP_ROLE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "withdrawalCredentials",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exists",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "usedValidators",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numInitiatedValidators",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unallocatedETH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allocatedETHForDeposits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_BASIS_POINTS_DENOMINATOR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "withdrawalWallet",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "returnsAggregator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Init",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allocatorService",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initiatorService",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "init",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initializer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "__AccessControlEnumerable_init",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reinitializer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "safePermit",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requester",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ethRequested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mulDiv",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "record",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "latestRecord",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cumulativeDrawdown",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onlyReturnsAggregator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "from": "source",
+      "proxy": "portalGate",
+      "utils": "gameUtils",
+      "token": "medal",
+      "IDepositContract": "IDepositgoldPact",
+      "IOracleReadRecord": "ISeerReadRecord",
+      "OracleRecord": "ProphetRecord",
+      "IOracle": "ISeer",
+      "IPauserRead": "IFreezerRead",
+      "IPauser": "IHalter",
+      "IStaking": "Checktaking",
+      "IStakingReturnsWrite": "ValidatetakingReturnsWrite",
+      "IStakingInitiationRead": "ValidatetakingInitiationRead",
+      "UnstakeRequest": "UnlockenergyRequest",
+      "IUnstakeRequestsManager": "IReleasepowerRequestsHandler",
+      "ILiquidityBuffer": "IReservesBuffer",
+      "liquidityBuffer": "reservesBuffer",
+      "Events": "GameEvents",
+      "staking": "strengthCommit",
+      "user": "character",
+      "stakes": "commitments",
+      "ethAmount": "ethMeasure",
+      "mETHAmount": "mEthSum",
+      "exchange": "marketplace",
+      "UnstakeRequested": "UnlockenergyRequested",
+      "mETHLocked": "mEthFrozen",
+      "unstake": "withdrawStake",
+      "UnstakeRequestClaimed": "WithdrawstakeRequestClaimed",
+      "validator": "verifier",
+      "ValidatorInitiated": "CheckerInitiated",
+      "operatorID": "questrunnerCode",
+      "amountDeposited": "sumDeposited",
+      "protocol": "lootSystem",
+      "UnstakeRequestsManager": "FreestrengthRequestsHandler",
+      "AllocatedETHToUnstakeRequestsManager": "AllocatedEthDestinationWithdrawstakeRequestsHandler",
+      "amount": "total",
+      "deposit": "depositGold",
+      "AllocatedETHToDeposits": "AllocatedEthTargetDeposits",
+      "aggregator": "lootAggregator",
+      "ReturnsReceivedFromLiquidityBuffer": "ReturnsReceivedSourceReservesBuffer",
+      "liquidity": "flow",
+      "AllocatedETHToLiquidityBuffer": "AllocatedEthDestinationFlowBuffer",
+      "Staking": "EnergyLock",
+      "stake": "pledgeStrength",
+      "users": "players",
+      "Errors": "GameErrors",
+      "DoesNotReceiveETH": "DoesNotAcceptlootEth",
+      "MaximumValidatorDepositExceeded": "MaximumVerifierBankwinningsExceeded",
+      "MaximumMETHSupplyExceeded": "MaximumMethReserveExceeded",
+      "MinimumStakeBoundNotSatisfied": "MinimumCommitmentBoundNotSatisfied",
+      "MinimumUnstakeBoundNotSatisfied": "MinimumReleasepowerBoundNotSatisfied",
+      "MinimumValidatorDepositNotSatisfied": "MinimumCheckerCacheprizeNotSatisfied",
+      "NotEnoughDepositETH": "NotEnoughStashrewardsEth",
+      "NotLiquidityBuffer": "NotReservesBuffer",
+      "NotUnstakeRequestsManager": "NotReleasepowerRequestsHandler",
+      "Paused": "Frozen",
+      "PreviouslyUsedValidator": "PreviouslyUsedChecker",
+      "ZeroAddress": "ZeroRealm",
+      "InvalidDepositRoot": "InvalidCacheprizeSource",
+      "StakeBelowMinimumMETHAmount": "PledgeBelowMinimumMethMeasure",
+      "methAmount": "methQuantity",
+      "UnstakeBelowMinimumETHAmount": "ReleasepowerBelowMinimumEthMeasure",
+      "InvalidWithdrawalCredentialsWrongLength": "InvalidWithdrawalCredentialsWrongSize",
+      "InvalidWithdrawalCredentialsWrongAddress": "InvalidWithdrawalCredentialsWrongZone",
+      "STAKING_MANAGER_ROLE": "staking_controller_role",
+      "STAKING_ALLOWLIST_MANAGER_ROLE": "staking_allowlist_controller_role",
+      "ValidatorParams": "VerifierParameters",
+      "depositAmount": "depositgoldMeasure",
+      "signature": "seal",
+      "depositDataRoot": "storelootInfoOrigin",
+      "totalDepositedInValidators": "aggregateDepositedInValidators",
+      "minimumStakeBound": "minimumCommitmentBound",
+      "minimumUnstakeBound": "minimumUnlockenergyBound",
+      "exchangeAdjustmentRate": "exchangeAdjustmentRatio",
+      "_MAX_EXCHANGE_ADJUSTMENT_RATE": "_maximum_exchange_adjustment_multiplier",
+      "minimumDepositAmount": "minimumCacheprizeCount",
+      "maximumDepositAmount": "maximumStorelootCount",
+      "depositContract": "bankwinningsAgreement",
+      "oracle": "seer",
+      "pauser": "freezer",
+      "unstakeRequestsManager": "withdrawstakeRequestsHandler",
+      "isStakingAllowlist": "verifyStakingAllowlist",
+      "initializationBlockNumber": "initializationFrameNumber",
+      "maximumMETHSupply": "maximumMethReserve",
+      "admin": "gameAdmin",
+      "manager": "controller",
+      "_disableInitializers": "_turnoffInitializers",
+      "initialize": "startGame",
+      "_grantRole": "_awardRole",
+      "DEFAULT_ADMIN_ROLE": "default_serverop_role",
+      "_setRoleAdmin": "_collectionRoleServerop",
+      "initializeV2": "beginquestV2",
+      "minMETHAmount": "minimumMethSum",
+      "isStakingPaused": "isStakingHalted",
+      "_checkRole": "_verifyRole",
+      "value": "price",
+      "mETHMintAmount": "mEthForgeQuantity",
+      "ethToMETH": "ethDestinationMeth",
+      "sender": "invoker",
+      "mint": "forge",
+      "unstakeRequest": "withdrawstakeRequest",
+      "minETHAmount": "floorEthSum",
+      "_unstakeRequest": "_freestrengthRequest",
+      "unstakeRequestWithPermit": "unlockenergyRequestWithPermit",
+      "deadline": "cutoffTime",
+      "isUnstakeRequestsAndClaimsPaused": "isReleasepowerRequestsAndClaimsHalted",
+      "mETHToETH": "mEthTargetEth",
+      "requestID": "requestTag",
+      "create": "questCreated",
+      "adjustedTotalControlled": "adjustedCombinedControlled",
+      "totalControlled": "completeControlled",
+      "total": "aggregate",
+      "cumulativeProcessedDepositAmount": "cumulativeProcessedStashrewardsQuantity",
+      "currentTotalValidatorBalance": "activeCompleteVerifierGoldholding",
+      "getAvailableBalance": "obtainAvailableLootbalance",
+      "receiveReturns": "catchrewardReturns",
+      "receiveReturnsFromLiquidityBuffer": "catchrewardReturnsOriginReservesBuffer",
+      "onlyLiquidityBuffer": "onlyFlowBuffer",
+      "onlyUnstakeRequestsManager": "onlyReleasepowerRequestsHandler",
+      "notZeroAddress": "notZeroLocation"
+    }
+  }
+}

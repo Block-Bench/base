@@ -1,0 +1,90 @@
+{
+  "id": "ss_l2_hex_sn_gs_021",
+  "contract_file": "contracts/ss_l2_hex_sn_gs_021.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "signature_replay",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "UniswapV4KEMHook",
+      "function_name": "beforeSwap",
+      "line_numbers": [
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129
+      ]
+    },
+    "root_cause": "Both UniswapV4KEMHook and PancakeSwapInfinityKEMHook rebuild a quote digest by hashing sender, key, params.zeroForOne, maxAmountIn, maxExchangeRate, exchangeRateDenom, nonce, and expiryTime. The tuple ties the authorization to the router (sender), the full PoolKey (which includes the hook address), trade direction, price and input caps, nonce and expiry. Crucially, no domain separator is folded in: chain ID, deployment salt, and contract identity outside key are absent. If the same hook instance (or the same PoolKey) is deployed on multiple networks, as CREATE3-based salt mining allows, an attacker can lift any valid signature+nonce from chain A and replay it on chain B. Because the digest matches, SignatureChecker.isValidSignatureNow succeeds and the swap executes without the signer's intention. That breaks the core guarantee that signed quotes are single-instance authorizations, allowing cross-chain replay swaps.",
+    "attack_vector": "1. Kyber deploys UniswapV4KEMHook on Ethereum mainnet with a specific PoolKey\n2. Same hook (or same PoolKey configuration) is deployed on Arbitrum using CREATE3 salt mining to get matching address\n3. User requests a quote on Ethereum, quoteSigner signs: keccak256(abi.encode(sender, key, zeroForOne, maxAmountIn, maxExchangeRate, exchangeRateDenom, nonce, expiryTime))\n4. User broadcasts swap transaction on Ethereum mainnet\n5. Attacker observes the transaction in Ethereum mempool, extracts signature and hookData\n6. Attacker submits identical calldata on Arbitrum before expiryTime\n7. On Arbitrum: sender (router) matches, key matches (same pool configuration), all other parameters match\n8. SignatureChecker.isValidSignatureNow(quoteSigner, digest, signature) returns true\n9. Swap executes on Arbitrum without signer's intention\n10. If nonce != 0, Ethereum swap may still succeed (different nonce storage per chain), causing double execution",
+    "impact": "Severity: medium",
+    "correct_fix": "Introduce domain separation for the signed payload in both hooks. Adopt an EIP712 domain that at minimum commits to chainid. This ensures signatures are only valid on the intended chain."
+  },
+  "provenance": {
+    "source": "spearbit",
+    "original_id": "gs_spearbit_kyber-hook_M01",
+    "url": "https://github.com/spearbit/portfolio/tree/master/pdfs",
+    "date_discovered": "2025-10-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 177,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "signature_replay",
+    "spearbit",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "The vulnerability is in the digest creation at lines 118-129. The keccak256 hash does not include chainId or any EIP712 domain separator. Since sender is the router contract (same on multiple chains), key is the PoolKey (can be identical across chains), and all other parameters are user-provided, an attacker can replay the exact same signature on a different chain where the same hook/pool configuration exists.",
+  "gold_standard_fields": {
+    "source_report": "Uniswap Foundation: Kyber Hook Security Review",
+    "source_finding_id": "M-01",
+    "finding_title": "Signed swap digest lacks a domain separator",
+    "difficulty_tier": 3,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "Router.swap() -> PoolManager.swap() -> UniswapV4KEMHook.beforeSwap(sender=router, key, params, hookData) -> HookDataDecoder.decodeAllHookData(hookData) extracts signature params -> keccak256(abi.encode(sender, key, zeroForOne, maxAmountIn, maxExchangeRate, exchangeRateDenom, nonce, expiryTime)) creates digest WITHOUT chainId -> SignatureChecker.isValidSignatureNow(quoteSigner, digest, signature) validates -> Same signature valid on any chain with matching parameters"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_021.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_021.json",
+    "original_finding_title": "Signed swap digest lacks a domain separator"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_021.sol",
+  "sanitized_from": "gs_021",
+  "derived_from": "sn_gs_021",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l2",
+    "variant": "hex",
+    "changes": [
+      "Renamed 69 identifiers using hex style"
+    ],
+    "rename_map_size": 69
+  }
+}

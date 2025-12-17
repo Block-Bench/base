@@ -1,0 +1,85 @@
+{
+  "id": "ss_l4_medium_sn_gs_008",
+  "contract_file": "contracts/ss_l4_medium_sn_gs_008.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "GovernanceHYBR",
+      "function_name": "claimRewards",
+      "line_numbers": [
+        370
+      ]
+    },
+    "root_cause": "`claimRewards()` uses `IVoter.poolVote(veTokenId)` incorrectly; `poolVote` is a mapping, not a function returning an array, causing a revert.",
+    "attack_vector": "A test votes on pools, warps time, and `claimRewards()` reverts due to invalid getter call.",
+    "impact": "Severity: medium",
+    "correct_fix": "Add `getPoolVote(veTokenId)` in `VoterV3.sol` to return the array. Status: Mitigation confirmed."
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-hybra-finance_M07",
+    "url": "https://code4rena.com/reports/2025-10-hybra-finance",
+    "date_discovered": "2025-10-06",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 636,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "Incorrect interface usage treats mapping as function, causing revert on reward claims.",
+  "gold_standard_fields": {
+    "source_report": "2025-10-hybra-finance",
+    "source_finding_id": "M-07",
+    "finding_title": "Claiming rewards in GovernanceHYBR will always revert",
+    "difficulty_tier": 1,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "claimRewards() -> IVoter.poolVote(veTokenId) [invalid call] -> revert"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_008.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_008.json",
+    "original_finding_title": "Claiming rewards in GovernanceHYBR will always revert"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_008.sol",
+  "sanitized_from": "gs_008",
+  "derived_from": "sn_gs_008",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l4",
+    "variant": "medium",
+    "changes": [
+      "Renamed 151 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Injected dead code after function start",
+      "Injected dead code after function start"
+    ],
+    "rename_map_size": 151
+  }
+}

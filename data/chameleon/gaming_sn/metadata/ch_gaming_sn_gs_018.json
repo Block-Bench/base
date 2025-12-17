@@ -1,0 +1,971 @@
+{
+  "id": "ch_gaming_sn_gs_018",
+  "contract_file": "contracts/ch_gaming_sn_gs_018.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "LockToVotePlugin",
+      "function_name": "currentTokenSupply",
+      "line_numbers": [
+        248,
+        249,
+        250,
+        251
+      ]
+    },
+    "root_cause": "The currentTokenSupply() function at LockToVotePlugin line 249-251 returns IERC20(lockManager.token()).totalSupply(). This is used in threshold checks (isMinVotingPowerReached, isMinApprovalReached). For tokens like ERC4626 shares, flash-mintable tokens (DAI, WETH), or tokens with permissionless minting, attackers can manipulate totalSupply to skew voting thresholds. This is especially impactful during the last block of a proposal.",
+    "attack_vector": "1. A proposal is close to passing based on participation threshold.\n2. Attacker flash-mints large amount of tokens (e.g., via ERC4626 vault deposit).\n3. currentTokenSupply() returns inflated totalSupply.\n4. isMinVotingPowerReached() calculates: votes / inflatedSupply.\n5. Participation ratio appears lower than required.\n6. Proposal that should pass now fails.\n7. Attacker burns/withdraws the tokens in same transaction.",
+    "impact": "Severity: medium",
+    "correct_fix": "Avoid using currentTotalSupply where it can be skewed. Consider recording totalSupply at proposal creation time. Document token compatibility requirements. Use conservative figures if supply changes significantly."
+  },
+  "provenance": {
+    "source": "spearbit",
+    "original_id": "gs_spearbit_aragon-lock-to-vote_M06",
+    "url": "https://github.com/spearbit/portfolio/blob/master/pdfs/Aragon-Spearbit-Security-Review-July-2025.pdf",
+    "date_discovered": "2025-09-11",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 324,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "spearbit",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "The currentTokenSupply() at lines 249-251 returns IERC20.totalSupply() directly. For tokens where supply can be atomically manipulated (flash-mintable, ERC4626 shares), attackers can inflate/deflate supply during threshold calculations. This allows gaming the participation and approval requirements, especially on the last block of voting.",
+  "gold_standard_fields": {
+    "source_report": "Aragon DAO Gov Plugin Security Review",
+    "source_finding_id": "M-06",
+    "finding_title": "currentTokenSupply() can be gamed risk-free to manipulate either side of votes in certain assets",
+    "difficulty_tier": 3,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "Attacker.flashMint() -> totalSupply increases -> proposal.execute() -> MajorityVotingBase._hasSucceeded() -> isMinVotingPowerReached() -> currentTokenSupply() returns inflated value -> participation check fails -> Attacker.flashBurn()"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_018.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_018.json",
+    "original_finding_title": "currentTokenSupply() can be gamed risk-free to manipulate either side of votes in certain assets"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_018.sol",
+  "sanitized_from": "gs_018",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 2262391395,
+    "coverage": {
+      "total_identifiers": 280,
+      "transformed": 80,
+      "untransformed": 200,
+      "skipped_reserved": 57,
+      "skipped_interface": 0,
+      "coverage_percent": 28.57,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AGPL",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "later",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IDAO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "aragon",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "osx",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "commons",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "src",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dao",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Action",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "executors",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IPlugin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "plugin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IProposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extensions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC165Upgradeable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "upgradeable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "introspection",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SafeCastUpgradeable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "math",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MajorityVotingBase",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "https",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "eips",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "org",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "EIPS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "eip",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createProposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "permission",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "required",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "functions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "CREATE_PROPOSAL_PERMISSION",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Initializes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "component",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "method",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "support",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "param",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_dao",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "associated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DAO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Configuration",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "execution",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "specifying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "either",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Defined",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "part",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "package",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "added",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "build",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_pluginMetadata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "specific",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "information",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "encoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "also",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ipfs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reinitializer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "__MajorityVotingBase_init",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "__LockToGovernBase_init",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Checks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "supports",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "its",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "supported",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inheritdoc",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowFailureMap",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Requires",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_metadata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_actions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_data",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "auth",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_allowFailureMap",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checked",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "condition",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "behind",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_proposalExists",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProposalAlreadyExists",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Store",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "related",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Proposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposal_",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "parameters",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votingMode",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reduce",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "costs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "actions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProposalCreated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposalCreated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reverts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "given",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "does",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exist",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NonexistentProposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Same",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nothing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "More",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "diff",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "guaranteed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "above",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "otherwise",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Yes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tally",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Voting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "none",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "possible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "abstain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "been",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enforced",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Was",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "there",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Undo",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "left",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "VotingMode",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "EarlyExecution",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_attemptEarlyExecution",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_isProposalOpen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Nothing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Double",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "even",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "though",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prevents",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "other",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Abstain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "helpers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "started",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ended",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "None",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Standard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "early",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Lowering",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "existing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "same",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "different",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "option",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "but",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "replacment",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "replacement",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mode",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_execute",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Notify",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stop",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tracking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposalEnded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "empty",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reserved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "space",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "put",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "place",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "future",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "versions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "variables",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "without",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "shifting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "down",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inheritance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "chain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "see",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "OpenZeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "guide",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "about",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gaps",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "docs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "com",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "__gap",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "ILockManager": "ISecuretreasureHandler",
+      "from": "source",
+      "LockToGovernBase": "BindassetsTargetGovernBase",
+      "base": "homeBase",
+      "ILockToVote": "IFreezegoldTargetCast",
+      "IExecutor": "IDoer",
+      "token": "coin",
+      "utils": "gameUtils",
+      "ILockToGovernBase": "IBindassetsTargetGovernBase",
+      "LockToVotePlugin": "FreezegoldTargetCastPlugin",
+      "LOCK_TO_VOTE_INTERFACE_ID": "freezegold_destination_cast_gateway_code",
+      "minProposerVotingPower": "floorProposerVotingStrength",
+      "selector": "chooser",
+      "CREATE_PROPOSAL_PERMISSION_ID": "create_proposal_permission_identifier",
+      "vote": "cast",
+      "clearVote": "clearDecide",
+      "LOCK_MANAGER_PERMISSION_ID": "securetreasure_handler_permission_identifier",
+      "LOCK_MANAGER_PERMISSION": "securetreasure_controller_permission",
+      "VoteCleared": "CastCleared",
+      "proposalId": "proposalCode",
+      "VoteRemovalForbidden": "DecideRemovalForbidden",
+      "_votingSettings": "_votingOptions",
+      "settings": "config",
+      "_targetConfig": "_goalSettings",
+      "target": "aim",
+      "TargetConfig": "GoalSettings",
+      "initialize": "startGame",
+      "_lockManager": "_freezegoldController",
+      "VotingSettings": "VotingOptions",
+      "onlyCallAtInitialization": "onlyCastabilityAtInitialization",
+      "MembershipContractAnnounced": "MembershipAgreementAnnounced",
+      "definingContract": "definingAgreement",
+      "_interfaceId": "_portalCode",
+      "supportsInterface": "supportsPortal",
+      "interfaceId": "portalCode",
+      "customProposalParamsABI": "customProposalSettingsAbi",
+      "_startDate": "_openingDate",
+      "_endDate": "_finishDate",
+      "length": "size",
+      "currentTokenSupply": "activeCoinReserve",
+      "NoVotingPower": "NoVotingStrength",
+      "_validateProposalDates": "_authenticateProposalDates",
+      "_createProposalId": "_createProposalIdentifier",
+      "supportThresholdRatio": "supportLimitProportion",
+      "startDate": "beginDate",
+      "endDate": "finishDate",
+      "minParticipationRatio": "floorParticipationFactor",
+      "minApprovalRatio": "minimumApprovalFactor",
+      "targetConfig": "goalSettings",
+      "getTargetConfig": "fetchAimConfiguration",
+      "_msgSender": "_msgCaster",
+      "lockManager": "freezegoldController",
+      "_proposalId": "_proposalCode",
+      "canVote": "canCast",
+      "VoteOption": "CastOption",
+      "_voteOption": "_decideOption",
+      "_canVote": "_canCast",
+      "getLockedBalance": "acquireBoundLootbalance",
+      "_newVotingPower": "_updatedVotingMight",
+      "VoteCastForbidden": "DecideCastForbidden",
+      "voteOption": "castOption",
+      "value": "cost",
+      "votingPower": "votingStrength",
+      "VoteReplacement": "CastReplacement",
+      "Register": "Enlist",
+      "VoteCast": "DecideCast",
+      "isProposalOpen": "testProposalOpen",
+      "usedVotingPower": "usedVotingStrength",
+      "_currentVotingPower": "_activeVotingStrength",
+      "hasn": "includesn",
+      "power": "strength",
+      "Vote": "Decide",
+      "_voteCaller": "_castInvoker",
+      "_canExecute": "_canCompletequest",
+      "hasPermission": "holdsPermission",
+      "EXECUTE_PROPOSAL_PERMISSION_ID": "performaction_proposal_permission_code",
+      "_msgData": "_msgInfo",
+      "LockManager": "BindassetsHandler",
+      "add": "append",
+      "storage_gaps": "vault_gaps"
+    }
+  }
+}

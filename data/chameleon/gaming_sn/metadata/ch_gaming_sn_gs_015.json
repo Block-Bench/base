@@ -1,0 +1,736 @@
+{
+  "id": "ch_gaming_sn_gs_015",
+  "contract_file": "contracts/ch_gaming_sn_gs_015.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "LockManagerBase",
+      "function_name": "_withdrawActiveVotingPower",
+      "line_numbers": [
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246
+      ]
+    },
+    "root_cause": "The isProposalOpen() function returns true if a proposal is open for voting. It returns false if it's too late OR too early for voting. But in _withdrawActiveVotingPower() at line 225, it was being used as an 'isProposalStillOpen()' function, forgetting that it will also be false when the proposal hasn't started yet. This means proposals with future start dates get incorrectly removed from knownProposalIds tracking.",
+    "attack_vector": "1. A proposal is created with a future start date (e.g., starts in 1 week).\n2. User calls unlock() before the proposal starts.\n3. _withdrawActiveVotingPower() is called at line 135.\n4. Line 225: plugin.isProposalOpen(_proposalId) returns false (proposal hasn't started).\n5. Line 226: knownProposalIds.remove(_proposalId) - proposal removed from tracking.\n6. Proposal starts a week later, user votes.\n7. User calls unlock() again - vote isn't cleared because proposal isn't tracked.\n8. User withdraws tokens while still having active votes.",
+    "impact": "Severity: medium",
+    "correct_fix": "Create and use an isProposalEnded() function specifically for this use case. It should return true only if the proposal has actually ended (endDate passed or executed), not just because it hasn't started."
+  },
+  "provenance": {
+    "source": "spearbit",
+    "original_id": "gs_spearbit_aragon-lock-to-vote_M03",
+    "url": "https://github.com/spearbit/portfolio/blob/master/pdfs/Aragon-Spearbit-Security-Review-July-2025.pdf",
+    "date_discovered": "2025-09-11",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 247,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "spearbit",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "The _isProposalOpen() function (MajorityVotingBase line 578) checks 'startDate <= currentTime && currentTime < endDate'. This returns false for proposals that haven't started YET. The _withdrawActiveVotingPower() incorrectly uses this to detect ended proposals, causing future-dated proposals to be removed from tracking prematurely.",
+  "gold_standard_fields": {
+    "source_report": "Aragon DAO Gov Plugin Security Review",
+    "source_finding_id": "M-03",
+    "finding_title": "Misuse of isProposalOpen() function",
+    "difficulty_tier": 2,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "User.unlock() -> LockManagerBase._withdrawActiveVotingPower() -> line 225: plugin.isProposalOpen() returns false (not started yet) -> line 226: knownProposalIds.remove() -> proposal starts later -> User.vote() -> User.unlock() succeeds without clearing vote"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_015.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_015.json",
+    "original_finding_title": "Misuse of isProposalOpen() function"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_015.sol",
+  "sanitized_from": "gs_015",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 2628583855,
+    "coverage": {
+      "total_identifiers": 209,
+      "transformed": 71,
+      "untransformed": 138,
+      "skipped_reserved": 41,
+      "skipped_interface": 0,
+      "coverage_percent": 33.97,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "AGPL",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "later",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PluginMode",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IMajorityVoting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "introspection",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC165",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "structs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "title",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "author",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Aragon",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "acting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "multiple",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "plugins",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "plugin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Keeps",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "track",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "known",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NOTE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Executed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "actively",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reported",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "but",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "defeated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "need",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "garbage",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "collected",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "over",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "knownProposalIds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Emitted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "holder",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "locks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "funds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "into",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unlocks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reports",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ended",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "param",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "where",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "longer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "submitted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cleared",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProposalEnded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Thrown",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calling",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposalEnded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Raised",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "holds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "didn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "attempting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cast",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "strict",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mode",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "trying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "InvalidPlugin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "supported",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pluginMode",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "InvalidPluginMode",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "define",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "after",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "was",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_settings",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "given",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_index",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inheritdoc",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_lock",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Voting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_vote",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_account",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "may",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decide",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "its",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "doesn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "All",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "clear",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposalCreated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "duplicate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Both",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enforce",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unicity",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "right",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "receives",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Takes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "registers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "received",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reverts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "enough",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "approved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Triggers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "needed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "locking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "flow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cannot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Transfers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_recipient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "back",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checked",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "within",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Were",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "element",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Recheck",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "same",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "another",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "ILockManager": "IBindassetsController",
+      "LockManagerSettings": "FreezegoldHandlerOptions",
+      "from": "source",
+      "ILockToGovernBase": "IFreezegoldTargetGovernBase",
+      "ILockToVote": "IBindassetsDestinationCast",
+      "utils": "gameUtils",
+      "EnumerableSet": "EnumerableGroup",
+      "LockManagerBase": "FreezegoldControllerBase",
+      "Helper": "QuestHelper",
+      "vault": "bountyStorage",
+      "locked": "sealed",
+      "tokens": "coins",
+      "vote": "cast",
+      "UintSet": "NumberGroup",
+      "current": "active",
+      "LockManager": "FreezegoldController",
+      "settings": "config",
+      "lock": "freezeGold",
+      "amount": "count",
+      "lockedBalances": "frozenUserrewards",
+      "active": "live",
+      "time": "instant",
+      "token": "coin",
+      "manager": "controller",
+      "BalanceLocked": "PrizecountBound",
+      "BalanceUnlocked": "TreasureamountFreed",
+      "proposalId": "proposalTag",
+      "InvalidPluginAddress": "InvalidPluginZone",
+      "caller": "summoner",
+      "NoBalance": "NoPrizecount",
+      "unlock": "releaseAssets",
+      "LocksStillActive": "LocksStillLive",
+      "set": "establish",
+      "value": "magnitude",
+      "SetPluginAddressForbidden": "GroupPluginRealmForbidden",
+      "proposalID": "proposalTag275",
+      "index": "slot",
+      "knownProposalIdAt": "knownProposalCodeAt",
+      "knownProposalIdsLength": "knownProposalIdsSize",
+      "length": "extent",
+      "_incomingTokenBalance": "_incomingGemRewardlevel",
+      "lockAndVote": "securetreasureAndDecide",
+      "_proposalId": "_proposalIdentifier",
+      "VoteOption": "DecideOption",
+      "_voteOption": "_castOption",
+      "getLockedBalance": "retrieveBoundLootbalance",
+      "canVote": "canCast",
+      "_refundableBalance": "_refundableTreasureamount",
+      "sender": "caster",
+      "_withdrawActiveVotingPower": "_extractwinningsLiveVotingMight",
+      "Withdraw": "ObtainPrize",
+      "_doUnlockTransfer": "_doReleaseassetsShiftgold",
+      "add": "insert",
+      "remove": "delete",
+      "setPluginAddress": "collectionPluginZone",
+      "_newPluginAddress": "_updatedPluginRealm",
+      "supportsInterface": "supportsGateway",
+      "interfaceId": "gatewayTag",
+      "user": "hero",
+      "_doLockTransfer": "_doBindassetsTradefunds",
+      "order": "command",
+      "complete": "questCompleted",
+      "recipient": "target",
+      "get": "acquire",
+      "_currentVotingPower": "_activeVotingStrength",
+      "power": "strength",
+      "_proposalCount": "_proposalNumber",
+      "isProposalOpen": "checkProposalOpen",
+      "last": "final",
+      "usedVotingPower": "usedVotingStrength",
+      "clearVote": "clearCast"
+    }
+  }
+}

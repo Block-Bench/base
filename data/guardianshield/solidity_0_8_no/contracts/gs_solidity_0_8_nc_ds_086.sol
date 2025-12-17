@@ -1,9 +1,0 @@
-pragma solidity ^0.8.19;
-contract SendBack {
-    mapping (address => uint) userBalances;
-    function withdrawBalance() {
-		uint amountToWithdraw = userBalances[msg.sender];
-		userBalances[msg.sender] = 0;
-		msg.sender.send(amountToWithdraw);
-	}
-}

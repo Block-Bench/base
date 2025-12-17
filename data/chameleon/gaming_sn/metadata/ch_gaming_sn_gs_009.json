@@ -1,0 +1,2103 @@
+{
+  "id": "ch_gaming_sn_gs_009",
+  "contract_file": "contracts/ch_gaming_sn_gs_009.sol",
+  "subset": "chameleon_gaming",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "VotingEscrow",
+      "function_name": "_checkpoint",
+      "line_numbers": [
+        760
+      ]
+    },
+    "root_cause": "`_checkpoint` creates a new epoch with the same timestamp for `increase_amount`, ignoring the new lock in `balanceOfNFT`, reducing voting power.",
+    "attack_vector": "A test locks 500e18, increases by 500e18 in one tx, and shows reduced bribe rewards compared to separate locks.",
+    "impact": "Severity: medium",
+    "correct_fix": "In `_checkpoint`, overwrite the latest point if timestamps match, else append a new one. Status: Mitigation confirmed."
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-hybra-finance_M08",
+    "url": "https://code4rena.com/reports/2025-10-hybra-finance",
+    "date_discovered": "2025-10-06",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 1355,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "Same-tx lock increase creates duplicate checkpoint timestamp, undercalculating voting power.",
+  "gold_standard_fields": {
+    "source_report": "2025-10-hybra-finance",
+    "source_finding_id": "M-08",
+    "finding_title": "Incorrect voting power calculation when create_lock and increase_amount are called in the same transaction",
+    "difficulty_tier": 3,
+    "context_level": "single_file",
+    "has_context": false,
+    "call_flow": "create_lock(amount1) -> increase_amount(amount2) [same tx] -> _checkpoint() duplicate timestamp -> balanceOfNFT ignores increase"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_009.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_009.json",
+    "original_finding_title": "Incorrect voting power calculation when create_lock and increase_amount are called in the same transaction"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_009.sol",
+  "sanitized_from": "gs_009",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "gaming",
+    "source": "sanitized",
+    "seed": 2912317420,
+    "coverage": {
+      "total_identifiers": 683,
+      "transformed": 239,
+      "untransformed": 444,
+      "skipped_reserved": 107,
+      "skipped_interface": 0,
+      "coverage_percent": 34.99,
+      "untransformed_details": [
+        {
+          "name": "SPDX",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "License",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC721Metadata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "openzeppelin",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "contracts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extensions",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IHybra",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IHybraVotes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IVeArtProxy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IVotingEscrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IVoter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "libraries",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "VotingDelegationLib",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "title",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Voting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Escrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "notice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "that",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "escrows",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "the",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "form",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Votes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "have",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "depending",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "are",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "committed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "future",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whatever",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "they",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voting",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "author",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Modified",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Solidly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "https",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "github",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "com",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "solidlyexchange",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "solidly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blob",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "master",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Curve",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "curvefi",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "curve",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dao",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "VotingEscrow",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Nouns",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DAO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "withtally",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "project",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "main",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721Checkpointable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dev",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decays",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "linearly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "over",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cannot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "more",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "than",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MAXTIME",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "provider",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "locktime",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_sender",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_locktime",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_ts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "team",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "artProxy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PRECISISON",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "about",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whether",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "not",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "supported",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "supportedInterfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC165",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC721Metadata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WEEK",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "iMAXTIME",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_hybr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "param",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BLACK",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "art_proxy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "point_history",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "blk",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MODIFIERS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_not_entered",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_entered",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PNFT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "attachments",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ATT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NAO",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "METADATA",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "veHYBR",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_team",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_proxy",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "The",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "modify",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_isPartner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Whether",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "should",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "partner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DNE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "URI",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "metadata",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fetch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_locked",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owns",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "his",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "identifier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NFTs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "owned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Throws",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assigned",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "considered",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "invalid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "whom",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "query",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_balance",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "approved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addresses",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ownership_change",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "single",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Checks",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_operator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "acts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "behalf",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reaffirm",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "indicates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "there",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unless",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "authorized",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "valid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NOTE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "written",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "EIP",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_approved",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "given",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requirements",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Enables",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "disables",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "third",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "party",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "manage",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "all",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "assets",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "also",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "emits",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ApprovalForAll",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "works",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "even",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "doesn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "own",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operators",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "FUNCTIONS",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Clear",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_clearApproval",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "approvals",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "can",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_spender",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "transferred",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Exeute",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pass",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "auto",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delegates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ownership",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "protection",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "responsible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "confirm",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "capable",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "receiving",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "maybe",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "permanently",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "lost",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Transfers",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "one",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "another",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "smart",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "calls",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "onERC721Received",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "and",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "throws",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "method",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "relies",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extcodesize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "which",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "construction",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "since",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "stored",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "execution",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_data",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Additional",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "with",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "specified",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "format",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "does",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "implement",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "response",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "E721_RJ",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reason",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "E721_NRCV",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "identification",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addressndashushun",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "added",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "someone",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Change",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "tracking",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "will",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "minted",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "boolean",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "operation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "was",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "successful",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_mint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checkpoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gov",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "removed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_burn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ESCROW",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "slope_changes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "slope",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "change",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "most",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "recently",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "recorded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decrease",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "uepoch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_idx",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Point",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Record",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "global",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "per",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pevious",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_checkpoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_epoch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "permanent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "slopes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "biases",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Kept",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "when",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "bias",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Read",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "values",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "scheduled",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "past",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ONLY",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "FUTURE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "everything",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expired",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "zeros",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "used",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extrapolation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "approximately",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "methods",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "save",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "them",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "figure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "out",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "exactly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "inside",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "dblock",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "point",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "already",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "But",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "know",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "such",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "case",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fill",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "history",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "what",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "t_i",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Hopefully",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "won",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "happen",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "able",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "but",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "broken",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "d_slope",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "just",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "filled",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "until",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "has",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "been",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "applied",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "changed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "into",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Schedule",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "going",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "down",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subtract",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "something",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extension",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "disappeared",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "handle",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "holds",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unchanged",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Adding",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "existing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "creating",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Possibilities",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Both",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "could",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "extend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "always",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Anyone",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "their",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "brand",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "need",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "non",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "EXP",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "poke",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Number",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rounded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nearest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "week",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Locktime",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IUT",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "additional",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "without",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "modifying",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gained",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Extend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "NORM",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Only",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "possible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "either",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "GAUGE",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "VOTING",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "following",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ERC20",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "minime",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compatible",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "real",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "They",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "measure",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "weights",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "purpose",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "don",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "represent",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "coins",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_block",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "some",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Adheres",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Aragon",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "compatibility",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "abstain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "attach",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "detach",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "SAME",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_locked0",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_locked1",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PERM",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "value0",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "wasn",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_checkpointDelegatee",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_delegates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BIGVAL",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "multiple",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "veNFTs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "distribution",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "amounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "distributing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "newly",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "created",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IDs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "MIN2MAX10",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Zero",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "original",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proportional",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "actualAmounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_account",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_bool",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "typehash",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "domain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DOMAIN_TYPEHASH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "EIP712Domain",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delegation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DELEGATION_TYPEHASH",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Delegation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delegatee",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "expiry",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "record",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "each",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "states",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signing",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "validating",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signatures",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nonces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Overrides",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "standard",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Comp",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delegator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "haven",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "delegated",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "avoids",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "having",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "oneself",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nCheckpoints",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "numCheckpoints",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checkpoints",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Sum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "provided",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "here",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "right",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "decay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_delegate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "differs",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "simulate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_moveAllDelegates",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "domainSeparator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "chainid",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "digest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "x19",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "x01",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signatory",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "from": "origin",
+      "token": "gem",
+      "IERC721Receiver": "Ierc721Recipient",
+      "HybraTimeLibrary": "HybraInstantLibrary",
+      "VotingBalanceLogic": "VotingTreasureamountLogic",
+      "veNFT": "veRelic",
+      "implementation": "execution",
+      "tokens": "gems",
+      "NFT": "Artifact",
+      "weight": "influence",
+      "time": "moment",
+      "users": "adventurers",
+      "nft": "artifact",
+      "Vote": "Decide",
+      "Lock": "SecureTreasure",
+      "DepositType": "StorelootType",
+      "DEPOSIT_FOR_TYPE": "depositgold_for_type",
+      "CREATE_LOCK_TYPE": "create_bindassets_type",
+      "INCREASE_LOCK_AMOUNT": "increase_bindassets_count",
+      "INCREASE_UNLOCK_TIME": "increase_releaseassets_moment",
+      "EVENTS": "GameEvents",
+      "Deposit": "StoreLoot",
+      "tokenId": "coinTag",
+      "value": "cost",
+      "deposit_type": "bankwinnings_type",
+      "Merge": "Unite",
+      "_amountFrom": "_measureOrigin",
+      "_amountTo": "_quantityDestination",
+      "_amountFinal": "_totalFinal",
+      "Split": "Separate",
+      "_tokenId1": "_medalId1",
+      "_tokenId2": "_gemId2",
+      "_splitAmount1": "_divideAmount1",
+      "_splitAmount2": "_divideAmount2",
+      "MultiSplit": "MultiDivide",
+      "_newTokenIds": "_updatedMedalIds",
+      "MetadataUpdate": "MetadataSyncprogress",
+      "_tokenId": "_medalTag",
+      "BatchMetadataUpdate": "BatchMetadataRefreshstats",
+      "_fromTokenId": "_sourceCoinTag",
+      "_toTokenId": "_destinationCrystalIdentifier",
+      "Withdraw": "RetrieveRewards",
+      "LockPermanent": "FreezegoldPermanent",
+      "amount": "measure",
+      "UnlockPermanent": "OpenvaultPermanent",
+      "Supply": "FundPool",
+      "prevSupply": "prevReserve",
+      "supply": "fundPool",
+      "burnTokenAddress": "sacrificeMedalLocation",
+      "isPartnerVeNFT": "isPartnerVeArtifact",
+      "ERC165_INTERFACE_ID": "erc165_gateway_code",
+      "ERC721_INTERFACE_ID": "erc721_gateway_tag",
+      "ERC721_METADATA_INTERFACE_ID": "erc721_metadata_gateway_tag",
+      "Current": "Present",
+      "count": "tally",
+      "Instance": "Clone",
+      "Data": "Details",
+      "cpData": "cpInfo",
+      "votingBalanceLogicData": "votingRewardlevelLogicDetails",
+      "token_addr": "medal_addr",
+      "sender": "initiator",
+      "MAX_LOCK_DURATION": "maximum_securetreasure_adventureperiod",
+      "timestamp": "gameTime",
+      "mint": "forge",
+      "ish": "checkh",
+      "burn": "destroy",
+      "_entered_state": "_entered_status",
+      "nonreentrant": "oneAtATime",
+      "notPartnerNFT": "notPartnerRelic",
+      "splitAllowed": "separateAllowed",
+      "canSplit": "canDivide",
+      "SPLIT": "Separate885",
+      "_isApprovedOrOwner": "_isApprovedOrMaster",
+      "version": "release",
+      "setTeam": "groupTeam",
+      "setArtProxy": "groupArtProxy",
+      "max": "ceiling",
+      "setPartnerVeNFT": "groupPartnerVeArtifact",
+      "idToOwner": "tagTargetLord",
+      "current": "active",
+      "Token": "Coin",
+      "tokenURI": "medalUri",
+      "LockedBalance": "BoundLootbalance",
+      "locked": "bound",
+      "_tokenURI": "_coinUri",
+      "balanceOfNFT": "prizecountOfRelic",
+      "end": "close",
+      "ownerToNFTokenCount": "masterDestinationNfCrystalNumber",
+      "ownerToNFTokenCountFn": "masterDestinationNfGemNumberFn",
+      "APPROVAL": "AccessAuthorized",
+      "idToApprovals": "identifierTargetApprovals",
+      "operator": "questRunner",
+      "ownerToOperators": "lordTargetOperators",
+      "Get": "Fetch",
+      "approval": "permissionGranted",
+      "LOGIC": "GameLogic",
+      "Set": "Configure",
+      "Check": "Verify",
+      "senderIsOwner": "initiatorIsLord",
+      "senderIsApprovedForAll": "initiatorIsApprovedForAll",
+      "Approval": "AccessAuthorized338",
+      "add": "attach",
+      "set": "establish",
+      "revoke": "withdraw",
+      "spender": "user",
+      "spenderIsOwner": "userIsLord",
+      "spenderIsApproved": "consumerIsApproved",
+      "spenderIsApprovedForAll": "userIsApprovedForAll",
+      "isApprovedOrOwner": "isApprovedOrLord",
+      "_transferFrom": "_tradefundsOrigin",
+      "Remove": "Delete",
+      "_removeTokenFrom": "_eliminateMedalSource",
+      "delegate": "assign",
+      "moveTokenDelegates": "moveMedalDelegates",
+      "Add": "Include",
+      "_addTokenTo": "_insertCrystalTarget",
+      "Flash": "Quick",
+      "Log": "Journal",
+      "caller": "summoner",
+      "_isContract": "_isAgreement",
+      "account": "character",
+      "size": "magnitude",
+      "data": "info",
+      "destination": "endpoint",
+      "selector": "chooser",
+      "length": "size",
+      "_interfaceID": "_portalIdentifier",
+      "supportsInterface": "supportsGateway",
+      "MINT": "Create",
+      "BURN": "Incinerate",
+      "index": "slot",
+      "tokenIds": "medalIds",
+      "ownerToNFTokenIdList": "lordTargetNfMedalCodeRoster",
+      "tokenToOwnerIndex": "coinTargetMasterPosition",
+      "tokenOfOwnerByIndex": "crystalOfMasterByPosition",
+      "_tokenIndex": "_gemSlot",
+      "receiver": "collector",
+      "_addTokenToOwnerList": "_attachCrystalTargetLordRegistry",
+      "current_count": "present_tally",
+      "Update": "SyncProgress",
+      "_removeTokenFromOwnerList": "_discardCrystalOriginLordRoster",
+      "current_index": "present_position",
+      "update": "updateLevel",
+      "lastTokenId": "endingMedalIdentifier",
+      "permanentLockBalance": "permanentSecuretreasureLootbalance",
+      "epoch": "age",
+      "MULTIPLIER": "Factor",
+      "rate": "multiplier",
+      "power": "might",
+      "Value": "Magnitude",
+      "get_last_user_slope": "fetch_ending_player_slope",
+      "user_point_epoch": "player_point_age",
+      "user_point_history": "player_point_history",
+      "User": "Character",
+      "Epoch": "Era",
+      "user": "character36",
+      "old_locked": "former_frozen",
+      "lock": "bindAssets",
+      "new_locked": "current_bound",
+      "u_old": "u_former",
+      "u_new": "u_current",
+      "old_dslope": "former_dslope",
+      "new_dslope": "current_dslope",
+      "isPermanent": "verifyPermanent",
+      "Calculate": "Figure",
+      "last_point": "final_point",
+      "last_checkpoint": "final_checkpoint",
+      "initial_last_point": "initial_final_point",
+      "calculate": "determine",
+      "block_slope": "frame_slope",
+      "last": "final",
+      "get": "acquire",
+      "withdraw": "extractWinnings",
+      "vote": "cast",
+      "new_user_slope": "current_player_slope",
+      "old_user_slope": "previous_hero_slope",
+      "deposit": "depositGold",
+      "old": "former",
+      "user_epoch": "player_age",
+      "Amount": "Sum",
+      "unlock_time": "releaseassets_instant",
+      "unlock": "releaseAssets",
+      "locked_balance": "sealed_rewardlevel",
+      "Previous": "Prior",
+      "_deposit_for": "_stashrewards_for",
+      "supply_before": "stock_before",
+      "deposit_for": "stashrewards_for",
+      "_lock_duration": "_bindassets_questlength",
+      "_create_lock": "_create_securetreasure",
+      "create_lock": "create_securetreasure",
+      "create_lock_for": "create_securetreasure_for",
+      "increase_amount": "increase_quantity",
+      "increase_unlock_time": "increase_openvault_moment",
+      "Burn": "Consume",
+      "lockPermanent": "freezegoldPermanent",
+      "_newLocked": "_updatedFrozen",
+      "unlockPermanent": "releaseassetsPermanent",
+      "balanceOfNFTAt": "lootbalanceOfArtifactAt",
+      "balanceOfAtNFT": "rewardlevelOfAtRelic",
+      "total": "full",
+      "Total": "Combined",
+      "totalSupplyAt": "combinedReserveAt",
+      "totalSupplyAtT": "combinedStockAtT",
+      "setVoter": "groupVoter",
+      "merge": "combine",
+      "MERGE": "Combine",
+      "newLockedTo": "currentSealedTarget",
+      "source": "origin10",
+      "split": "divide",
+      "newLocked": "updatedFrozen",
+      "_splitAmount": "_separateSum",
+      "_createSplitNFT": "_createSeparateArtifact",
+      "newTokenIds": "currentCrystalIds",
+      "multiSplit": "multiDivide",
+      "originalLocked": "originalSealed",
+      "totalWeight": "completePower",
+      "Create": "QuestCreated",
+      "toggleSplit": "toggleSeparate",
+      "chainId": "chainTag",
+      "verifyingContract": "verifyingPact",
+      "nonce": "sequence",
+      "Gets": "Checks",
+      "getVotes": "obtainVotes",
+      "_tokenIds": "_coinIds",
+      "tId": "tTag",
+      "getPastVotes": "fetchPastVotes",
+      "_checkIndex": "_examinePosition",
+      "getPastVotesIndex": "obtainPastVotesPosition",
+      "input": "submission",
+      "getPastTotalSupply": "retrievePastFullReserve",
+      "currentDelegate": "activeEntrust",
+      "DelegateChanged": "AssignChanged",
+      "TokenHelpers": "GemHelpers",
+      "tokenHelpers": "coinHelpers",
+      "ownerOfFn": "masterOfFn",
+      "Delegate": "Assign",
+      "delegateBySig": "assignBySig",
+      "structHash": "recordSignature",
+      "NONCE": "Sequence"
+    }
+  }
+}

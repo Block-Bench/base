@@ -1,0 +1,76 @@
+{
+  "id": "gs_reentrancy_guard_sn_gs_005",
+  "contract_file": "contracts/gs_reentrancy_guard_sn_gs_005.sol",
+  "subset": "guardianshield",
+  "ground_truth": {
+    "is_vulnerable": false,
+    "original_vulnerable": true,
+    "vulnerability_type": "dos",
+    "neutralized_by": "reentrancy_guard",
+    "neutralization_reason": "Mutex lock prevents recursive calls during execution"
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-hybra-finance_M04",
+    "url": "https://code4rena.com/reports/2025-10-hybra-finance",
+    "date_discovered": "2025-10-06",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 263,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "dos",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "Dust votes cause pool weight to round to zero after decay, DoS-ing the poke function and allowing inflated rewards.",
+  "gold_standard_fields": {
+    "source_report": "2025-10-hybra-finance",
+    "source_finding_id": "M-04",
+    "finding_title": "Dust vote on one pool prevents poke()",
+    "difficulty_tier": 3,
+    "context_level": "single_file",
+    "has_context": false,
+    "call_flow": "User.vote(full-1wei, dust) -> warp time -> poke() -> _poolWeight rounds to 0 -> revert \"ZV\""
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_005.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_005.json",
+    "original_finding_title": "Dust vote on one pool prevents poke()"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_005.sol",
+  "sanitized_from": "gs_005",
+  "derived_from": "sn_gs_005",
+  "transformation": {
+    "strategy": "guardian_shield",
+    "protection_type": "reentrancy_guard",
+    "injection_details": {
+      "import_added": true,
+      "inheritance_added": true,
+      "functions_protected": [
+        "reset",
+        "poke",
+        "vote",
+        "_vote"
+      ],
+      "protection_type": "reentrancy_guard"
+    }
+  }
+}
