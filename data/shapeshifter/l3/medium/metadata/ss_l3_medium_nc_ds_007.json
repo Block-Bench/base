@@ -1,0 +1,99 @@
+{
+  "id": "ss_l3_medium_nc_ds_007",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_007.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "FibonacciBalance",
+      "function_name": "_0xe3cf89",
+      "line_numbers": []
+    },
+    "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 31",
+    "attack_vector": "Access control vulnerability - missing or incorrect authorization checks at line(s) 31",
+    "impact": "Severity: high",
+    "correct_fix": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_access_control_FibonacciBalance",
+    "url": "https://github.com/sigp/solidity-security-blog",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.22",
+    "num_lines": 54,
+    "num_contracts": 3,
+    "contract_names": [
+      "FibonacciBalance",
+      "with",
+      "FibonacciLib"
+    ],
+    "num_functions": 5,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Access control vulnerability - missing or incorrect authorization checks at line(s) 31",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_007.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_007.json",
+    "original_id": "smartbugs_access_control_FibonacciBalance"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_007.sol",
+  "sanitized_from": "ds_007",
+  "derived_from": "nc_ds_007",
+  "original_id": "ds_007",
+  "identifier_mappings": {
+    "calculatedFibNumber": "_0x72e4b7",
+    "withdrawalCounter": "_0x05bef0",
+    "setFibonacci": "_0x3284c9",
+    "fibonacci": "_0x6538bf",
+    "withdraw": "_0xe3cf89",
+    "setStart": "_0xce0384",
+    "_start": "_0x57cfa2",
+    "fibSig": "_0x596275",
+    "start": "_0xaeb794",
+    "sha3": "_0x52f8e2"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 10 identifiers using hex style"
+    ],
+    "rename_map_size": 10,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0xe3cf89"
+    ]
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "id": "ss_l3_medium_nc_ds_060",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_060.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Ownable",
+      "function_name": "WithdrawToken",
+      "line_numbers": []
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 44",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 44",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x627fa62ccbb1c1b04ffaecd72a53e37fc0e17839",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 94,
+    "num_contracts": 3,
+    "contract_names": [
+      "Ownable",
+      "Token",
+      "TokenBank"
+    ],
+    "num_functions": 7,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 44",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_060.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_060.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x627fa62ccbb1c1b04ffaecd72a53e37fc0e17839"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_060.sol",
+  "sanitized_from": "ds_060",
+  "derived_from": "nc_ds_060",
+  "original_id": "ds_060",
+  "identifier_mappings": {
+    "initTokenBank": "_0x74a639",
+    "confirmOwner": "_0xe6e0d2",
+    "changeOwner": "_0xf946c8",
+    "onlyOwner": "_0xb2c90a",
+    "newOwner": "_0x91cd14",
+    "_amount": "_0xeffbae",
+    "_token": "_0xb3ff2c",
+    "amount": "_0xc8019e",
+    "owner": "_0x311620",
+    "_addr": "_0x67e759",
+    "token": "_0xa51259",
+    "sha3": "_0x68a830",
+    "_wei": "_0xa44edc",
+    "addr": "_0x28ea3b",
+    "_to": "_0xf4ad5a",
+    "to": "_0xa883eb"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 16 identifiers using hex style"
+    ],
+    "rename_map_size": 16,
+    "metadata_changes": []
+  }
+}

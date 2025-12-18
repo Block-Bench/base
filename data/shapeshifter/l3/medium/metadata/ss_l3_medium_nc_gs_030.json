@@ -1,0 +1,120 @@
+{
+  "id": "ss_l3_medium_nc_gs_030",
+  "contract_file": "contracts/ss_l3_medium_nc_gs_030.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "signature_replay",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "Calls",
+      "function_name": "executeSessionCalls",
+      "line_numbers": []
+    },
+    "root_cause": "When a session call with BEHAVIOR_REVERT_ON_ERROR fails, the transaction reverts but nonce is not consumed. The signature remains valid and can be replayed for partial calls. Session signatures are validated per-call using individual call hashes, enabling partial replay. Frontrunners can execute subsets of calls to grief or cause financial loss.",
+    "attack_vector": "Original payload: Calls [A, B, C] with signatures [SigA, SigB, SigC]. Execution: [A succeed, B succeed, C revert]. Result: Revert, nonce unused. Attack: Replay [A, B] with [SigA, SigB]. PoC: File POC.t.sol with test testSubmissionValidity. It builds a 2-call payload, expects revert on second call, then replays partial payload successfully.",
+    "impact": "Severity: high",
+    "correct_fix": "Bind session call signatures to the complete payload hash to prevent partial signature replay."
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-sequence_H02",
+    "url": "https://code4rena.com/reports/2025-10-sequence",
+    "date_discovered": "2025-10-07",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 124,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "signature_replay",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "Session signatures are per-call, and failed batches preserve nonce, allowing replay of successful subsets for griefing or frontrunning.",
+  "gold_standard_fields": {
+    "source_report": "",
+    "source_finding_id": "H-02",
+    "finding_title": "Partial signature replay/frontrunning attack on session calls",
+    "difficulty_tier": 3,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "User.submit(session calls [A,B,C]) -> C fails -> revert (nonce preserved) -> Attacker/Frontrunner.submit([A,B]) -> succeeds with partial sigs"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_030.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_030.json",
+    "original_finding_title": "Partial signature replay/frontrunning attack on session calls"
+  },
+  "original_subset": "gold_standard",
+  "context": "context/gs_030/",
+  "context_files": [
+    "context_01_SessionSig.sol"
+  ],
+  "original_contract_file": "base/contracts/gs_030.sol",
+  "sanitized_from": "gs_030",
+  "derived_from": "nc_gs_030",
+  "original_id": "gs_030",
+  "identifier_mappings": {
+    "handleSequenceDelegateCall": "_0x642fcf",
+    "signatureValidation": "_0x0e3acf",
+    "encodeWithSelector": "_0x874218",
+    "fromPackedCalls": "_0xa94641",
+    "_consumeNonce": "_0x89f96f",
+    "nonReentrant": "_0xe9aabe",
+    "onlyFallback": "_0xa89c38",
+    "_startingGas": "_0xa7bd88",
+    "selfExecute": "_0xbd1327",
+    "_returnData": "_0xf6807c",
+    "startingGas": "_0xa92b6a",
+    "_signature": "_0xefb5a9",
+    "returnData": "_0x24d1f3",
+    "errorFlag": "_0x8d0e5b",
+    "_payload": "_0x2bf93f",
+    "_execute": "_0xca1b1c",
+    "onlySelf": "_0xd7634b",
+    "_decoded": "_0x655e5c",
+    "_gasLeft": "_0x3b2d72",
+    "numCalls": "_0xab513c",
+    "success": "_0xea21ae",
+    "execute": "_0x71f006",
+    "isValid": "_0xef9332",
+    "decoded": "_0xfade99",
+    "gasleft": "_0x3dd680",
+    "_opHash": "_0x214810",
+    "_index": "_0xe69d03",
+    "opHash": "_0x7b03bf",
+    "nonce": "_0x55c34f",
+    "space": "_0xd590d5",
+    "calls": "_0x195142",
+    "hash": "_0x24c5ee",
+    "to": "_0xc64875"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 33 identifiers using hex style",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 33,
+    "metadata_changes": []
+  }
+}

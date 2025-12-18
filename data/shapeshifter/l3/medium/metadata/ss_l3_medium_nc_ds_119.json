@@ -1,0 +1,116 @@
+{
+  "id": "ss_l3_medium_nc_ds_119",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_119.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "that",
+      "function_name": "KingOfTheEtherThrone",
+      "line_numbers": []
+    },
+    "root_cause": "# Unchecked External Call",
+    "attack_vector": "# Unchecked External Call",
+    "impact": "Severity: medium",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_unchecked_external_call_kingoftheetherthrone",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 170,
+    "num_contracts": 3,
+    "contract_names": [
+      "that",
+      "lives",
+      "KingOfTheEtherThrone"
+    ],
+    "num_functions": 5,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Unchecked External Call",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_119.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_119.json",
+    "original_id": "notso_unchecked_external_call_kingoftheetherthrone"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_119.sol",
+  "sanitized_from": "ds_119",
+  "derived_from": "nc_ds_119",
+  "original_id": "ds_119",
+  "identifier_mappings": {
+    "wizardCommissionFractionNum": "_0x430ee2",
+    "wizardCommissionFractionDen": "_0x3d0333",
+    "coronationTimestamp": "_0x840c62",
+    "usurperEtherAddress": "_0xaf87cf",
+    "claimPriceAdjustNum": "_0xe05647",
+    "claimPriceAdjustDen": "_0xff614e",
+    "startingClaimPrice": "_0x762187",
+    "transferOwnership": "_0x16929d",
+    "currentClaimPrice": "_0x9d71ba",
+    "numberOfMonarchs": "_0xc088fe",
+    "rawNewClaimPrice": "_0xb8c7ba",
+    "wizardCommission": "_0x4c403d",
+    "sweepCommission": "_0x2647c4",
+    "currentMonarch": "_0xf52c0f",
+    "newClaimPrice": "_0xb0a800",
+    "wizardAddress": "_0x1d23a1",
+    "pastMonarchs": "_0xc74373",
+    "etherAddress": "_0xe4437c",
+    "compensation": "_0x07fe51",
+    "usurperName": "_0x0d3da3",
+    "claimThrone": "_0x8011ac",
+    "excessPaid": "_0x130cb7",
+    "claimPrice": "_0xb1341b",
+    "onlywizard": "_0xc487cb",
+    "valuePaid": "_0x85737c",
+    "newOwner": "_0x7d30a9",
+    "amount": "_0x8a52c4",
+    "name": "_0x7aee31"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 28 identifiers using hex style",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 28,
+    "metadata_changes": []
+  }
+}

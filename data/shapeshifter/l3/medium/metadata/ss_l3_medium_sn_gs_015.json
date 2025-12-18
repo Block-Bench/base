@@ -1,0 +1,133 @@
+{
+  "id": "ss_l3_medium_sn_gs_015",
+  "contract_file": "contracts/ss_l3_medium_sn_gs_015.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "LockManagerBase",
+      "function_name": "_0xc99e99",
+      "line_numbers": []
+    },
+    "root_cause": "The isProposalOpen() function returns true if a proposal is open for voting. It returns false if it's too late OR too early for voting. But in _withdrawActiveVotingPower() at line 225, it was being used as an 'isProposalStillOpen()' function, forgetting that it will also be false when the proposal hasn't started yet. This means proposals with future start dates get incorrectly removed from knownProposalIds tracking.",
+    "attack_vector": "1. A proposal is created with a future start date (e.g., starts in 1 week).\n2. User calls unlock() before the proposal starts.\n3. _withdrawActiveVotingPower() is called at line 135.\n4. Line 225: plugin.isProposalOpen(_proposalId) returns false (proposal hasn't started).\n5. Line 226: knownProposalIds.remove(_proposalId) - proposal removed from tracking.\n6. Proposal starts a week later, user votes.\n7. User calls unlock() again - vote isn't cleared because proposal isn't tracked.\n8. User withdraws tokens while still having active votes.",
+    "impact": "Severity: medium",
+    "correct_fix": "Create and use an isProposalEnded() function specifically for this use case. It should return true only if the proposal has actually ended (endDate passed or executed), not just because it hasn't started."
+  },
+  "provenance": {
+    "source": "spearbit",
+    "original_id": "gs_spearbit_aragon-lock-to-vote_M03",
+    "url": "https://github.com/spearbit/portfolio/blob/master/pdfs/Aragon-Spearbit-Security-Review-July-2025.pdf",
+    "date_discovered": "2025-09-11",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 247,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "spearbit",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "The _isProposalOpen() function (MajorityVotingBase line 578) checks 'startDate <= currentTime && currentTime < endDate'. This returns false for proposals that haven't started YET. The _withdrawActiveVotingPower() incorrectly uses this to detect ended proposals, causing future-dated proposals to be removed from tracking prematurely.",
+  "gold_standard_fields": {
+    "source_report": "Aragon DAO Gov Plugin Security Review",
+    "source_finding_id": "M-03",
+    "finding_title": "Misuse of isProposalOpen() function",
+    "difficulty_tier": 2,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "User.unlock() -> LockManagerBase._withdrawActiveVotingPower() -> line 225: plugin.isProposalOpen() returns false (not started yet) -> line 226: knownProposalIds.remove() -> proposal starts later -> User.vote() -> User.unlock() succeeds without clearing vote"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_015.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_015.json",
+    "original_finding_title": "Misuse of isProposalOpen() function"
+  },
+  "original_subset": "gold_standard",
+  "context": "context/gs_015/",
+  "context_files": [
+    "context_01_MajorityVotingBase.sol"
+  ],
+  "original_contract_file": "base/contracts/gs_015.sol",
+  "sanitized_from": "gs_015",
+  "identifier_mappings": {
+    "_withdrawActiveVotingPower": "_0xc99e99",
+    "knownProposalIdsLength": "_0x9327ee",
+    "_incomingTokenBalance": "_0x8eeefa",
+    "_currentVotingPower": "_0x7de7e6",
+    "_refundableBalance": "_0x90a750",
+    "knownProposalIdAt": "_0xbe9007",
+    "supportsInterface": "_0x876c52",
+    "_doUnlockTransfer": "_0xf9dbea",
+    "_newPluginAddress": "_0x03ed1e",
+    "getLockedBalance": "_0x0fdcf8",
+    "knownProposalIds": "_0xbe8894",
+    "setPluginAddress": "_0x357cc4",
+    "usedVotingPower": "_0x5f6e3c",
+    "_doLockTransfer": "_0xe565e4",
+    "proposalCreated": "_0x4f2c16",
+    "isProposalOpen": "_0x6aa514",
+    "lockedBalances": "_0x1ab572",
+    "_proposalCount": "_0x2f8b64",
+    "proposalEnded": "_0x1af9f8",
+    "lockAndVote": "_0x985d15",
+    "_proposalId": "_0x7a583e",
+    "interfaceId": "_0x6c847b",
+    "_voteOption": "_0xd4d774",
+    "_recipient": "_0xfe6b79",
+    "pluginMode": "_0x95ca3a",
+    "proposalId": "_0x26f0c1",
+    "_settings": "_0x9bd0f4",
+    "clearVote": "_0x8a9191",
+    "_account": "_0x790b8b",
+    "settings": "_0x9e4c19",
+    "_amount": "_0x235eb3",
+    "canVote": "_0xd70cd9",
+    "remove": "_0x2f6cb0",
+    "unlock": "_0xd92fcf",
+    "amount": "_0x86295a",
+    "plugin": "_0xeae2cc",
+    "_index": "_0xeb4883",
+    "_voter": "_0x9538e4",
+    "voter": "_0x6d467f",
+    "_lock": "_0xd6abeb",
+    "_vote": "_0x5dcad2",
+    "vote": "_0xe0e85b",
+    "lock": "_0x54a81b",
+    "add": "_0x14abc3",
+    "at": "_0x8adff0",
+    "_i": "_0x50ed65"
+  },
+  "derived_from": "sn_gs_015",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "sanitized",
+    "changes": [
+      "Renamed 46 identifiers using hex style"
+    ],
+    "rename_map_size": 46,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: _withdrawActiveVotingPower \u2192 _0xc99e99"
+    ]
+  }
+}

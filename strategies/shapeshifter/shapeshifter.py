@@ -40,6 +40,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from strategies.common import check_syntax
+from strategies.sanitize.sanitize import transform_metadata_identifiers
 
 
 # =============================================================================
@@ -401,6 +402,17 @@ def transform_one(
             else:
                 metadata = {'id': file_id}
 
+            # Apply metadata transformation for identifiers if we have a rename_map
+            metadata_changes = []
+            if result.rename_map:
+                metadata, metadata_changes = transform_metadata_identifiers(metadata, result.rename_map)
+
+            # For L3+, line numbers become invalid due to control flow restructuring
+            # Set them to empty to avoid confusion
+            if level in ['l3', 'l4']:
+                if 'ground_truth' in metadata and 'vulnerable_location' in metadata.get('ground_truth', {}):
+                    metadata['ground_truth']['vulnerable_location']['line_numbers'] = []
+
             # Update metadata
             metadata['id'] = result.transformed_id
             metadata['contract_file'] = f"contracts/{result.transformed_id}.sol"
@@ -410,9 +422,15 @@ def transform_one(
                 'strategy': 'shapeshifter',
                 'level': level,
                 'variant': variant,
+                'source': source,
                 'changes': result.changes,
-                'rename_map_size': len(result.rename_map)
+                'rename_map_size': len(result.rename_map),
+                'metadata_changes': metadata_changes
             }
+
+            # Store identifier mappings for traceability
+            if result.rename_map:
+                metadata['identifier_mappings'] = result.rename_map
 
             # Save metadata
             meta_output = SHAPESHIFTER_DIR / level / variant / 'metadata' / f"{result.transformed_id}.json"

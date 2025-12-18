@@ -1,0 +1,130 @@
+{
+  "id": "ss_l3_medium_nc_ds_169",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_169.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "TownCrier",
+      "function_name": "_0xf6e91b",
+      "line_numbers": []
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 162",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 162",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x89c1b3807d4c67df034fffb62f3509561218d30b",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.9",
+    "num_lines": 213,
+    "num_contracts": 4,
+    "contract_names": [
+      "TownCrier",
+      "to",
+      "to",
+      "_0x987b8d"
+    ],
+    "num_functions": 13,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 162",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_169.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_169.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x89c1b3807d4c67df034fffb62f3509561218d30b"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_169.sol",
+  "sanitized_from": "ds_169",
+  "derived_from": "nc_ds_169",
+  "original_id": "ds_169",
+  "identifier_mappings": {
+    "cancellation_fee": "_0xab82fc",
+    "externalCallFlag": "_0x987b8d",
+    "cancellationGas": "_0xc438f5",
+    "unrespondedCnt": "_0x2e4278",
+    "callbackAddr": "_0x0e7984",
+    "requestData": "_0x018cc1",
+    "requestType": "_0xc0fa74",
+    "callbackGas": "_0x3f72c0",
+    "callbackFID": "_0x224a01",
+    "killswitch": "_0xa0a746",
+    "newVersion": "_0x356bfb",
+    "paramsHash": "_0x5fb323",
+    "requestCnt": "_0x82d68f",
+    "gas_price": "_0x3957a2",
+    "canceller": "_0x8f031d",
+    "requestId": "_0x9b1920",
+    "requester": "_0xab11ec",
+    "withdraw": "_0x9c0a13",
+    "requests": "_0xc54f76",
+    "respData": "_0x6ba50b",
+    "newAddr": "_0x64ad95",
+    "deliver": "_0xf6e91b",
+    "gasLeft": "_0x2e5951",
+    "upgrade": "_0x8b0b49",
+    "restart": "_0x5accda",
+    "min_fee": "_0x9b0781",
+    "request": "_0xa213e5",
+    "suspend": "_0x742665",
+    "minGas": "_0x181ef4",
+    "cancel": "_0x19f788",
+    "price": "_0x1d67fe",
+    "reset": "_0xc9d0aa",
+    "sha3": "_0x956e7d",
+    "flag": "_0xf60c7d",
+    "fee": "_0x3ecf4f",
+    "id": "_0x785134"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 36 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 36,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: deliver \u2192 _0xf6e91b",
+      "Transformed code_metadata.contract_names item: externalCallFlag \u2192 _0x987b8d"
+    ]
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "id": "ss_l3_medium_nc_ds_210",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_210.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "timestamp_dependency",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "LuckyDoubler",
+      "function_name": "_0x769e96",
+      "line_numbers": []
+    },
+    "root_cause": "Weak randomness - predictable random number generation at line(s) 127, 128, 129, 130",
+    "attack_vector": "Weak randomness - predictable random number generation at line(s) 127, 128, 129, 130",
+    "impact": "Severity: medium",
+    "correct_fix": "Use Chainlink VRF or commit-reveal scheme for randomness"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_bad_randomness_lucky_doubler",
+    "url": "https://etherscan.io/address/0xF767fCA8e65d03fE16D4e38810f5E5376c3372A8#code",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.0",
+    "num_lines": 183,
+    "num_contracts": 3,
+    "contract_names": [
+      "LuckyDoubler",
+      "creation",
+      "balance"
+    ],
+    "num_functions": 13,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Weak randomness - predictable random number generation at line(s) 127, 128, 129, 130",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_210.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_210.json",
+    "original_id": "smartbugs_bad_randomness_lucky_doubler"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_210.sol",
+  "sanitized_from": "ds_210",
+  "derived_from": "nc_ds_210",
+  "original_id": "ds_210",
+  "identifier_mappings": {
+    "changeMultiplier": "_0x4b32f0",
+    "multiplierFactor": "_0x33b76b",
+    "payoutsReceived": "_0x2d28cc",
+    "lastBlockNumber": "_0xcbcc47",
+    "unpaidEntries": "_0x4aad39",
+    "feePercentage": "_0x820ca9",
+    "entryAddress": "_0x9538bc",
+    "totalEntries": "_0x528d22",
+    "entryDetails": "_0x39e508",
+    "changeOwner": "_0xf4f057",
+    "multiplier": "_0x35e640",
+    "currentFee": "_0xfa4e8d",
+    "changeFee": "_0xb70c86",
+    "onlyowner": "_0x1e2a14",
+    "userStats": "_0xe8e773",
+    "newOwner": "_0x39cb1c",
+    "theEntry": "_0xa745cc",
+    "deposits": "_0x02c4ad",
+    "payouts": "_0x41a40a",
+    "entries": "_0xda78ab",
+    "deposit": "_0x9b6b6e",
+    "hashVal": "_0xb7743c",
+    "newFee": "_0x7b8241",
+    "factor": "_0xd3039b",
+    "payout": "_0x73dd94",
+    "dValue": "_0x35f74b",
+    "result": "_0x28a23a",
+    "index": "_0xe383ed",
+    "owner": "_0x172312",
+    "multi": "_0xfb4aa5",
+    "count": "_0xff04b0",
+    "users": "_0xccd240",
+    "paid": "_0xe04490",
+    "init": "_0x0af701",
+    "user": "_0x4a6dd3",
+    "info": "_0xa6f7ad",
+    "join": "_0x7af29f",
+    "fees": "_0xdeb610",
+    "rand": "_0x769e96",
+    "max": "_0x41e262",
+    "fee": "_0xe38873",
+    "id": "_0x4aadd5"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 42 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 42,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: rand \u2192 _0x769e96"
+    ]
+  }
+}
