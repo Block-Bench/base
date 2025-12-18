@@ -1,0 +1,125 @@
+{
+  "id": "rs_mg_dis_nc_tc_018",
+  "contract_file": "contracts/rs_mg_dis_nc_tc_018.sol",
+  "subset": "restructure",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "price_manipulation",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "IndexPool",
+        "functions": [
+          {
+            "name": "_updateWeights",
+            "vulnerability": "Updates token weights based on instantaneous balances, allowing flash loan manipulation"
+          },
+          {
+            "name": "swap",
+            "vulnerability": "Calls _updateWeights() after each swap, enabling within-transaction price manipulation"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": [],
+      "merged_into_dispatcher": "execute",
+      "selector": 0,
+      "original_function": null
+    },
+    "root_cause": "Token weights in index pools were recalculated based on instantaneous token balances after swaps. Flash loan attackers could temporarily drain liquidity of a single token, causing weight recalculation to heavily undervalue that token, then buy it back at manipulated prices.",
+    "attack_vector": "1) Flash loan large amounts of SUSHI, UNI, and other index tokens. 2) Execute massive swaps to drain almost all of a target token (DEFI5) from the pool. 3) Pool's _updateWeights() function recalculates weights based on the new unbalanced state. 4) Target token now has extremely low weight (~1%), making it undervalued. 5) Buy back the drained token at manipulated low prices. 6) Repay flash loans and profit from price discrepancy. Loss: $16M.",
+    "impact": "Funds lost: $16,000,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2021-10-14",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 97,
+    "num_contracts": 1,
+    "contract_names": [
+      "TokenPool"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "flash_loan",
+    "pool_manipulation",
+    "weight_manipulation",
+    "defi",
+    "index_funds",
+    "oracle_free_pricing"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2021-10-14",
+      "protocol_name": "Indexed Finance Pool Manipulation",
+      "chain": "ethereum",
+      "funds_lost_usd": 16000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Indexed Finance Pool Manipulation exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_018.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_018.json",
+    "original_exploit_name": "Indexed Finance Pool Manipulation"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_018.sol",
+  "sanitized_from": "tc_018",
+  "derived_from": "nc_tc_018",
+  "original_id": "tc_018",
+  "transformation": {
+    "strategy": "restructure",
+    "mode": "merge",
+    "variant": "dispatcher",
+    "source": "nocomments",
+    "merged_functions": [
+      "addToken",
+      "swap"
+    ],
+    "dispatcher_name": "execute",
+    "function_to_selector": {
+      "addToken": 1,
+      "swap": 2
+    },
+    "changes": [
+      "Created dispatcher 'execute' merging 2 functions",
+      "Merged functions: addToken, swap"
+    ]
+  }
+}
