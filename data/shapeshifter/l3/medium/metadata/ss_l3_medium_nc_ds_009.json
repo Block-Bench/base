@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Map",
-      "function_name": "_0x146bc9",
+      "function_name": "_0x7bb516",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 20",
@@ -70,12 +70,12 @@
   "derived_from": "nc_ds_009",
   "original_id": "ds_009",
   "identifier_mappings": {
-    "withdraw": "_0xa5f75f",
-    "owner": "_0x8911ad",
-    "key": "_0x514c37",
-    "map": "_0x164c6b",
-    "get": "_0xd76255",
-    "set": "_0x146bc9"
+    "withdraw": "_0x3f81d0",
+    "owner": "_0x547867",
+    "map": "_0x64839c",
+    "get": "_0x3bb377",
+    "set": "_0x7bb516",
+    "key": "_0x414342"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -87,7 +87,7 @@
     ],
     "rename_map_size": 6,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: set \u2192 _0x146bc9"
+      "Transformed ground_truth.vulnerable_location.function_name: set \u2192 _0x7bb516"
     ]
   }
 }

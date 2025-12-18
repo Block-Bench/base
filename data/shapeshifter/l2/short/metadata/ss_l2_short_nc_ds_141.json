@@ -74,8 +74,8 @@
     "addtostate": "d",
     "multostate": "e",
     "localcalc": "f",
-    "count": "g",
-    "input": "h",
+    "input": "g",
+    "count": "h",
     "res": "i"
   },
   "original_contract_file": "base/contracts/ds_141.sol",

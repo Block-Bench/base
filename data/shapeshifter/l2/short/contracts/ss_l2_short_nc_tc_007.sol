@@ -19,13 +19,13 @@ contract CrossChainData {
         address indexed h,
         address indexed v
     );
-    event PublicKeysUpdated(bytes w);
+    event PublicKeysUpdated(bytes x);
 
     constructor() {
         z = msg.sender;
     }
 
-    modifier r() {
+    modifier u() {
         require(msg.sender == z, "Not owner");
         _;
     }
@@ -33,14 +33,14 @@ contract CrossChainData {
 
     function b(
         bytes calldata g
-    ) external r returns (bool) {
+    ) external u returns (bool) {
         d = g;
         emit PublicKeysUpdated(g);
         return true;
     }
 
 
-    function f(address v) external r {
+    function f(address v) external u {
         require(v != address(0), "Invalid address");
         emit OwnershipTransferred(z, v);
         z = v;
@@ -60,41 +60,41 @@ contract CrossChainManager {
         bytes y
     );
 
-    constructor(address i) {
-        o = i;
+    constructor(address j) {
+        o = j;
     }
 
 
     function c(
         bytes memory aa,
-        bytes memory s,
+        bytes memory r,
         bytes memory p,
         bytes memory l,
         bytes memory t
     ) external returns (bool) {
 
-        require(j(s, t), "Invalid header");
+        require(i(r, t), "Invalid header");
 
 
-        require(k(aa, s), "Invalid proof");
+        require(k(aa, r), "Invalid proof");
 
 
         (
             address q,
             bytes memory y,
             bytes memory ab
-        ) = u(aa);
+        ) = s(aa);
 
 
-        (bool x, ) = q.call(abi.n(y, ab));
-        require(x, "Execution failed");
+        (bool w, ) = q.call(abi.n(y, ab));
+        require(w, "Execution failed");
 
         return true;
     }
 
 
-    function j(
-        bytes memory s,
+    function i(
+        bytes memory r,
         bytes memory t
     ) internal pure returns (bool) {
         return true;
@@ -103,13 +103,13 @@ contract CrossChainManager {
 
     function k(
         bytes memory aa,
-        bytes memory s
+        bytes memory r
     ) internal pure returns (bool) {
         return true;
     }
 
 
-    function u(
+    function s(
         bytes memory aa
     )
         internal

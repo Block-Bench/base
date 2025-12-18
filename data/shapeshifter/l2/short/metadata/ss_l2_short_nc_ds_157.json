@@ -74,8 +74,8 @@
   "identifier_mappings": {
     "solution": "a",
     "solve": "b",
-    "sha3": "c",
-    "hash": "d"
+    "hash": "c",
+    "sha3": "d"
   },
   "transformation": {
     "strategy": "shapeshifter",

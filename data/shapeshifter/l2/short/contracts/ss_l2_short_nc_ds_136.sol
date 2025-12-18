@@ -1,9 +1,9 @@
 pragma solidity ^0.4.19;
 
 contract MinimalCounter {
-    uint public a = 1;
+    uint public b = 1;
 
-    function c(uint256 b) public {
-        a -= b;
+    function c(uint256 a) public {
+        b -= a;
     }
 }

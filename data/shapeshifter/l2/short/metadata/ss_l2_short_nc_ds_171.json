@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Splitter",
-      "function_name": "c",
+      "function_name": "b",
       "line_numbers": [
         69
       ]
@@ -74,24 +74,24 @@
   "original_id": "ds_171",
   "identifier_mappings": {
     "getPuppetCount": "a",
-    "puppetCount": "b",
-    "fundPuppets": "c",
-    "_newExtra": "d",
-    "newPuppet": "e",
-    "withdraw": "f",
-    "setExtra": "g",
+    "fundPuppets": "b",
+    "puppetCount": "c",
+    "newPuppet": "d",
+    "_newExtra": "e",
+    "setExtra": "f",
+    "withdraw": "g",
     "puppets": "h",
     "master": "i",
-    "_share": "j",
-    "_count": "k",
-    "target": "l",
+    "target": "j",
+    "_share": "k",
+    "_count": "l",
     "owner": "m",
-    "extra": "n",
-    "_addy": "o",
+    "_addy": "n",
+    "extra": "o",
     "mul": "p",
-    "_id": "q",
-    "sub": "r",
-    "add": "s",
+    "add": "q",
+    "_id": "r",
+    "sub": "s",
     "div": "t"
   },
   "transformation": {
@@ -104,7 +104,7 @@
     ],
     "rename_map_size": 20,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: fundPuppets \u2192 c"
+      "Transformed ground_truth.vulnerable_location.function_name: fundPuppets \u2192 b"
     ]
   }
 }

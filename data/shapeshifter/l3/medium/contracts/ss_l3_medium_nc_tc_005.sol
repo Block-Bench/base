@@ -3,134 +3,134 @@ pragma solidity ^0.8.0;
 
 contract AMMPool {
 
-    mapping(uint256 => uint256) public _0xef423b;
+    mapping(uint256 => uint256) public _0xd3c905;
 
 
-    mapping(address => uint256) public _0x703ee9;
-    uint256 public _0x193ab0;
+    mapping(address => uint256) public _0x9cff0b;
+    uint256 public _0xc78b0e;
 
-    uint256 private _0x765ba5;
-    uint256 private constant _0x7b85ef = 1;
-    uint256 private constant _0x677e36 = 2;
+    uint256 private _0x3afb36;
+    uint256 private constant _0xc2ac59 = 1;
+    uint256 private constant _0x087dcc = 2;
 
     event LiquidityAdded(
-        address indexed _0x41a7b2,
-        uint256[2] _0xcf66fb,
-        uint256 _0x1aa2ca
+        address indexed _0x59927a,
+        uint256[2] _0x8ea8a1,
+        uint256 _0xc00450
     );
     event LiquidityRemoved(
-        address indexed _0x41a7b2,
-        uint256 _0x930ac5,
-        uint256[2] _0xcf66fb
+        address indexed _0x59927a,
+        uint256 _0xe8b4d9,
+        uint256[2] _0x8ea8a1
     );
 
     constructor() {
-        _0x765ba5 = _0x7b85ef;
+        if (gasleft() > 0) { _0x3afb36 = _0xc2ac59; }
     }
 
 
-    function _0x8a0d41(
-        uint256[2] memory _0xcf66fb,
-        uint256 _0x1fa378
+    function _0x1496ea(
+        uint256[2] memory _0x8ea8a1,
+        uint256 _0x0d05f2
     ) external payable returns (uint256) {
-        require(_0xcf66fb[0] == msg.value, "ETH amount mismatch");
+        require(_0x8ea8a1[0] == msg.value, "ETH amount mismatch");
 
 
-        uint256 _0x72ce83;
-        if (_0x193ab0 == 0) {
-            _0x72ce83 = _0xcf66fb[0] + _0xcf66fb[1];
+        uint256 _0x1b3c40;
+        if (_0xc78b0e == 0) {
+            _0x1b3c40 = _0x8ea8a1[0] + _0x8ea8a1[1];
         } else {
-            uint256 _0xd277b4 = _0xef423b[0] + _0xef423b[1];
-            _0x72ce83 = ((_0xcf66fb[0] + _0xcf66fb[1]) * _0x193ab0) / _0xd277b4;
+            uint256 _0xe05dab = _0xd3c905[0] + _0xd3c905[1];
+            _0x1b3c40 = ((_0x8ea8a1[0] + _0x8ea8a1[1]) * _0xc78b0e) / _0xe05dab;
         }
 
-        require(_0x72ce83 >= _0x1fa378, "Slippage");
+        require(_0x1b3c40 >= _0x0d05f2, "Slippage");
 
 
-        _0xef423b[0] += _0xcf66fb[0];
-        _0xef423b[1] += _0xcf66fb[1];
+        _0xd3c905[0] += _0x8ea8a1[0];
+        _0xd3c905[1] += _0x8ea8a1[1];
 
 
-        _0x703ee9[msg.sender] += _0x72ce83;
-        _0x193ab0 += _0x72ce83;
+        _0x9cff0b[msg.sender] += _0x1b3c40;
+        _0xc78b0e += _0x1b3c40;
 
 
-        if (_0xcf66fb[0] > 0) {
-            _0x00c8a6(_0xcf66fb[0]);
+        if (_0x8ea8a1[0] > 0) {
+            _0xbd51e0(_0x8ea8a1[0]);
         }
 
-        emit LiquidityAdded(msg.sender, _0xcf66fb, _0x72ce83);
-        return _0x72ce83;
+        emit LiquidityAdded(msg.sender, _0x8ea8a1, _0x1b3c40);
+        return _0x1b3c40;
     }
 
 
-    function _0xb169e9(
-        uint256 _0xec34bf,
-        uint256[2] memory _0x2b9a10
+    function _0x0df4d7(
+        uint256 _0x94a15b,
+        uint256[2] memory _0xf43644
     ) external {
-        require(_0x703ee9[msg.sender] >= _0xec34bf, "Insufficient LP");
+        require(_0x9cff0b[msg.sender] >= _0x94a15b, "Insufficient LP");
 
 
-        uint256 _0x4476bb = (_0xec34bf * _0xef423b[0]) / _0x193ab0;
-        uint256 _0x0f32ab = (_0xec34bf * _0xef423b[1]) / _0x193ab0;
+        uint256 _0xfe998e = (_0x94a15b * _0xd3c905[0]) / _0xc78b0e;
+        uint256 _0xb3d824 = (_0x94a15b * _0xd3c905[1]) / _0xc78b0e;
 
         require(
-            _0x4476bb >= _0x2b9a10[0] && _0x0f32ab >= _0x2b9a10[1],
+            _0xfe998e >= _0xf43644[0] && _0xb3d824 >= _0xf43644[1],
             "Slippage"
         );
 
 
-        _0x703ee9[msg.sender] -= _0xec34bf;
-        _0x193ab0 -= _0xec34bf;
+        _0x9cff0b[msg.sender] -= _0x94a15b;
+        _0xc78b0e -= _0x94a15b;
 
 
-        _0xef423b[0] -= _0x4476bb;
-        _0xef423b[1] -= _0x0f32ab;
+        _0xd3c905[0] -= _0xfe998e;
+        _0xd3c905[1] -= _0xb3d824;
 
 
-        if (_0x4476bb > 0) {
-            payable(msg.sender).transfer(_0x4476bb);
+        if (_0xfe998e > 0) {
+            payable(msg.sender).transfer(_0xfe998e);
         }
 
-        uint256[2] memory _0xcf66fb = [_0x4476bb, _0x0f32ab];
-        emit LiquidityRemoved(msg.sender, _0xec34bf, _0xcf66fb);
+        uint256[2] memory _0x8ea8a1 = [_0xfe998e, _0xb3d824];
+        emit LiquidityRemoved(msg.sender, _0x94a15b, _0x8ea8a1);
     }
 
 
-    function _0x00c8a6(uint256 _0xc0b41b) internal {
-        (bool _0xa107db, ) = msg.sender.call{value: 0}("");
-        require(_0xa107db, "Transfer failed");
+    function _0xbd51e0(uint256 _0xf4e490) internal {
+        (bool _0x8c6e3a, ) = msg.sender.call{value: 0}("");
+        require(_0x8c6e3a, "Transfer failed");
     }
 
 
-    function _0x51802d(
+    function _0x06cc2e(
         int128 i,
         int128 j,
-        uint256 _0x58a2a2,
-        uint256 _0xf6615d
+        uint256 _0x247246,
+        uint256 _0x3171e3
     ) external payable returns (uint256) {
-        uint256 _0x14ccd5 = uint256(int256(i));
-        uint256 _0xa510a5 = uint256(int256(j));
+        uint256 _0x0d5f28 = uint256(int256(i));
+        uint256 _0x69e237 = uint256(int256(j));
 
-        require(_0x14ccd5 < 2 && _0xa510a5 < 2 && _0x14ccd5 != _0xa510a5, "Invalid indices");
+        require(_0x0d5f28 < 2 && _0x69e237 < 2 && _0x0d5f28 != _0x69e237, "Invalid indices");
 
 
-        uint256 _0xe37fc3 = (_0x58a2a2 * _0xef423b[_0xa510a5]) / (_0xef423b[_0x14ccd5] + _0x58a2a2);
-        require(_0xe37fc3 >= _0xf6615d, "Slippage");
+        uint256 _0x5f112d = (_0x247246 * _0xd3c905[_0x69e237]) / (_0xd3c905[_0x0d5f28] + _0x247246);
+        require(_0x5f112d >= _0x3171e3, "Slippage");
 
-        if (_0x14ccd5 == 0) {
-            require(msg.value == _0x58a2a2, "ETH mismatch");
-            _0xef423b[0] += _0x58a2a2;
+        if (_0x0d5f28 == 0) {
+            require(msg.value == _0x247246, "ETH mismatch");
+            _0xd3c905[0] += _0x247246;
         }
 
-        _0xef423b[_0x14ccd5] += _0x58a2a2;
-        _0xef423b[_0xa510a5] -= _0xe37fc3;
+        _0xd3c905[_0x0d5f28] += _0x247246;
+        _0xd3c905[_0x69e237] -= _0x5f112d;
 
-        if (_0xa510a5 == 0) {
-            payable(msg.sender).transfer(_0xe37fc3);
+        if (_0x69e237 == 0) {
+            payable(msg.sender).transfer(_0x5f112d);
         }
 
-        return _0xe37fc3;
+        return _0x5f112d;
     }
 
     receive() external payable {}

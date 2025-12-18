@@ -77,12 +77,12 @@
     "unlockTime": "b",
     "_lockTime": "c",
     "_data": "d",
-    "_adr": "e",
-    "_log": "f",
+    "_log": "e",
+    "_adr": "f",
     "_val": "g",
     "_am": "h",
-    "now": "i",
-    "acc": "j"
+    "acc": "i",
+    "now": "j"
   },
   "transformation": {
     "strategy": "shapeshifter",

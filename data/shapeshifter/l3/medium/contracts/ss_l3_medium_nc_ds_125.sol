@@ -1,10 +1,10 @@
 pragma solidity ^0.4.24;
 
 contract Missing{
-    address private _0xef8c04;
+    address private _0xa36c55;
 
-    modifier _0xc73934 {
-        require(msg.sender==_0xef8c04);
+    modifier _0xa4996f {
+        require(msg.sender==_0xa36c55);
         _;
     }
 
@@ -12,15 +12,15 @@ contract Missing{
     function IamMissing()
         public
     {
-        _0xef8c04 = msg.sender;
+        _0xa36c55 = msg.sender;
     }
 
     function () payable {}
 
-    function _0x8a5763()
+    function _0xdf220c()
         public
-        _0xc73934
+        _0xa4996f
     {
-       _0xef8c04.transfer(this.balance);
+       _0xa36c55.transfer(this.balance);
     }
 }

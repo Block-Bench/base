@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "PredictTheBlockHashChallenge",
-      "function_name": "_0x12c756",
+      "function_name": "_0xd7fc08",
       "line_numbers": []
     },
     "root_cause": "Weak randomness - predictable random number generation at line(s) 35",
@@ -70,12 +70,12 @@
   "derived_from": "nc_ds_148",
   "original_id": "ds_148",
   "identifier_mappings": {
-    "lockInGuess": "_0xe227f2",
-    "guesses": "_0x868d6b",
-    "settle": "_0x12c756",
-    "answer": "_0x2bbd6f",
-    "guess": "_0x70d152",
-    "hash": "_0xb84541"
+    "lockInGuess": "_0x974484",
+    "guesses": "_0x421e12",
+    "settle": "_0xd7fc08",
+    "answer": "_0x0a6962",
+    "guess": "_0x446a2c",
+    "hash": "_0xabe254"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -87,7 +87,7 @@
     ],
     "rename_map_size": 6,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: settle \u2192 _0x12c756"
+      "Transformed ground_truth.vulnerable_location.function_name: settle \u2192 _0xd7fc08"
     ]
   }
 }

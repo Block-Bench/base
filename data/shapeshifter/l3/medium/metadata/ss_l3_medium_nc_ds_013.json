@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "SimpleDestruct",
-      "function_name": "_0x55c259",
+      "function_name": "_0x8f1bf2",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 12, 13",
@@ -66,7 +66,7 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "sudicideAnyone": "_0x55c259"
+    "sudicideAnyone": "_0x8f1bf2"
   },
   "original_contract_file": "base/contracts/ds_013.sol",
   "sanitized_from": "ds_013",
@@ -82,7 +82,7 @@
     ],
     "rename_map_size": 1,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: sudicideAnyone \u2192 _0x55c259"
+      "Transformed ground_truth.vulnerable_location.function_name: sudicideAnyone \u2192 _0x8f1bf2"
     ]
   }
 }

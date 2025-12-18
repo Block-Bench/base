@@ -79,9 +79,9 @@
     "_adr": "d",
     "_val": "e",
     "_am": "f",
-    "now": "g",
+    "log": "g",
     "acc": "h",
-    "log": "i"
+    "now": "i"
   },
   "transformation": {
     "strategy": "shapeshifter",

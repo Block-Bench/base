@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "balance",
-      "function_name": "_0x4946ba",
+      "function_name": "_0xc66f0b",
       "line_numbers": []
     },
     "root_cause": "Security vulnerability at line(s) 40, 41, 42",
@@ -71,18 +71,18 @@
   "derived_from": "nc_ds_160",
   "original_id": "ds_160",
   "identifier_mappings": {
-    "secretNumber": "_0x7eaccf",
-    "gamesPlayed": "_0x42f75c",
-    "lastPlayed": "_0xf3693b",
-    "ownerAddr": "_0x1a5dfe",
-    "betPrice": "_0x05bf16",
-    "shuffle": "_0x5cc8f7",
-    "player": "_0xc403d2",
-    "kill": "_0xbd928b",
-    "play": "_0x4946ba",
-    "sha3": "_0xbc6e55",
-    "game": "_0xd6b895",
-    "now": "_0xebb6d9"
+    "secretNumber": "_0x08f418",
+    "gamesPlayed": "_0x05401f",
+    "lastPlayed": "_0x125486",
+    "ownerAddr": "_0xcf17f2",
+    "betPrice": "_0x44dc50",
+    "shuffle": "_0xcb3966",
+    "player": "_0x948960",
+    "play": "_0xc66f0b",
+    "game": "_0x3891b3",
+    "sha3": "_0x4f9f2b",
+    "kill": "_0xaa8819",
+    "now": "_0x366f5e"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -90,11 +90,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 12 identifiers using hex style"
+      "Renamed 12 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 12,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 _0x4946ba"
+      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 _0xc66f0b"
     ]
   }
 }

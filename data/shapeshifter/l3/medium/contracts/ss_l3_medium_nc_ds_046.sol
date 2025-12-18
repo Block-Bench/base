@@ -1,20 +1,20 @@
 pragma solidity ^0.4.2;
 
 contract SimpleDAO {
-  mapping (address => uint) public _0x7b2657;
+  mapping (address => uint) public _0xdb347c;
 
-  function _0x757090(address _0x2f789c) payable {
-    _0x7b2657[_0x2f789c] += msg.value;
+  function _0x87a7a4(address _0xf2aa20) payable {
+    _0xdb347c[_0xf2aa20] += msg.value;
   }
 
-  function _0xfbcf3f(uint _0x53f0ef) {
-    if (_0x7b2657[msg.sender]>= _0x53f0ef) {
-      bool _0xdb5df0 = msg.sender.call.value(_0x53f0ef)();
-      _0x7b2657[msg.sender]-=_0x53f0ef;
+  function _0x4bebc2(uint _0x5e0bd2) {
+    if (_0xdb347c[msg.sender]>= _0x5e0bd2) {
+      bool _0x0eda0b = msg.sender.call.value(_0x5e0bd2)();
+      _0xdb347c[msg.sender]-=_0x5e0bd2;
     }
   }
 
-  function _0x29b592(address _0x2f789c) returns (uint){
-    return _0x7b2657[_0x2f789c];
+  function _0x1386b0(address _0xf2aa20) returns (uint){
+    return _0xdb347c[_0xf2aa20];
   }
 }

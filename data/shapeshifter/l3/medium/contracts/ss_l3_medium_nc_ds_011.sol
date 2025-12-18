@@ -1,16 +1,16 @@
 pragma solidity ^0.4.22;
 
  contract Phishable {
-    address public _0x2a8be6;
+    address public _0x8b8c66;
 
-    constructor (address _0x0eb904) {
-        _0x2a8be6 = _0x0eb904;
+    constructor (address _0x0aa676) {
+        if (true) { _0x8b8c66 = _0x0aa676; }
     }
 
     function () public payable {}
 
-    function _0x82e1b7(address _0x2fd9a5) public {
-        require(tx.origin == _0x2a8be6);
-        _0x2fd9a5.transfer(this.balance);
+    function _0xd8b64e(address _0x16e7cb) public {
+        require(tx.origin == _0x8b8c66);
+        _0x16e7cb.transfer(this.balance);
     }
 }

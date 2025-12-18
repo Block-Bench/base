@@ -1,53 +1,53 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function e(address i) external view returns (uint256);
-    function transfer(address s, uint256 m) external returns (bool);
-    function a(address from, address s, uint256 m) external returns (bool);
+    function f(address k) external view returns (uint256);
+    function transfer(address s, uint256 l) external returns (bool);
+    function a(address from, address s, uint256 l) external returns (bool);
 }
 
 interface IPriceOracle {
-    function h(address p) external view returns (uint256);
+    function g(address o) external view returns (uint256);
 }
 
 contract VaultStrategy {
-    address public f;
-    address public l;
-    uint256 public c;
+    address public e;
+    address public n;
+    uint256 public d;
 
-    mapping(address => uint256) public n;
+    mapping(address => uint256) public m;
 
     constructor(address q, address j) {
-        f = q;
-        l = j;
+        e = q;
+        n = j;
     }
 
-    function k(uint256 m) external returns (uint256 d) {
-        uint256 r = IERC20(f).e(address(this));
+    function i(uint256 l) external returns (uint256 c) {
+        uint256 r = IERC20(e).f(address(this));
 
-        if (c == 0) {
-            d = m;
+        if (d == 0) {
+            c = l;
         } else {
-            uint256 o = IPriceOracle(l).h(f);
-            d = (m * c * 1e18) / (r * o);
+            uint256 p = IPriceOracle(n).g(e);
+            c = (l * d * 1e18) / (r * p);
         }
 
-        n[msg.sender] += d;
-        c += d;
+        m[msg.sender] += c;
+        d += c;
 
-        IERC20(f).a(msg.sender, address(this), m);
-        return d;
+        IERC20(e).a(msg.sender, address(this), l);
+        return c;
     }
 
-    function g(uint256 b) external {
-        uint256 r = IERC20(f).e(address(this));
+    function h(uint256 b) external {
+        uint256 r = IERC20(e).f(address(this));
 
-        uint256 o = IPriceOracle(l).h(f);
-        uint256 m = (b * r * o) / (c * 1e18);
+        uint256 p = IPriceOracle(n).g(e);
+        uint256 l = (b * r * p) / (d * 1e18);
 
-        n[msg.sender] -= b;
-        c -= b;
+        m[msg.sender] -= b;
+        d -= b;
 
-        IERC20(f).transfer(msg.sender, m);
+        IERC20(e).transfer(msg.sender, l);
     }
 }

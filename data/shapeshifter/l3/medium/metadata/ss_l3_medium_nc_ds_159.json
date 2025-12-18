@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "OddsAndEvens",
-      "function_name": "_0x328426",
+      "function_name": "_0x48dad2",
       "line_numbers": []
     },
     "root_cause": "Front-running vulnerability - transaction ordering dependence at line(s) 25",
@@ -70,14 +70,14 @@
   "derived_from": "nc_ds_159",
   "original_id": "ds_159",
   "identifier_mappings": {
-    "andTheWinnerIs": "_0xe7af2b",
-    "getProfit": "_0x722cf2",
-    "players": "_0x09b88e",
-    "owner": "_0xa50098",
-    "play": "_0x328426",
-    "addr": "_0xb85dd4",
-    "tot": "_0xc1d790",
-    "res": "_0x21fc22"
+    "andTheWinnerIs": "_0x4ed07c",
+    "getProfit": "_0x86c057",
+    "players": "_0x598ec7",
+    "owner": "_0xc21530",
+    "play": "_0x48dad2",
+    "addr": "_0x9fb224",
+    "res": "_0x691e45",
+    "tot": "_0x0b9958"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -91,7 +91,7 @@
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 _0x328426"
+      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 _0x48dad2"
     ]
   }
 }

@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "OddsAndEvens",
-      "function_name": "f",
+      "function_name": "e",
       "line_numbers": [
         25
       ]
@@ -76,10 +76,10 @@
     "getProfit": "b",
     "players": "c",
     "owner": "d",
-    "addr": "e",
-    "play": "f",
-    "tot": "g",
-    "res": "h"
+    "play": "e",
+    "addr": "f",
+    "res": "g",
+    "tot": "h"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -91,7 +91,7 @@
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 f"
+      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 e"
     ]
   }
 }

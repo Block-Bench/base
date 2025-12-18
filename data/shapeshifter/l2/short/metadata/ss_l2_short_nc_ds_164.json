@@ -8,7 +8,7 @@
     "severity": "low",
     "vulnerable_location": {
       "contract_name": "EtherLotto",
-      "function_name": "d",
+      "function_name": "b",
       "line_numbers": [
         43
       ]
@@ -74,9 +74,9 @@
   "original_id": "ds_164",
   "identifier_mappings": {
     "random": "a",
-    "sha3": "b",
+    "play": "b",
     "bank": "c",
-    "play": "d",
+    "sha3": "d",
     "pot": "e"
   },
   "transformation": {
@@ -89,7 +89,7 @@
     ],
     "rename_map_size": 5,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 d"
+      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 b"
     ]
   }
 }

@@ -1,11 +1,11 @@
 pragma solidity ^0.4.24;
 
 contract SimpleWallet {
-    address public h = msg.sender;
+    address public i = msg.sender;
     uint public a;
 
-    modifier d {
-        require(msg.sender == h);
+    modifier c {
+        require(msg.sender == i);
         _;
     }
 
@@ -13,15 +13,15 @@ contract SimpleWallet {
         a++;
     }
 
-    function b() public d {
+    function b() public c {
         e(address(this).balance);
     }
 
-    function e(uint g) public d {
+    function e(uint g) public c {
         msg.sender.transfer(g);
     }
 
-    function c(address f, uint g, bytes i) public d {
-        f.call.value(g)(i);
+    function d(address f, uint g, bytes h) public c {
+        f.call.value(g)(h);
     }
 }

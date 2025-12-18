@@ -70,8 +70,8 @@
   "derived_from": "nc_ds_167",
   "original_id": "ds_167",
   "identifier_mappings": {
-    "pastBlockTime": "_0x26202b",
-    "now": "_0x49213d"
+    "pastBlockTime": "_0x0afc99",
+    "now": "_0xe337e3"
   },
   "transformation": {
     "strategy": "shapeshifter",

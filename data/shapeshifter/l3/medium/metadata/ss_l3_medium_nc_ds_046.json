@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "SimpleDAO",
-      "function_name": "_0xfbcf3f",
+      "function_name": "_0x4bebc2",
       "line_numbers": []
     },
     "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 19",
@@ -70,13 +70,13 @@
   "derived_from": "nc_ds_046",
   "original_id": "ds_046",
   "identifier_mappings": {
-    "queryCredit": "_0x29b592",
-    "withdraw": "_0xfbcf3f",
-    "donate": "_0x757090",
-    "amount": "_0x53f0ef",
-    "credit": "_0x7b2657",
-    "res": "_0xdb5df0",
-    "to": "_0x2f789c"
+    "queryCredit": "_0x1386b0",
+    "withdraw": "_0x4bebc2",
+    "donate": "_0x87a7a4",
+    "credit": "_0xdb347c",
+    "amount": "_0x5e0bd2",
+    "res": "_0x0eda0b",
+    "to": "_0xf2aa20"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -88,7 +88,7 @@
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0xfbcf3f"
+      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0x4bebc2"
     ]
   }
 }

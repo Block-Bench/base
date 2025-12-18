@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "NumberRegistry",
-      "function_name": "b",
+      "function_name": "c",
       "line_numbers": [
         18,
         19,
@@ -73,8 +73,8 @@
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
     "getRealLengthArray": "a",
-    "insertNnumbers": "b",
-    "getLengthArray": "c",
+    "getLengthArray": "b",
+    "insertNnumbers": "c",
     "numElements": "d",
     "clearDOS": "e",
     "numbers": "f",
@@ -94,7 +94,7 @@
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: insertNnumbers \u2192 b"
+      "Transformed ground_truth.vulnerable_location.function_name: insertNnumbers \u2192 c"
     ]
   }
 }

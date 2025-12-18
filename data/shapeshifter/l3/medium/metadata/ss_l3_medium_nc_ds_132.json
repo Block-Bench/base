@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Ledger",
-      "function_name": "_0xbd6fe7",
+      "function_name": "_0x68be3f",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 14",
@@ -66,8 +66,8 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "sellerBalance": "_0x188e45",
-    "add": "_0xbd6fe7"
+    "sellerBalance": "_0x0d5ecd",
+    "add": "_0x68be3f"
   },
   "original_contract_file": "base/contracts/ds_132.sol",
   "sanitized_from": "ds_132",
@@ -83,7 +83,7 @@
     ],
     "rename_map_size": 2,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: add \u2192 _0xbd6fe7"
+      "Transformed ground_truth.vulnerable_location.function_name: add \u2192 _0x68be3f"
     ]
   }
 }

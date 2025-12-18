@@ -1,10 +1,10 @@
 pragma solidity ^0.4.15;
 
  contract Ledger {
-     uint private _0x188e45=0;
+     uint private _0x0d5ecd=0;
 
-     function _0xbd6fe7(uint value) returns (bool){
-         _0x188e45 += value;
+     function _0x68be3f(uint value) returns (bool){
+         _0x0d5ecd += value;
 
 
      }

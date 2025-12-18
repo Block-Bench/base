@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "compound_tusd.sol",
-      "function_name": "_0x71c80d",
+      "function_name": "_0x3a4cf1",
       "line_numbers": []
     },
     "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
@@ -88,18 +88,18 @@
   "derived_from": "nc_tc_015",
   "original_id": "tc_015",
   "identifier_mappings": {
-    "accountTokens": "_0x10612b",
-    "totalSupply": "_0x0d5c7f",
-    "sweepToken": "_0x71c80d",
-    "underlying": "_0xea00a1",
-    "balanceOf": "_0x3ae69b",
-    "account": "_0x83953b",
-    "redeem": "_0x416c1d",
-    "amount": "_0x04fd16",
-    "admin": "_0x64f2de",
-    "token": "_0xbe6a89",
-    "mint": "_0x216339",
-    "to": "_0x0e67f5"
+    "accountTokens": "_0x665852",
+    "totalSupply": "_0x0b06f2",
+    "sweepToken": "_0x3a4cf1",
+    "underlying": "_0xa143c5",
+    "balanceOf": "_0xf41300",
+    "account": "_0x10a31d",
+    "redeem": "_0x36201e",
+    "amount": "_0xab128b",
+    "admin": "_0x61b2f4",
+    "token": "_0x0315fb",
+    "mint": "_0x2b5093",
+    "to": "_0x5c1e25"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -111,7 +111,7 @@
     ],
     "rename_map_size": 12,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: sweepToken \u2192 _0x71c80d"
+      "Transformed ground_truth.vulnerable_location.function_name: sweepToken \u2192 _0x3a4cf1"
     ]
   }
 }

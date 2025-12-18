@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "LockManagerERC20",
-      "function_name": "_0x3c2d18",
+      "function_name": "_0x69cf9a",
       "line_numbers": []
     },
     "root_cause": "If the erc20Token configured within LockManagerERC20 is a token that does not revert due to insufficient approved funds, the msg.sender can inflate their lockedBalances[msg.sender] by an arbitrary _amount without actually sending any token. The vulnerable code is at lines 35-37 (_doLockTransfer) and lines 40-42 (_doUnlockTransfer) which use raw transferFrom() and transfer() instead of safeTransferFrom() and safeTransfer(). Some ERC20 tokens like BAT, HT, cUSDC, ZRX do not revert when a transfer fails but instead return false.",
@@ -67,17 +67,17 @@
   "derived_from": "nc_gs_013",
   "original_id": "gs_013",
   "identifier_mappings": {
-    "_incomingTokenBalance": "_0xeb69a0",
-    "_doUnlockTransfer": "_0xddd613",
-    "_doLockTransfer": "_0x3c2d18",
-    "transferFrom": "_0xc54b4d",
-    "erc20Token": "_0x85d1ce",
-    "_recipient": "_0x570d91",
-    "allowance": "_0x64ed97",
-    "_settings": "_0xa7676d",
-    "_amount": "_0xc6f322",
-    "_token": "_0x4cf6b8",
-    "token": "_0x615c50"
+    "_incomingTokenBalance": "_0xb39939",
+    "_doUnlockTransfer": "_0xd4215e",
+    "_doLockTransfer": "_0x69cf9a",
+    "transferFrom": "_0x5b6dd3",
+    "_recipient": "_0x1a8bc7",
+    "erc20Token": "_0x10a704",
+    "allowance": "_0x2a9742",
+    "_settings": "_0xa2aa73",
+    "_amount": "_0x35c21e",
+    "_token": "_0x8ba587",
+    "token": "_0xeeb325"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -89,7 +89,7 @@
     ],
     "rename_map_size": 11,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: _doLockTransfer \u2192 _0x3c2d18"
+      "Transformed ground_truth.vulnerable_location.function_name: _doLockTransfer \u2192 _0x69cf9a"
     ]
   }
 }

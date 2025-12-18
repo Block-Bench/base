@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "SendBack",
-      "function_name": "_0x64892c",
+      "function_name": "_0x11d93f",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 14",
@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_086",
   "original_id": "ds_086",
   "identifier_mappings": {
-    "amountToWithdraw": "_0x7e3fb3",
-    "withdrawBalance": "_0x64892c",
-    "userBalances": "_0x7d2bfe"
+    "amountToWithdraw": "_0x746315",
+    "withdrawBalance": "_0x11d93f",
+    "userBalances": "_0x3e027a"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0x64892c"
+      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0x11d93f"
     ]
   }
 }

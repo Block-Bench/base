@@ -2,128 +2,128 @@ pragma solidity ^0.8.0;
 
 
 interface IOracle {
-    function _0xb1f3c3(address _0xe0b250) external view returns (uint256);
+    function _0xe30075(address _0x3f70f4) external view returns (uint256);
 }
 
 interface ICToken {
-    function _0x8d791c(uint256 _0xc843ec) external;
+    function _0x9049e6(uint256 _0xb04b03) external;
 
-    function _0xca32bd(uint256 _0xf1d231) external;
+    function _0x927629(uint256 _0x120a57) external;
 
-    function _0xb78570(uint256 _0x43a682) external;
+    function _0x3eca8e(uint256 _0xbcead2) external;
 
-    function _0x86c0b4() external view returns (address);
+    function _0x1df5c0() external view returns (address);
 }
 
 contract LendingProtocol {
 
-    IOracle public _0xb95b10;
+    IOracle public _0x6a3993;
 
 
-    mapping(address => uint256) public _0x73175e;
+    mapping(address => uint256) public _0xc1ff31;
 
 
-    mapping(address => mapping(address => uint256)) public _0xdff225;
+    mapping(address => mapping(address => uint256)) public _0x13860e;
 
 
-    mapping(address => mapping(address => uint256)) public _0x4b9ad2;
+    mapping(address => mapping(address => uint256)) public _0xc8b641;
 
 
-    mapping(address => bool) public _0xa99010;
+    mapping(address => bool) public _0x19622a;
 
-    event Deposit(address indexed _0x6d12f2, address indexed _0xe0b250, uint256 _0xa36dfe);
-    event Borrow(address indexed _0x6d12f2, address indexed _0xe0b250, uint256 _0xa36dfe);
+    event Deposit(address indexed _0xaa6c61, address indexed _0x3f70f4, uint256 _0x1fc16f);
+    event Borrow(address indexed _0xaa6c61, address indexed _0x3f70f4, uint256 _0x1fc16f);
 
-    constructor(address _0x93d69f) {
-        _0xb95b10 = IOracle(_0x93d69f);
+    constructor(address _0x95b562) {
+        if (1 == 1) { _0x6a3993 = IOracle(_0x95b562); }
     }
 
 
-    function _0x8d791c(address _0xe0b250, uint256 _0xa36dfe) external {
-        require(_0xa99010[_0xe0b250], "Market not supported");
+    function _0x9049e6(address _0x3f70f4, uint256 _0x1fc16f) external {
+        require(_0x19622a[_0x3f70f4], "Market not supported");
 
 
-        _0xdff225[msg.sender][_0xe0b250] += _0xa36dfe;
+        _0x13860e[msg.sender][_0x3f70f4] += _0x1fc16f;
 
-        emit Deposit(msg.sender, _0xe0b250, _0xa36dfe);
+        emit Deposit(msg.sender, _0x3f70f4, _0x1fc16f);
     }
 
 
-    function _0xca32bd(address _0xe0b250, uint256 _0xa36dfe) external {
-        require(_0xa99010[_0xe0b250], "Market not supported");
+    function _0x927629(address _0x3f70f4, uint256 _0x1fc16f) external {
+        require(_0x19622a[_0x3f70f4], "Market not supported");
 
 
-        uint256 _0xee644f = _0x939813(msg.sender);
+        uint256 _0x73204f = _0xce9c34(msg.sender);
 
 
-        uint256 _0x0ec437 = _0x80ec52(msg.sender);
+        uint256 _0x99419c = _0x73890e(msg.sender);
 
 
-        uint256 _0xc2a8a0 = (_0xb95b10._0xb1f3c3(_0xe0b250) * _0xa36dfe) /
+        uint256 _0xc142b0 = (_0x6a3993._0xe30075(_0x3f70f4) * _0x1fc16f) /
             1e18;
 
 
         require(
-            _0x0ec437 + _0xc2a8a0 <= _0xee644f,
+            _0x99419c + _0xc142b0 <= _0x73204f,
             "Insufficient collateral"
         );
 
 
-        _0x4b9ad2[msg.sender][_0xe0b250] += _0xa36dfe;
+        _0xc8b641[msg.sender][_0x3f70f4] += _0x1fc16f;
 
-        emit Borrow(msg.sender, _0xe0b250, _0xa36dfe);
+        emit Borrow(msg.sender, _0x3f70f4, _0x1fc16f);
     }
 
 
-    function _0x939813(address _0x6d12f2) public view returns (uint256) {
-        uint256 _0xc98f16 = 0;
+    function _0xce9c34(address _0xaa6c61) public view returns (uint256) {
+        uint256 _0xaebd24 = 0;
 
-        address[] memory _0x9ad5bf = new address[](2);
+        address[] memory _0x6f571f = new address[](2);
 
-        for (uint256 i = 0; i < _0x9ad5bf.length; i++) {
-            address _0xe0b250 = _0x9ad5bf[i];
-            uint256 balance = _0xdff225[_0x6d12f2][_0xe0b250];
+        for (uint256 i = 0; i < _0x6f571f.length; i++) {
+            address _0x3f70f4 = _0x6f571f[i];
+            uint256 balance = _0x13860e[_0xaa6c61][_0x3f70f4];
 
             if (balance > 0) {
 
-                uint256 _0x15bc81 = _0xb95b10._0xb1f3c3(_0xe0b250);
+                uint256 _0x7517d9 = _0x6a3993._0xe30075(_0x3f70f4);
 
 
-                uint256 value = (balance * _0x15bc81) / 1e18;
+                uint256 value = (balance * _0x7517d9) / 1e18;
 
 
-                uint256 _0xab3dea = (value * _0x73175e[_0xe0b250]) / 1e18;
+                uint256 _0xff339f = (value * _0xc1ff31[_0x3f70f4]) / 1e18;
 
-                _0xc98f16 += _0xab3dea;
+                _0xaebd24 += _0xff339f;
             }
         }
 
-        return _0xc98f16;
+        return _0xaebd24;
     }
 
 
-    function _0x80ec52(address _0x6d12f2) public view returns (uint256) {
-        uint256 _0x11b106 = 0;
+    function _0x73890e(address _0xaa6c61) public view returns (uint256) {
+        uint256 _0x314643 = 0;
 
-        address[] memory _0x9ad5bf = new address[](2);
+        address[] memory _0x6f571f = new address[](2);
 
-        for (uint256 i = 0; i < _0x9ad5bf.length; i++) {
-            address _0xe0b250 = _0x9ad5bf[i];
-            uint256 _0x827561 = _0x4b9ad2[_0x6d12f2][_0xe0b250];
+        for (uint256 i = 0; i < _0x6f571f.length; i++) {
+            address _0x3f70f4 = _0x6f571f[i];
+            uint256 _0x00760f = _0xc8b641[_0xaa6c61][_0x3f70f4];
 
-            if (_0x827561 > 0) {
-                uint256 _0x15bc81 = _0xb95b10._0xb1f3c3(_0xe0b250);
-                uint256 value = (_0x827561 * _0x15bc81) / 1e18;
-                _0x11b106 += value;
+            if (_0x00760f > 0) {
+                uint256 _0x7517d9 = _0x6a3993._0xe30075(_0x3f70f4);
+                uint256 value = (_0x00760f * _0x7517d9) / 1e18;
+                _0x314643 += value;
             }
         }
 
-        return _0x11b106;
+        return _0x314643;
     }
 
 
-    function _0x6f567e(address _0xe0b250, uint256 _0xee5d2c) external {
-        _0xa99010[_0xe0b250] = true;
-        _0x73175e[_0xe0b250] = _0xee5d2c;
+    function _0x72f64c(address _0x3f70f4, uint256 _0x60296a) external {
+        _0x19622a[_0x3f70f4] = true;
+        _0xc1ff31[_0x3f70f4] = _0x60296a;
     }
 }

@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "MultiOwnable",
-      "function_name": "_0xc0d383",
+      "function_name": "_0xf9adbb",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 38",
@@ -71,13 +71,13 @@
   "derived_from": "nc_ds_128",
   "original_id": "ds_128",
   "identifier_mappings": {
-    "withdrawAll": "_0x3e1c69",
-    "deleteOwner": "_0x65a417",
-    "onlyOwner": "_0xfe5e6e",
-    "newOwner": "_0xc0d383",
-    "_owner": "_0x7c4550",
-    "owners": "_0x6efd0a",
-    "root": "_0x974ae4"
+    "withdrawAll": "_0x0a6ff4",
+    "deleteOwner": "_0xe8e9b5",
+    "onlyOwner": "_0x230a92",
+    "newOwner": "_0xf9adbb",
+    "_owner": "_0xa1882d",
+    "owners": "_0x1ea09f",
+    "root": "_0x1578c2"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -85,12 +85,11 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 7 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 7 identifiers using hex style"
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: newOwner \u2192 _0xc0d383"
+      "Transformed ground_truth.vulnerable_location.function_name: newOwner \u2192 _0xf9adbb"
     ]
   }
 }

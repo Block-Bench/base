@@ -66,11 +66,11 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "changeOwnerV2": "_0x9e5a7c",
-    "changeOwner": "_0x6be18e",
-    "_newOwner": "_0x6b04fe",
-    "onlyowner": "_0x15bf41",
-    "owner": "_0x15e1cf"
+    "changeOwnerV2": "_0x743855",
+    "changeOwner": "_0xd658c4",
+    "_newOwner": "_0x820c14",
+    "onlyowner": "_0x54de8f",
+    "owner": "_0x243f14"
   },
   "original_contract_file": "base/contracts/ds_005.sol",
   "sanitized_from": "ds_005",

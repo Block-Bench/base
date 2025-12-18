@@ -17,7 +17,7 @@ import {WAD, RAY} from "@gearbox-protocol/core-v3/contracts/libraries/Constants.
 contract MidasRedemptionVaultAdapter is AbstractAdapter, IMidasRedemptionVaultAdapter {
     using EnumerableSet for EnumerableSet.AddressSet;
 
-    bytes32 public constant override ac = "ADAPTER::MIDAS_REDEMPTION_VAULT";
+    bytes32 public constant override ab = "ADAPTER::MIDAS_REDEMPTION_VAULT";
     uint256 public constant override ap = 3_10;
 
 
@@ -27,101 +27,101 @@ contract MidasRedemptionVaultAdapter is AbstractAdapter, IMidasRedemptionVaultAd
     address public immutable override as;
 
 
-    mapping(address => address) public c;
-
-
     mapping(address => address) public b;
 
 
-    EnumerableSet.AddressSet internal m;
+    mapping(address => address) public c;
 
 
-    constructor(address p, address al) AbstractAdapter(p, al) {
-        as = al;
-        au = IMidasRedemptionVaultGateway(al).au();
+    EnumerableSet.AddressSet internal n;
 
-        i(au);
+
+    constructor(address q, address ak) AbstractAdapter(q, ak) {
+        as = ak;
+        au = IMidasRedemptionVaultGateway(ak).au();
+
+        h(au);
     }
 
 
-    function z(address am, uint256 t, uint256 j)
+    function y(address aj, uint256 t, uint256 k)
         external
         override
-        k
+        i
         returns (bool)
     {
-        if (!n(am)) revert TokenNotAllowedException();
+        if (!r(aj)) revert TokenNotAllowedException();
 
-        o(am, t, j);
+        m(aj, t, k);
 
         return false;
     }
 
 
-    function g(address am, uint256 q, uint256 ae)
+    function g(address aj, uint256 s, uint256 ae)
         external
         override
-        k
+        i
         returns (bool)
     {
-        if (!n(am)) revert TokenNotAllowedException();
+        if (!r(aj)) revert TokenNotAllowedException();
 
-        address y = r();
+        address x = p();
 
-        uint256 balance = IERC20(au).ag(y);
-        if (balance > q) {
+        uint256 balance = IERC20(au).ai(x);
+        if (balance > s) {
             unchecked {
-                uint256 av = balance - q;
-                uint256 j = (av * ae) / RAY;
-                o(am, av, j);
+                uint256 av = balance - s;
+                uint256 k = (av * ae) / RAY;
+                m(aj, av, k);
             }
         }
         return false;
     }
 
 
-    function o(address am, uint256 t, uint256 j) internal {
+    function m(address aj, uint256 t, uint256 k) internal {
         d(
             au,
             abi.ad(
-                IMidasRedemptionVaultGateway.z,
-                (am, t, v(j, am))
+                IMidasRedemptionVaultGateway.y,
+                (aj, t, z(k, aj))
             )
         );
     }
 
 
-    function u(address am, uint256 t)
+    function w(address aj, uint256 t)
         external
         override
-        k
+        i
         returns (bool)
     {
-        if (!n(am) || b[am] == address(0)) {
+        if (!r(aj) || c[aj] == address(0)) {
             revert TokenNotAllowedException();
         }
 
         d(
-            au, abi.ad(IMidasRedemptionVaultGateway.aa, (am, t))
+            au, abi.ad(IMidasRedemptionVaultGateway.v, (aj, t))
         );
         return true;
     }
 
 
-    function aj(uint256 av) external override k returns (bool) {
-        af(av);
+    function am(uint256 av) external override i returns (bool) {
+        ag(av);
         return false;
     }
 
 
-    function af(uint256 av) internal {
-        ao(abi.ad(IMidasRedemptionVaultGateway.aj, (av)));
+    function ag(uint256 av) internal {
+        al(abi.ad(IMidasRedemptionVaultGateway.am, (av)));
     }
 
 
-    function e(address az, uint256 av) external override k returns (bool) {
-        if (c[az] == address(0)) revert IncorrectStakedPhantomTokenException();
-        af(av);
+    function e(address az, uint256 av) external override i returns (bool) {
+        if (b[az] == address(0)) revert IncorrectStakedPhantomTokenException();
+        ag(av);
         return false;
     }
 
@@ -131,58 +131,58 @@ contract MidasRedemptionVaultAdapter is AbstractAdapter, IMidasRedemptionVaultAd
     }
 
 
-    function v(uint256 av, address az) internal view returns (uint256) {
-        uint256 ah = 10 ** IERC20Metadata(az).ak();
-        return av * WAD / ah;
+    function z(uint256 av, address az) internal view returns (uint256) {
+        uint256 af = 10 ** IERC20Metadata(az).ao();
+        return av * WAD / af;
     }
 
 
-    function n(address az) public view override returns (bool) {
-        return m.an(az);
+    function r(address az) public view override returns (bool) {
+        return n.an(az);
     }
 
 
-    function w() public view override returns (address[] memory) {
-        return m.ay();
+    function aa() public view override returns (address[] memory) {
+        return n.aw();
     }
 
 
     function a(MidasAllowedTokenStatus[] calldata aq)
         external
         override
-        h
+        j
     {
-        uint256 ba = aq.length;
+        uint256 bb = aq.length;
 
-        for (uint256 i; i < ba; ++i) {
+        for (uint256 i; i < bb; ++i) {
             MidasAllowedTokenStatus memory ax = aq[i];
 
             if (ax.ar) {
-                i(ax.az);
-                m.bb(ax.az);
+                h(ax.az);
+                n.ba(ax.az);
 
-                if (ax.ab != address(0)) {
-                    i(ax.ab);
-                    c[ax.ab] = ax.az;
-                    b[ax.az] = ax.ab;
+                if (ax.ac != address(0)) {
+                    h(ax.ac);
+                    b[ax.ac] = ax.az;
+                    c[ax.az] = ax.ac;
                 }
             } else {
-                m.aw(ax.az);
+                n.ay(ax.az);
 
-                address ab = b[ax.az];
+                address ac = c[ax.az];
 
-                if (ab != address(0)) {
-                    delete b[ax.az];
-                    delete c[ab];
+                if (ac != address(0)) {
+                    delete c[ax.az];
+                    delete b[ac];
                 }
             }
 
-            emit SetTokenAllowedStatus(ax.az, ax.ab, ax.ar);
+            emit SetTokenAllowedStatus(ax.az, ax.ac, ax.ar);
         }
     }
 
 
-    function ai() external view returns (bytes memory l) {
-        l = abi.at(x, s, as, au, w());
+    function ah() external view returns (bytes memory o) {
+        o = abi.at(u, l, as, au, aa());
     }
 }

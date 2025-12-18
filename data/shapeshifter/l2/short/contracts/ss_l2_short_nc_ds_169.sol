@@ -9,10 +9,10 @@ contract TownCrier {
         bytes32 k;
     }
 
-    event Upgrade(address z);
-    event Reset(uint q, uint w, uint b);
-    event RequestInfo(uint64 aj, uint8 f, address p, uint ai, address e, bytes32 k, uint timestamp, bytes32[] i);
-    event DeliverInfo(uint64 n, uint ai, uint gasPrice, uint ab, uint h, bytes32 k, uint64 error, bytes32 t);
+    event Upgrade(address ab);
+    event Reset(uint q, uint u, uint a);
+    event RequestInfo(uint64 aj, uint8 i, address p, uint ai, address e, bytes32 k, uint timestamp, bytes32[] f);
+    event DeliverInfo(uint64 n, uint ai, uint gasPrice, uint y, uint h, bytes32 k, uint64 error, bytes32 r);
     event Cancel(uint64 n, address o, address p, uint ai, int ah);
 
     address public constant SGX_ADDRESS = 0x18513702cCd928F2A3eb63d900aDf03c9cc81593;
@@ -26,15 +26,15 @@ contract TownCrier {
     int public constant FAIL_FLAG = -2 ** 250;
     int public constant SUCCESS_FLAG = 1;
 
-    bool public l;
+    bool public m;
 
-    bool public a;
+    bool public b;
 
     uint64 public j;
     uint64 public d;
-    Request[2**64] public s;
+    Request[2**64] public t;
 
-    int public m = 0;
+    int public l = 0;
 
 
     function () {}
@@ -43,22 +43,22 @@ contract TownCrier {
 
 
         j = 1;
-        s[0].p = msg.sender;
-        l = false;
+        t[0].p = msg.sender;
+        m = false;
         d = 0;
-        a = false;
+        b = false;
     }
 
-    function aa(address z) {
-        if (msg.sender == s[0].p && d == 0) {
-            m = -int(z);
-            l = true;
-            Upgrade(z);
+    function z(address ab) {
+        if (msg.sender == t[0].p && d == 0) {
+            l = -int(ab);
+            m = true;
+            Upgrade(ab);
         }
     }
 
     function af(uint ae, uint ac, uint c) public {
-        if (msg.sender == s[0].p && d == 0) {
+        if (msg.sender == t[0].p && d == 0) {
             GAS_PRICE = ae;
             MIN_FEE = ae * ac;
             CANCELLATION_FEE = ae * c;
@@ -66,48 +66,48 @@ contract TownCrier {
         }
     }
 
-    function y() public {
-        if (msg.sender == s[0].p) {
-            l = true;
+    function w() public {
+        if (msg.sender == t[0].p) {
+            m = true;
         }
     }
 
-    function x() public {
-        if (msg.sender == s[0].p && m == 0) {
-            l = false;
+    function aa() public {
+        if (msg.sender == t[0].p && l == 0) {
+            m = false;
         }
     }
 
-    function r() public {
-        if (msg.sender == s[0].p && d == 0) {
-            if (!s[0].p.call.value(this.balance)()) {
+    function s() public {
+        if (msg.sender == t[0].p && d == 0) {
+            if (!t[0].p.call.value(this.balance)()) {
                 throw;
             }
         }
     }
 
-    function u(uint8 f, address e, bytes4 g, uint timestamp, bytes32[] i) public payable returns (int) {
-        if (a) {
+    function x(uint8 i, address e, bytes4 g, uint timestamp, bytes32[] f) public payable returns (int) {
+        if (b) {
             throw;
         }
 
-        if (l) {
-            a = true;
+        if (m) {
+            b = true;
             if (!msg.sender.call.value(msg.value)()) {
                 throw;
             }
-            a = false;
-            return m;
+            b = false;
+            return l;
         }
 
         if (msg.value < MIN_FEE) {
-            a = true;
+            b = true;
 
 
             if (!msg.sender.call.value(msg.value)()) {
                 throw;
             }
-            a = false;
+            b = false;
             return FAIL_FLAG;
         } else {
 
@@ -115,31 +115,31 @@ contract TownCrier {
             j++;
             d++;
 
-            bytes32 k = ag(f, i);
-            s[n].p = msg.sender;
-            s[n].ai = msg.value;
-            s[n].e = e;
-            s[n].g = g;
-            s[n].k = k;
+            bytes32 k = ag(i, f);
+            t[n].p = msg.sender;
+            t[n].ai = msg.value;
+            t[n].e = e;
+            t[n].g = g;
+            t[n].k = k;
 
 
-            RequestInfo(n, f, msg.sender, msg.value, e, k, timestamp, i);
+            RequestInfo(n, i, msg.sender, msg.value, e, k, timestamp, f);
             return n;
         }
     }
 
-    function v(uint64 n, bytes32 k, uint64 error, bytes32 t) public {
+    function v(uint64 n, bytes32 k, uint64 error, bytes32 r) public {
         if (msg.sender != SGX_ADDRESS ||
                 n <= 0 ||
-                s[n].p == 0 ||
-                s[n].ai == DELIVERED_FEE_FLAG) {
+                t[n].p == 0 ||
+                t[n].ai == DELIVERED_FEE_FLAG) {
 
 
             return;
         }
 
-        uint ai = s[n].ai;
-        if (s[n].k != k) {
+        uint ai = t[n].ai;
+        if (t[n].k != k) {
 
 
             return;
@@ -147,12 +147,12 @@ contract TownCrier {
 
 
             SGX_ADDRESS.send(CANCELLATION_FEE);
-            s[n].ai = DELIVERED_FEE_FLAG;
+            t[n].ai = DELIVERED_FEE_FLAG;
             d--;
             return;
         }
 
-        s[n].ai = DELIVERED_FEE_FLAG;
+        t[n].ai = DELIVERED_FEE_FLAG;
         d--;
 
         if (error < 2) {
@@ -161,45 +161,45 @@ contract TownCrier {
             SGX_ADDRESS.send(ai);
         } else {
 
-            a = true;
-            s[n].p.call.gas(2300).value(ai)();
-            a = false;
+            b = true;
+            t[n].p.call.gas(2300).value(ai)();
+            b = false;
         }
 
         uint h = (ai - MIN_FEE) / tx.gasprice;
-        DeliverInfo(n, ai, tx.gasprice, msg.gas, h, k, error, t);
+        DeliverInfo(n, ai, tx.gasprice, msg.gas, h, k, error, r);
         if (h > msg.gas - 5000) {
             h = msg.gas - 5000;
         }
 
-        a = true;
-        s[n].e.call.gas(h)(s[n].g, n, error, t);
-        a = false;
+        b = true;
+        t[n].e.call.gas(h)(t[n].g, n, error, r);
+        b = false;
     }
 
     function ad(uint64 n) public returns (int) {
-        if (a) {
+        if (b) {
             throw;
         }
 
-        if (l) {
+        if (m) {
             return 0;
         }
 
-        uint ai = s[n].ai;
-        if (s[n].p == msg.sender && ai >= CANCELLATION_FEE) {
+        uint ai = t[n].ai;
+        if (t[n].p == msg.sender && ai >= CANCELLATION_FEE) {
 
 
-            s[n].ai = CANCELLED_FEE_FLAG;
-            a = true;
+            t[n].ai = CANCELLED_FEE_FLAG;
+            b = true;
             if (!msg.sender.call.value(ai - CANCELLATION_FEE)()) {
                 throw;
             }
-            a = false;
-            Cancel(n, msg.sender, s[n].p, s[n].ai, 1);
+            b = false;
+            Cancel(n, msg.sender, t[n].p, t[n].ai, 1);
             return SUCCESS_FLAG;
         } else {
-            Cancel(n, msg.sender, s[n].p, ai, -1);
+            Cancel(n, msg.sender, t[n].p, ai, -1);
             return FAIL_FLAG;
         }
     }

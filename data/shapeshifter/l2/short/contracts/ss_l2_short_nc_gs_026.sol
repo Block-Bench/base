@@ -16,9 +16,9 @@ contract PositionManager is Initializable, AccessControlEnumerableUpgradeable, I
     using SafeERC20 for IERC20;
 
 
-    bytes32 public constant EXECUTOR_ROLE = ag("EXECUTOR_ROLE");
-    bytes32 public constant MANAGER_ROLE = ag("MANAGER_ROLE");
-    bytes32 public constant EMERGENCY_ROLE = ag("EMERGENCY_ROLE");
+    bytes32 public constant EXECUTOR_ROLE = ae("EXECUTOR_ROLE");
+    bytes32 public constant MANAGER_ROLE = ae("MANAGER_ROLE");
+    bytes32 public constant EMERGENCY_ROLE = ae("EMERGENCY_ROLE");
 
 
     IPool public au;
@@ -27,25 +27,25 @@ contract PositionManager is Initializable, AccessControlEnumerableUpgradeable, I
 
 
     struct Init {
-        address aq;
-        address ak;
+        address at;
+        address am;
         ILiquidityBuffer o;
         IWETH ax;
         IPool au;
     }
 
 
-    event Deposit(address indexed ap, uint ao, uint t);
+    event Deposit(address indexed ap, uint ao, uint u);
     event Withdraw(address indexed ap, uint ao);
-    event Borrow(address indexed ap, uint ao, uint ai);
-    event Repay(address indexed ap, uint ao, uint ai);
-    event SetUserEMode(address indexed ap, uint8 ad);
+    event Borrow(address indexed ap, uint ao, uint ah);
+    event Repay(address indexed ap, uint ao, uint ah);
+    event SetUserEMode(address indexed ap, uint8 ac);
 
     constructor() {
-        f();
+        h();
     }
 
-    function ac(Init memory av) external x {
+    function ab(Init memory av) external w {
         __AccessControlEnumerable_init();
 
         ax = av.ax;
@@ -53,109 +53,109 @@ contract PositionManager is Initializable, AccessControlEnumerableUpgradeable, I
         o = av.o;
 
 
-        ab(DEFAULT_ADMIN_ROLE, av.aq);
-        ab(MANAGER_ROLE, av.ak);
-        ab(EXECUTOR_ROLE, address(av.o));
+        ad(DEFAULT_ADMIN_ROLE, av.at);
+        ad(MANAGER_ROLE, av.am);
+        ad(EXECUTOR_ROLE, address(av.o));
 
 
-        ax.am(address(au), type(uint256).az);
+        ax.an(address(au), type(uint256).ay);
     }
 
 
-    function an(uint16 q) external payable override aj(EXECUTOR_ROLE) {
+    function ak(uint16 r) external payable override ai(EXECUTOR_ROLE) {
         if (msg.value > 0) {
 
-            ax.an{value: msg.value}();
+            ax.ak{value: msg.value}();
 
 
-            au.an(address(ax), msg.value, address(this), q);
+            au.ak(address(ax), msg.value, address(this), r);
 
             emit Deposit(msg.sender, msg.value, msg.value);
         }
     }
 
-    function ah(uint256 ao) external override aj(EXECUTOR_ROLE) {
+    function aj(uint256 ao) external override ai(EXECUTOR_ROLE) {
         require(ao > 0, 'Invalid ao');
 
 
-        IERC20 at = IERC20(au.n(address(ax)));
-        uint256 aa = at.ae(address(this));
+        IERC20 ar = IERC20(au.j(address(ax)));
+        uint256 x = ar.ag(address(this));
 
-        uint256 k = ao;
-        if (ao == type(uint256).az) {
-            k = aa;
+        uint256 m = ao;
+        if (ao == type(uint256).ay) {
+            m = x;
         }
 
-        require(k <= aa, 'Insufficient balance');
+        require(m <= x, 'Insufficient balance');
 
 
-        au.ah(address(ax), k, address(this));
+        au.aj(address(ax), m, address(this));
 
 
-        ax.ah(k);
+        ax.aj(m);
 
 
-        o.b{value: k}();
+        o.b{value: m}();
 
-        emit Withdraw(msg.sender, k);
+        emit Withdraw(msg.sender, m);
     }
 
-    function h() external view returns (uint256) {
-        IERC20 at = IERC20(au.n(address(ax)));
-        return at.ae(address(this));
+    function f() external view returns (uint256) {
+        IERC20 ar = IERC20(au.j(address(ax)));
+        return ar.ag(address(this));
     }
 
-    function u(uint8 ad) external override aj(MANAGER_ROLE) {
+    function v(uint8 ac) external override ai(MANAGER_ROLE) {
 
-        au.u(ad);
+        au.v(ac);
 
-        emit SetUserEMode(msg.sender, ad);
+        emit SetUserEMode(msg.sender, ac);
     }
-    function v(address ar, address aw, uint256 ay) external override aj(MANAGER_ROLE) {
-        IERC20(ar).z(aw, ay);
-    }
-
-    function y(address ar, address aw) external override aj(MANAGER_ROLE) {
-        IERC20(ar).z(aw, 0);
+    function t(address aq, address aw, uint256 az) external override ai(MANAGER_ROLE) {
+        IERC20(aq).y(aw, az);
     }
 
+    function aa(address aq, address aw) external override ai(MANAGER_ROLE) {
+        IERC20(aq).y(aw, 0);
+    }
 
-    function m() external view returns (uint256) {
+
+    function n() external view returns (uint256) {
         address af = au.c(address(ax));
-        return IERC20(af).ae(address(this));
+        return IERC20(af).ag(address(this));
     }
 
     function g() external view returns (uint256) {
-        IERC20 at = IERC20(au.n(address(ax)));
-        return at.ae(address(this));
+        IERC20 ar = IERC20(au.j(address(ax)));
+        return ar.ag(address(this));
     }
 
     function s() external view returns (uint256) {
         return au.s(address(this));
     }
 
-    function a(address as, bool p) external aj(MANAGER_ROLE) {
+    function a(address as, bool p) external ai(MANAGER_ROLE) {
         au.a(as, p);
     }
 
-    function i(address l) external aj(MANAGER_ROLE) {
-        w(EXECUTOR_ROLE, address(o));
-        ab(EXECUTOR_ROLE, l);
-        o = ILiquidityBuffer(l);
+    function i(address k) external ai(MANAGER_ROLE) {
+        z(EXECUTOR_ROLE, address(o));
+        ad(EXECUTOR_ROLE, k);
+        o = ILiquidityBuffer(k);
     }
 
 
-    function d(address ar, address ba, uint256 ao) external aj(EMERGENCY_ROLE) {
-        IERC20(ar).r(ba, ao);
+    function d(address aq, address ba, uint256 ao) external ai(EMERGENCY_ROLE) {
+        IERC20(aq).q(ba, ao);
     }
 
 
-    function e(address ba, uint256 ao) external aj(EMERGENCY_ROLE) {
-        j(ba, ao);
+    function e(address ba, uint256 ao) external ai(EMERGENCY_ROLE) {
+        l(ba, ao);
     }
 
 
-    function j(address ba, uint256 value) internal {
+    function l(address ba, uint256 value) internal {
         (bool al, ) = ba.call{value: value}(new bytes(0));
         require(al, 'ETH_TRANSFER_FAILED');
     }

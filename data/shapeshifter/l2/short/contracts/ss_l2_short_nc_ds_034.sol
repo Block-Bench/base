@@ -23,11 +23,11 @@ contract MONEY_BOX
         MinSum = g;
     }
 
-    function SetLogFile(address f)
+    function SetLogFile(address e)
     public
     {
         if(a)throw;
-        LogFile = Log(f);
+        LogFile = Log(e);
     }
 
     function Initialized()
@@ -40,9 +40,9 @@ contract MONEY_BOX
     public
     payable
     {
-        var j = Acc[msg.sender];
-        j.balance += msg.value;
-        if(i+c>j.b)j.b=i+c;
+        var i = Acc[msg.sender];
+        i.balance += msg.value;
+        if(j+c>i.b)i.b=j+c;
         LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
 
@@ -50,12 +50,12 @@ contract MONEY_BOX
     public
     payable
     {
-        var j = Acc[msg.sender];
-        if( j.balance>=MinSum && j.balance>=h && i>j.b)
+        var i = Acc[msg.sender];
+        if( i.balance>=MinSum && i.balance>=h && j>i.b)
         {
             if(msg.sender.call.value(h)())
             {
-                j.balance-=h;
+                i.balance-=h;
                 LogFile.AddMessage(msg.sender,h,"Collect");
             }
         }
@@ -84,11 +84,11 @@ contract Log
 
     Message LastMsg;
 
-    function AddMessage(address e,uint g,string d)
+    function AddMessage(address f,uint g,string d)
     public
     {
-        LastMsg.Sender = e;
-        LastMsg.Time = i;
+        LastMsg.Sender = f;
+        LastMsg.Time = j;
         LastMsg.Val = g;
         LastMsg.Data = d;
         History.push(LastMsg);

@@ -11,17 +11,17 @@ import {IPauserRead} from "../interfaces/IPauser.sol";
 import {ProtocolEvents} from "../interfaces/ProtocolEvents.sol";
 
 interface LiquidityBufferEvents {
-    event ETHWithdrawnFromManager(uint256 indexed ca, uint256 cm);
-    event ETHReturnedToStaking(uint256 cm);
-    event ETHAllocatedToManager(uint256 indexed ca, uint256 cm);
-    event ETHReceivedFromStaking(uint256 cm);
-    event FeesCollected(uint256 cm);
+    event ETHWithdrawnFromManager(uint256 indexed ca, uint256 ck);
+    event ETHReturnedToStaking(uint256 ck);
+    event ETHAllocatedToManager(uint256 indexed ca, uint256 ck);
+    event ETHReceivedFromStaking(uint256 ck);
+    event FeesCollected(uint256 ck);
     event InterestClaimed(
         uint256 indexed ca,
-        uint256 bj
+        uint256 bk
     );
     event InterestToppedUp(
-        uint256 cm
+        uint256 ck
     );
 }
 
@@ -30,10 +30,10 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
     using Address for address;
 
 
-    bytes32 public constant LIQUIDITY_MANAGER_ROLE = cc("LIQUIDITY_MANAGER_ROLE");
-    bytes32 public constant POSITION_MANAGER_ROLE = cc("POSITION_MANAGER_ROLE");
-    bytes32 public constant INTEREST_TOPUP_ROLE = cc("INTEREST_TOPUP_ROLE");
-    bytes32 public constant DRAWDOWN_MANAGER_ROLE = cc("DRAWDOWN_MANAGER_ROLE");
+    bytes32 public constant LIQUIDITY_MANAGER_ROLE = cd("LIQUIDITY_MANAGER_ROLE");
+    bytes32 public constant POSITION_MANAGER_ROLE = cd("POSITION_MANAGER_ROLE");
+    bytes32 public constant INTEREST_TOPUP_ROLE = cd("INTEREST_TOPUP_ROLE");
+    bytes32 public constant DRAWDOWN_MANAGER_ROLE = cd("DRAWDOWN_MANAGER_ROLE");
 
     uint16 internal constant h = 10_000;
 
@@ -41,69 +41,69 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
     IStakingReturnsWrite public bf;
 
 
-    IPauserRead public cl;
+    IPauserRead public co;
 
 
-    uint256 public ae;
+    uint256 public ad;
 
 
-    mapping(uint256 => PositionManagerConfig) public r;
+    mapping(uint256 => PositionManagerConfig) public o;
 
 
-    mapping(uint256 => PositionAccountant) public al;
+    mapping(uint256 => PositionAccountant) public ak;
 
 
-    uint256 public ao;
+    uint256 public am;
 
 
-    uint256 public aq;
+    uint256 public ap;
 
 
-    uint256 public x;
+    uint256 public s;
 
 
-    uint256 public ac;
+    uint256 public aa;
 
 
-    uint256 public t;
+    uint256 public v;
 
 
     uint256 public l;
 
 
-    uint256 public ar;
+    uint256 public aq;
 
 
-    uint256 public aw;
+    uint256 public ax;
 
 
     address payable public br;
 
 
-    uint16 public bd;
+    uint16 public bg;
 
-    uint256 public am;
-
-
-    uint256 public bg;
+    uint256 public ar;
 
 
-    uint256 public ay;
+    uint256 public bd;
 
 
-    bool public m;
+    uint256 public ba;
 
-    mapping(address => bool) public ah;
+
+    bool public n;
+
+    mapping(address => bool) public ai;
 
     struct Init {
-        address cp;
+        address cq;
         address az;
         address be;
         address bp;
-        address bc;
+        address bb;
         address payable br;
-        IStakingReturnsWrite cj;
-        IPauserRead cl;
+        IStakingReturnsWrite ch;
+        IPauserRead co;
     }
 
 
@@ -124,62 +124,62 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
 
 
     constructor() {
-        ab();
+        ae();
     }
 
-    function bx(Init memory cs) external bt {
+    function by(Init memory cr) external bu {
 
         __AccessControlEnumerable_init();
 
-        bw(DEFAULT_ADMIN_ROLE, cs.cp);
-        bw(LIQUIDITY_MANAGER_ROLE, cs.az);
-        bw(POSITION_MANAGER_ROLE, cs.be);
-        bw(INTEREST_TOPUP_ROLE, cs.bp);
-        bw(DRAWDOWN_MANAGER_ROLE, cs.bc);
+        bz(DEFAULT_ADMIN_ROLE, cr.cq);
+        bz(LIQUIDITY_MANAGER_ROLE, cr.az);
+        bz(POSITION_MANAGER_ROLE, cr.be);
+        bz(INTEREST_TOPUP_ROLE, cr.bp);
+        bz(DRAWDOWN_MANAGER_ROLE, cr.bb);
 
-        bf = cs.cj;
-        cl = cs.cl;
-        br = cs.br;
-        m = true;
+        bf = cr.ch;
+        co = cr.co;
+        br = cr.br;
+        n = true;
 
-        bw(LIQUIDITY_MANAGER_ROLE, address(bf));
+        bz(LIQUIDITY_MANAGER_ROLE, address(bf));
     }
 
 
-    function at(uint256 ca) public view returns (uint256) {
-        PositionManagerConfig memory co = r[ca];
+    function au(uint256 ca) public view returns (uint256) {
+        PositionManagerConfig memory cl = o[ca];
 
-        IPositionManager ci = IPositionManager(co.bh);
-        uint256 bl = ci.y();
+        IPositionManager cj = IPositionManager(cl.bi);
+        uint256 bo = cj.z();
 
 
-        PositionAccountant memory by = al[ca];
+        PositionAccountant memory bx = ak[ca];
 
-        if (bl > by.ax) {
-            return bl - by.ax;
+        if (bo > bx.ay) {
+            return bo - bx.ay;
         }
 
         return 0;
     }
 
-    function ad() public view returns (uint256) {
-        return l - x;
+    function ac() public view returns (uint256) {
+        return l - s;
     }
 
-    function aj() public view returns (uint256) {
-        return ao - aq;
+    function ag() public view returns (uint256) {
+        return am - ap;
     }
 
-    function z() public view returns (uint256) {
+    function ab() public view returns (uint256) {
         uint256 bs = address(this).balance;
 
 
-        for (uint256 i = 0; i < ae; i++) {
-            PositionManagerConfig storage co = r[i];
-            if (co.cf) {
-                IPositionManager ci = IPositionManager(co.bh);
-                uint256 bo = ci.y();
-                bs += bo;
+        for (uint256 i = 0; i < ad; i++) {
+            PositionManagerConfig storage cl = o[i];
+            if (cl.cg) {
+                IPositionManager cj = IPositionManager(cl.bi);
+                uint256 bn = cj.z();
+                bs += bn;
             }
         }
 
@@ -187,265 +187,265 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
     }
 
 
-    function an(
-        address bh,
+    function ao(
+        address bi,
         uint256 bq
-    ) external cg(POSITION_MANAGER_ROLE) returns (uint256 ca) {
-        if (ah[bh]) revert LiquidityBuffer__ManagerAlreadyRegistered();
-        ca = ae;
-        ae++;
+    ) external ce(POSITION_MANAGER_ROLE) returns (uint256 ca) {
+        if (ai[bi]) revert LiquidityBuffer__ManagerAlreadyRegistered();
+        ca = ad;
+        ad++;
 
-        r[ca] = PositionManagerConfig({
-            bh: bh,
+        o[ca] = PositionManagerConfig({
+            bi: bi,
             bq: bq,
-            cf: true
+            cg: true
         });
-        al[ca] = PositionAccountant({
-            ax: 0,
-            g: 0
+        ak[ca] = PositionAccountant({
+            ay: 0,
+            f: 0
         });
-        ah[bh] = true;
+        ai[bi] = true;
 
         l += bq;
         emit ProtocolConfigChanged(
-            this.an.selector,
+            this.ao.selector,
             "addPositionManager(address,uint256)",
-            abi.ck(bh, bq)
+            abi.cn(bi, bq)
         );
     }
 
-    function s(
+    function x(
         uint256 ca,
-        uint256 ba,
-        bool cf
-    ) external cg(POSITION_MANAGER_ROLE) {
-        if (ca >= ae) {
+        uint256 aw,
+        bool cg
+    ) external ce(POSITION_MANAGER_ROLE) {
+        if (ca >= ad) {
             revert LiquidityBuffer__ManagerNotFound();
         }
 
-        PositionManagerConfig storage co = r[ca];
+        PositionManagerConfig storage cl = o[ca];
 
-        if (ba < al[ca].ax) {
+        if (aw < ak[ca].ay) {
             revert LiquidityBuffer__InvalidConfiguration();
         }
 
 
-        l = l - co.bq + ba;
+        l = l - cl.bq + aw;
 
-        co.bq = ba;
-        co.cf = cf;
+        cl.bq = aw;
+        cl.cg = cg;
 
         emit ProtocolConfigChanged(
-            this.s.selector,
+            this.x.selector,
             "updatePositionManager(uint256,uint256,bool)",
-            abi.ck(ca, ba, cf)
+            abi.cn(ca, aw, cg)
         );
     }
 
-    function e(uint256 ca) external cg(POSITION_MANAGER_ROLE) {
-        if (ca >= ae) {
+    function d(uint256 ca) external ce(POSITION_MANAGER_ROLE) {
+        if (ca >= ad) {
             revert LiquidityBuffer__ManagerNotFound();
         }
 
-        PositionManagerConfig storage co = r[ca];
-        co.cf = !co.cf;
+        PositionManagerConfig storage cl = o[ca];
+        cl.cg = !cl.cg;
 
         emit ProtocolConfigChanged(
-            this.e.selector,
+            this.d.selector,
             "togglePositionManagerStatus(uint256)",
-            abi.ck(ca)
+            abi.cn(ca)
         );
     }
 
-    function v(uint256 bk) external cg(DRAWDOWN_MANAGER_ROLE) {
-        ar = bk;
+    function t(uint256 bm) external ce(DRAWDOWN_MANAGER_ROLE) {
+        aq = bm;
 
         emit ProtocolConfigChanged(
-            this.v.selector,
+            this.t.selector,
             "setCumulativeDrawdown(uint256)",
-            abi.ck(bk)
+            abi.cn(bm)
         );
     }
 
-    function ag(uint256 ai) external cg(POSITION_MANAGER_ROLE) {
-        if (ai >= ae) {
+    function af(uint256 aj) external ce(POSITION_MANAGER_ROLE) {
+        if (aj >= ad) {
             revert LiquidityBuffer__ManagerNotFound();
         }
 
-        if (!r[ai].cf) {
+        if (!o[aj].cg) {
             revert LiquidityBuffer__ManagerInactive();
         }
 
-        aw = ai;
+        ax = aj;
 
         emit ProtocolConfigChanged(
-            this.ag.selector,
+            this.af.selector,
             "setDefaultManagerId(uint256)",
-            abi.ck(ai)
+            abi.cn(aj)
         );
     }
 
 
-    function as(uint16 bm) external cg(POSITION_MANAGER_ROLE) {
-        if (bm > h) {
+    function av(uint16 bl) external ce(POSITION_MANAGER_ROLE) {
+        if (bl > h) {
             revert LiquidityBuffer__InvalidConfiguration();
         }
 
-        bd = bm;
+        bg = bl;
         emit ProtocolConfigChanged(
-            this.as.selector, "setFeeBasisPoints(uint16)", abi.ck(bm)
+            this.av.selector, "setFeeBasisPoints(uint16)", abi.cn(bl)
         );
     }
 
 
-    function bb(address payable bu)
+    function bc(address payable bt)
         external
-        cg(POSITION_MANAGER_ROLE)
-        bi(bu)
+        ce(POSITION_MANAGER_ROLE)
+        bh(bt)
     {
-        br = bu;
-        emit ProtocolConfigChanged(this.bb.selector, "setFeesReceiver(address)", abi.ck(bu));
+        br = bt;
+        emit ProtocolConfigChanged(this.bc.selector, "setFeesReceiver(address)", abi.cn(bt));
     }
 
 
-    function f(bool au) external cg(POSITION_MANAGER_ROLE) {
-        m = au;
-        emit ProtocolConfigChanged(this.f.selector, "setShouldExecuteAllocation(bool)", abi.ck(au));
+    function g(bool as) external ce(POSITION_MANAGER_ROLE) {
+        n = as;
+        emit ProtocolConfigChanged(this.g.selector, "setShouldExecuteAllocation(bool)", abi.cn(as));
     }
 
 
-    function bz() external payable cg(LIQUIDITY_MANAGER_ROLE) {
-        if (cl.n()) revert LiquidityBuffer__Paused();
-        p(msg.value);
-        if (m) {
-            w(aw, msg.value);
+    function bw() external payable ce(LIQUIDITY_MANAGER_ROLE) {
+        if (co.m()) revert LiquidityBuffer__Paused();
+        r(msg.value);
+        if (n) {
+            w(ax, msg.value);
         }
     }
 
-    function av(uint256 ca, uint256 cm) external cg(LIQUIDITY_MANAGER_ROLE) {
-        k(ca, cm);
-        af(cm);
+    function at(uint256 ca, uint256 ck) external ce(LIQUIDITY_MANAGER_ROLE) {
+        k(ca, ck);
+        al(ck);
     }
 
-    function aa(uint256 ca, uint256 cm) external cg(LIQUIDITY_MANAGER_ROLE) {
-        w(ca, cm);
+    function y(uint256 ca, uint256 ck) external ce(LIQUIDITY_MANAGER_ROLE) {
+        w(ca, ck);
     }
 
-    function q(uint256 ca, uint256 cm) external cg(LIQUIDITY_MANAGER_ROLE) {
-        k(ca, cm);
+    function p(uint256 ca, uint256 ck) external ce(LIQUIDITY_MANAGER_ROLE) {
+        k(ca, ck);
     }
 
-    function ap(uint256 cm) external cg(LIQUIDITY_MANAGER_ROLE) {
-        af(cm);
+    function an(uint256 ck) external ce(LIQUIDITY_MANAGER_ROLE) {
+        al(ck);
     }
 
-    function c() external payable d {
+    function c() external payable e {
 
 
     }
 
 
-    function j(uint256 ca, uint256 cd) external cg(INTEREST_TOPUP_ROLE) returns (uint256) {
-        uint256 cm = i(ca);
-        if (cm < cd) {
+    function j(uint256 ca, uint256 cb) external ce(INTEREST_TOPUP_ROLE) returns (uint256) {
+        uint256 ck = i(ca);
+        if (ck < cb) {
             revert LiquidityBuffer__InsufficientBalance();
         }
-        return cm;
+        return ck;
     }
 
-    function o(uint256 cm) external cg(INTEREST_TOPUP_ROLE) returns (uint256) {
-        if (address(this).balance < cm) {
+    function q(uint256 ck) external ce(INTEREST_TOPUP_ROLE) returns (uint256) {
+        if (address(this).balance < ck) {
             revert LiquidityBuffer__InsufficientBalance();
         }
-        a(cm);
-        return cm;
+        a(ck);
+        return ck;
     }
 
-    function u(uint256 ca, uint256 cd) external cg(INTEREST_TOPUP_ROLE) returns (uint256) {
-        uint256 cm = i(ca);
-        if (cm < cd) {
+    function u(uint256 ca, uint256 cb) external ce(INTEREST_TOPUP_ROLE) returns (uint256) {
+        uint256 ck = i(ca);
+        if (ck < cb) {
             revert LiquidityBuffer__InsufficientBalance();
         }
-        a(cm);
+        a(ck);
 
-        return cm;
+        return ck;
     }
 
 
-    function a(uint256 cm) internal {
-        if (cl.n()) {
+    function a(uint256 ck) internal {
+        if (co.m()) {
             revert LiquidityBuffer__Paused();
         }
-        if (cm > bg) {
+        if (ck > bd) {
             revert LiquidityBuffer__ExceedsPendingInterest();
         }
-        bg -= cm;
-        uint256 cr = Math.cn(bd, cm, h);
-        uint256 bv = cm - cr;
-        bf.cq{value: bv}();
-        t += bv;
+        bd -= ck;
+        uint256 cs = Math.cm(bg, ck, h);
+        uint256 bv = ck - cs;
+        bf.cp{value: bv}();
+        v += bv;
         emit InterestToppedUp(bv);
 
-        if (cr > 0) {
-            Address.cb(br, cr);
-            am += cr;
-            emit FeesCollected(cr);
+        if (cs > 0) {
+            Address.cc(br, cs);
+            ar += cs;
+            emit FeesCollected(cs);
         }
     }
 
     function i(uint256 ca) internal returns (uint256) {
-        if (cl.n()) {
+        if (co.m()) {
             revert LiquidityBuffer__Paused();
         }
 
-        uint256 bj = at(ca);
+        uint256 bk = au(ca);
 
-        if (bj > 0) {
-            PositionManagerConfig memory co = r[ca];
-
-
-            al[ca].g += bj;
-            ac += bj;
-            bg += bj;
-            emit InterestClaimed(ca, bj);
+        if (bk > 0) {
+            PositionManagerConfig memory cl = o[ca];
 
 
-            IPositionManager ci = IPositionManager(co.bh);
-            ci.ce(bj);
+            ak[ca].f += bk;
+            aa += bk;
+            bd += bk;
+            emit InterestClaimed(ca, bk);
+
+
+            IPositionManager cj = IPositionManager(cl.bi);
+            cj.cf(bk);
         } else {
-            emit InterestClaimed(ca, bj);
+            emit InterestClaimed(ca, bk);
         }
 
-        return bj;
+        return bk;
     }
 
-    function k(uint256 ca, uint256 cm) internal {
-        if (cl.n()) {
+    function k(uint256 ca, uint256 ck) internal {
+        if (co.m()) {
             revert LiquidityBuffer__Paused();
         }
-        if (ca >= ae) revert LiquidityBuffer__ManagerNotFound();
-        PositionManagerConfig memory co = r[ca];
-        if (!co.cf) revert LiquidityBuffer__ManagerInactive();
-        PositionAccountant storage by = al[ca];
+        if (ca >= ad) revert LiquidityBuffer__ManagerNotFound();
+        PositionManagerConfig memory cl = o[ca];
+        if (!cl.cg) revert LiquidityBuffer__ManagerInactive();
+        PositionAccountant storage bx = ak[ca];
 
 
-        if (cm > by.ax) {
+        if (ck > bx.ay) {
             revert LiquidityBuffer__InsufficientAllocation();
         }
 
 
-        by.ax -= cm;
-        x -= cm;
-        ay += cm;
-        emit ETHWithdrawnFromManager(ca, cm);
+        bx.ay -= ck;
+        s -= ck;
+        ba += ck;
+        emit ETHWithdrawnFromManager(ca, ck);
 
 
-        IPositionManager ci = IPositionManager(co.bh);
-        ci.ce(cm);
+        IPositionManager cj = IPositionManager(cl.bi);
+        cj.cf(ck);
     }
 
-    function af(uint256 cm) internal {
-        if (cl.n()) {
+    function al(uint256 ck) internal {
+        if (co.m()) {
             revert LiquidityBuffer__Paused();
         }
 
@@ -454,59 +454,59 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
             revert LiquidityBuffer__ZeroAddress();
         }
 
-        if (cm > ay) {
+        if (ck > ba) {
             revert LiquidityBuffer__ExceedsPendingPrincipal();
         }
 
 
-        aq += cm;
-        ay -= cm;
-        emit ETHReturnedToStaking(cm);
+        ap += ck;
+        ba -= ck;
+        emit ETHReturnedToStaking(ck);
 
 
-        bf.b{value: cm}();
+        bf.b{value: ck}();
     }
 
-    function w(uint256 ca, uint256 cm) internal {
-        if (cl.n()) {
+    function w(uint256 ca, uint256 ck) internal {
+        if (co.m()) {
             revert LiquidityBuffer__Paused();
         }
-        if (cm > ay) {
+        if (ck > ba) {
             revert LiquidityBuffer__ExceedsPendingPrincipal();
         }
 
-        if (ca >= ae) revert LiquidityBuffer__ManagerNotFound();
+        if (ca >= ad) revert LiquidityBuffer__ManagerNotFound();
 
-        if (address(this).balance < cm) revert LiquidityBuffer__InsufficientBalance();
+        if (address(this).balance < ck) revert LiquidityBuffer__InsufficientBalance();
 
 
-        PositionManagerConfig memory co = r[ca];
-        if (!co.cf) revert LiquidityBuffer__ManagerInactive();
+        PositionManagerConfig memory cl = o[ca];
+        if (!cl.cg) revert LiquidityBuffer__ManagerInactive();
 
-        PositionAccountant storage by = al[ca];
-        if (by.ax + cm > co.bq) {
+        PositionAccountant storage bx = ak[ca];
+        if (bx.ay + ck > cl.bq) {
             revert LiquidityBuffer__ExceedsAllocationCap();
         }
 
 
-        by.ax += cm;
-        x += cm;
-        ay -= cm;
-        emit ETHAllocatedToManager(ca, cm);
+        bx.ay += ck;
+        s += ck;
+        ba -= ck;
+        emit ETHAllocatedToManager(ca, ck);
 
 
-        IPositionManager ci = IPositionManager(co.bh);
-        ci.ch{value: cm}(0);
+        IPositionManager cj = IPositionManager(cl.bi);
+        cj.ci{value: ck}(0);
     }
 
-    function p(uint256 cm) internal {
-        ao += cm;
-        ay += cm;
-        emit ETHReceivedFromStaking(cm);
+    function r(uint256 ck) internal {
+        am += ck;
+        ba += ck;
+        emit ETHReceivedFromStaking(ck);
     }
 
 
-    modifier bi(address ct) {
+    modifier bh(address ct) {
         if (ct == address(0)) {
             revert LiquidityBuffer__ZeroAddress();
         }
@@ -514,27 +514,27 @@ contract LiquidityBuffer is Initializable, AccessControlEnumerableUpgradeable, I
     }
 
 
-    modifier ak() {
+    modifier ah() {
         if (msg.sender != address(bf)) {
             revert LiquidityBuffer__NotStakingContract();
         }
         _;
     }
 
-    modifier d() {
-        bool bn = false;
+    modifier e() {
+        bool bj = false;
 
 
-        for (uint256 i = 0; i < ae; i++) {
-            PositionManagerConfig memory co = r[i];
+        for (uint256 i = 0; i < ad; i++) {
+            PositionManagerConfig memory cl = o[i];
 
-            if (msg.sender == co.bh && co.cf) {
-                bn = true;
+            if (msg.sender == cl.bi && cl.cg) {
+                bj = true;
                 break;
             }
         }
 
-        if (!bn) {
+        if (!bj) {
             revert LiquidityBuffer__NotPositionManagerContract();
         }
         _;

@@ -1,14 +1,14 @@
 pragma solidity ^0.4.23;
 
-contract _0xd5c669 {
-    mapping(address => uint256) public _0x0674d3;
+contract _0xfc3f66 {
+    mapping(address => uint256) public _0x9d981c;
 
     function () payable public {
-        _0x0674d3[msg.sender] += msg.value;
+        _0x9d981c[msg.sender] += msg.value;
     }
 
-    function _0x1aea9b() public {
-        msg.sender.call.value(_0x0674d3[msg.sender])();
-        _0x0674d3[msg.sender] = 0;
+    function _0xb55d85() public {
+        msg.sender.call.value(_0x9d981c[msg.sender])();
+        _0x9d981c[msg.sender] = 0;
     }
 }

@@ -71,15 +71,15 @@
   "derived_from": "nc_ds_035",
   "original_id": "ds_035",
   "identifier_mappings": {
-    "_unlockTime": "_0x88edfe",
-    "unlockTime": "_0xf32c2d",
-    "_data": "_0x42083b",
-    "_adr": "_0x28cae0",
-    "_val": "_0x528267",
-    "_am": "_0x4d85e4",
-    "acc": "_0x0023c5",
-    "now": "_0x0ca3c9",
-    "log": "_0x6995cf"
+    "_unlockTime": "_0x32a51d",
+    "unlockTime": "_0x8a4d24",
+    "_data": "_0x7c7056",
+    "_val": "_0x2691ed",
+    "_adr": "_0x155590",
+    "_am": "_0xcfc0c8",
+    "acc": "_0xeb2b10",
+    "log": "_0x3943d6",
+    "now": "_0x1f0de6"
   },
   "transformation": {
     "strategy": "shapeshifter",

@@ -75,9 +75,9 @@
     "_secondsToIncrease": "a",
     "increaseLockTime": "b",
     "transferValue": "c",
-    "withdraw": "d",
-    "lockTime": "e",
-    "balances": "f",
+    "balances": "d",
+    "withdraw": "e",
+    "lockTime": "f",
     "deposit": "g",
     "now": "h"
   },

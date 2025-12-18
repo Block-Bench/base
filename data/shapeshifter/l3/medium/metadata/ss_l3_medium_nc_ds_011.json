@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Phishable",
-      "function_name": "_0x82e1b7",
+      "function_name": "_0xd8b64e",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 20",
@@ -70,10 +70,10 @@
   "derived_from": "nc_ds_011",
   "original_id": "ds_011",
   "identifier_mappings": {
-    "withdrawAll": "_0x82e1b7",
-    "_recipient": "_0x2fd9a5",
-    "_owner": "_0x0eb904",
-    "owner": "_0x2a8be6"
+    "withdrawAll": "_0xd8b64e",
+    "_recipient": "_0x16e7cb",
+    "_owner": "_0x0aa676",
+    "owner": "_0x8b8c66"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -81,11 +81,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 4 identifiers using hex style"
+      "Renamed 4 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdrawAll \u2192 _0x82e1b7"
+      "Transformed ground_truth.vulnerable_location.function_name: withdrawAll \u2192 _0xd8b64e"
     ]
   }
 }

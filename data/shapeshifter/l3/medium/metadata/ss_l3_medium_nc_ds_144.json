@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "TokenSaleChallenge",
-      "function_name": "_0xf441fc",
+      "function_name": "_0x83d4fa",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 23",
@@ -70,12 +70,12 @@
   "derived_from": "nc_ds_144",
   "original_id": "ds_144",
   "identifier_mappings": {
-    "isComplete": "_0x28257e",
-    "numTokens": "_0x6d70d1",
-    "balanceOf": "_0xcef96f",
-    "_player": "_0xcccad8",
-    "sell": "_0xe379b9",
-    "buy": "_0xf441fc"
+    "isComplete": "_0xe55ec4",
+    "numTokens": "_0x70530f",
+    "balanceOf": "_0xed38f3",
+    "_player": "_0x33c8b0",
+    "sell": "_0x35e182",
+    "buy": "_0x83d4fa"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -87,7 +87,7 @@
     ],
     "rename_map_size": 6,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: buy \u2192 _0xf441fc"
+      "Transformed ground_truth.vulnerable_location.function_name: buy \u2192 _0x83d4fa"
     ]
   }
 }

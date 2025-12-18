@@ -7,7 +7,7 @@
     "vulnerability_type": "other",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "_0xddc51e",
+      "contract_name": "_0x7433cf",
       "function_name": "transfer",
       "line_numbers": []
     },
@@ -29,7 +29,7 @@
     "num_lines": 15,
     "num_contracts": 1,
     "contract_names": [
-      "_0xddc51e"
+      "_0x7433cf"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -70,11 +70,11 @@
   "derived_from": "nc_ds_055",
   "original_id": "ds_055",
   "identifier_mappings": {
-    "keccak256": "_0xf33df1",
-    "caddress": "_0xe7e3ff",
-    "airPort": "_0xddc51e",
-    "_tos": "_0xcdf344",
-    "id": "_0x1d38fe"
+    "keccak256": "_0x1add66",
+    "caddress": "_0x77d0f2",
+    "airPort": "_0x7433cf",
+    "_tos": "_0x325af4",
+    "id": "_0x7e4fed"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -86,8 +86,8 @@
     ],
     "rename_map_size": 5,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.contract_name: airPort \u2192 _0xddc51e",
-      "Transformed code_metadata.contract_names item: airPort \u2192 _0xddc51e"
+      "Transformed ground_truth.vulnerable_location.contract_name: airPort \u2192 _0x7433cf",
+      "Transformed code_metadata.contract_names item: airPort \u2192 _0x7433cf"
     ]
   }
 }

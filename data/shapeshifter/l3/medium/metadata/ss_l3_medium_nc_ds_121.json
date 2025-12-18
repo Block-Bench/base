@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "SimpleAuction",
-      "function_name": "_0xed0dcf",
+      "function_name": "_0x23ed06",
       "line_numbers": []
     },
     "root_cause": "# Denial of Service",
@@ -67,12 +67,12 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "currentFrontrunner": "_0x62d857",
-    "currentBid": "_0x8bd7fc",
-    "withdraw": "_0x09aafd",
-    "refunds": "_0xee251e",
-    "refund": "_0x7a8d3a",
-    "bid": "_0xed0dcf"
+    "currentFrontrunner": "_0xb3e634",
+    "currentBid": "_0xf9f340",
+    "withdraw": "_0xd1bf53",
+    "refunds": "_0x89e1f0",
+    "refund": "_0x36cafa",
+    "bid": "_0x23ed06"
   },
   "original_contract_file": "base/contracts/ds_121.sol",
   "sanitized_from": "ds_121",
@@ -89,7 +89,7 @@
     ],
     "rename_map_size": 6,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: bid \u2192 _0xed0dcf"
+      "Transformed ground_truth.vulnerable_location.function_name: bid \u2192 _0x23ed06"
     ]
   }
 }

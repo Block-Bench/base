@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "CrowdFundBasic",
-      "function_name": "_0x27286f",
+      "function_name": "_0x9d7442",
       "line_numbers": []
     },
     "root_cause": "# Denial of Service",
@@ -68,13 +68,13 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "refundAddresses": "_0x9e262b",
-    "refundBatched": "_0x7dfc21",
-    "refundAmount": "_0x07a82d",
-    "refundAll": "_0x27286f",
-    "withdraw": "_0x7bbeb1",
-    "nextIdx": "_0x94f71b",
-    "refund": "_0x8cee7b"
+    "refundAddresses": "_0x54528d",
+    "refundBatched": "_0x8f4a73",
+    "refundAmount": "_0x0799c3",
+    "refundAll": "_0x9d7442",
+    "withdraw": "_0xf5766a",
+    "nextIdx": "_0xc489bd",
+    "refund": "_0xb0a34e"
   },
   "original_contract_file": "base/contracts/ds_120.sol",
   "sanitized_from": "ds_120",
@@ -90,7 +90,7 @@
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: refundAll \u2192 _0x27286f"
+      "Transformed ground_truth.vulnerable_location.function_name: refundAll \u2192 _0x9d7442"
     ]
   }
 }

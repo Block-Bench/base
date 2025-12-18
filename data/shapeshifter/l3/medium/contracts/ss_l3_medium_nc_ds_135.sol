@@ -1,9 +1,9 @@
 pragma solidity ^0.4.11;
 
 contract MappingCounter {
-    mapping(uint256 => uint256) _0xd25a51;
+    mapping(uint256 => uint256) _0xe87a97;
 
-    function _0x6edc6c(uint256 k, uint256 v) public {
-        _0xd25a51[k] -= v;
+    function _0x6032b0(uint256 k, uint256 v) public {
+        _0xe87a97[k] -= v;
     }
 }

@@ -2,59 +2,59 @@ pragma solidity ^0.8.0;
 
 
 interface IERC777 {
-    function transfer(address _0x53272d, uint256 _0x9eb3d1) external returns (bool);
+    function transfer(address _0xef5eeb, uint256 _0x6e1134) external returns (bool);
 
-    function _0xc8dcc3(address _0xd62b0a) external view returns (uint256);
+    function _0x632793(address _0xccaba7) external view returns (uint256);
 }
 
 interface IERC1820Registry {
-    function _0x925245(
-        address _0xd62b0a,
-        bytes32 _0xdaa7ab,
-        address _0xa4bf07
+    function _0x4dbec6(
+        address _0xccaba7,
+        bytes32 _0x0a32df,
+        address _0xae20f8
     ) external;
 }
 
 contract LendingPool {
-    mapping(address => mapping(address => uint256)) public _0x5f7398;
-    mapping(address => uint256) public _0x9a0c59;
+    mapping(address => mapping(address => uint256)) public _0x09b664;
+    mapping(address => uint256) public _0x7c5e03;
 
-    function _0x9a77ee(address _0x1929eb, uint256 _0x9eb3d1) external returns (uint256) {
-        IERC777 _0x3afc73 = IERC777(_0x1929eb);
+    function _0x60a10d(address _0x1b839e, uint256 _0x6e1134) external returns (uint256) {
+        IERC777 _0xf77193 = IERC777(_0x1b839e);
 
-        require(_0x3afc73.transfer(address(this), _0x9eb3d1), "Transfer failed");
+        require(_0xf77193.transfer(address(this), _0x6e1134), "Transfer failed");
 
-        _0x5f7398[msg.sender][_0x1929eb] += _0x9eb3d1;
-        _0x9a0c59[_0x1929eb] += _0x9eb3d1;
+        _0x09b664[msg.sender][_0x1b839e] += _0x6e1134;
+        _0x7c5e03[_0x1b839e] += _0x6e1134;
 
-        return _0x9eb3d1;
+        return _0x6e1134;
     }
 
-    function _0x1e24b1(
-        address _0x1929eb,
-        uint256 _0xfdc13f
+    function _0xfe7259(
+        address _0x1b839e,
+        uint256 _0x2d9d32
     ) external returns (uint256) {
-        uint256 _0x42371f = _0x5f7398[msg.sender][_0x1929eb];
-        require(_0x42371f > 0, "No balance");
+        uint256 _0x70cb2a = _0x09b664[msg.sender][_0x1b839e];
+        require(_0x70cb2a > 0, "No balance");
 
-        uint256 _0xc77d86 = _0xfdc13f;
-        if (_0xfdc13f == type(uint256)._0x6e32af) {
-            _0xc77d86 = _0x42371f;
+        uint256 _0xd7db8f = _0x2d9d32;
+        if (_0x2d9d32 == type(uint256)._0x0fe182) {
+            _0xd7db8f = _0x70cb2a;
         }
-        require(_0xc77d86 <= _0x42371f, "Insufficient balance");
+        require(_0xd7db8f <= _0x70cb2a, "Insufficient balance");
 
-        IERC777(_0x1929eb).transfer(msg.sender, _0xc77d86);
+        IERC777(_0x1b839e).transfer(msg.sender, _0xd7db8f);
 
-        _0x5f7398[msg.sender][_0x1929eb] -= _0xc77d86;
-        _0x9a0c59[_0x1929eb] -= _0xc77d86;
+        _0x09b664[msg.sender][_0x1b839e] -= _0xd7db8f;
+        _0x7c5e03[_0x1b839e] -= _0xd7db8f;
 
-        return _0xc77d86;
+        return _0xd7db8f;
     }
 
-    function _0xb610c5(
-        address _0x9440a3,
-        address _0x1929eb
+    function _0x41349b(
+        address _0x73b601,
+        address _0x1b839e
     ) external view returns (uint256) {
-        return _0x5f7398[_0x9440a3][_0x1929eb];
+        return _0x09b664[_0x73b601][_0x1b839e];
     }
 }

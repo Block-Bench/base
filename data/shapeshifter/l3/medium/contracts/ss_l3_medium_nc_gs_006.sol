@@ -24,327 +24,327 @@ contract GaugeCL is ReentrancyGuard, Ownable, IERC721Receiver {
     using SafeERC20 for IERC20;
     using EnumerableSet for EnumerableSet.UintSet;
     using SafeCast for uint128;
-    IERC20 public immutable _0x5deb8a;
-    address public immutable _0x12aa4e;
+    IERC20 public immutable _0x244150;
+    address public immutable _0x00fe1f;
     address public VE;
     address public DISTRIBUTION;
-    address public _0xdebf24;
-    address public _0x70d304;
+    address public _0x1ccf76;
+    address public _0x565115;
 
     uint256 public DURATION;
-    uint256 internal _0x4d9235;
-    uint256 public _0x485476;
-    ICLPool public _0x86ac98;
-    address public _0x354108;
-    INonfungiblePositionManager public _0x323db7;
+    uint256 internal _0x2b7972;
+    uint256 public _0xf3cc85;
+    ICLPool public _0xfb15a1;
+    address public _0x027114;
+    INonfungiblePositionManager public _0x15dd58;
 
-    bool public _0xd52d96;
-    bool public immutable _0xdb57b0;
-    address immutable _0x835570;
+    bool public _0x1671d0;
+    bool public immutable _0xda9318;
+    address immutable _0xdbf42a;
 
-    mapping(uint256 => uint256) public  _0xb1a810;
-    mapping(address => EnumerableSet.UintSet) internal _0x19b6ab;
-    mapping(uint256 => uint256) public  _0x2825a7;
+    mapping(uint256 => uint256) public  _0x0330e3;
+    mapping(address => EnumerableSet.UintSet) internal _0x3a1211;
+    mapping(uint256 => uint256) public  _0xcc0985;
 
-    mapping(uint256 => uint256) public  _0xe38dda;
+    mapping(uint256 => uint256) public  _0x269a7d;
 
-    mapping(uint256 => uint256) public  _0xebeeaf;
+    mapping(uint256 => uint256) public  _0x6d8d2b;
 
-    event RewardAdded(uint256 _0x3d1655);
-    event Deposit(address indexed _0x838b2c, uint256 _0x98c271);
-    event Withdraw(address indexed _0x838b2c, uint256 _0x98c271);
-    event Harvest(address indexed _0x838b2c, uint256 _0x3d1655);
-    event ClaimFees(address indexed from, uint256 _0x629e04, uint256 _0xa9afe7);
-    event EmergencyActivated(address indexed _0xded2f1, uint256 timestamp);
-    event EmergencyDeactivated(address indexed _0xded2f1, uint256 timestamp);
+    event RewardAdded(uint256 _0x8ed574);
+    event Deposit(address indexed _0xcd8389, uint256 _0xc26ab8);
+    event Withdraw(address indexed _0xcd8389, uint256 _0xc26ab8);
+    event Harvest(address indexed _0xcd8389, uint256 _0x8ed574);
+    event ClaimFees(address indexed from, uint256 _0xd36f55, uint256 _0xdc53c7);
+    event EmergencyActivated(address indexed _0x035773, uint256 timestamp);
+    event EmergencyDeactivated(address indexed _0x035773, uint256 timestamp);
 
-    constructor(address _0x8e5f9f, address _0x4899d9, address _0xe2180c, address _0x4cac60, address _0x3eea07, address _0x733d3d,
-        address _0x40f901, bool _0xdf7f38, address _0x1c0840,  address _0x59abcc) {
-        _0x835570 = _0x59abcc;
-        _0x5deb8a = IERC20(_0x8e5f9f);
-        _0x12aa4e = _0x4899d9;
-        VE = _0xe2180c;
-        _0x354108 = _0x4cac60;
-        _0x86ac98 = ICLPool(_0x4cac60);
-        DISTRIBUTION = _0x3eea07;
+    constructor(address _0x8e1be9, address _0xe4f129, address _0xdc6622, address _0x4d3286, address _0x6872ac, address _0x5cdfcb,
+        address _0x64e21e, bool _0x8e500d, address _0x87f187,  address _0x1cd298) {
+        _0xdbf42a = _0x1cd298;
+        _0x244150 = IERC20(_0x8e1be9);
+        _0x00fe1f = _0xe4f129;
+        VE = _0xdc6622;
+        _0x027114 = _0x4d3286;
+        _0xfb15a1 = ICLPool(_0x4d3286);
+        DISTRIBUTION = _0x6872ac;
         DURATION = HybraTimeLibrary.WEEK;
 
-        _0xdebf24 = _0x733d3d;
-        _0x70d304 = _0x40f901;
-        _0xdb57b0 = _0xdf7f38;
-        _0x323db7 = INonfungiblePositionManager(_0x1c0840);
-        _0xd52d96 = false;
+        _0x1ccf76 = _0x5cdfcb;
+        _0x565115 = _0x64e21e;
+        _0xda9318 = _0x8e500d;
+        _0x15dd58 = INonfungiblePositionManager(_0x87f187);
+        _0x1671d0 = false;
     }
 
-    modifier _0xf1a89b() {
+    modifier _0x42388f() {
         require(msg.sender == DISTRIBUTION, "Caller is not RewardsDistribution contract");
         _;
     }
 
-    modifier _0xc92217() {
-        require(_0xd52d96 == false, "emergency");
+    modifier _0x745af9() {
+        require(_0x1671d0 == false, "emergency");
         _;
     }
 
-    function _0xe7491d(uint256 _0x443b5c, int24 _0xaa9a5e, int24 _0x6e38e1) internal {
-        if (_0xebeeaf[_0x443b5c] == block.timestamp) return;
-        _0x86ac98._0xfd5cf8();
-        _0xebeeaf[_0x443b5c] = block.timestamp;
-        _0xe38dda[_0x443b5c] += _0x31c153(_0x443b5c);
-        _0x2825a7[_0x443b5c] = _0x86ac98._0x6b7231(_0xaa9a5e, _0x6e38e1, 0);
+    function _0xd46d20(uint256 _0x73147f, int24 _0x9aef0b, int24 _0xe58492) internal {
+        if (_0x6d8d2b[_0x73147f] == block.timestamp) return;
+        _0xfb15a1._0xe6465f();
+        _0x6d8d2b[_0x73147f] = block.timestamp;
+        _0x269a7d[_0x73147f] += _0x13da62(_0x73147f);
+        _0xcc0985[_0x73147f] = _0xfb15a1._0xc7272e(_0x9aef0b, _0xe58492, 0);
     }
 
-    function _0x31b75a() external _0x4ffb3c {
-        require(_0xd52d96 == false, "emergency");
-        _0xd52d96 = true;
+    function _0xc26e1d() external _0x198972 {
+        require(_0x1671d0 == false, "emergency");
+        if (block.timestamp > 0) { _0x1671d0 = true; }
         emit EmergencyActivated(address(this), block.timestamp);
     }
 
-    function _0xf1baf5() external _0x4ffb3c {
+    function _0xc8e8b7() external _0x198972 {
 
-        require(_0xd52d96 == true,"emergency");
+        require(_0x1671d0 == true,"emergency");
 
-        _0xd52d96 = false;
+        _0x1671d0 = false;
         emit EmergencyDeactivated(address(this), block.timestamp);
     }
 
-    function _0x506a34(uint256 _0x443b5c) external view returns (uint256) {
-        (,,,,,,,uint128 _0x9aff2b,,,,) = _0x323db7._0x95f0a5(_0x443b5c);
-        return _0x9aff2b;
+    function _0x54796b(uint256 _0x73147f) external view returns (uint256) {
+        (,,,,,,,uint128 _0x9dfe66,,,,) = _0x15dd58._0xc2e078(_0x73147f);
+        return _0x9dfe66;
     }
 
-    function _0x446af1(address _0x159d78, address _0x2b27e8, int24 _0x86f355) internal view returns (address) {
-        return ICLFactory(_0x323db7._0x835570())._0xb90215(_0x159d78, _0x2b27e8, _0x86f355);
+    function _0x634454(address _0xc448c0, address _0xb573c2, int24 _0xaca909) internal view returns (address) {
+        return ICLFactory(_0x15dd58._0xdbf42a())._0xcc22c7(_0xc448c0, _0xb573c2, _0xaca909);
     }
 
-    function _0x87715b(uint256 _0x443b5c) external view returns (uint256 _0x3d1655) {
-        require(_0x19b6ab[msg.sender]._0x5d9200(_0x443b5c), "NA");
+    function _0x2c559e(uint256 _0x73147f) external view returns (uint256 _0x8ed574) {
+        require(_0x3a1211[msg.sender]._0x3ba486(_0x73147f), "NA");
 
-        uint256 _0x3d1655 = _0x31c153(_0x443b5c);
-        return (_0x3d1655);
+        uint256 _0x8ed574 = _0x13da62(_0x73147f);
+        return (_0x8ed574);
     }
 
-       function _0x31c153(uint256 _0x443b5c) internal view returns (uint256) {
-        uint256 _0x02b6f8 = _0x86ac98._0x02b6f8();
+       function _0x13da62(uint256 _0x73147f) internal view returns (uint256) {
+        uint256 _0x2894ab = _0xfb15a1._0x2894ab();
 
-        uint256 _0xe709d7 = block.timestamp - _0x02b6f8;
+        uint256 _0x07b1c5 = block.timestamp - _0x2894ab;
 
-        uint256 _0x9a870f = _0x86ac98._0x9a870f();
-        uint256 _0x29d7a5 = _0x86ac98._0x29d7a5();
+        uint256 _0xd1bcc9 = _0xfb15a1._0xd1bcc9();
+        uint256 _0x2a68c1 = _0xfb15a1._0x2a68c1();
 
-        if (_0xe709d7 != 0 && _0x29d7a5 > 0 && _0x86ac98._0x2ceef0() > 0) {
-            uint256 _0x3d1655 = _0x485476 * _0xe709d7;
-            if (_0x3d1655 > _0x29d7a5) _0x3d1655 = _0x29d7a5;
+        if (_0x07b1c5 != 0 && _0x2a68c1 > 0 && _0xfb15a1._0x946176() > 0) {
+            uint256 _0x8ed574 = _0xf3cc85 * _0x07b1c5;
+            if (_0x8ed574 > _0x2a68c1) _0x8ed574 = _0x2a68c1;
 
-            _0x9a870f += FullMath._0xd9ee89(_0x3d1655, FixedPoint128.Q128, _0x86ac98._0x2ceef0());
+            _0xd1bcc9 += FullMath._0x522d54(_0x8ed574, FixedPoint128.Q128, _0xfb15a1._0x946176());
         }
 
-        (,,,,, int24 _0xaa9a5e, int24 _0x6e38e1, uint128 _0x9aff2b,,,,) = _0x323db7._0x95f0a5(_0x443b5c);
+        (,,,,, int24 _0x9aef0b, int24 _0xe58492, uint128 _0x9dfe66,,,,) = _0x15dd58._0xc2e078(_0x73147f);
 
-        uint256 _0x78e302 = _0x2825a7[_0x443b5c];
-        uint256 _0x24758b = _0x86ac98._0x6b7231(_0xaa9a5e, _0x6e38e1, _0x9a870f);
+        uint256 _0x59d8df = _0xcc0985[_0x73147f];
+        uint256 _0xeefdfa = _0xfb15a1._0xc7272e(_0x9aef0b, _0xe58492, _0xd1bcc9);
 
-        uint256 _0xe4ee0e =
-            FullMath._0xd9ee89(_0x24758b - _0x78e302, _0x9aff2b, FixedPoint128.Q128);
-        return _0xe4ee0e;
+        uint256 _0x714faf =
+            FullMath._0x522d54(_0xeefdfa - _0x59d8df, _0x9dfe66, FixedPoint128.Q128);
+        return _0x714faf;
     }
 
-    function _0x1344e8(uint256 _0x443b5c) external _0xd10f3c _0xc92217 {
+    function _0xd03d98(uint256 _0x73147f) external _0x7b257c _0x745af9 {
 
-         (,,address _0x159d78, address _0x2b27e8, int24 _0x86f355, int24 _0xaa9a5e, int24 _0x6e38e1, uint128 _0x9aff2b,,,,) =
-            _0x323db7._0x95f0a5(_0x443b5c);
+         (,,address _0xc448c0, address _0xb573c2, int24 _0xaca909, int24 _0x9aef0b, int24 _0xe58492, uint128 _0x9dfe66,,,,) =
+            _0x15dd58._0xc2e078(_0x73147f);
 
-        require(_0x9aff2b > 0, "Gauge: zero liquidity");
+        require(_0x9dfe66 > 0, "Gauge: zero liquidity");
 
-        address _0x54aed3 = _0x446af1(_0x159d78, _0x2b27e8, _0x86f355);
+        address _0x496621 = _0x634454(_0xc448c0, _0xb573c2, _0xaca909);
 
-        require(_0x54aed3 == _0x354108, "Pool mismatch: Position not for this gauge pool");
+        require(_0x496621 == _0x027114, "Pool mismatch: Position not for this gauge pool");
 
-        _0x323db7._0x3094ff(INonfungiblePositionManager.CollectParams({
-                _0x443b5c: _0x443b5c,
-                _0xd94e73: msg.sender,
-                _0xca4b45: type(uint128)._0x22d1f6,
-                _0x7c9fcf: type(uint128)._0x22d1f6
+        _0x15dd58._0x79b44a(INonfungiblePositionManager.CollectParams({
+                _0x73147f: _0x73147f,
+                _0xa5b89e: msg.sender,
+                _0xb5b1a1: type(uint128)._0x1611bf,
+                _0x6c29ba: type(uint128)._0x1611bf
             }));
 
-        _0x323db7._0x1c176e(msg.sender, address(this), _0x443b5c);
+        _0x15dd58._0x734472(msg.sender, address(this), _0x73147f);
 
-        _0x86ac98._0x6e667c(int128(_0x9aff2b), _0xaa9a5e, _0x6e38e1, true);
+        _0xfb15a1._0x5fb416(int128(_0x9dfe66), _0x9aef0b, _0xe58492, true);
 
-        uint256 _0x7ee89d = _0x86ac98._0x6b7231(_0xaa9a5e, _0x6e38e1, 0);
-        _0x2825a7[_0x443b5c] = _0x7ee89d;
-        _0xebeeaf[_0x443b5c] = block.timestamp;
+        uint256 _0x3d9fd6 = _0xfb15a1._0xc7272e(_0x9aef0b, _0xe58492, 0);
+        _0xcc0985[_0x73147f] = _0x3d9fd6;
+        _0x6d8d2b[_0x73147f] = block.timestamp;
 
-        _0x19b6ab[msg.sender]._0xed8a00(_0x443b5c);
+        _0x3a1211[msg.sender]._0xfc8e0e(_0x73147f);
 
-        emit Deposit(msg.sender, _0x443b5c);
+        emit Deposit(msg.sender, _0x73147f);
     }
 
-    function _0x3678e5(uint256 _0x443b5c, uint8 _0xc025a0) external _0xd10f3c _0xc92217 {
-           require(_0x19b6ab[msg.sender]._0x5d9200(_0x443b5c), "NA");
+    function _0xa12f9e(uint256 _0x73147f, uint8 _0xa6aa53) external _0x7b257c _0x745af9 {
+           require(_0x3a1211[msg.sender]._0x3ba486(_0x73147f), "NA");
 
 
-        _0x323db7._0x3094ff(
+        _0x15dd58._0x79b44a(
             INonfungiblePositionManager.CollectParams({
-                _0x443b5c: _0x443b5c,
-                _0xd94e73: msg.sender,
-                _0xca4b45: type(uint128)._0x22d1f6,
-                _0x7c9fcf: type(uint128)._0x22d1f6
+                _0x73147f: _0x73147f,
+                _0xa5b89e: msg.sender,
+                _0xb5b1a1: type(uint128)._0x1611bf,
+                _0x6c29ba: type(uint128)._0x1611bf
             })
         );
 
-        (,,,,, int24 _0xaa9a5e, int24 _0x6e38e1, uint128 _0x78f9ab,,,,) = _0x323db7._0x95f0a5(_0x443b5c);
-        _0xaa9c33(_0xaa9a5e, _0x6e38e1, _0x443b5c, msg.sender, _0xc025a0);
+        (,,,,, int24 _0x9aef0b, int24 _0xe58492, uint128 _0x717eee,,,,) = _0x15dd58._0xc2e078(_0x73147f);
+        _0xecbaa7(_0x9aef0b, _0xe58492, _0x73147f, msg.sender, _0xa6aa53);
 
 
-        if (_0x78f9ab != 0) {
-            _0x86ac98._0x6e667c(-int128(_0x78f9ab), _0xaa9a5e, _0x6e38e1, true);
+        if (_0x717eee != 0) {
+            _0xfb15a1._0x5fb416(-int128(_0x717eee), _0x9aef0b, _0xe58492, true);
         }
 
-        _0x19b6ab[msg.sender]._0x696b98(_0x443b5c);
-        _0x323db7._0x1c176e(address(this), msg.sender, _0x443b5c);
+        _0x3a1211[msg.sender]._0x983753(_0x73147f);
+        _0x15dd58._0x734472(address(this), msg.sender, _0x73147f);
 
-        emit Withdraw(msg.sender, _0x443b5c);
+        emit Withdraw(msg.sender, _0x73147f);
     }
 
-    function _0x6ebaf7(uint256 _0x443b5c, address _0x19f0c6,uint8 _0xc025a0 ) public _0xd10f3c _0xf1a89b {
+    function _0xd3064c(uint256 _0x73147f, address _0x97b5ae,uint8 _0xa6aa53 ) public _0x7b257c _0x42388f {
 
-        require(_0x19b6ab[_0x19f0c6]._0x5d9200(_0x443b5c), "NA");
+        require(_0x3a1211[_0x97b5ae]._0x3ba486(_0x73147f), "NA");
 
-        (,,,,, int24 _0xaa9a5e, int24 _0x6e38e1,,,,,) = _0x323db7._0x95f0a5(_0x443b5c);
-        _0xaa9c33(_0xaa9a5e, _0x6e38e1, _0x443b5c, _0x19f0c6, _0xc025a0);
+        (,,,,, int24 _0x9aef0b, int24 _0xe58492,,,,,) = _0x15dd58._0xc2e078(_0x73147f);
+        _0xecbaa7(_0x9aef0b, _0xe58492, _0x73147f, _0x97b5ae, _0xa6aa53);
     }
 
-    function _0xaa9c33(int24 _0xaa9a5e, int24 _0x6e38e1, uint256 _0x443b5c,address _0x19f0c6, uint8 _0xc025a0) internal {
-        _0xe7491d(_0x443b5c, _0xaa9a5e, _0x6e38e1);
-        uint256 _0xb24aae = _0xe38dda[_0x443b5c];
-        if(_0xb24aae > 0){
-            delete _0xe38dda[_0x443b5c];
-            _0x5deb8a._0xa348f4(_0x12aa4e, _0xb24aae);
-            IRHYBR(_0x12aa4e)._0x284e78(_0xb24aae);
-            IRHYBR(_0x12aa4e)._0x9f6e0a(_0xb24aae, _0xc025a0, _0x19f0c6);
+    function _0xecbaa7(int24 _0x9aef0b, int24 _0xe58492, uint256 _0x73147f,address _0x97b5ae, uint8 _0xa6aa53) internal {
+        _0xd46d20(_0x73147f, _0x9aef0b, _0xe58492);
+        uint256 _0x3398e5 = _0x269a7d[_0x73147f];
+        if(_0x3398e5 > 0){
+            delete _0x269a7d[_0x73147f];
+            _0x244150._0xdf7802(_0x00fe1f, _0x3398e5);
+            IRHYBR(_0x00fe1f)._0x8f5117(_0x3398e5);
+            IRHYBR(_0x00fe1f)._0xb985be(_0x3398e5, _0xa6aa53, _0x97b5ae);
         }
-        emit Harvest(msg.sender, _0xb24aae);
+        emit Harvest(msg.sender, _0x3398e5);
     }
 
-    function _0x13e31c(address _0x01636d, uint256 _0xb24aae) external _0xd10f3c
-        _0xc92217 _0xf1a89b returns (uint256 _0xd1e339) {
-        require(_0x01636d == address(_0x5deb8a), "Invalid reward token");
+    function _0xb76167(address _0x0cad45, uint256 _0x3398e5) external _0x7b257c
+        _0x745af9 _0x42388f returns (uint256 _0x829229) {
+        require(_0x0cad45 == address(_0x244150), "Invalid reward token");
 
 
-        _0x86ac98._0xfd5cf8();
+        _0xfb15a1._0xe6465f();
 
 
-        uint256 _0x68ee92 = HybraTimeLibrary._0x402445(block.timestamp) - block.timestamp;
-        uint256 _0x4facd7 = block.timestamp + _0x68ee92;
+        uint256 _0x33f3b9 = HybraTimeLibrary._0x9f22fd(block.timestamp) - block.timestamp;
+        uint256 _0x2ad975 = block.timestamp + _0x33f3b9;
 
 
-        uint256 _0x63fefa = _0xb24aae + _0x86ac98._0x02b5e9();
+        uint256 _0xbe2feb = _0x3398e5 + _0xfb15a1._0x1b27c2();
 
 
-        if (block.timestamp >= _0x4d9235) {
+        if (block.timestamp >= _0x2b7972) {
 
-            _0x485476 = _0xb24aae / _0x68ee92;
-            _0x86ac98._0x02b208({
-                _0x485476: _0x485476,
-                _0x29d7a5: _0x63fefa,
-                _0xd15aa9: _0x4facd7
+            _0xf3cc85 = _0x3398e5 / _0x33f3b9;
+            _0xfb15a1._0xd8d150({
+                _0xf3cc85: _0xf3cc85,
+                _0x2a68c1: _0xbe2feb,
+                _0x6bd9e0: _0x2ad975
             });
         } else {
 
-            uint256 _0x847c25 = _0x68ee92 * _0x485476;
-            _0x485476 = (_0xb24aae + _0x847c25) / _0x68ee92;
-            _0x86ac98._0x02b208({
-                _0x485476: _0x485476,
-                _0x29d7a5: _0x63fefa + _0x847c25,
-                _0xd15aa9: _0x4facd7
+            uint256 _0x332427 = _0x33f3b9 * _0xf3cc85;
+            _0xf3cc85 = (_0x3398e5 + _0x332427) / _0x33f3b9;
+            _0xfb15a1._0xd8d150({
+                _0xf3cc85: _0xf3cc85,
+                _0x2a68c1: _0xbe2feb + _0x332427,
+                _0x6bd9e0: _0x2ad975
             });
         }
 
 
-        _0xb1a810[HybraTimeLibrary._0x64ae38(block.timestamp)] = _0x485476;
+        _0x0330e3[HybraTimeLibrary._0xfc3b7e(block.timestamp)] = _0xf3cc85;
 
 
-        _0x5deb8a._0x1c176e(DISTRIBUTION, address(this), _0xb24aae);
+        _0x244150._0x734472(DISTRIBUTION, address(this), _0x3398e5);
 
 
-        uint256 _0xbe6103 = _0x5deb8a._0x506a34(address(this));
-        require(_0x485476 <= _0xbe6103 / _0x68ee92, "Insufficient balance for reward rate");
+        uint256 _0x2f6e10 = _0x244150._0x54796b(address(this));
+        require(_0xf3cc85 <= _0x2f6e10 / _0x33f3b9, "Insufficient balance for reward rate");
 
 
-        _0x4d9235 = _0x4facd7;
-        _0xd1e339 = _0x485476;
+        _0x2b7972 = _0x2ad975;
+        _0x829229 = _0xf3cc85;
 
-        emit RewardAdded(_0xb24aae);
+        emit RewardAdded(_0x3398e5);
     }
 
-    function _0xa192b4() external view returns (uint256 _0x159d78, uint256 _0x2b27e8){
+    function _0xbfd2d3() external view returns (uint256 _0xc448c0, uint256 _0xb573c2){
 
-        (_0x159d78, _0x2b27e8) = _0x86ac98._0xaac0c7();
+        (_0xc448c0, _0xb573c2) = _0xfb15a1._0x2c7810();
 
     }
 
-    function _0x0b3520() external _0xd10f3c returns (uint256 _0x629e04, uint256 _0xa9afe7) {
-        return _0x3e3672();
+    function _0xbd5880() external _0x7b257c returns (uint256 _0xd36f55, uint256 _0xdc53c7) {
+        return _0x1a3845();
     }
 
-    function _0x3e3672() internal returns (uint256 _0x629e04, uint256 _0xa9afe7) {
-        if (!_0xdb57b0) {
+    function _0x1a3845() internal returns (uint256 _0xd36f55, uint256 _0xdc53c7) {
+        if (!_0xda9318) {
             return (0, 0);
         }
 
-        _0x86ac98._0xd8fe51();
+        _0xfb15a1._0xd1643d();
 
-        address _0x00561b = _0x86ac98._0x159d78();
-        address _0x547b2e = _0x86ac98._0x2b27e8();
+        address _0x364d63 = _0xfb15a1._0xc448c0();
+        address _0x87db6d = _0xfb15a1._0xb573c2();
 
-        _0x629e04 = IERC20(_0x00561b)._0x506a34(address(this));
-        _0xa9afe7 = IERC20(_0x547b2e)._0x506a34(address(this));
+        _0xd36f55 = IERC20(_0x364d63)._0x54796b(address(this));
+        _0xdc53c7 = IERC20(_0x87db6d)._0x54796b(address(this));
 
-        if (_0x629e04 > 0 || _0xa9afe7 > 0) {
+        if (_0xd36f55 > 0 || _0xdc53c7 > 0) {
 
-            uint256 _0xe4531b = _0x629e04;
-            uint256 _0xe6ddd4 = _0xa9afe7;
+            uint256 _0xa0885f = _0xd36f55;
+            uint256 _0x61808f = _0xdc53c7;
 
-            if (_0xe4531b  > 0) {
-                IERC20(_0x00561b)._0xa348f4(_0xdebf24, 0);
-                IERC20(_0x00561b)._0xa348f4(_0xdebf24, _0xe4531b);
-                IBribe(_0xdebf24)._0x13e31c(_0x00561b, _0xe4531b);
+            if (_0xa0885f  > 0) {
+                IERC20(_0x364d63)._0xdf7802(_0x1ccf76, 0);
+                IERC20(_0x364d63)._0xdf7802(_0x1ccf76, _0xa0885f);
+                IBribe(_0x1ccf76)._0xb76167(_0x364d63, _0xa0885f);
             }
-            if (_0xe6ddd4  > 0) {
-                IERC20(_0x547b2e)._0xa348f4(_0xdebf24, 0);
-                IERC20(_0x547b2e)._0xa348f4(_0xdebf24, _0xe6ddd4);
-                IBribe(_0xdebf24)._0x13e31c(_0x547b2e, _0xe6ddd4);
+            if (_0x61808f  > 0) {
+                IERC20(_0x87db6d)._0xdf7802(_0x1ccf76, 0);
+                IERC20(_0x87db6d)._0xdf7802(_0x1ccf76, _0x61808f);
+                IBribe(_0x1ccf76)._0xb76167(_0x87db6d, _0x61808f);
             }
-            emit ClaimFees(msg.sender, _0x629e04, _0xa9afe7);
+            emit ClaimFees(msg.sender, _0xd36f55, _0xdc53c7);
         }
     }
 
 
-    function _0x4a9613() external view returns (uint256) {
-        return _0x485476 * DURATION;
+    function _0x3af814() external view returns (uint256) {
+        return _0xf3cc85 * DURATION;
     }
 
 
-    function _0x4ac419(address _0xf7ee81) external _0x4ffb3c {
-        require(_0xf7ee81 >= address(0), "zero");
-        _0xdebf24 = _0xf7ee81;
+    function _0x9d2625(address _0x637541) external _0x198972 {
+        require(_0x637541 >= address(0), "zero");
+        if (block.timestamp > 0) { _0x1ccf76 = _0x637541; }
     }
 
-    function _0x776cb2(address _0x01636d,address _0x847eba,uint256 value) internal {
-        require(_0x01636d.code.length > 0);
-        (bool _0x45eb14, bytes memory data) = _0x01636d.call(abi._0x61b35e(IERC20.transfer.selector, _0x847eba, value));
-        require(_0x45eb14 && (data.length == 0 || abi._0x7820ef(data, (bool))));
+    function _0x63e18e(address _0x0cad45,address _0x67372f,uint256 value) internal {
+        require(_0x0cad45.code.length > 0);
+        (bool _0x5b50d1, bytes memory data) = _0x0cad45.call(abi._0x07618e(IERC20.transfer.selector, _0x67372f, value));
+        require(_0x5b50d1 && (data.length == 0 || abi._0xe19057(data, (bool))));
     }
 
 
-    function _0xbbde4b(
-        address _0xffe889,
+    function _0x3e684d(
+        address _0xe2346c,
         address from,
-        uint256 _0x443b5c,
+        uint256 _0x73147f,
         bytes calldata data
     ) external pure override returns (bytes4) {
-        return IERC721Receiver._0xbbde4b.selector;
+        return IERC721Receiver._0x3e684d.selector;
     }
 
 }

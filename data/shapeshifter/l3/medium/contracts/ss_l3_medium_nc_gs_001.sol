@@ -16,350 +16,350 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 contract GrowthHYBR is ERC20, Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
-    uint256 public _0xf7650c = 24 hours;
+    uint256 public _0xaaaea8 = 24 hours;
     uint256 public constant MIN_LOCK_PERIOD = 1 minutes;
     uint256 public constant MAX_LOCK_PERIOD = 240 minutes;
-    uint256 public _0x5a89c7 = 1200;
-    uint256 public _0xe0849a = 300;
+    uint256 public _0xadf5cc = 1200;
+    uint256 public _0xa4f705 = 300;
 
 
-    uint256 public _0x3b4006 = 100;
+    uint256 public _0x7ef047 = 100;
     uint256 public constant MIN_WITHDRAW_FEE = 10;
     uint256 public constant MAX_WITHDRAW_FEE = 1000;
     uint256 public constant BASIS = 10000;
     address public Team;
-    uint256 public _0x40ce1d;
-    uint256 public _0x4bbbc4;
-    uint256 public _0x33e5f3;
+    uint256 public _0x31ca07;
+    uint256 public _0x97948d;
+    uint256 public _0x4dc9da;
 
     struct UserLock {
-        uint256 _0xc0f86e;
-        uint256 _0x7a545c;
+        uint256 _0xe8aa9e;
+        uint256 _0xda0981;
     }
 
-    mapping(address => UserLock[]) public _0x432439;
-    mapping(address => uint256) public _0x707ac7;
+    mapping(address => UserLock[]) public _0x7813e2;
+    mapping(address => uint256) public _0x9f0083;
 
 
     address public immutable HYBR;
-    address public immutable _0x5a2eed;
-    address public _0x654b43;
-    address public _0x402011;
-    address public _0xc95bbc;
-    uint256 public _0x4b3d78;
+    address public immutable _0x4eabba;
+    address public _0x773c47;
+    address public _0xc4818e;
+    address public _0x3454d9;
+    uint256 public _0x5adfbc;
 
 
-    address public _0x73f78a;
-    uint256 public _0x2b0b3b;
+    address public _0x70d0e8;
+    uint256 public _0xa068eb;
 
 
-    uint256 public _0xdfc2c5;
-    uint256 public _0xaba87c;
+    uint256 public _0xcb871a;
+    uint256 public _0x70803c;
 
 
-    ISwapper public _0xfd6d83;
+    ISwapper public _0x5d4364;
 
 
     error NOT_AUTHORIZED();
 
 
-    event Deposit(address indexed _0x5f0ccf, uint256 _0x979bef, uint256 _0x55a49c);
-    event Withdraw(address indexed _0x5f0ccf, uint256 _0x684329, uint256 _0x979bef, uint256 _0x94abcc);
-    event Compound(uint256 _0x991ecb, uint256 _0x187391);
-    event PenaltyRewardReceived(uint256 _0xc0f86e);
-    event TransferLockPeriodUpdated(uint256 _0x38874e, uint256 _0xf320e7);
-    event SwapperUpdated(address indexed _0xc443ef, address indexed _0xdb86bd);
-    event VoterSet(address _0x654b43);
-    event EmergencyUnlock(address indexed _0x5f0ccf);
-    event AutoVotingEnabled(bool _0x5c1450);
-    event OperatorUpdated(address indexed _0xc6c247, address indexed _0x757e7f);
-    event DefaultVotingStrategyUpdated(address[] _0x5928f9, uint256[] _0xf500af);
-    event AutoVoteExecuted(uint256 _0xf48ae4, address[] _0x5928f9, uint256[] _0xf500af);
+    event Deposit(address indexed _0x7e6844, uint256 _0xce68a8, uint256 _0x4f3d10);
+    event Withdraw(address indexed _0x7e6844, uint256 _0x92cc93, uint256 _0xce68a8, uint256 _0x758ace);
+    event Compound(uint256 _0xde2412, uint256 _0xc01c47);
+    event PenaltyRewardReceived(uint256 _0xe8aa9e);
+    event TransferLockPeriodUpdated(uint256 _0x052e0d, uint256 _0xf612d6);
+    event SwapperUpdated(address indexed _0x512adc, address indexed _0x7403fa);
+    event VoterSet(address _0x773c47);
+    event EmergencyUnlock(address indexed _0x7e6844);
+    event AutoVotingEnabled(bool _0xae60cf);
+    event OperatorUpdated(address indexed _0x5507b0, address indexed _0x6d2907);
+    event DefaultVotingStrategyUpdated(address[] _0xb57515, uint256[] _0x00b9d1);
+    event AutoVoteExecuted(uint256 _0xabb927, address[] _0xb57515, uint256[] _0x00b9d1);
 
     constructor(
-        address _0x0cb2aa,
-        address _0xfb9c5a
+        address _0xd170b4,
+        address _0x619ae4
     ) ERC20("Growth HYBR", "gHYBR") {
-        require(_0x0cb2aa != address(0), "Invalid HYBR");
-        require(_0xfb9c5a != address(0), "Invalid VE");
+        require(_0xd170b4 != address(0), "Invalid HYBR");
+        require(_0x619ae4 != address(0), "Invalid VE");
 
-        HYBR = _0x0cb2aa;
-        _0x5a2eed = _0xfb9c5a;
-        _0xdfc2c5 = block.timestamp;
-        _0xaba87c = block.timestamp;
-        _0x73f78a = msg.sender;
+        HYBR = _0xd170b4;
+        _0x4eabba = _0x619ae4;
+        _0xcb871a = block.timestamp;
+        _0x70803c = block.timestamp;
+        _0x70d0e8 = msg.sender;
     }
 
-    function _0x7a7b77(address _0xc4201b) external _0x3b2bdf {
-        require(_0xc4201b != address(0), "Invalid rewards distributor");
-        if (msg.sender != address(0) || msg.sender == address(0)) { _0x402011 = _0xc4201b; }
+    function _0x9243cf(address _0x41e826) external _0x0a8ba7 {
+        require(_0x41e826 != address(0), "Invalid rewards distributor");
+        if (block.timestamp > 0) { _0xc4818e = _0x41e826; }
     }
 
-    function _0x534756(address _0x741f5b) external _0x3b2bdf {
-        require(_0x741f5b != address(0), "Invalid gauge manager");
-        _0xc95bbc = _0x741f5b;
+    function _0x69d64e(address _0x7f4850) external _0x0a8ba7 {
+        require(_0x7f4850 != address(0), "Invalid gauge manager");
+        _0x3454d9 = _0x7f4850;
     }
 
 
-    modifier _0x44d5b1() {
-        if (msg.sender != _0x73f78a) {
+    modifier _0xacafcf() {
+        if (msg.sender != _0x70d0e8) {
             revert NOT_AUTHORIZED();
         }
         _;
     }
 
-    function _0x6d4545(uint256 _0xc0f86e, address _0x66b75e) external _0xa239e6 {
-        require(_0xc0f86e > 0, "Zero amount");
-        _0x66b75e = _0x66b75e == address(0) ? msg.sender : _0x66b75e;
+    function _0xf9916b(uint256 _0xe8aa9e, address _0xe0adab) external _0xfc1165 {
+        require(_0xe8aa9e > 0, "Zero amount");
+        _0xe0adab = _0xe0adab == address(0) ? msg.sender : _0xe0adab;
 
 
-        IERC20(HYBR)._0xa5fa8b(msg.sender, address(this), _0xc0f86e);
+        IERC20(HYBR)._0xa99d49(msg.sender, address(this), _0xe8aa9e);
 
 
-        if (_0x4b3d78 == 0) {
-            _0xa58650(_0xc0f86e);
+        if (_0x5adfbc == 0) {
+            _0xbfeb5c(_0xe8aa9e);
         } else {
 
-            IERC20(HYBR)._0x41f27a(_0x5a2eed, _0xc0f86e);
-            IVotingEscrow(_0x5a2eed)._0xf6b592(_0x4b3d78, _0xc0f86e);
+            IERC20(HYBR)._0xdaf430(_0x4eabba, _0xe8aa9e);
+            IVotingEscrow(_0x4eabba)._0x8dccb9(_0x5adfbc, _0xe8aa9e);
 
 
-            _0x553ed2();
+            _0xdb880b();
         }
 
 
-        uint256 _0x684329 = _0xc4480f(_0xc0f86e);
+        uint256 _0x92cc93 = _0x4baf74(_0xe8aa9e);
 
 
-        _0x25b704(_0x66b75e, _0x684329);
+        _0xd184bd(_0xe0adab, _0x92cc93);
 
 
-        _0x1ebbdf(_0x66b75e, _0x684329);
+        _0xc598cd(_0xe0adab, _0x92cc93);
 
-        emit Deposit(msg.sender, _0xc0f86e, _0x684329);
+        emit Deposit(msg.sender, _0xe8aa9e, _0x92cc93);
     }
 
 
-    function _0xaf66f3(uint256 _0x684329) external _0xa239e6 returns (uint256 _0x27fbc4) {
-        require(_0x684329 > 0, "Zero shares");
-        require(_0x5b8a0b(msg.sender) >= _0x684329, "Insufficient balance");
-        require(_0x4b3d78 != 0, "No veNFT initialized");
-        require(IVotingEscrow(_0x5a2eed)._0x647869(_0x4b3d78) == false, "Cannot withdraw yet");
+    function _0x79e0bd(uint256 _0x92cc93) external _0xfc1165 returns (uint256 _0x3cd399) {
+        require(_0x92cc93 > 0, "Zero shares");
+        require(_0x495696(msg.sender) >= _0x92cc93, "Insufficient balance");
+        require(_0x5adfbc != 0, "No veNFT initialized");
+        require(IVotingEscrow(_0x4eabba)._0xd99998(_0x5adfbc) == false, "Cannot withdraw yet");
 
-        uint256 _0x99c0d9 = HybraTimeLibrary._0x99c0d9(block.timestamp);
-        uint256 _0x3f2576 = HybraTimeLibrary._0x3f2576(block.timestamp);
+        uint256 _0x1ae2e2 = HybraTimeLibrary._0x1ae2e2(block.timestamp);
+        uint256 _0xdc87e9 = HybraTimeLibrary._0xdc87e9(block.timestamp);
 
-        require(block.timestamp >= _0x99c0d9 + _0x5a89c7 && block.timestamp < _0x3f2576 - _0xe0849a, "Cannot withdraw yet");
-
-
-        uint256 _0x979bef = _0x1c801d(_0x684329);
-        require(_0x979bef > 0, "No assets to withdraw");
+        require(block.timestamp >= _0x1ae2e2 + _0xadf5cc && block.timestamp < _0xdc87e9 - _0xa4f705, "Cannot withdraw yet");
 
 
-        uint256 _0x0f4fbe = 0;
-        if (_0x3b4006 > 0) {
-            _0x0f4fbe = (_0x979bef * _0x3b4006) / BASIS;
+        uint256 _0xce68a8 = _0x5c474a(_0x92cc93);
+        require(_0xce68a8 > 0, "No assets to withdraw");
+
+
+        uint256 _0xe7bf27 = 0;
+        if (_0x7ef047 > 0) {
+            _0xe7bf27 = (_0xce68a8 * _0x7ef047) / BASIS;
         }
 
 
-        uint256 _0x7e7d4d = _0x979bef - _0x0f4fbe;
-        require(_0x7e7d4d > 0, "Amount too small after fee");
+        uint256 _0x72ed4b = _0xce68a8 - _0xe7bf27;
+        require(_0x72ed4b > 0, "Amount too small after fee");
 
 
-        uint256 _0x1a671f = _0xe10348();
-        require(_0x979bef <= _0x1a671f, "Insufficient veNFT balance");
+        uint256 _0xdb0b71 = _0x7a37bf();
+        require(_0xce68a8 <= _0xdb0b71, "Insufficient veNFT balance");
 
-        uint256 _0xb0fe81 = _0x1a671f - _0x7e7d4d - _0x0f4fbe;
-        require(_0xb0fe81 >= 0, "Cannot withdraw entire veNFT");
-
-
-        _0x6991e0(msg.sender, _0x684329);
+        uint256 _0x2de63b = _0xdb0b71 - _0x72ed4b - _0xe7bf27;
+        require(_0x2de63b >= 0, "Cannot withdraw entire veNFT");
 
 
-        uint256[] memory _0xcfae1c = new uint256[](3);
-        _0xcfae1c[0] = _0xb0fe81;
-        _0xcfae1c[1] = _0x7e7d4d;
-        _0xcfae1c[2] = _0x0f4fbe;
-
-        uint256[] memory _0x29c518 = IVotingEscrow(_0x5a2eed)._0x002d41(_0x4b3d78, _0xcfae1c);
+        _0xd47d4d(msg.sender, _0x92cc93);
 
 
-        _0x4b3d78 = _0x29c518[0];
-        _0x27fbc4 = _0x29c518[1];
-        uint256 _0xfa671e = _0x29c518[2];
+        uint256[] memory _0x3ce710 = new uint256[](3);
+        _0x3ce710[0] = _0x2de63b;
+        _0x3ce710[1] = _0x72ed4b;
+        _0x3ce710[2] = _0xe7bf27;
 
-        IVotingEscrow(_0x5a2eed)._0x0b91e2(address(this), msg.sender, _0x27fbc4);
-        IVotingEscrow(_0x5a2eed)._0x0b91e2(address(this), Team, _0xfa671e);
-        emit Withdraw(msg.sender, _0x684329, _0x7e7d4d, _0x0f4fbe);
+        uint256[] memory _0xf67af3 = IVotingEscrow(_0x4eabba)._0xa9a5c3(_0x5adfbc, _0x3ce710);
+
+
+        _0x5adfbc = _0xf67af3[0];
+        _0x3cd399 = _0xf67af3[1];
+        uint256 _0x63cce3 = _0xf67af3[2];
+
+        IVotingEscrow(_0x4eabba)._0xe42bb7(address(this), msg.sender, _0x3cd399);
+        IVotingEscrow(_0x4eabba)._0xe42bb7(address(this), Team, _0x63cce3);
+        emit Withdraw(msg.sender, _0x92cc93, _0x72ed4b, _0xe7bf27);
     }
 
 
-    function _0xa58650(uint256 _0xf05543) internal {
+    function _0xbfeb5c(uint256 _0xfc0bd3) internal {
 
-        IERC20(HYBR)._0x41f27a(_0x5a2eed, type(uint256)._0x61a821);
-        uint256 _0xf26e08 = HybraTimeLibrary.MAX_LOCK_DURATION;
+        IERC20(HYBR)._0xdaf430(_0x4eabba, type(uint256)._0x4ed948);
+        uint256 _0xe3d673 = HybraTimeLibrary.MAX_LOCK_DURATION;
 
 
-        _0x4b3d78 = IVotingEscrow(_0x5a2eed)._0xc150e8(_0xf05543, _0xf26e08, address(this));
+        _0x5adfbc = IVotingEscrow(_0x4eabba)._0xd1dea7(_0xfc0bd3, _0xe3d673, address(this));
 
     }
 
 
-    function _0xc4480f(uint256 _0xc0f86e) public view returns (uint256) {
-        uint256 _0x158c45 = _0x2ecb68();
-        uint256 _0xaed1f9 = _0xe10348();
-        if (_0x158c45 == 0 || _0xaed1f9 == 0) {
-            return _0xc0f86e;
+    function _0x4baf74(uint256 _0xe8aa9e) public view returns (uint256) {
+        uint256 _0xb90633 = _0x602942();
+        uint256 _0xa6f679 = _0x7a37bf();
+        if (_0xb90633 == 0 || _0xa6f679 == 0) {
+            return _0xe8aa9e;
         }
-        return (_0xc0f86e * _0x158c45) / _0xaed1f9;
+        return (_0xe8aa9e * _0xb90633) / _0xa6f679;
     }
 
 
-    function _0x1c801d(uint256 _0x684329) public view returns (uint256) {
-        uint256 _0x158c45 = _0x2ecb68();
-        if (_0x158c45 == 0) {
-            return _0x684329;
+    function _0x5c474a(uint256 _0x92cc93) public view returns (uint256) {
+        uint256 _0xb90633 = _0x602942();
+        if (_0xb90633 == 0) {
+            return _0x92cc93;
         }
-        return (_0x684329 * _0xe10348()) / _0x158c45;
+        return (_0x92cc93 * _0x7a37bf()) / _0xb90633;
     }
 
 
-    function _0xe10348() public view returns (uint256) {
-        if (_0x4b3d78 == 0) {
+    function _0x7a37bf() public view returns (uint256) {
+        if (_0x5adfbc == 0) {
             return 0;
         }
 
-        IVotingEscrow.LockedBalance memory _0x644ea3 = IVotingEscrow(_0x5a2eed)._0x644ea3(_0x4b3d78);
-        return uint256(int256(_0x644ea3._0xc0f86e));
+        IVotingEscrow.LockedBalance memory _0x15546e = IVotingEscrow(_0x4eabba)._0x15546e(_0x5adfbc);
+        return uint256(int256(_0x15546e._0xe8aa9e));
     }
 
 
-    function _0x1ebbdf(address _0x5f0ccf, uint256 _0xc0f86e) internal {
-        uint256 _0x7a545c = block.timestamp + _0xf7650c;
-        _0x432439[_0x5f0ccf].push(UserLock({
-            _0xc0f86e: _0xc0f86e,
-            _0x7a545c: _0x7a545c
+    function _0xc598cd(address _0x7e6844, uint256 _0xe8aa9e) internal {
+        uint256 _0xda0981 = block.timestamp + _0xaaaea8;
+        _0x7813e2[_0x7e6844].push(UserLock({
+            _0xe8aa9e: _0xe8aa9e,
+            _0xda0981: _0xda0981
         }));
-        _0x707ac7[_0x5f0ccf] += _0xc0f86e;
+        _0x9f0083[_0x7e6844] += _0xe8aa9e;
     }
 
 
-    function _0xb814e2(address _0x5f0ccf) external view returns (uint256 _0xefac7b) {
-        uint256 _0xeffe5e = _0x5b8a0b(_0x5f0ccf);
-        uint256 _0xdb583d = 0;
+    function _0xfbfe46(address _0x7e6844) external view returns (uint256 _0x7871fd) {
+        uint256 _0x37105f = _0x495696(_0x7e6844);
+        uint256 _0x5754c6 = 0;
 
-        UserLock[] storage _0xc83af9 = _0x432439[_0x5f0ccf];
-        for (uint256 i = 0; i < _0xc83af9.length; i++) {
-            if (_0xc83af9[i]._0x7a545c > block.timestamp) {
-                _0xdb583d += _0xc83af9[i]._0xc0f86e;
+        UserLock[] storage _0x8771e6 = _0x7813e2[_0x7e6844];
+        for (uint256 i = 0; i < _0x8771e6.length; i++) {
+            if (_0x8771e6[i]._0xda0981 > block.timestamp) {
+                _0x5754c6 += _0x8771e6[i]._0xe8aa9e;
             }
         }
 
-        return _0xeffe5e > _0xdb583d ? _0xeffe5e - _0xdb583d : 0;
+        return _0x37105f > _0x5754c6 ? _0x37105f - _0x5754c6 : 0;
     }
 
-    function _0x353b5c(address _0x5f0ccf) internal returns (uint256 _0xd7203d) {
-        UserLock[] storage _0xc83af9 = _0x432439[_0x5f0ccf];
-        uint256 _0x347a1d = _0xc83af9.length;
-        if (_0x347a1d == 0) return 0;
+    function _0x2c4054(address _0x7e6844) internal returns (uint256 _0x9ebb1d) {
+        UserLock[] storage _0x8771e6 = _0x7813e2[_0x7e6844];
+        uint256 _0x411517 = _0x8771e6.length;
+        if (_0x411517 == 0) return 0;
 
-        uint256 _0xc915e1 = 0;
+        uint256 _0xa71862 = 0;
         unchecked {
-            for (uint256 i = 0; i < _0x347a1d; i++) {
-                UserLock memory L = _0xc83af9[i];
-                if (L._0x7a545c <= block.timestamp) {
-                    _0xd7203d += L._0xc0f86e;
+            for (uint256 i = 0; i < _0x411517; i++) {
+                UserLock memory L = _0x8771e6[i];
+                if (L._0xda0981 <= block.timestamp) {
+                    _0x9ebb1d += L._0xe8aa9e;
                 } else {
-                    if (_0xc915e1 != i) _0xc83af9[_0xc915e1] = L;
-                    _0xc915e1++;
+                    if (_0xa71862 != i) _0x8771e6[_0xa71862] = L;
+                    _0xa71862++;
                 }
             }
-            if (_0xd7203d > 0) {
-                _0x707ac7[_0x5f0ccf] -= _0xd7203d;
+            if (_0x9ebb1d > 0) {
+                _0x9f0083[_0x7e6844] -= _0x9ebb1d;
             }
-            while (_0xc83af9.length > _0xc915e1) {
-                _0xc83af9.pop();
+            while (_0x8771e6.length > _0xa71862) {
+                _0x8771e6.pop();
             }
         }
     }
 
 
-    function _0xe58043(
+    function _0xc67aba(
         address from,
-        address _0xe9b60e,
-        uint256 _0xc0f86e
+        address _0x88ffa5,
+        uint256 _0xe8aa9e
     ) internal override {
-        super._0xe58043(from, _0xe9b60e, _0xc0f86e);
+        super._0xc67aba(from, _0x88ffa5, _0xe8aa9e);
 
-        if (from != address(0) && _0xe9b60e != address(0)) {
-            uint256 _0xeffe5e = _0x5b8a0b(from);
-
-
-            uint256 _0xeb5df7 = _0xeffe5e > _0x707ac7[from] ? _0xeffe5e - _0x707ac7[from] : 0;
+        if (from != address(0) && _0x88ffa5 != address(0)) {
+            uint256 _0x37105f = _0x495696(from);
 
 
-            if (_0xeb5df7 >= _0xc0f86e) {
+            uint256 _0xc764e2 = _0x37105f > _0x9f0083[from] ? _0x37105f - _0x9f0083[from] : 0;
+
+
+            if (_0xc764e2 >= _0xe8aa9e) {
                 return;
             }
 
 
-            _0x353b5c(from);
-            uint256 _0x1194b1 = _0xeffe5e > _0x707ac7[from] ? _0xeffe5e - _0x707ac7[from] : 0;
+            _0x2c4054(from);
+            uint256 _0x101334 = _0x37105f > _0x9f0083[from] ? _0x37105f - _0x9f0083[from] : 0;
 
 
-            require(_0x1194b1 >= _0xc0f86e, "Tokens locked");
+            require(_0x101334 >= _0xe8aa9e, "Tokens locked");
         }
     }
 
 
-    function _0x5ece92() external _0x44d5b1 {
-        require(_0x654b43 != address(0), "Voter not set");
-        require(_0x402011 != address(0), "Distributor not set");
+    function _0x943e41() external _0xacafcf {
+        require(_0x773c47 != address(0), "Voter not set");
+        require(_0xc4818e != address(0), "Distributor not set");
 
 
-        uint256  _0x4c6734 = IRewardsDistributor(_0x402011)._0x03680a(_0x4b3d78);
-        _0x40ce1d += _0x4c6734;
+        uint256  _0x779840 = IRewardsDistributor(_0xc4818e)._0x8225fe(_0x5adfbc);
+        _0x31ca07 += _0x779840;
 
-        address[] memory _0x192428 = IVoter(_0x654b43)._0x9864b3(_0x4b3d78);
+        address[] memory _0xdea61b = IVoter(_0x773c47)._0x3ffa66(_0x5adfbc);
 
-        for (uint256 i = 0; i < _0x192428.length; i++) {
-            if (_0x192428[i] != address(0)) {
-                address _0x944870 = IGaugeManager(_0xc95bbc)._0x689a09(_0x192428[i]);
+        for (uint256 i = 0; i < _0xdea61b.length; i++) {
+            if (_0xdea61b[i] != address(0)) {
+                address _0x274ef3 = IGaugeManager(_0x3454d9)._0x06e143(_0xdea61b[i]);
 
-                if (_0x944870 != address(0)) {
+                if (_0x274ef3 != address(0)) {
 
-                    address[] memory _0x7aabae = new address[](1);
-                    address[][] memory _0x382bea = new address[][](1);
+                    address[] memory _0xd32eb8 = new address[](1);
+                    address[][] memory _0x8eaa82 = new address[][](1);
 
 
-                    address _0x4f128e = IGaugeManager(_0xc95bbc)._0xcfa8e8(_0x944870);
-                    if (_0x4f128e != address(0)) {
-                        uint256 _0x1eb5fa = IBribe(_0x4f128e)._0x742083();
-                        if (_0x1eb5fa > 0) {
-                            address[] memory _0x1d9b04 = new address[](_0x1eb5fa);
-                            for (uint256 j = 0; j < _0x1eb5fa; j++) {
-                                _0x1d9b04[j] = IBribe(_0x4f128e)._0x1d9b04(j);
+                    address _0xa48385 = IGaugeManager(_0x3454d9)._0xafc5ab(_0x274ef3);
+                    if (_0xa48385 != address(0)) {
+                        uint256 _0xb32c05 = IBribe(_0xa48385)._0x422ff1();
+                        if (_0xb32c05 > 0) {
+                            address[] memory _0x488ff5 = new address[](_0xb32c05);
+                            for (uint256 j = 0; j < _0xb32c05; j++) {
+                                _0x488ff5[j] = IBribe(_0xa48385)._0x488ff5(j);
                             }
-                            _0x7aabae[0] = _0x4f128e;
-                            _0x382bea[0] = _0x1d9b04;
+                            _0xd32eb8[0] = _0xa48385;
+                            _0x8eaa82[0] = _0x488ff5;
 
-                            IGaugeManager(_0xc95bbc)._0x14073a(_0x7aabae, _0x382bea, _0x4b3d78);
+                            IGaugeManager(_0x3454d9)._0x63f9c0(_0xd32eb8, _0x8eaa82, _0x5adfbc);
                         }
                     }
 
 
-                    address _0xb3561a = IGaugeManager(_0xc95bbc)._0x38c09d(_0x944870);
-                    if (_0xb3561a != address(0)) {
-                        uint256 _0x1eb5fa = IBribe(_0xb3561a)._0x742083();
-                        if (_0x1eb5fa > 0) {
-                            address[] memory _0x1d9b04 = new address[](_0x1eb5fa);
-                            for (uint256 j = 0; j < _0x1eb5fa; j++) {
-                                _0x1d9b04[j] = IBribe(_0xb3561a)._0x1d9b04(j);
+                    address _0x83041c = IGaugeManager(_0x3454d9)._0x1bd531(_0x274ef3);
+                    if (_0x83041c != address(0)) {
+                        uint256 _0xb32c05 = IBribe(_0x83041c)._0x422ff1();
+                        if (_0xb32c05 > 0) {
+                            address[] memory _0x488ff5 = new address[](_0xb32c05);
+                            for (uint256 j = 0; j < _0xb32c05; j++) {
+                                _0x488ff5[j] = IBribe(_0x83041c)._0x488ff5(j);
                             }
-                            _0x7aabae[0] = _0xb3561a;
-                            _0x382bea[0] = _0x1d9b04;
+                            _0xd32eb8[0] = _0x83041c;
+                            _0x8eaa82[0] = _0x488ff5;
 
-                            IGaugeManager(_0xc95bbc)._0x14073a(_0x7aabae, _0x382bea, _0x4b3d78);
+                            IGaugeManager(_0x3454d9)._0x63f9c0(_0xd32eb8, _0x8eaa82, _0x5adfbc);
                         }
                     }
                 }
@@ -368,168 +368,168 @@ contract GrowthHYBR is ERC20, Ownable, ReentrancyGuard {
     }
 
 
-    function _0xc087b6(ISwapper.SwapParams calldata _0x94c645) external _0xa239e6 _0x44d5b1 {
-        require(address(_0xfd6d83) != address(0), "Swapper not set");
+    function _0xe5d90a(ISwapper.SwapParams calldata _0x2fe9cc) external _0xfc1165 _0xacafcf {
+        require(address(_0x5d4364) != address(0), "Swapper not set");
 
 
-        uint256 _0x8534dd = IERC20(_0x94c645._0x73f63b)._0x5b8a0b(address(this));
-        require(_0x8534dd >= _0x94c645._0x7e4182, "Insufficient token balance");
+        uint256 _0xa11c03 = IERC20(_0x2fe9cc._0x8864f5)._0x495696(address(this));
+        require(_0xa11c03 >= _0x2fe9cc._0x5b3ee5, "Insufficient token balance");
 
 
-        IERC20(_0x94c645._0x73f63b)._0xd7f14d(address(_0xfd6d83), _0x94c645._0x7e4182);
+        IERC20(_0x2fe9cc._0x8864f5)._0x7cc475(address(_0x5d4364), _0x2fe9cc._0x5b3ee5);
 
 
-        uint256 _0xeb23b4 = _0xfd6d83._0x89827d(_0x94c645);
+        uint256 _0xc4ffd9 = _0x5d4364._0x6d7c65(_0x2fe9cc);
 
 
-        IERC20(_0x94c645._0x73f63b)._0xd7f14d(address(_0xfd6d83), 0);
+        IERC20(_0x2fe9cc._0x8864f5)._0x7cc475(address(_0x5d4364), 0);
 
 
-        _0x33e5f3 += _0xeb23b4;
+        _0x4dc9da += _0xc4ffd9;
     }
 
 
-    function _0x5669e9() external _0x44d5b1 {
+    function _0x06fe30() external _0xacafcf {
 
 
-        uint256 _0x8641ed = IERC20(HYBR)._0x5b8a0b(address(this));
+        uint256 _0x88838a = IERC20(HYBR)._0x495696(address(this));
 
-        if (_0x8641ed > 0) {
+        if (_0x88838a > 0) {
 
-            IERC20(HYBR)._0xd7f14d(_0x5a2eed, _0x8641ed);
-            IVotingEscrow(_0x5a2eed)._0xf6b592(_0x4b3d78, _0x8641ed);
+            IERC20(HYBR)._0x7cc475(_0x4eabba, _0x88838a);
+            IVotingEscrow(_0x4eabba)._0x8dccb9(_0x5adfbc, _0x88838a);
 
 
-            _0x553ed2();
+            _0xdb880b();
 
-            _0xaba87c = block.timestamp;
+            _0x70803c = block.timestamp;
 
-            emit Compound(_0x8641ed, _0xe10348());
+            emit Compound(_0x88838a, _0x7a37bf());
         }
     }
 
 
-    function _0xc66460(address[] calldata _0xcaed60, uint256[] calldata _0x9edd10) external {
-        require(msg.sender == _0xb95c4b() || msg.sender == _0x73f78a, "Not authorized");
-        require(_0x654b43 != address(0), "Voter not set");
+    function _0x1fd1ca(address[] calldata _0x6e2ad1, uint256[] calldata _0x93bb83) external {
+        require(msg.sender == _0x87db9f() || msg.sender == _0x70d0e8, "Not authorized");
+        require(_0x773c47 != address(0), "Voter not set");
 
-        IVoter(_0x654b43)._0xc66460(_0x4b3d78, _0xcaed60, _0x9edd10);
-        _0x2b0b3b = HybraTimeLibrary._0x99c0d9(block.timestamp);
+        IVoter(_0x773c47)._0x1fd1ca(_0x5adfbc, _0x6e2ad1, _0x93bb83);
+        _0xa068eb = HybraTimeLibrary._0x1ae2e2(block.timestamp);
 
     }
 
 
-    function _0x6e9d4d() external {
-        require(msg.sender == _0xb95c4b() || msg.sender == _0x73f78a, "Not authorized");
-        require(_0x654b43 != address(0), "Voter not set");
+    function _0xa7d8ae() external {
+        require(msg.sender == _0x87db9f() || msg.sender == _0x70d0e8, "Not authorized");
+        require(_0x773c47 != address(0), "Voter not set");
 
-        IVoter(_0x654b43)._0x6e9d4d(_0x4b3d78);
+        IVoter(_0x773c47)._0xa7d8ae(_0x5adfbc);
     }
 
 
-    function _0xad4f7a(uint256 _0xc0f86e) external {
+    function _0x1e2388(uint256 _0xe8aa9e) external {
 
 
-        if (_0xc0f86e > 0) {
-            IERC20(HYBR)._0x41f27a(_0x5a2eed, _0xc0f86e);
+        if (_0xe8aa9e > 0) {
+            IERC20(HYBR)._0xdaf430(_0x4eabba, _0xe8aa9e);
 
-            if(_0x4b3d78 == 0){
-                _0xa58650(_0xc0f86e);
+            if(_0x5adfbc == 0){
+                _0xbfeb5c(_0xe8aa9e);
             } else{
-                IVotingEscrow(_0x5a2eed)._0xf6b592(_0x4b3d78, _0xc0f86e);
+                IVotingEscrow(_0x4eabba)._0x8dccb9(_0x5adfbc, _0xe8aa9e);
 
 
-                _0x553ed2();
+                _0xdb880b();
             }
         }
-        _0x4bbbc4 += _0xc0f86e;
-        emit PenaltyRewardReceived(_0xc0f86e);
+        _0x97948d += _0xe8aa9e;
+        emit PenaltyRewardReceived(_0xe8aa9e);
     }
 
 
-    function _0x7ec69a(address _0xf5cdbb) external _0x3b2bdf {
-        require(_0xf5cdbb != address(0), "Invalid voter");
-        _0x654b43 = _0xf5cdbb;
-        emit VoterSet(_0xf5cdbb);
+    function _0xd1859a(address _0x1c4702) external _0x0a8ba7 {
+        require(_0x1c4702 != address(0), "Invalid voter");
+        _0x773c47 = _0x1c4702;
+        emit VoterSet(_0x1c4702);
     }
 
 
-    function _0x6d16d7(uint256 _0x9846f9) external _0x3b2bdf {
-        require(_0x9846f9 >= MIN_LOCK_PERIOD && _0x9846f9 <= MAX_LOCK_PERIOD, "Invalid period");
-        uint256 _0x38874e = _0xf7650c;
-        if (1 == 1) { _0xf7650c = _0x9846f9; }
-        emit TransferLockPeriodUpdated(_0x38874e, _0x9846f9);
+    function _0xafb42a(uint256 _0xafa20d) external _0x0a8ba7 {
+        require(_0xafa20d >= MIN_LOCK_PERIOD && _0xafa20d <= MAX_LOCK_PERIOD, "Invalid period");
+        uint256 _0x052e0d = _0xaaaea8;
+        _0xaaaea8 = _0xafa20d;
+        emit TransferLockPeriodUpdated(_0x052e0d, _0xafa20d);
     }
 
 
-    function _0x97772b(uint256 _0x04658f) external _0x3b2bdf {
-        require(_0x04658f >= MIN_WITHDRAW_FEE && _0x04658f <= MAX_WITHDRAW_FEE, "Invalid fee");
-        _0x3b4006 = _0x04658f;
+    function _0xa20c7c(uint256 _0x91826a) external _0x0a8ba7 {
+        require(_0x91826a >= MIN_WITHDRAW_FEE && _0x91826a <= MAX_WITHDRAW_FEE, "Invalid fee");
+        _0x7ef047 = _0x91826a;
     }
 
-    function _0x928be5(uint256 _0x883871) external _0x3b2bdf {
-        if (1 == 1) { _0x5a89c7 = _0x883871; }
+    function _0xfbf823(uint256 _0x3d95dd) external _0x0a8ba7 {
+        _0xadf5cc = _0x3d95dd;
     }
 
-    function _0x3435c2(uint256 _0x883871) external _0x3b2bdf {
-        _0xe0849a = _0x883871;
-    }
-
-
-    function _0x504cc7(address _0x8162ec) external _0x3b2bdf {
-        require(_0x8162ec != address(0), "Invalid swapper");
-        address _0xc443ef = address(_0xfd6d83);
-        _0xfd6d83 = ISwapper(_0x8162ec);
-        emit SwapperUpdated(_0xc443ef, _0x8162ec);
+    function _0x7e189e(uint256 _0x3d95dd) external _0x0a8ba7 {
+        if (block.timestamp > 0) { _0xa4f705 = _0x3d95dd; }
     }
 
 
-    function _0x081f78(address _0x0b8b85) external _0x3b2bdf {
-        require(_0x0b8b85 != address(0), "Invalid team");
-        Team = _0x0b8b85;
+    function _0x541755(address _0x644f51) external _0x0a8ba7 {
+        require(_0x644f51 != address(0), "Invalid swapper");
+        address _0x512adc = address(_0x5d4364);
+        _0x5d4364 = ISwapper(_0x644f51);
+        emit SwapperUpdated(_0x512adc, _0x644f51);
     }
 
 
-    function _0xf56947(address _0x5f0ccf) external _0x44d5b1 {
-        delete _0x432439[_0x5f0ccf];
-        _0x707ac7[_0x5f0ccf] = 0;
-        emit EmergencyUnlock(_0x5f0ccf);
+    function _0x10f63d(address _0x070338) external _0x0a8ba7 {
+        require(_0x070338 != address(0), "Invalid team");
+        Team = _0x070338;
     }
 
 
-    function _0xe6d7bd(address _0x5f0ccf) external view returns (UserLock[] memory) {
-        return _0x432439[_0x5f0ccf];
+    function _0x9e36fb(address _0x7e6844) external _0xacafcf {
+        delete _0x7813e2[_0x7e6844];
+        _0x9f0083[_0x7e6844] = 0;
+        emit EmergencyUnlock(_0x7e6844);
     }
 
 
-    function _0x42a040(address _0xf30c31) external _0x3b2bdf {
-        require(_0xf30c31 != address(0), "Invalid operator");
-        address _0xc6c247 = _0x73f78a;
-        _0x73f78a = _0xf30c31;
-        emit OperatorUpdated(_0xc6c247, _0xf30c31);
+    function _0x647bc8(address _0x7e6844) external view returns (UserLock[] memory) {
+        return _0x7813e2[_0x7e6844];
     }
 
 
-    function _0x40d4ad() external view returns (uint256) {
-        if (_0x4b3d78 == 0) {
+    function _0x22cf71(address _0xc05552) external _0x0a8ba7 {
+        require(_0xc05552 != address(0), "Invalid operator");
+        address _0x5507b0 = _0x70d0e8;
+        _0x70d0e8 = _0xc05552;
+        emit OperatorUpdated(_0x5507b0, _0xc05552);
+    }
+
+
+    function _0x593ab2() external view returns (uint256) {
+        if (_0x5adfbc == 0) {
             return 0;
         }
-        IVotingEscrow.LockedBalance memory _0x644ea3 = IVotingEscrow(_0x5a2eed)._0x644ea3(_0x4b3d78);
-        return uint256(_0x644ea3._0x65739e);
+        IVotingEscrow.LockedBalance memory _0x15546e = IVotingEscrow(_0x4eabba)._0x15546e(_0x5adfbc);
+        return uint256(_0x15546e._0xb7221b);
     }
 
 
-    function _0x553ed2() internal {
-        if (_0x4b3d78 == 0) return;
+    function _0xdb880b() internal {
+        if (_0x5adfbc == 0) return;
 
-        IVotingEscrow.LockedBalance memory _0x644ea3 = IVotingEscrow(_0x5a2eed)._0x644ea3(_0x4b3d78);
-        if (_0x644ea3._0x653dd8 || _0x644ea3._0x65739e <= block.timestamp) return;
+        IVotingEscrow.LockedBalance memory _0x15546e = IVotingEscrow(_0x4eabba)._0x15546e(_0x5adfbc);
+        if (_0x15546e._0xac02ee || _0x15546e._0xb7221b <= block.timestamp) return;
 
-        uint256 _0x08fdee = ((block.timestamp + HybraTimeLibrary.MAX_LOCK_DURATION) / HybraTimeLibrary.WEEK) * HybraTimeLibrary.WEEK;
+        uint256 _0xfdbaed = ((block.timestamp + HybraTimeLibrary.MAX_LOCK_DURATION) / HybraTimeLibrary.WEEK) * HybraTimeLibrary.WEEK;
 
 
-        if (_0x08fdee > _0x644ea3._0x65739e + 2 hours) {
-            try IVotingEscrow(_0x5a2eed)._0x9574d6(_0x4b3d78, HybraTimeLibrary.MAX_LOCK_DURATION) {
+        if (_0xfdbaed > _0x15546e._0xb7221b + 2 hours) {
+            try IVotingEscrow(_0x4eabba)._0x1f181f(_0x5adfbc, HybraTimeLibrary.MAX_LOCK_DURATION) {
 
             } catch {
 

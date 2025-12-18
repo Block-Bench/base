@@ -66,9 +66,9 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "balanceOf": "_0x3312da",
-    "_value": "_0x0a3074",
-    "_to": "_0x48032a"
+    "balanceOf": "_0xf1511f",
+    "_value": "_0xe1d0c1",
+    "_to": "_0xcac318"
   },
   "original_contract_file": "base/contracts/ds_131.sol",
   "sanitized_from": "ds_131",

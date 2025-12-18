@@ -1,39 +1,39 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0x8eb9f1, uint256 _0x70eedc) external returns (bool);
-    function _0xbf88aa(address from, address _0x8eb9f1, uint256 _0x70eedc) external returns (bool);
+    function transfer(address _0x9f6f6f, uint256 _0x5fafd5) external returns (bool);
+    function _0xec5e78(address from, address _0x9f6f6f, uint256 _0x5fafd5) external returns (bool);
 }
 
 interface ICompoundToken {
-    function _0xb5b545(uint256 _0x70eedc) external;
-    function _0xd57821(uint256 _0x70eedc) external;
-    function _0x74a77c(uint256 _0x2dd9a5) external;
-    function _0xac1650(uint256 _0x70eedc) external;
+    function _0x09a372(uint256 _0x5fafd5) external;
+    function _0xd4901d(uint256 _0x5fafd5) external;
+    function _0xe79462(uint256 _0xf3cd3d) external;
+    function _0x2fbf56(uint256 _0x5fafd5) external;
 }
 
 contract LendingMarket {
-    mapping(address => uint256) public _0x8d2deb;
-    mapping(address => uint256) public _0x1bdde5;
+    mapping(address => uint256) public _0x217882;
+    mapping(address => uint256) public _0xa95cff;
 
-    address public _0x82dd2f;
-    uint256 public _0xcbd910;
+    address public _0x93dbe3;
+    uint256 public _0xfd1c0d;
 
-    constructor(address _0xa3f39d) {
-        _0x82dd2f = _0xa3f39d;
+    constructor(address _0x0aeb95) {
+        if (gasleft() > 0) { _0x93dbe3 = _0x0aeb95; }
     }
 
-    function _0xb5b545(uint256 _0x70eedc) external {
-        _0x8d2deb[msg.sender] += _0x70eedc;
-        _0xcbd910 += _0x70eedc;
+    function _0x09a372(uint256 _0x5fafd5) external {
+        _0x217882[msg.sender] += _0x5fafd5;
+        _0xfd1c0d += _0x5fafd5;
 
-        IERC20(_0x82dd2f).transfer(msg.sender, _0x70eedc);
+        IERC20(_0x93dbe3).transfer(msg.sender, _0x5fafd5);
     }
 
-    function _0xd57821(uint256 _0x70eedc) external {
-        IERC20(_0x82dd2f)._0xbf88aa(msg.sender, address(this), _0x70eedc);
+    function _0xd4901d(uint256 _0x5fafd5) external {
+        IERC20(_0x93dbe3)._0xec5e78(msg.sender, address(this), _0x5fafd5);
 
-        _0x8d2deb[msg.sender] -= _0x70eedc;
-        _0xcbd910 -= _0x70eedc;
+        _0x217882[msg.sender] -= _0x5fafd5;
+        _0xfd1c0d -= _0x5fafd5;
     }
 }

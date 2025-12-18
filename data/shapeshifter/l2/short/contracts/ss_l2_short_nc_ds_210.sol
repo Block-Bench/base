@@ -7,11 +7,11 @@ pragma solidity ^0.4.0;
 
 
     uint private balance = 0;
-    uint private ao = 5;
-    uint private l = 125;
+    uint private an = 5;
+    uint private k = 125;
 
-    mapping (address => User) private ae;
-    Entry[] private u;
+    mapping (address => User) private ac;
+    Entry[] private t;
     uint[] private f;
 
 
@@ -19,19 +19,19 @@ pragma solidity ^0.4.0;
         ab = msg.sender;
     }
 
-    modifier o { if (msg.sender == ab) _; }
+    modifier n { if (msg.sender == ab) _; }
 
     struct User {
         address ap;
-        uint r;
-        uint c;
+        uint q;
+        uint d;
     }
 
     struct Entry {
-        address i;
-        uint v;
+        address h;
+        uint s;
         uint x;
-        bool ak;
+        bool aj;
     }
 
 
@@ -61,111 +61,111 @@ pragma solidity ^0.4.0;
         }
 
 
-        if (ae[msg.sender].ap == address(0))
+        if (ac[msg.sender].ap == address(0))
         {
-            ae[msg.sender].ap = msg.sender;
-            ae[msg.sender].r = 0;
-            ae[msg.sender].c = 0;
+            ac[msg.sender].ap = msg.sender;
+            ac[msg.sender].q = 0;
+            ac[msg.sender].d = 0;
         }
 
 
-        u.push(Entry(msg.sender, w, (w * (l) / 100), false));
-        ae[msg.sender].r++;
-        f.push(u.length -1);
+        t.push(Entry(msg.sender, w, (w * (k) / 100), false));
+        ac[msg.sender].q++;
+        f.push(t.length -1);
 
 
-        balance += (w * (100 - ao)) / 100;
+        balance += (w * (100 - an)) / 100;
 
-        uint ac = f.length > 1 ? ag(f.length) : 0;
-        Entry q = u[f[ac]];
+        uint ad = f.length > 1 ? am(f.length) : 0;
+        Entry r = t[f[ad]];
 
 
-        if (balance > q.x) {
+        if (balance > r.x) {
 
-            uint x = q.x;
+            uint x = r.x;
 
-            q.i.send(x);
-            q.ak = true;
-            ae[q.i].c++;
+            r.h.send(x);
+            r.aj = true;
+            ac[r.h].d++;
 
             balance -= x;
 
-            if (ac < f.length - 1)
-                f[ac] = f[f.length - 1];
+            if (ad < f.length - 1)
+                f[ad] = f[f.length - 1];
 
             f.length--;
 
         }
 
 
-        uint al = this.balance - balance;
-        if (al > 0)
+        uint ak = this.balance - balance;
+        if (ak > 0)
         {
-                ab.send(al);
+                ab.send(ak);
         }
 
     }
 
 
     uint256 constant private FACTOR =  1157920892373161954235709850086879078532699846656405640394575840079131296399;
-    function ag(uint an) constant private returns (uint256 aa){
-        uint256 z = FACTOR * 100 / an;
-        uint256 d = block.number - 1;
-        uint256 s = uint256(block.blockhash(d));
+    function am(uint ao) constant private returns (uint256 z){
+        uint256 aa = FACTOR * 100 / ao;
+        uint256 c = block.number - 1;
+        uint256 v = uint256(block.blockhash(c));
 
-        return uint256((uint256(s) / z)) % an;
+        return uint256((uint256(v) / aa)) % ao;
     }
 
 
-    function j(address p) o {
+    function j(address p) n {
         ab = p;
     }
 
-    function a(uint af) o {
-        if (af < 110 || af > 150) throw;
+    function a(uint ae) n {
+        if (ae < 110 || ae > 150) throw;
 
-        l = af;
+        k = ae;
     }
 
-    function m(uint y) o {
-        if (ao > 5)
+    function o(uint y) n {
+        if (an > 5)
             throw;
-        ao = y;
+        an = y;
     }
 
 
-    function b() constant returns (uint z, string am) {
-        z = l;
-        am = 'The current l applied to all r. Min 110%, an 150%.';
+    function b() constant returns (uint aa, string ag) {
+        aa = k;
+        ag = 'The current k applied to all q. Min 110%, ao 150%.';
     }
 
-    function k() constant returns (uint e, string am) {
-        e = ao;
-        am = 'The ao percentage applied to all r. It can change to speed t (an 5%).';
+    function l() constant returns (uint e, string ag) {
+        e = an;
+        ag = 'The an percentage applied to all q. It can change to speed u (ao 5%).';
     }
 
-    function g() constant returns (uint ad, string am) {
-        ad = u.length;
-        am = 'The number of r.';
+    function g() constant returns (uint af, string ag) {
+        af = t.length;
+        ag = 'The number of q.';
     }
 
-    function n(address aj) constant returns (uint r, uint t, string am)
+    function m(address al) constant returns (uint q, uint u, string ag)
     {
-        if (ae[aj].ap != address(0x0))
+        if (ac[al].ap != address(0x0))
         {
-            r = ae[aj].r;
-            t = ae[aj].c;
-            am = 'Users stats: total r, t received.';
+            q = ac[al].q;
+            u = ac[al].d;
+            ag = 'Users stats: total q, u received.';
         }
     }
 
-    function h(uint ac) constant returns (address aj, uint x, bool ak, string am)
+    function i(uint ad) constant returns (address al, uint x, bool aj, string ag)
     {
-        if (ac < u.length) {
-            aj = u[ac].i;
-            x = u[ac].x / 1 finney;
-            ak = u[ac].ak;
-            am = 'Entry am: aj address, expected x in Finneys, x status.';
+        if (ad < t.length) {
+            al = t[ad].h;
+            x = t[ad].x / 1 finney;
+            aj = t[ad].aj;
+            ag = 'Entry ag: al address, expected x in Finneys, x status.';
         }
     }
 

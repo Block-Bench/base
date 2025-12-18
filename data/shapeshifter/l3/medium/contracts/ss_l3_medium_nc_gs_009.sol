@@ -23,64 +23,64 @@ contract VotingEscrow is IERC721, IERC721Metadata, IHybraVotes {
 
 
     event Deposit(
-        address indexed _0x3823bb,
-        uint _0x8c9f49,
+        address indexed _0x35ba7e,
+        uint _0x2a032a,
         uint value,
-        uint indexed _0x09ea4d,
-        DepositType _0xa28448,
-        uint _0x2180e6
+        uint indexed _0x40eb07,
+        DepositType _0x13755b,
+        uint _0xd71070
     );
 
     event Merge(
-        address indexed _0x75f8c2,
-        uint256 indexed _0x2d99be,
-        uint256 indexed _0x2d9085,
-        uint256 _0x950201,
-        uint256 _0x1023f5,
-        uint256 _0x29909e,
-        uint256 _0xa4c215,
-        uint256 _0xba3801
+        address indexed _0x4c2e7b,
+        uint256 indexed _0x25182c,
+        uint256 indexed _0x53d6d5,
+        uint256 _0x1e05eb,
+        uint256 _0x98ddcf,
+        uint256 _0x29bd1e,
+        uint256 _0xdb950d,
+        uint256 _0xc8a992
     );
     event Split(
-        uint256 indexed _0x2d99be,
-        uint256 indexed _0x9470ed,
-        uint256 indexed _0xe86de0,
-        address _0x75f8c2,
-        uint256 _0x9950a9,
-        uint256 _0x8b481c,
-        uint256 _0xa4c215,
-        uint256 _0xba3801
+        uint256 indexed _0x25182c,
+        uint256 indexed _0x559d71,
+        uint256 indexed _0xf4eece,
+        address _0x4c2e7b,
+        uint256 _0x64e7d5,
+        uint256 _0x362994,
+        uint256 _0xdb950d,
+        uint256 _0xc8a992
     );
 
     event MultiSplit(
-        uint256 indexed _0x2d99be,
-        uint256[] _0xb8aa14,
-        address _0x75f8c2,
-        uint256[] _0x368272,
-        uint256 _0xa4c215,
-        uint256 _0xba3801
+        uint256 indexed _0x25182c,
+        uint256[] _0x9339b0,
+        address _0x4c2e7b,
+        uint256[] _0xf2202e,
+        uint256 _0xdb950d,
+        uint256 _0xc8a992
     );
 
-    event MetadataUpdate(uint256 _0xb1b772);
-    event BatchMetadataUpdate(uint256 _0x3ce2e4, uint256 _0x2994d9);
+    event MetadataUpdate(uint256 _0xf4b082);
+    event BatchMetadataUpdate(uint256 _0x7e82d1, uint256 _0x7fb5cc);
 
-    event Withdraw(address indexed _0x3823bb, uint _0x8c9f49, uint value, uint _0x2180e6);
-    event LockPermanent(address indexed _0x5584dc, uint256 indexed _0xb1b772, uint256 _0x61f75a, uint256 _0xba3801);
-    event UnlockPermanent(address indexed _0x5584dc, uint256 indexed _0xb1b772, uint256 _0x61f75a, uint256 _0xba3801);
-    event Supply(uint _0x268a97, uint _0x22a398);
+    event Withdraw(address indexed _0x35ba7e, uint _0x2a032a, uint value, uint _0xd71070);
+    event LockPermanent(address indexed _0xbff7e2, uint256 indexed _0xf4b082, uint256 _0xfae49d, uint256 _0xc8a992);
+    event UnlockPermanent(address indexed _0xbff7e2, uint256 indexed _0xf4b082, uint256 _0xfae49d, uint256 _0xc8a992);
+    event Supply(uint _0x4e54df, uint _0x232a81);
 
 
-    address public immutable _0x70338e;
-    address public _0x764840;
-    address public _0xda0569;
-    address public _0x485514;
+    address public immutable _0x6e3f8e;
+    address public _0xdddfbf;
+    address public _0x8d0c8c;
+    address public _0xf8fc1b;
 
 
     uint public PRECISISON = 10000;
 
 
-    mapping(bytes4 => bool) internal _0x26e0cf;
-    mapping(uint => bool) internal _0x7b03b7;
+    mapping(bytes4 => bool) internal _0x96edd0;
+    mapping(uint => bool) internal _0x165e3a;
 
 
     bytes4 internal constant ERC165_INTERFACE_ID = 0x01ffc9a7;
@@ -92,264 +92,264 @@ contract VotingEscrow is IERC721, IERC721Metadata, IHybraVotes {
     bytes4 internal constant ERC721_METADATA_INTERFACE_ID = 0x5b5e139f;
 
 
-    uint internal _0x8c9f49;
+    uint internal _0x2a032a;
 
     uint internal WEEK;
 
     uint internal MAXTIME;
-    int128 internal _0xc466cd;
-    IHybra public _0x5500f3;
+    int128 internal _0x9f393f;
+    IHybra public _0x412385;
 
 
-    VotingDelegationLib.Data private _0xa9f396;
+    VotingDelegationLib.Data private _0x8e8b32;
 
-    VotingBalanceLogic.Data private _0xf438fa;
+    VotingBalanceLogic.Data private _0x3ae538;
 
 
-    constructor(address _0x30bc02, address _0x2eecb4) {
-        _0x70338e = _0x30bc02;
-        if (block.timestamp > 0) { _0x764840 = msg.sender; }
-        if (block.timestamp > 0) { _0xda0569 = msg.sender; }
-        _0x485514 = _0x2eecb4;
-        if (gasleft() > 0) { WEEK = HybraTimeLibrary.WEEK; }
+    constructor(address _0xe15817, address _0x550069) {
+        if (true) { _0x6e3f8e = _0xe15817; }
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0xdddfbf = msg.sender; }
+        _0x8d0c8c = msg.sender;
+        if (gasleft() > 0) { _0xf8fc1b = _0x550069; }
+        if (true) { WEEK = HybraTimeLibrary.WEEK; }
         MAXTIME = HybraTimeLibrary.MAX_LOCK_DURATION;
-        if (msg.sender != address(0) || msg.sender == address(0)) { _0xc466cd = int128(int256(HybraTimeLibrary.MAX_LOCK_DURATION)); }
+        _0x9f393f = int128(int256(HybraTimeLibrary.MAX_LOCK_DURATION));
 
-        _0xf438fa._0x97dbd3[0]._0x8f5491 = block.number;
-        _0xf438fa._0x97dbd3[0]._0x2180e6 = block.timestamp;
+        _0x3ae538._0xd77151[0]._0x648eb3 = block.number;
+        _0x3ae538._0xd77151[0]._0xd71070 = block.timestamp;
 
-        _0x26e0cf[ERC165_INTERFACE_ID] = true;
-        _0x26e0cf[ERC721_INTERFACE_ID] = true;
-        _0x26e0cf[ERC721_METADATA_INTERFACE_ID] = true;
-        _0x5500f3 = IHybra(_0x70338e);
+        _0x96edd0[ERC165_INTERFACE_ID] = true;
+        _0x96edd0[ERC721_INTERFACE_ID] = true;
+        _0x96edd0[ERC721_METADATA_INTERFACE_ID] = true;
+        _0x412385 = IHybra(_0x6e3f8e);
 
 
-        emit Transfer(address(0), address(this), _0x8c9f49);
+        emit Transfer(address(0), address(this), _0x2a032a);
 
-        emit Transfer(address(this), address(0), _0x8c9f49);
+        emit Transfer(address(this), address(0), _0x2a032a);
     }
 
 
-    uint8 internal constant _0xfa5578 = 1;
-    uint8 internal constant _0x742b7a = 2;
-    uint8 internal _0x257b24 = 1;
-    modifier _0xd00d35() {
-        require(_0x257b24 == _0xfa5578);
-        _0x257b24 = _0x742b7a;
+    uint8 internal constant _0xbe30b5 = 1;
+    uint8 internal constant _0xa88331 = 2;
+    uint8 internal _0x2930a7 = 1;
+    modifier _0xa523b5() {
+        require(_0x2930a7 == _0xbe30b5);
+        _0x2930a7 = _0xa88331;
         _;
-        _0x257b24 = _0xfa5578;
+        _0x2930a7 = _0xbe30b5;
     }
 
-    modifier _0x473086(uint256 _0xb1b772) {
-        require(!_0x7b03b7[_0xb1b772], "PNFT");
-        _;
-    }
-
-    modifier _0x6505db(uint _0x2d99be) {
-        require(_0x85bc88[msg.sender] || _0x85bc88[address(0)], "!SPLIT");
-        require(_0x6dcb3b[_0x2d99be] == 0 && !_0x5c88bb[_0x2d99be], "ATT");
-        require(_0x7b1aba(msg.sender, _0x2d99be), "NAO");
+    modifier _0x2af2f1(uint256 _0xf4b082) {
+        require(!_0x165e3a[_0xf4b082], "PNFT");
         _;
     }
 
-
-    string constant public _0x90bec8 = "veHYBR";
-    string constant public _0x82485b = "veHYBR";
-    string constant public _0x1b8b40 = "1.0.0";
-    uint8 constant public _0xd11339 = 18;
-
-    function _0xc04f4d(address _0xa3d5a5) external {
-        require(msg.sender == _0xda0569);
-        if (block.timestamp > 0) { _0xda0569 = _0xa3d5a5; }
-    }
-
-    function _0x2197fd(address _0x033f1a) external {
-        require(msg.sender == _0xda0569);
-        _0x485514 = _0x033f1a;
-        emit BatchMetadataUpdate(0, type(uint256)._0x58d494);
+    modifier _0x40ba25(uint _0x25182c) {
+        require(_0xb965c7[msg.sender] || _0xb965c7[address(0)], "!SPLIT");
+        require(_0x82ac4e[_0x25182c] == 0 && !_0x57ecf6[_0x25182c], "ATT");
+        require(_0xcc72fd(msg.sender, _0x25182c), "NAO");
+        _;
     }
 
 
-    function _0x9b7cb5(uint _0xb1b772, bool _0x939803) external {
-        require(msg.sender == _0xda0569, "NA");
-        require(_0x41d5a2[_0xb1b772] != address(0), "DNE");
-        _0x7b03b7[_0xb1b772] = _0x939803;
+    string constant public _0xf20ba5 = "veHYBR";
+    string constant public _0xf81541 = "veHYBR";
+    string constant public _0x76c514 = "1.0.0";
+    uint8 constant public _0x5e83ee = 18;
+
+    function _0x47b64b(address _0x7e83b1) external {
+        require(msg.sender == _0x8d0c8c);
+        _0x8d0c8c = _0x7e83b1;
+    }
+
+    function _0xd685e8(address _0xad2df3) external {
+        require(msg.sender == _0x8d0c8c);
+        _0xf8fc1b = _0xad2df3;
+        emit BatchMetadataUpdate(0, type(uint256)._0x345b7b);
     }
 
 
-    function _0x1369dc(uint _0xb1b772) external view returns (string memory) {
-        require(_0x41d5a2[_0xb1b772] != address(0), "DNE");
-        IVotingEscrow.LockedBalance memory _0x26053e = _0xd3d0ae[_0xb1b772];
-
-        return IVeArtProxy(_0x485514)._0xb7d859(_0xb1b772,VotingBalanceLogic._0x9d84c0(_0xb1b772, block.timestamp, _0xf438fa),_0x26053e._0x3b3035,uint(int256(_0x26053e._0x61f75a)));
+    function _0x11429f(uint _0xf4b082, bool _0xd478fb) external {
+        require(msg.sender == _0x8d0c8c, "NA");
+        require(_0x8b7a52[_0xf4b082] != address(0), "DNE");
+        _0x165e3a[_0xf4b082] = _0xd478fb;
     }
 
 
-    mapping(uint => address) internal _0x41d5a2;
+    function _0xeaac9b(uint _0xf4b082) external view returns (string memory) {
+        require(_0x8b7a52[_0xf4b082] != address(0), "DNE");
+        IVotingEscrow.LockedBalance memory _0x326dce = _0x8dd7d9[_0xf4b082];
 
-
-    mapping(address => uint) internal _0xe8dd26;
-
-
-    function _0x4207a5(uint _0xb1b772) public view returns (address) {
-        return _0x41d5a2[_0xb1b772];
-    }
-
-    function _0xee52fb(address _0x7be9da) public view returns (uint) {
-
-        return _0xe8dd26[_0x7be9da];
+        return IVeArtProxy(_0xf8fc1b)._0x38b0f7(_0xf4b082,VotingBalanceLogic._0xf37287(_0xf4b082, block.timestamp, _0x3ae538),_0x326dce._0xd7f592,uint(int256(_0x326dce._0xfae49d)));
     }
 
 
-    function _0xa0c7f8(address _0x5584dc) internal view returns (uint) {
-        return _0xe8dd26[_0x5584dc];
+    mapping(uint => address) internal _0x8b7a52;
+
+
+    mapping(address => uint) internal _0x25b46c;
+
+
+    function _0x54d806(uint _0xf4b082) public view returns (address) {
+        return _0x8b7a52[_0xf4b082];
+    }
+
+    function _0x6e30e1(address _0x71344c) public view returns (uint) {
+
+        return _0x25b46c[_0x71344c];
     }
 
 
-    function _0x1b7cca(address _0x5584dc) external view returns (uint) {
-        return _0xa0c7f8(_0x5584dc);
+    function _0x0f9488(address _0xbff7e2) internal view returns (uint) {
+        return _0x25b46c[_0xbff7e2];
     }
 
 
-    mapping(uint => address) internal _0xfb97d2;
-
-
-    mapping(address => mapping(address => bool)) internal _0x0a94c8;
-
-    mapping(uint => uint) public _0x28b0f3;
-
-
-    function _0x6c6cc7(uint _0xb1b772) external view returns (address) {
-        return _0xfb97d2[_0xb1b772];
+    function _0x2d8ae5(address _0xbff7e2) external view returns (uint) {
+        return _0x0f9488(_0xbff7e2);
     }
 
 
-    function _0x4cdad9(address _0x5584dc, address _0x81aa27) external view returns (bool) {
-        return (_0x0a94c8[_0x5584dc])[_0x81aa27];
+    mapping(uint => address) internal _0xa3ce20;
+
+
+    mapping(address => mapping(address => bool)) internal _0xe65978;
+
+    mapping(uint => uint) public _0xc38ced;
+
+
+    function _0x747b09(uint _0xf4b082) external view returns (address) {
+        return _0xa3ce20[_0xf4b082];
     }
 
 
-    function _0x35cebf(address _0x1cf7aa, uint _0xb1b772) public {
-        address _0x7be9da = _0x41d5a2[_0xb1b772];
-
-        require(_0x7be9da != address(0), "ZA");
-
-        require(_0x1cf7aa != _0x7be9da, "IA");
-
-        bool _0x245d01 = (_0x41d5a2[_0xb1b772] == msg.sender);
-        bool _0x23fd37 = (_0x0a94c8[_0x7be9da])[msg.sender];
-        require(_0x245d01 || _0x23fd37, "NAO");
-
-        _0xfb97d2[_0xb1b772] = _0x1cf7aa;
-        emit Approval(_0x7be9da, _0x1cf7aa, _0xb1b772);
+    function _0xa756d8(address _0xbff7e2, address _0x7b3f5f) external view returns (bool) {
+        return (_0xe65978[_0xbff7e2])[_0x7b3f5f];
     }
 
 
-    function _0xaf099a(address _0x81aa27, bool _0x1cf7aa) external {
+    function _0xfa6eff(address _0xe5356c, uint _0xf4b082) public {
+        address _0x71344c = _0x8b7a52[_0xf4b082];
 
-        assert(_0x81aa27 != msg.sender);
-        _0x0a94c8[msg.sender][_0x81aa27] = _0x1cf7aa;
-        emit ApprovalForAll(msg.sender, _0x81aa27, _0x1cf7aa);
+        require(_0x71344c != address(0), "ZA");
+
+        require(_0xe5356c != _0x71344c, "IA");
+
+        bool _0x3353b4 = (_0x8b7a52[_0xf4b082] == msg.sender);
+        bool _0x5f36cc = (_0xe65978[_0x71344c])[msg.sender];
+        require(_0x3353b4 || _0x5f36cc, "NAO");
+
+        _0xa3ce20[_0xf4b082] = _0xe5356c;
+        emit Approval(_0x71344c, _0xe5356c, _0xf4b082);
     }
 
 
-    function _0xc601cd(address _0x5584dc, uint _0xb1b772) internal {
+    function _0xc07721(address _0x7b3f5f, bool _0xe5356c) external {
 
-        assert(_0x41d5a2[_0xb1b772] == _0x5584dc);
-        if (_0xfb97d2[_0xb1b772] != address(0)) {
+        assert(_0x7b3f5f != msg.sender);
+        _0xe65978[msg.sender][_0x7b3f5f] = _0xe5356c;
+        emit ApprovalForAll(msg.sender, _0x7b3f5f, _0xe5356c);
+    }
 
-            _0xfb97d2[_0xb1b772] = address(0);
+
+    function _0x7fe2d1(address _0xbff7e2, uint _0xf4b082) internal {
+
+        assert(_0x8b7a52[_0xf4b082] == _0xbff7e2);
+        if (_0xa3ce20[_0xf4b082] != address(0)) {
+
+            _0xa3ce20[_0xf4b082] = address(0);
         }
     }
 
 
-    function _0x7b1aba(address _0x51037e, uint _0xb1b772) internal view returns (bool) {
-        address _0x7be9da = _0x41d5a2[_0xb1b772];
-        bool _0x950f8b = _0x7be9da == _0x51037e;
-        bool _0x5963bb = _0x51037e == _0xfb97d2[_0xb1b772];
-        bool _0xa35593 = (_0x0a94c8[_0x7be9da])[_0x51037e];
-        return _0x950f8b || _0x5963bb || _0xa35593;
+    function _0xcc72fd(address _0x76c48b, uint _0xf4b082) internal view returns (bool) {
+        address _0x71344c = _0x8b7a52[_0xf4b082];
+        bool _0x512cf9 = _0x71344c == _0x76c48b;
+        bool _0x22ee77 = _0x76c48b == _0xa3ce20[_0xf4b082];
+        bool _0x2650e2 = (_0xe65978[_0x71344c])[_0x76c48b];
+        return _0x512cf9 || _0x22ee77 || _0x2650e2;
     }
 
-    function _0x61b655(address _0x51037e, uint _0xb1b772) external view returns (bool) {
-        return _0x7b1aba(_0x51037e, _0xb1b772);
-    }
-
-
-    function _0x45c9c4(
-        address _0x2d99be,
-        address _0x2d9085,
-        uint _0xb1b772,
-        address _0x75f8c2
-    ) internal _0x473086(_0xb1b772) {
-        require(_0x6dcb3b[_0xb1b772] == 0 && !_0x5c88bb[_0xb1b772], "ATT");
-
-        require(_0x7b1aba(_0x75f8c2, _0xb1b772), "NAO");
-
-
-        _0xc601cd(_0x2d99be, _0xb1b772);
-
-        _0x8aaf8f(_0x2d99be, _0xb1b772);
-
-        VotingDelegationLib._0xb0e559(_0xa9f396, _0x7849a3(_0x2d99be), _0x7849a3(_0x2d9085), _0xb1b772, _0x4207a5);
-
-        _0x19a75a(_0x2d9085, _0xb1b772);
-
-        _0x28b0f3[_0xb1b772] = block.number;
-
-
-        emit Transfer(_0x2d99be, _0x2d9085, _0xb1b772);
+    function _0x1c7580(address _0x76c48b, uint _0xf4b082) external view returns (bool) {
+        return _0xcc72fd(_0x76c48b, _0xf4b082);
     }
 
 
-    function _0xac7a97(
-        address _0x2d99be,
-        address _0x2d9085,
-        uint _0xb1b772
+    function _0xce0951(
+        address _0x25182c,
+        address _0x53d6d5,
+        uint _0xf4b082,
+        address _0x4c2e7b
+    ) internal _0x2af2f1(_0xf4b082) {
+        require(_0x82ac4e[_0xf4b082] == 0 && !_0x57ecf6[_0xf4b082], "ATT");
+
+        require(_0xcc72fd(_0x4c2e7b, _0xf4b082), "NAO");
+
+
+        _0x7fe2d1(_0x25182c, _0xf4b082);
+
+        _0x5fd1fa(_0x25182c, _0xf4b082);
+
+        VotingDelegationLib._0x2ea56a(_0x8e8b32, _0x36ebcd(_0x25182c), _0x36ebcd(_0x53d6d5), _0xf4b082, _0x54d806);
+
+        _0xdc36a0(_0x53d6d5, _0xf4b082);
+
+        _0xc38ced[_0xf4b082] = block.number;
+
+
+        emit Transfer(_0x25182c, _0x53d6d5, _0xf4b082);
+    }
+
+
+    function _0xe12f9d(
+        address _0x25182c,
+        address _0x53d6d5,
+        uint _0xf4b082
     ) external {
-        _0x45c9c4(_0x2d99be, _0x2d9085, _0xb1b772, msg.sender);
+        _0xce0951(_0x25182c, _0x53d6d5, _0xf4b082, msg.sender);
     }
 
 
-    function _0xef5c7d(
-        address _0x2d99be,
-        address _0x2d9085,
-        uint _0xb1b772
+    function _0x0eed22(
+        address _0x25182c,
+        address _0x53d6d5,
+        uint _0xf4b082
     ) external {
-        _0xef5c7d(_0x2d99be, _0x2d9085, _0xb1b772, "");
+        _0x0eed22(_0x25182c, _0x53d6d5, _0xf4b082, "");
     }
 
-    function _0x9213d6(address _0x06e542) internal view returns (bool) {
+    function _0xda59b1(address _0x779979) internal view returns (bool) {
 
 
-        uint _0x161798;
+        uint _0xd4c948;
         assembly {
-            _0x161798 := extcodesize(_0x06e542)
+            _0xd4c948 := extcodesize(_0x779979)
         }
-        return _0x161798 > 0;
+        return _0xd4c948 > 0;
     }
 
 
-    function _0xef5c7d(
-        address _0x2d99be,
-        address _0x2d9085,
-        uint _0xb1b772,
-        bytes memory _0x339054
+    function _0x0eed22(
+        address _0x25182c,
+        address _0x53d6d5,
+        uint _0xf4b082,
+        bytes memory _0x027bfa
     ) public {
-        _0x45c9c4(_0x2d99be, _0x2d9085, _0xb1b772, msg.sender);
+        _0xce0951(_0x25182c, _0x53d6d5, _0xf4b082, msg.sender);
 
-        if (_0x9213d6(_0x2d9085)) {
+        if (_0xda59b1(_0x53d6d5)) {
 
-            try IERC721Receiver(_0x2d9085)._0x7a6470(msg.sender, _0x2d99be, _0xb1b772, _0x339054) returns (bytes4 _0x3c1a73) {
-                if (_0x3c1a73 != IERC721Receiver(_0x2d9085)._0x7a6470.selector) {
+            try IERC721Receiver(_0x53d6d5)._0x780076(msg.sender, _0x25182c, _0xf4b082, _0x027bfa) returns (bytes4 _0xdd897c) {
+                if (_0xdd897c != IERC721Receiver(_0x53d6d5)._0x780076.selector) {
                     revert("E721_RJ");
                 }
-            } catch (bytes memory _0x7262ba) {
-                if (_0x7262ba.length == 0) {
+            } catch (bytes memory _0xe4ac9e) {
+                if (_0xe4ac9e.length == 0) {
                     revert('E721_NRCV');
                 } else {
                     assembly {
-                        revert(add(32, _0x7262ba), mload(_0x7262ba))
+                        revert(add(32, _0xe4ac9e), mload(_0xe4ac9e))
                     }
                 }
             }
@@ -357,751 +357,751 @@ contract VotingEscrow is IERC721, IERC721Metadata, IHybraVotes {
     }
 
 
-    function _0x075bae(bytes4 _0x993353) external view returns (bool) {
-        return _0x26e0cf[_0x993353];
+    function _0x634148(bytes4 _0x61a95f) external view returns (bool) {
+        return _0x96edd0[_0x61a95f];
     }
 
 
-    mapping(address => mapping(uint => uint)) internal _0x9c7844;
+    mapping(address => mapping(uint => uint)) internal _0xd6354d;
 
 
-    mapping(uint => uint) internal _0x6a6698;
+    mapping(uint => uint) internal _0x93cb59;
 
 
-    function _0xfdae71(address _0x5584dc, uint _0x89e0f2) public view returns (uint) {
-        return _0x9c7844[_0x5584dc][_0x89e0f2];
+    function _0x5fb461(address _0xbff7e2, uint _0x772984) public view returns (uint) {
+        return _0xd6354d[_0xbff7e2][_0x772984];
     }
 
 
-    function _0x190f3c(address _0x2d9085, uint _0xb1b772) internal {
-        uint _0xfa9ef8 = _0xa0c7f8(_0x2d9085);
+    function _0x4eb0fb(address _0x53d6d5, uint _0xf4b082) internal {
+        uint _0xa38991 = _0x0f9488(_0x53d6d5);
 
-        _0x9c7844[_0x2d9085][_0xfa9ef8] = _0xb1b772;
-        _0x6a6698[_0xb1b772] = _0xfa9ef8;
+        _0xd6354d[_0x53d6d5][_0xa38991] = _0xf4b082;
+        _0x93cb59[_0xf4b082] = _0xa38991;
     }
 
 
-    function _0x19a75a(address _0x2d9085, uint _0xb1b772) internal {
+    function _0xdc36a0(address _0x53d6d5, uint _0xf4b082) internal {
 
-        assert(_0x41d5a2[_0xb1b772] == address(0));
+        assert(_0x8b7a52[_0xf4b082] == address(0));
 
-        _0x41d5a2[_0xb1b772] = _0x2d9085;
+        _0x8b7a52[_0xf4b082] = _0x53d6d5;
 
-        _0x190f3c(_0x2d9085, _0xb1b772);
+        _0x4eb0fb(_0x53d6d5, _0xf4b082);
 
-        _0xe8dd26[_0x2d9085] += 1;
+        _0x25b46c[_0x53d6d5] += 1;
     }
 
 
-    function _0xd8fb69(address _0x2d9085, uint _0xb1b772) internal returns (bool) {
+    function _0xdbf96f(address _0x53d6d5, uint _0xf4b082) internal returns (bool) {
 
-        assert(_0x2d9085 != address(0));
+        assert(_0x53d6d5 != address(0));
 
-        VotingDelegationLib._0xb0e559(_0xa9f396, address(0), _0x7849a3(_0x2d9085), _0xb1b772, _0x4207a5);
+        VotingDelegationLib._0x2ea56a(_0x8e8b32, address(0), _0x36ebcd(_0x53d6d5), _0xf4b082, _0x54d806);
 
-        _0x19a75a(_0x2d9085, _0xb1b772);
-        emit Transfer(address(0), _0x2d9085, _0xb1b772);
+        _0xdc36a0(_0x53d6d5, _0xf4b082);
+        emit Transfer(address(0), _0x53d6d5, _0xf4b082);
         return true;
     }
 
 
-    function _0x724469(address _0x2d99be, uint _0xb1b772) internal {
+    function _0xc4a0dc(address _0x25182c, uint _0xf4b082) internal {
 
-        uint _0xfa9ef8 = _0xa0c7f8(_0x2d99be) - 1;
-        uint _0x27d3cf = _0x6a6698[_0xb1b772];
+        uint _0xa38991 = _0x0f9488(_0x25182c) - 1;
+        uint _0xc1fad5 = _0x93cb59[_0xf4b082];
 
-        if (_0xfa9ef8 == _0x27d3cf) {
+        if (_0xa38991 == _0xc1fad5) {
 
-            _0x9c7844[_0x2d99be][_0xfa9ef8] = 0;
+            _0xd6354d[_0x25182c][_0xa38991] = 0;
 
-            _0x6a6698[_0xb1b772] = 0;
+            _0x93cb59[_0xf4b082] = 0;
         } else {
-            uint _0x234a4e = _0x9c7844[_0x2d99be][_0xfa9ef8];
+            uint _0xc123f2 = _0xd6354d[_0x25182c][_0xa38991];
 
 
-            _0x9c7844[_0x2d99be][_0x27d3cf] = _0x234a4e;
+            _0xd6354d[_0x25182c][_0xc1fad5] = _0xc123f2;
 
-            _0x6a6698[_0x234a4e] = _0x27d3cf;
+            _0x93cb59[_0xc123f2] = _0xc1fad5;
 
 
-            _0x9c7844[_0x2d99be][_0xfa9ef8] = 0;
+            _0xd6354d[_0x25182c][_0xa38991] = 0;
 
-            _0x6a6698[_0xb1b772] = 0;
+            _0x93cb59[_0xf4b082] = 0;
         }
     }
 
 
-    function _0x8aaf8f(address _0x2d99be, uint _0xb1b772) internal {
+    function _0x5fd1fa(address _0x25182c, uint _0xf4b082) internal {
 
-        assert(_0x41d5a2[_0xb1b772] == _0x2d99be);
+        assert(_0x8b7a52[_0xf4b082] == _0x25182c);
 
-        _0x41d5a2[_0xb1b772] = address(0);
+        _0x8b7a52[_0xf4b082] = address(0);
 
-        _0x724469(_0x2d99be, _0xb1b772);
+        _0xc4a0dc(_0x25182c, _0xf4b082);
 
-        _0xe8dd26[_0x2d99be] -= 1;
+        _0x25b46c[_0x25182c] -= 1;
     }
 
-    function _0xa7c58a(uint _0xb1b772) internal {
-        require(_0x7b1aba(msg.sender, _0xb1b772), "NAO");
+    function _0xf299bf(uint _0xf4b082) internal {
+        require(_0xcc72fd(msg.sender, _0xf4b082), "NAO");
 
-        address _0x7be9da = _0x4207a5(_0xb1b772);
-
-
-        delete _0xfb97d2[_0xb1b772];
+        address _0x71344c = _0x54d806(_0xf4b082);
 
 
-        _0x8aaf8f(_0x7be9da, _0xb1b772);
+        delete _0xa3ce20[_0xf4b082];
 
-        VotingDelegationLib._0xb0e559(_0xa9f396, _0x7849a3(_0x7be9da), address(0), _0xb1b772, _0x4207a5);
 
-        emit Transfer(_0x7be9da, address(0), _0xb1b772);
+        _0x5fd1fa(_0x71344c, _0xf4b082);
+
+        VotingDelegationLib._0x2ea56a(_0x8e8b32, _0x36ebcd(_0x71344c), address(0), _0xf4b082, _0x54d806);
+
+        emit Transfer(_0x71344c, address(0), _0xf4b082);
     }
 
 
-    mapping(uint => IVotingEscrow.LockedBalance) public _0xd3d0ae;
-    uint public _0xe10e13;
-    uint public _0xce8926;
-    mapping(uint => int128) public _0x4884f5;
-    uint public _0x22a398;
-    mapping(address => bool) public _0x85bc88;
+    mapping(uint => IVotingEscrow.LockedBalance) public _0x8dd7d9;
+    uint public _0xb7f294;
+    uint public _0x73d159;
+    mapping(uint => int128) public _0xed2249;
+    uint public _0x232a81;
+    mapping(address => bool) public _0xb965c7;
 
     uint internal constant MULTIPLIER = 1 ether;
 
 
-    function _0x35fa77(uint _0xb1b772) external view returns (int128) {
-        uint _0x71741d = _0xf438fa._0xd92255[_0xb1b772];
-        return _0xf438fa._0x1ab10c[_0xb1b772][_0x71741d]._0xea73a7;
+    function _0x243e65(uint _0xf4b082) external view returns (int128) {
+        uint _0x16ca53 = _0x3ae538._0x2c9b4c[_0xf4b082];
+        return _0x3ae538._0xc33fc4[_0xf4b082][_0x16ca53]._0xc227be;
     }
 
 
-    function _0x1ab10c(uint _0xb1b772, uint _0xaa6cf9) external view returns (IVotingEscrow.Point memory) {
-        return _0xf438fa._0x1ab10c[_0xb1b772][_0xaa6cf9];
+    function _0xc33fc4(uint _0xf4b082, uint _0x0e8e9b) external view returns (IVotingEscrow.Point memory) {
+        return _0x3ae538._0xc33fc4[_0xf4b082][_0x0e8e9b];
     }
 
-    function _0x97dbd3(uint _0xce8926) external view returns (IVotingEscrow.Point memory) {
-        return _0xf438fa._0x97dbd3[_0xce8926];
+    function _0xd77151(uint _0x73d159) external view returns (IVotingEscrow.Point memory) {
+        return _0x3ae538._0xd77151[_0x73d159];
     }
 
-    function _0xd92255(uint _0x8c9f49) external view returns (uint) {
-        return _0xf438fa._0xd92255[_0x8c9f49];
+    function _0x2c9b4c(uint _0x2a032a) external view returns (uint) {
+        return _0x3ae538._0x2c9b4c[_0x2a032a];
     }
 
 
-    function _0x694d89(
-        uint _0xb1b772,
-        IVotingEscrow.LockedBalance memory _0xf867f9,
-        IVotingEscrow.LockedBalance memory _0xa81a40
+    function _0xe1d8a8(
+        uint _0xf4b082,
+        IVotingEscrow.LockedBalance memory _0xb5b06d,
+        IVotingEscrow.LockedBalance memory _0x69d5c2
     ) internal {
-        IVotingEscrow.Point memory _0x8d8af9;
-        IVotingEscrow.Point memory _0x2228f1;
-        int128 _0x869c27 = 0;
-        int128 _0xee348c = 0;
-        uint _0x4e1c82 = _0xce8926;
+        IVotingEscrow.Point memory _0xaf5bd6;
+        IVotingEscrow.Point memory _0x4a624a;
+        int128 _0x43e923 = 0;
+        int128 _0x1bf499 = 0;
+        uint _0xe097d0 = _0x73d159;
 
-        if (_0xb1b772 != 0) {
-            _0x2228f1._0xf4ff4f = 0;
+        if (_0xf4b082 != 0) {
+            _0x4a624a._0xcc3a56 = 0;
 
-            if(_0xa81a40._0xc69e18){
-                _0x2228f1._0xf4ff4f = uint(int256(_0xa81a40._0x61f75a));
+            if(_0x69d5c2._0xfd9240){
+                _0x4a624a._0xcc3a56 = uint(int256(_0x69d5c2._0xfae49d));
             }
 
 
-            if (_0xf867f9._0x3b3035 > block.timestamp && _0xf867f9._0x61f75a > 0) {
-                _0x8d8af9._0xea73a7 = _0xf867f9._0x61f75a / _0xc466cd;
-                _0x8d8af9._0x95f721 = _0x8d8af9._0xea73a7 * int128(int256(_0xf867f9._0x3b3035 - block.timestamp));
+            if (_0xb5b06d._0xd7f592 > block.timestamp && _0xb5b06d._0xfae49d > 0) {
+                _0xaf5bd6._0xc227be = _0xb5b06d._0xfae49d / _0x9f393f;
+                _0xaf5bd6._0x731df2 = _0xaf5bd6._0xc227be * int128(int256(_0xb5b06d._0xd7f592 - block.timestamp));
             }
-            if (_0xa81a40._0x3b3035 > block.timestamp && _0xa81a40._0x61f75a > 0) {
-                _0x2228f1._0xea73a7 = _0xa81a40._0x61f75a / _0xc466cd;
-                _0x2228f1._0x95f721 = _0x2228f1._0xea73a7 * int128(int256(_0xa81a40._0x3b3035 - block.timestamp));
+            if (_0x69d5c2._0xd7f592 > block.timestamp && _0x69d5c2._0xfae49d > 0) {
+                _0x4a624a._0xc227be = _0x69d5c2._0xfae49d / _0x9f393f;
+                _0x4a624a._0x731df2 = _0x4a624a._0xc227be * int128(int256(_0x69d5c2._0xd7f592 - block.timestamp));
             }
 
 
-            _0x869c27 = _0x4884f5[_0xf867f9._0x3b3035];
-            if (_0xa81a40._0x3b3035 != 0) {
-                if (_0xa81a40._0x3b3035 == _0xf867f9._0x3b3035) {
-                    _0xee348c = _0x869c27;
+            _0x43e923 = _0xed2249[_0xb5b06d._0xd7f592];
+            if (_0x69d5c2._0xd7f592 != 0) {
+                if (_0x69d5c2._0xd7f592 == _0xb5b06d._0xd7f592) {
+                    _0x1bf499 = _0x43e923;
                 } else {
-                    _0xee348c = _0x4884f5[_0xa81a40._0x3b3035];
+                    _0x1bf499 = _0xed2249[_0x69d5c2._0xd7f592];
                 }
             }
         }
 
-        IVotingEscrow.Point memory _0x716f24 = IVotingEscrow.Point({_0x95f721: 0, _0xea73a7: 0, _0x2180e6: block.timestamp, _0x8f5491: block.number, _0xf4ff4f: 0});
-        if (_0x4e1c82 > 0) {
-            _0x716f24 = _0xf438fa._0x97dbd3[_0x4e1c82];
+        IVotingEscrow.Point memory _0xcb7dd3 = IVotingEscrow.Point({_0x731df2: 0, _0xc227be: 0, _0xd71070: block.timestamp, _0x648eb3: block.number, _0xcc3a56: 0});
+        if (_0xe097d0 > 0) {
+            _0xcb7dd3 = _0x3ae538._0xd77151[_0xe097d0];
         }
-        uint _0x945ef0 = _0x716f24._0x2180e6;
+        uint _0xe9b869 = _0xcb7dd3._0xd71070;
 
 
-        IVotingEscrow.Point memory _0x0cea1c = _0x716f24;
-        uint _0x09d620 = 0;
-        if (block.timestamp > _0x716f24._0x2180e6) {
-            _0x09d620 = (MULTIPLIER * (block.number - _0x716f24._0x8f5491)) / (block.timestamp - _0x716f24._0x2180e6);
+        IVotingEscrow.Point memory _0x418b88 = _0xcb7dd3;
+        uint _0x47e707 = 0;
+        if (block.timestamp > _0xcb7dd3._0xd71070) {
+            _0x47e707 = (MULTIPLIER * (block.number - _0xcb7dd3._0x648eb3)) / (block.timestamp - _0xcb7dd3._0xd71070);
         }
 
 
         {
-            uint _0x3e0468 = (_0x945ef0 / WEEK) * WEEK;
+            uint _0x441ba4 = (_0xe9b869 / WEEK) * WEEK;
             for (uint i = 0; i < 255; ++i) {
 
 
-                _0x3e0468 += WEEK;
-                int128 _0x4cc5d4 = 0;
-                if (_0x3e0468 > block.timestamp) {
-                    _0x3e0468 = block.timestamp;
+                _0x441ba4 += WEEK;
+                int128 _0xbf447e = 0;
+                if (_0x441ba4 > block.timestamp) {
+                    _0x441ba4 = block.timestamp;
                 } else {
-                    _0x4cc5d4 = _0x4884f5[_0x3e0468];
+                    _0xbf447e = _0xed2249[_0x441ba4];
                 }
-                _0x716f24._0x95f721 -= _0x716f24._0xea73a7 * int128(int256(_0x3e0468 - _0x945ef0));
-                _0x716f24._0xea73a7 += _0x4cc5d4;
-                if (_0x716f24._0x95f721 < 0) {
+                _0xcb7dd3._0x731df2 -= _0xcb7dd3._0xc227be * int128(int256(_0x441ba4 - _0xe9b869));
+                _0xcb7dd3._0xc227be += _0xbf447e;
+                if (_0xcb7dd3._0x731df2 < 0) {
 
-                    _0x716f24._0x95f721 = 0;
+                    _0xcb7dd3._0x731df2 = 0;
                 }
-                if (_0x716f24._0xea73a7 < 0) {
+                if (_0xcb7dd3._0xc227be < 0) {
 
-                    _0x716f24._0xea73a7 = 0;
+                    _0xcb7dd3._0xc227be = 0;
                 }
-                _0x945ef0 = _0x3e0468;
-                _0x716f24._0x2180e6 = _0x3e0468;
-                _0x716f24._0x8f5491 = _0x0cea1c._0x8f5491 + (_0x09d620 * (_0x3e0468 - _0x0cea1c._0x2180e6)) / MULTIPLIER;
-                _0x4e1c82 += 1;
-                if (_0x3e0468 == block.timestamp) {
-                    _0x716f24._0x8f5491 = block.number;
+                _0xe9b869 = _0x441ba4;
+                _0xcb7dd3._0xd71070 = _0x441ba4;
+                _0xcb7dd3._0x648eb3 = _0x418b88._0x648eb3 + (_0x47e707 * (_0x441ba4 - _0x418b88._0xd71070)) / MULTIPLIER;
+                _0xe097d0 += 1;
+                if (_0x441ba4 == block.timestamp) {
+                    _0xcb7dd3._0x648eb3 = block.number;
                     break;
                 } else {
-                    _0xf438fa._0x97dbd3[_0x4e1c82] = _0x716f24;
+                    _0x3ae538._0xd77151[_0xe097d0] = _0xcb7dd3;
                 }
             }
         }
 
-        _0xce8926 = _0x4e1c82;
+        _0x73d159 = _0xe097d0;
 
 
-        if (_0xb1b772 != 0) {
+        if (_0xf4b082 != 0) {
 
 
-            _0x716f24._0xea73a7 += (_0x2228f1._0xea73a7 - _0x8d8af9._0xea73a7);
-            _0x716f24._0x95f721 += (_0x2228f1._0x95f721 - _0x8d8af9._0x95f721);
-            if (_0x716f24._0xea73a7 < 0) {
-                _0x716f24._0xea73a7 = 0;
+            _0xcb7dd3._0xc227be += (_0x4a624a._0xc227be - _0xaf5bd6._0xc227be);
+            _0xcb7dd3._0x731df2 += (_0x4a624a._0x731df2 - _0xaf5bd6._0x731df2);
+            if (_0xcb7dd3._0xc227be < 0) {
+                _0xcb7dd3._0xc227be = 0;
             }
-            if (_0x716f24._0x95f721 < 0) {
-                _0x716f24._0x95f721 = 0;
+            if (_0xcb7dd3._0x731df2 < 0) {
+                _0xcb7dd3._0x731df2 = 0;
             }
-            _0x716f24._0xf4ff4f = _0xe10e13;
+            _0xcb7dd3._0xcc3a56 = _0xb7f294;
         }
 
 
-        _0xf438fa._0x97dbd3[_0x4e1c82] = _0x716f24;
+        _0x3ae538._0xd77151[_0xe097d0] = _0xcb7dd3;
 
-        if (_0xb1b772 != 0) {
+        if (_0xf4b082 != 0) {
 
 
-            if (_0xf867f9._0x3b3035 > block.timestamp) {
+            if (_0xb5b06d._0xd7f592 > block.timestamp) {
 
-                _0x869c27 += _0x8d8af9._0xea73a7;
-                if (_0xa81a40._0x3b3035 == _0xf867f9._0x3b3035) {
-                    _0x869c27 -= _0x2228f1._0xea73a7;
+                _0x43e923 += _0xaf5bd6._0xc227be;
+                if (_0x69d5c2._0xd7f592 == _0xb5b06d._0xd7f592) {
+                    _0x43e923 -= _0x4a624a._0xc227be;
                 }
-                _0x4884f5[_0xf867f9._0x3b3035] = _0x869c27;
+                _0xed2249[_0xb5b06d._0xd7f592] = _0x43e923;
             }
 
-            if (_0xa81a40._0x3b3035 > block.timestamp) {
-                if (_0xa81a40._0x3b3035 > _0xf867f9._0x3b3035) {
-                    _0xee348c -= _0x2228f1._0xea73a7;
-                    _0x4884f5[_0xa81a40._0x3b3035] = _0xee348c;
+            if (_0x69d5c2._0xd7f592 > block.timestamp) {
+                if (_0x69d5c2._0xd7f592 > _0xb5b06d._0xd7f592) {
+                    _0x1bf499 -= _0x4a624a._0xc227be;
+                    _0xed2249[_0x69d5c2._0xd7f592] = _0x1bf499;
                 }
 
             }
 
-            uint _0x59f687 = _0xf438fa._0xd92255[_0xb1b772] + 1;
+            uint _0x508f33 = _0x3ae538._0x2c9b4c[_0xf4b082] + 1;
 
-            _0xf438fa._0xd92255[_0xb1b772] = _0x59f687;
-            _0x2228f1._0x2180e6 = block.timestamp;
-            _0x2228f1._0x8f5491 = block.number;
-            _0xf438fa._0x1ab10c[_0xb1b772][_0x59f687] = _0x2228f1;
+            _0x3ae538._0x2c9b4c[_0xf4b082] = _0x508f33;
+            _0x4a624a._0xd71070 = block.timestamp;
+            _0x4a624a._0x648eb3 = block.number;
+            _0x3ae538._0xc33fc4[_0xf4b082][_0x508f33] = _0x4a624a;
         }
     }
 
 
-    function _0x80aa67(
-        uint _0xb1b772,
-        uint _0x03daa8,
-        uint _0xfda2fc,
-        IVotingEscrow.LockedBalance memory _0xa13fdc,
-        DepositType _0xa28448
+    function _0x116ccc(
+        uint _0xf4b082,
+        uint _0x2f33c4,
+        uint _0x66ca59,
+        IVotingEscrow.LockedBalance memory _0xb59186,
+        DepositType _0x13755b
     ) internal {
-        IVotingEscrow.LockedBalance memory _0x26053e = _0xa13fdc;
-        uint _0xc08fe9 = _0x22a398;
+        IVotingEscrow.LockedBalance memory _0x326dce = _0xb59186;
+        uint _0xc34a00 = _0x232a81;
 
-        _0x22a398 = _0xc08fe9 + _0x03daa8;
-        IVotingEscrow.LockedBalance memory _0xf867f9;
-        (_0xf867f9._0x61f75a, _0xf867f9._0x3b3035, _0xf867f9._0xc69e18) = (_0x26053e._0x61f75a, _0x26053e._0x3b3035, _0x26053e._0xc69e18);
+        _0x232a81 = _0xc34a00 + _0x2f33c4;
+        IVotingEscrow.LockedBalance memory _0xb5b06d;
+        (_0xb5b06d._0xfae49d, _0xb5b06d._0xd7f592, _0xb5b06d._0xfd9240) = (_0x326dce._0xfae49d, _0x326dce._0xd7f592, _0x326dce._0xfd9240);
 
-        _0x26053e._0x61f75a += int128(int256(_0x03daa8));
+        _0x326dce._0xfae49d += int128(int256(_0x2f33c4));
 
-        if (_0xfda2fc != 0) {
-            _0x26053e._0x3b3035 = _0xfda2fc;
+        if (_0x66ca59 != 0) {
+            _0x326dce._0xd7f592 = _0x66ca59;
         }
-        _0xd3d0ae[_0xb1b772] = _0x26053e;
+        _0x8dd7d9[_0xf4b082] = _0x326dce;
 
 
-        _0x694d89(_0xb1b772, _0xf867f9, _0x26053e);
+        _0xe1d8a8(_0xf4b082, _0xb5b06d, _0x326dce);
 
         address from = msg.sender;
-        if (_0x03daa8 != 0) {
-            assert(IERC20(_0x70338e)._0xac7a97(from, address(this), _0x03daa8));
+        if (_0x2f33c4 != 0) {
+            assert(IERC20(_0x6e3f8e)._0xe12f9d(from, address(this), _0x2f33c4));
         }
 
-        emit Deposit(from, _0xb1b772, _0x03daa8, _0x26053e._0x3b3035, _0xa28448, block.timestamp);
-        emit Supply(_0xc08fe9, _0xc08fe9 + _0x03daa8);
+        emit Deposit(from, _0xf4b082, _0x2f33c4, _0x326dce._0xd7f592, _0x13755b, block.timestamp);
+        emit Supply(_0xc34a00, _0xc34a00 + _0x2f33c4);
     }
 
 
-    function _0x8ad5a8() external {
-        _0x694d89(0, IVotingEscrow.LockedBalance(0, 0, false), IVotingEscrow.LockedBalance(0, 0, false));
+    function _0xd0edff() external {
+        _0xe1d8a8(0, IVotingEscrow.LockedBalance(0, 0, false), IVotingEscrow.LockedBalance(0, 0, false));
     }
 
 
-    function _0x50a78c(uint _0xb1b772, uint _0x03daa8) external _0xd00d35 {
-        IVotingEscrow.LockedBalance memory _0x26053e = _0xd3d0ae[_0xb1b772];
+    function _0x1c3810(uint _0xf4b082, uint _0x2f33c4) external _0xa523b5 {
+        IVotingEscrow.LockedBalance memory _0x326dce = _0x8dd7d9[_0xf4b082];
 
-        require(_0x03daa8 > 0, "ZV");
-        require(_0x26053e._0x61f75a > 0, 'ZL');
-        require(_0x26053e._0x3b3035 > block.timestamp || _0x26053e._0xc69e18, 'EXP');
+        require(_0x2f33c4 > 0, "ZV");
+        require(_0x326dce._0xfae49d > 0, 'ZL');
+        require(_0x326dce._0xd7f592 > block.timestamp || _0x326dce._0xfd9240, 'EXP');
 
-        if (_0x26053e._0xc69e18) _0xe10e13 += _0x03daa8;
+        if (_0x326dce._0xfd9240) _0xb7f294 += _0x2f33c4;
 
-        _0x80aa67(_0xb1b772, _0x03daa8, 0, _0x26053e, DepositType.DEPOSIT_FOR_TYPE);
+        _0x116ccc(_0xf4b082, _0x2f33c4, 0, _0x326dce, DepositType.DEPOSIT_FOR_TYPE);
 
-        if(_0x5c88bb[_0xb1b772]) {
-            IVoter(_0x764840)._0x75ed11(_0xb1b772);
+        if(_0x57ecf6[_0xf4b082]) {
+            IVoter(_0xdddfbf)._0x7433c9(_0xf4b082);
         }
     }
 
 
-    function _0xc87a7a(uint _0x03daa8, uint _0x2bf73b, address _0x2d9085) internal returns (uint) {
-        uint _0xfda2fc = (block.timestamp + _0x2bf73b) / WEEK * WEEK;
+    function _0xa9e72b(uint _0x2f33c4, uint _0x58160b, address _0x53d6d5) internal returns (uint) {
+        uint _0x66ca59 = (block.timestamp + _0x58160b) / WEEK * WEEK;
 
-        require(_0x03daa8 > 0, "ZV");
-        require(_0xfda2fc > block.timestamp && (_0xfda2fc <= block.timestamp + MAXTIME), 'IUT');
+        require(_0x2f33c4 > 0, "ZV");
+        require(_0x66ca59 > block.timestamp && (_0x66ca59 <= block.timestamp + MAXTIME), 'IUT');
 
-        ++_0x8c9f49;
-        uint _0xb1b772 = _0x8c9f49;
-        _0xd8fb69(_0x2d9085, _0xb1b772);
+        ++_0x2a032a;
+        uint _0xf4b082 = _0x2a032a;
+        _0xdbf96f(_0x53d6d5, _0xf4b082);
 
-        IVotingEscrow.LockedBalance memory _0x26053e = _0xd3d0ae[_0xb1b772];
+        IVotingEscrow.LockedBalance memory _0x326dce = _0x8dd7d9[_0xf4b082];
 
-        _0x80aa67(_0xb1b772, _0x03daa8, _0xfda2fc, _0x26053e, DepositType.CREATE_LOCK_TYPE);
-        return _0xb1b772;
+        _0x116ccc(_0xf4b082, _0x2f33c4, _0x66ca59, _0x326dce, DepositType.CREATE_LOCK_TYPE);
+        return _0xf4b082;
     }
 
 
-    function _0x2c5aa2(uint _0x03daa8, uint _0x2bf73b) external _0xd00d35 returns (uint) {
-        return _0xc87a7a(_0x03daa8, _0x2bf73b, msg.sender);
+    function _0xbe3544(uint _0x2f33c4, uint _0x58160b) external _0xa523b5 returns (uint) {
+        return _0xa9e72b(_0x2f33c4, _0x58160b, msg.sender);
     }
 
 
-    function _0x397034(uint _0x03daa8, uint _0x2bf73b, address _0x2d9085) external _0xd00d35 returns (uint) {
-        return _0xc87a7a(_0x03daa8, _0x2bf73b, _0x2d9085);
+    function _0xc55101(uint _0x2f33c4, uint _0x58160b, address _0x53d6d5) external _0xa523b5 returns (uint) {
+        return _0xa9e72b(_0x2f33c4, _0x58160b, _0x53d6d5);
     }
 
 
-    function _0x98ec83(uint _0xb1b772, uint _0x03daa8) external _0xd00d35 {
-        assert(_0x7b1aba(msg.sender, _0xb1b772));
+    function _0x8e2b28(uint _0xf4b082, uint _0x2f33c4) external _0xa523b5 {
+        assert(_0xcc72fd(msg.sender, _0xf4b082));
 
-        IVotingEscrow.LockedBalance memory _0x26053e = _0xd3d0ae[_0xb1b772];
+        IVotingEscrow.LockedBalance memory _0x326dce = _0x8dd7d9[_0xf4b082];
 
-        assert(_0x03daa8 > 0);
-        require(_0x26053e._0x61f75a > 0, 'ZL');
-        require(_0x26053e._0x3b3035 > block.timestamp || _0x26053e._0xc69e18, 'EXP');
+        assert(_0x2f33c4 > 0);
+        require(_0x326dce._0xfae49d > 0, 'ZL');
+        require(_0x326dce._0xd7f592 > block.timestamp || _0x326dce._0xfd9240, 'EXP');
 
-        if (_0x26053e._0xc69e18) _0xe10e13 += _0x03daa8;
-        _0x80aa67(_0xb1b772, _0x03daa8, 0, _0x26053e, DepositType.INCREASE_LOCK_AMOUNT);
+        if (_0x326dce._0xfd9240) _0xb7f294 += _0x2f33c4;
+        _0x116ccc(_0xf4b082, _0x2f33c4, 0, _0x326dce, DepositType.INCREASE_LOCK_AMOUNT);
 
 
-        if(_0x5c88bb[_0xb1b772]) {
-            IVoter(_0x764840)._0x75ed11(_0xb1b772);
+        if(_0x57ecf6[_0xf4b082]) {
+            IVoter(_0xdddfbf)._0x7433c9(_0xf4b082);
         }
-        emit MetadataUpdate(_0xb1b772);
+        emit MetadataUpdate(_0xf4b082);
     }
 
 
-    function _0x0779be(uint _0xb1b772, uint _0x2bf73b) external _0xd00d35 {
-        assert(_0x7b1aba(msg.sender, _0xb1b772));
+    function _0x4bcdc2(uint _0xf4b082, uint _0x58160b) external _0xa523b5 {
+        assert(_0xcc72fd(msg.sender, _0xf4b082));
 
-        IVotingEscrow.LockedBalance memory _0x26053e = _0xd3d0ae[_0xb1b772];
-        require(!_0x26053e._0xc69e18, "!NORM");
-        uint _0xfda2fc = (block.timestamp + _0x2bf73b) / WEEK * WEEK;
+        IVotingEscrow.LockedBalance memory _0x326dce = _0x8dd7d9[_0xf4b082];
+        require(!_0x326dce._0xfd9240, "!NORM");
+        uint _0x66ca59 = (block.timestamp + _0x58160b) / WEEK * WEEK;
 
-        require(_0x26053e._0x3b3035 > block.timestamp && _0x26053e._0x61f75a > 0, 'EXP||ZV');
-        require(_0xfda2fc > _0x26053e._0x3b3035 && (_0xfda2fc <= block.timestamp + MAXTIME), 'IUT');
+        require(_0x326dce._0xd7f592 > block.timestamp && _0x326dce._0xfae49d > 0, 'EXP||ZV');
+        require(_0x66ca59 > _0x326dce._0xd7f592 && (_0x66ca59 <= block.timestamp + MAXTIME), 'IUT');
 
-        _0x80aa67(_0xb1b772, 0, _0xfda2fc, _0x26053e, DepositType.INCREASE_UNLOCK_TIME);
+        _0x116ccc(_0xf4b082, 0, _0x66ca59, _0x326dce, DepositType.INCREASE_UNLOCK_TIME);
 
 
-        if(_0x5c88bb[_0xb1b772]) {
-            IVoter(_0x764840)._0x75ed11(_0xb1b772);
+        if(_0x57ecf6[_0xf4b082]) {
+            IVoter(_0xdddfbf)._0x7433c9(_0xf4b082);
         }
-        emit MetadataUpdate(_0xb1b772);
+        emit MetadataUpdate(_0xf4b082);
     }
 
 
-    function _0xc6ecc8(uint _0xb1b772) external _0xd00d35 {
-        assert(_0x7b1aba(msg.sender, _0xb1b772));
-        require(_0x6dcb3b[_0xb1b772] == 0 && !_0x5c88bb[_0xb1b772], "ATT");
+    function _0x3455f3(uint _0xf4b082) external _0xa523b5 {
+        assert(_0xcc72fd(msg.sender, _0xf4b082));
+        require(_0x82ac4e[_0xf4b082] == 0 && !_0x57ecf6[_0xf4b082], "ATT");
 
-        IVotingEscrow.LockedBalance memory _0x26053e = _0xd3d0ae[_0xb1b772];
-        require(!_0x26053e._0xc69e18, "!NORM");
-        require(block.timestamp >= _0x26053e._0x3b3035, "!EXP");
-        uint value = uint(int256(_0x26053e._0x61f75a));
+        IVotingEscrow.LockedBalance memory _0x326dce = _0x8dd7d9[_0xf4b082];
+        require(!_0x326dce._0xfd9240, "!NORM");
+        require(block.timestamp >= _0x326dce._0xd7f592, "!EXP");
+        uint value = uint(int256(_0x326dce._0xfae49d));
 
-        _0xd3d0ae[_0xb1b772] = IVotingEscrow.LockedBalance(0, 0, false);
-        uint _0xc08fe9 = _0x22a398;
-        _0x22a398 = _0xc08fe9 - value;
-
-
-        _0x694d89(_0xb1b772, _0x26053e, IVotingEscrow.LockedBalance(0, 0, false));
-
-        assert(IERC20(_0x70338e).transfer(msg.sender, value));
+        _0x8dd7d9[_0xf4b082] = IVotingEscrow.LockedBalance(0, 0, false);
+        uint _0xc34a00 = _0x232a81;
+        _0x232a81 = _0xc34a00 - value;
 
 
-        _0xa7c58a(_0xb1b772);
+        _0xe1d8a8(_0xf4b082, _0x326dce, IVotingEscrow.LockedBalance(0, 0, false));
 
-        emit Withdraw(msg.sender, _0xb1b772, value, block.timestamp);
-        emit Supply(_0xc08fe9, _0xc08fe9 - value);
+        assert(IERC20(_0x6e3f8e).transfer(msg.sender, value));
+
+
+        _0xf299bf(_0xf4b082);
+
+        emit Withdraw(msg.sender, _0xf4b082, value, block.timestamp);
+        emit Supply(_0xc34a00, _0xc34a00 - value);
     }
 
-    function _0x2214f8(uint _0xb1b772) external {
+    function _0xbb7f9e(uint _0xf4b082) external {
         address sender = msg.sender;
-        require(_0x7b1aba(sender, _0xb1b772), "NAO");
+        require(_0xcc72fd(sender, _0xf4b082), "NAO");
 
-        IVotingEscrow.LockedBalance memory _0x654575 = _0xd3d0ae[_0xb1b772];
-        require(!_0x654575._0xc69e18, "!NORM");
-        require(_0x654575._0x3b3035 > block.timestamp, "EXP");
-        require(_0x654575._0x61f75a > 0, "ZV");
+        IVotingEscrow.LockedBalance memory _0x461bc5 = _0x8dd7d9[_0xf4b082];
+        require(!_0x461bc5._0xfd9240, "!NORM");
+        require(_0x461bc5._0xd7f592 > block.timestamp, "EXP");
+        require(_0x461bc5._0xfae49d > 0, "ZV");
 
-        uint _0x985219 = uint(int256(_0x654575._0x61f75a));
-        _0xe10e13 += _0x985219;
-        _0x654575._0x3b3035 = 0;
-        _0x654575._0xc69e18 = true;
-        _0x694d89(_0xb1b772, _0xd3d0ae[_0xb1b772], _0x654575);
-        _0xd3d0ae[_0xb1b772] = _0x654575;
-        if(_0x5c88bb[_0xb1b772]) {
-            IVoter(_0x764840)._0x75ed11(_0xb1b772);
+        uint _0x6ddf40 = uint(int256(_0x461bc5._0xfae49d));
+        _0xb7f294 += _0x6ddf40;
+        _0x461bc5._0xd7f592 = 0;
+        _0x461bc5._0xfd9240 = true;
+        _0xe1d8a8(_0xf4b082, _0x8dd7d9[_0xf4b082], _0x461bc5);
+        _0x8dd7d9[_0xf4b082] = _0x461bc5;
+        if(_0x57ecf6[_0xf4b082]) {
+            IVoter(_0xdddfbf)._0x7433c9(_0xf4b082);
         }
-        emit LockPermanent(sender, _0xb1b772, _0x985219, block.timestamp);
-        emit MetadataUpdate(_0xb1b772);
+        emit LockPermanent(sender, _0xf4b082, _0x6ddf40, block.timestamp);
+        emit MetadataUpdate(_0xf4b082);
     }
 
-    function _0x07d955(uint _0xb1b772) external {
+    function _0x03c311(uint _0xf4b082) external {
         address sender = msg.sender;
-        require(_0x7b1aba(msg.sender, _0xb1b772), "NAO");
+        require(_0xcc72fd(msg.sender, _0xf4b082), "NAO");
 
-        require(_0x6dcb3b[_0xb1b772] == 0 && !_0x5c88bb[_0xb1b772], "ATT");
-        IVotingEscrow.LockedBalance memory _0x654575 = _0xd3d0ae[_0xb1b772];
-        require(_0x654575._0xc69e18, "!NORM");
-        uint _0x985219 = uint(int256(_0x654575._0x61f75a));
-        _0xe10e13 -= _0x985219;
-        _0x654575._0x3b3035 = ((block.timestamp + MAXTIME) / WEEK) * WEEK;
-        _0x654575._0xc69e18 = false;
+        require(_0x82ac4e[_0xf4b082] == 0 && !_0x57ecf6[_0xf4b082], "ATT");
+        IVotingEscrow.LockedBalance memory _0x461bc5 = _0x8dd7d9[_0xf4b082];
+        require(_0x461bc5._0xfd9240, "!NORM");
+        uint _0x6ddf40 = uint(int256(_0x461bc5._0xfae49d));
+        _0xb7f294 -= _0x6ddf40;
+        _0x461bc5._0xd7f592 = ((block.timestamp + MAXTIME) / WEEK) * WEEK;
+        _0x461bc5._0xfd9240 = false;
 
-        _0x694d89(_0xb1b772, _0xd3d0ae[_0xb1b772], _0x654575);
-        _0xd3d0ae[_0xb1b772] = _0x654575;
+        _0xe1d8a8(_0xf4b082, _0x8dd7d9[_0xf4b082], _0x461bc5);
+        _0x8dd7d9[_0xf4b082] = _0x461bc5;
 
-        emit UnlockPermanent(sender, _0xb1b772, _0x985219, block.timestamp);
-        emit MetadataUpdate(_0xb1b772);
+        emit UnlockPermanent(sender, _0xf4b082, _0x6ddf40, block.timestamp);
+        emit MetadataUpdate(_0xf4b082);
     }
 
 
-    function _0x9d84c0(uint _0xb1b772) external view returns (uint) {
-        if (_0x28b0f3[_0xb1b772] == block.number) return 0;
-        return VotingBalanceLogic._0x9d84c0(_0xb1b772, block.timestamp, _0xf438fa);
+    function _0xf37287(uint _0xf4b082) external view returns (uint) {
+        if (_0xc38ced[_0xf4b082] == block.number) return 0;
+        return VotingBalanceLogic._0xf37287(_0xf4b082, block.timestamp, _0x3ae538);
     }
 
-    function _0x0bc793(uint _0xb1b772, uint _0x1c1e6c) external view returns (uint) {
-        return VotingBalanceLogic._0x9d84c0(_0xb1b772, _0x1c1e6c, _0xf438fa);
+    function _0x79e8d9(uint _0xf4b082, uint _0xacb016) external view returns (uint) {
+        return VotingBalanceLogic._0xf37287(_0xf4b082, _0xacb016, _0x3ae538);
     }
 
-    function _0x89ab6e(uint _0xb1b772, uint _0xb278f8) external view returns (uint) {
-        return VotingBalanceLogic._0x89ab6e(_0xb1b772, _0xb278f8, _0xf438fa, _0xce8926);
-    }
-
-
-    function _0xf69886(uint _0xb278f8) external view returns (uint) {
-        return VotingBalanceLogic._0xf69886(_0xb278f8, _0xce8926, _0xf438fa, _0x4884f5);
-    }
-
-    function _0xb40c56() external view returns (uint) {
-        return _0x054dfa(block.timestamp);
+    function _0x6bc905(uint _0xf4b082, uint _0xfb9f6c) external view returns (uint) {
+        return VotingBalanceLogic._0x6bc905(_0xf4b082, _0xfb9f6c, _0x3ae538, _0x73d159);
     }
 
 
-    function _0x054dfa(uint t) public view returns (uint) {
-        return VotingBalanceLogic._0x054dfa(t, _0xce8926, _0x4884f5,  _0xf438fa);
+    function _0x30829c(uint _0xfb9f6c) external view returns (uint) {
+        return VotingBalanceLogic._0x30829c(_0xfb9f6c, _0x73d159, _0x3ae538, _0xed2249);
+    }
+
+    function _0x1eddd7() external view returns (uint) {
+        return _0x41c737(block.timestamp);
     }
 
 
-    mapping(uint => uint) public _0x6dcb3b;
-    mapping(uint => bool) public _0x5c88bb;
-
-    function _0x55adb4(address _0x13980f) external {
-        require(msg.sender == _0xda0569);
-        _0x764840 = _0x13980f;
+    function _0x41c737(uint t) public view returns (uint) {
+        return VotingBalanceLogic._0x41c737(t, _0x73d159, _0xed2249,  _0x3ae538);
     }
 
-    function _0xf26e24(uint _0xb1b772) external {
-        require(msg.sender == _0x764840);
-        _0x5c88bb[_0xb1b772] = true;
+
+    mapping(uint => uint) public _0x82ac4e;
+    mapping(uint => bool) public _0x57ecf6;
+
+    function _0x0a88d4(address _0xb2676b) external {
+        require(msg.sender == _0x8d0c8c);
+        _0xdddfbf = _0xb2676b;
     }
 
-    function _0xeae687(uint _0xb1b772) external {
-        require(msg.sender == _0x764840, "NA");
-        _0x5c88bb[_0xb1b772] = false;
+    function _0xcd6c56(uint _0xf4b082) external {
+        require(msg.sender == _0xdddfbf);
+        _0x57ecf6[_0xf4b082] = true;
     }
 
-    function _0xa0249c(uint _0xb1b772) external {
-        require(msg.sender == _0x764840, "NA");
-        _0x6dcb3b[_0xb1b772] = _0x6dcb3b[_0xb1b772] + 1;
+    function _0x4f32ae(uint _0xf4b082) external {
+        require(msg.sender == _0xdddfbf, "NA");
+        _0x57ecf6[_0xf4b082] = false;
     }
 
-    function _0x271a4a(uint _0xb1b772) external {
-        require(msg.sender == _0x764840, "NA");
-        _0x6dcb3b[_0xb1b772] = _0x6dcb3b[_0xb1b772] - 1;
+    function _0xf5b117(uint _0xf4b082) external {
+        require(msg.sender == _0xdddfbf, "NA");
+        _0x82ac4e[_0xf4b082] = _0x82ac4e[_0xf4b082] + 1;
     }
 
-    function _0x4531e5(uint _0x2d99be, uint _0x2d9085) external _0xd00d35 _0x473086(_0x2d99be) {
-        require(_0x6dcb3b[_0x2d99be] == 0 && !_0x5c88bb[_0x2d99be], "ATT");
-        require(_0x2d99be != _0x2d9085, "SAME");
-        require(_0x7b1aba(msg.sender, _0x2d99be) &&
-        _0x7b1aba(msg.sender, _0x2d9085), "NAO");
+    function _0x09b05b(uint _0xf4b082) external {
+        require(msg.sender == _0xdddfbf, "NA");
+        _0x82ac4e[_0xf4b082] = _0x82ac4e[_0xf4b082] - 1;
+    }
 
-        IVotingEscrow.LockedBalance memory _0xa8f708 = _0xd3d0ae[_0x2d99be];
-        IVotingEscrow.LockedBalance memory _0x826466 = _0xd3d0ae[_0x2d9085];
-        require(_0x826466._0x3b3035 > block.timestamp ||  _0x826466._0xc69e18,"EXP||PERM");
-        require(_0xa8f708._0xc69e18 ? _0x826466._0xc69e18 : true, "!MERGE");
+    function _0x1a6fbe(uint _0x25182c, uint _0x53d6d5) external _0xa523b5 _0x2af2f1(_0x25182c) {
+        require(_0x82ac4e[_0x25182c] == 0 && !_0x57ecf6[_0x25182c], "ATT");
+        require(_0x25182c != _0x53d6d5, "SAME");
+        require(_0xcc72fd(msg.sender, _0x25182c) &&
+        _0xcc72fd(msg.sender, _0x53d6d5), "NAO");
 
-        uint _0x7c4f31 = uint(int256(_0xa8f708._0x61f75a));
-        uint _0x3b3035 = _0xa8f708._0x3b3035 >= _0x826466._0x3b3035 ? _0xa8f708._0x3b3035 : _0x826466._0x3b3035;
+        IVotingEscrow.LockedBalance memory _0xeabea0 = _0x8dd7d9[_0x25182c];
+        IVotingEscrow.LockedBalance memory _0xb844cd = _0x8dd7d9[_0x53d6d5];
+        require(_0xb844cd._0xd7f592 > block.timestamp ||  _0xb844cd._0xfd9240,"EXP||PERM");
+        require(_0xeabea0._0xfd9240 ? _0xb844cd._0xfd9240 : true, "!MERGE");
 
-        _0xd3d0ae[_0x2d99be] = IVotingEscrow.LockedBalance(0, 0, false);
-        _0x694d89(_0x2d99be, _0xa8f708, IVotingEscrow.LockedBalance(0, 0, false));
-        _0xa7c58a(_0x2d99be);
+        uint _0x002189 = uint(int256(_0xeabea0._0xfae49d));
+        uint _0xd7f592 = _0xeabea0._0xd7f592 >= _0xb844cd._0xd7f592 ? _0xeabea0._0xd7f592 : _0xb844cd._0xd7f592;
 
-        IVotingEscrow.LockedBalance memory _0x103ff6;
-        _0x103ff6._0xc69e18 = _0x826466._0xc69e18;
+        _0x8dd7d9[_0x25182c] = IVotingEscrow.LockedBalance(0, 0, false);
+        _0xe1d8a8(_0x25182c, _0xeabea0, IVotingEscrow.LockedBalance(0, 0, false));
+        _0xf299bf(_0x25182c);
 
-        if (_0x103ff6._0xc69e18){
-            _0x103ff6._0x61f75a = _0x826466._0x61f75a + _0xa8f708._0x61f75a;
-            if (!_0xa8f708._0xc69e18) {
-                _0xe10e13 += _0x7c4f31;
+        IVotingEscrow.LockedBalance memory _0xf42f45;
+        _0xf42f45._0xfd9240 = _0xb844cd._0xfd9240;
+
+        if (_0xf42f45._0xfd9240){
+            _0xf42f45._0xfae49d = _0xb844cd._0xfae49d + _0xeabea0._0xfae49d;
+            if (!_0xeabea0._0xfd9240) {
+                _0xb7f294 += _0x002189;
             }
         }else{
-            _0x103ff6._0x61f75a = _0x826466._0x61f75a + _0xa8f708._0x61f75a;
-            _0x103ff6._0x3b3035 = _0x3b3035;
+            _0xf42f45._0xfae49d = _0xb844cd._0xfae49d + _0xeabea0._0xfae49d;
+            _0xf42f45._0xd7f592 = _0xd7f592;
         }
 
 
-        _0x694d89(_0x2d9085, _0x826466, _0x103ff6);
-        _0xd3d0ae[_0x2d9085] = _0x103ff6;
+        _0xe1d8a8(_0x53d6d5, _0xb844cd, _0xf42f45);
+        _0x8dd7d9[_0x53d6d5] = _0xf42f45;
 
-        if(_0x5c88bb[_0x2d9085]) {
-            IVoter(_0x764840)._0x75ed11(_0x2d9085);
+        if(_0x57ecf6[_0x53d6d5]) {
+            IVoter(_0xdddfbf)._0x7433c9(_0x53d6d5);
         }
         emit Merge(
             msg.sender,
-            _0x2d99be,
-            _0x2d9085,
-            uint(int256(_0xa8f708._0x61f75a)),
-            uint(int256(_0x826466._0x61f75a)),
-            uint(int256(_0x103ff6._0x61f75a)),
-            _0x103ff6._0x3b3035,
+            _0x25182c,
+            _0x53d6d5,
+            uint(int256(_0xeabea0._0xfae49d)),
+            uint(int256(_0xb844cd._0xfae49d)),
+            uint(int256(_0xf42f45._0xfae49d)),
+            _0xf42f45._0xd7f592,
             block.timestamp
         );
-        emit MetadataUpdate(_0x2d9085);
+        emit MetadataUpdate(_0x53d6d5);
     }
 
 
-    function _0xc4bc8f(
-        uint _0x2d99be,
-        uint[] memory _0x2a3d40
-    ) external _0xd00d35 _0x6505db(_0x2d99be) _0x473086(_0x2d99be) returns (uint256[] memory _0x67c4be) {
-        require(_0x2a3d40.length >= 2 && _0x2a3d40.length <= 10, "MIN2MAX10");
+    function _0x0d19d0(
+        uint _0x25182c,
+        uint[] memory _0x58a924
+    ) external _0xa523b5 _0x40ba25(_0x25182c) _0x2af2f1(_0x25182c) returns (uint256[] memory _0xa0977d) {
+        require(_0x58a924.length >= 2 && _0x58a924.length <= 10, "MIN2MAX10");
 
-        address _0x7be9da = _0x41d5a2[_0x2d99be];
+        address _0x71344c = _0x8b7a52[_0x25182c];
 
-        IVotingEscrow.LockedBalance memory _0xa6d254 = _0xd3d0ae[_0x2d99be];
-        require(_0xa6d254._0x3b3035 > block.timestamp || _0xa6d254._0xc69e18, "EXP");
-        require(_0xa6d254._0x61f75a > 0, "ZV");
+        IVotingEscrow.LockedBalance memory _0xbab212 = _0x8dd7d9[_0x25182c];
+        require(_0xbab212._0xd7f592 > block.timestamp || _0xbab212._0xfd9240, "EXP");
+        require(_0xbab212._0xfae49d > 0, "ZV");
 
 
-        uint _0x68cf54 = 0;
-        for(uint i = 0; i < _0x2a3d40.length; i++) {
-            require(_0x2a3d40[i] > 0, "ZW");
-            _0x68cf54 += _0x2a3d40[i];
+        uint _0x5f11a2 = 0;
+        for(uint i = 0; i < _0x58a924.length; i++) {
+            require(_0x58a924[i] > 0, "ZW");
+            _0x5f11a2 += _0x58a924[i];
         }
 
 
-        _0xd3d0ae[_0x2d99be] = IVotingEscrow.LockedBalance(0, 0, false);
-        _0x694d89(_0x2d99be, _0xa6d254, IVotingEscrow.LockedBalance(0, 0, false));
-        _0xa7c58a(_0x2d99be);
+        _0x8dd7d9[_0x25182c] = IVotingEscrow.LockedBalance(0, 0, false);
+        _0xe1d8a8(_0x25182c, _0xbab212, IVotingEscrow.LockedBalance(0, 0, false));
+        _0xf299bf(_0x25182c);
 
 
-        _0x67c4be = new uint256[](_0x2a3d40.length);
-        uint[] memory _0x4547b2 = new uint[](_0x2a3d40.length);
+        _0xa0977d = new uint256[](_0x58a924.length);
+        uint[] memory _0x9ba99d = new uint[](_0x58a924.length);
 
-        for(uint i = 0; i < _0x2a3d40.length; i++) {
-            IVotingEscrow.LockedBalance memory _0x57f2c8 = IVotingEscrow.LockedBalance({
-                _0x61f75a: int128(int256(uint256(int256(_0xa6d254._0x61f75a)) * _0x2a3d40[i] / _0x68cf54)),
-                _0x3b3035: _0xa6d254._0x3b3035,
-                _0xc69e18: _0xa6d254._0xc69e18
+        for(uint i = 0; i < _0x58a924.length; i++) {
+            IVotingEscrow.LockedBalance memory _0x8f44f5 = IVotingEscrow.LockedBalance({
+                _0xfae49d: int128(int256(uint256(int256(_0xbab212._0xfae49d)) * _0x58a924[i] / _0x5f11a2)),
+                _0xd7f592: _0xbab212._0xd7f592,
+                _0xfd9240: _0xbab212._0xfd9240
             });
 
-            _0x67c4be[i] = _0x61a4a4(_0x7be9da, _0x57f2c8);
-            _0x4547b2[i] = uint256(int256(_0x57f2c8._0x61f75a));
+            _0xa0977d[i] = _0xff0382(_0x71344c, _0x8f44f5);
+            _0x9ba99d[i] = uint256(int256(_0x8f44f5._0xfae49d));
         }
 
         emit MultiSplit(
-            _0x2d99be,
-            _0x67c4be,
+            _0x25182c,
+            _0xa0977d,
             msg.sender,
-            _0x4547b2,
-            _0xa6d254._0x3b3035,
+            _0x9ba99d,
+            _0xbab212._0xd7f592,
             block.timestamp
         );
     }
 
-    function _0x61a4a4(address _0x2d9085, IVotingEscrow.LockedBalance memory _0x654575) private returns (uint256 _0xb1b772) {
-        if (true) { _0xb1b772 = ++_0x8c9f49; }
-        _0xd3d0ae[_0xb1b772] = _0x654575;
-        _0x694d89(_0xb1b772, IVotingEscrow.LockedBalance(0, 0, false), _0x654575);
-        _0xd8fb69(_0x2d9085, _0xb1b772);
+    function _0xff0382(address _0x53d6d5, IVotingEscrow.LockedBalance memory _0x461bc5) private returns (uint256 _0xf4b082) {
+        _0xf4b082 = ++_0x2a032a;
+        _0x8dd7d9[_0xf4b082] = _0x461bc5;
+        _0xe1d8a8(_0xf4b082, IVotingEscrow.LockedBalance(0, 0, false), _0x461bc5);
+        _0xdbf96f(_0x53d6d5, _0xf4b082);
     }
 
-    function _0x864bf0(address _0x247b2a, bool _0x8653b5) external {
-        require(msg.sender == _0xda0569);
-        _0x85bc88[_0x247b2a] = _0x8653b5;
-    }
-
-
-    bytes32 public constant DOMAIN_TYPEHASH = _0x784e7f("EIP712Domain(string name,uint256 chainId,address verifyingContract)");
-
-
-    bytes32 public constant DELEGATION_TYPEHASH = _0x784e7f("Delegation(address delegatee,uint256 nonce,uint256 expiry)");
-
-
-    mapping(address => address) private _0x14f2b5;
-
-
-    mapping(address => uint) public _0xe0e56a;
-
-
-    function _0x7849a3(address _0xa4451a) public view returns (address) {
-        address _0xbf15f1 = _0x14f2b5[_0xa4451a];
-        return _0xbf15f1 == address(0) ? _0xa4451a : _0xbf15f1;
+    function _0xd71cad(address _0x87e01d, bool _0x003535) external {
+        require(msg.sender == _0x8d0c8c);
+        _0xb965c7[_0x87e01d] = _0x003535;
     }
 
 
-    function _0xff4d55(address _0x06e542) external view returns (uint) {
-        uint32 _0x07b398 = _0xa9f396._0x20b632[_0x06e542];
-        if (_0x07b398 == 0) {
+    bytes32 public constant DOMAIN_TYPEHASH = _0xc1869c("EIP712Domain(string name,uint256 chainId,address verifyingContract)");
+
+
+    bytes32 public constant DELEGATION_TYPEHASH = _0xc1869c("Delegation(address delegatee,uint256 nonce,uint256 expiry)");
+
+
+    mapping(address => address) private _0xc2126b;
+
+
+    mapping(address => uint) public _0x688165;
+
+
+    function _0x36ebcd(address _0x4524b6) public view returns (address) {
+        address _0x5e78b2 = _0xc2126b[_0x4524b6];
+        return _0x5e78b2 == address(0) ? _0x4524b6 : _0x5e78b2;
+    }
+
+
+    function _0x0d8b8d(address _0x779979) external view returns (uint) {
+        uint32 _0xcdbfcd = _0x8e8b32._0xe1146f[_0x779979];
+        if (_0xcdbfcd == 0) {
             return 0;
         }
-        uint[] storage _0x45fd05 = _0xa9f396._0xcecbc9[_0x06e542][_0x07b398 - 1]._0x496709;
-        uint _0xf4280d = 0;
-        for (uint i = 0; i < _0x45fd05.length; i++) {
-            uint _0x38646e = _0x45fd05[i];
-            if (msg.sender != address(0) || msg.sender == address(0)) { _0xf4280d = _0xf4280d + VotingBalanceLogic._0x9d84c0(_0x38646e, block.timestamp, _0xf438fa); }
+        uint[] storage _0xf87eac = _0x8e8b32._0x013e6e[_0x779979][_0xcdbfcd - 1]._0x9af72f;
+        uint _0xce3fed = 0;
+        for (uint i = 0; i < _0xf87eac.length; i++) {
+            uint _0xbe3efa = _0xf87eac[i];
+            if (block.timestamp > 0) { _0xce3fed = _0xce3fed + VotingBalanceLogic._0xf37287(_0xbe3efa, block.timestamp, _0x3ae538); }
         }
-        return _0xf4280d;
+        return _0xce3fed;
     }
 
-    function _0x3fd922(address _0x06e542, uint timestamp)
+    function _0xa97b0f(address _0x779979, uint timestamp)
         public
         view
         returns (uint)
     {
-        uint32 _0xd88c6d = VotingDelegationLib._0x22d255(_0xa9f396, _0x06e542, timestamp);
+        uint32 _0x6ab456 = VotingDelegationLib._0x61bfd5(_0x8e8b32, _0x779979, timestamp);
 
-        uint[] storage _0x45fd05 = _0xa9f396._0xcecbc9[_0x06e542][_0xd88c6d]._0x496709;
-        uint _0xf4280d = 0;
-        for (uint i = 0; i < _0x45fd05.length; i++) {
-            uint _0x38646e = _0x45fd05[i];
+        uint[] storage _0xf87eac = _0x8e8b32._0x013e6e[_0x779979][_0x6ab456]._0x9af72f;
+        uint _0xce3fed = 0;
+        for (uint i = 0; i < _0xf87eac.length; i++) {
+            uint _0xbe3efa = _0xf87eac[i];
 
-            _0xf4280d = _0xf4280d + VotingBalanceLogic._0x9d84c0(_0x38646e, timestamp,  _0xf438fa);
+            _0xce3fed = _0xce3fed + VotingBalanceLogic._0xf37287(_0xbe3efa, timestamp,  _0x3ae538);
         }
 
-        return _0xf4280d;
+        return _0xce3fed;
     }
 
-    function _0x651cf3(uint256 timestamp) external view returns (uint) {
-        return _0x054dfa(timestamp);
+    function _0x7a5334(uint256 timestamp) external view returns (uint) {
+        return _0x41c737(timestamp);
     }
 
 
-    function _0xb3513a(address _0xa4451a, address _0xb6f452) internal {
+    function _0x7bfa51(address _0x4524b6, address _0xebefd4) internal {
 
-        address _0x8514f3 = _0x7849a3(_0xa4451a);
+        address _0x46c3f7 = _0x36ebcd(_0x4524b6);
 
-        _0x14f2b5[_0xa4451a] = _0xb6f452;
+        _0xc2126b[_0x4524b6] = _0xebefd4;
 
-        emit DelegateChanged(_0xa4451a, _0x8514f3, _0xb6f452);
-        VotingDelegationLib.TokenHelpers memory _0x61bed5 = VotingDelegationLib.TokenHelpers({
-            _0xbc4ab0: _0x4207a5,
-            _0xee52fb: _0xee52fb,
-            _0xfdae71:_0xfdae71
+        emit DelegateChanged(_0x4524b6, _0x46c3f7, _0xebefd4);
+        VotingDelegationLib.TokenHelpers memory _0x8b56d5 = VotingDelegationLib.TokenHelpers({
+            _0x4ca443: _0x54d806,
+            _0x6e30e1: _0x6e30e1,
+            _0x5fb461:_0x5fb461
         });
-        VotingDelegationLib._0x39619d(_0xa9f396, _0xa4451a, _0x8514f3, _0xb6f452, _0x61bed5);
+        VotingDelegationLib._0x0d8339(_0x8e8b32, _0x4524b6, _0x46c3f7, _0xebefd4, _0x8b56d5);
     }
 
 
-    function _0xea773b(address _0xb6f452) public {
-        if (_0xb6f452 == address(0)) _0xb6f452 = msg.sender;
-        return _0xb3513a(msg.sender, _0xb6f452);
+    function _0x9d04a4(address _0xebefd4) public {
+        if (_0xebefd4 == address(0)) _0xebefd4 = msg.sender;
+        return _0x7bfa51(msg.sender, _0xebefd4);
     }
 
-    function _0xe8fb0f(
-        address _0xb6f452,
-        uint _0x396de7,
-        uint _0x3a88b3,
+    function _0xff8b2a(
+        address _0xebefd4,
+        uint _0x25c6f9,
+        uint _0xf9f417,
         uint8 v,
         bytes32 r,
         bytes32 s
     ) public {
-        require(_0xb6f452 != msg.sender, "NA");
-        require(_0xb6f452 != address(0), "ZA");
+        require(_0xebefd4 != msg.sender, "NA");
+        require(_0xebefd4 != address(0), "ZA");
 
-        bytes32 _0x3bee46 = _0x784e7f(
-            abi._0x692b45(
+        bytes32 _0x8863a6 = _0xc1869c(
+            abi._0xdab143(
                 DOMAIN_TYPEHASH,
-                _0x784e7f(bytes(_0x90bec8)),
-                _0x784e7f(bytes(_0x1b8b40)),
+                _0xc1869c(bytes(_0xf20ba5)),
+                _0xc1869c(bytes(_0x76c514)),
                 block.chainid,
                 address(this)
             )
         );
-        bytes32 _0xcdbb46 = _0x784e7f(
-            abi._0x692b45(DELEGATION_TYPEHASH, _0xb6f452, _0x396de7, _0x3a88b3)
+        bytes32 _0x621b1a = _0xc1869c(
+            abi._0xdab143(DELEGATION_TYPEHASH, _0xebefd4, _0x25c6f9, _0xf9f417)
         );
-        bytes32 _0xf327f2 = _0x784e7f(
-            abi._0x147175("\x19\x01", _0x3bee46, _0xcdbb46)
+        bytes32 _0x6b2001 = _0xc1869c(
+            abi._0xdd2983("\x19\x01", _0x8863a6, _0x621b1a)
         );
-        address _0xdbeb27 = _0x826046(_0xf327f2, v, r, s);
+        address _0xcfbeed = _0xd9421c(_0x6b2001, v, r, s);
         require(
-            _0xdbeb27 != address(0),
+            _0xcfbeed != address(0),
             "ZA"
         );
         require(
-            _0x396de7 == _0xe0e56a[_0xdbeb27]++,
+            _0x25c6f9 == _0x688165[_0xcfbeed]++,
             "!NONCE"
         );
         require(
-            block.timestamp <= _0x3a88b3,
+            block.timestamp <= _0xf9f417,
             "EXP"
         );
-        return _0xb3513a(_0xdbeb27, _0xb6f452);
+        return _0x7bfa51(_0xcfbeed, _0xebefd4);
     }
 
 }

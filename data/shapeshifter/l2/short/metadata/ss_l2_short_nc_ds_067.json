@@ -87,8 +87,8 @@
     "owner2": "k",
     "result": "l",
     "owner": "m",
-    "sha3": "n",
-    "sum2": "o"
+    "sum2": "n",
+    "sha3": "o"
   },
   "transformation": {
     "strategy": "shapeshifter",

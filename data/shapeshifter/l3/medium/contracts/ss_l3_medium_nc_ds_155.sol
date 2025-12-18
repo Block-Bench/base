@@ -2,18 +2,18 @@ pragma solidity 0.4.24;
 
 contract Refunder {
 
-address[] private _0x887b70;
-mapping (address => uint) public _0xb8cc6d;
+address[] private _0x49fb8b;
+mapping (address => uint) public _0x47e675;
 
     constructor() {
-        _0x887b70.push(0x79B483371E87d664cd39491b5F06250165e4b184);
-        _0x887b70.push(0x79B483371E87d664cd39491b5F06250165e4b185);
+        _0x49fb8b.push(0x79B483371E87d664cd39491b5F06250165e4b184);
+        _0x49fb8b.push(0x79B483371E87d664cd39491b5F06250165e4b185);
     }
 
 
-    function _0x2f05e6() public {
-        for(uint x; x < _0x887b70.length; x++) {
-            require(_0x887b70[x].send(_0xb8cc6d[_0x887b70[x]]));
+    function _0x2b0682() public {
+        for(uint x; x < _0x49fb8b.length; x++) {
+            require(_0x49fb8b[x].send(_0x47e675[_0x49fb8b[x]]));
         }
     }
 

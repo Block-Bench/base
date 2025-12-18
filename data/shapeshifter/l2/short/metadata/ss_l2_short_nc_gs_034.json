@@ -77,8 +77,8 @@
   "derived_from": "nc_gs_034",
   "original_id": "gs_034",
   "identifier_mappings": {
-    "creationCode": "a",
-    "encodePacked": "b",
+    "encodePacked": "a",
+    "creationCode": "b",
     "_mainModule": "c",
     "_contract": "d",
     "deploy": "e",

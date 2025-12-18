@@ -2,7 +2,7 @@ pragma solidity ^0.4.24;
 
 library SafeMath {
 
-  function k(uint256 a, uint256 b) internal pure returns (uint256) {
+  function l(uint256 a, uint256 b) internal pure returns (uint256) {
 
 
     if (a == 0) {
@@ -37,7 +37,7 @@ library SafeMath {
     return c;
   }
 
-  function l(uint256 a, uint256 b) internal pure returns (uint256) {
+  function k(uint256 a, uint256 b) internal pure returns (uint256) {
     require(b != 0);
     return a % b;
   }
@@ -46,7 +46,7 @@ library SafeMath {
 contract ERC20 {
 
   event Transfer( address indexed from, address indexed p, uint256 value );
-  event Approval( address indexed j, address indexed i, uint256 value);
+  event Approval( address indexed j, address indexed h, uint256 value);
   using SafeMath for *;
 
   mapping (address => uint256) private f;
@@ -59,13 +59,13 @@ contract ERC20 {
     f[msg.sender] = c;
   }
 
-  function e(address j) public view returns (uint256) {
+  function d(address j) public view returns (uint256) {
     return f[j];
   }
 
-  function d(address j, address i) public view returns (uint256)
+  function e(address j, address h) public view returns (uint256)
   {
-    return g[j][i];
+    return g[j][h];
   }
 
   function transfer(address p, uint256 value) public returns (bool) {
@@ -77,10 +77,10 @@ contract ERC20 {
     emit Transfer(msg.sender, p, value);
     return true;
   }
-  function h(address i, uint256 value) public returns (bool) {
-    require(i != address(0));
-    g[msg.sender][i] = value;
-    emit Approval(msg.sender, i, value);
+  function i(address h, uint256 value) public returns (bool) {
+    require(h != address(0));
+    g[msg.sender][h] = value;
+    emit Approval(msg.sender, h, value);
     return true;
   }
 

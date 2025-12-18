@@ -76,8 +76,8 @@
     "intitalized": "a",
     "balances": "b",
     "_data": "c",
-    "_adr": "d",
-    "_log": "e",
+    "_log": "d",
+    "_adr": "e",
     "_val": "f",
     "_am": "g",
     "now": "h"

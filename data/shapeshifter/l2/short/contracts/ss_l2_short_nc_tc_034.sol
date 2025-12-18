@@ -9,100 +9,100 @@ interface IERC20 {
         uint256 aa
     ) external returns (bool);
 
-    function o(address x) external view returns (uint256);
+    function o(address z) external view returns (uint256);
 
-    function w(address u, uint256 aa) external returns (bool);
+    function y(address x, uint256 aa) external returns (bool);
 }
 
 interface IUniswapV3Pool {
     function ai(
-        address m,
+        address n,
         bool k,
         int256 c,
         uint160 a,
         bytes calldata data
-    ) external returns (int256 y, int256 v);
+    ) external returns (int256 v, int256 w);
 
     function ag(
-        address m,
-        uint256 y,
+        address n,
         uint256 v,
+        uint256 w,
         bytes calldata data
     ) external;
 }
 
 contract GammaHypervisor {
-    IERC20 public ac;
-    IERC20 public ab;
+    IERC20 public ae;
+    IERC20 public af;
     IUniswapV3Pool public ah;
 
     uint256 public j;
     mapping(address => uint256) public o;
 
     struct Position {
-        uint128 n;
-        int24 l;
+        uint128 m;
         int24 p;
+        int24 q;
     }
 
     Position public i;
-    Position public f;
+    Position public g;
 
-    function z(
+    function u(
         uint256 r,
-        uint256 s,
+        uint256 t,
         address aj
-    ) external returns (uint256 ad) {
-        uint256 ae = ac.o(address(this));
-        uint256 af = ab.o(address(this));
+    ) external returns (uint256 ab) {
+        uint256 ac = ae.o(address(this));
+        uint256 ad = af.o(address(this));
 
-        ac.h(msg.sender, address(this), r);
-        ab.h(msg.sender, address(this), s);
+        ae.h(msg.sender, address(this), r);
+        af.h(msg.sender, address(this), t);
 
         if (j == 0) {
-            ad = r + s;
+            ab = r + t;
         } else {
-            uint256 d = ae + r;
-            uint256 e = af + s;
+            uint256 e = ac + r;
+            uint256 d = ad + t;
 
-            ad = (j * (r + s)) / (ae + af);
+            ab = (j * (r + t)) / (ac + ad);
         }
 
-        o[aj] += ad;
-        j += ad;
+        o[aj] += ab;
+        j += ab;
 
-        g(r, s);
+        f(r, t);
     }
 
-    function t(
-        uint256 ad,
+    function s(
+        uint256 ab,
         address aj
-    ) external returns (uint256 y, uint256 v) {
-        require(o[msg.sender] >= ad, "Insufficient balance");
+    ) external returns (uint256 v, uint256 w) {
+        require(o[msg.sender] >= ab, "Insufficient balance");
 
-        uint256 ae = ac.o(address(this));
-        uint256 af = ab.o(address(this));
+        uint256 ac = ae.o(address(this));
+        uint256 ad = af.o(address(this));
 
-        y = (ad * ae) / j;
-        v = (ad * af) / j;
+        v = (ab * ac) / j;
+        w = (ab * ad) / j;
 
-        o[msg.sender] -= ad;
-        j -= ad;
+        o[msg.sender] -= ab;
+        j -= ab;
 
-        ac.transfer(aj, y);
-        ab.transfer(aj, v);
+        ae.transfer(aj, v);
+        af.transfer(aj, w);
     }
 
-    function q() external {
-        b(i.n);
+    function l() external {
+        b(i.m);
 
-        g(
-            ac.o(address(this)),
-            ab.o(address(this))
+        f(
+            ae.o(address(this)),
+            af.o(address(this))
         );
     }
 
-    function g(uint256 y, uint256 v) internal {}
+    function f(uint256 v, uint256 w) internal {}
 
-    function b(uint128 n) internal {}
+    function b(uint128 m) internal {}
 }

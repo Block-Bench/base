@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "MyToken",
-      "function_name": "c",
+      "function_name": "d",
       "line_numbers": [
         18
       ]
@@ -74,8 +74,8 @@
   "identifier_mappings": {
     "getBalance": "a",
     "sufficient": "b",
-    "sendCoin": "c",
-    "balances": "d",
+    "balances": "c",
+    "sendCoin": "d",
     "amount": "e",
     "_value": "f",
     "_from": "g",
@@ -93,7 +93,7 @@
     ],
     "rename_map_size": 10,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: sendCoin \u2192 c"
+      "Transformed ground_truth.vulnerable_location.function_name: sendCoin \u2192 d"
     ]
   }
 }

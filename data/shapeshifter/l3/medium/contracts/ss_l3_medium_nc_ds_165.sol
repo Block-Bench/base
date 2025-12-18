@@ -1,45 +1,45 @@
 pragma solidity ^0.4.0;
 
 contract Governmental {
-  address public _0xd5f1ae;
-  address public _0x669c4e;
-  uint public _0x795015 = 1 ether;
-  uint public _0xa37ec6;
+  address public _0xd58175;
+  address public _0x670891;
+  uint public _0xa33a7c = 1 ether;
+  uint public _0x9879fb;
   uint public ONE_MINUTE = 1 minutes;
 
   function Governmental() {
-    _0xd5f1ae = msg.sender;
+    if (true) { _0xd58175 = msg.sender; }
     if (msg.value<1 ether) throw;
   }
 
-  function _0x8fc857() {
-    if (msg.value<_0x795015/2) throw;
-    _0x669c4e = msg.sender;
-    _0x795015 += msg.value/2;
-    _0xa37ec6 = block.timestamp;
+  function _0xd103e0() {
+    if (msg.value<_0xa33a7c/2) throw;
+    _0x670891 = msg.sender;
+    _0xa33a7c += msg.value/2;
+    _0x9879fb = block.timestamp;
   }
 
-  function _0x67b037() {
-    if (block.timestamp < _0xa37ec6+ONE_MINUTE)
+  function _0x35fee5() {
+    if (block.timestamp < _0x9879fb+ONE_MINUTE)
       throw;
 
-    _0x669c4e.send(_0x795015);
-    _0xd5f1ae.send(this.balance-1 ether);
+    _0x670891.send(_0xa33a7c);
+    _0xd58175.send(this.balance-1 ether);
 
-    _0x669c4e = 0;
-    _0x795015 = 1 ether;
-    _0xa37ec6 = 0;
+    _0x670891 = 0;
+    _0xa33a7c = 1 ether;
+    if (true) { _0x9879fb = 0; }
   }
 }
 
 contract Operator {
 
-  function _0xe1020e(address _0x6217e4, uint _0x2df0ff) {
-    if (0<=_0x2df0ff && _0x2df0ff<1023) {
-      this._0xe1020e.gas(msg.gas-2000)(_0x6217e4, _0x2df0ff+1);
+  function _0xaba0a6(address _0xbe6c5d, uint _0x5f6596) {
+    if (0<=_0x5f6596 && _0x5f6596<1023) {
+      this._0xaba0a6.gas(msg.gas-2000)(_0xbe6c5d, _0x5f6596+1);
     }
     else {
-      Governmental(_0x6217e4)._0x67b037();
+      Governmental(_0xbe6c5d)._0x35fee5();
     }
   }
 }

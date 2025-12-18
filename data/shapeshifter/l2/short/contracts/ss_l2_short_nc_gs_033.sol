@@ -22,16 +22,16 @@ abstract contract BaseAuth is IAuth, IPartialAuth, ISapient, IERC1271, SelfAuth 
     bytes32(0xc852adf5e97c2fc3b38f405671e91b7af1697ef0287577f227ef10494c2a8e86);
 
 
-  error InvalidSapientSignature(Payload.Decoded ac, bytes r);
+  error InvalidSapientSignature(Payload.Decoded z, bytes t);
 
-  error InvalidSignatureWeight(uint256 t, uint256 ah);
+  error InvalidSignatureWeight(uint256 v, uint256 ah);
 
-  error InvalidStaticSignatureExpired(bytes32 ae, uint256 ab);
+  error InvalidStaticSignatureExpired(bytes32 ai, uint256 ac);
 
-  error InvalidStaticSignatureWrongCaller(bytes32 ae, address ai, address j);
+  error InvalidStaticSignatureWrongCaller(bytes32 ai, address ad, address l);
 
 
-  event StaticSignatureSet(bytes32 al, address z, uint96 v);
+  event StaticSignatureSet(bytes32 al, address aa, uint96 r);
 
   function c(
     bytes32 al
@@ -40,98 +40,98 @@ abstract contract BaseAuth is IAuth, IPartialAuth, ISapient, IERC1271, SelfAuth 
     return (address(uint160(ao >> 96)), uint256(uint96(ao)));
   }
 
-  function d(bytes32 al, address z, uint256 v) internal {
+  function d(bytes32 al, address aa, uint256 r) internal {
     Storage.k(
-      STATIC_SIGNATURE_KEY, al, bytes32(uint256(uint160(z)) << 96 | (v & 0xffffffffffffffffffffffff))
+      STATIC_SIGNATURE_KEY, al, bytes32(uint256(uint160(aa)) << 96 | (r & 0xffffffffffffffffffffffff))
     );
   }
 
 
-  function f(
+  function g(
     bytes32 al
   ) external view returns (address, uint256) {
     return c(al);
   }
 
 
-  function g(bytes32 al, address z, uint96 v) external aa {
-    d(al, z, v);
-    emit StaticSignatureSet(al, z, v);
+  function f(bytes32 al, address aa, uint96 r) external ab {
+    d(al, aa, r);
+    emit StaticSignatureSet(al, aa, r);
   }
 
 
-  function l(
-    bytes32 u
-  ) external virtual aa {
-    h(u);
+  function j(
+    bytes32 w
+  ) external virtual ab {
+    i(w);
   }
 
   function e(
-    Payload.Decoded memory ac,
-    bytes calldata r
-  ) internal view virtual returns (bool ag, bytes32 aj) {
+    Payload.Decoded memory z,
+    bytes calldata t
+  ) internal view virtual returns (bool ae, bytes32 ak) {
 
-    bytes1 p = r[0];
+    bytes1 n = t[0];
 
-    if (p & 0x80 == 0x80) {
-      aj = ac.an();
+    if (n & 0x80 == 0x80) {
+      ak = z.an();
 
-      (address am, uint256 timestamp) = c(aj);
+      (address am, uint256 timestamp) = c(ak);
       if (timestamp <= block.timestamp) {
-        revert InvalidStaticSignatureExpired(aj, timestamp);
+        revert InvalidStaticSignatureExpired(ak, timestamp);
       }
 
       if (am != address(0) && am != msg.sender) {
-        revert InvalidStaticSignatureWrongCaller(aj, msg.sender, am);
+        revert InvalidStaticSignatureWrongCaller(ak, msg.sender, am);
       }
 
-      return (true, aj);
+      return (true, ak);
     }
 
 
-    uint256 y;
-    uint256 ak;
-    bytes32 x;
+    uint256 x;
+    uint256 aj;
+    bytes32 y;
 
-    (y, ak, x,, aj) = BaseSig.ad(ac, r, false, address(0));
+    (x, aj, y,, ak) = BaseSig.ag(z, t, false, address(0));
 
 
-    if (ak < y) {
-      revert InvalidSignatureWeight(y, ak);
+    if (aj < x) {
+      revert InvalidSignatureWeight(x, aj);
     }
 
-    ag = o(x);
+    ae = p(y);
   }
 
 
   function a(
-    Payload.Decoded memory ac,
-    bytes calldata r
+    Payload.Decoded memory z,
+    bytes calldata t
   ) external view returns (bytes32) {
 
-    address[] memory n = new address[](ac.n.length + 1);
+    address[] memory o = new address[](z.o.length + 1);
 
-    for (uint256 i = 0; i < ac.n.length; i++) {
-      n[i] = ac.n[i];
+    for (uint256 i = 0; i < z.o.length; i++) {
+      o[i] = z.o[i];
     }
 
-    n[ac.n.length] = msg.sender;
-    ac.n = n;
+    o[z.o.length] = msg.sender;
+    z.o = o;
 
-    (bool ag,) = e(ac, r);
-    if (!ag) {
-      revert InvalidSapientSignature(ac, r);
+    (bool ae,) = e(z, t);
+    if (!ae) {
+      revert InvalidSapientSignature(z, t);
     }
 
     return bytes32(uint256(1));
   }
 
 
-  function i(bytes32 al, bytes calldata r) external view returns (bytes4) {
-    Payload.Decoded memory af = Payload.w(al);
+  function h(bytes32 al, bytes calldata t) external view returns (bytes4) {
+    Payload.Decoded memory af = Payload.s(al);
 
-    (bool ag,) = e(af, r);
-    if (!ag) {
+    (bool ae,) = e(af, t);
+    if (!ae) {
       return bytes4(0);
     }
 
@@ -140,22 +140,22 @@ abstract contract BaseAuth is IAuth, IPartialAuth, ISapient, IERC1271, SelfAuth 
 
 
   function b(
-    Payload.Decoded memory ac,
-    bytes calldata r
+    Payload.Decoded memory z,
+    bytes calldata t
   )
     external
     view
     returns (
-      uint256 y,
-      uint256 ak,
+      uint256 x,
+      uint256 aj,
       bool q,
-      bytes32 x,
-      uint256 s,
-      bytes32 aj
+      bytes32 y,
+      uint256 u,
+      bytes32 ak
     )
   {
-    (y, ak, x, s, aj) = BaseSig.ad(ac, r, false, address(0));
-    q = o(x);
+    (x, aj, y, u, ak) = BaseSig.ag(z, t, false, address(0));
+    q = p(y);
   }
 
 }

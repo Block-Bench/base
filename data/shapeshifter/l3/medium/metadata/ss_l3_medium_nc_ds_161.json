@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "NameRegistrar",
-      "function_name": "_0xcf5c90",
+      "function_name": "_0x2233d4",
       "line_numbers": []
     },
     "root_cause": "Security vulnerability at line(s) 23",
@@ -71,15 +71,15 @@
   "derived_from": "nc_ds_161",
   "original_id": "ds_161",
   "identifier_mappings": {
-    "registeredNameRecord": "_0x8c98f5",
-    "_mappedAddress": "_0xc3d10e",
-    "mappedAddress": "_0x9759f9",
-    "newRecord": "_0x649a75",
-    "unlocked": "_0xb0c8ef",
-    "register": "_0xcf5c90",
-    "resolve": "_0x562bda",
-    "_name": "_0x5c6c7a",
-    "name": "_0x37e6c5"
+    "registeredNameRecord": "_0xb2afd2",
+    "_mappedAddress": "_0xe9f338",
+    "mappedAddress": "_0x51bf8f",
+    "newRecord": "_0x0a6842",
+    "unlocked": "_0xe5d782",
+    "register": "_0x2233d4",
+    "resolve": "_0xc21efa",
+    "_name": "_0xe0b447",
+    "name": "_0xb84130"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -91,7 +91,7 @@
     ],
     "rename_map_size": 9,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: register \u2192 _0xcf5c90"
+      "Transformed ground_truth.vulnerable_location.function_name: register \u2192 _0x2233d4"
     ]
   }
 }

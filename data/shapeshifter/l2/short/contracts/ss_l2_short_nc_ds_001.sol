@@ -1,4 +1,4 @@
-contract i {
+contract h {
         uint private Balance = 0;
         uint private Payout_id = 0;
         uint private Last_Payout = 0;
@@ -7,25 +7,25 @@ contract i {
 
 
         uint private q = 0;
-        uint private c = 20;
+        uint private e = 20;
 
         uint private PotFrac = 30;
 
         address private k;
 
-        function i() {
+        function h() {
             k = msg.sender;
         }
 
         modifier b {if (msg.sender == k) _;  }
 
         struct Player {
-            address n;
+            address o;
             uint g;
-            bool o;
+            bool p;
         }
 
-        Player[] private d;
+        Player[] private c;
 
 
         function() {
@@ -34,42 +34,42 @@ contract i {
 
 
         function m() private {
-            uint e=msg.value;
+            uint d=msg.value;
             if (msg.value < 500 finney) {
                     msg.sender.send(msg.value);
                     return;
             }
             if (msg.value > 20 ether) {
                     msg.sender.send(msg.value- (20 ether));
-                    e=20 ether;
+                    d=20 ether;
             }
-            Participate(e);
+            Participate(d);
         }
 
 
-        function Participate(uint e) private {
+        function Participate(uint d) private {
 
 
                 uint a=Min_multiplier;
-                if(Balance < 1 ether && d.length>1){
+                if(Balance < 1 ether && c.length>1){
                     a+=100;
                 }
-                if( (d.length % 10)==0 && d.length>1 ){
+                if( (c.length % 10)==0 && c.length>1 ){
                     a+=100;
                 }
 
 
-                d.push(Player(msg.sender, (e * a) / 1000, false));
+                c.push(Player(msg.sender, (d * a) / 1000, false));
 
 
-                WinningPot += (e * PotFrac) / 1000;
-                q += (e * c) / 1000;
-                Balance += (e * (1000 - ( c + PotFrac ))) / 1000;
+                WinningPot += (d * PotFrac) / 1000;
+                q += (d * e) / 1000;
+                Balance += (d * (1000 - ( e + PotFrac ))) / 1000;
 
 
-                if(  ( e > 1 ether ) && (e > d[Payout_id].g) ){
-                    uint p = f(100);
-                    if( p % 10 == 0 ){
+                if(  ( d > 1 ether ) && (d > c[Payout_id].g) ){
+                    uint r = f(100);
+                    if( r % 10 == 0 ){
                         msg.sender.send(WinningPot);
                         WinningPot=0;
                     }
@@ -77,11 +77,11 @@ contract i {
                 }
 
 
-                while ( Balance > d[Payout_id].g ) {
-                    Last_Payout = d[Payout_id].g;
-                    d[Payout_id].n.send(Last_Payout);
-                    Balance -= d[Payout_id].g;
-                    d[Payout_id].o=true;
+                while ( Balance > c[Payout_id].g ) {
+                    Last_Payout = c[Payout_id].g;
+                    c[Payout_id].o.send(Last_Payout);
+                    Balance -= c[Payout_id].g;
+                    c[Payout_id].p=true;
 
                     Payout_id += 1;
                 }
@@ -93,15 +93,15 @@ contract i {
 
         uint256 x = l * 100 / Max;
         uint256 y = l * block.number / (l % 5) ;
-        uint256 r = block.number/3 + (l % 300) + Last_Payout +y;
-        uint256 h = uint256(block.blockhash(r));
+        uint256 n = block.number/3 + (l % 300) + Last_Payout +y;
+        uint256 h = uint256(block.blockhash(n));
 
         return uint256((h / x)) % Max + 1;
     }
 
 
-    function ChangeOwnership(address h) b {
-        k = h;
+    function ChangeOwnership(address i) b {
+        k = i;
     }
     function WatchBalance() constant returns(uint TotalBalance) {
         TotalBalance = Balance /  1 wei;
@@ -115,19 +115,19 @@ contract i {
     function CollectAllFees() b {
         if (q == 0) throw;
         k.send(q);
-        c-=1;
+        e-=1;
         q = 0;
     }
 
     function GetAndReduceFeesByFraction(uint p) b {
-        if (q == 0) c-=1;
+        if (q == 0) e-=1;
         k.send(q / 1000 * p);
         q -= q / 1000 * p;
     }
 
 
 function NextPayout() constant returns(uint NextPayout) {
-    NextPayout = d[Payout_id].g /  1 wei;
+    NextPayout = c[Payout_id].g /  1 wei;
 }
 
 function WatchFees() constant returns(uint CollectedFees) {
@@ -143,19 +143,19 @@ function WatchLastPayout() constant returns(uint g) {
 }
 
 function Total_of_Players() constant returns(uint NumberOfPlayers) {
-    NumberOfPlayers = d.length;
+    NumberOfPlayers = c.length;
 }
 
 function PlayerInfo(uint s) constant returns(address Address, uint Payout, bool UserPaid) {
-    if (s <= d.length) {
-        Address = d[s].n;
-        Payout = d[s].g / 1 wei;
-        UserPaid=d[s].o;
+    if (s <= c.length) {
+        Address = c[s].o;
+        Payout = c[s].g / 1 wei;
+        UserPaid=c[s].p;
     }
 }
 
 function PayoutQueueSize() constant returns(uint QueueSize) {
-    QueueSize = d.length - Payout_id;
+    QueueSize = c.length - Payout_id;
 }
 
 }

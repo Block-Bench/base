@@ -1,17 +1,17 @@
 pragma solidity ^0.4.23;
 
 contract MultiTxCalculator {
-    uint256 private _0x414d8c = 0;
-    uint256 public _0xb6f559 = 1;
+    uint256 private _0xcb0c12 = 0;
+    uint256 public _0x7f1818 = 1;
 
-    function _0x20901f() public {
-        if (block.timestamp > 0) { _0x414d8c = 1; }
+    function _0x376bac() public {
+        _0xcb0c12 = 1;
     }
 
-    function _0x13ebf2(uint256 _0xe1fbdd) {
-        if (_0x414d8c == 0) {
+    function _0xbcf1f9(uint256 _0x0184d4) {
+        if (_0xcb0c12 == 0) {
             return;
         }
-        _0xb6f559 -= _0xe1fbdd;
+        _0x7f1818 -= _0x0184d4;
     }
 }

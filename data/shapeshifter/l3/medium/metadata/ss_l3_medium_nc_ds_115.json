@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "for",
-      "function_name": "_0xa374a8",
+      "function_name": "_0xad2adf",
       "line_numbers": []
     },
     "root_cause": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
@@ -75,31 +75,31 @@
   "derived_from": "nc_ds_115",
   "original_id": "ds_115",
   "identifier_mappings": {
-    "approveAndCall": "_0xab3a19",
-    "_initialAmount": "_0x9ec220",
-    "_decimalUnits": "_0xb49552",
-    "transferFrom": "_0xcfb39e",
-    "_tokenSymbol": "_0xaeb9cd",
-    "totalSupply": "_0xa374a8",
-    "_extraData": "_0xdfb637",
-    "_tokenName": "_0x8646ef",
-    "allowance": "_0x7d2f42",
-    "balanceOf": "_0x2b09b6",
-    "remaining": "_0xa1a8b2",
-    "decimals": "_0x9a6c1e",
-    "balances": "_0x557220",
-    "_spender": "_0xe522b1",
-    "success": "_0x04d512",
-    "allowed": "_0xeca15b",
-    "version": "_0x7fb66e",
-    "approve": "_0xf95e66",
-    "_value": "_0xca76b2",
-    "symbol": "_0x17d93c",
-    "_owner": "_0x81f5ae",
-    "_from": "_0x924a32",
-    "sha3": "_0xe7525e",
-    "name": "_0x8bd1b9",
-    "_to": "_0xecfdc5"
+    "_initialAmount": "_0xfd8eae",
+    "approveAndCall": "_0xf37354",
+    "_decimalUnits": "_0x02b0fa",
+    "_tokenSymbol": "_0xcab90a",
+    "transferFrom": "_0xba2509",
+    "totalSupply": "_0xad2adf",
+    "_extraData": "_0x8dfe7d",
+    "_tokenName": "_0x304439",
+    "balanceOf": "_0x29f801",
+    "allowance": "_0xd618dd",
+    "remaining": "_0x50d01f",
+    "decimals": "_0xf96a38",
+    "_spender": "_0x0af0ed",
+    "balances": "_0x7e20c2",
+    "version": "_0x45fa36",
+    "success": "_0xfcb37e",
+    "allowed": "_0x6dc3f9",
+    "approve": "_0xf1ba54",
+    "_value": "_0x969771",
+    "symbol": "_0x664093",
+    "_owner": "_0xda1775",
+    "_from": "_0x5cf8e4",
+    "sha3": "_0xee28ae",
+    "name": "_0xa9ac04",
+    "_to": "_0x3eeae7"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -111,7 +111,7 @@
     ],
     "rename_map_size": 25,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: totalSupply \u2192 _0xa374a8"
+      "Transformed ground_truth.vulnerable_location.function_name: totalSupply \u2192 _0xad2adf"
     ]
   }
 }

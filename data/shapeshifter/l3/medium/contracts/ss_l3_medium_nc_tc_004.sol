@@ -2,101 +2,101 @@ pragma solidity ^0.8.0;
 
 
 interface ICurvePool {
-    function _0xc5ea44(
+    function _0x8f2401(
         int128 i,
         int128 j,
-        uint256 _0x5a324d,
-        uint256 _0x941145
+        uint256 _0x2c939b,
+        uint256 _0xd7e5e5
     ) external returns (uint256);
 
-    function _0x10fa32(
+    function _0x622b5d(
         int128 i,
         int128 j,
-        uint256 _0x5a324d
+        uint256 _0x2c939b
     ) external view returns (uint256);
 }
 
 contract YieldVault {
-    address public _0xb1e26d;
-    ICurvePool public _0x5b463a;
+    address public _0x215d94;
+    ICurvePool public _0xfa7435;
 
-    uint256 public _0xebec7d;
-    mapping(address => uint256) public _0xe936f0;
+    uint256 public _0xbf9430;
+    mapping(address => uint256) public _0x0d315e;
 
 
-    uint256 public _0xea0aac;
+    uint256 public _0x7dbc61;
 
-    event Deposit(address indexed _0x135f30, uint256 _0x43eb15, uint256 _0x94046b);
-    event Withdrawal(address indexed _0x135f30, uint256 _0x94046b, uint256 _0x43eb15);
+    event Deposit(address indexed _0x0dffa0, uint256 _0x1e57cd, uint256 _0x391b41);
+    event Withdrawal(address indexed _0x0dffa0, uint256 _0x391b41, uint256 _0x1e57cd);
 
-    constructor(address _0x315c0e, address _0x213b44) {
-        _0xb1e26d = _0x315c0e;
-        _0x5b463a = ICurvePool(_0x213b44);
+    constructor(address _0x5c4842, address _0x9ac625) {
+        _0x215d94 = _0x5c4842;
+        _0xfa7435 = ICurvePool(_0x9ac625);
     }
 
 
-    function _0xe3854b(uint256 _0x43eb15) external returns (uint256 _0x94046b) {
-        require(_0x43eb15 > 0, "Zero amount");
+    function _0x72768f(uint256 _0x1e57cd) external returns (uint256 _0x391b41) {
+        require(_0x1e57cd > 0, "Zero amount");
 
 
-        if (_0xebec7d == 0) {
-            _0x94046b = _0x43eb15;
+        if (_0xbf9430 == 0) {
+            _0x391b41 = _0x1e57cd;
         } else {
-            uint256 _0x45668a = _0x47c40e();
-            if (block.timestamp > 0) { _0x94046b = (_0x43eb15 * _0xebec7d) / _0x45668a; }
+            uint256 _0x34db63 = _0x7b0ba9();
+            _0x391b41 = (_0x1e57cd * _0xbf9430) / _0x34db63;
         }
 
-        _0xe936f0[msg.sender] += _0x94046b;
-        _0xebec7d += _0x94046b;
+        _0x0d315e[msg.sender] += _0x391b41;
+        _0xbf9430 += _0x391b41;
 
 
-        _0x155edf(_0x43eb15);
+        _0x098269(_0x1e57cd);
 
-        emit Deposit(msg.sender, _0x43eb15, _0x94046b);
-        return _0x94046b;
+        emit Deposit(msg.sender, _0x1e57cd, _0x391b41);
+        return _0x391b41;
     }
 
 
-    function _0xd0e4d5(uint256 _0x94046b) external returns (uint256 _0x43eb15) {
-        require(_0x94046b > 0, "Zero shares");
-        require(_0xe936f0[msg.sender] >= _0x94046b, "Insufficient balance");
+    function _0x35fcce(uint256 _0x391b41) external returns (uint256 _0x1e57cd) {
+        require(_0x391b41 > 0, "Zero shares");
+        require(_0x0d315e[msg.sender] >= _0x391b41, "Insufficient balance");
 
 
-        uint256 _0x45668a = _0x47c40e();
-        if (block.timestamp > 0) { _0x43eb15 = (_0x94046b * _0x45668a) / _0xebec7d; }
+        uint256 _0x34db63 = _0x7b0ba9();
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0x1e57cd = (_0x391b41 * _0x34db63) / _0xbf9430; }
 
-        _0xe936f0[msg.sender] -= _0x94046b;
-        _0xebec7d -= _0x94046b;
+        _0x0d315e[msg.sender] -= _0x391b41;
+        _0xbf9430 -= _0x391b41;
 
 
-        _0x6b5e6d(_0x43eb15);
+        _0x794be6(_0x1e57cd);
 
-        emit Withdrawal(msg.sender, _0x94046b, _0x43eb15);
-        return _0x43eb15;
+        emit Withdrawal(msg.sender, _0x391b41, _0x1e57cd);
+        return _0x1e57cd;
     }
 
 
-    function _0x47c40e() public view returns (uint256) {
-        uint256 _0x0dcb32 = 0;
-        uint256 _0xce517f = _0xea0aac;
+    function _0x7b0ba9() public view returns (uint256) {
+        uint256 _0x4c96b8 = 0;
+        uint256 _0x07c199 = _0x7dbc61;
 
-        return _0x0dcb32 + _0xce517f;
+        return _0x4c96b8 + _0x07c199;
     }
 
 
-    function _0x557867() public view returns (uint256) {
-        if (_0xebec7d == 0) return 1e18;
-        return (_0x47c40e() * 1e18) / _0xebec7d;
+    function _0x73379d() public view returns (uint256) {
+        if (_0xbf9430 == 0) return 1e18;
+        return (_0x7b0ba9() * 1e18) / _0xbf9430;
     }
 
 
-    function _0x155edf(uint256 _0x43eb15) internal {
-        _0xea0aac += _0x43eb15;
+    function _0x098269(uint256 _0x1e57cd) internal {
+        _0x7dbc61 += _0x1e57cd;
     }
 
 
-    function _0x6b5e6d(uint256 _0x43eb15) internal {
-        require(_0xea0aac >= _0x43eb15, "Insufficient invested");
-        _0xea0aac -= _0x43eb15;
+    function _0x794be6(uint256 _0x1e57cd) internal {
+        require(_0x7dbc61 >= _0x1e57cd, "Insufficient invested");
+        _0x7dbc61 -= _0x1e57cd;
     }
 }

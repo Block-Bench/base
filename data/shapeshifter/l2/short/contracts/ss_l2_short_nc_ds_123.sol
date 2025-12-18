@@ -1,93 +1,93 @@
 pragma solidity ^0.4.16;
 
-contract af {
+contract ae {
     address public ad;
 
-    function af() public {
+    function ae() public {
         ad = msg.sender;
     }
 
-    modifier n {
+    modifier m {
         require(msg.sender == ad);
         _;
     }
 
-    function b(address q) n public {
+    function b(address q) m public {
         ad = q;
     }
 }
 
-interface f { function d(address ae, uint256 z, address ab, bytes k) external; }
+interface f { function d(address af, uint256 y, address aa, bytes k) external; }
 
 contract TokenERC20 {
 
     string public ag;
-    string public y;
+    string public w;
     uint8 public s = 18;
 
     uint256 public i;
 
 
-    mapping (address => uint256) public p;
-    mapping (address => mapping (address => uint256)) public l;
+    mapping (address => uint256) public n;
+    mapping (address => mapping (address => uint256)) public p;
 
 
     event Transfer(address indexed from, address indexed aj, uint256 value);
 
 
-    event Approval(address indexed w, address indexed r, uint256 z);
+    event Approval(address indexed ac, address indexed r, uint256 y);
 
     function TokenERC20(
         string o,
         string j
     ) public {
         ag = o;
-        y = j;
+        w = j;
     }
 
-    function m(address ae, address ah, uint z) internal {
+    function l(address af, address ah, uint y) internal {
 
         require(ah != 0x0);
 
-        require(p[ae] >= z);
+        require(n[af] >= y);
 
-        require(p[ah] + z > p[ah]);
+        require(n[ah] + y > n[ah]);
 
-        uint c = p[ae] + p[ah];
+        uint c = n[af] + n[ah];
 
-        p[ae] -= z;
+        n[af] -= y;
 
-        p[ah] += z;
-        emit Transfer(ae, ah, z);
+        n[ah] += y;
+        emit Transfer(af, ah, y);
 
-        assert(p[ae] + p[ah] == c);
+        assert(n[af] + n[ah] == c);
     }
 
-    function transfer(address ah, uint256 z) public returns (bool u) {
-        m(msg.sender, ah, z);
+    function transfer(address ah, uint256 y) public returns (bool t) {
+        l(msg.sender, ah, y);
         return true;
     }
 
-    function h(address ae, address ah, uint256 z) public returns (bool u) {
-        require(z <= l[ae][msg.sender]);
-        l[ae][msg.sender] -= z;
-        m(ae, ah, z);
+    function h(address af, address ah, uint256 y) public returns (bool t) {
+        require(y <= p[af][msg.sender]);
+        p[af][msg.sender] -= y;
+        l(af, ah, y);
         return true;
     }
 
-    function v(address r, uint256 z) public
-        returns (bool u) {
-        l[msg.sender][r] = z;
-        emit Approval(msg.sender, r, z);
+    function v(address r, uint256 y) public
+        returns (bool t) {
+        p[msg.sender][r] = y;
+        emit Approval(msg.sender, r, y);
         return true;
     }
 
-    function e(address r, uint256 z, bytes k)
+    function e(address r, uint256 y, bytes k)
         public
-        returns (bool u) {
-        f t = f(r);
-        if (v(r, z)) {
-            t.d(msg.sender, z, this, k);
+        returns (bool t) {
+        f u = f(r);
+        if (v(r, y)) {
+            u.d(msg.sender, y, this, k);
             return true;
         }
     }
@@ -95,12 +95,12 @@ contract TokenERC20 {
 }
 
 
-contract MyAdvancedToken is af, TokenERC20 {
+contract MyAdvancedToken is ae, TokenERC20 {
 
     mapping (address => bool) public g;
 
 
-    event FrozenFunds(address ac, bool aa);
+    event FrozenFunds(address ab, bool x);
 
 
     function MyAdvancedToken(
@@ -109,27 +109,27 @@ contract MyAdvancedToken is af, TokenERC20 {
     ) TokenERC20(o, j) public {}
 
 
-    function m(address ae, address ah, uint z) internal {
+    function l(address af, address ah, uint y) internal {
         require (ah != 0x0);
-        require (p[ae] >= z);
-        require (p[ah] + z >= p[ah]);
-        require(!g[ae]);
+        require (n[af] >= y);
+        require (n[ah] + y >= n[ah]);
+        require(!g[af]);
         require(!g[ah]);
-        p[ae] -= z;
-        p[ah] += z;
-        emit Transfer(ae, ah, z);
+        n[af] -= y;
+        n[ah] += y;
+        emit Transfer(af, ah, y);
     }
 
 
     function ai() payable public {
-        uint x = msg.value;
-	p[msg.sender] += x;
-        i += x;
-        m(address(0x0), msg.sender, x);
+        uint z = msg.value;
+	n[msg.sender] += z;
+        i += z;
+        l(address(0x0), msg.sender, z);
     }
 
 
-    function a() n {
+    function a() m {
 	assert(this.balance == i);
 	suicide(ad);
     }

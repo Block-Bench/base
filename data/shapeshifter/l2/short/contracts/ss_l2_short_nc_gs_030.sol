@@ -12,56 +12,56 @@ import { IDelegatedExtension } from "./interfaces/IDelegatedExtension.sol";
 abstract contract Calls is ReentrancyGuard, BaseAuth, Nonce {
 
 
-  event CallSucceeded(bytes32 v, uint256 ab);
+  event CallSucceeded(bytes32 z, uint256 aa);
 
-  event CallFailed(bytes32 v, uint256 ab, bytes j);
+  event CallFailed(bytes32 z, uint256 aa, bytes j);
 
-  event CallAborted(bytes32 v, uint256 ab, bytes j);
+  event CallAborted(bytes32 z, uint256 aa, bytes j);
 
-  event CallSkipped(bytes32 v, uint256 ab);
-
-
-  error Reverted(Payload.Decoded s, uint256 ab, bytes j);
-
-  error InvalidSignature(Payload.Decoded s, bytes l);
-
-  error NotEnoughGas(Payload.Decoded s, uint256 ab, uint256 r);
+  event CallSkipped(bytes32 z, uint256 aa);
 
 
-  function u(bytes calldata s, bytes calldata l) external payable virtual h {
-    uint256 k = y();
-    Payload.Decoded memory x = Payload.d(s);
+  error Reverted(Payload.Decoded o, uint256 aa, bytes j);
 
-    e(x.ac, x.ad);
-    (bool z, bytes32 aa) = b(x, l);
+  error InvalidSignature(Payload.Decoded o, bytes l);
 
-    if (!z) {
-      revert InvalidSignature(x, l);
+  error NotEnoughGas(Payload.Decoded o, uint256 aa, uint256 p);
+
+
+  function x(bytes calldata o, bytes calldata l) external payable virtual h {
+    uint256 k = w();
+    Payload.Decoded memory y = Payload.d(o);
+
+    e(y.ae, y.ac);
+    (bool u, bytes32 ab) = b(y, l);
+
+    if (!u) {
+      revert InvalidSignature(y, l);
     }
 
-    t(k, aa, x);
+    q(k, ab, y);
   }
 
 
   function i(
-    bytes calldata s
-  ) external payable virtual p {
-    uint256 k = y();
-    Payload.Decoded memory x = Payload.d(s);
-    bytes32 aa = Payload.af(x);
-    t(k, aa, x);
+    bytes calldata o
+  ) external payable virtual r {
+    uint256 k = w();
+    Payload.Decoded memory y = Payload.d(o);
+    bytes32 ab = Payload.af(y);
+    q(k, ab, y);
   }
 
-  function t(uint256 g, bytes32 v, Payload.Decoded memory q) private {
+  function q(uint256 g, bytes32 z, Payload.Decoded memory t) private {
     bool n = false;
 
-    uint256 o = q.ae.length;
-    for (uint256 i = 0; i < o; i++) {
-      Payload.Call memory call = q.ae[i];
+    uint256 s = t.ad.length;
+    for (uint256 i = 0; i < s; i++) {
+      Payload.Call memory call = t.ad[i];
 
 
       if (call.f && !n) {
-        emit CallSkipped(v, i);
+        emit CallSkipped(z, i);
         continue;
       }
 
@@ -69,47 +69,47 @@ abstract contract Calls is ReentrancyGuard, BaseAuth, Nonce {
       n = false;
 
       uint256 gasLimit = call.gasLimit;
-      if (gasLimit != 0 && y() < gasLimit) {
-        revert NotEnoughGas(q, i, y());
+      if (gasLimit != 0 && w() < gasLimit) {
+        revert NotEnoughGas(t, i, w());
       }
 
-      bool w;
+      bool v;
       if (call.delegateCall) {
-        (w) = LibOptim.delegatecall(
+        (v) = LibOptim.delegatecall(
           call.ag,
-          gasLimit == 0 ? y() : gasLimit,
+          gasLimit == 0 ? w() : gasLimit,
           abi.c(
             IDelegatedExtension.a.selector,
-            v,
+            z,
             g,
             i,
-            o,
-            q.ac,
+            s,
+            t.ae,
             call.data
           )
         );
       } else {
-        (w) = LibOptim.call(call.ag, call.value, gasLimit == 0 ? y() : gasLimit, call.data);
+        (v) = LibOptim.call(call.ag, call.value, gasLimit == 0 ? w() : gasLimit, call.data);
       }
 
-      if (!w) {
+      if (!v) {
         if (call.behaviorOnError == Payload.BEHAVIOR_IGNORE_ERROR) {
           n = true;
-          emit CallFailed(v, i, LibOptim.m());
+          emit CallFailed(z, i, LibOptim.m());
           continue;
         }
 
         if (call.behaviorOnError == Payload.BEHAVIOR_REVERT_ON_ERROR) {
-          revert Reverted(q, i, LibOptim.m());
+          revert Reverted(t, i, LibOptim.m());
         }
 
         if (call.behaviorOnError == Payload.BEHAVIOR_ABORT_ON_ERROR) {
-          emit CallAborted(v, i, LibOptim.m());
+          emit CallAborted(z, i, LibOptim.m());
           break;
         }
       }
 
-      emit CallSucceeded(v, i);
+      emit CallSucceeded(z, i);
     }
   }
 

@@ -7,8 +7,8 @@
     "vulnerability_type": "timestamp_dependency",
     "severity": "low",
     "vulnerable_location": {
-      "contract_name": "_0xdfa3e5",
-      "function_name": "_0x157f4c",
+      "contract_name": "_0x4a0dbb",
+      "function_name": "_0x684fbf",
       "line_numbers": []
     },
     "root_cause": "Timestamp dependency - reliance on block.timestamp for critical logic at line(s) 13",
@@ -29,7 +29,7 @@
     "num_lines": 26,
     "num_contracts": 1,
     "contract_names": [
-      "_0xdfa3e5"
+      "_0x4a0dbb"
     ],
     "num_functions": 3,
     "has_imports": false,
@@ -70,15 +70,15 @@
   "derived_from": "nc_ds_166",
   "original_id": "ds_166",
   "identifier_mappings": {
-    "randomNumber": "_0x25dc35",
-    "lottopollo": "_0xdfa3e5",
-    "randomGen": "_0x62e00c",
-    "leader": "_0xa4dfe8",
-    "payOut": "_0x157f4c",
-    "draw": "_0x299e6a",
-    "seed": "_0x9167ff",
-    "rand": "_0xb9a1d4",
-    "now": "_0xe7adb9"
+    "randomNumber": "_0x29dbad",
+    "lottopollo": "_0x4a0dbb",
+    "randomGen": "_0x2519f2",
+    "payOut": "_0x684fbf",
+    "leader": "_0x37ed75",
+    "rand": "_0xee5e9b",
+    "draw": "_0x8128c9",
+    "seed": "_0xb1736b",
+    "now": "_0x0a206d"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -90,9 +90,9 @@
     ],
     "rename_map_size": 9,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.contract_name: lottopollo \u2192 _0xdfa3e5",
-      "Transformed ground_truth.vulnerable_location.function_name: payOut \u2192 _0x157f4c",
-      "Transformed code_metadata.contract_names item: lottopollo \u2192 _0xdfa3e5"
+      "Transformed ground_truth.vulnerable_location.contract_name: lottopollo \u2192 _0x4a0dbb",
+      "Transformed ground_truth.vulnerable_location.function_name: payOut \u2192 _0x684fbf",
+      "Transformed code_metadata.contract_names item: lottopollo \u2192 _0x4a0dbb"
     ]
   }
 }

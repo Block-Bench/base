@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "B",
-      "function_name": "_0xa23f6d",
+      "function_name": "_0x55beea",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 16",
@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_082",
   "original_id": "ds_082",
   "identifier_mappings": {
-    "target": "_0x0dccc9",
-    "owner": "_0xdfba63",
-    "go": "_0xa23f6d"
+    "target": "_0x053992",
+    "owner": "_0xe72a0e",
+    "go": "_0x55beea"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: go \u2192 _0xa23f6d"
+      "Transformed ground_truth.vulnerable_location.function_name: go \u2192 _0x55beea"
     ]
   }
 }

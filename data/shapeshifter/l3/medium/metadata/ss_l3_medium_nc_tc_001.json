@@ -7,8 +7,8 @@
     "vulnerability_type": "logic_error",
     "severity": "critical",
     "vulnerable_location": {
-      "contract_name": "VulnerableNomadReplica",
-      "function_name": "_0x7bab9e",
+      "contract_name": "BridgeReplica",
+      "function_name": "_0x1ff166",
       "line_numbers": []
     },
     "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
@@ -90,21 +90,21 @@
   "derived_from": "nc_tc_001",
   "original_id": "tc_001",
   "identifier_mappings": {
-    "setAcceptedRoot": "_0x5e6995",
-    "_bridgeRouter": "_0x8b13d1",
-    "routerSuccess": "_0xd95cb9",
-    "acceptedRoot": "_0x752e22",
-    "_messageRoot": "_0x2c1814",
-    "bridgeRouter": "_0x87ec8c",
-    "messageHash": "_0x474529",
-    "keccak256": "_0xa60298",
-    "_message": "_0x94107a",
-    "messages": "_0xea8687",
-    "_newRoot": "_0x669b90",
-    "process": "_0x7bab9e",
-    "success": "_0xab9137",
-    "nonces": "_0xf7c8e8",
-    "root": "_0xbdeb68"
+    "setAcceptedRoot": "_0xf4992c",
+    "_bridgeRouter": "_0x13533e",
+    "routerSuccess": "_0x773f59",
+    "_messageRoot": "_0xd6f4dc",
+    "bridgeRouter": "_0xc4949d",
+    "acceptedRoot": "_0x46e828",
+    "messageHash": "_0x2fe886",
+    "keccak256": "_0x3a33e4",
+    "messages": "_0xace1cb",
+    "_message": "_0x802278",
+    "_newRoot": "_0xd54300",
+    "success": "_0xafcb5f",
+    "process": "_0x1ff166",
+    "nonces": "_0x63b2a7",
+    "root": "_0xd5f501"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -112,12 +112,11 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 15 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 15 identifiers using hex style"
     ],
     "rename_map_size": 15,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: process \u2192 _0x7bab9e"
+      "Transformed ground_truth.vulnerable_location.function_name: process \u2192 _0x1ff166"
     ]
   }
 }

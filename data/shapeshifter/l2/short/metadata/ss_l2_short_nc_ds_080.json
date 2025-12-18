@@ -72,8 +72,8 @@
   "derived_from": "nc_ds_080",
   "original_id": "ds_080",
   "identifier_mappings": {
-    "keccak256": "a",
-    "_decimals": "b",
+    "_decimals": "a",
+    "keccak256": "b",
     "caddress": "c",
     "airDrop": "d",
     "_value": "e",

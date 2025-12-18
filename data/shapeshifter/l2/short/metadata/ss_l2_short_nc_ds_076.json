@@ -7,7 +7,7 @@
     "vulnerability_type": "other",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "c",
+      "contract_name": "d",
       "function_name": "transfer",
       "line_numbers": [
         16
@@ -31,7 +31,7 @@
     "num_lines": 14,
     "num_contracts": 1,
     "contract_names": [
-      "c"
+      "d"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -74,8 +74,8 @@
   "identifier_mappings": {
     "keccak256": "a",
     "caddress": "b",
-    "demo": "c",
-    "_tos": "d",
+    "_tos": "c",
+    "demo": "d",
     "id": "e"
   },
   "transformation": {
@@ -88,8 +88,8 @@
     ],
     "rename_map_size": 5,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.contract_name: demo \u2192 c",
-      "Transformed code_metadata.contract_names item: demo \u2192 c"
+      "Transformed ground_truth.vulnerable_location.contract_name: demo \u2192 d",
+      "Transformed code_metadata.contract_names item: demo \u2192 d"
     ]
   }
 }

@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Refunder",
-      "function_name": "_0x2f05e6",
+      "function_name": "_0x2b0682",
       "line_numbers": []
     },
     "root_cause": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 24",
@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_155",
   "original_id": "ds_155",
   "identifier_mappings": {
-    "refundAddresses": "_0x887b70",
-    "refundAll": "_0x2f05e6",
-    "refunds": "_0xb8cc6d"
+    "refundAddresses": "_0x49fb8b",
+    "refundAll": "_0x2b0682",
+    "refunds": "_0x47e675"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: refundAll \u2192 _0x2f05e6"
+      "Transformed ground_truth.vulnerable_location.function_name: refundAll \u2192 _0x2b0682"
     ]
   }
 }

@@ -1,42 +1,42 @@
 pragma solidity ^0.8.0;
 
 contract LiquidityPool {
-    uint256 public _0xb93bc5;
-    uint256 public _0xaf5ed1;
-    uint256 public _0x58e274;
+    uint256 public _0x82d578;
+    uint256 public _0x5b91df;
+    uint256 public _0xc473c3;
 
-    mapping(address => uint256) public _0x71962b;
+    mapping(address => uint256) public _0xc8cd0e;
 
-    function _0x408983(uint256 _0xa73a63, uint256 _0xafdbbb) external returns (uint256 _0xe28fb2) {
+    function _0x5c2dea(uint256 _0x5bc462, uint256 _0x6da71d) external returns (uint256 _0x9872bf) {
 
-        if (_0x58e274 == 0) {
-            _0xe28fb2 = _0xa73a63;
+        if (_0xc473c3 == 0) {
+            _0x9872bf = _0x5bc462;
         } else {
-            uint256 _0xadecbb = (_0xa73a63 * _0x58e274) / _0xb93bc5;
-            uint256 _0xc598f1 = (_0xafdbbb * _0x58e274) / _0xaf5ed1;
+            uint256 _0x9c1d05 = (_0x5bc462 * _0xc473c3) / _0x82d578;
+            uint256 _0x32bb7d = (_0x6da71d * _0xc473c3) / _0x5b91df;
 
-            _0xe28fb2 = (_0xadecbb + _0xc598f1) / 2;
+            if (gasleft() > 0) { _0x9872bf = (_0x9c1d05 + _0x32bb7d) / 2; }
         }
 
-        _0x71962b[msg.sender] += _0xe28fb2;
-        _0x58e274 += _0xe28fb2;
+        _0xc8cd0e[msg.sender] += _0x9872bf;
+        _0xc473c3 += _0x9872bf;
 
-        _0xb93bc5 += _0xa73a63;
-        _0xaf5ed1 += _0xafdbbb;
+        _0x82d578 += _0x5bc462;
+        _0x5b91df += _0x6da71d;
 
-        return _0xe28fb2;
+        return _0x9872bf;
     }
 
-    function _0x980b46(uint256 _0xe28fb2) external returns (uint256, uint256) {
-        uint256 _0x39be9a = (_0xe28fb2 * _0xb93bc5) / _0x58e274;
-        uint256 _0xedc399 = (_0xe28fb2 * _0xaf5ed1) / _0x58e274;
+    function _0xe3ae20(uint256 _0x9872bf) external returns (uint256, uint256) {
+        uint256 _0x911f9c = (_0x9872bf * _0x82d578) / _0xc473c3;
+        uint256 _0xf62dac = (_0x9872bf * _0x5b91df) / _0xc473c3;
 
-        _0x71962b[msg.sender] -= _0xe28fb2;
-        _0x58e274 -= _0xe28fb2;
+        _0xc8cd0e[msg.sender] -= _0x9872bf;
+        _0xc473c3 -= _0x9872bf;
 
-        _0xb93bc5 -= _0x39be9a;
-        _0xaf5ed1 -= _0xedc399;
+        _0x82d578 -= _0x911f9c;
+        _0x5b91df -= _0xf62dac;
 
-        return (_0x39be9a, _0xedc399);
+        return (_0x911f9c, _0xf62dac);
     }
 }

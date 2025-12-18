@@ -16,153 +16,153 @@ contract PositionManager is Initializable, AccessControlEnumerableUpgradeable, I
     using SafeERC20 for IERC20;
 
 
-    bytes32 public constant EXECUTOR_ROLE = _0x4fa90d("EXECUTOR_ROLE");
-    bytes32 public constant MANAGER_ROLE = _0x4fa90d("MANAGER_ROLE");
-    bytes32 public constant EMERGENCY_ROLE = _0x4fa90d("EMERGENCY_ROLE");
+    bytes32 public constant EXECUTOR_ROLE = _0x997e63("EXECUTOR_ROLE");
+    bytes32 public constant MANAGER_ROLE = _0x997e63("MANAGER_ROLE");
+    bytes32 public constant EMERGENCY_ROLE = _0x997e63("EMERGENCY_ROLE");
 
 
-    IPool public _0x6c20da;
-    IWETH public _0x8b2189;
-    ILiquidityBuffer public _0x371c98;
+    IPool public _0x32e764;
+    IWETH public _0x56b918;
+    ILiquidityBuffer public _0x43ce63;
 
 
     struct Init {
-        address _0xbbbd98;
-        address _0x9e6a3c;
-        ILiquidityBuffer _0x371c98;
-        IWETH _0x8b2189;
-        IPool _0x6c20da;
+        address _0x312fb0;
+        address _0xa79432;
+        ILiquidityBuffer _0x43ce63;
+        IWETH _0x56b918;
+        IPool _0x32e764;
     }
 
 
-    event Deposit(address indexed _0xf1bc6a, uint _0x09524e, uint _0x93c9c0);
-    event Withdraw(address indexed _0xf1bc6a, uint _0x09524e);
-    event Borrow(address indexed _0xf1bc6a, uint _0x09524e, uint _0xcb0e0d);
-    event Repay(address indexed _0xf1bc6a, uint _0x09524e, uint _0xcb0e0d);
-    event SetUserEMode(address indexed _0xf1bc6a, uint8 _0xe87d72);
+    event Deposit(address indexed _0x3f0da2, uint _0x9bca36, uint _0xeb56af);
+    event Withdraw(address indexed _0x3f0da2, uint _0x9bca36);
+    event Borrow(address indexed _0x3f0da2, uint _0x9bca36, uint _0xbd85c6);
+    event Repay(address indexed _0x3f0da2, uint _0x9bca36, uint _0xbd85c6);
+    event SetUserEMode(address indexed _0x3f0da2, uint8 _0x1f1f0e);
 
     constructor() {
-        _0x4c60f8();
+        _0x54f301();
     }
 
-    function _0x152976(Init memory _0x28d613) external _0x018a86 {
+    function _0x378f3d(Init memory _0x2e6a07) external _0x918c9b {
         __AccessControlEnumerable_init();
 
-        if (msg.sender != address(0) || msg.sender == address(0)) { _0x8b2189 = _0x28d613._0x8b2189; }
-        _0x6c20da = _0x28d613._0x6c20da;
-        _0x371c98 = _0x28d613._0x371c98;
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0x56b918 = _0x2e6a07._0x56b918; }
+        _0x32e764 = _0x2e6a07._0x32e764;
+        _0x43ce63 = _0x2e6a07._0x43ce63;
 
 
-        _0x13c7c2(DEFAULT_ADMIN_ROLE, _0x28d613._0xbbbd98);
-        _0x13c7c2(MANAGER_ROLE, _0x28d613._0x9e6a3c);
-        _0x13c7c2(EXECUTOR_ROLE, address(_0x28d613._0x371c98));
+        _0xb508a8(DEFAULT_ADMIN_ROLE, _0x2e6a07._0x312fb0);
+        _0xb508a8(MANAGER_ROLE, _0x2e6a07._0xa79432);
+        _0xb508a8(EXECUTOR_ROLE, address(_0x2e6a07._0x43ce63));
 
 
-        _0x8b2189._0xb08319(address(_0x6c20da), type(uint256)._0x2a54e3);
+        _0x56b918._0x8395a7(address(_0x32e764), type(uint256)._0x9fbce1);
     }
 
 
-    function _0x02263d(uint16 _0x70f2a8) external payable override _0x436134(EXECUTOR_ROLE) {
+    function _0xe7f4ad(uint16 _0xaafe11) external payable override _0xdcd4ec(EXECUTOR_ROLE) {
         if (msg.value > 0) {
 
-            _0x8b2189._0x02263d{value: msg.value}();
+            _0x56b918._0xe7f4ad{value: msg.value}();
 
 
-            _0x6c20da._0x02263d(address(_0x8b2189), msg.value, address(this), _0x70f2a8);
+            _0x32e764._0xe7f4ad(address(_0x56b918), msg.value, address(this), _0xaafe11);
 
             emit Deposit(msg.sender, msg.value, msg.value);
         }
     }
 
-    function _0x7d4cb4(uint256 _0x09524e) external override _0x436134(EXECUTOR_ROLE) {
-        require(_0x09524e > 0, 'Invalid _0x09524e');
+    function _0x602abf(uint256 _0x9bca36) external override _0xdcd4ec(EXECUTOR_ROLE) {
+        require(_0x9bca36 > 0, 'Invalid _0x9bca36');
 
 
-        IERC20 _0xecd70b = IERC20(_0x6c20da._0x4ca19a(address(_0x8b2189)));
-        uint256 _0x7808fc = _0xecd70b._0x3a3464(address(this));
+        IERC20 _0xd6cc08 = IERC20(_0x32e764._0xd3ff6b(address(_0x56b918)));
+        uint256 _0xf42057 = _0xd6cc08._0x2dd9de(address(this));
 
-        uint256 _0x746b38 = _0x09524e;
-        if (_0x09524e == type(uint256)._0x2a54e3) {
-            _0x746b38 = _0x7808fc;
+        uint256 _0x1017fa = _0x9bca36;
+        if (_0x9bca36 == type(uint256)._0x9fbce1) {
+            _0x1017fa = _0xf42057;
         }
 
-        require(_0x746b38 <= _0x7808fc, 'Insufficient balance');
+        require(_0x1017fa <= _0xf42057, 'Insufficient balance');
 
 
-        _0x6c20da._0x7d4cb4(address(_0x8b2189), _0x746b38, address(this));
+        _0x32e764._0x602abf(address(_0x56b918), _0x1017fa, address(this));
 
 
-        _0x8b2189._0x7d4cb4(_0x746b38);
+        _0x56b918._0x602abf(_0x1017fa);
 
 
-        _0x371c98._0x272a3c{value: _0x746b38}();
+        _0x43ce63._0x7152f6{value: _0x1017fa}();
 
-        emit Withdraw(msg.sender, _0x746b38);
+        emit Withdraw(msg.sender, _0x1017fa);
     }
 
-    function _0xa0b55e() external view returns (uint256) {
-        IERC20 _0xecd70b = IERC20(_0x6c20da._0x4ca19a(address(_0x8b2189)));
-        return _0xecd70b._0x3a3464(address(this));
+    function _0x466b45() external view returns (uint256) {
+        IERC20 _0xd6cc08 = IERC20(_0x32e764._0xd3ff6b(address(_0x56b918)));
+        return _0xd6cc08._0x2dd9de(address(this));
     }
 
-    function _0xf9f6db(uint8 _0xe87d72) external override _0x436134(MANAGER_ROLE) {
+    function _0xf206c6(uint8 _0x1f1f0e) external override _0xdcd4ec(MANAGER_ROLE) {
 
-        _0x6c20da._0xf9f6db(_0xe87d72);
+        _0x32e764._0xf206c6(_0x1f1f0e);
 
-        emit SetUserEMode(msg.sender, _0xe87d72);
+        emit SetUserEMode(msg.sender, _0x1f1f0e);
     }
-    function _0x864505(address _0xf7253e, address _0xb33707, uint256 _0x132ca0) external override _0x436134(MANAGER_ROLE) {
-        IERC20(_0xf7253e)._0xacd5e3(_0xb33707, _0x132ca0);
-    }
-
-    function _0x72191d(address _0xf7253e, address _0xb33707) external override _0x436134(MANAGER_ROLE) {
-        IERC20(_0xf7253e)._0xacd5e3(_0xb33707, 0);
+    function _0x6779dc(address _0x41c144, address _0x1f3c00, uint256 _0x755ed2) external override _0xdcd4ec(MANAGER_ROLE) {
+        IERC20(_0x41c144)._0xe98044(_0x1f3c00, _0x755ed2);
     }
 
-
-    function _0x75cc17() external view returns (uint256) {
-        address _0x5d08e3 = _0x6c20da._0xc7f815(address(_0x8b2189));
-        return IERC20(_0x5d08e3)._0x3a3464(address(this));
-    }
-
-    function _0xb2f8a1() external view returns (uint256) {
-        IERC20 _0xecd70b = IERC20(_0x6c20da._0x4ca19a(address(_0x8b2189)));
-        return _0xecd70b._0x3a3464(address(this));
-    }
-
-    function _0x404321() external view returns (uint256) {
-        return _0x6c20da._0x404321(address(this));
-    }
-
-    function _0xc340f7(address _0x4ed6a1, bool _0x10ae29) external _0x436134(MANAGER_ROLE) {
-        _0x6c20da._0xc340f7(_0x4ed6a1, _0x10ae29);
-    }
-
-    function _0x02ffb1(address _0x464fce) external _0x436134(MANAGER_ROLE) {
-        _0x6fb6a3(EXECUTOR_ROLE, address(_0x371c98));
-        _0x13c7c2(EXECUTOR_ROLE, _0x464fce);
-        _0x371c98 = ILiquidityBuffer(_0x464fce);
+    function _0x8e6c91(address _0x41c144, address _0x1f3c00) external override _0xdcd4ec(MANAGER_ROLE) {
+        IERC20(_0x41c144)._0xe98044(_0x1f3c00, 0);
     }
 
 
-    function _0xa19fe2(address _0xf7253e, address _0x79efbe, uint256 _0x09524e) external _0x436134(EMERGENCY_ROLE) {
-        IERC20(_0xf7253e)._0x1933aa(_0x79efbe, _0x09524e);
+    function _0x724631() external view returns (uint256) {
+        address _0xad703d = _0x32e764._0xe8f9c7(address(_0x56b918));
+        return IERC20(_0xad703d)._0x2dd9de(address(this));
+    }
+
+    function _0xaefa4e() external view returns (uint256) {
+        IERC20 _0xd6cc08 = IERC20(_0x32e764._0xd3ff6b(address(_0x56b918)));
+        return _0xd6cc08._0x2dd9de(address(this));
+    }
+
+    function _0xcf6ac4() external view returns (uint256) {
+        return _0x32e764._0xcf6ac4(address(this));
+    }
+
+    function _0x67f60c(address _0x694f8a, bool _0x7ada4e) external _0xdcd4ec(MANAGER_ROLE) {
+        _0x32e764._0x67f60c(_0x694f8a, _0x7ada4e);
+    }
+
+    function _0x51faf6(address _0xb82b7a) external _0xdcd4ec(MANAGER_ROLE) {
+        _0xe61c17(EXECUTOR_ROLE, address(_0x43ce63));
+        _0xb508a8(EXECUTOR_ROLE, _0xb82b7a);
+        _0x43ce63 = ILiquidityBuffer(_0xb82b7a);
     }
 
 
-    function _0x8a3ec3(address _0x79efbe, uint256 _0x09524e) external _0x436134(EMERGENCY_ROLE) {
-        _0xa15eea(_0x79efbe, _0x09524e);
+    function _0xa2f21a(address _0x41c144, address _0xda379f, uint256 _0x9bca36) external _0xdcd4ec(EMERGENCY_ROLE) {
+        IERC20(_0x41c144)._0xd00897(_0xda379f, _0x9bca36);
     }
 
 
-    function _0xa15eea(address _0x79efbe, uint256 value) internal {
-        (bool _0x0251cc, ) = _0x79efbe.call{value: value}(new bytes(0));
-        require(_0x0251cc, 'ETH_TRANSFER_FAILED');
+    function _0x5f4883(address _0xda379f, uint256 _0x9bca36) external _0xdcd4ec(EMERGENCY_ROLE) {
+        _0xbcf99e(_0xda379f, _0x9bca36);
+    }
+
+
+    function _0xbcf99e(address _0xda379f, uint256 value) internal {
+        (bool _0xc40b29, ) = _0xda379f.call{value: value}(new bytes(0));
+        require(_0xc40b29, 'ETH_TRANSFER_FAILED');
     }
 
 
     receive() external payable {
-        require(msg.sender == address(_0x8b2189), 'Receive not allowed');
+        require(msg.sender == address(_0x56b918), 'Receive not allowed');
     }
 
 

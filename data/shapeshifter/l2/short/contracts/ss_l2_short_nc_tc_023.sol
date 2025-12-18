@@ -1,108 +1,108 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function o(address r) external view returns (uint256);
+    function o(address s) external view returns (uint256);
 
-    function transfer(address ab, uint256 t) external returns (bool);
+    function transfer(address ab, uint256 u) external returns (bool);
 
     function h(
         address from,
         address ab,
-        uint256 t
+        uint256 u
     ) external returns (bool);
 }
 
 interface ICErc20 {
-    function u(uint256 t) external returns (uint256);
+    function t(uint256 u) external returns (uint256);
 
-    function a(address r) external returns (uint256);
+    function a(address s) external returns (uint256);
 }
 
 contract LeveragedVault {
     struct Position {
-        address w;
+        address x;
         uint256 j;
-        uint256 m;
+        uint256 p;
     }
 
-    mapping(uint256 => Position) public n;
+    mapping(uint256 => Position) public l;
     uint256 public d;
 
     address public v;
-    uint256 public l;
+    uint256 public n;
     uint256 public e;
 
-    constructor(address s) {
-        v = s;
+    constructor(address q) {
+        v = q;
         d = 1;
     }
 
-    function g(
+    function i(
         uint256 b,
-        uint256 i
+        uint256 g
     ) external returns (uint256 k) {
         k = d++;
 
-        n[k] = Position({
-            w: msg.sender,
+        l[k] = Position({
+            x: msg.sender,
             j: b,
-            m: 0
+            p: 0
         });
 
-        q(k, i);
+        r(k, g);
 
         return k;
     }
 
-    function q(uint256 k, uint256 t) internal {
-        Position storage aa = n[k];
+    function r(uint256 k, uint256 u) internal {
+        Position storage aa = l[k];
 
-        uint256 y;
+        uint256 w;
 
         if (e == 0) {
-            y = t;
+            w = u;
         } else {
-            y = (t * e) / l;
+            w = (u * e) / n;
         }
 
-        aa.m += y;
-        e += y;
-        l += t;
+        aa.p += w;
+        e += w;
+        n += u;
 
-        ICErc20(v).u(t);
+        ICErc20(v).t(u);
     }
 
-    function x(uint256 k, uint256 t) external {
-        Position storage aa = n[k];
-        require(msg.sender == aa.w, "Not position owner");
+    function y(uint256 k, uint256 u) external {
+        Position storage aa = l[k];
+        require(msg.sender == aa.x, "Not position owner");
 
-        uint256 f = (t * e) / l;
+        uint256 f = (u * e) / n;
 
-        require(aa.m >= f, "Excessive repayment");
+        require(aa.p >= f, "Excessive repayment");
 
-        aa.m -= f;
+        aa.p -= f;
         e -= f;
-        l -= t;
+        n -= u;
     }
 
     function c(
         uint256 k
     ) external view returns (uint256) {
-        Position storage aa = n[k];
+        Position storage aa = l[k];
 
         if (e == 0) return 0;
 
-        return (aa.m * l) / e;
+        return (aa.p * n) / e;
     }
 
-    function p(uint256 k) external {
-        Position storage aa = n[k];
+    function m(uint256 k) external {
+        Position storage aa = l[k];
 
-        uint256 z = (aa.m * l) / e;
+        uint256 z = (aa.p * n) / e;
 
         require(aa.j * 100 < z * 150, "Position is healthy");
 
         aa.j = 0;
-        aa.m = 0;
+        aa.p = 0;
     }
 }

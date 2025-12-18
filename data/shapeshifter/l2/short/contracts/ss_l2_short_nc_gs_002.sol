@@ -14,256 +14,256 @@ contract CLFactory is ICLFactory {
     using ExcessivelySafeCall for address;
 
 
-    IGaugeManager public override ar;
+    IGaugeManager public override au;
 
-    address public immutable override q;
+    address public immutable override v;
 
     address public override bv;
 
-    address public override aj;
+    address public override ak;
 
-    address public override am;
+    address public override an;
 
-    address public override p;
+    address public override t;
 
     address public override ab;
 
-    uint24 public override r;
+    uint24 public override w;
 
 
-    address public override u;
+    address public override s;
 
     address public override aa;
 
-    uint24 public override s;
+    uint24 public override u;
 
     mapping(int24 => uint24) public override ac;
 
-    mapping(address => mapping(address => mapping(int24 => address))) public override bj;
+    mapping(address => mapping(address => mapping(int24 => address))) public override bi;
 
-    mapping(address => bool) private bi;
+    mapping(address => bool) private bg;
 
-    address[] public override bd;
+    address[] public override bc;
 
     int24[] private ao;
 
-    constructor(address n) {
+    constructor(address k) {
         bv = msg.sender;
-        aj = msg.sender;
-        p = msg.sender;
-        u = msg.sender;
-        q = n;
-        r = 100_000;
-        s = 250_000;
+        ak = msg.sender;
+        t = msg.sender;
+        s = msg.sender;
+        v = k;
+        w = 100_000;
+        u = 250_000;
         emit OwnerChanged(address(0), msg.sender);
         emit SwapFeeManagerChanged(address(0), msg.sender);
         emit UnstakedFeeManagerChanged(address(0), msg.sender);
         emit DefaultUnstakedFeeChanged(0, 100_000);
 
-        z(1, 100);
-        z(50, 500);
-        z(100, 500);
-        z(200, 3_000);
-        z(2_000, 10_000);
+        y(1, 100);
+        y(50, 500);
+        y(100, 500);
+        y(200, 3_000);
+        y(2_000, 10_000);
     }
 
-    function ae(address ap) external {
+    function af(address ap) external {
         require(msg.sender == bv);
-        ar = IGaugeManager(ap);
+        au = IGaugeManager(ap);
     }
 
 
-    function ax(address bu, address bs, int24 av, uint160 aq)
+    function ax(address br, address bm, int24 aw, uint160 at)
         external
         override
-        returns (address bx)
+        returns (address bw)
     {
-        require(bu != bs);
-        (address bt, address bn) = bu < bs ? (bu, bs) : (bs, bu);
-        require(bt != address(0));
-        require(ac[av] != 0);
-        require(bj[bt][bn][av] == address(0));
-        bx = Clones.w({
-            bm: q,
-            bw: ba(abi.bl(bt, bn, av))
+        require(br != bm);
+        (address bo, address bu) = br < bm ? (br, bm) : (bm, br);
+        require(bo != address(0));
+        require(ac[aw] != 0);
+        require(bi[bo][bu][aw] == address(0));
+        bw = Clones.x({
+            bs: v,
+            bx: ba(abi.bp(bo, bu, aw))
         });
-        CLPool(bx).ay({
-            bb: address(this),
-            bg: bt,
-            bf: bn,
-            au: av,
-            ap: address(ar),
-            an: aq
+        CLPool(bw).az({
+            bd: address(this),
+            bh: bo,
+            be: bu,
+            ar: aw,
+            ap: address(au),
+            am: at
         });
-        bd.push(bx);
-        bi[bx] = true;
-        bj[bt][bn][av] = bx;
+        bc.push(bw);
+        bg[bw] = true;
+        bi[bo][bu][aw] = bw;
 
-        bj[bn][bt][av] = bx;
-        emit PoolCreated(bt, bn, av, bx);
+        bi[bu][bo][aw] = bw;
+        emit PoolCreated(bo, bu, aw, bw);
     }
 
 
-    function bc(address br) external override {
-        address aw = bv;
-        require(msg.sender == aw);
-        require(br != address(0));
-        emit OwnerChanged(aw, br);
-        bv = br;
+    function bb(address bl) external override {
+        address av = bv;
+        require(msg.sender == av);
+        require(bl != address(0));
+        emit OwnerChanged(av, bl);
+        bv = bl;
     }
 
 
-    function y(address af) external override {
-        address i = aj;
+    function z(address ae) external override {
+        address i = ak;
         require(msg.sender == i);
-        require(af != address(0));
-        aj = af;
-        emit SwapFeeManagerChanged(i, af);
+        require(ae != address(0));
+        ak = ae;
+        emit SwapFeeManagerChanged(i, ae);
     }
 
-
-    function f(address l) external override {
-        address b = p;
-        require(msg.sender == b);
-        require(l != address(0));
-        p = l;
-        emit UnstakedFeeManagerChanged(b, l);
-    }
-
-
-    function ad(address ah) external override {
-        require(msg.sender == aj);
-        require(ah != address(0));
-        address as = am;
-        am = ah;
-        emit SwapFeeModuleChanged(as, ah);
-    }
-
-
-    function g(address v) external override {
-        require(msg.sender == p);
-        require(v != address(0));
-        address as = ab;
-        ab = v;
-        emit UnstakedFeeModuleChanged(as, v);
-    }
-
-
-    function e(uint24 j) external override {
-        require(msg.sender == p);
-        require(j <= 500_000);
-        uint24 ai = r;
-        r = j;
-        emit DefaultUnstakedFeeChanged(ai, j);
-    }
-
-    function h(address x) external override {
-        require(msg.sender == u);
-        require(x != address(0));
-        aa = x;
-    }
 
     function d(address o) external override {
-        require(msg.sender == u);
+        address b = t;
+        require(msg.sender == b);
         require(o != address(0));
-        u = o;
+        t = o;
+        emit UnstakedFeeManagerChanged(b, o);
     }
 
 
-    function az(address bx) external view override returns (uint24) {
-        if (am != address(0)) {
-            (bool bh, bytes memory data) = am.a(
-                200_000, 32, abi.t(IFeeModule.bo.selector, bx)
+    function ad(address ag) external override {
+        require(msg.sender == ak);
+        require(ag != address(0));
+        address aq = an;
+        an = ag;
+        emit SwapFeeModuleChanged(aq, ag);
+    }
+
+
+    function h(address p) external override {
+        require(msg.sender == t);
+        require(p != address(0));
+        address aq = ab;
+        ab = p;
+        emit UnstakedFeeModuleChanged(aq, p);
+    }
+
+
+    function e(uint24 m) external override {
+        require(msg.sender == t);
+        require(m <= 500_000);
+        uint24 aj = w;
+        w = m;
+        emit DefaultUnstakedFeeChanged(aj, m);
+    }
+
+    function g(address r) external override {
+        require(msg.sender == s);
+        require(r != address(0));
+        aa = r;
+    }
+
+    function f(address j) external override {
+        require(msg.sender == s);
+        require(j != address(0));
+        s = j;
+    }
+
+
+    function ay(address bw) external view override returns (uint24) {
+        if (an != address(0)) {
+            (bool bk, bytes memory data) = an.a(
+                200_000, 32, abi.q(IFeeModule.bt.selector, bw)
             );
-            if (bh) {
-                uint24 by = abi.bp(data, (uint24));
+            if (bk) {
+                uint24 by = abi.bn(data, (uint24));
                 if (by <= 100_000) {
                     return by;
                 }
             }
         }
-        return ac[CLPool(bx).av()];
+        return ac[CLPool(bw).aw()];
     }
 
 
-    function ag(address bx) external view override returns (uint24) {
+    function ah(address bw) external view override returns (uint24) {
 
-        if (!ar.m(bx)) {
+        if (!au.l(bw)) {
             return 0;
         }
         if (ab != address(0)) {
-            (bool bh, bytes memory data) = ab.a(
-                200_000, 32, abi.t(IFeeModule.bo.selector, bx)
+            (bool bk, bytes memory data) = ab.a(
+                200_000, 32, abi.q(IFeeModule.bt.selector, bw)
             );
-            if (bh) {
-                uint24 by = abi.bp(data, (uint24));
+            if (bk) {
+                uint24 by = abi.bn(data, (uint24));
                 if (by <= 1_000_000) {
                     return by;
                 }
             }
         }
-        return r;
+        return w;
     }
 
-    function al(address bx) external view override returns (uint24) {
+    function ai(address bw) external view override returns (uint24) {
 
-        if (ar.m(bx)) {
+        if (au.l(bw)) {
             return 0;
         }
 
         if (aa != address(0)) {
-            (bool bh, bytes memory data) = aa.a(
-                200_000, 32, abi.t(IFeeModule.bo.selector, bx)
+            (bool bk, bytes memory data) = aa.a(
+                200_000, 32, abi.q(IFeeModule.bt.selector, bw)
             );
-            if (bh) {
-                uint24 by = abi.bp(data, (uint24));
+            if (bk) {
+                uint24 by = abi.bn(data, (uint24));
                 if (by <= 500_000) {
                     return by;
                 }
             }
         }
-        return s;
+        return u;
     }
 
 
-    function z(int24 av, uint24 by) public override {
+    function y(int24 aw, uint24 by) public override {
         require(msg.sender == bv);
         require(by > 0 && by <= 100_000);
 
 
-        require(av > 0 && av < 16384);
-        require(ac[av] == 0);
+        require(aw > 0 && aw < 16384);
+        require(ac[aw] == 0);
 
-        ac[av] = by;
-        ao.push(av);
-        emit TickSpacingEnabled(av, by);
+        ac[aw] = by;
+        ao.push(aw);
+        emit TickSpacingEnabled(aw, by);
     }
 
     function c() external  {
         require(msg.sender == bv);
 
-        for (uint256 i = 0; i < bd.length; i++) {
-            CLPool(bd[i]).k(msg.sender);
+        for (uint256 i = 0; i < bc.length; i++) {
+            CLPool(bc[i]).n(msg.sender);
         }
     }
 
-    function k(address bx) external returns (uint128 be, uint128 bk) {
+    function n(address bw) external returns (uint128 bj, uint128 bf) {
         require(msg.sender == bv);
-        (be, bk) = CLPool(bx).k(msg.sender);
+        (bj, bf) = CLPool(bw).n(msg.sender);
     }
 
 
-    function at() external view override returns (int24[] memory) {
+    function as() external view override returns (int24[] memory) {
         return ao;
     }
 
 
-    function ak() external view override returns (uint256) {
-        return bd.length;
+    function al() external view override returns (uint256) {
+        return bc.length;
     }
 
 
-    function bq(address bx) external view override returns (bool) {
-        return bi[bx];
+    function bq(address bw) external view override returns (bool) {
+        return bg[bw];
     }
 }

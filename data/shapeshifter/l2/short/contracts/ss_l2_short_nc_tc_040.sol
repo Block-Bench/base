@@ -9,38 +9,38 @@ interface IERC20 {
         uint256 v
     ) external returns (bool);
 
-    function l(address t) external view returns (uint256);
+    function k(address u) external view returns (uint256);
 
-    function s(address q, uint256 v) external returns (bool);
+    function t(address q, uint256 v) external returns (bool);
 }
 
 interface IUniswapV3Router {
     struct ExactInputSingleParams {
         address r;
-        address o;
+        address m;
         uint24 ac;
         address i;
-        uint256 m;
         uint256 n;
+        uint256 o;
         uint256 d;
-        uint160 b;
+        uint160 c;
     }
 
     function e(
         ExactInputSingleParams calldata y
-    ) external payable returns (uint256 j);
+    ) external payable returns (uint256 l);
 }
 
 contract BedrockVault {
-    IERC20 public immutable z;
+    IERC20 public immutable w;
     IERC20 public immutable WBTC;
     IUniswapV3Router public immutable x;
 
-    uint256 public c;
+    uint256 public b;
     uint256 public a;
 
-    constructor(address u, address aa, address p) {
-        z = IERC20(u);
+    constructor(address s, address aa, address p) {
+        w = IERC20(s);
         WBTC = IERC20(aa);
         x = IUniswapV3Router(p);
     }
@@ -50,22 +50,22 @@ contract BedrockVault {
 
         uint256 h = msg.value;
 
-        c += msg.value;
+        b += msg.value;
         a += h;
 
-        z.transfer(msg.sender, h);
+        w.transfer(msg.sender, h);
     }
 
-    function w(uint256 v) external {
+    function z(uint256 v) external {
         require(v > 0, "No amount specified");
-        require(z.l(msg.sender) >= v, "Insufficient balance");
+        require(w.k(msg.sender) >= v, "Insufficient balance");
 
-        z.g(msg.sender, address(this), v);
+        w.g(msg.sender, address(this), v);
 
-        uint256 k = v;
-        require(address(this).balance >= k, "Insufficient ETH");
+        uint256 j = v;
+        require(address(this).balance >= j, "Insufficient ETH");
 
-        payable(msg.sender).transfer(k);
+        payable(msg.sender).transfer(j);
     }
 
     function f() external pure returns (uint256) {

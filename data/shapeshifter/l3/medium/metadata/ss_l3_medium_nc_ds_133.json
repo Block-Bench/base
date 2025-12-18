@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "AdditionCounter",
-      "function_name": "_0x488b2e",
+      "function_name": "_0xa5a2b4",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 17",
@@ -66,9 +66,9 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "count": "_0x9da608",
-    "input": "_0xf47bfa",
-    "run": "_0x488b2e"
+    "input": "_0x49a2c7",
+    "count": "_0x36ca4c",
+    "run": "_0xa5a2b4"
   },
   "original_contract_file": "base/contracts/ds_133.sol",
   "sanitized_from": "ds_133",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0x488b2e"
+      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0xa5a2b4"
     ]
   }
 }

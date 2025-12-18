@@ -3,7 +3,7 @@ pragma solidity ^0.4.15;
  contract OpenAccess{
      address private d;
 
-     modifier c {
+     modifier b {
          require(msg.sender==d);
          _;
      }
@@ -15,10 +15,10 @@ pragma solidity ^0.4.15;
      }
 
 
-     function a(address b)
+     function a(address c)
          public
      {
-        d = b;
+        d = c;
      }
 
  }

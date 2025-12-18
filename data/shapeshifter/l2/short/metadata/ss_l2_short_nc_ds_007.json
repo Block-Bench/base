@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "FibonacciBalance",
-      "function_name": "e",
+      "function_name": "f",
       "line_numbers": [
         31
       ]
@@ -78,10 +78,10 @@
     "withdrawalCounter": "b",
     "setFibonacci": "c",
     "fibonacci": "d",
-    "withdraw": "e",
-    "setStart": "f",
-    "_start": "g",
-    "fibSig": "h",
+    "setStart": "e",
+    "withdraw": "f",
+    "fibSig": "g",
+    "_start": "h",
     "start": "i",
     "sha3": "j"
   },
@@ -95,7 +95,7 @@
     ],
     "rename_map_size": 10,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 e"
+      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 f"
     ]
   }
 }

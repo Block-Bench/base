@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "EthTxOrderDependenceMinimal",
-      "function_name": "_0xa7510d",
+      "function_name": "_0x1d2f95",
       "line_numbers": []
     },
     "root_cause": "Front-running vulnerability - transaction ordering dependence at line(s) 23",
@@ -70,12 +70,12 @@
   "derived_from": "nc_ds_158",
   "original_id": "ds_158",
   "identifier_mappings": {
-    "claimReward": "_0xb279da",
-    "submission": "_0x455818",
-    "setReward": "_0xa7510d",
-    "claimed": "_0xc7aefb",
-    "reward": "_0x139b8f",
-    "owner": "_0xdfb7d7"
+    "claimReward": "_0x4ddf54",
+    "submission": "_0xcfd235",
+    "setReward": "_0x1d2f95",
+    "claimed": "_0x2fb0cc",
+    "reward": "_0x70c24a",
+    "owner": "_0x9097b3"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,11 +84,12 @@
     "source": "nocomments",
     "changes": [
       "Renamed 6 identifiers using hex style",
+      "Wrapped assignment in conditional",
       "Wrapped assignment in conditional"
     ],
     "rename_map_size": 6,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: setReward \u2192 _0xa7510d"
+      "Transformed ground_truth.vulnerable_location.function_name: setReward \u2192 _0x1d2f95"
     ]
   }
 }

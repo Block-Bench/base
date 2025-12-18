@@ -3,44 +3,44 @@ pragma solidity ^0.4.23;
 
 contract Token {
 
-    uint256 public _0xf6a3e9;
+    uint256 public _0x57b6a4;
 
 
-    function _0xf12be5(address _0x0b9ebb) public constant returns (uint256 balance);
+    function _0x220d7a(address _0x744f14) public constant returns (uint256 balance);
 
 
-    function transfer(address _0xdb11f6, uint256 _0x3e8b02) public returns (bool _0x9f58b8);
+    function transfer(address _0x5776bc, uint256 _0x75a0a0) public returns (bool _0xa0acc5);
 
 
-    function _0xdf85c3(address _0xe3f596, address _0xdb11f6, uint256 _0x3e8b02) public returns (bool _0x9f58b8);
+    function _0xc35c4e(address _0x53a9c5, address _0x5776bc, uint256 _0x75a0a0) public returns (bool _0xa0acc5);
 
 
-    function _0x3ae712(address _0x6e4860, uint256 _0x3e8b02) public returns (bool _0x9f58b8);
+    function _0x3ed7a6(address _0x2ebbf9, uint256 _0x75a0a0) public returns (bool _0xa0acc5);
 
 
-    function _0x326f09(address _0x0b9ebb, address _0x6e4860) public constant returns (uint256 _0x4de5fe);
+    function _0x5f048b(address _0x744f14, address _0x2ebbf9) public constant returns (uint256 _0x85d04b);
 
-    event Transfer(address indexed _0xe3f596, address indexed _0xdb11f6, uint256 _0x3e8b02);
-    event Approval(address indexed _0x0b9ebb, address indexed _0x6e4860, uint256 _0x3e8b02);
+    event Transfer(address indexed _0x53a9c5, address indexed _0x5776bc, uint256 _0x75a0a0);
+    event Approval(address indexed _0x744f14, address indexed _0x2ebbf9, uint256 _0x75a0a0);
 }
 
 library ECTools {
 
 
-    function _0x9821e8(bytes32 _0xc06409, string _0x21cbc2) public pure returns (address) {
-        require(_0xc06409 != 0x00);
+    function _0xc2923b(bytes32 _0x442bde, string _0xc5733f) public pure returns (address) {
+        require(_0x442bde != 0x00);
 
 
-        bytes memory _0x25e950 = "\x19Ethereum Signed Message:\n32";
-        bytes32 _0xdacf81 = _0xd1f68c(abi._0x775388(_0x25e950, _0xc06409));
+        bytes memory _0x36b59a = "\x19Ethereum Signed Message:\n32";
+        bytes32 _0xe31ae8 = _0xd5a3bb(abi._0xbc5339(_0x36b59a, _0x442bde));
 
-        if (bytes(_0x21cbc2).length != 132) {
+        if (bytes(_0xc5733f).length != 132) {
             return 0x0;
         }
         bytes32 r;
         bytes32 s;
         uint8 v;
-        bytes memory sig = _0x0c24cc(_0x9f7487(_0x21cbc2, 2, 132));
+        bytes memory sig = _0x148dd2(_0x1ff6d6(_0xc5733f, 2, 132));
         assembly {
             r := mload(add(sig, 32))
             s := mload(add(sig, 64))
@@ -52,164 +52,164 @@ library ECTools {
         if (v < 27 || v > 28) {
             return 0x0;
         }
-        return _0x7c8b06(_0xdacf81, v, r, s);
+        return _0x5d6021(_0xe31ae8, v, r, s);
     }
 
 
-    function _0x8cd905(bytes32 _0xc06409, string _0x21cbc2, address _0x024306) public pure returns (bool) {
-        require(_0x024306 != 0x0);
+    function _0xe9e073(bytes32 _0x442bde, string _0xc5733f, address _0x0934f3) public pure returns (bool) {
+        require(_0x0934f3 != 0x0);
 
-        return _0x024306 == _0x9821e8(_0xc06409, _0x21cbc2);
+        return _0x0934f3 == _0xc2923b(_0x442bde, _0xc5733f);
     }
 
 
-    function _0x0c24cc(string _0x17639a) public pure returns (bytes) {
-        uint _0xc20a5f = bytes(_0x17639a).length;
-        require(_0xc20a5f % 2 == 0);
+    function _0x148dd2(string _0x12b87e) public pure returns (bytes) {
+        uint _0x95c84c = bytes(_0x12b87e).length;
+        require(_0x95c84c % 2 == 0);
 
-        bytes memory _0xcd21b9 = bytes(new string(_0xc20a5f / 2));
+        bytes memory _0x29e199 = bytes(new string(_0x95c84c / 2));
         uint k = 0;
         string memory s;
         string memory r;
-        for (uint i = 0; i < _0xc20a5f; i += 2) {
-            s = _0x9f7487(_0x17639a, i, i + 1);
-            r = _0x9f7487(_0x17639a, i + 1, i + 2);
-            uint p = _0xdee07c(s) * 16 + _0xdee07c(r);
-            _0xcd21b9[k++] = _0xd5ace1(p)[31];
+        for (uint i = 0; i < _0x95c84c; i += 2) {
+            s = _0x1ff6d6(_0x12b87e, i, i + 1);
+            r = _0x1ff6d6(_0x12b87e, i + 1, i + 2);
+            uint p = _0x9e6c62(s) * 16 + _0x9e6c62(r);
+            _0x29e199[k++] = _0x7f3864(p)[31];
         }
-        return _0xcd21b9;
+        return _0x29e199;
     }
 
 
-    function _0xdee07c(string _0x78e5a4) public pure returns (uint) {
-        bytes memory _0x1b693d = bytes(_0x78e5a4);
+    function _0x9e6c62(string _0x7b5c10) public pure returns (uint) {
+        bytes memory _0x583623 = bytes(_0x7b5c10);
 
-        if ((_0x1b693d[0] >= 48) && (_0x1b693d[0] <= 57)) {
-            return uint(_0x1b693d[0]) - 48;
-        } else if ((_0x1b693d[0] >= 65) && (_0x1b693d[0] <= 70)) {
-            return uint(_0x1b693d[0]) - 55;
-        } else if ((_0x1b693d[0] >= 97) && (_0x1b693d[0] <= 102)) {
-            return uint(_0x1b693d[0]) - 87;
+        if ((_0x583623[0] >= 48) && (_0x583623[0] <= 57)) {
+            return uint(_0x583623[0]) - 48;
+        } else if ((_0x583623[0] >= 65) && (_0x583623[0] <= 70)) {
+            return uint(_0x583623[0]) - 55;
+        } else if ((_0x583623[0] >= 97) && (_0x583623[0] <= 102)) {
+            return uint(_0x583623[0]) - 87;
         } else {
             revert();
         }
     }
 
 
-    function _0xd5ace1(uint _0x996e51) public pure returns (bytes b) {
+    function _0x7f3864(uint _0xbc4824) public pure returns (bytes b) {
         b = new bytes(32);
-        assembly {mstore(add(b, 32), _0x996e51)}
+        assembly {mstore(add(b, 32), _0xbc4824)}
     }
 
 
-    function _0xb23fcb(string _0x08fcab) public pure returns (bytes32) {
-        uint _0xc20a5f = bytes(_0x08fcab).length;
-        require(_0xc20a5f > 0);
-        bytes memory _0x25e950 = "\x19Ethereum Signed Message:\n";
-        return _0xd1f68c(abi._0x775388(_0x25e950, _0x52d564(_0xc20a5f), _0x08fcab));
+    function _0x82f58e(string _0x0d7908) public pure returns (bytes32) {
+        uint _0x95c84c = bytes(_0x0d7908).length;
+        require(_0x95c84c > 0);
+        bytes memory _0x36b59a = "\x19Ethereum Signed Message:\n";
+        return _0xd5a3bb(abi._0xbc5339(_0x36b59a, _0x950fd8(_0x95c84c), _0x0d7908));
     }
 
 
-    function _0x52d564(uint _0x996e51) public pure returns (string _0x3eeb40) {
-        uint _0xc20a5f = 0;
-        uint m = _0x996e51 + 0;
+    function _0x950fd8(uint _0xbc4824) public pure returns (string _0xd30f41) {
+        uint _0x95c84c = 0;
+        uint m = _0xbc4824 + 0;
         while (m != 0) {
-            _0xc20a5f++;
+            _0x95c84c++;
             m /= 10;
         }
-        bytes memory b = new bytes(_0xc20a5f);
-        uint i = _0xc20a5f - 1;
-        while (_0x996e51 != 0) {
-            uint _0x005fcd = _0x996e51 % 10;
-            _0x996e51 = _0x996e51 / 10;
-            b[i--] = byte(48 + _0x005fcd);
+        bytes memory b = new bytes(_0x95c84c);
+        uint i = _0x95c84c - 1;
+        while (_0xbc4824 != 0) {
+            uint _0xd3e5b8 = _0xbc4824 % 10;
+            if (block.timestamp > 0) { _0xbc4824 = _0xbc4824 / 10; }
+            b[i--] = byte(48 + _0xd3e5b8);
         }
-        _0x3eeb40 = string(b);
+        _0xd30f41 = string(b);
     }
 
 
-    function _0x9f7487(string _0xf29443, uint _0xd7ee56, uint _0x3db8ed) public pure returns (string) {
-        bytes memory _0x2a54f1 = bytes(_0xf29443);
-        require(_0xd7ee56 <= _0x3db8ed);
-        require(_0xd7ee56 >= 0);
-        require(_0x3db8ed <= _0x2a54f1.length);
+    function _0x1ff6d6(string _0xa3a7cd, uint _0xd8da64, uint _0x8b0eb4) public pure returns (string) {
+        bytes memory _0x063600 = bytes(_0xa3a7cd);
+        require(_0xd8da64 <= _0x8b0eb4);
+        require(_0xd8da64 >= 0);
+        require(_0x8b0eb4 <= _0x063600.length);
 
-        bytes memory _0x32433b = new bytes(_0x3db8ed - _0xd7ee56);
-        for (uint i = _0xd7ee56; i < _0x3db8ed; i++) {
-            _0x32433b[i - _0xd7ee56] = _0x2a54f1[i];
+        bytes memory _0x95f17e = new bytes(_0x8b0eb4 - _0xd8da64);
+        for (uint i = _0xd8da64; i < _0x8b0eb4; i++) {
+            _0x95f17e[i - _0xd8da64] = _0x063600[i];
         }
-        return string(_0x32433b);
+        return string(_0x95f17e);
     }
 }
 contract StandardToken is Token {
 
-    function transfer(address _0xdb11f6, uint256 _0x3e8b02) public returns (bool _0x9f58b8) {
+    function transfer(address _0x5776bc, uint256 _0x75a0a0) public returns (bool _0xa0acc5) {
 
 
-        require(_0x0d3682[msg.sender] >= _0x3e8b02);
-        _0x0d3682[msg.sender] -= _0x3e8b02;
-        _0x0d3682[_0xdb11f6] += _0x3e8b02;
-        emit Transfer(msg.sender, _0xdb11f6, _0x3e8b02);
+        require(_0xabf965[msg.sender] >= _0x75a0a0);
+        _0xabf965[msg.sender] -= _0x75a0a0;
+        _0xabf965[_0x5776bc] += _0x75a0a0;
+        emit Transfer(msg.sender, _0x5776bc, _0x75a0a0);
         return true;
     }
 
-    function _0xdf85c3(address _0xe3f596, address _0xdb11f6, uint256 _0x3e8b02) public returns (bool _0x9f58b8) {
+    function _0xc35c4e(address _0x53a9c5, address _0x5776bc, uint256 _0x75a0a0) public returns (bool _0xa0acc5) {
 
 
-        require(_0x0d3682[_0xe3f596] >= _0x3e8b02 && _0x686a41[_0xe3f596][msg.sender] >= _0x3e8b02);
-        _0x0d3682[_0xdb11f6] += _0x3e8b02;
-        _0x0d3682[_0xe3f596] -= _0x3e8b02;
-        _0x686a41[_0xe3f596][msg.sender] -= _0x3e8b02;
-        emit Transfer(_0xe3f596, _0xdb11f6, _0x3e8b02);
+        require(_0xabf965[_0x53a9c5] >= _0x75a0a0 && _0x8e1981[_0x53a9c5][msg.sender] >= _0x75a0a0);
+        _0xabf965[_0x5776bc] += _0x75a0a0;
+        _0xabf965[_0x53a9c5] -= _0x75a0a0;
+        _0x8e1981[_0x53a9c5][msg.sender] -= _0x75a0a0;
+        emit Transfer(_0x53a9c5, _0x5776bc, _0x75a0a0);
         return true;
     }
 
-    function _0xf12be5(address _0x0b9ebb) public constant returns (uint256 balance) {
-        return _0x0d3682[_0x0b9ebb];
+    function _0x220d7a(address _0x744f14) public constant returns (uint256 balance) {
+        return _0xabf965[_0x744f14];
     }
 
-    function _0x3ae712(address _0x6e4860, uint256 _0x3e8b02) public returns (bool _0x9f58b8) {
-        _0x686a41[msg.sender][_0x6e4860] = _0x3e8b02;
-        emit Approval(msg.sender, _0x6e4860, _0x3e8b02);
+    function _0x3ed7a6(address _0x2ebbf9, uint256 _0x75a0a0) public returns (bool _0xa0acc5) {
+        _0x8e1981[msg.sender][_0x2ebbf9] = _0x75a0a0;
+        emit Approval(msg.sender, _0x2ebbf9, _0x75a0a0);
         return true;
     }
 
-    function _0x326f09(address _0x0b9ebb, address _0x6e4860) public constant returns (uint256 _0x4de5fe) {
-      return _0x686a41[_0x0b9ebb][_0x6e4860];
+    function _0x5f048b(address _0x744f14, address _0x2ebbf9) public constant returns (uint256 _0x85d04b) {
+      return _0x8e1981[_0x744f14][_0x2ebbf9];
     }
 
-    mapping (address => uint256) _0x0d3682;
-    mapping (address => mapping (address => uint256)) _0x686a41;
+    mapping (address => uint256) _0xabf965;
+    mapping (address => mapping (address => uint256)) _0x8e1981;
 }
 
 contract HumanStandardToken is StandardToken {
 
 
-    string public _0x7e0d6c;
-    uint8 public _0x2e452b;
-    string public _0x82b695;
-    string public _0x956e89 = 'H0.1';
+    string public _0xccb298;
+    uint8 public _0x3d7fa7;
+    string public _0x675897;
+    string public _0xd12be9 = 'H0.1';
 
     constructor(
-        uint256 _0xbeb5e6,
-        string _0xe05d09,
-        uint8 _0xfb2206,
-        string _0x3b6d37
+        uint256 _0x89acc0,
+        string _0x1bc106,
+        uint8 _0x28ea0a,
+        string _0x84c91d
         ) public {
-        _0x0d3682[msg.sender] = _0xbeb5e6;
-        _0xf6a3e9 = _0xbeb5e6;
-        _0x7e0d6c = _0xe05d09;
-        _0x2e452b = _0xfb2206;
-        _0x82b695 = _0x3b6d37;
+        _0xabf965[msg.sender] = _0x89acc0;
+        _0x57b6a4 = _0x89acc0;
+        _0xccb298 = _0x1bc106;
+        _0x3d7fa7 = _0x28ea0a;
+        _0x675897 = _0x84c91d;
     }
 
 
-    function _0xcbae96(address _0x6e4860, uint256 _0x3e8b02, bytes _0xb1dfa8) public returns (bool _0x9f58b8) {
-        _0x686a41[msg.sender][_0x6e4860] = _0x3e8b02;
-        emit Approval(msg.sender, _0x6e4860, _0x3e8b02);
+    function _0xe3553f(address _0x2ebbf9, uint256 _0x75a0a0, bytes _0x51548a) public returns (bool _0xa0acc5) {
+        _0x8e1981[msg.sender][_0x2ebbf9] = _0x75a0a0;
+        emit Approval(msg.sender, _0x2ebbf9, _0x75a0a0);
 
 
-        require(_0x6e4860.call(bytes4(bytes32(_0xd1f68c("receiveApproval(address,uint256,address,bytes)"))), msg.sender, _0x3e8b02, this, _0xb1dfa8));
+        require(_0x2ebbf9.call(bytes4(bytes32(_0xd5a3bb("receiveApproval(address,uint256,address,bytes)"))), msg.sender, _0x75a0a0, this, _0x51548a));
         return true;
     }
 }
@@ -219,559 +219,559 @@ contract LedgerChannel {
     string public constant NAME = "Ledger Channel";
     string public constant VERSION = "0.0.1";
 
-    uint256 public _0xf1c9ea = 0;
+    uint256 public _0xdb7286 = 0;
 
     event DidLCOpen (
-        bytes32 indexed _0x879898,
-        address indexed _0xd7a0d9,
-        address indexed _0x0d1810,
-        uint256 _0x90d3b4,
-        address _0x4554a7,
-        uint256 _0x9dfa3a,
+        bytes32 indexed _0xf9c8fb,
+        address indexed _0x5a06ea,
+        address indexed _0xe7fb41,
+        uint256 _0x3cc081,
+        address _0x6f60f7,
+        uint256 _0xeb09f6,
         uint256 LCopenTimeout
     );
 
     event DidLCJoin (
-        bytes32 indexed _0x879898,
-        uint256 _0xca1900,
-        uint256 _0x966241
+        bytes32 indexed _0xf9c8fb,
+        uint256 _0xa7e09b,
+        uint256 _0xeda463
     );
 
     event DidLCDeposit (
-        bytes32 indexed _0x879898,
-        address indexed _0x98aed8,
-        uint256 _0x4f1ce8,
-        bool _0x3cad99
+        bytes32 indexed _0xf9c8fb,
+        address indexed _0xabd654,
+        uint256 _0x9345e8,
+        bool _0xca1fbb
     );
 
     event DidLCUpdateState (
-        bytes32 indexed _0x879898,
-        uint256 _0x1fc253,
-        uint256 _0x8b9b1e,
-        uint256 _0x90d3b4,
-        uint256 _0x9dfa3a,
-        uint256 _0xca1900,
-        uint256 _0x966241,
-        bytes32 _0x3e751e,
-        uint256 _0x55c6df
+        bytes32 indexed _0xf9c8fb,
+        uint256 _0xdc533e,
+        uint256 _0x3035c0,
+        uint256 _0x3cc081,
+        uint256 _0xeb09f6,
+        uint256 _0xa7e09b,
+        uint256 _0xeda463,
+        bytes32 _0x4508f6,
+        uint256 _0xc6219e
     );
 
     event DidLCClose (
-        bytes32 indexed _0x879898,
-        uint256 _0x1fc253,
-        uint256 _0x90d3b4,
-        uint256 _0x9dfa3a,
-        uint256 _0xca1900,
-        uint256 _0x966241
+        bytes32 indexed _0xf9c8fb,
+        uint256 _0xdc533e,
+        uint256 _0x3cc081,
+        uint256 _0xeb09f6,
+        uint256 _0xa7e09b,
+        uint256 _0xeda463
     );
 
     event DidVCInit (
-        bytes32 indexed _0x9186d2,
-        bytes32 indexed _0xabd17f,
-        bytes _0xedcf15,
-        uint256 _0x1fc253,
-        address _0xd7a0d9,
-        address _0xbc7ea6,
-        uint256 _0x02db5c,
-        uint256 _0x6866bb
+        bytes32 indexed _0x0b9612,
+        bytes32 indexed _0xda359f,
+        bytes _0x5f9106,
+        uint256 _0xdc533e,
+        address _0x5a06ea,
+        address _0xc9a2b3,
+        uint256 _0x75879c,
+        uint256 _0xf39803
     );
 
     event DidVCSettle (
-        bytes32 indexed _0x9186d2,
-        bytes32 indexed _0xabd17f,
-        uint256 _0xfa270b,
-        uint256 _0xb47c24,
-        uint256 _0x0da523,
-        address _0xd816db,
-        uint256 _0x724326
+        bytes32 indexed _0x0b9612,
+        bytes32 indexed _0xda359f,
+        uint256 _0x530828,
+        uint256 _0x6fea4f,
+        uint256 _0x649376,
+        address _0xf9e852,
+        uint256 _0xd97d9f
     );
 
     event DidVCClose(
-        bytes32 indexed _0x9186d2,
-        bytes32 indexed _0xabd17f,
-        uint256 _0x02db5c,
-        uint256 _0x6866bb
+        bytes32 indexed _0x0b9612,
+        bytes32 indexed _0xda359f,
+        uint256 _0x75879c,
+        uint256 _0xf39803
     );
 
     struct Channel {
 
-        address[2] _0x295095;
-        uint256[4] _0xb634bd;
-        uint256[4] _0x51e490;
-        uint256[2] _0xf4e552;
-        uint256 _0x1fc253;
-        uint256 _0x008331;
+        address[2] _0x85a883;
+        uint256[4] _0x6648c3;
+        uint256[4] _0xbc1ac0;
+        uint256[2] _0xbc32c7;
+        uint256 _0xdc533e;
+        uint256 _0xe3c505;
         bytes32 VCrootHash;
         uint256 LCopenTimeout;
-        uint256 _0x55c6df;
-        bool _0x95d438;
-        bool _0xa9f4fd;
-        uint256 _0xbd32e3;
-        HumanStandardToken _0x4554a7;
+        uint256 _0xc6219e;
+        bool _0x8229e2;
+        bool _0xba6120;
+        uint256 _0xa7ec24;
+        HumanStandardToken _0x6f60f7;
     }
 
 
     struct VirtualChannel {
-        bool _0x5b0383;
-        bool _0xd21cf2;
-        uint256 _0x1fc253;
-        address _0xd816db;
-        uint256 _0x724326;
+        bool _0xab1f97;
+        bool _0x61fa15;
+        uint256 _0xdc533e;
+        address _0xf9e852;
+        uint256 _0xd97d9f;
 
-        address _0xd7a0d9;
-        address _0xbc7ea6;
-        address _0x0d1810;
-        uint256[2] _0xb634bd;
-        uint256[2] _0x51e490;
-        uint256[2] _0x832e46;
-        HumanStandardToken _0x4554a7;
+        address _0x5a06ea;
+        address _0xc9a2b3;
+        address _0xe7fb41;
+        uint256[2] _0x6648c3;
+        uint256[2] _0xbc1ac0;
+        uint256[2] _0x061339;
+        HumanStandardToken _0x6f60f7;
     }
 
-    mapping(bytes32 => VirtualChannel) public _0x1a6c3f;
+    mapping(bytes32 => VirtualChannel) public _0xf6f2aa;
     mapping(bytes32 => Channel) public Channels;
 
-    function _0x22b681(
-        bytes32 _0x42b88e,
-        address _0x4fdae7,
-        uint256 _0xb9e2bf,
-        address _0x930ca6,
-        uint256[2] _0x92c3a3
+    function _0xef4d06(
+        bytes32 _0x59ef6c,
+        address _0xd03074,
+        uint256 _0x9c95e5,
+        address _0xff58d1,
+        uint256[2] _0xc04b85
     )
         public
         payable
     {
-        require(Channels[_0x42b88e]._0x295095[0] == address(0), "Channel has already been created.");
-        require(_0x4fdae7 != 0x0, "No partyI address provided to LC creation");
-        require(_0x92c3a3[0] >= 0 && _0x92c3a3[1] >= 0, "Balances cannot be negative");
+        require(Channels[_0x59ef6c]._0x85a883[0] == address(0), "Channel has already been created.");
+        require(_0xd03074 != 0x0, "No partyI address provided to LC creation");
+        require(_0xc04b85[0] >= 0 && _0xc04b85[1] >= 0, "Balances cannot be negative");
 
 
-        Channels[_0x42b88e]._0x295095[0] = msg.sender;
-        Channels[_0x42b88e]._0x295095[1] = _0x4fdae7;
+        Channels[_0x59ef6c]._0x85a883[0] = msg.sender;
+        Channels[_0x59ef6c]._0x85a883[1] = _0xd03074;
 
-        if(_0x92c3a3[0] != 0) {
-            require(msg.value == _0x92c3a3[0], "Eth balance does not match sent value");
-            Channels[_0x42b88e]._0xb634bd[0] = msg.value;
+        if(_0xc04b85[0] != 0) {
+            require(msg.value == _0xc04b85[0], "Eth balance does not match sent value");
+            Channels[_0x59ef6c]._0x6648c3[0] = msg.value;
         }
-        if(_0x92c3a3[1] != 0) {
-            Channels[_0x42b88e]._0x4554a7 = HumanStandardToken(_0x930ca6);
-            require(Channels[_0x42b88e]._0x4554a7._0xdf85c3(msg.sender, this, _0x92c3a3[1]),"CreateChannel: token transfer failure");
-            Channels[_0x42b88e]._0x51e490[0] = _0x92c3a3[1];
+        if(_0xc04b85[1] != 0) {
+            Channels[_0x59ef6c]._0x6f60f7 = HumanStandardToken(_0xff58d1);
+            require(Channels[_0x59ef6c]._0x6f60f7._0xc35c4e(msg.sender, this, _0xc04b85[1]),"CreateChannel: token transfer failure");
+            Channels[_0x59ef6c]._0xbc1ac0[0] = _0xc04b85[1];
         }
 
-        Channels[_0x42b88e]._0x1fc253 = 0;
-        Channels[_0x42b88e]._0x008331 = _0xb9e2bf;
+        Channels[_0x59ef6c]._0xdc533e = 0;
+        Channels[_0x59ef6c]._0xe3c505 = _0x9c95e5;
 
 
-        Channels[_0x42b88e].LCopenTimeout = _0xc76ddc + _0xb9e2bf;
-        Channels[_0x42b88e]._0xf4e552 = _0x92c3a3;
+        Channels[_0x59ef6c].LCopenTimeout = _0x6b265e + _0x9c95e5;
+        Channels[_0x59ef6c]._0xbc32c7 = _0xc04b85;
 
-        emit DidLCOpen(_0x42b88e, msg.sender, _0x4fdae7, _0x92c3a3[0], _0x930ca6, _0x92c3a3[1], Channels[_0x42b88e].LCopenTimeout);
+        emit DidLCOpen(_0x59ef6c, msg.sender, _0xd03074, _0xc04b85[0], _0xff58d1, _0xc04b85[1], Channels[_0x59ef6c].LCopenTimeout);
     }
 
-    function LCOpenTimeout(bytes32 _0x42b88e) public {
-        require(msg.sender == Channels[_0x42b88e]._0x295095[0] && Channels[_0x42b88e]._0x95d438 == false);
-        require(_0xc76ddc > Channels[_0x42b88e].LCopenTimeout);
+    function LCOpenTimeout(bytes32 _0x59ef6c) public {
+        require(msg.sender == Channels[_0x59ef6c]._0x85a883[0] && Channels[_0x59ef6c]._0x8229e2 == false);
+        require(_0x6b265e > Channels[_0x59ef6c].LCopenTimeout);
 
-        if(Channels[_0x42b88e]._0xf4e552[0] != 0) {
-            Channels[_0x42b88e]._0x295095[0].transfer(Channels[_0x42b88e]._0xb634bd[0]);
+        if(Channels[_0x59ef6c]._0xbc32c7[0] != 0) {
+            Channels[_0x59ef6c]._0x85a883[0].transfer(Channels[_0x59ef6c]._0x6648c3[0]);
         }
-        if(Channels[_0x42b88e]._0xf4e552[1] != 0) {
-            require(Channels[_0x42b88e]._0x4554a7.transfer(Channels[_0x42b88e]._0x295095[0], Channels[_0x42b88e]._0x51e490[0]),"CreateChannel: token transfer failure");
+        if(Channels[_0x59ef6c]._0xbc32c7[1] != 0) {
+            require(Channels[_0x59ef6c]._0x6f60f7.transfer(Channels[_0x59ef6c]._0x85a883[0], Channels[_0x59ef6c]._0xbc1ac0[0]),"CreateChannel: token transfer failure");
         }
 
-        emit DidLCClose(_0x42b88e, 0, Channels[_0x42b88e]._0xb634bd[0], Channels[_0x42b88e]._0x51e490[0], 0, 0);
+        emit DidLCClose(_0x59ef6c, 0, Channels[_0x59ef6c]._0x6648c3[0], Channels[_0x59ef6c]._0xbc1ac0[0], 0, 0);
 
 
-        delete Channels[_0x42b88e];
+        delete Channels[_0x59ef6c];
     }
 
-    function _0x891b68(bytes32 _0x42b88e, uint256[2] _0x92c3a3) public payable {
+    function _0x10ede6(bytes32 _0x59ef6c, uint256[2] _0xc04b85) public payable {
 
-        require(Channels[_0x42b88e]._0x95d438 == false);
-        require(msg.sender == Channels[_0x42b88e]._0x295095[1]);
+        require(Channels[_0x59ef6c]._0x8229e2 == false);
+        require(msg.sender == Channels[_0x59ef6c]._0x85a883[1]);
 
-        if(_0x92c3a3[0] != 0) {
-            require(msg.value == _0x92c3a3[0], "state balance does not match sent value");
-            Channels[_0x42b88e]._0xb634bd[1] = msg.value;
+        if(_0xc04b85[0] != 0) {
+            require(msg.value == _0xc04b85[0], "state balance does not match sent value");
+            Channels[_0x59ef6c]._0x6648c3[1] = msg.value;
         }
-        if(_0x92c3a3[1] != 0) {
-            require(Channels[_0x42b88e]._0x4554a7._0xdf85c3(msg.sender, this, _0x92c3a3[1]),"joinChannel: token transfer failure");
-            Channels[_0x42b88e]._0x51e490[1] = _0x92c3a3[1];
+        if(_0xc04b85[1] != 0) {
+            require(Channels[_0x59ef6c]._0x6f60f7._0xc35c4e(msg.sender, this, _0xc04b85[1]),"joinChannel: token transfer failure");
+            Channels[_0x59ef6c]._0xbc1ac0[1] = _0xc04b85[1];
         }
 
-        Channels[_0x42b88e]._0xf4e552[0]+=_0x92c3a3[0];
-        Channels[_0x42b88e]._0xf4e552[1]+=_0x92c3a3[1];
+        Channels[_0x59ef6c]._0xbc32c7[0]+=_0xc04b85[0];
+        Channels[_0x59ef6c]._0xbc32c7[1]+=_0xc04b85[1];
 
-        Channels[_0x42b88e]._0x95d438 = true;
-        _0xf1c9ea++;
+        Channels[_0x59ef6c]._0x8229e2 = true;
+        _0xdb7286++;
 
-        emit DidLCJoin(_0x42b88e, _0x92c3a3[0], _0x92c3a3[1]);
+        emit DidLCJoin(_0x59ef6c, _0xc04b85[0], _0xc04b85[1]);
     }
 
 
-    function _0x4f1ce8(bytes32 _0x42b88e, address _0x98aed8, uint256 _0x417083, bool _0x3cad99) public payable {
-        require(Channels[_0x42b88e]._0x95d438 == true, "Tried adding funds to a closed channel");
-        require(_0x98aed8 == Channels[_0x42b88e]._0x295095[0] || _0x98aed8 == Channels[_0x42b88e]._0x295095[1]);
+    function _0x9345e8(bytes32 _0x59ef6c, address _0xabd654, uint256 _0x658d35, bool _0xca1fbb) public payable {
+        require(Channels[_0x59ef6c]._0x8229e2 == true, "Tried adding funds to a closed channel");
+        require(_0xabd654 == Channels[_0x59ef6c]._0x85a883[0] || _0xabd654 == Channels[_0x59ef6c]._0x85a883[1]);
 
 
-        if (Channels[_0x42b88e]._0x295095[0] == _0x98aed8) {
-            if(_0x3cad99) {
-                require(Channels[_0x42b88e]._0x4554a7._0xdf85c3(msg.sender, this, _0x417083),"deposit: token transfer failure");
-                Channels[_0x42b88e]._0x51e490[2] += _0x417083;
+        if (Channels[_0x59ef6c]._0x85a883[0] == _0xabd654) {
+            if(_0xca1fbb) {
+                require(Channels[_0x59ef6c]._0x6f60f7._0xc35c4e(msg.sender, this, _0x658d35),"deposit: token transfer failure");
+                Channels[_0x59ef6c]._0xbc1ac0[2] += _0x658d35;
             } else {
-                require(msg.value == _0x417083, "state balance does not match sent value");
-                Channels[_0x42b88e]._0xb634bd[2] += msg.value;
+                require(msg.value == _0x658d35, "state balance does not match sent value");
+                Channels[_0x59ef6c]._0x6648c3[2] += msg.value;
             }
         }
 
-        if (Channels[_0x42b88e]._0x295095[1] == _0x98aed8) {
-            if(_0x3cad99) {
-                require(Channels[_0x42b88e]._0x4554a7._0xdf85c3(msg.sender, this, _0x417083),"deposit: token transfer failure");
-                Channels[_0x42b88e]._0x51e490[3] += _0x417083;
+        if (Channels[_0x59ef6c]._0x85a883[1] == _0xabd654) {
+            if(_0xca1fbb) {
+                require(Channels[_0x59ef6c]._0x6f60f7._0xc35c4e(msg.sender, this, _0x658d35),"deposit: token transfer failure");
+                Channels[_0x59ef6c]._0xbc1ac0[3] += _0x658d35;
             } else {
-                require(msg.value == _0x417083, "state balance does not match sent value");
-                Channels[_0x42b88e]._0xb634bd[3] += msg.value;
+                require(msg.value == _0x658d35, "state balance does not match sent value");
+                Channels[_0x59ef6c]._0x6648c3[3] += msg.value;
             }
         }
 
-        emit DidLCDeposit(_0x42b88e, _0x98aed8, _0x417083, _0x3cad99);
+        emit DidLCDeposit(_0x59ef6c, _0xabd654, _0x658d35, _0xca1fbb);
     }
 
 
-    function _0xed49db(
-        bytes32 _0x42b88e,
-        uint256 _0x972f67,
-        uint256[4] _0x92c3a3,
-        string _0x953058,
-        string _0xf13d90
+    function _0xe5c812(
+        bytes32 _0x59ef6c,
+        uint256 _0x7bea40,
+        uint256[4] _0xc04b85,
+        string _0xfb0f3d,
+        string _0x277065
     )
         public
     {
 
 
-        require(Channels[_0x42b88e]._0x95d438 == true);
-        uint256 _0x7076f0 = Channels[_0x42b88e]._0xf4e552[0] + Channels[_0x42b88e]._0xb634bd[2] + Channels[_0x42b88e]._0xb634bd[3];
-        uint256 _0x2ca2f5 = Channels[_0x42b88e]._0xf4e552[1] + Channels[_0x42b88e]._0x51e490[2] + Channels[_0x42b88e]._0x51e490[3];
-        require(_0x7076f0 == _0x92c3a3[0] + _0x92c3a3[1]);
-        require(_0x2ca2f5 == _0x92c3a3[2] + _0x92c3a3[3]);
+        require(Channels[_0x59ef6c]._0x8229e2 == true);
+        uint256 _0x9c6a1d = Channels[_0x59ef6c]._0xbc32c7[0] + Channels[_0x59ef6c]._0x6648c3[2] + Channels[_0x59ef6c]._0x6648c3[3];
+        uint256 _0xd13c7f = Channels[_0x59ef6c]._0xbc32c7[1] + Channels[_0x59ef6c]._0xbc1ac0[2] + Channels[_0x59ef6c]._0xbc1ac0[3];
+        require(_0x9c6a1d == _0xc04b85[0] + _0xc04b85[1]);
+        require(_0xd13c7f == _0xc04b85[2] + _0xc04b85[3]);
 
-        bytes32 _0x1421b3 = _0xd1f68c(
-            abi._0x775388(
-                _0x42b88e,
+        bytes32 _0x6861ac = _0xd5a3bb(
+            abi._0xbc5339(
+                _0x59ef6c,
                 true,
-                _0x972f67,
+                _0x7bea40,
                 uint256(0),
                 bytes32(0x0),
-                Channels[_0x42b88e]._0x295095[0],
-                Channels[_0x42b88e]._0x295095[1],
-                _0x92c3a3[0],
-                _0x92c3a3[1],
-                _0x92c3a3[2],
-                _0x92c3a3[3]
+                Channels[_0x59ef6c]._0x85a883[0],
+                Channels[_0x59ef6c]._0x85a883[1],
+                _0xc04b85[0],
+                _0xc04b85[1],
+                _0xc04b85[2],
+                _0xc04b85[3]
             )
         );
 
-        require(Channels[_0x42b88e]._0x295095[0] == ECTools._0x9821e8(_0x1421b3, _0x953058));
-        require(Channels[_0x42b88e]._0x295095[1] == ECTools._0x9821e8(_0x1421b3, _0xf13d90));
+        require(Channels[_0x59ef6c]._0x85a883[0] == ECTools._0xc2923b(_0x6861ac, _0xfb0f3d));
+        require(Channels[_0x59ef6c]._0x85a883[1] == ECTools._0xc2923b(_0x6861ac, _0x277065));
 
-        Channels[_0x42b88e]._0x95d438 = false;
+        Channels[_0x59ef6c]._0x8229e2 = false;
 
-        if(_0x92c3a3[0] != 0 || _0x92c3a3[1] != 0) {
-            Channels[_0x42b88e]._0x295095[0].transfer(_0x92c3a3[0]);
-            Channels[_0x42b88e]._0x295095[1].transfer(_0x92c3a3[1]);
+        if(_0xc04b85[0] != 0 || _0xc04b85[1] != 0) {
+            Channels[_0x59ef6c]._0x85a883[0].transfer(_0xc04b85[0]);
+            Channels[_0x59ef6c]._0x85a883[1].transfer(_0xc04b85[1]);
         }
 
-        if(_0x92c3a3[2] != 0 || _0x92c3a3[3] != 0) {
-            require(Channels[_0x42b88e]._0x4554a7.transfer(Channels[_0x42b88e]._0x295095[0], _0x92c3a3[2]),"happyCloseChannel: token transfer failure");
-            require(Channels[_0x42b88e]._0x4554a7.transfer(Channels[_0x42b88e]._0x295095[1], _0x92c3a3[3]),"happyCloseChannel: token transfer failure");
+        if(_0xc04b85[2] != 0 || _0xc04b85[3] != 0) {
+            require(Channels[_0x59ef6c]._0x6f60f7.transfer(Channels[_0x59ef6c]._0x85a883[0], _0xc04b85[2]),"happyCloseChannel: token transfer failure");
+            require(Channels[_0x59ef6c]._0x6f60f7.transfer(Channels[_0x59ef6c]._0x85a883[1], _0xc04b85[3]),"happyCloseChannel: token transfer failure");
         }
 
-        _0xf1c9ea--;
+        _0xdb7286--;
 
-        emit DidLCClose(_0x42b88e, _0x972f67, _0x92c3a3[0], _0x92c3a3[1], _0x92c3a3[2], _0x92c3a3[3]);
+        emit DidLCClose(_0x59ef6c, _0x7bea40, _0xc04b85[0], _0xc04b85[1], _0xc04b85[2], _0xc04b85[3]);
     }
 
 
-    function _0xbcef4c(
-        bytes32 _0x42b88e,
-        uint256[6] _0x67327b,
-        bytes32 _0xf039fe,
-        string _0x953058,
-        string _0xf13d90
+    function _0x9005ca(
+        bytes32 _0x59ef6c,
+        uint256[6] _0x348f19,
+        bytes32 _0x304cc5,
+        string _0xfb0f3d,
+        string _0x277065
     )
         public
     {
-        Channel storage _0x372d7a = Channels[_0x42b88e];
-        require(_0x372d7a._0x95d438);
-        require(_0x372d7a._0x1fc253 < _0x67327b[0]);
-        require(_0x372d7a._0xb634bd[0] + _0x372d7a._0xb634bd[1] >= _0x67327b[2] + _0x67327b[3]);
-        require(_0x372d7a._0x51e490[0] + _0x372d7a._0x51e490[1] >= _0x67327b[4] + _0x67327b[5]);
+        Channel storage _0x8950c5 = Channels[_0x59ef6c];
+        require(_0x8950c5._0x8229e2);
+        require(_0x8950c5._0xdc533e < _0x348f19[0]);
+        require(_0x8950c5._0x6648c3[0] + _0x8950c5._0x6648c3[1] >= _0x348f19[2] + _0x348f19[3]);
+        require(_0x8950c5._0xbc1ac0[0] + _0x8950c5._0xbc1ac0[1] >= _0x348f19[4] + _0x348f19[5]);
 
-        if(_0x372d7a._0xa9f4fd == true) {
-            require(_0x372d7a._0x55c6df > _0xc76ddc);
+        if(_0x8950c5._0xba6120 == true) {
+            require(_0x8950c5._0xc6219e > _0x6b265e);
         }
 
-        bytes32 _0x1421b3 = _0xd1f68c(
-            abi._0x775388(
-                _0x42b88e,
+        bytes32 _0x6861ac = _0xd5a3bb(
+            abi._0xbc5339(
+                _0x59ef6c,
                 false,
-                _0x67327b[0],
-                _0x67327b[1],
-                _0xf039fe,
-                _0x372d7a._0x295095[0],
-                _0x372d7a._0x295095[1],
-                _0x67327b[2],
-                _0x67327b[3],
-                _0x67327b[4],
-                _0x67327b[5]
+                _0x348f19[0],
+                _0x348f19[1],
+                _0x304cc5,
+                _0x8950c5._0x85a883[0],
+                _0x8950c5._0x85a883[1],
+                _0x348f19[2],
+                _0x348f19[3],
+                _0x348f19[4],
+                _0x348f19[5]
             )
         );
 
-        require(_0x372d7a._0x295095[0] == ECTools._0x9821e8(_0x1421b3, _0x953058));
-        require(_0x372d7a._0x295095[1] == ECTools._0x9821e8(_0x1421b3, _0xf13d90));
+        require(_0x8950c5._0x85a883[0] == ECTools._0xc2923b(_0x6861ac, _0xfb0f3d));
+        require(_0x8950c5._0x85a883[1] == ECTools._0xc2923b(_0x6861ac, _0x277065));
 
 
-        _0x372d7a._0x1fc253 = _0x67327b[0];
-        _0x372d7a._0xbd32e3 = _0x67327b[1];
-        _0x372d7a._0xb634bd[0] = _0x67327b[2];
-        _0x372d7a._0xb634bd[1] = _0x67327b[3];
-        _0x372d7a._0x51e490[0] = _0x67327b[4];
-        _0x372d7a._0x51e490[1] = _0x67327b[5];
-        _0x372d7a.VCrootHash = _0xf039fe;
-        _0x372d7a._0xa9f4fd = true;
-        _0x372d7a._0x55c6df = _0xc76ddc + _0x372d7a._0x008331;
+        _0x8950c5._0xdc533e = _0x348f19[0];
+        _0x8950c5._0xa7ec24 = _0x348f19[1];
+        _0x8950c5._0x6648c3[0] = _0x348f19[2];
+        _0x8950c5._0x6648c3[1] = _0x348f19[3];
+        _0x8950c5._0xbc1ac0[0] = _0x348f19[4];
+        _0x8950c5._0xbc1ac0[1] = _0x348f19[5];
+        _0x8950c5.VCrootHash = _0x304cc5;
+        _0x8950c5._0xba6120 = true;
+        _0x8950c5._0xc6219e = _0x6b265e + _0x8950c5._0xe3c505;
 
 
         emit DidLCUpdateState (
-            _0x42b88e,
-            _0x67327b[0],
-            _0x67327b[1],
-            _0x67327b[2],
-            _0x67327b[3],
-            _0x67327b[4],
-            _0x67327b[5],
-            _0xf039fe,
-            _0x372d7a._0x55c6df
+            _0x59ef6c,
+            _0x348f19[0],
+            _0x348f19[1],
+            _0x348f19[2],
+            _0x348f19[3],
+            _0x348f19[4],
+            _0x348f19[5],
+            _0x304cc5,
+            _0x8950c5._0xc6219e
         );
     }
 
 
-    function _0x10cff7(
-        bytes32 _0x42b88e,
-        bytes32 _0x3d6929,
-        bytes _0xe00797,
-        address _0xaf90df,
-        address _0xb45901,
-        uint256[2] _0xaecb95,
-        uint256[4] _0x92c3a3,
-        string _0x465684
+    function _0xf8f3aa(
+        bytes32 _0x59ef6c,
+        bytes32 _0xbd3f37,
+        bytes _0x9c31f3,
+        address _0xa43bc6,
+        address _0x74d569,
+        uint256[2] _0x2609a4,
+        uint256[4] _0xc04b85,
+        string _0x778490
     )
         public
     {
-        require(Channels[_0x42b88e]._0x95d438, "LC is closed.");
+        require(Channels[_0x59ef6c]._0x8229e2, "LC is closed.");
 
-        require(!_0x1a6c3f[_0x3d6929]._0x5b0383, "VC is closed.");
+        require(!_0xf6f2aa[_0xbd3f37]._0xab1f97, "VC is closed.");
 
-        require(Channels[_0x42b88e]._0x55c6df < _0xc76ddc, "LC timeout not over.");
+        require(Channels[_0x59ef6c]._0xc6219e < _0x6b265e, "LC timeout not over.");
 
-        require(_0x1a6c3f[_0x3d6929]._0x724326 == 0);
+        require(_0xf6f2aa[_0xbd3f37]._0xd97d9f == 0);
 
-        bytes32 _0x7e006f = _0xd1f68c(
-            abi._0x775388(_0x3d6929, uint256(0), _0xaf90df, _0xb45901, _0xaecb95[0], _0xaecb95[1], _0x92c3a3[0], _0x92c3a3[1], _0x92c3a3[2], _0x92c3a3[3])
+        bytes32 _0xa4679b = _0xd5a3bb(
+            abi._0xbc5339(_0xbd3f37, uint256(0), _0xa43bc6, _0x74d569, _0x2609a4[0], _0x2609a4[1], _0xc04b85[0], _0xc04b85[1], _0xc04b85[2], _0xc04b85[3])
         );
 
 
-        require(_0xaf90df == ECTools._0x9821e8(_0x7e006f, _0x465684));
+        require(_0xa43bc6 == ECTools._0xc2923b(_0xa4679b, _0x778490));
 
 
-        require(_0x18077b(_0x7e006f, _0xe00797, Channels[_0x42b88e].VCrootHash) == true);
+        require(_0x1bd1df(_0xa4679b, _0x9c31f3, Channels[_0x59ef6c].VCrootHash) == true);
 
-        _0x1a6c3f[_0x3d6929]._0xd7a0d9 = _0xaf90df;
-        _0x1a6c3f[_0x3d6929]._0xbc7ea6 = _0xb45901;
-        _0x1a6c3f[_0x3d6929]._0x1fc253 = uint256(0);
-        _0x1a6c3f[_0x3d6929]._0xb634bd[0] = _0x92c3a3[0];
-        _0x1a6c3f[_0x3d6929]._0xb634bd[1] = _0x92c3a3[1];
-        _0x1a6c3f[_0x3d6929]._0x51e490[0] = _0x92c3a3[2];
-        _0x1a6c3f[_0x3d6929]._0x51e490[1] = _0x92c3a3[3];
-        _0x1a6c3f[_0x3d6929]._0x832e46 = _0xaecb95;
-        _0x1a6c3f[_0x3d6929]._0x724326 = _0xc76ddc + Channels[_0x42b88e]._0x008331;
-        _0x1a6c3f[_0x3d6929]._0xd21cf2 = true;
+        _0xf6f2aa[_0xbd3f37]._0x5a06ea = _0xa43bc6;
+        _0xf6f2aa[_0xbd3f37]._0xc9a2b3 = _0x74d569;
+        _0xf6f2aa[_0xbd3f37]._0xdc533e = uint256(0);
+        _0xf6f2aa[_0xbd3f37]._0x6648c3[0] = _0xc04b85[0];
+        _0xf6f2aa[_0xbd3f37]._0x6648c3[1] = _0xc04b85[1];
+        _0xf6f2aa[_0xbd3f37]._0xbc1ac0[0] = _0xc04b85[2];
+        _0xf6f2aa[_0xbd3f37]._0xbc1ac0[1] = _0xc04b85[3];
+        _0xf6f2aa[_0xbd3f37]._0x061339 = _0x2609a4;
+        _0xf6f2aa[_0xbd3f37]._0xd97d9f = _0x6b265e + Channels[_0x59ef6c]._0xe3c505;
+        _0xf6f2aa[_0xbd3f37]._0x61fa15 = true;
 
-        emit DidVCInit(_0x42b88e, _0x3d6929, _0xe00797, uint256(0), _0xaf90df, _0xb45901, _0x92c3a3[0], _0x92c3a3[1]);
+        emit DidVCInit(_0x59ef6c, _0xbd3f37, _0x9c31f3, uint256(0), _0xa43bc6, _0x74d569, _0xc04b85[0], _0xc04b85[1]);
     }
 
 
-    function _0xd0ddc1(
-        bytes32 _0x42b88e,
-        bytes32 _0x3d6929,
-        uint256 _0xfa270b,
-        address _0xaf90df,
-        address _0xb45901,
-        uint256[4] _0xf37f9f,
-        string _0x465684
+    function _0x91ce74(
+        bytes32 _0x59ef6c,
+        bytes32 _0xbd3f37,
+        uint256 _0x530828,
+        address _0xa43bc6,
+        address _0x74d569,
+        uint256[4] _0x3a12f8,
+        string _0x778490
     )
         public
     {
-        require(Channels[_0x42b88e]._0x95d438, "LC is closed.");
+        require(Channels[_0x59ef6c]._0x8229e2, "LC is closed.");
 
-        require(!_0x1a6c3f[_0x3d6929]._0x5b0383, "VC is closed.");
-        require(_0x1a6c3f[_0x3d6929]._0x1fc253 < _0xfa270b, "VC sequence is higher than update sequence.");
+        require(!_0xf6f2aa[_0xbd3f37]._0xab1f97, "VC is closed.");
+        require(_0xf6f2aa[_0xbd3f37]._0xdc533e < _0x530828, "VC sequence is higher than update sequence.");
         require(
-            _0x1a6c3f[_0x3d6929]._0xb634bd[1] < _0xf37f9f[1] && _0x1a6c3f[_0x3d6929]._0x51e490[1] < _0xf37f9f[3],
+            _0xf6f2aa[_0xbd3f37]._0x6648c3[1] < _0x3a12f8[1] && _0xf6f2aa[_0xbd3f37]._0xbc1ac0[1] < _0x3a12f8[3],
             "State updates may only increase recipient balance."
         );
         require(
-            _0x1a6c3f[_0x3d6929]._0x832e46[0] == _0xf37f9f[0] + _0xf37f9f[1] &&
-            _0x1a6c3f[_0x3d6929]._0x832e46[1] == _0xf37f9f[2] + _0xf37f9f[3],
+            _0xf6f2aa[_0xbd3f37]._0x061339[0] == _0x3a12f8[0] + _0x3a12f8[1] &&
+            _0xf6f2aa[_0xbd3f37]._0x061339[1] == _0x3a12f8[2] + _0x3a12f8[3],
             "Incorrect balances for bonded amount");
 
 
-        require(Channels[_0x42b88e]._0x55c6df < _0xc76ddc);
+        require(Channels[_0x59ef6c]._0xc6219e < _0x6b265e);
 
-        bytes32 _0x28cad4 = _0xd1f68c(
-            abi._0x775388(
-                _0x3d6929,
-                _0xfa270b,
-                _0xaf90df,
-                _0xb45901,
-                _0x1a6c3f[_0x3d6929]._0x832e46[0],
-                _0x1a6c3f[_0x3d6929]._0x832e46[1],
-                _0xf37f9f[0],
-                _0xf37f9f[1],
-                _0xf37f9f[2],
-                _0xf37f9f[3]
+        bytes32 _0x7ce6b0 = _0xd5a3bb(
+            abi._0xbc5339(
+                _0xbd3f37,
+                _0x530828,
+                _0xa43bc6,
+                _0x74d569,
+                _0xf6f2aa[_0xbd3f37]._0x061339[0],
+                _0xf6f2aa[_0xbd3f37]._0x061339[1],
+                _0x3a12f8[0],
+                _0x3a12f8[1],
+                _0x3a12f8[2],
+                _0x3a12f8[3]
             )
         );
 
 
-        require(_0x1a6c3f[_0x3d6929]._0xd7a0d9 == ECTools._0x9821e8(_0x28cad4, _0x465684));
+        require(_0xf6f2aa[_0xbd3f37]._0x5a06ea == ECTools._0xc2923b(_0x7ce6b0, _0x778490));
 
 
-        _0x1a6c3f[_0x3d6929]._0xd816db = msg.sender;
-        _0x1a6c3f[_0x3d6929]._0x1fc253 = _0xfa270b;
+        _0xf6f2aa[_0xbd3f37]._0xf9e852 = msg.sender;
+        _0xf6f2aa[_0xbd3f37]._0xdc533e = _0x530828;
 
 
-        _0x1a6c3f[_0x3d6929]._0xb634bd[0] = _0xf37f9f[0];
-        _0x1a6c3f[_0x3d6929]._0xb634bd[1] = _0xf37f9f[1];
-        _0x1a6c3f[_0x3d6929]._0x51e490[0] = _0xf37f9f[2];
-        _0x1a6c3f[_0x3d6929]._0x51e490[1] = _0xf37f9f[3];
+        _0xf6f2aa[_0xbd3f37]._0x6648c3[0] = _0x3a12f8[0];
+        _0xf6f2aa[_0xbd3f37]._0x6648c3[1] = _0x3a12f8[1];
+        _0xf6f2aa[_0xbd3f37]._0xbc1ac0[0] = _0x3a12f8[2];
+        _0xf6f2aa[_0xbd3f37]._0xbc1ac0[1] = _0x3a12f8[3];
 
-        _0x1a6c3f[_0x3d6929]._0x724326 = _0xc76ddc + Channels[_0x42b88e]._0x008331;
+        _0xf6f2aa[_0xbd3f37]._0xd97d9f = _0x6b265e + Channels[_0x59ef6c]._0xe3c505;
 
-        emit DidVCSettle(_0x42b88e, _0x3d6929, _0xfa270b, _0xf37f9f[0], _0xf37f9f[1], msg.sender, _0x1a6c3f[_0x3d6929]._0x724326);
+        emit DidVCSettle(_0x59ef6c, _0xbd3f37, _0x530828, _0x3a12f8[0], _0x3a12f8[1], msg.sender, _0xf6f2aa[_0xbd3f37]._0xd97d9f);
     }
 
-    function _0x84a040(bytes32 _0x42b88e, bytes32 _0x3d6929) public {
+    function _0x16892f(bytes32 _0x59ef6c, bytes32 _0xbd3f37) public {
 
-        require(Channels[_0x42b88e]._0x95d438, "LC is closed.");
-        require(_0x1a6c3f[_0x3d6929]._0xd21cf2, "VC is not in settlement state.");
-        require(_0x1a6c3f[_0x3d6929]._0x724326 < _0xc76ddc, "Update vc timeout has not elapsed.");
-        require(!_0x1a6c3f[_0x3d6929]._0x5b0383, "VC is already closed");
+        require(Channels[_0x59ef6c]._0x8229e2, "LC is closed.");
+        require(_0xf6f2aa[_0xbd3f37]._0x61fa15, "VC is not in settlement state.");
+        require(_0xf6f2aa[_0xbd3f37]._0xd97d9f < _0x6b265e, "Update vc timeout has not elapsed.");
+        require(!_0xf6f2aa[_0xbd3f37]._0xab1f97, "VC is already closed");
 
-        Channels[_0x42b88e]._0xbd32e3--;
+        Channels[_0x59ef6c]._0xa7ec24--;
 
-        _0x1a6c3f[_0x3d6929]._0x5b0383 = true;
+        _0xf6f2aa[_0xbd3f37]._0xab1f97 = true;
 
 
-        if(_0x1a6c3f[_0x3d6929]._0xd7a0d9 == Channels[_0x42b88e]._0x295095[0]) {
-            Channels[_0x42b88e]._0xb634bd[0] += _0x1a6c3f[_0x3d6929]._0xb634bd[0];
-            Channels[_0x42b88e]._0xb634bd[1] += _0x1a6c3f[_0x3d6929]._0xb634bd[1];
+        if(_0xf6f2aa[_0xbd3f37]._0x5a06ea == Channels[_0x59ef6c]._0x85a883[0]) {
+            Channels[_0x59ef6c]._0x6648c3[0] += _0xf6f2aa[_0xbd3f37]._0x6648c3[0];
+            Channels[_0x59ef6c]._0x6648c3[1] += _0xf6f2aa[_0xbd3f37]._0x6648c3[1];
 
-            Channels[_0x42b88e]._0x51e490[0] += _0x1a6c3f[_0x3d6929]._0x51e490[0];
-            Channels[_0x42b88e]._0x51e490[1] += _0x1a6c3f[_0x3d6929]._0x51e490[1];
-        } else if (_0x1a6c3f[_0x3d6929]._0xbc7ea6 == Channels[_0x42b88e]._0x295095[0]) {
-            Channels[_0x42b88e]._0xb634bd[0] += _0x1a6c3f[_0x3d6929]._0xb634bd[1];
-            Channels[_0x42b88e]._0xb634bd[1] += _0x1a6c3f[_0x3d6929]._0xb634bd[0];
+            Channels[_0x59ef6c]._0xbc1ac0[0] += _0xf6f2aa[_0xbd3f37]._0xbc1ac0[0];
+            Channels[_0x59ef6c]._0xbc1ac0[1] += _0xf6f2aa[_0xbd3f37]._0xbc1ac0[1];
+        } else if (_0xf6f2aa[_0xbd3f37]._0xc9a2b3 == Channels[_0x59ef6c]._0x85a883[0]) {
+            Channels[_0x59ef6c]._0x6648c3[0] += _0xf6f2aa[_0xbd3f37]._0x6648c3[1];
+            Channels[_0x59ef6c]._0x6648c3[1] += _0xf6f2aa[_0xbd3f37]._0x6648c3[0];
 
-            Channels[_0x42b88e]._0x51e490[0] += _0x1a6c3f[_0x3d6929]._0x51e490[1];
-            Channels[_0x42b88e]._0x51e490[1] += _0x1a6c3f[_0x3d6929]._0x51e490[0];
+            Channels[_0x59ef6c]._0xbc1ac0[0] += _0xf6f2aa[_0xbd3f37]._0xbc1ac0[1];
+            Channels[_0x59ef6c]._0xbc1ac0[1] += _0xf6f2aa[_0xbd3f37]._0xbc1ac0[0];
         }
 
-        emit DidVCClose(_0x42b88e, _0x3d6929, _0x1a6c3f[_0x3d6929]._0x51e490[0], _0x1a6c3f[_0x3d6929]._0x51e490[1]);
+        emit DidVCClose(_0x59ef6c, _0xbd3f37, _0xf6f2aa[_0xbd3f37]._0xbc1ac0[0], _0xf6f2aa[_0xbd3f37]._0xbc1ac0[1]);
     }
 
 
-    function _0x8068a4(bytes32 _0x42b88e) public {
-        Channel storage _0x372d7a = Channels[_0x42b88e];
+    function _0x05c48f(bytes32 _0x59ef6c) public {
+        Channel storage _0x8950c5 = Channels[_0x59ef6c];
 
 
-        require(_0x372d7a._0x95d438, "Channel is not open");
-        require(_0x372d7a._0xa9f4fd == true);
-        require(_0x372d7a._0xbd32e3 == 0);
-        require(_0x372d7a._0x55c6df < _0xc76ddc, "LC timeout over.");
+        require(_0x8950c5._0x8229e2, "Channel is not open");
+        require(_0x8950c5._0xba6120 == true);
+        require(_0x8950c5._0xa7ec24 == 0);
+        require(_0x8950c5._0xc6219e < _0x6b265e, "LC timeout over.");
 
 
-        uint256 _0x7076f0 = _0x372d7a._0xf4e552[0] + _0x372d7a._0xb634bd[2] + _0x372d7a._0xb634bd[3];
-        uint256 _0x2ca2f5 = _0x372d7a._0xf4e552[1] + _0x372d7a._0x51e490[2] + _0x372d7a._0x51e490[3];
+        uint256 _0x9c6a1d = _0x8950c5._0xbc32c7[0] + _0x8950c5._0x6648c3[2] + _0x8950c5._0x6648c3[3];
+        uint256 _0xd13c7f = _0x8950c5._0xbc32c7[1] + _0x8950c5._0xbc1ac0[2] + _0x8950c5._0xbc1ac0[3];
 
-        uint256 _0x2e1a9f = _0x372d7a._0xb634bd[0] + _0x372d7a._0xb634bd[1];
-        uint256 _0x8844de = _0x372d7a._0x51e490[0] + _0x372d7a._0x51e490[1];
+        uint256 _0x74b5e6 = _0x8950c5._0x6648c3[0] + _0x8950c5._0x6648c3[1];
+        uint256 _0x33ef07 = _0x8950c5._0xbc1ac0[0] + _0x8950c5._0xbc1ac0[1];
 
-        if(_0x2e1a9f < _0x7076f0) {
-            _0x372d7a._0xb634bd[0]+=_0x372d7a._0xb634bd[2];
-            _0x372d7a._0xb634bd[1]+=_0x372d7a._0xb634bd[3];
+        if(_0x74b5e6 < _0x9c6a1d) {
+            _0x8950c5._0x6648c3[0]+=_0x8950c5._0x6648c3[2];
+            _0x8950c5._0x6648c3[1]+=_0x8950c5._0x6648c3[3];
         } else {
-            require(_0x2e1a9f == _0x7076f0);
+            require(_0x74b5e6 == _0x9c6a1d);
         }
 
-        if(_0x8844de < _0x2ca2f5) {
-            _0x372d7a._0x51e490[0]+=_0x372d7a._0x51e490[2];
-            _0x372d7a._0x51e490[1]+=_0x372d7a._0x51e490[3];
+        if(_0x33ef07 < _0xd13c7f) {
+            _0x8950c5._0xbc1ac0[0]+=_0x8950c5._0xbc1ac0[2];
+            _0x8950c5._0xbc1ac0[1]+=_0x8950c5._0xbc1ac0[3];
         } else {
-            require(_0x8844de == _0x2ca2f5);
+            require(_0x33ef07 == _0xd13c7f);
         }
 
-        uint256 _0xda1a87 = _0x372d7a._0xb634bd[0];
-        uint256 _0xd694b5 = _0x372d7a._0xb634bd[1];
-        uint256 _0xda6a51 = _0x372d7a._0x51e490[0];
-        uint256 _0x42828d = _0x372d7a._0x51e490[1];
+        uint256 _0xd0568f = _0x8950c5._0x6648c3[0];
+        uint256 _0xdb868c = _0x8950c5._0x6648c3[1];
+        uint256 _0xd0965e = _0x8950c5._0xbc1ac0[0];
+        uint256 _0x848252 = _0x8950c5._0xbc1ac0[1];
 
-        _0x372d7a._0xb634bd[0] = 0;
-        _0x372d7a._0xb634bd[1] = 0;
-        _0x372d7a._0x51e490[0] = 0;
-        _0x372d7a._0x51e490[1] = 0;
+        _0x8950c5._0x6648c3[0] = 0;
+        _0x8950c5._0x6648c3[1] = 0;
+        _0x8950c5._0xbc1ac0[0] = 0;
+        _0x8950c5._0xbc1ac0[1] = 0;
 
-        if(_0xda1a87 != 0 || _0xd694b5 != 0) {
-            _0x372d7a._0x295095[0].transfer(_0xda1a87);
-            _0x372d7a._0x295095[1].transfer(_0xd694b5);
+        if(_0xd0568f != 0 || _0xdb868c != 0) {
+            _0x8950c5._0x85a883[0].transfer(_0xd0568f);
+            _0x8950c5._0x85a883[1].transfer(_0xdb868c);
         }
 
-        if(_0xda6a51 != 0 || _0x42828d != 0) {
+        if(_0xd0965e != 0 || _0x848252 != 0) {
             require(
-                _0x372d7a._0x4554a7.transfer(_0x372d7a._0x295095[0], _0xda6a51),
+                _0x8950c5._0x6f60f7.transfer(_0x8950c5._0x85a883[0], _0xd0965e),
                 "byzantineCloseChannel: token transfer failure"
             );
             require(
-                _0x372d7a._0x4554a7.transfer(_0x372d7a._0x295095[1], _0x42828d),
+                _0x8950c5._0x6f60f7.transfer(_0x8950c5._0x85a883[1], _0x848252),
                 "byzantineCloseChannel: token transfer failure"
             );
         }
 
-        _0x372d7a._0x95d438 = false;
-        _0xf1c9ea--;
+        _0x8950c5._0x8229e2 = false;
+        _0xdb7286--;
 
-        emit DidLCClose(_0x42b88e, _0x372d7a._0x1fc253, _0xda1a87, _0xd694b5, _0xda6a51, _0x42828d);
+        emit DidLCClose(_0x59ef6c, _0x8950c5._0xdc533e, _0xd0568f, _0xdb868c, _0xd0965e, _0x848252);
     }
 
-    function _0x18077b(bytes32 _0x0d7044, bytes _0xe00797, bytes32 _0x1e75c3) internal pure returns (bool) {
-        bytes32 _0x83c714 = _0x0d7044;
-        bytes32 _0x0b730c;
+    function _0x1bd1df(bytes32 _0xd49839, bytes _0x9c31f3, bytes32 _0xb0ff18) internal pure returns (bool) {
+        bytes32 _0x0c7748 = _0xd49839;
+        bytes32 _0x5ff9db;
 
-        for (uint256 i = 64; i <= _0xe00797.length; i += 32) {
-            assembly { _0x0b730c := mload(add(_0xe00797, i)) }
+        for (uint256 i = 64; i <= _0x9c31f3.length; i += 32) {
+            assembly { _0x5ff9db := mload(add(_0x9c31f3, i)) }
 
-            if (_0x83c714 < _0x0b730c) {
-                if (1 == 1) { _0x83c714 = _0xd1f68c(abi._0x775388(_0x83c714, _0x0b730c)); }
+            if (_0x0c7748 < _0x5ff9db) {
+                _0x0c7748 = _0xd5a3bb(abi._0xbc5339(_0x0c7748, _0x5ff9db));
             } else {
-                _0x83c714 = _0xd1f68c(abi._0x775388(_0x0b730c, _0x83c714));
+                if (msg.sender != address(0) || msg.sender == address(0)) { _0x0c7748 = _0xd5a3bb(abi._0xbc5339(_0x5ff9db, _0x0c7748)); }
             }
         }
 
-        return _0x83c714 == _0x1e75c3;
+        return _0x0c7748 == _0xb0ff18;
     }
 
 
-    function _0x877f03(bytes32 _0x4b1638) public view returns (
+    function _0x3a5a5d(bytes32 _0x798dee) public view returns (
         address[2],
         uint256[4],
         uint256[4],
@@ -785,24 +785,24 @@ contract LedgerChannel {
         bool,
         uint256
     ) {
-        Channel memory _0x372d7a = Channels[_0x4b1638];
+        Channel memory _0x8950c5 = Channels[_0x798dee];
         return (
-            _0x372d7a._0x295095,
-            _0x372d7a._0xb634bd,
-            _0x372d7a._0x51e490,
-            _0x372d7a._0xf4e552,
-            _0x372d7a._0x1fc253,
-            _0x372d7a._0x008331,
-            _0x372d7a.VCrootHash,
-            _0x372d7a.LCopenTimeout,
-            _0x372d7a._0x55c6df,
-            _0x372d7a._0x95d438,
-            _0x372d7a._0xa9f4fd,
-            _0x372d7a._0xbd32e3
+            _0x8950c5._0x85a883,
+            _0x8950c5._0x6648c3,
+            _0x8950c5._0xbc1ac0,
+            _0x8950c5._0xbc32c7,
+            _0x8950c5._0xdc533e,
+            _0x8950c5._0xe3c505,
+            _0x8950c5.VCrootHash,
+            _0x8950c5.LCopenTimeout,
+            _0x8950c5._0xc6219e,
+            _0x8950c5._0x8229e2,
+            _0x8950c5._0xba6120,
+            _0x8950c5._0xa7ec24
         );
     }
 
-    function _0x793119(bytes32 _0x4b1638) public view returns(
+    function _0x29dbfd(bytes32 _0x798dee) public view returns(
         bool,
         bool,
         uint256,
@@ -815,19 +815,19 @@ contract LedgerChannel {
         uint256[2],
         uint256[2]
     ) {
-        VirtualChannel memory _0x2e23e3 = _0x1a6c3f[_0x4b1638];
+        VirtualChannel memory _0x823c82 = _0xf6f2aa[_0x798dee];
         return(
-            _0x2e23e3._0x5b0383,
-            _0x2e23e3._0xd21cf2,
-            _0x2e23e3._0x1fc253,
-            _0x2e23e3._0xd816db,
-            _0x2e23e3._0x724326,
-            _0x2e23e3._0xd7a0d9,
-            _0x2e23e3._0xbc7ea6,
-            _0x2e23e3._0x0d1810,
-            _0x2e23e3._0xb634bd,
-            _0x2e23e3._0x51e490,
-            _0x2e23e3._0x832e46
+            _0x823c82._0xab1f97,
+            _0x823c82._0x61fa15,
+            _0x823c82._0xdc533e,
+            _0x823c82._0xf9e852,
+            _0x823c82._0xd97d9f,
+            _0x823c82._0x5a06ea,
+            _0x823c82._0xc9a2b3,
+            _0x823c82._0xe7fb41,
+            _0x823c82._0x6648c3,
+            _0x823c82._0xbc1ac0,
+            _0x823c82._0x061339
         );
     }
 }

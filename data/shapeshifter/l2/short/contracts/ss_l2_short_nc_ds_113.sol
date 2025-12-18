@@ -1,119 +1,119 @@
 contract TokenInterface {
-    mapping (address => uint256) cm;
-    mapping (address => mapping (address => uint256)) da;
+    mapping (address => uint256) cs;
+    mapping (address => mapping (address => uint256)) dd;
 
 
-    uint256 public bp;
+    uint256 public bj;
 
 
-    function ci(address dl) constant returns (uint256 balance);
+    function ck(address dl) constant returns (uint256 balance);
 
 
-    function transfer(address ea, uint256 di) returns (bool cz);
+    function transfer(address ea, uint256 dc) returns (bool db);
 
 
-    function bd(address dv, address ea, uint256 di) returns (bool cz);
+    function bh(address ds, address ea, uint256 dc) returns (bool db);
 
 
-    function cx(address cr, uint256 di) returns (bool cz);
+    function de(address cr, uint256 dc) returns (bool db);
 
 
-    function cf(
+    function ci(
         address dl,
         address cr
-    ) constant returns (uint256 ck);
+    ) constant returns (uint256 ce);
 
-    event Transfer(address indexed dv, address indexed ea, uint256 di);
+    event Transfer(address indexed ds, address indexed ea, uint256 dc);
     event Approval(
         address indexed dl,
         address indexed cr,
-        uint256 di
+        uint256 dc
     );
 }
 
 contract Token is TokenInterface {
 
 
-    modifier cy() {if (msg.value > 0) throw; _;}
+    modifier da() {if (msg.value > 0) throw; _;}
 
-    function ci(address dl) constant returns (uint256 balance) {
-        return cm[dl];
+    function ck(address dl) constant returns (uint256 balance) {
+        return cs[dl];
     }
 
-    function transfer(address ea, uint256 di) cy returns (bool cz) {
-        if (cm[msg.sender] >= di && di > 0) {
-            cm[msg.sender] -= di;
-            cm[ea] += di;
-            Transfer(msg.sender, ea, di);
+    function transfer(address ea, uint256 dc) da returns (bool db) {
+        if (cs[msg.sender] >= dc && dc > 0) {
+            cs[msg.sender] -= dc;
+            cs[ea] += dc;
+            Transfer(msg.sender, ea, dc);
             return true;
         } else {
            return false;
         }
     }
 
-    function bd(
-        address dv,
+    function bh(
+        address ds,
         address ea,
-        uint256 di
-    ) cy returns (bool cz) {
+        uint256 dc
+    ) da returns (bool db) {
 
-        if (cm[dv] >= di
-            && da[dv][msg.sender] >= di
-            && di > 0) {
+        if (cs[ds] >= dc
+            && dd[ds][msg.sender] >= dc
+            && dc > 0) {
 
-            cm[ea] += di;
-            cm[dv] -= di;
-            da[dv][msg.sender] -= di;
-            Transfer(dv, ea, di);
+            cs[ea] += dc;
+            cs[ds] -= dc;
+            dd[ds][msg.sender] -= dc;
+            Transfer(ds, ea, dc);
             return true;
         } else {
             return false;
         }
     }
 
-    function cx(address cr, uint256 di) returns (bool cz) {
-        da[msg.sender][cr] = di;
-        Approval(msg.sender, cr, di);
+    function de(address cr, uint256 dc) returns (bool db) {
+        dd[msg.sender][cr] = dc;
+        Approval(msg.sender, cr, dc);
         return true;
     }
 
-    function cf(address dl, address cr) constant returns (uint256 ck) {
-        return da[dl][cr];
+    function ci(address dl, address cr) constant returns (uint256 ce) {
+        return dd[dl][cr];
     }
 }
 
 contract ManagedAccountInterface {
 
-    address public ds;
+    address public dv;
 
-    bool public ba;
+    bool public bc;
 
-    uint public z;
+    uint public ae;
 
 
-    function dk(address bw, uint di) returns (bool);
+    function do(address bu, uint dc) returns (bool);
 
-    event PayOut(address indexed bw, uint di);
+    event PayOut(address indexed bu, uint dc);
 }
 
 contract ManagedAccount is ManagedAccountInterface{
 
 
-    function ManagedAccount(address dl, bool av) {
-        ds = dl;
-        ba = av;
+    function ManagedAccount(address dl, bool at) {
+        dv = dl;
+        bc = at;
     }
 
 
     function() {
-        z += msg.value;
+        ae += msg.value;
     }
 
-    function dk(address bw, uint di) returns (bool) {
-        if (msg.sender != ds || msg.value > 0 || (ba && bw != ds))
+    function do(address bu, uint dc) returns (bool) {
+        if (msg.sender != dv || msg.value > 0 || (bc && bu != dv))
             throw;
-        if (bw.call.value(di)()) {
-            PayOut(bw, di);
+        if (bu.call.value(dc)()) {
+            PayOut(bu, dc);
             return true;
         } else {
             return false;
@@ -127,87 +127,87 @@ contract TokenCreationInterface {
     uint public bn;
 
 
-    uint public t;
+    uint public v;
 
-    bool public cl;
-
-
-    address public aj;
+    bool public cm;
 
 
-    ManagedAccount public be;
-
-    mapping (address => uint256) cn;
+    address public am;
 
 
-    function ac(address ay) returns (bool cz);
+    ManagedAccount public bi;
+
+    mapping (address => uint256) cq;
 
 
-    function dm();
+    function ab(address bf) returns (bool db);
 
 
-    function de() constant returns (uint de);
+    function dr();
+
+
+    function di() constant returns (uint di);
 
     event FuelingToDate(uint value);
-    event CreatedToken(address indexed ee, uint do);
+    event CreatedToken(address indexed ee, uint dj);
     event Refund(address indexed ee, uint value);
 }
 
 contract TokenCreation is TokenCreationInterface, Token {
     function TokenCreation(
-        uint p,
-        uint bi,
-        address ag) {
+        uint n,
+        uint bb,
+        address ad) {
 
-        bn = bi;
-        t = p;
-        aj = ag;
-        be = new ManagedAccount(address(this), true);
+        bn = bb;
+        v = n;
+        am = ad;
+        bi = new ManagedAccount(address(this), true);
     }
 
-    function ac(address ay) returns (bool cz) {
-        if (ec < bn && msg.value > 0
-            && (aj == 0 || aj == msg.sender)) {
+    function ab(address bf) returns (bool db) {
+        if (ed < bn && msg.value > 0
+            && (am == 0 || am == msg.sender)) {
 
-            uint dt = (msg.value * 20) / de();
-            be.call.value(msg.value - dt)();
-            cm[ay] += dt;
-            bp += dt;
-            cn[ay] += msg.value;
-            CreatedToken(ay, dt);
-            if (bp >= t && !cl) {
-                cl = true;
-                FuelingToDate(bp);
+            uint du = (msg.value * 20) / di();
+            bi.call.value(msg.value - du)();
+            cs[bf] += du;
+            bj += du;
+            cq[bf] += msg.value;
+            CreatedToken(bf, du);
+            if (bj >= v && !cm) {
+                cm = true;
+                FuelingToDate(bj);
             }
             return true;
         }
         throw;
     }
 
-    function dm() cy {
-        if (ec > bn && !cl) {
+    function dr() da {
+        if (ed > bn && !cm) {
 
-            if (be.balance >= be.z())
-                be.dk(address(this), be.z());
+            if (bi.balance >= bi.ae())
+                bi.do(address(this), bi.ae());
 
 
-            if (msg.sender.call.value(cn[msg.sender])()) {
-                Refund(msg.sender, cn[msg.sender]);
-                bp -= cm[msg.sender];
-                cm[msg.sender] = 0;
-                cn[msg.sender] = 0;
+            if (msg.sender.call.value(cq[msg.sender])()) {
+                Refund(msg.sender, cq[msg.sender]);
+                bj -= cs[msg.sender];
+                cs[msg.sender] = 0;
+                cq[msg.sender] = 0;
             }
         }
     }
 
-    function de() constant returns (uint de) {
+    function di() constant returns (uint di) {
 
 
-        if (bn - 2 weeks > ec) {
+        if (bn - 2 weeks > ed) {
             return 20;
 
-        } else if (bn - 4 days > ec) {
-            return (20 + (ec - (bn - 2 weeks)) / (1 days));
+        } else if (bn - 4 days > ed) {
+            return (20 + (ed - (bn - 2 weeks)) / (1 days));
 
         } else {
             return 30;
@@ -218,15 +218,15 @@ contract TokenCreation is TokenCreationInterface, Token {
 contract DAOInterface {
 
 
-    uint constant l = 40 days;
+    uint constant m = 40 days;
 
     uint constant c = 2 weeks;
 
-    uint constant i = 1 weeks;
+    uint constant k = 1 weeks;
 
-    uint constant h = 27 days;
+    uint constant i = 27 days;
 
-    uint constant m = 25 weeks;
+    uint constant l = 25 weeks;
 
 
     uint constant d = 10 days;
@@ -235,22 +235,22 @@ contract DAOInterface {
     uint constant q = 100;
 
 
-    Proposal[] public cj;
+    Proposal[] public ch;
 
 
-    uint public ab;
+    uint public ac;
 
-    uint  public k;
-
-
-    address public dd;
-
-    mapping (address => bool) public v;
+    uint  public h;
 
 
-    mapping (address => uint) public br;
+    address public cx;
 
-    uint public af;
+    mapping (address => bool) public x;
+
+
+    mapping (address => uint) public bk;
+
+    uint public z;
 
 
     ManagedAccount public ax;
@@ -262,19 +262,19 @@ contract DAOInterface {
     mapping (address => uint) public DAOpaidOut;
 
 
-    mapping (address => uint) public df;
+    mapping (address => uint) public dh;
 
 
-    mapping (address => uint) public dg;
+    mapping (address => uint) public cy;
 
 
-    uint public am;
+    uint public ak;
 
 
     uint e;
 
 
-    DAO_Creator public bv;
+    DAO_Creator public bw;
 
 
     struct Proposal {
@@ -282,525 +282,525 @@ contract DAOInterface {
 
         address cc;
 
-        uint do;
+        uint dj;
 
-        string bl;
+        string bs;
 
-        uint ap;
+        uint ar;
 
         bool dw;
 
 
-        bool ar;
+        bool ap;
 
         bytes32 az;
 
 
-        uint am;
+        uint ak;
 
-        bool bu;
+        bool bt;
 
-        SplitData[] cb;
-
-        uint eb;
+        SplitData[] cj;
 
         uint dz;
 
+        uint ec;
+
         mapping (address => bool) ct;
 
-        mapping (address => bool) db;
+        mapping (address => bool) cw;
 
-        address dh;
+        address df;
     }
 
 
     struct SplitData {
 
-        uint bc;
+        uint bg;
 
-        uint bp;
+        uint bj;
 
-        uint br;
+        uint bk;
 
-        DAO dn;
+        DAO dp;
     }
 
 
-    modifier ah {}
+    modifier ag {}
 
 
-    function () returns (bool cz);
+    function () returns (bool db);
 
 
-    function bg() returns(bool);
+    function bd() returns(bool);
 
 
-    function bq(
-        address bw,
-        uint di,
-        string bb,
+    function bm(
+        address bu,
+        uint dc,
+        string ay,
         bytes y,
-        uint ak,
-        bool bk
-    ) ah returns (uint bo);
+        uint al,
+        bool bp
+    ) ag returns (uint bo);
 
 
     function r(
         uint bo,
-        address bw,
-        uint di,
+        address bu,
+        uint dc,
         bytes y
-    ) constant returns (bool ao);
+    ) constant returns (bool an);
 
 
     function dx(
         uint bo,
-        bool x
-    ) ah returns (uint cw);
+        bool u
+    ) ag returns (uint dg);
 
 
-    function al(
+    function ai(
         uint bo,
         bytes y
-    ) returns (bool cu);
+    ) returns (bool cp);
 
 
-    function cp(
+    function co(
         uint bo,
-        address bk
-    ) returns (bool cu);
+        address bp
+    ) returns (bool cp);
 
 
-    function bs(address bf);
+    function br(address be);
 
 
-    function b(address bw, bool co) external returns (bool cu);
+    function b(address bu, bool cv) external returns (bool cp);
 
 
-    function g(uint aa) external;
+    function f(uint af) external;
 
 
-    function u(bool ca) external returns (bool cu);
+    function s(bool bx) external returns (bool cp);
 
 
-    function bj() returns(bool cu);
+    function bl() returns(bool cp);
 
 
-    function w(address cq) internal returns (bool cu);
+    function t(address cn) internal returns (bool cp);
 
 
-    function f(address ea, uint256 di) returns (bool cz);
+    function g(address ea, uint256 dc) returns (bool db);
 
 
     function a(
-        address dv,
+        address ds,
         address ea,
-        uint256 di
-    ) returns (bool cz);
+        uint256 dc
+    ) returns (bool db);
 
 
-    function as() returns (bool cu);
+    function ao() returns (bool cp);
 
 
-    function s() constant returns (uint o);
+    function w() constant returns (uint o);
 
 
-    function ae(uint bo) constant returns (address dc);
+    function aa(uint bo) constant returns (address cz);
 
 
-    function cd(address cq) internal returns (bool);
+    function cg(address cn) internal returns (bool);
 
 
-    function cg() returns (bool);
+    function cd() returns (bool);
 
     event ProposalAdded(
-        uint indexed by,
+        uint indexed ca,
         address cc,
-        uint do,
-        bool bu,
-        string bl
+        uint dj,
+        bool bt,
+        string bs
     );
-    event Voted(uint indexed by, bool cv, address indexed du);
-    event ProposalTallied(uint indexed by, bool dq, uint dj);
-    event NewCurator(address indexed bk);
-    event AllowedRecipientChanged(address indexed bw, bool co);
+    event Voted(uint indexed ca, bool cu, address indexed dt);
+    event ProposalTallied(uint indexed ca, bool dm, uint dq);
+    event NewCurator(address indexed bp);
+    event AllowedRecipientChanged(address indexed bu, bool cv);
 }
 
 
 contract DAO is DAOInterface, Token, TokenCreation {
 
 
-    modifier ah {
-        if (ci(msg.sender) == 0) throw;
+    modifier ag {
+        if (ck(msg.sender) == 0) throw;
             _;
     }
 
     function DAO(
-        address cs,
-        DAO_Creator bm,
-        uint aa,
-        uint p,
-        uint bi,
-        address ag
-    ) TokenCreation(p, bi, ag) {
+        address cl,
+        DAO_Creator bq,
+        uint af,
+        uint n,
+        uint bb,
+        address ad
+    ) TokenCreation(n, bb, ad) {
 
-        dd = cs;
-        bv = bm;
-        am = aa;
+        cx = cl;
+        bw = bq;
+        ak = af;
         ax = new ManagedAccount(address(this), false);
         DAOrewardAccount = new ManagedAccount(address(this), false);
         if (address(ax) == 0)
             throw;
         if (address(DAOrewardAccount) == 0)
             throw;
-        k = ec;
-        ab = 5;
-        cj.length = 1;
+        h = ed;
+        ac = 5;
+        ch.length = 1;
 
-        v[address(this)] = true;
-        v[dd] = true;
+        x[address(this)] = true;
+        x[cx] = true;
     }
 
-    function () returns (bool cz) {
-        if (ec < bn + l && msg.sender != address(be))
-            return ac(msg.sender);
+    function () returns (bool db) {
+        if (ed < bn + m && msg.sender != address(bi))
+            return ab(msg.sender);
         else
-            return bg();
+            return bd();
     }
 
-    function bg() returns (bool) {
+    function bd() returns (bool) {
         return true;
     }
 
-    function bq(
-        address bw,
-        uint di,
-        string bb,
+    function bm(
+        address bu,
+        uint dc,
+        string ay,
         bytes y,
-        uint ak,
-        bool bk
-    ) ah returns (uint bo) {
+        uint al,
+        bool bp
+    ) ag returns (uint bo) {
 
 
-        if (bk && (
-            di != 0
+        if (bp && (
+            dc != 0
             || y.length != 0
-            || bw == dd
+            || bu == cx
             || msg.value > 0
-            || ak < i)) {
+            || al < k)) {
             throw;
         } else if (
-            !bk
-            && (!n(bw) || (ak <  c))
+            !bp
+            && (!p(bu) || (al <  c))
         ) {
             throw;
         }
 
-        if (ak > 8 weeks)
+        if (al > 8 weeks)
             throw;
 
-        if (!cl
-            || ec < bn
-            || (msg.value < am && !bk)) {
+        if (!cm
+            || ed < bn
+            || (msg.value < ak && !bp)) {
 
             throw;
         }
 
-        if (ec + ak < ec)
+        if (ed + al < ed)
             throw;
 
         if (msg.sender == address(this))
             throw;
 
-        bo = cj.length++;
-        Proposal p = cj[bo];
-        p.cc = bw;
-        p.do = di;
-        p.bl = bb;
-        p.az = dy(bw, di, y);
-        p.ap = ec + ak;
+        bo = ch.length++;
+        Proposal p = ch[bo];
+        p.cc = bu;
+        p.dj = dc;
+        p.bs = ay;
+        p.az = dy(bu, dc, y);
+        p.ar = ed + al;
         p.dw = true;
 
-        p.bu = bk;
-        if (bk)
-            p.cb.length++;
-        p.dh = msg.sender;
-        p.am = msg.value;
+        p.bt = bp;
+        if (bp)
+            p.cj.length++;
+        p.df = msg.sender;
+        p.ak = msg.value;
 
         e += msg.value;
 
         ProposalAdded(
             bo,
-            bw,
-            di,
-            bk,
-            bb
+            bu,
+            dc,
+            bp,
+            ay
         );
     }
 
     function r(
         uint bo,
-        address bw,
-        uint di,
+        address bu,
+        uint dc,
         bytes y
-    ) cy constant returns (bool ao) {
-        Proposal p = cj[bo];
-        return p.az == dy(bw, di, y);
+    ) da constant returns (bool an) {
+        Proposal p = ch[bo];
+        return p.az == dy(bu, dc, y);
     }
 
     function dx(
         uint bo,
-        bool x
-    ) ah cy returns (uint cw) {
+        bool u
+    ) ag da returns (uint dg) {
 
-        Proposal p = cj[bo];
+        Proposal p = ch[bo];
         if (p.ct[msg.sender]
-            || p.db[msg.sender]
-            || ec >= p.ap) {
+            || p.cw[msg.sender]
+            || ed >= p.ar) {
 
             throw;
         }
 
-        if (x) {
-            p.eb += cm[msg.sender];
+        if (u) {
+            p.dz += cs[msg.sender];
             p.ct[msg.sender] = true;
         } else {
-            p.dz += cm[msg.sender];
-            p.db[msg.sender] = true;
+            p.ec += cs[msg.sender];
+            p.cw[msg.sender] = true;
         }
 
-        if (dg[msg.sender] == 0) {
-            dg[msg.sender] = bo;
-        } else if (p.ap > cj[dg[msg.sender]].ap) {
+        if (cy[msg.sender] == 0) {
+            cy[msg.sender] = bo;
+        } else if (p.ar > ch[cy[msg.sender]].ar) {
 
 
-            dg[msg.sender] = bo;
+            cy[msg.sender] = bo;
         }
 
-        Voted(bo, x, msg.sender);
+        Voted(bo, u, msg.sender);
     }
 
-    function al(
+    function ai(
         uint bo,
         bytes y
-    ) cy returns (bool cu) {
+    ) da returns (bool cp) {
 
-        Proposal p = cj[bo];
+        Proposal p = ch[bo];
 
-        uint bz = p.bu
-            ? h
+        uint bz = p.bt
+            ? i
             : d;
 
-        if (p.dw && ec > p.ap + bz) {
-            at(bo);
+        if (p.dw && ed > p.ar + bz) {
+            aw(bo);
             return;
         }
 
 
-        if (ec < p.ap
+        if (ed < p.ar
 
             || !p.dw
 
-            || p.az != dy(p.cc, p.do, y)) {
+            || p.az != dy(p.cc, p.dj, y)) {
 
             throw;
         }
 
 
-        if (!n(p.cc)) {
-            at(bo);
-            p.dh.send(p.am);
+        if (!p(p.cc)) {
+            aw(bo);
+            p.df.send(p.ak);
             return;
         }
 
-        bool aw = true;
+        bool au = true;
 
-        if (p.do > au())
-            aw = false;
+        if (p.dj > av())
+            au = false;
 
-        uint dj = p.eb + p.dz;
+        uint dq = p.dz + p.ec;
 
 
         if (y.length >= 4 && y[0] == 0x68
             && y[1] == 0x37 && y[2] == 0xff
             && y[3] == 0x1e
-            && dj < ch(au() + br[address(this)])) {
+            && dq < cf(av() + bk[address(this)])) {
 
-                aw = false;
+                au = false;
         }
 
-        if (dj >= ch(p.do)) {
-            if (!p.dh.send(p.am))
+        if (dq >= cf(p.dj)) {
+            if (!p.df.send(p.ak))
                 throw;
 
-            k = ec;
+            h = ed;
 
-            if (dj > bp / 5)
-                ab = 5;
+            if (dq > bj / 5)
+                ac = 5;
         }
 
 
-        if (dj >= ch(p.do) && p.eb > p.dz && aw) {
-            if (!p.cc.call.value(p.do)(y))
+        if (dq >= cf(p.dj) && p.dz > p.ec && au) {
+            if (!p.cc.call.value(p.dj)(y))
                 throw;
 
-            p.ar = true;
-            cu = true;
+            p.ap = true;
+            cp = true;
 
 
             if (p.cc != address(this) && p.cc != address(ax)
                 && p.cc != address(DAOrewardAccount)
-                && p.cc != address(be)
-                && p.cc != address(dd)) {
+                && p.cc != address(bi)
+                && p.cc != address(cx)) {
 
-                br[address(this)] += p.do;
-                af += p.do;
+                bk[address(this)] += p.dj;
+                z += p.dj;
             }
         }
 
-        at(bo);
+        aw(bo);
 
 
-        ProposalTallied(bo, cu, dj);
+        ProposalTallied(bo, cp, dq);
     }
 
-    function at(uint bo) internal {
-        Proposal p = cj[bo];
+    function aw(uint bo) internal {
+        Proposal p = ch[bo];
         if (p.dw)
-            e -= p.am;
+            e -= p.ak;
         p.dw = false;
     }
 
-    function cp(
+    function co(
         uint bo,
-        address bk
-    ) cy ah returns (bool cu) {
+        address bp
+    ) da ag returns (bool cp) {
 
-        Proposal p = cj[bo];
+        Proposal p = ch[bo];
 
 
-        if (ec < p.ap
+        if (ed < p.ar
 
-            || ec > p.ap + h
+            || ed > p.ar + i
 
-            || p.cc != bk
+            || p.cc != bp
 
-            || !p.bu
+            || !p.bt
 
             || !p.ct[msg.sender]
 
-            || (dg[msg.sender] != bo && dg[msg.sender] != 0) )  {
+            || (cy[msg.sender] != bo && cy[msg.sender] != 0) )  {
 
             throw;
         }
 
 
-        if (address(p.cb[0].dn) == 0) {
-            p.cb[0].dn = bh(bk);
+        if (address(p.cj[0].dp) == 0) {
+            p.cj[0].dp = ba(bp);
 
-            if (address(p.cb[0].dn) == 0)
+            if (address(p.cj[0].dp) == 0)
                 throw;
 
             if (this.balance < e)
                 throw;
-            p.cb[0].bc = au();
-            p.cb[0].br = br[address(this)];
-            p.cb[0].bp = bp;
-            p.ar = true;
+            p.cj[0].bg = av();
+            p.cj[0].bk = bk[address(this)];
+            p.cj[0].bj = bj;
+            p.ap = true;
         }
 
 
-        uint aq =
-            (cm[msg.sender] * p.cb[0].bc) /
-            p.cb[0].bp;
-        if (p.cb[0].dn.ac.value(aq)(msg.sender) == false)
+        uint as =
+            (cs[msg.sender] * p.cj[0].bg) /
+            p.cj[0].bj;
+        if (p.cj[0].dp.ab.value(as)(msg.sender) == false)
             throw;
 
 
         uint j =
-            (cm[msg.sender] * p.cb[0].br) /
-            p.cb[0].bp;
+            (cs[msg.sender] * p.cj[0].bk) /
+            p.cj[0].bj;
 
-        uint ad = DAOpaidOut[address(this)] * j /
-            br[address(this)];
+        uint ah = DAOpaidOut[address(this)] * j /
+            bk[address(this)];
 
-        br[address(p.cb[0].dn)] += j;
-        if (br[address(this)] < j)
+        bk[address(p.cj[0].dp)] += j;
+        if (bk[address(this)] < j)
             throw;
-        br[address(this)] -= j;
+        bk[address(this)] -= j;
 
-        DAOpaidOut[address(p.cb[0].dn)] += ad;
-        if (DAOpaidOut[address(this)] < ad)
+        DAOpaidOut[address(p.cj[0].dp)] += ah;
+        if (DAOpaidOut[address(this)] < ah)
             throw;
-        DAOpaidOut[address(this)] -= ad;
+        DAOpaidOut[address(this)] -= ah;
 
 
-        Transfer(msg.sender, 0, cm[msg.sender]);
-        w(msg.sender);
-        bp -= cm[msg.sender];
-        cm[msg.sender] = 0;
-        df[msg.sender] = 0;
+        Transfer(msg.sender, 0, cs[msg.sender]);
+        t(msg.sender);
+        bj -= cs[msg.sender];
+        cs[msg.sender] = 0;
+        dh[msg.sender] = 0;
         return true;
     }
 
-    function bs(address bf){
-        if (msg.sender != address(this) || !v[bf]) return;
+    function br(address be){
+        if (msg.sender != address(this) || !x[be]) return;
 
-        if (!bf.call.value(address(this).balance)()) {
+        if (!be.call.value(address(this).balance)()) {
             throw;
         }
 
 
-        br[bf] += br[address(this)];
-        br[address(this)] = 0;
-        DAOpaidOut[bf] += DAOpaidOut[address(this)];
+        bk[be] += bk[address(this)];
+        bk[address(this)] = 0;
+        DAOpaidOut[be] += DAOpaidOut[address(this)];
         DAOpaidOut[address(this)] = 0;
     }
 
-    function u(bool ca) external cy returns (bool cu) {
-        DAO ed = DAO(msg.sender);
+    function s(bool bx) external da returns (bool cp) {
+        DAO eb = DAO(msg.sender);
 
-        if ((br[msg.sender] * DAOrewardAccount.z()) /
-            af < DAOpaidOut[msg.sender])
+        if ((bk[msg.sender] * DAOrewardAccount.ae()) /
+            z < DAOpaidOut[msg.sender])
             throw;
 
-        uint dp =
-            (br[msg.sender] * DAOrewardAccount.z()) /
-            af - DAOpaidOut[msg.sender];
-        if(ca) {
-            if (!DAOrewardAccount.dk(ed.ax(), dp))
+        uint dk =
+            (bk[msg.sender] * DAOrewardAccount.ae()) /
+            z - DAOpaidOut[msg.sender];
+        if(bx) {
+            if (!DAOrewardAccount.do(eb.ax(), dk))
                 throw;
             }
         else {
-            if (!DAOrewardAccount.dk(ed, dp))
+            if (!DAOrewardAccount.do(eb, dk))
                 throw;
         }
-        DAOpaidOut[msg.sender] += dp;
+        DAOpaidOut[msg.sender] += dk;
         return true;
     }
 
-    function bj() cy returns (bool cu) {
-        return w(msg.sender);
+    function bl() da returns (bool cp) {
+        return t(msg.sender);
     }
 
-    function w(address cq) cy internal returns (bool cu) {
-        if ((ci(cq) * ax.z()) / bp < df[cq])
+    function t(address cn) da internal returns (bool cp) {
+        if ((ck(cn) * ax.ae()) / bj < dh[cn])
             throw;
 
-        uint dp =
-            (ci(cq) * ax.z()) / bp - df[cq];
-        if (!ax.dk(cq, dp))
+        uint dk =
+            (ck(cn) * ax.ae()) / bj - dh[cn];
+        if (!ax.do(cn, dk))
             throw;
-        df[cq] += dp;
+        dh[cn] += dk;
         return true;
     }
 
-    function transfer(address ea, uint256 dr) returns (bool cz) {
-        if (cl
-            && ec > bn
-            && !cd(msg.sender)
-            && ai(msg.sender, ea, dr)
-            && super.transfer(ea, dr)) {
+    function transfer(address ea, uint256 dn) returns (bool db) {
+        if (cm
+            && ed > bn
+            && !cg(msg.sender)
+            && aj(msg.sender, ea, dn)
+            && super.transfer(ea, dn)) {
 
             return true;
         } else {
@@ -808,18 +808,18 @@ contract DAO is DAOInterface, Token, TokenCreation {
         }
     }
 
-    function f(address ea, uint256 dr) returns (bool cz) {
-        if (!bj())
+    function g(address ea, uint256 dn) returns (bool db) {
+        if (!bl())
             throw;
-        return transfer(ea, dr);
+        return transfer(ea, dn);
     }
 
-    function bd(address dv, address ea, uint256 dr) returns (bool cz) {
-        if (cl
-            && ec > bn
-            && !cd(dv)
-            && ai(dv, ea, dr)
-            && super.bd(dv, ea, dr)) {
+    function bh(address ds, address ea, uint256 dn) returns (bool db) {
+        if (cm
+            && ed > bn
+            && !cg(ds)
+            && aj(ds, ea, dn)
+            && super.bh(ds, ea, dn)) {
 
             return true;
         } else {
@@ -828,126 +828,126 @@ contract DAO is DAOInterface, Token, TokenCreation {
     }
 
     function a(
-        address dv,
+        address ds,
         address ea,
-        uint256 dr
-    ) returns (bool cz) {
+        uint256 dn
+    ) returns (bool db) {
 
-        if (!w(dv))
+        if (!t(ds))
             throw;
-        return bd(dv, ea, dr);
+        return bh(ds, ea, dn);
     }
 
-    function ai(
-        address dv,
+    function aj(
+        address ds,
         address ea,
-        uint256 dr
-    ) internal returns (bool cz) {
+        uint256 dn
+    ) internal returns (bool db) {
 
-        uint ai = df[dv] * dr / ci(dv);
-        if (ai > df[dv])
+        uint aj = dh[ds] * dn / ck(ds);
+        if (aj > dh[ds])
             throw;
-        df[dv] -= ai;
-        df[ea] += ai;
+        dh[ds] -= aj;
+        dh[ea] += aj;
         return true;
     }
 
-    function g(uint aa) cy external {
-        if (msg.sender != address(this) || aa > (au() + br[address(this)])
+    function f(uint af) da external {
+        if (msg.sender != address(this) || af > (av() + bk[address(this)])
             / q) {
 
             throw;
         }
-        am = aa;
+        ak = af;
     }
 
-    function b(address bw, bool co) cy external returns (bool cu) {
-        if (msg.sender != dd)
+    function b(address bu, bool cv) da external returns (bool cp) {
+        if (msg.sender != cx)
             throw;
-        v[bw] = co;
-        AllowedRecipientChanged(bw, co);
+        x[bu] = cv;
+        AllowedRecipientChanged(bu, cv);
         return true;
     }
 
-    function n(address bw) internal returns (bool bt) {
-        if (v[bw]
-            || (bw == address(be)
+    function p(address bu) internal returns (bool by) {
+        if (x[bu]
+            || (bu == address(bi)
 
 
-                && af > be.z()))
+                && z > bi.ae()))
             return true;
         else
             return false;
     }
 
-    function au() constant returns (uint an) {
+    function av() constant returns (uint aq) {
         return this.balance - e;
     }
 
-    function ch(uint dr) internal constant returns (uint bx) {
+    function cf(uint dn) internal constant returns (uint bv) {
 
-        return bp / ab +
-            (dr * bp) / (3 * (au() + br[address(this)]));
+        return bj / ac +
+            (dn * bj) / (3 * (av() + bk[address(this)]));
     }
 
-    function as() returns (bool cu) {
+    function ao() returns (bool cp) {
 
 
-        if ((k < (ec - m) || msg.sender == dd)
-            && k < (ec - c)) {
-            k = ec;
-            ab *= 2;
+        if ((h < (ed - l) || msg.sender == cx)
+            && h < (ed - c)) {
+            h = ed;
+            ac *= 2;
             return true;
         } else {
             return false;
         }
     }
 
-    function bh(address bk) internal returns (DAO dc) {
-        NewCurator(bk);
-        return bv.ce(bk, 0, 0, ec + h);
+    function ba(address bp) internal returns (DAO cz) {
+        NewCurator(bp);
+        return bw.cb(bp, 0, 0, ed + i);
     }
 
-    function s() constant returns (uint o) {
+    function w() constant returns (uint o) {
 
-        return cj.length - 1;
+        return ch.length - 1;
     }
 
-    function ae(uint bo) constant returns (address dc) {
-        return cj[bo].cb[0].dn;
+    function aa(uint bo) constant returns (address cz) {
+        return ch[bo].cj[0].dp;
     }
 
-    function cd(address cq) internal returns (bool) {
-        if (dg[cq] == 0)
+    function cg(address cn) internal returns (bool) {
+        if (cy[cn] == 0)
             return false;
-        Proposal p = cj[dg[cq]];
-        if (ec > p.ap) {
-            dg[cq] = 0;
+        Proposal p = ch[cy[cn]];
+        if (ed > p.ar) {
+            cy[cn] = 0;
             return false;
         } else {
             return true;
         }
     }
 
-    function cg() returns (bool) {
-        return cd(msg.sender);
+    function cd() returns (bool) {
+        return cg(msg.sender);
     }
 }
 
 contract DAO_Creator {
-    function ce(
-        address cs,
-        uint aa,
-        uint p,
-        uint bi
-    ) returns (DAO dc) {
+    function cb(
+        address cl,
+        uint af,
+        uint n,
+        uint bb
+    ) returns (DAO cz) {
 
         return new DAO(
-            cs,
+            cl,
             DAO_Creator(this),
-            aa,
-            p,
-            bi,
+            af,
+            n,
+            bb,
             msg.sender
         );
     }

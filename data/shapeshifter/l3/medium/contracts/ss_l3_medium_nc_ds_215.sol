@@ -3,123 +3,123 @@ pragma solidity ^0.4.24;
 contract PoCGame
 {
 
-    modifier _0xb5fb34()
+    modifier _0x1eb852()
     {
-        require(msg.sender == _0x77cd4b);
+        require(msg.sender == _0x29a3f5);
         _;
     }
 
-   modifier _0x0ac0df()
+   modifier _0x007871()
     {
-        require(_0xf9dd2e);
+        require(_0xaf4757);
         _;
     }
 
-    modifier _0xb60054()
+    modifier _0xf142c1()
     {
           require (msg.sender == tx.origin);
         _;
     }
 
-    modifier  _0xd71abb()
+    modifier  _0xaab9de()
     {
-        require (_0xa2bbc1[msg.sender] > 0);
+        require (_0x39d4b4[msg.sender] > 0);
         _;
     }
 
-    event Wager(uint256 _0x2554d4, address _0x29a75b);
-    event Win(uint256 _0x2554d4, address _0xb1464e);
-    event Lose(uint256 _0x2554d4, address _0x16a6f7);
-    event Donate(uint256 _0x2554d4, address _0xb1464e, address _0x4630c7);
-    event DifficultyChanged(uint256 _0xb9ec2f);
-    event BetLimitChanged(uint256 _0xa1fbe2);
+    event Wager(uint256 _0xeb521d, address _0x5d90c7);
+    event Win(uint256 _0xeb521d, address _0xc614a6);
+    event Lose(uint256 _0xeb521d, address _0xb2bfd2);
+    event Donate(uint256 _0xeb521d, address _0xc614a6, address _0x50241c);
+    event DifficultyChanged(uint256 _0xc059e2);
+    event BetLimitChanged(uint256 _0x8adb0b);
 
-    address private _0x519bbb;
-    uint256 _0xbc2a9b;
+    address private _0xaa3bc4;
+    uint256 _0x03dad0;
     uint difficulty;
-    uint private _0x5696bd;
-    address _0x77cd4b;
-    mapping(address => uint256) _0x1f75f9;
-    mapping(address => uint256) _0xa2bbc1;
-    bool _0xf9dd2e;
-    uint256 _0x90d489;
+    uint private _0xfd758d;
+    address _0x29a3f5;
+    mapping(address => uint256) _0x46084b;
+    mapping(address => uint256) _0x39d4b4;
+    bool _0xaf4757;
+    uint256 _0x389116;
 
-    constructor(address _0x58242c, uint256 _0x414290)
-    _0xb60054()
+    constructor(address _0xe66366, uint256 _0x85aea3)
+    _0xf142c1()
     public
     {
-        _0xf9dd2e = false;
-        _0x77cd4b = msg.sender;
-        _0x519bbb = _0x58242c;
-        _0x90d489 = 0;
-        _0xbc2a9b = _0x414290;
+        _0xaf4757 = false;
+        _0x29a3f5 = msg.sender;
+        _0xaa3bc4 = _0xe66366;
+        _0x389116 = 0;
+        _0x03dad0 = _0x85aea3;
 
     }
 
     function OpenToThePublic()
-    _0xb5fb34()
+    _0x1eb852()
     public
     {
-        _0xf9dd2e = true;
+        _0xaf4757 = true;
     }
 
-    function AdjustBetAmounts(uint256 _0x2554d4)
-    _0xb5fb34()
+    function AdjustBetAmounts(uint256 _0xeb521d)
+    _0x1eb852()
     public
     {
-        _0xbc2a9b = _0x2554d4;
+        _0x03dad0 = _0xeb521d;
 
-        emit BetLimitChanged(_0xbc2a9b);
+        emit BetLimitChanged(_0x03dad0);
     }
 
-    function AdjustDifficulty(uint256 _0x2554d4)
-    _0xb5fb34()
+    function AdjustDifficulty(uint256 _0xeb521d)
+    _0x1eb852()
     public
     {
-        difficulty = _0x2554d4;
+        difficulty = _0xeb521d;
 
         emit DifficultyChanged(difficulty);
     }
 
     function() public payable { }
 
-    function _0xec5845()
-    _0x0ac0df()
-    _0xb60054()
+    function _0xcd7cab()
+    _0x007871()
+    _0xf142c1()
     payable
     public
     {
 
-        require(msg.value == _0xbc2a9b);
+        require(msg.value == _0x03dad0);
 
 
-        _0x1f75f9[msg.sender] = block.number;
-        _0xa2bbc1[msg.sender] = msg.value;
+        _0x46084b[msg.sender] = block.number;
+        _0x39d4b4[msg.sender] = msg.value;
         emit Wager(msg.value, msg.sender);
     }
 
-    function _0x6301e1()
-    _0x0ac0df()
-    _0xb60054()
-    _0xd71abb()
+    function _0xc66e79()
+    _0x007871()
+    _0xf142c1()
+    _0xaab9de()
     public
     {
-        uint256 _0xff42fe = _0x1f75f9[msg.sender];
-        if(_0xff42fe < block.number)
+        uint256 _0xfea56e = _0x46084b[msg.sender];
+        if(_0xfea56e < block.number)
         {
-            _0x1f75f9[msg.sender] = 0;
-            _0xa2bbc1[msg.sender] = 0;
+            _0x46084b[msg.sender] = 0;
+            _0x39d4b4[msg.sender] = 0;
 
-            uint256 _0xe22252 = uint256(_0x37e392(abi._0x78aa76(blockhash(_0xff42fe),  msg.sender)))%difficulty +1;
+            uint256 _0xd57fe6 = uint256(_0xc42710(abi._0x28f870(blockhash(_0xfea56e),  msg.sender)))%difficulty +1;
 
-            if(_0xe22252 == difficulty / 2)
+            if(_0xd57fe6 == difficulty / 2)
             {
-                _0x81a068(msg.sender);
+                _0x015052(msg.sender);
             }
             else
             {
 
-                _0x481d59(_0xbc2a9b / 2);
+                _0x933e9d(_0x03dad0 / 2);
             }
         }
         else
@@ -128,40 +128,40 @@ contract PoCGame
         }
     }
 
-    function _0xe08b80()
-    _0x0ac0df()
+    function _0xd96f98()
+    _0x007871()
     public
     payable
     {
-        _0xc41738(msg.value);
+        _0xa23a06(msg.value);
     }
 
-    function _0x81a068(address _0x074bee)
+    function _0x015052(address _0xcb36dc)
     internal
     {
-        uint256 _0xc9e80c = address(this).balance / 2;
+        uint256 _0x0e3609 = address(this).balance / 2;
 
-        _0x074bee.transfer(_0xc9e80c);
-        emit Win(_0xc9e80c, _0x074bee);
+        _0xcb36dc.transfer(_0x0e3609);
+        emit Win(_0x0e3609, _0xcb36dc);
     }
 
-    function _0xc41738(uint256 _0x2554d4)
+    function _0xa23a06(uint256 _0xeb521d)
     internal
     {
-        _0x519bbb.call.value(_0x2554d4)(bytes4(_0x37e392("donate()")));
-        _0x90d489 += _0x2554d4;
-        emit Donate(_0x2554d4, _0x519bbb, msg.sender);
+        _0xaa3bc4.call.value(_0xeb521d)(bytes4(_0xc42710("donate()")));
+        _0x389116 += _0xeb521d;
+        emit Donate(_0xeb521d, _0xaa3bc4, msg.sender);
     }
 
-    function _0x481d59(uint256 _0x2554d4)
+    function _0x933e9d(uint256 _0xeb521d)
     internal
     {
-        _0x519bbb.call.value(_0x2554d4)(bytes4(_0x37e392("donate()")));
-        _0x90d489 += _0x2554d4;
-        emit Lose(_0x2554d4, msg.sender);
+        _0xaa3bc4.call.value(_0xeb521d)(bytes4(_0xc42710("donate()")));
+        _0x389116 += _0xeb521d;
+        emit Lose(_0xeb521d, msg.sender);
     }
 
-    function _0x6f3db0()
+    function _0xc9ec45()
     public
     view
     returns (uint256)
@@ -169,7 +169,7 @@ contract PoCGame
         return address(this).balance;
     }
 
-    function _0xb9ec2f()
+    function _0xc059e2()
     public
     view
     returns (uint256)
@@ -177,20 +177,20 @@ contract PoCGame
         return difficulty;
     }
 
-    function _0xa1fbe2()
+    function _0x8adb0b()
     public
     view
     returns (uint256)
     {
-        return _0xbc2a9b;
+        return _0x03dad0;
     }
 
-    function _0x1f9c3f(address _0x437b78)
+    function _0x3d3c48(address _0x67a6b2)
     public
     view
     returns (bool)
     {
-        if(_0xa2bbc1[_0x437b78] > 0)
+        if(_0x39d4b4[_0x67a6b2] > 0)
         {
             return true;
         }
@@ -201,7 +201,7 @@ contract PoCGame
 
     }
 
-    function _0xb96dde()
+    function _0xb2aed9()
     public
     view
     returns (uint256)
@@ -209,17 +209,17 @@ contract PoCGame
         return address(this).balance / 2;
     }
 
-    function _0x57c89f(address _0xa289bf, address _0xdd95e8, uint _0xc421e5)
+    function _0xa05a9a(address _0xfa89ce, address _0x77a835, uint _0xeb6bee)
     public
-    _0xb5fb34()
-    returns (bool _0xea85e4)
+    _0x1eb852()
+    returns (bool _0x618106)
     {
-        return ERC20Interface(_0xa289bf).transfer(_0xdd95e8, _0xc421e5);
+        return ERC20Interface(_0xfa89ce).transfer(_0x77a835, _0xeb6bee);
     }
 }
 
 
 contract ERC20Interface
 {
-    function transfer(address _0x5c844d, uint256 _0xc421e5) public returns (bool _0xea85e4);
+    function transfer(address _0xc81635, uint256 _0xeb6bee) public returns (bool _0x618106);
 }

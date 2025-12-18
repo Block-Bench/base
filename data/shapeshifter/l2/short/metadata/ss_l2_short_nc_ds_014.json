@@ -73,10 +73,10 @@
   "original_id": "ds_014",
   "identifier_mappings": {
     "migrateTo": "a",
-    "withdraw": "b",
-    "balances": "c",
-    "creator": "d",
-    "deposit": "e",
+    "balances": "b",
+    "withdraw": "c",
+    "deposit": "d",
+    "creator": "e",
     "amount": "f",
     "refund": "g",
     "to": "h"

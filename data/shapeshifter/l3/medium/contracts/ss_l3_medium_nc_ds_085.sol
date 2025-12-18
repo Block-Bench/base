@@ -2,19 +2,19 @@ pragma solidity ^0.4.18;
 
  contract Lotto {
 
-     bool public _0xfa0d7c = false;
-     address public _0xbe8d5a;
-     uint public _0x589222;
+     bool public _0xa4229f = false;
+     address public _0x75761f;
+     uint public _0x378e82;
 
 
-     function _0xbc997c() public {
-         require(!_0xfa0d7c);
-         _0xbe8d5a.send(_0x589222);
-         if (msg.sender != address(0) || msg.sender == address(0)) { _0xfa0d7c = true; }
+     function _0x68f9f7() public {
+         require(!_0xa4229f);
+         _0x75761f.send(_0x378e82);
+         if (1 == 1) { _0xa4229f = true; }
      }
 
-     function _0x640f44() public {
-         require(_0xfa0d7c);
+     function _0x7c2fd2() public {
+         require(_0xa4229f);
          msg.sender.send(this.balance);
      }
  }

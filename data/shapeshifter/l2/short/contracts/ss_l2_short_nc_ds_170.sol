@@ -4,123 +4,123 @@ pragma solidity ^0.4.16;
 contract Owned {
 
 
-    modifier m() {
-        require(msg.sender == z);
+    modifier l() {
+        require(msg.sender == aa);
         _;
     }
 
-    address public z;
+    address public aa;
 
 
     function Owned() {
-        z = msg.sender;
+        aa = msg.sender;
     }
 
-    address public q;
+    address public r;
 
 
-    function h(address n) m {
-        q = n;
+    function g(address o) l {
+        r = o;
     }
 
 
     function c() {
-        if (msg.sender == q) {
-            z = q;
+        if (msg.sender == r) {
+            aa = r;
         }
     }
 
 
-    function v(address ah, uint x, bytes ab) m {
-        ah.call.value(x)(ab);
+    function v(address ag, uint w, bytes ab) l {
+        ag.call.value(w)(ab);
     }
 }
 
 contract Marriage is Owned
 {
 
-    string public t;
     string public s;
+    string public u;
     uint public f;
-    string public e;
-    string public ae;
+    string public d;
+    string public ad;
 
-    Event[] public i;
-    Message[] public r;
+    Event[] public h;
+    Message[] public t;
 
     struct Event {
-        uint ag;
-        string ad;
-        string g;
+        uint ae;
+        string ac;
+        string i;
         string ai;
     }
 
     struct Message {
-        uint ag;
-        string u;
+        uint ae;
+        string q;
         string af;
         string ai;
         uint value;
     }
 
     modifier k {
-        require(ac(e) == ac("Married"));
+        require(ah(d) == ah("Married"));
         _;
     }
 
 
-    function Marriage(address w) {
-        z = w;
+    function Marriage(address x) {
+        aa = x;
     }
 
     function a() constant public returns (uint) {
-        return i.length;
+        return h.length;
     }
 
     function b() constant public returns (uint) {
-        return r.length;
+        return t.length;
     }
 
 
-    function d(
+    function e(
         string p,
-        string l,
-        string aa,
-        string ai) m
+        string n,
+        string z,
+        string ai) l
     {
-        require(i.length == 0);
-        t = p;
-        s = l;
+        require(h.length == 0);
+        s = p;
+        u = n;
         f = aj;
-        ae = aa;
-        e = "Married";
-        i.push(Event(aj, "Marriage", ae, ai));
-        MajorEvent("Marrigage", ae, ai);
+        ad = z;
+        d = "Married";
+        h.push(Event(aj, "Marriage", ad, ai));
+        MajorEvent("Marrigage", ad, ai);
     }
 
 
-    function o(string y, string ai) m
+    function m(string y, string ai) l
     {
-        e = y;
+        d = y;
         setMajorEvent("Changed Status", y, ai);
     }
 
 
-    function setMajorEvent(string ad, string g, string ai) m k
+    function setMajorEvent(string ac, string i, string ai) l k
     {
-        i.push(Event(aj, ad, g, ai));
-        MajorEvent(ad, g, ai);
+        h.push(Event(aj, ac, i, ai));
+        MajorEvent(ac, i, ai);
     }
 
-    function j(string u, string af, string ai) payable k {
+    function j(string q, string af, string ai) payable k {
         if (msg.value > 0) {
-            z.transfer(this.balance);
+            aa.transfer(this.balance);
         }
-        r.push(Message(aj, u, af, ai, msg.value));
-        MessageSent(u, af, ai, msg.value);
+        t.push(Message(aj, q, af, ai, msg.value));
+        MessageSent(q, af, ai, msg.value);
     }
 
 
-    event MajorEvent(string ad, string g, string ai);
-    event MessageSent(string ad, string g, string ai, uint value);
+    event MajorEvent(string ac, string i, string ai);
+    event MessageSent(string ac, string i, string ai, uint value);
 }

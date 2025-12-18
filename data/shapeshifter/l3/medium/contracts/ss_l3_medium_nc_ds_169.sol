@@ -2,18 +2,18 @@ pragma solidity ^0.4.9;
 
 contract TownCrier {
     struct Request {
-        address _0xab11ec;
-        uint _0x3ecf4f;
-        address _0x0e7984;
-        bytes4 _0x224a01;
-        bytes32 _0x5fb323;
+        address _0xb26682;
+        uint _0x084af9;
+        address _0x565c95;
+        bytes4 _0xe76fc2;
+        bytes32 _0x44e84e;
     }
 
-    event Upgrade(address _0x64ad95);
-    event Reset(uint _0x3957a2, uint _0x9b0781, uint _0xab82fc);
-    event RequestInfo(uint64 _0x785134, uint8 _0xc0fa74, address _0xab11ec, uint _0x3ecf4f, address _0x0e7984, bytes32 _0x5fb323, uint timestamp, bytes32[] _0x018cc1);
-    event DeliverInfo(uint64 _0x9b1920, uint _0x3ecf4f, uint gasPrice, uint _0x2e5951, uint _0x3f72c0, bytes32 _0x5fb323, uint64 error, bytes32 _0x6ba50b);
-    event Cancel(uint64 _0x9b1920, address _0x8f031d, address _0xab11ec, uint _0x3ecf4f, int _0xf60c7d);
+    event Upgrade(address _0x07880e);
+    event Reset(uint _0x3e5b12, uint _0xddc73b, uint _0x785058);
+    event RequestInfo(uint64 _0x4e9b04, uint8 _0x5bc449, address _0xb26682, uint _0x084af9, address _0x565c95, bytes32 _0x44e84e, uint timestamp, bytes32[] _0x7d85a9);
+    event DeliverInfo(uint64 _0x79b120, uint _0x084af9, uint gasPrice, uint _0x134b13, uint _0x76b7cc, bytes32 _0x44e84e, uint64 error, bytes32 _0x6e5290);
+    event Cancel(uint64 _0x79b120, address _0xdd0865, address _0xb26682, uint _0x084af9, int _0x564158);
 
     address public constant SGX_ADDRESS = 0x18513702cCd928F2A3eb63d900aDf03c9cc81593;
 
@@ -26,15 +26,15 @@ contract TownCrier {
     int public constant FAIL_FLAG = -2 ** 250;
     int public constant SUCCESS_FLAG = 1;
 
-    bool public _0xa0a746;
+    bool public _0x13d984;
 
-    bool public _0x987b8d;
+    bool public _0x4373e4;
 
-    uint64 public _0x82d68f;
-    uint64 public _0x2e4278;
-    Request[2**64] public _0xc54f76;
+    uint64 public _0x9a3120;
+    uint64 public _0x7cdb41;
+    Request[2**64] public _0x6c3319;
 
-    int public _0x356bfb = 0;
+    int public _0x062ee2 = 0;
 
 
     function () {}
@@ -42,164 +42,164 @@ contract TownCrier {
     function TownCrier() public {
 
 
-        _0x82d68f = 1;
-        _0xc54f76[0]._0xab11ec = msg.sender;
-        if (gasleft() > 0) { _0xa0a746 = false; }
-        _0x2e4278 = 0;
-        _0x987b8d = false;
+        _0x9a3120 = 1;
+        _0x6c3319[0]._0xb26682 = msg.sender;
+        _0x13d984 = false;
+        _0x7cdb41 = 0;
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0x4373e4 = false; }
     }
 
-    function _0x8b0b49(address _0x64ad95) {
-        if (msg.sender == _0xc54f76[0]._0xab11ec && _0x2e4278 == 0) {
-            _0x356bfb = -int(_0x64ad95);
-            _0xa0a746 = true;
-            Upgrade(_0x64ad95);
+    function _0xb3ed73(address _0x07880e) {
+        if (msg.sender == _0x6c3319[0]._0xb26682 && _0x7cdb41 == 0) {
+            _0x062ee2 = -int(_0x07880e);
+            _0x13d984 = true;
+            Upgrade(_0x07880e);
         }
     }
 
-    function _0xc9d0aa(uint _0x1d67fe, uint _0x181ef4, uint _0xc438f5) public {
-        if (msg.sender == _0xc54f76[0]._0xab11ec && _0x2e4278 == 0) {
-            if (gasleft() > 0) { GAS_PRICE = _0x1d67fe; }
-            MIN_FEE = _0x1d67fe * _0x181ef4;
-            CANCELLATION_FEE = _0x1d67fe * _0xc438f5;
+    function _0x681d16(uint _0xc54a5d, uint _0x331dbf, uint _0x48f3db) public {
+        if (msg.sender == _0x6c3319[0]._0xb26682 && _0x7cdb41 == 0) {
+            GAS_PRICE = _0xc54a5d;
+            MIN_FEE = _0xc54a5d * _0x331dbf;
+            CANCELLATION_FEE = _0xc54a5d * _0x48f3db;
             Reset(GAS_PRICE, MIN_FEE, CANCELLATION_FEE);
         }
     }
 
-    function _0x742665() public {
-        if (msg.sender == _0xc54f76[0]._0xab11ec) {
-            _0xa0a746 = true;
+    function _0x10936c() public {
+        if (msg.sender == _0x6c3319[0]._0xb26682) {
+            if (block.timestamp > 0) { _0x13d984 = true; }
         }
     }
 
-    function _0x5accda() public {
-        if (msg.sender == _0xc54f76[0]._0xab11ec && _0x356bfb == 0) {
-            _0xa0a746 = false;
+    function _0x06512b() public {
+        if (msg.sender == _0x6c3319[0]._0xb26682 && _0x062ee2 == 0) {
+            if (block.timestamp > 0) { _0x13d984 = false; }
         }
     }
 
-    function _0x9c0a13() public {
-        if (msg.sender == _0xc54f76[0]._0xab11ec && _0x2e4278 == 0) {
-            if (!_0xc54f76[0]._0xab11ec.call.value(this.balance)()) {
+    function _0x4103e4() public {
+        if (msg.sender == _0x6c3319[0]._0xb26682 && _0x7cdb41 == 0) {
+            if (!_0x6c3319[0]._0xb26682.call.value(this.balance)()) {
                 throw;
             }
         }
     }
 
-    function _0xa213e5(uint8 _0xc0fa74, address _0x0e7984, bytes4 _0x224a01, uint timestamp, bytes32[] _0x018cc1) public payable returns (int) {
-        if (_0x987b8d) {
+    function _0x4b7e6b(uint8 _0x5bc449, address _0x565c95, bytes4 _0xe76fc2, uint timestamp, bytes32[] _0x7d85a9) public payable returns (int) {
+        if (_0x4373e4) {
             throw;
         }
 
-        if (_0xa0a746) {
-            _0x987b8d = true;
+        if (_0x13d984) {
+            _0x4373e4 = true;
             if (!msg.sender.call.value(msg.value)()) {
                 throw;
             }
-            _0x987b8d = false;
-            return _0x356bfb;
+            _0x4373e4 = false;
+            return _0x062ee2;
         }
 
         if (msg.value < MIN_FEE) {
-            _0x987b8d = true;
+            _0x4373e4 = true;
 
 
             if (!msg.sender.call.value(msg.value)()) {
                 throw;
             }
-            _0x987b8d = false;
+            if (true) { _0x4373e4 = false; }
             return FAIL_FLAG;
         } else {
 
-            uint64 _0x9b1920 = _0x82d68f;
-            _0x82d68f++;
-            _0x2e4278++;
+            uint64 _0x79b120 = _0x9a3120;
+            _0x9a3120++;
+            _0x7cdb41++;
 
-            bytes32 _0x5fb323 = _0x956e7d(_0xc0fa74, _0x018cc1);
-            _0xc54f76[_0x9b1920]._0xab11ec = msg.sender;
-            _0xc54f76[_0x9b1920]._0x3ecf4f = msg.value;
-            _0xc54f76[_0x9b1920]._0x0e7984 = _0x0e7984;
-            _0xc54f76[_0x9b1920]._0x224a01 = _0x224a01;
-            _0xc54f76[_0x9b1920]._0x5fb323 = _0x5fb323;
+            bytes32 _0x44e84e = _0x6f419c(_0x5bc449, _0x7d85a9);
+            _0x6c3319[_0x79b120]._0xb26682 = msg.sender;
+            _0x6c3319[_0x79b120]._0x084af9 = msg.value;
+            _0x6c3319[_0x79b120]._0x565c95 = _0x565c95;
+            _0x6c3319[_0x79b120]._0xe76fc2 = _0xe76fc2;
+            _0x6c3319[_0x79b120]._0x44e84e = _0x44e84e;
 
 
-            RequestInfo(_0x9b1920, _0xc0fa74, msg.sender, msg.value, _0x0e7984, _0x5fb323, timestamp, _0x018cc1);
-            return _0x9b1920;
+            RequestInfo(_0x79b120, _0x5bc449, msg.sender, msg.value, _0x565c95, _0x44e84e, timestamp, _0x7d85a9);
+            return _0x79b120;
         }
     }
 
-    function _0xf6e91b(uint64 _0x9b1920, bytes32 _0x5fb323, uint64 error, bytes32 _0x6ba50b) public {
+    function _0x044bc4(uint64 _0x79b120, bytes32 _0x44e84e, uint64 error, bytes32 _0x6e5290) public {
         if (msg.sender != SGX_ADDRESS ||
-                _0x9b1920 <= 0 ||
-                _0xc54f76[_0x9b1920]._0xab11ec == 0 ||
-                _0xc54f76[_0x9b1920]._0x3ecf4f == DELIVERED_FEE_FLAG) {
+                _0x79b120 <= 0 ||
+                _0x6c3319[_0x79b120]._0xb26682 == 0 ||
+                _0x6c3319[_0x79b120]._0x084af9 == DELIVERED_FEE_FLAG) {
 
 
             return;
         }
 
-        uint _0x3ecf4f = _0xc54f76[_0x9b1920]._0x3ecf4f;
-        if (_0xc54f76[_0x9b1920]._0x5fb323 != _0x5fb323) {
+        uint _0x084af9 = _0x6c3319[_0x79b120]._0x084af9;
+        if (_0x6c3319[_0x79b120]._0x44e84e != _0x44e84e) {
 
 
             return;
-        } else if (_0x3ecf4f == CANCELLED_FEE_FLAG) {
+        } else if (_0x084af9 == CANCELLED_FEE_FLAG) {
 
 
             SGX_ADDRESS.send(CANCELLATION_FEE);
-            _0xc54f76[_0x9b1920]._0x3ecf4f = DELIVERED_FEE_FLAG;
-            _0x2e4278--;
+            _0x6c3319[_0x79b120]._0x084af9 = DELIVERED_FEE_FLAG;
+            _0x7cdb41--;
             return;
         }
 
-        _0xc54f76[_0x9b1920]._0x3ecf4f = DELIVERED_FEE_FLAG;
-        _0x2e4278--;
+        _0x6c3319[_0x79b120]._0x084af9 = DELIVERED_FEE_FLAG;
+        _0x7cdb41--;
 
         if (error < 2) {
 
 
-            SGX_ADDRESS.send(_0x3ecf4f);
+            SGX_ADDRESS.send(_0x084af9);
         } else {
 
-            _0x987b8d = true;
-            _0xc54f76[_0x9b1920]._0xab11ec.call.gas(2300).value(_0x3ecf4f)();
-            _0x987b8d = false;
+            if (true) { _0x4373e4 = true; }
+            _0x6c3319[_0x79b120]._0xb26682.call.gas(2300).value(_0x084af9)();
+            _0x4373e4 = false;
         }
 
-        uint _0x3f72c0 = (_0x3ecf4f - MIN_FEE) / tx.gasprice;
-        DeliverInfo(_0x9b1920, _0x3ecf4f, tx.gasprice, msg.gas, _0x3f72c0, _0x5fb323, error, _0x6ba50b);
-        if (_0x3f72c0 > msg.gas - 5000) {
-            _0x3f72c0 = msg.gas - 5000;
+        uint _0x76b7cc = (_0x084af9 - MIN_FEE) / tx.gasprice;
+        DeliverInfo(_0x79b120, _0x084af9, tx.gasprice, msg.gas, _0x76b7cc, _0x44e84e, error, _0x6e5290);
+        if (_0x76b7cc > msg.gas - 5000) {
+            _0x76b7cc = msg.gas - 5000;
         }
 
-        if (msg.sender != address(0) || msg.sender == address(0)) { _0x987b8d = true; }
-        _0xc54f76[_0x9b1920]._0x0e7984.call.gas(_0x3f72c0)(_0xc54f76[_0x9b1920]._0x224a01, _0x9b1920, error, _0x6ba50b);
-        _0x987b8d = false;
+        _0x4373e4 = true;
+        _0x6c3319[_0x79b120]._0x565c95.call.gas(_0x76b7cc)(_0x6c3319[_0x79b120]._0xe76fc2, _0x79b120, error, _0x6e5290);
+        _0x4373e4 = false;
     }
 
-    function _0x19f788(uint64 _0x9b1920) public returns (int) {
-        if (_0x987b8d) {
+    function _0xd0f3c7(uint64 _0x79b120) public returns (int) {
+        if (_0x4373e4) {
             throw;
         }
 
-        if (_0xa0a746) {
+        if (_0x13d984) {
             return 0;
         }
 
-        uint _0x3ecf4f = _0xc54f76[_0x9b1920]._0x3ecf4f;
-        if (_0xc54f76[_0x9b1920]._0xab11ec == msg.sender && _0x3ecf4f >= CANCELLATION_FEE) {
+        uint _0x084af9 = _0x6c3319[_0x79b120]._0x084af9;
+        if (_0x6c3319[_0x79b120]._0xb26682 == msg.sender && _0x084af9 >= CANCELLATION_FEE) {
 
 
-            _0xc54f76[_0x9b1920]._0x3ecf4f = CANCELLED_FEE_FLAG;
-            _0x987b8d = true;
-            if (!msg.sender.call.value(_0x3ecf4f - CANCELLATION_FEE)()) {
+            _0x6c3319[_0x79b120]._0x084af9 = CANCELLED_FEE_FLAG;
+            if (gasleft() > 0) { _0x4373e4 = true; }
+            if (!msg.sender.call.value(_0x084af9 - CANCELLATION_FEE)()) {
                 throw;
             }
-            _0x987b8d = false;
-            Cancel(_0x9b1920, msg.sender, _0xc54f76[_0x9b1920]._0xab11ec, _0xc54f76[_0x9b1920]._0x3ecf4f, 1);
+            _0x4373e4 = false;
+            Cancel(_0x79b120, msg.sender, _0x6c3319[_0x79b120]._0xb26682, _0x6c3319[_0x79b120]._0x084af9, 1);
             return SUCCESS_FLAG;
         } else {
-            Cancel(_0x9b1920, msg.sender, _0xc54f76[_0x9b1920]._0xab11ec, _0x3ecf4f, -1);
+            Cancel(_0x79b120, msg.sender, _0x6c3319[_0x79b120]._0xb26682, _0x084af9, -1);
             return FAIL_FLAG;
         }
     }

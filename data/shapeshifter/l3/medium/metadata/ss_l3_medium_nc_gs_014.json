@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "LockManagerERC20",
-      "function_name": "_0x9017bd",
+      "function_name": "_0xd284a9",
       "line_numbers": []
     },
     "root_cause": "The lock() function intends to lock the user's entire approved balance, but this will fail for the most common case: Most users give contracts they interact with an unlimited allowance by setting it to type(uint256).max. The _incomingTokenBalance() function at line 32 returns just 'erc20Token.allowance(msg.sender, address(this))' which would be type(uint256).max for unlimited approvals. The lock() function then attempts to transfer this impossible amount.",
@@ -71,17 +71,17 @@
   "derived_from": "nc_gs_014",
   "original_id": "gs_014",
   "identifier_mappings": {
-    "_incomingTokenBalance": "_0x9017bd",
-    "_doUnlockTransfer": "_0x2f8094",
-    "_doLockTransfer": "_0x36ff3c",
-    "transferFrom": "_0x4fba4f",
-    "erc20Token": "_0x01b9fc",
-    "_recipient": "_0x9f4931",
-    "allowance": "_0x497200",
-    "_settings": "_0x9067ec",
-    "_amount": "_0x69b4de",
-    "_token": "_0xc062bc",
-    "token": "_0xa59ad2"
+    "_incomingTokenBalance": "_0xd284a9",
+    "_doUnlockTransfer": "_0xfb2d3c",
+    "_doLockTransfer": "_0x41ce60",
+    "transferFrom": "_0xe8af01",
+    "_recipient": "_0x408185",
+    "erc20Token": "_0xffa483",
+    "allowance": "_0x87a3eb",
+    "_settings": "_0xbfa1ba",
+    "_amount": "_0x72d01c",
+    "_token": "_0xc903e1",
+    "token": "_0x038865"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -93,7 +93,7 @@
     ],
     "rename_map_size": 11,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: _incomingTokenBalance \u2192 _0x9017bd"
+      "Transformed ground_truth.vulnerable_location.function_name: _incomingTokenBalance \u2192 _0xd284a9"
     ]
   }
 }

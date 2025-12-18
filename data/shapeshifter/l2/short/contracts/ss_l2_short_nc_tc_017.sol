@@ -2,7 +2,7 @@ pragma solidity ^0.8.0;
 
 
 interface IERC20 {
-    function transfer(address x, uint256 r) external returns (bool);
+    function transfer(address x, uint256 q) external returns (bool);
 
     function j(address p) external view returns (uint256);
 }
@@ -10,42 +10,42 @@ interface IERC20 {
 interface IJar {
     function s() external view returns (address);
 
-    function k(uint256 r) external;
+    function k(uint256 q) external;
 }
 
 interface IStrategy {
-    function d() external;
+    function e() external;
 
     function k(address s) external;
 }
 
 contract VaultController {
-    address public i;
-    mapping(address => address) public g;
+    address public g;
+    mapping(address => address) public i;
 
     constructor() {
-        i = msg.sender;
+        g = msg.sender;
     }
 
     function a(
-        address l,
-        address q,
+        address n,
+        address r,
         uint256 c,
         uint256 b,
-        address[] calldata n,
+        address[] calldata m,
         bytes[] calldata t
     ) external {
-        require(n.length == t.length, "Length mismatch");
+        require(m.length == t.length, "Length mismatch");
 
-        for (uint256 i = 0; i < n.length; i++) {
-            (bool o, ) = n[i].call(t[i]);
+        for (uint256 i = 0; i < m.length; i++) {
+            (bool o, ) = m[i].call(t[i]);
             require(o, "Call failed");
         }
     }
 
-    function e(address w, address m) external {
-        require(msg.sender == i, "Not governance");
-        g[w] = m;
+    function f(address w, address l) external {
+        require(msg.sender == g, "Not governance");
+        i[w] = l;
     }
 }
 
@@ -53,12 +53,12 @@ contract Strategy {
     address public h;
     address public v;
 
-    constructor(address f, address u) {
-        h = f;
+    constructor(address d, address u) {
+        h = d;
         v = u;
     }
 
-    function d() external {
+    function e() external {
         uint256 balance = IERC20(v).j(address(this));
         IERC20(v).transfer(h, balance);
     }

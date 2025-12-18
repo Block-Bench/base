@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Government",
-      "function_name": "_0x30eb87",
+      "function_name": "_0x70c3dd",
       "line_numbers": []
     },
     "root_cause": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 46",
@@ -72,26 +72,26 @@
   "derived_from": "nc_ds_154",
   "original_id": "ds_154",
   "identifier_mappings": {
-    "inheritToNextGeneration": "_0x96f766",
-    "getCreditorAddresses": "_0x3eb3c7",
-    "lastCreditorPayedOut": "_0xb07c6c",
-    "lastTimeOfNewCredit": "_0x139a16",
-    "lendGovernmentMoney": "_0x30eb87",
-    "getCreditorAmounts": "_0xab5cbd",
-    "creditorAddresses": "_0x1739b7",
-    "investInTheSystem": "_0xe89ff8",
-    "creditorAmounts": "_0x433c40",
-    "profitFromCrash": "_0x53f6ea",
-    "nextGeneration": "_0x165d6f",
-    "totalPayedOut": "_0xca3dbe",
-    "corruptElite": "_0x3e30fe",
-    "totalDebt": "_0x8ee4f8",
-    "buddies": "_0x361728",
-    "payout": "_0x1ba123",
-    "amount": "_0x5a4a7e",
-    "buddy": "_0x0c64a2",
-    "round": "_0x0822c1",
-    "debt": "_0x8ceffa"
+    "inheritToNextGeneration": "_0xfc7efc",
+    "lastCreditorPayedOut": "_0xf7e0f4",
+    "getCreditorAddresses": "_0xdada20",
+    "lendGovernmentMoney": "_0x70c3dd",
+    "lastTimeOfNewCredit": "_0x7c0a4f",
+    "getCreditorAmounts": "_0x5ec19c",
+    "creditorAddresses": "_0xf3955a",
+    "investInTheSystem": "_0xbd75ff",
+    "profitFromCrash": "_0xa54596",
+    "creditorAmounts": "_0x055858",
+    "nextGeneration": "_0x61494d",
+    "totalPayedOut": "_0x1fb0f2",
+    "corruptElite": "_0x6720a9",
+    "totalDebt": "_0x094fb2",
+    "buddies": "_0xf23b3b",
+    "payout": "_0x5c4cae",
+    "amount": "_0xf0abc6",
+    "buddy": "_0x07ae02",
+    "round": "_0xedab0a",
+    "debt": "_0xbd9196"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -105,7 +105,7 @@
     ],
     "rename_map_size": 20,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: lendGovernmentMoney \u2192 _0x30eb87"
+      "Transformed ground_truth.vulnerable_location.function_name: lendGovernmentMoney \u2192 _0x70c3dd"
     ]
   }
 }

@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Token",
-      "function_name": "_0x810379",
+      "function_name": "_0x35f8cf",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 27",
@@ -71,19 +71,19 @@
   "derived_from": "nc_ds_057",
   "original_id": "ds_057",
   "identifier_mappings": {
-    "withdrawTokens": "_0xdd6e76",
-    "tokenContract": "_0x1021e4",
-    "withdrawEther": "_0xcf384d",
-    "balanceOf": "_0x8e1356",
-    "getTokens": "_0x810379",
-    "success": "_0x3f1538",
-    "_value": "_0x1ddd3f",
-    "_owner": "_0x2f7c76",
-    "owner": "_0xc4780f",
-    "addr": "_0x6356d8",
-    "_to": "_0x0efa70",
-    "num": "_0xf57f69",
-    "tc": "_0x793e1d"
+    "withdrawTokens": "_0xf6bc89",
+    "tokenContract": "_0xff2139",
+    "withdrawEther": "_0x175fa2",
+    "balanceOf": "_0x8ab3c9",
+    "getTokens": "_0x35f8cf",
+    "success": "_0xd2ab7b",
+    "_value": "_0xca5971",
+    "_owner": "_0xf39a13",
+    "owner": "_0x8c0c43",
+    "addr": "_0x0430b8",
+    "num": "_0xfe7932",
+    "_to": "_0x47f6c5",
+    "tc": "_0xadb2ce"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -91,12 +91,11 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 13 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 13 identifiers using hex style"
     ],
     "rename_map_size": 13,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: getTokens \u2192 _0x810379"
+      "Transformed ground_truth.vulnerable_location.function_name: getTokens \u2192 _0x35f8cf"
     ]
   }
 }

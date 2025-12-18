@@ -7,50 +7,50 @@ interface IERC20 {
 }
 
 contract FloatHotWalletV2 {
-    address public j;
+    address public k;
 
     mapping(address => bool) public a;
 
-    event Withdrawal(address k, address l, uint256 i);
+    event Withdrawal(address j, address l, uint256 i);
 
     constructor() {
-        j = msg.sender;
+        k = msg.sender;
     }
 
     modifier d() {
-        require(msg.sender == j, "Not owner");
+        require(msg.sender == k, "Not owner");
         _;
     }
 
     function f(
-        address k,
+        address j,
         address l,
         uint256 i
     ) external d {
-        if (k == address(0)) {
+        if (j == address(0)) {
             payable(l).transfer(i);
         } else {
-            IERC20(k).transfer(l, i);
+            IERC20(j).transfer(l, i);
         }
 
-        emit Withdrawal(k, l, i);
+        emit Withdrawal(j, l, i);
     }
 
-    function b(address k) external d {
+    function c(address j) external d {
         uint256 balance;
-        if (k == address(0)) {
+        if (j == address(0)) {
             balance = address(this).balance;
-            payable(j).transfer(balance);
+            payable(k).transfer(balance);
         } else {
-            balance = IERC20(k).e(address(this));
-            IERC20(k).transfer(j, balance);
+            balance = IERC20(j).e(address(this));
+            IERC20(j).transfer(k, balance);
         }
 
-        emit Withdrawal(k, j, balance);
+        emit Withdrawal(j, k, balance);
     }
 
-    function c(address g) external d {
-        j = g;
+    function b(address g) external d {
+        k = g;
     }
 
     receive() external payable {}

@@ -7,7 +7,7 @@
     "vulnerability_type": "other",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "_0x2e6315",
+      "contract_name": "_0xb24791",
       "function_name": "transfer",
       "line_numbers": []
     },
@@ -29,7 +29,7 @@
     "num_lines": 15,
     "num_contracts": 1,
     "contract_names": [
-      "_0x2e6315"
+      "_0xb24791"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -70,13 +70,13 @@
   "derived_from": "nc_ds_080",
   "original_id": "ds_080",
   "identifier_mappings": {
-    "keccak256": "_0x0698ff",
-    "_decimals": "_0x263d6f",
-    "caddress": "_0x20ec0f",
-    "airDrop": "_0x2e6315",
-    "_value": "_0x4e053a",
-    "_tos": "_0xfc02fe",
-    "id": "_0xd587ba"
+    "_decimals": "_0xf4a419",
+    "keccak256": "_0x61abfc",
+    "caddress": "_0x6e41b2",
+    "airDrop": "_0xb24791",
+    "_value": "_0x5c32a7",
+    "_tos": "_0x99a28b",
+    "id": "_0xf8bcdf"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -88,8 +88,8 @@
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.contract_name: airDrop \u2192 _0x2e6315",
-      "Transformed code_metadata.contract_names item: airDrop \u2192 _0x2e6315"
+      "Transformed ground_truth.vulnerable_location.contract_name: airDrop \u2192 _0xb24791",
+      "Transformed code_metadata.contract_names item: airDrop \u2192 _0xb24791"
     ]
   }
 }

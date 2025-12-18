@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "ERC4337v07",
-      "function_name": "d",
+      "function_name": "c",
       "line_numbers": [
         30,
         31,
@@ -99,12 +99,12 @@
   "identifier_mappings": {
     "missingAccountFunds": "a",
     "isValidSignature": "b",
-    "validationData": "c",
-    "validateUserOp": "d",
+    "validateUserOp": "c",
+    "validationData": "d",
     "executeUserOp": "e",
     "nonReentrant": "f",
-    "selfExecute": "g",
-    "_entrypoint": "h",
+    "_entrypoint": "g",
+    "selfExecute": "h",
     "userOpHash": "i",
     "entrypoint": "j",
     "signature": "k",
@@ -122,7 +122,7 @@
     ],
     "rename_map_size": 14,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: validateUserOp \u2192 d"
+      "Transformed ground_truth.vulnerable_location.function_name: validateUserOp \u2192 c"
     ]
   }
 }

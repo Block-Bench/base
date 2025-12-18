@@ -1,24 +1,24 @@
 pragma solidity ^0.4.15;
 
  contract OpenAccess{
-     address private _0xa44547;
+     address private _0xca86c2;
 
-     modifier _0x1e56a9 {
-         require(msg.sender==_0xa44547);
+     modifier _0x090a7d {
+         require(msg.sender==_0xca86c2);
          _;
      }
 
      function OpenAccess()
          public
      {
-         _0xa44547 = msg.sender;
+         _0xca86c2 = msg.sender;
      }
 
 
-     function _0xb5e360(address _0x213584)
+     function _0x3ffa1a(address _0x36d1ef)
          public
      {
-        _0xa44547 = _0x213584;
+        _0xca86c2 = _0x36d1ef;
      }
 
  }

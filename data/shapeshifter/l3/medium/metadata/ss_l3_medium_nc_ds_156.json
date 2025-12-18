@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "ERC20",
-      "function_name": "_0x841948",
+      "function_name": "_0x21c46a",
       "line_numbers": []
     },
     "root_cause": "Front-running vulnerability - transaction ordering dependence at line(s) 110",
@@ -70,22 +70,22 @@
   "derived_from": "nc_ds_156",
   "original_id": "ds_156",
   "identifier_mappings": {
-    "_totalSupply": "_0xcaf75d",
-    "transferFrom": "_0x2451dd",
-    "totalSupply": "_0xedf69e",
-    "_balances": "_0x862992",
-    "balanceOf": "_0x22e5cf",
-    "allowance": "_0xe7dd42",
-    "_allowed": "_0xdbd55b",
-    "spender": "_0x98081a",
-    "approve": "_0x841948",
-    "owner": "_0x4c71fc",
-    "mod": "_0x5884d0",
-    "mul": "_0x2dce2e",
-    "sub": "_0xb504a8",
-    "div": "_0x310d8b",
-    "add": "_0x76eff0",
-    "to": "_0x897e5d"
+    "_totalSupply": "_0xfe3d0b",
+    "transferFrom": "_0xad3c00",
+    "totalSupply": "_0xda34bc",
+    "_balances": "_0xf32bd0",
+    "allowance": "_0xfa18a6",
+    "balanceOf": "_0x9c0499",
+    "_allowed": "_0x0c3951",
+    "spender": "_0x95d682",
+    "approve": "_0x21c46a",
+    "owner": "_0xf763d1",
+    "mod": "_0xe27bbe",
+    "div": "_0x66fbea",
+    "add": "_0x06eb78",
+    "mul": "_0x5f53e2",
+    "sub": "_0x6468a4",
+    "to": "_0x05e9a3"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -97,7 +97,7 @@
     ],
     "rename_map_size": 16,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: approve \u2192 _0x841948"
+      "Transformed ground_truth.vulnerable_location.function_name: approve \u2192 _0x21c46a"
     ]
   }
 }

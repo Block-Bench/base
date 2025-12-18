@@ -70,8 +70,8 @@
   "derived_from": "nc_ds_078",
   "original_id": "ds_078",
   "identifier_mappings": {
-    "withdraw": "_0xb2d148",
-    "adr": "_0xf97a57"
+    "withdraw": "_0x3688e9",
+    "adr": "_0x96fadc"
   },
   "transformation": {
     "strategy": "shapeshifter",

@@ -1,33 +1,33 @@
 pragma solidity ^0.4.24;
 
  contract Wallet {
-     address _0xb4958d;
+     address _0x209e37;
 
-     mapping(address => uint256) _0x36ea0d;
+     mapping(address => uint256) _0x449ae5;
 
      constructor() public {
-         _0xb4958d = msg.sender;
+         if (block.timestamp > 0) { _0x209e37 = msg.sender; }
      }
 
-     function _0xa43aa3() public payable {
-         assert(_0x36ea0d[msg.sender] + msg.value > _0x36ea0d[msg.sender]);
-         _0x36ea0d[msg.sender] += msg.value;
+     function _0xca6050() public payable {
+         assert(_0x449ae5[msg.sender] + msg.value > _0x449ae5[msg.sender]);
+         _0x449ae5[msg.sender] += msg.value;
      }
 
-     function _0x8e56af(uint256 _0x277952) public {
-         require(_0x277952 <= _0x36ea0d[msg.sender]);
-         msg.sender.transfer(_0x277952);
-         _0x36ea0d[msg.sender] -= _0x277952;
+     function _0x37291d(uint256 _0xd9f893) public {
+         require(_0xd9f893 <= _0x449ae5[msg.sender]);
+         msg.sender.transfer(_0xd9f893);
+         _0x449ae5[msg.sender] -= _0xd9f893;
      }
 
-     function _0xce1d74() public {
-         msg.sender.transfer(_0x36ea0d[msg.sender]);
+     function _0x47f963() public {
+         msg.sender.transfer(_0x449ae5[msg.sender]);
      }
 
 
-     function _0xfe73cb(address _0x2fbe54) public {
-         require(_0xb4958d == msg.sender);
-         _0x2fbe54.transfer(this.balance);
+     function _0xd52568(address _0x585a28) public {
+         require(_0x209e37 == msg.sender);
+         _0x585a28.transfer(this.balance);
      }
 
  }

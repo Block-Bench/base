@@ -3,43 +3,43 @@ pragma solidity ^0.4.2;
 contract OddsAndEvens{
 
   struct Player {
-    address e;
+    address f;
     uint number;
   }
 
   Player[2] public c;
 
-  uint8 g;
+  uint8 h;
   address d;
 
   function OddsAndEvens() {
     d = msg.sender;
   }
-  function f(uint number) payable{
+  function e(uint number) payable{
     if (msg.value != 1 ether) throw;
-    c[g] = Player(msg.sender, number);
-    g++;
+    c[h] = Player(msg.sender, number);
+    h++;
 
-    if (g==2) a();
+    if (h==2) a();
   }
 
   function a() private {
-    bool h ;
+    bool g ;
     uint n = c[0].number+c[1].number;
     if (n%2==0) {
-      h = c[0].e.send(1800 finney);
+      g = c[0].f.send(1800 finney);
     }
     else {
-      h = c[1].e.send(1800 finney);
+      g = c[1].f.send(1800 finney);
     }
 
     delete c;
-    g=0;
+    h=0;
   }
 
   function b() {
     if(msg.sender!=d) throw;
-    bool h = msg.sender.send(this.balance);
+    bool g = msg.sender.send(this.balance);
   }
 
 }

@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function b(address e) external view returns (uint256);
+    function b(address f) external view returns (uint256);
     function transfer(address j, uint256 g) external returns (bool);
     function a(address from, address j, uint256 g) external returns (bool);
 }
@@ -14,7 +14,7 @@ contract TokenVault {
         i = h;
     }
 
-    function f(uint256 g) external {
+    function e(uint256 g) external {
         IERC20(i).a(msg.sender, address(this), g);
 
         d[msg.sender] += g;

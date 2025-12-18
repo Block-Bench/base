@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Proxy",
-      "function_name": "_0x471ec5",
+      "function_name": "_0xe9c073",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 14",
@@ -71,14 +71,14 @@
   "derived_from": "nc_ds_070",
   "original_id": "ds_070",
   "identifier_mappings": {
-    "transferOwner": "_0x4799ca",
-    "onlyOwner": "_0xdfb027",
-    "withdraw": "_0x334ff1",
-    "deposit": "_0xedd563",
-    "amount": "_0x687b7d",
-    "_owner": "_0x7dfd01",
-    "target": "_0xfb16e7",
-    "proxy": "_0x471ec5"
+    "transferOwner": "_0xf63dc5",
+    "onlyOwner": "_0x9a4d01",
+    "withdraw": "_0xbe03b2",
+    "deposit": "_0x3774e3",
+    "_owner": "_0xdd4475",
+    "target": "_0x4b1114",
+    "amount": "_0x28a98a",
+    "proxy": "_0xe9c073"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -90,7 +90,7 @@
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: proxy \u2192 _0x471ec5"
+      "Transformed ground_truth.vulnerable_location.function_name: proxy \u2192 _0xe9c073"
     ]
   }
 }

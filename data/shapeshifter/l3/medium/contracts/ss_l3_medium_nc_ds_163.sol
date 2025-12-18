@@ -1,22 +1,22 @@
 pragma solidity ^0.4.11;
 
  contract MyToken {
-     mapping (address => uint) _0x097640;
+     mapping (address => uint) _0x6f6f85;
 
-     event Transfer(address indexed _0x813ba9, address indexed _0xfa3d54, uint256 _0x97c17b);
+     event Transfer(address indexed _0x1fbb02, address indexed _0xc40955, uint256 _0xfc8ac4);
 
      function MyToken() {
-         _0x097640[tx.origin] = 10000;
+         _0x6f6f85[tx.origin] = 10000;
      }
-     function _0x56beac(address _0x433bf6, uint _0xea3127) returns(bool _0x9dbc14) {
-         if (_0x097640[msg.sender] < _0xea3127) return false;
-         _0x097640[msg.sender] -= _0xea3127;
-         _0x097640[_0x433bf6] += _0xea3127;
-         Transfer(msg.sender, _0x433bf6, _0xea3127);
+     function _0x4327b3(address _0xe96c8d, uint _0xdf9a6a) returns(bool _0x816c8b) {
+         if (_0x6f6f85[msg.sender] < _0xdf9a6a) return false;
+         _0x6f6f85[msg.sender] -= _0xdf9a6a;
+         _0x6f6f85[_0xe96c8d] += _0xdf9a6a;
+         Transfer(msg.sender, _0xe96c8d, _0xdf9a6a);
          return true;
      }
 
-     function _0x0e648c(address _0x2539fb) constant returns(uint) {
-         return _0x097640[_0x2539fb];
+     function _0x24ca7f(address _0xa627ae) constant returns(uint) {
+         return _0x6f6f85[_0xa627ae];
      }
  }

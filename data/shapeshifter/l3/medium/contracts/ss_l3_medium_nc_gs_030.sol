@@ -12,104 +12,104 @@ import { IDelegatedExtension } from "./interfaces/IDelegatedExtension.sol";
 abstract contract Calls is ReentrancyGuard, BaseAuth, Nonce {
 
 
-  event CallSucceeded(bytes32 _0x214810, uint256 _0xe69d03);
+  event CallSucceeded(bytes32 _0xbc856c, uint256 _0x01a52d);
 
-  event CallFailed(bytes32 _0x214810, uint256 _0xe69d03, bytes _0xf6807c);
+  event CallFailed(bytes32 _0xbc856c, uint256 _0x01a52d, bytes _0x52fc70);
 
-  event CallAborted(bytes32 _0x214810, uint256 _0xe69d03, bytes _0xf6807c);
+  event CallAborted(bytes32 _0xbc856c, uint256 _0x01a52d, bytes _0x52fc70);
 
-  event CallSkipped(bytes32 _0x214810, uint256 _0xe69d03);
-
-
-  error Reverted(Payload.Decoded _0x2bf93f, uint256 _0xe69d03, bytes _0xf6807c);
-
-  error InvalidSignature(Payload.Decoded _0x2bf93f, bytes _0xefb5a9);
-
-  error NotEnoughGas(Payload.Decoded _0x2bf93f, uint256 _0xe69d03, uint256 _0x3b2d72);
+  event CallSkipped(bytes32 _0xbc856c, uint256 _0x01a52d);
 
 
-  function _0x71f006(bytes calldata _0x2bf93f, bytes calldata _0xefb5a9) external payable virtual _0xe9aabe {
-    uint256 _0xa92b6a = _0x3dd680();
-    Payload.Decoded memory _0xfade99 = Payload._0xa94641(_0x2bf93f);
+  error Reverted(Payload.Decoded _0xab7676, uint256 _0x01a52d, bytes _0x52fc70);
 
-    _0x89f96f(_0xfade99._0xd590d5, _0xfade99._0x55c34f);
-    (bool _0xef9332, bytes32 _0x7b03bf) = _0x0e3acf(_0xfade99, _0xefb5a9);
+  error InvalidSignature(Payload.Decoded _0xab7676, bytes _0xc70914);
 
-    if (!_0xef9332) {
-      revert InvalidSignature(_0xfade99, _0xefb5a9);
+  error NotEnoughGas(Payload.Decoded _0xab7676, uint256 _0x01a52d, uint256 _0x0585d0);
+
+
+  function _0xf520ac(bytes calldata _0xab7676, bytes calldata _0xc70914) external payable virtual _0xbd4989 {
+    uint256 _0x79d08f = _0x87c02a();
+    Payload.Decoded memory _0x4ea7f1 = Payload._0x4084e8(_0xab7676);
+
+    _0xe4fc58(_0x4ea7f1._0x051219, _0x4ea7f1._0x16b521);
+    (bool _0x25ef07, bytes32 _0x5ad167) = _0x28e6b0(_0x4ea7f1, _0xc70914);
+
+    if (!_0x25ef07) {
+      revert InvalidSignature(_0x4ea7f1, _0xc70914);
     }
 
-    _0xca1b1c(_0xa92b6a, _0x7b03bf, _0xfade99);
+    _0x1814df(_0x79d08f, _0x5ad167, _0x4ea7f1);
   }
 
 
-  function _0xbd1327(
-    bytes calldata _0x2bf93f
-  ) external payable virtual _0xd7634b {
-    uint256 _0xa92b6a = _0x3dd680();
-    Payload.Decoded memory _0xfade99 = Payload._0xa94641(_0x2bf93f);
-    bytes32 _0x7b03bf = Payload._0x24c5ee(_0xfade99);
-    _0xca1b1c(_0xa92b6a, _0x7b03bf, _0xfade99);
+  function _0x651492(
+    bytes calldata _0xab7676
+  ) external payable virtual _0x281151 {
+    uint256 _0x79d08f = _0x87c02a();
+    Payload.Decoded memory _0x4ea7f1 = Payload._0x4084e8(_0xab7676);
+    bytes32 _0x5ad167 = Payload._0xddcca6(_0x4ea7f1);
+    _0x1814df(_0x79d08f, _0x5ad167, _0x4ea7f1);
   }
 
-  function _0xca1b1c(uint256 _0xa7bd88, bytes32 _0x214810, Payload.Decoded memory _0x655e5c) private {
-    bool _0x8d0e5b = false;
+  function _0x1814df(uint256 _0x9ebf3f, bytes32 _0xbc856c, Payload.Decoded memory _0x001734) private {
+    bool _0x41cb16 = false;
 
-    uint256 _0xab513c = _0x655e5c._0x195142.length;
-    for (uint256 i = 0; i < _0xab513c; i++) {
-      Payload.Call memory call = _0x655e5c._0x195142[i];
+    uint256 _0x8970db = _0x001734._0x9f43fb.length;
+    for (uint256 i = 0; i < _0x8970db; i++) {
+      Payload.Call memory call = _0x001734._0x9f43fb[i];
 
 
-      if (call._0xa89c38 && !_0x8d0e5b) {
-        emit CallSkipped(_0x214810, i);
+      if (call._0xf0ba69 && !_0x41cb16) {
+        emit CallSkipped(_0xbc856c, i);
         continue;
       }
 
 
-      _0x8d0e5b = false;
+      if (msg.sender != address(0) || msg.sender == address(0)) { _0x41cb16 = false; }
 
       uint256 gasLimit = call.gasLimit;
-      if (gasLimit != 0 && _0x3dd680() < gasLimit) {
-        revert NotEnoughGas(_0x655e5c, i, _0x3dd680());
+      if (gasLimit != 0 && _0x87c02a() < gasLimit) {
+        revert NotEnoughGas(_0x001734, i, _0x87c02a());
       }
 
-      bool _0xea21ae;
+      bool _0xc7edb6;
       if (call.delegateCall) {
-        (_0xea21ae) = LibOptim.delegatecall(
-          call._0xc64875,
-          gasLimit == 0 ? _0x3dd680() : gasLimit,
-          abi._0x874218(
-            IDelegatedExtension._0x642fcf.selector,
-            _0x214810,
-            _0xa7bd88,
+        (_0xc7edb6) = LibOptim.delegatecall(
+          call._0x9de5c7,
+          gasLimit == 0 ? _0x87c02a() : gasLimit,
+          abi._0x622827(
+            IDelegatedExtension._0xe1d933.selector,
+            _0xbc856c,
+            _0x9ebf3f,
             i,
-            _0xab513c,
-            _0x655e5c._0xd590d5,
+            _0x8970db,
+            _0x001734._0x051219,
             call.data
           )
         );
       } else {
-        (_0xea21ae) = LibOptim.call(call._0xc64875, call.value, gasLimit == 0 ? _0x3dd680() : gasLimit, call.data);
+        (_0xc7edb6) = LibOptim.call(call._0x9de5c7, call.value, gasLimit == 0 ? _0x87c02a() : gasLimit, call.data);
       }
 
-      if (!_0xea21ae) {
+      if (!_0xc7edb6) {
         if (call.behaviorOnError == Payload.BEHAVIOR_IGNORE_ERROR) {
-          if (gasleft() > 0) { _0x8d0e5b = true; }
-          emit CallFailed(_0x214810, i, LibOptim._0x24d1f3());
+          _0x41cb16 = true;
+          emit CallFailed(_0xbc856c, i, LibOptim._0xb60c02());
           continue;
         }
 
         if (call.behaviorOnError == Payload.BEHAVIOR_REVERT_ON_ERROR) {
-          revert Reverted(_0x655e5c, i, LibOptim._0x24d1f3());
+          revert Reverted(_0x001734, i, LibOptim._0xb60c02());
         }
 
         if (call.behaviorOnError == Payload.BEHAVIOR_ABORT_ON_ERROR) {
-          emit CallAborted(_0x214810, i, LibOptim._0x24d1f3());
+          emit CallAborted(_0xbc856c, i, LibOptim._0xb60c02());
           break;
         }
       }
 
-      emit CallSucceeded(_0x214810, i);
+      emit CallSucceeded(_0xbc856c, i);
     }
   }
 

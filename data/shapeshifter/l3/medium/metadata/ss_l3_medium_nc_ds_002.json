@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "TokenVault",
-      "function_name": "_0x1c8d67",
+      "function_name": "_0xb1b7b1",
       "line_numbers": []
     },
     "root_cause": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
@@ -66,13 +66,13 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "withdrawBalanceV3": "_0xca4e62",
-    "withdrawBalanceV2": "_0xfb5e54",
-    "withdrawBalance": "_0x1c8d67",
-    "addToBalance": "_0x9a4798",
-    "userBalance": "_0x7855b3",
-    "getBalance": "_0xf62ceb",
-    "amount": "_0xbd93e2"
+    "withdrawBalanceV2": "_0xdc90e4",
+    "withdrawBalanceV3": "_0xa85b69",
+    "withdrawBalance": "_0xb1b7b1",
+    "addToBalance": "_0x983db4",
+    "userBalance": "_0xbb1a21",
+    "getBalance": "_0x904716",
+    "amount": "_0x8461b8"
   },
   "original_contract_file": "base/contracts/ds_002.sol",
   "sanitized_from": "ds_002",
@@ -88,7 +88,7 @@
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0x1c8d67"
+      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0xb1b7b1"
     ]
   }
 }

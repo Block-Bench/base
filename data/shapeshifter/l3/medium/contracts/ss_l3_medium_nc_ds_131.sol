@@ -1,13 +1,13 @@
 pragma solidity ^0.4.10;
 
 contract AdditionCounter {
-    mapping (address => uint256) public _0x3312da;
+    mapping (address => uint256) public _0xf1511f;
 
-    function transfer(address _0x48032a, uint256 _0x0a3074) public{
+    function transfer(address _0xcac318, uint256 _0xe1d0c1) public{
 
-        require(_0x3312da[msg.sender] >= _0x0a3074);
-        _0x3312da[msg.sender] -= _0x0a3074;
-        _0x3312da[_0x48032a] += _0x0a3074;
+        require(_0xf1511f[msg.sender] >= _0xe1d0c1);
+        _0xf1511f[msg.sender] -= _0xe1d0c1;
+        _0xf1511f[_0xcac318] += _0xe1d0c1;
 }
 
 }

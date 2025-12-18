@@ -70,10 +70,10 @@
   "derived_from": "nc_ds_056",
   "original_id": "ds_056",
   "identifier_mappings": {
-    "contract_address": "_0x7f34e6",
-    "keccak256": "_0x58c9ef",
-    "c1": "_0x359982",
-    "c2": "_0x2e7745"
+    "contract_address": "_0xabfa18",
+    "keccak256": "_0xff6535",
+    "c2": "_0xdca6a5",
+    "c1": "_0xab1e51"
   },
   "transformation": {
     "strategy": "shapeshifter",

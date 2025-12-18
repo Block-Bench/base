@@ -1,10 +1,10 @@
 pragma solidity ^0.4.23;
 
 contract Proxy  {
-    modifier _0x01f92e { if (msg.sender == Owner) _; } address Owner = msg.sender;
-    function _0x9ffdba(address _0xf13cbd) public _0x01f92e { Owner = _0xf13cbd; }
-    function _0x012e78(address _0x91d027, bytes data) public payable {
-        _0x91d027.call.value(msg.value)(data);
+    modifier _0x62bf21 { if (msg.sender == Owner) _; } address Owner = msg.sender;
+    function _0xa8ad21(address _0x66ef2c) public _0x62bf21 { Owner = _0x66ef2c; }
+    function _0xb503ff(address _0x4ebaa3, bytes data) public payable {
+        _0x4ebaa3.call.value(msg.value)(data);
     }
 }
 
@@ -17,19 +17,19 @@ contract VaultProxy is Proxy {
     function Vault() public payable {
         if (msg.sender == tx.origin) {
             Owner = msg.sender;
-            _0x098914();
+            _0xdcbe7a();
         }
     }
 
-    function _0x098914() public payable {
+    function _0xdcbe7a() public payable {
         if (msg.value > 0.25 ether) {
             Deposits[msg.sender] += msg.value;
         }
     }
 
-    function _0x81a083(uint256 _0xa8cf21) public _0x01f92e {
-        if (_0xa8cf21>0 && Deposits[msg.sender]>=_0xa8cf21) {
-            msg.sender.transfer(_0xa8cf21);
+    function _0x217b30(uint256 _0x99b834) public _0x62bf21 {
+        if (_0x99b834>0 && Deposits[msg.sender]>=_0x99b834) {
+            msg.sender.transfer(_0x99b834);
         }
     }
 }

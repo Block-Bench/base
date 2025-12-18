@@ -4,32 +4,32 @@ contract KingOfTheEtherThrone {
 
     struct Monarch {
 
-        address q;
+        address s;
 
 
         string ab;
 
         uint w;
 
-        uint d;
+        uint c;
     }
 
 
-    address p;
+    address o;
 
 
-    modifier x { if (msg.sender == p) _; }
+    modifier v { if (msg.sender == o) _; }
 
 
     uint constant g = 100 finney;
 
 
     uint constant f = 3;
-    uint constant c = 2;
+    uint constant e = 2;
 
 
-    uint constant b = 1;
-    uint constant a = 100;
+    uint constant a = 1;
+    uint constant b = 100;
 
 
     uint public h;
@@ -42,34 +42,34 @@ contract KingOfTheEtherThrone {
 
 
     function KingOfTheEtherThrone() {
-        p = msg.sender;
+        o = msg.sender;
         h = g;
         n = Monarch(
-            p,
+            o,
             "[Vacant]",
             0,
             block.timestamp
         );
     }
 
-    function l() constant returns (uint n) {
+    function j() constant returns (uint n) {
         return r.length;
     }
 
 
     event ThroneClaimed(
-        address e,
-        string u,
-        uint o
+        address d,
+        string t,
+        uint p
     );
 
 
     function() {
-        t(string(msg.data));
+        u(string(msg.data));
     }
 
 
-    function t(string ab) {
+    function u(string ab) {
 
         uint y = msg.value;
 
@@ -81,18 +81,18 @@ contract KingOfTheEtherThrone {
 
 
         if (y > h) {
-            uint v = y - h;
-            msg.sender.send(v);
-            y = y - v;
+            uint x = y - h;
+            msg.sender.send(x);
+            y = y - x;
         }
 
 
-        uint k = (y * b) / a;
+        uint l = (y * a) / b;
 
-        uint s = y - k;
+        uint q = y - l;
 
-        if (n.q != p) {
-            n.q.send(s);
+        if (n.s != o) {
+            n.s.send(q);
         } else {
 
         }
@@ -107,37 +107,37 @@ contract KingOfTheEtherThrone {
         );
 
 
-        uint j = h * f / c;
-        if (j < 10 finney) {
-            h = j;
-        } else if (j < 100 finney) {
-            h = 100 szabo * (j / 100 szabo);
-        } else if (j < 1 ether) {
-            h = 1 finney * (j / 1 finney);
-        } else if (j < 10 ether) {
-            h = 10 finney * (j / 10 finney);
-        } else if (j < 100 ether) {
-            h = 100 finney * (j / 100 finney);
-        } else if (j < 1000 ether) {
-            h = 1 ether * (j / 1 ether);
-        } else if (j < 10000 ether) {
-            h = 10 ether * (j / 10 ether);
+        uint k = h * f / e;
+        if (k < 10 finney) {
+            h = k;
+        } else if (k < 100 finney) {
+            h = 100 szabo * (k / 100 szabo);
+        } else if (k < 1 ether) {
+            h = 1 finney * (k / 1 finney);
+        } else if (k < 10 ether) {
+            h = 10 finney * (k / 10 finney);
+        } else if (k < 100 ether) {
+            h = 100 finney * (k / 100 finney);
+        } else if (k < 1000 ether) {
+            h = 1 ether * (k / 1 ether);
+        } else if (k < 10000 ether) {
+            h = 10 ether * (k / 10 ether);
         } else {
-            h = j;
+            h = k;
         }
 
 
-        ThroneClaimed(n.q, n.ab, h);
+        ThroneClaimed(n.s, n.ab, h);
     }
 
 
-    function m(uint aa) x {
-        p.send(aa);
+    function m(uint aa) v {
+        o.send(aa);
     }
 
 
-    function i(address z) x {
-        p = z;
+    function i(address z) v {
+        o = z;
     }
 
 }

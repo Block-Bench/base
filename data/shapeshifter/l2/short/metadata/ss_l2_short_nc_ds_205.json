@@ -74,9 +74,9 @@
     "_message": "b",
     "hashPass": "c",
     "message": "d",
-    "hash": "e",
-    "sha3": "f",
-    "pass": "g"
+    "pass": "e",
+    "hash": "f",
+    "sha3": "g"
   },
   "transformation": {
     "strategy": "shapeshifter",

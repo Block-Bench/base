@@ -2,19 +2,19 @@ pragma solidity ^0.4.24;
 
 contract CrossFunctionVault {
 
-    mapping (address => uint) private _0x35df38;
+    mapping (address => uint) private _0xf17d2e;
 
-    function transfer(address _0xc0baae, uint _0x3085a4) {
-        if (_0x35df38[msg.sender] >= _0x3085a4) {
-            _0x35df38[_0xc0baae] += _0x3085a4;
-            _0x35df38[msg.sender] -= _0x3085a4;
+    function transfer(address _0xb2a492, uint _0x6e2f28) {
+        if (_0xf17d2e[msg.sender] >= _0x6e2f28) {
+            _0xf17d2e[_0xb2a492] += _0x6e2f28;
+            _0xf17d2e[msg.sender] -= _0x6e2f28;
         }
     }
 
-    function _0xcd4eb2() public {
-        uint _0xbe376c = _0x35df38[msg.sender];
-        (bool _0x90009a, ) = msg.sender.call.value(_0xbe376c)("");
-        require(_0x90009a);
-        _0x35df38[msg.sender] = 0;
+    function _0xad416f() public {
+        uint _0x8855c4 = _0xf17d2e[msg.sender];
+        (bool _0x6dbd4c, ) = msg.sender.call.value(_0x8855c4)("");
+        require(_0x6dbd4c);
+        _0xf17d2e[msg.sender] = 0;
     }
 }

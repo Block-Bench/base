@@ -12,10 +12,10 @@ import "./libraries/Math.sol";
 import {HybraTimeLibrary} from "./libraries/HybraTimeLibrary.sol";
 import './interfaces/IRHYBR.sol';
 interface IRewarder {
-    function bi(
+    function be(
         address cd,
-        address at,
-        uint256 an
+        address aw,
+        uint256 ak
     ) external;
 }
 
@@ -24,316 +24,316 @@ contract GaugeV2 is ReentrancyGuard, Ownable {
     using SafeERC20 for IERC20;
 
     bool public immutable ba;
-    bool public bb;
+    bool public ax;
 
-    IERC20 public immutable am;
+    IERC20 public immutable aj;
     IERC20 public immutable TOKEN;
-    address public immutable cb;
+    address public immutable ca;
     address public VE;
     address public DISTRIBUTION;
-    address public y;
+    address public z;
+    address public x;
     address public u;
-    address public v;
 
     uint256 public DURATION;
-    uint256 internal z;
-    uint256 public ao;
-    uint256 public w;
+    uint256 internal y;
+    uint256 public as;
+    uint256 public t;
     uint256 public g;
 
     mapping(address => uint256) public d;
-    mapping(address => uint256) public bm;
+    mapping(address => uint256) public bo;
 
-    uint256 internal ab;
-    mapping(address => uint256) internal ax;
-    mapping(address => uint256) public ag;
+    uint256 internal ac;
+    mapping(address => uint256) internal bc;
+    mapping(address => uint256) public af;
 
-    event RewardAdded(uint256 bv);
-    event Deposit(address indexed cd, uint256 bu);
-    event Withdraw(address indexed cd, uint256 bu);
-    event Harvest(address indexed cd, uint256 bv);
+    event RewardAdded(uint256 br);
+    event Deposit(address indexed cd, uint256 bq);
+    event Withdraw(address indexed cd, uint256 bq);
+    event Harvest(address indexed cd, uint256 br);
 
-    event ClaimFees(address indexed from, uint256 bh, uint256 bj);
-    event EmergencyActivated(address indexed bz, uint256 timestamp);
-    event EmergencyDeactivated(address indexed bz, uint256 timestamp);
+    event ClaimFees(address indexed from, uint256 bi, uint256 bj);
+    event EmergencyActivated(address indexed cb, uint256 timestamp);
+    event EmergencyDeactivated(address indexed cb, uint256 timestamp);
 
-    modifier ad(address bo) {
+    modifier ag(address bp) {
         g = s();
-        w = a();
-        if (bo != address(0)) {
-            bm[bo] = bx(bo);
-            d[bo] = g;
+        t = a();
+        if (bp != address(0)) {
+            bo[bp] = bv(bp);
+            d[bp] = g;
         }
         _;
     }
 
-    modifier m() {
+    modifier l() {
         require(msg.sender == DISTRIBUTION, "NA");
         _;
     }
 
-    modifier x() {
-        require(bb == false, "EMER");
+    modifier v() {
+        require(ax == false, "EMER");
         _;
     }
 
-    constructor(address ah,address bq,address ce,address bs,address aa, address q, address r, bool ap) {
-        am = IERC20(ah);
-        cb = bq;
+    constructor(address ab,address bs,address ce,address bt,address aa, address q, address p, bool ao) {
+        aj = IERC20(ab);
+        ca = bs;
         VE = ce;
-        TOKEN = IERC20(bs);
+        TOKEN = IERC20(bt);
         DISTRIBUTION = aa;
         DURATION = HybraTimeLibrary.WEEK;
 
-        u = q;
-        v = r;
+        x = q;
+        u = p;
 
-        ba = ap;
+        ba = ao;
 
-        bb = false;
+        ax = false;
 
     }
 
 
-    function p(address aa) external ay {
+    function r(address aa) external ay {
         require(aa != address(0), "ZA");
         require(aa != DISTRIBUTION, "SAME_ADDR");
         DISTRIBUTION = aa;
     }
 
 
-    function n(address t) external ay {
-        require(t != y, "SAME_ADDR");
-        y = t;
+    function n(address w) external ay {
+        require(w != z, "SAME_ADDR");
+        z = w;
     }
 
 
-    function l(address cc) external ay {
+    function m(address cc) external ay {
         require(cc >= address(0), "ZA");
-        u = cc;
+        x = cc;
     }
 
     function e() external ay {
-        require(bb == false, "EMER");
-        bb = true;
+        require(ax == false, "EMER");
+        ax = true;
         emit EmergencyActivated(address(this), block.timestamp);
     }
 
-    function j() external ay {
+    function i() external ay {
 
-        require(bb == true,"EMER");
+        require(ax == true,"EMER");
 
-        bb = false;
+        ax = false;
         emit EmergencyDeactivated(address(this), block.timestamp);
     }
 
 
-    function ak() public view returns (uint256) {
-        return ab;
+    function ai() public view returns (uint256) {
+        return ac;
     }
 
 
-    function az(address bo) external view returns (uint256) {
-        return aq(bo);
+    function bd(address bp) external view returns (uint256) {
+        return ap(bp);
     }
 
-    function aq(address bo) internal view returns (uint256) {
+    function ap(address bp) internal view returns (uint256) {
 
-        return ax[bo];
+        return bc[bp];
     }
 
 
     function a() public view returns (uint256) {
-        return Math.cf(block.timestamp, z);
+        return Math.cf(block.timestamp, y);
     }
 
 
     function s() public view returns (uint256) {
-        if (ab == 0) {
+        if (ac == 0) {
             return g;
         } else {
-            return g + (a() - w) * ao * 1e18 / ab;
+            return g + (a() - t) * as * 1e18 / ac;
         }
     }
 
 
-    function bx(address bo) public view returns (uint256) {
-        return bm[bo] + aq(bo) * (s() - d[bo]) / 1e18;
+    function bv(address bp) public view returns (uint256) {
+        return bo[bp] + ap(bp) * (s() - d[bp]) / 1e18;
     }
 
 
     function k() external view returns (uint256) {
-        return ao * DURATION;
+        return as * DURATION;
     }
 
-    function ae() external view returns (uint256) {
-        return z;
+    function ah() external view returns (uint256) {
+        return y;
     }
 
 
     function ar() external {
-        bf(TOKEN.az(msg.sender), msg.sender);
+        bf(TOKEN.bd(msg.sender), msg.sender);
     }
 
 
-    function bn(uint256 bu) external {
-        bf(bu, msg.sender);
+    function bl(uint256 bq) external {
+        bf(bq, msg.sender);
     }
 
 
-    function bf(uint256 bu, address bo) internal ac x ad(bo) {
-        require(bu > 0, "ZV");
+    function bf(uint256 bq, address bp) internal ad v ag(bp) {
+        require(bq > 0, "ZV");
 
-        ax[bo] = ax[bo] + bu;
-        ab = ab + bu;
-        if (address(y) != address(0)) {
-            IRewarder(y).bi(bo, bo, aq(bo));
+        bc[bp] = bc[bp] + bq;
+        ac = ac + bq;
+        if (address(z) != address(0)) {
+            IRewarder(z).be(bp, bp, ap(bp));
         }
 
-        TOKEN.o(bo, address(this), bu);
+        TOKEN.o(bp, address(this), bq);
 
-        emit Deposit(bo, bu);
+        emit Deposit(bp, bq);
     }
 
 
-    function al() external {
-        aw(aq(msg.sender));
+    function am() external {
+        bb(ap(msg.sender));
     }
 
 
-    function bg(uint256 bu) external {
-        aw(bu);
+    function bg(uint256 bq) external {
+        bb(bq);
     }
 
 
-    function aw(uint256 bu) internal ac x ad(msg.sender) {
-        require(bu > 0, "ZV");
-        require(aq(msg.sender) > 0, "ZV");
-        require(block.timestamp >= ag[msg.sender], "!MATURE");
+    function bb(uint256 bq) internal ad v ag(msg.sender) {
+        require(bq > 0, "ZV");
+        require(ap(msg.sender) > 0, "ZV");
+        require(block.timestamp >= af[msg.sender], "!MATURE");
 
-        ab = ab - bu;
-        ax[msg.sender] = ax[msg.sender] - bu;
+        ac = ac - bq;
+        bc[msg.sender] = bc[msg.sender] - bq;
 
-        if (address(y) != address(0)) {
-            IRewarder(y).bi(msg.sender, msg.sender,aq(msg.sender));
+        if (address(z) != address(0)) {
+            IRewarder(z).be(msg.sender, msg.sender,ap(msg.sender));
         }
 
-        TOKEN.af(msg.sender, bu);
+        TOKEN.ae(msg.sender, bq);
 
-        emit Withdraw(msg.sender, bu);
+        emit Withdraw(msg.sender, bq);
     }
 
-    function i() external ac {
-        require(bb, "EMER");
-        uint256 bp = aq(msg.sender);
-        require(bp > 0, "ZV");
-        ab = ab - bp;
+    function j() external ad {
+        require(ax, "EMER");
+        uint256 bn = ap(msg.sender);
+        require(bn > 0, "ZV");
+        ac = ac - bn;
 
-        ax[msg.sender] = 0;
+        bc[msg.sender] = 0;
 
-        TOKEN.af(msg.sender, bp);
-        emit Withdraw(msg.sender, bp);
+        TOKEN.ae(msg.sender, bn);
+        emit Withdraw(msg.sender, bn);
     }
 
-    function b(uint256 bp) external ac {
+    function b(uint256 bn) external ad {
 
-        require(bb, "EMER");
-        ab = ab - bp;
+        require(ax, "EMER");
+        ac = ac - bn;
 
-        ax[msg.sender] = ax[msg.sender] - bp;
+        bc[msg.sender] = bc[msg.sender] - bn;
 
-        TOKEN.af(msg.sender, bp);
-        emit Withdraw(msg.sender, bp);
-    }
-
-
-    function f(uint8 ai) external {
-        aw(aq(msg.sender));
-        av(ai);
+        TOKEN.ae(msg.sender, bn);
+        emit Withdraw(msg.sender, bn);
     }
 
 
-    function av(address ca, uint8 ai) public ac m ad(ca) {
-        uint256 bv = bm[ca];
-        if (bv > 0) {
-            bm[ca] = 0;
-            IERC20(am).aj(cb, bv);
-            IRHYBR(cb).c(bv);
-            IRHYBR(cb).au(bv, ai, ca);
-            emit Harvest(ca, bv);
+    function f(uint8 al) external {
+        bb(ap(msg.sender));
+        at(al);
+    }
+
+
+    function at(address by, uint8 al) public ad l ag(by) {
+        uint256 br = bo[by];
+        if (br > 0) {
+            bo[by] = 0;
+            IERC20(aj).an(ca, br);
+            IRHYBR(ca).c(br);
+            IRHYBR(ca).au(br, al, by);
+            emit Harvest(by, br);
         }
 
-        if (y != address(0)) {
-            IRewarder(y).bi(ca, ca, aq(ca));
-        }
-    }
-
-
-    function av(uint8 ai) public ac ad(msg.sender) {
-        uint256 bv = bm[msg.sender];
-        if (bv > 0) {
-            bm[msg.sender] = 0;
-            IERC20(am).aj(cb, bv);
-            IRHYBR(cb).c(bv);
-            IRHYBR(cb).au(bv, ai, msg.sender);
-            emit Harvest(msg.sender, bv);
-        }
-
-        if (y != address(0)) {
-            IRewarder(y).bi(msg.sender, msg.sender, aq(msg.sender));
+        if (z != address(0)) {
+            IRewarder(z).be(by, by, ap(by));
         }
     }
 
 
-    function h(address by, uint256 bv) external ac x m ad(address(0)) {
-        require(by == address(am), "IA");
-        am.o(DISTRIBUTION, address(this), bv);
+    function at(uint8 al) public ad ag(msg.sender) {
+        uint256 br = bo[msg.sender];
+        if (br > 0) {
+            bo[msg.sender] = 0;
+            IERC20(aj).an(ca, br);
+            IRHYBR(ca).c(br);
+            IRHYBR(ca).au(br, al, msg.sender);
+            emit Harvest(msg.sender, br);
+        }
 
-        if (block.timestamp >= z) {
-            ao = bv / DURATION;
+        if (z != address(0)) {
+            IRewarder(z).be(msg.sender, msg.sender, ap(msg.sender));
+        }
+    }
+
+
+    function h(address bz, uint256 br) external ad v l ag(address(0)) {
+        require(bz == address(aj), "IA");
+        aj.o(DISTRIBUTION, address(this), br);
+
+        if (block.timestamp >= y) {
+            as = br / DURATION;
         } else {
-            uint256 bc = z - block.timestamp;
-            uint256 be = bc * ao;
-            ao = (bv + be) / DURATION;
+            uint256 az = y - block.timestamp;
+            uint256 bh = az * as;
+            as = (br + bh) / DURATION;
         }
 
 
-        uint256 balance = am.az(address(this));
-        require(ao <= balance / DURATION, "REWARD_HIGH");
+        uint256 balance = aj.bd(address(this));
+        require(as <= balance / DURATION, "REWARD_HIGH");
 
-        w = block.timestamp;
-        z = block.timestamp + DURATION;
-        emit RewardAdded(bv);
+        t = block.timestamp;
+        y = block.timestamp + DURATION;
+        emit RewardAdded(br);
     }
 
-    function bd() external ac returns (uint256 bh, uint256 bj) {
-        return as();
+    function av() external ad returns (uint256 bi, uint256 bj) {
+        return aq();
     }
 
-     function as() internal returns (uint256 bh, uint256 bj) {
+     function aq() internal returns (uint256 bi, uint256 bj) {
         if (!ba) {
             return (0, 0);
         }
-        address bs = address(TOKEN);
-        (bh, bj) = IPair(bs).bd();
-        if (bh > 0 || bj > 0) {
+        address bt = address(TOKEN);
+        (bi, bj) = IPair(bt).av();
+        if (bi > 0 || bj > 0) {
 
-            uint256 bw = bh;
-            uint256 bt = bj;
+            uint256 bu = bi;
+            uint256 bx = bj;
 
-            (address bl, address bk) = IPair(bs).br();
+            (address bm, address bk) = IPair(bt).bw();
 
-            if (bw  > 0) {
-                IERC20(bl).aj(u, 0);
-                IERC20(bl).aj(u, bw);
-                IBribe(u).h(bl, bw);
+            if (bu  > 0) {
+                IERC20(bm).an(x, 0);
+                IERC20(bm).an(x, bu);
+                IBribe(x).h(bm, bu);
             }
-            if (bt  > 0) {
-                IERC20(bk).aj(u, 0);
-                IERC20(bk).aj(u, bt);
-                IBribe(u).h(bk, bt);
+            if (bx  > 0) {
+                IERC20(bk).an(x, 0);
+                IERC20(bk).an(x, bx);
+                IBribe(x).h(bk, bx);
             }
-            emit ClaimFees(msg.sender, bh, bj);
+            emit ClaimFees(msg.sender, bi, bj);
         }
     }
 

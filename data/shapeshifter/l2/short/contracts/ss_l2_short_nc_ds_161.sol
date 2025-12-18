@@ -1,7 +1,7 @@
 pragma solidity ^0.4.15;
 contract NameRegistrar {
 
-    bool public f = false;
+    bool public e = false;
 
     struct NameRecord {
         bytes32 i;
@@ -11,7 +11,7 @@ contract NameRegistrar {
     mapping(address => NameRecord) public a;
     mapping(bytes32 => address) public g;
 
-    function e(bytes32 h, address b) public {
+    function f(bytes32 h, address b) public {
 
         NameRecord d;
         d.i = h;
@@ -20,6 +20,6 @@ contract NameRegistrar {
         g[h] = b;
         a[msg.sender] = d;
 
-        require(f);
+        require(e);
     }
 }

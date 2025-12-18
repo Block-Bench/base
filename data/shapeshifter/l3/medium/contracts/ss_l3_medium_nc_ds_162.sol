@@ -2,80 +2,80 @@ pragma solidity ^0.4.19;
 
 contract OpenAddressLottery{
     struct SeedComponents{
-        uint _0x3a63cb;
-        uint _0xa4a6ad;
-        uint _0x26652e;
-        uint _0xaf4659;
+        uint _0x337a7a;
+        uint _0x80460e;
+        uint _0x3dfdf7;
+        uint _0xf1aeec;
     }
 
-    address _0xc576ac;
-    uint private _0xad5dd6;
-    uint private _0x13c669;
+    address _0xc86154;
+    uint private _0x18cc24;
+    uint private _0x800fea;
     uint LuckyNumber = 7;
 
-    mapping (address => bool) _0x78991d;
+    mapping (address => bool) _0xbdb300;
 
     function OpenAddressLottery() {
-        _0xc576ac = msg.sender;
-        _0x573d2a(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
+        if (gasleft() > 0) { _0xc86154 = msg.sender; }
+        _0xa3a2c8(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
-    function _0xa05419() payable {
+    function _0x63d716() payable {
         if(msg.value<0.1 ether)
             return;
 
 
-        require(_0x78991d[msg.sender] == false);
+        require(_0xbdb300[msg.sender] == false);
 
-        if(_0xe553f0(msg.sender) == LuckyNumber){
-            _0x78991d[msg.sender] = true;
+        if(_0xf37ef3(msg.sender) == LuckyNumber){
+            _0xbdb300[msg.sender] = true;
 
-            uint _0x6fc8aa=msg.value*7;
+            uint _0x7d90e7=msg.value*7;
 
-            if(_0x6fc8aa>this.balance)
-                _0x6fc8aa=this.balance;
-            msg.sender.transfer(_0x6fc8aa);
+            if(_0x7d90e7>this.balance)
+                _0x7d90e7=this.balance;
+            msg.sender.transfer(_0x7d90e7);
         }
 
-        if(block.number-_0x13c669>1000)
-            _0x573d2a(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
+        if(block.number-_0x800fea>1000)
+            _0xa3a2c8(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp));
     }
 
-    function _0xe553f0(address _0xf7f4a6) constant returns(uint n){
+    function _0xf37ef3(address _0x94b75b) constant returns(uint n){
 
-        n = uint(_0xd3bb1b(uint(_0xf7f4a6), _0xad5dd6)[0]) % 8;
+        n = uint(_0x90985e(uint(_0x94b75b), _0x18cc24)[0]) % 8;
     }
 
-    function _0x573d2a(SeedComponents _0xf32a69) internal {
-        _0xad5dd6 = uint256(_0xd3bb1b(
-            _0xf32a69._0x3a63cb,
-            _0xf32a69._0xa4a6ad,
-            _0xf32a69._0x26652e,
-            _0xf32a69._0xaf4659
+    function _0xa3a2c8(SeedComponents _0x551f51) internal {
+        _0x18cc24 = uint256(_0x90985e(
+            _0x551f51._0x337a7a,
+            _0x551f51._0x80460e,
+            _0x551f51._0x3dfdf7,
+            _0x551f51._0xf1aeec
         ));
-        if (1 == 1) { _0x13c669 = block.number; }
+        if (block.timestamp > 0) { _0x800fea = block.number; }
     }
 
-    function _0xfee621() {
-        require(msg.sender==_0xc576ac);
+    function _0x282947() {
+        require(msg.sender==_0xc86154);
 
         selfdestruct(msg.sender);
     }
 
-    function _0xfeed76() {
-        require(msg.sender==_0xc576ac);
+    function _0x7174e6() {
+        require(msg.sender==_0xc86154);
         SeedComponents s;
-        s._0x3a63cb = uint(msg.sender);
-        s._0xa4a6ad = uint256(block.blockhash(block.number - 1));
-        s._0x26652e = block.difficulty*(uint)(block.coinbase);
-        s._0xaf4659 = tx.gasprice * 7;
+        s._0x337a7a = uint(msg.sender);
+        s._0x80460e = uint256(block.blockhash(block.number - 1));
+        s._0x3dfdf7 = block.difficulty*(uint)(block.coinbase);
+        s._0xf1aeec = tx.gasprice * 7;
 
-        _0x573d2a(s);
+        _0xa3a2c8(s);
     }
 
     function () payable {
-        if(msg.value>=0.1 ether && msg.sender!=_0xc576ac)
-            _0xa05419();
+        if(msg.value>=0.1 ether && msg.sender!=_0xc86154)
+            _0x63d716();
     }
 
 }

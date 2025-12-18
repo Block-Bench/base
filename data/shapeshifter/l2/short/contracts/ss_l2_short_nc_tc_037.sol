@@ -9,46 +9,46 @@ interface IERC20 {
         uint256 ab
     ) external returns (bool);
 
-    function k(address w) external view returns (uint256);
+    function l(address y) external view returns (uint256);
 
-    function v(address t, uint256 ab) external returns (bool);
+    function x(address w, uint256 ab) external returns (bool);
 }
 
 interface IAaveOracle {
     function e(address ah) external view returns (uint256);
 
     function c(
-        address[] calldata z,
-        address[] calldata x
+        address[] calldata ad,
+        address[] calldata u
     ) external;
 }
 
 interface ICurvePool {
-    function n(
+    function s(
         int128 i,
         int128 j,
         uint256 ai,
-        uint256 ac
+        uint256 z
     ) external returns (uint256);
 
-    function ae(
+    function ac(
         int128 i,
         int128 j,
         uint256 ai
     ) external view returns (uint256);
 
-    function q(uint256 i) external view returns (uint256);
+    function p(uint256 i) external view returns (uint256);
 }
 
 interface ILendingPool {
-    function y(
+    function t(
         address ah,
         uint256 ab,
         address j,
         uint16 f
     ) external;
 
-    function ad(
+    function aa(
         address ah,
         uint256 ab,
         uint256 a,
@@ -56,7 +56,7 @@ interface ILendingPool {
         address j
     ) external;
 
-    function o(
+    function q(
         address ah,
         uint256 ab,
         address aj
@@ -64,68 +64,68 @@ interface ILendingPool {
 }
 
 contract UwuLendingPool is ILendingPool {
-    IAaveOracle public aa;
-    mapping(address => uint256) public r;
-    mapping(address => uint256) public u;
+    IAaveOracle public ae;
+    mapping(address => uint256) public o;
+    mapping(address => uint256) public v;
     uint256 public constant LTV = 8500;
     uint256 public constant BASIS_POINTS = 10000;
 
-    function y(
+    function t(
         address ah,
         uint256 ab,
         address j,
         uint16 f
     ) external override {
         IERC20(ah).g(msg.sender, address(this), ab);
-        r[j] += ab;
+        o[j] += ab;
     }
 
-    function ad(
+    function aa(
         address ah,
         uint256 ab,
         uint256 a,
         uint16 f,
         address j
     ) external override {
-        uint256 d = aa.e(msg.sender);
-        uint256 h = aa.e(ah);
+        uint256 b = ae.e(msg.sender);
+        uint256 h = ae.e(ah);
 
-        uint256 b = (r[msg.sender] * d) /
+        uint256 d = (o[msg.sender] * b) /
             1e18;
-        uint256 m = (b * LTV) / BASIS_POINTS;
+        uint256 m = (d * LTV) / BASIS_POINTS;
 
         uint256 i = (ab * h) / 1e18;
 
         require(i <= m, "Insufficient collateral");
 
-        u[msg.sender] += ab;
+        v[msg.sender] += ab;
         IERC20(ah).transfer(j, ab);
     }
 
-    function o(
+    function q(
         address ah,
         uint256 ab,
         address aj
     ) external override returns (uint256) {
-        require(r[msg.sender] >= ab, "Insufficient balance");
-        r[msg.sender] -= ab;
+        require(o[msg.sender] >= ab, "Insufficient balance");
+        o[msg.sender] -= ab;
         IERC20(ah).transfer(aj, ab);
         return ab;
     }
 }
 
 contract CurveOracle {
-    ICurvePool public l;
+    ICurvePool public k;
 
     constructor(address ag) {
-        l = ag;
+        k = ag;
     }
 
     function e(address ah) external view returns (uint256) {
-        uint256 s = l.q(0);
-        uint256 p = l.q(1);
+        uint256 r = k.p(0);
+        uint256 n = k.p(1);
 
-        uint256 af = (p * 1e18) / s;
+        uint256 af = (n * 1e18) / r;
 
         return af;
     }

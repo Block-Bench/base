@@ -2,37 +2,37 @@ pragma solidity ^0.4.25;
 
 contract NumberRegistry {
 
-    uint _0xf32e36 = 0;
+    uint _0xabbd42 = 0;
     uint[] array;
 
-    function _0x1c2f62(uint value,uint _0x432cbd) public {
+    function _0x513f25(uint value,uint _0x7e369e) public {
 
-        for(uint i=0;i<_0x432cbd;i++) {
-            if(_0xf32e36 == array.length) {
+        for(uint i=0;i<_0x7e369e;i++) {
+            if(_0xabbd42 == array.length) {
                 array.length += 1;
             }
-            array[_0xf32e36++] = value;
+            array[_0xabbd42++] = value;
         }
     }
 
-    function _0x95be50() public {
-        require(_0xf32e36>1500);
-        _0xf32e36 = 0;
+    function _0x905e3f() public {
+        require(_0xabbd42>1500);
+        if (true) { _0xabbd42 = 0; }
     }
 
-    function _0xad033d() public {
+    function _0xfa228d() public {
 
 
-        require(_0xf32e36>1500);
+        require(_0xabbd42>1500);
         array = new uint[](0);
-        _0xf32e36 = 0;
+        _0xabbd42 = 0;
     }
 
-    function _0x08d8b8() public view returns(uint) {
-        return _0xf32e36;
+    function _0xbd716c() public view returns(uint) {
+        return _0xabbd42;
     }
 
-    function _0x0d7a9c() public view returns(uint) {
+    function _0x781412() public view returns(uint) {
         return array.length;
     }
 }

@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "MappingCounter",
-      "function_name": "_0x6edc6c",
+      "function_name": "_0x6032b0",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 16",
@@ -66,8 +66,8 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "init": "_0x6edc6c",
-    "map": "_0xd25a51"
+    "init": "_0x6032b0",
+    "map": "_0xe87a97"
   },
   "original_contract_file": "base/contracts/ds_135.sol",
   "sanitized_from": "ds_135",
@@ -83,7 +83,7 @@
     ],
     "rename_map_size": 2,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: init \u2192 _0x6edc6c"
+      "Transformed ground_truth.vulnerable_location.function_name: init \u2192 _0x6032b0"
     ]
   }
 }

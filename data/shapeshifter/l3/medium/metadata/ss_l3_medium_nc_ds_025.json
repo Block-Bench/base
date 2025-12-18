@@ -71,15 +71,15 @@
   "derived_from": "nc_ds_025",
   "original_id": "ds_025",
   "identifier_mappings": {
-    "_unlockTime": "_0xf0ae91",
-    "unlockTime": "_0x3ea262",
-    "_data": "_0x533590",
-    "_adr": "_0x031869",
-    "_val": "_0xf25ec1",
-    "_am": "_0xc43d34",
-    "acc": "_0x6c5f9c",
-    "now": "_0xc42533",
-    "log": "_0x1f6faa"
+    "_unlockTime": "_0x7724dc",
+    "unlockTime": "_0x0aac94",
+    "_data": "_0xf8ab0f",
+    "_val": "_0x933ef9",
+    "_adr": "_0x464bbd",
+    "_am": "_0xc529d9",
+    "acc": "_0x98d096",
+    "log": "_0x95908c",
+    "now": "_0xf36f2a"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -87,7 +87,8 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 9 identifiers using hex style"
+      "Renamed 9 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 9,
     "metadata_changes": []

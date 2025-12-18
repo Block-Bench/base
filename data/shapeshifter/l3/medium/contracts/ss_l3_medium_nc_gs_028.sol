@@ -20,31 +20,31 @@ import {ILiquidityBuffer} from "./liquidityBuffer/interfaces/ILiquidityBuffer.so
 
 interface StakingEvents {
 
-    event Staked(address indexed _0xf8dfc2, uint256 _0xf553de, uint256 _0xc5b619);
+    event Staked(address indexed _0xdb4a49, uint256 _0xf5aeff, uint256 _0xc7dd2b);
 
 
-    event UnstakeRequested(uint256 indexed _0x4efb79, address indexed _0xf8dfc2, uint256 _0xf553de, uint256 _0xdf05c4);
+    event UnstakeRequested(uint256 indexed _0x8bf871, address indexed _0xdb4a49, uint256 _0xf5aeff, uint256 _0xe4d710);
 
 
-    event UnstakeRequestClaimed(uint256 indexed _0x4efb79, address indexed _0xf8dfc2);
+    event UnstakeRequestClaimed(uint256 indexed _0x8bf871, address indexed _0xdb4a49);
 
 
-    event ValidatorInitiated(bytes32 indexed _0x4efb79, uint256 indexed _0x874d97, bytes _0xc38bec, uint256 _0x36e09e);
+    event ValidatorInitiated(bytes32 indexed _0x8bf871, uint256 indexed _0xe9c42a, bytes _0x6f119d, uint256 _0xf6e142);
 
 
-    event AllocatedETHToUnstakeRequestsManager(uint256 _0x887d20);
+    event AllocatedETHToUnstakeRequestsManager(uint256 _0x09f256);
 
 
-    event AllocatedETHToDeposits(uint256 _0x887d20);
+    event AllocatedETHToDeposits(uint256 _0x09f256);
 
 
-    event ReturnsReceived(uint256 _0x887d20);
+    event ReturnsReceived(uint256 _0x09f256);
 
 
-    event ReturnsReceivedFromLiquidityBuffer(uint256 _0x887d20);
+    event ReturnsReceivedFromLiquidityBuffer(uint256 _0x09f256);
 
 
-    event AllocatedETHToLiquidityBuffer(uint256 _0x887d20);
+    event AllocatedETHToLiquidityBuffer(uint256 _0x09f256);
 }
 
 
@@ -66,232 +66,232 @@ contract Staking is Initializable, AccessControlEnumerableUpgradeable, IStaking,
     error PreviouslyUsedValidator();
     error ZeroAddress();
     error InvalidDepositRoot(bytes32);
-    error StakeBelowMinimumMETHAmount(uint256 _0x5055a4, uint256 _0x6b5e74);
-    error UnstakeBelowMinimumETHAmount(uint256 _0xf553de, uint256 _0x6b5e74);
+    error StakeBelowMinimumMETHAmount(uint256 _0xc6cb1e, uint256 _0xbdbf0a);
+    error UnstakeBelowMinimumETHAmount(uint256 _0xf5aeff, uint256 _0xbdbf0a);
 
     error InvalidWithdrawalCredentialsWrongLength(uint256);
     error InvalidWithdrawalCredentialsNotETH1(bytes12);
     error InvalidWithdrawalCredentialsWrongAddress(address);
 
-    bytes32 public constant STAKING_MANAGER_ROLE = _0x3428c2("STAKING_MANAGER_ROLE");
-    bytes32 public constant ALLOCATOR_SERVICE_ROLE = _0x3428c2("ALLOCATER_SERVICE_ROLE");
-    bytes32 public constant INITIATOR_SERVICE_ROLE = _0x3428c2("INITIATOR_SERVICE_ROLE");
-    bytes32 public constant STAKING_ALLOWLIST_MANAGER_ROLE = _0x3428c2("STAKING_ALLOWLIST_MANAGER_ROLE");
-    bytes32 public constant STAKING_ALLOWLIST_ROLE = _0x3428c2("STAKING_ALLOWLIST_ROLE");
-    bytes32 public constant TOP_UP_ROLE = _0x3428c2("TOP_UP_ROLE");
+    bytes32 public constant STAKING_MANAGER_ROLE = _0x677755("STAKING_MANAGER_ROLE");
+    bytes32 public constant ALLOCATOR_SERVICE_ROLE = _0x677755("ALLOCATER_SERVICE_ROLE");
+    bytes32 public constant INITIATOR_SERVICE_ROLE = _0x677755("INITIATOR_SERVICE_ROLE");
+    bytes32 public constant STAKING_ALLOWLIST_MANAGER_ROLE = _0x677755("STAKING_ALLOWLIST_MANAGER_ROLE");
+    bytes32 public constant STAKING_ALLOWLIST_ROLE = _0x677755("STAKING_ALLOWLIST_ROLE");
+    bytes32 public constant TOP_UP_ROLE = _0x677755("TOP_UP_ROLE");
 
     struct ValidatorParams {
-        uint256 _0x874d97;
-        uint256 _0xea94bb;
-        bytes _0xc38bec;
-        bytes _0xe18762;
-        bytes _0xc1280a;
-        bytes32 _0xb3235b;
+        uint256 _0xe9c42a;
+        uint256 _0xbd5682;
+        bytes _0x6f119d;
+        bytes _0x005b51;
+        bytes _0x35ffdb;
+        bytes32 _0x6dc78a;
     }
 
-    mapping(bytes _0xc38bec => bool _0x4c418f) public _0x7afed9;
-    uint256 public _0x60daeb;
-    uint256 public _0x19eebf;
-    uint256 public _0xcf5665;
-    uint256 public _0x0765e8;
-    uint256 public _0x922b6c;
-    uint256 public _0xe6748c;
-    uint16 public _0x28304f;
-    uint16 internal constant _0x701372 = 10_000;
-    uint16 internal constant _0x71e1a1 = _0x701372 / 10;
-    uint256 public _0x6a868b;
-    uint256 public _0x98375a;
-    IDepositContract public _0xbc8c42;
-    IMETH public _0x84ed52;
-    IOracleReadRecord public _0x8a51ed;
-    IPauserRead public _0xcb68f7;
-    IUnstakeRequestsManager public _0xe08f87;
-    address public _0xcf9aca;
-    address public _0x2ff683;
-    bool public _0x0322ff;
-    uint256 public _0x951ab4;
-    uint256 public _0x90ffa6;
-    ILiquidityBuffer public _0xc9c74d;
+    mapping(bytes _0x6f119d => bool _0xfd016a) public _0x47ef0e;
+    uint256 public _0x73dfb7;
+    uint256 public _0xf24b14;
+    uint256 public _0x2e6c98;
+    uint256 public _0x05b507;
+    uint256 public _0xddf8b8;
+    uint256 public _0x503bb3;
+    uint16 public _0xb0e9c7;
+    uint16 internal constant _0xe814d7 = 10_000;
+    uint16 internal constant _0x2e5378 = _0xe814d7 / 10;
+    uint256 public _0x8d053d;
+    uint256 public _0xf58f86;
+    IDepositContract public _0xb8d81d;
+    IMETH public _0xacda58;
+    IOracleReadRecord public _0xb6db0e;
+    IPauserRead public _0x9eb874;
+    IUnstakeRequestsManager public _0x8738f1;
+    address public _0xa51892;
+    address public _0x85d3e3;
+    bool public _0xc15a27;
+    uint256 public _0xa02405;
+    uint256 public _0xeabf5d;
+    ILiquidityBuffer public _0x8253da;
 
     struct Init {
-        address _0x20a478;
-        address _0x9b92b8;
-        address _0x8538a9;
-        address _0xd27030;
-        address _0x2ff683;
-        address _0xcf9aca;
-        IMETH _0x84ed52;
-        IDepositContract _0xbc8c42;
-        IOracleReadRecord _0x8a51ed;
-        IPauserRead _0xcb68f7;
-        IUnstakeRequestsManager _0xe08f87;
+        address _0x3355ff;
+        address _0x7cd4a1;
+        address _0x92dd74;
+        address _0xbca91d;
+        address _0x85d3e3;
+        address _0xa51892;
+        IMETH _0xacda58;
+        IDepositContract _0xb8d81d;
+        IOracleReadRecord _0xb6db0e;
+        IPauserRead _0x9eb874;
+        IUnstakeRequestsManager _0x8738f1;
     }
 
     constructor() {
-        _0x6458f7();
+        _0xb80fb1();
     }
 
-    function _0x88e564(Init memory _0xe3f432) external _0x10fd22 {
+    function _0xb30590(Init memory _0xa91a75) external _0x370a82 {
         __AccessControlEnumerable_init();
 
-        _0x934cfb(DEFAULT_ADMIN_ROLE, _0xe3f432._0x20a478);
-        _0x934cfb(STAKING_MANAGER_ROLE, _0xe3f432._0x9b92b8);
-        _0x934cfb(ALLOCATOR_SERVICE_ROLE, _0xe3f432._0x8538a9);
-        _0x934cfb(INITIATOR_SERVICE_ROLE, _0xe3f432._0xd27030);
+        _0x4452d3(DEFAULT_ADMIN_ROLE, _0xa91a75._0x3355ff);
+        _0x4452d3(STAKING_MANAGER_ROLE, _0xa91a75._0x7cd4a1);
+        _0x4452d3(ALLOCATOR_SERVICE_ROLE, _0xa91a75._0x92dd74);
+        _0x4452d3(INITIATOR_SERVICE_ROLE, _0xa91a75._0xbca91d);
 
-        _0x8b3989(STAKING_ALLOWLIST_MANAGER_ROLE, STAKING_MANAGER_ROLE);
-        _0x8b3989(STAKING_ALLOWLIST_ROLE, STAKING_ALLOWLIST_MANAGER_ROLE);
+        _0xeec418(STAKING_ALLOWLIST_MANAGER_ROLE, STAKING_MANAGER_ROLE);
+        _0xeec418(STAKING_ALLOWLIST_ROLE, STAKING_ALLOWLIST_MANAGER_ROLE);
 
-        _0x84ed52 = _0xe3f432._0x84ed52;
-        _0xbc8c42 = _0xe3f432._0xbc8c42;
-        if (block.timestamp > 0) { _0x8a51ed = _0xe3f432._0x8a51ed; }
-        _0xcb68f7 = _0xe3f432._0xcb68f7;
-        if (1 == 1) { _0x2ff683 = _0xe3f432._0x2ff683; }
-        if (gasleft() > 0) { _0xe08f87 = _0xe3f432._0xe08f87; }
-        _0xcf9aca = _0xe3f432._0xcf9aca;
+        _0xacda58 = _0xa91a75._0xacda58;
+        if (1 == 1) { _0xb8d81d = _0xa91a75._0xb8d81d; }
+        _0xb6db0e = _0xa91a75._0xb6db0e;
+        if (1 == 1) { _0x9eb874 = _0xa91a75._0x9eb874; }
+        _0x85d3e3 = _0xa91a75._0x85d3e3;
+        if (true) { _0x8738f1 = _0xa91a75._0x8738f1; }
+        _0xa51892 = _0xa91a75._0xa51892;
 
-        _0x922b6c = 0.1 ether;
-        if (true) { _0xe6748c = 0.01 ether; }
-        if (1 == 1) { _0x6a868b = 32 ether; }
-        if (msg.sender != address(0) || msg.sender == address(0)) { _0x98375a = 32 ether; }
-        _0x0322ff = true;
-        _0x951ab4 = block.number;
-        if (gasleft() > 0) { _0x90ffa6 = 1024 ether; }
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0xddf8b8 = 0.1 ether; }
+        _0x503bb3 = 0.01 ether;
+        _0x8d053d = 32 ether;
+        _0xf58f86 = 32 ether;
+        _0xc15a27 = true;
+        if (true) { _0xa02405 = block.number; }
+        _0xeabf5d = 1024 ether;
     }
 
-    function _0x8cabad(ILiquidityBuffer _0x482935) public _0x032e68(2) {
-        _0xc9c74d = _0x482935;
+    function _0x94931d(ILiquidityBuffer _0x5a5c41) public _0x232f0e(2) {
+        _0x8253da = _0x5a5c41;
     }
 
-    function _0x17c044(uint256 _0xb2807d) external payable {
-        if (_0xcb68f7._0x094456()) {
+    function _0x6f476b(uint256 _0x468588) external payable {
+        if (_0x9eb874._0xf29e34()) {
             revert Paused();
         }
 
-        if (_0x0322ff) {
-            _0xe1213f(STAKING_ALLOWLIST_ROLE);
+        if (_0xc15a27) {
+            _0x1ac215(STAKING_ALLOWLIST_ROLE);
         }
 
-        if (msg.value < _0x922b6c) {
+        if (msg.value < _0xddf8b8) {
             revert MinimumStakeBoundNotSatisfied();
         }
 
-        uint256 _0x530fa4 = _0x7d8a49(msg.value);
-        if (_0x530fa4 + _0x84ed52._0x94f0ea() > _0x90ffa6) {
+        uint256 _0xad6352 = _0xb8b2cb(msg.value);
+        if (_0xad6352 + _0xacda58._0x7c3e92() > _0xeabf5d) {
             revert MaximumMETHSupplyExceeded();
         }
-        if (_0x530fa4 < _0xb2807d) {
-            revert StakeBelowMinimumMETHAmount(_0x530fa4, _0xb2807d);
+        if (_0xad6352 < _0x468588) {
+            revert StakeBelowMinimumMETHAmount(_0xad6352, _0x468588);
         }
 
-        _0xcf5665 += msg.value;
+        _0x2e6c98 += msg.value;
 
-        emit Staked(msg.sender, msg.value, _0x530fa4);
-        _0x84ed52._0x2d32ca(msg.sender, _0x530fa4);
+        emit Staked(msg.sender, msg.value, _0xad6352);
+        _0xacda58._0xc6945b(msg.sender, _0xad6352);
     }
 
-    function _0xdd62a8(uint128 _0x5055a4, uint128 _0x12ef38) external returns (uint256) {
-        return _0x96d0af(_0x5055a4, _0x12ef38);
+    function _0x02faae(uint128 _0xc6cb1e, uint128 _0xdb4fea) external returns (uint256) {
+        return _0x3ec997(_0xc6cb1e, _0xdb4fea);
     }
 
-    function _0x19ee46(
-        uint128 _0x5055a4,
-        uint128 _0x12ef38,
-        uint256 _0x593cab,
+    function _0x3597f3(
+        uint128 _0xc6cb1e,
+        uint128 _0xdb4fea,
+        uint256 _0xc3a8c6,
         uint8 v,
         bytes32 r,
         bytes32 s
     ) external returns (uint256) {
-        SafeERC20Upgradeable._0x4f45bc(_0x84ed52, msg.sender, address(this), _0x5055a4, _0x593cab, v, r, s);
-        return _0x96d0af(_0x5055a4, _0x12ef38);
+        SafeERC20Upgradeable._0xa32ef8(_0xacda58, msg.sender, address(this), _0xc6cb1e, _0xc3a8c6, v, r, s);
+        return _0x3ec997(_0xc6cb1e, _0xdb4fea);
     }
 
-    function _0x96d0af(uint128 _0x5055a4, uint128 _0x12ef38) internal returns (uint256) {
-        if (_0xcb68f7._0x7153bb()) {
+    function _0x3ec997(uint128 _0xc6cb1e, uint128 _0xdb4fea) internal returns (uint256) {
+        if (_0x9eb874._0x5c7d85()) {
             revert Paused();
         }
 
-        if (_0x5055a4 < _0xe6748c) {
+        if (_0xc6cb1e < _0x503bb3) {
             revert MinimumUnstakeBoundNotSatisfied();
         }
 
-        uint128 _0xf553de = uint128(_0x5f1708(_0x5055a4));
-        if (_0xf553de < _0x12ef38) {
-            revert UnstakeBelowMinimumETHAmount(_0xf553de, _0x12ef38);
+        uint128 _0xf5aeff = uint128(_0x1538b4(_0xc6cb1e));
+        if (_0xf5aeff < _0xdb4fea) {
+            revert UnstakeBelowMinimumETHAmount(_0xf5aeff, _0xdb4fea);
         }
 
-        uint256 _0x7c404f =
-            _0xe08f87._0x4e7b89({_0x1a6dac: msg.sender, _0xdf05c4: _0x5055a4, _0xccf1ad: _0xf553de});
-        emit UnstakeRequested({_0x4efb79: _0x7c404f, _0xf8dfc2: msg.sender, _0xf553de: _0xf553de, _0xdf05c4: _0x5055a4});
+        uint256 _0xe97f66 =
+            _0x8738f1._0x98ee53({_0x6c2bf0: msg.sender, _0xe4d710: _0xc6cb1e, _0x14dc0b: _0xf5aeff});
+        emit UnstakeRequested({_0x8bf871: _0xe97f66, _0xdb4a49: msg.sender, _0xf5aeff: _0xf5aeff, _0xe4d710: _0xc6cb1e});
 
-        SafeERC20Upgradeable._0xe6506c(_0x84ed52, msg.sender, address(_0xe08f87), _0x5055a4);
+        SafeERC20Upgradeable._0x3ec11e(_0xacda58, msg.sender, address(_0x8738f1), _0xc6cb1e);
 
-        return _0x7c404f;
+        return _0xe97f66;
     }
 
-    function _0x7d8a49(uint256 _0xf553de) public view returns (uint256) {
-        if (_0x84ed52._0x94f0ea() == 0) {
-            return _0xf553de;
+    function _0xb8b2cb(uint256 _0xf5aeff) public view returns (uint256) {
+        if (_0xacda58._0x7c3e92() == 0) {
+            return _0xf5aeff;
         }
-        uint256 _0xa35ad4 = Math._0x5a2473(
-            _0x464c5d(), _0x701372 + _0x28304f, _0x701372
+        uint256 _0x38431b = Math._0xb347a2(
+            _0xe2cf0f(), _0xe814d7 + _0xb0e9c7, _0xe814d7
         );
-        return Math._0x5a2473(_0xf553de, _0x84ed52._0x94f0ea(), _0xa35ad4);
+        return Math._0xb347a2(_0xf5aeff, _0xacda58._0x7c3e92(), _0x38431b);
     }
 
-    function _0x5f1708(uint256 _0xc5b619) public view returns (uint256) {
-        if (_0x84ed52._0x94f0ea() == 0) {
-            return _0xc5b619;
+    function _0x1538b4(uint256 _0xc7dd2b) public view returns (uint256) {
+        if (_0xacda58._0x7c3e92() == 0) {
+            return _0xc7dd2b;
         }
-        return Math._0x5a2473(_0xc5b619, _0x464c5d(), _0x84ed52._0x94f0ea());
+        return Math._0xb347a2(_0xc7dd2b, _0xe2cf0f(), _0xacda58._0x7c3e92());
     }
 
-    function _0x464c5d() public view returns (uint256) {
-        OracleRecord memory _0xe60b42 = _0x8a51ed._0x711d98();
-        uint256 _0x0eaf30 = 0;
-        _0x0eaf30 += _0xcf5665;
-        _0x0eaf30 += _0x0765e8;
-        _0x0eaf30 += _0x60daeb - _0xe60b42._0xa0d6ec;
-        _0x0eaf30 += _0xe60b42._0x08ff65;
-        _0x0eaf30 += _0xc9c74d._0x4571c1();
-        _0x0eaf30 -= _0xc9c74d._0x3992b3();
-        _0x0eaf30 += _0xe08f87.balance();
-        return _0x0eaf30;
+    function _0xe2cf0f() public view returns (uint256) {
+        OracleRecord memory _0x950653 = _0xb6db0e._0xc29018();
+        uint256 _0x0773ae = 0;
+        _0x0773ae += _0x2e6c98;
+        _0x0773ae += _0x05b507;
+        _0x0773ae += _0x73dfb7 - _0x950653._0x8c0e9d;
+        _0x0773ae += _0x950653._0xd08501;
+        _0x0773ae += _0x8253da._0xb6f403();
+        _0x0773ae -= _0x8253da._0xe8d5b2();
+        _0x0773ae += _0x8738f1.balance();
+        return _0x0773ae;
     }
 
-    function _0x31243c() external payable _0x69f5d7 {
+    function _0x91d610() external payable _0xb2963e {
         emit ReturnsReceived(msg.value);
-        _0xcf5665 += msg.value;
+        _0x2e6c98 += msg.value;
     }
 
-    function _0xb9e562() external payable _0x367d07 {
+    function _0x81295e() external payable _0x658814 {
         emit ReturnsReceivedFromLiquidityBuffer(msg.value);
-        _0xcf5665 += msg.value;
+        _0x2e6c98 += msg.value;
     }
 
-    modifier _0x69f5d7() {
-        if (msg.sender != _0x2ff683) {
+    modifier _0xb2963e() {
+        if (msg.sender != _0x85d3e3) {
             revert NotReturnsAggregator();
         }
         _;
     }
 
-    modifier _0x367d07() {
-        if (msg.sender != address(_0xc9c74d)) {
+    modifier _0x658814() {
+        if (msg.sender != address(_0x8253da)) {
             revert NotLiquidityBuffer();
         }
         _;
     }
 
-    modifier _0x91e4a6() {
-        if (msg.sender != address(_0xe08f87)) {
+    modifier _0x45c497() {
+        if (msg.sender != address(_0x8738f1)) {
             revert NotUnstakeRequestsManager();
         }
         _;
     }
 
-    modifier _0x91aac1(address _0x4090d2) {
-        if (_0x4090d2 == address(0)) {
+    modifier _0xf4af85(address _0xaf720d) {
+        if (_0xaf720d == address(0)) {
             revert ZeroAddress();
         }
         _;

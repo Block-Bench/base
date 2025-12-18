@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "SimpleWallet",
-      "function_name": "_0x93bdd3",
+      "function_name": "_0xca82b8",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 33",
@@ -70,15 +70,15 @@
   "derived_from": "nc_ds_059",
   "original_id": "ds_059",
   "identifier_mappings": {
-    "depositsCount": "_0x85786a",
-    "withdrawAll": "_0xaf6877",
-    "onlyOwner": "_0xa19a6a",
-    "sendMoney": "_0x93bdd3",
-    "withdraw": "_0xf13e0c",
-    "_target": "_0xe6ef7a",
-    "_value": "_0x3d520d",
-    "owner": "_0xc2ea3c",
-    "_data": "_0x878b15"
+    "depositsCount": "_0xaa155d",
+    "withdrawAll": "_0x4e4e55",
+    "sendMoney": "_0xca82b8",
+    "onlyOwner": "_0x6df281",
+    "withdraw": "_0xc7a84f",
+    "_target": "_0xc8e9d5",
+    "_value": "_0x8c5588",
+    "_data": "_0x037b7c",
+    "owner": "_0x165f3a"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -90,7 +90,7 @@
     ],
     "rename_map_size": 9,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: sendMoney \u2192 _0x93bdd3"
+      "Transformed ground_truth.vulnerable_location.function_name: sendMoney \u2192 _0xca82b8"
     ]
   }
 }

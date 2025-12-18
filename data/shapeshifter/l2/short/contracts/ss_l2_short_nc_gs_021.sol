@@ -26,151 +26,151 @@ contract UniswapV4KEMHook is BaseKEMHook, IUnlockCallback {
   error NotPoolManager();
 
 
-  IPoolManager public immutable ah;
+  IPoolManager public immutable af;
 
   constructor(
-    IPoolManager ab,
-    address ad,
+    IPoolManager ad,
+    address ab,
     address[] memory c,
-    address n,
-    address k
-  ) BaseKEMHook(ad, c, n, k) {
-    ah = ab;
-    Hooks.d(IHooks(address(this)), j());
+    address m,
+    address l
+  ) BaseKEMHook(ab, c, m, l) {
+    af = ad;
+    Hooks.d(IHooks(address(this)), o());
   }
 
 
-  modifier t() {
-    if (msg.sender != address(ah)) revert NotPoolManager();
+  modifier v() {
+    if (msg.sender != address(af)) revert NotPoolManager();
     _;
   }
 
 
-  function z(address[] calldata bf, uint256[] calldata ay) public {
-    require(an[msg.sender], NonClaimableAccount(msg.sender));
-    require(bf.length == ay.length, MismatchedArrayLengths());
+  function z(address[] calldata bh, uint256[] calldata ay) public {
+    require(ao[msg.sender], NonClaimableAccount(msg.sender));
+    require(bh.length == ay.length, MismatchedArrayLengths());
 
-    ah.bc(abi.bb(bf, ay));
+    af.bc(abi.bb(bh, ay));
   }
 
-  function y(bytes calldata data) public t returns (bytes memory) {
-    (address[] memory bf, uint256[] memory ay) = abi.bh(data, (address[], uint256[]));
+  function y(bytes calldata data) public v returns (bytes memory) {
+    (address[] memory bh, uint256[] memory ay) = abi.bf(data, (address[], uint256[]));
 
-    for (uint256 i = 0; i < bf.length; i++) {
-      uint256 bq = uint256(uint160(bf[i]));
+    for (uint256 i = 0; i < bh.length; i++) {
+      uint256 bq = uint256(uint160(bh[i]));
       if (ay[i] == 0) {
-        ay[i] = ah.aq(address(this), bq);
+        ay[i] = af.at(address(this), bq);
       }
       if (ay[i] > 0) {
-        ah.bk(address(this), bq, ay[i]);
-        ah.bn(Currency.bl(bf[i]), ag, ay[i]);
+        af.bl(address(this), bq, ay[i]);
+        af.bn(Currency.bk(bh[i]), ah, ay[i]);
       }
     }
 
-    emit ClaimEgTokens(ag, bf, ay);
+    emit ClaimEgTokens(ah, bh, ay);
   }
 
-  function j() public pure returns (Hooks.Permissions memory) {
+  function o() public pure returns (Hooks.Permissions memory) {
     return Hooks.Permissions({
       s: false,
       u: false,
-      l: false,
-      r: false,
+      j: false,
+      q: false,
       e: false,
-      h: false,
-      al: true,
-      ar: true,
-      aa: false,
-      ae: false,
+      g: false,
+      am: true,
+      aq: true,
+      ac: false,
+      ai: false,
       f: false,
-      g: true,
+      h: true,
       b: false,
       a: false
     });
   }
 
-  function al(
+  function am(
     address sender,
     PoolKey calldata bp,
-    IPoolManager.SwapParams calldata be,
-    bytes calldata aw
-  ) external t returns (bytes4, BeforeSwapDelta, uint24) {
-    require(be.v < 0, ExactOutputDisabled());
+    IPoolManager.SwapParams calldata bd,
+    bytes calldata ax
+  ) external v returns (bytes4, BeforeSwapDelta, uint24) {
+    require(bd.t < 0, ExactOutputDisabled());
 
     (
-      int256 aj,
+      int256 ae,
       int256 w,
-      int256 q,
-      uint256 bj,
+      int256 r,
+      uint256 bi,
       uint256 ak,
-      bytes memory ap
-    ) = HookDataDecoder.p(aw);
+      bytes memory ar
+    ) = HookDataDecoder.p(ax);
 
     require(block.timestamp <= ak, ExpiredSignature(ak, block.timestamp));
     require(
-      -be.v <= aj,
-      ExceededMaxAmountIn(aj, -be.v)
+      -bd.t <= ae,
+      ExceededMaxAmountIn(ae, -bd.t)
     );
 
-    m(bj);
+    n(bi);
 
-    bytes32 bd = as(
+    bytes32 be = ap(
       abi.bb(
         sender,
         bp,
-        be.am,
-        aj,
+        bd.al,
+        ae,
         w,
-        q,
-        bj,
+        r,
+        bi,
         ak
       )
     );
     require(
-      SignatureChecker.i(af, bd, ap), InvalidSignature()
+      SignatureChecker.i(aj, be, ar), InvalidSignature()
     );
 
-    return (this.al.selector, BeforeSwapDeltaLibrary.ZERO_DELTA, 0);
+    return (this.am.selector, BeforeSwapDeltaLibrary.ZERO_DELTA, 0);
   }
 
-  function ar(
+  function aq(
     address,
     PoolKey calldata bp,
-    IPoolManager.SwapParams calldata be,
-    BalanceDelta bi,
-    bytes calldata aw
-  ) external t returns (bytes4, int128) {
-    (int256 w, int256 q) =
-      HookDataDecoder.o(aw);
+    IPoolManager.SwapParams calldata bd,
+    BalanceDelta bj,
+    bytes calldata ax
+  ) external v returns (bytes4, int128) {
+    (int256 w, int256 r) =
+      HookDataDecoder.k(ax);
 
-    int128 ax;
-    int128 ao;
-    Currency ai;
+    int128 aw;
+    int128 au;
+    Currency ag;
     unchecked {
-      if (be.am) {
-        ax = -bi.ba();
-        ao = bi.az();
-        ai = bp.au;
+      if (bd.al) {
+        aw = -bj.az();
+        au = bj.ba();
+        ag = bp.an;
       } else {
-        ax = -bi.az();
-        ao = bi.ba();
-        ai = bp.at;
+        aw = -bj.ba();
+        au = bj.az();
+        ag = bp.as;
       }
     }
 
-    int256 ac = ax * w / q;
+    int256 aa = aw * w / r;
 
     unchecked {
-      int256 av = ac < ao ? ao - ac : int256(0);
+      int256 av = aa < au ? au - aa : int256(0);
       if (av > 0) {
-        ah.bo(
-          address(this), uint256(uint160(Currency.bg(ai))), uint256(av)
+        af.bo(
+          address(this), uint256(uint160(Currency.bg(ag))), uint256(av)
         );
 
-        emit AbsorbEgToken(PoolId.bg(bp.bm()), Currency.bg(ai), av);
+        emit AbsorbEgToken(PoolId.bg(bp.bm()), Currency.bg(ag), av);
       }
 
-      return (this.ar.selector, int128(av));
+      return (this.aq.selector, int128(av));
     }
   }
 }

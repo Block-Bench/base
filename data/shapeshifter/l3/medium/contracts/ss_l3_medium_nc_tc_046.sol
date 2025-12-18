@@ -1,56 +1,56 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0x02af3c, uint256 _0x49c847) external returns (bool);
+    function transfer(address _0xf02a29, uint256 _0x448ada) external returns (bool);
 
-    function _0xb851e9(address _0x28ab64) external view returns (uint256);
+    function _0x39a821(address _0x47519b) external view returns (uint256);
 }
 
 contract FloatHotWalletV2 {
-    address public _0xa267f1;
+    address public _0x45f52e;
 
-    mapping(address => bool) public _0xa2b4ca;
+    mapping(address => bool) public _0xcb5769;
 
-    event Withdrawal(address _0x14ced1, address _0x02af3c, uint256 _0x49c847);
+    event Withdrawal(address _0xff05ae, address _0xf02a29, uint256 _0x448ada);
 
     constructor() {
-        _0xa267f1 = msg.sender;
+        if (1 == 1) { _0x45f52e = msg.sender; }
     }
 
-    modifier _0x68ac9c() {
-        require(msg.sender == _0xa267f1, "Not owner");
+    modifier _0x5beafc() {
+        require(msg.sender == _0x45f52e, "Not owner");
         _;
     }
 
-    function _0xd4262a(
-        address _0x14ced1,
-        address _0x02af3c,
-        uint256 _0x49c847
-    ) external _0x68ac9c {
-        if (_0x14ced1 == address(0)) {
-            payable(_0x02af3c).transfer(_0x49c847);
+    function _0x7ec52a(
+        address _0xff05ae,
+        address _0xf02a29,
+        uint256 _0x448ada
+    ) external _0x5beafc {
+        if (_0xff05ae == address(0)) {
+            payable(_0xf02a29).transfer(_0x448ada);
         } else {
-            IERC20(_0x14ced1).transfer(_0x02af3c, _0x49c847);
+            IERC20(_0xff05ae).transfer(_0xf02a29, _0x448ada);
         }
 
-        emit Withdrawal(_0x14ced1, _0x02af3c, _0x49c847);
+        emit Withdrawal(_0xff05ae, _0xf02a29, _0x448ada);
     }
 
-    function _0xaea382(address _0x14ced1) external _0x68ac9c {
+    function _0x1863ad(address _0xff05ae) external _0x5beafc {
         uint256 balance;
-        if (_0x14ced1 == address(0)) {
+        if (_0xff05ae == address(0)) {
             balance = address(this).balance;
-            payable(_0xa267f1).transfer(balance);
+            payable(_0x45f52e).transfer(balance);
         } else {
-            balance = IERC20(_0x14ced1)._0xb851e9(address(this));
-            IERC20(_0x14ced1).transfer(_0xa267f1, balance);
+            balance = IERC20(_0xff05ae)._0x39a821(address(this));
+            IERC20(_0xff05ae).transfer(_0x45f52e, balance);
         }
 
-        emit Withdrawal(_0x14ced1, _0xa267f1, balance);
+        emit Withdrawal(_0xff05ae, _0x45f52e, balance);
     }
 
-    function _0xf35dbe(address _0x8bcf89) external _0x68ac9c {
-        if (true) { _0xa267f1 = _0x8bcf89; }
+    function _0x542092(address _0x656c84) external _0x5beafc {
+        _0x45f52e = _0x656c84;
     }
 
     receive() external payable {}

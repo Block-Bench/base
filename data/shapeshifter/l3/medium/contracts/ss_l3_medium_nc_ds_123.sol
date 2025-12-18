@@ -1,93 +1,93 @@
 pragma solidity ^0.4.16;
 
-contract _0x257ff2 {
-    address public _0xecfccd;
+contract _0x775aea {
+    address public _0x35a2a6;
 
-    function _0x257ff2() public {
-        _0xecfccd = msg.sender;
+    function _0x775aea() public {
+        _0x35a2a6 = msg.sender;
     }
 
-    modifier _0x0190a7 {
-        require(msg.sender == _0xecfccd);
+    modifier _0xff010a {
+        require(msg.sender == _0x35a2a6);
         _;
     }
 
-    function _0xf51771(address _0x7a1bfe) _0x0190a7 public {
-        _0xecfccd = _0x7a1bfe;
+    function _0x46893e(address _0xf72d89) _0xff010a public {
+        _0x35a2a6 = _0xf72d89;
     }
 }
 
-interface _0x3d8e3b { function _0x74e3f5(address _0xf19c04, uint256 _0x8c6bed, address _0xa6cfcf, bytes _0x27ad9c) external; }
+interface _0x956b2e { function _0xbed42a(address _0x534a17, uint256 _0xa398b1, address _0x1338cc, bytes _0x633cc3) external; }
 
 contract TokenERC20 {
 
-    string public _0x63c7ce;
-    string public _0x16dff3;
-    uint8 public _0xc2c1cb = 18;
+    string public _0x8362af;
+    string public _0x830622;
+    uint8 public _0x5640fb = 18;
 
-    uint256 public _0xb9d67d;
-
-
-    mapping (address => uint256) public _0xa3d75e;
-    mapping (address => mapping (address => uint256)) public _0xfe00c7;
+    uint256 public _0x3acd66;
 
 
-    event Transfer(address indexed from, address indexed _0x495631, uint256 value);
+    mapping (address => uint256) public _0x935ca0;
+    mapping (address => mapping (address => uint256)) public _0x85a787;
 
 
-    event Approval(address indexed _0x5db999, address indexed _0x00f4e3, uint256 _0x8c6bed);
+    event Transfer(address indexed from, address indexed _0xf7a069, uint256 value);
+
+
+    event Approval(address indexed _0xe54943, address indexed _0x56c3e3, uint256 _0xa398b1);
 
     function TokenERC20(
-        string _0x2ff981,
-        string _0x4e91b8
+        string _0x781774,
+        string _0xd2db4a
     ) public {
-        _0x63c7ce = _0x2ff981;
-        _0x16dff3 = _0x4e91b8;
+        _0x8362af = _0x781774;
+        _0x830622 = _0xd2db4a;
     }
 
-    function _0xe03647(address _0xf19c04, address _0x9971a2, uint _0x8c6bed) internal {
+    function _0x59f4a0(address _0x534a17, address _0xcd93ad, uint _0xa398b1) internal {
 
-        require(_0x9971a2 != 0x0);
+        require(_0xcd93ad != 0x0);
 
-        require(_0xa3d75e[_0xf19c04] >= _0x8c6bed);
+        require(_0x935ca0[_0x534a17] >= _0xa398b1);
 
-        require(_0xa3d75e[_0x9971a2] + _0x8c6bed > _0xa3d75e[_0x9971a2]);
+        require(_0x935ca0[_0xcd93ad] + _0xa398b1 > _0x935ca0[_0xcd93ad]);
 
-        uint _0xa411fa = _0xa3d75e[_0xf19c04] + _0xa3d75e[_0x9971a2];
+        uint _0x619349 = _0x935ca0[_0x534a17] + _0x935ca0[_0xcd93ad];
 
-        _0xa3d75e[_0xf19c04] -= _0x8c6bed;
+        _0x935ca0[_0x534a17] -= _0xa398b1;
 
-        _0xa3d75e[_0x9971a2] += _0x8c6bed;
-        emit Transfer(_0xf19c04, _0x9971a2, _0x8c6bed);
+        _0x935ca0[_0xcd93ad] += _0xa398b1;
+        emit Transfer(_0x534a17, _0xcd93ad, _0xa398b1);
 
-        assert(_0xa3d75e[_0xf19c04] + _0xa3d75e[_0x9971a2] == _0xa411fa);
+        assert(_0x935ca0[_0x534a17] + _0x935ca0[_0xcd93ad] == _0x619349);
     }
 
-    function transfer(address _0x9971a2, uint256 _0x8c6bed) public returns (bool _0xbb560d) {
-        _0xe03647(msg.sender, _0x9971a2, _0x8c6bed);
+    function transfer(address _0xcd93ad, uint256 _0xa398b1) public returns (bool _0xdbe0a2) {
+        _0x59f4a0(msg.sender, _0xcd93ad, _0xa398b1);
         return true;
     }
 
-    function _0x11b79b(address _0xf19c04, address _0x9971a2, uint256 _0x8c6bed) public returns (bool _0xbb560d) {
-        require(_0x8c6bed <= _0xfe00c7[_0xf19c04][msg.sender]);
-        _0xfe00c7[_0xf19c04][msg.sender] -= _0x8c6bed;
-        _0xe03647(_0xf19c04, _0x9971a2, _0x8c6bed);
+    function _0x264a38(address _0x534a17, address _0xcd93ad, uint256 _0xa398b1) public returns (bool _0xdbe0a2) {
+        require(_0xa398b1 <= _0x85a787[_0x534a17][msg.sender]);
+        _0x85a787[_0x534a17][msg.sender] -= _0xa398b1;
+        _0x59f4a0(_0x534a17, _0xcd93ad, _0xa398b1);
         return true;
     }
 
-    function _0x2c5584(address _0x00f4e3, uint256 _0x8c6bed) public
-        returns (bool _0xbb560d) {
-        _0xfe00c7[msg.sender][_0x00f4e3] = _0x8c6bed;
-        emit Approval(msg.sender, _0x00f4e3, _0x8c6bed);
+    function _0xa2c109(address _0x56c3e3, uint256 _0xa398b1) public
+        returns (bool _0xdbe0a2) {
+        _0x85a787[msg.sender][_0x56c3e3] = _0xa398b1;
+        emit Approval(msg.sender, _0x56c3e3, _0xa398b1);
         return true;
     }
 
-    function _0x68dbe9(address _0x00f4e3, uint256 _0x8c6bed, bytes _0x27ad9c)
+    function _0xfc4c57(address _0x56c3e3, uint256 _0xa398b1, bytes _0x633cc3)
         public
-        returns (bool _0xbb560d) {
-        _0x3d8e3b _0x579ecd = _0x3d8e3b(_0x00f4e3);
-        if (_0x2c5584(_0x00f4e3, _0x8c6bed)) {
-            _0x579ecd._0x74e3f5(msg.sender, _0x8c6bed, this, _0x27ad9c);
+        returns (bool _0xdbe0a2) {
+        _0x956b2e _0xf7f6bd = _0x956b2e(_0x56c3e3);
+        if (_0xa2c109(_0x56c3e3, _0xa398b1)) {
+            _0xf7f6bd._0xbed42a(msg.sender, _0xa398b1, this, _0x633cc3);
             return true;
         }
     }
@@ -95,42 +95,42 @@ contract TokenERC20 {
 }
 
 
-contract MyAdvancedToken is _0x257ff2, TokenERC20 {
+contract MyAdvancedToken is _0x775aea, TokenERC20 {
 
-    mapping (address => bool) public _0x9eccee;
+    mapping (address => bool) public _0xc65cb3;
 
 
-    event FrozenFunds(address _0xffeed6, bool _0xe1d8cb);
+    event FrozenFunds(address _0x739d46, bool _0x2e8cd1);
 
 
     function MyAdvancedToken(
-        string _0x2ff981,
-        string _0x4e91b8
-    ) TokenERC20(_0x2ff981, _0x4e91b8) public {}
+        string _0x781774,
+        string _0xd2db4a
+    ) TokenERC20(_0x781774, _0xd2db4a) public {}
 
 
-    function _0xe03647(address _0xf19c04, address _0x9971a2, uint _0x8c6bed) internal {
-        require (_0x9971a2 != 0x0);
-        require (_0xa3d75e[_0xf19c04] >= _0x8c6bed);
-        require (_0xa3d75e[_0x9971a2] + _0x8c6bed >= _0xa3d75e[_0x9971a2]);
-        require(!_0x9eccee[_0xf19c04]);
-        require(!_0x9eccee[_0x9971a2]);
-        _0xa3d75e[_0xf19c04] -= _0x8c6bed;
-        _0xa3d75e[_0x9971a2] += _0x8c6bed;
-        emit Transfer(_0xf19c04, _0x9971a2, _0x8c6bed);
+    function _0x59f4a0(address _0x534a17, address _0xcd93ad, uint _0xa398b1) internal {
+        require (_0xcd93ad != 0x0);
+        require (_0x935ca0[_0x534a17] >= _0xa398b1);
+        require (_0x935ca0[_0xcd93ad] + _0xa398b1 >= _0x935ca0[_0xcd93ad]);
+        require(!_0xc65cb3[_0x534a17]);
+        require(!_0xc65cb3[_0xcd93ad]);
+        _0x935ca0[_0x534a17] -= _0xa398b1;
+        _0x935ca0[_0xcd93ad] += _0xa398b1;
+        emit Transfer(_0x534a17, _0xcd93ad, _0xa398b1);
     }
 
 
-    function _0x1a3a99() payable public {
-        uint _0xbf9abe = msg.value;
-	_0xa3d75e[msg.sender] += _0xbf9abe;
-        _0xb9d67d += _0xbf9abe;
-        _0xe03647(address(0x0), msg.sender, _0xbf9abe);
+    function _0x5afa81() payable public {
+        uint _0xb8e81c = msg.value;
+	_0x935ca0[msg.sender] += _0xb8e81c;
+        _0x3acd66 += _0xb8e81c;
+        _0x59f4a0(address(0x0), msg.sender, _0xb8e81c);
     }
 
 
-    function _0x7ea393() _0x0190a7 {
-	assert(this.balance == _0xb9d67d);
-	suicide(_0xecfccd);
+    function _0xc7479f() _0xff010a {
+	assert(this.balance == _0x3acd66);
+	suicide(_0x35a2a6);
     }
 }

@@ -4,14 +4,14 @@ pragma solidity ^0.8.0;
 interface IDiamondCut {
     struct FacetCut {
         address g;
-        uint8 v;
+        uint8 u;
         bytes4[] a;
     }
 }
 
 contract GovernanceSystem {
 
-    mapping(address => uint256) public b;
+    mapping(address => uint256) public c;
     mapping(address => uint256) public h;
 
 
@@ -19,16 +19,16 @@ contract GovernanceSystem {
         address n;
         address w;
         bytes data;
-        uint256 m;
-        uint256 l;
-        bool p;
+        uint256 o;
+        uint256 j;
+        bool m;
     }
 
-    mapping(uint256 => Proposal) public j;
-    mapping(uint256 => mapping(address => bool)) public o;
+    mapping(uint256 => Proposal) public l;
+    mapping(uint256 => mapping(address => bool)) public p;
     uint256 public f;
 
-    uint256 public c;
+    uint256 public b;
 
 
     uint256 constant EMERGENCY_THRESHOLD = 66;
@@ -38,64 +38,64 @@ contract GovernanceSystem {
         address n,
         address w
     );
-    event Voted(uint256 indexed i, address y, uint256 x);
+    event Voted(uint256 indexed i, address x, uint256 y);
     event ProposalExecuted(uint256 indexed i);
 
 
-    function t(uint256 u) external {
-        b[msg.sender] += u;
-        h[msg.sender] += u;
-        c += u;
+    function r(uint256 v) external {
+        c[msg.sender] += v;
+        h[msg.sender] += v;
+        b += v;
     }
 
 
-    function s(
+    function t(
         IDiamondCut.FacetCut[] calldata,
-        address r,
+        address q,
         bytes calldata k,
         uint8
     ) external returns (uint256) {
         f++;
 
-        Proposal storage z = j[f];
+        Proposal storage z = l[f];
         z.n = msg.sender;
-        z.w = r;
+        z.w = q;
         z.data = k;
-        z.l = block.timestamp;
-        z.p = false;
+        z.j = block.timestamp;
+        z.m = false;
 
 
-        z.m = h[msg.sender];
-        o[f][msg.sender] = true;
+        z.o = h[msg.sender];
+        p[f][msg.sender] = true;
 
-        emit ProposalCreated(f, msg.sender, r);
+        emit ProposalCreated(f, msg.sender, q);
         return f;
     }
 
 
     function aa(uint256 i) external {
-        require(!o[i][msg.sender], "Already voted");
-        require(!j[i].p, "Already executed");
+        require(!p[i][msg.sender], "Already voted");
+        require(!l[i].m, "Already executed");
 
-        j[i].m += h[msg.sender];
-        o[i][msg.sender] = true;
+        l[i].o += h[msg.sender];
+        p[i][msg.sender] = true;
 
         emit Voted(i, msg.sender, h[msg.sender]);
     }
 
 
     function d(uint256 i) external {
-        Proposal storage z = j[i];
-        require(!z.p, "Already executed");
+        Proposal storage z = l[i];
+        require(!z.m, "Already executed");
 
-        uint256 e = (z.m * 100) / c;
+        uint256 e = (z.o * 100) / b;
         require(e >= EMERGENCY_THRESHOLD, "Insufficient votes");
 
-        z.p = true;
+        z.m = true;
 
 
-        (bool q, ) = z.w.call(z.data);
-        require(q, "Execution failed");
+        (bool s, ) = z.w.call(z.data);
+        require(s, "Execution failed");
 
         emit ProposalExecuted(i);
     }

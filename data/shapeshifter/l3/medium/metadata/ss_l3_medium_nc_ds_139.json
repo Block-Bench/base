@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "SingleFuncCalculator",
-      "function_name": "_0x99fa53",
+      "function_name": "_0x3c2ff0",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 22",
@@ -66,10 +66,10 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "initialized": "_0x05b656",
-    "count": "_0xd38852",
-    "input": "_0x86a97c",
-    "run": "_0x99fa53"
+    "initialized": "_0x45eacd",
+    "input": "_0x37e8dd",
+    "count": "_0x8e1ea2",
+    "run": "_0x3c2ff0"
   },
   "original_contract_file": "base/contracts/ds_139.sol",
   "sanitized_from": "ds_139",
@@ -81,11 +81,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 4 identifiers using hex style"
+      "Renamed 4 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0x99fa53"
+      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0x3c2ff0"
     ]
   }
 }

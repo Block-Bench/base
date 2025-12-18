@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "MultiplyCounter",
-      "function_name": "_0xa2ed56",
+      "function_name": "_0x0f9802",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 17",
@@ -66,9 +66,9 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "count": "_0x84c87c",
-    "input": "_0x065c01",
-    "run": "_0xa2ed56"
+    "input": "_0x46c63b",
+    "count": "_0x08f342",
+    "run": "_0x0f9802"
   },
   "original_contract_file": "base/contracts/ds_137.sol",
   "sanitized_from": "ds_137",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0xa2ed56"
+      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0x0f9802"
     ]
   }
 }

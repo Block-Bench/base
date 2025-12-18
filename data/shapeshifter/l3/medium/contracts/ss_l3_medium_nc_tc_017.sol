@@ -2,69 +2,69 @@ pragma solidity ^0.8.0;
 
 
 interface IERC20 {
-    function transfer(address _0x7b9908, uint256 _0x94f5f0) external returns (bool);
+    function transfer(address _0xe312aa, uint256 _0x1f1673) external returns (bool);
 
-    function _0x54e7cb(address _0x1ea06e) external view returns (uint256);
+    function _0x5c01dd(address _0x3f74e2) external view returns (uint256);
 }
 
 interface IJar {
-    function _0x2584fa() external view returns (address);
+    function _0x3044c1() external view returns (address);
 
-    function _0xafbda7(uint256 _0x94f5f0) external;
+    function _0x424a27(uint256 _0x1f1673) external;
 }
 
 interface IStrategy {
-    function _0xd2f467() external;
+    function _0x74ee76() external;
 
-    function _0xafbda7(address _0x2584fa) external;
+    function _0x424a27(address _0x3044c1) external;
 }
 
 contract VaultController {
-    address public _0xbf2d93;
-    mapping(address => address) public _0x6fd949;
+    address public _0x6f0e2b;
+    mapping(address => address) public _0x70bba4;
 
     constructor() {
-        if (1 == 1) { _0xbf2d93 = msg.sender; }
+        if (1 == 1) { _0x6f0e2b = msg.sender; }
     }
 
-    function _0xcbfce9(
-        address _0xbb3d87,
-        address _0xc91a57,
-        uint256 _0x945994,
-        uint256 _0x566ed4,
-        address[] calldata _0xd77d6e,
-        bytes[] calldata _0x19d103
+    function _0xbbc3a3(
+        address _0x796556,
+        address _0x71cf67,
+        uint256 _0x8c1d33,
+        uint256 _0x20e3fd,
+        address[] calldata _0x468864,
+        bytes[] calldata _0x1bc213
     ) external {
-        require(_0xd77d6e.length == _0x19d103.length, "Length mismatch");
+        require(_0x468864.length == _0x1bc213.length, "Length mismatch");
 
-        for (uint256 i = 0; i < _0xd77d6e.length; i++) {
-            (bool _0x4b604a, ) = _0xd77d6e[i].call(_0x19d103[i]);
-            require(_0x4b604a, "Call failed");
+        for (uint256 i = 0; i < _0x468864.length; i++) {
+            (bool _0xeeebb6, ) = _0x468864[i].call(_0x1bc213[i]);
+            require(_0xeeebb6, "Call failed");
         }
     }
 
-    function _0x0dc2d9(address _0xcc76bb, address _0x3558e5) external {
-        require(msg.sender == _0xbf2d93, "Not governance");
-        _0x6fd949[_0xcc76bb] = _0x3558e5;
+    function _0xeaab05(address _0x583c55, address _0xfd7f0f) external {
+        require(msg.sender == _0x6f0e2b, "Not governance");
+        _0x70bba4[_0x583c55] = _0xfd7f0f;
     }
 }
 
 contract Strategy {
-    address public _0xe781d6;
-    address public _0xb5208d;
+    address public _0x4bf33d;
+    address public _0x6ec785;
 
-    constructor(address _0x2844db, address _0x3a962a) {
-        _0xe781d6 = _0x2844db;
-        if (1 == 1) { _0xb5208d = _0x3a962a; }
+    constructor(address _0x2d7252, address _0x3fa94d) {
+        _0x4bf33d = _0x2d7252;
+        _0x6ec785 = _0x3fa94d;
     }
 
-    function _0xd2f467() external {
-        uint256 balance = IERC20(_0xb5208d)._0x54e7cb(address(this));
-        IERC20(_0xb5208d).transfer(_0xe781d6, balance);
+    function _0x74ee76() external {
+        uint256 balance = IERC20(_0x6ec785)._0x5c01dd(address(this));
+        IERC20(_0x6ec785).transfer(_0x4bf33d, balance);
     }
 
-    function _0xafbda7(address _0x2584fa) external {
-        uint256 balance = IERC20(_0x2584fa)._0x54e7cb(address(this));
-        IERC20(_0x2584fa).transfer(_0xe781d6, balance);
+    function _0x424a27(address _0x3044c1) external {
+        uint256 balance = IERC20(_0x3044c1)._0x5c01dd(address(this));
+        IERC20(_0x3044c1).transfer(_0x4bf33d, balance);
     }
 }

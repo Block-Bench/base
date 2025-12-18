@@ -5,36 +5,36 @@ contract ModifierBank {
   string constant j = "Nu Token";
 
 
-  function h() c a  public{
+  function h() d b  public{
     e[msg.sender] += 20;
   }
 
 
-  modifier a() {
-    require(f(abi.d("Nu Token")) == Bank(msg.sender).a());
+  modifier b() {
+    require(f(abi.c("Nu Token")) == Bank(msg.sender).b());
     _;
   }
 
-  modifier c {
+  modifier d {
       require(e[msg.sender] == 0);
       _;
   }
 }
 
 contract Bank{
-    function a() external pure returns(bytes32){
-        return(f(abi.d("Nu Token")));
+    function b() external pure returns(bytes32){
+        return(f(abi.c("Nu Token")));
     }
 }
 
 contract g {
-    bool b;
-    function a() external returns(bytes32){
-        if(!b){
-            b = true;
+    bool a;
+    function b() external returns(bytes32){
+        if(!a){
+            a = true;
             ModifierBank(msg.sender).h();
         }
-        return(f(abi.d("Nu Token")));
+        return(f(abi.c("Nu Token")));
     }
     function call(address i) public{
         ModifierBank(i).h();

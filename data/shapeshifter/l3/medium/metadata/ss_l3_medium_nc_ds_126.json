@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Missing",
-      "function_name": "_0x11e855",
+      "function_name": "_0xa8e1da",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 18",
@@ -70,10 +70,10 @@
   "derived_from": "nc_ds_126",
   "original_id": "ds_126",
   "identifier_mappings": {
-    "onlyowner": "_0x42019d",
-    "withdraw": "_0xa66312",
-    "missing": "_0x11e855",
-    "owner": "_0xbdb3e7"
+    "onlyowner": "_0x029dc9",
+    "withdraw": "_0xe69b79",
+    "missing": "_0xa8e1da",
+    "owner": "_0x804a98"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -85,7 +85,7 @@
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: missing \u2192 _0x11e855"
+      "Transformed ground_truth.vulnerable_location.function_name: missing \u2192 _0xa8e1da"
     ]
   }
 }

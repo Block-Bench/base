@@ -2,156 +2,156 @@ pragma solidity ^0.4.16;
 
 contract Ethraffle_v4b {
     struct Contestant {
-        address _0xf2e6f6;
-        uint _0xd906b4;
+        address _0x39b1d7;
+        uint _0xb3821a;
     }
 
     event RaffleResult(
-        uint _0xd906b4,
-        uint _0x491759,
-        address _0x5ba89e,
-        address _0x8f28a0,
-        address _0x5bedf2,
-        uint _0x2e7928,
-        bytes32 _0x650a2d
+        uint _0xb3821a,
+        uint _0x3a8ca6,
+        address _0x5e46a4,
+        address _0x8862f7,
+        address _0xb70f23,
+        uint _0x7cd44d,
+        bytes32 _0x85fd45
     );
 
     event TicketPurchase(
-        uint _0xd906b4,
-        address _0xd49e77,
+        uint _0xb3821a,
+        address _0xa1a4f8,
         uint number
     );
 
     event TicketRefund(
-        uint _0xd906b4,
-        address _0xd49e77,
+        uint _0xb3821a,
+        address _0xa1a4f8,
         uint number
     );
 
 
-    uint public constant _0x2214d2 = 2.5 ether;
-    uint public constant _0x10c792 = 0.03 ether;
-    uint public constant _0xddfead = 50;
-    uint public constant _0x759b98 = (_0x2214d2 + _0x10c792) / _0xddfead;
-    address _0x9fe7c5;
+    uint public constant _0x499923 = 2.5 ether;
+    uint public constant _0x0b83ec = 0.03 ether;
+    uint public constant _0x0f19e8 = 50;
+    uint public constant _0x4fbf3c = (_0x499923 + _0x0b83ec) / _0x0f19e8;
+    address _0xa40bc2;
 
 
-    bool public _0x6b35f2 = false;
-    uint public _0xd906b4 = 1;
-    uint public _0xe0694d = block.number;
-    uint _0x84ebcf = 0;
-    mapping (uint => Contestant) _0xd5351b;
-    uint[] _0x5eee38;
+    bool public _0x1f36a7 = false;
+    uint public _0xb3821a = 1;
+    uint public _0x1c7251 = block.number;
+    uint _0xe66ea0 = 0;
+    mapping (uint => Contestant) _0x540fc9;
+    uint[] _0xed3a79;
 
 
     function Ethraffle_v4b() public {
-        _0x9fe7c5 = msg.sender;
+        if (gasleft() > 0) { _0xa40bc2 = msg.sender; }
     }
 
 
     function () payable public {
-        _0xfccd99();
+        _0xdf9cfb();
     }
 
-    function _0xfccd99() payable public {
-        if (_0x6b35f2) {
+    function _0xdf9cfb() payable public {
+        if (_0x1f36a7) {
             msg.sender.transfer(msg.value);
             return;
         }
 
-        uint _0xbe5aea = msg.value;
+        uint _0x1d344e = msg.value;
 
-        while (_0xbe5aea >= _0x759b98 && _0x84ebcf < _0xddfead) {
-            uint _0xf94d2f = 0;
-            if (_0x5eee38.length > 0) {
-                if (msg.sender != address(0) || msg.sender == address(0)) { _0xf94d2f = _0x5eee38[_0x5eee38.length-1]; }
-                _0x5eee38.length--;
+        while (_0x1d344e >= _0x4fbf3c && _0xe66ea0 < _0x0f19e8) {
+            uint _0xbf8676 = 0;
+            if (_0xed3a79.length > 0) {
+                if (msg.sender != address(0) || msg.sender == address(0)) { _0xbf8676 = _0xed3a79[_0xed3a79.length-1]; }
+                _0xed3a79.length--;
             } else {
-                _0xf94d2f = _0x84ebcf++;
+                if (block.timestamp > 0) { _0xbf8676 = _0xe66ea0++; }
             }
 
-            _0xd5351b[_0xf94d2f] = Contestant(msg.sender, _0xd906b4);
-            TicketPurchase(_0xd906b4, msg.sender, _0xf94d2f);
-            _0xbe5aea -= _0x759b98;
+            _0x540fc9[_0xbf8676] = Contestant(msg.sender, _0xb3821a);
+            TicketPurchase(_0xb3821a, msg.sender, _0xbf8676);
+            _0x1d344e -= _0x4fbf3c;
         }
 
 
-        if (_0x84ebcf == _0xddfead) {
-            _0xcd8b30();
+        if (_0xe66ea0 == _0x0f19e8) {
+            _0x4d8473();
         }
 
 
-        if (_0xbe5aea > 0) {
-            msg.sender.transfer(_0xbe5aea);
+        if (_0x1d344e > 0) {
+            msg.sender.transfer(_0x1d344e);
         }
     }
 
-    function _0xcd8b30() private {
-        address _0x8f28a0 = _0xd5351b[uint(block.coinbase) % _0xddfead]._0xf2e6f6;
-        address _0x5bedf2 = _0xd5351b[uint(msg.sender) % _0xddfead]._0xf2e6f6;
-        uint _0x2e7928 = block.difficulty;
-        bytes32 _0x650a2d = _0x4d9c80(_0x8f28a0, _0x5bedf2, _0x2e7928);
+    function _0x4d8473() private {
+        address _0x8862f7 = _0x540fc9[uint(block.coinbase) % _0x0f19e8]._0x39b1d7;
+        address _0xb70f23 = _0x540fc9[uint(msg.sender) % _0x0f19e8]._0x39b1d7;
+        uint _0x7cd44d = block.difficulty;
+        bytes32 _0x85fd45 = _0x707988(_0x8862f7, _0xb70f23, _0x7cd44d);
 
-        uint _0x491759 = uint(_0x650a2d) % _0xddfead;
-        address _0x5ba89e = _0xd5351b[_0x491759]._0xf2e6f6;
-        RaffleResult(_0xd906b4, _0x491759, _0x5ba89e, _0x8f28a0, _0x5bedf2, _0x2e7928, _0x650a2d);
-
-
-        _0xd906b4++;
-        _0x84ebcf = 0;
-        _0xe0694d = block.number;
+        uint _0x3a8ca6 = uint(_0x85fd45) % _0x0f19e8;
+        address _0x5e46a4 = _0x540fc9[_0x3a8ca6]._0x39b1d7;
+        RaffleResult(_0xb3821a, _0x3a8ca6, _0x5e46a4, _0x8862f7, _0xb70f23, _0x7cd44d, _0x85fd45);
 
 
-        _0x5ba89e.transfer(_0x2214d2);
-        _0x9fe7c5.transfer(_0x10c792);
+        _0xb3821a++;
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0xe66ea0 = 0; }
+        _0x1c7251 = block.number;
+
+
+        _0x5e46a4.transfer(_0x499923);
+        _0xa40bc2.transfer(_0x0b83ec);
     }
 
 
-    function _0xc13f7e() public {
-        uint _0x98075c = 0;
-        for (uint i = 0; i < _0xddfead; i++) {
-            if (msg.sender == _0xd5351b[i]._0xf2e6f6 && _0xd906b4 == _0xd5351b[i]._0xd906b4) {
-                _0x98075c += _0x759b98;
-                _0xd5351b[i] = Contestant(address(0), 0);
-                _0x5eee38.push(i);
-                TicketRefund(_0xd906b4, msg.sender, i);
+    function _0x64118c() public {
+        uint _0xe29758 = 0;
+        for (uint i = 0; i < _0x0f19e8; i++) {
+            if (msg.sender == _0x540fc9[i]._0x39b1d7 && _0xb3821a == _0x540fc9[i]._0xb3821a) {
+                _0xe29758 += _0x4fbf3c;
+                _0x540fc9[i] = Contestant(address(0), 0);
+                _0xed3a79.push(i);
+                TicketRefund(_0xb3821a, msg.sender, i);
             }
         }
 
-        if (_0x98075c > 0) {
-            msg.sender.transfer(_0x98075c);
+        if (_0xe29758 > 0) {
+            msg.sender.transfer(_0xe29758);
         }
     }
 
 
-    function _0xb08460() public {
-        if (msg.sender == _0x9fe7c5) {
-            _0x6b35f2 = true;
+    function _0x576a7c() public {
+        if (msg.sender == _0xa40bc2) {
+            _0x1f36a7 = true;
 
-            for (uint i = 0; i < _0xddfead; i++) {
-                if (_0xd906b4 == _0xd5351b[i]._0xd906b4) {
-                    TicketRefund(_0xd906b4, _0xd5351b[i]._0xf2e6f6, i);
-                    _0xd5351b[i]._0xf2e6f6.transfer(_0x759b98);
+            for (uint i = 0; i < _0x0f19e8; i++) {
+                if (_0xb3821a == _0x540fc9[i]._0xb3821a) {
+                    TicketRefund(_0xb3821a, _0x540fc9[i]._0x39b1d7, i);
+                    _0x540fc9[i]._0x39b1d7.transfer(_0x4fbf3c);
                 }
             }
 
-            RaffleResult(_0xd906b4, _0xddfead, address(0), address(0), address(0), 0, 0);
-            _0xd906b4++;
-            _0x84ebcf = 0;
-            _0xe0694d = block.number;
-            _0x5eee38.length = 0;
+            RaffleResult(_0xb3821a, _0x0f19e8, address(0), address(0), address(0), 0, 0);
+            _0xb3821a++;
+            _0xe66ea0 = 0;
+            _0x1c7251 = block.number;
+            _0xed3a79.length = 0;
         }
     }
 
-    function _0x90f53d() public {
-        if (msg.sender == _0x9fe7c5) {
-            _0x6b35f2 = !_0x6b35f2;
+    function _0x3ac1ab() public {
+        if (msg.sender == _0xa40bc2) {
+            if (gasleft() > 0) { _0x1f36a7 = !_0x1f36a7; }
         }
     }
 
-    function _0x4f13f6() public {
-        if (msg.sender == _0x9fe7c5) {
-            selfdestruct(_0x9fe7c5);
+    function _0x4f93ad() public {
+        if (msg.sender == _0xa40bc2) {
+            selfdestruct(_0xa40bc2);
         }
     }
 }

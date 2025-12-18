@@ -12,37 +12,37 @@ abstract contract ERC4337v07 is ReentrancyGuard, IAccount, Calls {
 
   uint256 internal constant SIG_VALIDATION_FAILED = 1;
 
-  address public immutable _0x54ece1;
+  address public immutable _0xfceb22;
 
-  error InvalidEntryPoint(address _0x7b75df);
+  error InvalidEntryPoint(address _0x0b9daa);
   error ERC4337Disabled();
 
   constructor(
-    address _0x7b75df
+    address _0x0b9daa
   ) {
-    _0x54ece1 = _0x7b75df;
+    _0xfceb22 = _0x0b9daa;
   }
 
 
-  function _0x680ef1(
-    PackedUserOperation calldata _0x5a934c,
-    bytes32 _0x4a6b57,
-    uint256 _0xaf2a90
-  ) external returns (uint256 _0xf7a5a6) {
-    if (_0x54ece1 == address(0)) {
+  function _0xc52815(
+    PackedUserOperation calldata _0xbdf7d1,
+    bytes32 _0xb800ca,
+    uint256 _0xa8fa9f
+  ) external returns (uint256 _0x909893) {
+    if (_0xfceb22 == address(0)) {
       revert ERC4337Disabled();
     }
 
-    if (msg.sender != _0x54ece1) {
+    if (msg.sender != _0xfceb22) {
       revert InvalidEntryPoint(msg.sender);
     }
 
 
-    if (_0xaf2a90 != 0) {
-      IEntryPoint(_0x54ece1)._0xf9020b{ value: _0xaf2a90 }(address(this));
+    if (_0xa8fa9f != 0) {
+      IEntryPoint(_0xfceb22)._0x4850da{ value: _0xa8fa9f }(address(this));
     }
 
-    if (this._0xc1f6a8(_0x4a6b57, _0x5a934c._0x09e918) != IERC1271_MAGIC_VALUE_HASH) {
+    if (this._0xa74a56(_0xb800ca, _0xbdf7d1._0x5bcb5e) != IERC1271_MAGIC_VALUE_HASH) {
       return SIG_VALIDATION_FAILED;
     }
 
@@ -50,18 +50,18 @@ abstract contract ERC4337v07 is ReentrancyGuard, IAccount, Calls {
   }
 
 
-  function _0x81588f(
-    bytes calldata _0xf77f6c
-  ) external _0x29061a {
-    if (_0x54ece1 == address(0)) {
+  function _0x624cab(
+    bytes calldata _0x03aca1
+  ) external _0x2ae116 {
+    if (_0xfceb22 == address(0)) {
       revert ERC4337Disabled();
     }
 
-    if (msg.sender != _0x54ece1) {
+    if (msg.sender != _0xfceb22) {
       revert InvalidEntryPoint(msg.sender);
     }
 
-    this._0xa86a9f(_0xf77f6c);
+    this._0x22afd2(_0x03aca1);
   }
 
 }

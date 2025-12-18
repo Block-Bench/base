@@ -5,93 +5,93 @@ contract Token {
     uint256 public f;
 
 
-    function k(address s) constant returns (uint256 balance);
+    function i(address u) constant returns (uint256 balance);
 
 
-    function transfer(address y, uint256 u) returns (bool o);
+    function transfer(address y, uint256 t) returns (bool o);
 
 
-    function d(address v, address y, uint256 u) returns (bool o);
+    function e(address v, address y, uint256 t) returns (bool o);
 
 
-    function q(address l, uint256 u) returns (bool o);
+    function r(address l, uint256 t) returns (bool o);
 
 
-    function i(address s, address l) constant returns (uint256 j);
+    function k(address u, address l) constant returns (uint256 j);
 
-    event Transfer(address indexed v, address indexed y, uint256 u);
-    event Approval(address indexed s, address indexed l, uint256 u);
+    event Transfer(address indexed v, address indexed y, uint256 t);
+    event Approval(address indexed u, address indexed l, uint256 t);
 }
 
 contract StandardToken is Token {
 
-    function transfer(address y, uint256 u) returns (bool o) {
+    function transfer(address y, uint256 t) returns (bool o) {
 
 
-        require(n[msg.sender] >= u);
-        n[msg.sender] -= u;
-        n[y] += u;
-        Transfer(msg.sender, y, u);
+        require(m[msg.sender] >= t);
+        m[msg.sender] -= t;
+        m[y] += t;
+        Transfer(msg.sender, y, t);
         return true;
     }
 
-    function d(address v, address y, uint256 u) returns (bool o) {
+    function e(address v, address y, uint256 t) returns (bool o) {
 
 
-        require(n[v] >= u && r[v][msg.sender] >= u);
-        n[y] += u;
-        n[v] -= u;
-        r[v][msg.sender] -= u;
-        Transfer(v, y, u);
+        require(m[v] >= t && q[v][msg.sender] >= t);
+        m[y] += t;
+        m[v] -= t;
+        q[v][msg.sender] -= t;
+        Transfer(v, y, t);
         return true;
     }
 
-    function k(address s) constant returns (uint256 balance) {
-        return n[s];
+    function i(address u) constant returns (uint256 balance) {
+        return m[u];
     }
 
-    function q(address l, uint256 u) returns (bool o) {
-        r[msg.sender][l] = u;
-        Approval(msg.sender, l, u);
+    function r(address l, uint256 t) returns (bool o) {
+        q[msg.sender][l] = t;
+        Approval(msg.sender, l, t);
         return true;
     }
 
-    function i(address s, address l) constant returns (uint256 j) {
-      return r[s][l];
+    function k(address u, address l) constant returns (uint256 j) {
+      return q[u][l];
     }
 
-    mapping (address => uint256) n;
-    mapping (address => mapping (address => uint256)) r;
+    mapping (address => uint256) m;
+    mapping (address => mapping (address => uint256)) q;
 }
 
 contract HumanStandardToken is StandardToken {
 
 
-    string public x;
-    uint8 public m;
-    string public t;
+    string public w;
+    uint8 public n;
+    string public s;
     string public p = 'H0.1';
 
     function HumanStandardToken(
-        uint256 a,
-        string h,
+        uint256 b,
+        string g,
         uint8 c,
-        string e
+        string d
         ) {
-        n[msg.sender] = a;
-        f = a;
-        x = h;
-        m = c;
-        t = e;
+        m[msg.sender] = b;
+        f = b;
+        w = g;
+        n = c;
+        s = d;
     }
 
 
-    function b(address l, uint256 u, bytes g) returns (bool o) {
-        r[msg.sender][l] = u;
-        Approval(msg.sender, l, u);
+    function a(address l, uint256 t, bytes h) returns (bool o) {
+        q[msg.sender][l] = t;
+        Approval(msg.sender, l, t);
 
 
-        require(l.call(bytes4(bytes32(w("receiveApproval(address,uint256,address,bytes)"))), msg.sender, u, this, g));
+        require(l.call(bytes4(bytes32(x("receiveApproval(address,uint256,address,bytes)"))), msg.sender, t, this, h));
         return true;
     }
 }

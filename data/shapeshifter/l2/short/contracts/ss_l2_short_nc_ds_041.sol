@@ -2,8 +2,8 @@ pragma solidity ^0.4.24;
 
 contract BonusVault{
 
-    mapping (address => uint) private d;
-    mapping (address => bool) private e;
+    mapping (address => uint) private e;
+    mapping (address => bool) private d;
     mapping (address => uint) private f;
 
     function c(address g) public {
@@ -14,10 +14,10 @@ contract BonusVault{
     }
 
     function a(address g) public {
-        require(!e[g]);
+        require(!d[g]);
 
         f[g] += 100;
         c(g);
-        e[g] = true;
+        d[g] = true;
     }
 }

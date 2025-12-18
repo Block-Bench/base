@@ -1,20 +1,20 @@
 pragma solidity ^0.4.2;
 
 contract SimpleDAO {
-  mapping (address => uint) public d;
+  mapping (address => uint) public e;
 
-  function e(address g) payable {
-    d[g] += msg.value;
+  function d(address g) payable {
+    e[g] += msg.value;
   }
 
   function b(uint c) {
-    if (d[msg.sender]>= c) {
+    if (e[msg.sender]>= c) {
       bool f = msg.sender.call.value(c)();
-      d[msg.sender]-=c;
+      e[msg.sender]-=c;
     }
   }
 
   function a(address g) returns (uint){
-    return d[g];
+    return e[g];
   }
 }

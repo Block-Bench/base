@@ -9,58 +9,58 @@ interface IERC20 {
         uint256 ad
     ) external returns (bool);
 
-    function v(address aa) external view returns (uint256);
+    function v(address ac) external view returns (uint256);
 
-    function z(address w, uint256 ad) external returns (bool);
+    function ab(address y, uint256 ad) external returns (bool);
 }
 
 interface IERC721 {
-    function o(address from, address ah, uint256 y) external;
+    function o(address from, address ah, uint256 z) external;
 
-    function x(uint256 y) external view returns (address);
+    function x(uint256 z) external view returns (address);
 }
 
 contract WiseLending {
     struct PoolData {
-        uint256 l;
-        uint256 e;
-        uint256 g;
-        uint256 i;
+        uint256 k;
+        uint256 d;
+        uint256 f;
+        uint256 h;
     }
 
-    mapping(address => PoolData) public k;
-    mapping(uint256 => mapping(address => uint256)) public f;
-    mapping(uint256 => mapping(address => uint256)) public h;
+    mapping(address => PoolData) public l;
+    mapping(uint256 => mapping(address => uint256)) public g;
+    mapping(uint256 => mapping(address => uint256)) public i;
 
-    IERC721 public q;
-    uint256 public r;
+    IERC721 public p;
+    uint256 public n;
 
-    function n() external returns (uint256) {
-        uint256 af = ++r;
+    function q() external returns (uint256) {
+        uint256 af = ++n;
         return af;
     }
 
-    function d(
+    function e(
         uint256 ae,
         address u,
-        uint256 ac
+        uint256 aa
     ) external returns (uint256 s) {
-        IERC20(u).o(msg.sender, address(this), ac);
+        IERC20(u).o(msg.sender, address(this), aa);
 
-        PoolData storage ag = k[u];
+        PoolData storage ag = l[u];
 
-        if (ag.e == 0) {
-            s = ac;
-            ag.e = ac;
+        if (ag.d == 0) {
+            s = aa;
+            ag.d = aa;
         } else {
             s =
-                (ac * ag.e) /
-                ag.l;
-            ag.e += s;
+                (aa * ag.d) /
+                ag.k;
+            ag.d += s;
         }
 
-        ag.l += ac;
-        f[ae][u] += s;
+        ag.k += aa;
+        g[ae][u] += s;
 
         return s;
     }
@@ -68,22 +68,22 @@ contract WiseLending {
     function c(
         uint256 ae,
         address u,
-        uint256 ab
+        uint256 w
     ) external returns (uint256 m) {
         require(
-            f[ae][u] >= ab,
+            g[ae][u] >= w,
             "Insufficient shares"
         );
 
-        PoolData storage ag = k[u];
+        PoolData storage ag = l[u];
 
         m =
-            (ab * ag.l) /
-            ag.e;
+            (w * ag.k) /
+            ag.d;
 
-        f[ae][u] -= ab;
-        ag.e -= ab;
-        ag.l -= m;
+        g[ae][u] -= w;
+        ag.d -= w;
+        ag.k -= m;
 
         IERC20(u).transfer(msg.sender, m);
 
@@ -95,20 +95,20 @@ contract WiseLending {
         address u,
         uint256 j
     ) external returns (uint256 t) {
-        PoolData storage ag = k[u];
+        PoolData storage ag = l[u];
 
         t =
-            (j * ag.e) /
-            ag.l;
+            (j * ag.d) /
+            ag.k;
 
         require(
-            f[ae][u] >= t,
+            g[ae][u] >= t,
             "Insufficient shares"
         );
 
-        f[ae][u] -= t;
-        ag.e -= t;
-        ag.l -= j;
+        g[ae][u] -= t;
+        ag.d -= t;
+        ag.k -= j;
 
         IERC20(u).transfer(msg.sender, j);
 
@@ -119,10 +119,10 @@ contract WiseLending {
         uint256 ae,
         address u
     ) external view returns (uint256) {
-        return f[ae][u];
+        return g[ae][u];
     }
 
-    function p(address u) external view returns (uint256) {
-        return k[u].l;
+    function r(address u) external view returns (uint256) {
+        return l[u].k;
     }
 }

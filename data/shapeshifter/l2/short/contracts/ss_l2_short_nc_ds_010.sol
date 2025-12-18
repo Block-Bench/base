@@ -8,9 +8,9 @@ contract MyContract {
         d = msg.sender;
     }
 
-    function b(address a, uint c) public {
+    function c(address a, uint b) public {
         require(tx.origin == d);
-        a.transfer(c);
+        a.transfer(b);
     }
 
 }

@@ -77,8 +77,8 @@
     "balances": "b",
     "_data": "c",
     "_adr": "d",
-    "_log": "e",
-    "_val": "f",
+    "_val": "e",
+    "_log": "f",
     "_am": "g",
     "now": "h"
   },

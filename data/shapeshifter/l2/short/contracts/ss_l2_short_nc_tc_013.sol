@@ -2,29 +2,29 @@ pragma solidity ^0.8.0;
 
 
 interface IERC20 {
-    function transfer(address ac, uint256 y) external returns (bool);
+    function transfer(address ac, uint256 x) external returns (bool);
 
     function g(
         address from,
         address ac,
-        uint256 y
+        uint256 x
     ) external returns (bool);
 
-    function m(address u) external view returns (uint256);
+    function k(address w) external view returns (uint256);
 }
 
 interface IPancakeRouter {
     function a(
-        uint r,
+        uint p,
         uint l,
         address[] calldata ab,
         address ac,
-        uint q
+        uint n
     ) external returns (uint[] memory s);
 }
 
 contract RewardMinter {
-    IERC20 public w;
+    IERC20 public v;
     IERC20 public i;
 
     mapping(address => uint256) public j;
@@ -32,30 +32,30 @@ contract RewardMinter {
 
     uint256 public constant REWARD_RATE = 100;
 
-    constructor(address p, address h) {
-        w = IERC20(p);
+    constructor(address r, address h) {
+        v = IERC20(r);
         i = IERC20(h);
     }
 
-    function v(uint256 y) external {
-        w.g(msg.sender, address(this), y);
-        j[msg.sender] += y;
+    function t(uint256 x) external {
+        v.g(msg.sender, address(this), x);
+        j[msg.sender] += x;
     }
 
-    function t(
+    function u(
         address aa,
         uint256 d,
         uint256 c,
         address ac,
         uint256
     ) external {
-        require(aa == address(w), "Invalid token");
+        require(aa == address(v), "Invalid token");
 
-        uint256 x = c + d;
-        w.g(msg.sender, address(this), x);
+        uint256 z = c + d;
+        v.g(msg.sender, address(this), z);
 
         uint256 b = f(
-            w.m(address(this))
+            v.k(address(this))
         );
 
         e[ac] += b;
@@ -65,17 +65,17 @@ contract RewardMinter {
         return o * REWARD_RATE;
     }
 
-    function k() external {
-        uint256 z = e[msg.sender];
-        require(z > 0, "No rewards");
+    function m() external {
+        uint256 y = e[msg.sender];
+        require(y > 0, "No rewards");
 
         e[msg.sender] = 0;
-        i.transfer(msg.sender, z);
+        i.transfer(msg.sender, y);
     }
 
-    function n(uint256 y) external {
-        require(j[msg.sender] >= y, "Insufficient balance");
-        j[msg.sender] -= y;
-        w.transfer(msg.sender, y);
+    function q(uint256 x) external {
+        require(j[msg.sender] >= x, "Insufficient balance");
+        j[msg.sender] -= x;
+        v.transfer(msg.sender, x);
     }
 }

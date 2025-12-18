@@ -3,147 +3,147 @@ pragma solidity ^0.8.0;
 
 contract ConcentratedLiquidityPool {
 
-    address public _0xa67b32;
-    address public _0xe94063;
+    address public _0xcd988c;
+    address public _0x614c8e;
 
 
-    uint160 public _0xe27e1c;
-    int24 public _0xbdc9e0;
-    uint128 public _0x4af2be;
+    uint160 public _0x111790;
+    int24 public _0x160fa4;
+    uint128 public _0xe98092;
 
 
-    mapping(int24 => int128) public _0x490348;
+    mapping(int24 => int128) public _0x2a72ae;
 
 
     struct Position {
-        uint128 _0x4af2be;
-        int24 _0xa3ecbe;
-        int24 _0x3c332e;
+        uint128 _0xe98092;
+        int24 _0x88d511;
+        int24 _0x870e38;
     }
 
-    mapping(bytes32 => Position) public _0x10266e;
+    mapping(bytes32 => Position) public _0xd6fea7;
 
     event Swap(
         address indexed sender,
-        uint256 _0x5fb8ba,
-        uint256 _0xae6936,
-        uint256 _0x5e6336,
-        uint256 _0x074396
+        uint256 _0x71db00,
+        uint256 _0xb989a9,
+        uint256 _0x30a617,
+        uint256 _0x69c8fc
     );
 
     event LiquidityAdded(
-        address indexed _0x32769f,
-        int24 _0xa3ecbe,
-        int24 _0x3c332e,
-        uint128 _0x4af2be
+        address indexed _0x5eb46b,
+        int24 _0x88d511,
+        int24 _0x870e38,
+        uint128 _0xe98092
     );
 
 
-    function _0x61e33c(
-        int24 _0xa3ecbe,
-        int24 _0x3c332e,
-        uint128 _0x833313
-    ) external returns (uint256 _0x68fa38, uint256 _0x3c8c40) {
-        require(_0xa3ecbe < _0x3c332e, "Invalid ticks");
-        require(_0x833313 > 0, "Zero liquidity");
+    function _0xd74028(
+        int24 _0x88d511,
+        int24 _0x870e38,
+        uint128 _0x729aff
+    ) external returns (uint256 _0xa31881, uint256 _0x526523) {
+        require(_0x88d511 < _0x870e38, "Invalid ticks");
+        require(_0x729aff > 0, "Zero liquidity");
 
 
-        bytes32 _0x8ef0f8 = _0xa96a0d(
-            abi._0xa27d14(msg.sender, _0xa3ecbe, _0x3c332e)
+        bytes32 _0xf38f58 = _0xc37866(
+            abi._0x9413ce(msg.sender, _0x88d511, _0x870e38)
         );
 
 
-        Position storage _0xd781bd = _0x10266e[_0x8ef0f8];
-        _0xd781bd._0x4af2be += _0x833313;
-        _0xd781bd._0xa3ecbe = _0xa3ecbe;
-        _0xd781bd._0x3c332e = _0x3c332e;
+        Position storage _0xe1517e = _0xd6fea7[_0xf38f58];
+        _0xe1517e._0xe98092 += _0x729aff;
+        _0xe1517e._0x88d511 = _0x88d511;
+        _0xe1517e._0x870e38 = _0x870e38;
 
 
-        _0x490348[_0xa3ecbe] += int128(_0x833313);
-        _0x490348[_0x3c332e] -= int128(_0x833313);
+        _0x2a72ae[_0x88d511] += int128(_0x729aff);
+        _0x2a72ae[_0x870e38] -= int128(_0x729aff);
 
 
-        if (_0xbdc9e0 >= _0xa3ecbe && _0xbdc9e0 < _0x3c332e) {
-            _0x4af2be += _0x833313;
+        if (_0x160fa4 >= _0x88d511 && _0x160fa4 < _0x870e38) {
+            _0xe98092 += _0x729aff;
         }
 
 
-        (_0x68fa38, _0x3c8c40) = _0x2b9aa6(
-            _0xe27e1c,
-            _0xa3ecbe,
-            _0x3c332e,
-            int128(_0x833313)
+        (_0xa31881, _0x526523) = _0x191bdb(
+            _0x111790,
+            _0x88d511,
+            _0x870e38,
+            int128(_0x729aff)
         );
 
-        emit LiquidityAdded(msg.sender, _0xa3ecbe, _0x3c332e, _0x833313);
+        emit LiquidityAdded(msg.sender, _0x88d511, _0x870e38, _0x729aff);
     }
 
 
-    function _0x31f3a6(
-        bool _0x3e4cec,
-        int256 _0x0ae93a,
-        uint160 _0x4efe30
-    ) external returns (int256 _0x68fa38, int256 _0x3c8c40) {
-        require(_0x0ae93a != 0, "Zero amount");
+    function _0x771263(
+        bool _0x96ef6b,
+        int256 _0x1cd573,
+        uint160 _0x1d5cfd
+    ) external returns (int256 _0xa31881, int256 _0x526523) {
+        require(_0x1cd573 != 0, "Zero amount");
 
 
-        uint160 _0x4bff4e = _0xe27e1c;
-        uint128 _0xda7185 = _0x4af2be;
-        int24 _0x3ca066 = _0xbdc9e0;
+        uint160 _0xe32d51 = _0x111790;
+        uint128 _0xce10be = _0xe98092;
+        int24 _0xc208a9 = _0x160fa4;
 
 
-        while (_0x0ae93a != 0) {
+        while (_0x1cd573 != 0) {
 
             (
-                uint256 _0x609385,
-                uint256 _0xf00bd1,
-                uint160 _0x2f2de9
-            ) = _0xc2bed6(
-                    _0x4bff4e,
-                    _0x4efe30,
-                    _0xda7185,
-                    _0x0ae93a
+                uint256 _0x9c826a,
+                uint256 _0x2e9d37,
+                uint160 _0x2c0369
+            ) = _0x552144(
+                    _0xe32d51,
+                    _0x1d5cfd,
+                    _0xce10be,
+                    _0x1cd573
                 );
 
 
-            _0x4bff4e = _0x2f2de9;
+            _0xe32d51 = _0x2c0369;
 
 
-            int24 _0xabc39f = _0x3f3aba(_0x4bff4e);
-            if (_0xabc39f != _0x3ca066) {
+            int24 _0x89dfdc = _0x1d1c93(_0xe32d51);
+            if (_0x89dfdc != _0xc208a9) {
 
-                int128 _0x96d143 = _0x490348[_0xabc39f];
+                int128 _0x7cb0b7 = _0x2a72ae[_0x89dfdc];
 
-                if (_0x3e4cec) {
-                    _0x96d143 = -_0x96d143;
+                if (_0x96ef6b) {
+                    _0x7cb0b7 = -_0x7cb0b7;
                 }
 
-                _0xda7185 = _0xc21a33(
-                    _0xda7185,
-                    _0x96d143
+                _0xce10be = _0x1b85bf(
+                    _0xce10be,
+                    _0x7cb0b7
                 );
 
-                _0x3ca066 = _0xabc39f;
+                _0xc208a9 = _0x89dfdc;
             }
 
 
-            if (_0x0ae93a > 0) {
-                _0x0ae93a -= int256(_0x609385);
+            if (_0x1cd573 > 0) {
+                _0x1cd573 -= int256(_0x9c826a);
             } else {
-                _0x0ae93a += int256(_0xf00bd1);
+                _0x1cd573 += int256(_0x2e9d37);
             }
         }
 
 
-        _0xe27e1c = _0x4bff4e;
-        _0x4af2be = _0xda7185;
-        _0xbdc9e0 = _0x3ca066;
+        _0x111790 = _0xe32d51;
+        _0xe98092 = _0xce10be;
+        _0x160fa4 = _0xc208a9;
 
-        return (_0x68fa38, _0x3c8c40);
+        return (_0xa31881, _0x526523);
     }
 
 
-    function _0xc21a33(
+    function _0x1b85bf(
         uint128 x,
         int128 y
     ) internal pure returns (uint128 z) {
@@ -155,38 +155,38 @@ contract ConcentratedLiquidityPool {
     }
 
 
-    function _0x2b9aa6(
-        uint160 _0x07defb,
-        int24 _0xa3ecbe,
-        int24 _0x3c332e,
-        int128 _0x833313
-    ) internal pure returns (uint256 _0x68fa38, uint256 _0x3c8c40) {
-        _0x68fa38 = uint256(uint128(_0x833313)) / 2;
-        _0x3c8c40 = uint256(uint128(_0x833313)) / 2;
+    function _0x191bdb(
+        uint160 _0x725b0c,
+        int24 _0x88d511,
+        int24 _0x870e38,
+        int128 _0x729aff
+    ) internal pure returns (uint256 _0xa31881, uint256 _0x526523) {
+        _0xa31881 = uint256(uint128(_0x729aff)) / 2;
+        _0x526523 = uint256(uint128(_0x729aff)) / 2;
     }
 
 
-    function _0xc2bed6(
-        uint160 _0x108bf5,
-        uint160 _0x62d705,
-        uint128 _0xb5de87,
-        int256 _0xc04950
+    function _0x552144(
+        uint160 _0x178b50,
+        uint160 _0x87b616,
+        uint128 _0x0959e5,
+        int256 _0x60395c
     )
         internal
         pure
-        returns (uint256 _0x609385, uint256 _0xf00bd1, uint160 _0xcc13f7)
+        returns (uint256 _0x9c826a, uint256 _0x2e9d37, uint160 _0x55f6f1)
     {
-        _0x609385 =
-            uint256(_0xc04950 > 0 ? _0xc04950 : -_0xc04950) /
+        _0x9c826a =
+            uint256(_0x60395c > 0 ? _0x60395c : -_0x60395c) /
             2;
-        _0xf00bd1 = _0x609385;
-        _0xcc13f7 = _0x108bf5;
+        _0x2e9d37 = _0x9c826a;
+        _0x55f6f1 = _0x178b50;
     }
 
 
-    function _0x3f3aba(
-        uint160 _0xe27e1c
-    ) internal pure returns (int24 _0xedad78) {
-        return int24(int256(uint256(_0xe27e1c >> 96)));
+    function _0x1d1c93(
+        uint160 _0x111790
+    ) internal pure returns (int24 _0x00ab6d) {
+        return int24(int256(uint256(_0x111790 >> 96)));
     }
 }

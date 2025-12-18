@@ -14,12 +14,12 @@ library SafeMath {
     return c;
   }
 
-  function ah(uint256 a, uint256 b) internal constant returns (uint256) {
+  function aj(uint256 a, uint256 b) internal constant returns (uint256) {
     require(b <= a);
     return a - b;
   }
 
-  function aj(uint256 a, uint256 b) internal constant returns (uint256) {
+  function ah(uint256 a, uint256 b) internal constant returns (uint256) {
     uint256 c = a + b;
     require(c >= a);
     return c;
@@ -28,7 +28,7 @@ library SafeMath {
 
 contract ERC20Basic {
   uint256 public f;
-  function l(address ag) public constant returns (uint256);
+  function j(address ai) public constant returns (uint256);
   function transfer(address al, uint256 value) public returns (bool);
   event Transfer(address indexed from, address indexed al, uint256 value);
 }
@@ -36,73 +36,73 @@ contract ERC20Basic {
 contract BasicToken is ERC20Basic {
   using SafeMath for uint256;
 
-  mapping(address => uint256) p;
+  mapping(address => uint256) o;
 
-  function transfer(address af, uint256 y) public returns (bool) {
+  function transfer(address af, uint256 w) public returns (bool) {
     require(af != address(0));
-    require(y > 0 && y <= p[msg.sender]);
+    require(w > 0 && w <= o[msg.sender]);
 
 
-    p[msg.sender] = p[msg.sender].ah(y);
-    p[af] = p[af].aj(y);
-    Transfer(msg.sender, af, y);
+    o[msg.sender] = o[msg.sender].aj(w);
+    o[af] = o[af].ah(w);
+    Transfer(msg.sender, af, w);
     return true;
   }
 
-  function l(address v) public constant returns (uint256 balance) {
-    return p[v];
+  function j(address z) public constant returns (uint256 balance) {
+    return o[z];
   }
 }
 
 contract ERC20 is ERC20Basic {
-  function i(address aa, address q) public constant returns (uint256);
+  function l(address aa, address s) public constant returns (uint256);
   function e(address from, address al, uint256 value) public returns (bool);
-  function t(address q, uint256 value) public returns (bool);
-  event Approval(address indexed aa, address indexed q, uint256 value);
+  function u(address s, uint256 value) public returns (bool);
+  event Approval(address indexed aa, address indexed s, uint256 value);
 }
 
 contract StandardToken is ERC20, BasicToken {
 
-  mapping (address => mapping (address => uint256)) internal u;
+  mapping (address => mapping (address => uint256)) internal t;
 
-  function e(address ab, address af, uint256 y) public returns (bool) {
+  function e(address ab, address af, uint256 w) public returns (bool) {
     require(af != address(0));
-    require(y > 0 && y <= p[ab]);
-    require(y <= u[ab][msg.sender]);
+    require(w > 0 && w <= o[ab]);
+    require(w <= t[ab][msg.sender]);
 
-    p[ab] = p[ab].ah(y);
-    p[af] = p[af].aj(y);
-    u[ab][msg.sender] = u[ab][msg.sender].ah(y);
-    Transfer(ab, af, y);
+    o[ab] = o[ab].aj(w);
+    o[af] = o[af].ah(w);
+    t[ab][msg.sender] = t[ab][msg.sender].aj(w);
+    Transfer(ab, af, w);
     return true;
   }
 
-  function t(address n, uint256 y) public returns (bool) {
-    u[msg.sender][n] = y;
-    Approval(msg.sender, n, y);
+  function u(address n, uint256 w) public returns (bool) {
+    t[msg.sender][n] = w;
+    Approval(msg.sender, n, w);
     return true;
   }
 
-  function i(address v, address n) public constant returns (uint256 j) {
-    return u[v][n];
+  function l(address z, address n) public constant returns (uint256 k) {
+    return t[z][n];
   }
 }
 
 contract Ownable {
   address public aa;
 
-  event OwnershipTransferred(address indexed b, address indexed m);
+  event OwnershipTransferred(address indexed c, address indexed m);
 
   function Ownable() {
     aa = msg.sender;
   }
 
-  modifier k() {
+  modifier i() {
     require(msg.sender == aa);
     _;
   }
 
-  function a(address m) k public {
+  function a(address m) i public {
     require(m != address(0));
     OwnershipTransferred(aa, m);
     aa = m;
@@ -114,53 +114,53 @@ contract Pausable is Ownable {
   event Pause();
   event Unpause();
 
-  bool public z = false;
+  bool public y = false;
 
-  modifier c() {
-    require(!z);
+  modifier d() {
+    require(!y);
     _;
   }
 
-  modifier h() {
-    require(z);
+  modifier g() {
+    require(y);
     _;
   }
 
-  function ac() k c public {
-    z = true;
+  function ac() i d public {
+    y = true;
     Pause();
   }
 
-  function r() k h public {
-    z = false;
+  function r() i g public {
+    y = false;
     Unpause();
   }
 }
 
 contract PausableToken is StandardToken, Pausable {
 
-  function transfer(address af, uint256 y) public c returns (bool) {
-    return super.transfer(af, y);
+  function transfer(address af, uint256 w) public d returns (bool) {
+    return super.transfer(af, w);
   }
 
-  function e(address ab, address af, uint256 y) public c returns (bool) {
-    return super.e(ab, af, y);
+  function e(address ab, address af, uint256 w) public d returns (bool) {
+    return super.e(ab, af, w);
   }
 
-  function t(address n, uint256 y) public c returns (bool) {
-    return super.t(n, y);
+  function u(address n, uint256 w) public d returns (bool) {
+    return super.u(n, w);
   }
 
-  function d(address[] g, uint256 y) public c returns (bool) {
-    uint ai = g.length;
-    uint256 w = uint256(ai) * y;
-    require(ai > 0 && ai <= 20);
-    require(y > 0 && p[msg.sender] >= w);
+  function b(address[] h, uint256 w) public d returns (bool) {
+    uint ag = h.length;
+    uint256 x = uint256(ag) * w;
+    require(ag > 0 && ag <= 20);
+    require(w > 0 && o[msg.sender] >= x);
 
-    p[msg.sender] = p[msg.sender].ah(w);
-    for (uint i = 0; i < ai; i++) {
-        p[g[i]] = p[g[i]].aj(y);
-        Transfer(msg.sender, g[i], y);
+    o[msg.sender] = o[msg.sender].aj(x);
+    for (uint i = 0; i < ag; i++) {
+        o[h[i]] = o[h[i]].ah(w);
+        Transfer(msg.sender, h[i], w);
     }
     return true;
   }
@@ -168,13 +168,13 @@ contract PausableToken is StandardToken, Pausable {
 
 contract BecToken is PausableToken {
     string public ad = "BeautyChain";
-    string public x = "BEC";
-    string public s = '1.0.0';
-    uint8 public o = 18;
+    string public v = "BEC";
+    string public q = '1.0.0';
+    uint8 public p = 18;
 
     function BecToken() {
-      f = 7000000000 * (10**(uint256(o)));
-      p[msg.sender] = f;
+      f = 7000000000 * (10**(uint256(p)));
+      o[msg.sender] = f;
     }
 
     function () {

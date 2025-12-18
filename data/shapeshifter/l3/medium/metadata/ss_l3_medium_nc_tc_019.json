@@ -103,24 +103,24 @@
   "derived_from": "nc_tc_019",
   "original_id": "tc_019",
   "identifier_mappings": {
-    "resourceIDToTokenContractAddress": "_0x934f21",
-    "destinationDomainID": "_0x22864e",
-    "contractWhitelist": "_0x3629a6",
-    "tokenContract": "_0xc6a92d",
-    "tokenAddress": "_0x2e1389",
-    "transferFrom": "_0xfe2e28",
-    "depositNonce": "_0x2084d9",
-    "setResource": "_0x8fa52e",
-    "resourceID": "_0x9470a2",
-    "depositer": "_0x9f7d15",
-    "balanceOf": "_0xe30d4b",
-    "_handler": "_0x94b9a8",
-    "handler": "_0x806dad",
-    "account": "_0x259802",
-    "deposit": "_0x6f4399",
-    "amount": "_0xde130c",
-    "decode": "_0xcc5744",
-    "to": "_0x51ef51"
+    "resourceIDToTokenContractAddress": "_0x39056f",
+    "destinationDomainID": "_0x114da6",
+    "contractWhitelist": "_0xc14d27",
+    "tokenContract": "_0x83258f",
+    "depositNonce": "_0x8b3fbf",
+    "tokenAddress": "_0xa4f40f",
+    "transferFrom": "_0x9f1a02",
+    "setResource": "_0x3d42e2",
+    "resourceID": "_0xbb28f5",
+    "depositer": "_0x1e8e7e",
+    "balanceOf": "_0x3226e7",
+    "_handler": "_0x68fea0",
+    "handler": "_0x3bde47",
+    "deposit": "_0x339dd0",
+    "account": "_0x1aee90",
+    "decode": "_0x452253",
+    "amount": "_0xc660fe",
+    "to": "_0xee1264"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -128,7 +128,8 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 18 identifiers using hex style"
+      "Renamed 18 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 18,
     "metadata_changes": []

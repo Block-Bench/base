@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "compound_tusd.sol",
-      "function_name": "c",
+      "function_name": "d",
       "line_numbers": [
         45,
         76,
@@ -94,8 +94,8 @@
   "identifier_mappings": {
     "accountTokens": "a",
     "totalSupply": "b",
-    "sweepToken": "c",
-    "underlying": "d",
+    "underlying": "c",
+    "sweepToken": "d",
     "balanceOf": "e",
     "account": "f",
     "amount": "g",
@@ -115,7 +115,7 @@
     ],
     "rename_map_size": 12,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: sweepToken \u2192 c"
+      "Transformed ground_truth.vulnerable_location.function_name: sweepToken \u2192 d"
     ]
   }
 }

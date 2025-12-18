@@ -70,10 +70,10 @@
   "derived_from": "nc_ds_052",
   "original_id": "ds_052",
   "identifier_mappings": {
-    "minEligibility": "_0x710015",
-    "withdraw": "_0xc12551",
-    "redeem": "_0xb34138",
-    "adr": "_0xb276a1"
+    "minEligibility": "_0x9f74d3",
+    "withdraw": "_0x7ced25",
+    "redeem": "_0x6d3032",
+    "adr": "_0x714edd"
   },
   "transformation": {
     "strategy": "shapeshifter",

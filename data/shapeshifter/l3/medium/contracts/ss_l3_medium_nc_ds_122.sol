@@ -3,76 +3,76 @@ pragma solidity ^0.4.9;
 contract WalletEvents {
 
 
-  event Confirmation(address _0xf09332, bytes32 _0xd6a51d);
-  event Revoke(address _0xf09332, bytes32 _0xd6a51d);
+  event Confirmation(address _0xd250c6, bytes32 _0x6d256b);
+  event Revoke(address _0xd250c6, bytes32 _0x6d256b);
 
 
-  event OwnerChanged(address _0x6e9010, address _0x3f1df8);
-  event OwnerAdded(address _0x3f1df8);
-  event OwnerRemoved(address _0x6e9010);
+  event OwnerChanged(address _0xdacc57, address _0xdd2928);
+  event OwnerAdded(address _0xdd2928);
+  event OwnerRemoved(address _0xdacc57);
 
 
-  event RequirementChanged(uint _0x4430ed);
+  event RequirementChanged(uint _0x15db06);
 
 
-  event Deposit(address _0x1ec06e, uint value);
+  event Deposit(address _0x01cacd, uint value);
 
-  event SingleTransact(address _0xf09332, uint value, address _0x563b7d, bytes data, address _0xd66da8);
+  event SingleTransact(address _0xd250c6, uint value, address _0x29ca48, bytes data, address _0x221d8e);
 
-  event MultiTransact(address _0xf09332, bytes32 _0xd6a51d, uint value, address _0x563b7d, bytes data, address _0xd66da8);
+  event MultiTransact(address _0xd250c6, bytes32 _0x6d256b, uint value, address _0x29ca48, bytes data, address _0x221d8e);
 
-  event ConfirmationNeeded(bytes32 _0xd6a51d, address _0x72e704, uint value, address _0x563b7d, bytes data);
+  event ConfirmationNeeded(bytes32 _0x6d256b, address _0xe7adc7, uint value, address _0x29ca48, bytes data);
 }
 
 contract WalletAbi {
 
-  function _0x0e7ce0(bytes32 _0x509c8e) external;
+  function _0xd4e63d(bytes32 _0x823dea) external;
 
 
-  function _0x6627a9(address _0x1ec06e, address _0x6f93a7) external;
+  function _0x766f1a(address _0x01cacd, address _0xa2c799) external;
 
-  function _0x498fb8(address _0x58d3a3) external;
+  function _0x21a022(address _0x9da68b) external;
 
-  function _0xf09728(address _0x58d3a3) external;
+  function _0x58e1f8(address _0x9da68b) external;
 
-  function _0xa1b5fd(uint _0x93f388) external;
+  function _0xefbd6e(uint _0x58fed9) external;
 
-  function _0x8d666b(address _0xe5b3c4) constant returns (bool);
+  function _0x644d1a(address _0xd8bd20) constant returns (bool);
 
-  function _0x834934(bytes32 _0x509c8e, address _0x58d3a3) external constant returns (bool);
+  function _0xb2aa02(bytes32 _0x823dea, address _0x9da68b) external constant returns (bool);
 
 
-  function _0x67fc4b(uint _0x47197d) external;
+  function _0xbd79c8(uint _0xbd2bcf) external;
 
-  function _0xbe8b9a(address _0x6f93a7, uint _0x6affe5, bytes _0x480440) external returns (bytes32 _0xa52393);
-  function _0x6c68ad(bytes32 _0x8f329a) returns (bool _0xc54bd8);
+  function _0x942fc1(address _0xa2c799, uint _0x4333e5, bytes _0x9357e0) external returns (bytes32 _0x311738);
+  function _0x073f5c(bytes32 _0x02e515) returns (bool _0xde467c);
 }
 
 contract WalletLibrary is WalletEvents {
 
 
   struct PendingState {
-    uint _0x845f3c;
-    uint _0x94dba6;
-    uint _0x62166b;
+    uint _0x8fc7a8;
+    uint _0x9f6298;
+    uint _0x7b6206;
   }
 
 
   struct Transaction {
-    address _0x563b7d;
+    address _0x29ca48;
     uint value;
     bytes data;
   }
 
 
-  modifier _0x828c03 {
-    if (_0x8d666b(msg.sender))
+  modifier _0xf4c9ef {
+    if (_0x644d1a(msg.sender))
       _;
   }
 
 
-  modifier _0x4f1487(bytes32 _0x509c8e) {
-    if (_0x2a762f(_0x509c8e))
+  modifier _0x406c64(bytes32 _0x823dea) {
+    if (_0x14d231(_0x823dea))
       _;
   }
 
@@ -84,307 +84,307 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function _0x161280(address[] _0x721fb9, uint _0x6c7af5) {
-    _0xe2023d = _0x721fb9.length + 1;
-    _0xcf0ea1[1] = uint(msg.sender);
-    _0x66195b[uint(msg.sender)] = 1;
-    for (uint i = 0; i < _0x721fb9.length; ++i)
+  function _0xf3a6f5(address[] _0xed2c75, uint _0xd055f6) {
+    _0xc0629e = _0xed2c75.length + 1;
+    _0x14971a[1] = uint(msg.sender);
+    _0xacc4b8[uint(msg.sender)] = 1;
+    for (uint i = 0; i < _0xed2c75.length; ++i)
     {
-      _0xcf0ea1[2 + i] = uint(_0x721fb9[i]);
-      _0x66195b[uint(_0x721fb9[i])] = 2 + i;
+      _0x14971a[2 + i] = uint(_0xed2c75[i]);
+      _0xacc4b8[uint(_0xed2c75[i])] = 2 + i;
     }
-    _0x83466a = _0x6c7af5;
+    if (gasleft() > 0) { _0x19072f = _0xd055f6; }
   }
 
 
-  function _0x0e7ce0(bytes32 _0x509c8e) external {
-    uint _0x0f078d = _0x66195b[uint(msg.sender)];
+  function _0xd4e63d(bytes32 _0x823dea) external {
+    uint _0x0df7d6 = _0xacc4b8[uint(msg.sender)];
 
-    if (_0x0f078d == 0) return;
-    uint _0x576e26 = 2**_0x0f078d;
-    var _0x5cfaa8 = _0x0ec78f[_0x509c8e];
-    if (_0x5cfaa8._0x94dba6 & _0x576e26 > 0) {
-      _0x5cfaa8._0x845f3c++;
-      _0x5cfaa8._0x94dba6 -= _0x576e26;
-      Revoke(msg.sender, _0x509c8e);
+    if (_0x0df7d6 == 0) return;
+    uint _0x6c30d4 = 2**_0x0df7d6;
+    var _0x3ba741 = _0xa96efb[_0x823dea];
+    if (_0x3ba741._0x9f6298 & _0x6c30d4 > 0) {
+      _0x3ba741._0x8fc7a8++;
+      _0x3ba741._0x9f6298 -= _0x6c30d4;
+      Revoke(msg.sender, _0x823dea);
     }
   }
 
 
-  function _0x6627a9(address _0x1ec06e, address _0x6f93a7) _0x4f1487(_0x962efa(msg.data)) external {
-    if (_0x8d666b(_0x6f93a7)) return;
-    uint _0x0f078d = _0x66195b[uint(_0x1ec06e)];
-    if (_0x0f078d == 0) return;
+  function _0x766f1a(address _0x01cacd, address _0xa2c799) _0x406c64(_0x90b075(msg.data)) external {
+    if (_0x644d1a(_0xa2c799)) return;
+    uint _0x0df7d6 = _0xacc4b8[uint(_0x01cacd)];
+    if (_0x0df7d6 == 0) return;
 
-    _0x7a7f3c();
-    _0xcf0ea1[_0x0f078d] = uint(_0x6f93a7);
-    _0x66195b[uint(_0x1ec06e)] = 0;
-    _0x66195b[uint(_0x6f93a7)] = _0x0f078d;
-    OwnerChanged(_0x1ec06e, _0x6f93a7);
+    _0x7f2af0();
+    _0x14971a[_0x0df7d6] = uint(_0xa2c799);
+    _0xacc4b8[uint(_0x01cacd)] = 0;
+    _0xacc4b8[uint(_0xa2c799)] = _0x0df7d6;
+    OwnerChanged(_0x01cacd, _0xa2c799);
   }
 
-  function _0x498fb8(address _0x58d3a3) _0x4f1487(_0x962efa(msg.data)) external {
-    if (_0x8d666b(_0x58d3a3)) return;
+  function _0x21a022(address _0x9da68b) _0x406c64(_0x90b075(msg.data)) external {
+    if (_0x644d1a(_0x9da68b)) return;
 
-    _0x7a7f3c();
-    if (_0xe2023d >= _0xa1f487)
-      _0x66f955();
-    if (_0xe2023d >= _0xa1f487)
+    _0x7f2af0();
+    if (_0xc0629e >= _0x8d5ca3)
+      _0xe8684e();
+    if (_0xc0629e >= _0x8d5ca3)
       return;
-    _0xe2023d++;
-    _0xcf0ea1[_0xe2023d] = uint(_0x58d3a3);
-    _0x66195b[uint(_0x58d3a3)] = _0xe2023d;
-    OwnerAdded(_0x58d3a3);
+    _0xc0629e++;
+    _0x14971a[_0xc0629e] = uint(_0x9da68b);
+    _0xacc4b8[uint(_0x9da68b)] = _0xc0629e;
+    OwnerAdded(_0x9da68b);
   }
 
-  function _0xf09728(address _0x58d3a3) _0x4f1487(_0x962efa(msg.data)) external {
-    uint _0x0f078d = _0x66195b[uint(_0x58d3a3)];
-    if (_0x0f078d == 0) return;
-    if (_0x83466a > _0xe2023d - 1) return;
+  function _0x58e1f8(address _0x9da68b) _0x406c64(_0x90b075(msg.data)) external {
+    uint _0x0df7d6 = _0xacc4b8[uint(_0x9da68b)];
+    if (_0x0df7d6 == 0) return;
+    if (_0x19072f > _0xc0629e - 1) return;
 
-    _0xcf0ea1[_0x0f078d] = 0;
-    _0x66195b[uint(_0x58d3a3)] = 0;
-    _0x7a7f3c();
-    _0x66f955();
-    OwnerRemoved(_0x58d3a3);
+    _0x14971a[_0x0df7d6] = 0;
+    _0xacc4b8[uint(_0x9da68b)] = 0;
+    _0x7f2af0();
+    _0xe8684e();
+    OwnerRemoved(_0x9da68b);
   }
 
-  function _0xa1b5fd(uint _0x93f388) _0x4f1487(_0x962efa(msg.data)) external {
-    if (_0x93f388 > _0xe2023d) return;
-    if (block.timestamp > 0) { _0x83466a = _0x93f388; }
-    _0x7a7f3c();
-    RequirementChanged(_0x93f388);
-  }
-
-
-  function _0x972237(uint _0x0f078d) external constant returns (address) {
-    return address(_0xcf0ea1[_0x0f078d + 1]);
-  }
-
-  function _0x8d666b(address _0xe5b3c4) constant returns (bool) {
-    return _0x66195b[uint(_0xe5b3c4)] > 0;
-  }
-
-  function _0x834934(bytes32 _0x509c8e, address _0x58d3a3) external constant returns (bool) {
-    var _0x5cfaa8 = _0x0ec78f[_0x509c8e];
-    uint _0x0f078d = _0x66195b[uint(_0x58d3a3)];
-
-
-    if (_0x0f078d == 0) return false;
-
-
-    uint _0x576e26 = 2**_0x0f078d;
-    return !(_0x5cfaa8._0x94dba6 & _0x576e26 == 0);
+  function _0xefbd6e(uint _0x58fed9) _0x406c64(_0x90b075(msg.data)) external {
+    if (_0x58fed9 > _0xc0629e) return;
+    _0x19072f = _0x58fed9;
+    _0x7f2af0();
+    RequirementChanged(_0x58fed9);
   }
 
 
-  function _0xacc941(uint _0xb191d6) {
-    if (block.timestamp > 0) { _0x7c0d2c = _0xb191d6; }
-    _0xa723a9 = _0xc6338b();
+  function _0x750532(uint _0x0df7d6) external constant returns (address) {
+    return address(_0x14971a[_0x0df7d6 + 1]);
   }
 
-  function _0x67fc4b(uint _0x47197d) _0x4f1487(_0x962efa(msg.data)) external {
-    _0x7c0d2c = _0x47197d;
+  function _0x644d1a(address _0xd8bd20) constant returns (bool) {
+    return _0xacc4b8[uint(_0xd8bd20)] > 0;
   }
 
-  function _0x4d7ff7() _0x4f1487(_0x962efa(msg.data)) external {
-    _0x533bef = 0;
-  }
+  function _0xb2aa02(bytes32 _0x823dea, address _0x9da68b) external constant returns (bool) {
+    var _0x3ba741 = _0xa96efb[_0x823dea];
+    uint _0x0df7d6 = _0xacc4b8[uint(_0x9da68b)];
 
 
-  function _0x9f9232(address[] _0x721fb9, uint _0x6c7af5, uint _0xd50d7b) {
-    _0xacc941(_0xd50d7b);
-    _0x161280(_0x721fb9, _0x6c7af5);
-  }
+    if (_0x0df7d6 == 0) return false;
 
 
-  function _0x29657b(address _0x6f93a7) _0x4f1487(_0x962efa(msg.data)) external {
-    suicide(_0x6f93a7);
+    uint _0x6c30d4 = 2**_0x0df7d6;
+    return !(_0x3ba741._0x9f6298 & _0x6c30d4 == 0);
   }
 
 
-  function _0xbe8b9a(address _0x6f93a7, uint _0x6affe5, bytes _0x480440) external _0x828c03 returns (bytes32 _0xa52393) {
+  function _0x37d774(uint _0x7630da) {
+    _0x5dd42c = _0x7630da;
+    _0x25b207 = _0xb1de9a();
+  }
 
-    if ((_0x480440.length == 0 && _0xde6ec9(_0x6affe5)) || _0x83466a == 1) {
+  function _0xbd79c8(uint _0xbd2bcf) _0x406c64(_0x90b075(msg.data)) external {
+    _0x5dd42c = _0xbd2bcf;
+  }
 
-      address _0xd66da8;
-      if (_0x6f93a7 == 0) {
-        _0xd66da8 = _0x731914(_0x6affe5, _0x480440);
+  function _0xd6d91b() _0x406c64(_0x90b075(msg.data)) external {
+    _0xad438a = 0;
+  }
+
+
+  function _0xf3db8d(address[] _0xed2c75, uint _0xd055f6, uint _0xc8677d) {
+    _0x37d774(_0xc8677d);
+    _0xf3a6f5(_0xed2c75, _0xd055f6);
+  }
+
+
+  function _0xcb4ff3(address _0xa2c799) _0x406c64(_0x90b075(msg.data)) external {
+    suicide(_0xa2c799);
+  }
+
+
+  function _0x942fc1(address _0xa2c799, uint _0x4333e5, bytes _0x9357e0) external _0xf4c9ef returns (bytes32 _0x311738) {
+
+    if ((_0x9357e0.length == 0 && _0x98bded(_0x4333e5)) || _0x19072f == 1) {
+
+      address _0x221d8e;
+      if (_0xa2c799 == 0) {
+        if (block.timestamp > 0) { _0x221d8e = _0xb1f667(_0x4333e5, _0x9357e0); }
       } else {
-        if (!_0x6f93a7.call.value(_0x6affe5)(_0x480440))
+        if (!_0xa2c799.call.value(_0x4333e5)(_0x9357e0))
           throw;
       }
-      SingleTransact(msg.sender, _0x6affe5, _0x6f93a7, _0x480440, _0xd66da8);
+      SingleTransact(msg.sender, _0x4333e5, _0xa2c799, _0x9357e0, _0x221d8e);
     } else {
 
-      if (msg.sender != address(0) || msg.sender == address(0)) { _0xa52393 = _0x962efa(msg.data, block.number); }
+      _0x311738 = _0x90b075(msg.data, block.number);
 
-      if (_0x5a99c9[_0xa52393]._0x563b7d == 0 && _0x5a99c9[_0xa52393].value == 0 && _0x5a99c9[_0xa52393].data.length == 0) {
-        _0x5a99c9[_0xa52393]._0x563b7d = _0x6f93a7;
-        _0x5a99c9[_0xa52393].value = _0x6affe5;
-        _0x5a99c9[_0xa52393].data = _0x480440;
+      if (_0x2c77b4[_0x311738]._0x29ca48 == 0 && _0x2c77b4[_0x311738].value == 0 && _0x2c77b4[_0x311738].data.length == 0) {
+        _0x2c77b4[_0x311738]._0x29ca48 = _0xa2c799;
+        _0x2c77b4[_0x311738].value = _0x4333e5;
+        _0x2c77b4[_0x311738].data = _0x9357e0;
       }
-      if (!_0x6c68ad(_0xa52393)) {
-        ConfirmationNeeded(_0xa52393, msg.sender, _0x6affe5, _0x6f93a7, _0x480440);
+      if (!_0x073f5c(_0x311738)) {
+        ConfirmationNeeded(_0x311738, msg.sender, _0x4333e5, _0xa2c799, _0x9357e0);
       }
     }
   }
 
-  function _0x731914(uint _0x6affe5, bytes _0xff655d) internal returns (address _0x4ca8cb) {
+  function _0xb1f667(uint _0x4333e5, bytes _0x907912) internal returns (address _0xf221dd) {
     assembly {
-      _0x4ca8cb := _0x731914(_0x6affe5, add(_0xff655d, 0x20), mload(_0xff655d))
-      _0x7a52fd(_0x7c1b9c, iszero(extcodesize(_0x4ca8cb)))
+      _0xf221dd := _0xb1f667(_0x4333e5, add(_0x907912, 0x20), mload(_0x907912))
+      _0x60b653(_0x7e989d, iszero(extcodesize(_0xf221dd)))
     }
   }
 
 
-  function _0x6c68ad(bytes32 _0x8f329a) _0x4f1487(_0x8f329a) returns (bool _0xc54bd8) {
-    if (_0x5a99c9[_0x8f329a]._0x563b7d != 0 || _0x5a99c9[_0x8f329a].value != 0 || _0x5a99c9[_0x8f329a].data.length != 0) {
-      address _0xd66da8;
-      if (_0x5a99c9[_0x8f329a]._0x563b7d == 0) {
-        if (gasleft() > 0) { _0xd66da8 = _0x731914(_0x5a99c9[_0x8f329a].value, _0x5a99c9[_0x8f329a].data); }
+  function _0x073f5c(bytes32 _0x02e515) _0x406c64(_0x02e515) returns (bool _0xde467c) {
+    if (_0x2c77b4[_0x02e515]._0x29ca48 != 0 || _0x2c77b4[_0x02e515].value != 0 || _0x2c77b4[_0x02e515].data.length != 0) {
+      address _0x221d8e;
+      if (_0x2c77b4[_0x02e515]._0x29ca48 == 0) {
+        _0x221d8e = _0xb1f667(_0x2c77b4[_0x02e515].value, _0x2c77b4[_0x02e515].data);
       } else {
-        if (!_0x5a99c9[_0x8f329a]._0x563b7d.call.value(_0x5a99c9[_0x8f329a].value)(_0x5a99c9[_0x8f329a].data))
+        if (!_0x2c77b4[_0x02e515]._0x29ca48.call.value(_0x2c77b4[_0x02e515].value)(_0x2c77b4[_0x02e515].data))
           throw;
       }
 
-      MultiTransact(msg.sender, _0x8f329a, _0x5a99c9[_0x8f329a].value, _0x5a99c9[_0x8f329a]._0x563b7d, _0x5a99c9[_0x8f329a].data, _0xd66da8);
-      delete _0x5a99c9[_0x8f329a];
+      MultiTransact(msg.sender, _0x02e515, _0x2c77b4[_0x02e515].value, _0x2c77b4[_0x02e515]._0x29ca48, _0x2c77b4[_0x02e515].data, _0x221d8e);
+      delete _0x2c77b4[_0x02e515];
       return true;
     }
   }
 
 
-  function _0x2a762f(bytes32 _0x509c8e) internal returns (bool) {
+  function _0x14d231(bytes32 _0x823dea) internal returns (bool) {
 
-    uint _0x0f078d = _0x66195b[uint(msg.sender)];
+    uint _0x0df7d6 = _0xacc4b8[uint(msg.sender)];
 
-    if (_0x0f078d == 0) return;
+    if (_0x0df7d6 == 0) return;
 
-    var _0x5cfaa8 = _0x0ec78f[_0x509c8e];
+    var _0x3ba741 = _0xa96efb[_0x823dea];
 
-    if (_0x5cfaa8._0x845f3c == 0) {
+    if (_0x3ba741._0x8fc7a8 == 0) {
 
-      _0x5cfaa8._0x845f3c = _0x83466a;
+      _0x3ba741._0x8fc7a8 = _0x19072f;
 
-      _0x5cfaa8._0x94dba6 = 0;
-      _0x5cfaa8._0x62166b = _0xdd2689.length++;
-      _0xdd2689[_0x5cfaa8._0x62166b] = _0x509c8e;
+      _0x3ba741._0x9f6298 = 0;
+      _0x3ba741._0x7b6206 = _0xd0e2e4.length++;
+      _0xd0e2e4[_0x3ba741._0x7b6206] = _0x823dea;
     }
 
-    uint _0x576e26 = 2**_0x0f078d;
+    uint _0x6c30d4 = 2**_0x0df7d6;
 
-    if (_0x5cfaa8._0x94dba6 & _0x576e26 == 0) {
-      Confirmation(msg.sender, _0x509c8e);
+    if (_0x3ba741._0x9f6298 & _0x6c30d4 == 0) {
+      Confirmation(msg.sender, _0x823dea);
 
-      if (_0x5cfaa8._0x845f3c <= 1) {
+      if (_0x3ba741._0x8fc7a8 <= 1) {
 
-        delete _0xdd2689[_0x0ec78f[_0x509c8e]._0x62166b];
-        delete _0x0ec78f[_0x509c8e];
+        delete _0xd0e2e4[_0xa96efb[_0x823dea]._0x7b6206];
+        delete _0xa96efb[_0x823dea];
         return true;
       }
       else
       {
 
-        _0x5cfaa8._0x845f3c--;
-        _0x5cfaa8._0x94dba6 |= _0x576e26;
+        _0x3ba741._0x8fc7a8--;
+        _0x3ba741._0x9f6298 |= _0x6c30d4;
       }
     }
   }
 
-  function _0x66f955() private {
-    uint _0x0efc78 = 1;
-    while (_0x0efc78 < _0xe2023d)
+  function _0xe8684e() private {
+    uint _0x07f57e = 1;
+    while (_0x07f57e < _0xc0629e)
     {
-      while (_0x0efc78 < _0xe2023d && _0xcf0ea1[_0x0efc78] != 0) _0x0efc78++;
-      while (_0xe2023d > 1 && _0xcf0ea1[_0xe2023d] == 0) _0xe2023d--;
-      if (_0x0efc78 < _0xe2023d && _0xcf0ea1[_0xe2023d] != 0 && _0xcf0ea1[_0x0efc78] == 0)
+      while (_0x07f57e < _0xc0629e && _0x14971a[_0x07f57e] != 0) _0x07f57e++;
+      while (_0xc0629e > 1 && _0x14971a[_0xc0629e] == 0) _0xc0629e--;
+      if (_0x07f57e < _0xc0629e && _0x14971a[_0xc0629e] != 0 && _0x14971a[_0x07f57e] == 0)
       {
-        _0xcf0ea1[_0x0efc78] = _0xcf0ea1[_0xe2023d];
-        _0x66195b[_0xcf0ea1[_0x0efc78]] = _0x0efc78;
-        _0xcf0ea1[_0xe2023d] = 0;
+        _0x14971a[_0x07f57e] = _0x14971a[_0xc0629e];
+        _0xacc4b8[_0x14971a[_0x07f57e]] = _0x07f57e;
+        _0x14971a[_0xc0629e] = 0;
       }
     }
   }
 
 
-  function _0xde6ec9(uint _0x6affe5) internal _0x828c03 returns (bool) {
+  function _0x98bded(uint _0x4333e5) internal _0xf4c9ef returns (bool) {
 
-    if (_0xc6338b() > _0xa723a9) {
-      if (true) { _0x533bef = 0; }
-      _0xa723a9 = _0xc6338b();
+    if (_0xb1de9a() > _0x25b207) {
+      if (true) { _0xad438a = 0; }
+      _0x25b207 = _0xb1de9a();
     }
 
 
-    if (_0x533bef + _0x6affe5 >= _0x533bef && _0x533bef + _0x6affe5 <= _0x7c0d2c) {
-      _0x533bef += _0x6affe5;
+    if (_0xad438a + _0x4333e5 >= _0xad438a && _0xad438a + _0x4333e5 <= _0x5dd42c) {
+      _0xad438a += _0x4333e5;
       return true;
     }
     return false;
   }
 
 
-  function _0xc6338b() private constant returns (uint) { return _0xae8e75 / 1 days; }
+  function _0xb1de9a() private constant returns (uint) { return _0x79ad96 / 1 days; }
 
-  function _0x7a7f3c() internal {
-    uint length = _0xdd2689.length;
+  function _0x7f2af0() internal {
+    uint length = _0xd0e2e4.length;
 
     for (uint i = 0; i < length; ++i) {
-      delete _0x5a99c9[_0xdd2689[i]];
+      delete _0x2c77b4[_0xd0e2e4[i]];
 
-      if (_0xdd2689[i] != 0)
-        delete _0x0ec78f[_0xdd2689[i]];
+      if (_0xd0e2e4[i] != 0)
+        delete _0xa96efb[_0xd0e2e4[i]];
     }
 
-    delete _0xdd2689;
+    delete _0xd0e2e4;
   }
 
 
   address constant _walletLibrary = 0xcafecafecafecafecafecafecafecafecafecafe;
 
 
-  uint public _0x83466a;
+  uint public _0x19072f;
 
-  uint public _0xe2023d;
+  uint public _0xc0629e;
 
-  uint public _0x7c0d2c;
-  uint public _0x533bef;
-  uint public _0xa723a9;
-
-
-  uint[256] _0xcf0ea1;
-
-  uint constant _0xa1f487 = 250;
-
-  mapping(uint => uint) _0x66195b;
-
-  mapping(bytes32 => PendingState) _0x0ec78f;
-  bytes32[] _0xdd2689;
+  uint public _0x5dd42c;
+  uint public _0xad438a;
+  uint public _0x25b207;
 
 
-  mapping (bytes32 => Transaction) _0x5a99c9;
+  uint[256] _0x14971a;
+
+  uint constant _0x8d5ca3 = 250;
+
+  mapping(uint => uint) _0xacc4b8;
+
+  mapping(bytes32 => PendingState) _0xa96efb;
+  bytes32[] _0xd0e2e4;
+
+
+  mapping (bytes32 => Transaction) _0x2c77b4;
 }
 
 contract Wallet is WalletEvents {
 
 
-  function Wallet(address[] _0x721fb9, uint _0x6c7af5, uint _0xd50d7b) {
+  function Wallet(address[] _0xed2c75, uint _0xd055f6, uint _0xc8677d) {
 
-    bytes4 sig = bytes4(_0x962efa("initWallet(address[],uint256,uint256)"));
-    address _0x764ecf = _walletLibrary;
+    bytes4 sig = bytes4(_0x90b075("initWallet(address[],uint256,uint256)"));
+    address _0xb84592 = _walletLibrary;
 
 
-    uint _0x4c5e82 = (2 + _0x721fb9.length);
-    uint _0x5a0e14 = (2 + _0x4c5e82) * 32;
+    uint _0xd8b645 = (2 + _0xed2c75.length);
+    uint _0xdbec6b = (2 + _0xd8b645) * 32;
 
     assembly {
 
       mstore(0x0, sig)
 
 
-      _0xa8611b(0x4,  sub(_0xe2c29f, _0x5a0e14), _0x5a0e14)
+      _0x59b2bf(0x4,  sub(_0x490e50, _0xdbec6b), _0xdbec6b)
 
-      delegatecall(sub(gas, 10000), _0x764ecf, 0x0, add(_0x5a0e14, 0x4), 0x0, 0x0)
+      delegatecall(sub(gas, 10000), _0xb84592, 0x0, add(_0xdbec6b, 0x4), 0x0, 0x0)
     }
   }
 
@@ -398,16 +398,16 @@ contract Wallet is WalletEvents {
   }
 
 
-  function _0x972237(uint _0x0f078d) constant returns (address) {
-    return address(_0xcf0ea1[_0x0f078d + 1]);
+  function _0x750532(uint _0x0df7d6) constant returns (address) {
+    return address(_0x14971a[_0x0df7d6 + 1]);
   }
 
 
-  function _0x834934(bytes32 _0x509c8e, address _0x58d3a3) external constant returns (bool) {
+  function _0xb2aa02(bytes32 _0x823dea, address _0x9da68b) external constant returns (bool) {
     return _walletLibrary.delegatecall(msg.data);
   }
 
-  function _0x8d666b(address _0xe5b3c4) constant returns (bool) {
+  function _0x644d1a(address _0xd8bd20) constant returns (bool) {
     return _walletLibrary.delegatecall(msg.data);
   }
 
@@ -415,14 +415,14 @@ contract Wallet is WalletEvents {
   address constant _walletLibrary = 0xcafecafecafecafecafecafecafecafecafecafe;
 
 
-  uint public _0x83466a;
+  uint public _0x19072f;
 
-  uint public _0xe2023d;
+  uint public _0xc0629e;
 
-  uint public _0x7c0d2c;
-  uint public _0x533bef;
-  uint public _0xa723a9;
+  uint public _0x5dd42c;
+  uint public _0xad438a;
+  uint public _0x25b207;
 
 
-  uint[256] _0xcf0ea1;
+  uint[256] _0x14971a;
 }

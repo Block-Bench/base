@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "TokenVault",
-      "function_name": "_0xcbd6c9",
+      "function_name": "_0x3e80f5",
       "line_numbers": []
     },
     "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 24",
@@ -66,10 +66,10 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "withdrawBalance": "_0xcbd6c9",
-    "addToBalance": "_0xc48ba3",
-    "userBalance": "_0x009f91",
-    "getBalance": "_0xd8d8d1"
+    "withdrawBalance": "_0x3e80f5",
+    "addToBalance": "_0x777f8c",
+    "userBalance": "_0x1b5bde",
+    "getBalance": "_0x9c42a0"
   },
   "original_contract_file": "base/contracts/ds_045.sol",
   "sanitized_from": "ds_045",
@@ -85,7 +85,7 @@
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0xcbd6c9"
+      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0x3e80f5"
     ]
   }
 }

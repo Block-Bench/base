@@ -1,103 +1,103 @@
 pragma solidity ^0.8.0;
 
 interface IUniswapV2Pair {
-    function j()
+    function i()
         external
         view
-        returns (uint112 u, uint112 p, uint32 a);
+        returns (uint112 s, uint112 p, uint32 a);
 
-    function i() external view returns (uint256);
+    function g() external view returns (uint256);
 }
 
 interface IERC20 {
-    function n(address w) external view returns (uint256);
+    function n(address z) external view returns (uint256);
 
-    function transfer(address af, uint256 aa) external returns (bool);
+    function transfer(address af, uint256 ab) external returns (bool);
 
     function f(
         address from,
         address af,
-        uint256 aa
+        uint256 ab
     ) external returns (bool);
 }
 
 contract LendingVault {
     struct Position {
         uint256 e;
-        uint256 q;
+        uint256 u;
     }
 
     mapping(address => Position) public m;
 
-    address public z;
-    address public k;
+    address public y;
+    address public l;
     uint256 public constant COLLATERAL_RATIO = 150;
 
-    constructor(address t, address g) {
-        z = t;
-        k = g;
+    constructor(address t, address h) {
+        y = t;
+        l = h;
     }
 
-    function y(uint256 aa) external {
-        IERC20(z).f(msg.sender, address(this), aa);
-        m[msg.sender].e += aa;
+    function v(uint256 ab) external {
+        IERC20(y).f(msg.sender, address(this), ab);
+        m[msg.sender].e += ab;
     }
 
-    function ac(uint256 aa) external {
-        uint256 b = c(
+    function aa(uint256 ab) external {
+        uint256 c = b(
             m[msg.sender].e
         );
-        uint256 o = (b * 100) / COLLATERAL_RATIO;
+        uint256 o = (c * 100) / COLLATERAL_RATIO;
 
         require(
-            m[msg.sender].q + aa <= o,
+            m[msg.sender].u + ab <= o,
             "Insufficient collateral"
         );
 
-        m[msg.sender].q += aa;
-        IERC20(k).transfer(msg.sender, aa);
+        m[msg.sender].u += ab;
+        IERC20(l).transfer(msg.sender, ab);
     }
 
-    function c(uint256 s) public view returns (uint256) {
-        if (s == 0) return 0;
+    function b(uint256 q) public view returns (uint256) {
+        if (q == 0) return 0;
 
-        IUniswapV2Pair ae = IUniswapV2Pair(z);
+        IUniswapV2Pair ae = IUniswapV2Pair(y);
 
-        (uint112 u, uint112 p, ) = ae.j();
-        uint256 i = ae.i();
+        (uint112 s, uint112 p, ) = ae.i();
+        uint256 g = ae.g();
 
-        uint256 x = (uint256(u) * s) / i;
-        uint256 v = (uint256(p) * s) / i;
+        uint256 w = (uint256(s) * q) / g;
+        uint256 x = (uint256(p) * q) / g;
 
-        uint256 ab = x;
-        uint256 l = x + v;
+        uint256 ac = w;
+        uint256 k = w + x;
 
-        return l;
+        return k;
     }
 
-    function ad(uint256 aa) external {
-        require(m[msg.sender].q >= aa, "Repay exceeds debt");
+    function ad(uint256 ab) external {
+        require(m[msg.sender].u >= ab, "Repay exceeds debt");
 
-        IERC20(k).f(msg.sender, address(this), aa);
-        m[msg.sender].q -= aa;
+        IERC20(l).f(msg.sender, address(this), ab);
+        m[msg.sender].u -= ab;
     }
 
-    function r(uint256 aa) external {
+    function r(uint256 ab) external {
         require(
-            m[msg.sender].e >= aa,
+            m[msg.sender].e >= ab,
             "Insufficient balance"
         );
 
-        uint256 h = m[msg.sender].e - aa;
-        uint256 d = c(h);
+        uint256 j = m[msg.sender].e - ab;
+        uint256 d = b(j);
         uint256 o = (d * 100) / COLLATERAL_RATIO;
 
         require(
-            m[msg.sender].q <= o,
+            m[msg.sender].u <= o,
             "Withdrawal would liquidate position"
         );
 
-        m[msg.sender].e -= aa;
-        IERC20(z).transfer(msg.sender, aa);
+        m[msg.sender].e -= ab;
+        IERC20(y).transfer(msg.sender, ab);
     }
 }

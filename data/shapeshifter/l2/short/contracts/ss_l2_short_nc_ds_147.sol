@@ -23,7 +23,7 @@ pragma solidity ^0.4.0;
      }
 
 
-     function d() {
+     function f() {
 
 
          bool h = (block.number % 2) == 0;
@@ -41,7 +41,7 @@ pragma solidity ^0.4.0;
      }
 
 
-     function f() {
+     function d() {
          if(msg.sender != b) { throw; }
 
          for (uint i = 0; i < g.length; i++) {

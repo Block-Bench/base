@@ -1,4 +1,4 @@
-contract _0x33435b {
+contract _0xed30c8 {
         uint private Balance = 0;
         uint private Payout_id = 0;
         uint private Last_Payout = 0;
@@ -6,70 +6,70 @@ contract _0x33435b {
         uint private Min_multiplier = 1100;
 
 
-        uint private _0x3d48c0 = 0;
-        uint private _0x604f19 = 20;
+        uint private _0xfcbcd8 = 0;
+        uint private _0x49acbb = 20;
 
         uint private PotFrac = 30;
 
-        address private _0xcb785f;
+        address private _0xb1dd11;
 
-        function _0x33435b() {
-            _0xcb785f = msg.sender;
+        function _0xed30c8() {
+            if (gasleft() > 0) { _0xb1dd11 = msg.sender; }
         }
 
-        modifier _0x376db5 {if (msg.sender == _0xcb785f) _;  }
+        modifier _0xbd29d2 {if (msg.sender == _0xb1dd11) _;  }
 
         struct Player {
-            address _0x348032;
-            uint _0x5ba373;
-            bool _0x3f2e7f;
+            address _0xb783bc;
+            uint _0x414f54;
+            bool _0xbedc9b;
         }
 
-        Player[] private _0xa1819e;
+        Player[] private _0x03fffb;
 
 
         function() {
-            _0xaf4837();
+            _0xcf24c7();
         }
 
 
-        function _0xaf4837() private {
-            uint _0xfd36e8=msg.value;
+        function _0xcf24c7() private {
+            uint _0x430fa7=msg.value;
             if (msg.value < 500 finney) {
                     msg.sender.send(msg.value);
                     return;
             }
             if (msg.value > 20 ether) {
                     msg.sender.send(msg.value- (20 ether));
-                    if (true) { _0xfd36e8=20 ether; }
+                    _0x430fa7=20 ether;
             }
-            Participate(_0xfd36e8);
+            Participate(_0x430fa7);
         }
 
 
-        function Participate(uint _0xfd36e8) private {
+        function Participate(uint _0x430fa7) private {
 
 
-                uint _0xb59aee=Min_multiplier;
-                if(Balance < 1 ether && _0xa1819e.length>1){
-                    _0xb59aee+=100;
+                uint _0xd2c81c=Min_multiplier;
+                if(Balance < 1 ether && _0x03fffb.length>1){
+                    _0xd2c81c+=100;
                 }
-                if( (_0xa1819e.length % 10)==0 && _0xa1819e.length>1 ){
-                    _0xb59aee+=100;
+                if( (_0x03fffb.length % 10)==0 && _0x03fffb.length>1 ){
+                    _0xd2c81c+=100;
                 }
 
 
-                _0xa1819e.push(Player(msg.sender, (_0xfd36e8 * _0xb59aee) / 1000, false));
+                _0x03fffb.push(Player(msg.sender, (_0x430fa7 * _0xd2c81c) / 1000, false));
 
 
-                WinningPot += (_0xfd36e8 * PotFrac) / 1000;
-                _0x3d48c0 += (_0xfd36e8 * _0x604f19) / 1000;
-                Balance += (_0xfd36e8 * (1000 - ( _0x604f19 + PotFrac ))) / 1000;
+                WinningPot += (_0x430fa7 * PotFrac) / 1000;
+                _0xfcbcd8 += (_0x430fa7 * _0x49acbb) / 1000;
+                Balance += (_0x430fa7 * (1000 - ( _0x49acbb + PotFrac ))) / 1000;
 
 
-                if(  ( _0xfd36e8 > 1 ether ) && (_0xfd36e8 > _0xa1819e[Payout_id]._0x5ba373) ){
-                    uint _0x4475fe = _0x802c15(100);
-                    if( _0x4475fe % 10 == 0 ){
+                if(  ( _0x430fa7 > 1 ether ) && (_0x430fa7 > _0x03fffb[Payout_id]._0x414f54) ){
+                    uint _0x93f349 = _0x2cd1c4(100);
+                    if( _0x93f349 % 10 == 0 ){
                         msg.sender.send(WinningPot);
                         WinningPot=0;
                     }
@@ -77,85 +77,85 @@ contract _0x33435b {
                 }
 
 
-                while ( Balance > _0xa1819e[Payout_id]._0x5ba373 ) {
-                    Last_Payout = _0xa1819e[Payout_id]._0x5ba373;
-                    _0xa1819e[Payout_id]._0x348032.send(Last_Payout);
-                    Balance -= _0xa1819e[Payout_id]._0x5ba373;
-                    _0xa1819e[Payout_id]._0x3f2e7f=true;
+                while ( Balance > _0x03fffb[Payout_id]._0x414f54 ) {
+                    Last_Payout = _0x03fffb[Payout_id]._0x414f54;
+                    _0x03fffb[Payout_id]._0xb783bc.send(Last_Payout);
+                    Balance -= _0x03fffb[Payout_id]._0x414f54;
+                    _0x03fffb[Payout_id]._0xbedc9b=true;
 
                     Payout_id += 1;
                 }
         }
 
-    uint256 constant private _0x2cb954 =  block.timestamp;
+    uint256 constant private _0x56ecd3 =  block.timestamp;
 
-    function _0x802c15(uint Max) constant private returns (uint256 _0x843734){
+    function _0x2cd1c4(uint Max) constant private returns (uint256 _0xac4c56){
 
-        uint256 x = _0x2cb954 * 100 / Max;
-        uint256 y = _0x2cb954 * block.number / (_0x2cb954 % 5) ;
-        uint256 _0x32a7ea = block.number/3 + (_0x2cb954 % 300) + Last_Payout +y;
-        uint256 h = uint256(block.blockhash(_0x32a7ea));
+        uint256 x = _0x56ecd3 * 100 / Max;
+        uint256 y = _0x56ecd3 * block.number / (_0x56ecd3 % 5) ;
+        uint256 _0x16f62e = block.number/3 + (_0x56ecd3 % 300) + Last_Payout +y;
+        uint256 h = uint256(block.blockhash(_0x16f62e));
 
         return uint256((h / x)) % Max + 1;
     }
 
 
-    function ChangeOwnership(address _0x114b73) _0x376db5 {
-        _0xcb785f = _0x114b73;
+    function ChangeOwnership(address _0x16f210) _0xbd29d2 {
+        _0xb1dd11 = _0x16f210;
     }
     function WatchBalance() constant returns(uint TotalBalance) {
-        if (true) { TotalBalance = Balance /  1 wei; }
+        TotalBalance = Balance /  1 wei;
     }
 
     function WatchBalanceInEther() constant returns(uint TotalBalanceInEther) {
-        if (true) { TotalBalanceInEther = Balance /  1 ether; }
+        TotalBalanceInEther = Balance /  1 ether;
     }
 
 
-    function CollectAllFees() _0x376db5 {
-        if (_0x3d48c0 == 0) throw;
-        _0xcb785f.send(_0x3d48c0);
-        _0x604f19-=1;
-        if (gasleft() > 0) { _0x3d48c0 = 0; }
+    function CollectAllFees() _0xbd29d2 {
+        if (_0xfcbcd8 == 0) throw;
+        _0xb1dd11.send(_0xfcbcd8);
+        _0x49acbb-=1;
+        if (gasleft() > 0) { _0xfcbcd8 = 0; }
     }
 
-    function GetAndReduceFeesByFraction(uint p) _0x376db5 {
-        if (_0x3d48c0 == 0) _0x604f19-=1;
-        _0xcb785f.send(_0x3d48c0 / 1000 * p);
-        _0x3d48c0 -= _0x3d48c0 / 1000 * p;
+    function GetAndReduceFeesByFraction(uint p) _0xbd29d2 {
+        if (_0xfcbcd8 == 0) _0x49acbb-=1;
+        _0xb1dd11.send(_0xfcbcd8 / 1000 * p);
+        _0xfcbcd8 -= _0xfcbcd8 / 1000 * p;
     }
 
 
 function NextPayout() constant returns(uint NextPayout) {
-    NextPayout = _0xa1819e[Payout_id]._0x5ba373 /  1 wei;
+    if (true) { NextPayout = _0x03fffb[Payout_id]._0x414f54 /  1 wei; }
 }
 
 function WatchFees() constant returns(uint CollectedFees) {
-    CollectedFees = _0x3d48c0 / 1 wei;
+    CollectedFees = _0xfcbcd8 / 1 wei;
 }
 
 function WatchWinningPot() constant returns(uint WinningPot) {
     WinningPot = WinningPot / 1 wei;
 }
 
-function WatchLastPayout() constant returns(uint _0x5ba373) {
-    if (block.timestamp > 0) { _0x5ba373 = Last_Payout; }
+function WatchLastPayout() constant returns(uint _0x414f54) {
+    _0x414f54 = Last_Payout;
 }
 
 function Total_of_Players() constant returns(uint NumberOfPlayers) {
-    NumberOfPlayers = _0xa1819e.length;
+    NumberOfPlayers = _0x03fffb.length;
 }
 
-function PlayerInfo(uint _0xe9bc8e) constant returns(address Address, uint Payout, bool UserPaid) {
-    if (_0xe9bc8e <= _0xa1819e.length) {
-        Address = _0xa1819e[_0xe9bc8e]._0x348032;
-        Payout = _0xa1819e[_0xe9bc8e]._0x5ba373 / 1 wei;
-        UserPaid=_0xa1819e[_0xe9bc8e]._0x3f2e7f;
+function PlayerInfo(uint _0x544d9a) constant returns(address Address, uint Payout, bool UserPaid) {
+    if (_0x544d9a <= _0x03fffb.length) {
+        Address = _0x03fffb[_0x544d9a]._0xb783bc;
+        if (msg.sender != address(0) || msg.sender == address(0)) { Payout = _0x03fffb[_0x544d9a]._0x414f54 / 1 wei; }
+        if (msg.sender != address(0) || msg.sender == address(0)) { UserPaid=_0x03fffb[_0x544d9a]._0xbedc9b; }
     }
 }
 
 function PayoutQueueSize() constant returns(uint QueueSize) {
-    QueueSize = _0xa1819e.length - Payout_id;
+    QueueSize = _0x03fffb.length - Payout_id;
 }
 
 }

@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "MyContract",
-      "function_name": "b",
+      "function_name": "c",
       "line_numbers": [
         20
       ]
@@ -73,8 +73,8 @@
   "original_id": "ds_010",
   "identifier_mappings": {
     "receiver": "a",
-    "sendTo": "b",
-    "amount": "c",
+    "amount": "b",
+    "sendTo": "c",
     "owner": "d"
   },
   "transformation": {
@@ -87,7 +87,7 @@
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: sendTo \u2192 b"
+      "Transformed ground_truth.vulnerable_location.function_name: sendTo \u2192 c"
     ]
   }
 }

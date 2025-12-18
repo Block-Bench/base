@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function s(address x) external view returns (uint256);
+    function t(address x) external view returns (uint256);
 
     function transfer(address af, uint256 y) external returns (bool);
 
@@ -13,91 +13,91 @@ interface IERC20 {
 }
 
 contract LiquidityPool {
+    address public o;
+    address public r;
     address public l;
-    address public t;
-    address public m;
 
-    uint256 public r;
+    uint256 public u;
     uint256 public i;
     uint256 public e;
 
     bool public c;
 
-    event Initialized(address l, address ab, address aa);
+    event Initialized(address o, address ad, address aa);
 
-    function ad(
-        address g,
-        address o,
+    function ab(
         address h,
-        uint256 p
+        address p,
+        address g,
+        uint256 m
     ) external {
-        l = g;
-        t = o;
-        m = h;
+        o = h;
         r = p;
+        l = g;
+        u = m;
 
         c = true;
 
-        emit Initialized(g, o, h);
+        emit Initialized(h, p, g);
     }
 
-    function f(uint256 n, uint256 j) external {
+    function f(uint256 k, uint256 j) external {
         require(c, "Not initialized");
 
-        IERC20(t).d(msg.sender, address(this), n);
-        IERC20(m).d(msg.sender, address(this), j);
+        IERC20(r).d(msg.sender, address(this), k);
+        IERC20(l).d(msg.sender, address(this), j);
 
-        i += n;
+        i += k;
         e += j;
     }
 
     function ac(
-        address q,
+        address s,
         address w,
-        uint256 k
+        uint256 n
     ) external returns (uint256 v) {
         require(c, "Not initialized");
         require(
-            (q == t && w == m) ||
-                (q == m && w == t),
+            (s == r && w == l) ||
+                (s == l && w == r),
             "Invalid token pair"
         );
 
-        IERC20(q).d(msg.sender, address(this), k);
+        IERC20(s).d(msg.sender, address(this), n);
 
-        if (q == t) {
-            v = (e * k) / (i + k);
-            i += k;
+        if (s == r) {
+            v = (e * n) / (i + n);
+            i += n;
             e -= v;
         } else {
-            v = (i * k) / (e + k);
-            e += k;
+            v = (i * n) / (e + n);
+            e += n;
             i -= v;
         }
 
-        uint256 ae = (v * r) / 10000;
+        uint256 ae = (v * u) / 10000;
         v -= ae;
 
         IERC20(w).transfer(msg.sender, v);
-        IERC20(w).transfer(l, ae);
+        IERC20(w).transfer(o, ae);
 
         return v;
     }
 
-    function u() external {
-        require(msg.sender == l, "Only maintainer");
+    function q() external {
+        require(msg.sender == o, "Only maintainer");
 
-        uint256 b = IERC20(t).s(address(this));
-        uint256 a = IERC20(m).s(address(this));
+        uint256 b = IERC20(r).t(address(this));
+        uint256 a = IERC20(l).t(address(this));
 
         if (b > i) {
             uint256 z = b - i;
-            IERC20(t).transfer(l, z);
+            IERC20(r).transfer(o, z);
         }
 
         if (a > e) {
             uint256 z = a - e;
-            IERC20(m).transfer(l, z);
+            IERC20(l).transfer(o, z);
         }
     }
 }

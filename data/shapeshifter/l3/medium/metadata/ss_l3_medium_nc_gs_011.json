@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "MinVotingPowerCondition",
-      "function_name": "_0xb47a89",
+      "function_name": "_0x3d6c85",
       "line_numbers": []
     },
     "root_cause": "The MinVotingPowerCondition contract allows any users who hold at least plugin.minProposerVotingPower() amount of tokens (locked in the LockManager or in their token balance) to create a proposal and execute LockToVote.createProposal. This logic can be easily bypassed if the token allows flashloan or flashmint. Given that isGranted checks the user's token balance (line 45: token.balanceOf(_who) + lockManager.getLockedBalance(_who)), the user does not even need to lock the flashloaned amount into the LockManager to be able to create and spam proposals.",
@@ -72,20 +72,20 @@
   "derived_from": "nc_gs_011",
   "original_id": "gs_011",
   "identifier_mappings": {
-    "_minProposerVotingPower": "_0x5f54e7",
-    "minProposerVotingPower": "_0xbf3e2a",
-    "getLockedBalance": "_0x9ac2e0",
-    "_currentBalance": "_0xe9bfa2",
-    "_permissionId": "_0xad407a",
-    "lockManager": "_0x640c31",
-    "balanceOf": "_0x66bbd7",
-    "isGranted": "_0xb47a89",
-    "_plugin": "_0xf9687f",
-    "_where": "_0xac8821",
-    "plugin": "_0x01be6f",
-    "token": "_0x625b29",
-    "_data": "_0xe8ac62",
-    "_who": "_0x83a1d8"
+    "_minProposerVotingPower": "_0xdc7769",
+    "minProposerVotingPower": "_0x03370f",
+    "getLockedBalance": "_0x1a55bd",
+    "_currentBalance": "_0x14a354",
+    "_permissionId": "_0x41feb2",
+    "lockManager": "_0x2e6175",
+    "balanceOf": "_0x004fa7",
+    "isGranted": "_0x3d6c85",
+    "_plugin": "_0x7f7435",
+    "_where": "_0x5c1fa7",
+    "plugin": "_0x66ae65",
+    "_data": "_0xe94ca3",
+    "token": "_0x8c10aa",
+    "_who": "_0xf81e7c"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -93,12 +93,11 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 14 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 14 identifiers using hex style"
     ],
     "rename_map_size": 14,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: isGranted \u2192 _0xb47a89"
+      "Transformed ground_truth.vulnerable_location.function_name: isGranted \u2192 _0x3d6c85"
     ]
   }
 }

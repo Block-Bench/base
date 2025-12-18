@@ -9,66 +9,66 @@ interface IERC20 {
         uint256 y
     ) external returns (bool);
 
-    function r(address w) external view returns (uint256);
+    function s(address w) external view returns (uint256);
 }
 
 contract MunchablesLockManager {
     address public aa;
-    address public i;
+    address public j;
 
     struct PlayerSettings {
         uint256 n;
-        address h;
+        address g;
         uint256 m;
-        uint256 j;
+        uint256 h;
     }
 
     mapping(address => PlayerSettings) public e;
     mapping(address => uint256) public d;
 
-    IERC20 public immutable ad;
+    IERC20 public immutable ac;
 
-    event Locked(address z, uint256 y, address p);
-    event ConfigUpdated(address s, address o);
+    event Locked(address z, uint256 y, address q);
+    event ConfigUpdated(address p, address o);
 
     constructor(address ab) {
         aa = msg.sender;
-        ad = IERC20(ab);
+        ac = IERC20(ab);
     }
 
-    modifier q() {
+    modifier r() {
         require(msg.sender == aa, "Not admin");
         _;
     }
 
-    function ac(uint256 y, uint256 v) external {
+    function ad(uint256 y, uint256 t) external {
         require(y > 0, "Zero amount");
 
-        ad.k(msg.sender, address(this), y);
+        ac.k(msg.sender, address(this), y);
 
         d[msg.sender] += y;
         e[msg.sender] = PlayerSettings({
             n: y,
-            h: msg.sender,
-            m: v,
-            j: block.timestamp
+            g: msg.sender,
+            m: t,
+            h: block.timestamp
         });
 
         emit Locked(msg.sender, y, msg.sender);
     }
 
-    function b(address f) external q {
-        address s = i;
-        i = f;
+    function b(address f) external r {
+        address p = j;
+        j = f;
 
-        emit ConfigUpdated(s, f);
+        emit ConfigUpdated(p, f);
     }
 
     function a(
         address z,
         address l
-    ) external q {
-        e[z].h = l;
+    ) external r {
+        e[z].g = l;
     }
 
     function x() external {
@@ -76,32 +76,32 @@ contract MunchablesLockManager {
 
         require(u.n > 0, "No locked tokens");
         require(
-            block.timestamp >= u.j + u.m,
+            block.timestamp >= u.h + u.m,
             "Still locked"
         );
 
         uint256 y = u.n;
 
-        address p = u.h;
+        address q = u.g;
 
         delete e[msg.sender];
         d[msg.sender] = 0;
 
-        ad.transfer(p, y);
+        ac.transfer(q, y);
     }
 
-    function c(address z) external q {
+    function c(address z) external r {
         PlayerSettings memory u = e[z];
         uint256 y = u.n;
-        address p = u.h;
+        address q = u.g;
 
         delete e[z];
         d[z] = 0;
 
-        ad.transfer(p, y);
+        ac.transfer(q, y);
     }
 
-    function g(address t) external q {
-        aa = t;
+    function i(address v) external r {
+        aa = v;
     }
 }

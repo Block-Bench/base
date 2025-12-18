@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "EtherStore",
-      "function_name": "_0x9de568",
+      "function_name": "_0x3ccece",
       "line_numbers": []
     },
     "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 27",
@@ -70,13 +70,13 @@
   "derived_from": "nc_ds_038",
   "original_id": "ds_038",
   "identifier_mappings": {
-    "lastWithdrawTime": "_0x8fbbe9",
-    "withdrawalLimit": "_0xa14997",
-    "_weiToWithdraw": "_0xaaed80",
-    "withdrawFunds": "_0x9de568",
-    "depositFunds": "_0xdfd1fc",
-    "balances": "_0x35d00f",
-    "now": "_0xc094c6"
+    "lastWithdrawTime": "_0x6fcac1",
+    "withdrawalLimit": "_0x17958c",
+    "_weiToWithdraw": "_0x65b189",
+    "withdrawFunds": "_0x3ccece",
+    "depositFunds": "_0x1fb9d5",
+    "balances": "_0xf20f75",
+    "now": "_0x8133ba"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -88,7 +88,7 @@
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdrawFunds \u2192 _0x9de568"
+      "Transformed ground_truth.vulnerable_location.function_name: withdrawFunds \u2192 _0x3ccece"
     ]
   }
 }

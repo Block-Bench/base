@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "TokenVault",
-      "function_name": "b",
+      "function_name": "c",
       "line_numbers": [
         24
       ]
@@ -69,8 +69,8 @@
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
     "balanceOf": "a",
-    "withdraw": "b",
-    "balances": "c",
+    "balances": "b",
+    "withdraw": "c",
     "_amount": "d",
     "donate": "e",
     "_who": "f",
@@ -90,7 +90,7 @@
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 b"
+      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 c"
     ]
   }
 }

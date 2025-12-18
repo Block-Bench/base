@@ -70,13 +70,13 @@
   "derived_from": "nc_ds_068",
   "original_id": "ds_068",
   "identifier_mappings": {
-    "contract_address": "_0x629723",
-    "validAddress": "_0x64d881",
-    "keccak256": "_0x65b95c",
-    "addr": "_0x327fd8",
-    "tos": "_0xf241b3",
-    "id": "_0x2c4e84",
-    "vs": "_0x80319a"
+    "contract_address": "_0x6f3433",
+    "validAddress": "_0xdd5ead",
+    "keccak256": "_0x1341aa",
+    "addr": "_0xd86f43",
+    "tos": "_0xb0ae73",
+    "id": "_0xf4d7c1",
+    "vs": "_0x498f19"
   },
   "transformation": {
     "strategy": "shapeshifter",

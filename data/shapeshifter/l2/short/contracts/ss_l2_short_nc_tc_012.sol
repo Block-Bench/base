@@ -2,79 +2,79 @@ pragma solidity ^0.8.0;
 
 
 interface IComptroller {
-    function h(
-        address[] memory s
+    function g(
+        address[] memory r
     ) external returns (uint256[] memory);
 
     function j(address v) external returns (uint256);
 
     function b(
-        address r
+        address s
     ) external view returns (uint256, uint256, uint256);
 }
 
 contract LendingProtocol {
     IComptroller public i;
 
-    mapping(address => uint256) public p;
-    mapping(address => uint256) public n;
-    mapping(address => bool) public m;
+    mapping(address => uint256) public m;
+    mapping(address => uint256) public o;
+    mapping(address => bool) public p;
 
-    uint256 public f;
     uint256 public e;
+    uint256 public f;
     uint256 public constant COLLATERAL_FACTOR = 150;
 
-    constructor(address g) {
-        i = IComptroller(g);
+    constructor(address h) {
+        i = IComptroller(h);
     }
 
     function a() external payable {
-        p[msg.sender] += msg.value;
-        f += msg.value;
-        m[msg.sender] = true;
+        m[msg.sender] += msg.value;
+        e += msg.value;
+        p[msg.sender] = true;
     }
 
-    function l(
-        address r,
+    function k(
+        address s,
         uint256 c
     ) public view returns (bool) {
-        uint256 k = n[r] + c;
-        if (k == 0) return true;
+        uint256 l = o[s] + c;
+        if (l == 0) return true;
 
-        if (!m[r]) return false;
+        if (!p[s]) return false;
 
-        uint256 d = p[r];
-        return d >= (k * COLLATERAL_FACTOR) / 100;
+        uint256 d = m[s];
+        return d >= (l * COLLATERAL_FACTOR) / 100;
     }
 
-    function u(uint256 t) external {
-        require(t > 0, "Invalid amount");
-        require(address(this).balance >= t, "Insufficient funds");
+    function t(uint256 u) external {
+        require(u > 0, "Invalid amount");
+        require(address(this).balance >= u, "Insufficient funds");
 
-        require(l(msg.sender, t), "Insufficient collateral");
+        require(k(msg.sender, u), "Insufficient collateral");
 
-        n[msg.sender] += t;
-        e += t;
+        o[msg.sender] += u;
+        f += u;
 
-        (bool q, ) = payable(msg.sender).call{value: t}("");
+        (bool q, ) = payable(msg.sender).call{value: u}("");
         require(q, "Transfer failed");
 
-        require(l(msg.sender, 0), "Health check failed");
+        require(k(msg.sender, 0), "Health check failed");
     }
 
     function j() external {
-        require(n[msg.sender] == 0, "Outstanding debt");
-        m[msg.sender] = false;
+        require(o[msg.sender] == 0, "Outstanding debt");
+        p[msg.sender] = false;
     }
 
-    function o(uint256 t) external {
-        require(p[msg.sender] >= t, "Insufficient deposits");
-        require(!m[msg.sender], "Exit market first");
+    function n(uint256 u) external {
+        require(m[msg.sender] >= u, "Insufficient deposits");
+        require(!p[msg.sender], "Exit market first");
 
-        p[msg.sender] -= t;
-        f -= t;
+        m[msg.sender] -= u;
+        e -= u;
 
-        payable(msg.sender).transfer(t);
+        payable(msg.sender).transfer(u);
     }
 
     receive() external payable {}

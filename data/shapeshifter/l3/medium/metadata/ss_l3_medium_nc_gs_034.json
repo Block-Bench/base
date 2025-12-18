@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Factory",
-      "function_name": "_0xcfd37b",
+      "function_name": "_0xa57ada",
       "line_numbers": []
     },
     "root_cause": "Factory.deploy uses create2 but reverts with CreateCollision if address exists, violating ERC-4337 expectation to return address. Breaks simulations and bundler logic.",
@@ -67,12 +67,12 @@
   "derived_from": "nc_gs_034",
   "original_id": "gs_034",
   "identifier_mappings": {
-    "encodePacked": "_0xa6682c",
-    "creationCode": "_0x7309a8",
-    "_mainModule": "_0x9b27e9",
-    "_contract": "_0x15bfc8",
-    "deploy": "_0xcfd37b",
-    "_salt": "_0x8ffb52"
+    "creationCode": "_0x6c0fd9",
+    "encodePacked": "_0x0db0b2",
+    "_mainModule": "_0x7893d6",
+    "_contract": "_0x4c13a9",
+    "deploy": "_0xa57ada",
+    "_salt": "_0xdcdd1c"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 6,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: deploy \u2192 _0xcfd37b"
+      "Transformed ground_truth.vulnerable_location.function_name: deploy \u2192 _0xa57ada"
     ]
   }
 }

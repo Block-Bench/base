@@ -9,18 +9,18 @@ contract FibonacciBalance {
     uint public i = 3;
     uint public b;
 
-    bytes4 constant h = bytes4(j("setFibonacci(uint256)"));
+    bytes4 constant g = bytes4(j("setFibonacci(uint256)"));
 
 
     constructor(address _fibonacciLibrary) public payable {
         fibonacciLibrary = _fibonacciLibrary;
     }
 
-    function e() {
+    function f() {
         b += 1;
 
 
-        require(fibonacciLibrary.delegatecall(h, b));
+        require(fibonacciLibrary.delegatecall(g, b));
         msg.sender.transfer(a * 1 ether);
     }
 
@@ -37,8 +37,8 @@ contract FibonacciLib {
     uint public a;
 
 
-    function f(uint g) public {
-        i = g;
+    function e(uint h) public {
+        i = h;
     }
 
     function c(uint n) public {

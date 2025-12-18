@@ -8,7 +8,7 @@
     "severity": "low",
     "vulnerable_location": {
       "contract_name": "Multiplicator",
-      "function_name": "_0x30063b",
+      "function_name": "_0xd7edfc",
       "line_numbers": []
     },
     "root_cause": "# Honeypot Collection",
@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_202",
   "original_id": "ds_202",
   "identifier_mappings": {
-    "multiplicate": "_0x36802a",
-    "withdraw": "_0x30063b",
-    "adr": "_0x0b178a"
+    "multiplicate": "_0x355313",
+    "withdraw": "_0xd7edfc",
+    "adr": "_0x2af938"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0x30063b"
+      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0xd7edfc"
     ]
   }
 }

@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "BenignCounter",
-      "function_name": "_0xbc3e66",
+      "function_name": "_0x32d587",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 17",
@@ -66,10 +66,10 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "count": "_0x6ce463",
-    "input": "_0x8b55db",
-    "res": "_0x5bb01a",
-    "run": "_0xbc3e66"
+    "input": "_0x494710",
+    "count": "_0x846ac8",
+    "res": "_0x7fa8df",
+    "run": "_0x32d587"
   },
   "original_contract_file": "base/contracts/ds_134.sol",
   "sanitized_from": "ds_134",
@@ -85,7 +85,7 @@
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0xbc3e66"
+      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0x32d587"
     ]
   }
 }

@@ -24,108 +24,108 @@ library SessionSig {
 
 
   struct CallSignature {
-    bool _0xde95bc;
-    address _0x41cad9;
-    uint8 _0x1ca8fc;
-    Attestation _0x3673e3;
+    bool _0x30fa28;
+    address _0x030911;
+    uint8 _0x79318a;
+    Attestation _0x322c3b;
   }
 
 
   struct DecodedSignature {
-    bytes32 _0xf10729;
-    address _0x3fdc00;
-    address[] _0xe9da3e;
-    SessionPermissions[] _0x262088;
-    CallSignature[] _0x2d3f15;
+    bytes32 _0x697bf8;
+    address _0x2c9a31;
+    address[] _0x089804;
+    SessionPermissions[] _0xc45713;
+    CallSignature[] _0xd05543;
   }
 
 
-  function _0x9add0a(
-    Payload.Decoded calldata _0xc36f38,
-    bytes calldata _0x6c515b
+  function _0xf34bbc(
+    Payload.Decoded calldata _0xed17c8,
+    bytes calldata _0x11aa01
   ) internal view returns (DecodedSignature memory sig) {
-    uint256 _0x8d1332 = 0;
-    bool _0x74bff9;
+    uint256 _0xdeb2e6 = 0;
+    bool _0x7bd7a1;
 
 
     {
 
-      uint256 _0x113603;
-      (_0x113603, _0x8d1332) = _0x6c515b._0xc4a030(_0x8d1332);
+      uint256 _0xac4f30;
+      (_0xac4f30, _0xdeb2e6) = _0x11aa01._0x496675(_0xdeb2e6);
 
 
-      (sig, _0x74bff9) = _0x131c46(_0x6c515b[_0x8d1332:_0x8d1332 + _0x113603]);
-      _0x8d1332 += _0x113603;
+      (sig, _0x7bd7a1) = _0x65830f(_0x11aa01[_0xdeb2e6:_0xdeb2e6 + _0xac4f30]);
+      _0xdeb2e6 += _0xac4f30;
 
 
-      if (sig._0x3fdc00 == address(0)) {
+      if (sig._0x2c9a31 == address(0)) {
         revert SessionErrors.InvalidIdentitySigner();
       }
     }
 
 
-    Attestation[] memory _0x5ef981;
+    Attestation[] memory _0x31ddcd;
     {
-      uint8 _0x7af2a9;
-      (_0x7af2a9, _0x8d1332) = _0x6c515b._0x62be0c(_0x8d1332);
-      _0x5ef981 = new Attestation[](_0x7af2a9);
+      uint8 _0x689e93;
+      (_0x689e93, _0xdeb2e6) = _0x11aa01._0xcf2de8(_0xdeb2e6);
+      _0x31ddcd = new Attestation[](_0x689e93);
 
-      for (uint256 i = 0; i < _0x7af2a9; i++) {
-        Attestation memory _0xad67a7;
-        (_0xad67a7, _0x8d1332) = LibAttestation._0x83232d(_0x6c515b, _0x8d1332);
+      for (uint256 i = 0; i < _0x689e93; i++) {
+        Attestation memory _0x481937;
+        (_0x481937, _0xdeb2e6) = LibAttestation._0x0015e4(_0x11aa01, _0xdeb2e6);
 
 
         {
           bytes32 r;
           bytes32 s;
           uint8 v;
-          (r, s, v, _0x8d1332) = _0x6c515b._0xf1cf38(_0x8d1332);
+          (r, s, v, _0xdeb2e6) = _0x11aa01._0x06bd70(_0xdeb2e6);
 
 
-          bytes32 _0x22d023 = _0xad67a7._0xc195e8();
-          address _0x2b19c2 = _0x5ad469(_0x22d023, v, r, s);
-          if (_0x2b19c2 != sig._0x3fdc00) {
+          bytes32 _0x03db27 = _0x481937._0x77f89c();
+          address _0x693e50 = _0x6e3f10(_0x03db27, v, r, s);
+          if (_0x693e50 != sig._0x2c9a31) {
             revert SessionErrors.InvalidIdentitySigner();
           }
         }
 
-        _0x5ef981[i] = _0xad67a7;
+        _0x31ddcd[i] = _0x481937;
       }
 
 
-      if (_0x7af2a9 > 0 && !_0x74bff9) {
+      if (_0x689e93 > 0 && !_0x7bd7a1) {
         revert SessionErrors.InvalidBlacklist();
       }
     }
 
 
     {
-      uint256 _0xa6ea03 = _0xc36f38._0x0dc4da.length;
-      sig._0x2d3f15 = new CallSignature[](_0xa6ea03);
+      uint256 _0xa07aad = _0xed17c8._0x954326.length;
+      sig._0xd05543 = new CallSignature[](_0xa07aad);
 
-      for (uint256 i = 0; i < _0xa6ea03; i++) {
-        CallSignature memory _0xd7b662;
+      for (uint256 i = 0; i < _0xa07aad; i++) {
+        CallSignature memory _0x27592d;
 
 
         {
-          uint8 _0xf93727;
-          (_0xf93727, _0x8d1332) = _0x6c515b._0x62be0c(_0x8d1332);
-          _0xd7b662._0xde95bc = (_0xf93727 & 0x80) != 0;
+          uint8 _0xa57b01;
+          (_0xa57b01, _0xdeb2e6) = _0x11aa01._0xcf2de8(_0xdeb2e6);
+          _0x27592d._0x30fa28 = (_0xa57b01 & 0x80) != 0;
 
-          if (_0xd7b662._0xde95bc) {
+          if (_0x27592d._0x30fa28) {
 
-            uint8 _0x37f6cc = uint8(_0xf93727 & 0x7f);
+            uint8 _0xf6396d = uint8(_0xa57b01 & 0x7f);
 
 
-            if (_0x37f6cc >= _0x5ef981.length) {
+            if (_0xf6396d >= _0x31ddcd.length) {
               revert SessionErrors.InvalidAttestation();
             }
 
 
-            _0xd7b662._0x3673e3 = _0x5ef981[_0x37f6cc];
+            _0x27592d._0x322c3b = _0x31ddcd[_0xf6396d];
           } else {
 
-            _0xd7b662._0x1ca8fc = _0xf93727;
+            _0x27592d._0x79318a = _0xa57b01;
           }
         }
 
@@ -134,16 +134,16 @@ library SessionSig {
           bytes32 r;
           bytes32 s;
           uint8 v;
-          (r, s, v, _0x8d1332) = _0x6c515b._0xf1cf38(_0x8d1332);
+          (r, s, v, _0xdeb2e6) = _0x11aa01._0x06bd70(_0xdeb2e6);
 
-          bytes32 _0x8e58b4 = _0x905ff1(_0xc36f38, i);
-          _0xd7b662._0x41cad9 = _0x5ad469(_0x8e58b4, v, r, s);
-          if (_0xd7b662._0x41cad9 == address(0)) {
+          bytes32 _0x593cf0 = _0x107573(_0xed17c8, i);
+          _0x27592d._0x030911 = _0x6e3f10(_0x593cf0, v, r, s);
+          if (_0x27592d._0x030911 == address(0)) {
             revert SessionErrors.InvalidSessionSigner(address(0));
           }
         }
 
-        sig._0x2d3f15[i] = _0xd7b662;
+        sig._0xd05543[i] = _0x27592d;
       }
     }
 
@@ -151,224 +151,224 @@ library SessionSig {
   }
 
 
-  function _0x131c46(
-    bytes calldata _0xb02d78
-  ) internal pure returns (DecodedSignature memory sig, bool _0x9cf568) {
-    uint256 _0x8d1332;
-    uint256 _0xfdbe0f;
+  function _0x65830f(
+    bytes calldata _0xfb29fa
+  ) internal pure returns (DecodedSignature memory sig, bool _0xe395ba) {
+    uint256 _0xdeb2e6;
+    uint256 _0x352daf;
 
 
     {
-      uint256 _0x600066 = _0xb02d78.length / MIN_ENCODED_PERMISSION_SIZE;
-      sig._0x262088 = new SessionPermissions[](_0x600066);
+      uint256 _0xc290be = _0xfb29fa.length / MIN_ENCODED_PERMISSION_SIZE;
+      sig._0xc45713 = new SessionPermissions[](_0xc290be);
     }
 
-    while (_0x8d1332 < _0xb02d78.length) {
+    while (_0xdeb2e6 < _0xfb29fa.length) {
 
-      uint256 _0xe2e41c;
-      (_0xe2e41c, _0x8d1332) = _0xb02d78._0x62be0c(_0x8d1332);
+      uint256 _0x741774;
+      (_0x741774, _0xdeb2e6) = _0xfb29fa._0xcf2de8(_0xdeb2e6);
 
-      uint256 _0xf93727 = (_0xe2e41c & 0xf0) >> 4;
-
-
-      if (_0xf93727 == FLAG_PERMISSIONS) {
-        SessionPermissions memory _0x1f206c;
-        uint256 _0x53875e = _0x8d1332;
+      uint256 _0xa57b01 = (_0x741774 & 0xf0) >> 4;
 
 
-        (_0x1f206c._0x6814ba, _0x8d1332) = _0xb02d78._0x6a243f(_0x8d1332);
+      if (_0xa57b01 == FLAG_PERMISSIONS) {
+        SessionPermissions memory _0x1b090b;
+        uint256 _0x44c66f = _0xdeb2e6;
 
 
-        (_0x1f206c.chainId, _0x8d1332) = _0xb02d78._0x6e6604(_0x8d1332);
+        (_0x1b090b._0x72fdf8, _0xdeb2e6) = _0xfb29fa._0x7b868f(_0xdeb2e6);
 
 
-        (_0x1f206c._0x36bdef, _0x8d1332) = _0xb02d78._0x6e6604(_0x8d1332);
+        (_0x1b090b.chainId, _0xdeb2e6) = _0xfb29fa._0x451a61(_0xdeb2e6);
 
 
-        (_0x1f206c._0xae868f, _0x8d1332) = _0xb02d78._0xc92363(_0x8d1332);
+        (_0x1b090b._0x30c145, _0xdeb2e6) = _0xfb29fa._0x451a61(_0xdeb2e6);
 
 
-        (_0x1f206c._0xc5a922, _0x8d1332) = _0xb62f6f(_0xb02d78, _0x8d1332);
+        (_0x1b090b._0x94923b, _0xdeb2e6) = _0xfb29fa._0xf9fbb2(_0xdeb2e6);
+
+
+        (_0x1b090b._0x8ef3b5, _0xdeb2e6) = _0x67cf0b(_0xfb29fa, _0xdeb2e6);
 
 
         {
-          bytes32 _0x05948a = _0x11328d(_0xb02d78[_0x53875e:_0x8d1332]);
-          sig._0xf10729 =
-            sig._0xf10729 != bytes32(0) ? LibOptim._0x28a623(sig._0xf10729, _0x05948a) : _0x05948a;
+          bytes32 _0x206b3c = _0x77bedf(_0xfb29fa[_0x44c66f:_0xdeb2e6]);
+          sig._0x697bf8 =
+            sig._0x697bf8 != bytes32(0) ? LibOptim._0x4bee35(sig._0x697bf8, _0x206b3c) : _0x206b3c;
         }
 
 
-        sig._0x262088[_0xfdbe0f++] = _0x1f206c;
+        sig._0xc45713[_0x352daf++] = _0x1b090b;
         continue;
       }
 
 
-      if (_0xf93727 == FLAG_NODE) {
+      if (_0xa57b01 == FLAG_NODE) {
 
-        bytes32 _0x0b38d8;
-        (_0x0b38d8, _0x8d1332) = _0xb02d78._0x125f5a(_0x8d1332);
+        bytes32 _0x5f1a3e;
+        (_0x5f1a3e, _0xdeb2e6) = _0xfb29fa._0x63bdfa(_0xdeb2e6);
 
 
-        sig._0xf10729 = sig._0xf10729 != bytes32(0) ? LibOptim._0x28a623(sig._0xf10729, _0x0b38d8) : _0x0b38d8;
+        sig._0x697bf8 = sig._0x697bf8 != bytes32(0) ? LibOptim._0x4bee35(sig._0x697bf8, _0x5f1a3e) : _0x5f1a3e;
 
         continue;
       }
 
 
-      if (_0xf93727 == FLAG_BRANCH) {
+      if (_0xa57b01 == FLAG_BRANCH) {
 
-        uint256 _0x83b149;
+        uint256 _0x820631;
         {
-          uint256 _0x60c92f = uint8(_0xe2e41c & 0x0f);
-          (_0x83b149, _0x8d1332) = _0xb02d78._0xbd5679(_0x8d1332, _0x60c92f);
+          uint256 _0x3985ce = uint8(_0x741774 & 0x0f);
+          (_0x820631, _0xdeb2e6) = _0xfb29fa._0x120bbd(_0xdeb2e6, _0x3985ce);
         }
 
-        uint256 _0xe65e76 = _0x8d1332 + _0x83b149;
-        (DecodedSignature memory _0x8b7a63, bool _0x523f3c) = _0x131c46(_0xb02d78[_0x8d1332:_0xe65e76]);
-        _0x8d1332 = _0xe65e76;
+        uint256 _0x20ab9a = _0xdeb2e6 + _0x820631;
+        (DecodedSignature memory _0xaf932a, bool _0x3b9146) = _0x65830f(_0xfb29fa[_0xdeb2e6:_0x20ab9a]);
+        _0xdeb2e6 = _0x20ab9a;
 
 
-        if (_0x523f3c) {
-          if (_0x9cf568) {
+        if (_0x3b9146) {
+          if (_0xe395ba) {
 
             revert SessionErrors.InvalidBlacklist();
           }
-          _0x9cf568 = true;
-          sig._0xe9da3e = _0x8b7a63._0xe9da3e;
+          _0xe395ba = true;
+          sig._0x089804 = _0xaf932a._0x089804;
         }
 
 
-        if (_0x8b7a63._0x3fdc00 != address(0)) {
-          if (sig._0x3fdc00 != address(0)) {
+        if (_0xaf932a._0x2c9a31 != address(0)) {
+          if (sig._0x2c9a31 != address(0)) {
 
             revert SessionErrors.InvalidIdentitySigner();
           }
-          sig._0x3fdc00 = _0x8b7a63._0x3fdc00;
+          sig._0x2c9a31 = _0xaf932a._0x2c9a31;
         }
 
 
-        for (uint256 i = 0; i < _0x8b7a63._0x262088.length; i++) {
-          sig._0x262088[_0xfdbe0f++] = _0x8b7a63._0x262088[i];
+        for (uint256 i = 0; i < _0xaf932a._0xc45713.length; i++) {
+          sig._0xc45713[_0x352daf++] = _0xaf932a._0xc45713[i];
         }
 
 
-        sig._0xf10729 =
-          sig._0xf10729 != bytes32(0) ? LibOptim._0x28a623(sig._0xf10729, _0x8b7a63._0xf10729) : _0x8b7a63._0xf10729;
+        sig._0x697bf8 =
+          sig._0x697bf8 != bytes32(0) ? LibOptim._0x4bee35(sig._0x697bf8, _0xaf932a._0x697bf8) : _0xaf932a._0x697bf8;
 
         continue;
       }
 
 
-      if (_0xf93727 == FLAG_BLACKLIST) {
-        if (_0x9cf568) {
+      if (_0xa57b01 == FLAG_BLACKLIST) {
+        if (_0xe395ba) {
 
           revert SessionErrors.InvalidBlacklist();
         }
-        _0x9cf568 = true;
+        _0xe395ba = true;
 
 
-        uint256 _0xafc35a = uint256(_0xe2e41c & 0x0f);
-        if (_0xafc35a == 0x0f) {
+        uint256 _0x7f6955 = uint256(_0x741774 & 0x0f);
+        if (_0x7f6955 == 0x0f) {
 
-          (_0xafc35a, _0x8d1332) = _0xb02d78._0x8c4e42(_0x8d1332);
+          (_0x7f6955, _0xdeb2e6) = _0xfb29fa._0xa85aa6(_0xdeb2e6);
         }
-        uint256 _0x53875e = _0x8d1332;
+        uint256 _0x44c66f = _0xdeb2e6;
 
 
-        sig._0xe9da3e = new address[](_0xafc35a);
-        address _0x460c62;
-        for (uint256 i = 0; i < _0xafc35a; i++) {
-          (sig._0xe9da3e[i], _0x8d1332) = _0xb02d78._0x6a243f(_0x8d1332);
-          if (sig._0xe9da3e[i] < _0x460c62) {
+        sig._0x089804 = new address[](_0x7f6955);
+        address _0x87e477;
+        for (uint256 i = 0; i < _0x7f6955; i++) {
+          (sig._0x089804[i], _0xdeb2e6) = _0xfb29fa._0x7b868f(_0xdeb2e6);
+          if (sig._0x089804[i] < _0x87e477) {
             revert SessionErrors.InvalidBlacklistUnsorted();
           }
-          _0x460c62 = sig._0xe9da3e[i];
+          _0x87e477 = sig._0x089804[i];
         }
 
 
-        bytes32 _0x500a8c = _0x338d22(_0xb02d78[_0x53875e:_0x8d1332]);
-        sig._0xf10729 = sig._0xf10729 != bytes32(0) ? LibOptim._0x28a623(sig._0xf10729, _0x500a8c) : _0x500a8c;
+        bytes32 _0x7888da = _0xb9a294(_0xfb29fa[_0x44c66f:_0xdeb2e6]);
+        sig._0x697bf8 = sig._0x697bf8 != bytes32(0) ? LibOptim._0x4bee35(sig._0x697bf8, _0x7888da) : _0x7888da;
 
         continue;
       }
 
 
-      if (_0xf93727 == FLAG_IDENTITY_SIGNER) {
-        if (sig._0x3fdc00 != address(0)) {
+      if (_0xa57b01 == FLAG_IDENTITY_SIGNER) {
+        if (sig._0x2c9a31 != address(0)) {
 
           revert SessionErrors.InvalidIdentitySigner();
         }
-        (sig._0x3fdc00, _0x8d1332) = _0xb02d78._0x6a243f(_0x8d1332);
+        (sig._0x2c9a31, _0xdeb2e6) = _0xfb29fa._0x7b868f(_0xdeb2e6);
 
 
-        bytes32 _0x5ce66d = _0xe866f4(sig._0x3fdc00);
-        sig._0xf10729 =
-          sig._0xf10729 != bytes32(0) ? LibOptim._0x28a623(sig._0xf10729, _0x5ce66d) : _0x5ce66d;
+        bytes32 _0x753786 = _0x7e2f43(sig._0x2c9a31);
+        sig._0x697bf8 =
+          sig._0x697bf8 != bytes32(0) ? LibOptim._0x4bee35(sig._0x697bf8, _0x753786) : _0x753786;
 
         continue;
       }
 
-      revert SessionErrors.InvalidNodeType(_0xf93727);
+      revert SessionErrors.InvalidNodeType(_0xa57b01);
     }
 
     {
 
-      SessionPermissions[] memory _0xc5a922 = sig._0x262088;
+      SessionPermissions[] memory _0x8ef3b5 = sig._0xc45713;
       assembly {
-        mstore(_0xc5a922, _0xfdbe0f)
+        mstore(_0x8ef3b5, _0x352daf)
       }
     }
 
-    return (sig, _0x9cf568);
+    return (sig, _0xe395ba);
   }
 
 
-  function _0xb62f6f(
-    bytes calldata _0xb02d78,
-    uint256 _0x8d1332
-  ) internal pure returns (Permission[] memory _0xc5a922, uint256 _0xbcf098) {
+  function _0x67cf0b(
+    bytes calldata _0xfb29fa,
+    uint256 _0xdeb2e6
+  ) internal pure returns (Permission[] memory _0x8ef3b5, uint256 _0xf62b16) {
     uint256 length;
-    (length, _0x8d1332) = _0xb02d78._0x62be0c(_0x8d1332);
-    _0xc5a922 = new Permission[](length);
+    (length, _0xdeb2e6) = _0xfb29fa._0xcf2de8(_0xdeb2e6);
+    _0x8ef3b5 = new Permission[](length);
     for (uint256 i = 0; i < length; i++) {
-      (_0xc5a922[i], _0x8d1332) = LibPermission._0xe3467b(_0xb02d78, _0x8d1332);
+      (_0x8ef3b5[i], _0xdeb2e6) = LibPermission._0xad1703(_0xfb29fa, _0xdeb2e6);
     }
-    return (_0xc5a922, _0x8d1332);
+    return (_0x8ef3b5, _0xdeb2e6);
   }
 
 
-  function _0x11328d(
-    bytes calldata _0xd740c1
+  function _0x77bedf(
+    bytes calldata _0x476579
   ) internal pure returns (bytes32) {
-    return _0x9ef234(abi._0x4074d6(uint8(FLAG_PERMISSIONS), _0xd740c1));
+    return _0x732aa6(abi._0x3621e3(uint8(FLAG_PERMISSIONS), _0x476579));
   }
 
 
-  function _0x338d22(
-    bytes calldata _0x79ee85
+  function _0xb9a294(
+    bytes calldata _0x1a6fb1
   ) internal pure returns (bytes32) {
-    return _0x9ef234(abi._0x4074d6(uint8(FLAG_BLACKLIST), _0x79ee85));
+    return _0x732aa6(abi._0x3621e3(uint8(FLAG_BLACKLIST), _0x1a6fb1));
   }
 
 
-  function _0xe866f4(
-    address _0x3fdc00
+  function _0x7e2f43(
+    address _0x2c9a31
   ) internal pure returns (bytes32) {
-    return _0x9ef234(abi._0x4074d6(uint8(FLAG_IDENTITY_SIGNER), _0x3fdc00));
+    return _0x732aa6(abi._0x3621e3(uint8(FLAG_IDENTITY_SIGNER), _0x2c9a31));
   }
 
 
-  function _0x905ff1(
-    Payload.Decoded calldata _0xc36f38,
-    uint256 _0x09b81a
-  ) public view returns (bytes32 _0x8e58b4) {
-    return _0x9ef234(
-      abi._0x4074d6(
-        _0xc36f38._0xcd8501 ? 0 : block.chainid,
-        _0xc36f38._0x4d52ea,
-        _0xc36f38._0x29ffa9,
-        _0x09b81a,
-        Payload._0xa82121(_0xc36f38._0x0dc4da[_0x09b81a])
+  function _0x107573(
+    Payload.Decoded calldata _0xed17c8,
+    uint256 _0xd988e4
+  ) public view returns (bytes32 _0x593cf0) {
+    return _0x732aa6(
+      abi._0x3621e3(
+        _0xed17c8._0x49d0b0 ? 0 : block.chainid,
+        _0xed17c8._0xd568ed,
+        _0xed17c8._0x0668eb,
+        _0xd988e4,
+        Payload._0xb3ca9c(_0xed17c8._0x954326[_0xd988e4])
       )
     );
   }

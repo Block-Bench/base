@@ -71,8 +71,8 @@
     "getFirstWithdrawalBonus": "a",
     "amountToWithdraw": "b",
     "withdrawReward": "c",
-    "userBalances": "d",
-    "claimedBonus": "e",
+    "claimedBonus": "d",
+    "userBalances": "e",
     "rewardsForA": "f",
     "recipient": "g",
     "success": "h"

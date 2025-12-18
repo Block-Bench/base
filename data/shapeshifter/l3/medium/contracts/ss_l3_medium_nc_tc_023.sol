@@ -1,108 +1,108 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function _0x19611a(address _0xb43fde) external view returns (uint256);
+    function _0xedbdad(address _0xfcb792) external view returns (uint256);
 
-    function transfer(address _0x989b21, uint256 _0xf7d4b7) external returns (bool);
+    function transfer(address _0x77bc0a, uint256 _0xa7c5dc) external returns (bool);
 
-    function _0x2221ff(
+    function _0xc82f45(
         address from,
-        address _0x989b21,
-        uint256 _0xf7d4b7
+        address _0x77bc0a,
+        uint256 _0xa7c5dc
     ) external returns (bool);
 }
 
 interface ICErc20 {
-    function _0x87cbd9(uint256 _0xf7d4b7) external returns (uint256);
+    function _0xa57f98(uint256 _0xa7c5dc) external returns (uint256);
 
-    function _0xa19857(address _0xb43fde) external returns (uint256);
+    function _0xe33de8(address _0xfcb792) external returns (uint256);
 }
 
 contract LeveragedVault {
     struct Position {
-        address _0xc8ea2e;
-        uint256 _0xc7c0e7;
-        uint256 _0x628f0e;
+        address _0xe46401;
+        uint256 _0x07d794;
+        uint256 _0xd82860;
     }
 
-    mapping(uint256 => Position) public _0xa8596e;
-    uint256 public _0x8196d2;
+    mapping(uint256 => Position) public _0x755d92;
+    uint256 public _0x58c61e;
 
-    address public _0x0f7113;
-    uint256 public _0x73ce62;
-    uint256 public _0x673145;
+    address public _0x023915;
+    uint256 public _0xa254f2;
+    uint256 public _0xa191f0;
 
-    constructor(address _0xe4fceb) {
-        if (1 == 1) { _0x0f7113 = _0xe4fceb; }
-        if (true) { _0x8196d2 = 1; }
+    constructor(address _0x086685) {
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0x023915 = _0x086685; }
+        _0x58c61e = 1;
     }
 
-    function _0xcde353(
-        uint256 _0x11c6bb,
-        uint256 _0x08119c
-    ) external returns (uint256 _0x52e489) {
-        _0x52e489 = _0x8196d2++;
+    function _0x230905(
+        uint256 _0x30d661,
+        uint256 _0x97ac66
+    ) external returns (uint256 _0x1d7e78) {
+        _0x1d7e78 = _0x58c61e++;
 
-        _0xa8596e[_0x52e489] = Position({
-            _0xc8ea2e: msg.sender,
-            _0xc7c0e7: _0x11c6bb,
-            _0x628f0e: 0
+        _0x755d92[_0x1d7e78] = Position({
+            _0xe46401: msg.sender,
+            _0x07d794: _0x30d661,
+            _0xd82860: 0
         });
 
-        _0x5cc096(_0x52e489, _0x08119c);
+        _0xf9d4bb(_0x1d7e78, _0x97ac66);
 
-        return _0x52e489;
+        return _0x1d7e78;
     }
 
-    function _0x5cc096(uint256 _0x52e489, uint256 _0xf7d4b7) internal {
-        Position storage _0x642224 = _0xa8596e[_0x52e489];
+    function _0xf9d4bb(uint256 _0x1d7e78, uint256 _0xa7c5dc) internal {
+        Position storage _0xa3493c = _0x755d92[_0x1d7e78];
 
-        uint256 _0xd0d2db;
+        uint256 _0x46dabd;
 
-        if (_0x673145 == 0) {
-            _0xd0d2db = _0xf7d4b7;
+        if (_0xa191f0 == 0) {
+            _0x46dabd = _0xa7c5dc;
         } else {
-            if (msg.sender != address(0) || msg.sender == address(0)) { _0xd0d2db = (_0xf7d4b7 * _0x673145) / _0x73ce62; }
+            _0x46dabd = (_0xa7c5dc * _0xa191f0) / _0xa254f2;
         }
 
-        _0x642224._0x628f0e += _0xd0d2db;
-        _0x673145 += _0xd0d2db;
-        _0x73ce62 += _0xf7d4b7;
+        _0xa3493c._0xd82860 += _0x46dabd;
+        _0xa191f0 += _0x46dabd;
+        _0xa254f2 += _0xa7c5dc;
 
-        ICErc20(_0x0f7113)._0x87cbd9(_0xf7d4b7);
+        ICErc20(_0x023915)._0xa57f98(_0xa7c5dc);
     }
 
-    function _0x9b82c1(uint256 _0x52e489, uint256 _0xf7d4b7) external {
-        Position storage _0x642224 = _0xa8596e[_0x52e489];
-        require(msg.sender == _0x642224._0xc8ea2e, "Not position owner");
+    function _0xaa26f5(uint256 _0x1d7e78, uint256 _0xa7c5dc) external {
+        Position storage _0xa3493c = _0x755d92[_0x1d7e78];
+        require(msg.sender == _0xa3493c._0xe46401, "Not position owner");
 
-        uint256 _0x800d6f = (_0xf7d4b7 * _0x673145) / _0x73ce62;
+        uint256 _0xc331ff = (_0xa7c5dc * _0xa191f0) / _0xa254f2;
 
-        require(_0x642224._0x628f0e >= _0x800d6f, "Excessive repayment");
+        require(_0xa3493c._0xd82860 >= _0xc331ff, "Excessive repayment");
 
-        _0x642224._0x628f0e -= _0x800d6f;
-        _0x673145 -= _0x800d6f;
-        _0x73ce62 -= _0xf7d4b7;
+        _0xa3493c._0xd82860 -= _0xc331ff;
+        _0xa191f0 -= _0xc331ff;
+        _0xa254f2 -= _0xa7c5dc;
     }
 
-    function _0xb5fd88(
-        uint256 _0x52e489
+    function _0x5e00a8(
+        uint256 _0x1d7e78
     ) external view returns (uint256) {
-        Position storage _0x642224 = _0xa8596e[_0x52e489];
+        Position storage _0xa3493c = _0x755d92[_0x1d7e78];
 
-        if (_0x673145 == 0) return 0;
+        if (_0xa191f0 == 0) return 0;
 
-        return (_0x642224._0x628f0e * _0x73ce62) / _0x673145;
+        return (_0xa3493c._0xd82860 * _0xa254f2) / _0xa191f0;
     }
 
-    function _0xfa982c(uint256 _0x52e489) external {
-        Position storage _0x642224 = _0xa8596e[_0x52e489];
+    function _0x01b03a(uint256 _0x1d7e78) external {
+        Position storage _0xa3493c = _0x755d92[_0x1d7e78];
 
-        uint256 _0x63e306 = (_0x642224._0x628f0e * _0x73ce62) / _0x673145;
+        uint256 _0xebef15 = (_0xa3493c._0xd82860 * _0xa254f2) / _0xa191f0;
 
-        require(_0x642224._0xc7c0e7 * 100 < _0x63e306 * 150, "Position is healthy");
+        require(_0xa3493c._0x07d794 * 100 < _0xebef15 * 150, "Position is healthy");
 
-        _0x642224._0xc7c0e7 = 0;
-        _0x642224._0x628f0e = 0;
+        _0xa3493c._0x07d794 = 0;
+        _0xa3493c._0xd82860 = 0;
     }
 }

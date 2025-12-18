@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "ReturnValue",
-      "function_name": "_0x1fcdb8",
+      "function_name": "_0xb90222",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 17",
@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_087",
   "original_id": "ds_087",
   "identifier_mappings": {
-    "callnotchecked": "_0x1fcdb8",
-    "callchecked": "_0xb293ee",
-    "callee": "_0x5ef33d"
+    "callnotchecked": "_0xb90222",
+    "callchecked": "_0x251ba4",
+    "callee": "_0xc5fa75"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: callnotchecked \u2192 _0x1fcdb8"
+      "Transformed ground_truth.vulnerable_location.function_name: callnotchecked \u2192 _0xb90222"
     ]
   }
 }

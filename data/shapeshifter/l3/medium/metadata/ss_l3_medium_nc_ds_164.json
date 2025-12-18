@@ -8,7 +8,7 @@
     "severity": "low",
     "vulnerable_location": {
       "contract_name": "EtherLotto",
-      "function_name": "_0x10d39b",
+      "function_name": "_0x767824",
       "line_numbers": []
     },
     "root_cause": "Timestamp dependency - reliance on block.timestamp for critical logic at line(s) 43",
@@ -71,11 +71,11 @@
   "derived_from": "nc_ds_164",
   "original_id": "ds_164",
   "identifier_mappings": {
-    "random": "_0xf2b77b",
-    "play": "_0x10d39b",
-    "sha3": "_0xd9f94a",
-    "bank": "_0xa3c52c",
-    "pot": "_0x9cd617"
+    "random": "_0x33bfda",
+    "bank": "_0x0d1e77",
+    "play": "_0x767824",
+    "sha3": "_0x7f64a1",
+    "pot": "_0xf0ebd0"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -83,11 +83,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 5 identifiers using hex style"
+      "Renamed 5 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 5,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 _0x10d39b"
+      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 _0x767824"
     ]
   }
 }

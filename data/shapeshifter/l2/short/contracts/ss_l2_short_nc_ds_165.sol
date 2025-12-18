@@ -12,7 +12,7 @@ contract Governmental {
     if (msg.value<1 ether) throw;
   }
 
-  function f() {
+  function g() {
     if (msg.value<e/2) throw;
     c = msg.sender;
     e += msg.value/2;
@@ -34,12 +34,12 @@ contract Governmental {
 
 contract Operator {
 
-  function d(address g, uint i) {
+  function d(address f, uint i) {
     if (0<=i && i<1023) {
-      this.d.gas(msg.gas-2000)(g, i+1);
+      this.d.gas(msg.gas-2000)(f, i+1);
     }
     else {
-      Governmental(g).b();
+      Governmental(f).b();
     }
   }
 }

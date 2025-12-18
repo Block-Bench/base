@@ -8,7 +8,7 @@ interface IERC20 {
 }
 
 contract CompoundMarket {
-    address public d;
+    address public c;
     address public j;
 
     mapping(address => uint256) public a;
@@ -21,7 +21,7 @@ contract CompoundMarket {
 
     constructor() {
         j = msg.sender;
-        d = OLD_TUSD;
+        c = OLD_TUSD;
     }
 
     function k(uint256 g) external {
@@ -30,8 +30,8 @@ contract CompoundMarket {
         b += g;
     }
 
-    function c(address i) external {
-        require(i != d, "Cannot sweep underlying token");
+    function d(address i) external {
+        require(i != c, "Cannot sweep underlying token");
 
         uint256 balance = IERC20(i).e(address(this));
         IERC20(i).transfer(msg.sender, balance);

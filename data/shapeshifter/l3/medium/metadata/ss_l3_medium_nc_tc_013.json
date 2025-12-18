@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "pancake_hunny.sol",
-      "function_name": "_0xe41bb0",
+      "function_name": "_0x85207b",
       "line_numbers": []
     },
     "root_cause": "Using balanceOf(address(this)) for reward calculation instead of tracking actual deposits. Attacker sent tokens directly to contract before calling mintFor, inflating the balance used for reward calculation.",
@@ -87,35 +87,35 @@
   "derived_from": "nc_tc_013",
   "original_id": "tc_013",
   "identifier_mappings": {
-    "swapExactTokensForTokens": "_0x06e4b0",
-    "hunnyRewardAmount": "_0x6e084d",
-    "_performanceFee": "_0xd07e2b",
-    "_withdrawalFee": "_0xdcd235",
-    "tokenToReward": "_0xe0492a",
-    "earnedRewards": "_0x8d1a35",
-    "transferFrom": "_0x2d9592",
-    "_rewardToken": "_0x0f6fcd",
-    "depositedLP": "_0xd9c4aa",
-    "rewardToken": "_0xa83b85",
-    "amountOut": "_0xa681f0",
-    "balanceOf": "_0x57ccc8",
-    "getReward": "_0x585fb9",
-    "withdraw": "_0x5081cf",
-    "deadline": "_0xa60eec",
-    "_lpToken": "_0x563944",
-    "lpAmount": "_0x98ae37",
-    "amountIn": "_0x96f0b3",
-    "account": "_0x341810",
-    "amounts": "_0xca2b8c",
-    "lpToken": "_0x388057",
-    "deposit": "_0xccdbce",
-    "mintFor": "_0xe41bb0",
-    "feeSum": "_0x432206",
-    "amount": "_0x117f5a",
-    "reward": "_0x4b58f6",
-    "path": "_0x1989af",
-    "flip": "_0x3da5a0",
-    "to": "_0x3f6115"
+    "swapExactTokensForTokens": "_0x03655b",
+    "hunnyRewardAmount": "_0x58c5d9",
+    "_performanceFee": "_0x8bbaf0",
+    "_withdrawalFee": "_0x92f914",
+    "earnedRewards": "_0x4edd25",
+    "tokenToReward": "_0xfd7bc4",
+    "_rewardToken": "_0x38d9c0",
+    "transferFrom": "_0x1d7133",
+    "depositedLP": "_0xda61f7",
+    "rewardToken": "_0xa05067",
+    "balanceOf": "_0x7f6a4a",
+    "getReward": "_0xa0f27f",
+    "amountOut": "_0x357105",
+    "amountIn": "_0x4a1fbf",
+    "lpAmount": "_0xf43daf",
+    "deadline": "_0x772b4b",
+    "withdraw": "_0x316f05",
+    "_lpToken": "_0x578554",
+    "lpToken": "_0x788c9c",
+    "account": "_0xc08412",
+    "amounts": "_0xd70647",
+    "deposit": "_0x30e89f",
+    "mintFor": "_0x85207b",
+    "feeSum": "_0x8e81f4",
+    "reward": "_0x8a945e",
+    "amount": "_0x061e75",
+    "flip": "_0x144617",
+    "path": "_0xbfe029",
+    "to": "_0xf2d23d"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -123,12 +123,11 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 29 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 29 identifiers using hex style"
     ],
     "rename_map_size": 29,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: mintFor \u2192 _0xe41bb0"
+      "Transformed ground_truth.vulnerable_location.function_name: mintFor \u2192 _0x85207b"
     ]
   }
 }

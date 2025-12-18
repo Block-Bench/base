@@ -1,26 +1,26 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0x7a9949, uint256 _0xf37177) external returns (bool);
+    function transfer(address _0x70bae9, uint256 _0xa66615) external returns (bool);
 
-    function _0x67bbc8(
+    function _0xd4b53a(
         address from,
-        address _0x7a9949,
-        uint256 _0xf37177
+        address _0x70bae9,
+        uint256 _0xa66615
     ) external returns (bool);
 
-    function _0xba22cd(address _0x062264) external view returns (uint256);
+    function _0x8d5ebe(address _0x6ab383) external view returns (uint256);
 
-    function _0xedbc2b(address _0x7196f0, uint256 _0xf37177) external returns (bool);
+    function _0xfe00c2(address _0x6ab8cc, uint256 _0xa66615) external returns (bool);
 }
 
 interface IFlashLoanReceiver {
-    function _0xaaa37d(
-        address[] calldata _0xfe1900,
-        uint256[] calldata _0xe25bdd,
-        uint256[] calldata _0x552897,
-        address _0x8e241a,
-        bytes calldata _0x83566a
+    function _0xd81711(
+        address[] calldata _0x296bd8,
+        uint256[] calldata _0x02c753,
+        uint256[] calldata _0xd88873,
+        address _0xf6ab68,
+        bytes calldata _0x4a7191
     ) external returns (bool);
 }
 
@@ -28,109 +28,109 @@ contract RadiantLendingPool {
     uint256 public constant RAY = 1e27;
 
     struct ReserveData {
-        uint256 _0x39de3f;
-        uint256 _0xbf6efe;
-        address _0x246089;
+        uint256 _0x0a8031;
+        uint256 _0x946dc7;
+        address _0x8a8d38;
     }
 
-    mapping(address => ReserveData) public _0xf7c0d5;
+    mapping(address => ReserveData) public _0xf7aeed;
 
-    function _0x9b07ba(
-        address _0x9c5afd,
-        uint256 _0xf37177,
-        address _0x489b97,
-        uint16 _0x45d2a4
+    function _0x701b75(
+        address _0xd7b592,
+        uint256 _0xa66615,
+        address _0x75965c,
+        uint16 _0x6765d5
     ) external {
-        IERC20(_0x9c5afd)._0x67bbc8(msg.sender, address(this), _0xf37177);
+        IERC20(_0xd7b592)._0xd4b53a(msg.sender, address(this), _0xa66615);
 
-        ReserveData storage _0x46f2b8 = _0xf7c0d5[_0x9c5afd];
+        ReserveData storage _0x5eb051 = _0xf7aeed[_0xd7b592];
 
-        uint256 _0x70f91f = _0x46f2b8._0x39de3f;
-        if (_0x70f91f == 0) {
-            _0x70f91f = RAY;
+        uint256 _0x66e253 = _0x5eb051._0x0a8031;
+        if (_0x66e253 == 0) {
+            _0x66e253 = RAY;
         }
 
-        _0x46f2b8._0x39de3f =
-            _0x70f91f +
-            (_0xf37177 * RAY) /
-            (_0x46f2b8._0xbf6efe + 1);
-        _0x46f2b8._0xbf6efe += _0xf37177;
+        _0x5eb051._0x0a8031 =
+            _0x66e253 +
+            (_0xa66615 * RAY) /
+            (_0x5eb051._0x946dc7 + 1);
+        _0x5eb051._0x946dc7 += _0xa66615;
 
-        uint256 _0x566dec = _0x9b5e85(_0xf37177, _0x46f2b8._0x39de3f);
-        _0x1de508(_0x46f2b8._0x246089, _0x489b97, _0x566dec);
+        uint256 _0x5dd938 = _0x878f45(_0xa66615, _0x5eb051._0x0a8031);
+        _0xf9c055(_0x5eb051._0x8a8d38, _0x75965c, _0x5dd938);
     }
 
-    function _0x87484e(
-        address _0x9c5afd,
-        uint256 _0xf37177,
-        address _0x7a9949
+    function _0xc7e110(
+        address _0xd7b592,
+        uint256 _0xa66615,
+        address _0x70bae9
     ) external returns (uint256) {
-        ReserveData storage _0x46f2b8 = _0xf7c0d5[_0x9c5afd];
+        ReserveData storage _0x5eb051 = _0xf7aeed[_0xd7b592];
 
-        uint256 _0xd0d662 = _0x9b5e85(_0xf37177, _0x46f2b8._0x39de3f);
+        uint256 _0x5280db = _0x878f45(_0xa66615, _0x5eb051._0x0a8031);
 
-        _0x2ac212(_0x46f2b8._0x246089, msg.sender, _0xd0d662);
+        _0x22aaef(_0x5eb051._0x8a8d38, msg.sender, _0x5280db);
 
-        _0x46f2b8._0xbf6efe -= _0xf37177;
-        IERC20(_0x9c5afd).transfer(_0x7a9949, _0xf37177);
+        _0x5eb051._0x946dc7 -= _0xa66615;
+        IERC20(_0xd7b592).transfer(_0x70bae9, _0xa66615);
 
-        return _0xf37177;
+        return _0xa66615;
     }
 
-    function _0x121b81(
-        address _0x9c5afd,
-        uint256 _0xf37177,
-        uint256 _0xabaf0a,
-        uint16 _0x45d2a4,
-        address _0x489b97
+    function _0xd46ed8(
+        address _0xd7b592,
+        uint256 _0xa66615,
+        uint256 _0x21ae80,
+        uint16 _0x6765d5,
+        address _0x75965c
     ) external {
-        IERC20(_0x9c5afd).transfer(_0x489b97, _0xf37177);
+        IERC20(_0xd7b592).transfer(_0x75965c, _0xa66615);
     }
 
-    function _0x073782(
-        address _0x66d1e4,
-        address[] calldata _0xfe1900,
-        uint256[] calldata _0xe25bdd,
-        uint256[] calldata _0x90801f,
-        address _0x489b97,
-        bytes calldata _0x83566a,
-        uint16 _0x45d2a4
+    function _0xd261e6(
+        address _0xa57aa9,
+        address[] calldata _0x296bd8,
+        uint256[] calldata _0x02c753,
+        uint256[] calldata _0x8314ae,
+        address _0x75965c,
+        bytes calldata _0x4a7191,
+        uint16 _0x6765d5
     ) external {
-        for (uint256 i = 0; i < _0xfe1900.length; i++) {
-            IERC20(_0xfe1900[i]).transfer(_0x66d1e4, _0xe25bdd[i]);
+        for (uint256 i = 0; i < _0x296bd8.length; i++) {
+            IERC20(_0x296bd8[i]).transfer(_0xa57aa9, _0x02c753[i]);
         }
 
         require(
-            IFlashLoanReceiver(_0x66d1e4)._0xaaa37d(
-                _0xfe1900,
-                _0xe25bdd,
-                new uint256[](_0xfe1900.length),
+            IFlashLoanReceiver(_0xa57aa9)._0xd81711(
+                _0x296bd8,
+                _0x02c753,
+                new uint256[](_0x296bd8.length),
                 msg.sender,
-                _0x83566a
+                _0x4a7191
             ),
             "Flashloan callback failed"
         );
 
-        for (uint256 i = 0; i < _0xfe1900.length; i++) {
-            IERC20(_0xfe1900[i])._0x67bbc8(
-                _0x66d1e4,
+        for (uint256 i = 0; i < _0x296bd8.length; i++) {
+            IERC20(_0x296bd8[i])._0xd4b53a(
+                _0xa57aa9,
                 address(this),
-                _0xe25bdd[i]
+                _0x02c753[i]
             );
         }
     }
 
-    function _0x9b5e85(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 _0x850e5a = b / 2;
+    function _0x878f45(uint256 a, uint256 b) internal pure returns (uint256) {
+        uint256 _0xfcd3ca = b / 2;
         require(b != 0, "Division by zero");
-        return (a * RAY + _0x850e5a) / b;
+        return (a * RAY + _0xfcd3ca) / b;
     }
 
-    function _0x1de508(address _0x16bf9b, address _0x7a9949, uint256 _0xf37177) internal {}
+    function _0xf9c055(address _0xfbba32, address _0x70bae9, uint256 _0xa66615) internal {}
 
-    function _0x2ac212(
-        address _0x16bf9b,
+    function _0x22aaef(
+        address _0xfbba32,
         address from,
-        uint256 _0xf37177
+        uint256 _0xa66615
     ) internal {}
 }

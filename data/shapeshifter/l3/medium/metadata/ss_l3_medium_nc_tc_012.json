@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "rari_capital.sol",
-      "function_name": "_0x8ef83c",
+      "function_name": "_0x6af8ef",
       "line_numbers": []
     },
     "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
@@ -88,28 +88,28 @@
   "derived_from": "nc_tc_012",
   "original_id": "tc_012",
   "identifier_mappings": {
-    "depositAndEnterMarket": "_0x42e9d0",
-    "getAccountLiquidity": "_0x6096cc",
-    "additionalBorrow": "_0x4e672e",
-    "collateralValue": "_0x8307c1",
-    "totalBorrowed": "_0x7870ee",
-    "totalDeposits": "_0xbb974b",
-    "enterMarkets": "_0xd37f97",
-    "_comptroller": "_0xa6def0",
-    "comptroller": "_0xc8db25",
-    "exitMarket": "_0xb486ab",
-    "isHealthy": "_0x940c8a",
-    "totalDebt": "_0x698aa3",
-    "withdraw": "_0x7d2c1b",
-    "inMarket": "_0xd5d109",
-    "deposits": "_0xa9ebac",
-    "borrowed": "_0xd2acfd",
-    "account": "_0x1eab2c",
-    "success": "_0x47a201",
-    "cTokens": "_0x3f20c2",
-    "cToken": "_0x7512e6",
-    "borrow": "_0x8ef83c",
-    "amount": "_0x6353c8"
+    "depositAndEnterMarket": "_0x6dcf56",
+    "getAccountLiquidity": "_0xb9b911",
+    "additionalBorrow": "_0x6337ed",
+    "collateralValue": "_0x74a398",
+    "totalDeposits": "_0x622f75",
+    "totalBorrowed": "_0x310ab4",
+    "enterMarkets": "_0x669d16",
+    "_comptroller": "_0xf94c6b",
+    "comptroller": "_0x131409",
+    "exitMarket": "_0x991155",
+    "totalDebt": "_0x9a4d00",
+    "isHealthy": "_0x65688d",
+    "borrowed": "_0x329677",
+    "deposits": "_0x7a5621",
+    "inMarket": "_0x6f2f3a",
+    "withdraw": "_0x62e6d1",
+    "cTokens": "_0x0ebf3f",
+    "success": "_0x155063",
+    "account": "_0x5b2b4d",
+    "cToken": "_0x8c8f8e",
+    "amount": "_0xdcee60",
+    "borrow": "_0x6af8ef"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -121,7 +121,7 @@
     ],
     "rename_map_size": 22,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: borrow \u2192 _0x8ef83c"
+      "Transformed ground_truth.vulnerable_location.function_name: borrow \u2192 _0x6af8ef"
     ]
   }
 }

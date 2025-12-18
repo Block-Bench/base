@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "MyContract",
-      "function_name": "_0x0f5568",
+      "function_name": "_0xc907e9",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 20",
@@ -70,10 +70,10 @@
   "derived_from": "nc_ds_010",
   "original_id": "ds_010",
   "identifier_mappings": {
-    "receiver": "_0xa2f6b7",
-    "amount": "_0x7f8817",
-    "sendTo": "_0x0f5568",
-    "owner": "_0x97bb9a"
+    "receiver": "_0x4e3417",
+    "sendTo": "_0xc907e9",
+    "amount": "_0xc429e1",
+    "owner": "_0x4fde6f"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -81,11 +81,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 4 identifiers using hex style"
+      "Renamed 4 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: sendTo \u2192 _0x0f5568"
+      "Transformed ground_truth.vulnerable_location.function_name: sendTo \u2192 _0xc907e9"
     ]
   }
 }

@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "FindThisHash",
-      "function_name": "_0x1fb462",
+      "function_name": "_0x83750e",
       "line_numbers": []
     },
     "root_cause": "Front-running vulnerability - transaction ordering dependence at line(s) 17",
@@ -70,10 +70,10 @@
   "derived_from": "nc_ds_157",
   "original_id": "ds_157",
   "identifier_mappings": {
-    "solution": "_0x7fe960",
-    "solve": "_0x1fb462",
-    "hash": "_0x233601",
-    "sha3": "_0xa4241f"
+    "solution": "_0x77a55a",
+    "solve": "_0x83750e",
+    "hash": "_0xeb9e35",
+    "sha3": "_0xa909dd"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -85,7 +85,7 @@
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: solve \u2192 _0x1fb462"
+      "Transformed ground_truth.vulnerable_location.function_name: solve \u2192 _0x83750e"
     ]
   }
 }

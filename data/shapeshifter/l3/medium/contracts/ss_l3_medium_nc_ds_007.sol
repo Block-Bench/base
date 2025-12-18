@@ -4,24 +4,24 @@ contract FibonacciBalance {
 
     address public fibonacciLibrary;
 
-    uint public _0x72e4b7;
+    uint public _0x64b177;
 
-    uint public _0xaeb794 = 3;
-    uint public _0x05bef0;
+    uint public _0x27f4d3 = 3;
+    uint public _0x898d82;
 
-    bytes4 constant _0x596275 = bytes4(_0x52f8e2("setFibonacci(uint256)"));
+    bytes4 constant _0xe6580e = bytes4(_0xa64405("setFibonacci(uint256)"));
 
 
     constructor(address _fibonacciLibrary) public payable {
         fibonacciLibrary = _fibonacciLibrary;
     }
 
-    function _0xe3cf89() {
-        _0x05bef0 += 1;
+    function _0xe0ca4f() {
+        _0x898d82 += 1;
 
 
-        require(fibonacciLibrary.delegatecall(_0x596275, _0x05bef0));
-        msg.sender.transfer(_0x72e4b7 * 1 ether);
+        require(fibonacciLibrary.delegatecall(_0xe6580e, _0x898d82));
+        msg.sender.transfer(_0x64b177 * 1 ether);
     }
 
 
@@ -33,21 +33,21 @@ contract FibonacciBalance {
 
 contract FibonacciLib {
 
-    uint public _0xaeb794;
-    uint public _0x72e4b7;
+    uint public _0x27f4d3;
+    uint public _0x64b177;
 
 
-    function _0xce0384(uint _0x57cfa2) public {
-        _0xaeb794 = _0x57cfa2;
+    function _0x88b54b(uint _0xa3a899) public {
+        _0x27f4d3 = _0xa3a899;
     }
 
-    function _0x3284c9(uint n) public {
-        _0x72e4b7 = _0x6538bf(n);
+    function _0xf24ff2(uint n) public {
+        _0x64b177 = _0x09ca8a(n);
     }
 
-    function _0x6538bf(uint n) internal returns (uint) {
-        if (n == 0) return _0xaeb794;
-        else if (n == 1) return _0xaeb794 + 1;
-        else return _0x6538bf(n - 1) + _0x6538bf(n - 2);
+    function _0x09ca8a(uint n) internal returns (uint) {
+        if (n == 0) return _0x27f4d3;
+        else if (n == 1) return _0x27f4d3 + 1;
+        else return _0x09ca8a(n - 1) + _0x09ca8a(n - 2);
     }
 }

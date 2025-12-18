@@ -24,324 +24,324 @@ contract GaugeCL is ReentrancyGuard, Ownable, IERC721Receiver {
     using SafeERC20 for IERC20;
     using EnumerableSet for EnumerableSet.UintSet;
     using SafeCast for uint128;
-    IERC20 public immutable ax;
+    IERC20 public immutable at;
     address public immutable df;
     address public VE;
     address public DISTRIBUTION;
-    address public ab;
-    address public ac;
+    address public af;
+    address public ad;
 
     uint256 public DURATION;
-    uint256 internal aj;
-    uint256 public bb;
-    ICLPool public cw;
-    address public ay;
+    uint256 internal ah;
+    uint256 public be;
+    ICLPool public db;
+    address public au;
     INonfungiblePositionManager public b;
 
-    bool public bu;
-    bool public immutable bt;
-    address immutable cj;
+    bool public bq;
+    bool public immutable bv;
+    address immutable cp;
 
-    mapping(uint256 => uint256) public  q;
-    mapping(address => EnumerableSet.UintSet) internal cl;
-    mapping(uint256 => uint256) public  l;
+    mapping(uint256 => uint256) public  m;
+    mapping(address => EnumerableSet.UintSet) internal cm;
+    mapping(uint256 => uint256) public  k;
 
-    mapping(uint256 => uint256) public  ck;
+    mapping(uint256 => uint256) public  cn;
 
-    mapping(uint256 => uint256) public  ae;
+    mapping(uint256 => uint256) public  ab;
 
-    event RewardAdded(uint256 cy);
-    event Deposit(address indexed dj, uint256 cx);
-    event Withdraw(address indexed dj, uint256 cx);
-    event Harvest(address indexed dj, uint256 cy);
-    event ClaimFees(address indexed from, uint256 cc, uint256 ce);
-    event EmergencyActivated(address indexed de, uint256 timestamp);
-    event EmergencyDeactivated(address indexed de, uint256 timestamp);
+    event RewardAdded(uint256 cs);
+    event Deposit(address indexed dj, uint256 cr);
+    event Withdraw(address indexed dj, uint256 cr);
+    event Harvest(address indexed dj, uint256 cs);
+    event ClaimFees(address indexed from, uint256 cc, uint256 cd);
+    event EmergencyActivated(address indexed dg, uint256 timestamp);
+    event EmergencyDeactivated(address indexed dg, uint256 timestamp);
 
-    constructor(address ar, address cr, address dn, address dg, address ak, address x,
-        address y, bool bc, address dk,  address by) {
-        cj = by;
-        ax = IERC20(ar);
-        df = cr;
-        VE = dn;
-        ay = dg;
-        cw = ICLPool(dg);
+    constructor(address am, address cv, address dl, address dd, address ak, address aa,
+        address x, bool az, address dk,  address bz) {
+        cp = bz;
+        at = IERC20(am);
+        df = cv;
+        VE = dl;
+        au = dd;
+        db = ICLPool(dd);
         DISTRIBUTION = ak;
         DURATION = HybraTimeLibrary.WEEK;
 
-        ab = x;
-        ac = y;
-        bt = bc;
+        af = aa;
+        ad = x;
+        bv = az;
         b = INonfungiblePositionManager(dk);
-        bu = false;
+        bq = false;
     }
 
-    modifier s() {
+    modifier r() {
         require(msg.sender == DISTRIBUTION, "Caller is not RewardsDistribution contract");
         _;
     }
 
-    modifier ag() {
-        require(bu == false, "emergency");
+    modifier ae() {
+        require(bq == false, "emergency");
         _;
     }
 
-    function ad(uint256 cq, int24 bq, int24 bs) internal {
-        if (ae[cq] == block.timestamp) return;
-        cw.c();
-        ae[cq] = block.timestamp;
-        ck[cq] += cp(cq);
-        l[cq] = cw.g(bq, bs, 0);
+    function ag(uint256 co, int24 bu, int24 bm) internal {
+        if (ab[co] == block.timestamp) return;
+        db.c();
+        ab[co] = block.timestamp;
+        cn[co] += cl(co);
+        k[co] = db.h(bu, bm, 0);
     }
 
-    function h() external bp {
-        require(bu == false, "emergency");
-        bu = true;
+    function g() external br {
+        require(bq == false, "emergency");
+        bq = true;
         emit EmergencyActivated(address(this), block.timestamp);
     }
 
-    function m() external bp {
+    function o() external br {
 
-        require(bu == true,"emergency");
+        require(bq == true,"emergency");
 
-        bu = false;
+        bq = false;
         emit EmergencyDeactivated(address(this), block.timestamp);
     }
 
-    function br(uint256 cq) external view returns (uint256) {
-        (,,,,,,,uint128 bw,,,,) = b.bm(cq);
-        return bw;
+    function bw(uint256 co) external view returns (uint256) {
+        (,,,,,,,uint128 bs,,,,) = b.bi(co);
+        return bs;
     }
 
-    function aa(address da, address cs, int24 av) internal view returns (address) {
-        return ICLFactory(b.cj()).cm(da, cs, av);
+    function y(address cx, address dc, int24 ay) internal view returns (address) {
+        return ICLFactory(b.cp()).cj(cx, dc, ay);
     }
 
-    function dc(uint256 cq) external view returns (uint256 cy) {
-        require(cl[msg.sender].bz(cq), "NA");
+    function da(uint256 co) external view returns (uint256 cs) {
+        require(cm[msg.sender].ce(co), "NA");
 
-        uint256 cy = cp(cq);
-        return (cy);
+        uint256 cs = cl(co);
+        return (cs);
     }
 
-       function cp(uint256 cq) internal view returns (uint256) {
-        uint256 at = cw.at();
+       function cl(uint256 co) internal view returns (uint256) {
+        uint256 as = db.as();
 
-        uint256 bl = block.timestamp - at;
+        uint256 bx = block.timestamp - as;
 
-        uint256 f = cw.f();
-        uint256 al = cw.al();
+        uint256 f = db.f();
+        uint256 aj = db.aj();
 
-        if (bl != 0 && al > 0 && cw.z() > 0) {
-            uint256 cy = bb * bl;
-            if (cy > al) cy = al;
+        if (bx != 0 && aj > 0 && db.w() > 0) {
+            uint256 cs = be * bx;
+            if (cs > aj) cs = aj;
 
-            f += FullMath.db(cy, FixedPoint128.Q128, cw.z());
+            f += FullMath.cu(cs, FixedPoint128.Q128, db.w());
         }
 
-        (,,,,, int24 bq, int24 bs, uint128 bw,,,,) = b.bm(cq);
+        (,,,,, int24 bu, int24 bm, uint128 bs,,,,) = b.bi(co);
 
-        uint256 a = l[cq];
-        uint256 d = cw.g(bq, bs, f);
+        uint256 a = k[co];
+        uint256 d = db.h(bu, bm, f);
 
-        uint256 bv =
-            FullMath.db(d - a, bw, FixedPoint128.Q128);
-        return bv;
+        uint256 bk =
+            FullMath.cu(d - a, bs, FixedPoint128.Q128);
+        return bk;
     }
 
-    function cn(uint256 cq) external ap ag {
+    function ch(uint256 co) external an ae {
 
-         (,,address da, address cs, int24 av, int24 bq, int24 bs, uint128 bw,,,,) =
-            b.bm(cq);
+         (,,address cx, address dc, int24 ay, int24 bu, int24 bm, uint128 bs,,,,) =
+            b.bi(co);
 
-        require(bw > 0, "Gauge: zero liquidity");
+        require(bs > 0, "Gauge: zero liquidity");
 
-        address am = aa(da, cs, av);
+        address ao = y(cx, dc, ay);
 
-        require(am == ay, "Pool mismatch: Position not for this gauge pool");
+        require(ao == au, "Pool mismatch: Position not for this gauge pool");
 
-        b.cf(INonfungiblePositionManager.CollectParams({
-                cq: cq,
-                bi: msg.sender,
-                bd: type(uint128).dl,
-                az: type(uint128).dl
+        b.cg(INonfungiblePositionManager.CollectParams({
+                co: co,
+                bp: msg.sender,
+                bh: type(uint128).dn,
+                bf: type(uint128).dn
             }));
 
-        b.u(msg.sender, address(this), cq);
+        b.u(msg.sender, address(this), co);
 
-        cw.dh(int128(bw), bq, bs, true);
+        db.dh(int128(bs), bu, bm, true);
 
-        uint256 an = cw.g(bq, bs, 0);
-        l[cq] = an;
-        ae[cq] = block.timestamp;
+        uint256 ap = db.h(bu, bm, 0);
+        k[co] = ap;
+        ab[co] = block.timestamp;
 
-        cl[msg.sender].dm(cq);
+        cm[msg.sender].dm(co);
 
-        emit Deposit(msg.sender, cq);
+        emit Deposit(msg.sender, co);
     }
 
-    function cb(uint256 cq, uint8 ba) external ap ag {
-           require(cl[msg.sender].bz(cq), "NA");
+    function ca(uint256 co, uint8 bd) external an ae {
+           require(cm[msg.sender].ce(co), "NA");
 
 
-        b.cf(
+        b.cg(
             INonfungiblePositionManager.CollectParams({
-                cq: cq,
-                bi: msg.sender,
-                bd: type(uint128).dl,
-                az: type(uint128).dl
+                co: co,
+                bp: msg.sender,
+                bh: type(uint128).dn,
+                bf: type(uint128).dn
             })
         );
 
-        (,,,,, int24 bq, int24 bs, uint128 t,,,,) = b.bm(cq);
-        bf(bq, bs, cq, msg.sender, ba);
+        (,,,,, int24 bu, int24 bm, uint128 t,,,,) = b.bi(co);
+        bc(bu, bm, co, msg.sender, bd);
 
 
         if (t != 0) {
-            cw.dh(-int128(t), bq, bs, true);
+            db.dh(-int128(t), bu, bm, true);
         }
 
-        cl[msg.sender].ct(cq);
-        b.u(address(this), msg.sender, cq);
+        cm[msg.sender].cz(co);
+        b.u(address(this), msg.sender, co);
 
-        emit Withdraw(msg.sender, cq);
+        emit Withdraw(msg.sender, co);
     }
 
-    function bn(uint256 cq, address co,uint8 ba ) public ap s {
+    function bl(uint256 co, address cq,uint8 bd ) public an r {
 
-        require(cl[co].bz(cq), "NA");
+        require(cm[cq].ce(co), "NA");
 
-        (,,,,, int24 bq, int24 bs,,,,,) = b.bm(cq);
-        bf(bq, bs, cq, co, ba);
+        (,,,,, int24 bu, int24 bm,,,,,) = b.bi(co);
+        bc(bu, bm, co, cq, bd);
     }
 
-    function bf(int24 bq, int24 bs, uint256 cq,address co, uint8 ba) internal {
-        ad(cq, bq, bs);
-        uint256 ao = ck[cq];
-        if(ao > 0){
-            delete ck[cq];
-            ax.aw(df, ao);
-            IRHYBR(df).e(ao);
-            IRHYBR(df).bj(ao, ba, co);
+    function bc(int24 bu, int24 bm, uint256 co,address cq, uint8 bd) internal {
+        ag(co, bu, bm);
+        uint256 aq = cn[co];
+        if(aq > 0){
+            delete cn[co];
+            at.ax(df, aq);
+            IRHYBR(df).e(aq);
+            IRHYBR(df).bn(aq, bd, cq);
         }
-        emit Harvest(msg.sender, ao);
+        emit Harvest(msg.sender, aq);
     }
 
-    function k(address dd, uint256 ao) external ap
-        ag s returns (uint256 au) {
-        require(dd == address(ax), "Invalid reward token");
+    function j(address de, uint256 aq) external an
+        ae r returns (uint256 aw) {
+        require(de == address(at), "Invalid reward token");
 
 
-        cw.c();
+        db.c();
 
 
-        uint256 j = HybraTimeLibrary.bk(block.timestamp) - block.timestamp;
-        uint256 o = block.timestamp + j;
+        uint256 l = HybraTimeLibrary.bj(block.timestamp) - block.timestamp;
+        uint256 p = block.timestamp + l;
 
 
-        uint256 p = ao + cw.ca();
+        uint256 n = aq + db.cb();
 
 
-        if (block.timestamp >= aj) {
+        if (block.timestamp >= ah) {
 
-            bb = ao / j;
-            cw.be({
-                bb: bb,
-                al: p,
-                aq: o
+            be = aq / l;
+            db.bg({
+                be: be,
+                aj: n,
+                ar: p
             });
         } else {
 
-            uint256 af = j * bb;
-            bb = (ao + af) / j;
-            cw.be({
-                bb: bb,
-                al: p + af,
-                aq: o
+            uint256 ac = l * be;
+            be = (aq + ac) / l;
+            db.bg({
+                be: be,
+                aj: n + ac,
+                ar: p
             });
         }
 
 
-        q[HybraTimeLibrary.bh(block.timestamp)] = bb;
+        m[HybraTimeLibrary.ba(block.timestamp)] = be;
 
 
-        ax.u(DISTRIBUTION, address(this), ao);
+        at.u(DISTRIBUTION, address(this), aq);
 
 
-        uint256 w = ax.br(address(this));
-        require(bb <= w / j, "Insufficient balance for reward rate");
+        uint256 z = at.bw(address(this));
+        require(be <= z / l, "Insufficient balance for reward rate");
 
 
-        aj = o;
-        au = bb;
+        ah = p;
+        aw = be;
 
-        emit RewardAdded(ao);
+        emit RewardAdded(aq);
     }
 
-    function ah() external view returns (uint256 da, uint256 cs){
+    function ai() external view returns (uint256 cx, uint256 dc){
 
-        (da, cs) = cw.bo();
+        (cx, dc) = db.bt();
 
     }
 
-    function bx() external ap returns (uint256 cc, uint256 ce) {
-        return bg();
+    function bo() external an returns (uint256 cc, uint256 cd) {
+        return bb();
     }
 
-    function bg() internal returns (uint256 cc, uint256 ce) {
-        if (!bt) {
+    function bb() internal returns (uint256 cc, uint256 cd) {
+        if (!bv) {
             return (0, 0);
         }
 
-        cw.as();
+        db.av();
 
-        address ch = cw.da();
-        address cg = cw.cs();
+        address ci = db.cx();
+        address cf = db.dc();
 
-        cc = IERC20(ch).br(address(this));
-        ce = IERC20(cg).br(address(this));
+        cc = IERC20(ci).bw(address(this));
+        cd = IERC20(cf).bw(address(this));
 
-        if (cc > 0 || ce > 0) {
+        if (cc > 0 || cd > 0) {
 
-            uint256 cz = cc;
-            uint256 cv = ce;
+            uint256 cy = cc;
+            uint256 ct = cd;
 
-            if (cz  > 0) {
-                IERC20(ch).aw(ab, 0);
-                IERC20(ch).aw(ab, cz);
-                IBribe(ab).k(ch, cz);
+            if (cy  > 0) {
+                IERC20(ci).ax(af, 0);
+                IERC20(ci).ax(af, cy);
+                IBribe(af).j(ci, cy);
             }
-            if (cv  > 0) {
-                IERC20(cg).aw(ab, 0);
-                IERC20(cg).aw(ab, cv);
-                IBribe(ab).k(cg, cv);
+            if (ct  > 0) {
+                IERC20(cf).ax(af, 0);
+                IERC20(cf).ax(af, ct);
+                IBribe(af).j(cf, ct);
             }
-            emit ClaimFees(msg.sender, cc, ce);
+            emit ClaimFees(msg.sender, cc, cd);
         }
     }
 
 
-    function n() external view returns (uint256) {
-        return bb * DURATION;
+    function q() external view returns (uint256) {
+        return be * DURATION;
     }
 
 
-    function r(address di) external bp {
+    function s(address di) external br {
         require(di >= address(0), "zero");
-        ab = di;
+        af = di;
     }
 
-    function ai(address dd,address do,uint256 value) internal {
-        require(dd.code.length > 0);
-        (bool ci, bytes memory data) = dd.call(abi.i(IERC20.transfer.selector, do, value));
-        require(ci && (data.length == 0 || abi.cu(data, (bool))));
+    function al(address de,address do,uint256 value) internal {
+        require(de.code.length > 0);
+        (bool ck, bytes memory data) = de.call(abi.i(IERC20.transfer.selector, do, value));
+        require(ck && (data.length == 0 || abi.cw(data, (bool))));
     }
 
 
     function v(
-        address cd,
+        address by,
         address from,
-        uint256 cq,
+        uint256 co,
         bytes calldata data
     ) external pure override returns (bytes4) {
         return IERC721Receiver.v.selector;

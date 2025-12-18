@@ -81,8 +81,8 @@
     "transferFrom": "d",
     "erc20Token": "e",
     "_recipient": "f",
-    "_settings": "g",
-    "allowance": "h",
+    "allowance": "g",
+    "_settings": "h",
     "_amount": "i",
     "_token": "j",
     "token": "k"

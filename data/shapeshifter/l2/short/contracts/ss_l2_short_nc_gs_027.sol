@@ -20,31 +20,31 @@ import {ILiquidityBuffer} from "./liquidityBuffer/interfaces/ILiquidityBuffer.so
 
 interface StakingEvents {
 
-    event Staked(address indexed bv, uint256 bs, uint256 bj);
+    event Staked(address indexed bx, uint256 bp, uint256 bf);
 
 
-    event UnstakeRequested(uint256 indexed cl, address indexed bv, uint256 bs, uint256 bg);
+    event UnstakeRequested(uint256 indexed cl, address indexed bx, uint256 bp, uint256 be);
 
 
-    event UnstakeRequestClaimed(uint256 indexed cl, address indexed bv);
+    event UnstakeRequestClaimed(uint256 indexed cl, address indexed bx);
 
 
-    event ValidatorInitiated(bytes32 indexed cl, uint256 indexed bf, bytes bw, uint256 ah);
+    event ValidatorInitiated(bytes32 indexed cl, uint256 indexed bg, bytes cb, uint256 ak);
 
 
-    event AllocatedETHToUnstakeRequestsManager(uint256 bz);
+    event AllocatedETHToUnstakeRequestsManager(uint256 bv);
 
 
-    event AllocatedETHToDeposits(uint256 bz);
+    event AllocatedETHToDeposits(uint256 bv);
 
 
-    event ReturnsReceived(uint256 bz);
+    event ReturnsReceived(uint256 bv);
 
 
-    event ReturnsReceivedFromLiquidityBuffer(uint256 bz);
+    event ReturnsReceivedFromLiquidityBuffer(uint256 bv);
 
 
-    event AllocatedETHToLiquidityBuffer(uint256 bz);
+    event AllocatedETHToLiquidityBuffer(uint256 bv);
 }
 
 
@@ -66,231 +66,231 @@ contract Staking is Initializable, AccessControlEnumerableUpgradeable, IStaking,
     error PreviouslyUsedValidator();
     error ZeroAddress();
     error InvalidDepositRoot(bytes32);
-    error StakeBelowMinimumMETHAmount(uint256 bk, uint256 ag);
-    error UnstakeBelowMinimumETHAmount(uint256 bs, uint256 ag);
+    error StakeBelowMinimumMETHAmount(uint256 bj, uint256 ai);
+    error UnstakeBelowMinimumETHAmount(uint256 bp, uint256 ai);
 
     error InvalidWithdrawalCredentialsWrongLength(uint256);
     error InvalidWithdrawalCredentialsNotETH1(bytes12);
     error InvalidWithdrawalCredentialsWrongAddress(address);
 
-    bytes32 public constant STAKING_MANAGER_ROLE = bn("STAKING_MANAGER_ROLE");
-    bytes32 public constant ALLOCATOR_SERVICE_ROLE = bn("ALLOCATER_SERVICE_ROLE");
-    bytes32 public constant INITIATOR_SERVICE_ROLE = bn("INITIATOR_SERVICE_ROLE");
-    bytes32 public constant STAKING_ALLOWLIST_MANAGER_ROLE = bn("STAKING_ALLOWLIST_MANAGER_ROLE");
-    bytes32 public constant STAKING_ALLOWLIST_ROLE = bn("STAKING_ALLOWLIST_ROLE");
-    bytes32 public constant TOP_UP_ROLE = bn("TOP_UP_ROLE");
+    bytes32 public constant STAKING_MANAGER_ROLE = bq("STAKING_MANAGER_ROLE");
+    bytes32 public constant ALLOCATOR_SERVICE_ROLE = bq("ALLOCATER_SERVICE_ROLE");
+    bytes32 public constant INITIATOR_SERVICE_ROLE = bq("INITIATOR_SERVICE_ROLE");
+    bytes32 public constant STAKING_ALLOWLIST_MANAGER_ROLE = bq("STAKING_ALLOWLIST_MANAGER_ROLE");
+    bytes32 public constant STAKING_ALLOWLIST_ROLE = bq("STAKING_ALLOWLIST_ROLE");
+    bytes32 public constant TOP_UP_ROLE = bq("TOP_UP_ROLE");
 
     struct ValidatorParams {
-        uint256 bf;
-        uint256 aw;
-        bytes bw;
-        bytes p;
-        bytes bp;
-        bytes32 ak;
+        uint256 bg;
+        uint256 av;
+        bytes cb;
+        bytes q;
+        bytes bn;
+        bytes32 ag;
     }
 
-    mapping(bytes bw => bool cb) public at;
-    uint256 public f;
-    uint256 public o;
+    mapping(bytes cb => bool cd) public at;
+    uint256 public g;
+    uint256 public n;
     uint256 public ar;
     uint256 public l;
-    uint256 public ab;
-    uint256 public w;
-    uint16 public n;
+    uint256 public aa;
+    uint256 public v;
+    uint16 public o;
     uint16 internal constant h = 10_000;
     uint16 internal constant d = h / 10;
+    uint256 public r;
     uint256 public s;
-    uint256 public t;
     IDepositContract public al;
-    IMETH public cj;
+    IMETH public ci;
     IOracleReadRecord public by;
-    IPauserRead public bx;
+    IPauserRead public cc;
     IUnstakeRequestsManager public m;
-    address public ae;
-    address public aa;
-    bool public x;
+    address public ad;
+    address public ab;
+    bool public y;
     uint256 public i;
     uint256 public z;
-    ILiquidityBuffer public ai;
+    ILiquidityBuffer public am;
 
     struct Init {
-        address cf;
+        address ce;
         address bu;
         address ac;
+        address af;
+        address ab;
         address ad;
-        address aa;
-        address ae;
-        IMETH cj;
+        IMETH ci;
         IDepositContract al;
         IOracleReadRecord by;
-        IPauserRead bx;
+        IPauserRead cc;
         IUnstakeRequestsManager m;
     }
 
     constructor() {
-        r();
+        t();
     }
 
-    function bi(Init memory ch) external bc {
+    function bk(Init memory ch) external bd {
         __AccessControlEnumerable_init();
 
-        be(DEFAULT_ADMIN_ROLE, ch.cf);
-        be(STAKING_MANAGER_ROLE, ch.bu);
-        be(ALLOCATOR_SERVICE_ROLE, ch.ac);
-        be(INITIATOR_SERVICE_ROLE, ch.ad);
+        bl(DEFAULT_ADMIN_ROLE, ch.ce);
+        bl(STAKING_MANAGER_ROLE, ch.bu);
+        bl(ALLOCATOR_SERVICE_ROLE, ch.ac);
+        bl(INITIATOR_SERVICE_ROLE, ch.af);
 
-        av(STAKING_ALLOWLIST_MANAGER_ROLE, STAKING_MANAGER_ROLE);
-        av(STAKING_ALLOWLIST_ROLE, STAKING_ALLOWLIST_MANAGER_ROLE);
+        ax(STAKING_ALLOWLIST_MANAGER_ROLE, STAKING_MANAGER_ROLE);
+        ax(STAKING_ALLOWLIST_ROLE, STAKING_ALLOWLIST_MANAGER_ROLE);
 
-        cj = ch.cj;
+        ci = ch.ci;
         al = ch.al;
         by = ch.by;
-        bx = ch.bx;
-        aa = ch.aa;
+        cc = ch.cc;
+        ab = ch.ab;
         m = ch.m;
-        ae = ch.ae;
+        ad = ch.ad;
 
-        ab = 0.1 ether;
-        w = 0.01 ether;
+        aa = 0.1 ether;
+        v = 0.01 ether;
+        r = 32 ether;
         s = 32 ether;
-        t = 32 ether;
-        x = true;
+        y = true;
         i = block.number;
         z = 1024 ether;
     }
 
-    function ay(ILiquidityBuffer cm) public ax(2) {
-        ai = cm;
+    function ay(ILiquidityBuffer cm) public au(2) {
+        am = cm;
     }
 
-    function cg(uint256 au) external payable {
-        if (bx.an()) {
+    function cg(uint256 aw) external payable {
+        if (cc.ah()) {
             revert Paused();
         }
 
-        if (x) {
-            bl(STAKING_ALLOWLIST_ROLE);
+        if (y) {
+            bi(STAKING_ALLOWLIST_ROLE);
         }
 
-        if (msg.value < ab) {
+        if (msg.value < aa) {
             revert MinimumStakeBoundNotSatisfied();
         }
 
-        uint256 ao = bm(msg.value);
-        if (ao + cj.bd() > z) {
+        uint256 as = bs(msg.value);
+        if (as + ci.bc() > z) {
             revert MaximumMETHSupplyExceeded();
         }
-        if (ao < au) {
-            revert StakeBelowMinimumMETHAmount(ao, au);
+        if (as < aw) {
+            revert StakeBelowMinimumMETHAmount(as, aw);
         }
 
         ar += msg.value;
 
-        emit Staked(msg.sender, msg.value, ao);
-        cj.ci(msg.sender, ao);
+        emit Staked(msg.sender, msg.value, as);
+        ci.cj(msg.sender, as);
     }
 
-    function as(uint128 bk, uint128 ba) external returns (uint256) {
-        return am(bk, ba);
+    function ap(uint128 bj, uint128 az) external returns (uint256) {
+        return aj(bj, az);
     }
 
     function j(
-        uint128 bk,
-        uint128 ba,
+        uint128 bj,
+        uint128 az,
         uint256 bt,
         uint8 v,
         bytes32 r,
         bytes32 s
     ) external returns (uint256) {
-        SafeERC20Upgradeable.bh(cj, msg.sender, address(this), bk, bt, v, r, s);
-        return am(bk, ba);
+        SafeERC20Upgradeable.bh(ci, msg.sender, address(this), bj, bt, v, r, s);
+        return aj(bj, az);
     }
 
-    function am(uint128 bk, uint128 ba) internal returns (uint256) {
-        if (bx.b()) {
+    function aj(uint128 bj, uint128 az) internal returns (uint256) {
+        if (cc.b()) {
             revert Paused();
         }
 
-        if (bk < w) {
+        if (bj < v) {
             revert MinimumUnstakeBoundNotSatisfied();
         }
 
-        uint128 bs = uint128(bo(bk));
-        if (bs < ba) {
-            revert UnstakeBelowMinimumETHAmount(bs, ba);
+        uint128 bp = uint128(br(bj));
+        if (bp < az) {
+            revert UnstakeBelowMinimumETHAmount(bp, az);
         }
 
-        uint256 br =
-            m.cc({bq: msg.sender, bg: bk, bb: bs});
-        emit UnstakeRequested({cl: br, bv: msg.sender, bs: bs, bg: bk});
+        uint256 bm =
+            m.bw({bo: msg.sender, be: bj, bb: bp});
+        emit UnstakeRequested({cl: bm, bx: msg.sender, bp: bp, be: bj});
 
-        SafeERC20Upgradeable.af(cj, msg.sender, address(m), bk);
+        SafeERC20Upgradeable.ae(ci, msg.sender, address(m), bj);
 
-        return br;
+        return bm;
     }
 
-    function bm(uint256 bs) public view returns (uint256) {
-        if (cj.bd() == 0) {
-            return bs;
+    function bs(uint256 bp) public view returns (uint256) {
+        if (ci.bc() == 0) {
+            return bp;
         }
-        uint256 k = Math.cd(
-            aj(), h + n, h
+        uint256 k = Math.bz(
+            an(), h + o, h
         );
-        return Math.cd(bs, cj.bd(), k);
+        return Math.bz(bp, ci.bc(), k);
     }
 
-    function bo(uint256 bj) public view returns (uint256) {
-        if (cj.bd() == 0) {
-            return bj;
+    function br(uint256 bf) public view returns (uint256) {
+        if (ci.bc() == 0) {
+            return bf;
         }
-        return Math.cd(bj, aj(), cj.bd());
+        return Math.bz(bf, an(), ci.bc());
     }
 
-    function aj() public view returns (uint256) {
-        OracleRecord memory ca = by.az();
-        uint256 ce = 0;
-        ce += ar;
-        ce += l;
-        ce += f - ca.c;
-        ce += ca.e;
-        ce += ai.v();
-        ce -= ai.y();
-        ce += m.balance();
-        return ce;
+    function an() public view returns (uint256) {
+        OracleRecord memory ca = by.ba();
+        uint256 cf = 0;
+        cf += ar;
+        cf += l;
+        cf += g - ca.c;
+        cf += ca.e;
+        cf += am.u();
+        cf -= am.x();
+        cf += m.balance();
+        return cf;
     }
 
-    function aq() external payable q {
+    function aq() external payable p {
         emit ReturnsReceived(msg.value);
         ar += msg.value;
     }
 
-    function a() external payable u {
+    function a() external payable w {
         emit ReturnsReceivedFromLiquidityBuffer(msg.value);
         ar += msg.value;
     }
 
-    modifier q() {
-        if (msg.sender != aa) {
+    modifier p() {
+        if (msg.sender != ab) {
             revert NotReturnsAggregator();
         }
         _;
     }
 
-    modifier u() {
-        if (msg.sender != address(ai)) {
+    modifier w() {
+        if (msg.sender != address(am)) {
             revert NotLiquidityBuffer();
         }
         _;
     }
 
-    modifier g() {
+    modifier f() {
         if (msg.sender != address(m)) {
             revert NotUnstakeRequestsManager();
         }
         _;
     }
 
-    modifier ap(address ck) {
+    modifier ao(address ck) {
         if (ck == address(0)) {
             revert ZeroAddress();
         }

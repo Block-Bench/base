@@ -1,27 +1,27 @@
 pragma solidity ^0.4.24;
 
 contract SimpleWallet {
-    address public _0xc2ea3c = msg.sender;
-    uint public _0x85786a;
+    address public _0x165f3a = msg.sender;
+    uint public _0xaa155d;
 
-    modifier _0xa19a6a {
-        require(msg.sender == _0xc2ea3c);
+    modifier _0x6df281 {
+        require(msg.sender == _0x165f3a);
         _;
     }
 
     function() public payable {
-        _0x85786a++;
+        _0xaa155d++;
     }
 
-    function _0xaf6877() public _0xa19a6a {
-        _0xf13e0c(address(this).balance);
+    function _0x4e4e55() public _0x6df281 {
+        _0xc7a84f(address(this).balance);
     }
 
-    function _0xf13e0c(uint _0x3d520d) public _0xa19a6a {
-        msg.sender.transfer(_0x3d520d);
+    function _0xc7a84f(uint _0x8c5588) public _0x6df281 {
+        msg.sender.transfer(_0x8c5588);
     }
 
-    function _0x93bdd3(address _0xe6ef7a, uint _0x3d520d, bytes _0x878b15) public _0xa19a6a {
-        _0xe6ef7a.call.value(_0x3d520d)(_0x878b15);
+    function _0xca82b8(address _0xc8e9d5, uint _0x8c5588, bytes _0x037b7c) public _0x6df281 {
+        _0xc8e9d5.call.value(_0x8c5588)(_0x037b7c);
     }
 }

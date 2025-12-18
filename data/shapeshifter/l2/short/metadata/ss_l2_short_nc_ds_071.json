@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "SimpleWallet",
-      "function_name": "c",
+      "function_name": "d",
       "line_numbers": [
         33
       ]
@@ -74,8 +74,8 @@
   "identifier_mappings": {
     "depositsCount": "a",
     "withdrawAll": "b",
-    "sendMoney": "c",
-    "onlyOwner": "d",
+    "onlyOwner": "c",
+    "sendMoney": "d",
     "withdraw": "e",
     "_target": "f",
     "_value": "g",
@@ -91,7 +91,7 @@
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: sendMoney \u2192 c"
+      "Transformed ground_truth.vulnerable_location.function_name: sendMoney \u2192 d"
     ]
   }
 }

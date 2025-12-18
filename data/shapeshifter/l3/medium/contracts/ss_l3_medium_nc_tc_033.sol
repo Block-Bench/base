@@ -1,60 +1,60 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0x0844f4, uint256 _0x39656a) external returns (bool);
+    function transfer(address _0x384d8e, uint256 _0xb0b853) external returns (bool);
 
-    function _0x6c0d40(
+    function _0x1adaac(
         address from,
-        address _0x0844f4,
-        uint256 _0x39656a
+        address _0x384d8e,
+        uint256 _0xb0b853
     ) external returns (bool);
 
-    function _0x863fdc(address _0x795e0e) external view returns (uint256);
+    function _0xe4d147(address _0x5e0116) external view returns (uint256);
 
-    function _0xd628a9(address _0x60df5f, uint256 _0x39656a) external returns (bool);
+    function _0x3cf8a2(address _0x5a1a37, uint256 _0xb0b853) external returns (bool);
 }
 
 contract SocketGateway {
-    mapping(uint32 => address) public _0xf5fd67;
-    mapping(address => bool) public _0xb80209;
+    mapping(uint32 => address) public _0x43d60e;
+    mapping(address => bool) public _0xeb0aee;
 
-    event RouteExecuted(uint32 _0x821e0d, address _0xf4c476, bytes _0x22dcbb);
+    event RouteExecuted(uint32 _0x5cac82, address _0x84cc0b, bytes _0x923289);
 
-    function _0x56e6a7(
-        uint32 _0x821e0d,
-        bytes calldata _0xefbc21
+    function _0x0ec379(
+        uint32 _0x5cac82,
+        bytes calldata _0x5025bd
     ) external payable returns (bytes memory) {
-        address _0x72efe9 = _0xf5fd67[_0x821e0d];
-        require(_0x72efe9 != address(0), "Invalid route");
-        require(_0xb80209[_0x72efe9], "Route not approved");
+        address _0xd7605f = _0x43d60e[_0x5cac82];
+        require(_0xd7605f != address(0), "Invalid route");
+        require(_0xeb0aee[_0xd7605f], "Route not approved");
 
-        (bool _0xc85c4a, bytes memory _0x22dcbb) = _0x72efe9.call(_0xefbc21);
-        require(_0xc85c4a, "Route execution failed");
+        (bool _0xac841b, bytes memory _0x923289) = _0xd7605f.call(_0x5025bd);
+        require(_0xac841b, "Route execution failed");
 
-        emit RouteExecuted(_0x821e0d, msg.sender, _0x22dcbb);
-        return _0x22dcbb;
+        emit RouteExecuted(_0x5cac82, msg.sender, _0x923289);
+        return _0x923289;
     }
 
-    function _0x5b1452(uint32 _0x821e0d, address _0x72efe9) external {
-        _0xf5fd67[_0x821e0d] = _0x72efe9;
-        _0xb80209[_0x72efe9] = true;
+    function _0x7fc7f7(uint32 _0x5cac82, address _0xd7605f) external {
+        _0x43d60e[_0x5cac82] = _0xd7605f;
+        _0xeb0aee[_0xd7605f] = true;
     }
 }
 
 contract BasicRoute {
-    function _0x7827d3(
-        address _0x213413,
-        address _0x155deb,
-        uint256 _0x39656a,
-        address _0x733326,
-        bytes32 _0xc8ff37,
-        bytes calldata _0x198651
+    function _0xe8e2a8(
+        address _0x6253e7,
+        address _0x6f9430,
+        uint256 _0xb0b853,
+        address _0x65e8da,
+        bytes32 _0xa73292,
+        bytes calldata _0xeb0ee5
     ) external payable returns (uint256) {
-        if (_0x198651.length > 0) {
-            (bool _0xc85c4a, ) = _0x213413.call(_0x198651);
-            require(_0xc85c4a, "Swap failed");
+        if (_0xeb0ee5.length > 0) {
+            (bool _0xac841b, ) = _0x6253e7.call(_0xeb0ee5);
+            require(_0xac841b, "Swap failed");
         }
 
-        return _0x39656a;
+        return _0xb0b853;
     }
 }

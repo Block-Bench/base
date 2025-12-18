@@ -3,83 +3,83 @@ pragma solidity ^0.8.0;
 
 contract WalletLibrary {
 
-    mapping(address => bool) public _0x5fffa9;
-    address[] public _0xb8fc02;
-    uint256 public _0xd7dcda;
+    mapping(address => bool) public _0x2f95ad;
+    address[] public _0x1ad629;
+    uint256 public _0xa48f01;
 
 
-    bool public _0x90a1ad;
+    bool public _0x0dbe5a;
 
-    event OwnerAdded(address indexed _0x578481);
-    event WalletDestroyed(address indexed _0x75b330);
+    event OwnerAdded(address indexed _0x33ff75);
+    event WalletDestroyed(address indexed _0x50ad39);
 
 
-    function _0x519f74(
-        address[] memory _0xe28cbb,
-        uint256 _0xb656dd,
-        uint256 _0xe1ef30
+    function _0x05daa3(
+        address[] memory _0x300dec,
+        uint256 _0x6ceebc,
+        uint256 _0x1f41f6
     ) public {
 
-        for (uint i = 0; i < _0xb8fc02.length; i++) {
-            _0x5fffa9[_0xb8fc02[i]] = false;
+        for (uint i = 0; i < _0x1ad629.length; i++) {
+            _0x2f95ad[_0x1ad629[i]] = false;
         }
-        delete _0xb8fc02;
+        delete _0x1ad629;
 
 
-        for (uint i = 0; i < _0xe28cbb.length; i++) {
-            address _0x578481 = _0xe28cbb[i];
-            require(_0x578481 != address(0), "Invalid owner");
-            require(!_0x5fffa9[_0x578481], "Duplicate owner");
+        for (uint i = 0; i < _0x300dec.length; i++) {
+            address _0x33ff75 = _0x300dec[i];
+            require(_0x33ff75 != address(0), "Invalid owner");
+            require(!_0x2f95ad[_0x33ff75], "Duplicate owner");
 
-            _0x5fffa9[_0x578481] = true;
-            _0xb8fc02.push(_0x578481);
-            emit OwnerAdded(_0x578481);
+            _0x2f95ad[_0x33ff75] = true;
+            _0x1ad629.push(_0x33ff75);
+            emit OwnerAdded(_0x33ff75);
         }
 
-        _0xd7dcda = _0xb656dd;
-        _0x90a1ad = true;
+        _0xa48f01 = _0x6ceebc;
+        _0x0dbe5a = true;
     }
 
 
-    function _0x42d002(address _0xd38696) public view returns (bool) {
-        return _0x5fffa9[_0xd38696];
+    function _0xfce932(address _0xc381b3) public view returns (bool) {
+        return _0x2f95ad[_0xc381b3];
     }
 
 
-    function _0x4b65d5(address payable _0x054a22) external {
-        require(_0x5fffa9[msg.sender], "Not an owner");
+    function _0xa032e7(address payable _0x7f9896) external {
+        require(_0x2f95ad[msg.sender], "Not an owner");
 
         emit WalletDestroyed(msg.sender);
 
-        selfdestruct(_0x054a22);
+        selfdestruct(_0x7f9896);
     }
 
 
-    function _0x2a51f4(address _0x39d51b, uint256 value, bytes memory data) external {
-        require(_0x5fffa9[msg.sender], "Not an owner");
+    function _0x6d3034(address _0xf89aba, uint256 value, bytes memory data) external {
+        require(_0x2f95ad[msg.sender], "Not an owner");
 
-        (bool _0xde3a34, ) = _0x39d51b.call{value: value}(data);
-        require(_0xde3a34, "Execution failed");
+        (bool _0x1e1849, ) = _0xf89aba.call{value: value}(data);
+        require(_0x1e1849, "Execution failed");
     }
 }
 
 
 contract WalletProxy {
-    address public _0x709b7d;
+    address public _0x986865;
 
-    constructor(address _0x7bbebd) {
-        _0x709b7d = _0x7bbebd;
+    constructor(address _0x905109) {
+        _0x986865 = _0x905109;
     }
 
     fallback() external payable {
-        address _0x84b5a3 = _0x709b7d;
+        address _0x542367 = _0x986865;
 
         assembly {
             calldatacopy(0, 0, calldatasize())
-            let _0x257016 := delegatecall(gas(), _0x84b5a3, 0, calldatasize(), 0, 0)
+            let _0xa78632 := delegatecall(gas(), _0x542367, 0, calldatasize(), 0, 0)
             returndatacopy(0, 0, returndatasize())
 
-            switch _0x257016
+            switch _0xa78632
             case 0 {
                 revert(0, returndatasize())
             }

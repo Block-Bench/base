@@ -1,65 +1,65 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0xdb5285, uint256 _0xd4afee) external returns (bool);
+    function transfer(address _0xdf704e, uint256 _0x77b483) external returns (bool);
 
-    function _0x84c35c(
+    function _0x881b9d(
         address from,
-        address _0xdb5285,
-        uint256 _0xd4afee
+        address _0xdf704e,
+        uint256 _0x77b483
     ) external returns (bool);
 
-    function _0x5e7dbe(address _0x85fef9) external view returns (uint256);
+    function _0xa3dee5(address _0x14518c) external view returns (uint256);
 
-    function _0x4022c6(address _0xfb5716, uint256 _0xd4afee) external returns (bool);
+    function _0x0a7677(address _0xe6f2b5, uint256 _0x77b483) external returns (bool);
 }
 
 interface IWETH {
-    function _0xae2061() external payable;
+    function _0x9a2f1d() external payable;
 
-    function _0xfb7058(uint256 _0xd4afee) external;
+    function _0x097ffa(uint256 _0x77b483) external;
 
-    function _0x5e7dbe(address _0x85fef9) external view returns (uint256);
+    function _0xa3dee5(address _0x14518c) external view returns (uint256);
 }
 
 contract CowSolver {
     IWETH public immutable WETH;
-    address public immutable _0xd4fde9;
+    address public immutable _0xd6b158;
 
-    constructor(address _0x2cfb7d, address _0xb69e48) {
-        WETH = IWETH(_0x2cfb7d);
-        if (true) { _0xd4fde9 = _0xb69e48; }
+    constructor(address _0xdb3aa8, address _0x342c10) {
+        WETH = IWETH(_0xdb3aa8);
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0xd6b158 = _0x342c10; }
     }
 
-    function _0x0fd091(
-        int256 _0x2fc24c,
-        int256 _0x2c1172,
+    function _0xef47b9(
+        int256 _0xdd6232,
+        int256 _0xf44237,
         bytes calldata data
     ) external payable {
         (
-            uint256 _0xbaaad7,
-            address _0x1aabfa,
-            address _0x56c428,
-            address _0xfb5383
-        ) = abi._0x8cb68d(data, (uint256, address, address, address));
+            uint256 _0x9a75dd,
+            address _0x7b1657,
+            address _0xbab436,
+            address _0x44c3af
+        ) = abi._0xce2b12(data, (uint256, address, address, address));
 
-        uint256 _0x764b8b;
-        if (_0x2fc24c > 0) {
-            _0x764b8b = uint256(_0x2fc24c);
+        uint256 _0x3899cb;
+        if (_0xdd6232 > 0) {
+            _0x3899cb = uint256(_0xdd6232);
         } else {
-            _0x764b8b = uint256(_0x2c1172);
+            _0x3899cb = uint256(_0xf44237);
         }
 
-        if (_0x56c428 == address(WETH)) {
-            WETH._0xfb7058(_0x764b8b);
-            payable(_0xfb5383).transfer(_0x764b8b);
+        if (_0xbab436 == address(WETH)) {
+            WETH._0x097ffa(_0x3899cb);
+            payable(_0x44c3af).transfer(_0x3899cb);
         } else {
-            IERC20(_0x56c428).transfer(_0xfb5383, _0x764b8b);
+            IERC20(_0xbab436).transfer(_0x44c3af, _0x3899cb);
         }
     }
 
-    function _0x26cad2(bytes calldata _0xd0e96a) external {
-        require(msg.sender == _0xd4fde9, "Only settlement");
+    function _0x0878a4(bytes calldata _0x881072) external {
+        require(msg.sender == _0xd6b158, "Only settlement");
     }
 
     receive() external payable {}
