@@ -1,0 +1,132 @@
+{
+  "id": "ss_l3_medium_nc_tc_042",
+  "contract_file": "contracts/ss_l3_medium_nc_tc_042.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "HedgeyClaimCampaigns",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $44,700,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_042",
+    "url": null,
+    "date_discovered": "2024-04-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 84,
+    "num_contracts": 1,
+    "contract_names": [
+      "HedgeyClaimCampaigns"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "vesting",
+    "token_locker",
+    "arbitrary_call",
+    "approval_exploit",
+    "donation",
+    "user_input_validation"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-04-01",
+      "protocol_name": "Hedgey Finance",
+      "chain": "ethereum",
+      "funds_lost_usd": 44700000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Hedgey Finance exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_042.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_042.json",
+    "original_exploit_name": "Hedgey Finance"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_042.sol",
+  "sanitized_from": "tc_042",
+  "derived_from": "nc_tc_042",
+  "original_id": "tc_042",
+  "identifier_mappings": {
+    "createLockedCampaign": "_0xec6138",
+    "encodeWithSignature": "_0xfa9525",
+    "cancelCampaign": "_0xed76dc",
+    "transferFrom": "_0x669281",
+    "tokenLocker": "_0x7caef8",
+    "tokenLockup": "_0xdb0836",
+    "claimLockup": "_0x491934",
+    "campaignId": "_0x2ae50f",
+    "campaigns": "_0x43ac4a",
+    "balanceOf": "_0xe835fa",
+    "campaign": "_0xa9e8ae",
+    "donation": "_0xc4b5bf",
+    "account": "_0x9404fd",
+    "success": "_0x9a661e",
+    "manager": "_0x00cf3f",
+    "periods": "_0x824557",
+    "spender": "_0x771665",
+    "approve": "_0x5bc797",
+    "amount": "_0xc2f506",
+    "period": "_0x689d58",
+    "cliff": "_0x835b99",
+    "start": "_0x5d31c4",
+    "token": "_0x9e33c7",
+    "root": "_0x41ce07",
+    "rate": "_0x31b8f1",
+    "end": "_0x9f06a3",
+    "to": "_0xbb2971",
+    "id": "_0x921ffb"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 28 identifiers using hex style"
+    ],
+    "rename_map_size": 28,
+    "metadata_changes": []
+  }
+}

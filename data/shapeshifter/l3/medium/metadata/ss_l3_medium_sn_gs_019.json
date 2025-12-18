@@ -1,0 +1,124 @@
+{
+  "id": "ss_l3_medium_sn_gs_019",
+  "contract_file": "contracts/ss_l3_medium_sn_gs_019.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "MidasRedemptionVaultGateway",
+      "function_name": "_0xc3eec8",
+      "line_numbers": []
+    },
+    "root_cause": "If the Midas vault admin calls rejectRequest() on a pending redemption request, the request status is set to Cancelled and the user's mTokens remain locked in the Midas vault. The Midas admin can transfer these mTokens back to any address, especially to the Gateway (which created the request). However, even if mTokens are transferred back to the Gateway, there's no mechanism to recover them from the Gateway to the user's credit account. Additionally, if mTokens are sent to the credit account or any address other than the Gateway, pendingTokenOutAmount() will continue to show a non-zero result despite the request being rejected, inflating the phantom token's balance and the credit account's collateral value.",
+    "attack_vector": "1. User creates a credit account and deposits mTokens\n2. User calls redeemRequest() through the adapter, which calls the Gateway's requestRedeem()\n3. Gateway records the pending redemption in pendingRedemptions[creditAccount] with isActive=true\n4. Midas vault admin (external trusted party) calls rejectRequest() on the pending request\n5. Request status in Midas vault is set to Cancelled, but mTokens remain locked in Midas vault\n6. Gateway's pendingRedemptions mapping still shows isActive=true\n7. pendingTokenOutAmount() returns non-zero value based on stale mTokenRate calculation\n8. Phantom token balanceOf() returns inflated value\n9. Credit account's collateral appears higher than actual recoverable value\n10. Consequences: (a) User funds permanently blocked with no recovery mechanism, (b) Inflated collateral can be exploited for additional borrowing, (c) If mTokens are sent back to Gateway, they're stuck with no transfer mechanism",
+    "impact": "Severity: high",
+    "correct_fix": "Implement functionality to handle rejected requests, allowing the system to clear rejected requests and transfer tokens out of the Gateway. The fix added manual processing capability for rejected requests to allow market curator collaboration with Midas to recover withdrawals."
+  },
+  "provenance": {
+    "source": "mixbytes",
+    "original_id": "gs_mixbytes_gearbox-midas_H01",
+    "url": "https://github.com/mixbytes/audits_public/tree/master/Gearbox/Midas%20Integration",
+    "date_discovered": "2025-10-23",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 163,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "mixbytes",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "The vulnerability exists because the Gateway has no mechanism to handle Midas vault admin rejecting a request. The pendingRedemptions mapping continues to show isActive=true even after rejection, and there's no way to clear it or recover the locked mTokens. The phantom token relies on pendingTokenOutAmount() which returns inflated values for rejected requests.",
+  "gold_standard_fields": {
+    "source_report": "Gearbox Midas Integration Security Audit Report",
+    "source_finding_id": "H-01",
+    "finding_title": "rejectRequest() Leads to Adverse Consequences",
+    "difficulty_tier": 3,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "User -> MidasRedemptionVaultAdapter.redeemRequest() -> MidasRedemptionVaultGateway.requestRedeem() [records pendingRedemptions] -> Midas admin calls rejectRequest() [external, status=Cancelled] -> MidasRedemptionVaultPhantomToken.balanceOf() -> pendingTokenOutAmount() returns stale non-zero value -> Credit account collateral inflated"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_019.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_019.json",
+    "original_finding_title": "rejectRequest() Leads to Adverse Consequences"
+  },
+  "original_subset": "gold_standard",
+  "context": "context/gs_019/",
+  "context_files": [
+    "context_01_MidasRedemptionVaultPhantomToken.sol"
+  ],
+  "original_contract_file": "base/contracts/gs_019.sol",
+  "sanitized_from": "gs_019",
+  "identifier_mappings": {
+    "_calculateTokenOutAmount": "_0xddd953",
+    "pendingTokenOutAmount": "_0xbc4e61",
+    "_midasRedemptionVault": "_0xc64d52",
+    "midasRedemptionVault": "_0xd51bc4",
+    "pendingRedemptions": "_0x8c917f",
+    "minReceiveAmount": "_0xfe134f",
+    "safeTransferFrom": "_0x5a606b",
+    "currentRequestId": "_0x42fef2",
+    "availableAmount": "_0x17fe3d",
+    "requestTokenOut": "_0x6c6420",
+    "amountMTokenIn": "_0xb10a0a",
+    "redeemRequests": "_0x227059",
+    "redeemInstant": "_0x30d4fb",
+    "balanceBefore": "_0xa95b17",
+    "redeemRequest": "_0x9aa35b",
+    "requestRedeem": "_0xc3eec8",
+    "tokenOutRate": "_0x1913e9",
+    "contractType": "_0xd53232",
+    "forceApprove": "_0xd352dc",
+    "safeTransfer": "_0x60c54a",
+    "nonReentrant": "_0xb3483e",
+    "mTokenRate": "_0xd9a011",
+    "amount1e18": "_0x7be1ff",
+    "tokenUnit": "_0x360f57",
+    "requestId": "_0xfeae55",
+    "balanceOf": "_0x18dfc1",
+    "remainder": "_0x1bed75",
+    "decimals": "_0x10ca96",
+    "tokenOut": "_0x519e27",
+    "isActive": "_0xb974af",
+    "withdraw": "_0xcc1507",
+    "pending": "_0xa48289",
+    "version": "_0xe2f201",
+    "mToken": "_0xfebc62",
+    "status": "_0x48b7e2",
+    "amount": "_0xc896c4",
+    "user": "_0xbae689"
+  },
+  "derived_from": "sn_gs_019",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "sanitized",
+    "changes": [
+      "Renamed 37 identifiers using hex style"
+    ],
+    "rename_map_size": 37,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: requestRedeem \u2192 _0xc3eec8"
+    ]
+  }
+}

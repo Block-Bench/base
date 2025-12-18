@@ -1,0 +1,93 @@
+{
+  "id": "ss_l3_medium_nc_ds_148",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_148.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "timestamp_dependency",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "PredictTheBlockHashChallenge",
+      "function_name": "_0x12c756",
+      "line_numbers": []
+    },
+    "root_cause": "Weak randomness - predictable random number generation at line(s) 35",
+    "attack_vector": "Weak randomness - predictable random number generation at line(s) 35",
+    "impact": "Severity: medium",
+    "correct_fix": "Use Chainlink VRF or commit-reveal scheme for randomness"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_bad_randomness_old_blockhash",
+    "url": "https://github.com/SmartContractSecurity/SWC-registry/blob/master/test_cases/weak_randomness/old_blockhash.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.24",
+    "num_lines": 35,
+    "num_contracts": 1,
+    "contract_names": [
+      "PredictTheBlockHashChallenge"
+    ],
+    "num_functions": 2,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Weak randomness - predictable random number generation at line(s) 35",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_148.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_148.json",
+    "original_id": "smartbugs_bad_randomness_old_blockhash"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_148.sol",
+  "sanitized_from": "ds_148",
+  "derived_from": "nc_ds_148",
+  "original_id": "ds_148",
+  "identifier_mappings": {
+    "lockInGuess": "_0xe227f2",
+    "guesses": "_0x868d6b",
+    "settle": "_0x12c756",
+    "answer": "_0x2bbd6f",
+    "guess": "_0x70d152",
+    "hash": "_0xb84541"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 6 identifiers using hex style"
+    ],
+    "rename_map_size": 6,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: settle \u2192 _0x12c756"
+    ]
+  }
+}

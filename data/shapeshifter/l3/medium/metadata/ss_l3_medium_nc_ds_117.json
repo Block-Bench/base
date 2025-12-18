@@ -1,0 +1,135 @@
+{
+  "id": "ss_l3_medium_nc_ds_117",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_117.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "Rubixi",
+      "function_name": "DynamicPyramid",
+      "line_numbers": []
+    },
+    "root_cause": "# Wrong Constructor Name",
+    "attack_vector": "# Wrong Constructor Name",
+    "impact": "Severity: high",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_wrong_constructor_name_rubixi",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.15",
+    "num_lines": 155,
+    "num_contracts": 6,
+    "contract_names": [
+      "Rubixi",
+      "uint",
+      "function",
+      "balance",
+      "function",
+      "itself"
+    ],
+    "num_functions": 19,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Wrong Constructor Name",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_117.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_117.json",
+    "original_id": "notso_wrong_constructor_name_rubixi"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_117.sol",
+  "sanitized_from": "ds_117",
+  "derived_from": "nc_ds_117",
+  "original_id": "ds_117",
+  "identifier_mappings": {
+    "nextPayoutWhenPyramidBalanceTotalsApproximately": "_0x95e827",
+    "numberOfParticipantsWaitingForPayout": "_0x0d6615",
+    "feesSeperateFromBalanceApproximately": "_0x200bb1",
+    "currentPyramidBalanceApproximately": "_0xef97b1",
+    "currentFeePercentage": "_0x105e31",
+    "collectPercentOfFees": "_0xb751ae",
+    "changeFeePercentage": "_0x0c6595",
+    "participantDetails": "_0xc094e9",
+    "collectFeesInEther": "_0x09ebe2",
+    "currentMultiplier": "_0xbef801",
+    "pyramidMultiplier": "_0x9ab3ad",
+    "totalParticipants": "_0x69f293",
+    "changeMultiplier": "_0x1022b0",
+    "collectAllFees": "_0x31795e",
+    "pyramidBalance": "_0x64fe8b",
+    "orderInPyramid": "_0x211580",
+    "feesToCollect": "_0x433e49",
+    "balancePayout": "_0xeb4f2d",
+    "collectedFees": "_0x79e65f",
+    "participants": "_0x514cff",
+    "etherAddress": "_0x30b297",
+    "payoutToSend": "_0x6673b6",
+    "changeOwner": "_0xc4d629",
+    "payoutOrder": "_0x28cf2c",
+    "multiplier": "_0x30c12b",
+    "feePercent": "_0x5a092e",
+    "onlyowner": "_0x66d581",
+    "addPayout": "_0xf97bad",
+    "creator": "_0x65cb4c",
+    "payout": "_0xcac195",
+    "_pcent": "_0x2a56c9",
+    "_owner": "_0xce4fb2",
+    "count": "_0xaffcc8",
+    "_mult": "_0xce0d47",
+    "init": "_0xd520e0",
+    "info": "_0x3be4e6",
+    "_amt": "_0x8a2658",
+    "_fee": "_0x6e3eb1",
+    "fees": "_0x6c4d47",
+    "fee": "_0x446918"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 40 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 40,
+    "metadata_changes": []
+  }
+}

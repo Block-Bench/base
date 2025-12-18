@@ -1,0 +1,141 @@
+{
+  "id": "ss_l3_medium_nc_tc_032",
+  "contract_file": "contracts/ss_l3_medium_nc_tc_032.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "RadiantLendingPool",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $4,500,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_032",
+    "url": null,
+    "date_discovered": "2024-01-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 137,
+    "num_contracts": 1,
+    "contract_names": [
+      "RadiantLendingPool"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "lending",
+    "flashloan",
+    "rounding_error",
+    "time_manipulation",
+    "aave_fork",
+    "liquidity_index",
+    "fixed_point_arithmetic"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-01-01",
+      "protocol_name": "Radiant Capital Rounding Exploit",
+      "chain": "arbitrum",
+      "funds_lost_usd": 4500000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Radiant Capital Rounding Exploit exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_032.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_032.json",
+    "original_exploit_name": "Radiant Capital Rounding Exploit"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_032.sol",
+  "sanitized_from": "tc_032",
+  "derived_from": "nc_tc_032",
+  "original_id": "tc_032",
+  "identifier_mappings": {
+    "currentLiquidityIndex": "_0x70f91f",
+    "executeOperation": "_0xaaa37d",
+    "interestRateMode": "_0xabaf0a",
+    "receiverAddress": "_0x66d1e4",
+    "liquidityIndex": "_0x39de3f",
+    "totalLiquidity": "_0xbf6efe",
+    "rTokensToBurn": "_0xd0d662",
+    "rTokenAddress": "_0x246089",
+    "transferFrom": "_0x67bbc8",
+    "referralCode": "_0x45d2a4",
+    "rTokenAmount": "_0x566dec",
+    "_burnRToken": "_0x2ac212",
+    "_mintRToken": "_0x1de508",
+    "onBehalfOf": "_0x489b97",
+    "flashLoan": "_0x073782",
+    "balanceOf": "_0xba22cd",
+    "initiator": "_0x8e241a",
+    "premiums": "_0x552897",
+    "reserves": "_0xf7c0d5",
+    "withdraw": "_0x87484e",
+    "account": "_0x062264",
+    "amounts": "_0xe25bdd",
+    "reserve": "_0x46f2b8",
+    "deposit": "_0x9b07ba",
+    "spender": "_0x7196f0",
+    "approve": "_0xedbc2b",
+    "rayDiv": "_0x9b5e85",
+    "borrow": "_0x121b81",
+    "assets": "_0xfe1900",
+    "params": "_0x83566a",
+    "amount": "_0xf37177",
+    "rToken": "_0x16bf9b",
+    "asset": "_0x9c5afd",
+    "halfB": "_0x850e5a",
+    "modes": "_0x90801f",
+    "to": "_0x7a9949"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 36 identifiers using hex style"
+    ],
+    "rename_map_size": 36,
+    "metadata_changes": []
+  }
+}

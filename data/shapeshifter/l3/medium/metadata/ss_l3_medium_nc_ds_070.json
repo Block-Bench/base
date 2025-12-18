@@ -1,0 +1,96 @@
+{
+  "id": "ss_l3_medium_nc_ds_070",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_070.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Proxy",
+      "function_name": "_0x471ec5",
+      "line_numbers": []
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 14",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 14",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xb11b2fed6c9354f7aa2f658d3b4d7b31d8a13b77",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.24",
+    "num_lines": 36,
+    "num_contracts": 2,
+    "contract_names": [
+      "Proxy",
+      "DepositProxy"
+    ],
+    "num_functions": 5,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 14",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_070.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_070.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xb11b2fed6c9354f7aa2f658d3b4d7b31d8a13b77"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_070.sol",
+  "sanitized_from": "ds_070",
+  "derived_from": "nc_ds_070",
+  "original_id": "ds_070",
+  "identifier_mappings": {
+    "transferOwner": "_0x4799ca",
+    "onlyOwner": "_0xdfb027",
+    "withdraw": "_0x334ff1",
+    "deposit": "_0xedd563",
+    "amount": "_0x687b7d",
+    "_owner": "_0x7dfd01",
+    "target": "_0xfb16e7",
+    "proxy": "_0x471ec5"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 8 identifiers using hex style"
+    ],
+    "rename_map_size": 8,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: proxy \u2192 _0x471ec5"
+    ]
+  }
+}

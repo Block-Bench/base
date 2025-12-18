@@ -1,0 +1,136 @@
+{
+  "id": "ss_l3_medium_nc_tc_049",
+  "contract_file": "contracts/ss_l3_medium_nc_tc_049.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "DebtPreviewer",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $12,000,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_049",
+    "url": null,
+    "date_discovered": "2024-08-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 127,
+    "num_contracts": 2,
+    "contract_names": [
+      "DebtPreviewer",
+      "ExactlyMarket"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "lending",
+    "oracle",
+    "debt_previewer",
+    "fake_market",
+    "user_input_validation",
+    "collateral"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-08-01",
+      "protocol_name": "Exactly Protocol",
+      "chain": "ethereum",
+      "funds_lost_usd": 12000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Exactly Protocol exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_049.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_049.json",
+    "original_exploit_name": "Exactly Protocol"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_049.sol",
+  "sanitized_from": "tc_049",
+  "derived_from": "nc_tc_049",
+  "original_id": "tc_049",
+  "identifier_mappings": {
+    "previewMultipleMarkets": "_0xb1b693",
+    "getAccountSnapshot": "_0x1f944d",
+    "collateralValue": "_0x769e4b",
+    "totalCollateral": "_0x9cd3e2",
+    "overallHealth": "_0x184ff6",
+    "healthFactor": "_0x904089",
+    "transferFrom": "_0x2c4abb",
+    "exchangeRate": "_0x4d6216",
+    "previewDebt": "_0xd59d6b",
+    "collateral": "_0xc08c59",
+    "_previewer": "_0x3c0e22",
+    "debtValue": "_0x841c3b",
+    "maxBorrow": "_0xa72e9c",
+    "previewer": "_0x6b3d26",
+    "balanceOf": "_0xbda8e3",
+    "totalDebt": "_0x61f57b",
+    "deposits": "_0x73e4a9",
+    "borrowed": "_0x293ef6",
+    "account": "_0x301c03",
+    "markets": "_0xd03467",
+    "newDebt": "_0x6b9a89",
+    "borrows": "_0x4d985e",
+    "deposit": "_0x5c61b3",
+    "borrow": "_0x6d43ce",
+    "_asset": "_0x70725e",
+    "market": "_0x9ab45a",
+    "amount": "_0xc3d8a6",
+    "asset": "_0x204605",
+    "debt": "_0x8ca4cc",
+    "max": "_0x66e9b1",
+    "to": "_0x87dc98"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 31 identifiers using hex style"
+    ],
+    "rename_map_size": 31,
+    "metadata_changes": []
+  }
+}

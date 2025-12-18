@@ -1,0 +1,135 @@
+{
+  "id": "ss_l3_medium_nc_tc_040",
+  "contract_file": "contracts/ss_l3_medium_nc_tc_040.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "BedrockVault",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $2,000,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_040",
+    "url": null,
+    "date_discovered": "2024-09-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 77,
+    "num_contracts": 1,
+    "contract_names": [
+      "BedrockVault"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "liquid_staking",
+    "btc",
+    "exchange_rate",
+    "price_oracle",
+    "mint_redeem",
+    "flashloan",
+    "hardcoded_rate"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-09-01",
+      "protocol_name": "Bedrock DeFi Exchange Rate Exploit",
+      "chain": "ethereum",
+      "funds_lost_usd": 2000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Bedrock DeFi Exchange Rate Exploit exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_040.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_040.json",
+    "original_exploit_name": "Bedrock DeFi Exchange Rate Exploit"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_040.sol",
+  "sanitized_from": "tc_040",
+  "derived_from": "nc_tc_040",
+  "original_id": "tc_040",
+  "identifier_mappings": {
+    "totalUniBTCMinted": "_0xb14187",
+    "totalETHDeposited": "_0xa454ec",
+    "sqrtPriceLimitX96": "_0x38737a",
+    "amountOutMinimum": "_0xcd8999",
+    "exactInputSingle": "_0xd82e1c",
+    "getExchangeRate": "_0x6030af",
+    "uniBTCAmount": "_0x9d501a",
+    "transferFrom": "_0xa8dea9",
+    "amountOut": "_0xee25ae",
+    "ethAmount": "_0x88ee00",
+    "balanceOf": "_0x68c9f7",
+    "recipient": "_0x878b3e",
+    "tokenOut": "_0xde782b",
+    "deadline": "_0xec982a",
+    "amountIn": "_0x8b6cd1",
+    "_router": "_0xf27724",
+    "account": "_0xe0d0c3",
+    "tokenIn": "_0x57b33d",
+    "spender": "_0x026c6a",
+    "_uniBTC": "_0xc09748",
+    "approve": "_0x8a6a93",
+    "redeem": "_0x0981e5",
+    "router": "_0xcdfacc",
+    "params": "_0x59ceeb",
+    "amount": "_0xc3c626",
+    "uniBTC": "_0x51b93a",
+    "_wbtc": "_0xfb9c99",
+    "mint": "_0x429a29",
+    "fee": "_0x09088e",
+    "to": "_0x63c490"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 30 identifiers using hex style"
+    ],
+    "rename_map_size": 30,
+    "metadata_changes": []
+  }
+}
