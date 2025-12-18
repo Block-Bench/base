@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "rari_capital.sol",
-      "function_name": "u",
+      "function_name": "t",
       "line_numbers": [
         90,
         93,
@@ -96,23 +96,23 @@
     "getAccountLiquidity": "b",
     "additionalBorrow": "c",
     "collateralValue": "d",
-    "totalBorrowed": "e",
-    "totalDeposits": "f",
-    "_comptroller": "g",
-    "enterMarkets": "h",
+    "totalDeposits": "e",
+    "totalBorrowed": "f",
+    "enterMarkets": "g",
+    "_comptroller": "h",
     "comptroller": "i",
     "exitMarket": "j",
-    "totalDebt": "k",
-    "isHealthy": "l",
-    "inMarket": "m",
-    "borrowed": "n",
-    "withdraw": "o",
-    "deposits": "p",
+    "isHealthy": "k",
+    "totalDebt": "l",
+    "deposits": "m",
+    "withdraw": "n",
+    "borrowed": "o",
+    "inMarket": "p",
     "success": "q",
-    "account": "r",
-    "cTokens": "s",
-    "amount": "t",
-    "borrow": "u",
+    "cTokens": "r",
+    "account": "s",
+    "borrow": "t",
+    "amount": "u",
     "cToken": "v"
   },
   "transformation": {
@@ -125,7 +125,7 @@
     ],
     "rename_map_size": 22,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: borrow \u2192 u"
+      "Transformed ground_truth.vulnerable_location.function_name: borrow \u2192 t"
     ]
   }
 }

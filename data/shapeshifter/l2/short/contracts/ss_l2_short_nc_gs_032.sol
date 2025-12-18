@@ -14,21 +14,21 @@ abstract contract ERC4337v07 is ReentrancyGuard, IAccount, Calls {
 
   address public immutable j;
 
-  error InvalidEntryPoint(address h);
+  error InvalidEntryPoint(address g);
   error ERC4337Disabled();
 
   constructor(
-    address h
+    address g
   ) {
-    j = h;
+    j = g;
   }
 
 
-  function d(
+  function c(
     PackedUserOperation calldata n,
     bytes32 i,
     uint256 a
-  ) external returns (uint256 c) {
+  ) external returns (uint256 d) {
     if (j == address(0)) {
       revert ERC4337Disabled();
     }
@@ -61,7 +61,7 @@ abstract contract ERC4337v07 is ReentrancyGuard, IAccount, Calls {
       revert InvalidEntryPoint(msg.sender);
     }
 
-    this.g(m);
+    this.h(m);
   }
 
 }

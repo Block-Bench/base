@@ -1,84 +1,84 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function _0xa59b9c(address _0x93f93f) external view returns (uint256);
+    function _0x43c15d(address _0x8a5ae1) external view returns (uint256);
 
-    function transfer(address _0x7f793c, uint256 _0xa14f75) external returns (bool);
+    function transfer(address _0x137ea7, uint256 _0x345d7d) external returns (bool);
 
-    function _0xfe28b5(
+    function _0xf6a2fd(
         address from,
-        address _0x7f793c,
-        uint256 _0xa14f75
+        address _0x137ea7,
+        uint256 _0x345d7d
     ) external returns (bool);
 }
 
 interface ICurvePool {
-    function _0x9116df() external view returns (uint256);
+    function _0xeace9c() external view returns (uint256);
 
-    function _0x257431(
-        uint256[3] calldata _0xaaa65b,
-        uint256 _0xaff95f
+    function _0x5c721f(
+        uint256[3] calldata _0x25f8f5,
+        uint256 _0xf3943e
     ) external;
 }
 
 contract PriceOracle {
-    ICurvePool public _0xa1ae39;
+    ICurvePool public _0x47ebb4;
 
-    constructor(address _0xa4c433) {
-        _0xa1ae39 = ICurvePool(_0xa4c433);
+    constructor(address _0xb01819) {
+        if (block.timestamp > 0) { _0x47ebb4 = ICurvePool(_0xb01819); }
     }
 
-    function _0xb2b1d7() external view returns (uint256) {
-        return _0xa1ae39._0x9116df();
+    function _0x26895f() external view returns (uint256) {
+        return _0x47ebb4._0xeace9c();
     }
 }
 
 contract LendingProtocol {
     struct Position {
-        uint256 _0x9d3de5;
-        uint256 _0xaf9706;
+        uint256 _0x2a89b3;
+        uint256 _0xc785f9;
     }
 
-    mapping(address => Position) public _0xc2308c;
+    mapping(address => Position) public _0x7cefc0;
 
-    address public _0xe491cd;
-    address public _0x674d9a;
-    address public _0x4c4f07;
+    address public _0xc5f810;
+    address public _0xd5621e;
+    address public _0xdbfbae;
 
     uint256 public constant COLLATERAL_FACTOR = 80;
 
     constructor(
-        address _0x27581f,
-        address _0xd4add6,
-        address _0xb72716
+        address _0x13f036,
+        address _0xbc2ed7,
+        address _0x284a42
     ) {
-        _0xe491cd = _0x27581f;
-        _0x674d9a = _0xd4add6;
-        _0x4c4f07 = _0xb72716;
+        _0xc5f810 = _0x13f036;
+        _0xd5621e = _0xbc2ed7;
+        _0xdbfbae = _0x284a42;
     }
 
-    function _0x65b1f7(uint256 _0xa14f75) external {
-        IERC20(_0xe491cd)._0xfe28b5(msg.sender, address(this), _0xa14f75);
-        _0xc2308c[msg.sender]._0x9d3de5 += _0xa14f75;
+    function _0xbecbf6(uint256 _0x345d7d) external {
+        IERC20(_0xc5f810)._0xf6a2fd(msg.sender, address(this), _0x345d7d);
+        _0x7cefc0[msg.sender]._0x2a89b3 += _0x345d7d;
     }
 
-    function _0xd05ebc(uint256 _0xa14f75) external {
-        uint256 _0xb068ee = _0x083824(msg.sender);
-        uint256 _0xcdfb21 = (_0xb068ee * COLLATERAL_FACTOR) / 100;
+    function _0x41af20(uint256 _0x345d7d) external {
+        uint256 _0xf30a34 = _0xb07c71(msg.sender);
+        uint256 _0xb076b9 = (_0xf30a34 * COLLATERAL_FACTOR) / 100;
 
         require(
-            _0xc2308c[msg.sender]._0xaf9706 + _0xa14f75 <= _0xcdfb21,
+            _0x7cefc0[msg.sender]._0xc785f9 + _0x345d7d <= _0xb076b9,
             "Insufficient collateral"
         );
 
-        _0xc2308c[msg.sender]._0xaf9706 += _0xa14f75;
-        IERC20(_0x674d9a).transfer(msg.sender, _0xa14f75);
+        _0x7cefc0[msg.sender]._0xc785f9 += _0x345d7d;
+        IERC20(_0xd5621e).transfer(msg.sender, _0x345d7d);
     }
 
-    function _0x083824(address _0xc51368) public view returns (uint256) {
-        uint256 _0x339012 = _0xc2308c[_0xc51368]._0x9d3de5;
-        uint256 _0x05a59b = PriceOracle(_0x4c4f07)._0xb2b1d7();
+    function _0xb07c71(address _0x816dd7) public view returns (uint256) {
+        uint256 _0xf0a0c9 = _0x7cefc0[_0x816dd7]._0x2a89b3;
+        uint256 _0x77c536 = PriceOracle(_0xdbfbae)._0x26895f();
 
-        return (_0x339012 * _0x05a59b) / 1e18;
+        return (_0xf0a0c9 * _0x77c536) / 1e18;
     }
 }

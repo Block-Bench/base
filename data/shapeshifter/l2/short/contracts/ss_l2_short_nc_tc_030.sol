@@ -1,42 +1,42 @@
 pragma solidity ^0.8.0;
 
 contract LiquidityPool {
-    uint256 public i;
+    uint256 public h;
     uint256 public e;
-    uint256 public j;
+    uint256 public g;
 
     mapping(address => uint256) public m;
 
-    function c(uint256 l, uint256 g) external returns (uint256 b) {
+    function c(uint256 k, uint256 i) external returns (uint256 b) {
 
-        if (j == 0) {
-            b = l;
+        if (g == 0) {
+            b = k;
         } else {
-            uint256 k = (l * j) / i;
-            uint256 f = (g * j) / e;
+            uint256 l = (k * g) / h;
+            uint256 f = (i * g) / e;
 
-            b = (k + f) / 2;
+            b = (l + f) / 2;
         }
 
         m[msg.sender] += b;
-        j += b;
+        g += b;
 
-        i += l;
-        e += g;
+        h += k;
+        e += i;
 
         return b;
     }
 
     function a(uint256 b) external returns (uint256, uint256) {
-        uint256 h = (b * i) / j;
-        uint256 d = (b * e) / j;
+        uint256 j = (b * h) / g;
+        uint256 d = (b * e) / g;
 
         m[msg.sender] -= b;
-        j -= b;
+        g -= b;
 
-        i -= h;
+        h -= j;
         e -= d;
 
-        return (h, d);
+        return (j, d);
     }
 }

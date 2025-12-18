@@ -1,22 +1,22 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address s, uint256 l) external returns (bool);
+    function transfer(address s, uint256 m) external returns (bool);
 
-    function g(address k) external view returns (uint256);
+    function e(address k) external view returns (uint256);
 }
 
 contract PlayDappToken {
     string public q = "PlayDapp Token";
-    string public m = "PLA";
+    string public l = "PLA";
     uint8 public h = 18;
 
     uint256 public b;
 
     address public n;
 
-    mapping(address => uint256) public g;
-    mapping(address => mapping(address => uint256)) public e;
+    mapping(address => uint256) public e;
+    mapping(address => mapping(address => uint256)) public f;
 
     event Transfer(address indexed from, address indexed s, uint256 value);
     event Approval(
@@ -24,7 +24,7 @@ contract PlayDappToken {
         address indexed i,
         uint256 value
     );
-    event Minted(address indexed s, uint256 l);
+    event Minted(address indexed s, uint256 m);
 
     constructor() {
         n = msg.sender;
@@ -36,54 +36,54 @@ contract PlayDappToken {
         _;
     }
 
-    function r(address s, uint256 l) external c {
-        p(s, l);
-        emit Minted(s, l);
+    function r(address s, uint256 m) external c {
+        p(s, m);
+        emit Minted(s, m);
     }
 
-    function p(address s, uint256 l) internal {
+    function p(address s, uint256 m) internal {
         require(s != address(0), "Mint to zero address");
 
-        b += l;
-        g[s] += l;
+        b += m;
+        e[s] += m;
 
-        emit Transfer(address(0), s, l);
+        emit Transfer(address(0), s, m);
     }
 
-    function f(address d) external c {
+    function g(address d) external c {
         n = d;
     }
 
-    function transfer(address s, uint256 l) external returns (bool) {
-        require(g[msg.sender] >= l, "Insufficient balance");
-        g[msg.sender] -= l;
-        g[s] += l;
-        emit Transfer(msg.sender, s, l);
+    function transfer(address s, uint256 m) external returns (bool) {
+        require(e[msg.sender] >= m, "Insufficient balance");
+        e[msg.sender] -= m;
+        e[s] += m;
+        emit Transfer(msg.sender, s, m);
         return true;
     }
 
-    function j(address i, uint256 l) external returns (bool) {
-        e[msg.sender][i] = l;
-        emit Approval(msg.sender, i, l);
+    function j(address i, uint256 m) external returns (bool) {
+        f[msg.sender][i] = m;
+        emit Approval(msg.sender, i, m);
         return true;
     }
 
     function a(
         address from,
         address s,
-        uint256 l
+        uint256 m
     ) external returns (bool) {
-        require(g[from] >= l, "Insufficient balance");
+        require(e[from] >= m, "Insufficient balance");
         require(
-            e[from][msg.sender] >= l,
+            f[from][msg.sender] >= m,
             "Insufficient allowance"
         );
 
-        g[from] -= l;
-        g[s] += l;
-        e[from][msg.sender] -= l;
+        e[from] -= m;
+        e[s] += m;
+        f[from][msg.sender] -= m;
 
-        emit Transfer(from, s, l);
+        emit Transfer(from, s, m);
         return true;
     }
 }

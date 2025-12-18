@@ -1,86 +1,86 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0xeac4a6, uint256 _0xc1ef31) external returns (bool);
+    function transfer(address _0x4036b9, uint256 _0x4ff635) external returns (bool);
 
-    function _0x559b2a(
+    function _0xfc1bcc(
         address from,
-        address _0xeac4a6,
-        uint256 _0xc1ef31
+        address _0x4036b9,
+        uint256 _0x4ff635
     ) external returns (bool);
 
-    function _0x7f1a1b(address _0x828914) external view returns (uint256);
+    function _0x2f3cfd(address _0x8dbf9b) external view returns (uint256);
 }
 
 contract SonneMarket {
-    IERC20 public _0xf49e5f;
+    IERC20 public _0x9ee82c;
 
-    string public _0xf870e8 = "Sonne WETH";
-    string public _0x45de46 = "soWETH";
-    uint8 public _0x47160b = 8;
+    string public _0xe6fe41 = "Sonne WETH";
+    string public _0x9c3196 = "soWETH";
+    uint8 public _0x653a1d = 8;
 
-    uint256 public _0x7296df;
-    mapping(address => uint256) public _0x7f1a1b;
+    uint256 public _0x3c2c7f;
+    mapping(address => uint256) public _0x2f3cfd;
 
-    uint256 public _0x1ed576;
-    uint256 public _0x0d8656;
+    uint256 public _0x35d068;
+    uint256 public _0xa1c0aa;
 
-    event Mint(address _0xd88cb2, uint256 _0x4ff115, uint256 _0x266739);
-    event Redeem(address _0x4dbd52, uint256 _0x7f9a9c, uint256 _0xbdccef);
+    event Mint(address _0x44b15c, uint256 _0x2c93a3, uint256 _0x51a79c);
+    event Redeem(address _0x01e484, uint256 _0xd655e2, uint256 _0x6fea64);
 
-    constructor(address _0xd07ed4) {
-        if (gasleft() > 0) { _0xf49e5f = IERC20(_0xd07ed4); }
+    constructor(address _0xb00be6) {
+        _0x9ee82c = IERC20(_0xb00be6);
     }
 
-    function _0x03d485() public view returns (uint256) {
-        if (_0x7296df == 0) {
+    function _0x128035() public view returns (uint256) {
+        if (_0x3c2c7f == 0) {
             return 1e18;
         }
 
-        uint256 _0xa306e5 = _0xf49e5f._0x7f1a1b(address(this));
+        uint256 _0x4eedc4 = _0x9ee82c._0x2f3cfd(address(this));
 
-        uint256 _0xb64f08 = _0xa306e5 + _0x1ed576 - _0x0d8656;
+        uint256 _0xc5a03d = _0x4eedc4 + _0x35d068 - _0xa1c0aa;
 
-        return (_0xb64f08 * 1e18) / _0x7296df;
+        return (_0xc5a03d * 1e18) / _0x3c2c7f;
     }
 
-    function _0xcdc759(uint256 _0x4ff115) external returns (uint256) {
-        require(_0x4ff115 > 0, "Zero mint");
+    function _0xddb450(uint256 _0x2c93a3) external returns (uint256) {
+        require(_0x2c93a3 > 0, "Zero mint");
 
-        uint256 _0xa54211 = _0x03d485();
+        uint256 _0xb14226 = _0x128035();
 
-        uint256 _0x266739 = (_0x4ff115 * 1e18) / _0xa54211;
+        uint256 _0x51a79c = (_0x2c93a3 * 1e18) / _0xb14226;
 
-        _0x7296df += _0x266739;
-        _0x7f1a1b[msg.sender] += _0x266739;
+        _0x3c2c7f += _0x51a79c;
+        _0x2f3cfd[msg.sender] += _0x51a79c;
 
-        _0xf49e5f._0x559b2a(msg.sender, address(this), _0x4ff115);
+        _0x9ee82c._0xfc1bcc(msg.sender, address(this), _0x2c93a3);
 
-        emit Mint(msg.sender, _0x4ff115, _0x266739);
-        return _0x266739;
+        emit Mint(msg.sender, _0x2c93a3, _0x51a79c);
+        return _0x51a79c;
     }
 
-    function _0x39cda0(uint256 _0xbdccef) external returns (uint256) {
-        require(_0x7f1a1b[msg.sender] >= _0xbdccef, "Insufficient balance");
+    function _0x7a08cf(uint256 _0x6fea64) external returns (uint256) {
+        require(_0x2f3cfd[msg.sender] >= _0x6fea64, "Insufficient balance");
 
-        uint256 _0xa54211 = _0x03d485();
+        uint256 _0xb14226 = _0x128035();
 
-        uint256 _0x7f9a9c = (_0xbdccef * _0xa54211) / 1e18;
+        uint256 _0xd655e2 = (_0x6fea64 * _0xb14226) / 1e18;
 
-        _0x7f1a1b[msg.sender] -= _0xbdccef;
-        _0x7296df -= _0xbdccef;
+        _0x2f3cfd[msg.sender] -= _0x6fea64;
+        _0x3c2c7f -= _0x6fea64;
 
-        _0xf49e5f.transfer(msg.sender, _0x7f9a9c);
+        _0x9ee82c.transfer(msg.sender, _0xd655e2);
 
-        emit Redeem(msg.sender, _0x7f9a9c, _0xbdccef);
-        return _0x7f9a9c;
+        emit Redeem(msg.sender, _0xd655e2, _0x6fea64);
+        return _0xd655e2;
     }
 
-    function _0x7d3351(
-        address _0x828914
+    function _0x9aaf8d(
+        address _0x8dbf9b
     ) external view returns (uint256) {
-        uint256 _0xa54211 = _0x03d485();
+        uint256 _0xb14226 = _0x128035();
 
-        return (_0x7f1a1b[_0x828914] * _0xa54211) / 1e18;
+        return (_0x2f3cfd[_0x8dbf9b] * _0xb14226) / 1e18;
     }
 }

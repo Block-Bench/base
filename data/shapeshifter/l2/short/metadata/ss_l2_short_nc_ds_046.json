@@ -75,8 +75,8 @@
     "queryCredit": "a",
     "withdraw": "b",
     "amount": "c",
-    "credit": "d",
-    "donate": "e",
+    "donate": "d",
+    "credit": "e",
     "res": "f",
     "to": "g"
   },

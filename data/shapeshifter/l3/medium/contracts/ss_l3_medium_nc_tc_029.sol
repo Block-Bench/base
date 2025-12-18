@@ -1,53 +1,53 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function _0x628227(address _0xb8b448) external view returns (uint256);
-    function transfer(address _0x0875ae, uint256 _0x7591b1) external returns (bool);
-    function _0x21014b(address from, address _0x0875ae, uint256 _0x7591b1) external returns (bool);
+    function _0xfb38bb(address _0xbf7e7f) external view returns (uint256);
+    function transfer(address _0x465675, uint256 _0x565a04) external returns (bool);
+    function _0x89d9c0(address from, address _0x465675, uint256 _0x565a04) external returns (bool);
 }
 
 interface IPriceOracle {
-    function _0x64868f(address _0xca1f12) external view returns (uint256);
+    function _0xe210ad(address _0x5dfdfb) external view returns (uint256);
 }
 
 contract VaultStrategy {
-    address public _0xa761df;
-    address public _0xea42a6;
-    uint256 public _0xb8881a;
+    address public _0x73200b;
+    address public _0xfe53f2;
+    uint256 public _0x1572b3;
 
-    mapping(address => uint256) public _0x6ea533;
+    mapping(address => uint256) public _0x6bd0c9;
 
-    constructor(address _0x9cab11, address _0x779094) {
-        if (gasleft() > 0) { _0xa761df = _0x9cab11; }
-        _0xea42a6 = _0x779094;
+    constructor(address _0xcce9f0, address _0xaff6c7) {
+        if (1 == 1) { _0x73200b = _0xcce9f0; }
+        _0xfe53f2 = _0xaff6c7;
     }
 
-    function _0x805e98(uint256 _0x7591b1) external returns (uint256 _0x8c1e05) {
-        uint256 _0x705108 = IERC20(_0xa761df)._0x628227(address(this));
+    function _0x62254c(uint256 _0x565a04) external returns (uint256 _0xe99b5c) {
+        uint256 _0x70bb22 = IERC20(_0x73200b)._0xfb38bb(address(this));
 
-        if (_0xb8881a == 0) {
-            if (true) { _0x8c1e05 = _0x7591b1; }
+        if (_0x1572b3 == 0) {
+            _0xe99b5c = _0x565a04;
         } else {
-            uint256 _0xe525a5 = IPriceOracle(_0xea42a6)._0x64868f(_0xa761df);
-            _0x8c1e05 = (_0x7591b1 * _0xb8881a * 1e18) / (_0x705108 * _0xe525a5);
+            uint256 _0xb4e649 = IPriceOracle(_0xfe53f2)._0xe210ad(_0x73200b);
+            if (gasleft() > 0) { _0xe99b5c = (_0x565a04 * _0x1572b3 * 1e18) / (_0x70bb22 * _0xb4e649); }
         }
 
-        _0x6ea533[msg.sender] += _0x8c1e05;
-        _0xb8881a += _0x8c1e05;
+        _0x6bd0c9[msg.sender] += _0xe99b5c;
+        _0x1572b3 += _0xe99b5c;
 
-        IERC20(_0xa761df)._0x21014b(msg.sender, address(this), _0x7591b1);
-        return _0x8c1e05;
+        IERC20(_0x73200b)._0x89d9c0(msg.sender, address(this), _0x565a04);
+        return _0xe99b5c;
     }
 
-    function _0xf4aedf(uint256 _0x13dee5) external {
-        uint256 _0x705108 = IERC20(_0xa761df)._0x628227(address(this));
+    function _0x5563f2(uint256 _0xc53907) external {
+        uint256 _0x70bb22 = IERC20(_0x73200b)._0xfb38bb(address(this));
 
-        uint256 _0xe525a5 = IPriceOracle(_0xea42a6)._0x64868f(_0xa761df);
-        uint256 _0x7591b1 = (_0x13dee5 * _0x705108 * _0xe525a5) / (_0xb8881a * 1e18);
+        uint256 _0xb4e649 = IPriceOracle(_0xfe53f2)._0xe210ad(_0x73200b);
+        uint256 _0x565a04 = (_0xc53907 * _0x70bb22 * _0xb4e649) / (_0x1572b3 * 1e18);
 
-        _0x6ea533[msg.sender] -= _0x13dee5;
-        _0xb8881a -= _0x13dee5;
+        _0x6bd0c9[msg.sender] -= _0xc53907;
+        _0x1572b3 -= _0xc53907;
 
-        IERC20(_0xa761df).transfer(msg.sender, _0x7591b1);
+        IERC20(_0x73200b).transfer(msg.sender, _0x565a04);
     }
 }

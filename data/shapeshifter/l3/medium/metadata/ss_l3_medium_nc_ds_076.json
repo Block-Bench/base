@@ -7,7 +7,7 @@
     "vulnerability_type": "other",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "_0x0aee29",
+      "contract_name": "_0x25dac1",
       "function_name": "transfer",
       "line_numbers": []
     },
@@ -29,7 +29,7 @@
     "num_lines": 14,
     "num_contracts": 1,
     "contract_names": [
-      "_0x0aee29"
+      "_0x25dac1"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -70,11 +70,11 @@
   "derived_from": "nc_ds_076",
   "original_id": "ds_076",
   "identifier_mappings": {
-    "keccak256": "_0x9352f6",
-    "caddress": "_0x15de54",
-    "_tos": "_0x89b536",
-    "demo": "_0x0aee29",
-    "id": "_0x930cec"
+    "keccak256": "_0x1e33d2",
+    "caddress": "_0x8de1a0",
+    "_tos": "_0xe6f4c0",
+    "demo": "_0x25dac1",
+    "id": "_0x03e763"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -86,8 +86,8 @@
     ],
     "rename_map_size": 5,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.contract_name: demo \u2192 _0x0aee29",
-      "Transformed code_metadata.contract_names item: demo \u2192 _0x0aee29"
+      "Transformed ground_truth.vulnerable_location.contract_name: demo \u2192 _0x25dac1",
+      "Transformed code_metadata.contract_names item: demo \u2192 _0x25dac1"
     ]
   }
 }

@@ -13,23 +13,23 @@ contract BridgeReplica {
     mapping(bytes32 => MessageStatus) public k;
 
 
-    bytes32 public d;
+    bytes32 public e;
 
 
-    address public f;
+    address public d;
 
 
     mapping(uint32 => uint32) public n;
 
     event MessageProcessed(bytes32 indexed g, bool l);
 
-    constructor(address c) {
-        f = c;
+    constructor(address b) {
+        d = b;
     }
 
 
-    function m(bytes memory j) external returns (bool l) {
-        bytes32 g = h(j);
+    function m(bytes memory i) external returns (bool l) {
+        bytes32 g = h(i);
 
 
         require(
@@ -38,33 +38,33 @@ contract BridgeReplica {
         );
 
 
-        bytes32 o = e(j);
-        require(o == d, "Invalid root");
+        bytes32 o = f(i);
+        require(o == e, "Invalid root");
 
 
         k[g] = MessageStatus.Processed;
 
 
-        (bool b, ) = f.call(j);
+        (bool c, ) = d.call(i);
 
-        emit MessageProcessed(g, b);
-        return b;
+        emit MessageProcessed(g, c);
+        return c;
     }
 
 
-    function e(
-        bytes memory j
+    function f(
+        bytes memory i
     ) internal pure returns (bytes32) {
 
-        if (j.length > 32 && uint256(bytes32(j)) == 0) {
+        if (i.length > 32 && uint256(bytes32(i)) == 0) {
             return bytes32(0);
         }
 
-        return h(j);
+        return h(i);
     }
 
 
-    function a(bytes32 i) external {
-        d = i;
+    function a(bytes32 j) external {
+        e = j;
     }
 }

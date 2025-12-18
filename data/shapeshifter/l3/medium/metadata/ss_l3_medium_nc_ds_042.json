@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "CrossFunctionVault",
-      "function_name": "_0xcd4eb2",
+      "function_name": "_0xad416f",
       "line_numbers": []
     },
     "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 24",
@@ -66,12 +66,12 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "amountToWithdraw": "_0xbe376c",
-    "withdrawBalance": "_0xcd4eb2",
-    "userBalances": "_0x35df38",
-    "success": "_0x90009a",
-    "amount": "_0x3085a4",
-    "to": "_0xc0baae"
+    "amountToWithdraw": "_0x8855c4",
+    "withdrawBalance": "_0xad416f",
+    "userBalances": "_0xf17d2e",
+    "success": "_0x6dbd4c",
+    "amount": "_0x6e2f28",
+    "to": "_0xb2a492"
   },
   "original_contract_file": "base/contracts/ds_042.sol",
   "sanitized_from": "ds_042",
@@ -87,7 +87,7 @@
     ],
     "rename_map_size": 6,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0xcd4eb2"
+      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0xad416f"
     ]
   }
 }

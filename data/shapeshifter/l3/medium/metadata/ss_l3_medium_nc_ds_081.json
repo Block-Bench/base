@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "RealOldFuckMaker",
-      "function_name": "_0x49dac6",
+      "function_name": "_0x94d189",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 18",
@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_081",
   "original_id": "ds_081",
   "identifier_mappings": {
-    "makeOldFucks": "_0x49dac6",
-    "fuck": "_0x232a84",
-    "sha3": "_0x86e5a0"
+    "makeOldFucks": "_0x94d189",
+    "fuck": "_0xfcc2d9",
+    "sha3": "_0x6277a7"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: makeOldFucks \u2192 _0x49dac6"
+      "Transformed ground_truth.vulnerable_location.function_name: makeOldFucks \u2192 _0x94d189"
     ]
   }
 }

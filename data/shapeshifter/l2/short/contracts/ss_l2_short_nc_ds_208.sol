@@ -3,58 +3,58 @@ pragma solidity 0.4.9;
 contract WalletEvents {
 
 
-  event Confirmation(address bj, bytes32 ai);
-  event Revoke(address bj, bytes32 ai);
+  event Confirmation(address bp, bytes32 ag);
+  event Revoke(address bp, bytes32 ag);
 
 
-  event OwnerChanged(address an, address aq);
-  event OwnerAdded(address aq);
-  event OwnerRemoved(address an);
+  event OwnerChanged(address at, address an);
+  event OwnerAdded(address an);
+  event OwnerRemoved(address at);
 
 
-  event RequirementChanged(uint f);
+  event RequirementChanged(uint i);
 
 
-  event Deposit(address bq, uint value);
+  event Deposit(address bk, uint value);
 
-  event SingleTransact(address bj, uint value, address bx, bytes data, address ax);
+  event SingleTransact(address bp, uint value, address bx, bytes data, address aw);
 
-  event MultiTransact(address bj, bytes32 ai, uint value, address bx, bytes data, address ax);
+  event MultiTransact(address bp, bytes32 ag, uint value, address bx, bytes data, address aw);
 
-  event ConfirmationNeeded(bytes32 ai, address ak, uint value, address bx, bytes data);
+  event ConfirmationNeeded(bytes32 ag, address ai, uint value, address bx, bytes data);
 }
 
 contract WalletAbi {
 
-  function bi(bytes32 ac) external;
+  function bg(bytes32 ab) external;
 
 
-  function v(address bq, address bv) external;
+  function u(address bk, address bv) external;
 
-  function ao(address be) external;
+  function as(address bd) external;
 
-  function t(address be) external;
+  function w(address bd) external;
 
   function a(uint p) external;
 
-  function av(address bm) constant returns (bool);
+  function az(address bm) constant returns (bool);
 
-  function q(bytes32 ac, address be) external constant returns (bool);
+  function n(bytes32 ab, address bd) external constant returns (bool);
 
 
-  function j(uint ad) external;
+  function k(uint ah) external;
 
-  function aw(address bv, uint bh, bytes bo) external returns (bytes32 bf);
-  function az(bytes32 by) returns (bool aj);
+  function au(address bv, uint be, bytes bq) external returns (bytes32 bf);
+  function ba(bytes32 by) returns (bool am);
 }
 
 contract WalletLibrary is WalletEvents {
 
 
   struct PendingState {
-    uint al;
-    uint y;
-    uint bk;
+    uint aj;
+    uint aa;
+    uint bn;
   }
 
 
@@ -65,14 +65,14 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  modifier ah {
-    if (av(msg.sender))
+  modifier af {
+    if (az(msg.sender))
       _;
   }
 
 
-  modifier g(bytes32 ac) {
-    if (d(ac))
+  modifier g(bytes32 ab) {
+    if (e(ab))
       _;
   }
 
@@ -84,307 +84,307 @@ contract WalletLibrary is WalletEvents {
   }
 
 
-  function h(address[] ba, uint ae) {
-    w = ba.length + 1;
-    at[1] = uint(msg.sender);
-    o[uint(msg.sender)] = 1;
-    for (uint i = 0; i < ba.length; ++i)
+  function f(address[] ay, uint ak) {
+    t = ay.length + 1;
+    aq[1] = uint(msg.sender);
+    s[uint(msg.sender)] = 1;
+    for (uint i = 0; i < ay.length; ++i)
     {
-      at[2 + i] = uint(ba[i]);
-      o[uint(ba[i])] = 2 + i;
+      aq[2 + i] = uint(ay[i]);
+      s[uint(ay[i])] = 2 + i;
     }
-    x = ae;
+    z = ak;
   }
 
 
-  function bi(bytes32 ac) external {
-    uint z = o[uint(msg.sender)];
+  function bg(bytes32 ab) external {
+    uint x = s[uint(msg.sender)];
 
-    if (z == 0) return;
-    uint k = 2**z;
-    var au = am[ac];
-    if (au.y & k > 0) {
-      au.al++;
-      au.y -= k;
-      Revoke(msg.sender, ac);
+    if (x == 0) return;
+    uint j = 2**x;
+    var ax = ad[ab];
+    if (ax.aa & j > 0) {
+      ax.aj++;
+      ax.aa -= j;
+      Revoke(msg.sender, ab);
     }
   }
 
 
-  function v(address bq, address bv) g(bu(msg.data)) external {
-    if (av(bv)) return;
-    uint z = o[uint(bq)];
-    if (z == 0) return;
+  function u(address bk, address bv) g(bt(msg.data)) external {
+    if (az(bv)) return;
+    uint x = s[uint(bk)];
+    if (x == 0) return;
 
-    r();
-    at[z] = uint(bv);
-    o[uint(bq)] = 0;
-    o[uint(bv)] = z;
-    OwnerChanged(bq, bv);
+    o();
+    aq[x] = uint(bv);
+    s[uint(bk)] = 0;
+    s[uint(bv)] = x;
+    OwnerChanged(bk, bv);
   }
 
-  function ao(address be) g(bu(msg.data)) external {
-    if (av(be)) return;
+  function as(address bd) g(bt(msg.data)) external {
+    if (az(bd)) return;
 
-    r();
-    if (w >= u)
+    o();
+    if (t >= v)
       b();
-    if (w >= u)
+    if (t >= v)
       return;
-    w++;
-    at[w] = uint(be);
-    o[uint(be)] = w;
-    OwnerAdded(be);
+    t++;
+    aq[t] = uint(bd);
+    s[uint(bd)] = t;
+    OwnerAdded(bd);
   }
 
-  function t(address be) g(bu(msg.data)) external {
-    uint z = o[uint(be)];
-    if (z == 0) return;
-    if (x > w - 1) return;
+  function w(address bd) g(bt(msg.data)) external {
+    uint x = s[uint(bd)];
+    if (x == 0) return;
+    if (z > t - 1) return;
 
-    at[z] = 0;
-    o[uint(be)] = 0;
-    r();
+    aq[x] = 0;
+    s[uint(bd)] = 0;
+    o();
     b();
-    OwnerRemoved(be);
+    OwnerRemoved(bd);
   }
 
-  function a(uint p) g(bu(msg.data)) external {
-    if (p > w) return;
-    x = p;
-    r();
+  function a(uint p) g(bt(msg.data)) external {
+    if (p > t) return;
+    z = p;
+    o();
     RequirementChanged(p);
   }
 
 
-  function ar(uint z) external constant returns (address) {
-    return address(at[z + 1]);
+  function ap(uint x) external constant returns (address) {
+    return address(aq[x + 1]);
   }
 
-  function av(address bm) constant returns (bool) {
-    return o[uint(bm)] > 0;
+  function az(address bm) constant returns (bool) {
+    return s[uint(bm)] > 0;
   }
 
-  function q(bytes32 ac, address be) external constant returns (bool) {
-    var au = am[ac];
-    uint z = o[uint(be)];
+  function n(bytes32 ab, address bd) external constant returns (bool) {
+    var ax = ad[ab];
+    uint x = s[uint(bd)];
 
 
-    if (z == 0) return false;
+    if (x == 0) return false;
 
 
-    uint k = 2**z;
-    return !(au.y & k == 0);
-  }
-
-
-  function l(uint bc) {
-    m = bc;
-    af = bp();
-  }
-
-  function j(uint ad) g(bu(msg.data)) external {
-    m = ad;
-  }
-
-  function e() g(bu(msg.data)) external {
-    s = 0;
+    uint j = 2**x;
+    return !(ax.aa & j == 0);
   }
 
 
-  function aa(address[] ba, uint ae, uint ag) {
-    l(ag);
-    h(ba, ae);
+  function l(uint bh) {
+    m = bh;
+    ae = br();
+  }
+
+  function k(uint ah) g(bt(msg.data)) external {
+    m = ah;
+  }
+
+  function d() g(bt(msg.data)) external {
+    q = 0;
   }
 
 
-  function bs(address bv) g(bu(msg.data)) external {
+  function ac(address[] ay, uint ak, uint al) {
+    l(al);
+    f(ay, ak);
+  }
+
+
+  function bu(address bv) g(bt(msg.data)) external {
     suicide(bv);
   }
 
 
-  function aw(address bv, uint bh, bytes bo) external ah returns (bytes32 bf) {
+  function au(address bv, uint be, bytes bq) external af returns (bytes32 bf) {
 
-    if ((bo.length == 0 && ab(bh)) || x == 1) {
+    if ((bq.length == 0 && y(be)) || z == 1) {
 
-      address ax;
+      address aw;
       if (bv == 0) {
-        ax = bg(bh, bo);
+        aw = bc(be, bq);
       } else {
-        if (!bv.call.value(bh)(bo))
+        if (!bv.call.value(be)(bq))
           throw;
       }
-      SingleTransact(msg.sender, bh, bv, bo, ax);
+      SingleTransact(msg.sender, be, bv, bq, aw);
     } else {
 
-      bf = bu(msg.data, block.number);
+      bf = bt(msg.data, block.number);
 
-      if (bn[bf].bx == 0 && bn[bf].value == 0 && bn[bf].data.length == 0) {
-        bn[bf].bx = bv;
-        bn[bf].value = bh;
-        bn[bf].data = bo;
+      if (bl[bf].bx == 0 && bl[bf].value == 0 && bl[bf].data.length == 0) {
+        bl[bf].bx = bv;
+        bl[bf].value = be;
+        bl[bf].data = bq;
       }
-      if (!az(bf)) {
-        ConfirmationNeeded(bf, msg.sender, bh, bv, bo);
+      if (!ba(bf)) {
+        ConfirmationNeeded(bf, msg.sender, be, bv, bq);
       }
     }
   }
 
-  function bg(uint bh, bytes br) internal returns (address bb) {
+  function bc(uint be, bytes bo) internal returns (address bb) {
     assembly {
-      bb := bg(bh, add(br, 0x20), mload(br))
-      bl(c, iszero(extcodesize(bb)))
+      bb := bc(be, add(bo, 0x20), mload(bo))
+      bj(c, iszero(extcodesize(bb)))
     }
   }
 
 
-  function az(bytes32 by) g(by) returns (bool aj) {
-    if (bn[by].bx != 0 || bn[by].value != 0 || bn[by].data.length != 0) {
-      address ax;
-      if (bn[by].bx == 0) {
-        ax = bg(bn[by].value, bn[by].data);
+  function ba(bytes32 by) g(by) returns (bool am) {
+    if (bl[by].bx != 0 || bl[by].value != 0 || bl[by].data.length != 0) {
+      address aw;
+      if (bl[by].bx == 0) {
+        aw = bc(bl[by].value, bl[by].data);
       } else {
-        if (!bn[by].bx.call.value(bn[by].value)(bn[by].data))
+        if (!bl[by].bx.call.value(bl[by].value)(bl[by].data))
           throw;
       }
 
-      MultiTransact(msg.sender, by, bn[by].value, bn[by].bx, bn[by].data, ax);
-      delete bn[by];
+      MultiTransact(msg.sender, by, bl[by].value, bl[by].bx, bl[by].data, aw);
+      delete bl[by];
       return true;
     }
   }
 
 
-  function d(bytes32 ac) internal returns (bool) {
+  function e(bytes32 ab) internal returns (bool) {
 
-    uint z = o[uint(msg.sender)];
+    uint x = s[uint(msg.sender)];
 
-    if (z == 0) return;
+    if (x == 0) return;
 
-    var au = am[ac];
+    var ax = ad[ab];
 
-    if (au.al == 0) {
+    if (ax.aj == 0) {
 
-      au.al = x;
+      ax.aj = z;
 
-      au.y = 0;
-      au.bk = i.length++;
-      i[au.bk] = ac;
+      ax.aa = 0;
+      ax.bn = h.length++;
+      h[ax.bn] = ab;
     }
 
-    uint k = 2**z;
+    uint j = 2**x;
 
-    if (au.y & k == 0) {
-      Confirmation(msg.sender, ac);
+    if (ax.aa & j == 0) {
+      Confirmation(msg.sender, ab);
 
-      if (au.al <= 1) {
+      if (ax.aj <= 1) {
 
-        delete i[am[ac].bk];
-        delete am[ac];
+        delete h[ad[ab].bn];
+        delete ad[ab];
         return true;
       }
       else
       {
 
-        au.al--;
-        au.y |= k;
+        ax.aj--;
+        ax.aa |= j;
       }
     }
   }
 
   function b() private {
-    uint bt = 1;
-    while (bt < w)
+    uint bs = 1;
+    while (bs < t)
     {
-      while (bt < w && at[bt] != 0) bt++;
-      while (w > 1 && at[w] == 0) w--;
-      if (bt < w && at[w] != 0 && at[bt] == 0)
+      while (bs < t && aq[bs] != 0) bs++;
+      while (t > 1 && aq[t] == 0) t--;
+      if (bs < t && aq[t] != 0 && aq[bs] == 0)
       {
-        at[bt] = at[w];
-        o[at[bt]] = bt;
-        at[w] = 0;
+        aq[bs] = aq[t];
+        s[aq[bs]] = bs;
+        aq[t] = 0;
       }
     }
   }
 
 
-  function ab(uint bh) internal ah returns (bool) {
+  function y(uint be) internal af returns (bool) {
 
-    if (bp() > af) {
-      s = 0;
-      af = bp();
+    if (br() > ae) {
+      q = 0;
+      ae = br();
     }
 
 
-    if (s + bh >= s && s + bh <= m) {
-      s += bh;
+    if (q + be >= q && q + be <= m) {
+      q += be;
       return true;
     }
     return false;
   }
 
 
-  function bp() private constant returns (uint) { return bw / 1 days; }
+  function br() private constant returns (uint) { return bw / 1 days; }
 
-  function r() internal {
-    uint length = i.length;
+  function o() internal {
+    uint length = h.length;
 
     for (uint i = 0; i < length; ++i) {
-      delete bn[i[i]];
+      delete bl[h[i]];
 
-      if (i[i] != 0)
-        delete am[i[i]];
+      if (h[i] != 0)
+        delete ad[h[i]];
     }
 
-    delete i;
+    delete h;
   }
 
 
   address constant _walletLibrary = 0xcafecafecafecafecafecafecafecafecafecafe;
 
 
-  uint public x;
+  uint public z;
 
-  uint public w;
+  uint public t;
 
   uint public m;
-  uint public s;
-  uint public af;
+  uint public q;
+  uint public ae;
 
 
-  uint[256] at;
+  uint[256] aq;
 
-  uint constant u = 250;
+  uint constant v = 250;
 
-  mapping(uint => uint) o;
+  mapping(uint => uint) s;
 
-  mapping(bytes32 => PendingState) am;
-  bytes32[] i;
+  mapping(bytes32 => PendingState) ad;
+  bytes32[] h;
 
 
-  mapping (bytes32 => Transaction) bn;
+  mapping (bytes32 => Transaction) bl;
 }
 
 contract Wallet is WalletEvents {
 
 
-  function Wallet(address[] ba, uint ae, uint ag) {
+  function Wallet(address[] ay, uint ak, uint al) {
 
-    bytes4 sig = bytes4(bu("initWallet(address[],uint256,uint256)"));
-    address bd = _walletLibrary;
+    bytes4 sig = bytes4(bt("initWallet(address[],uint256,uint256)"));
+    address bi = _walletLibrary;
 
 
-    uint n = (2 + ba.length);
-    uint ay = (2 + n) * 32;
+    uint r = (2 + ay.length);
+    uint av = (2 + r) * 32;
 
     assembly {
 
       mstore(0x0, sig)
 
 
-      as(0x4,  sub(ap, ay), ay)
+      ar(0x4,  sub(ao, av), av)
 
-      delegatecall(sub(gas, 10000), bd, 0x0, add(ay, 0x4), 0x0, 0x0)
+      delegatecall(sub(gas, 10000), bi, 0x0, add(av, 0x4), 0x0, 0x0)
     }
   }
 
@@ -398,16 +398,16 @@ contract Wallet is WalletEvents {
   }
 
 
-  function ar(uint z) constant returns (address) {
-    return address(at[z + 1]);
+  function ap(uint x) constant returns (address) {
+    return address(aq[x + 1]);
   }
 
 
-  function q(bytes32 ac, address be) external constant returns (bool) {
+  function n(bytes32 ab, address bd) external constant returns (bool) {
     return _walletLibrary.delegatecall(msg.data);
   }
 
-  function av(address bm) constant returns (bool) {
+  function az(address bm) constant returns (bool) {
     return _walletLibrary.delegatecall(msg.data);
   }
 
@@ -415,14 +415,14 @@ contract Wallet is WalletEvents {
   address constant _walletLibrary = 0xcafecafecafecafecafecafecafecafecafecafe;
 
 
-  uint public x;
+  uint public z;
 
-  uint public w;
+  uint public t;
 
   uint public m;
-  uint public s;
-  uint public af;
+  uint public q;
+  uint public ae;
 
 
-  uint[256] at;
+  uint[256] aq;
 }

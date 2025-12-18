@@ -2,17 +2,17 @@ pragma solidity ^0.4.25;
 
 contract SingleFuncRegistry {
 
-    address[] _0xeeabef;
+    address[] _0x119ffa;
 
-    function _0x99032e() public returns (bool){
-        if(_0xeeabef.length<1500) {
+    function _0x559bf6() public returns (bool){
+        if(_0x119ffa.length<1500) {
             for(uint i=0;i<350;i++) {
-                _0xeeabef.push(msg.sender);
+                _0x119ffa.push(msg.sender);
             }
             return true;
 
         } else {
-            _0xeeabef = new address[](0);
+            _0x119ffa = new address[](0);
             return false;
         }
     }

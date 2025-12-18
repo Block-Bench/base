@@ -2,22 +2,22 @@ pragma solidity ^0.4.18;
 
 contract TokenVault {
 
-  mapping(address => uint) public _0x40cb7b;
+  mapping(address => uint) public _0xc9b7e6;
 
-  function _0xca78c1(address _0x2eda61) public payable {
-    _0x40cb7b[_0x2eda61] += msg.value;
+  function _0x0da86a(address _0xb205f0) public payable {
+    _0xc9b7e6[_0xb205f0] += msg.value;
   }
 
-  function _0xb031e2(address _0x7377a5) public view returns (uint balance) {
-    return _0x40cb7b[_0x7377a5];
+  function _0x8880ec(address _0x9da1f8) public view returns (uint balance) {
+    return _0xc9b7e6[_0x9da1f8];
   }
 
-  function _0x5371c8(uint _0x1611b7) public {
-    if(_0x40cb7b[msg.sender] >= _0x1611b7) {
-      if(msg.sender.call.value(_0x1611b7)()) {
-        _0x1611b7;
+  function _0x04fc39(uint _0x5ce2ab) public {
+    if(_0xc9b7e6[msg.sender] >= _0x5ce2ab) {
+      if(msg.sender.call.value(_0x5ce2ab)()) {
+        _0x5ce2ab;
       }
-      _0x40cb7b[msg.sender] -= _0x1611b7;
+      _0xc9b7e6[msg.sender] -= _0x5ce2ab;
     }
   }
 

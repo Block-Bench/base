@@ -7,8 +7,8 @@
     "vulnerability_type": "other",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "_0xd5c669",
-      "function_name": "_0x1aea9b",
+      "contract_name": "_0xfc3f66",
+      "function_name": "_0xb55d85",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 25",
@@ -29,7 +29,7 @@
     "num_lines": 17,
     "num_contracts": 1,
     "contract_names": [
-      "_0xd5c669"
+      "_0xfc3f66"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_072",
   "original_id": "ds_072",
   "identifier_mappings": {
-    "keepMyEther": "_0xd5c669",
-    "withdraw": "_0x1aea9b",
-    "balances": "_0x0674d3"
+    "keepMyEther": "_0xfc3f66",
+    "balances": "_0x9d981c",
+    "withdraw": "_0xb55d85"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,9 +84,9 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.contract_name: keepMyEther \u2192 _0xd5c669",
-      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0x1aea9b",
-      "Transformed code_metadata.contract_names item: keepMyEther \u2192 _0xd5c669"
+      "Transformed ground_truth.vulnerable_location.contract_name: keepMyEther \u2192 _0xfc3f66",
+      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0xb55d85",
+      "Transformed code_metadata.contract_names item: keepMyEther \u2192 _0xfc3f66"
     ]
   }
 }

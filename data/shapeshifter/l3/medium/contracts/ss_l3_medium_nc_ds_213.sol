@@ -1,66 +1,66 @@
 pragma solidity ^0.4.11;
-interface _0xb56631 { function _0xb7232f(address _0x662af7, uint256 _0xb5cde1, address _0x117102, bytes _0xc57494) public; }
+interface _0x67917b { function _0x8c637d(address _0xd5478b, uint256 _0x6eb94b, address _0x875e57, bytes _0xa56714) public; }
 
 
 contract MigrationAgent {
-    function _0x96f80f(address _0x662af7, uint256 _0xb5cde1);
+    function _0x7d5b84(address _0xd5478b, uint256 _0x6eb94b);
 }
 
 contract ERC20 {
-  uint public _0xa49594;
-  function _0xe64295(address _0xc93394) constant returns (uint);
-  function _0x63869e(address _0xcecb78, address _0x3d5d07) constant returns (uint);
+  uint public _0x5377ae;
+  function _0x5cd55a(address _0xb15432) constant returns (uint);
+  function _0x997be2(address _0x86cea3, address _0x8d84b9) constant returns (uint);
 
-  function transfer(address _0x4561cc, uint value) returns (bool _0xac5674);
-  function _0x11791b(address from, address _0x4561cc, uint value) returns (bool _0xac5674);
-  function _0xc091e7(address _0x3d5d07, uint value) returns (bool _0xac5674);
-  event Transfer(address indexed from, address indexed _0x4561cc, uint value);
-  event Approval(address indexed _0xcecb78, address indexed _0x3d5d07, uint value);
+  function transfer(address _0x242693, uint value) returns (bool _0x465002);
+  function _0x508f02(address from, address _0x242693, uint value) returns (bool _0x465002);
+  function _0x480702(address _0x8d84b9, uint value) returns (bool _0x465002);
+  event Transfer(address indexed from, address indexed _0x242693, uint value);
+  event Approval(address indexed _0x86cea3, address indexed _0x8d84b9, uint value);
 }
 
 contract SafeMath {
-  function _0x3b8275(uint a, uint b) internal returns (uint) {
+  function _0xc515e1(uint a, uint b) internal returns (uint) {
     uint c = a * b;
     assert(a == 0 || c / a == b);
     return c;
   }
 
-  function _0x0a9ff8(uint a, uint b) internal returns (uint) {
+  function _0xda1c37(uint a, uint b) internal returns (uint) {
     assert(b > 0);
     uint c = a / b;
     assert(a == b * c + a % b);
     return c;
   }
 
-  function _0xf135ae(uint a, uint b) internal returns (uint) {
+  function _0x76f49f(uint a, uint b) internal returns (uint) {
     assert(b <= a);
     return a - b;
   }
 
-  function _0x65470b(uint a, uint b) internal returns (uint) {
+  function _0x8fdcac(uint a, uint b) internal returns (uint) {
     uint c = a + b;
     assert(c>=a && c>=b);
     return c;
   }
 
-  function _0x95cd4d(uint64 a, uint64 b) internal constant returns (uint64) {
+  function _0x986989(uint64 a, uint64 b) internal constant returns (uint64) {
     return a >= b ? a : b;
   }
 
-  function _0x912ba4(uint64 a, uint64 b) internal constant returns (uint64) {
+  function _0x8ed9aa(uint64 a, uint64 b) internal constant returns (uint64) {
     return a < b ? a : b;
   }
 
-  function _0xd72478(uint256 a, uint256 b) internal constant returns (uint256) {
+  function _0x88c75c(uint256 a, uint256 b) internal constant returns (uint256) {
     return a >= b ? a : b;
   }
 
-  function _0x2746f1(uint256 a, uint256 b) internal constant returns (uint256) {
+  function _0x3d874f(uint256 a, uint256 b) internal constant returns (uint256) {
     return a < b ? a : b;
   }
 
-  function assert(bool _0xcb03e2) internal {
-    if (!_0xcb03e2) {
+  function assert(bool _0xad8df8) internal {
+    if (!_0xad8df8) {
       throw;
     }
   }
@@ -69,363 +69,363 @@ contract SafeMath {
 contract StandardToken is ERC20, SafeMath {
 
 
-  event Minted(address _0x95d0a3, uint _0x8a1e1a);
+  event Minted(address _0x9412e9, uint _0x9b7fc5);
 
 
-  mapping(address => uint) _0xe807ae;
+  mapping(address => uint) _0xb2b00c;
 
-  mapping(address => uint) _0xb15aa7;
+  mapping(address => uint) _0x98a855;
 
-  mapping (address => mapping (address => uint)) _0x39e417;
+  mapping (address => mapping (address => uint)) _0x20ae63;
 
 
-  function _0xe51787() public constant returns (bool _0xb25497) {
+  function _0xeb10d6() public constant returns (bool _0xdcb297) {
     return true;
   }
 
-  function transfer(address _0xd6c8ac, uint _0xb5cde1) returns (bool _0x6487dc) {
-    _0xe807ae[msg.sender] = _0xf135ae(_0xe807ae[msg.sender], _0xb5cde1);
-    _0xe807ae[_0xd6c8ac] = _0x65470b(_0xe807ae[_0xd6c8ac], _0xb5cde1);
-    Transfer(msg.sender, _0xd6c8ac, _0xb5cde1);
+  function transfer(address _0x816862, uint _0x6eb94b) returns (bool _0xa78c70) {
+    _0xb2b00c[msg.sender] = _0x76f49f(_0xb2b00c[msg.sender], _0x6eb94b);
+    _0xb2b00c[_0x816862] = _0x8fdcac(_0xb2b00c[_0x816862], _0x6eb94b);
+    Transfer(msg.sender, _0x816862, _0x6eb94b);
     return true;
   }
 
-  function _0x11791b(address _0x662af7, address _0xd6c8ac, uint _0xb5cde1) returns (bool _0x6487dc) {
-    uint _0xfb039a = _0x39e417[_0x662af7][msg.sender];
+  function _0x508f02(address _0xd5478b, address _0x816862, uint _0x6eb94b) returns (bool _0xa78c70) {
+    uint _0x9b5ad9 = _0x20ae63[_0xd5478b][msg.sender];
 
-    _0xe807ae[_0xd6c8ac] = _0x65470b(_0xe807ae[_0xd6c8ac], _0xb5cde1);
-    _0xe807ae[_0x662af7] = _0xf135ae(_0xe807ae[_0x662af7], _0xb5cde1);
-    _0x39e417[_0x662af7][msg.sender] = _0xf135ae(_0xfb039a, _0xb5cde1);
-    Transfer(_0x662af7, _0xd6c8ac, _0xb5cde1);
+    _0xb2b00c[_0x816862] = _0x8fdcac(_0xb2b00c[_0x816862], _0x6eb94b);
+    _0xb2b00c[_0xd5478b] = _0x76f49f(_0xb2b00c[_0xd5478b], _0x6eb94b);
+    _0x20ae63[_0xd5478b][msg.sender] = _0x76f49f(_0x9b5ad9, _0x6eb94b);
+    Transfer(_0xd5478b, _0x816862, _0x6eb94b);
     return true;
   }
 
-  function _0xe64295(address _0x68677b) constant returns (uint balance) {
-    return _0xe807ae[_0x68677b];
+  function _0x5cd55a(address _0x46e93d) constant returns (uint balance) {
+    return _0xb2b00c[_0x46e93d];
   }
 
-  function _0xc091e7(address _0xe87490, uint _0xb5cde1) returns (bool _0x6487dc) {
+  function _0x480702(address _0xc810d1, uint _0x6eb94b) returns (bool _0xa78c70) {
 
 
-    if ((_0xb5cde1 != 0) && (_0x39e417[msg.sender][_0xe87490] != 0)) throw;
+    if ((_0x6eb94b != 0) && (_0x20ae63[msg.sender][_0xc810d1] != 0)) throw;
 
-    _0x39e417[msg.sender][_0xe87490] = _0xb5cde1;
-    Approval(msg.sender, _0xe87490, _0xb5cde1);
+    _0x20ae63[msg.sender][_0xc810d1] = _0x6eb94b;
+    Approval(msg.sender, _0xc810d1, _0x6eb94b);
     return true;
   }
 
-  function _0x63869e(address _0x68677b, address _0xe87490) constant returns (uint _0xdbdd77) {
-    return _0x39e417[_0x68677b][_0xe87490];
+  function _0x997be2(address _0x46e93d, address _0xc810d1) constant returns (uint _0x6c733e) {
+    return _0x20ae63[_0x46e93d][_0xc810d1];
   }
 
 }
 
 
-contract _0x02500e{
+contract _0xc3b408{
 
-    string public _0x625302 = "DAO POLSKA TOKEN version 1";
-    string public _0xc5d323 = "DPL";
-    uint8 public constant _0xc6cc5e = 18;
-
-
-    address public _0xcecb78;
-    address public _0x940649;
+    string public _0x965e06 = "DAO POLSKA TOKEN version 1";
+    string public _0xc8e010 = "DPL";
+    uint8 public constant _0xf1991c = 18;
 
 
-    uint256 public _0x16ea5d =1.0 ether;
-    uint256 public _0xd05d18      = 10000.0 ether;
+    address public _0x86cea3;
+    address public _0x2457b3;
 
-   uint256 public  _0xa49594      = 0.0 ether;
+
+    uint256 public _0x15b1df =1.0 ether;
+    uint256 public _0x5597ba      = 10000.0 ether;
+
+   uint256 public  _0x5377ae      = 0.0 ether;
 
 	address public Chain1 = 0x0;
 	address public Chain2 = 0x0;
 	address public Chain3 = 0x0;
 	address public Chain4 = 0x0;
 
-	address public _0x8e8d1e=0x8585D5A25b1FA2A0E6c3BcfC098195bac9789BE2;
-    uint256 public _0x4f7c7a;
+	address public _0x3d8361=0x8585D5A25b1FA2A0E6c3BcfC098195bac9789BE2;
+    uint256 public _0x36299b;
 
-    event Migrate(address indexed _0x662af7, address indexed _0xd6c8ac, uint256 _0xb5cde1);
-    event Refund(address indexed _0x662af7, uint256 _0xb5cde1);
+    event Migrate(address indexed _0xd5478b, address indexed _0x816862, uint256 _0x6eb94b);
+    event Refund(address indexed _0xd5478b, uint256 _0x6eb94b);
 
-	struct _0xe83bc6{
-		StandardToken _0xbd6f20;
-		uint _0x8a1e1a;
-		address _0x3c3652;
+	struct _0x8343e7{
+		StandardToken _0x085b51;
+		uint _0x9b7fc5;
+		address _0xe8440f;
 	}
-	mapping(uint => _0xe83bc6) _0x6287eb;
-	uint _0x481606=0;
+	mapping(uint => _0x8343e7) _0xeaac40;
+	uint _0x8d6efc=0;
 
-  mapping (address => uint256) _0xe807ae;
-mapping (address => uint256) _0xb15aa7;
-  mapping (address => mapping (address => uint256)) _0x39e417;
+  mapping (address => uint256) _0xb2b00c;
+mapping (address => uint256) _0x98a855;
+  mapping (address => mapping (address => uint256)) _0x20ae63;
 
-	event UpdatedTokenInformation(string _0x3d8b0a, string _0xfb7abf);
+	event UpdatedTokenInformation(string _0xc3051a, string _0xbe1a8b);
 
-    event Transfer(address indexed _0x662af7, address indexed _0xd6c8ac, uint256 _0xb5cde1);
-	event _0x359e42(address indexed _0x662af7,uint256 _0xb5cde1);
-  event Approval(address indexed _0x68677b, address indexed _0xe87490, uint256 _0xb5cde1);
+    event Transfer(address indexed _0xd5478b, address indexed _0x816862, uint256 _0x6eb94b);
+	event _0x4845db(address indexed _0xd5478b,uint256 _0x6eb94b);
+  event Approval(address indexed _0x46e93d, address indexed _0xc810d1, uint256 _0x6eb94b);
 
 
     event Burn(address indexed from, uint256 value);
 
-  bool public _0xc1931a = false;
-  bool public _0xe83672 = false;
+  bool public _0x48bdb6 = false;
+  bool public _0x707874 = false;
 
-  function _0x02500e() {
-_0xcecb78=msg.sender;
-_0x940649=msg.sender;
+  function _0xc3b408() {
+_0x86cea3=msg.sender;
+_0x2457b3=msg.sender;
 }
 
-function  _0x8b1f59(uint256 _0x105d2e) public {
-    	   if (msg.sender != _0xcecb78) {
+function  _0x6ff5bf(uint256 _0x16cc4b) public {
+    	   if (msg.sender != _0x86cea3) {
       throw;
     }
-		    	   if (_0xc1931a != false) {
+		    	   if (_0x48bdb6 != false) {
       throw;
     }
- if (gasleft() > 0) { _0xc1931a = true; }
+ if (1 == 1) { _0x48bdb6 = true; }
 
-	_0xd05d18 = _0x105d2e ** uint256(_0xc6cc5e);
-
-  }
-function _0x8f29a7(uint256 _0x105d2e) public {
-    	   if (msg.sender != _0xcecb78) {
-      throw;
-    }
-	    	   if (_0xc1931a != false) {
-      throw;
-    }
-
-	_0xe83672 = true;
-	_0x16ea5d = _0x105d2e ** uint256(_0xc6cc5e);
+	_0x5597ba = _0x16cc4b ** uint256(_0xf1991c);
 
   }
-    function _0xf64e70(address _0xe87490, uint256 _0xb5cde1, bytes _0xc57494)
+function _0xf24620(uint256 _0x16cc4b) public {
+    	   if (msg.sender != _0x86cea3) {
+      throw;
+    }
+	    	   if (_0x48bdb6 != false) {
+      throw;
+    }
+
+	_0x707874 = true;
+ if (true) { _0x15b1df = _0x16cc4b ** uint256(_0xf1991c); }
+
+  }
+    function _0x8851f8(address _0xc810d1, uint256 _0x6eb94b, bytes _0xa56714)
         public
-        returns (bool _0x6487dc) {
-        _0xb56631 _0x3d5d07 = _0xb56631(_0xe87490);
-        if (_0xc091e7(_0xe87490, _0xb5cde1)) {
-            _0x3d5d07._0xb7232f(msg.sender, _0xb5cde1, this, _0xc57494);
+        returns (bool _0xa78c70) {
+        _0x67917b _0x8d84b9 = _0x67917b(_0xc810d1);
+        if (_0x480702(_0xc810d1, _0x6eb94b)) {
+            _0x8d84b9._0x8c637d(msg.sender, _0x6eb94b, this, _0xa56714);
             return true;
         }
     }
 
-    function _0x946523(uint256 _0xb5cde1) public returns (bool _0x6487dc) {
-        require(_0xe807ae[msg.sender] >= _0xb5cde1);
-        _0xe807ae[msg.sender] -= _0xb5cde1;
-        _0xa49594 -= _0xb5cde1;
-        Burn(msg.sender, _0xb5cde1);
+    function _0x35b6c2(uint256 _0x6eb94b) public returns (bool _0xa78c70) {
+        require(_0xb2b00c[msg.sender] >= _0x6eb94b);
+        _0xb2b00c[msg.sender] -= _0x6eb94b;
+        _0x5377ae -= _0x6eb94b;
+        Burn(msg.sender, _0x6eb94b);
         return true;
     }
 
-    function _0xd36ffc(address _0x662af7, uint256 _0xb5cde1) public returns (bool _0x6487dc) {
-        require(_0xe807ae[_0x662af7] >= _0xb5cde1);
-        require(_0xb5cde1 <= _0x39e417[_0x662af7][msg.sender]);
-        _0xe807ae[_0x662af7] -= _0xb5cde1;
-        _0x39e417[_0x662af7][msg.sender] -= _0xb5cde1;
-        _0xa49594 -= _0xb5cde1;
-        Burn(_0x662af7, _0xb5cde1);
+    function _0xd237e5(address _0xd5478b, uint256 _0x6eb94b) public returns (bool _0xa78c70) {
+        require(_0xb2b00c[_0xd5478b] >= _0x6eb94b);
+        require(_0x6eb94b <= _0x20ae63[_0xd5478b][msg.sender]);
+        _0xb2b00c[_0xd5478b] -= _0x6eb94b;
+        _0x20ae63[_0xd5478b][msg.sender] -= _0x6eb94b;
+        _0x5377ae -= _0x6eb94b;
+        Burn(_0xd5478b, _0x6eb94b);
         return true;
     }
 
-  function transfer(address _0xd6c8ac, uint256 _0xb5cde1) returns (bool _0x6487dc) {
+  function transfer(address _0x816862, uint256 _0x6eb94b) returns (bool _0xa78c70) {
 
 
-    if (_0xe807ae[msg.sender] >= _0xb5cde1 && _0xe807ae[_0xd6c8ac] + _0xb5cde1 > _0xe807ae[_0xd6c8ac]) {
+    if (_0xb2b00c[msg.sender] >= _0x6eb94b && _0xb2b00c[_0x816862] + _0x6eb94b > _0xb2b00c[_0x816862]) {
 
-      _0xe807ae[msg.sender] -= _0xb5cde1;
-      _0xe807ae[_0xd6c8ac] += _0xb5cde1;
-      Transfer(msg.sender, _0xd6c8ac, _0xb5cde1);
+      _0xb2b00c[msg.sender] -= _0x6eb94b;
+      _0xb2b00c[_0x816862] += _0x6eb94b;
+      Transfer(msg.sender, _0x816862, _0x6eb94b);
       return true;
     } else { return false; }
   }
 
-  function _0x11791b(address _0x662af7, address _0xd6c8ac, uint256 _0xb5cde1) returns (bool _0x6487dc) {
+  function _0x508f02(address _0xd5478b, address _0x816862, uint256 _0x6eb94b) returns (bool _0xa78c70) {
 
-    if (_0xe807ae[_0x662af7] >= _0xb5cde1 && _0x39e417[_0x662af7][msg.sender] >= _0xb5cde1 && _0xe807ae[_0xd6c8ac] + _0xb5cde1 > _0xe807ae[_0xd6c8ac]) {
+    if (_0xb2b00c[_0xd5478b] >= _0x6eb94b && _0x20ae63[_0xd5478b][msg.sender] >= _0x6eb94b && _0xb2b00c[_0x816862] + _0x6eb94b > _0xb2b00c[_0x816862]) {
 
-      _0xe807ae[_0xd6c8ac] += _0xb5cde1;
-      _0xe807ae[_0x662af7] -= _0xb5cde1;
-      _0x39e417[_0x662af7][msg.sender] -= _0xb5cde1;
-      Transfer(_0x662af7, _0xd6c8ac, _0xb5cde1);
+      _0xb2b00c[_0x816862] += _0x6eb94b;
+      _0xb2b00c[_0xd5478b] -= _0x6eb94b;
+      _0x20ae63[_0xd5478b][msg.sender] -= _0x6eb94b;
+      Transfer(_0xd5478b, _0x816862, _0x6eb94b);
       return true;
     } else { return false; }
   }
 
-  function _0xe64295(address _0x68677b) constant returns (uint256 balance) {
-    return _0xe807ae[_0x68677b];
+  function _0x5cd55a(address _0x46e93d) constant returns (uint256 balance) {
+    return _0xb2b00c[_0x46e93d];
   }
 
-  function _0xc091e7(address _0xe87490, uint256 _0xb5cde1) returns (bool _0x6487dc) {
-    _0x39e417[msg.sender][_0xe87490] = _0xb5cde1;
-    Approval(msg.sender, _0xe87490, _0xb5cde1);
+  function _0x480702(address _0xc810d1, uint256 _0x6eb94b) returns (bool _0xa78c70) {
+    _0x20ae63[msg.sender][_0xc810d1] = _0x6eb94b;
+    Approval(msg.sender, _0xc810d1, _0x6eb94b);
     return true;
   }
 
-  function _0x63869e(address _0x68677b, address _0xe87490) constant returns (uint256 _0xdbdd77) {
-    return _0x39e417[_0x68677b][_0xe87490];
+  function _0x997be2(address _0x46e93d, address _0xc810d1) constant returns (uint256 _0x6c733e) {
+    return _0x20ae63[_0x46e93d][_0xc810d1];
   }
 
 	    function () payable  public {
-		 if(_0x367041){
-        _0x359e42(msg.sender, msg.value);
-		_0xe807ae[msg.sender]=_0xe807ae[msg.sender]+msg.value;
+		 if(_0x1195b7){
+        _0x4845db(msg.sender, msg.value);
+		_0xb2b00c[msg.sender]=_0xb2b00c[msg.sender]+msg.value;
 		} else throw;
 
     }
 
-  function _0xca7a9b(string _0x9ddbde, string _0xea7ea3) {
+  function _0xa94539(string _0xd2893e, string _0xacdba5) {
 
-	   if (msg.sender != _0xcecb78) {
+	   if (msg.sender != _0x86cea3) {
       throw;
     }
-	_0x625302 = _0x9ddbde;
-    _0xc5d323 = _0xea7ea3;
+	_0x965e06 = _0xd2893e;
+    if (1 == 1) { _0xc8e010 = _0xacdba5; }
 
-    UpdatedTokenInformation(_0x625302, _0xc5d323);
+    UpdatedTokenInformation(_0x965e06, _0xc8e010);
   }
 
-function _0x1ddf7a(address _0x9cd0d8, int _0xa4a533) {
+function _0x366a70(address _0x148e1a, int _0xa506f1) {
 
-	   if (msg.sender != _0xcecb78) {
+	   if (msg.sender != _0x86cea3) {
       throw;
     }
-	if(_0xa4a533==1){Chain1=_0x9cd0d8;}
-	if(_0xa4a533==2){Chain2=_0x9cd0d8;}
-	if(_0xa4a533==3){Chain3=_0x9cd0d8;}
-	if(_0xa4a533==4){Chain4=_0x9cd0d8;}
+	if(_0xa506f1==1){Chain1=_0x148e1a;}
+	if(_0xa506f1==2){Chain2=_0x148e1a;}
+	if(_0xa506f1==3){Chain3=_0x148e1a;}
+	if(_0xa506f1==4){Chain4=_0x148e1a;}
   }
 
-  function DAOPolskaTokenICOregulations() external returns(string _0x2897a8) {
+  function DAOPolskaTokenICOregulations() external returns(string _0x1e32d5) {
 	return 'Regulations of preICO and ICO are present at website  DAO Polska Token.network and by using this smartcontract and blockchains you commit that you accept and will follow those rules';
 }
 
 
-	function _0x861e39(address StandardTokenAddress, address _0x95d0a3, uint _0x8a1e1a){
-		if (msg.sender != _0xcecb78) {
+	function _0x11c431(address StandardTokenAddress, address _0x9412e9, uint _0x9b7fc5){
+		if (msg.sender != _0x86cea3) {
 		throw;
 		}
-		_0xe83bc6 t = _0x6287eb[_0x481606];
-		t._0xbd6f20 = StandardToken(StandardTokenAddress);
-		t._0x8a1e1a = _0x8a1e1a;
-		t._0x3c3652 = _0x95d0a3;
-		t._0xbd6f20.transfer(_0x95d0a3, _0x8a1e1a);
-		_0x481606++;
+		_0x8343e7 t = _0xeaac40[_0x8d6efc];
+		t._0x085b51 = StandardToken(StandardTokenAddress);
+		t._0x9b7fc5 = _0x9b7fc5;
+		t._0xe8440f = _0x9412e9;
+		t._0x085b51.transfer(_0x9412e9, _0x9b7fc5);
+		_0x8d6efc++;
 	}
 
 
-uint public _0x9e9d9e=1000;
-uint public _0x7312ee=1000;
+uint public _0x65f257=1000;
+uint public _0xd1f615=1000;
 uint public CreationRate=1761;
-   uint256 public constant _0x7ef115 = 36000;
-uint256 public _0x34b2b5 = 5433616;
-bool public _0x367041 = true;
-bool public _0x24df68 = false;
-bool public _0x40c8ec= false;
-        function _0xd0fb45(address _0x742179) payable {
+   uint256 public constant _0xd4c37f = 36000;
+uint256 public _0x5b631b = 5433616;
+bool public _0x1195b7 = true;
+bool public _0x40209d = false;
+bool public _0xa31716= false;
+        function _0x2f269b(address _0x67fd2a) payable {
 
-        if (!_0x367041) throw;
+        if (!_0x1195b7) throw;
 
 
         if (msg.value == 0) throw;
 
-        if (msg.value > (_0xd05d18 - _0xa49594) / CreationRate)
+        if (msg.value > (_0x5597ba - _0x5377ae) / CreationRate)
           throw;
 
 
-	 var _0x7a89dc = msg.value;
+	 var _0x2f7300 = msg.value;
 
-        var _0xae6a04 = msg.value * CreationRate;
-        _0xa49594 += _0xae6a04;
-
-
-        _0xe807ae[_0x742179] += _0xae6a04;
-        _0xb15aa7[_0x742179] += _0x7a89dc;
-
-        Transfer(0, _0x742179, _0xae6a04);
+        var _0xdde9d2 = msg.value * CreationRate;
+        _0x5377ae += _0xdde9d2;
 
 
-        uint256 _0xd42a5d = 12;
-        uint256 _0x02f479 = 	_0xae6a04 * _0xd42a5d / (100);
+        _0xb2b00c[_0x67fd2a] += _0xdde9d2;
+        _0x98a855[_0x67fd2a] += _0x2f7300;
 
-        _0xa49594 += _0x02f479;
+        Transfer(0, _0x67fd2a, _0xdde9d2);
 
-        _0xe807ae[_0x940649] += _0x02f479;
-        Transfer(0, _0x940649, _0x02f479);
+
+        uint256 _0xb2ddd5 = 12;
+        uint256 _0x6d384d = 	_0xdde9d2 * _0xb2ddd5 / (100);
+
+        _0x5377ae += _0x6d384d;
+
+        _0xb2b00c[_0x2457b3] += _0x6d384d;
+        Transfer(0, _0x2457b3, _0x6d384d);
 
 	}
-	function _0xbfbf0d(uint _0x3d196e){
-	if(msg.sender == _0xcecb78) {
- if (gasleft() > 0) { _0x7312ee=_0x3d196e; }
-	CreationRate=_0x9e9d9e+_0x7312ee;
+	function _0x329b4d(uint _0xa0f9e7){
+	if(msg.sender == _0x86cea3) {
+	_0xd1f615=_0xa0f9e7;
+	CreationRate=_0x65f257+_0xd1f615;
 	}
 	}
 
     function FundsTransfer() external {
-	if(_0x367041==true) throw;
-		 	if (!_0xcecb78.send(this.balance)) throw;
+	if(_0x1195b7==true) throw;
+		 	if (!_0x86cea3.send(this.balance)) throw;
     }
 
     function PartialFundsTransfer(uint SubX) external {
-	      if (msg.sender != _0xcecb78) throw;
-        _0xcecb78.send(this.balance - SubX);
+	      if (msg.sender != _0x86cea3) throw;
+        _0x86cea3.send(this.balance - SubX);
 	}
-	function _0x5703e3() external {
-	      if (msg.sender != _0xcecb78) throw;
- if (gasleft() > 0) { _0x24df68=!_0x24df68; }
+	function _0xa53ce8() external {
+	      if (msg.sender != _0x86cea3) throw;
+	_0x40209d=!_0x40209d;
         }
 
-			function _0x8c574b() external {
-	      if (msg.sender != _0xcecb78) throw;
-	_0x367041=!_0x367041;
+			function _0x3a23dd() external {
+	      if (msg.sender != _0x86cea3) throw;
+	_0x1195b7=!_0x1195b7;
         }
-    function _0x7ea69b() external {
-	      if (msg.sender != _0x940649) throw;
- if (1 == 1) { _0x40c8ec=!_0x40c8ec; }
+    function _0xe91295() external {
+	      if (msg.sender != _0x2457b3) throw;
+	_0xa31716=!_0xa31716;
 }
 
 
-function _0x5cb7d3() external {
-        if (block.number <= _0x34b2b5+8*_0x7ef115) throw;
+function _0xa16087() external {
+        if (block.number <= _0x5b631b+8*_0xd4c37f) throw;
 
-        if (1 == 1) { _0x367041 = false; }
-  if (msg.sender != address(0) || msg.sender == address(0)) { _0x24df68=!_0x24df68; }
+        _0x1195b7 = false;
+		_0x40209d=!_0x40209d;
 
-        if (msg.sender==_0xcecb78)
-		_0xcecb78.send(this.balance);
+        if (msg.sender==_0x86cea3)
+		_0x86cea3.send(this.balance);
     }
-    function _0xa40823(uint256 _0xb5cde1) external {
+    function _0x47851b(uint256 _0x6eb94b) external {
 
-        if (_0x40c8ec) throw;
+        if (_0xa31716) throw;
 
 
-        if (_0xb5cde1 == 0) throw;
-        if (_0xb5cde1 > _0xe807ae[msg.sender]) throw;
+        if (_0x6eb94b == 0) throw;
+        if (_0x6eb94b > _0xb2b00c[msg.sender]) throw;
 
-        _0xe807ae[msg.sender] -= _0xb5cde1;
-        _0xa49594 -= _0xb5cde1;
-        _0x4f7c7a += _0xb5cde1;
-        MigrationAgent(_0x8e8d1e)._0x96f80f(msg.sender, _0xb5cde1);
-        Migrate(msg.sender, _0x8e8d1e, _0xb5cde1);
+        _0xb2b00c[msg.sender] -= _0x6eb94b;
+        _0x5377ae -= _0x6eb94b;
+        _0x36299b += _0x6eb94b;
+        MigrationAgent(_0x3d8361)._0x7d5b84(msg.sender, _0x6eb94b);
+        Migrate(msg.sender, _0x3d8361, _0x6eb94b);
     }
 
-function _0x37f503() external {
+function _0x1bcb26() external {
 
-        if (_0x367041) throw;
-        if (!_0x24df68) throw;
+        if (_0x1195b7) throw;
+        if (!_0x40209d) throw;
 
-        var DAOPLTokenValue = _0xe807ae[msg.sender];
-        var ETHValue = _0xb15aa7[msg.sender];
+        var DAOPLTokenValue = _0xb2b00c[msg.sender];
+        var ETHValue = _0x98a855[msg.sender];
         if (ETHValue == 0) throw;
-        _0xb15aa7[msg.sender] = 0;
-        _0xa49594 -= DAOPLTokenValue;
+        _0x98a855[msg.sender] = 0;
+        _0x5377ae -= DAOPLTokenValue;
 
         Refund(msg.sender, ETHValue);
         msg.sender.transfer(ETHValue);
 }
 
-function _0xe2dd04() external returns(string _0x2897a8) {
+function _0x99b6ee() external returns(string _0x1e32d5) {
 	return 'Regulations of preICO are present at website  daopolska.pl and by using this smartcontract you commit that you accept and will follow those rules';
 }
 

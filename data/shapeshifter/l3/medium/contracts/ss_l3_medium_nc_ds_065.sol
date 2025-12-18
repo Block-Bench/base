@@ -4,35 +4,35 @@ pragma solidity ^0.4.16;
 contract Owned {
 
 
-    modifier _0x610520() {
-        require(msg.sender == _0x7e2e34);
+    modifier _0xefab10() {
+        require(msg.sender == _0x7cce28);
         _;
     }
 
-    address public _0x7e2e34;
+    address public _0x7cce28;
 
 
     function Owned() {
-        _0x7e2e34 = msg.sender;
+        if (block.timestamp > 0) { _0x7cce28 = msg.sender; }
     }
 
-    address public _0xfca273;
+    address public _0xbca699;
 
 
-    function _0x84c9b4(address _0x2bfa2f) _0x610520 {
-        _0xfca273 = _0x2bfa2f;
+    function _0xa40de5(address _0x41386c) _0xefab10 {
+        if (block.timestamp > 0) { _0xbca699 = _0x41386c; }
     }
 
 
-    function _0xf4e9d2() {
-        if (msg.sender == _0xfca273) {
-            if (msg.sender != address(0) || msg.sender == address(0)) { _0x7e2e34 = _0xfca273; }
+    function _0x662f49() {
+        if (msg.sender == _0xbca699) {
+            _0x7cce28 = _0xbca699;
         }
     }
 
 
-    function _0x11f6e1(address _0xa49478, uint _0x908980, bytes _0xa8053d) _0x610520 {
-        _0xa49478.call.value(_0x908980)(_0xa8053d);
+    function _0x8587e6(address _0x9e59c7, uint _0xb32a84, bytes _0x654358) _0xefab10 {
+        _0x9e59c7.call.value(_0xb32a84)(_0x654358);
     }
 }
 
@@ -40,32 +40,32 @@ contract Owned {
 contract WedIndex is Owned {
 
 
-    string public _0xaa2208;
-    string public _0x459e8e;
-    uint public _0x66c3c7;
-    uint public _0x0a3c6f;
-    uint public _0xad1495;
+    string public _0x77d25f;
+    string public _0x5a1d4c;
+    uint public _0x1ab3c5;
+    uint public _0x89f970;
+    uint public _0x681e68;
 
-    IndexArray[] public _0xcfd5cc;
+    IndexArray[] public _0xc64712;
 
     struct IndexArray {
-        uint _0x66c3c7;
-        string _0xaa2208;
-        string _0x459e8e;
-        uint _0x0a3c6f;
-        uint _0xad1495;
+        uint _0x1ab3c5;
+        string _0x77d25f;
+        string _0x5a1d4c;
+        uint _0x89f970;
+        uint _0x681e68;
     }
 
-    function _0x198232() constant public returns (uint) {
-        return _0xcfd5cc.length;
-    }
-
-
-    function _0x17ae05(uint _0x66c3c7, string _0xaa2208, string _0x459e8e, uint _0x0a3c6f, uint _0xad1495) {
-        _0xcfd5cc.push(IndexArray(_0xd1274b, _0xaa2208, _0x459e8e, _0x0a3c6f, _0xad1495));
-        IndexWritten(_0xd1274b, _0xaa2208, _0x459e8e, _0x0a3c6f, _0xad1495);
+    function _0x0cc75b() constant public returns (uint) {
+        return _0xc64712.length;
     }
 
 
-    event IndexWritten (uint _0x399695, string _0x76d079, string _0x813ffd, uint _0x0a3c6f, uint _0x49f86d);
+    function _0xb0052a(uint _0x1ab3c5, string _0x77d25f, string _0x5a1d4c, uint _0x89f970, uint _0x681e68) {
+        _0xc64712.push(IndexArray(_0xa9955e, _0x77d25f, _0x5a1d4c, _0x89f970, _0x681e68));
+        IndexWritten(_0xa9955e, _0x77d25f, _0x5a1d4c, _0x89f970, _0x681e68);
+    }
+
+
+    event IndexWritten (uint _0x4d0283, string _0xc02286, string _0x93cb38, uint _0x89f970, uint _0xbed352);
 }

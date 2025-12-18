@@ -2,7 +2,7 @@ pragma solidity ^0.8.0;
 
 
 interface IERC777 {
-    function transfer(address s, uint256 n) external returns (bool);
+    function transfer(address s, uint256 m) external returns (bool);
 
     function i(address l) external view returns (uint256);
 }
@@ -19,29 +19,29 @@ contract LendingPool {
     mapping(address => mapping(address => uint256)) public k;
     mapping(address => uint256) public e;
 
-    function m(address p, uint256 n) external returns (uint256) {
+    function n(address p, uint256 m) external returns (uint256) {
         IERC777 o = IERC777(p);
 
-        require(o.transfer(address(this), n), "Transfer failed");
+        require(o.transfer(address(this), m), "Transfer failed");
 
-        k[msg.sender][p] += n;
-        e[p] += n;
+        k[msg.sender][p] += m;
+        e[p] += m;
 
-        return n;
+        return m;
     }
 
     function j(
         address p,
         uint256 b
     ) external returns (uint256) {
-        uint256 g = k[msg.sender][p];
-        require(g > 0, "No balance");
+        uint256 h = k[msg.sender][p];
+        require(h > 0, "No balance");
 
         uint256 c = b;
         if (b == type(uint256).r) {
-            c = g;
+            c = h;
         }
-        require(c <= g, "Insufficient balance");
+        require(c <= h, "Insufficient balance");
 
         IERC777(p).transfer(msg.sender, c);
 
@@ -51,7 +51,7 @@ contract LendingPool {
         return c;
     }
 
-    function h(
+    function g(
         address q,
         address p
     ) external view returns (uint256) {

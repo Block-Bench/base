@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Proxy",
-      "function_name": "_0x1c8b3d",
+      "function_name": "_0xacbb37",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 14",
@@ -71,14 +71,14 @@
   "derived_from": "nc_ds_074",
   "original_id": "ds_074",
   "identifier_mappings": {
-    "transferOwner": "_0x797e92",
-    "onlyOwner": "_0x08047c",
-    "withdraw": "_0xbffe6e",
-    "deposit": "_0xf655a9",
-    "amount": "_0x6fd720",
-    "_owner": "_0x6985c0",
-    "target": "_0xf4879e",
-    "proxy": "_0x1c8b3d"
+    "transferOwner": "_0xdf2b09",
+    "onlyOwner": "_0xa6496e",
+    "withdraw": "_0x51cf47",
+    "deposit": "_0x652de1",
+    "_owner": "_0x3c9e0f",
+    "target": "_0x389979",
+    "amount": "_0xc1f4bb",
+    "proxy": "_0xacbb37"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -86,11 +86,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 8 identifiers using hex style"
+      "Renamed 8 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: proxy \u2192 _0x1c8b3d"
+      "Transformed ground_truth.vulnerable_location.function_name: proxy \u2192 _0xacbb37"
     ]
   }
 }

@@ -70,11 +70,11 @@
   "derived_from": "nc_ds_146",
   "original_id": "ds_146",
   "identifier_mappings": {
-    "isComplete": "_0x749dd9",
-    "keccak256": "_0x1964e7",
-    "answer": "_0x56c05c",
-    "guess": "_0xa40b37",
-    "now": "_0xf6f3c6"
+    "isComplete": "_0xf89852",
+    "keccak256": "_0xb67169",
+    "answer": "_0x36da95",
+    "guess": "_0xcd72f5",
+    "now": "_0x892bc4"
   },
   "transformation": {
     "strategy": "shapeshifter",

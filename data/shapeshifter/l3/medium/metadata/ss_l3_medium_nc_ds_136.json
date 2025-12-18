@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "MinimalCounter",
-      "function_name": "_0xfc5807",
+      "function_name": "_0xb4e188",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 17",
@@ -66,9 +66,9 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "count": "_0xeb0f0a",
-    "input": "_0x31c2a3",
-    "run": "_0xfc5807"
+    "input": "_0x7cf033",
+    "count": "_0xb95d2e",
+    "run": "_0xb4e188"
   },
   "original_contract_file": "base/contracts/ds_136.sol",
   "sanitized_from": "ds_136",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0xfc5807"
+      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0xb4e188"
     ]
   }
 }

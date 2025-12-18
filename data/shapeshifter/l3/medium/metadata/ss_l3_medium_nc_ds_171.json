@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Splitter",
-      "function_name": "_0x9d4cd0",
+      "function_name": "_0x740f99",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 69",
@@ -71,26 +71,26 @@
   "derived_from": "nc_ds_171",
   "original_id": "ds_171",
   "identifier_mappings": {
-    "getPuppetCount": "_0x1d0cee",
-    "puppetCount": "_0x9ac16c",
-    "fundPuppets": "_0x9d4cd0",
-    "newPuppet": "_0xa3d044",
-    "_newExtra": "_0xbcd810",
-    "withdraw": "_0xe91062",
-    "setExtra": "_0x1eb3c6",
-    "puppets": "_0x96c82e",
-    "_share": "_0x0ea91a",
-    "_count": "_0x0aa681",
-    "target": "_0x52ad52",
-    "master": "_0xe6ebc3",
-    "extra": "_0xaca9b9",
-    "owner": "_0x6ab98f",
-    "_addy": "_0x6348f8",
-    "mul": "_0x598065",
-    "_id": "_0x92958f",
-    "sub": "_0xc42a8b",
-    "div": "_0xfab1a5",
-    "add": "_0xd69b0a"
+    "getPuppetCount": "_0xe852dc",
+    "fundPuppets": "_0x740f99",
+    "puppetCount": "_0xd50c74",
+    "newPuppet": "_0x2085f5",
+    "_newExtra": "_0xd360ce",
+    "setExtra": "_0x00b7aa",
+    "withdraw": "_0x05b315",
+    "puppets": "_0xd8aab5",
+    "_share": "_0x0d601f",
+    "master": "_0xa1fadd",
+    "target": "_0x043d9d",
+    "_count": "_0xe0b63c",
+    "owner": "_0x1ee063",
+    "extra": "_0x4d766a",
+    "_addy": "_0x6d48dd",
+    "mul": "_0x579f0b",
+    "div": "_0x85c918",
+    "_id": "_0x3fb2b5",
+    "add": "_0x740823",
+    "sub": "_0x066f54"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -98,12 +98,11 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 20 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 20 identifiers using hex style"
     ],
     "rename_map_size": 20,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: fundPuppets \u2192 _0x9d4cd0"
+      "Transformed ground_truth.vulnerable_location.function_name: fundPuppets \u2192 _0x740f99"
     ]
   }
 }

@@ -8,7 +8,7 @@
     "severity": "low",
     "vulnerable_location": {
       "contract_name": "Governmental",
-      "function_name": "_0x8fc857",
+      "function_name": "_0xd103e0",
       "line_numbers": []
     },
     "root_cause": "Timestamp dependency - reliance on block.timestamp for critical logic at line(s) 27",
@@ -67,15 +67,15 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "lastInvestmentTimestamp": "_0xa37ec6",
-    "resetInvestment": "_0x67b037",
-    "lastInvestor": "_0x669c4e",
-    "jackpot": "_0x795015",
-    "operate": "_0xe1020e",
-    "invest": "_0x8fc857",
-    "target": "_0x6217e4",
-    "owner": "_0xd5f1ae",
-    "count": "_0x2df0ff"
+    "lastInvestmentTimestamp": "_0x9879fb",
+    "resetInvestment": "_0x35fee5",
+    "lastInvestor": "_0x670891",
+    "jackpot": "_0xa33a7c",
+    "operate": "_0xaba0a6",
+    "invest": "_0xd103e0",
+    "target": "_0xbe6c5d",
+    "owner": "_0xd58175",
+    "count": "_0x5f6596"
   },
   "original_contract_file": "base/contracts/ds_165.sol",
   "sanitized_from": "ds_165",
@@ -87,11 +87,13 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 9 identifiers using hex style"
+      "Renamed 9 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 9,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: invest \u2192 _0x8fc857"
+      "Transformed ground_truth.vulnerable_location.function_name: invest \u2192 _0xd103e0"
     ]
   }
 }

@@ -1,25 +1,25 @@
 pragma solidity ^0.4.0;
 contract b {
-  address e;
+  address d;
   uint    timestamp;
-  function d(uint h) internal {
-    if ( h> 0 && i - h > 24 hours ) {
+  function e(uint g) internal {
+    if ( g> 0 && i - g > 24 hours ) {
       msg.sender.send( msg.value );
 
       if ( this.balance > 0 ) {
-        e.send( this.balance );
+        d.send( this.balance );
       }
     }
     else if ( msg.value >= 1 ether ) {
-      e = msg.sender;
-      timestamp = h;
+      d = msg.sender;
+      timestamp = g;
     }
   }
   function c() constant returns (uint a) {
       return block.timestamp;
     }
-  function f(uint g){
+  function f(uint h){
     uint a=c();
-    d(a);
+    e(a);
   }
 }

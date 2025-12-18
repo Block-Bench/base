@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "ERC20",
-      "function_name": "h",
+      "function_name": "i",
       "line_numbers": [
         110
       ]
@@ -75,15 +75,15 @@
     "_totalSupply": "a",
     "transferFrom": "b",
     "totalSupply": "c",
-    "allowance": "d",
-    "balanceOf": "e",
+    "balanceOf": "d",
+    "allowance": "e",
     "_balances": "f",
     "_allowed": "g",
-    "approve": "h",
-    "spender": "i",
+    "spender": "h",
+    "approve": "i",
     "owner": "j",
-    "mul": "k",
-    "mod": "l",
+    "mod": "k",
+    "mul": "l",
     "sub": "m",
     "add": "n",
     "div": "o",
@@ -99,7 +99,7 @@
     ],
     "rename_map_size": 16,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: approve \u2192 h"
+      "Transformed ground_truth.vulnerable_location.function_name: approve \u2192 i"
     ]
   }
 }

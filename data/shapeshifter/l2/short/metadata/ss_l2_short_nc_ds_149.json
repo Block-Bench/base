@@ -73,8 +73,8 @@
   "derived_from": "nc_ds_149",
   "original_id": "ds_149",
   "identifier_mappings": {
-    "result": "a",
-    "random": "b",
+    "random": "a",
+    "result": "b",
     "salt": "c",
     "seed": "d",
     "max": "e"

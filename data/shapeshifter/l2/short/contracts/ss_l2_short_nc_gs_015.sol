@@ -12,16 +12,16 @@ abstract contract LockManagerBase is ILockManager {
     using EnumerableSet for EnumerableSet.UintSet;
 
 
-    LockManagerSettings public ad;
+    LockManagerSettings public ac;
 
 
-    ILockToGovernBase public aj;
+    ILockToGovernBase public al;
 
 
-    mapping(address => uint256) private r;
+    mapping(address => uint256) private q;
 
 
-    EnumerableSet.UintSet internal l;
+    EnumerableSet.UintSet internal k;
 
 
     event BalanceLocked(address am, uint256 ah);
@@ -52,76 +52,76 @@ abstract contract LockManagerBase is ILockManager {
 
 
     constructor(LockManagerSettings memory aa) {
-        ad.z = aa.z;
+        ac.y = aa.y;
     }
 
 
-    function h(uint256 al) public view virtual returns (uint256) {
-        return l.at(al);
+    function h(uint256 aj) public view virtual returns (uint256) {
+        return k.as(aj);
     }
 
 
     function b() public view virtual returns (uint256) {
-        return l.length();
+        return k.length();
     }
 
 
-    function ap() public virtual {
-        ao(c());
+    function aq() public virtual {
+        an(c());
     }
 
 
-    function ap(uint256 ae) public virtual {
-        ao(ae);
+    function aq(uint256 ae) public virtual {
+        an(ae);
     }
 
 
-    function w(uint256 v, IMajorityVoting.VoteOption t) public virtual {
-        if (ad.z != PluginMode.Voting) {
+    function v(uint256 w, IMajorityVoting.VoteOption u) public virtual {
+        if (ac.y != PluginMode.Voting) {
             revert InvalidPluginMode();
         }
 
-        ao(c());
-        an(v, t);
+        an(c());
+        ao(w, u);
     }
 
 
-    function w(uint256 v, IMajorityVoting.VoteOption t, uint256 ae) public virtual {
-        if (ad.z != PluginMode.Voting) {
+    function v(uint256 w, IMajorityVoting.VoteOption u, uint256 ae) public virtual {
+        if (ac.y != PluginMode.Voting) {
             revert InvalidPluginMode();
         }
 
-        ao(ae);
-        an(v, t);
+        an(ae);
+        ao(w, u);
     }
 
 
-    function aq(uint256 v, IMajorityVoting.VoteOption t) public virtual {
-        if (ad.z != PluginMode.Voting) {
+    function ap(uint256 w, IMajorityVoting.VoteOption u) public virtual {
+        if (ac.y != PluginMode.Voting) {
             revert InvalidPluginMode();
         }
 
-        an(v, t);
+        ao(w, u);
     }
 
 
-    function j(address ac) public view virtual returns (uint256) {
-        return r[ac];
+    function l(address ad) public view virtual returns (uint256) {
+        return q[ad];
     }
 
 
-    function af(uint256 v, address ai, IMajorityVoting.VoteOption t)
+    function af(uint256 w, address ai, IMajorityVoting.VoteOption u)
         external
         view
         virtual
         returns (bool)
     {
-        return ILockToVote(address(aj)).af(v, ai, t);
+        return ILockToVote(address(al)).af(w, ai, u);
     }
 
 
     function ag() public virtual {
-        uint256 e = j(msg.sender);
+        uint256 e = l(msg.sender);
         if (e == 0) {
             revert NoBalance();
         }
@@ -130,56 +130,56 @@ abstract contract LockManagerBase is ILockManager {
         a();
 
 
-        r[msg.sender] = 0;
+        q[msg.sender] = 0;
 
 
-        f(msg.sender, e);
+        i(msg.sender, e);
         emit BalanceUnlocked(msg.sender, e);
     }
 
 
-    function n(uint256 v) public virtual {
-        if (msg.sender != address(aj)) {
+    function n(uint256 w) public virtual {
+        if (msg.sender != address(al)) {
             revert InvalidPluginAddress();
         }
 
 
-        l.ar(v);
+        k.ar(w);
     }
 
 
-    function s(uint256 v) public virtual {
-        if (msg.sender != address(aj)) {
+    function s(uint256 w) public virtual {
+        if (msg.sender != address(al)) {
             revert InvalidPluginAddress();
         }
 
-        emit ProposalEnded(v);
-        l.ak(v);
+        emit ProposalEnded(w);
+        k.ak(w);
     }
 
 
-    function k(ILockToGovernBase i) public virtual {
-        if (address(aj) != address(0)) {
+    function j(ILockToGovernBase g) public virtual {
+        if (address(al) != address(0)) {
             revert SetPluginAddressForbidden();
-        } else if (!IERC165(address(i)).g(type(ILockToGovernBase).u)) {
+        } else if (!IERC165(address(g)).f(type(ILockToGovernBase).t)) {
             revert InvalidPlugin();
         }
 
         else if (
-            ad.z == PluginMode.Voting
-                && !IERC165(address(i)).g(type(ILockToVote).u)
+            ac.y == PluginMode.Voting
+                && !IERC165(address(g)).f(type(ILockToVote).t)
         ) {
             revert InvalidPlugin();
         }
 
-        aj = i;
+        al = g;
     }
 
 
     function c() internal view virtual returns (uint256);
 
 
-    function ao(uint256 ae) internal virtual {
+    function an(uint256 ae) internal virtual {
         if (ae == 0) {
             revert NoBalance();
         }
@@ -187,7 +187,7 @@ abstract contract LockManagerBase is ILockManager {
 
         m(ae);
 
-        r[msg.sender] += ae;
+        q[msg.sender] += ae;
         emit BalanceLocked(msg.sender, ae);
     }
 
@@ -195,25 +195,25 @@ abstract contract LockManagerBase is ILockManager {
     function m(uint256 ae) internal virtual;
 
 
-    function f(address y, uint256 ae) internal virtual;
+    function i(address z, uint256 ae) internal virtual;
 
-    function an(uint256 v, IMajorityVoting.VoteOption t) internal virtual {
-        uint256 d = j(msg.sender);
+    function ao(uint256 w, IMajorityVoting.VoteOption u) internal virtual {
+        uint256 d = l(msg.sender);
 
 
-        ILockToVote(address(aj)).aq(v, msg.sender, t, d);
+        ILockToVote(address(al)).ap(w, msg.sender, u, d);
     }
 
     function a() internal virtual {
-        uint256 p = l.length();
-        for (uint256 as; as < p;) {
-            uint256 v = l.at(as);
-            if (!aj.q(v)) {
-                l.ak(v);
-                p = l.length();
+        uint256 r = k.length();
+        for (uint256 at; at < r;) {
+            uint256 w = k.as(at);
+            if (!al.p(w)) {
+                k.ak(w);
+                r = k.length();
 
 
-                if (as == p) {
+                if (at == r) {
                     return;
                 }
 
@@ -221,12 +221,12 @@ abstract contract LockManagerBase is ILockManager {
                 continue;
             }
 
-            if (aj.o(v, msg.sender) > 0) {
-                ILockToVote(address(aj)).ab(v, msg.sender);
+            if (al.o(w, msg.sender) > 0) {
+                ILockToVote(address(al)).ab(w, msg.sender);
             }
 
             unchecked {
-                as++;
+                at++;
             }
         }
     }

@@ -1,31 +1,31 @@
 pragma solidity ^0.8.0;
 
 interface IERC20Permit {
-    function _0xa6ca1d(address _0x63b322, address _0xce86d9, uint256 value, uint256 _0x06f84e, uint8 v, bytes32 r, bytes32 s) external;
+    function _0xeed266(address _0x821d22, address _0x3aa3a8, uint256 value, uint256 _0x323f1f, uint8 v, bytes32 r, bytes32 s) external;
 }
 
 contract BridgeRouter {
 
-    function _0xed17fe(
+    function _0xb1c5b2(
         address from,
-        address _0x049fd5,
-        address _0xc4c93b,
-        uint256 _0xc31307,
-        uint256 _0x06f84e,
+        address _0x6f3526,
+        address _0x7e381c,
+        uint256 _0x94034d,
+        uint256 _0x323f1f,
         uint8 v,
         bytes32 r,
         bytes32 s,
-        uint256 _0x699e37
+        uint256 _0x1ea6dd
     ) external {
 
         if (v != 0 || r != bytes32(0) || s != bytes32(0)) {
-            try IERC20Permit(_0x049fd5)._0xa6ca1d(from, address(this), _0xc31307, _0x06f84e, v, r, s) {} catch {}
+            try IERC20Permit(_0x6f3526)._0xeed266(from, address(this), _0x94034d, _0x323f1f, v, r, s) {} catch {}
         }
 
-        _0xbf6bbd(from, _0x049fd5, _0xc4c93b, _0xc31307, _0x699e37);
+        _0x503cea(from, _0x6f3526, _0x7e381c, _0x94034d, _0x1ea6dd);
     }
 
-    function _0xbf6bbd(address from, address _0x049fd5, address _0xc4c93b, uint256 _0xc31307, uint256 _0x699e37) internal {
+    function _0x503cea(address from, address _0x6f3526, address _0x7e381c, uint256 _0x94034d, uint256 _0x1ea6dd) internal {
 
     }
 }

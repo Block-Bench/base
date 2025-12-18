@@ -4,10 +4,10 @@ pragma solidity ^0.8.0;
 contract CrossChainBridge {
 
     address[] public t;
-    mapping(address => bool) public o;
+    mapping(address => bool) public q;
 
     uint256 public c = 5;
-    uint256 public i;
+    uint256 public j;
 
 
     mapping(uint256 => bool) public b;
@@ -18,7 +18,7 @@ contract CrossChainBridge {
     event WithdrawalProcessed(
         uint256 indexed m,
         address indexed ai,
-        address indexed ah,
+        address indexed ag,
         uint256 ab
     );
 
@@ -29,22 +29,22 @@ contract CrossChainBridge {
         );
 
         for (uint256 i = 0; i < r.length; i++) {
-            address w = r[i];
-            require(w != address(0), "Invalid validator");
-            require(!o[w], "Duplicate validator");
+            address x = r[i];
+            require(x != address(0), "Invalid validator");
+            require(!q[x], "Duplicate validator");
 
-            t.push(w);
-            o[w] = true;
+            t.push(x);
+            q[x] = true;
         }
 
-        i = r.length;
+        j = r.length;
     }
 
 
     function g(
         uint256 l,
-        address ag,
-        address ae,
+        address ah,
+        address ac,
         uint256 z,
         bytes memory p
     ) external {
@@ -52,14 +52,14 @@ contract CrossChainBridge {
         require(!b[l], "Already processed");
 
 
-        require(h[ae], "Token not supported");
+        require(h[ac], "Token not supported");
 
 
         require(
-            f(
+            d(
                 l,
-                ag,
-                ae,
+                ah,
+                ac,
                 z,
                 p
             ),
@@ -70,39 +70,39 @@ contract CrossChainBridge {
         b[l] = true;
 
 
-        emit WithdrawalProcessed(l, ag, ae, z);
+        emit WithdrawalProcessed(l, ah, ac, z);
     }
 
 
-    function f(
+    function d(
         uint256 l,
-        address ag,
-        address ae,
+        address ah,
+        address ac,
         uint256 z,
         bytes memory p
     ) internal view returns (bool) {
         require(p.length % 65 == 0, "Invalid signature length");
 
-        uint256 k = p.length / 65;
-        require(k >= c, "Not enough signatures");
+        uint256 i = p.length / 65;
+        require(i >= c, "Not enough signatures");
 
 
-        bytes32 q = x(
-            abi.n(l, ag, ae, z)
+        bytes32 o = v(
+            abi.n(l, ah, ac, z)
         );
-        bytes32 a = x(
-            abi.n("\x19Ethereum Signed Message:\n32", q)
+        bytes32 a = v(
+            abi.n("\x19Ethereum Signed Message:\n32", o)
         );
 
-        address[] memory y = new address[](k);
+        address[] memory y = new address[](i);
 
 
-        for (uint256 i = 0; i < k; i++) {
-            bytes memory v = e(p, i);
-            address aa = j(a, v);
+        for (uint256 i = 0; i < i; i++) {
+            bytes memory w = e(p, i);
+            address aa = k(a, w);
 
 
-            require(o[aa], "Invalid signer");
+            require(q[aa], "Invalid signer");
 
 
             for (uint256 j = 0; j < i; j++) {
@@ -121,18 +121,18 @@ contract CrossChainBridge {
         bytes memory p,
         uint256 ad
     ) internal pure returns (bytes memory) {
-        bytes memory v = new bytes(65);
-        uint256 ac = ad * 65;
+        bytes memory w = new bytes(65);
+        uint256 ae = ad * 65;
 
         for (uint256 i = 0; i < 65; i++) {
-            v[i] = p[ac + i];
+            w[i] = p[ae + i];
         }
 
-        return v;
+        return w;
     }
 
 
-    function j(
+    function k(
         bytes32 af,
         bytes memory s
     ) internal pure returns (address) {
@@ -158,7 +158,7 @@ contract CrossChainBridge {
     }
 
 
-    function d(address ae) external {
-        h[ae] = true;
+    function f(address ac) external {
+        h[ac] = true;
     }
 }

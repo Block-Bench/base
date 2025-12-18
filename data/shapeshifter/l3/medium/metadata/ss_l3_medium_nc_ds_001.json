@@ -7,8 +7,8 @@
     "vulnerability_type": "timestamp_dependency",
     "severity": "low",
     "vulnerable_location": {
-      "contract_name": "_0x33435b",
-      "function_name": "_0x33435b",
+      "contract_name": "_0xed30c8",
+      "function_name": "_0xed30c8",
       "line_numbers": []
     },
     "root_cause": "# Bad Randomness",
@@ -29,7 +29,7 @@
     "num_lines": 173,
     "num_contracts": 1,
     "contract_names": [
-      "_0x33435b"
+      "_0xed30c8"
     ],
     "num_functions": 17,
     "has_imports": false,
@@ -70,25 +70,25 @@
   "derived_from": "nc_ds_001",
   "original_id": "ds_001",
   "identifier_mappings": {
-    "total_multiplier": "_0xb59aee",
-    "onlyowner": "_0x376db5",
-    "feeFrac": "_0x604f19",
-    "deposit": "_0xfd36e8",
-    "players": "_0xa1819e",
-    "theRun": "_0x33435b",
-    "payout": "_0x5ba373",
-    "random": "_0x802c15",
-    "_owner": "_0x114b73",
-    "result": "_0x843734",
-    "admin": "_0xcb785f",
-    "salt": "_0x2cb954",
-    "paid": "_0x3f2e7f",
-    "init": "_0xaf4837",
-    "seed": "_0x32a7ea",
-    "roll": "_0x4475fe",
-    "fees": "_0x3d48c0",
-    "addr": "_0x348032",
-    "id": "_0xe9bc8e"
+    "total_multiplier": "_0xd2c81c",
+    "onlyowner": "_0xbd29d2",
+    "players": "_0x03fffb",
+    "feeFrac": "_0x49acbb",
+    "deposit": "_0x430fa7",
+    "random": "_0x2cd1c4",
+    "theRun": "_0xed30c8",
+    "result": "_0xac4c56",
+    "payout": "_0x414f54",
+    "_owner": "_0x16f210",
+    "admin": "_0xb1dd11",
+    "addr": "_0xb783bc",
+    "salt": "_0x56ecd3",
+    "init": "_0xcf24c7",
+    "fees": "_0xfcbcd8",
+    "paid": "_0xbedc9b",
+    "roll": "_0x93f349",
+    "seed": "_0x16f62e",
+    "id": "_0x544d9a"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -105,9 +105,9 @@
     ],
     "rename_map_size": 19,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.contract_name: theRun \u2192 _0x33435b",
-      "Transformed ground_truth.vulnerable_location.function_name: theRun \u2192 _0x33435b",
-      "Transformed code_metadata.contract_names item: theRun \u2192 _0x33435b"
+      "Transformed ground_truth.vulnerable_location.contract_name: theRun \u2192 _0xed30c8",
+      "Transformed ground_truth.vulnerable_location.function_name: theRun \u2192 _0xed30c8",
+      "Transformed code_metadata.contract_names item: theRun \u2192 _0xed30c8"
     ]
   }
 }

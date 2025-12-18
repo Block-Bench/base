@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_127",
   "original_id": "ds_127",
   "identifier_mappings": {
-    "onlyowner": "_0x0693b9",
-    "withdraw": "_0xf6f819",
-    "owner": "_0x4ee3f4"
+    "onlyowner": "_0x4c2a1a",
+    "withdraw": "_0xac70fd",
+    "owner": "_0x5d4cd9"
   },
   "transformation": {
     "strategy": "shapeshifter",

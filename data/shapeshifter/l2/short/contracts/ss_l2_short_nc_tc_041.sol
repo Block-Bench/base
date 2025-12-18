@@ -1,64 +1,64 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address z, uint256 t) external returns (bool);
+    function transfer(address z, uint256 v) external returns (bool);
 
     function g(
         address from,
         address z,
-        uint256 t
+        uint256 v
     ) external returns (bool);
 
-    function k(address r) external view returns (uint256);
+    function j(address s) external view returns (uint256);
 
-    function q(address o, uint256 t) external returns (bool);
+    function r(address q, uint256 v) external returns (bool);
 }
 
 contract ShezmuCollateralToken is IERC20 {
     string public x = "Shezmu Collateral Token";
-    string public v = "SCT";
+    string public t = "SCT";
     uint8 public n = 18;
 
-    mapping(address => uint256) public k;
-    mapping(address => mapping(address => uint256)) public j;
+    mapping(address => uint256) public j;
+    mapping(address => mapping(address => uint256)) public l;
     uint256 public h;
 
-    function y(address z, uint256 t) external {
-        k[z] += t;
-        h += t;
+    function y(address z, uint256 v) external {
+        j[z] += v;
+        h += v;
     }
 
     function transfer(
         address z,
-        uint256 t
+        uint256 v
     ) external override returns (bool) {
-        require(k[msg.sender] >= t, "Insufficient balance");
-        k[msg.sender] -= t;
-        k[z] += t;
+        require(j[msg.sender] >= v, "Insufficient balance");
+        j[msg.sender] -= v;
+        j[z] += v;
         return true;
     }
 
     function g(
         address from,
         address z,
-        uint256 t
+        uint256 v
     ) external override returns (bool) {
-        require(k[from] >= t, "Insufficient balance");
+        require(j[from] >= v, "Insufficient balance");
         require(
-            j[from][msg.sender] >= t,
+            l[from][msg.sender] >= v,
             "Insufficient allowance"
         );
-        k[from] -= t;
-        k[z] += t;
-        j[from][msg.sender] -= t;
+        j[from] -= v;
+        j[z] += v;
+        l[from][msg.sender] -= v;
         return true;
     }
 
-    function q(
-        address o,
-        uint256 t
+    function r(
+        address q,
+        uint256 v
     ) external override returns (bool) {
-        j[msg.sender][o] = t;
+        l[msg.sender][q] = v;
         return true;
     }
 }
@@ -78,45 +78,45 @@ contract ShezmuVault {
         p = IERC20(m);
     }
 
-    function f(uint256 t) external {
-        e.g(msg.sender, address(this), t);
-        c[msg.sender] += t;
+    function f(uint256 v) external {
+        e.g(msg.sender, address(this), v);
+        c[msg.sender] += v;
     }
 
-    function u(uint256 t) external {
-        uint256 l = (c[msg.sender] * BASIS_POINTS) /
+    function u(uint256 v) external {
+        uint256 k = (c[msg.sender] * BASIS_POINTS) /
             COLLATERAL_RATIO;
 
         require(
-            i[msg.sender] + t <= l,
+            i[msg.sender] + v <= k,
             "Insufficient collateral"
         );
 
-        i[msg.sender] += t;
+        i[msg.sender] += v;
 
-        p.transfer(msg.sender, t);
+        p.transfer(msg.sender, v);
     }
 
-    function w(uint256 t) external {
-        require(i[msg.sender] >= t, "Excessive repayment");
-        p.g(msg.sender, address(this), t);
-        i[msg.sender] -= t;
+    function w(uint256 v) external {
+        require(i[msg.sender] >= v, "Excessive repayment");
+        p.g(msg.sender, address(this), v);
+        i[msg.sender] -= v;
     }
 
-    function b(uint256 t) external {
+    function b(uint256 v) external {
         require(
-            c[msg.sender] >= t,
+            c[msg.sender] >= v,
             "Insufficient collateral"
         );
-        uint256 a = c[msg.sender] - t;
-        uint256 s = (a * BASIS_POINTS) /
+        uint256 a = c[msg.sender] - v;
+        uint256 o = (a * BASIS_POINTS) /
             COLLATERAL_RATIO;
         require(
-            i[msg.sender] <= s,
+            i[msg.sender] <= o,
             "Would be undercollateralized"
         );
 
-        c[msg.sender] -= t;
-        e.transfer(msg.sender, t);
+        c[msg.sender] -= v;
+        e.transfer(msg.sender, v);
     }
 }

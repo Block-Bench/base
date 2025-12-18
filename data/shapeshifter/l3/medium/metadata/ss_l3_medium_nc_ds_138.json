@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "MultiTxCalculator",
-      "function_name": "_0x13ebf2",
+      "function_name": "_0xbcf1f9",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 25",
@@ -66,11 +66,11 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "initialized": "_0x414d8c",
-    "input": "_0xe1fbdd",
-    "count": "_0xb6f559",
-    "init": "_0x20901f",
-    "run": "_0x13ebf2"
+    "initialized": "_0xcb0c12",
+    "count": "_0x7f1818",
+    "input": "_0x0184d4",
+    "init": "_0x376bac",
+    "run": "_0xbcf1f9"
   },
   "original_contract_file": "base/contracts/ds_138.sol",
   "sanitized_from": "ds_138",
@@ -82,12 +82,11 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 5 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 5 identifiers using hex style"
     ],
     "rename_map_size": 5,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0x13ebf2"
+      "Transformed ground_truth.vulnerable_location.function_name: run \u2192 _0xbcf1f9"
     ]
   }
 }

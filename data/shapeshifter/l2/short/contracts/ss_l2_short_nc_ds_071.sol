@@ -4,7 +4,7 @@ contract SimpleWallet {
     address public h = msg.sender;
     uint public a;
 
-    modifier d {
+    modifier c {
         require(msg.sender == h);
         _;
     }
@@ -13,15 +13,15 @@ contract SimpleWallet {
         a++;
     }
 
-    function b() public d {
+    function b() public c {
         e(address(this).balance);
     }
 
-    function e(uint g) public d {
+    function e(uint g) public c {
         msg.sender.transfer(g);
     }
 
-    function c(address f, uint g) public d {
+    function d(address f, uint g) public c {
         f.call.value(g)();
     }
 }

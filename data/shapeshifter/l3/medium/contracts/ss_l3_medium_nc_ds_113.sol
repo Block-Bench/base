@@ -1,119 +1,119 @@
 contract TokenInterface {
-    mapping (address => uint256) _0x22d612;
-    mapping (address => mapping (address => uint256)) _0xee9abd;
+    mapping (address => uint256) _0xf26729;
+    mapping (address => mapping (address => uint256)) _0xe8c88c;
 
 
-    uint256 public _0x318d3a;
+    uint256 public _0xeffac9;
 
 
-    function _0xe0ffdc(address _0x4fb0c8) constant returns (uint256 balance);
+    function _0xf51878(address _0xaba3ef) constant returns (uint256 balance);
 
 
-    function transfer(address _0xdde2c1, uint256 _0x02f499) returns (bool _0xe88010);
+    function transfer(address _0xf4b9c5, uint256 _0x35af93) returns (bool _0x80ee41);
 
 
-    function _0xa2b519(address _0x7d2b1c, address _0xdde2c1, uint256 _0x02f499) returns (bool _0xe88010);
+    function _0x644da0(address _0x0c8204, address _0xf4b9c5, uint256 _0x35af93) returns (bool _0x80ee41);
 
 
-    function _0x141b99(address _0x4ac7ce, uint256 _0x02f499) returns (bool _0xe88010);
+    function _0x102131(address _0x5f3d80, uint256 _0x35af93) returns (bool _0x80ee41);
 
 
-    function _0x3736b1(
-        address _0x4fb0c8,
-        address _0x4ac7ce
-    ) constant returns (uint256 _0x2ce94c);
+    function _0x6e80f1(
+        address _0xaba3ef,
+        address _0x5f3d80
+    ) constant returns (uint256 _0xc5f60e);
 
-    event Transfer(address indexed _0x7d2b1c, address indexed _0xdde2c1, uint256 _0x02f499);
+    event Transfer(address indexed _0x0c8204, address indexed _0xf4b9c5, uint256 _0x35af93);
     event Approval(
-        address indexed _0x4fb0c8,
-        address indexed _0x4ac7ce,
-        uint256 _0x02f499
+        address indexed _0xaba3ef,
+        address indexed _0x5f3d80,
+        uint256 _0x35af93
     );
 }
 
 contract Token is TokenInterface {
 
 
-    modifier _0xa4b0b8() {if (msg.value > 0) throw; _;}
+    modifier _0x309e2b() {if (msg.value > 0) throw; _;}
 
-    function _0xe0ffdc(address _0x4fb0c8) constant returns (uint256 balance) {
-        return _0x22d612[_0x4fb0c8];
+    function _0xf51878(address _0xaba3ef) constant returns (uint256 balance) {
+        return _0xf26729[_0xaba3ef];
     }
 
-    function transfer(address _0xdde2c1, uint256 _0x02f499) _0xa4b0b8 returns (bool _0xe88010) {
-        if (_0x22d612[msg.sender] >= _0x02f499 && _0x02f499 > 0) {
-            _0x22d612[msg.sender] -= _0x02f499;
-            _0x22d612[_0xdde2c1] += _0x02f499;
-            Transfer(msg.sender, _0xdde2c1, _0x02f499);
+    function transfer(address _0xf4b9c5, uint256 _0x35af93) _0x309e2b returns (bool _0x80ee41) {
+        if (_0xf26729[msg.sender] >= _0x35af93 && _0x35af93 > 0) {
+            _0xf26729[msg.sender] -= _0x35af93;
+            _0xf26729[_0xf4b9c5] += _0x35af93;
+            Transfer(msg.sender, _0xf4b9c5, _0x35af93);
             return true;
         } else {
            return false;
         }
     }
 
-    function _0xa2b519(
-        address _0x7d2b1c,
-        address _0xdde2c1,
-        uint256 _0x02f499
-    ) _0xa4b0b8 returns (bool _0xe88010) {
+    function _0x644da0(
+        address _0x0c8204,
+        address _0xf4b9c5,
+        uint256 _0x35af93
+    ) _0x309e2b returns (bool _0x80ee41) {
 
-        if (_0x22d612[_0x7d2b1c] >= _0x02f499
-            && _0xee9abd[_0x7d2b1c][msg.sender] >= _0x02f499
-            && _0x02f499 > 0) {
+        if (_0xf26729[_0x0c8204] >= _0x35af93
+            && _0xe8c88c[_0x0c8204][msg.sender] >= _0x35af93
+            && _0x35af93 > 0) {
 
-            _0x22d612[_0xdde2c1] += _0x02f499;
-            _0x22d612[_0x7d2b1c] -= _0x02f499;
-            _0xee9abd[_0x7d2b1c][msg.sender] -= _0x02f499;
-            Transfer(_0x7d2b1c, _0xdde2c1, _0x02f499);
+            _0xf26729[_0xf4b9c5] += _0x35af93;
+            _0xf26729[_0x0c8204] -= _0x35af93;
+            _0xe8c88c[_0x0c8204][msg.sender] -= _0x35af93;
+            Transfer(_0x0c8204, _0xf4b9c5, _0x35af93);
             return true;
         } else {
             return false;
         }
     }
 
-    function _0x141b99(address _0x4ac7ce, uint256 _0x02f499) returns (bool _0xe88010) {
-        _0xee9abd[msg.sender][_0x4ac7ce] = _0x02f499;
-        Approval(msg.sender, _0x4ac7ce, _0x02f499);
+    function _0x102131(address _0x5f3d80, uint256 _0x35af93) returns (bool _0x80ee41) {
+        _0xe8c88c[msg.sender][_0x5f3d80] = _0x35af93;
+        Approval(msg.sender, _0x5f3d80, _0x35af93);
         return true;
     }
 
-    function _0x3736b1(address _0x4fb0c8, address _0x4ac7ce) constant returns (uint256 _0x2ce94c) {
-        return _0xee9abd[_0x4fb0c8][_0x4ac7ce];
+    function _0x6e80f1(address _0xaba3ef, address _0x5f3d80) constant returns (uint256 _0xc5f60e) {
+        return _0xe8c88c[_0xaba3ef][_0x5f3d80];
     }
 }
 
 contract ManagedAccountInterface {
 
-    address public _0xd1872a;
+    address public _0xfe0940;
 
-    bool public _0x4dc403;
+    bool public _0xfe017f;
 
-    uint public _0x04fed3;
+    uint public _0xcc9182;
 
 
-    function _0x4c91fc(address _0xce380f, uint _0x02f499) returns (bool);
+    function _0x6bf5ce(address _0x65c70a, uint _0x35af93) returns (bool);
 
-    event PayOut(address indexed _0xce380f, uint _0x02f499);
+    event PayOut(address indexed _0x65c70a, uint _0x35af93);
 }
 
 contract ManagedAccount is ManagedAccountInterface{
 
 
-    function ManagedAccount(address _0x4fb0c8, bool _0x14e0b1) {
-        _0xd1872a = _0x4fb0c8;
-        _0x4dc403 = _0x14e0b1;
+    function ManagedAccount(address _0xaba3ef, bool _0x4fe1c0) {
+        _0xfe0940 = _0xaba3ef;
+        _0xfe017f = _0x4fe1c0;
     }
 
 
     function() {
-        _0x04fed3 += msg.value;
+        _0xcc9182 += msg.value;
     }
 
-    function _0x4c91fc(address _0xce380f, uint _0x02f499) returns (bool) {
-        if (msg.sender != _0xd1872a || msg.value > 0 || (_0x4dc403 && _0xce380f != _0xd1872a))
+    function _0x6bf5ce(address _0x65c70a, uint _0x35af93) returns (bool) {
+        if (msg.sender != _0xfe0940 || msg.value > 0 || (_0xfe017f && _0x65c70a != _0xfe0940))
             throw;
-        if (_0xce380f.call.value(_0x02f499)()) {
-            PayOut(_0xce380f, _0x02f499);
+        if (_0x65c70a.call.value(_0x35af93)()) {
+            PayOut(_0x65c70a, _0x35af93);
             return true;
         } else {
             return false;
@@ -124,90 +124,90 @@ contract ManagedAccount is ManagedAccountInterface{
 contract TokenCreationInterface {
 
 
-    uint public _0x28ea27;
+    uint public _0x237ae6;
 
 
-    uint public _0xbb3057;
+    uint public _0x3bf5a8;
 
-    bool public _0x927dcf;
-
-
-    address public _0x8f57a6;
+    bool public _0xcd62bc;
 
 
-    ManagedAccount public _0xecc9bb;
-
-    mapping (address => uint256) _0x19c791;
+    address public _0xa08d4d;
 
 
-    function _0xda1ab8(address _0x460a6d) returns (bool _0xe88010);
+    ManagedAccount public _0x1f4aee;
+
+    mapping (address => uint256) _0xba2f69;
 
 
-    function _0x18f362();
+    function _0x3865de(address _0xcd11a7) returns (bool _0x80ee41);
 
 
-    function _0xb30f31() constant returns (uint _0xb30f31);
+    function _0x2046d0();
+
+
+    function _0x7a04de() constant returns (uint _0x7a04de);
 
     event FuelingToDate(uint value);
-    event CreatedToken(address indexed _0x92dc79, uint _0x5d4a1a);
-    event Refund(address indexed _0x92dc79, uint value);
+    event CreatedToken(address indexed _0x5c09b8, uint _0xc86254);
+    event Refund(address indexed _0x5c09b8, uint value);
 }
 
 contract TokenCreation is TokenCreationInterface, Token {
     function TokenCreation(
-        uint _0xb87fbe,
-        uint _0xd93c92,
-        address _0x53ca54) {
+        uint _0x0c1e2e,
+        uint _0x390573,
+        address _0x898780) {
 
-        _0x28ea27 = _0xd93c92;
-        _0xbb3057 = _0xb87fbe;
-        _0x8f57a6 = _0x53ca54;
-        _0xecc9bb = new ManagedAccount(address(this), true);
+        _0x237ae6 = _0x390573;
+        _0x3bf5a8 = _0x0c1e2e;
+        _0xa08d4d = _0x898780;
+        _0x1f4aee = new ManagedAccount(address(this), true);
     }
 
-    function _0xda1ab8(address _0x460a6d) returns (bool _0xe88010) {
-        if (_0xa6133a < _0x28ea27 && msg.value > 0
-            && (_0x8f57a6 == 0 || _0x8f57a6 == msg.sender)) {
+    function _0x3865de(address _0xcd11a7) returns (bool _0x80ee41) {
+        if (_0x16131f < _0x237ae6 && msg.value > 0
+            && (_0xa08d4d == 0 || _0xa08d4d == msg.sender)) {
 
-            uint _0xce5813 = (msg.value * 20) / _0xb30f31();
-            _0xecc9bb.call.value(msg.value - _0xce5813)();
-            _0x22d612[_0x460a6d] += _0xce5813;
-            _0x318d3a += _0xce5813;
-            _0x19c791[_0x460a6d] += msg.value;
-            CreatedToken(_0x460a6d, _0xce5813);
-            if (_0x318d3a >= _0xbb3057 && !_0x927dcf) {
-                _0x927dcf = true;
-                FuelingToDate(_0x318d3a);
+            uint _0x4badf9 = (msg.value * 20) / _0x7a04de();
+            _0x1f4aee.call.value(msg.value - _0x4badf9)();
+            _0xf26729[_0xcd11a7] += _0x4badf9;
+            _0xeffac9 += _0x4badf9;
+            _0xba2f69[_0xcd11a7] += msg.value;
+            CreatedToken(_0xcd11a7, _0x4badf9);
+            if (_0xeffac9 >= _0x3bf5a8 && !_0xcd62bc) {
+                _0xcd62bc = true;
+                FuelingToDate(_0xeffac9);
             }
             return true;
         }
         throw;
     }
 
-    function _0x18f362() _0xa4b0b8 {
-        if (_0xa6133a > _0x28ea27 && !_0x927dcf) {
+    function _0x2046d0() _0x309e2b {
+        if (_0x16131f > _0x237ae6 && !_0xcd62bc) {
 
-            if (_0xecc9bb.balance >= _0xecc9bb._0x04fed3())
-                _0xecc9bb._0x4c91fc(address(this), _0xecc9bb._0x04fed3());
+            if (_0x1f4aee.balance >= _0x1f4aee._0xcc9182())
+                _0x1f4aee._0x6bf5ce(address(this), _0x1f4aee._0xcc9182());
 
 
-            if (msg.sender.call.value(_0x19c791[msg.sender])()) {
-                Refund(msg.sender, _0x19c791[msg.sender]);
-                _0x318d3a -= _0x22d612[msg.sender];
-                _0x22d612[msg.sender] = 0;
-                _0x19c791[msg.sender] = 0;
+            if (msg.sender.call.value(_0xba2f69[msg.sender])()) {
+                Refund(msg.sender, _0xba2f69[msg.sender]);
+                _0xeffac9 -= _0xf26729[msg.sender];
+                _0xf26729[msg.sender] = 0;
+                _0xba2f69[msg.sender] = 0;
             }
         }
     }
 
-    function _0xb30f31() constant returns (uint _0xb30f31) {
+    function _0x7a04de() constant returns (uint _0x7a04de) {
 
 
-        if (_0x28ea27 - 2 weeks > _0xa6133a) {
+        if (_0x237ae6 - 2 weeks > _0x16131f) {
             return 20;
 
-        } else if (_0x28ea27 - 4 days > _0xa6133a) {
-            return (20 + (_0xa6133a - (_0x28ea27 - 2 weeks)) / (1 days));
+        } else if (_0x237ae6 - 4 days > _0x16131f) {
+            return (20 + (_0x16131f - (_0x237ae6 - 2 weeks)) / (1 days));
 
         } else {
             return 30;
@@ -218,42 +218,42 @@ contract TokenCreation is TokenCreationInterface, Token {
 contract DAOInterface {
 
 
-    uint constant _0x5c0352 = 40 days;
+    uint constant _0x98edc8 = 40 days;
 
-    uint constant _0x7da85e = 2 weeks;
+    uint constant _0x2b2d68 = 2 weeks;
 
-    uint constant _0xa47fb5 = 1 weeks;
+    uint constant _0x0aa511 = 1 weeks;
 
-    uint constant _0x4904fd = 27 days;
+    uint constant _0x5a9b76 = 27 days;
 
-    uint constant _0xed6add = 25 weeks;
-
-
-    uint constant _0x93009b = 10 days;
+    uint constant _0x02f8d6 = 25 weeks;
 
 
-    uint constant _0x1c175b = 100;
+    uint constant _0x01a357 = 10 days;
 
 
-    Proposal[] public _0xd073cf;
+    uint constant _0x0bc363 = 100;
 
 
-    uint public _0xdfbfbc;
-
-    uint  public _0xd4d731;
+    Proposal[] public _0x9b5bf9;
 
 
-    address public _0x3e4559;
+    uint public _0xfa7c3e;
 
-    mapping (address => bool) public _0x0f9e0f;
-
-
-    mapping (address => uint) public _0x71c0fd;
-
-    uint public _0x905903;
+    uint  public _0xdbd1cf;
 
 
-    ManagedAccount public _0xa21521;
+    address public _0x3df12b;
+
+    mapping (address => bool) public _0x55348e;
+
+
+    mapping (address => uint) public _0x297d78;
+
+    uint public _0xcf706e;
+
+
+    ManagedAccount public _0x09dcd4;
 
 
     ManagedAccount public DAOrewardAccount;
@@ -262,545 +262,545 @@ contract DAOInterface {
     mapping (address => uint) public DAOpaidOut;
 
 
-    mapping (address => uint) public _0x2ae6c1;
+    mapping (address => uint) public _0x3dc5b0;
 
 
-    mapping (address => uint) public _0x530f77;
+    mapping (address => uint) public _0xa098de;
 
 
-    uint public _0xe78ee9;
+    uint public _0x258149;
 
 
-    uint _0xed62f3;
+    uint _0xb732cd;
 
 
-    DAO_Creator public _0x4dada0;
+    DAO_Creator public _0x281933;
 
 
     struct Proposal {
 
 
-        address _0x6b611f;
+        address _0xeb6a0e;
 
-        uint _0x5d4a1a;
+        uint _0xc86254;
 
-        string _0x07bbce;
+        string _0x68c956;
 
-        uint _0x93e1a2;
+        uint _0x1c132c;
 
-        bool _0x731501;
-
-
-        bool _0xa7a5a2;
-
-        bytes32 _0x2896c9;
+        bool _0x5eb6cb;
 
 
-        uint _0xe78ee9;
+        bool _0x587765;
 
-        bool _0x9806c1;
+        bytes32 _0xb6e1f5;
 
-        SplitData[] _0xf86fae;
 
-        uint _0xc7e808;
+        uint _0x258149;
 
-        uint _0xdee2e2;
+        bool _0x102d26;
 
-        mapping (address => bool) _0xf94261;
+        SplitData[] _0xbf6531;
 
-        mapping (address => bool) _0xa3cc19;
+        uint _0x1408dd;
 
-        address _0x380e35;
+        uint _0x8a7a3a;
+
+        mapping (address => bool) _0xe3886f;
+
+        mapping (address => bool) _0xebcb58;
+
+        address _0x0b6751;
     }
 
 
     struct SplitData {
 
-        uint _0x11181b;
+        uint _0xab97c5;
 
-        uint _0x318d3a;
+        uint _0xeffac9;
 
-        uint _0x71c0fd;
+        uint _0x297d78;
 
-        DAO _0xdc8536;
+        DAO _0x8dd462;
     }
 
 
-    modifier _0xe98ba6 {}
+    modifier _0xbb54b0 {}
 
 
-    function () returns (bool _0xe88010);
+    function () returns (bool _0x80ee41);
 
 
-    function _0x3cb4a1() returns(bool);
+    function _0x4fdb13() returns(bool);
 
 
-    function _0xfa4a70(
-        address _0xce380f,
-        uint _0x02f499,
-        string _0x382dff,
-        bytes _0x9ee5a8,
-        uint _0x408348,
-        bool _0x837f54
-    ) _0xe98ba6 returns (uint _0x790a8f);
+    function _0x950d9b(
+        address _0x65c70a,
+        uint _0x35af93,
+        string _0xb619ef,
+        bytes _0x798a5b,
+        uint _0xeb3425,
+        bool _0x69c816
+    ) _0xbb54b0 returns (uint _0xa82900);
 
 
-    function _0x9dc802(
-        uint _0x790a8f,
-        address _0xce380f,
-        uint _0x02f499,
-        bytes _0x9ee5a8
-    ) constant returns (bool _0xc67964);
+    function _0x5e5a4a(
+        uint _0xa82900,
+        address _0x65c70a,
+        uint _0x35af93,
+        bytes _0x798a5b
+    ) constant returns (bool _0xa88e4e);
 
 
-    function _0x72190f(
-        uint _0x790a8f,
-        bool _0x7e7a42
-    ) _0xe98ba6 returns (uint _0xaa6821);
+    function _0xf8c3ce(
+        uint _0xa82900,
+        bool _0x2bdf09
+    ) _0xbb54b0 returns (uint _0xb983e0);
 
 
-    function _0x994c2c(
-        uint _0x790a8f,
-        bytes _0x9ee5a8
-    ) returns (bool _0xe4d384);
+    function _0xecb538(
+        uint _0xa82900,
+        bytes _0x798a5b
+    ) returns (bool _0xaa65a9);
 
 
-    function _0x5bda1a(
-        uint _0x790a8f,
-        address _0x837f54
-    ) returns (bool _0xe4d384);
+    function _0x27ace5(
+        uint _0xa82900,
+        address _0x69c816
+    ) returns (bool _0xaa65a9);
 
 
-    function _0x41da1c(address _0xd65127);
+    function _0xed413f(address _0xc7c9bd);
 
 
-    function _0x2f982f(address _0xce380f, bool _0xc6bc6e) external returns (bool _0xe4d384);
+    function _0xa1df66(address _0x65c70a, bool _0xc6a27e) external returns (bool _0xaa65a9);
 
 
-    function _0x30d290(uint _0xf7dc95) external;
+    function _0xc9694b(uint _0x07bebf) external;
 
 
-    function _0x6ac791(bool _0xa207c8) external returns (bool _0xe4d384);
+    function _0xfbe7d1(bool _0x75333f) external returns (bool _0xaa65a9);
 
 
-    function _0xb3ea4a() returns(bool _0xe4d384);
+    function _0x41b865() returns(bool _0xaa65a9);
 
 
-    function _0x27e88b(address _0xd46a67) internal returns (bool _0xe4d384);
+    function _0x31f65b(address _0xb9e296) internal returns (bool _0xaa65a9);
 
 
-    function _0xbc260d(address _0xdde2c1, uint256 _0x02f499) returns (bool _0xe88010);
+    function _0x0d7ac3(address _0xf4b9c5, uint256 _0x35af93) returns (bool _0x80ee41);
 
 
-    function _0xbfe377(
-        address _0x7d2b1c,
-        address _0xdde2c1,
-        uint256 _0x02f499
-    ) returns (bool _0xe88010);
+    function _0xe1825b(
+        address _0x0c8204,
+        address _0xf4b9c5,
+        uint256 _0x35af93
+    ) returns (bool _0x80ee41);
 
 
-    function _0x3b8429() returns (bool _0xe4d384);
+    function _0xd5e137() returns (bool _0xaa65a9);
 
 
-    function _0x7094e0() constant returns (uint _0xd4beac);
+    function _0xd90ca4() constant returns (uint _0x14d6ca);
 
 
-    function _0xa010f2(uint _0x790a8f) constant returns (address _0x31f299);
+    function _0xc729b2(uint _0xa82900) constant returns (address _0x5f6113);
 
 
-    function _0xcac281(address _0xd46a67) internal returns (bool);
+    function _0xb4c5b7(address _0xb9e296) internal returns (bool);
 
 
-    function _0x8e4c52() returns (bool);
+    function _0x176120() returns (bool);
 
     event ProposalAdded(
-        uint indexed _0xf31b45,
-        address _0x6b611f,
-        uint _0x5d4a1a,
-        bool _0x9806c1,
-        string _0x07bbce
+        uint indexed _0xb29661,
+        address _0xeb6a0e,
+        uint _0xc86254,
+        bool _0x102d26,
+        string _0x68c956
     );
-    event Voted(uint indexed _0xf31b45, bool _0xfb1738, address indexed _0x74d967);
-    event ProposalTallied(uint indexed _0xf31b45, bool _0x38ead3, uint _0x1d89c5);
-    event NewCurator(address indexed _0x837f54);
-    event AllowedRecipientChanged(address indexed _0xce380f, bool _0xc6bc6e);
+    event Voted(uint indexed _0xb29661, bool _0xcb87c9, address indexed _0x5497ae);
+    event ProposalTallied(uint indexed _0xb29661, bool _0xfb4851, uint _0xf4f86f);
+    event NewCurator(address indexed _0x69c816);
+    event AllowedRecipientChanged(address indexed _0x65c70a, bool _0xc6a27e);
 }
 
 
 contract DAO is DAOInterface, Token, TokenCreation {
 
 
-    modifier _0xe98ba6 {
-        if (_0xe0ffdc(msg.sender) == 0) throw;
+    modifier _0xbb54b0 {
+        if (_0xf51878(msg.sender) == 0) throw;
             _;
     }
 
     function DAO(
-        address _0xdba3ea,
-        DAO_Creator _0xebbe17,
-        uint _0xf7dc95,
-        uint _0xb87fbe,
-        uint _0xd93c92,
-        address _0x53ca54
-    ) TokenCreation(_0xb87fbe, _0xd93c92, _0x53ca54) {
+        address _0xcf890f,
+        DAO_Creator _0x5559f2,
+        uint _0x07bebf,
+        uint _0x0c1e2e,
+        uint _0x390573,
+        address _0x898780
+    ) TokenCreation(_0x0c1e2e, _0x390573, _0x898780) {
 
-        _0x3e4559 = _0xdba3ea;
-        _0x4dada0 = _0xebbe17;
-        _0xe78ee9 = _0xf7dc95;
-        _0xa21521 = new ManagedAccount(address(this), false);
+        _0x3df12b = _0xcf890f;
+        _0x281933 = _0x5559f2;
+        _0x258149 = _0x07bebf;
+        _0x09dcd4 = new ManagedAccount(address(this), false);
         DAOrewardAccount = new ManagedAccount(address(this), false);
-        if (address(_0xa21521) == 0)
+        if (address(_0x09dcd4) == 0)
             throw;
         if (address(DAOrewardAccount) == 0)
             throw;
-        _0xd4d731 = _0xa6133a;
-        _0xdfbfbc = 5;
-        _0xd073cf.length = 1;
+        _0xdbd1cf = _0x16131f;
+        _0xfa7c3e = 5;
+        _0x9b5bf9.length = 1;
 
-        _0x0f9e0f[address(this)] = true;
-        _0x0f9e0f[_0x3e4559] = true;
+        _0x55348e[address(this)] = true;
+        _0x55348e[_0x3df12b] = true;
     }
 
-    function () returns (bool _0xe88010) {
-        if (_0xa6133a < _0x28ea27 + _0x5c0352 && msg.sender != address(_0xecc9bb))
-            return _0xda1ab8(msg.sender);
+    function () returns (bool _0x80ee41) {
+        if (_0x16131f < _0x237ae6 + _0x98edc8 && msg.sender != address(_0x1f4aee))
+            return _0x3865de(msg.sender);
         else
-            return _0x3cb4a1();
+            return _0x4fdb13();
     }
 
-    function _0x3cb4a1() returns (bool) {
+    function _0x4fdb13() returns (bool) {
         return true;
     }
 
-    function _0xfa4a70(
-        address _0xce380f,
-        uint _0x02f499,
-        string _0x382dff,
-        bytes _0x9ee5a8,
-        uint _0x408348,
-        bool _0x837f54
-    ) _0xe98ba6 returns (uint _0x790a8f) {
+    function _0x950d9b(
+        address _0x65c70a,
+        uint _0x35af93,
+        string _0xb619ef,
+        bytes _0x798a5b,
+        uint _0xeb3425,
+        bool _0x69c816
+    ) _0xbb54b0 returns (uint _0xa82900) {
 
 
-        if (_0x837f54 && (
-            _0x02f499 != 0
-            || _0x9ee5a8.length != 0
-            || _0xce380f == _0x3e4559
+        if (_0x69c816 && (
+            _0x35af93 != 0
+            || _0x798a5b.length != 0
+            || _0x65c70a == _0x3df12b
             || msg.value > 0
-            || _0x408348 < _0xa47fb5)) {
+            || _0xeb3425 < _0x0aa511)) {
             throw;
         } else if (
-            !_0x837f54
-            && (!_0x9262bf(_0xce380f) || (_0x408348 <  _0x7da85e))
+            !_0x69c816
+            && (!_0xe769c3(_0x65c70a) || (_0xeb3425 <  _0x2b2d68))
         ) {
             throw;
         }
 
-        if (_0x408348 > 8 weeks)
+        if (_0xeb3425 > 8 weeks)
             throw;
 
-        if (!_0x927dcf
-            || _0xa6133a < _0x28ea27
-            || (msg.value < _0xe78ee9 && !_0x837f54)) {
+        if (!_0xcd62bc
+            || _0x16131f < _0x237ae6
+            || (msg.value < _0x258149 && !_0x69c816)) {
 
             throw;
         }
 
-        if (_0xa6133a + _0x408348 < _0xa6133a)
+        if (_0x16131f + _0xeb3425 < _0x16131f)
             throw;
 
         if (msg.sender == address(this))
             throw;
 
-        _0x790a8f = _0xd073cf.length++;
-        Proposal p = _0xd073cf[_0x790a8f];
-        p._0x6b611f = _0xce380f;
-        p._0x5d4a1a = _0x02f499;
-        p._0x07bbce = _0x382dff;
-        p._0x2896c9 = _0xe84e2d(_0xce380f, _0x02f499, _0x9ee5a8);
-        p._0x93e1a2 = _0xa6133a + _0x408348;
-        p._0x731501 = true;
+        _0xa82900 = _0x9b5bf9.length++;
+        Proposal p = _0x9b5bf9[_0xa82900];
+        p._0xeb6a0e = _0x65c70a;
+        p._0xc86254 = _0x35af93;
+        p._0x68c956 = _0xb619ef;
+        p._0xb6e1f5 = _0xcc24fb(_0x65c70a, _0x35af93, _0x798a5b);
+        p._0x1c132c = _0x16131f + _0xeb3425;
+        p._0x5eb6cb = true;
 
-        p._0x9806c1 = _0x837f54;
-        if (_0x837f54)
-            p._0xf86fae.length++;
-        p._0x380e35 = msg.sender;
-        p._0xe78ee9 = msg.value;
+        p._0x102d26 = _0x69c816;
+        if (_0x69c816)
+            p._0xbf6531.length++;
+        p._0x0b6751 = msg.sender;
+        p._0x258149 = msg.value;
 
-        _0xed62f3 += msg.value;
+        _0xb732cd += msg.value;
 
         ProposalAdded(
-            _0x790a8f,
-            _0xce380f,
-            _0x02f499,
-            _0x837f54,
-            _0x382dff
+            _0xa82900,
+            _0x65c70a,
+            _0x35af93,
+            _0x69c816,
+            _0xb619ef
         );
     }
 
-    function _0x9dc802(
-        uint _0x790a8f,
-        address _0xce380f,
-        uint _0x02f499,
-        bytes _0x9ee5a8
-    ) _0xa4b0b8 constant returns (bool _0xc67964) {
-        Proposal p = _0xd073cf[_0x790a8f];
-        return p._0x2896c9 == _0xe84e2d(_0xce380f, _0x02f499, _0x9ee5a8);
+    function _0x5e5a4a(
+        uint _0xa82900,
+        address _0x65c70a,
+        uint _0x35af93,
+        bytes _0x798a5b
+    ) _0x309e2b constant returns (bool _0xa88e4e) {
+        Proposal p = _0x9b5bf9[_0xa82900];
+        return p._0xb6e1f5 == _0xcc24fb(_0x65c70a, _0x35af93, _0x798a5b);
     }
 
-    function _0x72190f(
-        uint _0x790a8f,
-        bool _0x7e7a42
-    ) _0xe98ba6 _0xa4b0b8 returns (uint _0xaa6821) {
+    function _0xf8c3ce(
+        uint _0xa82900,
+        bool _0x2bdf09
+    ) _0xbb54b0 _0x309e2b returns (uint _0xb983e0) {
 
-        Proposal p = _0xd073cf[_0x790a8f];
-        if (p._0xf94261[msg.sender]
-            || p._0xa3cc19[msg.sender]
-            || _0xa6133a >= p._0x93e1a2) {
+        Proposal p = _0x9b5bf9[_0xa82900];
+        if (p._0xe3886f[msg.sender]
+            || p._0xebcb58[msg.sender]
+            || _0x16131f >= p._0x1c132c) {
 
             throw;
         }
 
-        if (_0x7e7a42) {
-            p._0xc7e808 += _0x22d612[msg.sender];
-            p._0xf94261[msg.sender] = true;
+        if (_0x2bdf09) {
+            p._0x1408dd += _0xf26729[msg.sender];
+            p._0xe3886f[msg.sender] = true;
         } else {
-            p._0xdee2e2 += _0x22d612[msg.sender];
-            p._0xa3cc19[msg.sender] = true;
+            p._0x8a7a3a += _0xf26729[msg.sender];
+            p._0xebcb58[msg.sender] = true;
         }
 
-        if (_0x530f77[msg.sender] == 0) {
-            _0x530f77[msg.sender] = _0x790a8f;
-        } else if (p._0x93e1a2 > _0xd073cf[_0x530f77[msg.sender]]._0x93e1a2) {
+        if (_0xa098de[msg.sender] == 0) {
+            _0xa098de[msg.sender] = _0xa82900;
+        } else if (p._0x1c132c > _0x9b5bf9[_0xa098de[msg.sender]]._0x1c132c) {
 
 
-            _0x530f77[msg.sender] = _0x790a8f;
+            _0xa098de[msg.sender] = _0xa82900;
         }
 
-        Voted(_0x790a8f, _0x7e7a42, msg.sender);
+        Voted(_0xa82900, _0x2bdf09, msg.sender);
     }
 
-    function _0x994c2c(
-        uint _0x790a8f,
-        bytes _0x9ee5a8
-    ) _0xa4b0b8 returns (bool _0xe4d384) {
+    function _0xecb538(
+        uint _0xa82900,
+        bytes _0x798a5b
+    ) _0x309e2b returns (bool _0xaa65a9) {
 
-        Proposal p = _0xd073cf[_0x790a8f];
+        Proposal p = _0x9b5bf9[_0xa82900];
 
-        uint _0xb5bd69 = p._0x9806c1
-            ? _0x4904fd
-            : _0x93009b;
+        uint _0x933909 = p._0x102d26
+            ? _0x5a9b76
+            : _0x01a357;
 
-        if (p._0x731501 && _0xa6133a > p._0x93e1a2 + _0xb5bd69) {
-            _0x2e198f(_0x790a8f);
+        if (p._0x5eb6cb && _0x16131f > p._0x1c132c + _0x933909) {
+            _0xc7be8b(_0xa82900);
             return;
         }
 
 
-        if (_0xa6133a < p._0x93e1a2
+        if (_0x16131f < p._0x1c132c
 
-            || !p._0x731501
+            || !p._0x5eb6cb
 
-            || p._0x2896c9 != _0xe84e2d(p._0x6b611f, p._0x5d4a1a, _0x9ee5a8)) {
+            || p._0xb6e1f5 != _0xcc24fb(p._0xeb6a0e, p._0xc86254, _0x798a5b)) {
 
             throw;
         }
 
 
-        if (!_0x9262bf(p._0x6b611f)) {
-            _0x2e198f(_0x790a8f);
-            p._0x380e35.send(p._0xe78ee9);
+        if (!_0xe769c3(p._0xeb6a0e)) {
+            _0xc7be8b(_0xa82900);
+            p._0x0b6751.send(p._0x258149);
             return;
         }
 
-        bool _0xb955b1 = true;
+        bool _0xa35061 = true;
 
-        if (p._0x5d4a1a > _0xa392d0())
-            _0xb955b1 = false;
+        if (p._0xc86254 > _0x92f72e())
+            _0xa35061 = false;
 
-        uint _0x1d89c5 = p._0xc7e808 + p._0xdee2e2;
+        uint _0xf4f86f = p._0x1408dd + p._0x8a7a3a;
 
 
-        if (_0x9ee5a8.length >= 4 && _0x9ee5a8[0] == 0x68
-            && _0x9ee5a8[1] == 0x37 && _0x9ee5a8[2] == 0xff
-            && _0x9ee5a8[3] == 0x1e
-            && _0x1d89c5 < _0x875a1f(_0xa392d0() + _0x71c0fd[address(this)])) {
+        if (_0x798a5b.length >= 4 && _0x798a5b[0] == 0x68
+            && _0x798a5b[1] == 0x37 && _0x798a5b[2] == 0xff
+            && _0x798a5b[3] == 0x1e
+            && _0xf4f86f < _0x5b2ead(_0x92f72e() + _0x297d78[address(this)])) {
 
-                _0xb955b1 = false;
+                _0xa35061 = false;
         }
 
-        if (_0x1d89c5 >= _0x875a1f(p._0x5d4a1a)) {
-            if (!p._0x380e35.send(p._0xe78ee9))
+        if (_0xf4f86f >= _0x5b2ead(p._0xc86254)) {
+            if (!p._0x0b6751.send(p._0x258149))
                 throw;
 
-            _0xd4d731 = _0xa6133a;
+            _0xdbd1cf = _0x16131f;
 
-            if (_0x1d89c5 > _0x318d3a / 5)
-                _0xdfbfbc = 5;
+            if (_0xf4f86f > _0xeffac9 / 5)
+                _0xfa7c3e = 5;
         }
 
 
-        if (_0x1d89c5 >= _0x875a1f(p._0x5d4a1a) && p._0xc7e808 > p._0xdee2e2 && _0xb955b1) {
-            if (!p._0x6b611f.call.value(p._0x5d4a1a)(_0x9ee5a8))
+        if (_0xf4f86f >= _0x5b2ead(p._0xc86254) && p._0x1408dd > p._0x8a7a3a && _0xa35061) {
+            if (!p._0xeb6a0e.call.value(p._0xc86254)(_0x798a5b))
                 throw;
 
-            p._0xa7a5a2 = true;
-            _0xe4d384 = true;
+            p._0x587765 = true;
+            _0xaa65a9 = true;
 
 
-            if (p._0x6b611f != address(this) && p._0x6b611f != address(_0xa21521)
-                && p._0x6b611f != address(DAOrewardAccount)
-                && p._0x6b611f != address(_0xecc9bb)
-                && p._0x6b611f != address(_0x3e4559)) {
+            if (p._0xeb6a0e != address(this) && p._0xeb6a0e != address(_0x09dcd4)
+                && p._0xeb6a0e != address(DAOrewardAccount)
+                && p._0xeb6a0e != address(_0x1f4aee)
+                && p._0xeb6a0e != address(_0x3df12b)) {
 
-                _0x71c0fd[address(this)] += p._0x5d4a1a;
-                _0x905903 += p._0x5d4a1a;
+                _0x297d78[address(this)] += p._0xc86254;
+                _0xcf706e += p._0xc86254;
             }
         }
 
-        _0x2e198f(_0x790a8f);
+        _0xc7be8b(_0xa82900);
 
 
-        ProposalTallied(_0x790a8f, _0xe4d384, _0x1d89c5);
+        ProposalTallied(_0xa82900, _0xaa65a9, _0xf4f86f);
     }
 
-    function _0x2e198f(uint _0x790a8f) internal {
-        Proposal p = _0xd073cf[_0x790a8f];
-        if (p._0x731501)
-            _0xed62f3 -= p._0xe78ee9;
-        p._0x731501 = false;
+    function _0xc7be8b(uint _0xa82900) internal {
+        Proposal p = _0x9b5bf9[_0xa82900];
+        if (p._0x5eb6cb)
+            _0xb732cd -= p._0x258149;
+        p._0x5eb6cb = false;
     }
 
-    function _0x5bda1a(
-        uint _0x790a8f,
-        address _0x837f54
-    ) _0xa4b0b8 _0xe98ba6 returns (bool _0xe4d384) {
+    function _0x27ace5(
+        uint _0xa82900,
+        address _0x69c816
+    ) _0x309e2b _0xbb54b0 returns (bool _0xaa65a9) {
 
-        Proposal p = _0xd073cf[_0x790a8f];
+        Proposal p = _0x9b5bf9[_0xa82900];
 
 
-        if (_0xa6133a < p._0x93e1a2
+        if (_0x16131f < p._0x1c132c
 
-            || _0xa6133a > p._0x93e1a2 + _0x4904fd
+            || _0x16131f > p._0x1c132c + _0x5a9b76
 
-            || p._0x6b611f != _0x837f54
+            || p._0xeb6a0e != _0x69c816
 
-            || !p._0x9806c1
+            || !p._0x102d26
 
-            || !p._0xf94261[msg.sender]
+            || !p._0xe3886f[msg.sender]
 
-            || (_0x530f77[msg.sender] != _0x790a8f && _0x530f77[msg.sender] != 0) )  {
+            || (_0xa098de[msg.sender] != _0xa82900 && _0xa098de[msg.sender] != 0) )  {
 
             throw;
         }
 
 
-        if (address(p._0xf86fae[0]._0xdc8536) == 0) {
-            p._0xf86fae[0]._0xdc8536 = _0x520bd9(_0x837f54);
+        if (address(p._0xbf6531[0]._0x8dd462) == 0) {
+            p._0xbf6531[0]._0x8dd462 = _0xdb37c7(_0x69c816);
 
-            if (address(p._0xf86fae[0]._0xdc8536) == 0)
+            if (address(p._0xbf6531[0]._0x8dd462) == 0)
                 throw;
 
-            if (this.balance < _0xed62f3)
+            if (this.balance < _0xb732cd)
                 throw;
-            p._0xf86fae[0]._0x11181b = _0xa392d0();
-            p._0xf86fae[0]._0x71c0fd = _0x71c0fd[address(this)];
-            p._0xf86fae[0]._0x318d3a = _0x318d3a;
-            p._0xa7a5a2 = true;
+            p._0xbf6531[0]._0xab97c5 = _0x92f72e();
+            p._0xbf6531[0]._0x297d78 = _0x297d78[address(this)];
+            p._0xbf6531[0]._0xeffac9 = _0xeffac9;
+            p._0x587765 = true;
         }
 
 
-        uint _0x1e6256 =
-            (_0x22d612[msg.sender] * p._0xf86fae[0]._0x11181b) /
-            p._0xf86fae[0]._0x318d3a;
-        if (p._0xf86fae[0]._0xdc8536._0xda1ab8.value(_0x1e6256)(msg.sender) == false)
+        uint _0xfa9eb8 =
+            (_0xf26729[msg.sender] * p._0xbf6531[0]._0xab97c5) /
+            p._0xbf6531[0]._0xeffac9;
+        if (p._0xbf6531[0]._0x8dd462._0x3865de.value(_0xfa9eb8)(msg.sender) == false)
             throw;
 
 
-        uint _0xb7c1a5 =
-            (_0x22d612[msg.sender] * p._0xf86fae[0]._0x71c0fd) /
-            p._0xf86fae[0]._0x318d3a;
+        uint _0x43f838 =
+            (_0xf26729[msg.sender] * p._0xbf6531[0]._0x297d78) /
+            p._0xbf6531[0]._0xeffac9;
 
-        uint _0xeaf670 = DAOpaidOut[address(this)] * _0xb7c1a5 /
-            _0x71c0fd[address(this)];
+        uint _0xc63904 = DAOpaidOut[address(this)] * _0x43f838 /
+            _0x297d78[address(this)];
 
-        _0x71c0fd[address(p._0xf86fae[0]._0xdc8536)] += _0xb7c1a5;
-        if (_0x71c0fd[address(this)] < _0xb7c1a5)
+        _0x297d78[address(p._0xbf6531[0]._0x8dd462)] += _0x43f838;
+        if (_0x297d78[address(this)] < _0x43f838)
             throw;
-        _0x71c0fd[address(this)] -= _0xb7c1a5;
+        _0x297d78[address(this)] -= _0x43f838;
 
-        DAOpaidOut[address(p._0xf86fae[0]._0xdc8536)] += _0xeaf670;
-        if (DAOpaidOut[address(this)] < _0xeaf670)
+        DAOpaidOut[address(p._0xbf6531[0]._0x8dd462)] += _0xc63904;
+        if (DAOpaidOut[address(this)] < _0xc63904)
             throw;
-        DAOpaidOut[address(this)] -= _0xeaf670;
+        DAOpaidOut[address(this)] -= _0xc63904;
 
 
-        Transfer(msg.sender, 0, _0x22d612[msg.sender]);
-        _0x27e88b(msg.sender);
-        _0x318d3a -= _0x22d612[msg.sender];
-        _0x22d612[msg.sender] = 0;
-        _0x2ae6c1[msg.sender] = 0;
+        Transfer(msg.sender, 0, _0xf26729[msg.sender]);
+        _0x31f65b(msg.sender);
+        _0xeffac9 -= _0xf26729[msg.sender];
+        _0xf26729[msg.sender] = 0;
+        _0x3dc5b0[msg.sender] = 0;
         return true;
     }
 
-    function _0x41da1c(address _0xd65127){
-        if (msg.sender != address(this) || !_0x0f9e0f[_0xd65127]) return;
+    function _0xed413f(address _0xc7c9bd){
+        if (msg.sender != address(this) || !_0x55348e[_0xc7c9bd]) return;
 
-        if (!_0xd65127.call.value(address(this).balance)()) {
+        if (!_0xc7c9bd.call.value(address(this).balance)()) {
             throw;
         }
 
 
-        _0x71c0fd[_0xd65127] += _0x71c0fd[address(this)];
-        _0x71c0fd[address(this)] = 0;
-        DAOpaidOut[_0xd65127] += DAOpaidOut[address(this)];
+        _0x297d78[_0xc7c9bd] += _0x297d78[address(this)];
+        _0x297d78[address(this)] = 0;
+        DAOpaidOut[_0xc7c9bd] += DAOpaidOut[address(this)];
         DAOpaidOut[address(this)] = 0;
     }
 
-    function _0x6ac791(bool _0xa207c8) external _0xa4b0b8 returns (bool _0xe4d384) {
-        DAO _0xd7a97b = DAO(msg.sender);
+    function _0xfbe7d1(bool _0x75333f) external _0x309e2b returns (bool _0xaa65a9) {
+        DAO _0xadace9 = DAO(msg.sender);
 
-        if ((_0x71c0fd[msg.sender] * DAOrewardAccount._0x04fed3()) /
-            _0x905903 < DAOpaidOut[msg.sender])
+        if ((_0x297d78[msg.sender] * DAOrewardAccount._0xcc9182()) /
+            _0xcf706e < DAOpaidOut[msg.sender])
             throw;
 
-        uint _0xafff75 =
-            (_0x71c0fd[msg.sender] * DAOrewardAccount._0x04fed3()) /
-            _0x905903 - DAOpaidOut[msg.sender];
-        if(_0xa207c8) {
-            if (!DAOrewardAccount._0x4c91fc(_0xd7a97b._0xa21521(), _0xafff75))
+        uint _0xa4f5bf =
+            (_0x297d78[msg.sender] * DAOrewardAccount._0xcc9182()) /
+            _0xcf706e - DAOpaidOut[msg.sender];
+        if(_0x75333f) {
+            if (!DAOrewardAccount._0x6bf5ce(_0xadace9._0x09dcd4(), _0xa4f5bf))
                 throw;
             }
         else {
-            if (!DAOrewardAccount._0x4c91fc(_0xd7a97b, _0xafff75))
+            if (!DAOrewardAccount._0x6bf5ce(_0xadace9, _0xa4f5bf))
                 throw;
         }
-        DAOpaidOut[msg.sender] += _0xafff75;
+        DAOpaidOut[msg.sender] += _0xa4f5bf;
         return true;
     }
 
-    function _0xb3ea4a() _0xa4b0b8 returns (bool _0xe4d384) {
-        return _0x27e88b(msg.sender);
+    function _0x41b865() _0x309e2b returns (bool _0xaa65a9) {
+        return _0x31f65b(msg.sender);
     }
 
-    function _0x27e88b(address _0xd46a67) _0xa4b0b8 internal returns (bool _0xe4d384) {
-        if ((_0xe0ffdc(_0xd46a67) * _0xa21521._0x04fed3()) / _0x318d3a < _0x2ae6c1[_0xd46a67])
+    function _0x31f65b(address _0xb9e296) _0x309e2b internal returns (bool _0xaa65a9) {
+        if ((_0xf51878(_0xb9e296) * _0x09dcd4._0xcc9182()) / _0xeffac9 < _0x3dc5b0[_0xb9e296])
             throw;
 
-        uint _0xafff75 =
-            (_0xe0ffdc(_0xd46a67) * _0xa21521._0x04fed3()) / _0x318d3a - _0x2ae6c1[_0xd46a67];
-        if (!_0xa21521._0x4c91fc(_0xd46a67, _0xafff75))
+        uint _0xa4f5bf =
+            (_0xf51878(_0xb9e296) * _0x09dcd4._0xcc9182()) / _0xeffac9 - _0x3dc5b0[_0xb9e296];
+        if (!_0x09dcd4._0x6bf5ce(_0xb9e296, _0xa4f5bf))
             throw;
-        _0x2ae6c1[_0xd46a67] += _0xafff75;
+        _0x3dc5b0[_0xb9e296] += _0xa4f5bf;
         return true;
     }
 
-    function transfer(address _0xdde2c1, uint256 _0x606d67) returns (bool _0xe88010) {
-        if (_0x927dcf
-            && _0xa6133a > _0x28ea27
-            && !_0xcac281(msg.sender)
-            && _0x78bcb1(msg.sender, _0xdde2c1, _0x606d67)
-            && super.transfer(_0xdde2c1, _0x606d67)) {
+    function transfer(address _0xf4b9c5, uint256 _0x89ac2e) returns (bool _0x80ee41) {
+        if (_0xcd62bc
+            && _0x16131f > _0x237ae6
+            && !_0xb4c5b7(msg.sender)
+            && _0x068d8b(msg.sender, _0xf4b9c5, _0x89ac2e)
+            && super.transfer(_0xf4b9c5, _0x89ac2e)) {
 
             return true;
         } else {
@@ -808,18 +808,18 @@ contract DAO is DAOInterface, Token, TokenCreation {
         }
     }
 
-    function _0xbc260d(address _0xdde2c1, uint256 _0x606d67) returns (bool _0xe88010) {
-        if (!_0xb3ea4a())
+    function _0x0d7ac3(address _0xf4b9c5, uint256 _0x89ac2e) returns (bool _0x80ee41) {
+        if (!_0x41b865())
             throw;
-        return transfer(_0xdde2c1, _0x606d67);
+        return transfer(_0xf4b9c5, _0x89ac2e);
     }
 
-    function _0xa2b519(address _0x7d2b1c, address _0xdde2c1, uint256 _0x606d67) returns (bool _0xe88010) {
-        if (_0x927dcf
-            && _0xa6133a > _0x28ea27
-            && !_0xcac281(_0x7d2b1c)
-            && _0x78bcb1(_0x7d2b1c, _0xdde2c1, _0x606d67)
-            && super._0xa2b519(_0x7d2b1c, _0xdde2c1, _0x606d67)) {
+    function _0x644da0(address _0x0c8204, address _0xf4b9c5, uint256 _0x89ac2e) returns (bool _0x80ee41) {
+        if (_0xcd62bc
+            && _0x16131f > _0x237ae6
+            && !_0xb4c5b7(_0x0c8204)
+            && _0x068d8b(_0x0c8204, _0xf4b9c5, _0x89ac2e)
+            && super._0x644da0(_0x0c8204, _0xf4b9c5, _0x89ac2e)) {
 
             return true;
         } else {
@@ -827,127 +827,127 @@ contract DAO is DAOInterface, Token, TokenCreation {
         }
     }
 
-    function _0xbfe377(
-        address _0x7d2b1c,
-        address _0xdde2c1,
-        uint256 _0x606d67
-    ) returns (bool _0xe88010) {
+    function _0xe1825b(
+        address _0x0c8204,
+        address _0xf4b9c5,
+        uint256 _0x89ac2e
+    ) returns (bool _0x80ee41) {
 
-        if (!_0x27e88b(_0x7d2b1c))
+        if (!_0x31f65b(_0x0c8204))
             throw;
-        return _0xa2b519(_0x7d2b1c, _0xdde2c1, _0x606d67);
+        return _0x644da0(_0x0c8204, _0xf4b9c5, _0x89ac2e);
     }
 
-    function _0x78bcb1(
-        address _0x7d2b1c,
-        address _0xdde2c1,
-        uint256 _0x606d67
-    ) internal returns (bool _0xe88010) {
+    function _0x068d8b(
+        address _0x0c8204,
+        address _0xf4b9c5,
+        uint256 _0x89ac2e
+    ) internal returns (bool _0x80ee41) {
 
-        uint _0x78bcb1 = _0x2ae6c1[_0x7d2b1c] * _0x606d67 / _0xe0ffdc(_0x7d2b1c);
-        if (_0x78bcb1 > _0x2ae6c1[_0x7d2b1c])
+        uint _0x068d8b = _0x3dc5b0[_0x0c8204] * _0x89ac2e / _0xf51878(_0x0c8204);
+        if (_0x068d8b > _0x3dc5b0[_0x0c8204])
             throw;
-        _0x2ae6c1[_0x7d2b1c] -= _0x78bcb1;
-        _0x2ae6c1[_0xdde2c1] += _0x78bcb1;
+        _0x3dc5b0[_0x0c8204] -= _0x068d8b;
+        _0x3dc5b0[_0xf4b9c5] += _0x068d8b;
         return true;
     }
 
-    function _0x30d290(uint _0xf7dc95) _0xa4b0b8 external {
-        if (msg.sender != address(this) || _0xf7dc95 > (_0xa392d0() + _0x71c0fd[address(this)])
-            / _0x1c175b) {
+    function _0xc9694b(uint _0x07bebf) _0x309e2b external {
+        if (msg.sender != address(this) || _0x07bebf > (_0x92f72e() + _0x297d78[address(this)])
+            / _0x0bc363) {
 
             throw;
         }
-        if (1 == 1) { _0xe78ee9 = _0xf7dc95; }
+        if (true) { _0x258149 = _0x07bebf; }
     }
 
-    function _0x2f982f(address _0xce380f, bool _0xc6bc6e) _0xa4b0b8 external returns (bool _0xe4d384) {
-        if (msg.sender != _0x3e4559)
+    function _0xa1df66(address _0x65c70a, bool _0xc6a27e) _0x309e2b external returns (bool _0xaa65a9) {
+        if (msg.sender != _0x3df12b)
             throw;
-        _0x0f9e0f[_0xce380f] = _0xc6bc6e;
-        AllowedRecipientChanged(_0xce380f, _0xc6bc6e);
+        _0x55348e[_0x65c70a] = _0xc6a27e;
+        AllowedRecipientChanged(_0x65c70a, _0xc6a27e);
         return true;
     }
 
-    function _0x9262bf(address _0xce380f) internal returns (bool _0x3ab064) {
-        if (_0x0f9e0f[_0xce380f]
-            || (_0xce380f == address(_0xecc9bb)
+    function _0xe769c3(address _0x65c70a) internal returns (bool _0xf7991e) {
+        if (_0x55348e[_0x65c70a]
+            || (_0x65c70a == address(_0x1f4aee)
 
 
-                && _0x905903 > _0xecc9bb._0x04fed3()))
+                && _0xcf706e > _0x1f4aee._0xcc9182()))
             return true;
         else
             return false;
     }
 
-    function _0xa392d0() constant returns (uint _0x7379a1) {
-        return this.balance - _0xed62f3;
+    function _0x92f72e() constant returns (uint _0x6de020) {
+        return this.balance - _0xb732cd;
     }
 
-    function _0x875a1f(uint _0x606d67) internal constant returns (uint _0x35d7bb) {
+    function _0x5b2ead(uint _0x89ac2e) internal constant returns (uint _0x58ec57) {
 
-        return _0x318d3a / _0xdfbfbc +
-            (_0x606d67 * _0x318d3a) / (3 * (_0xa392d0() + _0x71c0fd[address(this)]));
+        return _0xeffac9 / _0xfa7c3e +
+            (_0x89ac2e * _0xeffac9) / (3 * (_0x92f72e() + _0x297d78[address(this)]));
     }
 
-    function _0x3b8429() returns (bool _0xe4d384) {
+    function _0xd5e137() returns (bool _0xaa65a9) {
 
 
-        if ((_0xd4d731 < (_0xa6133a - _0xed6add) || msg.sender == _0x3e4559)
-            && _0xd4d731 < (_0xa6133a - _0x7da85e)) {
-            _0xd4d731 = _0xa6133a;
-            _0xdfbfbc *= 2;
+        if ((_0xdbd1cf < (_0x16131f - _0x02f8d6) || msg.sender == _0x3df12b)
+            && _0xdbd1cf < (_0x16131f - _0x2b2d68)) {
+            _0xdbd1cf = _0x16131f;
+            _0xfa7c3e *= 2;
             return true;
         } else {
             return false;
         }
     }
 
-    function _0x520bd9(address _0x837f54) internal returns (DAO _0x31f299) {
-        NewCurator(_0x837f54);
-        return _0x4dada0._0x03c84a(_0x837f54, 0, 0, _0xa6133a + _0x4904fd);
+    function _0xdb37c7(address _0x69c816) internal returns (DAO _0x5f6113) {
+        NewCurator(_0x69c816);
+        return _0x281933._0xe8018f(_0x69c816, 0, 0, _0x16131f + _0x5a9b76);
     }
 
-    function _0x7094e0() constant returns (uint _0xd4beac) {
+    function _0xd90ca4() constant returns (uint _0x14d6ca) {
 
-        return _0xd073cf.length - 1;
+        return _0x9b5bf9.length - 1;
     }
 
-    function _0xa010f2(uint _0x790a8f) constant returns (address _0x31f299) {
-        return _0xd073cf[_0x790a8f]._0xf86fae[0]._0xdc8536;
+    function _0xc729b2(uint _0xa82900) constant returns (address _0x5f6113) {
+        return _0x9b5bf9[_0xa82900]._0xbf6531[0]._0x8dd462;
     }
 
-    function _0xcac281(address _0xd46a67) internal returns (bool) {
-        if (_0x530f77[_0xd46a67] == 0)
+    function _0xb4c5b7(address _0xb9e296) internal returns (bool) {
+        if (_0xa098de[_0xb9e296] == 0)
             return false;
-        Proposal p = _0xd073cf[_0x530f77[_0xd46a67]];
-        if (_0xa6133a > p._0x93e1a2) {
-            _0x530f77[_0xd46a67] = 0;
+        Proposal p = _0x9b5bf9[_0xa098de[_0xb9e296]];
+        if (_0x16131f > p._0x1c132c) {
+            _0xa098de[_0xb9e296] = 0;
             return false;
         } else {
             return true;
         }
     }
 
-    function _0x8e4c52() returns (bool) {
-        return _0xcac281(msg.sender);
+    function _0x176120() returns (bool) {
+        return _0xb4c5b7(msg.sender);
     }
 }
 
 contract DAO_Creator {
-    function _0x03c84a(
-        address _0xdba3ea,
-        uint _0xf7dc95,
-        uint _0xb87fbe,
-        uint _0xd93c92
-    ) returns (DAO _0x31f299) {
+    function _0xe8018f(
+        address _0xcf890f,
+        uint _0x07bebf,
+        uint _0x0c1e2e,
+        uint _0x390573
+    ) returns (DAO _0x5f6113) {
 
         return new DAO(
-            _0xdba3ea,
+            _0xcf890f,
             DAO_Creator(this),
-            _0xf7dc95,
-            _0xb87fbe,
-            _0xd93c92,
+            _0x07bebf,
+            _0x0c1e2e,
+            _0x390573,
             msg.sender
         );
     }

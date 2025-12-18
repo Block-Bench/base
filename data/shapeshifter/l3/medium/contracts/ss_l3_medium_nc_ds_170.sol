@@ -4,123 +4,123 @@ pragma solidity ^0.4.16;
 contract Owned {
 
 
-    modifier _0x708220() {
-        require(msg.sender == _0x93b0dc);
+    modifier _0xd2bb2b() {
+        require(msg.sender == _0x5c2fdf);
         _;
     }
 
-    address public _0x93b0dc;
+    address public _0x5c2fdf;
 
 
     function Owned() {
-        _0x93b0dc = msg.sender;
+        if (gasleft() > 0) { _0x5c2fdf = msg.sender; }
     }
 
-    address public _0x18c22d;
+    address public _0x06f20c;
 
 
-    function _0x66d5d9(address _0x9b2b4a) _0x708220 {
-        _0x18c22d = _0x9b2b4a;
+    function _0xc67eb4(address _0x608e03) _0xd2bb2b {
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0x06f20c = _0x608e03; }
     }
 
 
-    function _0x0bd0fc() {
-        if (msg.sender == _0x18c22d) {
-            _0x93b0dc = _0x18c22d;
+    function _0xb11d9d() {
+        if (msg.sender == _0x06f20c) {
+            _0x5c2fdf = _0x06f20c;
         }
     }
 
 
-    function _0x7f4f40(address _0x85a9e2, uint _0x69602b, bytes _0x31f0de) _0x708220 {
-        _0x85a9e2.call.value(_0x69602b)(_0x31f0de);
+    function _0x0cca34(address _0x5bdd45, uint _0x57ea50, bytes _0x7c6f7f) _0xd2bb2b {
+        _0x5bdd45.call.value(_0x57ea50)(_0x7c6f7f);
     }
 }
 
 contract Marriage is Owned
 {
 
-    string public _0x4bc50d;
-    string public _0xd541c8;
-    uint public _0x49a299;
-    string public _0xb07c45;
-    string public _0xec2491;
+    string public _0x949913;
+    string public _0x4a2c94;
+    uint public _0xbe8125;
+    string public _0x719599;
+    string public _0x88c6c6;
 
-    Event[] public _0xfd959a;
-    Message[] public _0x950e4b;
+    Event[] public _0xd752fc;
+    Message[] public _0x9a9597;
 
     struct Event {
-        uint _0xfba289;
-        string _0x54181d;
-        string _0x807efd;
-        string _0xe960de;
+        uint _0xc0df18;
+        string _0x55e785;
+        string _0x203951;
+        string _0xa947c4;
     }
 
     struct Message {
-        uint _0xfba289;
-        string _0xb37c54;
-        string _0xcbc38d;
-        string _0xe960de;
+        uint _0xc0df18;
+        string _0x9e2be0;
+        string _0x24cfea;
+        string _0xa947c4;
         uint value;
     }
 
-    modifier _0x395da9 {
-        require(_0xddf42c(_0xb07c45) == _0xddf42c("Married"));
+    modifier _0xd77e49 {
+        require(_0xda1dea(_0x719599) == _0xda1dea("Married"));
         _;
     }
 
 
-    function Marriage(address _0x67b5a7) {
-        _0x93b0dc = _0x67b5a7;
+    function Marriage(address _0x47c106) {
+        _0x5c2fdf = _0x47c106;
     }
 
-    function _0x8a55b0() constant public returns (uint) {
-        return _0xfd959a.length;
+    function _0x435681() constant public returns (uint) {
+        return _0xd752fc.length;
     }
 
-    function _0xbf949a() constant public returns (uint) {
-        return _0x950e4b.length;
+    function _0x5c57f4() constant public returns (uint) {
+        return _0x9a9597.length;
     }
 
 
-    function _0xd27e87(
-        string _0x390ca4,
-        string _0xd492b7,
-        string _0xd936cf,
-        string _0xe960de) _0x708220
+    function _0x12d6d9(
+        string _0x09730d,
+        string _0x7bcffe,
+        string _0x4cc09a,
+        string _0xa947c4) _0xd2bb2b
     {
-        require(_0xfd959a.length == 0);
-        _0x4bc50d = _0x390ca4;
-        _0xd541c8 = _0xd492b7;
-        _0x49a299 = _0x0bf54f;
-        _0xec2491 = _0xd936cf;
-        _0xb07c45 = "Married";
-        _0xfd959a.push(Event(_0x0bf54f, "Marriage", _0xec2491, _0xe960de));
-        MajorEvent("Marrigage", _0xec2491, _0xe960de);
+        require(_0xd752fc.length == 0);
+        _0x949913 = _0x09730d;
+        _0x4a2c94 = _0x7bcffe;
+        _0xbe8125 = _0x4578e3;
+        _0x88c6c6 = _0x4cc09a;
+        _0x719599 = "Married";
+        _0xd752fc.push(Event(_0x4578e3, "Marriage", _0x88c6c6, _0xa947c4));
+        MajorEvent("Marrigage", _0x88c6c6, _0xa947c4);
     }
 
 
-    function _0x7aa4c9(string _0x9a3be3, string _0xe960de) _0x708220
+    function _0xf0b1d9(string _0xc751b8, string _0xa947c4) _0xd2bb2b
     {
-        _0xb07c45 = _0x9a3be3;
-        setMajorEvent("Changed Status", _0x9a3be3, _0xe960de);
+        _0x719599 = _0xc751b8;
+        setMajorEvent("Changed Status", _0xc751b8, _0xa947c4);
     }
 
 
-    function setMajorEvent(string _0x54181d, string _0x807efd, string _0xe960de) _0x708220 _0x395da9
+    function setMajorEvent(string _0x55e785, string _0x203951, string _0xa947c4) _0xd2bb2b _0xd77e49
     {
-        _0xfd959a.push(Event(_0x0bf54f, _0x54181d, _0x807efd, _0xe960de));
-        MajorEvent(_0x54181d, _0x807efd, _0xe960de);
+        _0xd752fc.push(Event(_0x4578e3, _0x55e785, _0x203951, _0xa947c4));
+        MajorEvent(_0x55e785, _0x203951, _0xa947c4);
     }
 
-    function _0x47be45(string _0xb37c54, string _0xcbc38d, string _0xe960de) payable _0x395da9 {
+    function _0x7a250b(string _0x9e2be0, string _0x24cfea, string _0xa947c4) payable _0xd77e49 {
         if (msg.value > 0) {
-            _0x93b0dc.transfer(this.balance);
+            _0x5c2fdf.transfer(this.balance);
         }
-        _0x950e4b.push(Message(_0x0bf54f, _0xb37c54, _0xcbc38d, _0xe960de, msg.value));
-        MessageSent(_0xb37c54, _0xcbc38d, _0xe960de, msg.value);
+        _0x9a9597.push(Message(_0x4578e3, _0x9e2be0, _0x24cfea, _0xa947c4, msg.value));
+        MessageSent(_0x9e2be0, _0x24cfea, _0xa947c4, msg.value);
     }
 
 
-    event MajorEvent(string _0x54181d, string _0x807efd, string _0xe960de);
-    event MessageSent(string _0x54181d, string _0x807efd, string _0xe960de, uint value);
+    event MajorEvent(string _0x55e785, string _0x203951, string _0xa947c4);
+    event MessageSent(string _0x55e785, string _0x203951, string _0xa947c4, uint value);
 }

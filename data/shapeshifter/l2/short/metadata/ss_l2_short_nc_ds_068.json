@@ -77,8 +77,8 @@
     "keccak256": "c",
     "addr": "d",
     "tos": "e",
-    "vs": "f",
-    "id": "g"
+    "id": "f",
+    "vs": "g"
   },
   "transformation": {
     "strategy": "shapeshifter",

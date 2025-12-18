@@ -4,7 +4,7 @@ pragma solidity ^0.4.25;
 contract RandomNumberGenerator {
   uint256 private c =  block.timestamp;
 
-  function b(uint e) view private returns (uint256 a) {
+  function a(uint e) view private returns (uint256 b) {
 
     uint256 x = c * 100 / e;
     uint256 y = c * block.number / (c % 5);

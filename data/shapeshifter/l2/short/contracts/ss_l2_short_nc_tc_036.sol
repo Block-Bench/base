@@ -9,33 +9,33 @@ interface IERC20 {
         uint256 ag
     ) external returns (bool);
 
-    function x(address ae) external view returns (uint256);
+    function y(address ae) external view returns (uint256);
 
     function ad(address ab, uint256 ag) external returns (bool);
 }
 
 interface IBorrowerOperations {
-    function a(address v, bool o) external;
+    function d(address x, bool o) external;
 
-    function t(
+    function w(
         address m,
         address ae,
-        uint256 f,
         uint256 g,
+        uint256 f,
         uint256 n,
-        address q,
-        address s
+        address r,
+        address q
     ) external;
 
-    function r(address m, address ae) external;
+    function s(address m, address ae) external;
 }
 
 interface ITroveManager {
-    function d(
-        address aa
+    function c(
+        address v
     ) external view returns (uint256 ak, uint256 aj);
 
-    function y(address aa) external;
+    function t(address v) external;
 }
 
 contract MigrateTroveZap {
@@ -43,8 +43,8 @@ contract MigrateTroveZap {
     address public af;
     address public ai;
 
-    constructor(address c, address ac, address ah) {
-        e = c;
+    constructor(address a, address ac, address ah) {
+        e = a;
         af = ac;
         ai = ah;
     }
@@ -52,64 +52,64 @@ contract MigrateTroveZap {
     function b(
         address m,
         address ae,
-        uint256 i,
         uint256 h,
+        uint256 i,
         uint256 p,
-        address u,
+        address aa,
         address z
     ) external {
         IERC20(af).l(
             msg.sender,
             address(this),
-            h
+            i
         );
 
-        IERC20(af).ad(address(e), h);
+        IERC20(af).ad(address(e), i);
 
-        e.t(
+        e.w(
             m,
             ae,
-            i,
             h,
+            i,
             p,
-            u,
+            aa,
             z
         );
 
         IERC20(ai).transfer(msg.sender, p);
     }
 
-    function k(address m, address ae) external {
-        e.r(m, ae);
+    function j(address m, address ae) external {
+        e.s(m, ae);
     }
 }
 
 contract BorrowerOperations {
-    mapping(address => mapping(address => bool)) public w;
+    mapping(address => mapping(address => bool)) public u;
     ITroveManager public m;
 
-    function a(address v, bool o) external {
-        w[msg.sender][v] = o;
+    function d(address x, bool o) external {
+        u[msg.sender][x] = o;
     }
 
-    function t(
-        address j,
+    function w(
+        address k,
         address ae,
-        uint256 f,
         uint256 g,
+        uint256 f,
         uint256 n,
-        address q,
-        address s
+        address r,
+        address q
     ) external {
         require(
-            msg.sender == ae || w[ae][msg.sender],
+            msg.sender == ae || u[ae][msg.sender],
             "Not authorized"
         );
     }
 
-    function r(address j, address ae) external {
+    function s(address k, address ae) external {
         require(
-            msg.sender == ae || w[ae][msg.sender],
+            msg.sender == ae || u[ae][msg.sender],
             "Not authorized"
         );
     }

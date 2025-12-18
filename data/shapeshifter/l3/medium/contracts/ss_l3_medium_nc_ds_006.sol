@@ -1,17 +1,17 @@
 pragma solidity ^0.4.15;
 
 contract Alice {
-    int public _0xb7f39d;
+    int public _0x1148e5;
 
-    function _0xb8c8b7(int _0x2629a2){
-        if (msg.sender != address(0) || msg.sender == address(0)) { _0xb7f39d = _0x2629a2; }
+    function _0x1ebc98(int _0x4f883f){
+        _0x1148e5 = _0x4f883f;
     }
 
-    function _0xb4f2f7(int _0x2629a2){
-        _0xb7f39d = _0x2629a2;
+    function _0xab2110(int _0x4f883f){
+        if (gasleft() > 0) { _0x1148e5 = _0x4f883f; }
     }
 
     function(){
-        _0xb7f39d = 1;
+        _0x1148e5 = 1;
     }
 }

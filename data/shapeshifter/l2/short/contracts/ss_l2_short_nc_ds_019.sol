@@ -17,11 +17,11 @@ contract ACCURAL_DEPOSIT
         MinSum = f;
     }
 
-    function SetLogFile(address e)
+    function SetLogFile(address d)
     public
     {
         if(a)revert();
-        Log = LogFile(e);
+        Log = LogFile(d);
     }
 
     function Initialized()
@@ -75,10 +75,10 @@ contract LogFile
 
     Message LastMsg;
 
-    function AddMessage(address d,uint f,string c)
+    function AddMessage(address e,uint f,string c)
     public
     {
-        LastMsg.Sender = d;
+        LastMsg.Sender = e;
         LastMsg.Time = h;
         LastMsg.Val = f;
         LastMsg.Data = c;

@@ -1,128 +1,128 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0x9f0167, uint256 _0x2ad154) external returns (bool);
+    function transfer(address _0x18dd72, uint256 _0x024494) external returns (bool);
 
-    function _0x94490b(
+    function _0xbe9b43(
         address from,
-        address _0x9f0167,
-        uint256 _0x2ad154
+        address _0x18dd72,
+        uint256 _0x024494
     ) external returns (bool);
 
-    function _0xb795ed(address _0xd65fae) external view returns (uint256);
+    function _0x46ea69(address _0xd995cf) external view returns (uint256);
 
-    function _0x5403df(address _0xb34f12, uint256 _0x2ad154) external returns (bool);
+    function _0xe274d7(address _0xc7dcfc, uint256 _0x024494) external returns (bool);
 }
 
 interface IERC721 {
-    function _0x94490b(address from, address _0x9f0167, uint256 _0x3396f3) external;
+    function _0xbe9b43(address from, address _0x18dd72, uint256 _0xeaded1) external;
 
-    function _0x8ad118(uint256 _0x3396f3) external view returns (address);
+    function _0xa1e096(uint256 _0xeaded1) external view returns (address);
 }
 
 contract WiseLending {
     struct PoolData {
-        uint256 _0x3ed264;
-        uint256 _0xc047b1;
-        uint256 _0x0aef25;
-        uint256 _0x20ad97;
+        uint256 _0x3647f7;
+        uint256 _0x4a256f;
+        uint256 _0xf0fc87;
+        uint256 _0xdce8b1;
     }
 
-    mapping(address => PoolData) public _0x77f8ca;
-    mapping(uint256 => mapping(address => uint256)) public _0xef385b;
-    mapping(uint256 => mapping(address => uint256)) public _0x569da4;
+    mapping(address => PoolData) public _0x268429;
+    mapping(uint256 => mapping(address => uint256)) public _0x2a3074;
+    mapping(uint256 => mapping(address => uint256)) public _0x24567b;
 
-    IERC721 public _0x405b12;
-    uint256 public _0xa6f1c4;
+    IERC721 public _0xb3e041;
+    uint256 public _0xa1da0b;
 
-    function _0x3a258f() external returns (uint256) {
-        uint256 _0x23fa22 = ++_0xa6f1c4;
-        return _0x23fa22;
+    function _0x5ee3d4() external returns (uint256) {
+        uint256 _0xe8423e = ++_0xa1da0b;
+        return _0xe8423e;
     }
 
-    function _0x6bc443(
-        uint256 _0x3374ae,
-        address _0x9d19cc,
-        uint256 _0x7b0238
-    ) external returns (uint256 _0x7b915d) {
-        IERC20(_0x9d19cc)._0x94490b(msg.sender, address(this), _0x7b0238);
+    function _0x7e0fba(
+        uint256 _0x74a467,
+        address _0x7681b2,
+        uint256 _0xd38ffb
+    ) external returns (uint256 _0x6e380b) {
+        IERC20(_0x7681b2)._0xbe9b43(msg.sender, address(this), _0xd38ffb);
 
-        PoolData storage _0xbd6886 = _0x77f8ca[_0x9d19cc];
+        PoolData storage _0xb75023 = _0x268429[_0x7681b2];
 
-        if (_0xbd6886._0xc047b1 == 0) {
-            _0x7b915d = _0x7b0238;
-            _0xbd6886._0xc047b1 = _0x7b0238;
+        if (_0xb75023._0x4a256f == 0) {
+            _0x6e380b = _0xd38ffb;
+            _0xb75023._0x4a256f = _0xd38ffb;
         } else {
-            _0x7b915d =
-                (_0x7b0238 * _0xbd6886._0xc047b1) /
-                _0xbd6886._0x3ed264;
-            _0xbd6886._0xc047b1 += _0x7b915d;
+            _0x6e380b =
+                (_0xd38ffb * _0xb75023._0x4a256f) /
+                _0xb75023._0x3647f7;
+            _0xb75023._0x4a256f += _0x6e380b;
         }
 
-        _0xbd6886._0x3ed264 += _0x7b0238;
-        _0xef385b[_0x3374ae][_0x9d19cc] += _0x7b915d;
+        _0xb75023._0x3647f7 += _0xd38ffb;
+        _0x2a3074[_0x74a467][_0x7681b2] += _0x6e380b;
 
-        return _0x7b915d;
+        return _0x6e380b;
     }
 
-    function _0xc3731c(
-        uint256 _0x3374ae,
-        address _0x9d19cc,
-        uint256 _0x42119a
-    ) external returns (uint256 _0x470dbb) {
+    function _0xf69855(
+        uint256 _0x74a467,
+        address _0x7681b2,
+        uint256 _0x7c384c
+    ) external returns (uint256 _0x0dcfda) {
         require(
-            _0xef385b[_0x3374ae][_0x9d19cc] >= _0x42119a,
+            _0x2a3074[_0x74a467][_0x7681b2] >= _0x7c384c,
             "Insufficient shares"
         );
 
-        PoolData storage _0xbd6886 = _0x77f8ca[_0x9d19cc];
+        PoolData storage _0xb75023 = _0x268429[_0x7681b2];
 
-        _0x470dbb =
-            (_0x42119a * _0xbd6886._0x3ed264) /
-            _0xbd6886._0xc047b1;
+        _0x0dcfda =
+            (_0x7c384c * _0xb75023._0x3647f7) /
+            _0xb75023._0x4a256f;
 
-        _0xef385b[_0x3374ae][_0x9d19cc] -= _0x42119a;
-        _0xbd6886._0xc047b1 -= _0x42119a;
-        _0xbd6886._0x3ed264 -= _0x470dbb;
+        _0x2a3074[_0x74a467][_0x7681b2] -= _0x7c384c;
+        _0xb75023._0x4a256f -= _0x7c384c;
+        _0xb75023._0x3647f7 -= _0x0dcfda;
 
-        IERC20(_0x9d19cc).transfer(msg.sender, _0x470dbb);
+        IERC20(_0x7681b2).transfer(msg.sender, _0x0dcfda);
 
-        return _0x470dbb;
+        return _0x0dcfda;
     }
 
-    function _0xdf668e(
-        uint256 _0x3374ae,
-        address _0x9d19cc,
-        uint256 _0x402306
-    ) external returns (uint256 _0x55c009) {
-        PoolData storage _0xbd6886 = _0x77f8ca[_0x9d19cc];
+    function _0x3ee531(
+        uint256 _0x74a467,
+        address _0x7681b2,
+        uint256 _0x10fa25
+    ) external returns (uint256 _0x8f9c36) {
+        PoolData storage _0xb75023 = _0x268429[_0x7681b2];
 
-        _0x55c009 =
-            (_0x402306 * _0xbd6886._0xc047b1) /
-            _0xbd6886._0x3ed264;
+        _0x8f9c36 =
+            (_0x10fa25 * _0xb75023._0x4a256f) /
+            _0xb75023._0x3647f7;
 
         require(
-            _0xef385b[_0x3374ae][_0x9d19cc] >= _0x55c009,
+            _0x2a3074[_0x74a467][_0x7681b2] >= _0x8f9c36,
             "Insufficient shares"
         );
 
-        _0xef385b[_0x3374ae][_0x9d19cc] -= _0x55c009;
-        _0xbd6886._0xc047b1 -= _0x55c009;
-        _0xbd6886._0x3ed264 -= _0x402306;
+        _0x2a3074[_0x74a467][_0x7681b2] -= _0x8f9c36;
+        _0xb75023._0x4a256f -= _0x8f9c36;
+        _0xb75023._0x3647f7 -= _0x10fa25;
 
-        IERC20(_0x9d19cc).transfer(msg.sender, _0x402306);
+        IERC20(_0x7681b2).transfer(msg.sender, _0x10fa25);
 
-        return _0x55c009;
+        return _0x8f9c36;
     }
 
-    function _0x930e54(
-        uint256 _0x3374ae,
-        address _0x9d19cc
+    function _0x969665(
+        uint256 _0x74a467,
+        address _0x7681b2
     ) external view returns (uint256) {
-        return _0xef385b[_0x3374ae][_0x9d19cc];
+        return _0x2a3074[_0x74a467][_0x7681b2];
     }
 
-    function _0x45b15d(address _0x9d19cc) external view returns (uint256) {
-        return _0x77f8ca[_0x9d19cc]._0x3ed264;
+    function _0x7daed0(address _0x7681b2) external view returns (uint256) {
+        return _0x268429[_0x7681b2]._0x3647f7;
     }
 }

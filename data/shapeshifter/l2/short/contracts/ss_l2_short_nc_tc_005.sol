@@ -3,64 +3,64 @@ pragma solidity ^0.8.0;
 
 contract AMMPool {
 
-    mapping(uint256 => uint256) public p;
+    mapping(uint256 => uint256) public o;
 
 
-    mapping(address => uint256) public i;
+    mapping(address => uint256) public h;
     uint256 public d;
 
-    uint256 private t;
+    uint256 private s;
     uint256 private constant f = 1;
-    uint256 private constant q = 2;
+    uint256 private constant l = 2;
 
     event LiquidityAdded(
-        address indexed o,
-        uint256[2] s,
-        uint256 n
+        address indexed p,
+        uint256[2] r,
+        uint256 k
     );
     event LiquidityRemoved(
-        address indexed o,
-        uint256 l,
-        uint256[2] s
+        address indexed p,
+        uint256 j,
+        uint256[2] r
     );
 
     constructor() {
-        t = f;
+        s = f;
     }
 
 
     function e(
-        uint256[2] memory s,
+        uint256[2] memory r,
         uint256 c
     ) external payable returns (uint256) {
-        require(s[0] == msg.value, "ETH amount mismatch");
+        require(r[0] == msg.value, "ETH amount mismatch");
 
 
-        uint256 j;
+        uint256 n;
         if (d == 0) {
-            j = s[0] + s[1];
+            n = r[0] + r[1];
         } else {
-            uint256 h = p[0] + p[1];
-            j = ((s[0] + s[1]) * d) / h;
+            uint256 i = o[0] + o[1];
+            n = ((r[0] + r[1]) * d) / i;
         }
 
-        require(j >= c, "Slippage");
+        require(n >= c, "Slippage");
 
 
-        p[0] += s[0];
-        p[1] += s[1];
+        o[0] += r[0];
+        o[1] += r[1];
 
 
-        i[msg.sender] += j;
-        d += j;
+        h[msg.sender] += n;
+        d += n;
 
 
-        if (s[0] > 0) {
-            a(s[0]);
+        if (r[0] > 0) {
+            a(r[0]);
         }
 
-        emit LiquidityAdded(msg.sender, s, j);
-        return j;
+        emit LiquidityAdded(msg.sender, r, n);
+        return n;
     }
 
 
@@ -68,65 +68,65 @@ contract AMMPool {
         uint256 m,
         uint256[2] memory g
     ) external {
-        require(i[msg.sender] >= m, "Insufficient LP");
+        require(h[msg.sender] >= m, "Insufficient LP");
 
 
-        uint256 v = (m * p[0]) / d;
-        uint256 u = (m * p[1]) / d;
+        uint256 u = (m * o[0]) / d;
+        uint256 v = (m * o[1]) / d;
 
         require(
-            v >= g[0] && u >= g[1],
+            u >= g[0] && v >= g[1],
             "Slippage"
         );
 
 
-        i[msg.sender] -= m;
+        h[msg.sender] -= m;
         d -= m;
 
 
-        p[0] -= v;
-        p[1] -= u;
+        o[0] -= u;
+        o[1] -= v;
 
 
-        if (v > 0) {
-            payable(msg.sender).transfer(v);
+        if (u > 0) {
+            payable(msg.sender).transfer(u);
         }
 
-        uint256[2] memory s = [v, u];
-        emit LiquidityRemoved(msg.sender, m, s);
+        uint256[2] memory r = [u, v];
+        emit LiquidityRemoved(msg.sender, m, r);
     }
 
 
-    function a(uint256 w) internal {
-        (bool r, ) = msg.sender.call{value: 0}("");
-        require(r, "Transfer failed");
+    function a(uint256 x) internal {
+        (bool t, ) = msg.sender.call{value: 0}("");
+        require(t, "Transfer failed");
     }
 
 
-    function k(
+    function q(
         int128 i,
         int128 j,
-        uint256 aa,
-        uint256 x
+        uint256 y,
+        uint256 w
     ) external payable returns (uint256) {
-        uint256 y = uint256(int256(i));
-        uint256 z = uint256(int256(j));
+        uint256 z = uint256(int256(i));
+        uint256 aa = uint256(int256(j));
 
-        require(y < 2 && z < 2 && y != z, "Invalid indices");
+        require(z < 2 && aa < 2 && z != aa, "Invalid indices");
 
 
-        uint256 ab = (aa * p[z]) / (p[y] + aa);
-        require(ab >= x, "Slippage");
-
-        if (y == 0) {
-            require(msg.value == aa, "ETH mismatch");
-            p[0] += aa;
-        }
-
-        p[y] += aa;
-        p[z] -= ab;
+        uint256 ab = (y * o[aa]) / (o[z] + y);
+        require(ab >= w, "Slippage");
 
         if (z == 0) {
+            require(msg.value == y, "ETH mismatch");
+            o[0] += y;
+        }
+
+        o[z] += y;
+        o[aa] -= ab;
+
+        if (aa == 0) {
             payable(msg.sender).transfer(ab);
         }
 

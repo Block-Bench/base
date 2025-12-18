@@ -11,7 +11,7 @@ import {IMidasRedemptionVaultGateway} from "../../interfaces/midas/IMidasRedempt
 contract MidasRedemptionVaultGateway is ReentrancyGuardTrait, IMidasRedemptionVaultGateway {
     using SafeERC20 for IERC20;
 
-    bytes32 public constant override s = "GATEWAY::MIDAS_REDEMPTION_VAULT";
+    bytes32 public constant override r = "GATEWAY::MIDAS_REDEMPTION_VAULT";
     uint256 public constant override ag = 3_10;
 
     address public immutable d;
@@ -26,51 +26,51 @@ contract MidasRedemptionVaultGateway is ReentrancyGuardTrait, IMidasRedemptionVa
     }
 
 
-    function n(address ae, uint256 l, uint256 h) external t {
-        IERC20(ah).f(msg.sender, address(this), l);
+    function p(address ab, uint256 l, uint256 f) external t {
+        IERC20(ah).g(msg.sender, address(this), l);
 
-        uint256 p = IERC20(ae).z(address(this));
+        uint256 m = IERC20(ab).z(address(this));
 
         IERC20(ah).u(d, l);
-        IMidasRedemptionVault(d).n(ae, l, h);
+        IMidasRedemptionVault(d).p(ab, l, f);
 
-        uint256 ai = IERC20(ae).z(address(this)) - p;
+        uint256 ai = IERC20(ab).z(address(this)) - m;
 
-        IERC20(ae).q(msg.sender, ai);
+        IERC20(ab).q(msg.sender, ai);
     }
 
 
-    function o(address ae, uint256 l) external t {
-        if (e[msg.sender].ac) {
+    function n(address ab, uint256 l) external t {
+        if (e[msg.sender].ad) {
             revert("MidasRedemptionVaultGateway: user has a pending redemption");
         }
 
-        uint256 x = IMidasRedemptionVault(d).g();
+        uint256 x = IMidasRedemptionVault(d).h();
 
-        IERC20(ah).f(msg.sender, address(this), l);
+        IERC20(ah).g(msg.sender, address(this), l);
 
         IERC20(ah).u(d, l);
-        IMidasRedemptionVault(d).m(ae, l);
+        IMidasRedemptionVault(d).o(ab, l);
 
         e[msg.sender] =
-            PendingRedemption({ac: true, x: x, timestamp: block.timestamp, y: 0});
+            PendingRedemption({ad: true, x: x, timestamp: block.timestamp, aa: 0});
     }
 
 
-    function ab(uint256 ai) external t {
+    function ac(uint256 ai) external t {
         PendingRedemption memory af = e[msg.sender];
 
-        if (!af.ac) {
+        if (!af.ad) {
             revert("MidasRedemptionVaultGateway: user does not have a pending redemption");
         }
 
         (
             address sender,
-            address ae,
+            address ab,
             uint8 aj,
             uint256 l,
             uint256 w,
-            uint256 r
+            uint256 s
         ) = IMidasRedemptionVault(d).k(af.x);
 
         if (sender != address(this)) {
@@ -83,10 +83,10 @@ contract MidasRedemptionVaultGateway is ReentrancyGuardTrait, IMidasRedemptionVa
 
         uint256 i;
 
-        if (af.y > 0) {
-            i = af.y;
+        if (af.aa > 0) {
+            i = af.aa;
         } else {
-            i = a(l, w, r, ae);
+            i = a(l, w, s, ab);
         }
 
         if (ai > i) {
@@ -96,31 +96,31 @@ contract MidasRedemptionVaultGateway is ReentrancyGuardTrait, IMidasRedemptionVa
         if (ai == i) {
             delete e[msg.sender];
         } else {
-            e[msg.sender].y = i - ai;
+            e[msg.sender].aa = i - ai;
         }
 
-        IERC20(ae).q(msg.sender, ai);
+        IERC20(ab).q(msg.sender, ai);
     }
 
 
-    function b(address ak, address ae) external view returns (uint256) {
+    function b(address ak, address ab) external view returns (uint256) {
         PendingRedemption memory af = e[ak];
 
-        if (!af.ac) {
+        if (!af.ad) {
             return 0;
         }
 
-        (address sender, address j,, uint256 l, uint256 w, uint256 r) =
+        (address sender, address j,, uint256 l, uint256 w, uint256 s) =
             IMidasRedemptionVault(d).k(af.x);
 
-        if (sender != address(this) || j != ae) {
+        if (sender != address(this) || j != ab) {
             return 0;
         }
 
-        if (af.y > 0) {
-            return af.y;
+        if (af.aa > 0) {
+            return af.aa;
         } else {
-            return a(l, w, r, ae);
+            return a(l, w, s, ab);
         }
     }
 
@@ -128,13 +128,13 @@ contract MidasRedemptionVaultGateway is ReentrancyGuardTrait, IMidasRedemptionVa
     function a(
         uint256 l,
         uint256 w,
-        uint256 r,
-        address ae
+        uint256 s,
+        address ab
     ) internal view returns (uint256) {
-        uint256 v = (l * w) / r;
+        uint256 v = (l * w) / s;
 
-        uint256 aa = 10 ** IERC20Metadata(ae).ad();
+        uint256 y = 10 ** IERC20Metadata(ab).ae();
 
-        return v * aa / 1e18;
+        return v * y / 1e18;
     }
 }

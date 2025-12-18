@@ -2,58 +2,58 @@ pragma solidity ^0.4.0;
 
  contract Lotto {
 
-     uint constant public l = 6800;
+     uint constant public j = 6800;
 
 
-     uint constant public u = 100000000000000000;
+     uint constant public r = 100000000000000000;
 
 
-     uint constant public r = 5000000000000000000;
+     uint constant public s = 5000000000000000000;
 
-     function f() constant returns(uint){ return l; }
-     function k() constant returns(uint){ return u; }
+     function g() constant returns(uint){ return j; }
+     function k() constant returns(uint){ return r; }
 
 
      struct Round {
-         address[] ae;
+         address[] ab;
          uint ai;
-         uint o;
+         uint n;
          mapping(uint=>bool) aa;
-         mapping(address=>uint) d;
+         mapping(address=>uint) c;
      }
-     mapping(uint => Round) ab;
+     mapping(uint => Round) ae;
 
 
      function m() constant returns (uint){
 
 
-         return block.number/l;
+         return block.number/j;
      }
 
-     function s(uint w,uint t) constant returns (bool){
+     function u(uint w,uint t) constant returns (bool){
 
 
-         return ab[w].aa[t];
+         return ae[w].aa[t];
      }
 
      function i(uint w, uint t) constant returns(address){
 
 
-         var c = a(w,t);
+         var d = b(w,t);
 
-         if(c>block.number)
+         if(d>block.number)
              return;
 
 
-         var g = j(c);
-         var e = g%ab[w].o;
+         var f = l(d);
+         var e = f%ae[w].n;
 
 
          var q = uint256(0);
 
-         for(var x = 0; x<ab[w].ae.length; x++){
-             var ag = ab[w].ae[x];
-             q+=ab[w].d[ag];
+         for(var x = 0; x<ae[w].ab.length; x++){
+             var ag = ae[w].ab[x];
+             q+=ae[w].c[ag];
 
              if(q>e){
                  return ag;
@@ -61,69 +61,69 @@ pragma solidity ^0.4.0;
          }
      }
 
-     function a(uint w,uint t) constant returns (uint){
-         return ((w+1)*l)+t;
+     function b(uint w,uint t) constant returns (uint){
+         return ((w+1)*j)+t;
      }
 
      function h(uint w) constant returns(uint){
-         var n = ab[w].ai/r;
+         var o = ae[w].ai/s;
 
-         if(ab[w].ai%r>0)
-             n++;
+         if(ae[w].ai%s>0)
+             o++;
 
-         return n;
+         return o;
      }
 
-     function z(uint w) constant returns(uint){
-         return ab[w].ai/h(w);
+     function y(uint w) constant returns(uint){
+         return ae[w].ai/h(w);
      }
 
      function ah(uint w, uint t){
 
-         var n = h(w);
+         var o = h(w);
 
-         if(t>=n)
+         if(t>=o)
              return;
 
-         var c = a(w,t);
+         var d = b(w,t);
 
-         if(c>block.number)
+         if(d>block.number)
              return;
 
-         if(ab[w].aa[t])
+         if(ae[w].aa[t])
              return;
 
 
-         var ac = i(w,t);
-         var ad = z(w);
+         var ad = i(w,t);
+         var ac = y(w);
 
-         ac.send(ad);
+         ad.send(ac);
 
-         ab[w].aa[t] = true;
+         ae[w].aa[t] = true;
 
      }
 
-     function j(uint v) constant returns(uint){
+     function l(uint v) constant returns(uint){
          return uint(block.blockhash(v));
      }
 
-     function y(uint w,address ag) constant returns (address[]){
-         return ab[w].ae;
+     function z(uint w,address ag) constant returns (address[]){
+         return ae[w].ab;
      }
 
-     function b(uint w,address ag) constant returns (uint){
-         return ab[w].d[ag];
+     function a(uint w,address ag) constant returns (uint){
+         return ae[w].c[ag];
      }
 
      function af(uint w) constant returns(uint){
-         return ab[w].ai;
+         return ae[w].ai;
      }
 
      function() {
 
 
          var w = m();
-         var value = msg.value-(msg.value%u);
+         var value = msg.value-(msg.value%r);
 
          if(value==0) return;
 
@@ -132,19 +132,19 @@ pragma solidity ^0.4.0;
          }
 
 
-         var o = value/u;
-         ab[w].o+=o;
+         var n = value/r;
+         ae[w].n+=n;
 
-         if(ab[w].d[msg.sender]==0){
-             var p = ab[w].ae.length++;
-             ab[w].ae[p] = msg.sender;
+         if(ae[w].c[msg.sender]==0){
+             var p = ae[w].ab.length++;
+             ae[w].ab[p] = msg.sender;
          }
 
-         ab[w].d[msg.sender]+=o;
-         ab[w].o+=o;
+         ae[w].c[msg.sender]+=n;
+         ae[w].n+=n;
 
 
-         ab[w].ai+=value;
+         ae[w].ai+=value;
 
 
      }

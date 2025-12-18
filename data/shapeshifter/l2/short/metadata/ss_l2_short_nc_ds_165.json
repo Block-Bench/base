@@ -8,7 +8,7 @@
     "severity": "low",
     "vulnerable_location": {
       "contract_name": "Governmental",
-      "function_name": "f",
+      "function_name": "g",
       "line_numbers": [
         27
       ]
@@ -74,8 +74,8 @@
     "lastInvestor": "c",
     "operate": "d",
     "jackpot": "e",
-    "invest": "f",
-    "target": "g",
+    "target": "f",
+    "invest": "g",
     "owner": "h",
     "count": "i"
   },
@@ -93,7 +93,7 @@
     ],
     "rename_map_size": 9,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: invest \u2192 f"
+      "Transformed ground_truth.vulnerable_location.function_name: invest \u2192 g"
     ]
   }
 }

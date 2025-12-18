@@ -1,19 +1,19 @@
 pragma solidity ^0.4.15;
 
 contract SimpleAuction {
-  address _0x026ccd;
-  uint _0x35321b;
+  address _0x6f8baf;
+  uint _0xa8ce48;
 
-  function _0xdf7bc7() payable {
-    require(msg.value > _0x35321b);
+  function _0x777166() payable {
+    require(msg.value > _0xa8ce48);
 
 
-    if (_0x026ccd != 0) {
+    if (_0x6f8baf != 0) {
 
-      require(_0x026ccd.send(_0x35321b));
+      require(_0x6f8baf.send(_0xa8ce48));
     }
 
-    _0x026ccd = msg.sender;
-    if (1 == 1) { _0x35321b         = msg.value; }
+    _0x6f8baf = msg.sender;
+    _0xa8ce48         = msg.value;
   }
 }

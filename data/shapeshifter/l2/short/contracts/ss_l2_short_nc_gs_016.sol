@@ -18,42 +18,42 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
 
 
     bytes4 internal constant LOCK_TO_VOTE_INTERFACE_ID =
-        this.d.selector ^ this.z.selector;
+        this.e.selector ^ this.z.selector;
 
 
-    bytes32 public constant CREATE_PROPOSAL_PERMISSION_ID = ax("CREATE_PROPOSAL_PERMISSION");
+    bytes32 public constant CREATE_PROPOSAL_PERMISSION_ID = ba("CREATE_PROPOSAL_PERMISSION");
 
 
-    bytes32 public constant LOCK_MANAGER_PERMISSION_ID = ax("LOCK_MANAGER_PERMISSION");
+    bytes32 public constant LOCK_MANAGER_PERMISSION_ID = ba("LOCK_MANAGER_PERMISSION");
 
-    event VoteCleared(uint256 au, address bs);
+    event VoteCleared(uint256 aq, address bo);
 
-    error VoteRemovalForbidden(uint256 au, address bs);
+    error VoteRemovalForbidden(uint256 aq, address bo);
 
 
-    function as(
-        IDAO bw,
-        ILockManager af,
-        VotingSettings calldata q,
-        IPlugin.TargetConfig calldata ab,
-        bytes calldata w
-    ) external a ac(1) {
-        __MajorityVotingBase_init(bw, q, ab, w);
-        __LockToGovernBase_init(af);
+    function av(
+        IDAO bt,
+        ILockManager ag,
+        VotingSettings calldata s,
+        IPlugin.TargetConfig calldata ad,
+        bytes calldata p
+    ) external a ab(1) {
+        __MajorityVotingBase_init(bt, s, ad, p);
+        __LockToGovernBase_init(ag);
 
-        emit MembershipContractAnnounced({l: address(af.bo())});
+        emit MembershipContractAnnounced({l: address(ag.br())});
     }
 
 
-    function j(bytes4 ag)
+    function k(bytes4 af)
         public
         view
         virtual
         override(MajorityVotingBase, LockToGovernBase)
         returns (bool)
     {
-        return ag == LOCK_TO_VOTE_INTERFACE_ID || ag == type(ILockToVote).an
-            || super.j(ag);
+        return af == LOCK_TO_VOTE_INTERFACE_ID || af == type(ILockToVote).ah
+            || super.k(af);
     }
 
 
@@ -63,16 +63,16 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
 
 
     function z(
-        bytes calldata az,
-        Action[] memory bg,
-        uint64 av,
-        uint64 bf,
-        bytes memory bq
-    ) external bt(CREATE_PROPOSAL_PERMISSION_ID) returns (uint256 au) {
+        bytes calldata ax,
+        Action[] memory be,
+        uint64 au,
+        uint64 bd,
+        bytes memory bs
+    ) external bu(CREATE_PROPOSAL_PERMISSION_ID) returns (uint256 aq) {
         uint256 m;
 
-        if (bq.length != 0) {
-            (m) = abi.bm(bq, (uint256));
+        if (bs.length != 0) {
+            (m) = abi.bl(bs, (uint256));
         }
 
         if (i() == 0) {
@@ -80,189 +80,189 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
         }
 
 
-        (av, bf) = e(av, bf);
+        (au, bd) = c(au, bd);
 
-        au = k(ax(abi.bl(bg, az)));
+        aq = j(ba(abi.bm(be, ax)));
 
-        if (v(au)) {
-            revert ProposalAlreadyExists(au);
+        if (v(aq)) {
+            revert ProposalAlreadyExists(aq);
         }
 
 
-        Proposal storage ba = bb[au];
+        Proposal storage az = ay[aq];
 
-        ba.at.ar = ar();
-        ba.at.f = f();
-        ba.at.aw = av;
-        ba.at.bh = bf;
-        ba.at.g = g();
-        ba.at.n = n();
+        az.at.as = as();
+        az.at.g = g();
+        az.at.aw = au;
+        az.at.bh = bd;
+        az.at.f = f();
+        az.at.n = n();
 
-        ba.ae = r();
+        az.ae = t();
 
 
         if (m != 0) {
-            ba.p = m;
+            az.w = m;
         }
 
-        for (uint256 i; i < bg.length;) {
-            ba.bj.push(bg[i]);
+        for (uint256 i; i < be.length;) {
+            az.bk.push(be[i]);
             unchecked {
                 ++i;
             }
         }
 
-        emit ProposalCreated(au, aq(), av, bf, az, bg, m);
+        emit ProposalCreated(aq, ar(), au, bd, ax, be, m);
 
-        al.x(au);
+        an.x(aq);
     }
 
 
-    function bk(uint256 ak, address bn, VoteOption ah) public view returns (bool) {
-        if (!v(ak)) {
-            revert NonexistentProposal(ak);
+    function bj(uint256 al, address bn, VoteOption ao) public view returns (bool) {
+        if (!v(al)) {
+            revert NonexistentProposal(al);
         }
 
-        Proposal storage ba = bb[ak];
-        return bd(ba, bn, ah, al.o(bn));
+        Proposal storage az = ay[al];
+        return bg(az, bn, ao, an.o(bn));
     }
 
 
-    function bv(uint256 ak, address bn, VoteOption ah, uint256 s)
+    function bv(uint256 al, address bn, VoteOption ao, uint256 u)
         public
         override
-        bt(LOCK_MANAGER_PERMISSION_ID)
+        bu(LOCK_MANAGER_PERMISSION_ID)
     {
-        Proposal storage ba = bb[ak];
+        Proposal storage az = ay[al];
 
-        if (!bd(ba, bn, ah, s)) {
-            revert VoteCastForbidden(ak, bn);
+        if (!bg(az, bn, ao, u)) {
+            revert VoteCastForbidden(al, bn);
         }
 
 
-        if (ah == ba.bp[bn].ap) {
+        if (ao == az.bq[bn].ap) {
 
-            if (s == ba.bp[bn].aj) return;
+            if (u == az.bq[bn].am) return;
 
 
-            uint256 bu = s - ba.bp[bn].aj;
-            ba.bp[bn].aj = s;
+            uint256 bw = u - az.bq[bn].am;
+            az.bq[bn].am = u;
 
-            if (ba.bp[bn].ap == VoteOption.Yes) {
-                ba.br.bx += bu;
-            } else if (ba.bp[bn].ap == VoteOption.No) {
-                ba.br.bz += bu;
+            if (az.bq[bn].ap == VoteOption.Yes) {
+                az.bp.bx += bw;
+            } else if (az.bq[bn].ap == VoteOption.No) {
+                az.bp.bz += bw;
             } else {
 
-                ba.br.bi += bu;
+                az.bp.bi += bw;
             }
         } else {
 
 
-            if (ba.bp[bn].aj > 0) {
+            if (az.bq[bn].am > 0) {
 
-                if (ba.bp[bn].ap == VoteOption.Yes) {
-                    ba.br.bx -= ba.bp[bn].aj;
-                } else if (ba.bp[bn].ap == VoteOption.No) {
-                    ba.br.bz -= ba.bp[bn].aj;
+                if (az.bq[bn].ap == VoteOption.Yes) {
+                    az.bp.bx -= az.bq[bn].am;
+                } else if (az.bq[bn].ap == VoteOption.No) {
+                    az.bp.bz -= az.bq[bn].am;
                 } else {
 
-                    ba.br.bi -= ba.bp[bn].aj;
+                    az.bp.bi -= az.bq[bn].am;
                 }
             }
 
 
-            if (ah == VoteOption.Yes) {
-                ba.br.bx += s;
-            } else if (ah == VoteOption.No) {
-                ba.br.bz += s;
+            if (ao == VoteOption.Yes) {
+                az.bp.bx += u;
+            } else if (ao == VoteOption.No) {
+                az.bp.bz += u;
             } else {
 
-                ba.br.bi += s;
+                az.bp.bi += u;
             }
-            ba.bp[bn].ap = ah;
-            ba.bp[bn].aj = s;
+            az.bq[bn].ap = ao;
+            az.bq[bn].am = u;
         }
 
-        emit VoteCast(ak, bn, ah, s);
+        emit VoteCast(al, bn, ao, u);
 
-        if (ba.at.ar == VotingMode.EarlyExecution) {
-            c(ak, aq());
+        if (az.at.as == VotingMode.EarlyExecution) {
+            d(al, ar());
         }
     }
 
 
-    function ay(uint256 ak, address bn) external bt(LOCK_MANAGER_PERMISSION_ID) {
-        Proposal storage ba = bb[ak];
-        if (!u(ba)) {
-            revert VoteRemovalForbidden(ak, bn);
-        } else if (ba.at.ar != VotingMode.VoteReplacement) {
-            revert VoteRemovalForbidden(ak, bn);
-        } else if (ba.bp[bn].aj == 0) {
+    function bb(uint256 al, address bn) external bu(LOCK_MANAGER_PERMISSION_ID) {
+        Proposal storage az = ay[al];
+        if (!q(az)) {
+            revert VoteRemovalForbidden(al, bn);
+        } else if (az.at.as != VotingMode.VoteReplacement) {
+            revert VoteRemovalForbidden(al, bn);
+        } else if (az.bq[bn].am == 0) {
 
             return;
         }
 
 
-        if (ba.bp[bn].ap == VoteOption.Yes) {
-            ba.br.bx -= ba.bp[bn].aj;
-        } else if (ba.bp[bn].ap == VoteOption.No) {
-            ba.br.bz -= ba.bp[bn].aj;
+        if (az.bq[bn].ap == VoteOption.Yes) {
+            az.bp.bx -= az.bq[bn].am;
+        } else if (az.bq[bn].ap == VoteOption.No) {
+            az.bp.bz -= az.bq[bn].am;
         }
 
-        else if (ba.bp[bn].ap == VoteOption.Abstain) {
-            ba.br.bi -= ba.bp[bn].aj;
+        else if (az.bq[bn].ap == VoteOption.Abstain) {
+            az.bp.bi -= az.bq[bn].am;
         }
-        ba.bp[bn].aj = 0;
+        az.bq[bn].am = 0;
 
-        emit VoteCleared(ak, bn);
+        emit VoteCleared(al, bn);
     }
 
 
-    function y(uint256 ak) external view returns (bool) {
-        Proposal storage ba = bb[ak];
-        return u(ba);
+    function y(uint256 al) external view returns (bool) {
+        Proposal storage az = ay[al];
+        return q(az);
     }
 
 
-    function d() public view override(ILockToGovernBase, MajorityVotingBase) returns (uint256) {
-        return MajorityVotingBase.d();
+    function e() public view override(ILockToGovernBase, MajorityVotingBase) returns (uint256) {
+        return MajorityVotingBase.e();
     }
 
 
     function i() public view override returns (uint256) {
-        return IERC20(al.bo()).ao();
+        return IERC20(an.br()).ai();
     }
 
 
-    function t(uint256 ak, address bn) public view returns (uint256) {
-        return bb[ak].bp[bn].aj;
+    function r(uint256 al, address bn) public view returns (uint256) {
+        return ay[al].bq[bn].am;
     }
 
 
-    function bd(Proposal storage ba, address bn, VoteOption ah, uint256 s)
+    function bg(Proposal storage az, address bn, VoteOption ao, uint256 u)
         internal
         view
         returns (bool)
     {
-        uint256 h = ba.bp[bn].aj;
+        uint256 h = az.bq[bn].am;
 
 
-        if (!u(ba)) {
+        if (!q(az)) {
             return false;
-        } else if (ah == VoteOption.None) {
+        } else if (ao == VoteOption.None) {
             return false;
         }
 
-        else if (ba.at.ar != VotingMode.VoteReplacement) {
+        else if (az.at.as != VotingMode.VoteReplacement) {
 
-            if (s <= h) {
+            if (u <= h) {
                 return false;
             }
 
             else if (
-                ba.bp[bn].ap != VoteOption.None
-                    && ah != ba.bp[bn].ap
+                az.bq[bn].ap != VoteOption.None
+                    && ao != az.bq[bn].ap
             ) {
                 return false;
             }
@@ -270,11 +270,11 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
 
         else {
 
-            if (s == 0 || s < h) {
+            if (u == 0 || u < h) {
                 return false;
             }
 
-            else if (s == h && ah == ba.bp[bn].ap) {
+            else if (u == h && ao == az.bq[bn].ap) {
                 return false;
             }
         }
@@ -282,21 +282,21 @@ contract LockToVotePlugin is ILockToVote, MajorityVotingBase, LockToGovernBase {
         return true;
     }
 
-    function c(uint256 ak, address am) internal {
-        if (!ai(ak)) {
+    function d(uint256 al, address aj) internal {
+        if (!ak(al)) {
             return;
-        } else if (!by().aa(address(this), am, EXECUTE_PROPOSAL_PERMISSION_ID, bc())) {
+        } else if (!by().aa(address(this), aj, EXECUTE_PROPOSAL_PERMISSION_ID, bf())) {
             return;
         }
 
-        be(ak);
+        bc(al);
     }
 
-    function be(uint256 ak) internal override {
-        super.be(ak);
+    function bc(uint256 al) internal override {
+        super.bc(al);
 
 
-        al.ad(ak);
+        an.ac(al);
     }
 
 

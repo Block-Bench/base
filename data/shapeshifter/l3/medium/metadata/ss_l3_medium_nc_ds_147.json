@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Lottery",
-      "function_name": "_0x220d45",
+      "function_name": "_0xb1db28",
       "line_numbers": []
     },
     "root_cause": "Weak randomness - predictable random number generation at line(s) 38",
@@ -70,14 +70,14 @@
   "derived_from": "nc_ds_147",
   "original_id": "ds_147",
   "identifier_mappings": {
-    "blockNumber": "_0xfae150",
-    "betAmount": "_0xf9709c",
-    "organizer": "_0x63afe4",
-    "makeBet": "_0x220d45",
-    "destroy": "_0x5b2986",
-    "getBets": "_0x5436e5",
-    "bets": "_0x00af80",
-    "won": "_0x4caef7"
+    "blockNumber": "_0x923b18",
+    "organizer": "_0xdbcfed",
+    "betAmount": "_0x351d6c",
+    "destroy": "_0x584cbe",
+    "getBets": "_0xa42199",
+    "makeBet": "_0xb1db28",
+    "bets": "_0x79eb70",
+    "won": "_0x6957ca"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -89,7 +89,7 @@
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: makeBet \u2192 _0x220d45"
+      "Transformed ground_truth.vulnerable_location.function_name: makeBet \u2192 _0xb1db28"
     ]
   }
 }

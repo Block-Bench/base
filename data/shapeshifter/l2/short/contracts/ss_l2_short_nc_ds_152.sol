@@ -5,7 +5,7 @@ contract NumberRegistry {
     uint d = 0;
     uint[] array;
 
-    function b(uint value,uint f) public {
+    function c(uint value,uint f) public {
 
         for(uint i=0;i<f;i++) {
             if(d == array.length) {
@@ -28,7 +28,7 @@ contract NumberRegistry {
         d = 0;
     }
 
-    function c() public view returns(uint) {
+    function b() public view returns(uint) {
         return d;
     }
 

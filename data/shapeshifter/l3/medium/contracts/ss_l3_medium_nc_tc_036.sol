@@ -1,115 +1,115 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0x61a1dd, uint256 _0x12430d) external returns (bool);
+    function transfer(address _0xc1eb6c, uint256 _0x418925) external returns (bool);
 
-    function _0xd1f704(
+    function _0x62e987(
         address from,
-        address _0x61a1dd,
-        uint256 _0x12430d
+        address _0xc1eb6c,
+        uint256 _0x418925
     ) external returns (bool);
 
-    function _0xf27774(address _0x7ce23c) external view returns (uint256);
+    function _0x508333(address _0x9e2c9a) external view returns (uint256);
 
-    function _0x8ccb30(address _0x5c9cae, uint256 _0x12430d) external returns (bool);
+    function _0x7f2ab2(address _0xac76ac, uint256 _0x418925) external returns (bool);
 }
 
 interface IBorrowerOperations {
-    function _0x1ccf95(address _0xde6ea6, bool _0x601da8) external;
+    function _0xa355b4(address _0xc1866a, bool _0xc8752d) external;
 
-    function _0x287ac0(
-        address _0x3f01e1,
-        address _0x7ce23c,
-        uint256 _0xabe17f,
-        uint256 _0x17d9a0,
-        uint256 _0xc15cdd,
-        address _0x9d7ff4,
-        address _0xeda20e
+    function _0x31c1d2(
+        address _0xd528af,
+        address _0x9e2c9a,
+        uint256 _0x26e4f5,
+        uint256 _0xd6f117,
+        uint256 _0x82ce6a,
+        address _0x275e51,
+        address _0xfbdfa5
     ) external;
 
-    function _0xf6238e(address _0x3f01e1, address _0x7ce23c) external;
+    function _0xab596d(address _0xd528af, address _0x9e2c9a) external;
 }
 
 interface ITroveManager {
-    function _0x627663(
-        address _0x0b158f
-    ) external view returns (uint256 _0x80ff15, uint256 _0x188ab2);
+    function _0xcb34cd(
+        address _0x4a89a0
+    ) external view returns (uint256 _0x094d76, uint256 _0x910439);
 
-    function _0x17ea1a(address _0x0b158f) external;
+    function _0x8db8e2(address _0x4a89a0) external;
 }
 
 contract MigrateTroveZap {
-    IBorrowerOperations public _0x0f36fe;
-    address public _0x654b36;
-    address public _0x26ad84;
+    IBorrowerOperations public _0x31972e;
+    address public _0x7303db;
+    address public _0x945d80;
 
-    constructor(address _0xcb03fd, address _0x7779d5, address _0xc4ce7d) {
-        _0x0f36fe = _0xcb03fd;
-        _0x654b36 = _0x7779d5;
-        _0x26ad84 = _0xc4ce7d;
+    constructor(address _0xb23c63, address _0x1ba207, address _0xd45a6c) {
+        _0x31972e = _0xb23c63;
+        if (gasleft() > 0) { _0x7303db = _0x1ba207; }
+        _0x945d80 = _0xd45a6c;
     }
 
-    function _0x703180(
-        address _0x3f01e1,
-        address _0x7ce23c,
-        uint256 _0x71b6e9,
-        uint256 _0x7d7390,
-        uint256 _0x1bf859,
-        address _0x69a402,
-        address _0x49eaf7
+    function _0x27aec3(
+        address _0xd528af,
+        address _0x9e2c9a,
+        uint256 _0x24c91e,
+        uint256 _0x18edea,
+        uint256 _0x70f7cf,
+        address _0xd2868b,
+        address _0x95e61b
     ) external {
-        IERC20(_0x654b36)._0xd1f704(
+        IERC20(_0x7303db)._0x62e987(
             msg.sender,
             address(this),
-            _0x7d7390
+            _0x18edea
         );
 
-        IERC20(_0x654b36)._0x8ccb30(address(_0x0f36fe), _0x7d7390);
+        IERC20(_0x7303db)._0x7f2ab2(address(_0x31972e), _0x18edea);
 
-        _0x0f36fe._0x287ac0(
-            _0x3f01e1,
-            _0x7ce23c,
-            _0x71b6e9,
-            _0x7d7390,
-            _0x1bf859,
-            _0x69a402,
-            _0x49eaf7
+        _0x31972e._0x31c1d2(
+            _0xd528af,
+            _0x9e2c9a,
+            _0x24c91e,
+            _0x18edea,
+            _0x70f7cf,
+            _0xd2868b,
+            _0x95e61b
         );
 
-        IERC20(_0x26ad84).transfer(msg.sender, _0x1bf859);
+        IERC20(_0x945d80).transfer(msg.sender, _0x70f7cf);
     }
 
-    function _0xa246fb(address _0x3f01e1, address _0x7ce23c) external {
-        _0x0f36fe._0xf6238e(_0x3f01e1, _0x7ce23c);
+    function _0x1e0114(address _0xd528af, address _0x9e2c9a) external {
+        _0x31972e._0xab596d(_0xd528af, _0x9e2c9a);
     }
 }
 
 contract BorrowerOperations {
-    mapping(address => mapping(address => bool)) public _0xcd7948;
-    ITroveManager public _0x3f01e1;
+    mapping(address => mapping(address => bool)) public _0xc94fe0;
+    ITroveManager public _0xd528af;
 
-    function _0x1ccf95(address _0xde6ea6, bool _0x601da8) external {
-        _0xcd7948[msg.sender][_0xde6ea6] = _0x601da8;
+    function _0xa355b4(address _0xc1866a, bool _0xc8752d) external {
+        _0xc94fe0[msg.sender][_0xc1866a] = _0xc8752d;
     }
 
-    function _0x287ac0(
-        address _0xa6c730,
-        address _0x7ce23c,
-        uint256 _0xabe17f,
-        uint256 _0x17d9a0,
-        uint256 _0xc15cdd,
-        address _0x9d7ff4,
-        address _0xeda20e
+    function _0x31c1d2(
+        address _0xcd1c10,
+        address _0x9e2c9a,
+        uint256 _0x26e4f5,
+        uint256 _0xd6f117,
+        uint256 _0x82ce6a,
+        address _0x275e51,
+        address _0xfbdfa5
     ) external {
         require(
-            msg.sender == _0x7ce23c || _0xcd7948[_0x7ce23c][msg.sender],
+            msg.sender == _0x9e2c9a || _0xc94fe0[_0x9e2c9a][msg.sender],
             "Not authorized"
         );
     }
 
-    function _0xf6238e(address _0xa6c730, address _0x7ce23c) external {
+    function _0xab596d(address _0xcd1c10, address _0x9e2c9a) external {
         require(
-            msg.sender == _0x7ce23c || _0xcd7948[_0x7ce23c][msg.sender],
+            msg.sender == _0x9e2c9a || _0xc94fe0[_0x9e2c9a][msg.sender],
             "Not authorized"
         );
     }

@@ -96,19 +96,19 @@
   "derived_from": "nc_tc_030",
   "original_id": "tc_030",
   "identifier_mappings": {
-    "removeLiquidity": "_0x980b46",
-    "liquidityUnits": "_0xe28fb2",
-    "addLiquidity": "_0x408983",
-    "tokenAmount": "_0xaf5ed1",
-    "outputToken": "_0xedc399",
-    "totalUnits": "_0x58e274",
-    "tokenRatio": "_0xc598f1",
-    "baseAmount": "_0xb93bc5",
-    "outputBase": "_0x39be9a",
-    "inputToken": "_0xafdbbb",
-    "inputBase": "_0xa73a63",
-    "baseRatio": "_0xadecbb",
-    "units": "_0x71962b"
+    "removeLiquidity": "_0xe3ae20",
+    "liquidityUnits": "_0x9872bf",
+    "addLiquidity": "_0x5c2dea",
+    "outputToken": "_0xf62dac",
+    "tokenAmount": "_0x5b91df",
+    "baseAmount": "_0x82d578",
+    "tokenRatio": "_0x32bb7d",
+    "inputToken": "_0x6da71d",
+    "totalUnits": "_0xc473c3",
+    "outputBase": "_0x911f9c",
+    "baseRatio": "_0x9c1d05",
+    "inputBase": "_0x5bc462",
+    "units": "_0xc8cd0e"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -116,7 +116,8 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 13 identifiers using hex style"
+      "Renamed 13 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 13,
     "metadata_changes": []

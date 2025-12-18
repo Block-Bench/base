@@ -67,8 +67,8 @@
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
     "_target_contract": "a",
-    "operationActive": "b",
-    "target_contract": "c",
+    "target_contract": "b",
+    "operationActive": "c",
     "launch_handler": "d",
     "get_money": "e",
     "deposit": "f",

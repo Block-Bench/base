@@ -69,8 +69,8 @@
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
     "initialized": "a",
-    "count": "b",
-    "input": "c",
+    "input": "b",
+    "count": "c",
     "init": "d",
     "run": "e"
   },

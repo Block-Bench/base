@@ -11,17 +11,17 @@ contract AirDropContract{
         _;
     }
 
-    function transfer(address a,address[] e,uint[] f)
+    function transfer(address a,address[] e,uint[] g)
         public
         b(a)
         returns (bool){
 
         require(e.length > 0);
-        require(f.length > 0);
-        require(e.length == f.length);
-        bytes4 g = bytes4(c("transferFrom(address,address,uint256)"));
+        require(g.length > 0);
+        require(e.length == g.length);
+        bytes4 f = bytes4(c("transferFrom(address,address,uint256)"));
         for(uint i = 0 ; i < e.length; i++){
-            a.call(g, msg.sender, e[i], f[i]);
+            a.call(f, msg.sender, e[i], g[i]);
         }
         return true;
     }

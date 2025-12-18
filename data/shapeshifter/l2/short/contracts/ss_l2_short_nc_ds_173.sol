@@ -2,107 +2,107 @@ pragma solidity ^0.4.11;
 
 contract Owned {
     function Owned() {
-        n = msg.sender;
+        o = msg.sender;
     }
 
-    address public n;
+    address public o;
 
 
-    modifier f { if (msg.sender == n) _; }
+    modifier e { if (msg.sender == o) _; }
 
-    function c(address g) f {
-        n = g;
+    function c(address h) e {
+        o = h;
     }
 
 
-    function i(address u, uint l, bytes q) f {
-        u.call.value(l)(q);
+    function i(address v, uint j, bytes p) e {
+        v.call.value(j)(p);
     }
 }
 
 contract Token {
     function transfer(address, uint) returns(bool);
-    function h(address) constant returns (uint);
+    function f(address) constant returns (uint);
 }
 
 contract TokenSender is Owned {
-    Token public p;
+    Token public n;
     uint public a;
 
-    uint public v;
+    uint public u;
 
     struct Transfer {
-        address t;
-        uint j;
+        address r;
+        uint k;
     }
 
-    Transfer[] public e;
+    Transfer[] public g;
 
-    function TokenSender(address m) {
-        p = Token(m);
+    function TokenSender(address l) {
+        n = Token(l);
     }
 
 
     uint constant D160 = 0x0010000000000000000000000000000000000000000;
 
 
-    function r(uint[] data) f {
+    function s(uint[] data) e {
 
 
-        if (v>0) throw;
+        if (u>0) throw;
 
-        uint x;
-        uint k = e.length;
-        e.length = e.length + data.length;
+        uint w;
+        uint m = g.length;
+        g.length = g.length + data.length;
         for (uint i = 0; i < data.length; i++ ) {
-            address t = address( data[i] & (D160-1) );
-            uint j = data[i] / D160;
+            address r = address( data[i] & (D160-1) );
+            uint k = data[i] / D160;
 
-            e[k + i].t = t;
-            e[k + i].j = j;
-            x += j;
+            g[m + i].r = r;
+            g[m + i].k = k;
+            w += k;
         }
-        a += x;
+        a += w;
     }
 
 
-    function w() f {
-        if (e.length == 0) return;
+    function x() e {
+        if (g.length == 0) return;
 
 
-        uint o = v;
+        uint q = u;
 
-        v = e.length;
+        u = g.length;
 
-        if ((o == 0 ) && ( p.h(this) != a)) throw;
+        if ((q == 0 ) && ( n.f(this) != a)) throw;
 
-        while ((o<e.length) && ( gas() > 150000 )) {
-            uint j = e[o].j;
-            address t = e[o].t;
-            if (j > 0) {
-                if (!p.transfer(t, e[o].j)) throw;
+        while ((q<g.length) && ( gas() > 150000 )) {
+            uint k = g[q].k;
+            address r = g[q].r;
+            if (k > 0) {
+                if (!n.transfer(r, g[q].k)) throw;
             }
-            o ++;
+            q ++;
         }
 
 
-        v = o;
+        u = q;
     }
 
 
     function b() constant returns (bool) {
-        if (e.length == 0) return false;
-        if (v < e.length) return false;
+        if (g.length == 0) return false;
+        if (u < g.length) return false;
         return true;
     }
 
     function d() constant returns (uint) {
-        return e.length;
+        return g.length;
     }
 
-    function gas() internal constant returns (uint s) {
+    function gas() internal constant returns (uint t) {
         assembly {
-            s:= gas
+            t:= gas
         }
     }
 

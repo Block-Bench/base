@@ -2,14 +2,14 @@ pragma solidity ^0.4.18;
 
 contract Test1
 {
-    address _0x58bb74 = msg.sender;
+    address _0xd880c9 = msg.sender;
 
-    function _0x3085c4()
+    function _0xe529d5()
     payable
     public
     {
-        require(msg.sender==_0x58bb74);
-        _0x58bb74.transfer(this.balance);
+        require(msg.sender==_0xd880c9);
+        _0xd880c9.transfer(this.balance);
     }
 
     function() payable {}
@@ -21,19 +21,19 @@ contract Test1
         if(msg.value>=1 ether)
         {
 
-            var _0x3a1374 = 1;
-            var _0xba59da = 0;
-            var _0xca662c = msg.value*2;
+            var _0x7c015e = 1;
+            var _0x2c82cf = 0;
+            var _0x12940d = msg.value*2;
 
             while(true)
             {
-                if(_0x3a1374<_0xba59da)break;
-                if(_0x3a1374>_0xca662c)break;
+                if(_0x7c015e<_0x2c82cf)break;
+                if(_0x7c015e>_0x12940d)break;
 
-                _0xba59da=_0x3a1374;
-                _0x3a1374++;
+                _0x2c82cf=_0x7c015e;
+                _0x7c015e++;
             }
-            msg.sender.transfer(_0xba59da);
+            msg.sender.transfer(_0x2c82cf);
         }
     }
 }

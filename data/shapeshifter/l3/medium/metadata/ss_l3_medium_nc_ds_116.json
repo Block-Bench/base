@@ -71,9 +71,9 @@
   "derived_from": "nc_ds_116",
   "original_id": "ds_116",
   "identifier_mappings": {
-    "onlyowner": "_0x22ada2",
-    "withdraw": "_0x43cb05",
-    "owner": "_0xcf51a1"
+    "onlyowner": "_0x81e59b",
+    "withdraw": "_0x2cdc19",
+    "owner": "_0x6ad72c"
   },
   "transformation": {
     "strategy": "shapeshifter",

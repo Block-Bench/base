@@ -3,169 +3,169 @@ pragma solidity ^0.4.0;
  contract LuckyDoubler {
 
 
-    address private _0x172312;
+    address private _0x51a658;
 
 
     uint private balance = 0;
-    uint private _0xe38873 = 5;
-    uint private _0x35e640 = 125;
+    uint private _0xe86443 = 5;
+    uint private _0x9798bc = 125;
 
-    mapping (address => User) private _0xccd240;
-    Entry[] private _0xda78ab;
-    uint[] private _0x4aad39;
+    mapping (address => User) private _0xa51b23;
+    Entry[] private _0x6d3382;
+    uint[] private _0x79eb22;
 
 
     function LuckyDoubler() {
-        _0x172312 = msg.sender;
+        _0x51a658 = msg.sender;
     }
 
-    modifier _0x1e2a14 { if (msg.sender == _0x172312) _; }
+    modifier _0x280b83 { if (msg.sender == _0x51a658) _; }
 
     struct User {
-        address _0x4aadd5;
-        uint _0x02c4ad;
-        uint _0x2d28cc;
+        address _0x823504;
+        uint _0x1757ab;
+        uint _0xae7466;
     }
 
     struct Entry {
-        address _0x9538bc;
-        uint _0x9b6b6e;
-        uint _0x73dd94;
-        bool _0xe04490;
+        address _0xc07ecc;
+        uint _0xaf4e48;
+        uint _0xca5c63;
+        bool _0x376693;
     }
 
 
     function() {
-        _0x0af701();
+        _0xe46ece();
     }
 
-    function _0x0af701() private{
+    function _0xe46ece() private{
 
         if (msg.value < 1 ether) {
              msg.sender.send(msg.value);
             return;
         }
 
-        _0x7af29f();
+        _0x0f0cf5();
     }
 
-    function _0x7af29f() private {
+    function _0x0f0cf5() private {
 
 
-        uint _0x35f74b = 1 ether;
+        uint _0x436637 = 1 ether;
 
         if (msg.value > 1 ether) {
 
         	msg.sender.send(msg.value - 1 ether);
-        	_0x35f74b = 1 ether;
+        	_0x436637 = 1 ether;
         }
 
 
-        if (_0xccd240[msg.sender]._0x4aadd5 == address(0))
+        if (_0xa51b23[msg.sender]._0x823504 == address(0))
         {
-            _0xccd240[msg.sender]._0x4aadd5 = msg.sender;
-            _0xccd240[msg.sender]._0x02c4ad = 0;
-            _0xccd240[msg.sender]._0x2d28cc = 0;
+            _0xa51b23[msg.sender]._0x823504 = msg.sender;
+            _0xa51b23[msg.sender]._0x1757ab = 0;
+            _0xa51b23[msg.sender]._0xae7466 = 0;
         }
 
 
-        _0xda78ab.push(Entry(msg.sender, _0x35f74b, (_0x35f74b * (_0x35e640) / 100), false));
-        _0xccd240[msg.sender]._0x02c4ad++;
-        _0x4aad39.push(_0xda78ab.length -1);
+        _0x6d3382.push(Entry(msg.sender, _0x436637, (_0x436637 * (_0x9798bc) / 100), false));
+        _0xa51b23[msg.sender]._0x1757ab++;
+        _0x79eb22.push(_0x6d3382.length -1);
 
 
-        balance += (_0x35f74b * (100 - _0xe38873)) / 100;
+        balance += (_0x436637 * (100 - _0xe86443)) / 100;
 
-        uint _0xe383ed = _0x4aad39.length > 1 ? _0x769e96(_0x4aad39.length) : 0;
-        Entry _0xa745cc = _0xda78ab[_0x4aad39[_0xe383ed]];
+        uint _0x08cb76 = _0x79eb22.length > 1 ? _0xcf6350(_0x79eb22.length) : 0;
+        Entry _0x795e26 = _0x6d3382[_0x79eb22[_0x08cb76]];
 
 
-        if (balance > _0xa745cc._0x73dd94) {
+        if (balance > _0x795e26._0xca5c63) {
 
-            uint _0x73dd94 = _0xa745cc._0x73dd94;
+            uint _0xca5c63 = _0x795e26._0xca5c63;
 
-            _0xa745cc._0x9538bc.send(_0x73dd94);
-            _0xa745cc._0xe04490 = true;
-            _0xccd240[_0xa745cc._0x9538bc]._0x2d28cc++;
+            _0x795e26._0xc07ecc.send(_0xca5c63);
+            _0x795e26._0x376693 = true;
+            _0xa51b23[_0x795e26._0xc07ecc]._0xae7466++;
 
-            balance -= _0x73dd94;
+            balance -= _0xca5c63;
 
-            if (_0xe383ed < _0x4aad39.length - 1)
-                _0x4aad39[_0xe383ed] = _0x4aad39[_0x4aad39.length - 1];
+            if (_0x08cb76 < _0x79eb22.length - 1)
+                _0x79eb22[_0x08cb76] = _0x79eb22[_0x79eb22.length - 1];
 
-            _0x4aad39.length--;
+            _0x79eb22.length--;
 
         }
 
 
-        uint _0xdeb610 = this.balance - balance;
-        if (_0xdeb610 > 0)
+        uint _0x798be9 = this.balance - balance;
+        if (_0x798be9 > 0)
         {
-                _0x172312.send(_0xdeb610);
+                _0x51a658.send(_0x798be9);
         }
 
     }
 
 
     uint256 constant private FACTOR =  1157920892373161954235709850086879078532699846656405640394575840079131296399;
-    function _0x769e96(uint _0x41e262) constant private returns (uint256 _0x28a23a){
-        uint256 _0xd3039b = FACTOR * 100 / _0x41e262;
-        uint256 _0xcbcc47 = block.number - 1;
-        uint256 _0xb7743c = uint256(block.blockhash(_0xcbcc47));
+    function _0xcf6350(uint _0x5afd1d) constant private returns (uint256 _0xf69ac2){
+        uint256 _0x8e9b1a = FACTOR * 100 / _0x5afd1d;
+        uint256 _0x39b8a0 = block.number - 1;
+        uint256 _0xe6459a = uint256(block.blockhash(_0x39b8a0));
 
-        return uint256((uint256(_0xb7743c) / _0xd3039b)) % _0x41e262;
+        return uint256((uint256(_0xe6459a) / _0x8e9b1a)) % _0x5afd1d;
     }
 
 
-    function _0xf4f057(address _0x39cb1c) _0x1e2a14 {
-        _0x172312 = _0x39cb1c;
+    function _0x665e71(address _0x3b0a3b) _0x280b83 {
+        _0x51a658 = _0x3b0a3b;
     }
 
-    function _0x4b32f0(uint _0xfb4aa5) _0x1e2a14 {
-        if (_0xfb4aa5 < 110 || _0xfb4aa5 > 150) throw;
+    function _0x4a319b(uint _0x36c146) _0x280b83 {
+        if (_0x36c146 < 110 || _0x36c146 > 150) throw;
 
-        if (block.timestamp > 0) { _0x35e640 = _0xfb4aa5; }
+        _0x9798bc = _0x36c146;
     }
 
-    function _0xb70c86(uint _0x7b8241) _0x1e2a14 {
-        if (_0xe38873 > 5)
+    function _0x98a3c4(uint _0x153ae3) _0x280b83 {
+        if (_0xe86443 > 5)
             throw;
-        _0xe38873 = _0x7b8241;
+        _0xe86443 = _0x153ae3;
     }
 
 
-    function _0x33b76b() constant returns (uint _0xd3039b, string _0xa6f7ad) {
-        if (true) { _0xd3039b = _0x35e640; }
-        _0xa6f7ad = 'The current _0x35e640 applied to all _0x02c4ad. Min 110%, _0x41e262 150%.';
+    function _0xa52eb0() constant returns (uint _0x8e9b1a, string _0x9e6616) {
+        if (1 == 1) { _0x8e9b1a = _0x9798bc; }
+        _0x9e6616 = 'The current _0x9798bc applied to all _0x1757ab. Min 110%, _0x5afd1d 150%.';
     }
 
-    function _0xfa4e8d() constant returns (uint _0x820ca9, string _0xa6f7ad) {
-        _0x820ca9 = _0xe38873;
-        _0xa6f7ad = 'The _0xe38873 percentage applied to all _0x02c4ad. It can change to speed _0x41a40a (_0x41e262 5%).';
+    function _0xc11f62() constant returns (uint _0x6a0611, string _0x9e6616) {
+        _0x6a0611 = _0xe86443;
+        _0x9e6616 = 'The _0xe86443 percentage applied to all _0x1757ab. It can change to speed _0x1000d6 (_0x5afd1d 5%).';
     }
 
-    function _0x528d22() constant returns (uint _0xff04b0, string _0xa6f7ad) {
-        _0xff04b0 = _0xda78ab.length;
-        _0xa6f7ad = 'The number of _0x02c4ad.';
+    function _0xa86640() constant returns (uint _0x97a0bf, string _0x9e6616) {
+        if (1 == 1) { _0x97a0bf = _0x6d3382.length; }
+        _0x9e6616 = 'The number of _0x1757ab.';
     }
 
-    function _0xe8e773(address _0x4a6dd3) constant returns (uint _0x02c4ad, uint _0x41a40a, string _0xa6f7ad)
+    function _0x10daef(address _0x468fa1) constant returns (uint _0x1757ab, uint _0x1000d6, string _0x9e6616)
     {
-        if (_0xccd240[_0x4a6dd3]._0x4aadd5 != address(0x0))
+        if (_0xa51b23[_0x468fa1]._0x823504 != address(0x0))
         {
-            _0x02c4ad = _0xccd240[_0x4a6dd3]._0x02c4ad;
-            _0x41a40a = _0xccd240[_0x4a6dd3]._0x2d28cc;
-            _0xa6f7ad = 'Users stats: total _0x02c4ad, _0x41a40a received.';
+            _0x1757ab = _0xa51b23[_0x468fa1]._0x1757ab;
+            _0x1000d6 = _0xa51b23[_0x468fa1]._0xae7466;
+            _0x9e6616 = 'Users stats: total _0x1757ab, _0x1000d6 received.';
         }
     }
 
-    function _0x39e508(uint _0xe383ed) constant returns (address _0x4a6dd3, uint _0x73dd94, bool _0xe04490, string _0xa6f7ad)
+    function _0x4c151a(uint _0x08cb76) constant returns (address _0x468fa1, uint _0xca5c63, bool _0x376693, string _0x9e6616)
     {
-        if (_0xe383ed < _0xda78ab.length) {
-            _0x4a6dd3 = _0xda78ab[_0xe383ed]._0x9538bc;
-            _0x73dd94 = _0xda78ab[_0xe383ed]._0x73dd94 / 1 finney;
-            _0xe04490 = _0xda78ab[_0xe383ed]._0xe04490;
-            _0xa6f7ad = 'Entry _0xa6f7ad: _0x4a6dd3 address, expected _0x73dd94 in Finneys, _0x73dd94 status.';
+        if (_0x08cb76 < _0x6d3382.length) {
+            _0x468fa1 = _0x6d3382[_0x08cb76]._0xc07ecc;
+            _0xca5c63 = _0x6d3382[_0x08cb76]._0xca5c63 / 1 finney;
+            _0x376693 = _0x6d3382[_0x08cb76]._0x376693;
+            _0x9e6616 = 'Entry _0x9e6616: _0x468fa1 address, expected _0xca5c63 in Finneys, _0xca5c63 status.';
         }
     }
 

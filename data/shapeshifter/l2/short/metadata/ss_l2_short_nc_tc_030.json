@@ -102,12 +102,12 @@
     "outputToken": "d",
     "tokenAmount": "e",
     "tokenRatio": "f",
-    "inputToken": "g",
-    "outputBase": "h",
-    "baseAmount": "i",
-    "totalUnits": "j",
-    "baseRatio": "k",
-    "inputBase": "l",
+    "totalUnits": "g",
+    "baseAmount": "h",
+    "inputToken": "i",
+    "outputBase": "j",
+    "inputBase": "k",
+    "baseRatio": "l",
     "units": "m"
   },
   "transformation": {

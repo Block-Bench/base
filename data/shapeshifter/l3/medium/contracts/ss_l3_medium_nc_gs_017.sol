@@ -10,33 +10,33 @@ import {PermissionCondition} from "@aragon/osx-commons-contracts/src/permission/
 
 contract MinVotingPowerCondition is PermissionCondition {
 
-    ILockToGovernBase public immutable _0xabf18a;
+    ILockToGovernBase public immutable _0xbe55cc;
 
 
-    ILockManager public immutable _0xad3e24;
+    ILockManager public immutable _0x9475e9;
 
 
-    IERC20 public immutable _0xbd3ce2;
+    IERC20 public immutable _0x203770;
 
 
-    constructor(ILockToGovernBase _0x9c5165) {
-        if (1 == 1) { _0xabf18a = _0x9c5165; }
-        if (true) { _0xbd3ce2 = _0xabf18a._0xbd3ce2(); }
-        _0xad3e24 = _0xabf18a._0xad3e24();
+    constructor(ILockToGovernBase _0x5c7308) {
+        _0xbe55cc = _0x5c7308;
+        if (gasleft() > 0) { _0x203770 = _0xbe55cc._0x203770(); }
+        _0x9475e9 = _0xbe55cc._0x9475e9();
     }
 
 
-    function _0xc341a9(address _0xf3dd49, address _0x61fd34, bytes32 _0xc1ce80, bytes calldata _0x5ecfe6)
+    function _0xba5e4d(address _0xbb85cd, address _0x22eba7, bytes32 _0x78ce62, bytes calldata _0x5b6ead)
         public
         view
         override
         returns (bool)
     {
-        (_0xf3dd49, _0x5ecfe6, _0xc1ce80);
+        (_0xbb85cd, _0x5b6ead, _0x78ce62);
 
-        uint256 _0x42906a = _0xbd3ce2._0x573396(_0x61fd34) + _0xad3e24._0xd66c87(_0x61fd34);
-        uint256 _0xc247ef = _0xabf18a._0x1c164f();
+        uint256 _0x80359b = _0x203770._0x8f27fc(_0x22eba7) + _0x9475e9._0x94e9e4(_0x22eba7);
+        uint256 _0xb239af = _0xbe55cc._0xb6ad03();
 
-        return _0x42906a >= _0xc247ef;
+        return _0x80359b >= _0xb239af;
     }
 }

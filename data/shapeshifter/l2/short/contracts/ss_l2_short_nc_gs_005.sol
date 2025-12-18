@@ -20,187 +20,187 @@ contract VoterV3 is OwnableUpgradeable, ReentrancyGuardUpgradeable {
 
     address public bk;
     address internal bh;
-    address public g;
-    address public v;
+    address public f;
+    address public u;
     uint256 public w;
     uint public EPOCH_DURATION;
     uint256 internal constant MIN_VOTING_NUM = 10;
     IGaugeManager public t;
 
-    mapping(uint256 => mapping(address => uint256)) public ba;
-    mapping(uint256 => address[]) public am;
+    mapping(uint256 => mapping(address => uint256)) public be;
+    mapping(uint256 => address[]) public an;
 
-    mapping(address => uint256) public ap;
-    uint256 public ad;
-    mapping(uint256 => uint256) public aa;
+    mapping(address => uint256) public aq;
+    uint256 public ae;
+    mapping(uint256 => uint256) public ab;
 
     mapping(uint256 => uint256) public aj;
-    mapping(uint256 => uint256) public f;
+    mapping(uint256 => uint256) public g;
 
-    event Voted(address indexed bb, uint256 as, uint256 av);
-    event Abstained(uint256 as, uint256 av);
+    event Voted(address indexed bb, uint256 as, uint256 aw);
+    event Abstained(uint256 as, uint256 aw);
     event SetPermissionRegistry(address indexed bl, address indexed az);
 
     constructor() {}
 
 
-    function af(
+    function ah(
         address __ve,
-        address q,
+        address p,
         address r,
-        address e
-    ) public ab {
+        address d
+    ) public ac {
         __Ownable_init();
         __ReentrancyGuard_init();
         bk = __ve;
-        bh = IVotingEscrow(__ve).bf();
+        bh = IVotingEscrow(__ve).ba();
         t = IGaugeManager(r);
-        g = e;
-        v = q;
+        f = d;
+        u = p;
         w = 30;
         EPOCH_DURATION = HybraTimeLibrary.WEEK;
     }
 
 
     modifier VoterAdmin() {
-        require(IPermissionsRegistry(g).au("VOTER_ADMIN",msg.sender), 'VOTER_ADMIN');
+        require(IPermissionsRegistry(f).au("VOTER_ADMIN",msg.sender), 'VOTER_ADMIN');
         _;
     }
 
     modifier Governance() {
-        require(IPermissionsRegistry(g).au("GOVERNANCE",msg.sender), 'GOVERNANCE');
+        require(IPermissionsRegistry(f).au("GOVERNANCE",msg.sender), 'GOVERNANCE');
         _;
     }
 
     modifier GenesisManager() {
-        require(IPermissionsRegistry(g).au("GENESIS_MANAGER", msg.sender), 'GENESIS_MANAGER');
+        require(IPermissionsRegistry(f).au("GENESIS_MANAGER", msg.sender), 'GENESIS_MANAGER');
         _;
     }
 
 
-    function c(address e) external VoterAdmin {
-        require(e.code.length > 0, "CODELEN");
-        require(e != address(0), "ZA");
-        emit SetPermissionRegistry(g, e);
-        g = e;
+    function c(address d) external VoterAdmin {
+        require(d.code.length > 0, "CODELEN");
+        require(d != address(0), "ZA");
+        emit SetPermissionRegistry(f, d);
+        f = d;
     }
 
-    function k(uint256 p) external VoterAdmin {
-        require (p >= MIN_VOTING_NUM, "LOW_VOTE");
-        w = p;
+    function j(uint256 q) external VoterAdmin {
+        require (q >= MIN_VOTING_NUM, "LOW_VOTE");
+        w = q;
     }
 
 
-    function be(uint256 ao) external z(ao) y {
-        require(IVotingEscrow(bk).h(msg.sender, ao), "NAO");
-        aw(ao);
-        IVotingEscrow(bk).ar(ao);
+    function bg(uint256 ak) external z(ak) y {
+        require(IVotingEscrow(bk).h(msg.sender, ak), "NAO");
+        ax(ak);
+        IVotingEscrow(bk).ar(ak);
     }
 
-    function aw(uint256 ao) internal {
-        address[] storage ai = am[ao];
+    function ax(uint256 ak) internal {
+        address[] storage ai = an[ak];
         uint256 s = ai.length;
-        uint256 u = 0;
+        uint256 v = 0;
 
         for (uint256 i = 0; i < s; i ++) {
-            address bg = ai[i];
-            uint256 ay = ba[ao][bg];
+            address bf = ai[i];
+            uint256 av = be[ak][bf];
 
-            if (ay != 0) {
-                ap[bg] -= ay;
+            if (av != 0) {
+                aq[bf] -= av;
 
-                ba[ao][bg] -= ay;
-                address o = t.b(bg);
-                address m = t.a(bg);
-                IBribe(o).al(uint256(ay), ao);
-                IBribe(m).al(uint256(ay), ao);
+                be[ak][bf] -= av;
+                address n = t.a(bf);
+                address o = t.b(bf);
+                IBribe(n).ao(uint256(av), ak);
+                IBribe(o).ao(uint256(av), ak);
 
 
-                u += ay;
+                v += av;
 
-                emit Abstained(ao, ay);
+                emit Abstained(ak, av);
             }
         }
-        ad -= u;
-        aa[ao] = 0;
-        delete am[ao];
+        ae -= v;
+        ab[ak] = 0;
+        delete an[ak];
     }
 
 
-    function bi(uint256 ao) external y {
-        uint256 ag = block.timestamp;
-        if (ag <= HybraTimeLibrary.n(ag)){
+    function bi(uint256 ak) external y {
+        uint256 af = block.timestamp;
+        if (af <= HybraTimeLibrary.l(af)){
             revert("DW");
         }
-        require(IVotingEscrow(bk).h(msg.sender, ao) || msg.sender == bk, "NAO||VE");
-        address[] memory ai = am[ao];
-        uint256 ak = ai.length;
-        uint256[] memory an = new uint256[](ak);
+        require(IVotingEscrow(bk).h(msg.sender, ak) || msg.sender == bk, "NAO||VE");
+        address[] memory ai = an[ak];
+        uint256 al = ai.length;
+        uint256[] memory am = new uint256[](al);
 
-        for (uint256 i = 0; i < ak; i ++) {
-            an[i] = ba[ao][ai[i]];
+        for (uint256 i = 0; i < al; i ++) {
+            am[i] = be[ak][ai[i]];
         }
 
-        bd(ao, ai, an);
+        bd(ak, ai, am);
     }
 
 
-    function bj(uint256 ao, address[] calldata ai, uint256[] calldata an)
-        external z(ao) y {
-        require(IVotingEscrow(bk).h(msg.sender, ao), "NAO");
-        require(ai.length == an.length, "MISMATCH_LEN");
+    function bj(uint256 ak, address[] calldata ai, uint256[] calldata am)
+        external z(ak) y {
+        require(IVotingEscrow(bk).h(msg.sender, ak), "NAO");
+        require(ai.length == am.length, "MISMATCH_LEN");
         require(ai.length <= w, "EXCEEDS");
-        uint256 ag = block.timestamp;
+        uint256 af = block.timestamp;
 
-        bd(ao, ai, an);
-        aj[ao] = HybraTimeLibrary.ah(block.timestamp) + 1;
-        f[ao] = block.timestamp;
+        bd(ak, ai, am);
+        aj[ak] = HybraTimeLibrary.ag(block.timestamp) + 1;
+        g[ak] = block.timestamp;
     }
 
-    function bd(uint256 ao, address[] memory ai, uint256[] memory an) internal {
-        aw(ao);
-        uint256 ak = ai.length;
-        uint256 at = IVotingEscrow(bk).x(ao);
+    function bd(uint256 ak, address[] memory ai, uint256[] memory am) internal {
+        ax(ak);
+        uint256 al = ai.length;
+        uint256 at = IVotingEscrow(bk).x(ak);
         uint256 i = 0;
-        uint256 ae = 0;
+        uint256 ad = 0;
 
-        for (uint i = 0; i < ak; i++) {
+        for (uint i = 0; i < al; i++) {
 
-            if(t.d(ai[i])) i += an[i];
+            if(t.e(ai[i])) i += am[i];
         }
 
-        for (uint256 i = 0; i < ak; i++) {
-            address bg = ai[i];
+        for (uint256 i = 0; i < al; i++) {
+            address bf = ai[i];
 
-            if (t.d(bg)) {
-                uint256 ac = an[i] * at / i;
+            if (t.e(bf)) {
+                uint256 aa = am[i] * at / i;
 
-                require(ba[ao][bg] == 0, "ZV");
-                require(ac != 0, "ZV");
+                require(be[ak][bf] == 0, "ZV");
+                require(aa != 0, "ZV");
 
-                am[ao].push(bg);
-                ap[bg] += ac;
+                an[ak].push(bf);
+                aq[bf] += aa;
 
-                ba[ao][bg] = ac;
-                address o = t.b(bg);
-                address m = t.a(bg);
+                be[ak][bf] = aa;
+                address n = t.a(bf);
+                address o = t.b(bf);
 
-                IBribe(o).aq(uint256(ac), ao);
-                IBribe(m).aq(uint256(ac), ao);
+                IBribe(n).ap(uint256(aa), ak);
+                IBribe(o).ap(uint256(aa), ak);
 
-                ae += ac;
-                emit Voted(msg.sender, ao, ac);
+                ad += aa;
+                emit Voted(msg.sender, ak, aa);
             }
         }
-        if (ae > 0) IVotingEscrow(bk).ax(ao);
-        ad += ae;
-        aa[ao] = ae;
+        if (ad > 0) IVotingEscrow(bk).ay(ak);
+        ae += ad;
+        ab[ak] = ad;
     }
 
-    modifier z(uint256 ao) {
+    modifier z(uint256 ak) {
 
-        if (HybraTimeLibrary.ah(block.timestamp) <= aj[ao]) revert("VOTED");
-        if (block.timestamp <= HybraTimeLibrary.n(block.timestamp)) revert("DW");
+        if (HybraTimeLibrary.ag(block.timestamp) <= aj[ak]) revert("VOTED");
+        if (block.timestamp <= HybraTimeLibrary.l(block.timestamp)) revert("DW");
         _;
     }
 
@@ -210,11 +210,11 @@ contract VoterV3 is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     }
 
 
-    function l(uint256 as) external view returns(uint256) {
-        return am[as].length;
+    function m(uint256 as) external view returns(uint256) {
+        return an[as].length;
     }
 
-    function j(address r) external VoterAdmin {
+    function k(address r) external VoterAdmin {
         require(r != address(0));
         t = IGaugeManager(r);
     }

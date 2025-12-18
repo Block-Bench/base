@@ -66,14 +66,14 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "_target_contract": "_0xa8e0fb",
-    "operationActive": "_0x740c1a",
-    "target_contract": "_0xd3fcd7",
-    "launch_handler": "_0x974b49",
-    "get_money": "_0x7f7cb6",
-    "deposit": "_0x1cfae8",
-    "owner": "_0xdfe6fe",
-    "sha3": "_0x45d473"
+    "_target_contract": "_0x956def",
+    "target_contract": "_0xdb4411",
+    "operationActive": "_0x713a4a",
+    "launch_handler": "_0xf5b448",
+    "get_money": "_0xe840fc",
+    "deposit": "_0x95d9ec",
+    "owner": "_0xd58cf8",
+    "sha3": "_0x8597d8"
   },
   "original_contract_file": "base/contracts/ds_003.sol",
   "sanitized_from": "ds_003",
@@ -85,8 +85,7 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 8 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 8 identifiers using hex style"
     ],
     "rename_map_size": 8,
     "metadata_changes": []

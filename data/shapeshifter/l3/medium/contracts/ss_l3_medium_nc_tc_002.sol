@@ -3,100 +3,100 @@ pragma solidity ^0.8.0;
 
 interface IDiamondCut {
     struct FacetCut {
-        address _0x6d9644;
-        uint8 _0x3f5df4;
-        bytes4[] _0xe604a8;
+        address _0x42a41e;
+        uint8 _0x3b39df;
+        bytes4[] _0x207d78;
     }
 }
 
 contract GovernanceSystem {
 
-    mapping(address => uint256) public _0x3447d6;
-    mapping(address => uint256) public _0x4512b9;
+    mapping(address => uint256) public _0x955283;
+    mapping(address => uint256) public _0x40e319;
 
 
     struct Proposal {
-        address _0x2f6433;
-        address _0x410f6d;
+        address _0x300a2a;
+        address _0x9d24aa;
         bytes data;
-        uint256 _0xabb50f;
-        uint256 _0x87496d;
-        bool _0xb965e5;
+        uint256 _0x0d6d5f;
+        uint256 _0x863929;
+        bool _0x2c5e65;
     }
 
-    mapping(uint256 => Proposal) public _0xa04c00;
-    mapping(uint256 => mapping(address => bool)) public _0x47fa25;
-    uint256 public _0x8c1b06;
+    mapping(uint256 => Proposal) public _0x599771;
+    mapping(uint256 => mapping(address => bool)) public _0x49932a;
+    uint256 public _0xda9242;
 
-    uint256 public _0x30572c;
+    uint256 public _0x005c2b;
 
 
     uint256 constant EMERGENCY_THRESHOLD = 66;
 
     event ProposalCreated(
-        uint256 indexed _0xc6293e,
-        address _0x2f6433,
-        address _0x410f6d
+        uint256 indexed _0x8ed553,
+        address _0x300a2a,
+        address _0x9d24aa
     );
-    event Voted(uint256 indexed _0xc6293e, address _0xe658e3, uint256 _0xe5b31f);
-    event ProposalExecuted(uint256 indexed _0xc6293e);
+    event Voted(uint256 indexed _0x8ed553, address _0x2b1c7c, uint256 _0x078715);
+    event ProposalExecuted(uint256 indexed _0x8ed553);
 
 
-    function _0xba36ef(uint256 _0x7a05c0) external {
-        _0x3447d6[msg.sender] += _0x7a05c0;
-        _0x4512b9[msg.sender] += _0x7a05c0;
-        _0x30572c += _0x7a05c0;
+    function _0x039865(uint256 _0xe1d9b3) external {
+        _0x955283[msg.sender] += _0xe1d9b3;
+        _0x40e319[msg.sender] += _0xe1d9b3;
+        _0x005c2b += _0xe1d9b3;
     }
 
 
-    function _0x5165be(
+    function _0x433dcd(
         IDiamondCut.FacetCut[] calldata,
-        address _0x1b4559,
-        bytes calldata _0xe6e1fd,
+        address _0xfad5c6,
+        bytes calldata _0x6889a5,
         uint8
     ) external returns (uint256) {
-        _0x8c1b06++;
+        _0xda9242++;
 
-        Proposal storage _0x88e7d5 = _0xa04c00[_0x8c1b06];
-        _0x88e7d5._0x2f6433 = msg.sender;
-        _0x88e7d5._0x410f6d = _0x1b4559;
-        _0x88e7d5.data = _0xe6e1fd;
-        _0x88e7d5._0x87496d = block.timestamp;
-        _0x88e7d5._0xb965e5 = false;
+        Proposal storage _0xb2aac1 = _0x599771[_0xda9242];
+        _0xb2aac1._0x300a2a = msg.sender;
+        _0xb2aac1._0x9d24aa = _0xfad5c6;
+        _0xb2aac1.data = _0x6889a5;
+        _0xb2aac1._0x863929 = block.timestamp;
+        _0xb2aac1._0x2c5e65 = false;
 
 
-        _0x88e7d5._0xabb50f = _0x4512b9[msg.sender];
-        _0x47fa25[_0x8c1b06][msg.sender] = true;
+        _0xb2aac1._0x0d6d5f = _0x40e319[msg.sender];
+        _0x49932a[_0xda9242][msg.sender] = true;
 
-        emit ProposalCreated(_0x8c1b06, msg.sender, _0x1b4559);
-        return _0x8c1b06;
+        emit ProposalCreated(_0xda9242, msg.sender, _0xfad5c6);
+        return _0xda9242;
     }
 
 
-    function _0x11361a(uint256 _0xc6293e) external {
-        require(!_0x47fa25[_0xc6293e][msg.sender], "Already voted");
-        require(!_0xa04c00[_0xc6293e]._0xb965e5, "Already executed");
+    function _0x6e352e(uint256 _0x8ed553) external {
+        require(!_0x49932a[_0x8ed553][msg.sender], "Already voted");
+        require(!_0x599771[_0x8ed553]._0x2c5e65, "Already executed");
 
-        _0xa04c00[_0xc6293e]._0xabb50f += _0x4512b9[msg.sender];
-        _0x47fa25[_0xc6293e][msg.sender] = true;
+        _0x599771[_0x8ed553]._0x0d6d5f += _0x40e319[msg.sender];
+        _0x49932a[_0x8ed553][msg.sender] = true;
 
-        emit Voted(_0xc6293e, msg.sender, _0x4512b9[msg.sender]);
+        emit Voted(_0x8ed553, msg.sender, _0x40e319[msg.sender]);
     }
 
 
-    function _0xb745ba(uint256 _0xc6293e) external {
-        Proposal storage _0x88e7d5 = _0xa04c00[_0xc6293e];
-        require(!_0x88e7d5._0xb965e5, "Already executed");
+    function _0xb3df1c(uint256 _0x8ed553) external {
+        Proposal storage _0xb2aac1 = _0x599771[_0x8ed553];
+        require(!_0xb2aac1._0x2c5e65, "Already executed");
 
-        uint256 _0x9610a8 = (_0x88e7d5._0xabb50f * 100) / _0x30572c;
-        require(_0x9610a8 >= EMERGENCY_THRESHOLD, "Insufficient votes");
+        uint256 _0x62ad92 = (_0xb2aac1._0x0d6d5f * 100) / _0x005c2b;
+        require(_0x62ad92 >= EMERGENCY_THRESHOLD, "Insufficient votes");
 
-        _0x88e7d5._0xb965e5 = true;
+        _0xb2aac1._0x2c5e65 = true;
 
 
-        (bool _0xac533e, ) = _0x88e7d5._0x410f6d.call(_0x88e7d5.data);
-        require(_0xac533e, "Execution failed");
+        (bool _0xdf51c0, ) = _0xb2aac1._0x9d24aa.call(_0xb2aac1.data);
+        require(_0xdf51c0, "Execution failed");
 
-        emit ProposalExecuted(_0xc6293e);
+        emit ProposalExecuted(_0x8ed553);
     }
 }

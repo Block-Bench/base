@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "OpenAddressLottery",
-      "function_name": "_0xfeed76",
+      "function_name": "_0x7174e6",
       "line_numbers": []
     },
     "root_cause": "Security vulnerability at line(s) 91",
@@ -71,23 +71,23 @@
   "derived_from": "nc_ds_162",
   "original_id": "ds_162",
   "identifier_mappings": {
-    "luckyNumberOfAddress": "_0xe553f0",
-    "forceReseed": "_0xfeed76",
-    "participate": "_0xa05419",
-    "components": "_0xf32a69",
-    "secretSeed": "_0xad5dd6",
-    "component3": "_0x26652e",
-    "lastReseed": "_0x13c669",
-    "component4": "_0xaf4659",
-    "component2": "_0xa4a6ad",
-    "component1": "_0x3a63cb",
-    "keccak256": "_0xd3bb1b",
-    "winner": "_0x78991d",
-    "reseed": "_0x573d2a",
-    "owner": "_0xc576ac",
-    "kill": "_0xfee621",
-    "addr": "_0xf7f4a6",
-    "win": "_0x6fc8aa"
+    "luckyNumberOfAddress": "_0xf37ef3",
+    "participate": "_0x63d716",
+    "forceReseed": "_0x7174e6",
+    "secretSeed": "_0x18cc24",
+    "component3": "_0x3dfdf7",
+    "component2": "_0x80460e",
+    "component1": "_0x337a7a",
+    "components": "_0x551f51",
+    "component4": "_0xf1aeec",
+    "lastReseed": "_0x800fea",
+    "keccak256": "_0x90985e",
+    "winner": "_0xbdb300",
+    "reseed": "_0xa3a2c8",
+    "owner": "_0xc86154",
+    "kill": "_0x282947",
+    "addr": "_0x94b75b",
+    "win": "_0x7d90e7"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -96,11 +96,12 @@
     "source": "nocomments",
     "changes": [
       "Renamed 17 identifiers using hex style",
+      "Wrapped assignment in conditional",
       "Wrapped assignment in conditional"
     ],
     "rename_map_size": 17,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: forceReseed \u2192 _0xfeed76"
+      "Transformed ground_truth.vulnerable_location.function_name: forceReseed \u2192 _0x7174e6"
     ]
   }
 }

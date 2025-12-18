@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "https",
-      "function_name": "_0x495a32",
+      "function_name": "_0xf81195",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 54",
@@ -72,21 +72,21 @@
   "derived_from": "nc_ds_067",
   "original_id": "ds_067",
   "identifier_mappings": {
-    "change_token_price": "_0x7a964f",
-    "change_active": "_0xfd4be2",
-    "_token_price": "_0xe8141a",
-    "token_price": "_0xde7e9f",
-    "tokens_buy": "_0x495a32",
-    "onlyOwner": "_0x2da43c",
-    "withdraw": "_0xfbbc4d",
-    "_active": "_0x2c1d19",
-    "_amount": "_0x10833c",
-    "result": "_0x0fa906",
-    "active": "_0xc57a0a",
-    "owner2": "_0x426dfc",
-    "owner": "_0x74caa0",
-    "sha3": "_0x4704d7",
-    "sum2": "_0x632af5"
+    "change_token_price": "_0x350307",
+    "change_active": "_0xd88259",
+    "_token_price": "_0x52dec9",
+    "token_price": "_0xcd9790",
+    "tokens_buy": "_0xf81195",
+    "onlyOwner": "_0x428d07",
+    "withdraw": "_0x8bc1b3",
+    "_amount": "_0x60daeb",
+    "_active": "_0x1ea593",
+    "result": "_0x9836f5",
+    "owner2": "_0x730f9b",
+    "active": "_0x15bcda",
+    "owner": "_0xa0859e",
+    "sha3": "_0x72d92d",
+    "sum2": "_0xa0df30"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -94,11 +94,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 15 identifiers using hex style"
+      "Renamed 15 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 15,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: tokens_buy \u2192 _0x495a32"
+      "Transformed ground_truth.vulnerable_location.function_name: tokens_buy \u2192 _0xf81195"
     ]
   }
 }

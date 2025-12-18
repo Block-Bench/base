@@ -75,9 +75,9 @@
     "withdraw": "a",
     "owner": "b",
     "map": "c",
-    "key": "d",
+    "get": "d",
     "set": "e",
-    "get": "f"
+    "key": "f"
   },
   "transformation": {
     "strategy": "shapeshifter",

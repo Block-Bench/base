@@ -3,9 +3,9 @@ pragma solidity ^0.4.24;
 contract PoCGame
 {
 
-    modifier x()
+    modifier y()
     {
-        require(msg.sender == am);
+        require(msg.sender == al);
         _;
     }
 
@@ -23,67 +23,67 @@ contract PoCGame
 
     modifier  p()
     {
-        require (ak[msg.sender] > 0);
+        require (ag[msg.sender] > 0);
         _;
     }
 
-    event Wager(uint256 af, address y);
-    event Win(uint256 af, address aj);
-    event Lose(uint256 af, address ao);
-    event Donate(uint256 af, address aj, address ac);
+    event Wager(uint256 ae, address w);
+    event Win(uint256 ae, address aj);
+    event Lose(uint256 ae, address an);
+    event Donate(uint256 ae, address aj, address ac);
     event DifficultyChanged(uint256 b);
     event BetLimitChanged(uint256 d);
 
-    address private al;
+    address private ao;
     uint256 aa;
     uint difficulty;
-    uint private v;
-    address am;
-    mapping(address => uint256) t;
-    mapping(address => uint256) ak;
+    uint private u;
+    address al;
+    mapping(address => uint256) r;
+    mapping(address => uint256) ag;
     bool m;
-    uint256 k;
+    uint256 j;
 
     constructor(address n, uint256 s)
     e()
     public
     {
         m = false;
-        am = msg.sender;
-        al = n;
-        k = 0;
+        al = msg.sender;
+        ao = n;
+        j = 0;
         aa = s;
 
     }
 
     function OpenToThePublic()
-    x()
+    y()
     public
     {
         m = true;
     }
 
-    function AdjustBetAmounts(uint256 af)
-    x()
+    function AdjustBetAmounts(uint256 ae)
+    y()
     public
     {
-        aa = af;
+        aa = ae;
 
         emit BetLimitChanged(aa);
     }
 
-    function AdjustDifficulty(uint256 af)
-    x()
+    function AdjustDifficulty(uint256 ae)
+    y()
     public
     {
-        difficulty = af;
+        difficulty = ae;
 
         emit DifficultyChanged(difficulty);
     }
 
     function() public payable { }
 
-    function an()
+    function am()
     f()
     e()
     payable
@@ -93,8 +93,8 @@ contract PoCGame
         require(msg.value == aa);
 
 
-        t[msg.sender] = block.number;
-        ak[msg.sender] = msg.value;
+        r[msg.sender] = block.number;
+        ag[msg.sender] = msg.value;
         emit Wager(msg.value, msg.sender);
     }
 
@@ -104,22 +104,22 @@ contract PoCGame
     p()
     public
     {
-        uint256 o = t[msg.sender];
+        uint256 o = r[msg.sender];
         if(o < block.number)
         {
-            t[msg.sender] = 0;
-            ak[msg.sender] = 0;
+            r[msg.sender] = 0;
+            ag[msg.sender] = 0;
 
-            uint256 h = uint256(z(abi.l(blockhash(o),  msg.sender)))%difficulty +1;
+            uint256 g = uint256(x(abi.k(blockhash(o),  msg.sender)))%difficulty +1;
 
-            if(h == difficulty / 2)
+            if(g == difficulty / 2)
             {
-                ae(msg.sender);
+                af(msg.sender);
             }
             else
             {
 
-                w(aa / 2);
+                z(aa / 2);
             }
         }
         else
@@ -128,40 +128,40 @@ contract PoCGame
         }
     }
 
-    function ad()
+    function ak()
     f()
     public
     payable
     {
-        i(msg.value);
+        h(msg.value);
     }
 
-    function ae(address ag)
+    function af(address ad)
     internal
     {
-        uint256 g = address(this).balance / 2;
+        uint256 i = address(this).balance / 2;
 
-        ag.transfer(g);
-        emit Win(g, ag);
+        ad.transfer(i);
+        emit Win(i, ad);
     }
 
-    function i(uint256 af)
+    function h(uint256 ae)
     internal
     {
-        al.call.value(af)(bytes4(z("donate()")));
-        k += af;
-        emit Donate(af, al, msg.sender);
+        ao.call.value(ae)(bytes4(x("donate()")));
+        j += ae;
+        emit Donate(ae, ao, msg.sender);
     }
 
-    function w(uint256 af)
+    function z(uint256 ae)
     internal
     {
-        al.call.value(af)(bytes4(z("donate()")));
-        k += af;
-        emit Lose(af, msg.sender);
+        ao.call.value(ae)(bytes4(x("donate()")));
+        j += ae;
+        emit Lose(ae, msg.sender);
     }
 
-    function r()
+    function q()
     public
     view
     returns (uint256)
@@ -185,12 +185,12 @@ contract PoCGame
         return aa;
     }
 
-    function c(address ai)
+    function c(address ah)
     public
     view
     returns (bool)
     {
-        if(ak[ai] > 0)
+        if(ag[ah] > 0)
         {
             return true;
         }
@@ -201,7 +201,7 @@ contract PoCGame
 
     }
 
-    function q()
+    function t()
     public
     view
     returns (uint256)
@@ -209,17 +209,17 @@ contract PoCGame
         return address(this).balance / 2;
     }
 
-    function a(address j, address u, uint ah)
+    function a(address l, address v, uint ai)
     public
-    x()
+    y()
     returns (bool ab)
     {
-        return ERC20Interface(j).transfer(u, ah);
+        return ERC20Interface(l).transfer(v, ai);
     }
 }
 
 
 contract ERC20Interface
 {
-    function transfer(address aq, uint256 ah) public returns (bool ab);
+    function transfer(address aq, uint256 ai) public returns (bool ab);
 }

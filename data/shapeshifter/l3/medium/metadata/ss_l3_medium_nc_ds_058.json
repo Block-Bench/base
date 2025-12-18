@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_058",
   "original_id": "ds_058",
   "identifier_mappings": {
-    "multiplicate": "_0xe926cb",
-    "withdraw": "_0xc0e129",
-    "adr": "_0xe40923"
+    "multiplicate": "_0x185f69",
+    "withdraw": "_0x133caa",
+    "adr": "_0x168223"
   },
   "transformation": {
     "strategy": "shapeshifter",

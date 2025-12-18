@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Wallet",
-      "function_name": "b",
+      "function_name": "c",
       "line_numbers": [
         30
       ]
@@ -73,10 +73,10 @@
   "original_id": "ds_016",
   "identifier_mappings": {
     "migrateTo": "a",
-    "withdraw": "b",
-    "balances": "c",
-    "creator": "d",
-    "deposit": "e",
+    "balances": "b",
+    "withdraw": "c",
+    "deposit": "d",
+    "creator": "e",
     "amount": "f",
     "to": "g"
   },
@@ -90,7 +90,7 @@
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 b"
+      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 c"
     ]
   }
 }

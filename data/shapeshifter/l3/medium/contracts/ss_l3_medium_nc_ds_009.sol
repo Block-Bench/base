@@ -1,21 +1,21 @@
 pragma solidity ^0.4.24;
 
  contract Map {
-     address public _0x8911ad;
-     uint256[] _0x164c6b;
+     address public _0x547867;
+     uint256[] _0x64839c;
 
-     function _0x146bc9(uint256 _0x514c37, uint256 value) public {
-         if (_0x164c6b.length <= _0x514c37) {
-             _0x164c6b.length = _0x514c37 + 1;
+     function _0x7bb516(uint256 _0x414342, uint256 value) public {
+         if (_0x64839c.length <= _0x414342) {
+             _0x64839c.length = _0x414342 + 1;
          }
-         _0x164c6b[_0x514c37] = value;
+         _0x64839c[_0x414342] = value;
      }
 
-     function _0xd76255(uint256 _0x514c37) public view returns (uint256) {
-         return _0x164c6b[_0x514c37];
+     function _0x3bb377(uint256 _0x414342) public view returns (uint256) {
+         return _0x64839c[_0x414342];
      }
-     function _0xa5f75f() public{
-       require(msg.sender == _0x8911ad);
+     function _0x3f81d0() public{
+       require(msg.sender == _0x547867);
        msg.sender.transfer(address(this).balance);
      }
  }

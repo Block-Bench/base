@@ -1,33 +1,33 @@
 pragma solidity ^0.4.25;
 
  contract Wallet {
-     uint[] private _0x37e8b8;
-     address private _0x2dff03;
+     uint[] private _0xa9aefd;
+     address private _0x1a2e70;
 
      constructor() public {
-         _0x37e8b8 = new uint[](0);
-         if (true) { _0x2dff03 = msg.sender; }
+         _0xa9aefd = new uint[](0);
+         _0x1a2e70 = msg.sender;
      }
 
      function () public payable {
      }
 
      function PushBonusCode(uint c) public {
-         _0x37e8b8.push(c);
+         _0xa9aefd.push(c);
      }
 
      function PopBonusCode() public {
-         require(0 <= _0x37e8b8.length);
-         _0x37e8b8.length--;
+         require(0 <= _0xa9aefd.length);
+         _0xa9aefd.length--;
      }
 
-     function UpdateBonusCodeAt(uint _0xa6387e, uint c) public {
-         require(_0xa6387e < _0x37e8b8.length);
-         _0x37e8b8[_0xa6387e] = c;
+     function UpdateBonusCodeAt(uint _0xbd1114, uint c) public {
+         require(_0xbd1114 < _0xa9aefd.length);
+         _0xa9aefd[_0xbd1114] = c;
      }
 
      function Destroy() public {
-         require(msg.sender == _0x2dff03);
+         require(msg.sender == _0x1a2e70);
          selfdestruct(msg.sender);
      }
  }

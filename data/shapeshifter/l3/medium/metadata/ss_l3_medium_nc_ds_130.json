@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "OpenAccess",
-      "function_name": "_0xb5e360",
+      "function_name": "_0x3ffa1a",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 25",
@@ -66,10 +66,10 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "changeOwner": "_0xb5e360",
-    "_newOwner": "_0x213584",
-    "onlyowner": "_0x1e56a9",
-    "owner": "_0xa44547"
+    "changeOwner": "_0x3ffa1a",
+    "onlyowner": "_0x090a7d",
+    "_newOwner": "_0x36d1ef",
+    "owner": "_0xca86c2"
   },
   "original_contract_file": "base/contracts/ds_130.sol",
   "sanitized_from": "ds_130",
@@ -85,7 +85,7 @@
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: changeOwner \u2192 _0xb5e360"
+      "Transformed ground_truth.vulnerable_location.function_name: changeOwner \u2192 _0x3ffa1a"
     ]
   }
 }

@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Wallet",
-      "function_name": "_0x84fd30",
+      "function_name": "_0x0d4588",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 19, 20",
@@ -70,14 +70,14 @@
   "derived_from": "nc_ds_015",
   "original_id": "ds_015",
   "identifier_mappings": {
-    "initWallet": "_0x84fd30",
-    "migrateTo": "_0x2cf7bc",
-    "withdraw": "_0xa69ab9",
-    "balances": "_0xcc475e",
-    "creator": "_0xac041c",
-    "deposit": "_0x3db43e",
-    "amount": "_0x8d8def",
-    "to": "_0xf1e915"
+    "initWallet": "_0x0d4588",
+    "migrateTo": "_0x49beb8",
+    "balances": "_0xfdd48e",
+    "withdraw": "_0x34e4cb",
+    "creator": "_0xd726c4",
+    "deposit": "_0xaf323c",
+    "amount": "_0xf0c7a0",
+    "to": "_0x979250"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -89,7 +89,7 @@
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: initWallet \u2192 _0x84fd30"
+      "Transformed ground_truth.vulnerable_location.function_name: initWallet \u2192 _0x0d4588"
     ]
   }
 }

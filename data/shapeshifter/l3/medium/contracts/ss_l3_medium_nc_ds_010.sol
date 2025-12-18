@@ -2,15 +2,15 @@ pragma solidity ^0.4.24;
 
 contract MyContract {
 
-    address _0x97bb9a;
+    address _0x4fde6f;
 
     function MyContract() public {
-        _0x97bb9a = msg.sender;
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0x4fde6f = msg.sender; }
     }
 
-    function _0x0f5568(address _0xa2f6b7, uint _0x7f8817) public {
-        require(tx.origin == _0x97bb9a);
-        _0xa2f6b7.transfer(_0x7f8817);
+    function _0xc907e9(address _0x4e3417, uint _0xc429e1) public {
+        require(tx.origin == _0x4fde6f);
+        _0x4e3417.transfer(_0xc429e1);
     }
 
 }

@@ -71,11 +71,11 @@
   "derived_from": "nc_ds_149",
   "original_id": "ds_149",
   "identifier_mappings": {
-    "random": "_0x04a37f",
-    "result": "_0x8a7dde",
-    "salt": "_0x04f949",
-    "seed": "_0xd4d83e",
-    "max": "_0xc44bc6"
+    "random": "_0x0995a9",
+    "result": "_0x7c0ae4",
+    "salt": "_0xa505bc",
+    "seed": "_0x809ad2",
+    "max": "_0x3e5760"
   },
   "transformation": {
     "strategy": "shapeshifter",

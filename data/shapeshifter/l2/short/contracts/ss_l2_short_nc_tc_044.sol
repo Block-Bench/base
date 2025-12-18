@@ -11,60 +11,60 @@ interface IERC20 {
 
     function k(address r) external view returns (uint256);
 
-    function q(address o, uint256 s) external returns (bool);
+    function q(address p, uint256 s) external returns (bool);
 }
 
 interface ISmartLoan {
     function c(
-        bytes32 j,
-        bytes32 m,
+        bytes32 i,
+        bytes32 n,
         uint256 f,
         uint256 d,
         bytes4 selector,
         bytes memory data
     ) external;
 
-    function h(address v, uint256[] calldata x) external;
+    function g(address v, uint256[] calldata x) external;
 }
 
 contract SmartLoansFactory {
-    address public t;
+    address public u;
 
     constructor() {
-        t = msg.sender;
+        u = msg.sender;
     }
 
-    function i() external returns (address) {
+    function j() external returns (address) {
         SmartLoan w = new SmartLoan();
         return address(w);
     }
 
-    function g(
+    function h(
         address l,
         address b
     ) external {
-        require(msg.sender == t, "Not admin");
+        require(msg.sender == u, "Not admin");
     }
 }
 
 contract SmartLoan is ISmartLoan {
-    mapping(bytes32 => uint256) public n;
-    mapping(bytes32 => uint256) public u;
+    mapping(bytes32 => uint256) public m;
+    mapping(bytes32 => uint256) public t;
 
     function c(
-        bytes32 j,
-        bytes32 m,
+        bytes32 i,
+        bytes32 n,
         uint256 f,
         uint256 d,
         bytes4 selector,
         bytes memory data
     ) external override {}
 
-    function h(
+    function g(
         address v,
         uint256[] calldata x
     ) external override {
-        (bool p, ) = v.call(
+        (bool o, ) = v.call(
             abi.a("claimRewards(address)", msg.sender)
         );
     }

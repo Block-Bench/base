@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "the_dao.sol",
-      "function_name": "_0x2159d1",
+      "function_name": "_0x08bd7a",
       "line_numbers": []
     },
     "root_cause": "External call to msg.sender before updating internal state (credit balance). Violation of checks-effects-interactions pattern.",
@@ -88,13 +88,13 @@
   "derived_from": "nc_tc_010",
   "original_id": "tc_010",
   "identifier_mappings": {
-    "withdrawAll": "_0x2159d1",
-    "callResult": "_0x98b1ae",
-    "getCredit": "_0xebe522",
-    "oCredit": "_0x28a923",
-    "deposit": "_0xee8090",
-    "credit": "_0x878a51",
-    "user": "_0x443efc"
+    "withdrawAll": "_0x08bd7a",
+    "callResult": "_0x804100",
+    "getCredit": "_0xbf681b",
+    "oCredit": "_0x35a855",
+    "deposit": "_0x2a38e8",
+    "credit": "_0x60df7d",
+    "user": "_0xb088c6"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -106,7 +106,7 @@
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdrawAll \u2192 _0x2159d1"
+      "Transformed ground_truth.vulnerable_location.function_name: withdrawAll \u2192 _0x08bd7a"
     ]
   }
 }

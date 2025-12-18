@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "SingleTxCounter",
-      "function_name": "_0x5c1444",
+      "function_name": "_0x9ee570",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 18",
@@ -66,15 +66,15 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "underflowlocalonly": "_0x39e9c3",
-    "underflowtostate": "_0xfebe07",
-    "mullocalonly": "_0xed0979",
-    "multostate": "_0x9fe488",
-    "addtostate": "_0x5c1444",
-    "localcalc": "_0x420bd5",
-    "input": "_0x0cdc8b",
-    "count": "_0x160473",
-    "res": "_0xd412f1"
+    "underflowlocalonly": "_0x1f4342",
+    "underflowtostate": "_0x16ff7e",
+    "mullocalonly": "_0x911b53",
+    "addtostate": "_0x9ee570",
+    "multostate": "_0xe52db8",
+    "localcalc": "_0xffd6aa",
+    "count": "_0xc9b838",
+    "input": "_0x2cb37c",
+    "res": "_0x1b4403"
   },
   "original_contract_file": "base/contracts/ds_141.sol",
   "sanitized_from": "ds_141",
@@ -90,7 +90,7 @@
     ],
     "rename_map_size": 9,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: addtostate \u2192 _0x5c1444"
+      "Transformed ground_truth.vulnerable_location.function_name: addtostate \u2192 _0x9ee570"
     ]
   }
 }

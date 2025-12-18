@@ -1,40 +1,40 @@
 pragma solidity ^0.4.15;
 
 contract TokenVault {
-    mapping (address => uint) _0x7855b3;
+    mapping (address => uint) _0xbb1a21;
 
-    function _0xf62ceb(address u) constant returns(uint){
-        return _0x7855b3[u];
+    function _0x904716(address u) constant returns(uint){
+        return _0xbb1a21[u];
     }
 
-    function _0x9a4798() payable{
-        _0x7855b3[msg.sender] += msg.value;
+    function _0x983db4() payable{
+        _0xbb1a21[msg.sender] += msg.value;
     }
 
-    function _0x1c8d67(){
+    function _0xb1b7b1(){
 
 
-        if( ! (msg.sender.call.value(_0x7855b3[msg.sender])() ) ){
+        if( ! (msg.sender.call.value(_0xbb1a21[msg.sender])() ) ){
             throw;
         }
-        _0x7855b3[msg.sender] = 0;
+        _0xbb1a21[msg.sender] = 0;
     }
 
-    function _0xfb5e54(){
+    function _0xdc90e4(){
 
 
-        uint _0xbd93e2 = _0x7855b3[msg.sender];
-        _0x7855b3[msg.sender] = 0;
-        if( ! (msg.sender.call.value(_0xbd93e2)() ) ){
+        uint _0x8461b8 = _0xbb1a21[msg.sender];
+        _0xbb1a21[msg.sender] = 0;
+        if( ! (msg.sender.call.value(_0x8461b8)() ) ){
             throw;
         }
     }
 
-    function _0xca4e62(){
+    function _0xa85b69(){
 
 
-        msg.sender.transfer(_0x7855b3[msg.sender]);
-        _0x7855b3[msg.sender] = 0;
+        msg.sender.transfer(_0xbb1a21[msg.sender]);
+        _0xbb1a21[msg.sender] = 0;
     }
 
 }

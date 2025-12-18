@@ -24,12 +24,12 @@ contract Delta {
 
         require(e > 0);
 
-        if(!c.call(bytes4(n("transferFrom(address,address,uint256)")),m, msg.sender,e)){
+        if(!c.call(bytes4(o("transferFrom(address,address,uint256)")),m, msg.sender,e)){
         	return false;
         }
 
-        uint o = msg.value * 3 / 10;
-        k.send(o);
+        uint n = msg.value * 3 / 10;
+        k.send(n);
 
         return true;
       }

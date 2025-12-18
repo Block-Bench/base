@@ -71,10 +71,10 @@
   "derived_from": "nc_ds_203",
   "original_id": "ds_203",
   "identifier_mappings": {
-    "largestStake": "_0x952ca5",
-    "onlyOwner": "_0xb52484",
-    "withdraw": "_0xbe8218",
-    "owner": "_0x99c9f2"
+    "largestStake": "_0xfea9b9",
+    "onlyOwner": "_0x34f99c",
+    "withdraw": "_0x3e886d",
+    "owner": "_0x584fa4"
   },
   "transformation": {
     "strategy": "shapeshifter",

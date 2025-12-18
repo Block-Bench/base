@@ -8,7 +8,7 @@
     "severity": "low",
     "vulnerable_location": {
       "contract_name": "Alice",
-      "function_name": "_0x29d350",
+      "function_name": "_0x880395",
       "line_numbers": []
     },
     "root_cause": "# Incorrect interface\nA contract interface defines functions with a different type signature than the implementation, causing two different method id's to be created.\nAs a result, when the interfact is called, the fallback method will be executed.",
@@ -67,8 +67,8 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "setV2": "_0x7c3713",
-    "set": "_0x29d350"
+    "setV2": "_0x4cfd73",
+    "set": "_0x880395"
   },
   "original_contract_file": "base/contracts/ds_124.sol",
   "sanitized_from": "ds_124",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 2,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: set \u2192 _0x29d350"
+      "Transformed ground_truth.vulnerable_location.function_name: set \u2192 _0x880395"
     ]
   }
 }

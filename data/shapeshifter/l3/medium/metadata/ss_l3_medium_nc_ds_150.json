@@ -66,9 +66,9 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "currentFrontrunner": "_0x026ccd",
-    "currentBid": "_0x35321b",
-    "bid": "_0xdf7bc7"
+    "currentFrontrunner": "_0x6f8baf",
+    "currentBid": "_0xa8ce48",
+    "bid": "_0x777166"
   },
   "original_contract_file": "base/contracts/ds_150.sol",
   "sanitized_from": "ds_150",
@@ -80,8 +80,7 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 3 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 3 identifiers using hex style"
     ],
     "rename_map_size": 3,
     "metadata_changes": []

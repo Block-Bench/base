@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Proxy",
-      "function_name": "_0x7f0de0",
+      "function_name": "_0x3fa9e2",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 19",
@@ -70,10 +70,10 @@
   "derived_from": "nc_ds_012",
   "original_id": "ds_012",
   "identifier_mappings": {
-    "forward": "_0x7f0de0",
-    "callee": "_0x55ffcd",
-    "owner": "_0x23dbe2",
-    "_data": "_0x483b74"
+    "forward": "_0x3fa9e2",
+    "callee": "_0x9bb2c6",
+    "_data": "_0xd276a8",
+    "owner": "_0x32bb67"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -81,11 +81,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 4 identifiers using hex style"
+      "Renamed 4 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 4,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: forward \u2192 _0x7f0de0"
+      "Transformed ground_truth.vulnerable_location.function_name: forward \u2192 _0x3fa9e2"
     ]
   }
 }

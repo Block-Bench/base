@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "NameRegistrar",
-      "function_name": "e",
+      "function_name": "f",
       "line_numbers": [
         23
       ]
@@ -77,8 +77,8 @@
     "_mappedAddress": "b",
     "mappedAddress": "c",
     "newRecord": "d",
-    "register": "e",
-    "unlocked": "f",
+    "unlocked": "e",
+    "register": "f",
     "resolve": "g",
     "_name": "h",
     "name": "i"
@@ -93,7 +93,7 @@
     ],
     "rename_map_size": 9,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: register \u2192 e"
+      "Transformed ground_truth.vulnerable_location.function_name: register \u2192 f"
     ]
   }
 }

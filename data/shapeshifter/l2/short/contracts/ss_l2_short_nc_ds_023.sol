@@ -8,7 +8,7 @@ contract U_BANK
     {
         var h = Acc[msg.sender];
         h.balance += msg.value;
-        h.b = a>g?a:g;
+        h.b = a>i?a:i;
         LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
 
@@ -17,7 +17,7 @@ contract U_BANK
     payable
     {
         var h = Acc[msg.sender];
-        if( h.balance>=MinSum && h.balance>=f && g>h.b)
+        if( h.balance>=MinSum && h.balance>=f && i>h.b)
         {
             if(msg.sender.call.value(f)())
             {
@@ -46,8 +46,8 @@ contract U_BANK
 
     uint public MinSum = 2 ether;
 
-    function U_BANK(address i) public{
-        LogFile = Log(i);
+    function U_BANK(address g) public{
+        LogFile = Log(g);
     }
 }
 
@@ -69,7 +69,7 @@ contract Log
     public
     {
         LastMsg.Sender = d;
-        LastMsg.Time = g;
+        LastMsg.Time = i;
         LastMsg.Val = e;
         LastMsg.Data = c;
         History.push(LastMsg);

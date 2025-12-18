@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "CommunityVault",
-      "function_name": "_0x18100a",
+      "function_name": "_0xaca7be",
       "line_numbers": []
     },
     "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 18",
@@ -66,11 +66,11 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "withdrawAll": "_0x18100a",
-    "callResult": "_0xeba297",
-    "oCredit": "_0x812419",
-    "deposit": "_0x78871f",
-    "credit": "_0x46d817"
+    "withdrawAll": "_0xaca7be",
+    "callResult": "_0x4c5e85",
+    "oCredit": "_0x731738",
+    "deposit": "_0x81fb97",
+    "credit": "_0x604b96"
   },
   "original_contract_file": "base/contracts/ds_043.sol",
   "sanitized_from": "ds_043",
@@ -86,7 +86,7 @@
     ],
     "rename_map_size": 5,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdrawAll \u2192 _0x18100a"
+      "Transformed ground_truth.vulnerable_location.function_name: withdrawAll \u2192 _0xaca7be"
     ]
   }
 }

@@ -3,7 +3,7 @@ pragma solidity ^0.4.18;
 contract Ownable
 {
     address e;
-    address j = msg.sender;
+    address k = msg.sender;
 
     function c(address m)
     public
@@ -17,24 +17,24 @@ contract Ownable
     {
         if(msg.sender==e)
         {
-            j=e;
+            k=e;
         }
     }
 
     modifier d
     {
-        if(j == msg.sender)_;
+        if(k == msg.sender)_;
     }
 }
 
 contract Token is Ownable
 {
-    address j = msg.sender;
-    function WithdrawToken(address i, uint256 g,address p)
+    address k = msg.sender;
+    function WithdrawToken(address j, uint256 g,address p)
     public
     d
     {
-        i.call(bytes4(l("transfer(address,uint256)")),p,g);
+        j.call(bytes4(n("transfer(address,uint256)")),p,g);
     }
 }
 
@@ -47,7 +47,7 @@ contract TokenBank is Token
     function a()
     public
     {
-        j = msg.sender;
+        k = msg.sender;
         MinDeposit = 1 ether;
     }
 
@@ -77,17 +77,17 @@ contract TokenBank is Token
         }
     }
 
-    function WithdrawToHolder(address k, uint n)
+    function WithdrawToHolder(address i, uint l)
     public
     d
     payable
     {
         if(Holders[msg.sender]>0)
         {
-            if(Holders[k]>=n)
+            if(Holders[i]>=l)
             {
-                k.call.value(n);
-                Holders[k]-=n;
+                i.call.value(l);
+                Holders[i]-=l;
             }
         }
     }

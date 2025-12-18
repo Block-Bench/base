@@ -3,15 +3,15 @@ pragma solidity ^0.8.0;
 interface IERC20 {
     function transfer(address s, uint256 p) external returns (bool);
 
-    function e(
+    function f(
         address from,
         address s,
         uint256 p
     ) external returns (bool);
 
-    function i(address m) external view returns (uint256);
+    function i(address o) external view returns (uint256);
 
-    function l(address k, uint256 p) external returns (bool);
+    function n(address m, uint256 p) external returns (bool);
 }
 
 interface IPendleMarket {
@@ -23,28 +23,28 @@ interface IPendleMarket {
 }
 
 contract PenpieStaking {
-    mapping(address => mapping(address => uint256)) public f;
+    mapping(address => mapping(address => uint256)) public e;
     mapping(address => uint256) public h;
 
-    function o(address q, uint256 p) external {
-        IERC20(q).e(msg.sender, address(this), p);
-        f[q][msg.sender] += p;
+    function l(address q, uint256 p) external {
+        IERC20(q).f(msg.sender, address(this), p);
+        e[q][msg.sender] += p;
         h[q] += p;
     }
 
     function g(address q, address r) external {
-        uint256[] memory n = IPendleMarket(q).g(r);
+        uint256[] memory k = IPendleMarket(q).g(r);
 
-        for (uint256 i = 0; i < n.length; i++) {}
+        for (uint256 i = 0; i < k.length; i++) {}
     }
 
     function j(address q, uint256 p) external {
         require(
-            f[q][msg.sender] >= p,
+            e[q][msg.sender] >= p,
             "Insufficient balance"
         );
 
-        f[q][msg.sender] -= p;
+        e[q][msg.sender] -= p;
         h[q] -= p;
 
         IERC20(q).transfer(msg.sender, p);

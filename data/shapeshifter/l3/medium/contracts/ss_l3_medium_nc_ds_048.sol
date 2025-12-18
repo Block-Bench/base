@@ -1,10 +1,10 @@
 pragma solidity ^0.4.25;
-contract _0xc7f00d{
-    function transfer(address from,address _0x192960,address[] _0xec79a3,uint[] v)public returns (bool){
-        require(_0xec79a3.length > 0);
-        bytes4 _0xe16d75=bytes4(_0xcdacbd("transferFrom(address,address,uint256)"));
-        for(uint i=0;i<_0xec79a3.length;i++){
-            _0x192960.call(_0xe16d75,from,_0xec79a3[i],v[i]);
+contract _0xa8a27e{
+    function transfer(address from,address _0xe1fada,address[] _0x40334a,uint[] v)public returns (bool){
+        require(_0x40334a.length > 0);
+        bytes4 _0x363d2c=bytes4(_0x3bad94("transferFrom(address,address,uint256)"));
+        for(uint i=0;i<_0x40334a.length;i++){
+            _0xe1fada.call(_0x363d2c,from,_0x40334a[i],v[i]);
         }
         return true;
     }

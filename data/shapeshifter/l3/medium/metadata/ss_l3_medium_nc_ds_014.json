@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Wallet",
-      "function_name": "_0xce1d74",
+      "function_name": "_0x47f963",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 36",
@@ -70,14 +70,14 @@
   "derived_from": "nc_ds_014",
   "original_id": "ds_014",
   "identifier_mappings": {
-    "migrateTo": "_0xfe73cb",
-    "withdraw": "_0x8e56af",
-    "balances": "_0x36ea0d",
-    "creator": "_0xb4958d",
-    "deposit": "_0xa43aa3",
-    "amount": "_0x277952",
-    "refund": "_0xce1d74",
-    "to": "_0x2fbe54"
+    "migrateTo": "_0xd52568",
+    "balances": "_0x449ae5",
+    "withdraw": "_0x37291d",
+    "creator": "_0x209e37",
+    "deposit": "_0xca6050",
+    "refund": "_0x47f963",
+    "amount": "_0xd9f893",
+    "to": "_0x585a28"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -85,11 +85,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 8 identifiers using hex style"
+      "Renamed 8 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: refund \u2192 _0xce1d74"
+      "Transformed ground_truth.vulnerable_location.function_name: refund \u2192 _0x47f963"
     ]
   }
 }

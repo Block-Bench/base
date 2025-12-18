@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "MinVotingPowerCondition",
-      "function_name": "_0xc341a9",
+      "function_name": "_0xba5e4d",
       "line_numbers": []
     },
     "root_cause": "In MinVotingPowerCondition.isGranted() at line 45, the function checks 'token.balanceOf(_who) + lockManager.getLockedBalance(_who)'. If an address holds tokens but can't spend them due to being frozen or blacklisted (like USDC/USDT blacklist), they are still granted access to create proposals. The intended behavior should be to not allow calling createProposal as the tokens are not actually transferable.",
@@ -67,20 +67,20 @@
   "derived_from": "nc_gs_017",
   "original_id": "gs_017",
   "identifier_mappings": {
-    "_minProposerVotingPower": "_0xc247ef",
-    "minProposerVotingPower": "_0x1c164f",
-    "getLockedBalance": "_0xd66c87",
-    "_currentBalance": "_0x42906a",
-    "_permissionId": "_0xc1ce80",
-    "lockManager": "_0xad3e24",
-    "balanceOf": "_0x573396",
-    "isGranted": "_0xc341a9",
-    "_plugin": "_0x9c5165",
-    "_where": "_0xf3dd49",
-    "plugin": "_0xabf18a",
-    "token": "_0xbd3ce2",
-    "_data": "_0x5ecfe6",
-    "_who": "_0x61fd34"
+    "_minProposerVotingPower": "_0xb239af",
+    "minProposerVotingPower": "_0xb6ad03",
+    "getLockedBalance": "_0x94e9e4",
+    "_currentBalance": "_0x80359b",
+    "_permissionId": "_0x78ce62",
+    "lockManager": "_0x9475e9",
+    "balanceOf": "_0x8f27fc",
+    "isGranted": "_0xba5e4d",
+    "_plugin": "_0x5c7308",
+    "_where": "_0xbb85cd",
+    "plugin": "_0xbe55cc",
+    "_data": "_0x5b6ead",
+    "token": "_0x203770",
+    "_who": "_0x22eba7"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -89,12 +89,11 @@
     "source": "nocomments",
     "changes": [
       "Renamed 14 identifiers using hex style",
-      "Wrapped assignment in conditional",
       "Wrapped assignment in conditional"
     ],
     "rename_map_size": 14,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: isGranted \u2192 _0xc341a9"
+      "Transformed ground_truth.vulnerable_location.function_name: isGranted \u2192 _0xba5e4d"
     ]
   }
 }

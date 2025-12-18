@@ -10,10 +10,10 @@ contract ETH_FUND
 
     uint a;
 
-    function ETH_FUND(address e)
+    function ETH_FUND(address f)
     public
     {
-        TransferLog = Log(e);
+        TransferLog = Log(f);
     }
 
     function Deposit()
@@ -61,12 +61,12 @@ contract Log
 
     Message LastMsg;
 
-    function AddMessage(address d,uint f,string c)
+    function AddMessage(address d,uint e,string c)
     public
     {
         LastMsg.Sender = d;
         LastMsg.Time = h;
-        LastMsg.Val = f;
+        LastMsg.Val = e;
         LastMsg.Data = c;
         History.push(LastMsg);
     }

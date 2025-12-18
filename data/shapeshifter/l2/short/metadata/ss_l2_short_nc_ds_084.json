@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "that",
-      "function_name": "t",
+      "function_name": "u",
       "line_numbers": [
         110
       ]
@@ -74,30 +74,30 @@
   "derived_from": "nc_ds_084",
   "original_id": "ds_084",
   "identifier_mappings": {
-    "wizardCommissionFractionDen": "a",
-    "wizardCommissionFractionNum": "b",
-    "claimPriceAdjustDen": "c",
-    "coronationTimestamp": "d",
-    "usurperEtherAddress": "e",
+    "wizardCommissionFractionNum": "a",
+    "wizardCommissionFractionDen": "b",
+    "coronationTimestamp": "c",
+    "usurperEtherAddress": "d",
+    "claimPriceAdjustDen": "e",
     "claimPriceAdjustNum": "f",
     "startingClaimPrice": "g",
     "currentClaimPrice": "h",
     "transferOwnership": "i",
-    "rawNewClaimPrice": "j",
-    "wizardCommission": "k",
-    "numberOfMonarchs": "l",
+    "numberOfMonarchs": "j",
+    "rawNewClaimPrice": "k",
+    "wizardCommission": "l",
     "sweepCommission": "m",
     "currentMonarch": "n",
-    "newClaimPrice": "o",
-    "wizardAddress": "p",
-    "etherAddress": "q",
+    "wizardAddress": "o",
+    "newClaimPrice": "p",
+    "compensation": "q",
     "pastMonarchs": "r",
-    "compensation": "s",
-    "claimThrone": "t",
-    "usurperName": "u",
-    "excessPaid": "v",
+    "etherAddress": "s",
+    "usurperName": "t",
+    "claimThrone": "u",
+    "onlywizard": "v",
     "claimPrice": "w",
-    "onlywizard": "x",
+    "excessPaid": "x",
     "valuePaid": "y",
     "newOwner": "z",
     "amount": "aa",
@@ -113,7 +113,7 @@
     ],
     "rename_map_size": 28,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: claimThrone \u2192 t"
+      "Transformed ground_truth.vulnerable_location.function_name: claimThrone \u2192 u"
     ]
   }
 }

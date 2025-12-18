@@ -4,37 +4,37 @@ contract Splitter{
 
 	address public m;
 	address[] public h;
-	mapping (uint256 => address) public n;
-	address private o;
-	uint256 private j;
+	mapping (uint256 => address) public o;
+	address private n;
 	uint256 private k;
+	uint256 private l;
 
 
 	constructor() payable public{
 		m = msg.sender;
-		e();
-		e();
-		e();
-		e();
-		n[0] = h[0];
-        n[1] = h[1];
-        n[2] = h[2];
-        n[3] = h[3];
+		d();
+		d();
+		d();
+		d();
+		o[0] = h[0];
+        o[1] = h[1];
+        o[2] = h[2];
+        o[3] = h[3];
 	}
 
 
-	function f() public{
+	function g() public{
 		require(msg.sender == m);
 		m.transfer(address(this).balance);
 	}
 
 
-	function a() public constant returns(uint256 b){
+	function a() public constant returns(uint256 c){
     	return h.length;
   	}
 
 
-	function e() public returns(address e){
+	function d() public returns(address d){
 	    require(msg.sender == m);
     	Puppet p = new Puppet();
     	h.push(p);
@@ -42,19 +42,19 @@ contract Splitter{
   		}
 
 
-    function g(uint256 q, address d) public {
-        require(d != address(0));
-        n[q] = d;
+    function f(uint256 r, address e) public {
+        require(e != address(0));
+        o[r] = e;
     }
 
 
-    function c() public payable {
+    function b() public payable {
         require(msg.sender == m);
-    	j = SafeMath.t(msg.value, 4);
-        n[0].call.value(j).gas(800000)();
-        n[1].call.value(j).gas(800000)();
-        n[2].call.value(j).gas(800000)();
-        n[3].call.value(j).gas(800000)();
+    	k = SafeMath.t(msg.value, 4);
+        o[0].call.value(k).gas(800000)();
+        o[1].call.value(k).gas(800000)();
+        o[2].call.value(k).gas(800000)();
+        o[3].call.value(k).gas(800000)();
         }
 
 
@@ -64,24 +64,24 @@ function() payable public{
 
 contract Puppet {
 
-    mapping (uint256 => address) public l;
+    mapping (uint256 => address) public j;
     mapping (uint256 => address) public i;
 
 	constructor() payable public{
 
-		l[0] = 0x509Cb8cB2F8ba04aE81eEC394175707Edd37e109;
+		j[0] = 0x509Cb8cB2F8ba04aE81eEC394175707Edd37e109;
         i[0] = 0x5C035Bb4Cb7dacbfeE076A5e61AA39a10da2E956;
 	}
 
 
 	function() public payable{
-	    if(msg.sender != l[0]){
-			l[0].call.value(msg.value).gas(600000)();
+	    if(msg.sender != j[0]){
+			j[0].call.value(msg.value).gas(600000)();
 		}
     }
 
 
-	function f() public{
+	function g() public{
 		require(msg.sender == i[0]);
 		i[0].transfer(address(this).balance);
 	}
@@ -103,12 +103,12 @@ library SafeMath {
     return a / b;
   }
 
-  function r(uint256 a, uint256 b) internal pure returns (uint256) {
+  function s(uint256 a, uint256 b) internal pure returns (uint256) {
     assert(b <= a);
     return a - b;
   }
 
-  function s(uint256 a, uint256 b) internal pure returns (uint256 c) {
+  function q(uint256 a, uint256 b) internal pure returns (uint256 c) {
     c = a + b;
     assert(c >= a);
     return c;

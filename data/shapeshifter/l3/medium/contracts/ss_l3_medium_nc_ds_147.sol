@@ -1,20 +1,20 @@
 pragma solidity ^0.4.0;
 
  contract Lottery {
-     event GetBet(uint _0xf9709c, uint _0xfae150, bool _0x4caef7);
+     event GetBet(uint _0x351d6c, uint _0x923b18, bool _0x6957ca);
 
      struct Bet {
-         uint _0xf9709c;
-         uint _0xfae150;
-         bool _0x4caef7;
+         uint _0x351d6c;
+         uint _0x923b18;
+         bool _0x6957ca;
      }
 
-     address private _0x63afe4;
-     Bet[] private _0x00af80;
+     address private _0xdbcfed;
+     Bet[] private _0x79eb70;
 
 
      function Lottery() {
-         _0x63afe4 = msg.sender;
+         _0xdbcfed = msg.sender;
      }
 
 
@@ -23,16 +23,16 @@ pragma solidity ^0.4.0;
      }
 
 
-     function _0x220d45() {
+     function _0xb1db28() {
 
 
-         bool _0x4caef7 = (block.number % 2) == 0;
+         bool _0x6957ca = (block.number % 2) == 0;
 
 
-         _0x00af80.push(Bet(msg.value, block.number, _0x4caef7));
+         _0x79eb70.push(Bet(msg.value, block.number, _0x6957ca));
 
 
-         if(_0x4caef7) {
+         if(_0x6957ca) {
              if(!msg.sender.send(msg.value)) {
 
                  throw;
@@ -41,17 +41,17 @@ pragma solidity ^0.4.0;
      }
 
 
-     function _0x5436e5() {
-         if(msg.sender != _0x63afe4) { throw; }
+     function _0xa42199() {
+         if(msg.sender != _0xdbcfed) { throw; }
 
-         for (uint i = 0; i < _0x00af80.length; i++) {
-             GetBet(_0x00af80[i]._0xf9709c, _0x00af80[i]._0xfae150, _0x00af80[i]._0x4caef7);
+         for (uint i = 0; i < _0x79eb70.length; i++) {
+             GetBet(_0x79eb70[i]._0x351d6c, _0x79eb70[i]._0x923b18, _0x79eb70[i]._0x6957ca);
          }
      }
 
-     function _0x5b2986() {
-         if(msg.sender != _0x63afe4) { throw; }
+     function _0x584cbe() {
+         if(msg.sender != _0xdbcfed) { throw; }
 
-         suicide(_0x63afe4);
+         suicide(_0xdbcfed);
      }
  }

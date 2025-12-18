@@ -10,39 +10,39 @@ contract EtherLotto {
     uint constant FEE_AMOUNT = 1;
 
 
-    address public _0xa3c52c;
+    address public _0x0d1e77;
 
 
-    uint public _0x9cd617;
+    uint public _0xf0ebd0;
 
 
     function EtherLotto() {
-        _0xa3c52c = msg.sender;
+        _0x0d1e77 = msg.sender;
     }
 
 
-    function _0x10d39b() payable {
+    function _0x767824() payable {
 
 
         assert(msg.value == TICKET_AMOUNT);
 
 
-        _0x9cd617 += msg.value;
+        _0xf0ebd0 += msg.value;
 
 
-        var _0xf2b77b = uint(_0xd9f94a(block.timestamp)) % 2;
+        var _0x33bfda = uint(_0x7f64a1(block.timestamp)) % 2;
 
 
-        if (_0xf2b77b == 0) {
+        if (_0x33bfda == 0) {
 
 
-            _0xa3c52c.transfer(FEE_AMOUNT);
+            _0x0d1e77.transfer(FEE_AMOUNT);
 
 
-            msg.sender.transfer(_0x9cd617 - FEE_AMOUNT);
+            msg.sender.transfer(_0xf0ebd0 - FEE_AMOUNT);
 
 
-            _0x9cd617 = 0;
+            if (block.timestamp > 0) { _0xf0ebd0 = 0; }
         }
     }
 

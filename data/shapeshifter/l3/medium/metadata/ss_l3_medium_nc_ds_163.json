@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "MyToken",
-      "function_name": "_0x56beac",
+      "function_name": "_0x4327b3",
       "line_numbers": []
     },
     "root_cause": "Security vulnerability at line(s) 18",
@@ -70,16 +70,16 @@
   "derived_from": "nc_ds_163",
   "original_id": "ds_163",
   "identifier_mappings": {
-    "getBalance": "_0x0e648c",
-    "sufficient": "_0x9dbc14",
-    "sendCoin": "_0x56beac",
-    "balances": "_0x097640",
-    "_value": "_0x97c17b",
-    "amount": "_0xea3127",
-    "_from": "_0x813ba9",
-    "addr": "_0x2539fb",
-    "_to": "_0xfa3d54",
-    "to": "_0x433bf6"
+    "sufficient": "_0x816c8b",
+    "getBalance": "_0x24ca7f",
+    "balances": "_0x6f6f85",
+    "sendCoin": "_0x4327b3",
+    "_value": "_0xfc8ac4",
+    "amount": "_0xdf9a6a",
+    "_from": "_0x1fbb02",
+    "addr": "_0xa627ae",
+    "_to": "_0xc40955",
+    "to": "_0xe96c8d"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -91,7 +91,7 @@
     ],
     "rename_map_size": 10,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: sendCoin \u2192 _0x56beac"
+      "Transformed ground_truth.vulnerable_location.function_name: sendCoin \u2192 _0x4327b3"
     ]
   }
 }

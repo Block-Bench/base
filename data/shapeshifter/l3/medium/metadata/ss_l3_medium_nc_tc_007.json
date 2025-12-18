@@ -8,7 +8,7 @@
     "severity": "critical",
     "vulnerable_location": {
       "contract_name": "VulnerableEthCrossChainManager",
-      "function_name": "_0x608fff",
+      "function_name": "_0x040143",
       "line_numbers": []
     },
     "root_cause": "EthCrossChainManager validated cross-chain transactions (headers, proofs) but didn't restrict which contracts could be targeted for execution. It allowed calling EthCrossChainData, which trusted EthCrossChainManager as owner. This created an access control bypass where anyone could call privileged functions on EthCrossChainData by routing through EthCrossChainManager with a valid cross-chain transaction.",
@@ -91,34 +91,34 @@
   "derived_from": "nc_tc_007",
   "original_id": "tc_007",
   "identifier_mappings": {
-    "getCurEpochConPubKeyBytes": "_0x8bfff1",
-    "putCurEpochConPubKeyBytes": "_0x2cb8ce",
-    "verifyHeaderAndExecuteTx": "_0x608fff",
-    "currentEpochPublicKeys": "_0x8a1925",
-    "encodeWithSignature": "_0x83cc32",
-    "transferOwnership": "_0x7e4b50",
-    "curEpochPkBytes": "_0xfc1382",
-    "previousOwner": "_0xf5ada0",
-    "_verifyHeader": "_0xd21baf",
-    "_dataContract": "_0x1cd8c4",
-    "_verifyProof": "_0x443ad2",
-    "dataContract": "_0x50e4eb",
-    "encodePacked": "_0xa58a13",
-    "fromContract": "_0xcbba83",
-    "curRawHeader": "_0xba9f03",
-    "headerProof": "_0x00c940",
-    "toContract": "_0x25eb79",
-    "headerSig": "_0xce782b",
-    "_decodeTx": "_0xcc65eb",
-    "onlyOwner": "_0x07079f",
-    "rawHeader": "_0x2ac18e",
-    "newOwner": "_0xecdba1",
-    "success": "_0xff3e7e",
-    "newKeys": "_0x6b4307",
-    "method": "_0x5b0850",
-    "owner": "_0x3700ea",
-    "proof": "_0xc227ff",
-    "args": "_0xc98f74"
+    "getCurEpochConPubKeyBytes": "_0xaf14db",
+    "putCurEpochConPubKeyBytes": "_0x624d54",
+    "verifyHeaderAndExecuteTx": "_0x040143",
+    "currentEpochPublicKeys": "_0x49b1f7",
+    "encodeWithSignature": "_0x32bab3",
+    "transferOwnership": "_0x03b6a8",
+    "curEpochPkBytes": "_0x2d108c",
+    "_dataContract": "_0x3b2ffd",
+    "previousOwner": "_0x4028fc",
+    "_verifyHeader": "_0xe3475f",
+    "fromContract": "_0xe71f89",
+    "dataContract": "_0xc81a97",
+    "curRawHeader": "_0x1da7bc",
+    "_verifyProof": "_0xbce4e1",
+    "encodePacked": "_0xcf2b99",
+    "headerProof": "_0x2b2dde",
+    "toContract": "_0xa41983",
+    "headerSig": "_0x1a59db",
+    "_decodeTx": "_0x24acfc",
+    "onlyOwner": "_0x762275",
+    "rawHeader": "_0xeec59f",
+    "newOwner": "_0x091b33",
+    "success": "_0x533941",
+    "newKeys": "_0xc0429b",
+    "method": "_0xf04f50",
+    "owner": "_0xc9b9b0",
+    "proof": "_0x82643a",
+    "args": "_0x20bae6"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -126,11 +126,13 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 28 identifiers using hex style"
+      "Renamed 28 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 28,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: verifyHeaderAndExecuteTx \u2192 _0x608fff"
+      "Transformed ground_truth.vulnerable_location.function_name: verifyHeaderAndExecuteTx \u2192 _0x040143"
     ]
   }
 }

@@ -1,28 +1,28 @@
 pragma solidity ^0.4.24;
 
  contract Wallet {
-     address e;
+     address f;
 
-     mapping(address => uint256) d;
+     mapping(address => uint256) c;
 
      function a() public {
-         e = msg.sender;
+         f = msg.sender;
      }
 
-     function f() public payable {
-         assert(d[msg.sender] + msg.value > d[msg.sender]);
-         d[msg.sender] += msg.value;
+     function e() public payable {
+         assert(c[msg.sender] + msg.value > c[msg.sender]);
+         c[msg.sender] += msg.value;
      }
 
-     function c(uint256 g) public {
-         require(g <= d[msg.sender]);
+     function d(uint256 g) public {
+         require(g <= c[msg.sender]);
          msg.sender.transfer(g);
-         d[msg.sender] -= g;
+         c[msg.sender] -= g;
      }
 
 
      function b(address h) public {
-         require(e == msg.sender);
+         require(f == msg.sender);
          h.transfer(this.balance);
      }
 

@@ -3,29 +3,29 @@ pragma solidity ^0.4.9;
 library Deck {
 
 
-	function an(address ac, uint8 s) internal returns (uint8) {
+	function am(address aa, uint8 q) internal returns (uint8) {
 		uint b = block.number;
 		uint timestamp = block.timestamp;
-		return uint8(uint256(u(block.blockhash(b), ac, s, timestamp)) % 52);
+		return uint8(uint256(u(block.blockhash(b), aa, q, timestamp)) % 52);
 	}
 
-	function z(uint8 ao, bool w) internal constant returns (uint8) {
-		uint8 value = ao / 4;
+	function z(uint8 an, bool x) internal constant returns (uint8) {
+		uint8 value = an / 4;
 		if (value == 0 || value == 11 || value == 12) {
 			return 10;
 		}
-		if (value == 1 && w) {
+		if (value == 1 && x) {
 			return 11;
 		}
 		return value;
 	}
 
-	function ae(uint8 ao) internal constant returns (bool) {
-		return ao / 4 == 1;
+	function ai(uint8 an) internal constant returns (bool) {
+		return an / 4 == 1;
 	}
 
-	function al(uint8 ao) internal constant returns (bool) {
-		return ao / 4 == 10;
+	function al(uint8 an) internal constant returns (bool) {
+		return an / 4 == 10;
 	}
 }
 
@@ -33,42 +33,42 @@ contract BlackJack {
 	using Deck for *;
 
 	uint public ab = 50 finney;
-	uint public ad = 5 ether;
+	uint public ac = 5 ether;
 
 	uint8 BLACKJACK = 21;
 
   enum GameState { Ongoing, Player, Tie, House }
 
 	struct Game {
-		address ac;
-		uint aq;
+		address aa;
+		uint ap;
 
-		uint8[] r;
+		uint8[] s;
 		uint8[] n;
 
-		GameState ak;
-		uint8 t;
+		GameState ah;
+		uint8 o;
 	}
 
-	mapping (address => Game) public ai;
+	mapping (address => Game) public af;
 
-	modifier i() {
-		if (ai[msg.sender].ac == 0 || ai[msg.sender].ak != GameState.Ongoing) {
+	modifier h() {
+		if (af[msg.sender].aa == 0 || af[msg.sender].ah != GameState.Ongoing) {
 			throw;
 		}
 		_;
 	}
 
 	event Deal(
-        bool aa,
-        uint8 ah
+        bool ad,
+        uint8 ag
     );
 
     event GameStatus(
-    	uint8 q,
-    	uint8 j,
+    	uint8 t,
+    	uint8 i,
     	uint8 m,
-    	uint8 f
+    	uint8 e
     );
 
     event Log(
@@ -84,208 +84,208 @@ contract BlackJack {
 	}
 
 
-	function an() public payable {
-		if (ai[msg.sender].ac != 0 && ai[msg.sender].ak == GameState.Ongoing) {
+	function am() public payable {
+		if (af[msg.sender].aa != 0 && af[msg.sender].ah == GameState.Ongoing) {
 			throw;
 		}
 
-		if (msg.value < ab || msg.value > ad) {
+		if (msg.value < ab || msg.value > ac) {
 			throw;
 		}
 
-		uint8[] memory r = new uint8[](1);
+		uint8[] memory s = new uint8[](1);
 		uint8[] memory n = new uint8[](2);
 
 
-		n[0] = Deck.an(msg.sender, 0);
+		n[0] = Deck.am(msg.sender, 0);
 		Deal(true, n[0]);
-		r[0] = Deck.an(msg.sender, 1);
-		Deal(false, r[0]);
-		n[1] = Deck.an(msg.sender, 2);
+		s[0] = Deck.am(msg.sender, 1);
+		Deal(false, s[0]);
+		n[1] = Deck.am(msg.sender, 2);
 		Deal(true, n[1]);
 
-		ai[msg.sender] = Game({
-			ac: msg.sender,
-			aq: msg.value,
-			r: r,
+		af[msg.sender] = Game({
+			aa: msg.sender,
+			ap: msg.value,
+			s: s,
 			n: n,
-			ak: GameState.Ongoing,
-			t: 3
+			ah: GameState.Ongoing,
+			o: 3
 		});
 
-		c(ai[msg.sender], false);
+		c(af[msg.sender], false);
 	}
 
 
-	function ap() public i {
-		uint8 v = ai[msg.sender].t;
-		ai[msg.sender].n.push(Deck.an(msg.sender, v));
-		ai[msg.sender].t = v + 1;
-		Deal(true, ai[msg.sender].n[ai[msg.sender].n.length - 1]);
-		c(ai[msg.sender], false);
+	function aq() public h {
+		uint8 w = af[msg.sender].o;
+		af[msg.sender].n.push(Deck.am(msg.sender, w));
+		af[msg.sender].o = w + 1;
+		Deal(true, af[msg.sender].n[af[msg.sender].n.length - 1]);
+		c(af[msg.sender], false);
 	}
 
 
-	function ag() public i {
+	function ae() public h {
 
-		var (q, j) = d(ai[msg.sender].r);
+		var (t, i) = d(af[msg.sender].s);
 
-		while (j < 17) {
-			uint8 v = ai[msg.sender].t;
-			uint8 y = Deck.an(msg.sender, v);
-			ai[msg.sender].r.push(y);
-			ai[msg.sender].t = v + 1;
-			j += Deck.z(y, true);
+		while (i < 17) {
+			uint8 w = af[msg.sender].o;
+			uint8 y = Deck.am(msg.sender, w);
+			af[msg.sender].s.push(y);
+			af[msg.sender].o = w + 1;
+			i += Deck.z(y, true);
 			Deal(false, y);
 		}
 
-		c(ai[msg.sender], true);
+		c(af[msg.sender], true);
 	}
 
 
-	function c(Game am, bool p) private {
+	function c(Game ao, bool r) private {
 
-		var (q, j) = d(am.r);
+		var (t, i) = d(ao.s);
 
-		var (m, f) = d(am.n);
+		var (m, e) = d(ao.n);
 
-		GameStatus(q, j, m, f);
+		GameStatus(t, i, m, e);
 
-		if (j == BLACKJACK || q == BLACKJACK) {
-			if (m == BLACKJACK || f == BLACKJACK) {
+		if (i == BLACKJACK || t == BLACKJACK) {
+			if (m == BLACKJACK || e == BLACKJACK) {
 
-				if (!msg.sender.send(am.aq)) throw;
-				ai[msg.sender].ak = GameState.Tie;
+				if (!msg.sender.send(ao.ap)) throw;
+				af[msg.sender].ah = GameState.Tie;
 				return;
 			} else {
 
-				ai[msg.sender].ak = GameState.House;
+				af[msg.sender].ah = GameState.House;
 				return;
 			}
 		} else {
-			if (m == BLACKJACK || f == BLACKJACK) {
+			if (m == BLACKJACK || e == BLACKJACK) {
 
-				if (am.n.length == 2 && (Deck.al(am.n[0]) || Deck.al(am.n[1]))) {
+				if (ao.n.length == 2 && (Deck.al(ao.n[0]) || Deck.al(ao.n[1]))) {
 
-					if (!msg.sender.send((am.aq * 5) / 2)) throw;
+					if (!msg.sender.send((ao.ap * 5) / 2)) throw;
 				} else {
 
-					if (!msg.sender.send(am.aq * 2)) throw;
+					if (!msg.sender.send(ao.ap * 2)) throw;
 				}
-				ai[msg.sender].ak = GameState.Player;
+				af[msg.sender].ah = GameState.Player;
 				return;
 			} else {
 
 				if (m > BLACKJACK) {
 
 					Log(1);
-					ai[msg.sender].ak = GameState.House;
+					af[msg.sender].ah = GameState.House;
 					return;
 				}
 
-				if (!p) {
+				if (!r) {
 					return;
 				}
 
 
-				uint8 e = 0;
-				uint8 g = 0;
+				uint8 f = 0;
+				uint8 j = 0;
 
 
-				if (f > BLACKJACK) {
+				if (e > BLACKJACK) {
 					if (m > BLACKJACK) {
 
-						ai[msg.sender].ak = GameState.House;
+						af[msg.sender].ah = GameState.House;
 						return;
 					} else {
-						e = BLACKJACK - m;
+						f = BLACKJACK - m;
 					}
 				} else {
-					e = BLACKJACK - f;
+					f = BLACKJACK - e;
 				}
 
-				if (j > BLACKJACK) {
-					if (q > BLACKJACK) {
+				if (i > BLACKJACK) {
+					if (t > BLACKJACK) {
 
-						if (!msg.sender.send(am.aq * 2)) throw;
-						ai[msg.sender].ak = GameState.Player;
+						if (!msg.sender.send(ao.ap * 2)) throw;
+						af[msg.sender].ah = GameState.Player;
 						return;
 					} else {
-						g = BLACKJACK - q;
+						j = BLACKJACK - t;
 					}
 				} else {
-					g = BLACKJACK - j;
+					j = BLACKJACK - i;
 				}
 
 
-				if (g == e) {
+				if (j == f) {
 
-					if (!msg.sender.send(am.aq)) throw;
-					ai[msg.sender].ak = GameState.Tie;
-				} else if (g > e) {
+					if (!msg.sender.send(ao.ap)) throw;
+					af[msg.sender].ah = GameState.Tie;
+				} else if (j > f) {
 
-					if (!msg.sender.send(am.aq * 2)) throw;
-					ai[msg.sender].ak = GameState.Player;
+					if (!msg.sender.send(ao.ap * 2)) throw;
+					af[msg.sender].ah = GameState.Player;
 				} else {
-					ai[msg.sender].ak = GameState.House;
+					af[msg.sender].ah = GameState.House;
 				}
 			}
 		}
 	}
 
 	function d(uint8[] aj) private constant returns (uint8, uint8) {
-		uint8 af = 0;
-		uint8 x = 0;
-		bool o = false;
+		uint8 ak = 0;
+		uint8 v = 0;
+		bool p = false;
 		for (uint i = 0; i < aj.length; ++i) {
-			uint8 ao = aj[i];
-			if (Deck.ae(ao) && !o) {
-				x += Deck.z(ao, true);
-				o = true;
+			uint8 an = aj[i];
+			if (Deck.ai(an) && !p) {
+				v += Deck.z(an, true);
+				p = true;
 			} else {
-				x += Deck.z(ao, false);
+				v += Deck.z(an, false);
 			}
-			af += Deck.z(ao, false);
+			ak += Deck.z(an, false);
 		}
-		return (af, x);
+		return (ak, v);
 	}
 
-	function h(uint8 ar) public i constant returns(uint8) {
-		if (ar < 0 || ar > ai[msg.sender].n.length) {
+	function g(uint8 ar) public h constant returns(uint8) {
+		if (ar < 0 || ar > af[msg.sender].n.length) {
 			throw;
 		}
-		return ai[msg.sender].n[ar];
+		return af[msg.sender].n[ar];
 	}
 
-	function l(uint8 ar) public i constant returns(uint8) {
-		if (ar < 0 || ar > ai[msg.sender].r.length) {
+	function k(uint8 ar) public h constant returns(uint8) {
+		if (ar < 0 || ar > af[msg.sender].s.length) {
 			throw;
 		}
-		return ai[msg.sender].r[ar];
+		return af[msg.sender].s[ar];
 	}
 
-	function a() public i constant returns(uint) {
-		return ai[msg.sender].n.length;
+	function a() public h constant returns(uint) {
+		return af[msg.sender].n.length;
 	}
 
-	function b() public i constant returns(uint) {
-		return ai[msg.sender].r.length;
+	function b() public h constant returns(uint) {
+		return af[msg.sender].s.length;
 	}
 
-	function k() public constant returns (uint8) {
-		if (ai[msg.sender].ac == 0) {
+	function l() public constant returns (uint8) {
+		if (af[msg.sender].aa == 0) {
 			throw;
 		}
 
-		Game am = ai[msg.sender];
+		Game ao = af[msg.sender];
 
-		if (am.ak == GameState.Player) {
+		if (ao.ah == GameState.Player) {
 			return 1;
 		}
-		if (am.ak == GameState.House) {
+		if (ao.ah == GameState.House) {
 			return 2;
 		}
-		if (am.ak == GameState.Tie) {
+		if (ao.ah == GameState.Tie) {
 			return 3;
 		}
 

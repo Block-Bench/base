@@ -71,9 +71,9 @@
   "derived_from": "nc_ds_125",
   "original_id": "ds_125",
   "identifier_mappings": {
-    "onlyowner": "_0xc73934",
-    "withdraw": "_0x8a5763",
-    "owner": "_0xef8c04"
+    "onlyowner": "_0xa4996f",
+    "withdraw": "_0xdf220c",
+    "owner": "_0xa36c55"
   },
   "transformation": {
     "strategy": "shapeshifter",

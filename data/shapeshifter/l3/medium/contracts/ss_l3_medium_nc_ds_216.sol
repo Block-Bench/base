@@ -16,162 +16,162 @@ contract FiftyFlip {
     uint constant BET_EXPIRATION_BLOCKS = 250;
 
 
-    address public _0xbeee44;
-    address public _0x2093c1;
-    address public _0xdb6602;
-    address private _0x567522;
+    address public _0xa87386;
+    address public _0x55956a;
+    address public _0x0e8b01;
+    address private _0x092549;
 
 
-    uint256 public _0xf13af5;
-    uint256 public _0xa3c0d1;
+    uint256 public _0x9f3f4b;
+    uint256 public _0x7fafb3;
 
 
-    uint256 public _0x5af5ba;
-    uint256 public _0x7b1c5e;
+    uint256 public _0x11e584;
+    uint256 public _0x94bb02;
 
     struct Bet {
 
-        uint _0xc7c396;
+        uint _0x7d9c18;
 
-        uint256 _0x927696;
+        uint256 _0x25e977;
 
-        bool _0x48aed0;
+        bool _0x9c2534;
 
-        address _0x52c868;
+        address _0x40602e;
     }
 
-    mapping (uint => Bet) _0xf17c50;
-    mapping (address => uint) _0x5082be;
+    mapping (uint => Bet) _0x79a43a;
+    mapping (address => uint) _0x191906;
 
 
-    event Wager(uint _0x62511e, uint _0x41e0d8, uint256 _0x508a10, bool _0x48aed0, address _0x347bd6);
-    event Win(address _0xad3363, uint _0xc7c396, uint _0x62511e, bool _0x9cc6bf, uint _0x089789);
-    event Lose(address _0x10ac63, uint _0xc7c396, uint _0x62511e, bool _0x9cc6bf, uint _0x089789);
-    event Refund(uint _0x62511e, uint256 _0xc7c396, address _0x644039);
-    event Donate(uint256 _0xc7c396, address _0x63d4ac);
-    event FailedPayment(address _0x8745e2, uint _0xc7c396);
-    event Payment(address _0x488a08, uint _0xc7c396);
-    event JackpotPayment(address _0x52c868, uint _0x62511e, uint _0xd22c72);
+    event Wager(uint _0xf62466, uint _0xae0753, uint256 _0xfd7a44, bool _0x9c2534, address _0x452e42);
+    event Win(address _0x2326c1, uint _0x7d9c18, uint _0xf62466, bool _0x1f08f5, uint _0x76641f);
+    event Lose(address _0x50036f, uint _0x7d9c18, uint _0xf62466, bool _0x1f08f5, uint _0x76641f);
+    event Refund(uint _0xf62466, uint256 _0x7d9c18, address _0x451eec);
+    event Donate(uint256 _0x7d9c18, address _0xa2d59e);
+    event FailedPayment(address _0xe4ed91, uint _0x7d9c18);
+    event Payment(address _0x6ccfa8, uint _0x7d9c18);
+    event JackpotPayment(address _0x40602e, uint _0xf62466, uint _0x3b56ee);
 
 
-    constructor (address _0xa25a0a, address _0xac6af5, address _0xd63eaf) public {
-        _0xbeee44 = msg.sender;
-        _0x2093c1 = _0xac6af5;
-        _0x567522 = _0xa25a0a;
-        _0xdb6602 = _0xd63eaf;
-        _0xf13af5 = 0;
-        if (msg.sender != address(0) || msg.sender == address(0)) { _0xa3c0d1 = 0; }
-        _0x5af5ba = 0;
-        _0x7b1c5e = 0;
+    constructor (address _0x22e5c5, address _0x2532e0, address _0xcf336b) public {
+        _0xa87386 = msg.sender;
+        if (gasleft() > 0) { _0x55956a = _0x2532e0; }
+        _0x092549 = _0x22e5c5;
+        if (1 == 1) { _0x0e8b01 = _0xcf336b; }
+        _0x9f3f4b = 0;
+        _0x7fafb3 = 0;
+        _0x11e584 = 0;
+        if (true) { _0x94bb02 = 0; }
     }
 
 
-    modifier _0xe26140() {
-        require (msg.sender == _0xbeee44, "You are not the owner of this contract!");
+    modifier _0x3847d5() {
+        require (msg.sender == _0xa87386, "You are not the owner of this contract!");
         _;
     }
 
-    modifier _0x8f5f83() {
-        require (msg.sender == _0x2093c1, "You are not the bot of this contract!");
+    modifier _0x358db2() {
+        require (msg.sender == _0x55956a, "You are not the bot of this contract!");
         _;
     }
 
-    modifier _0x584732() {
-        require (address(this).balance >= _0x5af5ba + _0xf13af5 + _0xa3c0d1, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
+    modifier _0x3a5104() {
+        require (address(this).balance >= _0x11e584 + _0x9f3f4b + _0x7fafb3, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
         _;
     }
 
 
     function() public payable { }
 
-    function _0x52178c(address _0xac6af5)
-    _0xe26140()
+    function _0x557d22(address _0x2532e0)
+    _0x3847d5()
     external
     {
-        _0x2093c1 = _0xac6af5;
+        _0x55956a = _0x2532e0;
     }
 
-    function _0xdfb692(address _0xaf50b3)
-    _0xe26140()
+    function _0x0c3638(address _0x81dbe1)
+    _0x3847d5()
     external
     {
-        _0xdb6602 = _0xaf50b3;
+        _0x0e8b01 = _0x81dbe1;
     }
 
 
-    function _0xfa6ea3(bool _0x4ea8fb, uint _0x62511e, uint _0xcf5831, uint8 v, bytes32 r, bytes32 s)
-    _0x584732()
+    function _0x8248aa(bool _0xf19b5f, uint _0xf62466, uint _0x819687, uint8 v, bytes32 r, bytes32 s)
+    _0x3a5104()
     external
     payable {
-        Bet storage _0x5384a2 = _0xf17c50[_0x62511e];
-        uint _0xc7c396 = msg.value;
-        address _0x52c868 = msg.sender;
-        require (_0x5384a2._0x52c868 == address(0), "Ticket is not new one!");
-        require (_0xc7c396 >= MIN_BET, "Your bet is lower than minimum bet amount");
-        require (_0xc7c396 <= MAX_BET, "Your bet is higher than maximum bet amount");
-        require (_0x6cd531() >= 2 * _0xc7c396, "If we accept this, this contract will be in danger!");
+        Bet storage _0x628d6a = _0x79a43a[_0xf62466];
+        uint _0x7d9c18 = msg.value;
+        address _0x40602e = msg.sender;
+        require (_0x628d6a._0x40602e == address(0), "Ticket is not new one!");
+        require (_0x7d9c18 >= MIN_BET, "Your bet is lower than minimum bet amount");
+        require (_0x7d9c18 <= MAX_BET, "Your bet is higher than maximum bet amount");
+        require (_0x192723() >= 2 * _0x7d9c18, "If we accept this, this contract will be in danger!");
 
-        require (block.number <= _0xcf5831, "Ticket has expired.");
-        bytes32 _0x481f97 = _0x94454e(abi._0x617fd2('\x19Ethereum Signed Message:\n37', uint40(_0xcf5831), _0x62511e));
-        require (_0xdb6602 == _0x275af6(_0x481f97, v, r, s), "web3 vrs signature is not valid.");
+        require (block.number <= _0x819687, "Ticket has expired.");
+        bytes32 _0xc041e0 = _0x550626(abi._0xc0a8de('\x19Ethereum Signed Message:\n37', uint40(_0x819687), _0xf62466));
+        require (_0x0e8b01 == _0xad591f(_0xc041e0, v, r, s), "web3 vrs signature is not valid.");
 
-        _0xf13af5 += _0xc7c396 * JACKPOT_FEE / 1000;
-        _0xa3c0d1 += _0xc7c396 * DEV_FEE / 1000;
-        _0x5af5ba += _0xc7c396 * WIN_X / 1000;
+        _0x9f3f4b += _0x7d9c18 * JACKPOT_FEE / 1000;
+        _0x7fafb3 += _0x7d9c18 * DEV_FEE / 1000;
+        _0x11e584 += _0x7d9c18 * WIN_X / 1000;
 
-        uint _0x34c4dd = _0xc7c396 * DONATING_X / 1000;
-        _0x567522.call.value(_0x34c4dd)(bytes4(_0x94454e("donate()")));
-        _0x7b1c5e += _0x34c4dd;
+        uint _0x28948d = _0x7d9c18 * DONATING_X / 1000;
+        _0x092549.call.value(_0x28948d)(bytes4(_0x550626("donate()")));
+        _0x94bb02 += _0x28948d;
 
-        _0x5384a2._0xc7c396 = _0xc7c396;
-        _0x5384a2._0x927696 = block.number;
-        _0x5384a2._0x48aed0 = _0x4ea8fb;
-        _0x5384a2._0x52c868 = _0x52c868;
+        _0x628d6a._0x7d9c18 = _0x7d9c18;
+        _0x628d6a._0x25e977 = block.number;
+        _0x628d6a._0x9c2534 = _0xf19b5f;
+        _0x628d6a._0x40602e = _0x40602e;
 
-        emit Wager(_0x62511e, _0x5384a2._0xc7c396, _0x5384a2._0x927696, _0x5384a2._0x48aed0, _0x5384a2._0x52c868);
+        emit Wager(_0xf62466, _0x628d6a._0x7d9c18, _0x628d6a._0x25e977, _0x628d6a._0x9c2534, _0x628d6a._0x40602e);
     }
 
 
-    function _0xf3981e(uint _0x4ec721)
-    _0x584732()
+    function _0x26e240(uint _0x668e55)
+    _0x3a5104()
     external
     {
-        uint _0x62511e = uint(_0x94454e(abi._0x617fd2(_0x4ec721)));
-        Bet storage _0x5384a2 = _0xf17c50[_0x62511e];
-        require (_0x5384a2._0x52c868 != address(0), "TicketID is not correct!");
-        require (_0x5384a2._0xc7c396 != 0, "Ticket is already used one!");
-        uint256 _0x927696 = _0x5384a2._0x927696;
-        if(_0x927696 < block.number && _0x927696 >= block.number - BET_EXPIRATION_BLOCKS)
+        uint _0xf62466 = uint(_0x550626(abi._0xc0a8de(_0x668e55)));
+        Bet storage _0x628d6a = _0x79a43a[_0xf62466];
+        require (_0x628d6a._0x40602e != address(0), "TicketID is not correct!");
+        require (_0x628d6a._0x7d9c18 != 0, "Ticket is already used one!");
+        uint256 _0x25e977 = _0x628d6a._0x25e977;
+        if(_0x25e977 < block.number && _0x25e977 >= block.number - BET_EXPIRATION_BLOCKS)
         {
-            uint256 _0x7cdad8 = uint256(_0x94454e(abi._0x617fd2(blockhash(_0x927696),  _0x4ec721)));
-            bool _0x9cc6bf = (_0x7cdad8 % 2) !=0;
-            uint _0x089789 = _0x7cdad8 % JACKPOT_MODULO;
+            uint256 _0x58a083 = uint256(_0x550626(abi._0xc0a8de(blockhash(_0x25e977),  _0x668e55)));
+            bool _0x1f08f5 = (_0x58a083 % 2) !=0;
+            uint _0x76641f = _0x58a083 % JACKPOT_MODULO;
 
-            uint _0x206f8c = _0x5384a2._0xc7c396 * WIN_X / 1000;
+            uint _0xb81da3 = _0x628d6a._0x7d9c18 * WIN_X / 1000;
 
-            uint _0xed39b8 = 0;
-            uint _0xd22c72 = 0;
+            uint _0x49908b = 0;
+            uint _0x3b56ee = 0;
 
-            if(_0x5384a2._0x48aed0 == _0x9cc6bf) {
-                _0xed39b8 = _0x206f8c;
+            if(_0x628d6a._0x9c2534 == _0x1f08f5) {
+                _0x49908b = _0xb81da3;
             }
-            if(_0x089789 == 0) {
-                _0xd22c72 = _0xf13af5;
-                _0xf13af5 = 0;
+            if(_0x76641f == 0) {
+                _0x3b56ee = _0x9f3f4b;
+                _0x9f3f4b = 0;
             }
-            if (_0xd22c72 > 0) {
-                emit JackpotPayment(_0x5384a2._0x52c868, _0x62511e, _0xd22c72);
+            if (_0x3b56ee > 0) {
+                emit JackpotPayment(_0x628d6a._0x40602e, _0xf62466, _0x3b56ee);
             }
-            if(_0xed39b8 + _0xd22c72 > 0)
+            if(_0x49908b + _0x3b56ee > 0)
             {
-                _0xf6a2ab(_0x5384a2._0x52c868, _0xed39b8 + _0xd22c72, _0x62511e, _0x9cc6bf, _0x089789);
+                _0xa6f952(_0x628d6a._0x40602e, _0x49908b + _0x3b56ee, _0xf62466, _0x1f08f5, _0x76641f);
             }
             else
             {
-                _0x8cc32d(_0x5384a2._0x52c868, _0x5384a2._0xc7c396, _0x62511e, _0x9cc6bf, _0x089789);
+                _0x883c2b(_0x628d6a._0x40602e, _0x628d6a._0x7d9c18, _0xf62466, _0x1f08f5, _0x76641f);
             }
-            _0x5af5ba -= _0x206f8c;
-            _0x5384a2._0xc7c396 = 0;
+            _0x11e584 -= _0xb81da3;
+            _0x628d6a._0x7d9c18 = 0;
         }
         else
         {
@@ -179,72 +179,72 @@ contract FiftyFlip {
         }
     }
 
-    function _0xabb833()
+    function _0x2a3f1b()
     external
     payable
     {
-        _0x5082be[msg.sender] += msg.value;
+        _0x191906[msg.sender] += msg.value;
         emit Donate(msg.value, msg.sender);
     }
 
-    function _0x13da2a(uint _0xc7c396)
+    function _0x377de1(uint _0x7d9c18)
     external
     {
-        require(_0x5082be[msg.sender] >= _0xc7c396, "You are going to withdraw more than you donated!");
+        require(_0x191906[msg.sender] >= _0x7d9c18, "You are going to withdraw more than you donated!");
 
-        if (_0xa70ec1(msg.sender, _0xc7c396)){
-            _0x5082be[msg.sender] -= _0xc7c396;
+        if (_0x94c606(msg.sender, _0x7d9c18)){
+            _0x191906[msg.sender] -= _0x7d9c18;
         }
     }
 
 
-    function _0x8829a5(uint _0x62511e)
-    _0x584732()
+    function _0x11418d(uint _0xf62466)
+    _0x3a5104()
     external {
-        Bet storage _0x5384a2 = _0xf17c50[_0x62511e];
+        Bet storage _0x628d6a = _0x79a43a[_0xf62466];
 
-        require (_0x5384a2._0xc7c396 != 0, "this ticket has no balance");
-        require (block.number > _0x5384a2._0x927696 + BET_EXPIRATION_BLOCKS, "this ticket is expired.");
-        _0x0690e1(_0x62511e);
+        require (_0x628d6a._0x7d9c18 != 0, "this ticket has no balance");
+        require (block.number > _0x628d6a._0x25e977 + BET_EXPIRATION_BLOCKS, "this ticket is expired.");
+        _0xb5eaf6(_0xf62466);
     }
 
 
-    function _0xb5a307(address _0x4954b9, uint _0xc6c28d)
-    _0xe26140()
-    _0x584732()
+    function _0xfd0b2d(address _0x287461, uint _0x75cabf)
+    _0x3847d5()
+    _0x3a5104()
     external {
-        require (_0xa3c0d1 >= _0xc6c28d, "You are trying to withdraw more amount than developer fee.");
-        require (_0xc6c28d <= address(this).balance, "Contract balance is lower than withdrawAmount");
-        require (_0xa3c0d1 <= address(this).balance, "Not enough funds to withdraw.");
-        if (_0xa70ec1(_0x4954b9, _0xc6c28d)){
-            _0xa3c0d1 -= _0xc6c28d;
+        require (_0x7fafb3 >= _0x75cabf, "You are trying to withdraw more amount than developer fee.");
+        require (_0x75cabf <= address(this).balance, "Contract balance is lower than withdrawAmount");
+        require (_0x7fafb3 <= address(this).balance, "Not enough funds to withdraw.");
+        if (_0x94c606(_0x287461, _0x75cabf)){
+            _0x7fafb3 -= _0x75cabf;
         }
     }
 
 
-    function _0x21143d(uint _0xc6c28d)
-    _0x8f5f83()
-    _0x584732()
+    function _0xe7ea79(uint _0x75cabf)
+    _0x358db2()
+    _0x3a5104()
     external {
-        require (_0xa3c0d1 >= _0xc6c28d, "You are trying to withdraw more amount than developer fee.");
-        require (_0xc6c28d <= address(this).balance, "Contract balance is lower than withdrawAmount");
-        require (_0xa3c0d1 <= address(this).balance, "Not enough funds to withdraw.");
-        if (_0xa70ec1(_0x2093c1, _0xc6c28d)){
-            _0xa3c0d1 -= _0xc6c28d;
+        require (_0x7fafb3 >= _0x75cabf, "You are trying to withdraw more amount than developer fee.");
+        require (_0x75cabf <= address(this).balance, "Contract balance is lower than withdrawAmount");
+        require (_0x7fafb3 <= address(this).balance, "Not enough funds to withdraw.");
+        if (_0x94c606(_0x55956a, _0x75cabf)){
+            _0x7fafb3 -= _0x75cabf;
         }
     }
 
 
-    function _0x441f03(uint _0x62511e)
+    function _0xd1e3bf(uint _0xf62466)
     constant
     external
     returns (uint, uint256, bool, address){
-        Bet storage _0x5384a2 = _0xf17c50[_0x62511e];
-        return (_0x5384a2._0xc7c396, _0x5384a2._0x927696, _0x5384a2._0x48aed0, _0x5384a2._0x52c868);
+        Bet storage _0x628d6a = _0x79a43a[_0xf62466];
+        return (_0x628d6a._0x7d9c18, _0x628d6a._0x25e977, _0x628d6a._0x9c2534, _0x628d6a._0x40602e);
     }
 
 
-    function _0xaa090c()
+    function _0xbd9997()
     constant
     external
     returns (uint){
@@ -252,97 +252,97 @@ contract FiftyFlip {
     }
 
 
-    function _0x6cd531()
+    function _0x192723()
     constant
     public
     returns (uint){
-        if (address(this).balance > _0x5af5ba + _0xf13af5 + _0xa3c0d1)
-            return address(this).balance - _0x5af5ba - _0xf13af5 - _0xa3c0d1;
+        if (address(this).balance > _0x11e584 + _0x9f3f4b + _0x7fafb3)
+            return address(this).balance - _0x11e584 - _0x9f3f4b - _0x7fafb3;
         return 0;
     }
 
 
-    function _0x53e4ea() external _0xe26140() {
-        require (_0x5af5ba == 0, "All bets should be processed (settled or refunded) before self-destruct.");
-        selfdestruct(_0xbeee44);
+    function _0x49a651() external _0x3847d5() {
+        require (_0x11e584 == 0, "All bets should be processed (settled or refunded) before self-destruct.");
+        selfdestruct(_0xa87386);
     }
 
 
-    function _0xf6a2ab(address _0xad3363, uint _0x9d5661, uint _0x62511e, bool _0x9cc6bf, uint _0x089789)
+    function _0xa6f952(address _0x2326c1, uint _0xffc09c, uint _0xf62466, bool _0x1f08f5, uint _0x76641f)
     internal
     {
-        _0xad3363.transfer(_0x9d5661);
-        emit Win(_0xad3363, _0x9d5661, _0x62511e, _0x9cc6bf, _0x089789);
+        _0x2326c1.transfer(_0xffc09c);
+        emit Win(_0x2326c1, _0xffc09c, _0xf62466, _0x1f08f5, _0x76641f);
     }
 
 
-    function _0x0690e1(uint _0x62511e)
+    function _0xb5eaf6(uint _0xf62466)
     internal
     {
-        Bet storage _0x5384a2 = _0xf17c50[_0x62511e];
-        address _0x644039 = _0x5384a2._0x52c868;
-        uint256 _0x9d5661 = _0x5384a2._0xc7c396;
-        _0x644039.transfer(_0x9d5661);
+        Bet storage _0x628d6a = _0x79a43a[_0xf62466];
+        address _0x451eec = _0x628d6a._0x40602e;
+        uint256 _0xffc09c = _0x628d6a._0x7d9c18;
+        _0x451eec.transfer(_0xffc09c);
 
-        uint _0x206f8c = _0x5384a2._0xc7c396 * WIN_X / 1000;
-        _0x5af5ba -= _0x206f8c;
+        uint _0xb81da3 = _0x628d6a._0x7d9c18 * WIN_X / 1000;
+        _0x11e584 -= _0xb81da3;
 
-        _0x5384a2._0xc7c396 = 0;
-        emit Refund(_0x62511e, _0x9d5661, _0x644039);
+        _0x628d6a._0x7d9c18 = 0;
+        emit Refund(_0xf62466, _0xffc09c, _0x451eec);
     }
 
 
-    function _0xa70ec1(address _0x8745e2, uint _0xc7c396) private returns (bool){
-        bool _0xe4870f = _0x8745e2.send(_0xc7c396);
-        if (_0xe4870f) {
-            emit Payment(_0x8745e2, _0xc7c396);
+    function _0x94c606(address _0xe4ed91, uint _0x7d9c18) private returns (bool){
+        bool _0x99a08c = _0xe4ed91.send(_0x7d9c18);
+        if (_0x99a08c) {
+            emit Payment(_0xe4ed91, _0x7d9c18);
         } else {
-            emit FailedPayment(_0x8745e2, _0xc7c396);
+            emit FailedPayment(_0xe4ed91, _0x7d9c18);
         }
-        return _0xe4870f;
+        return _0x99a08c;
     }
 
-    function _0x8cc32d(address _0x52c868, uint _0xc7c396, uint _0x62511e, bool _0x9cc6bf, uint _0x089789)
+    function _0x883c2b(address _0x40602e, uint _0x7d9c18, uint _0xf62466, bool _0x1f08f5, uint _0x76641f)
     internal
     {
-        emit Lose(_0x52c868, _0xc7c396, _0x62511e, _0x9cc6bf, _0x089789);
+        emit Lose(_0x40602e, _0x7d9c18, _0xf62466, _0x1f08f5, _0x76641f);
     }
 
 
-    function _0x9f97ba(uint[] _0x0f11fc) external {
-        uint length = _0x0f11fc.length;
+    function _0x3b287b(uint[] _0x1cf978) external {
+        uint length = _0x1cf978.length;
 
         for (uint i = 0; i < length; i++) {
-            _0x909780(_0x0f11fc[i]);
+            _0x5ada40(_0x1cf978[i]);
         }
     }
 
 
-    function _0x909780(uint _0x62511e) private {
-        Bet storage _0x5384a2 = _0xf17c50[_0x62511e];
+    function _0x5ada40(uint _0xf62466) private {
+        Bet storage _0x628d6a = _0x79a43a[_0xf62466];
 
 
-        if (_0x5384a2._0xc7c396 != 0 || block.number <= _0x5384a2._0x927696 + BET_EXPIRATION_BLOCKS) {
+        if (_0x628d6a._0x7d9c18 != 0 || block.number <= _0x628d6a._0x25e977 + BET_EXPIRATION_BLOCKS) {
             return;
         }
 
-        _0x5384a2._0x927696 = 0;
-        _0x5384a2._0x48aed0 = false;
-        _0x5384a2._0x52c868 = address(0);
+        _0x628d6a._0x25e977 = 0;
+        _0x628d6a._0x9c2534 = false;
+        _0x628d6a._0x40602e = address(0);
     }
 
 
-    function _0x261c83(address _0x2d895a, address _0x483042, uint _0x4ced5f)
+    function _0x700f17(address _0x7d6ddf, address _0x184955, uint _0xec47f5)
     public
-    _0xe26140()
-    returns (bool _0xe4870f)
+    _0x3847d5()
+    returns (bool _0x99a08c)
     {
-        return ERC20Interface(_0x2d895a).transfer(_0x483042, _0x4ced5f);
+        return ERC20Interface(_0x7d6ddf).transfer(_0x184955, _0xec47f5);
     }
 }
 
 
 contract ERC20Interface
 {
-    function transfer(address _0x566e0b, uint256 _0x4ced5f) public returns (bool _0xe4870f);
+    function transfer(address _0x8fe800, uint256 _0xec47f5) public returns (bool _0x99a08c);
 }

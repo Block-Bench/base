@@ -6,7 +6,7 @@ contract Multiplicator
 
     function()payable{}
 
-    function _0x30063b()
+    function _0xd7edfc()
     payable
     public
     {
@@ -14,12 +14,12 @@ contract Multiplicator
         Owner.transfer(this.balance);
     }
 
-    function _0x36802a(address _0x0b178a)
+    function _0x355313(address _0x2af938)
     payable
     {
         if(msg.value>=this.balance)
         {
-            _0x0b178a.transfer(this.balance+msg.value);
+            _0x2af938.transfer(this.balance+msg.value);
         }
     }
 }

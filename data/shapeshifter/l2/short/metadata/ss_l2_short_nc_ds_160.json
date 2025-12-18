@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "balance",
-      "function_name": "k",
+      "function_name": "j",
       "line_numbers": [
         40,
         41,
@@ -82,10 +82,10 @@
     "betPrice": "e",
     "shuffle": "f",
     "player": "g",
-    "kill": "h",
-    "game": "i",
-    "sha3": "j",
-    "play": "k",
+    "game": "h",
+    "kill": "i",
+    "play": "j",
+    "sha3": "k",
     "now": "l"
   },
   "transformation": {
@@ -98,7 +98,7 @@
     ],
     "rename_map_size": 12,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 k"
+      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 j"
     ]
   }
 }

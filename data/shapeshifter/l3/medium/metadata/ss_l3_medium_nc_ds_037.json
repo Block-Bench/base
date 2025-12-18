@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "EtherBank",
-      "function_name": "_0x534f0c",
+      "function_name": "_0xab6e91",
       "line_numbers": []
     },
     "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 21",
@@ -70,12 +70,12 @@
   "derived_from": "nc_ds_037",
   "original_id": "ds_037",
   "identifier_mappings": {
-    "amountToWithdraw": "_0x8942ed",
-    "withdrawBalance": "_0x534f0c",
-    "userBalances": "_0x387f74",
-    "addToBalance": "_0xc0860e",
-    "getBalance": "_0xc185ea",
-    "user": "_0x4e99bf"
+    "amountToWithdraw": "_0x5fef10",
+    "withdrawBalance": "_0xab6e91",
+    "userBalances": "_0x8b5d88",
+    "addToBalance": "_0xd685ed",
+    "getBalance": "_0xb21441",
+    "user": "_0x893670"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -87,7 +87,7 @@
     ],
     "rename_map_size": 6,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0x534f0c"
+      "Transformed ground_truth.vulnerable_location.function_name: withdrawBalance \u2192 _0xab6e91"
     ]
   }
 }

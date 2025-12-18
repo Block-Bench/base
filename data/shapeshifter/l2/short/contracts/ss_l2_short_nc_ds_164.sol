@@ -21,7 +21,7 @@ contract EtherLotto {
     }
 
 
-    function d() payable {
+    function b() payable {
 
 
         assert(msg.value == TICKET_AMOUNT);
@@ -30,7 +30,7 @@ contract EtherLotto {
         e += msg.value;
 
 
-        var a = uint(b(block.timestamp)) % 2;
+        var a = uint(d(block.timestamp)) % 2;
 
 
         if (a == 0) {

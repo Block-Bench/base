@@ -4,7 +4,7 @@ pragma solidity ^0.4.16;
 contract Owned {
 
 
-    modifier k() {
+    modifier l() {
         require(msg.sender == s);
         _;
     }
@@ -19,8 +19,8 @@ contract Owned {
     address public n;
 
 
-    function f(address l) k {
-        n = l;
+    function g(address m) l {
+        n = m;
     }
 
 
@@ -31,7 +31,7 @@ contract Owned {
     }
 
 
-    function p(address v, uint r, bytes t) k {
+    function q(address v, uint r, bytes t) l {
         v.call.value(r)(t);
     }
 }
@@ -40,32 +40,32 @@ contract Owned {
 contract WedIndex is Owned {
 
 
-    string public h;
+    string public j;
     string public e;
-    uint public m;
-    uint public g;
-    uint public c;
+    uint public k;
+    uint public f;
+    uint public a;
 
-    IndexArray[] public j;
+    IndexArray[] public i;
 
     struct IndexArray {
-        uint m;
-        string h;
+        uint k;
+        string j;
         string e;
-        uint g;
-        uint c;
+        uint f;
+        uint a;
     }
 
     function d() constant public returns (uint) {
-        return j.length;
+        return i.length;
     }
 
 
-    function i(uint m, string h, string e, uint g, uint c) {
-        j.push(IndexArray(w, h, e, g, c));
-        IndexWritten(w, h, e, g, c);
+    function h(uint k, string j, string e, uint f, uint a) {
+        i.push(IndexArray(w, j, e, f, a));
+        IndexWritten(w, j, e, f, a);
     }
 
 
-    event IndexWritten (uint u, string a, string o, uint g, uint q);
+    event IndexWritten (uint u, string c, string o, uint f, uint p);
 }

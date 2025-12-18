@@ -11,7 +11,7 @@ contract LockManagerERC20 is ILockManager, LockManagerBase {
     IERC20 private immutable e;
 
 
-    constructor(LockManagerSettings memory g, IERC20 j) LockManagerBase(g) {
+    constructor(LockManagerSettings memory h, IERC20 j) LockManagerBase(h) {
         e = j;
     }
 
@@ -22,7 +22,7 @@ contract LockManagerERC20 is ILockManager, LockManagerBase {
 
 
     function a() internal view virtual override returns (uint256) {
-        return e.h(msg.sender, address(this));
+        return e.g(msg.sender, address(this));
     }
 
 

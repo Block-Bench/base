@@ -10,15 +10,15 @@
     "preserves_vulnerability": true
   },
   "statistics": {
-    "total_samples": 499,
-    "vulnerable_count": 499,
+    "total_samples": 501,
+    "vulnerable_count": 501,
     "safe_count": 0,
     "by_vulnerability_type": {
-      "timestamp_dependency": 26,
+      "timestamp_dependency": 27,
       "reentrancy": 84,
       "integer_overflow": 44,
       "access_control": 82,
-      "other": 127,
+      "other": 128,
       "denial_of_service": 16,
       "front_running": 14,
       "logic_error": 58,
@@ -1329,6 +1329,14 @@
       "vulnerability_type": "other"
     },
     {
+      "id": "ss_l2_short_nc_ds_214",
+      "contract_file": "contracts/ss_l2_short_nc_ds_214.sol",
+      "metadata_file": "metadata/ss_l2_short_nc_ds_214.json",
+      "derived_from": "nc_ds_214",
+      "is_vulnerable": true,
+      "vulnerability_type": "other"
+    },
+    {
       "id": "ss_l2_short_nc_ds_215",
       "contract_file": "contracts/ss_l2_short_nc_ds_215.sol",
       "metadata_file": "metadata/ss_l2_short_nc_ds_215.json",
@@ -1357,6 +1365,14 @@
       "contract_file": "contracts/ss_l2_short_nc_ds_233.sol",
       "metadata_file": "metadata/ss_l2_short_nc_ds_233.json",
       "derived_from": "nc_ds_233",
+      "is_vulnerable": true,
+      "vulnerability_type": "timestamp_dependency"
+    },
+    {
+      "id": "ss_l2_short_nc_ds_234",
+      "contract_file": "contracts/ss_l2_short_nc_ds_234.sol",
+      "metadata_file": "metadata/ss_l2_short_nc_ds_234.json",
+      "derived_from": "nc_ds_234",
       "is_vulnerable": true,
       "vulnerability_type": "timestamp_dependency"
     },

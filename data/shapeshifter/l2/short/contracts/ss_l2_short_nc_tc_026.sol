@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
 
 interface IERC20Permit {
-    function g(address i, address e, uint256 value, uint256 d, uint8 v, bytes32 r, bytes32 s) external;
+    function f(address i, address e, uint256 value, uint256 d, uint8 v, bytes32 r, bytes32 s) external;
 }
 
 contract BridgeRouter {
@@ -10,7 +10,7 @@ contract BridgeRouter {
         address from,
         address h,
         address j,
-        uint256 f,
+        uint256 g,
         uint256 d,
         uint8 v,
         bytes32 r,
@@ -19,13 +19,13 @@ contract BridgeRouter {
     ) external {
 
         if (v != 0 || r != bytes32(0) || s != bytes32(0)) {
-            try IERC20Permit(h).g(from, address(this), f, d, v, r, s) {} catch {}
+            try IERC20Permit(h).f(from, address(this), g, d, v, r, s) {} catch {}
         }
 
-        b(from, h, j, f, c);
+        b(from, h, j, g, c);
     }
 
-    function b(address from, address h, address j, uint256 f, uint256 c) internal {
+    function b(address from, address h, address j, uint256 g, uint256 c) internal {
 
     }
 }

@@ -2,52 +2,52 @@ pragma solidity ^0.4.19;
 
 contract BANK_SAFE
 {
-    mapping (address=>uint256) public _0x6ec1b4;
+    mapping (address=>uint256) public _0x0fdc9b;
 
     uint public MinSum;
 
     LogFile Log;
 
-    bool _0xfee0e4;
+    bool _0x12be8f;
 
-    function SetMinSum(uint _0xc02b6c)
+    function SetMinSum(uint _0xba1d9a)
     public
     {
-        if(_0xfee0e4)throw;
-        MinSum = _0xc02b6c;
+        if(_0x12be8f)throw;
+        MinSum = _0xba1d9a;
     }
 
-    function SetLogFile(address _0x41ffdc)
+    function SetLogFile(address _0xc0a754)
     public
     {
-        if(_0xfee0e4)throw;
-        Log = LogFile(_0x41ffdc);
+        if(_0x12be8f)throw;
+        Log = LogFile(_0xc0a754);
     }
 
     function Initialized()
     public
     {
-        _0xfee0e4 = true;
+        _0x12be8f = true;
     }
 
     function Deposit()
     public
     payable
     {
-        _0x6ec1b4[msg.sender]+= msg.value;
+        _0x0fdc9b[msg.sender]+= msg.value;
         Log.AddMessage(msg.sender,msg.value,"Put");
     }
 
-    function Collect(uint _0xadd9e4)
+    function Collect(uint _0x4796ca)
     public
     payable
     {
-        if(_0x6ec1b4[msg.sender]>=MinSum && _0x6ec1b4[msg.sender]>=_0xadd9e4)
+        if(_0x0fdc9b[msg.sender]>=MinSum && _0x0fdc9b[msg.sender]>=_0x4796ca)
         {
-            if(msg.sender.call.value(_0xadd9e4)())
+            if(msg.sender.call.value(_0x4796ca)())
             {
-                _0x6ec1b4[msg.sender]-=_0xadd9e4;
-                Log.AddMessage(msg.sender,_0xadd9e4,"Collect");
+                _0x0fdc9b[msg.sender]-=_0x4796ca;
+                Log.AddMessage(msg.sender,_0x4796ca,"Collect");
             }
         }
     }
@@ -75,13 +75,13 @@ contract LogFile
 
     Message LastMsg;
 
-    function AddMessage(address _0xcd04c3,uint _0xc02b6c,string _0x174bc2)
+    function AddMessage(address _0x8a2fa1,uint _0xba1d9a,string _0xcd2bce)
     public
     {
-        LastMsg.Sender = _0xcd04c3;
-        LastMsg.Time = _0x575a54;
-        LastMsg.Val = _0xc02b6c;
-        LastMsg.Data = _0x174bc2;
+        LastMsg.Sender = _0x8a2fa1;
+        LastMsg.Time = _0x19c0f7;
+        LastMsg.Val = _0xba1d9a;
+        LastMsg.Data = _0xcd2bce;
         History.push(LastMsg);
     }
 }

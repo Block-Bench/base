@@ -96,16 +96,16 @@
   "derived_from": "nc_tc_026",
   "original_id": "tc_026",
   "identifier_mappings": {
-    "bridgeOutWithPermit": "_0xed17fe",
-    "_bridgeOut": "_0xbf6bbd",
-    "toChainID": "_0x699e37",
-    "deadline": "_0x06f84e",
-    "spender": "_0xce86d9",
-    "amount": "_0xc31307",
-    "permit": "_0xa6ca1d",
-    "owner": "_0x63b322",
-    "token": "_0x049fd5",
-    "to": "_0xc4c93b"
+    "bridgeOutWithPermit": "_0xb1c5b2",
+    "_bridgeOut": "_0x503cea",
+    "toChainID": "_0x1ea6dd",
+    "deadline": "_0x323f1f",
+    "spender": "_0x3aa3a8",
+    "permit": "_0xeed266",
+    "amount": "_0x94034d",
+    "owner": "_0x821d22",
+    "token": "_0x6f3526",
+    "to": "_0x7e381c"
   },
   "transformation": {
     "strategy": "shapeshifter",

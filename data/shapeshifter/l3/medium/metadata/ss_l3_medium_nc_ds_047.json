@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "Caller",
-      "function_name": "_0x178e56",
+      "function_name": "_0x7a0907",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 12",
@@ -70,7 +70,7 @@
   "derived_from": "nc_ds_047",
   "original_id": "ds_047",
   "identifier_mappings": {
-    "callAddress": "_0x178e56"
+    "callAddress": "_0x7a0907"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -82,7 +82,7 @@
     ],
     "rename_map_size": 1,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: callAddress \u2192 _0x178e56"
+      "Transformed ground_truth.vulnerable_location.function_name: callAddress \u2192 _0x7a0907"
     ]
   }
 }

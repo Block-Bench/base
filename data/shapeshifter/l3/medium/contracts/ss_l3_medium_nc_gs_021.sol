@@ -9,7 +9,7 @@ import {IPoolManager} from 'uniswap/v4-core/src/interfaces/IPoolManager.sol';
 import {IUnlockCallback} from 'uniswap/v4-core/src/interfaces/callback/IUnlockCallback.sol';
 import {Hooks} from 'uniswap/v4-core/src/libraries/Hooks.sol';
 
-import {BalanceDelta, _0xc626f4} from 'uniswap/v4-core/src/types/BalanceDelta.sol';
+import {BalanceDelta, _0xe6eb5e} from 'uniswap/v4-core/src/types/BalanceDelta.sol';
 import {
   BeforeSwapDelta, BeforeSwapDeltaLibrary
 } from 'uniswap/v4-core/src/types/BeforeSwapDelta.sol';
@@ -26,151 +26,151 @@ contract UniswapV4KEMHook is BaseKEMHook, IUnlockCallback {
   error NotPoolManager();
 
 
-  IPoolManager public immutable _0x38568d;
+  IPoolManager public immutable _0xd7897e;
 
   constructor(
-    IPoolManager _0xd80a35,
-    address _0x0e0e59,
-    address[] memory _0x8e88dc,
-    address _0x6a20a2,
-    address _0xfca2a2
-  ) BaseKEMHook(_0x0e0e59, _0x8e88dc, _0x6a20a2, _0xfca2a2) {
-    _0x38568d = _0xd80a35;
-    Hooks._0x629349(IHooks(address(this)), _0x8504c2());
+    IPoolManager _0xd515c7,
+    address _0x8fa55c,
+    address[] memory _0x9379d2,
+    address _0x5528e1,
+    address _0x41a605
+  ) BaseKEMHook(_0x8fa55c, _0x9379d2, _0x5528e1, _0x41a605) {
+    _0xd7897e = _0xd515c7;
+    Hooks._0xceb975(IHooks(address(this)), _0x0978e3());
   }
 
 
-  modifier _0x54ca92() {
-    if (msg.sender != address(_0x38568d)) revert NotPoolManager();
+  modifier _0xdb742c() {
+    if (msg.sender != address(_0xd7897e)) revert NotPoolManager();
     _;
   }
 
 
-  function _0x3c2d6f(address[] calldata _0x12e3ff, uint256[] calldata _0xd0d0fc) public {
-    require(_0x370fd8[msg.sender], NonClaimableAccount(msg.sender));
-    require(_0x12e3ff.length == _0xd0d0fc.length, MismatchedArrayLengths());
+  function _0x275fa5(address[] calldata _0xd31225, uint256[] calldata _0xbd9a07) public {
+    require(_0xa0e732[msg.sender], NonClaimableAccount(msg.sender));
+    require(_0xd31225.length == _0xbd9a07.length, MismatchedArrayLengths());
 
-    _0x38568d._0x89507c(abi._0x7aa63b(_0x12e3ff, _0xd0d0fc));
+    _0xd7897e._0x66eddf(abi._0x598422(_0xd31225, _0xbd9a07));
   }
 
-  function _0xacfb2c(bytes calldata data) public _0x54ca92 returns (bytes memory) {
-    (address[] memory _0x12e3ff, uint256[] memory _0xd0d0fc) = abi._0x2666ed(data, (address[], uint256[]));
+  function _0x3086fa(bytes calldata data) public _0xdb742c returns (bytes memory) {
+    (address[] memory _0xd31225, uint256[] memory _0xbd9a07) = abi._0x96d3e5(data, (address[], uint256[]));
 
-    for (uint256 i = 0; i < _0x12e3ff.length; i++) {
-      uint256 _0x0b22be = uint256(uint160(_0x12e3ff[i]));
-      if (_0xd0d0fc[i] == 0) {
-        _0xd0d0fc[i] = _0x38568d._0x316c0e(address(this), _0x0b22be);
+    for (uint256 i = 0; i < _0xd31225.length; i++) {
+      uint256 _0x553375 = uint256(uint160(_0xd31225[i]));
+      if (_0xbd9a07[i] == 0) {
+        _0xbd9a07[i] = _0xd7897e._0x4c3319(address(this), _0x553375);
       }
-      if (_0xd0d0fc[i] > 0) {
-        _0x38568d._0x3bc6f4(address(this), _0x0b22be, _0xd0d0fc[i]);
-        _0x38568d._0xfeaf24(Currency._0xe6bcd6(_0x12e3ff[i]), _0xd0eb95, _0xd0d0fc[i]);
+      if (_0xbd9a07[i] > 0) {
+        _0xd7897e._0x7ff494(address(this), _0x553375, _0xbd9a07[i]);
+        _0xd7897e._0x4cc20f(Currency._0x08a362(_0xd31225[i]), _0x812a42, _0xbd9a07[i]);
       }
     }
 
-    emit ClaimEgTokens(_0xd0eb95, _0x12e3ff, _0xd0d0fc);
+    emit ClaimEgTokens(_0x812a42, _0xd31225, _0xbd9a07);
   }
 
-  function _0x8504c2() public pure returns (Hooks.Permissions memory) {
+  function _0x0978e3() public pure returns (Hooks.Permissions memory) {
     return Hooks.Permissions({
-      _0x764374: false,
-      _0x47ffa9: false,
-      _0x0c7771: false,
-      _0xdd55e5: false,
-      _0x86ec00: false,
-      _0xaec1f2: false,
-      _0x178398: true,
-      _0x65e7ab: true,
-      _0x2040e0: false,
-      _0xb30338: false,
-      _0xd2d31d: false,
-      _0x31a93e: true,
-      _0x0b5970: false,
-      _0x4d9527: false
+      _0x2f255a: false,
+      _0x5f04cd: false,
+      _0x479fda: false,
+      _0xb46882: false,
+      _0x03e070: false,
+      _0x155549: false,
+      _0xf00346: true,
+      _0x174877: true,
+      _0x45235f: false,
+      _0x420fe0: false,
+      _0x80dfc4: false,
+      _0xc182a7: true,
+      _0xed8b15: false,
+      _0x109a3a: false
     });
   }
 
-  function _0x178398(
+  function _0xf00346(
     address sender,
-    PoolKey calldata _0x0fe110,
-    IPoolManager.SwapParams calldata _0xd9db9f,
-    bytes calldata _0x84a879
-  ) external _0x54ca92 returns (bytes4, BeforeSwapDelta, uint24) {
-    require(_0xd9db9f._0x58cb47 < 0, ExactOutputDisabled());
+    PoolKey calldata _0x6330d6,
+    IPoolManager.SwapParams calldata _0xd591c8,
+    bytes calldata _0x07ccbc
+  ) external _0xdb742c returns (bytes4, BeforeSwapDelta, uint24) {
+    require(_0xd591c8._0x353bfb < 0, ExactOutputDisabled());
 
     (
-      int256 _0x9fad93,
-      int256 _0x646a49,
-      int256 _0xf27070,
-      uint256 _0xbaa849,
-      uint256 _0x2eb997,
-      bytes memory _0x53b569
-    ) = HookDataDecoder._0xbb2cf5(_0x84a879);
+      int256 _0x582808,
+      int256 _0x711ad5,
+      int256 _0xa2b0cc,
+      uint256 _0x823eb0,
+      uint256 _0x1f4242,
+      bytes memory _0x590c0a
+    ) = HookDataDecoder._0x5af191(_0x07ccbc);
 
-    require(block.timestamp <= _0x2eb997, ExpiredSignature(_0x2eb997, block.timestamp));
+    require(block.timestamp <= _0x1f4242, ExpiredSignature(_0x1f4242, block.timestamp));
     require(
-      -_0xd9db9f._0x58cb47 <= _0x9fad93,
-      ExceededMaxAmountIn(_0x9fad93, -_0xd9db9f._0x58cb47)
+      -_0xd591c8._0x353bfb <= _0x582808,
+      ExceededMaxAmountIn(_0x582808, -_0xd591c8._0x353bfb)
     );
 
-    _0xeed4be(_0xbaa849);
+    _0x97a67b(_0x823eb0);
 
-    bytes32 _0xa69385 = _0xc50bec(
-      abi._0x7aa63b(
+    bytes32 _0x11b329 = _0x908b55(
+      abi._0x598422(
         sender,
-        _0x0fe110,
-        _0xd9db9f._0x0b4f5d,
-        _0x9fad93,
-        _0x646a49,
-        _0xf27070,
-        _0xbaa849,
-        _0x2eb997
+        _0x6330d6,
+        _0xd591c8._0x6f1818,
+        _0x582808,
+        _0x711ad5,
+        _0xa2b0cc,
+        _0x823eb0,
+        _0x1f4242
       )
     );
     require(
-      SignatureChecker._0x42d50d(_0x3dc5fd, _0xa69385, _0x53b569), InvalidSignature()
+      SignatureChecker._0xdd493c(_0x210345, _0x11b329, _0x590c0a), InvalidSignature()
     );
 
-    return (this._0x178398.selector, BeforeSwapDeltaLibrary.ZERO_DELTA, 0);
+    return (this._0xf00346.selector, BeforeSwapDeltaLibrary.ZERO_DELTA, 0);
   }
 
-  function _0x65e7ab(
+  function _0x174877(
     address,
-    PoolKey calldata _0x0fe110,
-    IPoolManager.SwapParams calldata _0xd9db9f,
-    BalanceDelta _0x5c8142,
-    bytes calldata _0x84a879
-  ) external _0x54ca92 returns (bytes4, int128) {
-    (int256 _0x646a49, int256 _0xf27070) =
-      HookDataDecoder._0x272815(_0x84a879);
+    PoolKey calldata _0x6330d6,
+    IPoolManager.SwapParams calldata _0xd591c8,
+    BalanceDelta _0x89b7ea,
+    bytes calldata _0x07ccbc
+  ) external _0xdb742c returns (bytes4, int128) {
+    (int256 _0x711ad5, int256 _0xa2b0cc) =
+      HookDataDecoder._0xea385f(_0x07ccbc);
 
-    int128 _0x0a2086;
-    int128 _0x50fcdf;
-    Currency _0x4c5f53;
+    int128 _0x1f6f48;
+    int128 _0x131d79;
+    Currency _0x3a4e80;
     unchecked {
-      if (_0xd9db9f._0x0b4f5d) {
-        _0x0a2086 = -_0x5c8142._0xb856df();
-        _0x50fcdf = _0x5c8142._0x0402da();
-        _0x4c5f53 = _0x0fe110._0xa314e5;
+      if (_0xd591c8._0x6f1818) {
+        _0x1f6f48 = -_0x89b7ea._0x33de38();
+        _0x131d79 = _0x89b7ea._0x5209c5();
+        _0x3a4e80 = _0x6330d6._0xcf70b2;
       } else {
-        _0x0a2086 = -_0x5c8142._0x0402da();
-        _0x50fcdf = _0x5c8142._0xb856df();
-        _0x4c5f53 = _0x0fe110._0x44dac9;
+        _0x1f6f48 = -_0x89b7ea._0x5209c5();
+        _0x131d79 = _0x89b7ea._0x33de38();
+        _0x3a4e80 = _0x6330d6._0xb0b292;
       }
     }
 
-    int256 _0x77ba05 = _0x0a2086 * _0x646a49 / _0xf27070;
+    int256 _0x5698f7 = _0x1f6f48 * _0x711ad5 / _0xa2b0cc;
 
     unchecked {
-      int256 _0x732c7e = _0x77ba05 < _0x50fcdf ? _0x50fcdf - _0x77ba05 : int256(0);
-      if (_0x732c7e > 0) {
-        _0x38568d._0xe66aac(
-          address(this), uint256(uint160(Currency._0x0aed9b(_0x4c5f53))), uint256(_0x732c7e)
+      int256 _0xb04bc1 = _0x5698f7 < _0x131d79 ? _0x131d79 - _0x5698f7 : int256(0);
+      if (_0xb04bc1 > 0) {
+        _0xd7897e._0x7a1f39(
+          address(this), uint256(uint160(Currency._0x1b5954(_0x3a4e80))), uint256(_0xb04bc1)
         );
 
-        emit AbsorbEgToken(PoolId._0x0aed9b(_0x0fe110._0x7a61cc()), Currency._0x0aed9b(_0x4c5f53), _0x732c7e);
+        emit AbsorbEgToken(PoolId._0x1b5954(_0x6330d6._0xf511f7()), Currency._0x1b5954(_0x3a4e80), _0xb04bc1);
       }
 
-      return (this._0x65e7ab.selector, int128(_0x732c7e));
+      return (this._0x174877.selector, int128(_0xb04bc1));
     }
   }
 }

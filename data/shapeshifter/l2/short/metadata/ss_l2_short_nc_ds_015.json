@@ -75,10 +75,10 @@
   "identifier_mappings": {
     "initWallet": "a",
     "migrateTo": "b",
-    "withdraw": "c",
-    "balances": "d",
-    "creator": "e",
-    "deposit": "f",
+    "balances": "c",
+    "withdraw": "d",
+    "deposit": "e",
+    "creator": "f",
     "amount": "g",
     "to": "h"
   },

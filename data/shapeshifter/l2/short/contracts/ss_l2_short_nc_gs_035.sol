@@ -15,128 +15,128 @@ contract V2Locker is Locker, IV2Locker {
     using SafeERC20 for IERC20;
 
 
-    address public immutable bh;
+    address public immutable bo;
 
     uint256 internal ca;
 
     constructor(
-        bool bt,
-        address bl,
-        address bw,
-        address az,
+        bool bu,
+        address bg,
+        address bt,
+        address bb,
         uint256 bz,
-        uint32 r,
+        uint32 t,
         address l,
-        uint16 b,
-        uint16 g
-    ) Locker(bt, bl, bw, r, l, b, g) {
-        bh = az;
+        uint16 c,
+        uint16 f
+    ) Locker(bu, bg, bt, t, l, c, f) {
+        bo = bb;
         ca = bz;
-        (bp, bf) = IV2Pool(by).bj();
+        (bk, br) = IV2Pool(by).bq();
     }
 
 
-    function bo(address ae) external override(Locker, ILocker) ab m returns (uint256) {
-        if (msg.sender != ax) revert NotFactory();
+    function bn(address ab) external override(Locker, ILocker) ac n returns (uint256) {
+        if (msg.sender != bd) revert NotFactory();
 
-        delete bg;
-        delete v;
+        delete bi;
+        delete z;
 
-        IERC20(by).o({cb: ae, value: ca});
+        IERC20(by).p({cb: ab, value: ca});
 
 
-        uint256 aq = IERC20(bp).an({ba: address(this)});
-        if (aq > 0) IERC20(bp).o({cb: ae, value: aq});
-        aq = IERC20(bf).an({ba: address(this)});
-        if (aq > 0) IERC20(bf).o({cb: ae, value: aq});
+        uint256 ar = IERC20(bk).ap({be: address(this)});
+        if (ar > 0) IERC20(bk).p({cb: ab, value: ar});
+        ar = IERC20(br).ap({be: address(this)});
+        if (ar > 0) IERC20(br).p({cb: ab, value: ar});
 
-        emit Unlocked({ah: ae});
+        emit Unlocked({ak: ab});
         return ca;
     }
 
 
-    function bx() external override(Locker, ILocker) m am ab y {
-        if (bg) revert AlreadyStaked();
-        bg = true;
+    function bx() external override(Locker, ILocker) n al ac aa {
+        if (bi) revert AlreadyStaked();
+        bi = true;
 
-        ag({ae: bs()});
+        ae({ab: bw()});
 
-        IERC20(by).a({bb: address(bu), value: ca});
-        bu.ay({cc: ca});
+        IERC20(by).a({az: address(bv), value: ca});
+        bv.ax({cc: ca});
         emit Staked();
     }
 
 
-    function c(uint256 av, uint256 ar, uint256 x, uint256 u)
+    function b(uint256 at, uint256 as, uint256 y, uint256 w)
         external
         override(ILocker, Locker)
-        m
-        am
-        ab
+        n
+        al
+        ac
         returns (uint256)
     {
-        if (av == 0 && ar == 0) revert ZeroAmount();
+        if (at == 0 && as == 0) revert ZeroAmount();
 
-        uint256 ai = w({bk: bp, al: av});
-        uint256 ak = w({bk: bf, al: ar});
+        uint256 ao = v({bj: bk, am: at});
+        uint256 aj = v({bj: br, am: as});
 
-        IERC20(bp).p({bb: bh, value: av});
-        IERC20(bf).p({bb: bh, value: ar});
+        IERC20(bk).r({az: bo, value: at});
+        IERC20(br).r({az: bo, value: as});
 
-        (uint256 e, uint256 d, uint256 ao) = IV2Router(bh).s({
-            br: bp,
-            bm: bf,
-            bi: IV2Pool(by).bi(),
-            i: av,
-            j: ar,
-            ad: x,
-            ac: u,
+        (uint256 d, uint256 e, uint256 an) = IV2Router(bo).m({
+            bl: bk,
+            bh: br,
+            bf: IV2Pool(by).bf(),
+            j: at,
+            i: as,
+            ag: y,
+            ad: w,
             cb: address(this),
-            at: block.timestamp
+            aq: block.timestamp
         });
 
-        IERC20(bp).p({bb: bh, value: 0});
-        IERC20(bf).p({bb: bh, value: 0});
+        IERC20(bk).r({az: bo, value: 0});
+        IERC20(br).r({az: bo, value: 0});
 
-        address ah = bs();
-        f({bk: bp, ae: ah, af: ai});
-        f({bk: bf, ae: ah, af: ak});
+        address ak = bw();
+        g({bj: bk, ab: ak, af: ao});
+        g({bj: br, ab: ak, af: aj});
 
-        if (bg) {
-            IERC20(by).a({bb: address(bu), value: ao});
-            bu.ay({cc: ao});
+        if (bi) {
+            IERC20(by).a({az: address(bv), value: an});
+            bv.ax({cc: an});
         }
 
-        ca += ao;
+        ca += an;
 
-        emit LiquidityIncreased({aw: e, bd: d, ao: ao});
-        return ao;
+        emit LiquidityIncreased({ay: d, aw: e, an: an});
+        return an;
     }
 
-    function t() internal override returns (uint256 as, uint256 au) {
-        (as, au) = IV2Pool(by).ap();
+    function s() internal override returns (uint256 au, uint256 av) {
+        (au, av) = IV2Pool(by).ai();
 
-        uint256 bq = q({be: as, bk: bp});
-        uint256 bn = q({be: au, bk: bf});
-        as -= bq;
-        au -= bn;
+        uint256 bp = o({ba: au, bj: bk});
+        uint256 bm = o({ba: av, bj: br});
+        au -= bp;
+        av -= bm;
 
-        if (bq > 0 || bn > 0) {
-            emit FeesClaimed({ah: z, as: bq, au: bn});
+        if (bp > 0 || bm > 0) {
+            emit FeesClaimed({ak: x, au: bp, av: bm});
         }
     }
 
     function h() internal override returns (uint256 bc) {
-        uint256 k = IERC20(aa).an({ba: address(this)});
-        bu.aj({ba: address(this)});
-        uint256 n = IERC20(aa).an({ba: address(this)});
+        uint256 k = IERC20(u).ap({be: address(this)});
+        bv.ah({be: address(this)});
+        uint256 q = IERC20(u).ap({be: address(this)});
 
-        bc = n - k;
-        uint256 bv = q({be: bc, bk: aa});
-        bc -= bv;
+        bc = q - k;
+        uint256 bs = o({ba: bc, bj: u});
+        bc -= bs;
 
-        if (bv > 0) {
-            emit RewardsClaimed({ah: z, bc: bv});
+        if (bs > 0) {
+            emit RewardsClaimed({ak: x, bc: bs});
         }
     }
 

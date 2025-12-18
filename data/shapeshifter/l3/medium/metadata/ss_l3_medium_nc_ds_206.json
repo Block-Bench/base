@@ -8,7 +8,7 @@
     "severity": "low",
     "vulnerable_location": {
       "contract_name": "Test1",
-      "function_name": "_0x3085c4",
+      "function_name": "_0xe529d5",
       "line_numbers": []
     },
     "root_cause": "# Honeypot Collection",
@@ -70,11 +70,11 @@
   "derived_from": "nc_ds_206",
   "original_id": "ds_206",
   "identifier_mappings": {
-    "withdraw": "_0x3085c4",
-    "owner": "_0x58bb74",
-    "amX2": "_0xca662c",
-    "i2": "_0xba59da",
-    "i1": "_0x3a1374"
+    "withdraw": "_0xe529d5",
+    "owner": "_0xd880c9",
+    "amX2": "_0x12940d",
+    "i2": "_0x2c82cf",
+    "i1": "_0x7c015e"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -86,7 +86,7 @@
     ],
     "rename_map_size": 5,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0x3085c4"
+      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0xe529d5"
     ]
   }
 }

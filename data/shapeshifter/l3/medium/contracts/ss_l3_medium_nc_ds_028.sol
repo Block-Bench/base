@@ -2,18 +2,18 @@ pragma solidity ^0.4.19;
 
 contract ETH_FUND
 {
-    mapping (address => uint) public _0x5bb1ce;
+    mapping (address => uint) public _0x31f9cf;
 
     uint public MinDeposit = 1 ether;
 
     Log TransferLog;
 
-    uint _0xab793a;
+    uint _0xe48387;
 
-    function ETH_FUND(address _0xdf903e)
+    function ETH_FUND(address _0x4c44e2)
     public
     {
-        TransferLog = Log(_0xdf903e);
+        TransferLog = Log(_0x4c44e2);
     }
 
     function Deposit()
@@ -22,22 +22,22 @@ contract ETH_FUND
     {
         if(msg.value > MinDeposit)
         {
-            _0x5bb1ce[msg.sender]+=msg.value;
+            _0x31f9cf[msg.sender]+=msg.value;
             TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
-            _0xab793a = block.number;
+            _0xe48387 = block.number;
         }
     }
 
-    function CashOut(uint _0x1cbffd)
+    function CashOut(uint _0x37a416)
     public
     payable
     {
-        if(_0x1cbffd<=_0x5bb1ce[msg.sender]&&block.number>_0xab793a)
+        if(_0x37a416<=_0x31f9cf[msg.sender]&&block.number>_0xe48387)
         {
-            if(msg.sender.call.value(_0x1cbffd)())
+            if(msg.sender.call.value(_0x37a416)())
             {
-                _0x5bb1ce[msg.sender]-=_0x1cbffd;
-                TransferLog.AddMessage(msg.sender,_0x1cbffd,"CashOut");
+                _0x31f9cf[msg.sender]-=_0x37a416;
+                TransferLog.AddMessage(msg.sender,_0x37a416,"CashOut");
             }
         }
     }
@@ -61,13 +61,13 @@ contract Log
 
     Message LastMsg;
 
-    function AddMessage(address _0xc163bd,uint _0x42d639,string _0x75a8ff)
+    function AddMessage(address _0x9247f8,uint _0x6aa7ac,string _0x200eef)
     public
     {
-        LastMsg.Sender = _0xc163bd;
-        LastMsg.Time = _0x3223bd;
-        LastMsg.Val = _0x42d639;
-        LastMsg.Data = _0x75a8ff;
+        LastMsg.Sender = _0x9247f8;
+        LastMsg.Time = _0x5cef68;
+        LastMsg.Val = _0x6aa7ac;
+        LastMsg.Data = _0x200eef;
         History.push(LastMsg);
     }
 }

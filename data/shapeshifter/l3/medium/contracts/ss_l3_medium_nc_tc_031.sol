@@ -1,47 +1,47 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0x883e67, uint256 _0x2d20a2) external returns (bool);
+    function transfer(address _0x5791b6, uint256 _0x2814ca) external returns (bool);
 
-    function _0xab660a(address _0xd8bc6e) external view returns (uint256);
+    function _0x9956e6(address _0x4622d9) external view returns (uint256);
 }
 
 contract OrbitBridge {
-    mapping(bytes32 => bool) public _0x2906ca;
+    mapping(bytes32 => bool) public _0x07f326;
     uint256 public constant REQUIRED_SIGNATURES = 5;
     uint256 public constant TOTAL_VALIDATORS = 7;
 
-    mapping(address => bool) public _0x4bf2db;
-    address[] public _0x7fedbb;
+    mapping(address => bool) public _0x9eeef5;
+    address[] public _0x5456b3;
 
     event WithdrawalProcessed(
-        bytes32 _0x561627,
-        address _0x786e08,
-        address _0x830834,
-        uint256 _0x2d20a2
+        bytes32 _0xfa6b9f,
+        address _0x200940,
+        address _0x0b3ee1,
+        uint256 _0x2814ca
     );
 
     constructor() {
-        _0x7fedbb = new address[](TOTAL_VALIDATORS);
+        _0x5456b3 = new address[](TOTAL_VALIDATORS);
     }
 
-    function _0x09da2a(
-        address _0x0bd38f,
-        string memory _0xe8f174,
-        bytes memory _0x41c80e,
-        address _0x272d77,
-        address _0x786e08,
-        bytes32[] memory _0x1766ef,
-        uint256[] memory _0xab35d0,
+    function _0xce7d1f(
+        address _0xaa6bc0,
+        string memory _0xf56246,
+        bytes memory _0x83363b,
+        address _0x3d7600,
+        address _0x200940,
+        bytes32[] memory _0x125239,
+        uint256[] memory _0xbb59d3,
         bytes memory data,
         uint8[] memory v,
         bytes32[] memory r,
         bytes32[] memory s
     ) external {
-        bytes32 _0x561627 = _0x1766ef[1];
+        bytes32 _0xfa6b9f = _0x125239[1];
 
         require(
-            !_0x2906ca[_0x561627],
+            !_0x07f326[_0xfa6b9f],
             "Transaction already processed"
         );
 
@@ -51,16 +51,16 @@ contract OrbitBridge {
             "Signature length mismatch"
         );
 
-        uint256 _0x2d20a2 = _0xab35d0[0];
+        uint256 _0x2814ca = _0xbb59d3[0];
 
-        _0x2906ca[_0x561627] = true;
+        _0x07f326[_0xfa6b9f] = true;
 
-        IERC20(_0x786e08).transfer(_0x272d77, _0x2d20a2);
+        IERC20(_0x200940).transfer(_0x3d7600, _0x2814ca);
 
-        emit WithdrawalProcessed(_0x561627, _0x786e08, _0x272d77, _0x2d20a2);
+        emit WithdrawalProcessed(_0xfa6b9f, _0x200940, _0x3d7600, _0x2814ca);
     }
 
-    function _0x7f5b05(address _0xf0e73b) external {
-        _0x4bf2db[_0xf0e73b] = true;
+    function _0xe4d08a(address _0x9e3cce) external {
+        _0x9eeef5[_0x9e3cce] = true;
     }
 }

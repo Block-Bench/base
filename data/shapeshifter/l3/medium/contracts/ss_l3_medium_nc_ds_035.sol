@@ -2,27 +2,27 @@ pragma solidity ^0.4.25;
 
 contract WALLET
 {
-    function Put(uint _0x88edfe)
+    function Put(uint _0x32a51d)
     public
     payable
     {
-        var _0x0023c5 = Acc[msg.sender];
-        _0x0023c5.balance += msg.value;
-        _0x0023c5._0xf32c2d = _0x88edfe>_0x0ca3c9?_0x88edfe:_0x0ca3c9;
+        var _0xeb2b10 = Acc[msg.sender];
+        _0xeb2b10.balance += msg.value;
+        _0xeb2b10._0x8a4d24 = _0x32a51d>_0x1f0de6?_0x32a51d:_0x1f0de6;
         LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
 
-    function Collect(uint _0x4d85e4)
+    function Collect(uint _0xcfc0c8)
     public
     payable
     {
-        var _0x0023c5 = Acc[msg.sender];
-        if( _0x0023c5.balance>=MinSum && _0x0023c5.balance>=_0x4d85e4 && _0x0ca3c9>_0x0023c5._0xf32c2d)
+        var _0xeb2b10 = Acc[msg.sender];
+        if( _0xeb2b10.balance>=MinSum && _0xeb2b10.balance>=_0xcfc0c8 && _0x1f0de6>_0xeb2b10._0x8a4d24)
         {
-            if(msg.sender.call.value(_0x4d85e4)())
+            if(msg.sender.call.value(_0xcfc0c8)())
             {
-                _0x0023c5.balance-=_0x4d85e4;
-                LogFile.AddMessage(msg.sender,_0x4d85e4,"Collect");
+                _0xeb2b10.balance-=_0xcfc0c8;
+                LogFile.AddMessage(msg.sender,_0xcfc0c8,"Collect");
             }
         }
     }
@@ -36,7 +36,7 @@ contract WALLET
 
     struct Holder
     {
-        uint _0xf32c2d;
+        uint _0x8a4d24;
         uint balance;
     }
 
@@ -46,8 +46,8 @@ contract WALLET
 
     uint public MinSum = 1 ether;
 
-    function WALLET(address _0x6995cf) public{
-        LogFile = Log(_0x6995cf);
+    function WALLET(address _0x3943d6) public{
+        LogFile = Log(_0x3943d6);
     }
 }
 
@@ -65,13 +65,13 @@ contract Log
 
     Message LastMsg;
 
-    function AddMessage(address _0x28cae0,uint _0x528267,string _0x42083b)
+    function AddMessage(address _0x155590,uint _0x2691ed,string _0x7c7056)
     public
     {
-        LastMsg.Sender = _0x28cae0;
-        LastMsg.Time = _0x0ca3c9;
-        LastMsg.Val = _0x528267;
-        LastMsg.Data = _0x42083b;
+        LastMsg.Sender = _0x155590;
+        LastMsg.Time = _0x1f0de6;
+        LastMsg.Val = _0x2691ed;
+        LastMsg.Data = _0x7c7056;
         History.push(LastMsg);
     }
 }

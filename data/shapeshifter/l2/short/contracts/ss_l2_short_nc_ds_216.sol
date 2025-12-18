@@ -16,161 +16,161 @@ contract FiftyFlip {
     uint constant BET_EXPIRATION_BLOCKS = 250;
 
 
-    address public bo;
-    address public ag;
-    address public ab;
-    address private bn;
+    address public bn;
+    address public ah;
+    address public y;
+    address private br;
 
 
     uint256 public ai;
     uint256 public ak;
 
 
-    uint256 public ad;
-    uint256 public f;
+    uint256 public ac;
+    uint256 public h;
 
     struct Bet {
 
         uint bi;
 
-        uint256 ah;
+        uint256 ag;
 
         bool bf;
 
-        address bm;
+        address bk;
     }
 
-    mapping (uint => Bet) bt;
-    mapping (address => uint) y;
+    mapping (uint => Bet) bs;
+    mapping (address => uint) ae;
 
 
-    event Wager(uint ay, uint av, uint256 p, bool bf, address at);
-    event Win(address bj, uint bi, uint ay, bool bc, uint ao);
-    event Lose(address br, uint bi, uint ay, bool bc, uint ao);
-    event Refund(uint ay, uint256 bi, address aw);
-    event Donate(uint256 bi, address bb);
-    event FailedPayment(address az, uint bi);
-    event Payment(address al, uint bi);
-    event JackpotPayment(address bm, uint ay, uint aj);
+    event Wager(uint az, uint ax, uint256 o, bool bf, address aq);
+    event Win(address bh, uint bi, uint az, bool bd, uint an);
+    event Lose(address bq, uint bi, uint az, bool bd, uint an);
+    event Refund(uint az, uint256 bi, address au);
+    event Donate(uint256 bi, address be);
+    event FailedPayment(address ay, uint bi);
+    event Payment(address aj, uint bi);
+    event JackpotPayment(address bk, uint az, uint ao);
 
 
-    constructor (address af, address g, address d) public {
-        bo = msg.sender;
-        ag = g;
-        bn = af;
-        ab = d;
+    constructor (address af, address g, address e) public {
+        bn = msg.sender;
+        ah = g;
+        br = af;
+        y = e;
         ai = 0;
         ak = 0;
-        ad = 0;
-        f = 0;
+        ac = 0;
+        h = 0;
     }
 
 
-    modifier au() {
-        require (msg.sender == bo, "You are not the owner of this contract!");
+    modifier av() {
+        require (msg.sender == bn, "You are not the owner of this contract!");
         _;
     }
 
-    modifier bd() {
-        require (msg.sender == ag, "You are not the bot of this contract!");
+    modifier bc() {
+        require (msg.sender == ah, "You are not the bot of this contract!");
         _;
     }
 
-    modifier e() {
-        require (address(this).balance >= ad + ai + ak, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
+    modifier d() {
+        require (address(this).balance >= ac + ai + ak, "This contract doesn't have enough balance, it is stopped till someone donate to this game!");
         _;
     }
 
 
     function() public payable { }
 
-    function s(address g)
-    au()
+    function t(address g)
+    av()
     external
     {
-        ag = g;
+        ah = g;
     }
 
-    function l(address v)
-    au()
+    function l(address u)
+    av()
     external
     {
-        ab = v;
+        y = u;
     }
 
 
-    function bq(bool bp, uint ay, uint m, uint8 v, bytes32 r, bytes32 s)
-    e()
+    function bp(bool bo, uint az, uint n, uint8 v, bytes32 r, bytes32 s)
+    d()
     external
     payable {
-        Bet storage bv = bt[ay];
+        Bet storage bv = bs[az];
         uint bi = msg.value;
-        address bm = msg.sender;
-        require (bv.bm == address(0), "Ticket is not new one!");
+        address bk = msg.sender;
+        require (bv.bk == address(0), "Ticket is not new one!");
         require (bi >= MIN_BET, "Your bet is lower than minimum bet amount");
         require (bi <= MAX_BET, "Your bet is higher than maximum bet amount");
         require (c() >= 2 * bi, "If we accept this, this contract will be in danger!");
 
-        require (block.number <= m, "Ticket has expired.");
-        bytes32 u = ax(abi.aa('\x19Ethereum Signed Message:\n37', uint40(m), ay));
-        require (ab == aq(u, v, r, s), "web3 vrs signature is not valid.");
+        require (block.number <= n, "Ticket has expired.");
+        bytes32 s = as(abi.ab('\x19Ethereum Signed Message:\n37', uint40(n), az));
+        require (y == ar(s, v, r, s), "web3 vrs signature is not valid.");
 
         ai += bi * JACKPOT_FEE / 1000;
         ak += bi * DEV_FEE / 1000;
-        ad += bi * WIN_X / 1000;
+        ac += bi * WIN_X / 1000;
 
-        uint t = bi * DONATING_X / 1000;
-        bn.call.value(t)(bytes4(ax("donate()")));
-        f += t;
+        uint w = bi * DONATING_X / 1000;
+        br.call.value(w)(bytes4(as("donate()")));
+        h += w;
 
         bv.bi = bi;
-        bv.ah = block.number;
-        bv.bf = bp;
-        bv.bm = bm;
+        bv.ag = block.number;
+        bv.bf = bo;
+        bv.bk = bk;
 
-        emit Wager(ay, bv.bi, bv.ah, bv.bf, bv.bm);
+        emit Wager(az, bv.bi, bv.ag, bv.bf, bv.bk);
     }
 
 
-    function bu(uint ac)
-    e()
+    function bu(uint z)
+    d()
     external
     {
-        uint ay = uint(ax(abi.aa(ac)));
-        Bet storage bv = bt[ay];
-        require (bv.bm != address(0), "TicketID is not correct!");
+        uint az = uint(as(abi.ab(z)));
+        Bet storage bv = bs[az];
+        require (bv.bk != address(0), "TicketID is not correct!");
         require (bv.bi != 0, "Ticket is already used one!");
-        uint256 ah = bv.ah;
-        if(ah < block.number && ah >= block.number - BET_EXPIRATION_BLOCKS)
+        uint256 ag = bv.ag;
+        if(ag < block.number && ag >= block.number - BET_EXPIRATION_BLOCKS)
         {
-            uint256 bg = uint256(ax(abi.aa(blockhash(ah),  ac)));
-            bool bc = (bg % 2) !=0;
-            uint ao = bg % JACKPOT_MODULO;
+            uint256 bg = uint256(as(abi.ab(blockhash(ag),  z)));
+            bool bd = (bg % 2) !=0;
+            uint an = bg % JACKPOT_MODULO;
 
-            uint w = bv.bi * WIN_X / 1000;
+            uint v = bv.bi * WIN_X / 1000;
 
-            uint be = 0;
-            uint aj = 0;
+            uint ba = 0;
+            uint ao = 0;
 
-            if(bv.bf == bc) {
-                be = w;
+            if(bv.bf == bd) {
+                ba = v;
             }
-            if(ao == 0) {
-                aj = ai;
+            if(an == 0) {
+                ao = ai;
                 ai = 0;
             }
-            if (aj > 0) {
-                emit JackpotPayment(bv.bm, ay, aj);
+            if (ao > 0) {
+                emit JackpotPayment(bv.bk, az, ao);
             }
-            if(be + aj > 0)
+            if(ba + ao > 0)
             {
-                bh(bv.bm, be + aj, ay, bc, ao);
+                bj(bv.bk, ba + ao, az, bd, an);
             }
             else
             {
-                as(bv.bm, bv.bi, ay, bc, ao);
+                aw(bv.bk, bv.bi, az, bd, an);
             }
-            ad -= w;
+            ac -= v;
             bv.bi = 0;
         }
         else
@@ -183,68 +183,68 @@ contract FiftyFlip {
     external
     payable
     {
-        y[msg.sender] += msg.value;
+        ae[msg.sender] += msg.value;
         emit Donate(msg.value, msg.sender);
     }
 
-    function j(uint bi)
+    function k(uint bi)
     external
     {
-        require(y[msg.sender] >= bi, "You are going to withdraw more than you donated!");
+        require(ae[msg.sender] >= bi, "You are going to withdraw more than you donated!");
 
-        if (ar(msg.sender, bi)){
-            y[msg.sender] -= bi;
+        if (at(msg.sender, bi)){
+            ae[msg.sender] -= bi;
         }
     }
 
 
-    function bk(uint ay)
-    e()
+    function bm(uint az)
+    d()
     external {
-        Bet storage bv = bt[ay];
+        Bet storage bv = bs[az];
 
         require (bv.bi != 0, "this ticket has no balance");
-        require (block.number > bv.ah + BET_EXPIRATION_BLOCKS, "this ticket is expired.");
-        ap(ay);
+        require (block.number > bv.ag + BET_EXPIRATION_BLOCKS, "this ticket is expired.");
+        am(az);
     }
 
 
-    function q(address n, uint o)
-    au()
-    e()
+    function p(address m, uint r)
+    av()
+    d()
     external {
-        require (ak >= o, "You are trying to withdraw more amount than developer fee.");
-        require (o <= address(this).balance, "Contract balance is lower than withdrawAmount");
+        require (ak >= r, "You are trying to withdraw more amount than developer fee.");
+        require (r <= address(this).balance, "Contract balance is lower than withdrawAmount");
         require (ak <= address(this).balance, "Not enough funds to withdraw.");
-        if (ar(n, o)){
-            ak -= o;
+        if (at(m, r)){
+            ak -= r;
         }
     }
 
 
-    function r(uint o)
-    bd()
-    e()
+    function q(uint r)
+    bc()
+    d()
     external {
-        require (ak >= o, "You are trying to withdraw more amount than developer fee.");
-        require (o <= address(this).balance, "Contract balance is lower than withdrawAmount");
+        require (ak >= r, "You are trying to withdraw more amount than developer fee.");
+        require (r <= address(this).balance, "Contract balance is lower than withdrawAmount");
         require (ak <= address(this).balance, "Not enough funds to withdraw.");
-        if (ar(ag, o)){
-            ak -= o;
+        if (at(ah, r)){
+            ak -= r;
         }
     }
 
 
-    function am(uint ay)
+    function al(uint az)
     constant
     external
     returns (uint, uint256, bool, address){
-        Bet storage bv = bt[ay];
-        return (bv.bi, bv.ah, bv.bf, bv.bm);
+        Bet storage bv = bs[az];
+        return (bv.bi, bv.ag, bv.bf, bv.bk);
     }
 
 
-    function h()
+    function f()
     constant
     external
     returns (uint){
@@ -256,93 +256,93 @@ contract FiftyFlip {
     constant
     public
     returns (uint){
-        if (address(this).balance > ad + ai + ak)
-            return address(this).balance - ad - ai - ak;
+        if (address(this).balance > ac + ai + ak)
+            return address(this).balance - ac - ai - ak;
         return 0;
     }
 
 
-    function bs() external au() {
-        require (ad == 0, "All bets should be processed (settled or refunded) before self-destruct.");
-        selfdestruct(bo);
+    function bt() external av() {
+        require (ac == 0, "All bets should be processed (settled or refunded) before self-destruct.");
+        selfdestruct(bn);
     }
 
 
-    function bh(address bj, uint x, uint ay, bool bc, uint ao)
+    function bj(address bh, uint x, uint az, bool bd, uint an)
     internal
     {
-        bj.transfer(x);
-        emit Win(bj, x, ay, bc, ao);
+        bh.transfer(x);
+        emit Win(bh, x, az, bd, an);
     }
 
 
-    function ap(uint ay)
+    function am(uint az)
     internal
     {
-        Bet storage bv = bt[ay];
-        address aw = bv.bm;
+        Bet storage bv = bs[az];
+        address au = bv.bk;
         uint256 x = bv.bi;
-        aw.transfer(x);
+        au.transfer(x);
 
-        uint w = bv.bi * WIN_X / 1000;
-        ad -= w;
+        uint v = bv.bi * WIN_X / 1000;
+        ac -= v;
 
         bv.bi = 0;
-        emit Refund(ay, x, aw);
+        emit Refund(az, x, au);
     }
 
 
-    function ar(address az, uint bi) private returns (bool){
-        bool ba = az.send(bi);
-        if (ba) {
-            emit Payment(az, bi);
+    function at(address ay, uint bi) private returns (bool){
+        bool bb = ay.send(bi);
+        if (bb) {
+            emit Payment(ay, bi);
         } else {
-            emit FailedPayment(az, bi);
+            emit FailedPayment(ay, bi);
         }
-        return ba;
+        return bb;
     }
 
-    function as(address bm, uint bi, uint ay, bool bc, uint ao)
+    function aw(address bk, uint bi, uint az, bool bd, uint an)
     internal
     {
-        emit Lose(bm, bi, ay, bc, ao);
+        emit Lose(bk, bi, az, bd, an);
     }
 
 
-    function ae(uint[] k) external {
-        uint length = k.length;
+    function aa(uint[] j) external {
+        uint length = j.length;
 
         for (uint i = 0; i < length; i++) {
-            i(k[i]);
+            i(j[i]);
         }
     }
 
 
-    function i(uint ay) private {
-        Bet storage bv = bt[ay];
+    function i(uint az) private {
+        Bet storage bv = bs[az];
 
 
-        if (bv.bi != 0 || block.number <= bv.ah + BET_EXPIRATION_BLOCKS) {
+        if (bv.bi != 0 || block.number <= bv.ag + BET_EXPIRATION_BLOCKS) {
             return;
         }
 
-        bv.ah = 0;
+        bv.ag = 0;
         bv.bf = false;
-        bv.bm = address(0);
+        bv.bk = address(0);
     }
 
 
-    function b(address z, address an, uint bl)
+    function b(address ad, address ap, uint bl)
     public
-    au()
-    returns (bool ba)
+    av()
+    returns (bool bb)
     {
-        return ERC20Interface(z).transfer(an, bl);
+        return ERC20Interface(ad).transfer(ap, bl);
     }
 }
 
 
 contract ERC20Interface
 {
-    function transfer(address bw, uint256 bl) public returns (bool ba);
+    function transfer(address bw, uint256 bl) public returns (bool bb);
 }

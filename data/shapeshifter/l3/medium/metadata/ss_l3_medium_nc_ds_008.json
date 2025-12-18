@@ -70,9 +70,9 @@
   "derived_from": "nc_ds_008",
   "original_id": "ds_008",
   "identifier_mappings": {
-    "bonusCodes": "_0x37e8b8",
-    "owner": "_0x2dff03",
-    "idx": "_0xa6387e"
+    "bonusCodes": "_0xa9aefd",
+    "owner": "_0x1a2e70",
+    "idx": "_0xbd1114"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -80,8 +80,7 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 3 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 3 identifiers using hex style"
     ],
     "rename_map_size": 3,
     "metadata_changes": []

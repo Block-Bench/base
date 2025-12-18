@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "TimeLock",
-      "function_name": "_0x383dde",
+      "function_name": "_0xfccafb",
       "line_numbers": []
     },
     "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 22",
@@ -70,14 +70,14 @@
   "derived_from": "nc_ds_142",
   "original_id": "ds_142",
   "identifier_mappings": {
-    "_secondsToIncrease": "_0xc818a3",
-    "increaseLockTime": "_0x383dde",
-    "transferValue": "_0x2e650b",
-    "withdraw": "_0xe052c7",
-    "lockTime": "_0x45675c",
-    "balances": "_0x25e9fc",
-    "deposit": "_0x78a13f",
-    "now": "_0x0067db"
+    "_secondsToIncrease": "_0x7abfb4",
+    "increaseLockTime": "_0xfccafb",
+    "transferValue": "_0x5e6fd5",
+    "balances": "_0x39aa18",
+    "lockTime": "_0x7ca232",
+    "withdraw": "_0xb69de2",
+    "deposit": "_0xc981a2",
+    "now": "_0x6c417f"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -89,7 +89,7 @@
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: increaseLockTime \u2192 _0x383dde"
+      "Transformed ground_truth.vulnerable_location.function_name: increaseLockTime \u2192 _0xfccafb"
     ]
   }
 }

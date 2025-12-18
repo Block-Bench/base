@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "TokenExchange",
-      "function_name": "_0xca3f3d",
+      "function_name": "_0xac2e4d",
       "line_numbers": []
     },
     "root_cause": "# Race Condition\nThere is a gap between the creation of a transaction and the moment it is accepted in the blockchain.\nTherefore, an attacker can take advantage of this gap to put a contract in a state that advantages them.",
@@ -67,26 +67,26 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "transferFrom": "_0x28e97d",
-    "totalSupply": "_0xe38227",
-    "changePrice": "_0x9215c8",
-    "new_price": "_0x4a55d2",
-    "allowance": "_0x966460",
-    "balanceOf": "_0x44a115",
-    "remaining": "_0xd0e99a",
-    "_spender": "_0x27cfc9",
-    "success": "_0x9198b2",
-    "approve": "_0x3eb377",
-    "_price": "_0xf6691a",
-    "_token": "_0xa46d7f",
-    "_value": "_0xaf5fa2",
-    "_owner": "_0x8e27c6",
-    "price": "_0xa9687f",
-    "owner": "_0xc42d56",
-    "_from": "_0xfbd9a2",
-    "token": "_0x83275e",
-    "_to": "_0x44d6b0",
-    "buy": "_0xca3f3d"
+    "transferFrom": "_0x58b17a",
+    "totalSupply": "_0x47ff52",
+    "changePrice": "_0xcb2229",
+    "new_price": "_0xefab3f",
+    "balanceOf": "_0x7f7a8c",
+    "allowance": "_0x496a80",
+    "remaining": "_0x44cd7d",
+    "_spender": "_0x5aad8c",
+    "success": "_0x120dba",
+    "approve": "_0x2e501e",
+    "_token": "_0x4f299a",
+    "_value": "_0x4b4c33",
+    "_owner": "_0x5deade",
+    "_price": "_0xa5006e",
+    "owner": "_0x42aa32",
+    "token": "_0x044d6a",
+    "_from": "_0xd969a0",
+    "price": "_0x824ae3",
+    "buy": "_0xac2e4d",
+    "_to": "_0xce90fd"
   },
   "original_contract_file": "base/contracts/ds_207.sol",
   "sanitized_from": "ds_207",
@@ -98,11 +98,12 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 20 identifiers using hex style"
+      "Renamed 20 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 20,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: buy \u2192 _0xca3f3d"
+      "Transformed ground_truth.vulnerable_location.function_name: buy \u2192 _0xac2e4d"
     ]
   }
 }

@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "that",
-      "function_name": "_0x1fd85d",
+      "function_name": "_0x4c537a",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 110",
@@ -72,34 +72,34 @@
   "derived_from": "nc_ds_084",
   "original_id": "ds_084",
   "identifier_mappings": {
-    "wizardCommissionFractionNum": "_0xb52554",
-    "wizardCommissionFractionDen": "_0xc085de",
-    "coronationTimestamp": "_0x74b066",
-    "usurperEtherAddress": "_0xadb038",
-    "claimPriceAdjustNum": "_0xd84b5e",
-    "claimPriceAdjustDen": "_0x869009",
-    "startingClaimPrice": "_0x050887",
-    "transferOwnership": "_0xdac1c1",
-    "currentClaimPrice": "_0xcf0975",
-    "numberOfMonarchs": "_0x8cc987",
-    "rawNewClaimPrice": "_0x646daf",
-    "wizardCommission": "_0x2b8a8b",
-    "sweepCommission": "_0x1262d7",
-    "currentMonarch": "_0x578505",
-    "newClaimPrice": "_0x7562f7",
-    "wizardAddress": "_0x9e0249",
-    "pastMonarchs": "_0xfe9233",
-    "etherAddress": "_0xd5e4a7",
-    "compensation": "_0xe362f5",
-    "usurperName": "_0xee16cd",
-    "claimThrone": "_0x1fd85d",
-    "excessPaid": "_0xfe1350",
-    "claimPrice": "_0x725119",
-    "onlywizard": "_0xdc7a5d",
-    "valuePaid": "_0x36e0b7",
-    "newOwner": "_0x2c561c",
-    "amount": "_0x227e39",
-    "name": "_0x836b84"
+    "wizardCommissionFractionDen": "_0x5dbac5",
+    "wizardCommissionFractionNum": "_0x25f1b4",
+    "usurperEtherAddress": "_0xe924a9",
+    "coronationTimestamp": "_0x91ed40",
+    "claimPriceAdjustNum": "_0xffaa70",
+    "claimPriceAdjustDen": "_0x1a567f",
+    "startingClaimPrice": "_0x6806e3",
+    "currentClaimPrice": "_0xfc1d3a",
+    "transferOwnership": "_0xda13de",
+    "wizardCommission": "_0xfefcf3",
+    "rawNewClaimPrice": "_0x5244e5",
+    "numberOfMonarchs": "_0x81b03f",
+    "sweepCommission": "_0x12f219",
+    "currentMonarch": "_0x71c1d7",
+    "wizardAddress": "_0xb49495",
+    "newClaimPrice": "_0x859cbc",
+    "pastMonarchs": "_0x618c1c",
+    "compensation": "_0x78a707",
+    "etherAddress": "_0xd68ebd",
+    "usurperName": "_0x89cae4",
+    "claimThrone": "_0x4c537a",
+    "claimPrice": "_0x2bf7bb",
+    "onlywizard": "_0x5421da",
+    "excessPaid": "_0x1879fc",
+    "valuePaid": "_0xaea31e",
+    "newOwner": "_0x74b444",
+    "amount": "_0x5480a4",
+    "name": "_0xe5d1dc"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -109,12 +109,11 @@
     "changes": [
       "Renamed 28 identifiers using hex style",
       "Wrapped assignment in conditional",
-      "Wrapped assignment in conditional",
       "Wrapped assignment in conditional"
     ],
     "rename_map_size": 28,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: claimThrone \u2192 _0x1fd85d"
+      "Transformed ground_truth.vulnerable_location.function_name: claimThrone \u2192 _0x4c537a"
     ]
   }
 }

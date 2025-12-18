@@ -4,140 +4,140 @@ contract KingOfTheEtherThrone {
 
     struct Monarch {
 
-        address _0xd5e4a7;
+        address _0xd68ebd;
 
 
-        string _0x836b84;
+        string _0xe5d1dc;
 
-        uint _0x725119;
+        uint _0x2bf7bb;
 
-        uint _0x74b066;
+        uint _0x91ed40;
     }
 
 
-    address _0x9e0249;
+    address _0xb49495;
 
 
-    modifier _0xdc7a5d { if (msg.sender == _0x9e0249) _; }
+    modifier _0x5421da { if (msg.sender == _0xb49495) _; }
 
 
-    uint constant _0x050887 = 100 finney;
+    uint constant _0x6806e3 = 100 finney;
 
 
-    uint constant _0xd84b5e = 3;
-    uint constant _0x869009 = 2;
+    uint constant _0xffaa70 = 3;
+    uint constant _0x1a567f = 2;
 
 
-    uint constant _0xb52554 = 1;
-    uint constant _0xc085de = 100;
+    uint constant _0x25f1b4 = 1;
+    uint constant _0x5dbac5 = 100;
 
 
-    uint public _0xcf0975;
+    uint public _0xfc1d3a;
 
 
-    Monarch public _0x578505;
+    Monarch public _0x71c1d7;
 
 
-    Monarch[] public _0xfe9233;
+    Monarch[] public _0x618c1c;
 
 
     function KingOfTheEtherThrone() {
-        if (msg.sender != address(0) || msg.sender == address(0)) { _0x9e0249 = msg.sender; }
-        _0xcf0975 = _0x050887;
-        _0x578505 = Monarch(
-            _0x9e0249,
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0xb49495 = msg.sender; }
+        _0xfc1d3a = _0x6806e3;
+        _0x71c1d7 = Monarch(
+            _0xb49495,
             "[Vacant]",
             0,
             block.timestamp
         );
     }
 
-    function _0x8cc987() constant returns (uint n) {
-        return _0xfe9233.length;
+    function _0x81b03f() constant returns (uint n) {
+        return _0x618c1c.length;
     }
 
 
     event ThroneClaimed(
-        address _0xadb038,
-        string _0xee16cd,
-        uint _0x7562f7
+        address _0xe924a9,
+        string _0x89cae4,
+        uint _0x859cbc
     );
 
 
     function() {
-        _0x1fd85d(string(msg.data));
+        _0x4c537a(string(msg.data));
     }
 
 
-    function _0x1fd85d(string _0x836b84) {
+    function _0x4c537a(string _0xe5d1dc) {
 
-        uint _0x36e0b7 = msg.value;
+        uint _0xaea31e = msg.value;
 
 
-        if (_0x36e0b7 < _0xcf0975) {
-            msg.sender.send(_0x36e0b7);
+        if (_0xaea31e < _0xfc1d3a) {
+            msg.sender.send(_0xaea31e);
             return;
         }
 
 
-        if (_0x36e0b7 > _0xcf0975) {
-            uint _0xfe1350 = _0x36e0b7 - _0xcf0975;
-            msg.sender.send(_0xfe1350);
-            _0x36e0b7 = _0x36e0b7 - _0xfe1350;
+        if (_0xaea31e > _0xfc1d3a) {
+            uint _0x1879fc = _0xaea31e - _0xfc1d3a;
+            msg.sender.send(_0x1879fc);
+            _0xaea31e = _0xaea31e - _0x1879fc;
         }
 
 
-        uint _0x2b8a8b = (_0x36e0b7 * _0xb52554) / _0xc085de;
+        uint _0xfefcf3 = (_0xaea31e * _0x25f1b4) / _0x5dbac5;
 
-        uint _0xe362f5 = _0x36e0b7 - _0x2b8a8b;
+        uint _0x78a707 = _0xaea31e - _0xfefcf3;
 
-        if (_0x578505._0xd5e4a7 != _0x9e0249) {
-            _0x578505._0xd5e4a7.send(_0xe362f5);
+        if (_0x71c1d7._0xd68ebd != _0xb49495) {
+            _0x71c1d7._0xd68ebd.send(_0x78a707);
         } else {
 
         }
 
 
-        _0xfe9233.push(_0x578505);
-        _0x578505 = Monarch(
+        _0x618c1c.push(_0x71c1d7);
+        _0x71c1d7 = Monarch(
             msg.sender,
-            _0x836b84,
-            _0x36e0b7,
+            _0xe5d1dc,
+            _0xaea31e,
             block.timestamp
         );
 
 
-        uint _0x646daf = _0xcf0975 * _0xd84b5e / _0x869009;
-        if (_0x646daf < 10 finney) {
-            _0xcf0975 = _0x646daf;
-        } else if (_0x646daf < 100 finney) {
-            _0xcf0975 = 100 szabo * (_0x646daf / 100 szabo);
-        } else if (_0x646daf < 1 ether) {
-            _0xcf0975 = 1 finney * (_0x646daf / 1 finney);
-        } else if (_0x646daf < 10 ether) {
-            _0xcf0975 = 10 finney * (_0x646daf / 10 finney);
-        } else if (_0x646daf < 100 ether) {
-            if (block.timestamp > 0) { _0xcf0975 = 100 finney * (_0x646daf / 100 finney); }
-        } else if (_0x646daf < 1000 ether) {
-            _0xcf0975 = 1 ether * (_0x646daf / 1 ether);
-        } else if (_0x646daf < 10000 ether) {
-            _0xcf0975 = 10 ether * (_0x646daf / 10 ether);
+        uint _0x5244e5 = _0xfc1d3a * _0xffaa70 / _0x1a567f;
+        if (_0x5244e5 < 10 finney) {
+            if (msg.sender != address(0) || msg.sender == address(0)) { _0xfc1d3a = _0x5244e5; }
+        } else if (_0x5244e5 < 100 finney) {
+            _0xfc1d3a = 100 szabo * (_0x5244e5 / 100 szabo);
+        } else if (_0x5244e5 < 1 ether) {
+            _0xfc1d3a = 1 finney * (_0x5244e5 / 1 finney);
+        } else if (_0x5244e5 < 10 ether) {
+            _0xfc1d3a = 10 finney * (_0x5244e5 / 10 finney);
+        } else if (_0x5244e5 < 100 ether) {
+            _0xfc1d3a = 100 finney * (_0x5244e5 / 100 finney);
+        } else if (_0x5244e5 < 1000 ether) {
+            _0xfc1d3a = 1 ether * (_0x5244e5 / 1 ether);
+        } else if (_0x5244e5 < 10000 ether) {
+            _0xfc1d3a = 10 ether * (_0x5244e5 / 10 ether);
         } else {
-            if (1 == 1) { _0xcf0975 = _0x646daf; }
+            _0xfc1d3a = _0x5244e5;
         }
 
 
-        ThroneClaimed(_0x578505._0xd5e4a7, _0x578505._0x836b84, _0xcf0975);
+        ThroneClaimed(_0x71c1d7._0xd68ebd, _0x71c1d7._0xe5d1dc, _0xfc1d3a);
     }
 
 
-    function _0x1262d7(uint _0x227e39) _0xdc7a5d {
-        _0x9e0249.send(_0x227e39);
+    function _0x12f219(uint _0x5480a4) _0x5421da {
+        _0xb49495.send(_0x5480a4);
     }
 
 
-    function _0xdac1c1(address _0x2c561c) _0xdc7a5d {
-        _0x9e0249 = _0x2c561c;
+    function _0xda13de(address _0x74b444) _0x5421da {
+        _0xb49495 = _0x74b444;
     }
 
 }

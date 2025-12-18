@@ -3,124 +3,124 @@ pragma solidity ^0.8.0;
 interface IERC20 {
     function transfer(address ae, uint256 y) external returns (bool);
 
-    function g(
+    function f(
         address from,
         address ae,
         uint256 y
     ) external returns (bool);
 
-    function n(address u) external view returns (uint256);
+    function o(address w) external view returns (uint256);
 }
 
 interface IMarket {
     function b(
-        address u
+        address w
     )
         external
         view
-        returns (uint256 j, uint256 s, uint256 f);
+        returns (uint256 j, uint256 v, uint256 h);
 }
 
 contract DebtPreviewer {
     function i(
-        address aa,
-        address u
-    )
-        external
-        view
-        returns (
-            uint256 c,
-            uint256 m,
-            uint256 h
-        )
-    {
-        (uint256 j, uint256 s, uint256 f) = IMarket(
-            aa
-        ).b(u);
-
-        c = (j * f) / 1e18;
-        m = s;
-
-        if (m == 0) {
-            h = type(uint256).ad;
-        } else {
-            h = (c * 1e18) / m;
-        }
-
-        return (c, m, h);
-    }
-
-    function a(
-        address[] calldata v,
-        address u
+        address z,
+        address w
     )
         external
         view
         returns (
             uint256 d,
+            uint256 n,
+            uint256 g
+        )
+    {
+        (uint256 j, uint256 v, uint256 h) = IMarket(
+            z
+        ).b(w);
+
+        d = (j * h) / 1e18;
+        n = v;
+
+        if (n == 0) {
+            g = type(uint256).ad;
+        } else {
+            g = (d * 1e18) / n;
+        }
+
+        return (d, n, g);
+    }
+
+    function a(
+        address[] calldata t,
+        address w
+    )
+        external
+        view
+        returns (
+            uint256 c,
             uint256 l,
             uint256 e
         )
     {
-        for (uint256 i = 0; i < v.length; i++) {
+        for (uint256 i = 0; i < t.length; i++) {
             (uint256 j, uint256 ac, ) = this.i(
-                v[i],
-                u
+                t[i],
+                w
             );
 
-            d += j;
+            c += j;
             l += ac;
         }
 
         if (l == 0) {
             e = type(uint256).ad;
         } else {
-            e = (d * 1e18) / l;
+            e = (c * 1e18) / l;
         }
 
-        return (d, l, e);
+        return (c, l, e);
     }
 }
 
 contract ExactlyMarket {
     IERC20 public ab;
-    DebtPreviewer public p;
+    DebtPreviewer public m;
 
-    mapping(address => uint256) public r;
-    mapping(address => uint256) public s;
+    mapping(address => uint256) public q;
+    mapping(address => uint256) public v;
 
     uint256 public constant COLLATERAL_FACTOR = 80;
 
-    constructor(address x, address k) {
-        ab = IERC20(x);
-        p = DebtPreviewer(k);
+    constructor(address aa, address k) {
+        ab = IERC20(aa);
+        m = DebtPreviewer(k);
     }
 
-    function w(uint256 y) external {
-        ab.g(msg.sender, address(this), y);
-        r[msg.sender] += y;
+    function s(uint256 y) external {
+        ab.f(msg.sender, address(this), y);
+        q[msg.sender] += y;
     }
 
-    function z(uint256 y, address[] calldata v) external {
-        (uint256 d, uint256 l, ) = p
-            .a(v, msg.sender);
+    function x(uint256 y, address[] calldata t) external {
+        (uint256 c, uint256 l, ) = m
+            .a(t, msg.sender);
 
-        uint256 t = l + y;
+        uint256 u = l + y;
 
-        uint256 o = (d * COLLATERAL_FACTOR) / 100;
-        require(t <= o, "Insufficient collateral");
+        uint256 p = (c * COLLATERAL_FACTOR) / 100;
+        require(u <= p, "Insufficient collateral");
 
-        s[msg.sender] += y;
+        v[msg.sender] += y;
         ab.transfer(msg.sender, y);
     }
 
     function b(
-        address u
+        address w
     )
         external
         view
-        returns (uint256 j, uint256 q, uint256 f)
+        returns (uint256 j, uint256 r, uint256 h)
     {
-        return (r[u], s[u], 1e18);
+        return (q[w], v[w], 1e18);
     }
 }

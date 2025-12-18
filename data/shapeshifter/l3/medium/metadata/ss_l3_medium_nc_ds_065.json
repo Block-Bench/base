@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "address",
-      "function_name": "_0x11f6e1",
+      "function_name": "_0x8587e6",
       "line_numbers": []
     },
     "root_cause": "Unchecked return value - low-level call result not validated at line(s) 56",
@@ -77,29 +77,29 @@
   "derived_from": "nc_ds_065",
   "original_id": "ds_065",
   "identifier_mappings": {
-    "acceptOwnership": "_0xf4e9d2",
-    "displaymultisig": "_0xad1495",
-    "contractaddress": "_0x76d079",
-    "numberOfIndex": "_0x198232",
-    "partnernames": "_0x459e8e",
-    "changeOwner": "_0x84c9b4",
-    "weddingdate": "_0x0a3c6f",
-    "writeIndex": "_0x17ae05",
-    "wedaddress": "_0xaa2208",
-    "indexarray": "_0xcfd5cc",
-    "indexdate": "_0x66c3c7",
-    "onlyOwner": "_0x610520",
-    "_newOwner": "_0x2bfa2f",
-    "newOwner": "_0xfca273",
-    "partners": "_0x813ffd",
-    "execute": "_0x11f6e1",
-    "display": "_0x49f86d",
-    "_value": "_0x908980",
-    "owner": "_0x7e2e34",
-    "_data": "_0xa8053d",
-    "_dst": "_0xa49478",
-    "time": "_0x399695",
-    "now": "_0xd1274b"
+    "contractaddress": "_0xc02286",
+    "acceptOwnership": "_0x662f49",
+    "displaymultisig": "_0x681e68",
+    "numberOfIndex": "_0x0cc75b",
+    "partnernames": "_0x5a1d4c",
+    "weddingdate": "_0x89f970",
+    "changeOwner": "_0xa40de5",
+    "indexarray": "_0xc64712",
+    "writeIndex": "_0xb0052a",
+    "wedaddress": "_0x77d25f",
+    "indexdate": "_0x1ab3c5",
+    "_newOwner": "_0x41386c",
+    "onlyOwner": "_0xefab10",
+    "partners": "_0x93cb38",
+    "newOwner": "_0xbca699",
+    "execute": "_0x8587e6",
+    "display": "_0xbed352",
+    "_value": "_0xb32a84",
+    "_data": "_0x654358",
+    "owner": "_0x7cce28",
+    "time": "_0x4d0283",
+    "_dst": "_0x9e59c7",
+    "now": "_0xa9955e"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -108,11 +108,12 @@
     "source": "nocomments",
     "changes": [
       "Renamed 23 identifiers using hex style",
+      "Wrapped assignment in conditional",
       "Wrapped assignment in conditional"
     ],
     "rename_map_size": 23,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: execute \u2192 _0x11f6e1"
+      "Transformed ground_truth.vulnerable_location.function_name: execute \u2192 _0x8587e6"
     ]
   }
 }

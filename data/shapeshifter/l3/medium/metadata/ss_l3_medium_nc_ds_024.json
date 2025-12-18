@@ -71,16 +71,16 @@
   "derived_from": "nc_ds_024",
   "original_id": "ds_024",
   "identifier_mappings": {
-    "onlyOwner": "_0xec6c45",
-    "balances": "_0x9d396e",
-    "setLog": "_0xd597ee",
-    "owner": "_0xafefbc",
-    "_data": "_0x768e9d",
-    "_adr": "_0xdd52d6",
-    "_lib": "_0xbd6539",
-    "_val": "_0x7d0f67",
-    "_am": "_0xb5b9cf",
-    "now": "_0xd06400"
+    "onlyOwner": "_0xa41f3f",
+    "balances": "_0xb978e4",
+    "setLog": "_0x0c6b99",
+    "_data": "_0x0ff0f4",
+    "owner": "_0x9e86ce",
+    "_lib": "_0x3408e2",
+    "_val": "_0x90afd2",
+    "_adr": "_0xac040f",
+    "_am": "_0x39ebd6",
+    "now": "_0x588146"
   },
   "transformation": {
     "strategy": "shapeshifter",

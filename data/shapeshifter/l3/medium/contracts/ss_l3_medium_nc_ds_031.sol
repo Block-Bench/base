@@ -2,15 +2,15 @@ pragma solidity ^0.4.19;
 
 contract Private_Bank
 {
-    mapping (address => uint) public _0x30f7bb;
+    mapping (address => uint) public _0xd68184;
 
     uint public MinDeposit = 1 ether;
 
     Log TransferLog;
 
-    function Private_Bank(address _0xf01980)
+    function Private_Bank(address _0xd70e50)
     {
-        TransferLog = Log(_0xf01980);
+        TransferLog = Log(_0xd70e50);
     }
 
     function Deposit()
@@ -19,21 +19,21 @@ contract Private_Bank
     {
         if(msg.value > MinDeposit)
         {
-            _0x30f7bb[msg.sender]+=msg.value;
+            _0xd68184[msg.sender]+=msg.value;
             TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
         }
     }
 
-    function CashOut(uint _0xedefd3)
+    function CashOut(uint _0x6a48d3)
     public
     payable
     {
-        if(_0xedefd3<=_0x30f7bb[msg.sender])
+        if(_0x6a48d3<=_0xd68184[msg.sender])
         {
-            if(msg.sender.call.value(_0xedefd3)())
+            if(msg.sender.call.value(_0x6a48d3)())
             {
-                _0x30f7bb[msg.sender]-=_0xedefd3;
-                TransferLog.AddMessage(msg.sender,_0xedefd3,"CashOut");
+                _0xd68184[msg.sender]-=_0x6a48d3;
+                TransferLog.AddMessage(msg.sender,_0x6a48d3,"CashOut");
             }
         }
     }
@@ -57,13 +57,13 @@ contract Log
 
     Message LastMsg;
 
-    function AddMessage(address _0x94724d,uint _0xf82348,string _0x0523a1)
+    function AddMessage(address _0x2e491b,uint _0xe4dacc,string _0xbbbc8f)
     public
     {
-        LastMsg.Sender = _0x94724d;
-        LastMsg.Time = _0xdd341d;
-        LastMsg.Val = _0xf82348;
-        LastMsg.Data = _0x0523a1;
+        LastMsg.Sender = _0x2e491b;
+        LastMsg.Time = _0x8c6fde;
+        LastMsg.Val = _0xe4dacc;
+        LastMsg.Data = _0xbbbc8f;
         History.push(LastMsg);
     }
 }

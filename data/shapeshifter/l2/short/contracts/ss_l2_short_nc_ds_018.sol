@@ -8,9 +8,9 @@ contract PrivateBank
 
     Log TransferLog;
 
-    function PrivateBank(address d)
+    function PrivateBank(address c)
     {
-        TransferLog = Log(d);
+        TransferLog = Log(c);
     }
 
     function Deposit()
@@ -55,10 +55,10 @@ contract Log
 
     Message LastMsg;
 
-    function AddMessage(address c,uint e,string b)
+    function AddMessage(address d,uint e,string b)
     public
     {
-        LastMsg.Sender = c;
+        LastMsg.Sender = d;
         LastMsg.Time = g;
         LastMsg.Val = e;
         LastMsg.Data = b;

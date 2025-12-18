@@ -7,8 +7,8 @@
     "vulnerability_type": "access_control",
     "severity": "critical",
     "vulnerable_location": {
-      "contract_name": "VulnerableParityWalletLibrary",
-      "function_name": "_0x4b65d5",
+      "contract_name": "WalletLibrary",
+      "function_name": "_0x05daa3",
       "line_numbers": []
     },
     "root_cause": "The library contract's initWallet() function had no access control preventing direct calls. In the proxy pattern, libraries should never have initialization functions that can be called directly. Combined with a kill() function containing selfdestruct, this allowed anyone to destroy the shared library that all wallets depended on.",
@@ -93,27 +93,27 @@
   "derived_from": "nc_tc_003",
   "original_id": "tc_003",
   "identifier_mappings": {
-    "isOwnerAddress": "_0x42d002",
-    "libraryAddress": "_0x709b7d",
-    "initialized": "_0x90a1ad",
-    "initWallet": "_0x519f74",
-    "_required": "_0xb656dd",
-    "_daylimit": "_0xe1ef30",
-    "destroyer": "_0x75b330",
-    "_library": "_0x7bbebd",
-    "required": "_0xd7dcda",
-    "success": "_0xde3a34",
-    "execute": "_0x2a51f4",
-    "_owners": "_0xe28cbb",
-    "isOwner": "_0x5fffa9",
-    "owners": "_0xb8fc02",
-    "result": "_0x257016",
-    "owner": "_0x578481",
-    "_addr": "_0xd38696",
-    "kill": "_0x4b65d5",
-    "lib": "_0x84b5a3",
-    "_to": "_0x054a22",
-    "to": "_0x39d51b"
+    "isOwnerAddress": "_0xfce932",
+    "libraryAddress": "_0x986865",
+    "initialized": "_0x0dbe5a",
+    "initWallet": "_0x05daa3",
+    "_daylimit": "_0x1f41f6",
+    "destroyer": "_0x50ad39",
+    "_required": "_0x6ceebc",
+    "_library": "_0x905109",
+    "required": "_0xa48f01",
+    "execute": "_0x6d3034",
+    "success": "_0x1e1849",
+    "isOwner": "_0x2f95ad",
+    "_owners": "_0x300dec",
+    "owners": "_0x1ad629",
+    "result": "_0xa78632",
+    "_addr": "_0xc381b3",
+    "owner": "_0x33ff75",
+    "kill": "_0xa032e7",
+    "_to": "_0x7f9896",
+    "lib": "_0x542367",
+    "to": "_0xf89aba"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -125,7 +125,7 @@
     ],
     "rename_map_size": 21,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: kill \u2192 _0x4b65d5"
+      "Transformed ground_truth.vulnerable_location.function_name: initWallet \u2192 _0x05daa3"
     ]
   }
 }

@@ -8,7 +8,7 @@
     "severity": "low",
     "vulnerable_location": {
       "contract_name": "b",
-      "function_name": "d",
+      "function_name": "e",
       "line_numbers": [
         13
       ]
@@ -75,11 +75,11 @@
     "randomNumber": "a",
     "lottopollo": "b",
     "randomGen": "c",
-    "payOut": "d",
-    "leader": "e",
+    "leader": "d",
+    "payOut": "e",
     "draw": "f",
-    "seed": "g",
-    "rand": "h",
+    "rand": "g",
+    "seed": "h",
     "now": "i"
   },
   "transformation": {
@@ -93,7 +93,7 @@
     "rename_map_size": 9,
     "metadata_changes": [
       "Transformed ground_truth.vulnerable_location.contract_name: lottopollo \u2192 b",
-      "Transformed ground_truth.vulnerable_location.function_name: payOut \u2192 d",
+      "Transformed ground_truth.vulnerable_location.function_name: payOut \u2192 e",
       "Transformed code_metadata.contract_names item: lottopollo \u2192 b"
     ]
   }

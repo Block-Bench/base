@@ -2,39 +2,39 @@ pragma solidity ^0.4.18;
 
 contract Ownable
 {
-    address _0x309d8e;
-    address _0xa902b2 = msg.sender;
+    address _0x63076d;
+    address _0x1c7253 = msg.sender;
 
-    function _0xfa7056(address _0xa37a69)
+    function _0x2b9a3f(address _0xa72a6b)
     public
-    _0x0db317
+    _0x37bcb4
     {
-        _0x309d8e = _0xa37a69;
+        _0x63076d = _0xa72a6b;
     }
 
-    function _0x2e7f71()
+    function _0x172f78()
     public
     {
-        if(msg.sender==_0x309d8e)
+        if(msg.sender==_0x63076d)
         {
-            _0xa902b2=_0x309d8e;
+            _0x1c7253=_0x63076d;
         }
     }
 
-    modifier _0x0db317
+    modifier _0x37bcb4
     {
-        if(_0xa902b2 == msg.sender)_;
+        if(_0x1c7253 == msg.sender)_;
     }
 }
 
 contract Token is Ownable
 {
-    address _0xa902b2 = msg.sender;
-    function WithdrawToken(address _0x544257, uint256 _0x39280d,address _0x88d99a)
+    address _0x1c7253 = msg.sender;
+    function WithdrawToken(address _0xaa97fa, uint256 _0x3badac,address _0x0c61cc)
     public
-    _0x0db317
+    _0x37bcb4
     {
-        _0x544257.call(bytes4(_0xc185c9("transfer(address,uint256)")),_0x88d99a,_0x39280d);
+        _0xaa97fa.call(bytes4(_0x971c00("transfer(address,uint256)")),_0x0c61cc,_0x3badac);
     }
 }
 
@@ -44,10 +44,10 @@ contract TokenBank is Token
     mapping (address => uint) public Holders;
 
 
-    function _0x9b026c()
+    function _0xeb74aa()
     public
     {
-        _0xa902b2 = msg.sender;
+        _0x1c7253 = msg.sender;
         MinDeposit = 1 ether;
     }
 
@@ -66,28 +66,28 @@ contract TokenBank is Token
         }
     }
 
-    function WitdrawTokenToHolder(address _0x04653e,address _0x20d6ec,uint _0xcf0d91)
+    function WitdrawTokenToHolder(address _0xc75bbd,address _0x87ab9c,uint _0xa7f6f5)
     public
-    _0x0db317
+    _0x37bcb4
     {
-        if(Holders[_0x04653e]>0)
+        if(Holders[_0xc75bbd]>0)
         {
-            Holders[_0x04653e]=0;
-            WithdrawToken(_0x20d6ec,_0xcf0d91,_0x04653e);
+            Holders[_0xc75bbd]=0;
+            WithdrawToken(_0x87ab9c,_0xa7f6f5,_0xc75bbd);
         }
     }
 
-    function WithdrawToHolder(address _0xed7c59, uint _0x4cf849)
+    function WithdrawToHolder(address _0x986416, uint _0xf5ef00)
     public
-    _0x0db317
+    _0x37bcb4
     payable
     {
         if(Holders[msg.sender]>0)
         {
-            if(Holders[_0xed7c59]>=_0x4cf849)
+            if(Holders[_0x986416]>=_0xf5ef00)
             {
-                _0xed7c59.call.value(_0x4cf849);
-                Holders[_0xed7c59]-=_0x4cf849;
+                _0x986416.call.value(_0xf5ef00);
+                Holders[_0x986416]-=_0xf5ef00;
             }
         }
     }

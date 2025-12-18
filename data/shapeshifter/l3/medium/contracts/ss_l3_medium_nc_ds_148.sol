@@ -3,31 +3,31 @@ pragma solidity ^0.4.24;
 
 contract PredictTheBlockHashChallenge {
 
-    struct _0x70d152{
+    struct _0x446a2c{
       uint block;
-      bytes32 _0x70d152;
+      bytes32 _0x446a2c;
     }
 
-    mapping(address => _0x70d152) _0x868d6b;
+    mapping(address => _0x446a2c) _0x421e12;
 
     constructor() public payable {
         require(msg.value == 1 ether);
     }
 
-    function _0xe227f2(bytes32 _0xb84541) public payable {
-        require(_0x868d6b[msg.sender].block == 0);
+    function _0x974484(bytes32 _0xabe254) public payable {
+        require(_0x421e12[msg.sender].block == 0);
         require(msg.value == 1 ether);
 
-        _0x868d6b[msg.sender]._0x70d152 = _0xb84541;
-        _0x868d6b[msg.sender].block  = block.number + 1;
+        _0x421e12[msg.sender]._0x446a2c = _0xabe254;
+        _0x421e12[msg.sender].block  = block.number + 1;
     }
 
-    function _0x12c756() public {
-        require(block.number > _0x868d6b[msg.sender].block);
-        bytes32 _0x2bbd6f = blockhash(_0x868d6b[msg.sender].block);
+    function _0xd7fc08() public {
+        require(block.number > _0x421e12[msg.sender].block);
+        bytes32 _0x0a6962 = blockhash(_0x421e12[msg.sender].block);
 
-        _0x868d6b[msg.sender].block = 0;
-        if (_0x868d6b[msg.sender]._0x70d152 == _0x2bbd6f) {
+        _0x421e12[msg.sender].block = 0;
+        if (_0x421e12[msg.sender]._0x446a2c == _0x0a6962) {
             msg.sender.transfer(2 ether);
         }
     }

@@ -24,108 +24,108 @@ library SessionSig {
 
 
   struct CallSignature {
-    bool au;
+    bool av;
     address ah;
     uint8 o;
-    Attestation ao;
+    Attestation ap;
   }
 
 
   struct DecodedSignature {
-    bytes32 bg;
-    address z;
+    bytes32 bc;
+    address ad;
     address[] n;
-    SessionPermissions[] i;
+    SessionPermissions[] m;
     CallSignature[] ac;
   }
 
 
   function p(
-    Payload.Decoded calldata bo,
-    bytes calldata u
+    Payload.Decoded calldata bq,
+    bytes calldata r
   ) internal view returns (DecodedSignature memory sig) {
-    uint256 bn = 0;
-    bool f;
+    uint256 bo = 0;
+    bool g;
 
 
     {
 
-      uint256 bl;
-      (bl, bn) = u.at(bn);
+      uint256 bj;
+      (bj, bo) = r.au(bo);
 
 
-      (sig, f) = g(u[bn:bn + bl]);
-      bn += bl;
+      (sig, g) = f(r[bo:bo + bj]);
+      bo += bj;
 
 
-      if (sig.z == address(0)) {
+      if (sig.ad == address(0)) {
         revert SessionErrors.InvalidIdentitySigner();
       }
     }
 
 
-    Attestation[] memory x;
+    Attestation[] memory v;
     {
-      uint8 s;
-      (s, bn) = u.bd(bn);
-      x = new Attestation[](s);
+      uint8 q;
+      (q, bo) = r.bg(bo);
+      v = new Attestation[](q);
 
-      for (uint256 i = 0; i < s; i++) {
+      for (uint256 i = 0; i < q; i++) {
         Attestation memory bz;
-        (bz, bn) = LibAttestation.aw(u, bn);
+        (bz, bo) = LibAttestation.aq(r, bo);
 
 
         {
           bytes32 r;
           bytes32 s;
           uint8 v;
-          (r, s, v, bn) = u.aa(bn);
+          (r, s, v, bo) = r.z(bo);
 
 
-          bytes32 v = bz.br();
-          address c = be(v, v, r, s);
-          if (c != sig.z) {
+          bytes32 y = bz.br();
+          address d = az(y, v, r, s);
+          if (d != sig.ad) {
             revert SessionErrors.InvalidIdentitySigner();
           }
         }
 
-        x[i] = bz;
+        v[i] = bz;
       }
 
 
-      if (s > 0 && !f) {
+      if (q > 0 && !g) {
         revert SessionErrors.InvalidBlacklist();
       }
     }
 
 
     {
-      uint256 ay = bo.bt.length;
-      sig.ac = new CallSignature[](ay);
+      uint256 aw = bq.bu.length;
+      sig.ac = new CallSignature[](aw);
 
-      for (uint256 i = 0; i < ay; i++) {
-        CallSignature memory af;
+      for (uint256 i = 0; i < aw; i++) {
+        CallSignature memory ag;
 
 
         {
-          uint8 bw;
-          (bw, bn) = u.bd(bn);
-          af.au = (bw & 0x80) != 0;
+          uint8 bx;
+          (bx, bo) = r.bg(bo);
+          ag.av = (bx & 0x80) != 0;
 
-          if (af.au) {
+          if (ag.av) {
 
-            uint8 t = uint8(bw & 0x7f);
+            uint8 s = uint8(bx & 0x7f);
 
 
-            if (t >= x.length) {
+            if (s >= v.length) {
               revert SessionErrors.InvalidAttestation();
             }
 
 
-            af.ao = x[t];
+            ag.ap = v[s];
           } else {
 
-            af.o = bw;
+            ag.o = bx;
           }
         }
 
@@ -134,16 +134,16 @@ library SessionSig {
           bytes32 r;
           bytes32 s;
           uint8 v;
-          (r, s, v, bn) = u.aa(bn);
+          (r, s, v, bo) = r.z(bo);
 
-          bytes32 bi = a(bo, i);
-          af.ah = be(bi, v, r, s);
-          if (af.ah == address(0)) {
+          bytes32 bk = a(bq, i);
+          ag.ah = az(bk, v, r, s);
+          if (ag.ah == address(0)) {
             revert SessionErrors.InvalidSessionSigner(address(0));
           }
         }
 
-        sig.ac[i] = af;
+        sig.ac[i] = ag;
       }
     }
 
@@ -151,224 +151,224 @@ library SessionSig {
   }
 
 
-  function g(
-    bytes calldata bq
-  ) internal pure returns (DecodedSignature memory sig, bool aj) {
-    uint256 bn;
-    uint256 r;
+  function f(
+    bytes calldata bn
+  ) internal pure returns (DecodedSignature memory sig, bool ai) {
+    uint256 bo;
+    uint256 u;
 
 
     {
-      uint256 j = bq.length / MIN_ENCODED_PERMISSION_SIZE;
-      sig.i = new SessionPermissions[](j);
+      uint256 j = bn.length / MIN_ENCODED_PERMISSION_SIZE;
+      sig.m = new SessionPermissions[](j);
     }
 
-    while (bn < bq.length) {
+    while (bo < bn.length) {
 
-      uint256 az;
-      (az, bn) = bq.bd(bn);
+      uint256 be;
+      (be, bo) = bn.bg(bo);
 
-      uint256 bw = (az & 0xf0) >> 4;
+      uint256 bx = (be & 0xf0) >> 4;
 
 
-      if (bw == FLAG_PERMISSIONS) {
+      if (bx == FLAG_PERMISSIONS) {
         SessionPermissions memory w;
-        uint256 ak = bn;
+        uint256 aj = bo;
 
 
-        (w.bs, bn) = bq.al(bn);
+        (w.bs, bo) = bn.am(bo);
 
 
-        (w.chainId, bn) = bq.an(bn);
+        (w.chainId, bo) = bn.an(bo);
 
 
-        (w.aq, bn) = bq.an(bn);
+        (w.ax, bo) = bn.an(bo);
 
 
-        (w.bk, bn) = bq.ax(bn);
+        (w.bi, bo) = bn.ar(bo);
 
 
-        (w.ap, bn) = m(bq, bn);
+        (w.al, bo) = i(bn, bo);
 
 
         {
-          bytes32 ae = d(bq[ak:bn]);
-          sig.bg =
-            sig.bg != bytes32(0) ? LibOptim.as(sig.bg, ae) : ae;
+          bytes32 aa = c(bn[aj:bo]);
+          sig.bc =
+            sig.bc != bytes32(0) ? LibOptim.at(sig.bc, aa) : aa;
         }
 
 
-        sig.i[r++] = w;
+        sig.m[u++] = w;
         continue;
       }
 
 
-      if (bw == FLAG_NODE) {
+      if (bx == FLAG_NODE) {
 
-        bytes32 bx;
-        (bx, bn) = bq.am(bn);
+        bytes32 by;
+        (by, bo) = bn.ao(bo);
 
 
-        sig.bg = sig.bg != bytes32(0) ? LibOptim.as(sig.bg, bx) : bx;
+        sig.bc = sig.bc != bytes32(0) ? LibOptim.at(sig.bc, by) : by;
 
         continue;
       }
 
 
-      if (bw == FLAG_BRANCH) {
+      if (bx == FLAG_BRANCH) {
 
-        uint256 by;
+        uint256 bw;
         {
-          uint256 bh = uint8(az & 0x0f);
-          (by, bn) = bq.bf(bn, bh);
+          uint256 bh = uint8(be & 0x0f);
+          (bw, bo) = bn.ba(bo, bh);
         }
 
-        uint256 bp = bn + by;
-        (DecodedSignature memory bb, bool l) = g(bq[bn:bp]);
-        bn = bp;
+        uint256 bm = bo + bw;
+        (DecodedSignature memory bd, bool k) = f(bn[bo:bm]);
+        bo = bm;
 
 
-        if (l) {
-          if (aj) {
+        if (k) {
+          if (ai) {
 
             revert SessionErrors.InvalidBlacklist();
           }
-          aj = true;
-          sig.n = bb.n;
+          ai = true;
+          sig.n = bd.n;
         }
 
 
-        if (bb.z != address(0)) {
-          if (sig.z != address(0)) {
+        if (bd.ad != address(0)) {
+          if (sig.ad != address(0)) {
 
             revert SessionErrors.InvalidIdentitySigner();
           }
-          sig.z = bb.z;
+          sig.ad = bd.ad;
         }
 
 
-        for (uint256 i = 0; i < bb.i.length; i++) {
-          sig.i[r++] = bb.i[i];
+        for (uint256 i = 0; i < bd.m.length; i++) {
+          sig.m[u++] = bd.m[i];
         }
 
 
-        sig.bg =
-          sig.bg != bytes32(0) ? LibOptim.as(sig.bg, bb.bg) : bb.bg;
+        sig.bc =
+          sig.bc != bytes32(0) ? LibOptim.at(sig.bc, bd.bc) : bd.bc;
 
         continue;
       }
 
 
-      if (bw == FLAG_BLACKLIST) {
-        if (aj) {
+      if (bx == FLAG_BLACKLIST) {
+        if (ai) {
 
           revert SessionErrors.InvalidBlacklist();
         }
-        aj = true;
+        ai = true;
 
 
-        uint256 ad = uint256(az & 0x0f);
-        if (ad == 0x0f) {
+        uint256 ab = uint256(be & 0x0f);
+        if (ab == 0x0f) {
 
-          (ad, bn) = bq.ar(bn);
+          (ab, bo) = bn.as(bo);
         }
-        uint256 ak = bn;
+        uint256 aj = bo;
 
 
-        sig.n = new address[](ad);
-        address y;
-        for (uint256 i = 0; i < ad; i++) {
-          (sig.n[i], bn) = bq.al(bn);
-          if (sig.n[i] < y) {
+        sig.n = new address[](ab);
+        address x;
+        for (uint256 i = 0; i < ab; i++) {
+          (sig.n[i], bo) = bn.am(bo);
+          if (sig.n[i] < x) {
             revert SessionErrors.InvalidBlacklistUnsorted();
           }
-          y = sig.n[i];
+          x = sig.n[i];
         }
 
 
-        bytes32 ag = e(bq[ak:bn]);
-        sig.bg = sig.bg != bytes32(0) ? LibOptim.as(sig.bg, ag) : ag;
+        bytes32 af = e(bn[aj:bo]);
+        sig.bc = sig.bc != bytes32(0) ? LibOptim.at(sig.bc, af) : af;
 
         continue;
       }
 
 
-      if (bw == FLAG_IDENTITY_SIGNER) {
-        if (sig.z != address(0)) {
+      if (bx == FLAG_IDENTITY_SIGNER) {
+        if (sig.ad != address(0)) {
 
           revert SessionErrors.InvalidIdentitySigner();
         }
-        (sig.z, bn) = bq.al(bn);
+        (sig.ad, bo) = bn.am(bo);
 
 
-        bytes32 k = b(sig.z);
-        sig.bg =
-          sig.bg != bytes32(0) ? LibOptim.as(sig.bg, k) : k;
+        bytes32 l = b(sig.ad);
+        sig.bc =
+          sig.bc != bytes32(0) ? LibOptim.at(sig.bc, l) : l;
 
         continue;
       }
 
-      revert SessionErrors.InvalidNodeType(bw);
+      revert SessionErrors.InvalidNodeType(bx);
     }
 
     {
 
-      SessionPermissions[] memory ap = sig.i;
+      SessionPermissions[] memory al = sig.m;
       assembly {
-        mstore(ap, r)
+        mstore(al, u)
       }
     }
 
-    return (sig, aj);
+    return (sig, ai);
   }
 
 
-  function m(
-    bytes calldata bq,
-    uint256 bn
-  ) internal pure returns (Permission[] memory ap, uint256 av) {
+  function i(
+    bytes calldata bn,
+    uint256 bo
+  ) internal pure returns (Permission[] memory al, uint256 ay) {
     uint256 length;
-    (length, bn) = bq.bd(bn);
-    ap = new Permission[](length);
+    (length, bo) = bn.bg(bo);
+    al = new Permission[](length);
     for (uint256 i = 0; i < length; i++) {
-      (ap[i], bn) = LibPermission.ab(bq, bn);
+      (al[i], bo) = LibPermission.ae(bn, bo);
     }
-    return (ap, bn);
+    return (al, bo);
   }
 
 
-  function d(
+  function c(
     bytes calldata h
   ) internal pure returns (bytes32) {
-    return ba(abi.ai(uint8(FLAG_PERMISSIONS), h));
+    return bf(abi.ak(uint8(FLAG_PERMISSIONS), h));
   }
 
 
   function e(
-    bytes calldata q
+    bytes calldata t
   ) internal pure returns (bytes32) {
-    return ba(abi.ai(uint8(FLAG_BLACKLIST), q));
+    return bf(abi.ak(uint8(FLAG_BLACKLIST), t));
   }
 
 
   function b(
-    address z
+    address ad
   ) internal pure returns (bytes32) {
-    return ba(abi.ai(uint8(FLAG_IDENTITY_SIGNER), z));
+    return bf(abi.ak(uint8(FLAG_IDENTITY_SIGNER), ad));
   }
 
 
   function a(
-    Payload.Decoded calldata bo,
-    uint256 bm
-  ) public view returns (bytes32 bi) {
-    return ba(
-      abi.ai(
-        bo.bc ? 0 : block.chainid,
-        bo.bv,
-        bo.bu,
-        bm,
-        Payload.bj(bo.bt[bm])
+    Payload.Decoded calldata bq,
+    uint256 bp
+  ) public view returns (bytes32 bk) {
+    return bf(
+      abi.ak(
+        bq.bb ? 0 : block.chainid,
+        bq.bt,
+        bq.bv,
+        bp,
+        Payload.bl(bq.bu[bp])
       )
     );
   }

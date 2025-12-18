@@ -5,24 +5,24 @@ contract PrivateDeposit
     mapping (address => uint) public b;
 
     uint public MinDeposit = 1 ether;
-    address public d;
+    address public e;
 
     Log TransferLog;
 
     modifier a() {
-        require(tx.origin == d);
+        require(tx.origin == e);
         _;
     }
 
     function PrivateDeposit()
     {
-        d = msg.sender;
+        e = msg.sender;
         TransferLog = new Log();
     }
 
-    function c(address g) a
+    function c(address f) a
     {
-        TransferLog = Log(g);
+        TransferLog = Log(f);
     }
 
     function Deposit()
@@ -67,13 +67,13 @@ contract Log
 
     Message LastMsg;
 
-    function AddMessage(address f,uint h,string e)
+    function AddMessage(address g,uint h,string d)
     public
     {
-        LastMsg.Sender = f;
+        LastMsg.Sender = g;
         LastMsg.Time = j;
         LastMsg.Val = h;
-        LastMsg.Data = e;
+        LastMsg.Data = d;
         History.push(LastMsg);
     }
 }

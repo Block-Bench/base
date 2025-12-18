@@ -9,149 +9,149 @@ contract Ethraffle_v4b {
     event RaffleResult(
         uint s,
         uint c,
-        address a,
+        address b,
         address y,
-        address x,
-        uint w,
+        address w,
+        uint v,
         bytes32 r
     );
 
     event TicketPurchase(
         uint s,
-        address l,
+        address j,
         uint number
     );
 
     event TicketRefund(
         uint s,
-        address l,
+        address j,
         uint number
     );
 
 
-    uint public constant v = 2.5 ether;
+    uint public constant x = 2.5 ether;
     uint public constant ac = 0.03 ether;
     uint public constant e = 50;
-    uint public constant b = (v + ac) / e;
-    address k;
+    uint public constant a = (x + ac) / e;
+    address m;
 
 
-    bool public u = false;
+    bool public t = false;
     uint public s = 1;
     uint public h = block.number;
-    uint j = 0;
+    uint l = 0;
     mapping (uint => Contestant) g;
-    uint[] ab;
+    uint[] z;
 
 
     function Ethraffle_v4b() public {
-        k = msg.sender;
+        m = msg.sender;
     }
 
 
     function () payable public {
-        m();
+        i();
     }
 
-    function m() payable public {
-        if (u) {
+    function i() payable public {
+        if (t) {
             msg.sender.transfer(msg.value);
             return;
         }
 
-        uint p = msg.value;
+        uint o = msg.value;
 
-        while (p >= b && j < e) {
-            uint i = 0;
-            if (ab.length > 0) {
-                i = ab[ab.length-1];
-                ab.length--;
+        while (o >= a && l < e) {
+            uint k = 0;
+            if (z.length > 0) {
+                k = z[z.length-1];
+                z.length--;
             } else {
-                i = j++;
+                k = l++;
             }
 
-            g[i] = Contestant(msg.sender, s);
-            TicketPurchase(s, msg.sender, i);
-            p -= b;
+            g[k] = Contestant(msg.sender, s);
+            TicketPurchase(s, msg.sender, k);
+            o -= a;
         }
 
 
-        if (j == e) {
+        if (l == e) {
             d();
         }
 
 
-        if (p > 0) {
-            msg.sender.transfer(p);
+        if (o > 0) {
+            msg.sender.transfer(o);
         }
     }
 
     function d() private {
         address y = g[uint(block.coinbase) % e].aa;
-        address x = g[uint(msg.sender) % e].aa;
-        uint w = block.difficulty;
-        bytes32 r = q(y, x, w);
+        address w = g[uint(msg.sender) % e].aa;
+        uint v = block.difficulty;
+        bytes32 r = p(y, w, v);
 
         uint c = uint(r) % e;
-        address a = g[c].aa;
-        RaffleResult(s, c, a, y, x, w, r);
+        address b = g[c].aa;
+        RaffleResult(s, c, b, y, w, v, r);
 
 
         s++;
-        j = 0;
+        l = 0;
         h = block.number;
 
 
-        a.transfer(v);
-        k.transfer(ac);
-    }
-
-
-    function o() public {
-        uint t = 0;
-        for (uint i = 0; i < e; i++) {
-            if (msg.sender == g[i].aa && s == g[i].s) {
-                t += b;
-                g[i] = Contestant(address(0), 0);
-                ab.push(i);
-                TicketRefund(s, msg.sender, i);
-            }
-        }
-
-        if (t > 0) {
-            msg.sender.transfer(t);
-        }
+        b.transfer(x);
+        m.transfer(ac);
     }
 
 
     function n() public {
-        if (msg.sender == k) {
-            u = true;
+        uint u = 0;
+        for (uint i = 0; i < e; i++) {
+            if (msg.sender == g[i].aa && s == g[i].s) {
+                u += a;
+                g[i] = Contestant(address(0), 0);
+                z.push(i);
+                TicketRefund(s, msg.sender, i);
+            }
+        }
+
+        if (u > 0) {
+            msg.sender.transfer(u);
+        }
+    }
+
+
+    function q() public {
+        if (msg.sender == m) {
+            t = true;
 
             for (uint i = 0; i < e; i++) {
                 if (s == g[i].s) {
                     TicketRefund(s, g[i].aa, i);
-                    g[i].aa.transfer(b);
+                    g[i].aa.transfer(a);
                 }
             }
 
             RaffleResult(s, e, address(0), address(0), address(0), 0, 0);
             s++;
-            j = 0;
+            l = 0;
             h = block.number;
-            ab.length = 0;
+            z.length = 0;
         }
     }
 
     function f() public {
-        if (msg.sender == k) {
-            u = !u;
+        if (msg.sender == m) {
+            t = !t;
         }
     }
 
-    function z() public {
-        if (msg.sender == k) {
-            selfdestruct(k);
+    function ab() public {
+        if (msg.sender == m) {
+            selfdestruct(m);
         }
     }
 }

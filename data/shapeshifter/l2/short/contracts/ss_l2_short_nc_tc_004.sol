@@ -6,7 +6,7 @@ interface ICurvePool {
         int128 i,
         int128 j,
         uint256 w,
-        uint256 s
+        uint256 r
     ) external returns (uint256);
 
     function d(
@@ -17,86 +17,86 @@ interface ICurvePool {
 }
 
 contract YieldVault {
-    address public f;
-    ICurvePool public o;
+    address public e;
+    ICurvePool public n;
 
     uint256 public k;
-    mapping(address => uint256) public n;
+    mapping(address => uint256) public o;
 
 
-    uint256 public e;
+    uint256 public f;
 
-    event Deposit(address indexed v, uint256 r, uint256 t);
-    event Withdrawal(address indexed v, uint256 t, uint256 r);
+    event Deposit(address indexed v, uint256 s, uint256 t);
+    event Withdrawal(address indexed v, uint256 t, uint256 s);
 
     constructor(address u, address m) {
-        f = u;
-        o = ICurvePool(m);
+        e = u;
+        n = ICurvePool(m);
     }
 
 
-    function q(uint256 r) external returns (uint256 t) {
-        require(r > 0, "Zero amount");
+    function q(uint256 s) external returns (uint256 t) {
+        require(s > 0, "Zero amount");
 
 
         if (k == 0) {
-            t = r;
+            t = s;
         } else {
-            uint256 l = h();
-            t = (r * k) / l;
+            uint256 l = g();
+            t = (s * k) / l;
         }
 
-        n[msg.sender] += t;
+        o[msg.sender] += t;
         k += t;
 
 
-        g(r);
+        h(s);
 
-        emit Deposit(msg.sender, r, t);
+        emit Deposit(msg.sender, s, t);
         return t;
     }
 
 
-    function p(uint256 t) external returns (uint256 r) {
+    function p(uint256 t) external returns (uint256 s) {
         require(t > 0, "Zero shares");
-        require(n[msg.sender] >= t, "Insufficient balance");
+        require(o[msg.sender] >= t, "Insufficient balance");
 
 
-        uint256 l = h();
-        r = (t * l) / k;
+        uint256 l = g();
+        s = (t * l) / k;
 
-        n[msg.sender] -= t;
+        o[msg.sender] -= t;
         k -= t;
 
 
-        c(r);
+        c(s);
 
-        emit Withdrawal(msg.sender, t, r);
-        return r;
+        emit Withdrawal(msg.sender, t, s);
+        return s;
     }
 
 
-    function h() public view returns (uint256) {
-        uint256 j = 0;
-        uint256 i = e;
+    function g() public view returns (uint256) {
+        uint256 i = 0;
+        uint256 j = f;
 
-        return j + i;
+        return i + j;
     }
 
 
     function a() public view returns (uint256) {
         if (k == 0) return 1e18;
-        return (h() * 1e18) / k;
+        return (g() * 1e18) / k;
     }
 
 
-    function g(uint256 r) internal {
-        e += r;
+    function h(uint256 s) internal {
+        f += s;
     }
 
 
-    function c(uint256 r) internal {
-        require(e >= r, "Insufficient invested");
-        e -= r;
+    function c(uint256 s) internal {
+        require(f >= s, "Insufficient invested");
+        f -= s;
     }
 }

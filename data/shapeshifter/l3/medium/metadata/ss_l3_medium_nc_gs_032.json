@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "ERC4337v07",
-      "function_name": "_0x680ef1",
+      "function_name": "_0xc52815",
       "line_numbers": []
     },
     "root_cause": "In ERC-4337, validateUserOp uses external self-call to isValidSignature, changing msg.sender to wallet instead of entrypoint. BaseAuth.signatureValidation enforces caller binding, causing revert for static signatures bound to entrypoint.",
@@ -71,20 +71,20 @@
   "derived_from": "nc_gs_032",
   "original_id": "gs_032",
   "identifier_mappings": {
-    "missingAccountFunds": "_0xaf2a90",
-    "isValidSignature": "_0xc1f6a8",
-    "validateUserOp": "_0x680ef1",
-    "validationData": "_0xf7a5a6",
-    "executeUserOp": "_0x81588f",
-    "nonReentrant": "_0x29061a",
-    "selfExecute": "_0xa86a9f",
-    "_entrypoint": "_0x7b75df",
-    "entrypoint": "_0x54ece1",
-    "userOpHash": "_0x4a6b57",
-    "signature": "_0x09e918",
-    "depositTo": "_0xf9020b",
-    "_payload": "_0xf77f6c",
-    "userOp": "_0x5a934c"
+    "missingAccountFunds": "_0xa8fa9f",
+    "isValidSignature": "_0xa74a56",
+    "validateUserOp": "_0xc52815",
+    "validationData": "_0x909893",
+    "executeUserOp": "_0x624cab",
+    "nonReentrant": "_0x2ae116",
+    "_entrypoint": "_0x0b9daa",
+    "selfExecute": "_0x22afd2",
+    "userOpHash": "_0xb800ca",
+    "entrypoint": "_0xfceb22",
+    "depositTo": "_0x4850da",
+    "signature": "_0x5bcb5e",
+    "_payload": "_0x03aca1",
+    "userOp": "_0xbdf7d1"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -96,7 +96,7 @@
     ],
     "rename_map_size": 14,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: validateUserOp \u2192 _0x680ef1"
+      "Transformed ground_truth.vulnerable_location.function_name: validateUserOp \u2192 _0xc52815"
     ]
   }
 }

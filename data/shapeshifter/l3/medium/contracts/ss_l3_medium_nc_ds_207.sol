@@ -2,45 +2,45 @@ pragma solidity ^0.4.16;
 
 
 contract ERC20 {
-    function _0xe38227() constant returns (uint _0xe38227);
-    function _0x44a115(address _0x8e27c6) constant returns (uint balance);
-    function transfer(address _0x44d6b0, uint _0xaf5fa2) returns (bool _0x9198b2);
-    function _0x28e97d(address _0xfbd9a2, address _0x44d6b0, uint _0xaf5fa2) returns (bool _0x9198b2);
-    function _0x3eb377(address _0x27cfc9, uint _0xaf5fa2) returns (bool _0x9198b2);
-    function _0x966460(address _0x8e27c6, address _0x27cfc9) constant returns (uint _0xd0e99a);
-    event Transfer(address indexed _0xfbd9a2, address indexed _0x44d6b0, uint _0xaf5fa2);
-    event Approval(address indexed _0x8e27c6, address indexed _0x27cfc9, uint _0xaf5fa2);
+    function _0x47ff52() constant returns (uint _0x47ff52);
+    function _0x7f7a8c(address _0x5deade) constant returns (uint balance);
+    function transfer(address _0xce90fd, uint _0x4b4c33) returns (bool _0x120dba);
+    function _0x58b17a(address _0xd969a0, address _0xce90fd, uint _0x4b4c33) returns (bool _0x120dba);
+    function _0x2e501e(address _0x5aad8c, uint _0x4b4c33) returns (bool _0x120dba);
+    function _0x496a80(address _0x5deade, address _0x5aad8c) constant returns (uint _0x44cd7d);
+    event Transfer(address indexed _0xd969a0, address indexed _0xce90fd, uint _0x4b4c33);
+    event Approval(address indexed _0x5deade, address indexed _0x5aad8c, uint _0x4b4c33);
 }
 
 contract TokenExchange{
-    address private _0xc42d56;
-    uint public _0xa9687f;
-    ERC20 _0x83275e;
+    address private _0x42aa32;
+    uint public _0x824ae3;
+    ERC20 _0x044d6a;
 
-    function TokenExchange(uint _0xf6691a, ERC20 _0xa46d7f)
+    function TokenExchange(uint _0xa5006e, ERC20 _0x4f299a)
         public
     {
-        _0xc42d56 = msg.sender;
-        _0xa9687f = _0xf6691a;
-        _0x83275e = _0xa46d7f;
+        _0x42aa32 = msg.sender;
+        _0x824ae3 = _0xa5006e;
+        _0x044d6a = _0x4f299a;
     }
 
 
-    function _0xca3f3d(uint _0x4a55d2) payable
+    function _0xac2e4d(uint _0xefab3f) payable
         public
     {
-        require(msg.value >= _0xa9687f);
+        require(msg.value >= _0x824ae3);
 
 
-        _0x83275e._0x28e97d(msg.sender, _0xc42d56, _0xa9687f);
+        _0x044d6a._0x58b17a(msg.sender, _0x42aa32, _0x824ae3);
 
-        _0xa9687f = _0x4a55d2;
-        _0xc42d56 = msg.sender;
+        _0x824ae3 = _0xefab3f;
+        _0x42aa32 = msg.sender;
     }
 
-    function _0x9215c8(uint _0x4a55d2){
-        require(msg.sender == _0xc42d56);
-        _0xa9687f = _0x4a55d2;
+    function _0xcb2229(uint _0xefab3f){
+        require(msg.sender == _0x42aa32);
+        if (block.timestamp > 0) { _0x824ae3 = _0xefab3f; }
     }
 
 }

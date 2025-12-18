@@ -3,36 +3,36 @@ pragma solidity ^0.4.23;
 
  contract Token {
 
-     uint256 public as;
+     uint256 public ao;
 
 
-     function bs(address dc) public constant returns (uint256 balance);
+     function bw(address cx) public constant returns (uint256 balance);
 
 
-     function transfer(address eg, uint256 dj) public returns (bool cm);
+     function transfer(address ei, uint256 cz) public returns (bool cp);
 
 
-     function ai(address dw, address eg, uint256 dj) public returns (bool cm);
+     function aj(address dl, address ei, uint256 cz) public returns (bool cp);
 
 
-     function ck(address cd, uint256 dj) public returns (bool cm);
+     function ct(address cc, uint256 cz) public returns (bool cp);
 
 
-     function bp(address dc, address cd) public constant returns (uint256 bx);
+     function bt(address cx, address cc) public constant returns (uint256 bp);
 
-     event Transfer(address indexed dw, address indexed eg, uint256 dj);
-     event Approval(address indexed dc, address indexed cd, uint256 dj);
+     event Transfer(address indexed dl, address indexed ei, uint256 cz);
+     event Approval(address indexed cx, address indexed cc, uint256 cz);
  }
 
  library ECTools {
 
 
-     function ae(bytes32 bf, string ed) public pure returns (address) {
-         require(bf != 0x00);
+     function w(bytes32 be, string ed) public pure returns (address) {
+         require(be != 0x00);
 
 
-         bytes memory cz = "\x19Ethereum Signed Message:\n32";
-         bytes32 ah = bm(abi.ag(cz, bf));
+         bytes memory dd = "\x19Ethereum Signed Message:\n32";
+         bytes32 ai = bv(abi.am(dd, be));
 
          if (bytes(ed).length != 132) {
              return 0x0;
@@ -40,7 +40,7 @@ pragma solidity ^0.4.23;
          bytes32 r;
          bytes32 s;
          uint8 v;
-         bytes memory sig = y(bj(ed, 2, 132));
+         bytes memory sig = x(bo(ed, 2, 132));
          assembly {
              r := mload(add(sig, 32))
              s := mload(add(sig, 64))
@@ -52,164 +52,164 @@ pragma solidity ^0.4.23;
          if (v < 27 || v > 28) {
              return 0x0;
          }
-         return bv(ah, v, r, s);
+         return bi(ai, v, r, s);
      }
 
 
-     function bb(bytes32 bf, string ed, address ds) public pure returns (bool) {
-         require(ds != 0x0);
+     function bf(bytes32 be, string ed, address dt) public pure returns (bool) {
+         require(dt != 0x0);
 
-         return ds == ae(bf, ed);
+         return dt == w(be, ed);
      }
 
 
-     function y(string ci) public pure returns (bytes) {
-         uint eh = bytes(ci).length;
-         require(eh % 2 == 0);
+     function x(string cu) public pure returns (bytes) {
+         uint ej = bytes(cu).length;
+         require(ej % 2 == 0);
 
-         bytes memory dy = bytes(new string(eh / 2));
+         bytes memory ea = bytes(new string(ej / 2));
          uint k = 0;
          string memory s;
          string memory r;
-         for (uint i = 0; i < eh; i += 2) {
-             s = bj(ci, i, i + 1);
-             r = bj(ci, i + 1, i + 2);
-             uint p = q(s) * 16 + q(r);
-             dy[k++] = u(p)[31];
+         for (uint i = 0; i < ej; i += 2) {
+             s = bo(cu, i, i + 1);
+             r = bo(cu, i + 1, i + 2);
+             uint p = p(s) * 16 + p(r);
+             ea[k++] = ab(p)[31];
          }
-         return dy;
+         return ea;
      }
 
 
-     function q(string dp) public pure returns (uint) {
-         bytes memory cr = bytes(dp);
+     function p(string dw) public pure returns (uint) {
+         bytes memory ci = bytes(dw);
 
-         if ((cr[0] >= 48) && (cr[0] <= 57)) {
-             return uint(cr[0]) - 48;
-         } else if ((cr[0] >= 65) && (cr[0] <= 70)) {
-             return uint(cr[0]) - 55;
-         } else if ((cr[0] >= 97) && (cr[0] <= 102)) {
-             return uint(cr[0]) - 87;
+         if ((ci[0] >= 48) && (ci[0] <= 57)) {
+             return uint(ci[0]) - 48;
+         } else if ((ci[0] >= 65) && (ci[0] <= 70)) {
+             return uint(ci[0]) - 55;
+         } else if ((ci[0] >= 97) && (ci[0] <= 102)) {
+             return uint(ci[0]) - 87;
          } else {
              revert();
          }
      }
 
 
-     function u(uint dm) public pure returns (bytes b) {
+     function ab(uint du) public pure returns (bytes b) {
          b = new bytes(32);
-         assembly {mstore(add(b, 32), dm)}
+         assembly {mstore(add(b, 32), du)}
      }
 
 
-     function c(string ef) public pure returns (bytes32) {
-         uint eh = bytes(ef).length;
-         require(eh > 0);
-         bytes memory cz = "\x19Ethereum Signed Message:\n";
-         return bm(abi.ag(cz, al(eh), ef));
+     function c(string dz) public pure returns (bytes32) {
+         uint ej = bytes(dz).length;
+         require(ej > 0);
+         bytes memory dd = "\x19Ethereum Signed Message:\n";
+         return bv(abi.am(dd, al(ej), dz));
      }
 
 
-     function al(uint dm) public pure returns (string ei) {
-         uint eh = 0;
-         uint m = dm + 0;
+     function al(uint du) public pure returns (string eh) {
+         uint ej = 0;
+         uint m = du + 0;
          while (m != 0) {
-             eh++;
+             ej++;
              m /= 10;
          }
-         bytes memory b = new bytes(eh);
-         uint i = eh - 1;
-         while (dm != 0) {
-             uint bn = dm % 10;
-             dm = dm / 10;
-             b[i--] = byte(48 + bn);
+         bytes memory b = new bytes(ej);
+         uint i = ej - 1;
+         while (du != 0) {
+             uint bs = du % 10;
+             du = du / 10;
+             b[i--] = byte(48 + bs);
          }
-         ei = string(b);
+         eh = string(b);
      }
 
 
-     function bj(string dz, uint ay, uint by) public pure returns (string) {
-         bytes memory cb = bytes(dz);
-         require(ay <= by);
-         require(ay >= 0);
-         require(by <= cb.length);
+     function bo(string ef, uint aw, uint bm) public pure returns (string) {
+         bytes memory ch = bytes(ef);
+         require(aw <= bm);
+         require(aw >= 0);
+         require(bm <= ch.length);
 
-         bytes memory dg = new bytes(by - ay);
-         for (uint i = ay; i < by; i++) {
-             dg[i - ay] = cb[i];
+         bytes memory cy = new bytes(bm - aw);
+         for (uint i = aw; i < bm; i++) {
+             cy[i - aw] = ch[i];
          }
-         return string(dg);
+         return string(cy);
      }
  }
  contract StandardToken is Token {
 
-     function transfer(address eg, uint256 dj) public returns (bool cm) {
+     function transfer(address ei, uint256 cz) public returns (bool cp) {
 
 
-         require(cc[msg.sender] >= dj);
-         cc[msg.sender] -= dj;
-         cc[eg] += dj;
-         emit Transfer(msg.sender, eg, dj);
+         require(ce[msg.sender] >= cz);
+         ce[msg.sender] -= cz;
+         ce[ei] += cz;
+         emit Transfer(msg.sender, ei, cz);
          return true;
      }
 
-     function ai(address dw, address eg, uint256 dj) public returns (bool cm) {
+     function aj(address dl, address ei, uint256 cz) public returns (bool cp) {
 
 
-         require(cc[dw] >= dj && cp[dw][msg.sender] >= dj);
-         cc[eg] += dj;
-         cc[dw] -= dj;
-         cp[dw][msg.sender] -= dj;
-         emit Transfer(dw, eg, dj);
+         require(ce[dl] >= cz && cr[dl][msg.sender] >= cz);
+         ce[ei] += cz;
+         ce[dl] -= cz;
+         cr[dl][msg.sender] -= cz;
+         emit Transfer(dl, ei, cz);
          return true;
      }
 
-     function bs(address dc) public constant returns (uint256 balance) {
-         return cc[dc];
+     function bw(address cx) public constant returns (uint256 balance) {
+         return ce[cx];
      }
 
-     function ck(address cd, uint256 dj) public returns (bool cm) {
-         cp[msg.sender][cd] = dj;
-         emit Approval(msg.sender, cd, dj);
+     function ct(address cc, uint256 cz) public returns (bool cp) {
+         cr[msg.sender][cc] = cz;
+         emit Approval(msg.sender, cc, cz);
          return true;
      }
 
-     function bp(address dc, address cd) public constant returns (uint256 bx) {
-       return cp[dc][cd];
+     function bt(address cx, address cc) public constant returns (uint256 bp) {
+       return cr[cx][cc];
      }
 
-     mapping (address => uint256) cc;
-     mapping (address => mapping (address => uint256)) cp;
+     mapping (address => uint256) ce;
+     mapping (address => mapping (address => uint256)) cr;
  }
 
  contract HumanStandardToken is StandardToken {
 
 
      string public dx;
-     uint8 public ce;
-     string public cy;
-     string public cj = 'H0.1';
+     uint8 public cf;
+     string public dh;
+     string public cm = 'H0.1';
 
      constructor(
          uint256 t,
-         string bh,
-         uint8 z,
-         string ak
+         string bb,
+         uint8 y,
+         string ag
          ) public {
-         cc[msg.sender] = t;
-         as = t;
-         dx = bh;
-         ce = z;
-         cy = ak;
+         ce[msg.sender] = t;
+         ao = t;
+         dx = bb;
+         cf = y;
+         dh = ag;
      }
 
 
-     function o(address cd, uint256 dj, bytes az) public returns (bool cm) {
-         cp[msg.sender][cd] = dj;
-         emit Approval(msg.sender, cd, dj);
+     function s(address cc, uint256 cz, bytes bc) public returns (bool cp) {
+         cr[msg.sender][cc] = cz;
+         emit Approval(msg.sender, cc, cz);
 
 
-         require(cd.call(bytes4(bytes32(bm("receiveApproval(address,uint256,address,bytes)"))), msg.sender, dj, this, az));
+         require(cc.call(bytes4(bytes32(bv("receiveApproval(address,uint256,address,bytes)"))), msg.sender, cz, this, bc));
          return true;
      }
  }
@@ -219,559 +219,559 @@ pragma solidity ^0.4.23;
      string public constant NAME = "Ledger Channel";
      string public constant VERSION = "0.0.1";
 
-     uint256 public ax = 0;
+     uint256 public ar = 0;
 
      event DidLCOpen (
          bytes32 indexed bk,
-         address indexed cx,
-         address indexed cw,
-         uint256 au,
-         address dl,
+         address indexed df,
+         address indexed dc,
+         uint256 as,
+         address ds,
          uint256 ac,
          uint256 LCopenTimeout
      );
 
      event DidLCJoin (
          bytes32 indexed bk,
-         uint256 ar,
-         uint256 v
+         uint256 av,
+         uint256 u
      );
 
      event DidLCDeposit (
          bytes32 indexed bk,
-         address indexed bi,
-         uint256 cq,
-         bool ct
+         address indexed bn,
+         uint256 cl,
+         bool cs
      );
 
      event DidLCUpdateState (
          bytes32 indexed bk,
-         uint256 cf,
-         uint256 bt,
-         uint256 au,
+         uint256 cb,
+         uint256 bl,
+         uint256 as,
          uint256 ac,
-         uint256 ar,
-         uint256 v,
-         bytes32 di,
+         uint256 av,
+         uint256 u,
+         bytes32 cw,
          uint256 l
      );
 
      event DidLCClose (
          bytes32 indexed bk,
-         uint256 cf,
-         uint256 au,
+         uint256 cb,
+         uint256 as,
          uint256 ac,
-         uint256 ar,
-         uint256 v
+         uint256 av,
+         uint256 u
      );
 
      event DidVCInit (
-         bytes32 indexed ee,
          bytes32 indexed eb,
-         bytes dv,
-         uint256 cf,
-         address cx,
-         address db,
-         uint256 cg,
-         uint256 ca
+         bytes32 indexed ec,
+         bytes dq,
+         uint256 cb,
+         address df,
+         address di,
+         uint256 ca,
+         uint256 cd
      );
 
      event DidVCSettle (
-         bytes32 indexed ee,
          bytes32 indexed eb,
-         uint256 bw,
-         uint256 ba,
+         bytes32 indexed ec,
+         uint256 bu,
+         uint256 bh,
          uint256 bg,
-         address bc,
-         uint256 k
+         address bd,
+         uint256 n
      );
 
      event DidVCClose(
-         bytes32 indexed ee,
          bytes32 indexed eb,
-         uint256 cg,
-         uint256 ca
+         bytes32 indexed ec,
+         uint256 ca,
+         uint256 cd
      );
 
      struct Channel {
 
-         address[2] p;
-         uint256[4] ao;
-         uint256[4] ab;
-         uint256[2] s;
-         uint256 cf;
-         uint256 aq;
+         address[2] r;
+         uint256[4] au;
+         uint256[4] v;
+         uint256[2] q;
+         uint256 cb;
+         uint256 ap;
          bytes32 VCrootHash;
          uint256 LCopenTimeout;
          uint256 l;
-         bool dh;
+         bool da;
          bool h;
-         uint256 br;
-         HumanStandardToken dl;
+         uint256 bq;
+         HumanStandardToken ds;
      }
 
 
      struct VirtualChannel {
-         bool cs;
+         bool cq;
          bool f;
-         uint256 cf;
-         address bc;
-         uint256 k;
+         uint256 cb;
+         address bd;
+         uint256 n;
 
-         address cx;
-         address db;
-         address cw;
-         uint256[2] ao;
-         uint256[2] ab;
-         uint256[2] ec;
-         HumanStandardToken dl;
+         address df;
+         address di;
+         address dc;
+         uint256[2] au;
+         uint256[2] v;
+         uint256[2] ee;
+         HumanStandardToken ds;
      }
 
-     mapping(bytes32 => VirtualChannel) public n;
+     mapping(bytes32 => VirtualChannel) public k;
      mapping(bytes32 => Channel) public Channels;
 
-     function ad(
-         bytes32 dn,
-         address cl,
-         uint256 an,
-         address da,
-         uint256[2] bq
+     function ae(
+         bytes32 do,
+         address cj,
+         uint256 ak,
+         address db,
+         uint256[2] bx
      )
          public
          payable
      {
-         require(Channels[dn].p[0] == address(0), "Channel has already been created.");
-         require(cl != 0x0, "No partyI address provided to LC creation");
-         require(bq[0] >= 0 && bq[1] >= 0, "Balances cannot be negative");
+         require(Channels[do].r[0] == address(0), "Channel has already been created.");
+         require(cj != 0x0, "No partyI address provided to LC creation");
+         require(bx[0] >= 0 && bx[1] >= 0, "Balances cannot be negative");
 
 
-         Channels[dn].p[0] = msg.sender;
-         Channels[dn].p[1] = cl;
+         Channels[do].r[0] = msg.sender;
+         Channels[do].r[1] = cj;
 
-         if(bq[0] != 0) {
-             require(msg.value == bq[0], "Eth balance does not match sent value");
-             Channels[dn].ao[0] = msg.value;
+         if(bx[0] != 0) {
+             require(msg.value == bx[0], "Eth balance does not match sent value");
+             Channels[do].au[0] = msg.value;
          }
-         if(bq[1] != 0) {
-             Channels[dn].dl = HumanStandardToken(da);
-             require(Channels[dn].dl.ai(msg.sender, this, bq[1]),"CreateChannel: token transfer failure");
-             Channels[dn].ab[0] = bq[1];
+         if(bx[1] != 0) {
+             Channels[do].ds = HumanStandardToken(db);
+             require(Channels[do].ds.aj(msg.sender, this, bx[1]),"CreateChannel: token transfer failure");
+             Channels[do].v[0] = bx[1];
          }
 
-         Channels[dn].cf = 0;
-         Channels[dn].aq = an;
+         Channels[do].cb = 0;
+         Channels[do].ap = ak;
 
 
-         Channels[dn].LCopenTimeout = ej + an;
-         Channels[dn].s = bq;
+         Channels[do].LCopenTimeout = eg + ak;
+         Channels[do].q = bx;
 
-         emit DidLCOpen(dn, msg.sender, cl, bq[0], da, bq[1], Channels[dn].LCopenTimeout);
+         emit DidLCOpen(do, msg.sender, cj, bx[0], db, bx[1], Channels[do].LCopenTimeout);
      }
 
-     function LCOpenTimeout(bytes32 dn) public {
-         require(msg.sender == Channels[dn].p[0] && Channels[dn].dh == false);
-         require(ej > Channels[dn].LCopenTimeout);
+     function LCOpenTimeout(bytes32 do) public {
+         require(msg.sender == Channels[do].r[0] && Channels[do].da == false);
+         require(eg > Channels[do].LCopenTimeout);
 
-         if(Channels[dn].s[0] != 0) {
-             Channels[dn].p[0].transfer(Channels[dn].ao[0]);
+         if(Channels[do].q[0] != 0) {
+             Channels[do].r[0].transfer(Channels[do].au[0]);
          }
-         if(Channels[dn].s[1] != 0) {
-             require(Channels[dn].dl.transfer(Channels[dn].p[0], Channels[dn].ab[0]),"CreateChannel: token transfer failure");
+         if(Channels[do].q[1] != 0) {
+             require(Channels[do].ds.transfer(Channels[do].r[0], Channels[do].v[0]),"CreateChannel: token transfer failure");
          }
 
-         emit DidLCClose(dn, 0, Channels[dn].ao[0], Channels[dn].ab[0], 0, 0);
+         emit DidLCClose(do, 0, Channels[do].au[0], Channels[do].v[0], 0, 0);
 
 
-         delete Channels[dn];
+         delete Channels[do];
      }
 
-     function aw(bytes32 dn, uint256[2] bq) public payable {
+     function aq(bytes32 do, uint256[2] bx) public payable {
 
-         require(Channels[dn].dh == false);
-         require(msg.sender == Channels[dn].p[1]);
+         require(Channels[do].da == false);
+         require(msg.sender == Channels[do].r[1]);
 
-         if(bq[0] != 0) {
-             require(msg.value == bq[0], "state balance does not match sent value");
-             Channels[dn].ao[1] = msg.value;
+         if(bx[0] != 0) {
+             require(msg.value == bx[0], "state balance does not match sent value");
+             Channels[do].au[1] = msg.value;
          }
-         if(bq[1] != 0) {
-             require(Channels[dn].dl.ai(msg.sender, this, bq[1]),"joinChannel: token transfer failure");
-             Channels[dn].ab[1] = bq[1];
+         if(bx[1] != 0) {
+             require(Channels[do].ds.aj(msg.sender, this, bx[1]),"joinChannel: token transfer failure");
+             Channels[do].v[1] = bx[1];
          }
 
-         Channels[dn].s[0]+=bq[0];
-         Channels[dn].s[1]+=bq[1];
+         Channels[do].q[0]+=bx[0];
+         Channels[do].q[1]+=bx[1];
 
-         Channels[dn].dh = true;
-         ax++;
+         Channels[do].da = true;
+         ar++;
 
-         emit DidLCJoin(dn, bq[0], bq[1]);
+         emit DidLCJoin(do, bx[0], bx[1]);
      }
 
 
-     function cq(bytes32 dn, address bi, uint256 bz, bool ct) public payable {
-         require(Channels[dn].dh == true, "Tried adding funds to a closed channel");
-         require(bi == Channels[dn].p[0] || bi == Channels[dn].p[1]);
+     function cl(bytes32 do, address bn, uint256 cg, bool cs) public payable {
+         require(Channels[do].da == true, "Tried adding funds to a closed channel");
+         require(bn == Channels[do].r[0] || bn == Channels[do].r[1]);
 
 
-         if (Channels[dn].p[0] == bi) {
-             if(ct) {
-                 require(Channels[dn].dl.ai(msg.sender, this, bz),"deposit: token transfer failure");
-                 Channels[dn].ab[2] += bz;
+         if (Channels[do].r[0] == bn) {
+             if(cs) {
+                 require(Channels[do].ds.aj(msg.sender, this, cg),"deposit: token transfer failure");
+                 Channels[do].v[2] += cg;
              } else {
-                 require(msg.value == bz, "state balance does not match sent value");
-                 Channels[dn].ao[2] += msg.value;
+                 require(msg.value == cg, "state balance does not match sent value");
+                 Channels[do].au[2] += msg.value;
              }
          }
 
-         if (Channels[dn].p[1] == bi) {
-             if(ct) {
-                 require(Channels[dn].dl.ai(msg.sender, this, bz),"deposit: token transfer failure");
-                 Channels[dn].ab[3] += bz;
+         if (Channels[do].r[1] == bn) {
+             if(cs) {
+                 require(Channels[do].ds.aj(msg.sender, this, cg),"deposit: token transfer failure");
+                 Channels[do].v[3] += cg;
              } else {
-                 require(msg.value == bz, "state balance does not match sent value");
-                 Channels[dn].ao[3] += msg.value;
+                 require(msg.value == cg, "state balance does not match sent value");
+                 Channels[do].au[3] += msg.value;
              }
          }
 
-         emit DidLCDeposit(dn, bi, bz, ct);
+         emit DidLCDeposit(do, bn, cg, cs);
      }
 
 
-     function e(
-         bytes32 dn,
-         uint256 bu,
-         uint256[4] bq,
-         string dt,
-         string dr
+     function d(
+         bytes32 do,
+         uint256 by,
+         uint256[4] bx,
+         string dk,
+         string dv
      )
          public
      {
 
 
-         require(Channels[dn].dh == true);
-         uint256 m = Channels[dn].s[0] + Channels[dn].ao[2] + Channels[dn].ao[3];
-         uint256 i = Channels[dn].s[1] + Channels[dn].ab[2] + Channels[dn].ab[3];
-         require(m == bq[0] + bq[1]);
-         require(i == bq[2] + bq[3]);
+         require(Channels[do].da == true);
+         uint256 m = Channels[do].q[0] + Channels[do].au[2] + Channels[do].au[3];
+         uint256 j = Channels[do].q[1] + Channels[do].v[2] + Channels[do].v[3];
+         require(m == bx[0] + bx[1]);
+         require(j == bx[2] + bx[3]);
 
-         bytes32 dd = bm(
-             abi.ag(
-                 dn,
+         bytes32 dg = bv(
+             abi.am(
+                 do,
                  true,
-                 bu,
+                 by,
                  uint256(0),
                  bytes32(0x0),
-                 Channels[dn].p[0],
-                 Channels[dn].p[1],
-                 bq[0],
-                 bq[1],
-                 bq[2],
-                 bq[3]
+                 Channels[do].r[0],
+                 Channels[do].r[1],
+                 bx[0],
+                 bx[1],
+                 bx[2],
+                 bx[3]
              )
          );
 
-         require(Channels[dn].p[0] == ECTools.ae(dd, dt));
-         require(Channels[dn].p[1] == ECTools.ae(dd, dr));
+         require(Channels[do].r[0] == ECTools.w(dg, dk));
+         require(Channels[do].r[1] == ECTools.w(dg, dv));
 
-         Channels[dn].dh = false;
+         Channels[do].da = false;
 
-         if(bq[0] != 0 || bq[1] != 0) {
-             Channels[dn].p[0].transfer(bq[0]);
-             Channels[dn].p[1].transfer(bq[1]);
+         if(bx[0] != 0 || bx[1] != 0) {
+             Channels[do].r[0].transfer(bx[0]);
+             Channels[do].r[1].transfer(bx[1]);
          }
 
-         if(bq[2] != 0 || bq[3] != 0) {
-             require(Channels[dn].dl.transfer(Channels[dn].p[0], bq[2]),"happyCloseChannel: token transfer failure");
-             require(Channels[dn].dl.transfer(Channels[dn].p[1], bq[3]),"happyCloseChannel: token transfer failure");
+         if(bx[2] != 0 || bx[3] != 0) {
+             require(Channels[do].ds.transfer(Channels[do].r[0], bx[2]),"happyCloseChannel: token transfer failure");
+             require(Channels[do].ds.transfer(Channels[do].r[1], bx[3]),"happyCloseChannel: token transfer failure");
          }
 
-         ax--;
+         ar--;
 
-         emit DidLCClose(dn, bu, bq[0], bq[1], bq[2], bq[3]);
+         emit DidLCClose(do, by, bx[0], bx[1], bx[2], bx[3]);
      }
 
 
-     function aa(
-         bytes32 dn,
-         uint256[6] aj,
-         bytes32 cu,
-         string dt,
-         string dr
+     function ad(
+         bytes32 do,
+         uint256[6] af,
+         bytes32 ck,
+         string dk,
+         string dv
      )
          public
      {
-         Channel storage co = Channels[dn];
-         require(co.dh);
-         require(co.cf < aj[0]);
-         require(co.ao[0] + co.ao[1] >= aj[2] + aj[3]);
-         require(co.ab[0] + co.ab[1] >= aj[4] + aj[5]);
+         Channel storage co = Channels[do];
+         require(co.da);
+         require(co.cb < af[0]);
+         require(co.au[0] + co.au[1] >= af[2] + af[3]);
+         require(co.v[0] + co.v[1] >= af[4] + af[5]);
 
          if(co.h == true) {
-             require(co.l > ej);
+             require(co.l > eg);
          }
 
-         bytes32 dd = bm(
-             abi.ag(
-                 dn,
+         bytes32 dg = bv(
+             abi.am(
+                 do,
                  false,
-                 aj[0],
-                 aj[1],
-                 cu,
-                 co.p[0],
-                 co.p[1],
-                 aj[2],
-                 aj[3],
-                 aj[4],
-                 aj[5]
+                 af[0],
+                 af[1],
+                 ck,
+                 co.r[0],
+                 co.r[1],
+                 af[2],
+                 af[3],
+                 af[4],
+                 af[5]
              )
          );
 
-         require(co.p[0] == ECTools.ae(dd, dt));
-         require(co.p[1] == ECTools.ae(dd, dr));
+         require(co.r[0] == ECTools.w(dg, dk));
+         require(co.r[1] == ECTools.w(dg, dv));
 
 
-         co.cf = aj[0];
-         co.br = aj[1];
-         co.ao[0] = aj[2];
-         co.ao[1] = aj[3];
-         co.ab[0] = aj[4];
-         co.ab[1] = aj[5];
-         co.VCrootHash = cu;
+         co.cb = af[0];
+         co.bq = af[1];
+         co.au[0] = af[2];
+         co.au[1] = af[3];
+         co.v[0] = af[4];
+         co.v[1] = af[5];
+         co.VCrootHash = ck;
          co.h = true;
-         co.l = ej + co.aq;
+         co.l = eg + co.ap;
 
 
          emit DidLCUpdateState (
-             dn,
-             aj[0],
-             aj[1],
-             aj[2],
-             aj[3],
-             aj[4],
-             aj[5],
-             cu,
+             do,
+             af[0],
+             af[1],
+             af[2],
+             af[3],
+             af[4],
+             af[5],
+             ck,
              co.l
          );
      }
 
 
-     function at(
+     function ax(
+         bytes32 do,
          bytes32 dn,
-         bytes32 du,
-         bytes de,
+         bytes dj,
          address cn,
          address cv,
-         uint256[2] dk,
-         uint256[4] bq,
-         string ea
+         uint256[2] dp,
+         uint256[4] bx,
+         string dy
      )
          public
      {
-         require(Channels[dn].dh, "LC is closed.");
+         require(Channels[do].da, "LC is closed.");
 
-         require(!n[du].cs, "VC is closed.");
+         require(!k[dn].cq, "VC is closed.");
 
-         require(Channels[dn].l < ej, "LC timeout not over.");
+         require(Channels[do].l < eg, "LC timeout not over.");
 
-         require(n[du].k == 0);
+         require(k[dn].n == 0);
 
-         bytes32 be = bm(
-             abi.ag(du, uint256(0), cn, cv, dk[0], dk[1], bq[0], bq[1], bq[2], bq[3])
+         bytes32 ba = bv(
+             abi.am(dn, uint256(0), cn, cv, dp[0], dp[1], bx[0], bx[1], bx[2], bx[3])
          );
 
 
-         require(cn == ECTools.ae(be, ea));
+         require(cn == ECTools.w(ba, dy));
 
 
-         require(af(be, de, Channels[dn].VCrootHash) == true);
+         require(ah(ba, dj, Channels[do].VCrootHash) == true);
 
-         n[du].cx = cn;
-         n[du].db = cv;
-         n[du].cf = uint256(0);
-         n[du].ao[0] = bq[0];
-         n[du].ao[1] = bq[1];
-         n[du].ab[0] = bq[2];
-         n[du].ab[1] = bq[3];
-         n[du].ec = dk;
-         n[du].k = ej + Channels[dn].aq;
-         n[du].f = true;
+         k[dn].df = cn;
+         k[dn].di = cv;
+         k[dn].cb = uint256(0);
+         k[dn].au[0] = bx[0];
+         k[dn].au[1] = bx[1];
+         k[dn].v[0] = bx[2];
+         k[dn].v[1] = bx[3];
+         k[dn].ee = dp;
+         k[dn].n = eg + Channels[do].ap;
+         k[dn].f = true;
 
-         emit DidVCInit(dn, du, de, uint256(0), cn, cv, bq[0], bq[1]);
+         emit DidVCInit(do, dn, dj, uint256(0), cn, cv, bx[0], bx[1]);
      }
 
 
-     function ch(
+     function bz(
+         bytes32 do,
          bytes32 dn,
-         bytes32 du,
-         uint256 bw,
+         uint256 bu,
          address cn,
          address cv,
-         uint256[4] bo,
-         string ea
+         uint256[4] bj,
+         string dy
      )
          public
      {
-         require(Channels[dn].dh, "LC is closed.");
+         require(Channels[do].da, "LC is closed.");
 
-         require(!n[du].cs, "VC is closed.");
-         require(n[du].cf < bw, "VC sequence is higher than update sequence.");
+         require(!k[dn].cq, "VC is closed.");
+         require(k[dn].cb < bu, "VC sequence is higher than update sequence.");
          require(
-             n[du].ao[1] < bo[1] && n[du].ab[1] < bo[3],
+             k[dn].au[1] < bj[1] && k[dn].v[1] < bj[3],
              "State updates may only increase recipient balance."
          );
          require(
-             n[du].ec[0] == bo[0] + bo[1] &&
-             n[du].ec[1] == bo[2] + bo[3],
+             k[dn].ee[0] == bj[0] + bj[1] &&
+             k[dn].ee[1] == bj[2] + bj[3],
              "Incorrect balances for bonded amount");
 
 
-         require(Channels[dn].l < ej);
+         require(Channels[do].l < eg);
 
-         bytes32 am = bm(
-             abi.ag(
-                 du,
-                 bw,
+         bytes32 an = bv(
+             abi.am(
+                 dn,
+                 bu,
                  cn,
                  cv,
-                 n[du].ec[0],
-                 n[du].ec[1],
-                 bo[0],
-                 bo[1],
-                 bo[2],
-                 bo[3]
+                 k[dn].ee[0],
+                 k[dn].ee[1],
+                 bj[0],
+                 bj[1],
+                 bj[2],
+                 bj[3]
              )
          );
 
 
-         require(n[du].cx == ECTools.ae(am, ea));
+         require(k[dn].df == ECTools.w(an, dy));
 
 
-         n[du].bc = msg.sender;
-         n[du].cf = bw;
+         k[dn].bd = msg.sender;
+         k[dn].cb = bu;
 
 
-         n[du].ao[0] = bo[0];
-         n[du].ao[1] = bo[1];
-         n[du].ab[0] = bo[2];
-         n[du].ab[1] = bo[3];
+         k[dn].au[0] = bj[0];
+         k[dn].au[1] = bj[1];
+         k[dn].v[0] = bj[2];
+         k[dn].v[1] = bj[3];
 
-         n[du].k = ej + Channels[dn].aq;
+         k[dn].n = eg + Channels[do].ap;
 
-         emit DidVCSettle(dn, du, bw, bo[0], bo[1], msg.sender, n[du].k);
+         emit DidVCSettle(do, dn, bu, bj[0], bj[1], msg.sender, k[dn].n);
      }
 
-     function g(bytes32 dn, bytes32 du) public {
+     function g(bytes32 do, bytes32 dn) public {
 
-         require(Channels[dn].dh, "LC is closed.");
-         require(n[du].f, "VC is not in settlement state.");
-         require(n[du].k < ej, "Update vc timeout has not elapsed.");
-         require(!n[du].cs, "VC is already closed");
+         require(Channels[do].da, "LC is closed.");
+         require(k[dn].f, "VC is not in settlement state.");
+         require(k[dn].n < eg, "Update vc timeout has not elapsed.");
+         require(!k[dn].cq, "VC is already closed");
 
-         Channels[dn].br--;
+         Channels[do].bq--;
 
-         n[du].cs = true;
+         k[dn].cq = true;
 
 
-         if(n[du].cx == Channels[dn].p[0]) {
-             Channels[dn].ao[0] += n[du].ao[0];
-             Channels[dn].ao[1] += n[du].ao[1];
+         if(k[dn].df == Channels[do].r[0]) {
+             Channels[do].au[0] += k[dn].au[0];
+             Channels[do].au[1] += k[dn].au[1];
 
-             Channels[dn].ab[0] += n[du].ab[0];
-             Channels[dn].ab[1] += n[du].ab[1];
-         } else if (n[du].db == Channels[dn].p[0]) {
-             Channels[dn].ao[0] += n[du].ao[1];
-             Channels[dn].ao[1] += n[du].ao[0];
+             Channels[do].v[0] += k[dn].v[0];
+             Channels[do].v[1] += k[dn].v[1];
+         } else if (k[dn].di == Channels[do].r[0]) {
+             Channels[do].au[0] += k[dn].au[1];
+             Channels[do].au[1] += k[dn].au[0];
 
-             Channels[dn].ab[0] += n[du].ab[1];
-             Channels[dn].ab[1] += n[du].ab[0];
+             Channels[do].v[0] += k[dn].v[1];
+             Channels[do].v[1] += k[dn].v[0];
          }
 
-         emit DidVCClose(dn, du, n[du].ab[0], n[du].ab[1]);
+         emit DidVCClose(do, dn, k[dn].v[0], k[dn].v[1]);
      }
 
 
-     function d(bytes32 dn) public {
-         Channel storage co = Channels[dn];
+     function e(bytes32 do) public {
+         Channel storage co = Channels[do];
 
 
-         require(co.dh, "Channel is not open");
+         require(co.da, "Channel is not open");
          require(co.h == true);
-         require(co.br == 0);
-         require(co.l < ej, "LC timeout over.");
+         require(co.bq == 0);
+         require(co.l < eg, "LC timeout over.");
 
 
-         uint256 m = co.s[0] + co.ao[2] + co.ao[3];
-         uint256 i = co.s[1] + co.ab[2] + co.ab[3];
+         uint256 m = co.q[0] + co.au[2] + co.au[3];
+         uint256 j = co.q[1] + co.v[2] + co.v[3];
 
-         uint256 b = co.ao[0] + co.ao[1];
-         uint256 a = co.ab[0] + co.ab[1];
+         uint256 b = co.au[0] + co.au[1];
+         uint256 a = co.v[0] + co.v[1];
 
          if(b < m) {
-             co.ao[0]+=co.ao[2];
-             co.ao[1]+=co.ao[3];
+             co.au[0]+=co.au[2];
+             co.au[1]+=co.au[3];
          } else {
              require(b == m);
          }
 
-         if(a < i) {
-             co.ab[0]+=co.ab[2];
-             co.ab[1]+=co.ab[3];
+         if(a < j) {
+             co.v[0]+=co.v[2];
+             co.v[1]+=co.v[3];
          } else {
-             require(a == i);
+             require(a == j);
          }
 
-         uint256 av = co.ao[0];
-         uint256 ap = co.ao[1];
-         uint256 x = co.ab[0];
-         uint256 w = co.ab[1];
+         uint256 at = co.au[0];
+         uint256 ay = co.au[1];
+         uint256 aa = co.v[0];
+         uint256 z = co.v[1];
 
-         co.ao[0] = 0;
-         co.ao[1] = 0;
-         co.ab[0] = 0;
-         co.ab[1] = 0;
+         co.au[0] = 0;
+         co.au[1] = 0;
+         co.v[0] = 0;
+         co.v[1] = 0;
 
-         if(av != 0 || ap != 0) {
-             co.p[0].transfer(av);
-             co.p[1].transfer(ap);
+         if(at != 0 || ay != 0) {
+             co.r[0].transfer(at);
+             co.r[1].transfer(ay);
          }
 
-         if(x != 0 || w != 0) {
+         if(aa != 0 || z != 0) {
              require(
-                 co.dl.transfer(co.p[0], x),
+                 co.ds.transfer(co.r[0], aa),
                  "byzantineCloseChannel: token transfer failure"
              );
              require(
-                 co.dl.transfer(co.p[1], w),
+                 co.ds.transfer(co.r[1], z),
                  "byzantineCloseChannel: token transfer failure"
              );
          }
 
-         co.dh = false;
-         ax--;
+         co.da = false;
+         ar--;
 
-         emit DidLCClose(dn, co.cf, av, ap, x, w);
+         emit DidLCClose(do, co.cb, at, ay, aa, z);
      }
 
-     function af(bytes32 do, bytes de, bytes32 dq) internal pure returns (bool) {
-         bytes32 df = do;
-         bytes32 bl;
+     function ah(bytes32 dm, bytes dj, bytes32 dr) internal pure returns (bool) {
+         bytes32 de = dm;
+         bytes32 br;
 
-         for (uint256 i = 64; i <= de.length; i += 32) {
-             assembly { bl := mload(add(de, i)) }
+         for (uint256 i = 64; i <= dj.length; i += 32) {
+             assembly { br := mload(add(dj, i)) }
 
-             if (df < bl) {
-                 df = bm(abi.ag(df, bl));
+             if (de < br) {
+                 de = bv(abi.am(de, br));
              } else {
-                 df = bm(abi.ag(bl, df));
+                 de = bv(abi.am(br, de));
              }
          }
 
-         return df == dq;
+         return de == dr;
      }
 
 
-     function bd(bytes32 ek) public view returns (
+     function az(bytes32 ek) public view returns (
          address[2],
          uint256[4],
          uint256[4],
@@ -787,22 +787,22 @@ pragma solidity ^0.4.23;
      ) {
          Channel memory co = Channels[ek];
          return (
-             co.p,
-             co.ao,
-             co.ab,
-             co.s,
-             co.cf,
-             co.aq,
+             co.r,
+             co.au,
+             co.v,
+             co.q,
+             co.cb,
+             co.ap,
              co.VCrootHash,
              co.LCopenTimeout,
              co.l,
-             co.dh,
+             co.da,
              co.h,
-             co.br
+             co.bq
          );
      }
 
-     function j(bytes32 ek) public view returns(
+     function i(bytes32 ek) public view returns(
          bool,
          bool,
          uint256,
@@ -815,19 +815,19 @@ pragma solidity ^0.4.23;
          uint256[2],
          uint256[2]
      ) {
-         VirtualChannel memory r = n[ek];
+         VirtualChannel memory o = k[ek];
          return(
-             r.cs,
-             r.f,
-             r.cf,
-             r.bc,
-             r.k,
-             r.cx,
-             r.db,
-             r.cw,
-             r.ao,
-             r.ab,
-             r.ec
+             o.cq,
+             o.f,
+             o.cb,
+             o.bd,
+             o.n,
+             o.df,
+             o.di,
+             o.dc,
+             o.au,
+             o.v,
+             o.ee
          );
      }
  }

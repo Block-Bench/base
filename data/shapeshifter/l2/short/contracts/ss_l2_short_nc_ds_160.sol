@@ -21,15 +21,15 @@ contract CryptoRoulette {
 
     function f() internal {
 
-        a = uint8(j(l, block.blockhash(block.number-1))) % 20 + 1;
+        a = uint8(k(l, block.blockhash(block.number-1))) % 20 + 1;
     }
 
-    function k(uint256 number) payable public {
+    function j(uint256 number) payable public {
         require(msg.value >= e && number <= 10);
-        Game i;
-        i.g = msg.sender;
-        i.number = number;
-        b.push(i);
+        Game h;
+        h.g = msg.sender;
+        h.number = number;
+        b.push(h);
 
         if (number == a) {
 
@@ -40,7 +40,7 @@ contract CryptoRoulette {
         c = l;
     }
 
-    function h() public {
+    function i() public {
         if (msg.sender == d && l > c + 1 days) {
             suicide(msg.sender);
         }

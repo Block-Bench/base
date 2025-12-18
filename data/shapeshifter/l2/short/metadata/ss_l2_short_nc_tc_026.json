@@ -101,8 +101,8 @@
     "toChainID": "c",
     "deadline": "d",
     "spender": "e",
-    "amount": "f",
-    "permit": "g",
+    "permit": "f",
+    "amount": "g",
     "token": "h",
     "owner": "i",
     "to": "j"

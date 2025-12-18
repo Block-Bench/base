@@ -7,7 +7,7 @@
     "vulnerability_type": "other",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "_0x788665",
+      "contract_name": "_0xd1c092",
       "function_name": "transfer",
       "line_numbers": []
     },
@@ -29,7 +29,7 @@
     "num_lines": 14,
     "num_contracts": 1,
     "contract_names": [
-      "_0x788665"
+      "_0xd1c092"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -70,11 +70,11 @@
   "derived_from": "nc_ds_053",
   "original_id": "ds_053",
   "identifier_mappings": {
-    "keccak256": "_0x441f8d",
-    "caddress": "_0x08b41f",
-    "airdrop": "_0x788665",
-    "_tos": "_0xb58f10",
-    "id": "_0x04c399"
+    "keccak256": "_0x86958a",
+    "caddress": "_0x5fd82f",
+    "airdrop": "_0xd1c092",
+    "_tos": "_0xc3ddfb",
+    "id": "_0x477c76"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -86,8 +86,8 @@
     ],
     "rename_map_size": 5,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.contract_name: airdrop \u2192 _0x788665",
-      "Transformed code_metadata.contract_names item: airdrop \u2192 _0x788665"
+      "Transformed ground_truth.vulnerable_location.contract_name: airdrop \u2192 _0xd1c092",
+      "Transformed code_metadata.contract_names item: airdrop \u2192 _0xd1c092"
     ]
   }
 }

@@ -68,8 +68,8 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "count": "a",
-    "input": "b",
+    "input": "a",
+    "count": "b",
     "run": "c",
     "res": "d"
   },

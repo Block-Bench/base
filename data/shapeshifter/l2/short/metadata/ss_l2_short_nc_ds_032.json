@@ -75,8 +75,8 @@
   "identifier_mappings": {
     "balances": "a",
     "_data": "b",
-    "_adr": "c",
-    "_lib": "d",
+    "_lib": "c",
+    "_adr": "d",
     "_val": "e",
     "_am": "f",
     "now": "g"

@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Ledger",
-      "function_name": "_0x7c75fb",
+      "function_name": "_0xc64a78",
       "line_numbers": []
     },
     "root_cause": "# Integer Overflow",
@@ -66,9 +66,9 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "sellerBalance": "_0x9fc5d6",
-    "safe_add": "_0x3bd75e",
-    "add": "_0x7c75fb"
+    "sellerBalance": "_0x326a5e",
+    "safe_add": "_0x4d67e3",
+    "add": "_0xc64a78"
   },
   "original_contract_file": "base/contracts/ds_004.sol",
   "sanitized_from": "ds_004",
@@ -84,7 +84,7 @@
     ],
     "rename_map_size": 3,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: add \u2192 _0x7c75fb"
+      "Transformed ground_truth.vulnerable_location.function_name: add \u2192 _0xc64a78"
     ]
   }
 }

@@ -2,40 +2,40 @@ pragma solidity ^0.8.0;
 
 
 interface IERC20 {
-    function transfer(address u, uint256 q) external returns (bool);
+    function transfer(address u, uint256 r) external returns (bool);
 
     function l(address p) external view returns (uint256);
 }
 
 contract LoanToken {
     string public s = "iETH";
-    string public r = "iETH";
+    string public q = "iETH";
 
     mapping(address => uint256) public m;
-    uint256 public h;
-    uint256 public a;
+    uint256 public f;
     uint256 public b;
+    uint256 public a;
 
     function d(
         address n
     ) external payable returns (uint256 j) {
-        uint256 e = f();
+        uint256 e = i();
         j = (msg.value * 1e18) / e;
 
         m[n] += j;
-        h += j;
-        b += msg.value;
+        f += j;
+        a += msg.value;
 
         return j;
     }
 
-    function transfer(address u, uint256 q) external returns (bool) {
-        require(m[msg.sender] >= q, "Insufficient balance");
+    function transfer(address u, uint256 r) external returns (bool) {
+        require(m[msg.sender] >= r, "Insufficient balance");
 
-        m[msg.sender] -= q;
-        m[u] += q;
+        m[msg.sender] -= r;
+        m[u] += r;
 
-        c(msg.sender, u, q);
+        c(msg.sender, u, r);
 
         return true;
     }
@@ -43,40 +43,40 @@ contract LoanToken {
     function c(
         address from,
         address u,
-        uint256 q
+        uint256 r
     ) internal {
-        if (i(u)) {
+        if (g(u)) {
             (bool o, ) = u.call("");
             o;
         }
     }
 
-    function g(
+    function h(
         address n,
-        uint256 q
+        uint256 r
     ) external returns (uint256 k) {
-        require(m[msg.sender] >= q, "Insufficient balance");
+        require(m[msg.sender] >= r, "Insufficient balance");
 
-        uint256 e = f();
-        k = (q * e) / 1e18;
+        uint256 e = i();
+        k = (r * e) / 1e18;
 
-        m[msg.sender] -= q;
-        h -= q;
-        b -= k;
+        m[msg.sender] -= r;
+        f -= r;
+        a -= k;
 
         payable(n).transfer(k);
 
         return k;
     }
 
-    function f() internal view returns (uint256) {
-        if (h == 0) {
+    function i() internal view returns (uint256) {
+        if (f == 0) {
             return 1e18;
         }
-        return (b * 1e18) / h;
+        return (a * 1e18) / f;
     }
 
-    function i(address p) internal view returns (bool) {
+    function g(address p) internal view returns (bool) {
         uint256 t;
         assembly {
             t := extcodesize(p)

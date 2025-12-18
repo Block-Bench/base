@@ -67,7 +67,7 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "owner": "_0x57515e"
+    "owner": "_0x96f475"
   },
   "original_contract_file": "base/contracts/ds_118.sol",
   "sanitized_from": "ds_118",
@@ -79,7 +79,8 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 1 identifiers using hex style"
+      "Renamed 1 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 1,
     "metadata_changes": []

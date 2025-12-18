@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "SingleFuncRegistry",
-      "function_name": "_0x99032e",
+      "function_name": "_0x559bf6",
       "line_numbers": []
     },
     "root_cause": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 17, 18",
@@ -66,8 +66,8 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "listAddresses": "_0xeeabef",
-    "ifillArray": "_0x99032e"
+    "listAddresses": "_0x119ffa",
+    "ifillArray": "_0x559bf6"
   },
   "original_contract_file": "base/contracts/ds_153.sol",
   "sanitized_from": "ds_153",
@@ -83,7 +83,7 @@
     ],
     "rename_map_size": 2,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: ifillArray \u2192 _0x99032e"
+      "Transformed ground_truth.vulnerable_location.function_name: ifillArray \u2192 _0x559bf6"
     ]
   }
 }

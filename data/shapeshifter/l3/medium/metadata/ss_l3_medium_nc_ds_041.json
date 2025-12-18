@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "BonusVault",
-      "function_name": "_0x1af828",
+      "function_name": "_0xf896b5",
       "line_numbers": []
     },
     "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 28",
@@ -66,14 +66,14 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "getFirstWithdrawalBonus": "_0x1af828",
-    "amountToWithdraw": "_0xd4ae18",
-    "withdrawReward": "_0xcf14f2",
-    "userBalances": "_0xdb6c36",
-    "claimedBonus": "_0x2a775a",
-    "rewardsForA": "_0x610355",
-    "recipient": "_0x4cc012",
-    "success": "_0x2107ed"
+    "getFirstWithdrawalBonus": "_0xf896b5",
+    "amountToWithdraw": "_0x80e23d",
+    "withdrawReward": "_0x645429",
+    "claimedBonus": "_0xf8ff2b",
+    "userBalances": "_0x6bf12e",
+    "rewardsForA": "_0x46d01a",
+    "recipient": "_0x8d2e14",
+    "success": "_0x0eabf1"
   },
   "original_contract_file": "base/contracts/ds_041.sol",
   "sanitized_from": "ds_041",
@@ -89,7 +89,7 @@
     ],
     "rename_map_size": 8,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: getFirstWithdrawalBonus \u2192 _0x1af828"
+      "Transformed ground_truth.vulnerable_location.function_name: getFirstWithdrawalBonus \u2192 _0xf896b5"
     ]
   }
 }

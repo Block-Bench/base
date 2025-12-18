@@ -4,15 +4,15 @@ pragma solidity ^0.4.24;
      address public b;
      uint256[] c;
 
-     function e(uint256 d, uint256 value) public {
-         if (c.length <= d) {
-             c.length = d + 1;
+     function e(uint256 f, uint256 value) public {
+         if (c.length <= f) {
+             c.length = f + 1;
          }
-         c[d] = value;
+         c[f] = value;
      }
 
-     function f(uint256 d) public view returns (uint256) {
-         return c[d];
+     function d(uint256 f) public view returns (uint256) {
+         return c[f];
      }
      function a() public{
        require(msg.sender == b);

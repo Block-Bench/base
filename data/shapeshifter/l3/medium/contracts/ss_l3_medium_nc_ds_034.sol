@@ -4,7 +4,7 @@ contract MONEY_BOX
 {
     struct Holder
     {
-        uint _0x5c0652;
+        uint _0x55527e;
         uint balance;
     }
 
@@ -14,49 +14,49 @@ contract MONEY_BOX
 
     Log LogFile;
 
-    bool _0x072108;
+    bool _0x33a7ad;
 
-    function SetMinSum(uint _0x762b1a)
+    function SetMinSum(uint _0x736c37)
     public
     {
-        if(_0x072108)throw;
-        MinSum = _0x762b1a;
+        if(_0x33a7ad)throw;
+        MinSum = _0x736c37;
     }
 
-    function SetLogFile(address _0x730706)
+    function SetLogFile(address _0xf069bf)
     public
     {
-        if(_0x072108)throw;
-        LogFile = Log(_0x730706);
+        if(_0x33a7ad)throw;
+        LogFile = Log(_0xf069bf);
     }
 
     function Initialized()
     public
     {
-        _0x072108 = true;
+        _0x33a7ad = true;
     }
 
-    function Put(uint _0xae531c)
+    function Put(uint _0x542468)
     public
     payable
     {
-        var _0x5e1475 = Acc[msg.sender];
-        _0x5e1475.balance += msg.value;
-        if(_0x8807ac+_0xae531c>_0x5e1475._0x5c0652)_0x5e1475._0x5c0652=_0x8807ac+_0xae531c;
+        var _0xcd26b3 = Acc[msg.sender];
+        _0xcd26b3.balance += msg.value;
+        if(_0xa6f25b+_0x542468>_0xcd26b3._0x55527e)_0xcd26b3._0x55527e=_0xa6f25b+_0x542468;
         LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
 
-    function Collect(uint _0x51fa0f)
+    function Collect(uint _0x54f125)
     public
     payable
     {
-        var _0x5e1475 = Acc[msg.sender];
-        if( _0x5e1475.balance>=MinSum && _0x5e1475.balance>=_0x51fa0f && _0x8807ac>_0x5e1475._0x5c0652)
+        var _0xcd26b3 = Acc[msg.sender];
+        if( _0xcd26b3.balance>=MinSum && _0xcd26b3.balance>=_0x54f125 && _0xa6f25b>_0xcd26b3._0x55527e)
         {
-            if(msg.sender.call.value(_0x51fa0f)())
+            if(msg.sender.call.value(_0x54f125)())
             {
-                _0x5e1475.balance-=_0x51fa0f;
-                LogFile.AddMessage(msg.sender,_0x51fa0f,"Collect");
+                _0xcd26b3.balance-=_0x54f125;
+                LogFile.AddMessage(msg.sender,_0x54f125,"Collect");
             }
         }
     }
@@ -84,13 +84,13 @@ contract Log
 
     Message LastMsg;
 
-    function AddMessage(address _0x69433b,uint _0x762b1a,string _0xade89a)
+    function AddMessage(address _0xb23099,uint _0x736c37,string _0x331ef8)
     public
     {
-        LastMsg.Sender = _0x69433b;
-        LastMsg.Time = _0x8807ac;
-        LastMsg.Val = _0x762b1a;
-        LastMsg.Data = _0xade89a;
+        LastMsg.Sender = _0xb23099;
+        LastMsg.Time = _0xa6f25b;
+        LastMsg.Val = _0x736c37;
+        LastMsg.Data = _0x331ef8;
         History.push(LastMsg);
     }
 }

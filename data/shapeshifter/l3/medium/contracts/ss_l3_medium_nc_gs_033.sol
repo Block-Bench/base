@@ -22,116 +22,116 @@ abstract contract BaseAuth is IAuth, IPartialAuth, ISapient, IERC1271, SelfAuth 
     bytes32(0xc852adf5e97c2fc3b38f405671e91b7af1697ef0287577f227ef10494c2a8e86);
 
 
-  error InvalidSapientSignature(Payload.Decoded _0xa304ed, bytes _0xb9fea9);
+  error InvalidSapientSignature(Payload.Decoded _0x67e208, bytes _0xc1a866);
 
-  error InvalidSignatureWeight(uint256 _0x5f6f11, uint256 _0xf26162);
+  error InvalidSignatureWeight(uint256 _0x52fb76, uint256 _0x9d3d7b);
 
-  error InvalidStaticSignatureExpired(bytes32 _0x99e167, uint256 _0x6e4fec);
+  error InvalidStaticSignatureExpired(bytes32 _0xb490a6, uint256 _0xa3f19b);
 
-  error InvalidStaticSignatureWrongCaller(bytes32 _0x99e167, address _0x8a6b7a, address _0x1a3348);
+  error InvalidStaticSignatureWrongCaller(bytes32 _0xb490a6, address _0xe31744, address _0xde1033);
 
 
-  event StaticSignatureSet(bytes32 _0x5271b9, address _0xc6b128, uint96 _0xa528e4);
+  event StaticSignatureSet(bytes32 _0x1c7686, address _0x40160c, uint96 _0x4ba8ec);
 
-  function _0xec0dc9(
-    bytes32 _0x5271b9
+  function _0xafc8c5(
+    bytes32 _0x1c7686
   ) internal view returns (address, uint256) {
-    uint256 _0x302fbd = uint256(Storage._0x511f0d(STATIC_SIGNATURE_KEY, _0x5271b9));
-    return (address(uint160(_0x302fbd >> 96)), uint256(uint96(_0x302fbd)));
+    uint256 _0xa83d6c = uint256(Storage._0xab8d2a(STATIC_SIGNATURE_KEY, _0x1c7686));
+    return (address(uint160(_0xa83d6c >> 96)), uint256(uint96(_0xa83d6c)));
   }
 
-  function _0x3e377c(bytes32 _0x5271b9, address _0xc6b128, uint256 _0xa528e4) internal {
-    Storage._0xfd3cc0(
-      STATIC_SIGNATURE_KEY, _0x5271b9, bytes32(uint256(uint160(_0xc6b128)) << 96 | (_0xa528e4 & 0xffffffffffffffffffffffff))
+  function _0x9131ec(bytes32 _0x1c7686, address _0x40160c, uint256 _0x4ba8ec) internal {
+    Storage._0x9fcd73(
+      STATIC_SIGNATURE_KEY, _0x1c7686, bytes32(uint256(uint160(_0x40160c)) << 96 | (_0x4ba8ec & 0xffffffffffffffffffffffff))
     );
   }
 
 
-  function _0xdf7685(
-    bytes32 _0x5271b9
+  function _0x162bbd(
+    bytes32 _0x1c7686
   ) external view returns (address, uint256) {
-    return _0xec0dc9(_0x5271b9);
+    return _0xafc8c5(_0x1c7686);
   }
 
 
-  function _0x14d359(bytes32 _0x5271b9, address _0xc6b128, uint96 _0xa528e4) external _0x70a688 {
-    _0x3e377c(_0x5271b9, _0xc6b128, _0xa528e4);
-    emit StaticSignatureSet(_0x5271b9, _0xc6b128, _0xa528e4);
+  function _0x050c5e(bytes32 _0x1c7686, address _0x40160c, uint96 _0x4ba8ec) external _0x4e68f4 {
+    _0x9131ec(_0x1c7686, _0x40160c, _0x4ba8ec);
+    emit StaticSignatureSet(_0x1c7686, _0x40160c, _0x4ba8ec);
   }
 
 
-  function _0x594969(
-    bytes32 _0x913d2f
-  ) external virtual _0x70a688 {
-    _0x6f33bd(_0x913d2f);
+  function _0x5aadc0(
+    bytes32 _0x665c80
+  ) external virtual _0x4e68f4 {
+    _0x9532f4(_0x665c80);
   }
 
-  function _0xebc94b(
-    Payload.Decoded memory _0xa304ed,
-    bytes calldata _0xb9fea9
-  ) internal view virtual returns (bool _0xa6f9b5, bytes32 _0x6b4b12) {
+  function _0xf26a2e(
+    Payload.Decoded memory _0x67e208,
+    bytes calldata _0xc1a866
+  ) internal view virtual returns (bool _0x7651d8, bytes32 _0xf04493) {
 
-    bytes1 _0xd1b916 = _0xb9fea9[0];
+    bytes1 _0xcd1d4e = _0xc1a866[0];
 
-    if (_0xd1b916 & 0x80 == 0x80) {
-      _0x6b4b12 = _0xa304ed._0xa1f11f();
+    if (_0xcd1d4e & 0x80 == 0x80) {
+      _0xf04493 = _0x67e208._0x766477();
 
-      (address _0x334a82, uint256 timestamp) = _0xec0dc9(_0x6b4b12);
+      (address _0xb24d16, uint256 timestamp) = _0xafc8c5(_0xf04493);
       if (timestamp <= block.timestamp) {
-        revert InvalidStaticSignatureExpired(_0x6b4b12, timestamp);
+        revert InvalidStaticSignatureExpired(_0xf04493, timestamp);
       }
 
-      if (_0x334a82 != address(0) && _0x334a82 != msg.sender) {
-        revert InvalidStaticSignatureWrongCaller(_0x6b4b12, msg.sender, _0x334a82);
+      if (_0xb24d16 != address(0) && _0xb24d16 != msg.sender) {
+        revert InvalidStaticSignatureWrongCaller(_0xf04493, msg.sender, _0xb24d16);
       }
 
-      return (true, _0x6b4b12);
+      return (true, _0xf04493);
     }
 
 
-    uint256 _0x2c7a51;
-    uint256 _0xb135f8;
-    bytes32 _0x8fdbc2;
+    uint256 _0x94719b;
+    uint256 _0x5c1ef2;
+    bytes32 _0x06397d;
 
-    (_0x2c7a51, _0xb135f8, _0x8fdbc2,, _0x6b4b12) = BaseSig._0xeadc53(_0xa304ed, _0xb9fea9, false, address(0));
+    (_0x94719b, _0x5c1ef2, _0x06397d,, _0xf04493) = BaseSig._0xcafa60(_0x67e208, _0xc1a866, false, address(0));
 
 
-    if (_0xb135f8 < _0x2c7a51) {
-      revert InvalidSignatureWeight(_0x2c7a51, _0xb135f8);
+    if (_0x5c1ef2 < _0x94719b) {
+      revert InvalidSignatureWeight(_0x94719b, _0x5c1ef2);
     }
 
-    _0xa6f9b5 = _0x7723f7(_0x8fdbc2);
+    _0x7651d8 = _0x7a46dc(_0x06397d);
   }
 
 
-  function _0xd58f70(
-    Payload.Decoded memory _0xa304ed,
-    bytes calldata _0xb9fea9
+  function _0x9e8f73(
+    Payload.Decoded memory _0x67e208,
+    bytes calldata _0xc1a866
   ) external view returns (bytes32) {
 
-    address[] memory _0x8eba7c = new address[](_0xa304ed._0x8eba7c.length + 1);
+    address[] memory _0x251fde = new address[](_0x67e208._0x251fde.length + 1);
 
-    for (uint256 i = 0; i < _0xa304ed._0x8eba7c.length; i++) {
-      _0x8eba7c[i] = _0xa304ed._0x8eba7c[i];
+    for (uint256 i = 0; i < _0x67e208._0x251fde.length; i++) {
+      _0x251fde[i] = _0x67e208._0x251fde[i];
     }
 
-    _0x8eba7c[_0xa304ed._0x8eba7c.length] = msg.sender;
-    _0xa304ed._0x8eba7c = _0x8eba7c;
+    _0x251fde[_0x67e208._0x251fde.length] = msg.sender;
+    _0x67e208._0x251fde = _0x251fde;
 
-    (bool _0xa6f9b5,) = _0xebc94b(_0xa304ed, _0xb9fea9);
-    if (!_0xa6f9b5) {
-      revert InvalidSapientSignature(_0xa304ed, _0xb9fea9);
+    (bool _0x7651d8,) = _0xf26a2e(_0x67e208, _0xc1a866);
+    if (!_0x7651d8) {
+      revert InvalidSapientSignature(_0x67e208, _0xc1a866);
     }
 
     return bytes32(uint256(1));
   }
 
 
-  function _0x8a87e8(bytes32 _0x5271b9, bytes calldata _0xb9fea9) external view returns (bytes4) {
-    Payload.Decoded memory _0xda9709 = Payload._0x1c05a6(_0x5271b9);
+  function _0x48688f(bytes32 _0x1c7686, bytes calldata _0xc1a866) external view returns (bytes4) {
+    Payload.Decoded memory _0x1e8591 = Payload._0x6dbd45(_0x1c7686);
 
-    (bool _0xa6f9b5,) = _0xebc94b(_0xda9709, _0xb9fea9);
-    if (!_0xa6f9b5) {
+    (bool _0x7651d8,) = _0xf26a2e(_0x1e8591, _0xc1a866);
+    if (!_0x7651d8) {
       return bytes4(0);
     }
 
@@ -139,23 +139,23 @@ abstract contract BaseAuth is IAuth, IPartialAuth, ISapient, IERC1271, SelfAuth 
   }
 
 
-  function _0x69b1d1(
-    Payload.Decoded memory _0xa304ed,
-    bytes calldata _0xb9fea9
+  function _0x9702f0(
+    Payload.Decoded memory _0x67e208,
+    bytes calldata _0xc1a866
   )
     external
     view
     returns (
-      uint256 _0x2c7a51,
-      uint256 _0xb135f8,
-      bool _0xb45489,
-      bytes32 _0x8fdbc2,
-      uint256 _0x56e7e4,
-      bytes32 _0x6b4b12
+      uint256 _0x94719b,
+      uint256 _0x5c1ef2,
+      bool _0x9d1b70,
+      bytes32 _0x06397d,
+      uint256 _0x8d8820,
+      bytes32 _0xf04493
     )
   {
-    (_0x2c7a51, _0xb135f8, _0x8fdbc2, _0x56e7e4, _0x6b4b12) = BaseSig._0xeadc53(_0xa304ed, _0xb9fea9, false, address(0));
-    _0xb45489 = _0x7723f7(_0x8fdbc2);
+    (_0x94719b, _0x5c1ef2, _0x06397d, _0x8d8820, _0xf04493) = BaseSig._0xcafa60(_0x67e208, _0xc1a866, false, address(0));
+    _0x9d1b70 = _0x7a46dc(_0x06397d);
   }
 
 }

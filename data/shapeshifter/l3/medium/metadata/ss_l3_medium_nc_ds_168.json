@@ -8,7 +8,7 @@
     "severity": "low",
     "vulnerable_location": {
       "contract_name": "TimedCrowdsale",
-      "function_name": "_0xa51922",
+      "function_name": "_0x89142a",
       "line_numbers": []
     },
     "root_cause": "Timestamp dependency - reliance on block.timestamp for critical logic at line(s) 13",
@@ -70,7 +70,7 @@
   "derived_from": "nc_ds_168",
   "original_id": "ds_168",
   "identifier_mappings": {
-    "isSaleFinished": "_0xa51922"
+    "isSaleFinished": "_0x89142a"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -82,7 +82,7 @@
     ],
     "rename_map_size": 1,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: isSaleFinished \u2192 _0xa51922"
+      "Transformed ground_truth.vulnerable_location.function_name: isSaleFinished \u2192 _0x89142a"
     ]
   }
 }

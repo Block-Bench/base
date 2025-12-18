@@ -69,8 +69,8 @@
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
     "changeOwner": "a",
-    "_newOwner": "b",
-    "onlyowner": "c",
+    "onlyowner": "b",
+    "_newOwner": "c",
     "owner": "d"
   },
   "original_contract_file": "base/contracts/ds_130.sol",

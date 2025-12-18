@@ -73,8 +73,8 @@
   "original_id": "ds_144",
   "identifier_mappings": {
     "isComplete": "a",
-    "balanceOf": "b",
-    "numTokens": "c",
+    "numTokens": "b",
+    "balanceOf": "c",
     "_player": "d",
     "sell": "e",
     "buy": "f"

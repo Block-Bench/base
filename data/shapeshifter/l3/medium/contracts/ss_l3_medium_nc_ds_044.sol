@@ -2,12 +2,12 @@ pragma solidity ^0.5.0;
 
 contract SimpleVault {
 
-    mapping (address => uint) private _0x6fc22f;
+    mapping (address => uint) private _0xad6a34;
 
-    function _0xd65aab() public {
-        uint _0x452d09 = _0x6fc22f[msg.sender];
-        (bool _0x4ff016, ) = msg.sender.call.value(_0x452d09)("");
-        require(_0x4ff016);
-        _0x6fc22f[msg.sender] = 0;
+    function _0x957ea6() public {
+        uint _0x67ff86 = _0xad6a34[msg.sender];
+        (bool _0x267768, ) = msg.sender.call.value(_0x67ff86)("");
+        require(_0x267768);
+        _0xad6a34[msg.sender] = 0;
     }
 }

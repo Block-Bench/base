@@ -3,9 +3,9 @@ pragma solidity ^0.8.0;
 
 contract WalletLibrary {
 
-    mapping(address => bool) public m;
-    address[] public n;
-    uint256 public i;
+    mapping(address => bool) public l;
+    address[] public o;
+    uint256 public h;
 
 
     bool public c;
@@ -15,39 +15,39 @@ contract WalletLibrary {
 
 
     function d(
-        address[] memory l,
-        uint256 f,
-        uint256 e
+        address[] memory j,
+        uint256 e,
+        uint256 f
     ) public {
 
-        for (uint i = 0; i < n.length; i++) {
-            m[n[i]] = false;
+        for (uint i = 0; i < o.length; i++) {
+            l[o[i]] = false;
         }
-        delete n;
+        delete o;
 
 
-        for (uint i = 0; i < l.length; i++) {
-            address p = l[i];
+        for (uint i = 0; i < j.length; i++) {
+            address p = j[i];
             require(p != address(0), "Invalid owner");
-            require(!m[p], "Duplicate owner");
+            require(!l[p], "Duplicate owner");
 
-            m[p] = true;
-            n.push(p);
+            l[p] = true;
+            o.push(p);
             emit OwnerAdded(p);
         }
 
-        i = f;
+        h = e;
         c = true;
     }
 
 
     function b(address q) public view returns (bool) {
-        return m[q];
+        return l[q];
     }
 
 
     function r(address payable s) external {
-        require(m[msg.sender], "Not an owner");
+        require(l[msg.sender], "Not an owner");
 
         emit WalletDestroyed(msg.sender);
 
@@ -55,8 +55,8 @@ contract WalletLibrary {
     }
 
 
-    function j(address u, uint256 value, bytes memory data) external {
-        require(m[msg.sender], "Not an owner");
+    function m(address u, uint256 value, bytes memory data) external {
+        require(l[msg.sender], "Not an owner");
 
         (bool k, ) = u.call{value: value}(data);
         require(k, "Execution failed");
@@ -67,8 +67,8 @@ contract WalletLibrary {
 contract WalletProxy {
     address public a;
 
-    constructor(address h) {
-        a = h;
+    constructor(address i) {
+        a = i;
     }
 
     fallback() external payable {
@@ -76,10 +76,10 @@ contract WalletProxy {
 
         assembly {
             calldatacopy(0, 0, calldatasize())
-            let o := delegatecall(gas(), t, 0, calldatasize(), 0, 0)
+            let n := delegatecall(gas(), t, 0, calldatasize(), 0, 0)
             returndatacopy(0, 0, returndatasize())
 
-            switch o
+            switch n
             case 0 {
                 revert(0, returndatasize())
             }

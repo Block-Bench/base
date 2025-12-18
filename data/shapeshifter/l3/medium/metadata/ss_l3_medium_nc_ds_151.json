@@ -8,7 +8,7 @@
     "severity": "medium",
     "vulnerable_location": {
       "contract_name": "GasAuction",
-      "function_name": "_0xdaf900",
+      "function_name": "_0x8ff7ee",
       "line_numbers": []
     },
     "root_cause": "Denial of service vulnerability - resource exhaustion or revert conditions at line(s) 16, 17, 18",
@@ -66,12 +66,12 @@
   },
   "original_subset": "difficulty_stratified",
   "identifier_mappings": {
-    "creditorAddresses": "_0x22b26c",
-    "numberCreditors": "_0xab2620",
-    "emptyCreditors": "_0xdaf900",
-    "addCreditors": "_0xaa72aa",
-    "iWin": "_0xddb6ee",
-    "win": "_0xfbf438"
+    "creditorAddresses": "_0x4e61a5",
+    "numberCreditors": "_0x4d66f6",
+    "emptyCreditors": "_0x8ff7ee",
+    "addCreditors": "_0xa7f495",
+    "iWin": "_0xcc21f6",
+    "win": "_0xa1c749"
   },
   "original_contract_file": "base/contracts/ds_151.sol",
   "sanitized_from": "ds_151",
@@ -83,12 +83,11 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 6 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 6 identifiers using hex style"
     ],
     "rename_map_size": 6,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: emptyCreditors \u2192 _0xdaf900"
+      "Transformed ground_truth.vulnerable_location.function_name: emptyCreditors \u2192 _0x8ff7ee"
     ]
   }
 }

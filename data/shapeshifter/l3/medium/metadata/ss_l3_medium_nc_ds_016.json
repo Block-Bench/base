@@ -8,7 +8,7 @@
     "severity": "high",
     "vulnerable_location": {
       "contract_name": "Wallet",
-      "function_name": "_0x0e0b01",
+      "function_name": "_0x69c763",
       "line_numbers": []
     },
     "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 30",
@@ -70,13 +70,13 @@
   "derived_from": "nc_ds_016",
   "original_id": "ds_016",
   "identifier_mappings": {
-    "migrateTo": "_0x0e21c6",
-    "withdraw": "_0x0e0b01",
-    "balances": "_0x465983",
-    "creator": "_0xcf85c4",
-    "deposit": "_0x04194b",
-    "amount": "_0x026990",
-    "to": "_0xd46a7b"
+    "migrateTo": "_0xae03f8",
+    "balances": "_0x4884ec",
+    "withdraw": "_0x69c763",
+    "creator": "_0xfdcf2b",
+    "deposit": "_0x0cbbd9",
+    "amount": "_0xeb144c",
+    "to": "_0xf8ac89"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -84,12 +84,11 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 7 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 7 identifiers using hex style"
     ],
     "rename_map_size": 7,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0x0e0b01"
+      "Transformed ground_truth.vulnerable_location.function_name: withdraw \u2192 _0x69c763"
     ]
   }
 }

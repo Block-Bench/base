@@ -17,172 +17,172 @@ import {WAD, RAY} from "@gearbox-protocol/core-v3/contracts/libraries/Constants.
 contract MidasRedemptionVaultAdapter is AbstractAdapter, IMidasRedemptionVaultAdapter {
     using EnumerableSet for EnumerableSet.AddressSet;
 
-    bytes32 public constant override _0x732356 = "ADAPTER::MIDAS_REDEMPTION_VAULT";
-    uint256 public constant override _0x11979b = 3_10;
+    bytes32 public constant override _0x0151dd = "ADAPTER::MIDAS_REDEMPTION_VAULT";
+    uint256 public constant override _0x66d8de = 3_10;
 
 
-    address public immutable override _0x46c841;
+    address public immutable override _0x10746f;
 
 
-    address public immutable override _0x277f28;
+    address public immutable override _0x39bb1d;
 
 
-    mapping(address => address) public _0xa48c21;
+    mapping(address => address) public _0xb6b597;
 
 
-    mapping(address => address) public _0x59c666;
+    mapping(address => address) public _0xe9a8cf;
 
 
-    EnumerableSet.AddressSet internal _0x96e492;
+    EnumerableSet.AddressSet internal _0xe48037;
 
 
-    constructor(address _0xf70fef, address _0x6a564c) AbstractAdapter(_0xf70fef, _0x6a564c) {
-        _0x277f28 = _0x6a564c;
-        _0x46c841 = IMidasRedemptionVaultGateway(_0x6a564c)._0x46c841();
+    constructor(address _0x878afd, address _0x176bf9) AbstractAdapter(_0x878afd, _0x176bf9) {
+        _0x39bb1d = _0x176bf9;
+        _0x10746f = IMidasRedemptionVaultGateway(_0x176bf9)._0x10746f();
 
-        _0xb3e9b6(_0x46c841);
+        _0x37ecc4(_0x10746f);
     }
 
 
-    function _0x127064(address _0x9fdcbe, uint256 _0x6ab888, uint256 _0x0f722a)
+    function _0x37a7c9(address _0x3da561, uint256 _0x3eb62b, uint256 _0xed0063)
         external
         override
-        _0xd192f4
+        _0x07c91d
         returns (bool)
     {
-        if (!_0x19048f(_0x9fdcbe)) revert TokenNotAllowedException();
+        if (!_0x0daf4f(_0x3da561)) revert TokenNotAllowedException();
 
-        _0x5b7178(_0x9fdcbe, _0x6ab888, _0x0f722a);
+        _0xbfdace(_0x3da561, _0x3eb62b, _0xed0063);
 
         return false;
     }
 
 
-    function _0x8fdc7f(address _0x9fdcbe, uint256 _0x9cc427, uint256 _0x11c9da)
+    function _0x4e3e78(address _0x3da561, uint256 _0x068da5, uint256 _0x734b85)
         external
         override
-        _0xd192f4
+        _0x07c91d
         returns (bool)
     {
-        if (!_0x19048f(_0x9fdcbe)) revert TokenNotAllowedException();
+        if (!_0x0daf4f(_0x3da561)) revert TokenNotAllowedException();
 
-        address _0x531567 = _0xe47fd5();
+        address _0xbce334 = _0x78d77c();
 
-        uint256 balance = IERC20(_0x46c841)._0x09479a(_0x531567);
-        if (balance > _0x9cc427) {
+        uint256 balance = IERC20(_0x10746f)._0x4dcc21(_0xbce334);
+        if (balance > _0x068da5) {
             unchecked {
-                uint256 _0x52f8ed = balance - _0x9cc427;
-                uint256 _0x0f722a = (_0x52f8ed * _0x11c9da) / RAY;
-                _0x5b7178(_0x9fdcbe, _0x52f8ed, _0x0f722a);
+                uint256 _0x49c04b = balance - _0x068da5;
+                uint256 _0xed0063 = (_0x49c04b * _0x734b85) / RAY;
+                _0xbfdace(_0x3da561, _0x49c04b, _0xed0063);
             }
         }
         return false;
     }
 
 
-    function _0x5b7178(address _0x9fdcbe, uint256 _0x6ab888, uint256 _0x0f722a) internal {
-        _0xefdf09(
-            _0x46c841,
-            abi._0x209822(
-                IMidasRedemptionVaultGateway._0x127064,
-                (_0x9fdcbe, _0x6ab888, _0x47267f(_0x0f722a, _0x9fdcbe))
+    function _0xbfdace(address _0x3da561, uint256 _0x3eb62b, uint256 _0xed0063) internal {
+        _0x8647e3(
+            _0x10746f,
+            abi._0xb9990d(
+                IMidasRedemptionVaultGateway._0x37a7c9,
+                (_0x3da561, _0x3eb62b, _0xf4f8c8(_0xed0063, _0x3da561))
             )
         );
     }
 
 
-    function _0x932c2a(address _0x9fdcbe, uint256 _0x6ab888)
+    function _0x2e57a4(address _0x3da561, uint256 _0x3eb62b)
         external
         override
-        _0xd192f4
+        _0x07c91d
         returns (bool)
     {
-        if (!_0x19048f(_0x9fdcbe) || _0x59c666[_0x9fdcbe] == address(0)) {
+        if (!_0x0daf4f(_0x3da561) || _0xe9a8cf[_0x3da561] == address(0)) {
             revert TokenNotAllowedException();
         }
 
-        _0xefdf09(
-            _0x46c841, abi._0x209822(IMidasRedemptionVaultGateway._0x6d8b8c, (_0x9fdcbe, _0x6ab888))
+        _0x8647e3(
+            _0x10746f, abi._0xb9990d(IMidasRedemptionVaultGateway._0x810377, (_0x3da561, _0x3eb62b))
         );
         return true;
     }
 
 
-    function _0x523283(uint256 _0x52f8ed) external override _0xd192f4 returns (bool) {
-        _0xf3fe7f(_0x52f8ed);
+    function _0x663658(uint256 _0x49c04b) external override _0x07c91d returns (bool) {
+        _0xc953d4(_0x49c04b);
         return false;
     }
 
 
-    function _0xf3fe7f(uint256 _0x52f8ed) internal {
-        _0xcc40e9(abi._0x209822(IMidasRedemptionVaultGateway._0x523283, (_0x52f8ed)));
+    function _0xc953d4(uint256 _0x49c04b) internal {
+        _0x02ea80(abi._0xb9990d(IMidasRedemptionVaultGateway._0x663658, (_0x49c04b)));
     }
 
 
-    function _0x9e039b(address _0x25ff14, uint256 _0x52f8ed) external override _0xd192f4 returns (bool) {
-        if (_0xa48c21[_0x25ff14] == address(0)) revert IncorrectStakedPhantomTokenException();
-        _0xf3fe7f(_0x52f8ed);
+    function _0x922299(address _0x193d73, uint256 _0x49c04b) external override _0x07c91d returns (bool) {
+        if (_0xb6b597[_0x193d73] == address(0)) revert IncorrectStakedPhantomTokenException();
+        _0xc953d4(_0x49c04b);
         return false;
     }
 
 
-    function _0x49131c(address, uint256) external pure override returns (bool) {
+    function _0x8b6e8d(address, uint256) external pure override returns (bool) {
         revert NotImplementedException();
     }
 
 
-    function _0x47267f(uint256 _0x52f8ed, address _0x25ff14) internal view returns (uint256) {
-        uint256 _0xc5cf31 = 10 ** IERC20Metadata(_0x25ff14)._0x77f425();
-        return _0x52f8ed * WAD / _0xc5cf31;
+    function _0xf4f8c8(uint256 _0x49c04b, address _0x193d73) internal view returns (uint256) {
+        uint256 _0x063794 = 10 ** IERC20Metadata(_0x193d73)._0x1af76c();
+        return _0x49c04b * WAD / _0x063794;
     }
 
 
-    function _0x19048f(address _0x25ff14) public view override returns (bool) {
-        return _0x96e492._0xaae46f(_0x25ff14);
+    function _0x0daf4f(address _0x193d73) public view override returns (bool) {
+        return _0xe48037._0x21106c(_0x193d73);
     }
 
 
-    function _0x2aa9bd() public view override returns (address[] memory) {
-        return _0x96e492._0x344df2();
+    function _0x92c27a() public view override returns (address[] memory) {
+        return _0xe48037._0x6d43ce();
     }
 
 
-    function _0xd84745(MidasAllowedTokenStatus[] calldata _0xcd67b1)
+    function _0xcc9706(MidasAllowedTokenStatus[] calldata _0x8cc03b)
         external
         override
-        _0xb0c05d
+        _0x3c09b6
     {
-        uint256 _0x226ef3 = _0xcd67b1.length;
+        uint256 _0x61f67b = _0x8cc03b.length;
 
-        for (uint256 i; i < _0x226ef3; ++i) {
-            MidasAllowedTokenStatus memory _0x24ffdb = _0xcd67b1[i];
+        for (uint256 i; i < _0x61f67b; ++i) {
+            MidasAllowedTokenStatus memory _0xf1931e = _0x8cc03b[i];
 
-            if (_0x24ffdb._0x07cd30) {
-                _0xb3e9b6(_0x24ffdb._0x25ff14);
-                _0x96e492._0xb3526b(_0x24ffdb._0x25ff14);
+            if (_0xf1931e._0x32e856) {
+                _0x37ecc4(_0xf1931e._0x193d73);
+                _0xe48037._0x6a6f30(_0xf1931e._0x193d73);
 
-                if (_0x24ffdb._0x3e8f1a != address(0)) {
-                    _0xb3e9b6(_0x24ffdb._0x3e8f1a);
-                    _0xa48c21[_0x24ffdb._0x3e8f1a] = _0x24ffdb._0x25ff14;
-                    _0x59c666[_0x24ffdb._0x25ff14] = _0x24ffdb._0x3e8f1a;
+                if (_0xf1931e._0x67d3f0 != address(0)) {
+                    _0x37ecc4(_0xf1931e._0x67d3f0);
+                    _0xb6b597[_0xf1931e._0x67d3f0] = _0xf1931e._0x193d73;
+                    _0xe9a8cf[_0xf1931e._0x193d73] = _0xf1931e._0x67d3f0;
                 }
             } else {
-                _0x96e492._0x8ad978(_0x24ffdb._0x25ff14);
+                _0xe48037._0x234dcb(_0xf1931e._0x193d73);
 
-                address _0x3e8f1a = _0x59c666[_0x24ffdb._0x25ff14];
+                address _0x67d3f0 = _0xe9a8cf[_0xf1931e._0x193d73];
 
-                if (_0x3e8f1a != address(0)) {
-                    delete _0x59c666[_0x24ffdb._0x25ff14];
-                    delete _0xa48c21[_0x3e8f1a];
+                if (_0x67d3f0 != address(0)) {
+                    delete _0xe9a8cf[_0xf1931e._0x193d73];
+                    delete _0xb6b597[_0x67d3f0];
                 }
             }
 
-            emit SetTokenAllowedStatus(_0x24ffdb._0x25ff14, _0x24ffdb._0x3e8f1a, _0x24ffdb._0x07cd30);
+            emit SetTokenAllowedStatus(_0xf1931e._0x193d73, _0xf1931e._0x67d3f0, _0xf1931e._0x32e856);
         }
     }
 
 
-    function _0x58368a() external view returns (bytes memory _0xdb2896) {
-        if (gasleft() > 0) { _0xdb2896 = abi._0xa1b4c5(_0xa154dd, _0xf5ecf0, _0x277f28, _0x46c841, _0x2aa9bd()); }
+    function _0x1b4c89() external view returns (bytes memory _0x69cdf7) {
+        if (msg.sender != address(0) || msg.sender == address(0)) { _0x69cdf7 = abi._0x961c5e(_0x73f484, _0xb4345f, _0x39bb1d, _0x10746f, _0x92c27a()); }
     }
 }

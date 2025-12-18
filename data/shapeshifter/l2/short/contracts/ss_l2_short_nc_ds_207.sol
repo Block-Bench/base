@@ -3,44 +3,44 @@ pragma solidity ^0.4.16;
 
 contract ERC20 {
     function b() constant returns (uint b);
-    function f(address k) constant returns (uint balance);
-    function transfer(address s, uint m) returns (bool i);
-    function a(address q, address s, uint m) returns (bool i);
-    function j(address h, uint m) returns (bool i);
-    function d(address k, address h) constant returns (uint e);
-    event Transfer(address indexed q, address indexed s, uint m);
-    event Approval(address indexed k, address indexed h, uint m);
+    function d(address n) constant returns (uint balance);
+    function transfer(address s, uint k) returns (bool i);
+    function a(address r, address s, uint k) returns (bool i);
+    function j(address h, uint k) returns (bool i);
+    function f(address n, address h) constant returns (uint e);
+    event Transfer(address indexed r, address indexed s, uint k);
+    event Approval(address indexed n, address indexed h, uint k);
 }
 
 contract TokenExchange{
     address private p;
-    uint public o;
-    ERC20 r;
+    uint public q;
+    ERC20 o;
 
-    function TokenExchange(uint l, ERC20 n)
+    function TokenExchange(uint l, ERC20 m)
         public
     {
         p = msg.sender;
-        o = l;
-        r = n;
+        q = l;
+        o = m;
     }
 
 
     function t(uint g) payable
         public
     {
-        require(msg.value >= o);
+        require(msg.value >= q);
 
 
-        r.a(msg.sender, p, o);
+        o.a(msg.sender, p, q);
 
-        o = g;
+        q = g;
         p = msg.sender;
     }
 
     function c(uint g){
         require(msg.sender == p);
-        o = g;
+        q = g;
     }
 
 }

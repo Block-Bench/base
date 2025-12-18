@@ -96,16 +96,16 @@
   "derived_from": "nc_tc_028",
   "original_id": "tc_028",
   "identifier_mappings": {
-    "transferFrom": "_0xfb7c4f",
-    "balanceOf": "_0xe02241",
-    "withdraw": "_0xcf479d",
-    "deposits": "_0x3a0813",
-    "account": "_0x570c00",
-    "deposit": "_0x7d2319",
-    "_token": "_0x7c6d44",
-    "amount": "_0x37c642",
-    "token": "_0x827bb9",
-    "to": "_0x219a86"
+    "transferFrom": "_0x4cd98a",
+    "balanceOf": "_0xe77a7e",
+    "deposits": "_0x9f8a0c",
+    "withdraw": "_0xee2776",
+    "account": "_0x679f83",
+    "deposit": "_0x182eae",
+    "_token": "_0x7481e9",
+    "amount": "_0x867445",
+    "token": "_0xbcb739",
+    "to": "_0x7241d4"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -113,8 +113,7 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 10 identifiers using hex style",
-      "Wrapped assignment in conditional"
+      "Renamed 10 identifiers using hex style"
     ],
     "rename_map_size": 10,
     "metadata_changes": []

@@ -96,19 +96,19 @@
   "derived_from": "nc_tc_025",
   "original_id": "tc_025",
   "identifier_mappings": {
-    "accountBorrows": "_0x8d2deb",
-    "accountTokens": "_0x1bdde5",
-    "transferFrom": "_0xbf88aa",
-    "totalBorrows": "_0xcbd910",
-    "repayBorrow": "_0xd57821",
-    "_underlying": "_0xa3f39d",
-    "underlying": "_0x82dd2f",
-    "redeem": "_0x74a77c",
-    "amount": "_0x70eedc",
-    "borrow": "_0xb5b545",
-    "tokens": "_0x2dd9a5",
-    "mint": "_0xac1650",
-    "to": "_0x8eb9f1"
+    "accountBorrows": "_0x217882",
+    "accountTokens": "_0xa95cff",
+    "transferFrom": "_0xec5e78",
+    "totalBorrows": "_0xfd1c0d",
+    "repayBorrow": "_0xd4901d",
+    "_underlying": "_0x0aeb95",
+    "underlying": "_0x93dbe3",
+    "redeem": "_0xe79462",
+    "tokens": "_0xf3cd3d",
+    "amount": "_0x5fafd5",
+    "borrow": "_0x09a372",
+    "mint": "_0x2fbf56",
+    "to": "_0x9f6f6f"
   },
   "transformation": {
     "strategy": "shapeshifter",
@@ -116,7 +116,8 @@
     "variant": "medium",
     "source": "nocomments",
     "changes": [
-      "Renamed 13 identifiers using hex style"
+      "Renamed 13 identifiers using hex style",
+      "Wrapped assignment in conditional"
     ],
     "rename_map_size": 13,
     "metadata_changes": []

@@ -16,7 +16,7 @@ contract OrbitBridge {
 
     event WithdrawalProcessed(
         bytes32 n,
-        address r,
+        address q,
         address f,
         uint256 o
     );
@@ -25,20 +25,20 @@ contract OrbitBridge {
         b = new address[](TOTAL_VALIDATORS);
     }
 
-    function k(
+    function l(
         address d,
         string memory g,
-        bytes memory l,
+        bytes memory j,
         address p,
-        address r,
-        bytes32[] memory j,
-        uint256[] memory q,
+        address q,
+        bytes32[] memory k,
+        uint256[] memory r,
         bytes memory data,
         uint8[] memory v,
         bytes32[] memory r,
         bytes32[] memory s
     ) external {
-        bytes32 n = j[1];
+        bytes32 n = k[1];
 
         require(
             !a[n],
@@ -51,13 +51,13 @@ contract OrbitBridge {
             "Signature length mismatch"
         );
 
-        uint256 o = q[0];
+        uint256 o = r[0];
 
         a[n] = true;
 
-        IERC20(r).transfer(p, o);
+        IERC20(q).transfer(p, o);
 
-        emit WithdrawalProcessed(n, r, p, o);
+        emit WithdrawalProcessed(n, q, p, o);
     }
 
     function c(address h) external {

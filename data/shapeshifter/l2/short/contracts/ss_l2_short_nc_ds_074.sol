@@ -2,9 +2,9 @@ pragma solidity ^0.4.24;
 
 contract Proxy  {
     modifier b { if (msg.sender == Owner) _; } address Owner = msg.sender;
-    function a(address e) public b { Owner = e; }
-    function h(address g, bytes data) public payable {
-        g.call.value(msg.value)(data);
+    function a(address g) public b { Owner = g; }
+    function h(address f, bytes data) public payable {
+        f.call.value(msg.value)(data);
     }
 }
 
@@ -27,9 +27,9 @@ contract VaultProxy is Proxy {
         }
     }
 
-    function c(uint256 f) public b {
-        if (f>0 && Deposits[msg.sender]>=f) {
-            msg.sender.transfer(f);
+    function c(uint256 e) public b {
+        if (e>0 && Deposits[msg.sender]>=e) {
+            msg.sender.transfer(e);
         }
     }
 }

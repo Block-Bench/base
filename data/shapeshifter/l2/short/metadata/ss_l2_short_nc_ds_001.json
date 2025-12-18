@@ -7,8 +7,8 @@
     "vulnerability_type": "timestamp_dependency",
     "severity": "low",
     "vulnerable_location": {
-      "contract_name": "i",
-      "function_name": "i",
+      "contract_name": "h",
+      "function_name": "h",
       "line_numbers": []
     },
     "root_cause": "# Bad Randomness",
@@ -29,7 +29,7 @@
     "num_lines": 173,
     "num_contracts": 1,
     "contract_names": [
-      "i"
+      "h"
     ],
     "num_functions": 17,
     "has_imports": false,
@@ -72,22 +72,22 @@
   "identifier_mappings": {
     "total_multiplier": "a",
     "onlyowner": "b",
-    "feeFrac": "c",
-    "players": "d",
-    "deposit": "e",
+    "players": "c",
+    "deposit": "d",
+    "feeFrac": "e",
     "random": "f",
     "payout": "g",
-    "_owner": "h",
-    "theRun": "i",
+    "theRun": "h",
+    "_owner": "i",
     "result": "j",
     "admin": "k",
     "salt": "l",
     "init": "m",
-    "addr": "n",
-    "paid": "o",
-    "roll": "p",
+    "seed": "n",
+    "addr": "o",
+    "paid": "p",
     "fees": "q",
-    "seed": "r",
+    "roll": "r",
     "id": "s"
   },
   "transformation": {
@@ -100,9 +100,9 @@
     ],
     "rename_map_size": 19,
     "metadata_changes": [
-      "Transformed ground_truth.vulnerable_location.contract_name: theRun \u2192 i",
-      "Transformed ground_truth.vulnerable_location.function_name: theRun \u2192 i",
-      "Transformed code_metadata.contract_names item: theRun \u2192 i"
+      "Transformed ground_truth.vulnerable_location.contract_name: theRun \u2192 h",
+      "Transformed ground_truth.vulnerable_location.function_name: theRun \u2192 h",
+      "Transformed code_metadata.contract_names item: theRun \u2192 h"
     ]
   }
 }
