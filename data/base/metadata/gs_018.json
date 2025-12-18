@@ -66,5 +66,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_018.json",
     "original_finding_title": "currentTokenSupply() can be gamed risk-free to manipulate either side of votes in certain assets"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_018/",
+  "context_files": [
+    "context_01_MajorityVotingBase.sol"
+  ]
 }

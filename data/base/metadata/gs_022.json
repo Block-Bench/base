@@ -70,5 +70,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_022.json",
     "original_finding_title": "Quotes can be frontrun by replaying them through the router"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_022/",
+  "context_files": [
+    "context_01_UnorderedNonce.sol"
+  ]
 }

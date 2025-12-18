@@ -103,6 +103,12 @@ NAME_REPLACEMENTS = [
     (r'\bDosGas\b', 'GasAuction', 0),
     (r'\bDosNumber\b', 'NumberRegistry', 0),
     (r'\bDosOneFunc\b', 'SingleFuncRegistry', 0),
+    (r'\brefundDos\b', 'refundAll', 0),
+    (r'\bCrowdFundSafe\b', 'CrowdFundBatched', 0),
+    (r'\brefundSafe\b', 'refundBatched', 0),
+
+    # Front-running/Race condition patterns -> neutral names
+    (r'\bRaceCondition\b', 'TokenExchange', 0),
 
     # Other hint patterns -> neutral names
     (r'\bUnprotected\b', 'OpenAccess', 0),
@@ -622,14 +628,18 @@ def sanitize_code(code: str) -> tuple[str, list[str]]:
             result = re.sub(pattern, '', result, flags=re.MULTILINE | re.IGNORECASE)
 
     # Step 2: Clean up block comments with vulnerability hints
-    # For now, we'll just remove NatSpec comments that contain hints
-    vuln_keywords = r'(vulnerable|vulnerability|exploit|attack|insecure|unsafe|bug|hack|overflow|underflow|reentr)'
-    block_comment_pattern = r'/\*\*[\s\S]*?' + vuln_keywords + r'[\s\S]*?\*/'
-    matches = re.findall(block_comment_pattern, result, re.IGNORECASE)
-    if matches:
-        for match in matches:
+    # Use proper regex that only matches single block comments (not spanning across code)
+    block_comment_pattern = r'/\*[^*]*\*+(?:[^/*][^*]*\*+)*/'
+    vuln_hint_pattern = re.compile(r'(vulnerable|vulnerability|exploit|attack|insecure|unsafe|bug|hack|overflow|underflow|reentrancy)', re.IGNORECASE)
+
+    def remove_hint_comment(match):
+        comment = match.group(0)
+        if vuln_hint_pattern.search(comment):
             changes.append(f"Removed block comment with vulnerability hint")
-        result = re.sub(block_comment_pattern, '', result, flags=re.IGNORECASE)
+            return ''
+        return comment
+
+    result = re.sub(block_comment_pattern, remove_hint_comment, result)
 
     # Step 3: Apply name replacements
     for pattern, replacement, flags in NAME_REPLACEMENTS:
@@ -739,17 +749,20 @@ def _get_file_paths(file_id: str) -> tuple[Optional[Path], Optional[Path], str]:
     Get the paths for a file ID from the base dataset.
 
     Args:
-        file_id: The file ID (e.g., 'tc_001', 'ds_001')
+        file_id: The file ID (e.g., 'tc_001', 'ds_001', 'gs_001')
 
     Returns:
         Tuple of (contract_path, metadata_path, original_subset) or (None, None, '') if not found
     """
-    # Validate prefix
-    if not (file_id.startswith('tc_') or file_id.startswith('ds_')):
+    # Validate prefix and determine original subset
+    if file_id.startswith('tc_'):
+        original_subset = 'temporal_contamination'
+    elif file_id.startswith('ds_'):
+        original_subset = 'difficulty_stratified'
+    elif file_id.startswith('gs_'):
+        original_subset = 'gold_standard'
+    else:
         return None, None, ''
-
-    # Determine original subset from prefix
-    original_subset = 'temporal_contamination' if file_id.startswith('tc_') else 'difficulty_stratified'
 
     # Check for .sol or .rs extension in base folder
     contract_dir = BASE_DATA_DIR / 'contracts'
@@ -922,7 +935,7 @@ def _generate_index():
         'safe_count': 0,
         'by_vulnerability_type': {},
         'by_severity': {},
-        'by_original_subset': {'difficulty_stratified': 0, 'temporal_contamination': 0}
+        'by_original_subset': {'difficulty_stratified': 0, 'temporal_contamination': 0, 'gold_standard': 0}
     }
 
     for meta_file in sorted(metadata_dir.glob('*.json')):
@@ -963,6 +976,8 @@ def _generate_index():
                 stats['by_original_subset']['temporal_contamination'] += 1
             elif orig_id.startswith('ds_'):
                 stats['by_original_subset']['difficulty_stratified'] += 1
+            elif orig_id.startswith('gs_'):
+                stats['by_original_subset']['gold_standard'] += 1
 
         except Exception as e:
             print(f"Warning: Error processing {meta_file}: {e}")

@@ -324,7 +324,7 @@ def _generate_index():
         'safe_count': 0,
         'by_vulnerability_type': {},
         'by_severity': {},
-        'by_original_subset': {'difficulty_stratified': 0, 'temporal_contamination': 0}
+        'by_original_subset': {'difficulty_stratified': 0, 'temporal_contamination': 0, 'gold_standard': 0}
     }
 
     for meta_file in sorted(metadata_dir.glob('*.json')):
@@ -366,6 +366,8 @@ def _generate_index():
                 stats['by_original_subset']['temporal_contamination'] += 1
             elif orig_id.startswith('ds_'):
                 stats['by_original_subset']['difficulty_stratified'] += 1
+            elif orig_id.startswith('gs_'):
+                stats['by_original_subset']['gold_standard'] += 1
 
         except Exception as e:
             print(f"Warning: Error processing {meta_file}: {e}")

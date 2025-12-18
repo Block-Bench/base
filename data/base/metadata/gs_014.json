@@ -65,5 +65,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_014.json",
     "original_finding_title": "Lock fails for unlimited approvals"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_014/",
+  "context_files": [
+    "context_01_LockManagerBase.sol"
+  ]
 }

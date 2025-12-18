@@ -74,5 +74,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_027.json",
     "original_finding_title": "Missing freshness check on oracle data in Staking.totalControlled() enables stale-rate arbitrage"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_027/",
+  "context_files": [
+    "context_01_Oracle.sol"
+  ]
 }

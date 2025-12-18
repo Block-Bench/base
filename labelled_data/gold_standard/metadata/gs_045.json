@@ -1,0 +1,32 @@
+{
+  "id": "gs_045",
+  "original_id": "gs_cantina_liminal_001",
+  "source_dataset": "gold_standard",
+  "vulnerability_type": "access_control_fee",
+  "severity": "medium",
+  "difficulty_tier": 2,
+  "context_level": "single_file",
+  "is_vulnerable": true,
+  "finding_title": "Custom Fees Settable up to 100% in fulfillFastRedeems Can Seize Redemptions",
+  "finding_description": "The fulfillFastRedeems function allows a caller with the FULFILL_MANAGER_ROLE to specify a customFees array. While the code checks that the fee does not exceed 100% (feeBps <= BASIS_POINTS), it lacks a stricter, more reasonable upper bound. This allows a privileged manager to set a punitive fee of up to almost 100% (not 100% itself due to a subsequent check), which could be used to unfairly seize the majority or almost all of a user's redemption value.",
+  "vulnerable_lines": [],
+  "vulnerable_functions": [],
+  "has_context": false,
+  "fix_description": "Introduce a state variable maxCustomFeeBps (with timelock protection) and enforce it in fulfillFastRedeems to cap the maximum fee that can be charged.",
+  "expert_notes": "This is a classic issue in DeFi protocols where privileged roles have inadequately constrained parameters. The FULFILL_MANAGER_ROLE is designed to be trusted, but 'trust' should be verified with constraints. Cantina recommended enforcing maxCustomFeeBps as a state variable set via timelock. The fix prevents a single bad actor (or compromised key) from draining the vault through fee overcharges.",
+  "context_hint": "The vulnerability stems from inadequate parameter validation. While the code prevents fees above 100%, it doesn't enforce a reasonable maximum fee percentage. In governance systems, privileged roles should be constrained by on-chain logic, not just off-chain trust assumptions. A reasonable maximum fee (e.g., 5%) should be enforced regardless of role permissions.",
+  "call_flow": [
+    "1. User calls requestRedeemFast(shares, controller, owner)",
+    "2. Shares locked in pending redemption request",
+    "3. Awaiting fulfillment from FULFILL_MANAGER_ROLE",
+    "4. Manager calls fulfillFastRedeems([batchId], [users], [customFees])",
+    "5. For each user, validates feeBps <= BASIS_POINTS (10,000)",
+    "6. No maximum cap enforced beyond 100%",
+    "7. Malicious manager sets feeBps = 9500 (95%)",
+    "8. fee = (assetAmount * 9500) / 10000",
+    "9. redemptionAmount = assetAmount - fee",
+    "10. User receives only 5% of redemption value",
+    "11. 95% of funds seized as 'fee'",
+    "12. User has no recourse"
+  ]
+}

@@ -63,5 +63,9 @@
     "detailed_metadata": "labelled_data/gold_standard/metadata/gs_008.json",
     "original_finding_title": "Claiming rewards in GovernanceHYBR will always revert"
   },
-  "original_subset": "gold_standard"
+  "original_subset": "gold_standard",
+  "context": "context/gs_008/",
+  "context_files": [
+    "context_01_VoterV3.sol"
+  ]
 }

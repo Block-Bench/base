@@ -13,12 +13,12 @@ contract ERC20 {
     event Approval(address indexed _owner, address indexed _spender, uint _value);
 }
 
-contract RaceCondition{
+contract TokenExchange{
     address private owner;
     uint public price;
     ERC20 token;
 
-    function RaceCondition(uint _price, ERC20 _token)
+    function TokenExchange(uint _price, ERC20 _token)
         public
     {
         owner = msg.sender;
@@ -35,7 +35,7 @@ contract RaceCondition{
     {
         require(msg.value >= price);
 
-        // we assume that the RaceCondition contract
+        // we assume that the TokenExchange contract
         // has enough allowance
         token.transferFrom(msg.sender, owner, price);
 
