@@ -7,7 +7,7 @@
     "vulnerability_type": "logic_error",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "GovernanceHYBR",
+      "contract_name": "GrowthHYBR",
       "function_name": "deposit",
       "line_numbers": [
         144,
