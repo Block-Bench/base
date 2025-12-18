@@ -1,0 +1,158 @@
+{
+  "id": "ch_medical_nc_ds_201",
+  "contract_file": "contracts/ch_medical_nc_ds_201.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "low",
+    "vulnerable_location": {
+      "contract_name": "Private_Bank",
+      "function_name": "Private_Bank",
+      "line_numbers": []
+    },
+    "root_cause": "# Honeypot Collection",
+    "attack_vector": "# Honeypot Collection",
+    "impact": "Severity: low",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_honeypots_privatebank",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 69,
+    "num_contracts": 2,
+    "contract_names": [
+      "Private_Bank",
+      "Chart"
+    ],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Honeypot Collection",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_201.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_201.json",
+    "original_id": "notso_honeypots_privatebank"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_201.sol",
+  "sanitized_from": "ds_201",
+  "derived_from": "sn_ds_201",
+  "original_id": "ds_201",
+  "identifier_mappings": {
+    "balances": "accountCreditsMap",
+    "MinDeposit": "MinimumPayment",
+    "Log": "Chart",
+    "TransferLog": "TransfercareChart",
+    "Deposit": "SubmitPayment",
+    "value": "measurement",
+    "sender": "requestor",
+    "AddMessage": "RecordClinicalNote",
+    "CashOut": "WithdrawBenefits",
+    "Message": "Alert",
+    "Sender": "Requestor",
+    "Data": "Info",
+    "Time": "Moment",
+    "LastMsg": "EndingMsg"
+  },
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 1412966240,
+    "coverage": {
+      "total_identifiers": 23,
+      "transformed": 14,
+      "untransformed": 9,
+      "skipped_reserved": 16,
+      "skipped_interface": 0,
+      "coverage_percent": 60.87,
+      "untransformed_details": [
+        {
+          "name": "Private_Bank",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_log",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_am",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Val",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "History",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_adr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_val",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_data",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "push",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "balances": "accountCreditsMap",
+      "MinDeposit": "MinimumPayment",
+      "Log": "Chart",
+      "TransferLog": "TransfercareChart",
+      "Deposit": "SubmitPayment",
+      "value": "measurement",
+      "sender": "requestor",
+      "AddMessage": "RecordClinicalNote",
+      "CashOut": "WithdrawBenefits",
+      "Message": "Alert",
+      "Sender": "Requestor",
+      "Data": "Info",
+      "Time": "Moment",
+      "LastMsg": "EndingMsg"
+    }
+  }
+}

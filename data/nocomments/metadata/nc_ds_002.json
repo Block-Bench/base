@@ -7,8 +7,8 @@
     "vulnerability_type": "reentrancy",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "Reentrance",
-      "function_name": "getBalance",
+      "contract_name": "TokenVault",
+      "function_name": "withdrawBalance",
       "line_numbers": []
     },
     "root_cause": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
@@ -29,7 +29,7 @@
     "num_lines": 43,
     "num_contracts": 1,
     "contract_names": [
-      "Reentrance"
+      "TokenVault"
     ],
     "num_functions": 6,
     "has_imports": false,
@@ -65,6 +65,11 @@
     "original_id": "notso_reentrancy_reentrancy"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "Reentrance": "TokenVault",
+    "withdrawBalance_fixed": "withdrawBalanceV2",
+    "withdrawBalance_fixed_2": "withdrawBalanceV3"
+  },
   "original_contract_file": "base/contracts/ds_002.sol",
   "sanitized_from": "ds_002",
   "derived_from": "sn_ds_002",

@@ -7,7 +7,7 @@
     "vulnerability_type": "integer_overflow",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "Overflow",
+      "contract_name": "Ledger",
       "function_name": "add",
       "line_numbers": []
     },
@@ -29,7 +29,7 @@
     "num_lines": 18,
     "num_contracts": 1,
     "contract_names": [
-      "Overflow"
+      "Ledger"
     ],
     "num_functions": 2,
     "has_imports": false,
@@ -65,6 +65,9 @@
     "original_id": "notso_integer_overflow_integer_overflow_1"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "Overflow": "Ledger"
+  },
   "original_contract_file": "base/contracts/ds_004.sol",
   "sanitized_from": "ds_004",
   "derived_from": "sn_ds_004",

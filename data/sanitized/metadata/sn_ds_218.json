@@ -7,8 +7,8 @@
     "vulnerability_type": "other",
     "severity": "critical",
     "vulnerable_location": {
-      "contract_name": "arbitrary_cpi_insecure",
-      "function_name": "arbitrary_cpi_insecure",
+      "contract_name": "arbitrary_cpi",
+      "function_name": "arbitrary_cpi",
       "line_numbers": []
     },
     "root_cause": "Unconstrained Cross-Program Invocation (CPI) allows arbitrary program calls",
@@ -29,7 +29,7 @@
     "num_lines": 35,
     "num_contracts": 1,
     "contract_names": [
-      "arbitrary_cpi_insecure"
+      "arbitrary_cpi"
     ],
     "num_functions": 1,
     "has_imports": true,
@@ -65,6 +65,9 @@
     "original_id": "sealevel_5_arbitrary_cpi"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "arbitrary_cpi_insecure": "arbitrary_cpi"
+  },
   "original_contract_file": "base/contracts/ds_218.rs",
   "sanitized_from": "ds_218"
 }

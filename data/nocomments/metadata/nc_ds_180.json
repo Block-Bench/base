@@ -7,8 +7,8 @@
     "vulnerability_type": "other",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "closing_accounts_insecure",
-      "function_name": "closing_accounts_insecure",
+      "contract_name": "closing_accounts",
+      "function_name": "closing_accounts",
       "line_numbers": []
     },
     "root_cause": "Improper account closure leaves accounts open to revival attacks",
@@ -29,7 +29,7 @@
     "num_lines": 30,
     "num_contracts": 1,
     "contract_names": [
-      "closing_accounts_insecure"
+      "closing_accounts"
     ],
     "num_functions": 1,
     "has_imports": true,
@@ -65,6 +65,9 @@
     "original_id": "sealevel_9_closing_accounts"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "closing_accounts_insecure": "closing_accounts"
+  },
   "original_contract_file": "base/contracts/ds_180.rs",
   "sanitized_from": "ds_180",
   "derived_from": "sn_ds_180",

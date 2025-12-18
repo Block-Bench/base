@@ -7,7 +7,7 @@
     "vulnerability_type": "integer_overflow",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "IntegerOverflowMul",
+      "contract_name": "MultiplyCounter",
       "function_name": "run",
       "line_numbers": [
         17
@@ -31,7 +31,7 @@
     "num_lines": 12,
     "num_contracts": 1,
     "contract_names": [
-      "IntegerOverflowMul"
+      "MultiplyCounter"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -67,6 +67,9 @@
     "original_id": "smartbugs_arithmetic_integer_overflow_mul"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "IntegerOverflowMul": "MultiplyCounter"
+  },
   "original_contract_file": "base/contracts/ds_137.sol",
   "sanitized_from": "ds_137"
 }

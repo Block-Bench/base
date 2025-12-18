@@ -7,7 +7,7 @@
     "vulnerability_type": "integer_overflow",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "IntegerOverflowMultiTxOneFuncFeasible",
+      "contract_name": "SingleFuncCalculator",
       "function_name": "run",
       "line_numbers": [
         22
@@ -31,7 +31,7 @@
     "num_lines": 17,
     "num_contracts": 1,
     "contract_names": [
-      "IntegerOverflowMultiTxOneFuncFeasible"
+      "SingleFuncCalculator"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -67,6 +67,9 @@
     "original_id": "smartbugs_arithmetic_integer_overflow_multitx_onefunc_feasible"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "IntegerOverflowMultiTxOneFuncFeasible": "SingleFuncCalculator"
+  },
   "original_contract_file": "base/contracts/ds_139.sol",
   "sanitized_from": "ds_139"
 }

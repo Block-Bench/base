@@ -32,7 +32,7 @@
     "num_contracts": 2,
     "contract_names": [
       "balance",
-      "DrainMe"
+      "FundManager"
     ],
     "num_functions": 17,
     "has_imports": false,
@@ -68,6 +68,9 @@
     "original_id": "smartbugs_unchecked_low_level_calls_0xb620cee6b52f96f3c6b253e6eea556aa2d214a99"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "DrainMe": "FundManager"
+  },
   "original_contract_file": "base/contracts/ds_172.sol",
   "sanitized_from": "ds_172"
 }

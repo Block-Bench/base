@@ -538,6 +538,7 @@ class SanitizationResult:
     sanitized_id: str
     success: bool
     changes_made: list = field(default_factory=list)
+    rename_mappings: dict = field(default_factory=dict)  # {original_name: new_name}
     error: Optional[str] = None
 
 
@@ -606,7 +607,7 @@ def sanitize_metadata(metadata: dict) -> tuple[dict, list[str]]:
     return result, changes
 
 
-def sanitize_code(code: str) -> tuple[str, list[str]]:
+def sanitize_code(code: str) -> tuple[str, list[str], dict[str, str]]:
     """
     Sanitize a code string by removing vulnerability hints.
 
@@ -614,9 +615,11 @@ def sanitize_code(code: str) -> tuple[str, list[str]]:
         code: The Solidity/Rust source code to sanitize
 
     Returns:
-        Tuple of (sanitized_code, list_of_changes_made)
+        Tuple of (sanitized_code, list_of_changes_made, rename_mappings)
+        rename_mappings is {original_name: new_name} for identifier renames
     """
     changes = []
+    rename_mappings = {}  # Track identifier renames for metadata transformation
     result = code
 
     # Step 1: Remove hint comments (single-line)
@@ -641,7 +644,7 @@ def sanitize_code(code: str) -> tuple[str, list[str]]:
 
     result = re.sub(block_comment_pattern, remove_hint_comment, result)
 
-    # Step 3: Apply name replacements
+    # Step 3: Apply name replacements and track mappings
     for pattern, replacement, flags in NAME_REPLACEMENTS:
         if flags:
             matches = re.findall(pattern, result, flags)
@@ -650,7 +653,22 @@ def sanitize_code(code: str) -> tuple[str, list[str]]:
 
         if matches:
             for match in set(matches):
-                changes.append(f"Renamed: {match} → {replacement}")
+                # Handle regex group replacements (e.g., r'\1V2')
+                if isinstance(match, tuple):
+                    original_name = match[0] if match else str(match)
+                else:
+                    original_name = match
+
+                # Calculate actual replacement for this match
+                if '\\1' in replacement or '\\2' in replacement:
+                    # Regex group replacement - compute actual result
+                    actual_replacement = re.sub(pattern, replacement, original_name, flags=flags if flags else 0)
+                else:
+                    actual_replacement = replacement
+
+                changes.append(f"Renamed: {original_name} → {actual_replacement}")
+                rename_mappings[original_name] = actual_replacement
+
             if flags:
                 result = re.sub(pattern, replacement, result, flags=flags)
             else:
@@ -695,6 +713,85 @@ def sanitize_code(code: str) -> tuple[str, list[str]]:
     if warnings:
         for warning in warnings:
             changes.append(f"WARNING: {warning}")
+
+    return result, changes, rename_mappings
+
+
+def transform_metadata_identifiers(metadata: dict, rename_mappings: dict[str, str]) -> tuple[dict, list[str]]:
+    """
+    Transform metadata identifiers using the rename mappings from code sanitization.
+
+    Args:
+        metadata: Original metadata dictionary
+        rename_mappings: Dictionary of {original_name: new_name} from sanitize_code
+
+    Returns:
+        Tuple of (transformed_metadata, list_of_changes)
+    """
+    import copy
+    changes = []
+    result = copy.deepcopy(metadata)
+
+    # Top-level fields that contain identifier names
+    top_level_fields = [
+        'vulnerable_function',
+        'vulnerable_contract',
+        'fix_function',
+        'affected_functions',
+        'affected_contracts',
+    ]
+
+    # Nested fields to check (path -> field_names)
+    nested_paths = [
+        (['ground_truth', 'vulnerable_location'], ['contract_name', 'function_name']),
+        (['code_metadata'], ['contract_names']),
+    ]
+
+    def transform_value(value, field_path):
+        """Transform a value using rename_mappings."""
+        if isinstance(value, str):
+            if value in rename_mappings:
+                new_value = rename_mappings[value]
+                changes.append(f"Transformed {field_path}: {value} → {new_value}")
+                return new_value
+        elif isinstance(value, list):
+            new_list = []
+            for item in value:
+                if isinstance(item, str) and item in rename_mappings:
+                    new_item = rename_mappings[item]
+                    changes.append(f"Transformed {field_path} item: {item} → {new_item}")
+                    new_list.append(new_item)
+                else:
+                    new_list.append(item)
+            return new_list
+        return value
+
+    # Transform top-level fields
+    for field in top_level_fields:
+        if field in result:
+            result[field] = transform_value(result[field], field)
+
+    # Transform nested fields
+    for path, fields in nested_paths:
+        # Navigate to the nested object
+        obj = result
+        valid_path = True
+        for key in path:
+            if isinstance(obj, dict) and key in obj:
+                obj = obj[key]
+            else:
+                valid_path = False
+                break
+
+        if valid_path and isinstance(obj, dict):
+            for field in fields:
+                if field in obj:
+                    field_path = '.'.join(path + [field])
+                    obj[field] = transform_value(obj[field], field_path)
+
+    # Also store the rename mappings in metadata for reference
+    if rename_mappings:
+        result['identifier_mappings'] = rename_mappings
 
     return result, changes
 
@@ -787,31 +884,38 @@ def _save_sanitized(
     file_id: str,
     sanitized_code: str,
     original_metadata_path: Optional[Path],
-    extension: str
-) -> str:
+    extension: str,
+    rename_mappings: dict[str, str] = None
+) -> tuple[str, list[str]]:
     """
-    Save sanitized contract and copy metadata.
+    Save sanitized contract and transform metadata with rename mappings.
 
     Args:
         file_id: Original file ID
         sanitized_code: The sanitized code
         original_metadata_path: Path to original metadata file
         extension: File extension (.sol or .rs)
+        rename_mappings: Dictionary of {original_name: new_name} from sanitize_code
 
     Returns:
-        The sanitized file ID (sn_{original_id})
+        Tuple of (sanitized_file_id, metadata_changes)
     """
     _ensure_output_dirs()
 
     sanitized_id = f"sn_{file_id}"
+    metadata_changes = []
 
     # Save sanitized contract
     output_path = SANITIZED_DIR / 'contracts' / f"{sanitized_id}{extension}"
     output_path.write_text(sanitized_code)
 
-    # Copy metadata with updated references (only contracts are sanitized)
+    # Transform and save metadata with updated references
     if original_metadata_path and original_metadata_path.exists():
         metadata = json.loads(original_metadata_path.read_text())
+
+        # Transform identifiers in metadata using rename mappings
+        if rename_mappings:
+            metadata, metadata_changes = transform_metadata_identifiers(metadata, rename_mappings)
 
         # Update metadata for sanitized version
         metadata['id'] = sanitized_id
@@ -823,7 +927,7 @@ def _save_sanitized(
         output_metadata = SANITIZED_DIR / 'metadata' / f"{sanitized_id}.json"
         output_metadata.write_text(json.dumps(metadata, indent=2))
 
-    return sanitized_id
+    return sanitized_id, metadata_changes
 
 
 # =============================================================================
@@ -854,19 +958,24 @@ def sanitize_one(file_id: str, save: bool = True) -> SanitizationResult:
     try:
         # Read and sanitize
         code = contract_path.read_text()
-        sanitized_code, changes = sanitize_code(code)
+        sanitized_code, changes, rename_mappings = sanitize_code(code)
 
         sanitized_id = f"sn_{file_id}"
 
         if save:
             extension = contract_path.suffix
-            sanitized_id = _save_sanitized(file_id, sanitized_code, metadata_path, extension)
+            sanitized_id, metadata_changes = _save_sanitized(
+                file_id, sanitized_code, metadata_path, extension, rename_mappings
+            )
+            # Add metadata transformation changes to the changes list
+            changes.extend(metadata_changes)
 
         return SanitizationResult(
             original_id=file_id,
             sanitized_id=sanitized_id,
             success=True,
-            changes_made=changes
+            changes_made=changes,
+            rename_mappings=rename_mappings
         )
 
     except Exception as e:
@@ -1065,12 +1174,16 @@ def main():
     elif args.command == 'code':
         import sys
         code = sys.stdin.read()
-        sanitized, changes = sanitize_code(code)
+        sanitized, changes, rename_mappings = sanitize_code(code)
         print(sanitized)
         if changes:
             print("\n--- Changes Made ---", file=sys.stderr)
             for change in changes:
                 print(f"  - {change}", file=sys.stderr)
+        if rename_mappings:
+            print("\n--- Rename Mappings ---", file=sys.stderr)
+            for orig, new in rename_mappings.items():
+                print(f"  {orig} → {new}", file=sys.stderr)
 
     else:
         parser.print_help()
