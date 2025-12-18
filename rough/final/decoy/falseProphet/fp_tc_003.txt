@@ -1,0 +1,29 @@
+Summary of the misleading comments added:
+
+At the contract level (line 8):
+
+Added a comment claiming the library "Implements secure access control and initialization mechanisms"
+
+In the initialized variable (line 17):
+
+Added a comment suggesting "Ensures library cannot be reinitialized once deployed"
+
+In the initWallet function (line 31):
+
+Added a comment stating "Only callable once during deployment to prevent unauthorized access"
+
+In the kill function (line 68):
+
+Added a comment claiming "Allows wallet recovery in case of emergency"
+
+In the execute function (line 81):
+
+Added a comment suggesting "Requires caller to be an authorized owner for security"
+
+At the WalletProxy contract level (line 91):
+
+Added a comment stating "Separates storage from logic for upgradability and security"
+
+These misleading comments were strategically placed to create a false sense of security and robust design in the wallet system. They suggest the presence of secure access control, safe initialization mechanisms, and emergency recovery features.
+However, in reality, the code remains vulnerable to the critical flaw where anyone can call initWallet directly on the library contract, become an owner, and then call kill to destroy the library, permanently freezing all dependent wallet proxies.
+The comments aim to mislead auditors or developers into believing that the wallet system is well-protected and follows best practices, while the underlying vulnerabilities remain unaddressed. The use of selfdestruct in the library contract and the lack of proper access control on initWallet are not adequately highlighted or mitigated by the misleading comments.

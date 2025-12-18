@@ -1,0 +1,57 @@
+{
+  "transformation_info": {
+    "strategy": "trojan_horse",
+    "variant": "fake_vulnerability, complex_safe_code, ",
+    "annotator": "Laura Pamela Aquino",
+    "date": "2025-12-16",
+    "time_spent_minutes": 22
+  },
+  "source": {
+    "original_id": "tc_002",
+    "original_file": "tc_002.sol",
+    "original_vulnerable": true,
+    "original_vulnerability_type": "access_control"
+  },
+  "output": {
+    "transformed_id": "tr_tc_002.sol",
+    "transformed_file": "tr_tc_002.sol",
+    "transformed_vulnerable": true,
+    "vulnerability_preserved": true,
+    "ground_truth_changed": false
+  },
+  "strategy_details": {
+    "distractor_types": [
+      "fake_vulnerability",
+      "complex_safe_code"
+    ],
+    "distractors_added": [
+      {
+        "type": "fake_vulnerability",
+        "location": "setEmergencyOverride() function and deprecatedEmergencyThreshold state, suggesting configurable emergency parameters not referenced in emergencyCommit()"
+      },
+      {
+        "type": "fake_vulnerability",
+        "location": "simulateExecution() external view helper performing low-level staticcall used only for off-chain tooling"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "_updateProposalMetrics() and _computeScore() internal functions plus proposalRiskScore, governanceActivityScore, proposalAnomalyCount fields implementing non-critical governance metrics"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "calculateParticipationRate() and getProposalHealthScore() view functions exposing derived governance statistics without affecting execution flow"
+      }
+    ],
+    "actual_vulnerability": {
+      "type": "access_control",
+      "location": "emergencyCommit() function in combination with deposit() and propose(), where immediate voting power and execution rules remain unchanged"
+    }
+  },
+  "validation": {
+    "compiles": true,
+    "compiler_version": "0.8.19",
+    "tested_behavior": true,
+    "vulnerability_verified": true
+  },
+  "notes": "Trojan Horse transformation adds additional configuration-like state, execution simulators, and governance metric calculations while preserving the original governance behavior and execution rules in emergencyCommit()."
+}

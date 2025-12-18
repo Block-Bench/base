@@ -1,0 +1,1 @@
+Changes: Initialized acceptedRoot in constructor (line 27) and added require check for zero root in setAcceptedRoot (line 77)

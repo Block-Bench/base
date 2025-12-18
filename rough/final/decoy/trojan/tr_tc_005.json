@@ -1,0 +1,57 @@
+{
+  "transformation_info": {
+    "strategy": "trojan_horse",
+    "variant": "fake_vulnerability, complex_safe_code",
+    "annotator": "Laura Pamela Aquino",
+    "date": "2025-12-16",
+    "time_spent_minutes": 25
+  },
+  "source": {
+    "original_id": "tc_005",
+    "original_file": "tc_005.sol",
+    "original_vulnerable": true,
+    "original_vulnerability_type": "reentrancy"
+  },
+  "output": {
+    "transformed_id": "tr_tc_005.sol",
+    "transformed_file": "tr_tc_005.sol",
+    "transformed_vulnerable": true,
+    "vulnerability_preserved": true,
+    "ground_truth_changed": false
+  },
+  "strategy_details": {
+    "distractor_types": [
+      "fake_vulnerability",
+      "complex_safe_code"
+    ],
+    "distractors_added": [
+      {
+        "type": "fake_vulnerability",
+        "location": "setConfigVersion() function and configVersion state, suggesting configurable pool parameters not referenced in liquidity or swap safety checks"
+      },
+      {
+        "type": "fake_vulnerability",
+        "location": "simulateExchange() external view function performing a pricing preview independent of state-changing exchange()"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "poolActivityScore, lastLiquidityBlock and userInteractionCount fields with _recordPoolActivity() internal function updating aggregated and per-user activity metrics"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "getUserMetrics() and getPoolMetrics() view functions exposing additional pool statistics derived from balances and activity tracking"
+      }
+    ],
+    "actual_vulnerability": {
+      "type": "reentrancy",
+      "location": "add_liquidity() function and _handleETHTransfer() internal helper, where external calls remain reachable during state updates"
+    }
+  },
+  "validation": {
+    "compiles": true,
+    "compiler_version": "0.8.19",
+    "tested_behavior": true,
+    "vulnerability_verified": true
+  },
+  "notes": "Trojan Horse transformation adds configuration and activity tracking helpers, plus swap simulation utilities, while leaving the core liquidity and swap behavior, including external call structure, unchanged."
+}

@@ -1,0 +1,1 @@
+Changes: Removed explicit reentrancy guard from add_liquidity, remove_liquidity, and exchange functions (lines 58, 90, 137), allowing recursive calls and enabling reentrancy attacks.

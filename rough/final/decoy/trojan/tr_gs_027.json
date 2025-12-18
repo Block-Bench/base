@@ -1,0 +1,50 @@
+{
+  "transformation_info": {
+    "strategy": "trojan_horse",
+    "variant": "fake_vulnerability,suspicious_names,complex_safe_code",
+    "annotator": "Laura Pamela Aquino",
+    "date": "2025-12-18",
+    "time_spent_minutes": 21
+  },
+  "source": {
+    "original_id": "gs_027",
+    "original_file": "gs_027.sol",
+    "original_vulnerable": true,
+    "original_vulnerability_type": "oracle_manipulation"
+  },
+  "output": {
+    "transformed_id": "tr_gs_027.sol",
+    "transformed_file": "tr_gs_027.sol",
+    "transformed_vulnerable": true,
+    "vulnerability_preserved": true,
+    "ground_truth_changed": false
+  },
+  "strategy_details": {
+    "distractor_types": ["fake_vulnerability", "suspicious_names", "complex_safe_code"],
+    "distractors_added": [
+      {
+        "type": "fake_vulnerability",
+        "location": "updateOracleVersion() admin-restricted"
+      },
+      {
+        "type": "suspicious_names",
+        "location": "oracleFreshnessMetrics, oracleRecordTimestamps, totalOracleQueries"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "getOracleAnalytics() 4-tuple return + block-timestamp tracking"
+      }
+    ],
+    "actual_vulnerability": {
+      "type": "oracle_manipulation",
+      "location": "totalControlled() uses oracle.latestRecord() without freshness validation"
+    }
+  },
+  "validation": {
+    "compiles": true,
+    "compiler_version": "0.8.20",
+    "tested_behavior": true,
+    "vulnerability_verified": true
+  },
+  "notes": "Comprehensive oracle monitoring facade with freshness metrics and timestamp tracking. Critical vulnerability preserved: totalControlled() blindly trusts oracle.latestRecord() without timestamp validation, enabling stale-rate arbitrage attacks."
+}

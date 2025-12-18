@@ -1,0 +1,1 @@
+Changes: Added explicit reentrancy guard in add_liquidity, remove_liquidity, and exchange functions (lines 58, 90, 137). Set status before critical operations and reset after, preventing reentrancy attacks.

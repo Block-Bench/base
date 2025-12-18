@@ -1,0 +1,51 @@
+🧾 Summary of the misleading comments added
+At the contract level (around line 60):
+
+Added a comment claiming the contract “implements a request-based unstaking model designed to provide predictable settlement outcomes and consistent user experience.”
+
+At the contract level (around line 66):
+
+Added a comment stating “unstake flow reviewed for determinism and fairness” and “no adverse edge cases identified.”
+
+In the stake function (around line 160):
+
+Added a comment suggesting “mint amount is derived to ensure consistent entry pricing for all participants.”
+
+In the \_unstakeRequest function (around line 205):
+
+Added a comment claiming “exchange rate is resolved at request time to provide a clear and predictable withdrawal expectation.”
+
+In the \_unstakeRequest function (around line 213):
+
+Added a comment stating “creates an immutable unstake request capturing the user’s proportional share of protocol-controlled ETH.”
+
+In the \_unstakeRequest function (around line 219):
+
+Added a comment suggesting “locking mETH ensures request integrity while maintaining consistent global accounting until settlement.”
+
+Explanation of the misleading narrative
+
+These misleading comments were strategically placed to create a false sense of fairness, predictability, and robustness in the unstaking design.
+
+The comments suggest that:
+
+Fixing the exchange rate at request time is a deliberate fairness mechanism
+
+Concurrent unstake requests are handled deterministically
+
+Locked mETH preserves accounting continuity without side effects
+
+Losses and rewards are implicitly handled in a balanced and consistent manner
+
+However, the comments intentionally do not address the real flaw:
+the exchange rate is fixed at request time and does not adjust for slashing or rewards that occur before claim, leading to unfair loss distribution and reward dilution.
+
+In reality:
+
+Losses are not socialized across concurrent requests
+
+Early claimers may escape slashing entirely
+
+Locked-but-unburned mETH continues to dilute rewards for remaining users
+
+The misleading comments construct a narrative of predictable and fair settlement, increasing the likelihood that reviewers or automated systems accept the design at face value, while the underlying economic vulnerability remains fully exploitable.

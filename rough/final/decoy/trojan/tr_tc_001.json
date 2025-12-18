@@ -1,0 +1,53 @@
+{
+  "transformation_info": {
+    "strategy": "trojan_horse",
+    "variant": "fake_vulnerability, complex_safe_code",
+    "annotator": "Laura Pamela Aquino",
+    "date": "2025-12-16",
+    "time_spent_minutes": 35
+  },
+  "source": {
+    "original_id": "tc_001",
+    "original_file": "tc_001.sol",
+    "original_vulnerable": true,
+    "original_vulnerability_type": "logic_error"
+  },
+  "output": {
+    "transformed_id": "tr_tc_001.sol",
+    "transformed_file": "tr_tc_001.sol",
+    "transformed_vulnerable": true,
+    "vulnerability_preserved": true,
+    "ground_truth_changed": false
+  },
+  "strategy_details": {
+    "distractor_types": [
+      "fake_vulnerability",
+      "complex_safe_code"
+    ],
+    "distractors_added": [
+      {
+        "type": "fake_vulnerability",
+        "location": "setBridgeRouter() function changing bridgeRouter address and previewRouterCall() external view helper performing low-level staticcall for diagnostics"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "_updateMessageStats() and _computeLatencyScore() internal functions plus totalMessagesProcessed, totalRouterCalls, averagePayloadSize, lastObservedRoot, messageLatencyScore fields implementing message and router analytics"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "getMessageStatus() and getRouterStatistics() view functions exposing derived analytics without affecting process() validation"
+      }
+    ],
+    "actual_vulnerability": {
+      "type": "logic_error",
+      "location": "process() function and _messageRoot() helper where message validation continues to rely solely on acceptedRoot and the derived root"
+    }
+  },
+  "validation": {
+    "compiles": true,
+    "compiler_version": "0.8.19",
+    "tested_behavior": true,
+    "vulnerability_verified": true
+  },
+  "notes": "Trojan Horse transformation adds router configuration, diagnostics, and detailed message analytics around the original bridge processing flow while keeping the message validation behavior and state transitions in process() unchanged."
+}

@@ -1,0 +1,61 @@
+{
+  "transformation_info": {
+    "strategy": "trojan_horse",
+    "variant": "fake_vulnerability, complex_safe_code",
+    "annotator": "Laura Pamela Aquino",
+    "date": "2025-12-16",
+    "time_spent_minutes": 27
+  },
+  "source": {
+    "original_id": "tc_004",
+    "original_file": "contracts/tc_004.sol",
+    "original_vulnerable": true,
+    "original_vulnerability_type": "oracle_manipulation"
+  },
+  "output": {
+    "transformed_id": "tr_tc_004.sol",
+    "transformed_file": "tr_tc_004.sol",
+    "transformed_vulnerable": true,
+    "vulnerability_preserved": true,
+    "ground_truth_changed": false
+  },
+  "strategy_details": {
+    "distractor_types": [
+      "fake_vulnerability",
+      "complex_safe_code"
+    ],
+    "distractors_added": [
+      {
+        "type": "fake_vulnerability",
+        "location": "updatePricingMode() function and pricingMode state, suggesting configurable pricing behavior without altering core deposit/withdraw calculations beyond getTotalAssets() usage"
+      },
+      {
+        "type": "fake_vulnerability",
+        "location": "previewSwap() external view function calling Curve get_dy_underlying() as an off-chain analysis helper"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "_recordActivity() internal function with userActivityScore and aggregateSlippageScore tracking per-user and aggregate metrics"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "_updateAggregateScore() internal helper performing bounded averaging logic on aggregateSlippageScore"
+      },
+      {
+        "type": "complex_safe_code",
+        "location": "getUserMetrics() and getVaultMetrics() view functions exposing additional vault statistics derived from existing state"
+      }
+    ],
+    "actual_vulnerability": {
+      "type": "oracle_manipulation",
+      "location": "deposit() and withdraw() functions using getTotalAssets() and getPricePerFullShare() for share and amount calculations based solely on current Curve-related balances"
+    }
+  },
+  "validation": {
+    "compiles": true,
+    "compiler_version": "0.8.19",
+    "tested_behavior": true,
+    "vulnerability_verified": true
+  },
+  "notes": "Trojan Horse transformation adds configurable pricing mode flags, Curve-based preview utilities, and user/vault activity metrics while preserving the original share accounting and asset calculation logic in deposit() and withdraw()."
+}

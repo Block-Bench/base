@@ -1,0 +1,1 @@
+Changes: Added require check for initialization in initWallet (line 22) and require for initialization in kill (line 60) to prevent unauthorized initialization and selfdestruct. Removed ability to reinitialize or destroy uninitialized library.

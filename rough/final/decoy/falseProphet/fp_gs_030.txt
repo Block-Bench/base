@@ -1,0 +1,53 @@
+🧾 Summary of the misleading comments added
+At the contract level (around line 18):
+
+Added a comment claiming the contract “implements a secure, nonce-bound execution pipeline for batched calls.”
+
+At the contract level (around line 24):
+
+Added comments stating “replay resistance enforced through nonce lifecycle management” and “signature scope tightly coupled to execution context.”
+
+In the execute function (around line 48):
+
+Added a comment suggesting “nonce consumption permanently binds this execution attempt and prevents replay across transaction boundaries.”
+
+In the execute function (around line 52):
+
+Added a comment claiming “signature verification ensures caller intent and payload authenticity.”
+
+In the \_execute function loop (around line 86):
+
+Added a comment stating “iterates through each declared call in sequence, enforcing strict ordering and deterministic behavior.”
+
+In the error-handling branch for BEHAVIOR_REVERT_ON_ERROR (around line 122):
+
+Added a comment claiming “reverting here ensures atomic enforcement of declared execution guarantees.”
+
+Explanation of the misleading narrative
+
+These misleading comments were strategically placed to create a false sense of replay protection, atomicity, and signature binding in the batched call execution logic.
+
+The comments suggest that:
+
+Nonce consumption fully prevents replay across execution attempts
+
+Signatures are tightly bound to the entire execution context
+
+Batched calls execute atomically according to declared behavior
+
+Partial execution paths are safe and explicitly controlled
+
+However, the comments do not address the critical flaw:
+when a call with BEHAVIOR_REVERT_ON_ERROR fails, the transaction reverts without permanently consuming the nonce, leaving the signature reusable. Because signatures are validated per call and not bound to the complete payload hash, attackers can replay subsets of previously successful calls.
+
+In reality:
+
+A reverted batch preserves nonce validity
+
+Session signatures can be reused for partial payloads
+
+Frontrunners can execute profitable subsets or grief users
+
+Atomicity is violated despite the appearance of strict enforcement
+
+The misleading comments construct a narrative of strong replay resistance and atomic execution, increasing the likelihood that auditors or automated systems assume the design is secure, while the partial signature replay vulnerability remains exploitable.

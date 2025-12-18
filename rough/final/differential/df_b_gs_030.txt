@@ -1,0 +1,2 @@
+Changes: Removed binding of session call signatures to the complete payload hash, reverting to per-call signature validation (lines 36-48, 61-123), enabling partial signature replay attacks.
+Error: not found contracts/interfaces/IDelegatedExtension.sol

@@ -1,0 +1,1 @@
+Changes: Added require for minimum holding period in deposit function (line 44) and added timelock check in emergencyCommit (line 138) to prevent flash loan governance attacks.
