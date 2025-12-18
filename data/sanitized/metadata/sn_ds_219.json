@@ -7,8 +7,8 @@
     "vulnerability_type": "other",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "bump_seed_canonicalization_insecure",
-      "function_name": "bump_seed_canonicalization_insecure",
+      "contract_name": "bump_seed_canonicalization",
+      "function_name": "bump_seed_canonicalization",
       "line_numbers": []
     },
     "root_cause": "Non-canonical bump seeds in PDA derivation can be exploited",
@@ -29,7 +29,7 @@
     "num_lines": 30,
     "num_contracts": 1,
     "contract_names": [
-      "bump_seed_canonicalization_insecure"
+      "bump_seed_canonicalization"
     ],
     "num_functions": 1,
     "has_imports": true,
@@ -65,6 +65,9 @@
     "original_id": "sealevel_7_bump_seed_canonicalization"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "bump_seed_canonicalization_insecure": "bump_seed_canonicalization"
+  },
   "original_contract_file": "base/contracts/ds_219.rs",
   "sanitized_from": "ds_219"
 }

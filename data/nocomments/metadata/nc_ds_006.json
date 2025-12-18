@@ -65,6 +65,9 @@
     "original_id": "notso_incorrect_interface_alice"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "_fixed": "V2"
+  },
   "original_contract_file": "base/contracts/ds_006.sol",
   "sanitized_from": "ds_006",
   "derived_from": "sn_ds_006",

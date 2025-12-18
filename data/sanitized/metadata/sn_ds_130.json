@@ -7,7 +7,7 @@
     "vulnerability_type": "access_control",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "Unprotected",
+      "contract_name": "OpenAccess",
       "function_name": "changeOwner",
       "line_numbers": [
         25
@@ -31,7 +31,7 @@
     "num_lines": 26,
     "num_contracts": 1,
     "contract_names": [
-      "Unprotected"
+      "OpenAccess"
     ],
     "num_functions": 3,
     "has_imports": false,
@@ -67,6 +67,9 @@
     "original_id": "smartbugs_access_control_unprotected0"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "Unprotected": "OpenAccess"
+  },
   "original_contract_file": "base/contracts/ds_130.sol",
   "sanitized_from": "ds_130"
 }

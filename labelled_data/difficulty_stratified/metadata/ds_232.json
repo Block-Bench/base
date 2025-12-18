@@ -6,8 +6,9 @@
   "chain": "evm",
   "file_name": "BECToken.sol",
   "vulnerable_function": "batchTransfer",
+  "vulnerable_contract": "PausableToken",
   "vulnerable_lines": [
-    264
+    261, 264
   ],
   "vulnerability_type": "integer_issues",
   "original_category": "arithmetic",

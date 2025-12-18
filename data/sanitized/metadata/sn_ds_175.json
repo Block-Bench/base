@@ -7,8 +7,8 @@
     "vulnerability_type": "access_control",
     "severity": "critical",
     "vulnerable_location": {
-      "contract_name": "signer_authorization_insecure",
-      "function_name": "signer_authorization_insecure",
+      "contract_name": "signer_authorization",
+      "function_name": "signer_authorization",
       "line_numbers": []
     },
     "root_cause": "Missing signer check allows unauthorized users to call functions that should be restricted",
@@ -29,7 +29,7 @@
     "num_lines": 17,
     "num_contracts": 1,
     "contract_names": [
-      "signer_authorization_insecure"
+      "signer_authorization"
     ],
     "num_functions": 1,
     "has_imports": true,
@@ -65,6 +65,9 @@
     "original_id": "sealevel_0_signer_authorization"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "signer_authorization_insecure": "signer_authorization"
+  },
   "original_contract_file": "base/contracts/ds_175.rs",
   "sanitized_from": "ds_175"
 }

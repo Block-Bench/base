@@ -66,6 +66,9 @@
     "original_id": "notso_incorrect_interface_bob"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "_fixed": "V2"
+  },
   "original_contract_file": "base/contracts/ds_124.sol",
   "sanitized_from": "ds_124"
 }

@@ -36,6 +36,7 @@ from strategies.common import (
     is_solidity_reserved,
     is_solidity_dot_property,
 )
+from strategies.sanitize.sanitize import transform_metadata_identifiers
 
 
 # =============================================================================
@@ -771,9 +772,10 @@ def _save_chameleon(
     rename_map: Dict[str, str],
     coverage: CoverageReport,
     seed: int
-) -> Path:
-    """Save chameleon contract and metadata."""
+) -> Tuple[Path, List[str]]:
+    """Save chameleon contract and metadata with transformed identifiers."""
     output_dir = _ensure_output_dirs(theme, source)
+    metadata_changes = []
 
     # Save transformed contract
     contract_path = output_dir / 'contracts' / f"{chameleon_id}{extension}"
@@ -783,6 +785,10 @@ def _save_chameleon(
     metadata = {}
     if original_metadata_path and original_metadata_path.exists():
         metadata = json.loads(original_metadata_path.read_text())
+
+    # Transform identifiers in metadata using the rename_map
+    if rename_map:
+        metadata, metadata_changes = transform_metadata_identifiers(metadata, rename_map)
 
     # Update metadata for chameleon version
     metadata['id'] = chameleon_id
@@ -801,7 +807,7 @@ def _save_chameleon(
     metadata_path = output_dir / 'metadata' / f"{chameleon_id}.json"
     metadata_path.write_text(json.dumps(metadata, indent=2))
 
-    return contract_path
+    return contract_path, metadata_changes
 
 
 # =============================================================================
@@ -891,8 +897,9 @@ def transform_one(
             warnings=[]
         )
 
+        metadata_changes = []
         if save:
-            _save_chameleon(
+            _, metadata_changes = _save_chameleon(
                 chameleon_id,
                 transformed,
                 metadata_path,

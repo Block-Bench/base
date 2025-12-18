@@ -7,8 +7,8 @@
     "vulnerability_type": "logic_error",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "duplicate_mutable_accounts_insecure",
-      "function_name": "duplicate_mutable_accounts_insecure",
+      "contract_name": "duplicate_mutable_accounts",
+      "function_name": "duplicate_mutable_accounts",
       "line_numbers": []
     },
     "root_cause": "Passing the same account twice as mutable can cause unexpected behavior",
@@ -29,7 +29,7 @@
     "num_lines": 28,
     "num_contracts": 1,
     "contract_names": [
-      "duplicate_mutable_accounts_insecure"
+      "duplicate_mutable_accounts"
     ],
     "num_functions": 1,
     "has_imports": true,
@@ -65,6 +65,9 @@
     "original_id": "sealevel_6_duplicate_mutable_accounts"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "duplicate_mutable_accounts_insecure": "duplicate_mutable_accounts"
+  },
   "original_contract_file": "base/contracts/ds_235.rs",
   "sanitized_from": "ds_235",
   "derived_from": "sn_ds_235",

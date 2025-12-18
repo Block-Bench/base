@@ -7,7 +7,7 @@
     "vulnerability_type": "denial_of_service",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "DosGas",
+      "contract_name": "GasAuction",
       "function_name": "emptyCreditors",
       "line_numbers": [
         16,
@@ -33,7 +33,7 @@
     "num_lines": 30,
     "num_contracts": 1,
     "contract_names": [
-      "DosGas"
+      "GasAuction"
     ],
     "num_functions": 4,
     "has_imports": false,
@@ -69,6 +69,9 @@
     "original_id": "smartbugs_denial_of_service_dos_address"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "DosGas": "GasAuction"
+  },
   "original_contract_file": "base/contracts/ds_151.sol",
   "sanitized_from": "ds_151"
 }

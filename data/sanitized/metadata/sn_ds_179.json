@@ -7,8 +7,8 @@
     "vulnerability_type": "other",
     "severity": "critical",
     "vulnerable_location": {
-      "contract_name": "initialization_insecure",
-      "function_name": "initialization_insecure",
+      "contract_name": "initialization",
+      "function_name": "initialization",
       "line_numbers": []
     },
     "root_cause": "Missing initialization checks allow reinitialization attacks",
@@ -29,7 +29,7 @@
     "num_lines": 33,
     "num_contracts": 1,
     "contract_names": [
-      "initialization_insecure"
+      "initialization"
     ],
     "num_functions": 1,
     "has_imports": true,
@@ -65,6 +65,9 @@
     "original_id": "sealevel_4_initialization"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "initialization_insecure": "initialization"
+  },
   "original_contract_file": "base/contracts/ds_179.rs",
   "sanitized_from": "ds_179"
 }

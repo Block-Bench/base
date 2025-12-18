@@ -7,8 +7,8 @@
     "vulnerability_type": "access_control",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "account_data_matching_insecure",
-      "function_name": "account_data_matching_insecure",
+      "contract_name": "account_data_matching",
+      "function_name": "account_data_matching",
       "line_numbers": []
     },
     "root_cause": "Lack of account data validation allows account substitution attacks",
@@ -29,7 +29,7 @@
     "num_lines": 22,
     "num_contracts": 1,
     "contract_names": [
-      "account_data_matching_insecure"
+      "account_data_matching"
     ],
     "num_functions": 1,
     "has_imports": true,
@@ -65,6 +65,9 @@
     "original_id": "sealevel_1_account_data_matching"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "account_data_matching_insecure": "account_data_matching"
+  },
   "original_contract_file": "base/contracts/ds_176.rs",
   "sanitized_from": "ds_176",
   "derived_from": "sn_ds_176",

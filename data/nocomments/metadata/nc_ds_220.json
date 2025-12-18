@@ -7,8 +7,8 @@
     "vulnerability_type": "access_control",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "pda_sharing_insecure",
-      "function_name": "pda_sharing_insecure",
+      "contract_name": "pda_sharing",
+      "function_name": "pda_sharing",
       "line_numbers": []
     },
     "root_cause": "Improper PDA seed design allows accounts to be controlled by unintended parties",
@@ -29,7 +29,7 @@
     "num_lines": 45,
     "num_contracts": 1,
     "contract_names": [
-      "pda_sharing_insecure"
+      "pda_sharing"
     ],
     "num_functions": 2,
     "has_imports": true,
@@ -65,6 +65,9 @@
     "original_id": "sealevel_8_pda_sharing"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "pda_sharing_insecure": "pda_sharing"
+  },
   "original_contract_file": "base/contracts/ds_220.rs",
   "sanitized_from": "ds_220",
   "derived_from": "sn_ds_220",

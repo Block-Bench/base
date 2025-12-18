@@ -7,7 +7,7 @@
     "vulnerability_type": "integer_overflow",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "ERC20Basic",
+      "contract_name": "PausableToken",
       "function_name": "batchTransfer",
       "line_numbers": [
         264
