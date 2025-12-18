@@ -1,0 +1,487 @@
+{
+  "id": "ch_medical_nc_ds_113",
+  "contract_file": "contracts/ch_medical_nc_ds_113.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "CredentialPortal",
+      "function_name": "balanceOf",
+      "line_numbers": []
+    },
+    "root_cause": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
+    "attack_vector": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
+    "impact": "Severity: high",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_reentrancy_dao",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 1154,
+    "num_contracts": 17,
+    "contract_names": [
+      "CredentialPortal",
+      "Credential",
+      "ManagedChartPortal",
+      "uint",
+      "ManagedProfile",
+      "receives",
+      "CredentialCreationPortal",
+      "CredentialCreation",
+      "DaoPortal",
+      "created",
+      "able",
+      "able",
+      "of",
+      "function",
+      "itself",
+      "HealthcareCouncil",
+      "dao_initiator"
+    ],
+    "num_functions": 72,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_113.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_113.json",
+    "original_id": "notso_reentrancy_dao"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_113.sol",
+  "sanitized_from": "ds_113",
+  "derived_from": "sn_ds_113",
+  "original_id": "ds_113",
+  "identifier_mappings": {
+    "TokenInterface": "CredentialPortal",
+    "balances": "accountCreditsMap",
+    "allowed": "authorized",
+    "success": "recovery",
+    "Approval": "AccessAuthorized",
+    "Token": "Credential",
+    "value": "measurement",
+    "sender": "requestor",
+    "ManagedAccountInterface": "ManagedChartPortal",
+    "payOwnerOnly": "payCustodianOnly",
+    "accumulatedInput": "accumulatedIntake",
+    "ManagedAccount": "ManagedProfile",
+    "_payOwnerOnly": "_payCustodianOnly",
+    "TokenCreationInterface": "CredentialCreationPortal",
+    "closingTime": "closingInstant",
+    "minTokensToCreate": "minimumCredentialsReceiverCreate",
+    "isFueled": "checkFueled",
+    "extraBalance": "extraAccountcredits",
+    "createTokenProxy": "createCredentialProxy",
+    "_tokenHolder": "_credentialHolder",
+    "refund": "reimburse",
+    "FuelingToDate": "FuelingDestinationDate",
+    "CreatedToken": "CreatedCredential",
+    "amount": "quantity",
+    "Refund": "Reimburse",
+    "TokenCreation": "CredentialCreation",
+    "_minTokensToCreate": "_floorCredentialsDestinationCreate",
+    "_closingTime": "_closingInstant",
+    "token": "credential",
+    "DAOInterface": "DaoPortal",
+    "creationGracePeriod": "creationGraceInterval",
+    "minProposalDebatePeriod": "floorProposalDebateDuration",
+    "minSplitDebatePeriod": "floorSeparateDebateDuration",
+    "splitExecutionPeriod": "divideExecutionDuration",
+    "quorumHalvingPeriod": "quorumHalvingDuration",
+    "executeProposalPeriod": "implementdecisionProposalDuration",
+    "maxDepositDivisor": "ceilingSubmitpaymentDivisor",
+    "Proposal": "TreatmentProposal",
+    "proposals": "initiatives",
+    "minQuorumDivisor": "minimumParticipationRate",
+    "lastTimeMinQuorumMet": "finalInstantMinimumQuorumMet",
+    "curator": "supervisor",
+    "allowedRecipients": "authorizedRecipients",
+    "rewardToken": "benefitCredential",
+    "totalRewardToken": "totalamountBenefitCredential",
+    "rewardAccount": "benefitProfile",
+    "DAOrewardAccount": "DaOrewardProfile",
+    "blocked": "quarantined",
+    "proposalDeposit": "initiativeStake",
+    "sumOfProposalDeposits": "aggregateamountOfProposalPayments",
+    "DAO_Creator": "dao_initiator",
+    "daoCreator": "daoInitiator",
+    "recipient": "beneficiary",
+    "votingDeadline": "votingExpirationdate",
+    "proposalHash": "proposalChecksum",
+    "newCurator": "updatedSupervisor",
+    "SplitData": "DivideRecord",
+    "splitData": "separateRecord",
+    "creator": "initiator",
+    "splitBalance": "separateAccountcredits",
+    "DAO": "HealthcareCouncil",
+    "newDAO": "updatedDao",
+    "onlyTokenholders": "onlyCredentialHolders",
+    "receiveEther": "acceptpatientEther",
+    "newProposal": "initiateProposal",
+    "_transactionData": "_transactionInfo",
+    "_debatingPeriod": "_debatingDuration",
+    "_newCurator": "_currentSupervisor",
+    "_proposalID": "_proposalCasenumber",
+    "checkProposalCode": "inspectstatusProposalCode",
+    "vote": "castDecision",
+    "_voteID": "_castdecisionIdentifier",
+    "executeProposal": "implementInitiative",
+    "splitDAO": "divideCouncil",
+    "newContract": "currentAgreement",
+    "_newContract": "_updatedAgreement",
+    "changeAllowedRecipients": "changeAuthorizedRecipients",
+    "changeProposalDeposit": "changeProposalSubmitpayment",
+    "_proposalDeposit": "_proposalSubmitpayment",
+    "retrieveDAOReward": "retrieveDaoCredit",
+    "_toMembers": "_receiverMembers",
+    "getMyReward": "acquireMyCredit",
+    "withdrawRewardFor": "dischargefundsCreditFor",
+    "transferWithoutReward": "transfercareWithoutCredit",
+    "transferFromWithoutReward": "transfercareReferrerWithoutCredit",
+    "halveMinQuorum": "halveMinimumQuorum",
+    "numberOfProposals": "numberOfInitiatives",
+    "_numberOfProposals": "_numberOfInitiatives",
+    "getNewDAOAddress": "obtainUpdatedDaoFacility",
+    "_newDAO": "_currentDao",
+    "isBlocked": "isQuarantined",
+    "proposalID": "proposalChartnumber",
+    "Voted": "DecisionRegistered",
+    "position": "carePosition",
+    "result": "finding",
+    "NewCurator": "UpdatedSupervisor",
+    "AllowedRecipientChanged": "AuthorizedBeneficiaryChanged",
+    "_daoCreator": "_daoInitiator",
+    "length": "duration",
+    "isRecipientAllowed": "isBeneficiaryAuthorized",
+    "waitPeriod": "waitDuration",
+    "closeProposal": "concludeInitiative",
+    "proposalCheck": "proposalInspectstatus",
+    "actualBalance": "actualAccountcredits",
+    "minQuorum": "minimumQuorum",
+    "createNewDAO": "createUpdatedDao",
+    "fundsToBeMoved": "fundsReceiverBeMoved",
+    "rewardTokenToBeMoved": "coverageCredentialDestinationBeMoved",
+    "paidOutToBeMoved": "paidOutReceiverBeMoved",
+    "dao": "healthcareCouncil",
+    "reward": "benefit",
+    "transferPaidOut": "transfercarePaidOut",
+    "_isAllowed": "_isAuthorized",
+    "_actualBalance": "_actualAccountcredits",
+    "_minQuorum": "_floorQuorum"
+  },
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 4098144971,
+    "coverage": {
+      "total_identifiers": 152,
+      "transformed": 115,
+      "untransformed": 37,
+      "skipped_reserved": 45,
+      "skipped_interface": 0,
+      "coverage_percent": 75.66,
+      "untransformed_details": [
+        {
+          "name": "_owner",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_to",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_amount",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_from",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_spender",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "remaining",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "noEther",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "payOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_recipient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "PayOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "privateCreation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "weiGiven",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "divisor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_privateCreation",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DAOpaidOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "paidOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "description",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "open",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "proposalPassed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "yea",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nay",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votedYes",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "votedNo",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_description",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_codeChecksOut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_supportsProposal",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_success",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_allowed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_account",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unblockMe",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProposalAdded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "voter",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ProposalTallied",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "quorum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_curator",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_value",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "createDAO",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": true
+    },
+    "rename_map": {
+      "TokenInterface": "CredentialPortal",
+      "balances": "accountCreditsMap",
+      "allowed": "authorized",
+      "success": "recovery",
+      "Approval": "AccessAuthorized",
+      "Token": "Credential",
+      "value": "measurement",
+      "sender": "requestor",
+      "ManagedAccountInterface": "ManagedChartPortal",
+      "payOwnerOnly": "payCustodianOnly",
+      "accumulatedInput": "accumulatedIntake",
+      "ManagedAccount": "ManagedProfile",
+      "_payOwnerOnly": "_payCustodianOnly",
+      "TokenCreationInterface": "CredentialCreationPortal",
+      "closingTime": "closingInstant",
+      "minTokensToCreate": "minimumCredentialsReceiverCreate",
+      "isFueled": "checkFueled",
+      "extraBalance": "extraAccountcredits",
+      "createTokenProxy": "createCredentialProxy",
+      "_tokenHolder": "_credentialHolder",
+      "refund": "reimburse",
+      "FuelingToDate": "FuelingDestinationDate",
+      "CreatedToken": "CreatedCredential",
+      "amount": "quantity",
+      "Refund": "Reimburse",
+      "TokenCreation": "CredentialCreation",
+      "_minTokensToCreate": "_floorCredentialsDestinationCreate",
+      "_closingTime": "_closingInstant",
+      "token": "credential",
+      "DAOInterface": "DaoPortal",
+      "creationGracePeriod": "creationGraceInterval",
+      "minProposalDebatePeriod": "floorProposalDebateDuration",
+      "minSplitDebatePeriod": "floorSeparateDebateDuration",
+      "splitExecutionPeriod": "divideExecutionDuration",
+      "quorumHalvingPeriod": "quorumHalvingDuration",
+      "executeProposalPeriod": "implementdecisionProposalDuration",
+      "maxDepositDivisor": "ceilingSubmitpaymentDivisor",
+      "Proposal": "TreatmentProposal",
+      "proposals": "initiatives",
+      "minQuorumDivisor": "minimumParticipationRate",
+      "lastTimeMinQuorumMet": "finalInstantMinimumQuorumMet",
+      "curator": "supervisor",
+      "allowedRecipients": "authorizedRecipients",
+      "rewardToken": "benefitCredential",
+      "totalRewardToken": "totalamountBenefitCredential",
+      "rewardAccount": "benefitProfile",
+      "DAOrewardAccount": "DaOrewardProfile",
+      "blocked": "quarantined",
+      "proposalDeposit": "initiativeStake",
+      "sumOfProposalDeposits": "aggregateamountOfProposalPayments",
+      "DAO_Creator": "dao_initiator",
+      "daoCreator": "daoInitiator",
+      "recipient": "beneficiary",
+      "votingDeadline": "votingExpirationdate",
+      "proposalHash": "proposalChecksum",
+      "newCurator": "updatedSupervisor",
+      "SplitData": "DivideRecord",
+      "splitData": "separateRecord",
+      "creator": "initiator",
+      "splitBalance": "separateAccountcredits",
+      "DAO": "HealthcareCouncil",
+      "newDAO": "updatedDao",
+      "onlyTokenholders": "onlyCredentialHolders",
+      "receiveEther": "acceptpatientEther",
+      "newProposal": "initiateProposal",
+      "_transactionData": "_transactionInfo",
+      "_debatingPeriod": "_debatingDuration",
+      "_newCurator": "_currentSupervisor",
+      "_proposalID": "_proposalCasenumber",
+      "checkProposalCode": "inspectstatusProposalCode",
+      "vote": "castDecision",
+      "_voteID": "_castdecisionIdentifier",
+      "executeProposal": "implementInitiative",
+      "splitDAO": "divideCouncil",
+      "newContract": "currentAgreement",
+      "_newContract": "_updatedAgreement",
+      "changeAllowedRecipients": "changeAuthorizedRecipients",
+      "changeProposalDeposit": "changeProposalSubmitpayment",
+      "_proposalDeposit": "_proposalSubmitpayment",
+      "retrieveDAOReward": "retrieveDaoCredit",
+      "_toMembers": "_receiverMembers",
+      "getMyReward": "acquireMyCredit",
+      "withdrawRewardFor": "dischargefundsCreditFor",
+      "transferWithoutReward": "transfercareWithoutCredit",
+      "transferFromWithoutReward": "transfercareReferrerWithoutCredit",
+      "halveMinQuorum": "halveMinimumQuorum",
+      "numberOfProposals": "numberOfInitiatives",
+      "_numberOfProposals": "_numberOfInitiatives",
+      "getNewDAOAddress": "obtainUpdatedDaoFacility",
+      "_newDAO": "_currentDao",
+      "isBlocked": "isQuarantined",
+      "proposalID": "proposalChartnumber",
+      "Voted": "DecisionRegistered",
+      "position": "carePosition",
+      "result": "finding",
+      "NewCurator": "UpdatedSupervisor",
+      "AllowedRecipientChanged": "AuthorizedBeneficiaryChanged",
+      "_daoCreator": "_daoInitiator",
+      "length": "duration",
+      "isRecipientAllowed": "isBeneficiaryAuthorized",
+      "waitPeriod": "waitDuration",
+      "closeProposal": "concludeInitiative",
+      "proposalCheck": "proposalInspectstatus",
+      "actualBalance": "actualAccountcredits",
+      "minQuorum": "minimumQuorum",
+      "createNewDAO": "createUpdatedDao",
+      "fundsToBeMoved": "fundsReceiverBeMoved",
+      "rewardTokenToBeMoved": "coverageCredentialDestinationBeMoved",
+      "paidOutToBeMoved": "paidOutReceiverBeMoved",
+      "dao": "healthcareCouncil",
+      "reward": "benefit",
+      "transferPaidOut": "transfercarePaidOut",
+      "_isAllowed": "_isAuthorized",
+      "_actualBalance": "_actualAccountcredits",
+      "_minQuorum": "_floorQuorum"
+    }
+  }
+}

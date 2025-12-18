@@ -7,7 +7,7 @@
     "vulnerability_type": "reentrancy",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "Reentrancy_insecure",
+      "contract_name": "SimpleVault",
       "function_name": "withdrawBalance",
       "line_numbers": [
         17
@@ -31,7 +31,7 @@
     "num_lines": 15,
     "num_contracts": 1,
     "contract_names": [
-      "Reentrancy_insecure"
+      "SimpleVault"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -67,6 +67,9 @@
     "original_id": "smartbugs_reentrancy_reentrancy_insecure"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "Reentrancy_insecure": "SimpleVault"
+  },
   "original_contract_file": "base/contracts/ds_044.sol",
   "sanitized_from": "ds_044",
   "derived_from": "sn_ds_044",

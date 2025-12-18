@@ -30,9 +30,13 @@ from strategies.common import (
     TX_PROPERTIES,
     ABI_FUNCTIONS,
     ADDRESS_MEMBERS,
+    UNIVERSAL_DOT_PROPERTIES,
+    CONTEXT_SPECIFIC_PROPERTIES,
+    BUILTIN_PARENTS,
     is_solidity_reserved,
     is_solidity_dot_property,
 )
+from strategies.sanitize.sanitize import transform_metadata_identifiers
 
 
 # =============================================================================
@@ -412,50 +416,66 @@ class ChameleonTransformer:
             return True
         return is_solidity_reserved(name)
 
-    def _is_dot_property_context(self, code: str, pos: int) -> Optional[str]:
+    def _get_dot_context(self, code: str, pos: int) -> tuple:
         """
-        Check if the identifier at position is a dot property.
-        Returns the parent object name (msg, block, tx, etc.) if it's a dot property, None otherwise.
+        Check if the identifier at position follows a dot.
+        Returns (is_dot_property, parent_name) tuple.
+        - is_dot_property: True if preceded by '.'
+        - parent_name: The identifier before the dot (if any)
         """
-        # Look backwards from position to find if preceded by "."
         if pos <= 0:
-            return None
+            return False, None
 
-        # Check what's before this identifier
+        # Check what's before this identifier (skip any whitespace)
         before = code[:pos].rstrip()
         if not before.endswith('.'):
-            return None
+            return False, None
 
-        # Find the object before the dot
+        # Find the parent identifier before the dot
         before_dot = before[:-1].rstrip()
-
-        # Extract the parent identifier
         match = re.search(r'([a-zA-Z_][a-zA-Z0-9_]*)$', before_dot)
-        if not match:
-            return None
+        parent = match.group(1) if match else None
 
-        parent = match.group(1)
-
-        # Check if this is a special parent that has reserved properties
-        if parent in ('msg', 'block', 'tx', 'abi', 'type', 'address'):
-            return parent
-
-        return None
+        return True, parent
 
     def _should_skip_rename(self, name: str, code: str, pos: int) -> bool:
         """
         Determine if an identifier should be skipped from renaming.
         Considers both standalone reserved words and dot property context.
+
+        Logic:
+        1. Skip standalone reserved words (keywords, types, builtins)
+        2. Skip universal dot properties (.length, .push, .pop) after ANY dot
+        3. Skip context-specific properties (.value, .gas) ONLY after known builtins
+        4. Allow renaming of user struct field access (e.g., myStruct.value)
         """
         # Check standalone reserved
         if self._is_reserved(name):
             return True
 
-        # Check dot property context (e.g., msg.sender, block.timestamp)
-        parent = self._is_dot_property_context(code, pos)
-        if parent:
-            # Check if this identifier is a property of the parent
-            if is_solidity_dot_property(name):
+        # Check dot property context
+        is_dot_prop, parent = self._get_dot_context(code, pos)
+        if not is_dot_prop:
+            return False
+
+        name_lower = name.lower()
+
+        # Universal properties (always skip when after a dot)
+        if name_lower in {p.lower() for p in UNIVERSAL_DOT_PROPERTIES}:
+            return True
+
+        # Context-specific properties (only skip after known builtin parents)
+        if name_lower in {p.lower() for p in CONTEXT_SPECIFIC_PROPERTIES}:
+            if parent and parent.lower() in {p.lower() for p in BUILTIN_PARENTS}:
+                return True
+            # Also check for msg.value, block.timestamp style properties
+            if parent and parent.lower() in ('msg', 'block', 'tx', 'abi', 'type'):
+                return True
+
+        # All other reserved dot properties (from MSG_PROPERTIES, BLOCK_PROPERTIES, etc.)
+        if is_solidity_dot_property(name):
+            # Only protect if parent is a known builtin
+            if parent and parent.lower() in ('msg', 'block', 'tx', 'abi', 'type', 'address'):
                 return True
 
         return False
@@ -752,9 +772,10 @@ def _save_chameleon(
     rename_map: Dict[str, str],
     coverage: CoverageReport,
     seed: int
-) -> Path:
-    """Save chameleon contract and metadata."""
+) -> Tuple[Path, List[str]]:
+    """Save chameleon contract and metadata with transformed identifiers."""
     output_dir = _ensure_output_dirs(theme, source)
+    metadata_changes = []
 
     # Save transformed contract
     contract_path = output_dir / 'contracts' / f"{chameleon_id}{extension}"
@@ -764,6 +785,10 @@ def _save_chameleon(
     metadata = {}
     if original_metadata_path and original_metadata_path.exists():
         metadata = json.loads(original_metadata_path.read_text())
+
+    # Transform identifiers in metadata using the rename_map
+    if rename_map:
+        metadata, metadata_changes = transform_metadata_identifiers(metadata, rename_map)
 
     # Update metadata for chameleon version
     metadata['id'] = chameleon_id
@@ -782,7 +807,7 @@ def _save_chameleon(
     metadata_path = output_dir / 'metadata' / f"{chameleon_id}.json"
     metadata_path.write_text(json.dumps(metadata, indent=2))
 
-    return contract_path
+    return contract_path, metadata_changes
 
 
 # =============================================================================
@@ -872,8 +897,9 @@ def transform_one(
             warnings=[]
         )
 
+        metadata_changes = []
         if save:
-            _save_chameleon(
+            _, metadata_changes = _save_chameleon(
                 chameleon_id,
                 transformed,
                 metadata_path,

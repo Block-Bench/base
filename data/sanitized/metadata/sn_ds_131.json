@@ -7,7 +7,7 @@
     "vulnerability_type": "integer_overflow",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "IntegerOverflowAdd",
+      "contract_name": "AdditionCounter",
       "function_name": "transfer",
       "line_numbers": [
         18
@@ -31,7 +31,7 @@
     "num_lines": 15,
     "num_contracts": 1,
     "contract_names": [
-      "IntegerOverflowAdd"
+      "AdditionCounter"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -67,6 +67,9 @@
     "original_id": "smartbugs_arithmetic_insecure_transfer"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "IntegerOverflowAdd": "AdditionCounter"
+  },
   "original_contract_file": "base/contracts/ds_131.sol",
   "sanitized_from": "ds_131"
 }

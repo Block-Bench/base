@@ -1,0 +1,130 @@
+{
+  "id": "ss_l3_medium_sn_ds_212",
+  "contract_file": "contracts/ss_l3_medium_sn_ds_212.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "PoCGame",
+      "function_name": "_0x759c92",
+      "line_numbers": []
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 201",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 201",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x07f7ecb66d788ab01dc93b9b71a88401de7d0f2e",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.24",
+    "num_lines": 254,
+    "num_contracts": 2,
+    "contract_names": [
+      "PoCGame",
+      "ERC20Interface"
+    ],
+    "num_functions": 16,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 201",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_212.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_212.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x07f7ecb66d788ab01dc93b9b71a88401de7d0f2e"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_212.sol",
+  "sanitized_from": "ds_212",
+  "identifier_mappings": {
+    "transferAnyERC20Token": "_0x661256",
+    "currentDifficulty": "_0x57caa3",
+    "hasPlayerWagered": "_0x1f1dd0",
+    "currentBetLimit": "_0x90514f",
+    "isOpenToPublic": "_0xeaea15",
+    "onlyRealPeople": "_0x985082",
+    "ethToTransfer": "_0x5a7c3e",
+    "donateToWhale": "_0x759c92",
+    "winningNumber": "_0xbac840",
+    "openToPublic": "_0x373177",
+    "totalDonated": "_0x1fd932",
+    "whaleAddress": "_0x72ed44",
+    "encodePacked": "_0x06ebfb",
+    "tokenAddress": "_0x9c5b7d",
+    "blockNumber": "_0xf15342",
+    "onlyPlayers": "_0x6fd2a3",
+    "ethBalance": "_0xce6a77",
+    "wagerLimit": "_0xf174cb",
+    "winnersPot": "_0x2f70ef",
+    "timestamps": "_0x88d34a",
+    "randomSeed": "_0x5cba09",
+    "tokenOwner": "_0x0b633f",
+    "loseWager": "_0x52fdb0",
+    "onlyOwner": "_0x64b15c",
+    "keccak256": "_0x2c4269",
+    "depositer": "_0x18e6dc",
+    "betLimit": "_0x2bae41",
+    "success": "_0x96ae9c",
+    "donator": "_0x7f6742",
+    "tokens": "_0xc36985",
+    "amount": "_0x0868e2",
+    "paidTo": "_0x9df952",
+    "payout": "_0xd90494",
+    "winner": "_0x1f75d0",
+    "donate": "_0xd1ff63",
+    "player": "_0x860d1a",
+    "wagers": "_0xab7aa6",
+    "wager": "_0x47c0ac",
+    "loser": "_0xf22631",
+    "whale": "_0xe1ec89",
+    "owner": "_0xd831c9",
+    "play": "_0x384de5",
+    "to": "_0xf9755d"
+  },
+  "derived_from": "sn_ds_212",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "sanitized",
+    "changes": [
+      "Renamed 43 identifiers using hex style"
+    ],
+    "rename_map_size": 43,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: donateToWhale \u2192 _0x759c92"
+    ]
+  }
+}

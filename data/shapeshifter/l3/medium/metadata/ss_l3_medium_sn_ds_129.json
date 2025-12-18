@@ -1,0 +1,134 @@
+{
+  "id": "ss_l3_medium_sn_ds_129",
+  "contract_file": "contracts/ss_l3_medium_sn_ds_129.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "Rubixi",
+      "function_name": "DynamicPyramid",
+      "line_numbers": []
+    },
+    "root_cause": "Access control vulnerability - missing or incorrect authorization checks at line(s) 23, 24",
+    "attack_vector": "Access control vulnerability - missing or incorrect authorization checks at line(s) 23, 24",
+    "impact": "Severity: high",
+    "correct_fix": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_access_control_rubixi",
+    "url": "https://github.com/trailofbits/not-so-smart-contracts/blob/master/wrong_constructor_name/Rubixi_source_code/Rubixi.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.15",
+    "num_lines": 155,
+    "num_contracts": 6,
+    "contract_names": [
+      "Rubixi",
+      "uint",
+      "function",
+      "balance",
+      "function",
+      "itself"
+    ],
+    "num_functions": 19,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Access control vulnerability - missing or incorrect authorization checks at line(s) 23, 24",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_129.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_129.json",
+    "original_id": "smartbugs_access_control_rubixi"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_129.sol",
+  "sanitized_from": "ds_129",
+  "identifier_mappings": {
+    "nextPayoutWhenPyramidBalanceTotalsApproximately": "_0x194b88",
+    "numberOfParticipantsWaitingForPayout": "_0x2c1bc1",
+    "feesSeperateFromBalanceApproximately": "_0x2b7581",
+    "currentPyramidBalanceApproximately": "_0xb1a15d",
+    "currentFeePercentage": "_0xf75af0",
+    "collectPercentOfFees": "_0x8a1707",
+    "changeFeePercentage": "_0x05443a",
+    "participantDetails": "_0x5bcf96",
+    "collectFeesInEther": "_0xe6868c",
+    "currentMultiplier": "_0xc6adce",
+    "totalParticipants": "_0x4f6119",
+    "pyramidMultiplier": "_0xf7aff6",
+    "changeMultiplier": "_0x6c2efd",
+    "orderInPyramid": "_0x9d3a33",
+    "collectAllFees": "_0x65effc",
+    "pyramidBalance": "_0x9dd67a",
+    "balancePayout": "_0x9f4433",
+    "collectedFees": "_0xfdd1a6",
+    "feesToCollect": "_0x4c1dd2",
+    "payoutToSend": "_0x15aa00",
+    "etherAddress": "_0xcf945e",
+    "participants": "_0x199474",
+    "payoutOrder": "_0x3343d5",
+    "changeOwner": "_0xfc38b2",
+    "feePercent": "_0x1bfe48",
+    "multiplier": "_0xa721eb",
+    "onlyowner": "_0xa0db43",
+    "addPayout": "_0x91f07b",
+    "creator": "_0xec3955",
+    "_pcent": "_0x250d99",
+    "_owner": "_0x8fbba3",
+    "payout": "_0x5990b8",
+    "count": "_0x927b03",
+    "_mult": "_0xd482e9",
+    "_fee": "_0xe14127",
+    "fees": "_0x15367a",
+    "_amt": "_0x259bff",
+    "init": "_0x08b734",
+    "info": "_0x0a1589",
+    "fee": "_0xb2a9e7"
+  },
+  "derived_from": "sn_ds_129",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "sanitized",
+    "changes": [
+      "Renamed 40 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 40,
+    "metadata_changes": []
+  }
+}

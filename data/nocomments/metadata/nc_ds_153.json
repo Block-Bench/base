@@ -7,7 +7,7 @@
     "vulnerability_type": "denial_of_service",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "DosOneFunc",
+      "contract_name": "SingleFuncRegistry",
       "function_name": "ifillArray",
       "line_numbers": [
         17,
@@ -32,7 +32,7 @@
     "num_lines": 20,
     "num_contracts": 1,
     "contract_names": [
-      "DosOneFunc"
+      "SingleFuncRegistry"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -68,6 +68,9 @@
     "original_id": "smartbugs_denial_of_service_dos_simple"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "DosOneFunc": "SingleFuncRegistry"
+  },
   "original_contract_file": "base/contracts/ds_153.sol",
   "sanitized_from": "ds_153",
   "derived_from": "sn_ds_153",

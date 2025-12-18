@@ -7,8 +7,8 @@
     "vulnerability_type": "access_control",
     "severity": "critical",
     "vulnerable_location": {
-      "contract_name": "owner_checks_insecure",
-      "function_name": "owner_checks_insecure",
+      "contract_name": "owner_checks",
+      "function_name": "owner_checks",
       "line_numbers": []
     },
     "root_cause": "Missing owner validation allows use of accounts owned by wrong programs",
@@ -29,7 +29,7 @@
     "num_lines": 26,
     "num_contracts": 1,
     "contract_names": [
-      "owner_checks_insecure"
+      "owner_checks"
     ],
     "num_functions": 1,
     "has_imports": true,
@@ -65,6 +65,9 @@
     "original_id": "sealevel_2_owner_checks"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "owner_checks_insecure": "owner_checks"
+  },
   "original_contract_file": "base/contracts/ds_178.rs",
   "sanitized_from": "ds_178",
   "derived_from": "sn_ds_178",

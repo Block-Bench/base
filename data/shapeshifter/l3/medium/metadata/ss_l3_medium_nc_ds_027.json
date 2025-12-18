@@ -1,0 +1,95 @@
+{
+  "id": "ss_l3_medium_nc_ds_027",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_027.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "X_WALLET",
+      "function_name": "Collect",
+      "line_numbers": []
+    },
+    "root_cause": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 29",
+    "attack_vector": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 29",
+    "impact": "Severity: high",
+    "correct_fix": "Apply checks-effects-interactions pattern: update state before external calls, or use ReentrancyGuard"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_reentrancy_0x93c32845fae42c83a70e5f06214c8433665c2ab5",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.25",
+    "num_lines": 79,
+    "num_contracts": 2,
+    "contract_names": [
+      "X_WALLET",
+      "Log"
+    ],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 29",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_027.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_027.json",
+    "original_id": "smartbugs_reentrancy_0x93c32845fae42c83a70e5f06214c8433665c2ab5"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_027.sol",
+  "sanitized_from": "ds_027",
+  "derived_from": "nc_ds_027",
+  "original_id": "ds_027",
+  "identifier_mappings": {
+    "_unlockTime": "_0x416cef",
+    "unlockTime": "_0x485806",
+    "_data": "_0xdcd6e4",
+    "_adr": "_0x925d86",
+    "_val": "_0xdba6d1",
+    "_am": "_0x7bdd91",
+    "acc": "_0xa7ad08",
+    "now": "_0x5b4689",
+    "log": "_0xf716ee"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 9 identifiers using hex style"
+    ],
+    "rename_map_size": 9,
+    "metadata_changes": []
+  }
+}

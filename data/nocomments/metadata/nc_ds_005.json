@@ -7,8 +7,8 @@
     "vulnerability_type": "access_control",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "Unprotected",
-      "function_name": "Unprotected",
+      "contract_name": "OpenAccess",
+      "function_name": "OpenAccess",
       "line_numbers": []
     },
     "root_cause": "# Unprotected function\nMissing (or incorrectly used) modifier on a function allows an attacker to use sensitive functionality in the contract.",
@@ -29,7 +29,7 @@
     "num_lines": 31,
     "num_contracts": 1,
     "contract_names": [
-      "Unprotected"
+      "OpenAccess"
     ],
     "num_functions": 4,
     "has_imports": false,
@@ -65,6 +65,10 @@
     "original_id": "notso_unprotected_function_unprotected"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "Unprotected": "OpenAccess",
+    "_fixed": "V2"
+  },
   "original_contract_file": "base/contracts/ds_005.sol",
   "sanitized_from": "ds_005",
   "derived_from": "sn_ds_005",

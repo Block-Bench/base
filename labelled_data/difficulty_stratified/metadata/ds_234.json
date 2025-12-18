@@ -6,8 +6,9 @@
   "chain": "evm",
   "file_name": "smart_billions.sol",
   "vulnerable_function": "betOf",
+  "vulnerable_contract": "SmartBillions",
   "vulnerable_lines": [
-    523
+    513, 523
   ],
   "vulnerability_type": "weak_randomness",
   "original_category": "bad_randomness",

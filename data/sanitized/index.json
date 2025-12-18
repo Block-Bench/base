@@ -1,8 +1,8 @@
 {
   "dataset_name": "sanitized",
   "version": "1.0.0",
-  "created_date": "2025-12-17",
-  "last_updated": "2025-12-17",
+  "created_date": "2025-12-18",
+  "last_updated": "2025-12-18",
   "description": "Sanitized contracts with vulnerability hints removed from identifiers and comments. Derived from the base dataset.",
   "transformation": {
     "type": "sanitization",

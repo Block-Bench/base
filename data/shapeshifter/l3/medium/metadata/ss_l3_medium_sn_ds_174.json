@@ -1,0 +1,122 @@
+{
+  "id": "ss_l3_medium_sn_ds_174",
+  "contract_file": "contracts/ss_l3_medium_sn_ds_174.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Lotto",
+      "function_name": "_0xf1a6c4",
+      "line_numbers": []
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 109",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 109",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_etherpot_lotto",
+    "url": "https://github.com/etherpot/contract/blob/master/app/contracts/lotto.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.0",
+    "num_lines": 154,
+    "num_contracts": 2,
+    "contract_names": [
+      "Lotto",
+      "maintains"
+    ],
+    "num_functions": 15,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 109",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_174.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_174.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_etherpot_lotto"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_174.sol",
+  "sanitized_from": "ds_174",
+  "identifier_mappings": {
+    "getDecisionBlockNumber": "_0x909922",
+    "getTicketsCountByBuyer": "_0x0f6e19",
+    "decisionBlockNumber": "_0x4bc258",
+    "ticketsCountByBuyer": "_0x7db806",
+    "winningTicketIndex": "_0xa011dc",
+    "getBlocksPerRound": "_0x9f1aa6",
+    "decisionBlockHash": "_0xece011",
+    "calculateWinner": "_0x3ba9e3",
+    "getSubpotsCount": "_0x2cb1cd",
+    "getHashOfBlock": "_0xe9a326",
+    "blocksPerRound": "_0x543165",
+    "getTicketPrice": "_0xee36ad",
+    "getRoundIndex": "_0x32d1cd",
+    "subpotsCount": "_0xbe7101",
+    "buyersLength": "_0x6d6838",
+    "ticketsCount": "_0x41b138",
+    "subpotIndex": "_0x68af9a",
+    "getIsCashed": "_0xed4b95",
+    "ticketPrice": "_0x322207",
+    "ticketIndex": "_0x38ac49",
+    "blockReward": "_0x002d65",
+    "blockIndex": "_0x94bbb9",
+    "roundIndex": "_0x508dbf",
+    "buyerIndex": "_0x668e49",
+    "getSubpot": "_0xa14f29",
+    "getBuyers": "_0xeec2a4",
+    "isCashed": "_0x34aaff",
+    "buyers": "_0x6fd0fe",
+    "subpot": "_0x706260",
+    "rounds": "_0xd8c5a6",
+    "winner": "_0xffef41",
+    "getPot": "_0x6ce92e",
+    "buyer": "_0x617896",
+    "cash": "_0xf1a6c4",
+    "pot": "_0x99e6c1"
+  },
+  "derived_from": "sn_ds_174",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "sanitized",
+    "changes": [
+      "Renamed 35 identifiers using hex style"
+    ],
+    "rename_map_size": 35,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: cash \u2192 _0xf1a6c4"
+    ]
+  }
+}

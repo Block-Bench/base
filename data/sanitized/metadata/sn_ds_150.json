@@ -7,7 +7,7 @@
     "vulnerability_type": "denial_of_service",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "DosAuction",
+      "contract_name": "SimpleAuction",
       "function_name": "is",
       "line_numbers": [
         23
@@ -31,7 +31,7 @@
     "num_lines": 22,
     "num_contracts": 1,
     "contract_names": [
-      "DosAuction"
+      "SimpleAuction"
     ],
     "num_functions": 2,
     "has_imports": false,
@@ -67,6 +67,9 @@
     "original_id": "smartbugs_denial_of_service_auction"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "DosAuction": "SimpleAuction"
+  },
   "original_contract_file": "base/contracts/ds_150.sol",
   "sanitized_from": "ds_150"
 }

@@ -1,0 +1,480 @@
+{
+  "id": "ch_medical_nc_gs_029",
+  "contract_file": "contracts/ch_medical_nc_gs_029.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "BaseSignature",
+      "function_name": "heal",
+      "line_numbers": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        138,
+        139,
+        140,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193
+      ]
+    },
+    "root_cause": "When a wallet is behind a checkpointer and a chained signature is used with bit 6 (checkpointer usage flag) set to zero, BaseSig.recover skips the checkpointer validation block (BaseSig.sol:88-106). This leaves _checkpointer and snapshot unset (zero-valued). In recoverChained, the checkpointer is ignored, and the signature validation passes even if the checkpointer should be enforced. The final validation succeeds because snapshot.imageHash == bytes32(0) as the checkpointer is ignored.",
+    "attack_vector": "An evicted signer can sign a payload valid under stale wallet configuration and bypass checkpointer validation. PoC: Add test case to BaseSigTest and run forge test --match-test test_PoC_checkpointer_bypass. The test constructs a chained signature with checkpointer disabled, mocks the checkpointer response, and asserts successful recovery with correct image hash.",
+    "impact": "Severity: high",
+    "correct_fix": "Do not permit checkpointer to be disabled (bit 6 unset) if chained signature is used. Revert in this case with custom error. Example fix in BaseSig.sol:\nif (signatureFlag & 0x40 == 0) {\n    revert MissingCheckpointer();\n}"
+  },
+  "provenance": {
+    "source": "code4rena",
+    "original_id": "gs_c4_2025-10-sequence_H01",
+    "url": "https://code4rena.com/reports/2025-10-sequence",
+    "date_discovered": "2025-10-07",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 500,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "access_control",
+    "code4rena",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "Chained signatures can disable checkpointer enforcement via flag, allowing bypass of intended validation and use of evicted/stale signers.",
+  "gold_standard_fields": {
+    "source_report": "2025-10-sequence",
+    "source_finding_id": "H-01",
+    "finding_title": "Chained signature with checkpoint usage disabled can bypass all checkpointer validation",
+    "difficulty_tier": 3,
+    "context_level": "single_file",
+    "has_context": false,
+    "call_flow": "User.submit(chained sig with checkpointer flag off) -> BaseSig.recover() skips checkpointer -> recoverChained() ignores checkpointer -> validation passes with stale config"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_029.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_029.json",
+    "original_finding_title": "Chained signature with checkpoint usage disabled can bypass all checkpointer validation"
+  },
+  "original_subset": "gold_standard",
+  "original_contract_file": "base/contracts/gs_029.sol",
+  "sanitized_from": "gs_029",
+  "derived_from": "sn_gs_029",
+  "original_id": "gs_029",
+  "identifier_mappings": {
+    "LibBytes": "LibRaw",
+    "from": "referrer",
+    "utils": "careTools",
+    "Payload": "Content",
+    "IERC1271_MAGIC_VALUE_HASH": "ierc1271_magic_measurement_checksum",
+    "ISapient": "Verifyapient",
+    "ISapientCompact": "ValidateapientCompact",
+    "BaseSig": "BaseSignature",
+    "FLAG_SIGNATURE_HASH": "alert_authorization_signature",
+    "FLAG_ADDRESS": "alert_location",
+    "FLAG_SIGNATURE_ERC1271": "indicator_authorization_erc1271",
+    "FLAG_NODE": "alert_node",
+    "FLAG_BRANCH": "alert_branch",
+    "FLAG_SUBDIGEST": "indicator_subdigest",
+    "FLAG_NESTED": "indicator_nested",
+    "FLAG_SIGNATURE_ETH_SIGN": "indicator_authorization_eth_authorize",
+    "FLAG_SIGNATURE_ANY_ADDRESS_SUBDIGEST": "indicator_authorization_any_facility_subdigest",
+    "FLAG_SIGNATURE_SAPIENT": "indicator_authorization_sapient",
+    "FLAG_SIGNATURE_SAPIENT_COMPACT": "indicator_authorization_sapient_compact",
+    "LowWeightChainedSignature": "LowSeverityChainedAuthorization",
+    "InvalidERC1271Signature": "InvalidErc1271Authorization",
+    "_opHash": "_opChecksum",
+    "_nextCheckpoint": "_upcomingCheckpoint",
+    "InvalidSignatureFlag": "InvalidConsentIndicator",
+    "_leafForAddressAndWeight": "_leafForLocationAndSeverity",
+    "config": "protocol",
+    "_imageHash": "_imageSignature",
+    "_leafForAnyAddressSubdigest": "_leafForAnyLocationSubdigest",
+    "_anyAddressSubdigest": "_anyWardSubdigest",
+    "recover": "heal",
+    "threshold": "limit",
+    "weight": "severity",
+    "imageHash": "imageSignature",
+    "opHash": "opSignature",
+    "signatureFlag": "authorizationAlert",
+    "readFirstUint8": "readPrimaryUint8",
+    "readAddress": "readFacility",
+    "checkpointerDataSize": "checkpointerChartScale",
+    "checkpointerData": "checkpointerInfo",
+    "recoverChained": "healChained",
+    "noChainId": "noChainChartnumber",
+    "checkpointSize": "checkpointScale",
+    "readUintX": "readNumberX",
+    "thresholdSize": "triggerScale",
+    "hash": "checksum",
+    "recoverBranch": "healBranch",
+    "linkedPayload": "linkedContent",
+    "KIND_CONFIG_UPDATE": "kind_settings_updaterecords",
+    "max": "ceiling",
+    "length": "extent",
+    "sigSize": "sigScale",
+    "root": "source",
+    "firstByte": "initialByte",
+    "flag": "indicator",
+    "addrWeight": "addrImportance",
+    "sizeSize": "scaleScale",
+    "size": "magnitude",
+    "isValidSignature": "isValidConsent",
+    "externalWeight": "externalImportance",
+    "internalThreshold": "internalLimit",
+    "internalWeight": "internalSeverity",
+    "internalRoot": "internalSource",
+    "Message": "Alert",
+    "anyAddressOpHash": "anyWardOpSignature",
+    "hashFor": "signatureFor",
+    "sapientImageHash": "sapientImageSignature",
+    "recoverSapientSignature": "retrieveSapientConsent",
+    "recoverSapientSignatureCompact": "retrieveSapientConsentCompact"
+  },
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 1492607346,
+    "coverage": {
+      "total_identifiers": 122,
+      "transformed": 68,
+      "untransformed": 54,
+      "skipped_reserved": 36,
+      "skipped_interface": 0,
+      "coverage_percent": 55.74,
+      "untransformed_details": [
+        {
+          "name": "sol",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "LibOptim",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ICheckpointer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Snapshot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "interfaces",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "IERC1271",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Decoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_signature",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_threshold",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_weight",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_signer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "WrongChainedCheckpointOrder",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_checkpoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "UnusedSnapshot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_snapshot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_flag",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Sequence",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "signer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_leafForNested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_node",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nested",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_leafForSapient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "sapient",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_leafForHardcodedSubdigest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_subdigest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "static",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "digest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "any",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "subdigest",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_payload",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_ignoreCheckpointer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "_checkpointer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checkpoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "rindex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "snapshot",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readUint24",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "snapshotFor",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "fkeccak256",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "kind",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prevCheckpoint",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nrindex",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "checkpointer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readUint8",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readRSVCompact",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "addr",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "node",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readBytes32",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "nweight",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "readUint16",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "hardcoded",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "x19Ethereum",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Signed",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "n32",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "LibBytes": "LibRaw",
+      "from": "referrer",
+      "utils": "careTools",
+      "Payload": "Content",
+      "IERC1271_MAGIC_VALUE_HASH": "ierc1271_magic_measurement_checksum",
+      "ISapient": "Verifyapient",
+      "ISapientCompact": "ValidateapientCompact",
+      "BaseSig": "BaseSignature",
+      "FLAG_SIGNATURE_HASH": "alert_authorization_signature",
+      "FLAG_ADDRESS": "alert_location",
+      "FLAG_SIGNATURE_ERC1271": "indicator_authorization_erc1271",
+      "FLAG_NODE": "alert_node",
+      "FLAG_BRANCH": "alert_branch",
+      "FLAG_SUBDIGEST": "indicator_subdigest",
+      "FLAG_NESTED": "indicator_nested",
+      "FLAG_SIGNATURE_ETH_SIGN": "indicator_authorization_eth_authorize",
+      "FLAG_SIGNATURE_ANY_ADDRESS_SUBDIGEST": "indicator_authorization_any_facility_subdigest",
+      "FLAG_SIGNATURE_SAPIENT": "indicator_authorization_sapient",
+      "FLAG_SIGNATURE_SAPIENT_COMPACT": "indicator_authorization_sapient_compact",
+      "LowWeightChainedSignature": "LowSeverityChainedAuthorization",
+      "InvalidERC1271Signature": "InvalidErc1271Authorization",
+      "_opHash": "_opChecksum",
+      "_nextCheckpoint": "_upcomingCheckpoint",
+      "InvalidSignatureFlag": "InvalidConsentIndicator",
+      "_leafForAddressAndWeight": "_leafForLocationAndSeverity",
+      "config": "protocol",
+      "_imageHash": "_imageSignature",
+      "_leafForAnyAddressSubdigest": "_leafForAnyLocationSubdigest",
+      "_anyAddressSubdigest": "_anyWardSubdigest",
+      "recover": "heal",
+      "threshold": "limit",
+      "weight": "severity",
+      "imageHash": "imageSignature",
+      "opHash": "opSignature",
+      "signatureFlag": "authorizationAlert",
+      "readFirstUint8": "readPrimaryUint8",
+      "readAddress": "readFacility",
+      "checkpointerDataSize": "checkpointerChartScale",
+      "checkpointerData": "checkpointerInfo",
+      "recoverChained": "healChained",
+      "noChainId": "noChainChartnumber",
+      "checkpointSize": "checkpointScale",
+      "readUintX": "readNumberX",
+      "thresholdSize": "triggerScale",
+      "hash": "checksum",
+      "recoverBranch": "healBranch",
+      "linkedPayload": "linkedContent",
+      "KIND_CONFIG_UPDATE": "kind_settings_updaterecords",
+      "max": "ceiling",
+      "length": "extent",
+      "sigSize": "sigScale",
+      "root": "source",
+      "firstByte": "initialByte",
+      "flag": "indicator",
+      "addrWeight": "addrImportance",
+      "sizeSize": "scaleScale",
+      "size": "magnitude",
+      "isValidSignature": "isValidConsent",
+      "externalWeight": "externalImportance",
+      "internalThreshold": "internalLimit",
+      "internalWeight": "internalSeverity",
+      "internalRoot": "internalSource",
+      "Message": "Alert",
+      "anyAddressOpHash": "anyWardOpSignature",
+      "hashFor": "signatureFor",
+      "sapientImageHash": "sapientImageSignature",
+      "recoverSapientSignature": "retrieveSapientConsent",
+      "recoverSapientSignatureCompact": "retrieveSapientConsentCompact"
+    }
+  }
+}

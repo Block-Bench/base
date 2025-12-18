@@ -1,0 +1,144 @@
+{
+  "id": "ss_l3_medium_nc_tc_036",
+  "contract_file": "contracts/ss_l3_medium_nc_tc_036.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "MigrateTroveZap",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $10,000,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_036",
+    "url": null,
+    "date_discovered": "2024-03-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 117,
+    "num_contracts": 2,
+    "contract_names": [
+      "MigrateTroveZap",
+      "BorrowerOperations"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "cdp",
+    "lending",
+    "delegate_approval",
+    "access_control",
+    "migration",
+    "zap_contract",
+    "authorization_bypass"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-03-01",
+      "protocol_name": "Prisma Finance Delegate Approval",
+      "chain": "ethereum",
+      "funds_lost_usd": 10000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Prisma Finance Delegate Approval exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_036.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_036.json",
+    "original_exploit_name": "Prisma Finance Delegate Approval"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_036.sol",
+  "sanitized_from": "tc_036",
+  "derived_from": "nc_tc_036",
+  "original_id": "tc_036",
+  "identifier_mappings": {
+    "openTroveAndMigrate": "_0x703180",
+    "_borrowerOperations": "_0xcb03fd",
+    "setDelegateApproval": "_0x1ccf95",
+    "getTroveCollAndDebt": "_0x627663",
+    "borrowerOperations": "_0x0f36fe",
+    "_collateralAmount": "_0x17d9a0",
+    "_maxFeePercentage": "_0xabe17f",
+    "maxFeePercentage": "_0x71b6e9",
+    "collateralAmount": "_0x7d7390",
+    "closeTroveFor": "_0xa246fb",
+    "_troveManager": "_0xa6c730",
+    "transferFrom": "_0xd1f704",
+    "troveManager": "_0x3f01e1",
+    "_isApproved": "_0x601da8",
+    "_debtAmount": "_0xc15cdd",
+    "debtAmount": "_0x1bf859",
+    "_lowerHint": "_0xeda20e",
+    "_upperHint": "_0x9d7ff4",
+    "closeTrove": "_0xf6238e",
+    "delegates": "_0xcd7948",
+    "openTrove": "_0x287ac0",
+    "lowerHint": "_0x49eaf7",
+    "_delegate": "_0xde6ea6",
+    "balanceOf": "_0xf27774",
+    "upperHint": "_0x69a402",
+    "_borrower": "_0x0b158f",
+    "liquidate": "_0x17ea1a",
+    "account": "_0x7ce23c",
+    "_wstETH": "_0x7779d5",
+    "spender": "_0x5c9cae",
+    "approve": "_0x8ccb30",
+    "_mkUSD": "_0xc4ce7d",
+    "wstETH": "_0x654b36",
+    "amount": "_0x12430d",
+    "mkUSD": "_0x26ad84",
+    "coll": "_0x80ff15",
+    "debt": "_0x188ab2",
+    "to": "_0x61a1dd"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 38 identifiers using hex style"
+    ],
+    "rename_map_size": 38,
+    "metadata_changes": []
+  }
+}

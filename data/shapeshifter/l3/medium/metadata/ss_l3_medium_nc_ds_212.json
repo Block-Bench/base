@@ -1,0 +1,131 @@
+{
+  "id": "ss_l3_medium_nc_ds_212",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_212.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "PoCGame",
+      "function_name": "_0xe5b74a",
+      "line_numbers": []
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 201",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 201",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x07f7ecb66d788ab01dc93b9b71a88401de7d0f2e",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.24",
+    "num_lines": 254,
+    "num_contracts": 2,
+    "contract_names": [
+      "PoCGame",
+      "ERC20Interface"
+    ],
+    "num_functions": 16,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 201",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_212.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_212.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x07f7ecb66d788ab01dc93b9b71a88401de7d0f2e"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_212.sol",
+  "sanitized_from": "ds_212",
+  "derived_from": "nc_ds_212",
+  "original_id": "ds_212",
+  "identifier_mappings": {
+    "transferAnyERC20Token": "_0x5cbae4",
+    "currentDifficulty": "_0x62ffff",
+    "hasPlayerWagered": "_0xcab036",
+    "currentBetLimit": "_0xd49182",
+    "onlyRealPeople": "_0x762d77",
+    "isOpenToPublic": "_0x1369c1",
+    "ethToTransfer": "_0x92b7f9",
+    "winningNumber": "_0xa9144e",
+    "donateToWhale": "_0xe5b74a",
+    "tokenAddress": "_0x3da724",
+    "openToPublic": "_0xdb408c",
+    "whaleAddress": "_0x16b14c",
+    "encodePacked": "_0x790aaa",
+    "totalDonated": "_0xb1b8cf",
+    "onlyPlayers": "_0x8869d3",
+    "blockNumber": "_0x4bd2b9",
+    "tokenOwner": "_0x4ae6a0",
+    "winnersPot": "_0x5024b7",
+    "timestamps": "_0x6005cf",
+    "ethBalance": "_0x599758",
+    "wagerLimit": "_0xdb7b6f",
+    "randomSeed": "_0x465697",
+    "depositer": "_0x0d7340",
+    "loseWager": "_0x3950e8",
+    "onlyOwner": "_0x5929f4",
+    "keccak256": "_0x6dc76a",
+    "betLimit": "_0x129ca7",
+    "donator": "_0xafe086",
+    "success": "_0xf4964d",
+    "donate": "_0x1cea32",
+    "wagers": "_0xf3c089",
+    "payout": "_0xf41ad3",
+    "amount": "_0xcff57d",
+    "winner": "_0xe0baef",
+    "tokens": "_0x577f2e",
+    "paidTo": "_0x7bb2d4",
+    "player": "_0xfb0e7f",
+    "owner": "_0x52c25b",
+    "loser": "_0xaecf08",
+    "whale": "_0x47f5fa",
+    "wager": "_0xadb55c",
+    "play": "_0x2e6d43",
+    "to": "_0xfa40ff"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 43 identifiers using hex style"
+    ],
+    "rename_map_size": 43,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: donateToWhale \u2192 _0xe5b74a"
+    ]
+  }
+}

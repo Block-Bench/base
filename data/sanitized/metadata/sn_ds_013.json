@@ -7,7 +7,7 @@
     "vulnerability_type": "access_control",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "SimpleSuicide",
+      "contract_name": "SimpleDestruct",
       "function_name": "sudicideAnyone",
       "line_numbers": [
         12,
@@ -32,7 +32,7 @@
     "num_lines": 9,
     "num_contracts": 1,
     "contract_names": [
-      "SimpleSuicide"
+      "SimpleDestruct"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -68,6 +68,9 @@
     "original_id": "smartbugs_access_control_simple_suicide"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "SimpleSuicide": "SimpleDestruct"
+  },
   "original_contract_file": "base/contracts/ds_013.sol",
   "sanitized_from": "ds_013"
 }

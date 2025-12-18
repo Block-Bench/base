@@ -7,7 +7,7 @@
     "vulnerability_type": "integer_overflow",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "Overflow_Add",
+      "contract_name": "AdditionLedger",
       "function_name": "add",
       "line_numbers": [
         14
@@ -31,7 +31,7 @@
     "num_lines": 10,
     "num_contracts": 1,
     "contract_names": [
-      "Overflow_Add"
+      "AdditionLedger"
     ],
     "num_functions": 1,
     "has_imports": false,
@@ -67,6 +67,9 @@
     "original_id": "smartbugs_arithmetic_overflow_simple_add"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "Overflow_Add": "AdditionLedger"
+  },
   "original_contract_file": "base/contracts/ds_140.sol",
   "sanitized_from": "ds_140",
   "derived_from": "sn_ds_140",

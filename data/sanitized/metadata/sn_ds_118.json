@@ -7,7 +7,7 @@
     "vulnerability_type": "other",
     "severity": "low",
     "vulnerable_location": {
-      "contract_name": "Suicidal",
+      "contract_name": "Destructible",
       "function_name": "suicide",
       "line_numbers": []
     },
@@ -29,7 +29,7 @@
     "num_lines": 13,
     "num_contracts": 2,
     "contract_names": [
-      "Suicidal",
+      "Destructible",
       "C"
     ],
     "num_functions": 2,
@@ -66,6 +66,9 @@
     "original_id": "notso_variable shadowing_inherited_state"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "Suicidal": "Destructible"
+  },
   "original_contract_file": "base/contracts/ds_118.sol",
   "sanitized_from": "ds_118"
 }

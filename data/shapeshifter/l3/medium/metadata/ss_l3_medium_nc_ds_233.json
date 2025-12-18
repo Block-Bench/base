@@ -1,0 +1,132 @@
+{
+  "id": "ss_l3_medium_nc_ds_233",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_233.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "timestamp_dependency",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "BlackJack",
+      "function_name": "_0xe4a479",
+      "line_numbers": []
+    },
+    "root_cause": "Weak randomness - predictable random number generation at line(s) 17",
+    "attack_vector": "Weak randomness - predictable random number generation at line(s) 17",
+    "impact": "Severity: medium",
+    "correct_fix": "Use Chainlink VRF or commit-reveal scheme for randomness"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_bad_randomness_blackjack",
+    "url": "https://etherscan.io/address/0xa65d59708838581520511d98fb8b5d1f76a96cad#code",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.9",
+    "num_lines": 299,
+    "num_contracts": 1,
+    "contract_names": [
+      "BlackJack"
+    ],
+    "num_functions": 15,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Weak randomness - predictable random number generation at line(s) 17",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_233.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_233.json",
+    "original_id": "smartbugs_bad_randomness_blackjack"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_233.sol",
+  "sanitized_from": "ds_233",
+  "derived_from": "nc_ds_233",
+  "original_id": "ds_233",
+  "identifier_mappings": {
+    "getPlayerCardsNumber": "_0x705630",
+    "getHouseCardsNumber": "_0x31ac9c",
+    "checkGameResult": "_0xeb061d",
+    "playerShortage": "_0x4bf1f9",
+    "calculateScore": "_0xa64bb9",
+    "playerScoreBig": "_0xcd2fe9",
+    "getPlayerCard": "_0x2a0bf2",
+    "houseScoreBig": "_0xec1a63",
+    "houseShortage": "_0x9c9c05",
+    "gameIsGoingOn": "_0x3d4696",
+    "getGameState": "_0x600a2f",
+    "getHouseCard": "_0x126a38",
+    "playerScore": "_0x8cf818",
+    "playerCards": "_0x27108b",
+    "cardsDealt": "_0xe5ed6a",
+    "houseCards": "_0xa0fc6f",
+    "houseScore": "_0x819bc8",
+    "cardNumber": "_0x7b7d98",
+    "finishGame": "_0xaefd9e",
+    "bigAceUsed": "_0x542782",
+    "keccak256": "_0x955437",
+    "scoreBig": "_0xf5b577",
+    "isBigAce": "_0x6ca163",
+    "nextCard": "_0x77b621",
+    "newCard": "_0xb55b35",
+    "valueOf": "_0xab7b95",
+    "minBet": "_0xf1b8e6",
+    "maxBet": "_0x4e94f4",
+    "isUser": "_0xa8fdc8",
+    "player": "_0x7e6b24",
+    "stand": "_0xaa30ad",
+    "cards": "_0xace200",
+    "isTen": "_0x0884fa",
+    "score": "_0x75de47",
+    "state": "_0xa0bb11",
+    "_card": "_0x6330ad",
+    "games": "_0x698799",
+    "isAce": "_0x648e7d",
+    "card": "_0xaec45a",
+    "game": "_0x38a3ac",
+    "deal": "_0xe4a479",
+    "bet": "_0x544f00",
+    "hit": "_0x3ed6fa",
+    "id": "_0x4b51ad"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 44 identifiers using hex style",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 44,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: deal \u2192 _0xe4a479"
+    ]
+  }
+}

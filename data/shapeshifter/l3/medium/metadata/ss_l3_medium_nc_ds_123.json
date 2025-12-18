@@ -1,0 +1,129 @@
+{
+  "id": "ss_l3_medium_nc_ds_123",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_123.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "low",
+    "vulnerable_location": {
+      "contract_name": "_0x257ff2",
+      "function_name": "_0x257ff2",
+      "line_numbers": []
+    },
+    "root_cause": "# Contracts can be forced to receive ether",
+    "attack_vector": "# Contracts can be forced to receive ether",
+    "impact": "Severity: low",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_forced_ether_reception_coin",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.16",
+    "num_lines": 147,
+    "num_contracts": 5,
+    "contract_names": [
+      "_0x257ff2",
+      "TokenERC20",
+      "MyAdvancedToken",
+      "with",
+      "by"
+    ],
+    "num_functions": 13,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Contracts can be forced to receive ether",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_123.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_123.json",
+    "original_id": "notso_forced_ether_reception_coin"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_123.sol",
+  "sanitized_from": "ds_123",
+  "derived_from": "nc_ds_123",
+  "original_id": "ds_123",
+  "identifier_mappings": {
+    "migrate_and_destroy": "_0x7ea393",
+    "transferOwnership": "_0xf51771",
+    "previousBalances": "_0xa411fa",
+    "receiveApproval": "_0x74e3f5",
+    "tokenRecipient": "_0x3d8e3b",
+    "approveAndCall": "_0x68dbe9",
+    "frozenAccount": "_0x9eccee",
+    "transferFrom": "_0x11b79b",
+    "totalSupply": "_0xb9d67d",
+    "tokenSymbol": "_0x4e91b8",
+    "_extraData": "_0x27ad9c",
+    "allowance": "_0xfe00c7",
+    "onlyOwner": "_0x0190a7",
+    "balanceOf": "_0xa3d75e",
+    "_transfer": "_0xe03647",
+    "tokenName": "_0x2ff981",
+    "newOwner": "_0x7a1bfe",
+    "decimals": "_0xc2c1cb",
+    "_spender": "_0x00f4e3",
+    "success": "_0xbb560d",
+    "spender": "_0x579ecd",
+    "approve": "_0x2c5584",
+    "frozen": "_0xe1d8cb",
+    "_token": "_0xa6cfcf",
+    "_value": "_0x8c6bed",
+    "amount": "_0xbf9abe",
+    "target": "_0xffeed6",
+    "symbol": "_0x16dff3",
+    "_owner": "_0x5db999",
+    "owner": "_0xecfccd",
+    "owned": "_0x257ff2",
+    "_from": "_0xf19c04",
+    "name": "_0x63c7ce",
+    "_to": "_0x9971a2",
+    "buy": "_0x1a3a99",
+    "to": "_0x495631"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 36 identifiers using hex style"
+    ],
+    "rename_map_size": 36,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.contract_name: owned \u2192 _0x257ff2",
+      "Transformed ground_truth.vulnerable_location.function_name: owned \u2192 _0x257ff2",
+      "Transformed code_metadata.contract_names item: owned \u2192 _0x257ff2"
+    ]
+  }
+}

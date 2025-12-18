@@ -7,8 +7,8 @@
     "vulnerability_type": "front_running",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "ERC20",
-      "function_name": "totalSupply",
+      "contract_name": "RaceCondition",
+      "function_name": "buy",
       "line_numbers": []
     },
     "root_cause": "# Race Condition\nThere is a gap between the creation of a transaction and the moment it is accepted in the blockchain.\nTherefore, an attacker can take advantage of this gap to put a contract in a state that advantages them.",

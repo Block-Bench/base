@@ -7,7 +7,7 @@
     "vulnerability_type": "integer_overflow",
     "severity": "high",
     "vulnerable_location": {
-      "contract_name": "IntegerOverflowMultiTxMultiFuncFeasible",
+      "contract_name": "MultiTxCalculator",
       "function_name": "run",
       "line_numbers": [
         25
@@ -31,7 +31,7 @@
     "num_lines": 20,
     "num_contracts": 1,
     "contract_names": [
-      "IntegerOverflowMultiTxMultiFuncFeasible"
+      "MultiTxCalculator"
     ],
     "num_functions": 2,
     "has_imports": false,
@@ -67,6 +67,9 @@
     "original_id": "smartbugs_arithmetic_integer_overflow_multitx_multifunc_feasible"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "IntegerOverflowMultiTxMultiFuncFeasible": "MultiTxCalculator"
+  },
   "original_contract_file": "base/contracts/ds_138.sol",
   "sanitized_from": "ds_138",
   "derived_from": "sn_ds_138",

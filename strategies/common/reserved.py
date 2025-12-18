@@ -166,6 +166,22 @@ ADDRESS_MEMBERS = {
     'staticcall',    # address.staticcall(bytes) - low-level staticcall
 }
 
+# Array/Bytes/String properties - NEVER rename these when after ANY dot
+# These are universal and apply to arrays/bytes regardless of variable name
+UNIVERSAL_DOT_PROPERTIES = {
+    'length',        # array.length, bytes.length, string.length
+    'push',          # dynamic array push
+    'pop',           # dynamic array pop
+    'selector',      # function.selector - 4-byte selector
+}
+
+# Context-specific properties - only skip when following known built-in parents
+# These should NOT be skipped for user-defined struct field access
+CONTEXT_SPECIFIC_PROPERTIES = {
+    'value',         # msg.value, .call.value() - but NOT struct.value
+    'gas',           # msg.gas, .call.gas() - but NOT struct.gas
+}
+
 # Units (ether and time)
 SOLIDITY_UNITS = {
     # Ether units
@@ -214,15 +230,22 @@ SOLIDITY_STANDARD_INTERFACES = {
 # =============================================================================
 
 # Properties that should never be renamed when following a dot
-# e.g., msg.sender, block.timestamp, address.balance
+# e.g., msg.sender, block.timestamp, address.balance, array.length
 SOLIDITY_DOT_PROPERTIES = (
     MSG_PROPERTIES |
     BLOCK_PROPERTIES |
     TX_PROPERTIES |
     ABI_FUNCTIONS |
     TYPE_PROPERTIES |
-    ADDRESS_MEMBERS
+    ADDRESS_MEMBERS |
+    UNIVERSAL_DOT_PROPERTIES
 )
+
+# Parents whose properties should be protected (includes call chain methods)
+BUILTIN_PARENTS = {
+    'msg', 'block', 'tx', 'abi', 'type',
+    'call', 'delegatecall', 'staticcall', 'send', 'transfer',
+}
 
 # All Solidity reserved words (keywords + types + built-ins)
 SOLIDITY_RESERVED = (

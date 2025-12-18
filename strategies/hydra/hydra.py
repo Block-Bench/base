@@ -41,6 +41,7 @@ from strategies.common import (
     find_all,
     walk_tree,
 )
+from strategies.sanitize.sanitize import transform_metadata_identifiers
 
 
 # =============================================================================
@@ -758,7 +759,8 @@ def _save_hydra(
     split_type: str,
     source: str,
     split_details: Optional[SplitResult],
-    seed: int
+    seed: int,
+    original_metadata: Optional[Dict] = None
 ) -> Path:
     """Save hydra contract and metadata."""
     output_dir = _ensure_output_dirs(split_type, source)
@@ -767,31 +769,56 @@ def _save_hydra(
     contract_path = output_dir / 'contracts' / f"{hydra_id}{extension}"
     contract_path.write_text(transformed_code)
 
-    # Build metadata
-    metadata = {}
-    if original_metadata_path and original_metadata_path.exists():
+    # Use provided metadata or read from path
+    import copy
+    if original_metadata:
+        metadata = copy.deepcopy(original_metadata)
+    elif original_metadata_path and original_metadata_path.exists():
         metadata = json.loads(original_metadata_path.read_text())
+    else:
+        metadata = {}
+
+    # For split transformation, the vulnerable function wrapper still exists
+    # so function_name in metadata stays the same. But we note that vulnerability
+    # now spans multiple functions (the wrapper calls internal helpers).
+
+    # Track the derived_from chain
+    metadata['derived_from'] = metadata.get('id', '')
 
     # Update metadata for hydra version
     metadata['id'] = hydra_id
     metadata['contract_file'] = f"contracts/{hydra_id}{extension}"
-    metadata['transformation'] = {
-        'strategy': 'hydra',
+    metadata['subset'] = 'restructure'
+
+    # Build transformation info
+    transformation = {
+        'strategy': 'restructure',
+        'mode': 'split',
         'split_type': split_type,
         'source': source,
         'seed': seed,
     }
 
     if split_details:
-        metadata['transformation']['split_details'] = {
+        transformation['split_details'] = {
             'original_function': split_details.original_function,
             'helpers_created': [h.name for h in split_details.helpers],
             'helpers_categories': [h.category for h in split_details.helpers],
             'statements_per_helper': split_details.statements_per_helper,
-            'vulnerability_spans_functions': True,
         }
 
-    metadata['subset'] = f'hydra_{split_type}'
+        # Add note that vulnerability now spans functions
+        # The vulnerable function is still the entry point, but the actual
+        # vulnerable code is now in a helper
+        if 'ground_truth' in metadata:
+            gt = metadata['ground_truth']
+            if 'vulnerable_location' in gt:
+                # Keep the function_name as the entry point
+                # Add helper info to show where the actual vulnerability moved
+                gt['vulnerable_location']['helper_functions'] = [h.name for h in split_details.helpers]
+                gt['vulnerable_location']['vulnerability_spans_functions'] = True
+
+    metadata['transformation'] = transformation
 
     # Save metadata
     metadata_path = output_dir / 'metadata' / f"{hydra_id}.json"
@@ -838,7 +865,7 @@ def transform_one(
         file_id: File ID (e.g., 'nc_ds_001', 'sn_tc_042')
         split_type: Type of split to apply
         source: Source dataset
-        function_name: Optional specific function to split
+        function_name: Optional specific function to split (if None, uses vulnerable function from metadata)
         save: Whether to save output to disk
 
     Returns:
@@ -867,10 +894,21 @@ def transform_one(
         )
 
     try:
+        # Read metadata to get vulnerable function if not specified
+        metadata = {}
+        if metadata_path and metadata_path.exists():
+            metadata = json.loads(metadata_path.read_text())
+
+        # If no function specified, try to get vulnerable function from metadata
+        target_function = function_name
+        if not target_function:
+            vuln_loc = metadata.get('ground_truth', {}).get('vulnerable_location', {})
+            target_function = vuln_loc.get('function_name')
+
         # Read and transform
         code = contract_path.read_text()
         transformer = HydraTransformer(split_type)
-        transformed, split_result = transformer.transform(code, function_name)
+        transformed, split_result = transformer.transform(code, target_function)
 
         if not split_result:
             return TransformationResult(
@@ -904,7 +942,8 @@ def transform_one(
                 split_type,
                 source,
                 split_result,
-                seed
+                seed,
+                metadata
             )
 
         return TransformationResult(

@@ -7,7 +7,7 @@
     "vulnerability_type": "denial_of_service",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "DosAuction",
+      "contract_name": "SimpleAuction",
       "function_name": "bid",
       "line_numbers": []
     },
@@ -29,8 +29,8 @@
     "num_lines": 52,
     "num_contracts": 2,
     "contract_names": [
-      "DosAuction",
-      "SecureAuction"
+      "SimpleAuction",
+      "AuctionV2"
     ],
     "num_functions": 4,
     "has_imports": false,
@@ -66,6 +66,10 @@
     "original_id": "notso_denial_of_service_auction"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "DosAuction": "SimpleAuction",
+    "SecureAuction": "AuctionV2"
+  },
   "original_contract_file": "base/contracts/ds_121.sol",
   "sanitized_from": "ds_121",
   "derived_from": "sn_ds_121",

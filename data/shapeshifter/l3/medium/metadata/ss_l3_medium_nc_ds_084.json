@@ -1,0 +1,120 @@
+{
+  "id": "ss_l3_medium_nc_ds_084",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_084.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "that",
+      "function_name": "_0x1fd85d",
+      "line_numbers": []
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 110",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 110",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_king_of_the_ether_throne",
+    "url": "https://github.com/kieranelby/KingOfTheEtherThrone/blob/v0.4.0/contracts/KingOfTheEtherThrone.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.0",
+    "num_lines": 172,
+    "num_contracts": 3,
+    "contract_names": [
+      "that",
+      "lives",
+      "KingOfTheEtherThrone"
+    ],
+    "num_functions": 5,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 110",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_084.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_084.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_king_of_the_ether_throne"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_084.sol",
+  "sanitized_from": "ds_084",
+  "derived_from": "nc_ds_084",
+  "original_id": "ds_084",
+  "identifier_mappings": {
+    "wizardCommissionFractionNum": "_0xb52554",
+    "wizardCommissionFractionDen": "_0xc085de",
+    "coronationTimestamp": "_0x74b066",
+    "usurperEtherAddress": "_0xadb038",
+    "claimPriceAdjustNum": "_0xd84b5e",
+    "claimPriceAdjustDen": "_0x869009",
+    "startingClaimPrice": "_0x050887",
+    "transferOwnership": "_0xdac1c1",
+    "currentClaimPrice": "_0xcf0975",
+    "numberOfMonarchs": "_0x8cc987",
+    "rawNewClaimPrice": "_0x646daf",
+    "wizardCommission": "_0x2b8a8b",
+    "sweepCommission": "_0x1262d7",
+    "currentMonarch": "_0x578505",
+    "newClaimPrice": "_0x7562f7",
+    "wizardAddress": "_0x9e0249",
+    "pastMonarchs": "_0xfe9233",
+    "etherAddress": "_0xd5e4a7",
+    "compensation": "_0xe362f5",
+    "usurperName": "_0xee16cd",
+    "claimThrone": "_0x1fd85d",
+    "excessPaid": "_0xfe1350",
+    "claimPrice": "_0x725119",
+    "onlywizard": "_0xdc7a5d",
+    "valuePaid": "_0x36e0b7",
+    "newOwner": "_0x2c561c",
+    "amount": "_0x227e39",
+    "name": "_0x836b84"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 28 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 28,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: claimThrone \u2192 _0x1fd85d"
+    ]
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "id": "ss_l3_medium_nc_tc_035",
+  "contract_file": "contracts/ss_l3_medium_nc_tc_035.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "WiseLending",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $460,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_035",
+    "url": null,
+    "date_discovered": "2024-01-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 129,
+    "num_contracts": 1,
+    "contract_names": [
+      "WiseLending"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "lending",
+    "rounding_error",
+    "share_manipulation",
+    "integer_division",
+    "precision_loss",
+    "pool_state_manipulation"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-01-01",
+      "protocol_name": "Wise Lending Rounding Error",
+      "chain": "ethereum",
+      "funds_lost_usd": 460000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Wise Lending Rounding Error exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_035.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_035.json",
+    "original_exploit_name": "Wise Lending Rounding Error"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_035.sol",
+  "sanitized_from": "tc_035",
+  "derived_from": "nc_tc_035",
+  "original_id": "tc_035",
+  "identifier_mappings": {
+    "getPositionLendingShares": "_0x930e54",
+    "withdrawExactAmount": "_0xdf668e",
+    "withdrawExactShares": "_0xc3731c",
+    "depositExactAmount": "_0x6bc443",
+    "totalDepositShares": "_0xc047b1",
+    "totalBorrowShares": "_0x0aef25",
+    "userLendingShares": "_0xef385b",
+    "userBorrowShares": "_0x569da4",
+    "collateralFactor": "_0x20ad97",
+    "lendingPoolData": "_0x77f8ca",
+    "pseudoTotalPool": "_0x3ed264",
+    "_withdrawAmount": "_0x402306",
+    "withdrawAmount": "_0x470dbb",
+    "transferFrom": "_0x94490b",
+    "getTotalPool": "_0x45b15d",
+    "mintPosition": "_0x3a258f",
+    "nftIdCounter": "_0xa6f1c4",
+    "positionNFTs": "_0x405b12",
+    "shareAmount": "_0x7b915d",
+    "shareBurned": "_0x55c009",
+    "_poolToken": "_0x9d19cc",
+    "balanceOf": "_0xb795ed",
+    "account": "_0xd65fae",
+    "_shares": "_0x42119a",
+    "ownerOf": "_0x8ad118",
+    "tokenId": "_0x3396f3",
+    "_amount": "_0x7b0238",
+    "spender": "_0xb34f12",
+    "approve": "_0x5403df",
+    "_nftId": "_0x3374ae",
+    "amount": "_0x2ad154",
+    "nftId": "_0x23fa22",
+    "pool": "_0xbd6886",
+    "to": "_0x9f0167"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 34 identifiers using hex style"
+    ],
+    "rename_map_size": 34,
+    "metadata_changes": []
+  }
+}

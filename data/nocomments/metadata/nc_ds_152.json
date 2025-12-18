@@ -7,7 +7,7 @@
     "vulnerability_type": "denial_of_service",
     "severity": "medium",
     "vulnerable_location": {
-      "contract_name": "DosNumber",
+      "contract_name": "NumberRegistry",
       "function_name": "insertNnumbers",
       "line_numbers": [
         18,
@@ -35,7 +35,7 @@
     "num_lines": 41,
     "num_contracts": 1,
     "contract_names": [
-      "DosNumber"
+      "NumberRegistry"
     ],
     "num_functions": 5,
     "has_imports": false,
@@ -71,6 +71,9 @@
     "original_id": "smartbugs_denial_of_service_dos_number"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "DosNumber": "NumberRegistry"
+  },
   "original_contract_file": "base/contracts/ds_152.sol",
   "sanitized_from": "ds_152",
   "derived_from": "sn_ds_152",

@@ -1,0 +1,129 @@
+{
+  "id": "ss_l2_short_nc_ds_123",
+  "contract_file": "contracts/ss_l2_short_nc_ds_123.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "low",
+    "vulnerable_location": {
+      "contract_name": "af",
+      "function_name": "af",
+      "line_numbers": []
+    },
+    "root_cause": "# Contracts can be forced to receive ether",
+    "attack_vector": "# Contracts can be forced to receive ether",
+    "impact": "Severity: low",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_forced_ether_reception_coin",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.16",
+    "num_lines": 147,
+    "num_contracts": 5,
+    "contract_names": [
+      "af",
+      "TokenERC20",
+      "MyAdvancedToken",
+      "with",
+      "by"
+    ],
+    "num_functions": 13,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Contracts can be forced to receive ether",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_123.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_123.json",
+    "original_id": "notso_forced_ether_reception_coin"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_123.sol",
+  "sanitized_from": "ds_123",
+  "derived_from": "nc_ds_123",
+  "original_id": "ds_123",
+  "identifier_mappings": {
+    "migrate_and_destroy": "a",
+    "transferOwnership": "b",
+    "previousBalances": "c",
+    "receiveApproval": "d",
+    "approveAndCall": "e",
+    "tokenRecipient": "f",
+    "frozenAccount": "g",
+    "transferFrom": "h",
+    "totalSupply": "i",
+    "tokenSymbol": "j",
+    "_extraData": "k",
+    "allowance": "l",
+    "_transfer": "m",
+    "onlyOwner": "n",
+    "tokenName": "o",
+    "balanceOf": "p",
+    "newOwner": "q",
+    "_spender": "r",
+    "decimals": "s",
+    "spender": "t",
+    "success": "u",
+    "approve": "v",
+    "_owner": "w",
+    "amount": "x",
+    "symbol": "y",
+    "_value": "z",
+    "frozen": "aa",
+    "_token": "ab",
+    "target": "ac",
+    "owner": "ad",
+    "_from": "ae",
+    "owned": "af",
+    "name": "ag",
+    "_to": "ah",
+    "buy": "ai",
+    "to": "aj"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l2",
+    "variant": "short",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 36 identifiers using short style"
+    ],
+    "rename_map_size": 36,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.contract_name: owned \u2192 af",
+      "Transformed ground_truth.vulnerable_location.function_name: owned \u2192 af",
+      "Transformed code_metadata.contract_names item: owned \u2192 af"
+    ]
+  }
+}

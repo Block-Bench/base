@@ -32,7 +32,7 @@
     "num_contracts": 2,
     "contract_names": [
       "Governmental",
-      "Attacker"
+      "Operator"
     ],
     "num_functions": 4,
     "has_imports": false,
@@ -68,6 +68,11 @@
     "original_id": "smartbugs_time_manipulation_governmental_survey"
   },
   "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "Attacker": "Operator",
+    "function attack(": "function operate(",
+    "this.attack": "this.operate"
+  },
   "original_contract_file": "base/contracts/ds_165.sol",
   "sanitized_from": "ds_165"
 }
