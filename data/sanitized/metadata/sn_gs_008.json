@@ -64,6 +64,10 @@
     "original_finding_title": "Claiming rewards in GovernanceHYBR will always revert"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_008/",
+  "context_files": [
+    "context_01_VoterV3.sol"
+  ],
   "original_contract_file": "base/contracts/gs_008.sol",
   "sanitized_from": "gs_008"
 }

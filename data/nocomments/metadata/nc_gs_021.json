@@ -75,6 +75,10 @@
     "original_finding_title": "Signed swap digest lacks a domain separator"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_021/",
+  "context_files": [
+    "context_01_PancakeSwapInfinityKEMHook.sol"
+  ],
   "original_contract_file": "base/contracts/gs_021.sol",
   "sanitized_from": "gs_021",
   "derived_from": "sn_gs_021",

@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-12-16T13:55:44.739359",
-  "total_files": 285,
-  "successful": 285,
+  "timestamp": "2025-12-17T23:58:56.849687",
+  "total_files": 263,
+  "successful": 263,
   "failed": 0,
-  "total_comments_removed": 3178,
+  "total_comments_removed": 4358,
   "results": [
     {
       "original_id": "sn_ds_001",
@@ -789,231 +789,6 @@
       "error": null
     },
     {
-      "original_id": "sn_ds_088",
-      "transformed_id": "nc_ds_088",
-      "success": true,
-      "comments_removed": 5,
-      "lines_before": 56,
-      "lines_after": 53,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_089",
-      "transformed_id": "nc_ds_089",
-      "success": true,
-      "comments_removed": 5,
-      "lines_before": 136,
-      "lines_after": 134,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_090",
-      "transformed_id": "nc_ds_090",
-      "success": true,
-      "comments_removed": 3,
-      "lines_before": 61,
-      "lines_after": 60,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_091",
-      "transformed_id": "nc_ds_091",
-      "success": true,
-      "comments_removed": 5,
-      "lines_before": 89,
-      "lines_after": 85,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_092",
-      "transformed_id": "nc_ds_092",
-      "success": true,
-      "comments_removed": 2,
-      "lines_before": 68,
-      "lines_after": 66,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_093",
-      "transformed_id": "nc_ds_093",
-      "success": true,
-      "comments_removed": 7,
-      "lines_before": 49,
-      "lines_after": 47,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_094",
-      "transformed_id": "nc_ds_094",
-      "success": true,
-      "comments_removed": 8,
-      "lines_before": 44,
-      "lines_after": 39,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_095",
-      "transformed_id": "nc_ds_095",
-      "success": true,
-      "comments_removed": 2,
-      "lines_before": 71,
-      "lines_after": 69,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_096",
-      "transformed_id": "nc_ds_096",
-      "success": true,
-      "comments_removed": 1,
-      "lines_before": 69,
-      "lines_after": 67,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_097",
-      "transformed_id": "nc_ds_097",
-      "success": true,
-      "comments_removed": 8,
-      "lines_before": 57,
-      "lines_after": 52,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_098",
-      "transformed_id": "nc_ds_098",
-      "success": true,
-      "comments_removed": 2,
-      "lines_before": 78,
-      "lines_after": 77,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_099",
-      "transformed_id": "nc_ds_099",
-      "success": true,
-      "comments_removed": 6,
-      "lines_before": 65,
-      "lines_after": 63,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_100",
-      "transformed_id": "nc_ds_100",
-      "success": true,
-      "comments_removed": 3,
-      "lines_before": 62,
-      "lines_after": 60,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_101",
-      "transformed_id": "nc_ds_101",
-      "success": true,
-      "comments_removed": 1,
-      "lines_before": 95,
-      "lines_after": 94,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_102",
-      "transformed_id": "nc_ds_102",
-      "success": true,
-      "comments_removed": 2,
-      "lines_before": 37,
-      "lines_after": 35,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_103",
-      "transformed_id": "nc_ds_103",
-      "success": true,
-      "comments_removed": 3,
-      "lines_before": 56,
-      "lines_after": 54,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_104",
-      "transformed_id": "nc_ds_104",
-      "success": true,
-      "comments_removed": 1,
-      "lines_before": 42,
-      "lines_after": 40,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_105",
-      "transformed_id": "nc_ds_105",
-      "success": true,
-      "comments_removed": 5,
-      "lines_before": 44,
-      "lines_after": 41,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_106",
-      "transformed_id": "nc_ds_106",
-      "success": true,
-      "comments_removed": 5,
-      "lines_before": 64,
-      "lines_after": 62,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_107",
-      "transformed_id": "nc_ds_107",
-      "success": true,
-      "comments_removed": 12,
-      "lines_before": 67,
-      "lines_after": 66,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_108",
-      "transformed_id": "nc_ds_108",
-      "success": true,
-      "comments_removed": 10,
-      "lines_before": 100,
-      "lines_after": 96,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_109",
-      "transformed_id": "nc_ds_109",
-      "success": true,
-      "comments_removed": 3,
-      "lines_before": 61,
-      "lines_after": 59,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_110",
-      "transformed_id": "nc_ds_110",
-      "success": true,
-      "comments_removed": 17,
-      "lines_before": 194,
-      "lines_after": 191,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_111",
-      "transformed_id": "nc_ds_111",
-      "success": true,
-      "comments_removed": 5,
-      "lines_before": 35,
-      "lines_after": 32,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_112",
-      "transformed_id": "nc_ds_112",
-      "success": true,
-      "comments_removed": 4,
-      "lines_before": 75,
-      "lines_after": 73,
-      "error": null
-    },
-    {
       "original_id": "sn_ds_113",
       "transformed_id": "nc_ds_113",
       "success": true,
@@ -1626,186 +1401,6 @@
       "error": null
     },
     {
-      "original_id": "sn_ds_181",
-      "transformed_id": "nc_ds_181",
-      "success": true,
-      "comments_removed": 7,
-      "lines_before": 73,
-      "lines_after": 71,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_182",
-      "transformed_id": "nc_ds_182",
-      "success": true,
-      "comments_removed": 4,
-      "lines_before": 67,
-      "lines_after": 66,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_183",
-      "transformed_id": "nc_ds_183",
-      "success": true,
-      "comments_removed": 7,
-      "lines_before": 364,
-      "lines_after": 362,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_184",
-      "transformed_id": "nc_ds_184",
-      "success": true,
-      "comments_removed": 5,
-      "lines_before": 111,
-      "lines_after": 108,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_185",
-      "transformed_id": "nc_ds_185",
-      "success": true,
-      "comments_removed": 13,
-      "lines_before": 52,
-      "lines_after": 44,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_186",
-      "transformed_id": "nc_ds_186",
-      "success": true,
-      "comments_removed": 17,
-      "lines_before": 179,
-      "lines_after": 175,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_187",
-      "transformed_id": "nc_ds_187",
-      "success": true,
-      "comments_removed": 11,
-      "lines_before": 73,
-      "lines_after": 69,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_188",
-      "transformed_id": "nc_ds_188",
-      "success": true,
-      "comments_removed": 2,
-      "lines_before": 93,
-      "lines_after": 91,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_189",
-      "transformed_id": "nc_ds_189",
-      "success": true,
-      "comments_removed": 1,
-      "lines_before": 55,
-      "lines_after": 53,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_190",
-      "transformed_id": "nc_ds_190",
-      "success": true,
-      "comments_removed": 3,
-      "lines_before": 71,
-      "lines_after": 69,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_191",
-      "transformed_id": "nc_ds_191",
-      "success": true,
-      "comments_removed": 2,
-      "lines_before": 86,
-      "lines_after": 84,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_192",
-      "transformed_id": "nc_ds_192",
-      "success": true,
-      "comments_removed": 39,
-      "lines_before": 203,
-      "lines_after": 158,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_193",
-      "transformed_id": "nc_ds_193",
-      "success": true,
-      "comments_removed": 2,
-      "lines_before": 37,
-      "lines_after": 35,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_194",
-      "transformed_id": "nc_ds_194",
-      "success": true,
-      "comments_removed": 7,
-      "lines_before": 56,
-      "lines_after": 54,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_195",
-      "transformed_id": "nc_ds_195",
-      "success": true,
-      "comments_removed": 30,
-      "lines_before": 236,
-      "lines_after": 234,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_196",
-      "transformed_id": "nc_ds_196",
-      "success": true,
-      "comments_removed": 7,
-      "lines_before": 74,
-      "lines_after": 65,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_197",
-      "transformed_id": "nc_ds_197",
-      "success": true,
-      "comments_removed": 4,
-      "lines_before": 121,
-      "lines_after": 117,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_198",
-      "transformed_id": "nc_ds_198",
-      "success": true,
-      "comments_removed": 10,
-      "lines_before": 62,
-      "lines_after": 58,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_199",
-      "transformed_id": "nc_ds_199",
-      "success": true,
-      "comments_removed": 2,
-      "lines_before": 105,
-      "lines_after": 102,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_200",
-      "transformed_id": "nc_ds_200",
-      "success": true,
-      "comments_removed": 10,
-      "lines_before": 103,
-      "lines_after": 100,
-      "error": null
-    },
-    {
       "original_id": "sn_ds_201",
       "transformed_id": "nc_ds_201",
       "success": true,
@@ -1986,105 +1581,6 @@
       "error": null
     },
     {
-      "original_id": "sn_ds_221",
-      "transformed_id": "nc_ds_221",
-      "success": true,
-      "comments_removed": 11,
-      "lines_before": 144,
-      "lines_after": 142,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_222",
-      "transformed_id": "nc_ds_222",
-      "success": true,
-      "comments_removed": 10,
-      "lines_before": 230,
-      "lines_after": 220,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_223",
-      "transformed_id": "nc_ds_223",
-      "success": true,
-      "comments_removed": 3,
-      "lines_before": 55,
-      "lines_after": 53,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_224",
-      "transformed_id": "nc_ds_224",
-      "success": true,
-      "comments_removed": 12,
-      "lines_before": 162,
-      "lines_after": 160,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_225",
-      "transformed_id": "nc_ds_225",
-      "success": true,
-      "comments_removed": 11,
-      "lines_before": 152,
-      "lines_after": 146,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_226",
-      "transformed_id": "nc_ds_226",
-      "success": true,
-      "comments_removed": 12,
-      "lines_before": 114,
-      "lines_after": 112,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_227",
-      "transformed_id": "nc_ds_227",
-      "success": true,
-      "comments_removed": 1,
-      "lines_before": 43,
-      "lines_after": 42,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_228",
-      "transformed_id": "nc_ds_228",
-      "success": true,
-      "comments_removed": 7,
-      "lines_before": 123,
-      "lines_after": 120,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_229",
-      "transformed_id": "nc_ds_229",
-      "success": true,
-      "comments_removed": 3,
-      "lines_before": 52,
-      "lines_after": 50,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_230",
-      "transformed_id": "nc_ds_230",
-      "success": true,
-      "comments_removed": 3,
-      "lines_before": 160,
-      "lines_after": 158,
-      "error": null
-    },
-    {
-      "original_id": "sn_ds_231",
-      "transformed_id": "nc_ds_231",
-      "success": true,
-      "comments_removed": 15,
-      "lines_before": 136,
-      "lines_after": 132,
-      "error": null
-    },
-    {
       "original_id": "sn_ds_232",
       "transformed_id": "nc_ds_232",
       "success": true,
@@ -2118,6 +1614,312 @@
       "comments_removed": 0,
       "lines_before": 28,
       "lines_after": 28,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_001",
+      "transformed_id": "nc_gs_001",
+      "success": true,
+      "comments_removed": 95,
+      "lines_before": 616,
+      "lines_after": 541,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_002",
+      "transformed_id": "nc_gs_002",
+      "success": true,
+      "comments_removed": 34,
+      "lines_before": 272,
+      "lines_after": 269,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_003",
+      "transformed_id": "nc_gs_003",
+      "success": true,
+      "comments_removed": 35,
+      "lines_before": 379,
+      "lines_after": 340,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_004",
+      "transformed_id": "nc_gs_004",
+      "success": true,
+      "comments_removed": 95,
+      "lines_before": 616,
+      "lines_after": 541,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_005",
+      "transformed_id": "nc_gs_005",
+      "success": true,
+      "comments_removed": 24,
+      "lines_before": 257,
+      "lines_after": 222,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_006",
+      "transformed_id": "nc_gs_006",
+      "success": true,
+      "comments_removed": 27,
+      "lines_before": 360,
+      "lines_after": 350,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_007",
+      "transformed_id": "nc_gs_007",
+      "success": true,
+      "comments_removed": 27,
+      "lines_before": 360,
+      "lines_after": 350,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_008",
+      "transformed_id": "nc_gs_008",
+      "success": true,
+      "comments_removed": 95,
+      "lines_before": 616,
+      "lines_after": 541,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_009",
+      "transformed_id": "nc_gs_009",
+      "success": true,
+      "comments_removed": 318,
+      "lines_before": 1338,
+      "lines_after": 1107,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_011",
+      "transformed_id": "nc_gs_011",
+      "success": true,
+      "comments_removed": 13,
+      "lines_before": 51,
+      "lines_after": 42,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_012",
+      "transformed_id": "nc_gs_012",
+      "success": true,
+      "comments_removed": 57,
+      "lines_before": 325,
+      "lines_after": 304,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_013",
+      "transformed_id": "nc_gs_013",
+      "success": true,
+      "comments_removed": 13,
+      "lines_before": 45,
+      "lines_after": 37,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_014",
+      "transformed_id": "nc_gs_014",
+      "success": true,
+      "comments_removed": 13,
+      "lines_before": 45,
+      "lines_after": 37,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_015",
+      "transformed_id": "nc_gs_015",
+      "success": true,
+      "comments_removed": 51,
+      "lines_before": 248,
+      "lines_after": 233,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_016",
+      "transformed_id": "nc_gs_016",
+      "success": true,
+      "comments_removed": 57,
+      "lines_before": 325,
+      "lines_after": 304,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_017",
+      "transformed_id": "nc_gs_017",
+      "success": true,
+      "comments_removed": 13,
+      "lines_before": 51,
+      "lines_after": 42,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_018",
+      "transformed_id": "nc_gs_018",
+      "success": true,
+      "comments_removed": 57,
+      "lines_before": 325,
+      "lines_after": 304,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_019",
+      "transformed_id": "nc_gs_019",
+      "success": true,
+      "comments_removed": 30,
+      "lines_before": 163,
+      "lines_after": 140,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_020",
+      "transformed_id": "nc_gs_020",
+      "success": true,
+      "comments_removed": 46,
+      "lines_before": 214,
+      "lines_after": 188,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_021",
+      "transformed_id": "nc_gs_021",
+      "success": true,
+      "comments_removed": 6,
+      "lines_before": 177,
+      "lines_after": 176,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_022",
+      "transformed_id": "nc_gs_022",
+      "success": true,
+      "comments_removed": 6,
+      "lines_before": 177,
+      "lines_after": 176,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_023",
+      "transformed_id": "nc_gs_023",
+      "success": true,
+      "comments_removed": 64,
+      "lines_before": 571,
+      "lines_after": 550,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_024",
+      "transformed_id": "nc_gs_024",
+      "success": true,
+      "comments_removed": 64,
+      "lines_before": 571,
+      "lines_after": 550,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_025",
+      "transformed_id": "nc_gs_025",
+      "success": true,
+      "comments_removed": 14,
+      "lines_before": 309,
+      "lines_after": 307,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_026",
+      "transformed_id": "nc_gs_026",
+      "success": true,
+      "comments_removed": 22,
+      "lines_before": 198,
+      "lines_after": 172,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_027",
+      "transformed_id": "nc_gs_027",
+      "success": true,
+      "comments_removed": 14,
+      "lines_before": 309,
+      "lines_after": 307,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_028",
+      "transformed_id": "nc_gs_028",
+      "success": true,
+      "comments_removed": 14,
+      "lines_before": 309,
+      "lines_after": 307,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_029",
+      "transformed_id": "nc_gs_029",
+      "success": true,
+      "comments_removed": 103,
+      "lines_before": 500,
+      "lines_after": 457,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_030",
+      "transformed_id": "nc_gs_030",
+      "success": true,
+      "comments_removed": 20,
+      "lines_before": 124,
+      "lines_after": 116,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_031",
+      "transformed_id": "nc_gs_031",
+      "success": true,
+      "comments_removed": 93,
+      "lines_before": 411,
+      "lines_after": 376,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_032",
+      "transformed_id": "nc_gs_032",
+      "success": true,
+      "comments_removed": 9,
+      "lines_before": 73,
+      "lines_after": 67,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_033",
+      "transformed_id": "nc_gs_033",
+      "success": true,
+      "comments_removed": 29,
+      "lines_before": 174,
+      "lines_after": 161,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_034",
+      "transformed_id": "nc_gs_034",
+      "success": true,
+      "comments_removed": 9,
+      "lines_before": 28,
+      "lines_after": 22,
+      "error": null
+    },
+    {
+      "original_id": "sn_gs_035",
+      "transformed_id": "nc_gs_035",
+      "success": true,
+      "comments_removed": 9,
+      "lines_before": 149,
+      "lines_after": 146,
       "error": null
     },
     {

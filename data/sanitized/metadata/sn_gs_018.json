@@ -67,6 +67,10 @@
     "original_finding_title": "currentTokenSupply() can be gamed risk-free to manipulate either side of votes in certain assets"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_018/",
+  "context_files": [
+    "context_01_MajorityVotingBase.sol"
+  ],
   "original_contract_file": "base/contracts/gs_018.sol",
   "sanitized_from": "gs_018"
 }

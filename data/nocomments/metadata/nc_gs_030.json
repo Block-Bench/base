@@ -139,6 +139,10 @@
     "original_finding_title": "Partial signature replay/frontrunning attack on session calls"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_030/",
+  "context_files": [
+    "context_01_SessionSig.sol"
+  ],
   "original_contract_file": "base/contracts/gs_030.sol",
   "sanitized_from": "gs_030",
   "derived_from": "sn_gs_030",

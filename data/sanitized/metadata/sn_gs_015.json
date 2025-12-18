@@ -89,6 +89,10 @@
     "original_finding_title": "Misuse of isProposalOpen() function"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_015/",
+  "context_files": [
+    "context_01_MajorityVotingBase.sol"
+  ],
   "original_contract_file": "base/contracts/gs_015.sol",
   "sanitized_from": "gs_015"
 }

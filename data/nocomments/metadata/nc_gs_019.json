@@ -107,6 +107,10 @@
     "original_finding_title": "rejectRequest() Leads to Adverse Consequences"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_019/",
+  "context_files": [
+    "context_01_MidasRedemptionVaultPhantomToken.sol"
+  ],
   "original_contract_file": "base/contracts/gs_019.sol",
   "sanitized_from": "gs_019",
   "derived_from": "sn_gs_019",

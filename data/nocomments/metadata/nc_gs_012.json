@@ -136,6 +136,11 @@
     "original_finding_title": "Proposals created with voting mode EarlyExecution are vulnerable to flashloan attacks"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_012/",
+  "context_files": [
+    "context_01_LockManagerBase.sol",
+    "context_02_MajorityVotingBase.sol"
+  ],
   "original_contract_file": "base/contracts/gs_012.sol",
   "sanitized_from": "gs_012",
   "derived_from": "sn_gs_012",

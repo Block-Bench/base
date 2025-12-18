@@ -118,6 +118,10 @@
     "original_finding_title": "Proposal's action should not be able to target the voting contract or the lock manager"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_016/",
+  "context_files": [
+    "context_01_LockManagerBase.sol"
+  ],
   "original_contract_file": "base/contracts/gs_016.sol",
   "sanitized_from": "gs_016"
 }

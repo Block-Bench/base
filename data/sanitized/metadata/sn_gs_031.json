@@ -79,6 +79,12 @@
     "original_finding_title": "Session signatures replay across wallets due to missing wallet binding"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_031/",
+  "context_files": [
+    "context_01_SessionManager.sol",
+    "context_02_BaseAuth.sol",
+    "context_03_Stage2Auth.sol"
+  ],
   "original_contract_file": "base/contracts/gs_031.sol",
   "sanitized_from": "gs_031"
 }
