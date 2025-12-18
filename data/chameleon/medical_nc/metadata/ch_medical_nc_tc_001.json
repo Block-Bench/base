@@ -7,16 +7,13 @@
     "vulnerability_type": "logic_error",
     "severity": "critical",
     "vulnerable_location": {
-      "contract_name": "VulnerableNomadReplica",
+      "contract_name": "SystemReplica",
       "function_name": "treat",
       "line_numbers": [
-        74,
-        75,
-        78,
-        96,
-        97,
-        98,
-        99
+        21,
+        51,
+        71,
+        72
       ]
     },
     "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",

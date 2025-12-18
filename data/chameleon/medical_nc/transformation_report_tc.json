@@ -1,0 +1,4517 @@
+{
+  "timestamp": "2025-12-18T12:48:04.952129",
+  "theme": "medical",
+  "source": "nocomments",
+  "total_files": 50,
+  "successful": 50,
+  "failed": 0,
+  "results": [
+    {
+      "original_id": "nc_tc_001",
+      "chameleon_id": "ch_medical_nc_tc_001",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "BridgeReplica": "SystemReplica",
+        "MessageStatus": "NotificationState",
+        "Pending": "Scheduled",
+        "acceptedRoot": "acceptedSource",
+        "bridgeRouter": "systemConnectionRouter",
+        "MessageProcessed": "NotificationProcessed",
+        "messageHash": "notificationSignature",
+        "success": "recovery",
+        "process": "treat",
+        "root": "source",
+        "_messageRoot": "_alertOrigin",
+        "routerSuccess": "routerImprovement",
+        "length": "duration",
+        "setAcceptedRoot": "collectionAcceptedOrigin",
+        "_newRoot": "_currentOrigin"
+      },
+      "seed": 2798671058,
+      "coverage": {
+        "total_identifiers": 24,
+        "transformed": 15,
+        "untransformed": 9,
+        "skipped_reserved": 27,
+        "skipped_interface": 0,
+        "coverage_percent": 62.5,
+        "untransformed_details": [
+          {
+            "name": "None",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Processed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "messages",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "nonces",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_bridgeRouter",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_message",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Already",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "processed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_002",
+      "chameleon_id": "ch_medical_nc_tc_002",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "facetAddress": "facetFacility",
+        "GovernanceSystem": "HealthGovernanceSystem",
+        "depositedBalance": "depositedAccountcredits",
+        "votingPower": "votingAuthority",
+        "Proposal": "TreatmentProposal",
+        "target": "goal",
+        "data": "chart",
+        "forVotes": "forDecisions",
+        "startTime": "beginMoment",
+        "proposals": "initiatives",
+        "hasVoted": "holdsVoted",
+        "proposalCount": "initiativeCount",
+        "totalVotingPower": "totalamountVotingCapability",
+        "EMERGENCY_THRESHOLD": "urgent_limit",
+        "ProposalCreated": "InitiativeCreated",
+        "proposalId": "proposalChartnumber",
+        "Voted": "DecisionRegistered",
+        "votes": "decisions",
+        "ProposalExecuted": "InitiativeImplemented",
+        "deposit": "submitPayment",
+        "amount": "quantity",
+        "sender": "requestor",
+        "propose": "submitProposal",
+        "timestamp": "appointmentTime",
+        "vote": "castDecision",
+        "voted": "decisionRegistered",
+        "emergencyCommit": "urgentConfirm",
+        "votePercentage": "castdecisionPercentage",
+        "success": "improvement"
+      },
+      "seed": 3011929036,
+      "coverage": {
+        "total_identifiers": 43,
+        "transformed": 29,
+        "untransformed": 14,
+        "skipped_reserved": 29,
+        "skipped_interface": 0,
+        "coverage_percent": 67.44,
+        "untransformed_details": [
+          {
+            "name": "IDiamondCut",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "FacetCut",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "action",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "functionSelectors",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "proposer",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "executed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "voter",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_target",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_calldata",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "prop",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Already",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Execution",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_003",
+      "chameleon_id": "ch_medical_nc_tc_003",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "isOwner": "isCustodian",
+        "initialized": "systemActivated",
+        "OwnerAdded": "CustodianAdded",
+        "initWallet": "initializesystemWallet",
+        "length": "extent",
+        "isOwnerAddress": "isCustodianFacility",
+        "kill": "deactivateSystem",
+        "sender": "requestor",
+        "execute": "implementDecision",
+        "value": "measurement",
+        "data": "info",
+        "success": "improvement",
+        "libraryAddress": "libraryWard",
+        "result": "outcome"
+      },
+      "seed": 3505702269,
+      "coverage": {
+        "total_identifiers": 42,
+        "transformed": 14,
+        "untransformed": 28,
+        "skipped_reserved": 35,
+        "skipped_interface": 0,
+        "coverage_percent": 33.33,
+        "untransformed_details": [
+          {
+            "name": "WalletLibrary",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "owners",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "required",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "WalletDestroyed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "destroyer",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_owners",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_required",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_daylimit",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Duplicate",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "push",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_addr",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_to",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Execution",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "WalletProxy",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_library",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "lib",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "calldatacopy",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "calldatasize",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "let",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "gas",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "returndatacopy",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "returndatasize",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "switch",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "case",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "default",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": false,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_004",
+      "chameleon_id": "ch_medical_nc_tc_004",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "exchange_underlying": "convertcredentials_underlying",
+        "min_dy": "floor_dy",
+        "get_dy_underlying": "diagnose_dy_underlying",
+        "YieldVault": "BenefitAccrualVault",
+        "underlyingToken": "underlyingCredential",
+        "investedBalance": "investedAccountcredits",
+        "Deposit": "SubmitPayment",
+        "user": "patient",
+        "amount": "quantity",
+        "shares": "portions",
+        "Withdrawal": "FundsDischarged",
+        "deposit": "submitPayment",
+        "totalAssets": "totalamountAssets",
+        "getTotalAssets": "acquireTotalamountAssets",
+        "sender": "requestor",
+        "_investInCurve": "_allocateresourcesInCurve",
+        "withdraw": "dischargeFunds",
+        "_withdrawFromCurve": "_dischargefundsSourceCurve",
+        "vaultBalance": "vaultAccountcredits",
+        "curveBalance": "curveAccountcredits",
+        "getPricePerFullShare": "acquireServicecostPerFullSegment"
+      },
+      "seed": 2817209079,
+      "coverage": {
+        "total_identifiers": 28,
+        "transformed": 21,
+        "untransformed": 7,
+        "skipped_reserved": 26,
+        "skipped_interface": 0,
+        "coverage_percent": 75.0,
+        "untransformed_details": [
+          {
+            "name": "ICurvePool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "curvePool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_token",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_curvePool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Zero",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "invested",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_005",
+      "chameleon_id": "ch_medical_nc_tc_005",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "AMMPool": "AutomatedCarePool",
+        "balances": "accountCreditsMap",
+        "lpBalances": "lpAccountcreditsmap",
+        "totalLPSupply": "totalamountLpCapacity",
+        "LiquidityAdded": "AvailableresourcesAdded",
+        "LiquidityRemoved": "AvailableresourcesRemoved",
+        "add_liquidity": "append_availableresources",
+        "min_mint_amount": "minimum_issuecredential_quantity",
+        "value": "measurement",
+        "amount": "quantity",
+        "lpToMint": "lpReceiverIssuecredential",
+        "totalValue": "totalamountMeasurement",
+        "sender": "requestor",
+        "_handleETHTransfer": "_handleEthTransfercare",
+        "remove_liquidity": "discontinue_availableresources",
+        "lpAmount": "lpQuantity",
+        "min_amounts": "floor_amounts",
+        "success": "recovery",
+        "exchange": "convertCredentials",
+        "min_dy": "floor_dy"
+      },
+      "seed": 324272723,
+      "coverage": {
+        "total_identifiers": 36,
+        "transformed": 20,
+        "untransformed": 16,
+        "skipped_reserved": 31,
+        "skipped_interface": 0,
+        "coverage_percent": 55.56,
+        "untransformed_details": [
+          {
+            "name": "_status",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_NOT_ENTERED",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_ENTERED",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "provider",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amounts",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "lpMinted",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "lpBurned",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ETH",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "mismatch",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Slippage",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "indices",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_006",
+      "chameleon_id": "ch_medical_nc_tc_006",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "CrossChainBridge": "InterSystemBridge",
+        "isValidator": "isAuditor",
+        "validatorCount": "verifierTally",
+        "processedWithdrawals": "processedDischarges",
+        "supportedTokens": "supportedCredentials",
+        "withdrawalId": "withdrawalCasenumber",
+        "user": "patient",
+        "token": "credential",
+        "amount": "quantity",
+        "length": "extent",
+        "validator": "auditor",
+        "withdrawERC20For": "dischargefundsErc20For",
+        "_withdrawalId": "_withdrawalIdentifier",
+        "Token": "Credential",
+        "_verifySignatures": "_validatecredentialsSignatures",
+        "signature": "authorization",
+        "signatureCount": "consentTally",
+        "messageHash": "alertChecksum",
+        "ethSignedMessageHash": "ethSignedNotificationChecksum",
+        "Message": "Notification",
+        "_extractSignature": "_extractAuthorization",
+        "_recoverSigner": "_healSigner",
+        "add": "insert",
+        "value": "measurement",
+        "addSupportedToken": "appendSupportedCredential"
+      },
+      "seed": 2125886739,
+      "coverage": {
+        "total_identifiers": 54,
+        "transformed": 25,
+        "untransformed": 29,
+        "skipped_reserved": 33,
+        "skipped_interface": 0,
+        "coverage_percent": 46.3,
+        "untransformed_details": [
+          {
+            "name": "validators",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "requiredSignatures",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "WithdrawalProcessed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_validators",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "enough",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Duplicate",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "push",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_user",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_token",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_amount",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_signatures",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Already",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "processed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "supported",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "signatures",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "x19Ethereum",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Signed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "n32",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "signers",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "signer",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_index",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "offset",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_hash",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_signature",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "mload",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "byte",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": false,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_007",
+      "chameleon_id": "ch_medical_nc_tc_007",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "ICrossChainData": "ICrossChainChart",
+        "newOwner": "currentCustodian",
+        "putCurEpochConPubKeyBytes": "putCurPeriodConPubAccessorRaw",
+        "curEpochPkBytes": "curEraPkRaw",
+        "getCurEpochConPubKeyBytes": "obtainCurEraConPubAccessorRaw",
+        "CrossChainData": "CrossChainChart",
+        "currentEpochPublicKeys": "presentEraPublicKeys",
+        "OwnershipTransferred": "CustodyTransferred",
+        "previousOwner": "lastCustodian",
+        "newKeys": "currentKeys",
+        "sender": "requestor",
+        "CrossChainManager": "CrossChainCoordinator",
+        "dataContract": "recordPolicy",
+        "CrossChainEvent": "CrossChainIncident",
+        "fromContract": "sourcePolicy",
+        "toContract": "destinationPolicy",
+        "_dataContract": "_recordPolicy",
+        "verifyHeaderAndExecuteTx": "validatecredentialsHeaderAndImplementdecisionTx",
+        "proof": "evidence",
+        "headerProof": "headerEvidence",
+        "_verifyHeader": "_validatecredentialsHeader",
+        "_verifyProof": "_validatecredentialsVerification",
+        "args": "criteria",
+        "success": "recovery"
+      },
+      "seed": 1504917849,
+      "coverage": {
+        "total_identifiers": 35,
+        "transformed": 24,
+        "untransformed": 11,
+        "skipped_reserved": 32,
+        "skipped_interface": 0,
+        "coverage_percent": 68.57,
+        "untransformed_details": [
+          {
+            "name": "PublicKeysUpdated",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "method",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "rawHeader",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "curRawHeader",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "headerSig",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "header",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_decodeTx",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Execution",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_008",
+      "chameleon_id": "ch_medical_nc_tc_008",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "IOracle": "ICostoracle",
+        "getUnderlyingPrice": "acquireUnderlyingServicecost",
+        "cToken": "cCredential",
+        "ICToken": "IcCredential",
+        "mint": "issueCredential",
+        "mintAmount": "issuecredentialQuantity",
+        "borrow": "requestAdvance",
+        "borrowAmount": "requestadvanceQuantity",
+        "redeem": "claimResources",
+        "redeemTokens": "claimresourcesCredentials",
+        "LendingProtocol": "MedicalFinancingProtocol",
+        "oracle": "costOracle",
+        "collateralFactors": "securitydepositFactors",
+        "userDeposits": "patientPayments",
+        "userBorrows": "patientBorrows",
+        "Deposit": "SubmitPayment",
+        "user": "patient",
+        "amount": "quantity",
+        "Borrow": "RequestAdvance",
+        "Market": "ServiceMarket",
+        "sender": "requestor",
+        "borrowPower": "requestadvanceAuthority",
+        "calculateBorrowPower": "computemetricsRequestadvanceCapability",
+        "currentBorrows": "activeBorrows",
+        "calculateTotalBorrows": "computemetricsTotalamountBorrows",
+        "borrowValue": "requestadvanceMeasurement",
+        "collateral": "securityDeposit",
+        "totalPower": "totalamountCapability",
+        "length": "duration",
+        "price": "serviceCost",
+        "value": "measurement",
+        "power": "capability",
+        "totalBorrows": "totalamountBorrows",
+        "borrowed": "advancedAmount",
+        "addMarket": "insertMarket",
+        "collateralFactor": "securitydepositFactor"
+      },
+      "seed": 3439462233,
+      "coverage": {
+        "total_identifiers": 43,
+        "transformed": 36,
+        "untransformed": 7,
+        "skipped_reserved": 26,
+        "skipped_interface": 0,
+        "coverage_percent": 83.72,
+        "untransformed_details": [
+          {
+            "name": "underlying",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "supportedMarkets",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_oracle",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "supported",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "markets",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_009",
+      "chameleon_id": "ch_medical_nc_tc_009",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "ConcentratedLiquidityPool": "ConcentratedAvailableresourcesPool",
+        "sqrtPriceX96": "sqrtServicecostX96",
+        "currentTick": "presentTick",
+        "liquidity": "availableResources",
+        "liquidityNet": "availableresourcesNet",
+        "Position": "CarePosition",
+        "Swap": "ExchangeCredentials",
+        "sender": "requestor",
+        "LiquidityAdded": "AvailableresourcesAdded",
+        "addLiquidity": "attachAvailableresources",
+        "liquidityDelta": "availableresourcesDelta",
+        "positionKey": "positionIdentifier",
+        "position": "carePosition",
+        "_calculateAmounts": "_computemetricsAmounts",
+        "swap": "exchangeCredentials",
+        "amountSpecified": "quantitySpecified",
+        "sqrtPriceLimitX96": "sqrtServicecostBoundX96",
+        "amount": "quantity",
+        "sqrtPriceX96Next": "sqrtServicecostX96Following",
+        "liquidityNext": "availableresourcesUpcoming",
+        "tickNext": "tickFollowing",
+        "amountIn": "quantityIn",
+        "amountOut": "quantityOut",
+        "sqrtPriceX96Target": "sqrtServicecostX96Goal",
+        "_computeSwapStep": "_computeExchangecredentialsStep",
+        "_getTickAtSqrtRatio": "_obtainTickAtSqrtProportion",
+        "liquidityNetAtTick": "availableresourcesNetAtTick",
+        "_addLiquidity": "_insertAvailableresources",
+        "sqrtPrice": "sqrtServicecost",
+        "sqrtPriceCurrentX96": "sqrtServicecostActiveX96",
+        "sqrtPriceTargetX96": "sqrtServicecostGoalX96",
+        "liquidityCurrent": "availableresourcesActive",
+        "amountRemaining": "quantityRemaining",
+        "sqrtPriceNextX96": "sqrtServicecostUpcomingX96"
+      },
+      "seed": 1540882792,
+      "coverage": {
+        "total_identifiers": 52,
+        "transformed": 34,
+        "untransformed": 18,
+        "skipped_reserved": 33,
+        "skipped_interface": 0,
+        "coverage_percent": 65.38,
+        "untransformed_details": [
+          {
+            "name": "token0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "token1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "tickLower",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "tickUpper",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "positions",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0In",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1In",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0Out",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1Out",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "provider",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ticks",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Zero",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "zeroForOne",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "tickCrossed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "tick",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_010",
+      "chameleon_id": "ch_medical_nc_tc_010",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "deposit": "submitPayment",
+        "sender": "requestor",
+        "value": "measurement",
+        "withdrawAll": "dischargeAllFunds",
+        "callResult": "consultspecialistOutcome",
+        "getCredit": "diagnoseCredit",
+        "user": "patient"
+      },
+      "seed": 2115262054,
+      "coverage": {
+        "total_identifiers": 10,
+        "transformed": 7,
+        "untransformed": 3,
+        "skipped_reserved": 18,
+        "skipped_interface": 0,
+        "coverage_percent": 70.0,
+        "untransformed_details": [
+          {
+            "name": "CreditSystem",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "credit",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "oCredit",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_011",
+      "chameleon_id": "ch_medical_nc_tc_011",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "account": "chart",
+        "setInterfaceImplementer": "groupGatewayImplementer",
+        "interfaceHash": "portalChecksum",
+        "LendingPool": "MedicalCreditPool",
+        "supplied": "contributedAmount",
+        "totalSupplied": "totalamountContributedamount",
+        "supply": "provideResources",
+        "token": "credential",
+        "sender": "requestor",
+        "withdraw": "dischargeFunds",
+        "requestedAmount": "requestedQuantity",
+        "userBalance": "patientCredits",
+        "withdrawAmount": "dischargefundsQuantity",
+        "max": "ceiling",
+        "getSupplied": "acquireContributedamount",
+        "user": "patient"
+      },
+      "seed": 3818842518,
+      "coverage": {
+        "total_identifiers": 23,
+        "transformed": 17,
+        "untransformed": 6,
+        "skipped_reserved": 24,
+        "skipped_interface": 0,
+        "coverage_percent": 73.91,
+        "untransformed_details": [
+          {
+            "name": "IERC777",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IERC1820Registry",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "implementer",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "asset",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_012",
+      "chameleon_id": "ch_medical_nc_tc_012",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "enterMarkets": "admitMarkets",
+        "cTokens": "cCredentials",
+        "exitMarket": "leavecareMarket",
+        "cToken": "cCredential",
+        "getAccountLiquidity": "diagnoseProfileAvailableresources",
+        "account": "profile",
+        "LendingProtocol": "MedicalFinancingProtocol",
+        "deposits": "payments",
+        "borrowed": "advancedAmount",
+        "totalDeposits": "totalamountPayments",
+        "totalBorrowed": "totalamountAdvancedamount",
+        "COLLATERAL_FACTOR": "securitydeposit_factor",
+        "depositAndEnterMarket": "submitpaymentAndRegisterMarket",
+        "sender": "requestor",
+        "value": "measurement",
+        "isHealthy": "verifyHealthy",
+        "additionalBorrow": "additionalRequestadvance",
+        "totalDebt": "totalamountOutstandingbalance",
+        "collateralValue": "securitydepositMeasurement",
+        "borrow": "requestAdvance",
+        "amount": "quantity",
+        "collateral": "securityDeposit",
+        "success": "improvement",
+        "check": "inspectStatus",
+        "debt": "outstandingBalance",
+        "withdraw": "dischargeFunds",
+        "Exit": "LeaveCare",
+        "market": "serviceMarket",
+        "first": "initial"
+      },
+      "seed": 3062717928,
+      "coverage": {
+        "total_identifiers": 39,
+        "transformed": 29,
+        "untransformed": 10,
+        "skipped_reserved": 29,
+        "skipped_interface": 0,
+        "coverage_percent": 74.36,
+        "untransformed_details": [
+          {
+            "name": "IComptroller",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "comptroller",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "inMarket",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_comptroller",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "funds",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Health",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Outstanding",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_013",
+      "chameleon_id": "ch_medical_nc_tc_013",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "profile",
+        "swapExactTokensForTokens": "exchangecredentialsExactCredentialsForCredentials",
+        "amountIn": "quantityIn",
+        "amountOut": "quantityOut",
+        "path": "route",
+        "deadline": "dueDate",
+        "RewardMinter": "BenefitIssuer",
+        "lpToken": "lpCredential",
+        "rewardToken": "benefitCredential",
+        "earnedRewards": "gatheredBenefits",
+        "REWARD_RATE": "credit_ratio",
+        "_lpToken": "_lpCredential",
+        "_rewardToken": "_coverageCredential",
+        "deposit": "submitPayment",
+        "sender": "requestor",
+        "mintFor": "issuecredentialFor",
+        "_withdrawalFee": "_withdrawalConsultationfee",
+        "_performanceFee": "_performanceConsultationfee",
+        "token": "credential",
+        "feeSum": "consultationfeeAggregateamount",
+        "hunnyRewardAmount": "hunnyBenefitQuantity",
+        "tokenToReward": "credentialDestinationCoverage",
+        "lpAmount": "lpQuantity",
+        "getReward": "retrieveBenefit",
+        "reward": "credit",
+        "rewards": "benefits",
+        "withdraw": "dischargeFunds"
+      },
+      "seed": 229215784,
+      "coverage": {
+        "total_identifiers": 36,
+        "transformed": 29,
+        "untransformed": 7,
+        "skipped_reserved": 28,
+        "skipped_interface": 0,
+        "coverage_percent": 80.56,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IPancakeRouter",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amounts",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "depositedLP",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "flip",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_014",
+      "chameleon_id": "ch_medical_nc_tc_014",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "add_liquidity": "insert_availableresources",
+        "min_mint_amount": "minimum_issuecredential_quantity",
+        "remove_liquidity_imbalance": "eliminate_availableresources_imbalance",
+        "max_burn_amount": "maximum_archiverecord_quantity",
+        "get_virtual_price": "obtain_virtual_servicecost",
+        "amount": "quantity",
+        "from": "source",
+        "account": "profile",
+        "spender": "serviceProvider",
+        "YieldVault": "BenefitAccrualVault",
+        "shares": "portions",
+        "totalShares": "totalamountPortions",
+        "totalDeposits": "totalamountPayments",
+        "MIN_EARN_THRESHOLD": "minimum_accruebenefit_limit",
+        "deposit": "submitPayment",
+        "sender": "requestor",
+        "shareAmount": "portionQuantity",
+        "earn": "accrueBenefit",
+        "vaultBalance": "vaultAccountcredits",
+        "virtualPrice": "virtualServicecost",
+        "withdrawAll": "dischargeAllFunds",
+        "userShares": "patientPortions",
+        "withdrawAmount": "dischargefundsQuantity"
+      },
+      "seed": 374986760,
+      "coverage": {
+        "total_identifiers": 33,
+        "transformed": 23,
+        "untransformed": 10,
+        "skipped_reserved": 28,
+        "skipped_interface": 0,
+        "coverage_percent": 69.7,
+        "untransformed_details": [
+          {
+            "name": "ICurve3Pool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amounts",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "dai",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "crv3",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "curve3Pool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_dai",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_crv3",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_curve3Pool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_015",
+      "chameleon_id": "ch_medical_nc_tc_015",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "account": "profile",
+        "CompoundMarket": "ReinvestbenefitsMarket",
+        "admin": "medicalDirector",
+        "accountTokens": "profileCredentials",
+        "OLD_TUSD": "previous_tusd",
+        "NEW_TUSD": "current_tusd",
+        "sender": "requestor",
+        "mint": "issueCredential",
+        "sweepToken": "sweepCredential",
+        "token": "credential",
+        "redeem": "claimResources"
+      },
+      "seed": 708765435,
+      "coverage": {
+        "total_identifiers": 17,
+        "transformed": 12,
+        "untransformed": 5,
+        "skipped_reserved": 22,
+        "skipped_interface": 0,
+        "coverage_percent": 70.59,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "underlying",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Cannot",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "sweep",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_016",
+      "chameleon_id": "ch_medical_nc_tc_016",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "account": "profile",
+        "LoanToken": "LoanCredential",
+        "balances": "accountCreditsMap",
+        "totalAssetBorrow": "totalamountAssetRequestadvance",
+        "totalAssetSupply": "totalamountAssetCapacity",
+        "mintWithEther": "issuecredentialWithEther",
+        "receiver": "recipient",
+        "mintAmount": "issuecredentialQuantity",
+        "currentPrice": "presentServicecost",
+        "_tokenPrice": "_credentialServicecost",
+        "value": "measurement",
+        "sender": "requestor",
+        "_notifyTransfer": "_notifyTransfercare",
+        "from": "source",
+        "_isContract": "_isAgreement",
+        "success": "improvement",
+        "burnToEther": "archiverecordDestinationEther",
+        "ethAmount": "ethQuantity",
+        "size": "magnitude"
+      },
+      "seed": 4083653177,
+      "coverage": {
+        "total_identifiers": 24,
+        "transformed": 20,
+        "untransformed": 4,
+        "skipped_reserved": 30,
+        "skipped_interface": 0,
+        "coverage_percent": 83.33,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "iETH",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "extcodesize",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_017",
+      "chameleon_id": "ch_medical_nc_tc_017",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "account": "chart",
+        "token": "credential",
+        "withdraw": "dischargeFunds",
+        "IStrategy": "Verifytrategy",
+        "withdrawAll": "dischargeAllFunds",
+        "VaultController": "RecordsController",
+        "sender": "requestor",
+        "swapExactJarForJar": "exchangecredentialsExactJarForJar",
+        "_fromJar": "_referrerJar",
+        "_toJar": "_destinationJar",
+        "_fromJarAmount": "_referrerJarQuantity",
+        "_toJarMinAmount": "_destinationJarFloorQuantity",
+        "length": "duration",
+        "Length": "Duration",
+        "success": "recovery",
+        "setStrategy": "groupStrategy",
+        "strategy": "treatmentStrategy",
+        "Strategy": "TreatmentStrategy",
+        "controller": "careController"
+      },
+      "seed": 4077180333,
+      "coverage": {
+        "total_identifiers": 33,
+        "transformed": 20,
+        "untransformed": 13,
+        "skipped_reserved": 25,
+        "skipped_interface": 0,
+        "coverage_percent": 60.61,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IJar",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "governance",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "strategies",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_targets",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_data",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "mismatch",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "jar",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "want",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_controller",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_want",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_018",
+      "chameleon_id": "ch_medical_nc_tc_018",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "account": "chart",
+        "amount": "quantity",
+        "TokenPool": "CredentialPool",
+        "Token": "Credential",
+        "weight": "importance",
+        "tokens": "credentials",
+        "tokenList": "credentialRoster",
+        "totalWeight": "totalamountSeverity",
+        "addToken": "insertCredential",
+        "token": "credential",
+        "initialWeight": "initialSeverity",
+        "swap": "exchangeCredentials",
+        "tokenIn": "credentialIn",
+        "tokenOut": "credentialOut",
+        "amountIn": "quantityIn",
+        "amountOut": "quantityOut",
+        "calculateSwapAmount": "computemetricsExchangecredentialsQuantity",
+        "liquidity": "availableResources",
+        "sender": "requestor",
+        "_updateWeights": "_updaterecordsWeights",
+        "weightIn": "importanceIn",
+        "weightOut": "importanceOut",
+        "balanceOut": "accountcreditsOut",
+        "totalValue": "totalamountMeasurement",
+        "length": "extent",
+        "getWeight": "acquireImportance",
+        "addLiquidity": "appendAvailableresources"
+      },
+      "seed": 638366349,
+      "coverage": {
+        "total_identifiers": 34,
+        "transformed": 27,
+        "untransformed": 7,
+        "skipped_reserved": 24,
+        "skipped_interface": 0,
+        "coverage_percent": 79.41,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "addr",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "push",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "numerator",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "denominator",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_019",
+      "chameleon_id": "ch_medical_nc_tc_019",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "from": "referrer",
+        "amount": "quantity",
+        "account": "profile",
+        "CrossChainBridge": "InterSystemBridge",
+        "handler": "caseHandler",
+        "Deposit": "SubmitPayment",
+        "destinationDomainID": "endpointDomainCasenumber",
+        "resourceID": "resourceIdentifier",
+        "depositNonce": "submitpaymentVisitnumber",
+        "deposit": "submitPayment",
+        "data": "info",
+        "BridgeHandler": "IntegrationHandler",
+        "sender": "requestor",
+        "resourceIDToTokenContractAddress": "resourceChartnumberReceiverCredentialPolicyWard",
+        "contractWhitelist": "agreementWhitelist",
+        "tokenContract": "credentialAgreement",
+        "setResource": "groupResource",
+        "tokenAddress": "credentialWard"
+      },
+      "seed": 561547000,
+      "coverage": {
+        "total_identifiers": 21,
+        "transformed": 18,
+        "untransformed": 3,
+        "skipped_reserved": 28,
+        "skipped_interface": 0,
+        "coverage_percent": 85.71,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_handler",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "depositer",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_020",
+      "chameleon_id": "ch_medical_nc_tc_020",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "IUniswapV2Pair": "IUniswapV2Duo",
+        "getReserves": "obtainHealthreserves",
+        "blockTimestampLast": "wardAppointmenttimeFinal",
+        "account": "profile",
+        "amount": "quantity",
+        "from": "referrer",
+        "LendingVault": "HealthcareFinanceVault",
+        "Position": "CarePosition",
+        "lpTokenAmount": "lpCredentialQuantity",
+        "borrowed": "advancedAmount",
+        "lpToken": "lpCredential",
+        "COLLATERAL_RATIO": "securitydeposit_factor",
+        "_lpToken": "_lpCredential",
+        "deposit": "submitPayment",
+        "sender": "requestor",
+        "borrow": "requestAdvance",
+        "collateralValue": "securitydepositMeasurement",
+        "getLPTokenValue": "obtainLpCredentialMeasurement",
+        "maxBorrow": "ceilingRequestadvance",
+        "collateral": "securityDeposit",
+        "lpAmount": "lpQuantity",
+        "pair": "duo",
+        "totalValue": "totalamountMeasurement",
+        "repay": "settleBalance",
+        "Repay": "SettleBalance",
+        "debt": "outstandingBalance",
+        "withdraw": "dischargeFunds",
+        "remainingValue": "remainingMeasurement",
+        "Withdrawal": "FundsDischarged",
+        "liquidate": "forceSettlement",
+        "position": "carePosition"
+      },
+      "seed": 562022186,
+      "coverage": {
+        "total_identifiers": 44,
+        "transformed": 31,
+        "untransformed": 13,
+        "skipped_reserved": 28,
+        "skipped_interface": 0,
+        "coverage_percent": 70.45,
+        "untransformed_details": [
+          {
+            "name": "reserve0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "reserve1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "positions",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "stablecoin",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_stablecoin",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "value0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "exceeds",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "remainingLP",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "would",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_021",
+      "chameleon_id": "ch_medical_nc_tc_021",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "account": "chart",
+        "amount": "quantity",
+        "from": "referrer",
+        "LiquidityPool": "HealthFundPool",
+        "baseToken": "baseCredential",
+        "quoteToken": "quoteCredential",
+        "lpFeeRate": "lpConsultationfeeRatio",
+        "baseBalance": "baseAccountcredits",
+        "quoteBalance": "quoteAccountcredits",
+        "isInitialized": "isActivated",
+        "Initialized": "SystemActivated",
+        "base": "careBase",
+        "init": "initializeSystem",
+        "_baseToken": "_baseCredential",
+        "_quoteToken": "_quoteCredential",
+        "_lpFeeRate": "_lpConsultationfeeFactor",
+        "addLiquidity": "appendAvailableresources",
+        "baseAmount": "baseQuantity",
+        "quoteAmount": "quoteQuantity",
+        "initialized": "systemActivated",
+        "sender": "requestor",
+        "swap": "exchangeCredentials",
+        "fromToken": "referrerCredential",
+        "toToken": "receiverCredential",
+        "fromAmount": "referrerQuantity",
+        "toAmount": "destinationQuantity",
+        "token": "credential",
+        "pair": "couple",
+        "fee": "consultationFee",
+        "claimFees": "collectbenefitsServicecharges",
+        "baseTokenBalance": "baseCredentialAccountcredits",
+        "quoteTokenBalance": "quoteCredentialAccountcredits"
+      },
+      "seed": 2708622616,
+      "coverage": {
+        "total_identifiers": 40,
+        "transformed": 32,
+        "untransformed": 8,
+        "skipped_reserved": 24,
+        "skipped_interface": 0,
+        "coverage_percent": 80.0,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "maintainer",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "quote",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_maintainer",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Only",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "excess",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_022",
+      "chameleon_id": "ch_medical_nc_tc_022",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "account": "profile",
+        "amount": "quantity",
+        "from": "source",
+        "TokenPair": "CredentialCouple",
+        "TOTAL_FEE": "totalamount_consultationfee",
+        "mint": "issueCredential",
+        "liquidity": "availableResources",
+        "swap": "exchangeCredentials",
+        "data": "info",
+        "INSUFFICIENT_OUTPUT_AMOUNT": "insufficient_outcome_quantity",
+        "INSUFFICIENT_LIQUIDITY": "insufficient_availableresources",
+        "INSUFFICIENT_INPUT_AMOUNT": "insufficient_submission_quantity",
+        "getReserves": "diagnoseHealthreserves"
+      },
+      "seed": 2200636613,
+      "coverage": {
+        "total_identifiers": 33,
+        "transformed": 13,
+        "untransformed": 20,
+        "skipped_reserved": 30,
+        "skipped_interface": 0,
+        "coverage_percent": 39.39,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "token0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "token1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "reserve0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "reserve1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_token0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_token1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "balance0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "balance1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "sqrt",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0Out",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1Out",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_reserve0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_reserve1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0In",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1In",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "balance0Adjusted",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "balance1Adjusted",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": false,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_023",
+      "chameleon_id": "ch_medical_nc_tc_023",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "account": "profile",
+        "amount": "quantity",
+        "from": "referrer",
+        "borrow": "requestAdvance",
+        "borrowBalanceCurrent": "requestadvanceAccountcreditsActive",
+        "Position": "CarePosition",
+        "collateral": "securityDeposit",
+        "debtShare": "outstandingbalanceAllocation",
+        "nextPositionId": "followingPositionChartnumber",
+        "cToken": "cCredential",
+        "totalDebt": "totalamountOutstandingbalance",
+        "totalDebtShare": "totalamountOutstandingbalanceAllocation",
+        "_cToken": "_cCredential",
+        "collateralAmount": "securitydepositQuantity",
+        "borrowAmount": "requestadvanceQuantity",
+        "positionId": "positionCasenumber",
+        "sender": "requestor",
+        "share": "allocation",
+        "repay": "settleBalance",
+        "position": "carePosition",
+        "shareToRemove": "portionReceiverDischarge",
+        "getPositionDebt": "obtainPositionOutstandingbalance",
+        "liquidate": "forceSettlement",
+        "debt": "outstandingBalance"
+      },
+      "seed": 2225525280,
+      "coverage": {
+        "total_identifiers": 35,
+        "transformed": 24,
+        "untransformed": 11,
+        "skipped_reserved": 27,
+        "skipped_interface": 0,
+        "coverage_percent": 68.57,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ICErc20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "LeveragedVault",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "positions",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "openPosition",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_borrow",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "pos",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Excessive",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "repayment",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "healthy",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_024",
+      "chameleon_id": "ch_medical_nc_tc_024",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "account": "chart",
+        "amount": "quantity",
+        "from": "source",
+        "get_virtual_price": "acquire_virtual_servicecost",
+        "add_liquidity": "insert_availableresources",
+        "minMintAmount": "minimumIssuecredentialQuantity",
+        "PriceOracle": "ServiceOracle",
+        "getPrice": "retrieveCost",
+        "LendingProtocol": "MedicalFinancingProtocol",
+        "Position": "CarePosition",
+        "collateral": "securityDeposit",
+        "borrowed": "advancedAmount",
+        "collateralToken": "securitydepositCredential",
+        "borrowToken": "requestadvanceCredential",
+        "oracle": "costOracle",
+        "COLLATERAL_FACTOR": "securitydeposit_factor",
+        "_collateralToken": "_securitydepositCredential",
+        "_borrowToken": "_requestadvanceCredential",
+        "deposit": "submitPayment",
+        "sender": "requestor",
+        "borrow": "requestAdvance",
+        "collateralValue": "securitydepositMeasurement",
+        "getCollateralValue": "diagnoseSecuritydepositMeasurement",
+        "maxBorrow": "ceilingRequestadvance",
+        "user": "patient",
+        "collateralAmount": "securitydepositQuantity",
+        "price": "serviceCost"
+      },
+      "seed": 83139767,
+      "coverage": {
+        "total_identifiers": 35,
+        "transformed": 27,
+        "untransformed": 8,
+        "skipped_reserved": 24,
+        "skipped_interface": 0,
+        "coverage_percent": 77.14,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ICurvePool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amounts",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "curvePool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_curvePool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "positions",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_oracle",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_025",
+      "chameleon_id": "ch_medical_nc_tc_025",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "ICompoundToken": "IReinvestbenefitsCredential",
+        "borrow": "requestAdvance",
+        "repayBorrow": "settlebalanceRequestadvance",
+        "redeem": "claimResources",
+        "tokens": "credentials",
+        "mint": "issueCredential",
+        "LendingMarket": "HealthcareCreditMarket",
+        "accountBorrows": "profileBorrows",
+        "accountTokens": "chartCredentials",
+        "totalBorrows": "totalamountBorrows",
+        "sender": "requestor"
+      },
+      "seed": 1626194394,
+      "coverage": {
+        "total_identifiers": 16,
+        "transformed": 13,
+        "untransformed": 3,
+        "skipped_reserved": 17,
+        "skipped_interface": 0,
+        "coverage_percent": 81.25,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "underlying",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_underlying",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_026",
+      "chameleon_id": "ch_medical_nc_tc_026",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "spender": "serviceProvider",
+        "value": "measurement",
+        "deadline": "dueDate",
+        "BridgeRouter": "SystemConnectionRouter",
+        "from": "source",
+        "token": "credential",
+        "amount": "quantity",
+        "toChainID": "destinationChainIdentifier"
+      },
+      "seed": 2624768177,
+      "coverage": {
+        "total_identifiers": 12,
+        "transformed": 8,
+        "untransformed": 4,
+        "skipped_reserved": 16,
+        "skipped_interface": 0,
+        "coverage_percent": 66.67,
+        "untransformed_details": [
+          {
+            "name": "IERC20Permit",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "permit",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "bridgeOutWithPermit",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_bridgeOut",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_027",
+      "chameleon_id": "ch_medical_nc_tc_027",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "IPair": "IDuo",
+        "getReserves": "obtainHealthreserves",
+        "SwapRouter": "ServiceExchangeRouter",
+        "swapExactTokensForTokens": "exchangecredentialsExactCredentialsForCredentials",
+        "amountIn": "quantityIn",
+        "amountOutMin": "quantityOutFloor",
+        "path": "route",
+        "deadline": "dueDate",
+        "length": "extent",
+        "pair": "duo",
+        "_getPair": "_obtainDuo",
+        "_getAmountOut": "_acquireQuantityOut",
+        "tokenA": "credentialA",
+        "tokenB": "credentialB"
+      },
+      "seed": 1848875730,
+      "coverage": {
+        "total_identifiers": 21,
+        "transformed": 14,
+        "untransformed": 7,
+        "skipped_reserved": 24,
+        "skipped_interface": 0,
+        "coverage_percent": 66.67,
+        "untransformed_details": [
+          {
+            "name": "token0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "token1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amounts",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "reserve0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "reserve1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "reserveIn",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "reserveOut",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_028",
+      "chameleon_id": "ch_medical_nc_tc_028",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "account": "chart",
+        "amount": "quantity",
+        "from": "source",
+        "TokenVault": "PatientRecordsVault",
+        "token": "credential",
+        "deposits": "payments",
+        "deposit": "submitPayment",
+        "sender": "requestor",
+        "withdraw": "dischargeFunds"
+      },
+      "seed": 481537822,
+      "coverage": {
+        "total_identifiers": 12,
+        "transformed": 9,
+        "untransformed": 3,
+        "skipped_reserved": 20,
+        "skipped_interface": 0,
+        "coverage_percent": 75.0,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_token",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_029",
+      "chameleon_id": "ch_medical_nc_tc_029",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "account": "chart",
+        "amount": "quantity",
+        "from": "source",
+        "IPriceOracle": "IServicecostCostoracle",
+        "getPrice": "retrieveCost",
+        "token": "credential",
+        "VaultStrategy": "VaultManagementStrategy",
+        "wantToken": "wantCredential",
+        "oracle": "costOracle",
+        "totalShares": "totalamountPortions",
+        "shares": "portions",
+        "deposit": "submitPayment",
+        "sharesAdded": "allocationsAdded",
+        "pool": "donorPool",
+        "price": "serviceCost",
+        "sender": "requestor",
+        "withdraw": "dischargeFunds",
+        "sharesAmount": "allocationsQuantity"
+      },
+      "seed": 2640893632,
+      "coverage": {
+        "total_identifiers": 21,
+        "transformed": 18,
+        "untransformed": 3,
+        "skipped_reserved": 22,
+        "skipped_interface": 0,
+        "coverage_percent": 85.71,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_want",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_oracle",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_030",
+      "chameleon_id": "ch_medical_nc_tc_030",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "LiquidityPool": "HealthFundPool",
+        "baseAmount": "baseQuantity",
+        "tokenAmount": "credentialQuantity",
+        "totalUnits": "totalamountUnits",
+        "addLiquidity": "includeAvailableresources",
+        "inputBase": "intakeBase",
+        "inputToken": "intakeCredential",
+        "liquidityUnits": "availableresourcesUnits",
+        "baseRatio": "baseProportion",
+        "tokenRatio": "credentialFactor",
+        "sender": "requestor",
+        "removeLiquidity": "dischargeAvailableresources",
+        "outputBase": "resultBase",
+        "outputToken": "resultCredential"
+      },
+      "seed": 3523001824,
+      "coverage": {
+        "total_identifiers": 15,
+        "transformed": 14,
+        "untransformed": 1,
+        "skipped_reserved": 14,
+        "skipped_interface": 0,
+        "coverage_percent": 93.33,
+        "untransformed_details": [
+          {
+            "name": "units",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_031",
+      "chameleon_id": "ch_medical_nc_tc_031",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "account": "chart",
+        "OrbitBridge": "NetworkBridge",
+        "TOTAL_VALIDATORS": "totalamount_validators",
+        "validatorList": "verifierRegistry",
+        "txHash": "txChecksum",
+        "token": "credential",
+        "recipient": "beneficiary",
+        "withdraw": "dischargeFunds",
+        "hubContract": "hubPolicy",
+        "fromChain": "sourceChain",
+        "fromAddr": "referrerAddr",
+        "toAddr": "receiverAddr",
+        "data": "info",
+        "Transaction": "MedicalTransaction",
+        "length": "extent",
+        "Signature": "Consent",
+        "addValidator": "includeVerifier",
+        "validator": "verifier"
+      },
+      "seed": 744681804,
+      "coverage": {
+        "total_identifiers": 31,
+        "transformed": 19,
+        "untransformed": 12,
+        "skipped_reserved": 27,
+        "skipped_interface": 0,
+        "coverage_percent": 61.29,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "processedTransactions",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "REQUIRED_SIGNATURES",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "validators",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "WithdrawalProcessed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "bytes32s",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "uints",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "already",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "processed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "signatures",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "mismatch",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_032",
+      "chameleon_id": "ch_medical_nc_tc_032",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "source",
+        "account": "profile",
+        "spender": "serviceProvider",
+        "IFlashLoanReceiver": "IEmergencyLoanPatient",
+        "executeOperation": "implementdecisionOperation",
+        "params": "settings",
+        "ReserveData": "ReserveInfo",
+        "liquidityIndex": "availableresourcesRank",
+        "totalLiquidity": "totalamountAvailableresources",
+        "rTokenAddress": "rCredentialFacility",
+        "reserves": "healthReserves",
+        "deposit": "submitPayment",
+        "sender": "requestor",
+        "currentLiquidityIndex": "presentAvailableresourcesRank",
+        "rTokenAmount": "rCredentialQuantity",
+        "_mintRToken": "_issuecredentialRCredential",
+        "withdraw": "dischargeFunds",
+        "rTokensToBurn": "rCredentialsReceiverArchiverecord",
+        "_burnRToken": "_archiverecordRCredential",
+        "borrow": "requestAdvance",
+        "interestRateMode": "interestFactorMode",
+        "flashLoan": "emergencyLoan",
+        "receiverAddress": "patientWard",
+        "length": "duration",
+        "callback": "response",
+        "rToken": "rCredential"
+      },
+      "seed": 2037411544,
+      "coverage": {
+        "total_identifiers": 45,
+        "transformed": 27,
+        "untransformed": 18,
+        "skipped_reserved": 32,
+        "skipped_interface": 0,
+        "coverage_percent": 60.0,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "assets",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amounts",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "premiums",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "initiator",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "RadiantLendingPool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "RAY",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "asset",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "onBehalfOf",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "referralCode",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "reserve",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "rayDiv",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "modes",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Flashloan",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "halfB",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Division",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "zero",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_033",
+      "chameleon_id": "ch_medical_nc_tc_033",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "source",
+        "account": "profile",
+        "spender": "serviceProvider",
+        "RouteExecuted": "PathwayExecuted",
+        "routeId": "pathwayChartnumber",
+        "user": "patient",
+        "result": "finding",
+        "executeRoute": "implementdecisionMethod",
+        "routeData": "pathwayRecord",
+        "routeAddress": "methodWard",
+        "route": "method",
+        "Route": "Pathway",
+        "success": "improvement",
+        "sender": "requestor",
+        "addRoute": "insertMethod",
+        "BasicRoute": "BasicMethod",
+        "fromToken": "referrerCredential",
+        "toToken": "destinationCredential",
+        "receiverAddress": "recipientFacility",
+        "swapExtraData": "exchangecredentialsExtraChart",
+        "length": "extent",
+        "Swap": "ExchangeCredentials"
+      },
+      "seed": 1695944509,
+      "coverage": {
+        "total_identifiers": 34,
+        "transformed": 23,
+        "untransformed": 11,
+        "skipped_reserved": 31,
+        "skipped_interface": 0,
+        "coverage_percent": 67.65,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "SocketGateway",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "routes",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "approvedRoutes",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Invalid",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "approved",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "execution",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "performAction",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "metadata",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_034",
+      "chameleon_id": "ch_medical_nc_tc_034",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "source",
+        "account": "chart",
+        "spender": "serviceProvider",
+        "swap": "exchangeCredentials",
+        "recipient": "beneficiary",
+        "amountSpecified": "quantitySpecified",
+        "sqrtPriceLimitX96": "sqrtServicecostCapX96",
+        "data": "chart785",
+        "flash": "urgent",
+        "pool": "therapyPool",
+        "Position": "CarePosition",
+        "liquidity": "availableResources",
+        "limitPosition": "boundPosition",
+        "deposit": "submitPayment",
+        "shares": "portions",
+        "sender": "requestor",
+        "amount0Current": "amount0Present",
+        "amount1Current": "amount1Present",
+        "_addLiquidity": "_insertAvailableresources",
+        "withdraw": "dischargeFunds",
+        "rebalance": "adjust",
+        "_removeLiquidity": "_eliminateAvailableresources"
+      },
+      "seed": 2265566697,
+      "coverage": {
+        "total_identifiers": 39,
+        "transformed": 23,
+        "untransformed": 16,
+        "skipped_reserved": 32,
+        "skipped_interface": 0,
+        "coverage_percent": 58.97,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IUniswapV3Pool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "zeroForOne",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "GammaHypervisor",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "token0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "token1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "tickLower",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "tickUpper",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "basePosition",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "deposit0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "deposit1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "total0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "total1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_035",
+      "chameleon_id": "ch_medical_nc_tc_035",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "profile",
+        "spender": "serviceProvider",
+        "tokenId": "credentialId",
+        "PoolData": "PoolInfo",
+        "pseudoTotalPool": "pseudoTotalamountPool",
+        "totalDepositShares": "totalamountSubmitpaymentPortions",
+        "totalBorrowShares": "totalamountRequestadvanceAllocations",
+        "collateralFactor": "securitydepositFactor",
+        "lendingPoolData": "lendingPoolRecord",
+        "userLendingShares": "patientLendingPortions",
+        "userBorrowShares": "patientRequestadvancePortions",
+        "nftIdCounter": "certificateIdentifierTally",
+        "mintPosition": "issuecredentialPosition",
+        "nftId": "credentialIdentifier",
+        "depositExactAmount": "submitpaymentExactQuantity",
+        "_nftId": "_certificateChartnumber",
+        "_poolToken": "_poolCredential",
+        "shareAmount": "segmentQuantity",
+        "sender": "requestor",
+        "pool": "donorPool",
+        "withdrawExactShares": "dischargefundsExactAllocations",
+        "withdrawAmount": "dischargefundsQuantity",
+        "shares": "allocations",
+        "withdrawExactAmount": "dischargefundsExactQuantity",
+        "_withdrawAmount": "_dischargefundsQuantity",
+        "shareBurned": "segmentBurned",
+        "getPositionLendingShares": "diagnosePositionLendingAllocations",
+        "getTotalPool": "acquireTotalamountPool"
+      },
+      "seed": 2589428837,
+      "coverage": {
+        "total_identifiers": 37,
+        "transformed": 30,
+        "untransformed": 7,
+        "skipped_reserved": 26,
+        "skipped_interface": 0,
+        "coverage_percent": 81.08,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IERC721",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "WiseLending",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "positionNFTs",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_amount",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_shares",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_036",
+      "chameleon_id": "ch_medical_nc_tc_036",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "chart",
+        "spender": "serviceProvider",
+        "setDelegateApproval": "collectionAssignproxyApproval",
+        "troveManager": "troveCoordinator",
+        "_maxFeePercentage": "_maximumConsultationfeePercentage",
+        "_collateralAmount": "_securitydepositQuantity",
+        "_debtAmount": "_outstandingbalanceQuantity",
+        "ITroveManager": "ITroveHandler",
+        "getTroveCollAndDebt": "obtainTroveCollAndOutstandingbalance",
+        "debt": "outstandingBalance",
+        "liquidate": "forceSettlement",
+        "MigrateTroveZap": "TransferrecordsTroveZap",
+        "borrowerOperations": "patientFinanceOperations",
+        "openTroveAndMigrate": "openTroveAndTransferrecords",
+        "maxFeePercentage": "ceilingConsultationfeePercentage",
+        "collateralAmount": "securitydepositQuantity",
+        "debtAmount": "outstandingbalanceQuantity",
+        "sender": "requestor",
+        "BorrowerOperations": "PatientFinanceOperations",
+        "_troveManager": "_troveCoordinator"
+      },
+      "seed": 4039306432,
+      "coverage": {
+        "total_identifiers": 43,
+        "transformed": 22,
+        "untransformed": 21,
+        "skipped_reserved": 21,
+        "skipped_interface": 0,
+        "coverage_percent": 51.16,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IBorrowerOperations",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_delegate",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_isApproved",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "openTrove",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_upperHint",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_lowerHint",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "closeTrove",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_borrower",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "coll",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "wstETH",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "mkUSD",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_borrowerOperations",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_wstETH",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_mkUSD",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "upperHint",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "lowerHint",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "closeTroveFor",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "delegates",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "authorized",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_037",
+      "chameleon_id": "ch_medical_nc_tc_037",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "chart",
+        "spender": "serviceProvider",
+        "IAaveOracle": "IAaveCostoracle",
+        "getAssetPrice": "diagnoseAssetServicecost",
+        "setAssetSources": "groupAssetSources",
+        "exchange": "convertCredentials",
+        "min_dy": "floor_dy",
+        "get_dy": "diagnose_dy",
+        "balances": "accountCreditsMap",
+        "deposit": "submitPayment",
+        "borrow": "requestAdvance",
+        "interestRateMode": "interestRatioMode",
+        "withdraw": "dischargeFunds",
+        "oracle": "costOracle",
+        "deposits": "payments",
+        "sender": "requestor",
+        "collateralPrice": "securitydepositServicecost",
+        "borrowPrice": "requestadvanceServicecost",
+        "collateralValue": "securitydepositMeasurement",
+        "maxBorrow": "maximumRequestadvance",
+        "borrowValue": "requestadvanceMeasurement",
+        "collateral": "securityDeposit",
+        "CurveOracle": "TrendOracle",
+        "price": "serviceCost"
+      },
+      "seed": 2274539525,
+      "coverage": {
+        "total_identifiers": 43,
+        "transformed": 26,
+        "untransformed": 17,
+        "skipped_reserved": 29,
+        "skipped_interface": 0,
+        "coverage_percent": 60.47,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "asset",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "assets",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "sources",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ICurvePool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ILendingPool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "onBehalfOf",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "referralCode",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "UwuLendingPool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "borrows",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "LTV",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "BASIS_POINTS",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "curvePool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_pool",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "balance0",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "balance1",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_038",
+      "chameleon_id": "ch_medical_nc_tc_038",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "chart",
+        "spender": "serviceProvider",
+        "IPriceOracle": "IServicecostCostoracle",
+        "getPrice": "retrieveCost",
+        "token": "credential",
+        "Market": "ServiceMarket",
+        "isListed": "checkListed",
+        "collateralFactor": "securitydepositFactor",
+        "accountCollateral": "chartSecuritydeposit",
+        "accountBorrows": "profileBorrows",
+        "oracle": "costOracle",
+        "COLLATERAL_FACTOR": "securitydeposit_factor",
+        "enterMarkets": "registerMarkets",
+        "vTokens": "vCredentials",
+        "length": "extent",
+        "mint": "issueCredential",
+        "sender": "requestor",
+        "price": "serviceCost",
+        "borrow": "requestAdvance",
+        "borrowToken": "requestadvanceCredential",
+        "borrowAmount": "requestadvanceQuantity",
+        "totalCollateralValue": "totalamountSecuritydepositMeasurement",
+        "borrowPrice": "requestadvanceServicecost",
+        "borrowValue": "requestadvanceMeasurement",
+        "maxBorrowValue": "ceilingRequestadvanceMeasurement",
+        "collateral": "securityDeposit",
+        "liquidate": "forceSettlement",
+        "repayToken": "settlebalanceCredential",
+        "repayAmount": "settlebalanceQuantity",
+        "collateralToken": "securitydepositCredential",
+        "ManipulableOracle": "VulnerableOracle",
+        "prices": "charges",
+        "setPrice": "groupServicecost"
+      },
+      "seed": 3539123709,
+      "coverage": {
+        "total_identifiers": 42,
+        "transformed": 35,
+        "untransformed": 7,
+        "skipped_reserved": 30,
+        "skipped_interface": 0,
+        "coverage_percent": 83.33,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "BlueberryLending",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "markets",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "BASIS_POINTS",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "results",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "borrower",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_039",
+      "chameleon_id": "ch_medical_nc_tc_039",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "chart",
+        "spender": "serviceProvider",
+        "deposit": "submitPayment",
+        "withdraw": "dischargeFunds",
+        "settlement": "modifytlement",
+        "uniswapV3SwapCallback": "uniswapV3ExchangecredentialsNotification",
+        "data": "record",
+        "price": "serviceCost",
+        "tokenIn": "credentialIn",
+        "recipient": "beneficiary",
+        "amountToPay": "quantityReceiverPay",
+        "executeSettlement": "implementdecisionSettlement",
+        "settlementData": "settlementChart",
+        "sender": "requestor"
+      },
+      "seed": 4111965858,
+      "coverage": {
+        "total_identifiers": 26,
+        "transformed": 16,
+        "untransformed": 10,
+        "skipped_reserved": 29,
+        "skipped_interface": 0,
+        "coverage_percent": 61.54,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IWETH",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "CowSolver",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "WETH",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_weth",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_settlement",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount0Delta",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "amount1Delta",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "solver",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Only",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_040",
+      "chameleon_id": "ch_medical_nc_tc_040",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "chart",
+        "spender": "serviceProvider",
+        "ExactInputSingleParams": "ExactSubmissionSingleParameters",
+        "tokenIn": "credentialIn",
+        "tokenOut": "credentialOut",
+        "fee": "consultationFee",
+        "recipient": "beneficiary",
+        "deadline": "dueDate",
+        "amountIn": "quantityIn",
+        "amountOutMinimum": "quantityOutMinimum",
+        "sqrtPriceLimitX96": "sqrtServicecostBoundX96",
+        "exactInputSingle": "exactSubmissionSingle",
+        "params": "settings",
+        "amountOut": "quantityOut",
+        "router": "transferGuide",
+        "totalETHDeposited": "totalamountEthDeposited",
+        "totalUniBTCMinted": "totalamountUniBtcMinted",
+        "mint": "issueCredential",
+        "value": "measurement",
+        "uniBTCAmount": "uniBtcQuantity",
+        "sender": "requestor",
+        "redeem": "claimResources",
+        "ethAmount": "ethQuantity",
+        "getExchangeRate": "retrieveConvertcredentialsRatio"
+      },
+      "seed": 2230573258,
+      "coverage": {
+        "total_identifiers": 38,
+        "transformed": 26,
+        "untransformed": 12,
+        "skipped_reserved": 30,
+        "skipped_interface": 0,
+        "coverage_percent": 68.42,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IUniswapV3Router",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "BedrockVault",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "uniBTC",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "WBTC",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_uniBTC",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_wbtc",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_router",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ETH",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "sent",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "specified",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_041",
+      "chameleon_id": "ch_medical_nc_tc_041",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "profile",
+        "spender": "serviceProvider",
+        "ShezmuCollateralToken": "ShezmuSecuritydepositCredential",
+        "Collateral": "SecurityDeposit",
+        "Token": "Credential",
+        "mint": "issueCredential",
+        "sender": "requestor",
+        "collateralToken": "securitydepositCredential",
+        "collateralBalance": "securitydepositAccountcredits",
+        "debtBalance": "outstandingbalanceAccountcredits",
+        "COLLATERAL_RATIO": "securitydeposit_factor",
+        "_collateralToken": "_securitydepositCredential",
+        "addCollateral": "includeSecuritydeposit",
+        "borrow": "requestAdvance",
+        "maxBorrow": "maximumRequestadvance",
+        "collateral": "securityDeposit",
+        "repay": "settleBalance",
+        "withdrawCollateral": "dischargefundsSecuritydeposit",
+        "remainingCollateral": "remainingSecuritydeposit",
+        "maxDebt": "maximumOutstandingbalance"
+      },
+      "seed": 500515290,
+      "coverage": {
+        "total_identifiers": 34,
+        "transformed": 22,
+        "untransformed": 12,
+        "skipped_reserved": 34,
+        "skipped_interface": 0,
+        "coverage_percent": 64.71,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Shezmu",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "SCT",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ShezmuVault",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "shezUSD",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "BASIS_POINTS",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_shezUSD",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Excessive",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "repayment",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Would",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "undercollateralized",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_042",
+      "chameleon_id": "ch_medical_nc_tc_042",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "source",
+        "account": "profile",
+        "spender": "serviceProvider",
+        "TokenLockup": "CredentialLockup",
+        "Unlocked": "Available",
+        "Locked": "Restricted",
+        "Campaign": "HealthProgram",
+        "manager": "handler",
+        "token": "credential",
+        "end": "discharge",
+        "tokenLockup": "credentialLockup",
+        "root": "origin",
+        "ClaimLockup": "CollectbenefitsLockup",
+        "tokenLocker": "credentialLocker",
+        "start": "onset",
+        "period": "duration",
+        "rate": "frequency",
+        "HedgeyClaimCampaigns": "HedgeyObtaincoverageCampaigns",
+        "createLockedCampaign": "createRestrictedCampaign",
+        "campaign": "healthProgram",
+        "claimLockup": "obtaincoverageLockup",
+        "success": "improvement",
+        "createTokenLock": "createCredentialRestrictaccess",
+        "Token": "Credential",
+        "lock": "restrictAccess",
+        "campaignId": "campaignChartnumber",
+        "sender": "requestor"
+      },
+      "seed": 2534519106,
+      "coverage": {
+        "total_identifiers": 39,
+        "transformed": 28,
+        "untransformed": 11,
+        "skipped_reserved": 29,
+        "skipped_interface": 0,
+        "coverage_percent": 71.79,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Vesting",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "cliff",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "periods",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Donation",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "campaigns",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "donation",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "exists",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "cancelCampaign",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_043",
+      "chameleon_id": "ch_medical_nc_tc_043",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "chart",
+        "spender": "serviceProvider",
+        "OPERATION_CALL": "operation_consultspecialist",
+        "length": "duration",
+        "Length": "Duration",
+        "target": "objective",
+        "success": "improvement",
+        "value": "measurement"
+      },
+      "seed": 890298105,
+      "coverage": {
+        "total_identifiers": 22,
+        "transformed": 10,
+        "untransformed": 12,
+        "skipped_reserved": 31,
+        "skipped_interface": 0,
+        "coverage_percent": 45.45,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "SenecaChamber",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "OPERATION_DELEGATECALL",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "vaultOwners",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "performOperations",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "actions",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "values",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "datas",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "value1",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "value2",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "mismatch",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "failed",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": false,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_044",
+      "chameleon_id": "ch_medical_nc_tc_044",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "source",
+        "account": "chart",
+        "spender": "serviceProvider",
+        "ISmartLoan": "CheckmartLoan",
+        "swapDebtParaSwap": "exchangecredentialsOutstandingbalanceParaExchangecredentials",
+        "_fromAsset": "_sourceAsset",
+        "_toAsset": "_destinationAsset",
+        "_repayAmount": "_settlebalanceQuantity",
+        "_borrowAmount": "_requestadvanceQuantity",
+        "selector": "picker",
+        "data": "record",
+        "claimReward": "collectBenefit",
+        "pair": "couple",
+        "admin": "medicalDirector",
+        "sender": "requestor",
+        "upgradePool": "enhancesystemPool",
+        "newImplementation": "currentExecution",
+        "deposits": "payments",
+        "success": "recovery",
+        "claimRewards": "collectBenefits"
+      },
+      "seed": 487548862,
+      "coverage": {
+        "total_identifiers": 30,
+        "transformed": 21,
+        "untransformed": 9,
+        "skipped_reserved": 32,
+        "skipped_interface": 0,
+        "coverage_percent": 70.0,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ids",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "SmartLoansFactory",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "createLoan",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "SmartLoan",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "loan",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "poolProxy",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "debts",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_045",
+      "chameleon_id": "ch_medical_nc_tc_045",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "source",
+        "account": "profile",
+        "spender": "serviceProvider",
+        "getRewardTokens": "diagnoseCreditCredentials",
+        "rewardIndexesCurrent": "creditIndexesActive",
+        "claimRewards": "collectBenefits",
+        "user": "patient",
+        "userBalances": "patientAccountcreditsmap",
+        "totalStaked": "totalamountCommitted",
+        "deposit": "submitPayment",
+        "market": "serviceMarket",
+        "sender": "requestor",
+        "rewards": "benefits",
+        "length": "extent",
+        "withdraw": "dischargeFunds",
+        "PendleMarketRegister": "PendleMarketEnroll",
+        "registerMarket": "admitMarket"
+      },
+      "seed": 2867076014,
+      "coverage": {
+        "total_identifiers": 23,
+        "transformed": 18,
+        "untransformed": 5,
+        "skipped_reserved": 24,
+        "skipped_interface": 0,
+        "coverage_percent": 78.26,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IPendleMarket",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "PenpieStaking",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "registeredMarkets",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_046",
+      "chameleon_id": "ch_medical_nc_tc_046",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "account": "chart",
+        "Withdrawal": "FundsDischarged",
+        "token": "credential",
+        "sender": "requestor",
+        "withdraw": "dischargeFunds",
+        "emergencyWithdraw": "urgentDischargefunds",
+        "newOwner": "updatedCustodian"
+      },
+      "seed": 2348708951,
+      "coverage": {
+        "total_identifiers": 12,
+        "transformed": 8,
+        "untransformed": 4,
+        "skipped_reserved": 30,
+        "skipped_interface": 0,
+        "coverage_percent": 66.67,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "FloatHotWalletV2",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "authorizedOperators",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_047",
+      "chameleon_id": "ch_medical_nc_tc_047",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "account": "profile",
+        "PlayDappToken": "ParticipateDappCredential",
+        "PlayDapp": "ParticipateDapp",
+        "Token": "Credential",
+        "minter": "creator",
+        "from": "source",
+        "value": "measurement",
+        "Approval": "AccessAuthorized",
+        "spender": "serviceProvider",
+        "sender": "requestor",
+        "onlyMinter": "onlyCredentialIssuer",
+        "mint": "issueCredential",
+        "Mint": "IssueCredential",
+        "setMinter": "groupCreator",
+        "newMinter": "currentIssuer"
+      },
+      "seed": 1081425545,
+      "coverage": {
+        "total_identifiers": 23,
+        "transformed": 16,
+        "untransformed": 7,
+        "skipped_reserved": 37,
+        "skipped_interface": 0,
+        "coverage_percent": 69.57,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "PLA",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Minted",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_mint",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "zero",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_048",
+      "chameleon_id": "ch_medical_nc_tc_048",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "referrer",
+        "account": "profile",
+        "totalBorrows": "totalamountBorrows",
+        "totalReserves": "totalamountHealthreserves",
+        "Mint": "IssueCredential",
+        "minter": "creator",
+        "mintAmount": "issuecredentialQuantity",
+        "mintTokens": "issuecredentialCredentials",
+        "Redeem": "ClaimResources",
+        "redeemAmount": "claimresourcesQuantity",
+        "redeemTokens": "claimresourcesCredentials",
+        "exchangeRate": "conversionRate",
+        "totalUnderlying": "totalamountUnderlying",
+        "mint": "issueCredential",
+        "exchangeRateMantissa": "convertcredentialsRatioMantissa",
+        "sender": "requestor",
+        "redeem": "claimResources",
+        "balanceOfUnderlying": "accountcreditsOfUnderlying"
+      },
+      "seed": 860993154,
+      "coverage": {
+        "total_identifiers": 30,
+        "transformed": 19,
+        "untransformed": 11,
+        "skipped_reserved": 31,
+        "skipped_interface": 0,
+        "coverage_percent": 63.33,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "SonneMarket",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "underlying",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Sonne",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "WETH",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "soWETH",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "redeemer",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_underlying",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "cash",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Zero",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_049",
+      "chameleon_id": "ch_medical_nc_tc_049",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "source",
+        "account": "chart",
+        "getAccountSnapshot": "retrieveChartSnapshot",
+        "collateral": "securityDeposit",
+        "exchangeRate": "conversionRate",
+        "DebtPreviewer": "OutstandingbalancePreviewer",
+        "previewDebt": "previewOutstandingbalance",
+        "market": "serviceMarket",
+        "collateralValue": "securitydepositMeasurement",
+        "debtValue": "outstandingbalanceMeasurement",
+        "max": "ceiling",
+        "totalCollateral": "totalamountSecuritydeposit",
+        "totalDebt": "totalamountOutstandingbalance",
+        "length": "extent",
+        "debt": "outstandingBalance",
+        "deposits": "payments",
+        "COLLATERAL_FACTOR": "securitydeposit_factor",
+        "deposit": "submitPayment",
+        "sender": "requestor",
+        "borrow": "requestAdvance",
+        "newDebt": "updatedOutstandingbalance",
+        "maxBorrow": "maximumRequestadvance",
+        "borrowed": "advancedAmount"
+      },
+      "seed": 3093257880,
+      "coverage": {
+        "total_identifiers": 37,
+        "transformed": 24,
+        "untransformed": 13,
+        "skipped_reserved": 27,
+        "skipped_interface": 0,
+        "coverage_percent": 64.86,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "IMarket",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "borrows",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "healthFactor",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "previewMultipleMarkets",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "markets",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "overallHealth",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "ExactlyMarket",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "asset",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "previewer",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_asset",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_previewer",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Insufficient",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": false
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "original_id": "nc_tc_050",
+      "chameleon_id": "ch_medical_nc_tc_050",
+      "theme": "medical",
+      "source": "nocomments",
+      "success": true,
+      "rename_map": {
+        "amount": "quantity",
+        "from": "source",
+        "account": "profile",
+        "MunchablesLockManager": "MunchablesRestrictaccessHandler",
+        "admin": "medicalDirector",
+        "configStorage": "settingsArchive",
+        "PlayerSettings": "PlayerOptions",
+        "lockedAmount": "restrictedQuantity",
+        "lockRecipient": "restrictaccessBeneficiary",
+        "lockDuration": "restrictaccessTreatmentperiod",
+        "lockStartTime": "restrictaccessBeginMoment",
+        "playerSettings": "playerOptions",
+        "playerBalances": "playerAccountcreditsmap",
+        "Locked": "Restricted",
+        "player": "participant",
+        "recipient": "beneficiary",
+        "ConfigUpdated": "SettingsUpdated",
+        "oldConfig": "previousSettings",
+        "newConfig": "updatedProtocol",
+        "sender": "requestor",
+        "onlyAdmin": "onlyMedicalDirector",
+        "lock": "restrictAccess",
+        "duration": "stayLength",
+        "timestamp": "admissionTime",
+        "setConfigStorage": "collectionProtocolRepository",
+        "_configStorage": "_protocolArchive",
+        "setLockRecipient": "collectionRestrictaccessBeneficiary",
+        "newRecipient": "updatedBeneficiary",
+        "unlock": "grantAccess",
+        "settings": "preferences",
+        "locked": "restricted",
+        "tokens": "credentials",
+        "emergencyUnlock": "urgentGrantaccess",
+        "transferAdmin": "transfercareMedicaldirector",
+        "newAdmin": "updatedMedicaldirector"
+      },
+      "seed": 113626867,
+      "coverage": {
+        "total_identifiers": 41,
+        "transformed": 35,
+        "untransformed": 6,
+        "skipped_reserved": 28,
+        "skipped_interface": 0,
+        "coverage_percent": 85.37,
+        "untransformed_details": [
+          {
+            "name": "IERC20",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "weth",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "_weth",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Not",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Zero",
+            "reason": "no synonym found"
+          },
+          {
+            "name": "Still",
+            "reason": "no synonym found"
+          }
+        ],
+        "meets_threshold": true
+      },
+      "validation": {
+        "valid": true,
+        "syntax_ok": true,
+        "no_leakage": true,
+        "errors": [],
+        "warnings": []
+      }
+    }
+  ]
+}
