@@ -1,0 +1,1 @@
+Changes: Removed acceptedRoot initialization in constructor (line 27), allowing acceptedRoot to remain uninitialized at 0x00...00 after upgrade, which enables message validation bypass.

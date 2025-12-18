@@ -1,0 +1,1 @@
+Changes: Removed initialization check and access control from initWallet (lines 22-27), allowing anyone to call initWallet directly and become owner. Also retained selfdestruct in kill, enabling anyone to destroy the library.

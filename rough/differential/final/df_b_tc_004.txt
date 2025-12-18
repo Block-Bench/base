@@ -1,0 +1,1 @@
+Changes: Removed TWAP oracle and slippage protection, reverting to spot price from Curve (lines 74, 94, 115, 130), allowing flash loan price manipulation attacks.

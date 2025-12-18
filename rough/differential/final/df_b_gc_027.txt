@@ -1,0 +1,2 @@
+Changes: Removed freshness check for oracle record in totalControlled() (line 230), allowing stale oracle data to be used and enabling stale-rate arbitrage attacks.
+Error: not found contracts/liquidityBuffer/interfaces/ILiquidityBuffer.sol

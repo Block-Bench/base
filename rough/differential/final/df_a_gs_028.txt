@@ -1,0 +1,2 @@
+Changes: Updated _unstakeRequest to calculate ethAmount at claim time, not request time, to ensure slashing and rewards are socialized. Removed early locking of mETH; shares are only locked at claim (line 212). Prevents unfair loss distribution and reward dilution.
+Error: not found contracts/liquidityBuffer/interfaces/ILiquidityBuffer.sol

@@ -1,0 +1,2 @@
+Changes: Removed lockManager.getLockedBalance(_who) from isGranted, only checking token.balanceOf(_who) (line 45), allowing flashloan bypass of minimum voting power requirement.
+Error: not found interfaces/ILockManager.sol

@@ -1,0 +1,1 @@
+Changes: Removed minimum holding period and timelock, allowing instant voting power from deposits and immediate execution via emergencyCommit (lines 44, 138), enabling flash loan governance attacks.

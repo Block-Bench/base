@@ -1,0 +1,2 @@
+Changes: Added timestamp freshness check in totalControlled() to prevent stale oracle data from being used (line 230). Requires oracle record to be recent (within 24 hours).
+Error: not found contracts/liquidityBuffer/interfaces/ILiquidityBuffer.sol

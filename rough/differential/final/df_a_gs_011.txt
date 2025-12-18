@@ -1,0 +1,2 @@
+Changes: Modified isGranted to only check lockManager.getLockedBalance(_who), not token.balanceOf(_who), preventing flashloan bypass. (Line 45)
+Error: not found interfaces/ILockManager.sol

@@ -1,0 +1,2 @@
+Changes: Removed early execution check in vote() function (line 207), allowing proposals to be executed immediately after a vote in the same transaction, enabling flashloan attacks.
+Error: not found contracts/interfaces/ILockToGovernBase.sol
