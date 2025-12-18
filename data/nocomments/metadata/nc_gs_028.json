@@ -85,6 +85,10 @@
     "original_finding_title": "Fixed exchange rate at unstaking fails to socialize slashing and distorts rewards"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_028/",
+  "context_files": [
+    "context_01_UnstakeRequestsManager.sol"
+  ],
   "original_contract_file": "base/contracts/gs_028.sol",
   "sanitized_from": "gs_028",
   "derived_from": "sn_gs_028",

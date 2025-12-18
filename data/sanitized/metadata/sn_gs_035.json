@@ -80,6 +80,10 @@
     "original_finding_title": "Unclaimed Fees Become Inaccessible After V2Locker.unlock()"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_035/",
+  "context_files": [
+    "context_01_Locker.sol"
+  ],
   "original_contract_file": "base/contracts/gs_035.sol",
   "sanitized_from": "gs_035"
 }

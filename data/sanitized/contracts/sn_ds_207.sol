@@ -26,11 +26,17 @@ contract TokenExchange{
         token = _token;
     }
 
+    // If the owner sees someone calls buy
+    // he can call changePrice to set a new price
+    // If his transaction is mined first, he can
+    // receive more tokens than excepted by the new buyer
     function buy(uint new_price) payable
         public
     {
         require(msg.value >= price);
 
+        // we assume that the TokenExchange contract
+        // has enough allowance
         token.transferFrom(msg.sender, owner, price);
 
         price = new_price;

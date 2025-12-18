@@ -84,6 +84,10 @@
     "original_finding_title": "BaseAuth.recoverSapientSignature returns a constant instead of signer image hash, breaking sapient signer flows"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_033/",
+  "context_files": [
+    "context_01_ISapient.sol"
+  ],
   "original_contract_file": "base/contracts/gs_033.sol",
   "sanitized_from": "gs_033",
   "derived_from": "sn_gs_033",

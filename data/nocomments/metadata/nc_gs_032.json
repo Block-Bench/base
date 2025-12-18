@@ -88,6 +88,10 @@
     "original_finding_title": "Static signatures bound to caller revert under ERC-4337, causing DoS"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_032/",
+  "context_files": [
+    "context_01_BaseAuth.sol"
+  ],
   "original_contract_file": "base/contracts/gs_032.sol",
   "sanitized_from": "gs_032",
   "derived_from": "sn_gs_032",

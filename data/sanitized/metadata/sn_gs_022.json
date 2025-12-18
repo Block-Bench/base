@@ -71,6 +71,10 @@
     "original_finding_title": "Quotes can be frontrun by replaying them through the router"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_022/",
+  "context_files": [
+    "context_01_UnorderedNonce.sol"
+  ],
   "original_contract_file": "base/contracts/gs_022.sol",
   "sanitized_from": "gs_022"
 }

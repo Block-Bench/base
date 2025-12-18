@@ -66,6 +66,10 @@
     "original_finding_title": "Lock fails for unlimited approvals"
   },
   "original_subset": "gold_standard",
+  "context": "context/gs_014/",
+  "context_files": [
+    "context_01_LockManagerBase.sol"
+  ],
   "original_contract_file": "base/contracts/gs_014.sol",
   "sanitized_from": "gs_014",
   "derived_from": "sn_gs_014",
