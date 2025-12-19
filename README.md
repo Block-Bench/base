@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo.svg" alt="BlockBench Logo" width="200"/>
+  <img src="assets/mascot.svg" alt="BlockBench Logo" width="200"/>
 </p>
 
 <h1 align="center">BlockBench</h1>
@@ -32,12 +32,12 @@ BlockBench addresses critical gaps in smart contract security evaluation:
 
 ### Dataset Composition
 
-| Subset | Samples | Source | Purpose |
-|--------|---------|--------|---------|
-| **Temporal Contamination (TC)** | 50 | Historical exploits (pre-March 2025) | Test memorization vs. understanding |
-| **Gold Standard (GS)** | 34 | Professional audits (post-Sept 2025) | Zero-shot vulnerability detection |
-| **Difficulty Stratified (DS)** | 179 | SmartBugs, Trail of Bits, others | Graduated difficulty assessment |
-| **Total** | **263** | Multiple authoritative sources | Comprehensive evaluation |
+| Subset                          | Samples | Source                               | Purpose                             |
+| ------------------------------- | ------- | ------------------------------------ | ----------------------------------- |
+| **Temporal Contamination (TC)** | 50      | Historical exploits (pre-March 2025) | Test memorization vs. understanding |
+| **Gold Standard (GS)**          | 34      | Professional audits (post-Sept 2025) | Zero-shot vulnerability detection   |
+| **Difficulty Stratified (DS)**  | 179     | SmartBugs, Trail of Bits, others     | Graduated difficulty assessment     |
+| **Total**                       | **263** | Multiple authoritative sources       | Comprehensive evaluation            |
 
 ### Vulnerability Coverage
 
@@ -169,6 +169,7 @@ BlockBench includes six adversarial transformation strategies to test model robu
 **Purpose**: Remove vulnerability hints from identifiers and comments
 
 **Transformations**:
+
 - 280+ identifier replacement patterns (e.g., `vulnerableTransfer` → `executeTransfer`)
 - 100+ comment removal patterns (e.g., "// VULNERABILITY:", "// TODO: add access control")
 - Console.log and emit statement cleaning
@@ -180,6 +181,7 @@ BlockBench includes six adversarial transformation strategies to test model robu
 **Purpose**: Strip all comments while preserving code
 
 **Transformations**:
+
 - Removes single-line (`//`), multi-line (`/* */`), and doc comments (`/** */`)
 - 4,358 comments removed across all files
 - Average 15-20 line reduction per file
@@ -195,6 +197,7 @@ BlockBench includes six adversarial transformation strategies to test model robu
 **Themes**: Medical, gaming, resource, abstract, social
 
 **Transformations**:
+
 - Category-specific synonym pools (functions, variables, contracts)
 - Layered lookup: direct, compound decomposition, prefix matching
 - 60-70% identifier transformation rate
@@ -209,12 +212,14 @@ BlockBench includes six adversarial transformation strategies to test model robu
 **Purpose**: Multi-level code obfuscation
 
 **Levels**:
+
 - **L1** (Formatting): compressed, expanded, allman, knr, minified
 - **L2** (Identifier): short (single letters), hex (`_0x...`), underscore
 - **L3** (Control Flow): L2 + always-true conditionals (`if (1 == 1) { ... }`)
 - **L4** (Structural): L3 + dead code injection
 
 **Current Implementations**:
+
 - L2 short: All identifiers → a-z (e.g., `acceptedRoot` → `e`)
 - L3 medium: Hex identifiers + medium-intensity control flow obfuscation
 
@@ -238,25 +243,25 @@ See [data.md](data.md) Appendix for complete mathematical notation and detailed 
 
 ### Total Variants
 
-| Variant | Count | Prefix Pattern | Source |
-|---------|-------|----------------|--------|
-| Base | 263 | `tc_*`, `gs_*`, `ds_*` | Original samples |
-| Sanitized | 263 | `sn_*` | Base → Sanitization |
-| No-Comments | 263 | `nc_*` | Sanitized → Comment removal |
-| Chameleon (Medical) | 50 | `ch_medical_nc_tc_*` | TC No-Comments → Medical theme |
-| Shapeshifter L2 | 252 | `ss_l2_short_nc_*` | No-Comments → L2 short |
-| Shapeshifter L3 | 252 | `ss_l3_medium_nc_*` | No-Comments → L3 medium |
-| **Total Variants** | **1,343+** | - | - |
+| Variant             | Count      | Prefix Pattern         | Source                         |
+| ------------------- | ---------- | ---------------------- | ------------------------------ |
+| Base                | 263        | `tc_*`, `gs_*`, `ds_*` | Original samples               |
+| Sanitized           | 263        | `sn_*`                 | Base → Sanitization            |
+| No-Comments         | 263        | `nc_*`                 | Sanitized → Comment removal    |
+| Chameleon (Medical) | 50         | `ch_medical_nc_tc_*`   | TC No-Comments → Medical theme |
+| Shapeshifter L2     | 252        | `ss_l2_short_nc_*`     | No-Comments → L2 short         |
+| Shapeshifter L3     | 252        | `ss_l3_medium_nc_*`    | No-Comments → L3 medium        |
+| **Total Variants**  | **1,343+** | -                      | -                              |
 
 ### Temporal Contamination Examples
 
-| Sample | Exploit | Date | Loss | Contract | Vulnerability |
-|--------|---------|------|------|----------|---------------|
-| tc_001 | Nomad Bridge | Aug 2022 | $190M | BridgeReplica | Uninitialized storage |
-| tc_002 | Beanstalk | Apr 2022 | $182M | GovernanceSystem | Flash loan governance |
-| tc_003 | Parity Wallet | Nov 2017 | $150M | WalletLibrary | Unprotected init + selfdestruct |
-| tc_004 | Harvest Finance | Oct 2020 | $24M | YieldVault | Oracle manipulation |
-| tc_005 | Curve Vyper | Jul 2023 | $70M | AMMPool | Vyper compiler reentrancy |
+| Sample | Exploit         | Date     | Loss   | Contract         | Vulnerability                   |
+| ------ | --------------- | -------- | ------ | ---------------- | ------------------------------- |
+| tc_001 | Nomad Bridge    | Aug 2022 | \$190M | BridgeReplica    | Uninitialized storage           |
+| tc_002 | Beanstalk       | Apr 2022 | \$182M | GovernanceSystem | Flash loan governance           |
+| tc_003 | Parity Wallet   | Nov 2017 | \$150M | WalletLibrary    | Unprotected init + selfdestruct |
+| tc_004 | Harvest Finance | Oct 2020 | \$24M  | YieldVault       | Oracle manipulation             |
+| tc_005 | Curve Vyper     | Jul 2023 | \$70M  | AMMPool          | Vyper compiler reentrancy       |
 
 ### Gold Standard Highlights
 
@@ -304,8 +309,12 @@ Each sample includes comprehensive metadata:
     "contract_names": ["BridgeReplica"]
   },
   "tags": ["bridge", "cross-chain", "initialization"],
-  "temporal_fields": { /* TC-specific fields */ },
-  "gold_standard_fields": { /* GS-specific fields */ }
+  "temporal_fields": {
+    /* TC-specific fields */
+  },
+  "gold_standard_fields": {
+    /* GS-specific fields */
+  }
 }
 ```
 
@@ -345,12 +354,14 @@ python3 -m strategies.shapeshifter.shapeshifter all --level l3 --variant medium 
 ### For Model Evaluation
 
 1. **Select appropriate dataset variant** based on evaluation goals:
+
    - Base: Standard evaluation
    - No-comments: Test without natural language hints
    - Chameleon: Test robustness to thematic renaming
    - Shapeshifter L2/L3: Test robustness to obfuscation
 
 2. **Load sample and metadata:**
+
    ```python
    contract = load_contract(sample_id, variant="base")
    metadata = load_metadata(sample_id, variant="base")
@@ -359,6 +370,7 @@ python3 -m strategies.shapeshifter.shapeshifter all --level l3 --variant medium 
 3. **Present contract to model** without revealing metadata
 
 4. **Collect model predictions:**
+
    - Vulnerability present? (Yes/No)
    - Vulnerability type
    - Vulnerable location (contract, function, lines)
@@ -373,7 +385,7 @@ python3 -m strategies.shapeshifter.shapeshifter all --level l3 --variant medium 
 
 ### Important Notes
 
-- **Do NOT use original versions** (o_tc_*, nc_o_tc_*) for evaluation—these contain leaky contract names
+- **Do NOT use original versions** (o*tc*_, nc*o_tc*_) for evaluation—these contain leaky contract names
 - **Line numbers may be invalid** for:
   - No-comments variants (shifted due to removed lines)
   - Shapeshifter L3+ (restructured control flow)
@@ -398,6 +410,7 @@ We welcome contributions! Areas for contribution:
 - Bug fixes and documentation improvements
 
 Please ensure:
+
 - All new samples have complete, accurate metadata
 - Transformations preserve vulnerability semantics
 - Code follows existing patterns and conventions
@@ -440,6 +453,7 @@ We thank these organizations for their contributions to smart contract security 
 ## 📧 Contact
 
 For questions, issues, or collaboration inquiries:
+
 - Open an issue on GitHub
 - Email: [contact email]
 
