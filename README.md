@@ -1,8 +1,21 @@
-# BlockBench: A Comprehensive Smart Contract Vulnerability Detection Benchmark
+<p align="center">
+  <img src="logo.svg" alt="BlockBench Logo" width="200"/>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Solidity](https://img.shields.io/badge/Solidity-^0.8.0-blue)](https://soliditylang.org/)
-[![Python](https://img.shields.io/badge/Python-3.8+-green)](https://www.python.org/)
+<h1 align="center">BlockBench</h1>
+<p align="center">A Comprehensive Smart Contract Vulnerability Detection Benchmark</p>
+
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/></a>
+  <a href="https://soliditylang.org/"><img src="https://img.shields.io/badge/Solidity-^0.8.0-blue" alt="Solidity"/></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.8+-green" alt="Python"/></a>
+</p>
+
+<p align="center">
+  <strong>263 Real-World Vulnerabilities • 13 Vulnerability Types • 1,343+ Transformed Variants</strong>
+</p>
+
+---
 
 **BlockBench** is a rigorous benchmark for evaluating AI models' ability to detect vulnerabilities in Solidity smart contracts. The benchmark includes 263 real-world vulnerable contracts with comprehensive ground truth metadata, spanning historical exploits, professional audit findings, and stratified difficulty levels.
 

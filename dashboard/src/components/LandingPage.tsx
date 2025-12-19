@@ -94,7 +94,7 @@ export default function LandingPage() {
   const animatedTotal = useAnimatedCounter(loaded ? totalSamples : 0, 1500)
 
   // Calculate subset counts from composition
-  const dsCount = baseIndex?.composition?.difficulty_stratified?.count || 235
+  const dsCount = baseIndex?.composition?.difficulty_stratified?.count || 179
   const tcCount = baseIndex?.composition?.temporal_contamination?.count || 50
   const gsCount = baseIndex?.composition?.gold_standard?.count || 34
 
@@ -117,7 +117,7 @@ export default function LandingPage() {
 
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-cream-200 dark:bg-neutral-800 rounded-full text-sm text-neutral-600 dark:text-neutral-400 mb-8 animate-fade-in">
             <Sparkles className="w-4 h-4" />
-            <span>NeurIPS 2026 Benchmark Submission</span>
+            <span>Open Source Research Benchmark</span>
           </div>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-neutral-900 dark:text-white mb-6 text-balance">
@@ -151,10 +151,10 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-grid opacity-30" />
         <div className="max-w-6xl mx-auto px-6 relative">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <AnimatedStat value={animatedTotal} label="Total Samples" />
+            <AnimatedStat value={animatedTotal || 263} label="Total Samples" />
             <AnimatedStat value={loaded ? 3 : 0} label="Dataset Subsets" />
             <AnimatedStat
-              value={loaded ? Object.keys(baseIndex?.statistics.by_vulnerability_type || {}).length : 0}
+              value={loaded ? 13 : 0}
               label="Vulnerability Types"
             />
             <AnimatedStat value={loaded ? 7 : 0} label="Adversarial Strategies" />
@@ -180,7 +180,7 @@ export default function LandingPage() {
             <DatasetCard
               icon={<Database className="w-6 h-6" />}
               title="Base Dataset"
-              description="Clean contract code without annotations. All 319 vulnerable samples organized by source subset."
+              description="Clean contract code without annotations. All 263 vulnerable samples organized by source subset."
               stats={[
                 { label: 'Samples', value: totalSamples.toString() },
                 { label: 'Stratified', value: dsCount.toString() },
@@ -209,7 +209,7 @@ export default function LandingPage() {
             <SubsetCard
               icon={<Layers className="w-5 h-5" />}
               title="Difficulty Stratified"
-              description="Contracts organized by detection complexity across 4 tiers."
+              description="Contracts from SmartBugs, Trail of Bits stratified by severity."
               count={dsCount}
               color="neutral"
             />
@@ -294,7 +294,7 @@ export default function LandingPage() {
               </span>
             </div>
             <p className="text-sm text-neutral-500 dark:text-neutral-500">
-              Target Venue: NeurIPS 2026 Datasets & Benchmarks Track
+              A rigorous benchmark for smart contract vulnerability detection
             </p>
           </div>
         </div>

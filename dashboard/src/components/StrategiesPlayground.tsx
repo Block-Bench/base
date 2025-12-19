@@ -109,6 +109,30 @@ export default function StrategiesPlayground() {
           .replace(/getBalance/g, 'checkTreasure')
         break
 
+      case 'shapeshifter':
+        // L2: Single-letter identifier obfuscation
+        transformed = inputCode
+          .replace(/balances/g, 'a')
+          .replace(/deposit/g, 'b')
+          .replace(/withdraw/g, 'c')
+          .replace(/getBalance/g, 'd')
+          .replace(/msg\.sender/g, 'msg.sender') // Keep reserved
+          .replace(/msg\.value/g, 'msg.value')
+        break
+
+      case 'hydra':
+        // Combine multiple transformations
+        transformed = inputCode
+          .replace(/\/\/.*$/gm, '') // Remove comments
+          .replace(/Vulnerable/g, 'Basic') // Sanitize
+          .replace(/balances/g, 'holdings') // Light renaming
+        break
+
+      case 'restructure':
+        // Split large contract into smaller pieces (mock)
+        transformed = `// Original contract restructured into modules\n\n${inputCode.substring(0, inputCode.length / 2)}\n\n// --- Module 2 would be in separate file ---\n`
+        break
+
       case 'mirror':
         // Compress formatting
         transformed = inputCode

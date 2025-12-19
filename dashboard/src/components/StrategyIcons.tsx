@@ -283,6 +283,81 @@ export function HydraIcon({ size = 24, className = '', ...props }: StrategyIconP
   )
 }
 
+// Shapeshifter Strategy - Morphing/transformation icon
+export function ShapeshifterIcon({ size = 24, className = '', ...props }: StrategyIconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={{ imageRendering: 'pixelated' }}
+      {...props}
+    >
+      {/* Left shape (circle) */}
+      <rect x="3" y="5" width="1" height="1" fill="currentColor" />
+      <rect x="2" y="6" width="1" height="1" fill="currentColor" />
+      <rect x="2" y="7" width="1" height="1" fill="currentColor" />
+      <rect x="3" y="8" width="1" height="1" fill="currentColor" />
+      <rect x="4" y="5" width="1" height="1" fill="currentColor" />
+      <rect x="4" y="8" width="1" height="1" fill="currentColor" />
+      <rect x="5" y="5" width="1" height="1" fill="currentColor" />
+      <rect x="5" y="8" width="1" height="1" fill="currentColor" />
+      <rect x="6" y="6" width="1" height="1" fill="currentColor" />
+      <rect x="6" y="7" width="1" height="1" fill="currentColor" />
+      {/* Transformation arrow */}
+      <rect x="7" y="6" width="1" height="2" fill="currentColor" />
+      <rect x="8" y="6" width="1" height="2" fill="currentColor" />
+      <rect x="9" y="5" width="1" height="1" fill="currentColor" />
+      <rect x="9" y="8" width="1" height="1" fill="currentColor" />
+      {/* Right shape (hexagon) */}
+      <rect x="11" y="4" width="2" height="1" fill="currentColor" />
+      <rect x="10" y="5" width="1" height="1" fill="currentColor" />
+      <rect x="13" y="5" width="1" height="1" fill="currentColor" />
+      <rect x="10" y="6" width="1" height="2" fill="currentColor" />
+      <rect x="13" y="6" width="1" height="2" fill="currentColor" />
+      <rect x="10" y="8" width="1" height="1" fill="currentColor" />
+      <rect x="13" y="8" width="1" height="1" fill="currentColor" />
+      <rect x="11" y="9" width="2" height="1" fill="currentColor" />
+    </svg>
+  )
+}
+
+// Restructure Strategy - Building blocks rearranging
+export function RestructureIcon({ size = 24, className = '', ...props }: StrategyIconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={{ imageRendering: 'pixelated' }}
+      {...props}
+    >
+      {/* Top left block */}
+      <rect x="2" y="2" width="4" height="4" fill="currentColor" />
+      <rect x="3" y="3" width="2" height="2" fill="white" opacity="0.3" />
+      {/* Top right blocks (split) */}
+      <rect x="10" y="2" width="2" height="2" fill="currentColor" />
+      <rect x="13" y="2" width="2" height="2" fill="currentColor" />
+      {/* Bottom left blocks (split) */}
+      <rect x="2" y="10" width="2" height="2" fill="currentColor" />
+      <rect x="5" y="10" width="2" height="2" fill="currentColor" />
+      {/* Bottom right block (merged) */}
+      <rect x="10" y="10" width="4" height="4" fill="currentColor" />
+      <rect x="11" y="11" width="2" height="2" fill="white" opacity="0.3" />
+      {/* Arrows indicating movement */}
+      <rect x="7" y="3" width="2" height="1" fill="currentColor" opacity="0.5" />
+      <rect x="3" y="7" width="1" height="2" fill="currentColor" opacity="0.5" />
+      <rect x="8" y="11" width="1" height="1" fill="currentColor" opacity="0.5" />
+    </svg>
+  )
+}
+
 // Strategy info type
 export interface StrategyInfo {
   id: string
@@ -296,44 +371,44 @@ export const STRATEGIES: StrategyInfo[] = [
   {
     id: 'sanitize',
     name: 'Sanitize',
-    description: 'Remove vulnerability hints from identifiers and comments',
+    description: '280+ patterns to remove vulnerability hints from code',
     icon: SanitizeIcon,
   },
   {
     id: 'nocomments',
     name: 'No Comments',
-    description: 'Strip all comments while preserving code structure',
+    description: 'Strip all comments while preserving code logic',
     icon: NoCommentsIcon,
   },
   {
     id: 'chameleon',
     name: 'Chameleon',
-    description: 'Rename identifiers with themed alternatives',
+    description: 'Thematic identifier renaming with 60-70% coverage',
     icon: ChameleonIcon,
+  },
+  {
+    id: 'shapeshifter',
+    name: 'Shapeshifter',
+    description: 'Multi-level obfuscation (L2: identifiers, L3: control flow)',
+    icon: ShapeshifterIcon,
+  },
+  {
+    id: 'hydra',
+    name: 'Hydra',
+    description: 'Sequential composition of multiple transformations',
+    icon: HydraIcon,
+  },
+  {
+    id: 'restructure',
+    name: 'Restructure',
+    description: 'Contract splitting and merging operations',
+    icon: RestructureIcon,
   },
   {
     id: 'mirror',
     name: 'Mirror',
     description: 'Format code with different styling conventions',
     icon: MirrorIcon,
-  },
-  {
-    id: 'crossdomain',
-    name: 'Cross Domain',
-    description: 'Transform code across different domain contexts',
-    icon: CrossDomainIcon,
-  },
-  {
-    id: 'guardianshield',
-    name: 'Guardian Shield',
-    description: 'Insert protective patterns for analysis',
-    icon: GuardianShieldIcon,
-  },
-  {
-    id: 'hydra',
-    name: 'Hydra',
-    description: 'Multi-headed transformation approach',
-    icon: HydraIcon,
   },
 ]
 
