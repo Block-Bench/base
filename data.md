@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="../logo.svg" alt="BlockBench Logo" width="150"/>
+</p>
+
 # BlockBench Dataset
 
 ## Dataset Overview
