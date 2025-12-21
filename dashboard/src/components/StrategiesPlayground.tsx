@@ -112,17 +112,17 @@ export default function StrategiesPlayground() {
       case 'shapeshifter':
         // L3: Control flow obfuscation with opaque predicates and dead code
         transformed = inputCode
-          // Replace require statements with complex conditionals
-          .replace('require(msg.value > 0, "Must deposit something");',
+          // Replace require statements with complex conditionals (handle indentation)
+          .replace(/require\(msg\.value > 0, "Must deposit something"\);/g,
             'if (msg.value > 0 && (block.timestamp > 0)) {\n            // Opaque predicate: always true\n        } else {\n            revert("Must deposit something");\n        }')
-          .replace('require(balance > 0, "No balance to withdraw");',
+          .replace(/require\(balance > 0, "No balance to withdraw"\);/g,
             'if (balance > 0 || (block.number < 0)) {\n            // Opaque predicate: block.number < 0 always false\n        } else {\n            revert("No balance to withdraw");\n        }')
-          .replace('require(success, "Transfer failed");',
+          .replace(/require\(success, "Transfer failed"\);/g,
             'if (success && (1 == 1)) {\n            // Opaque predicate: 1 == 1 always true\n        } else {\n            revert("Transfer failed");\n        }')
           // Add dead code branches
-          .replace('balances[msg.sender] += msg.value;',
+          .replace(/balances\[msg\.sender\] \+= msg\.value;/g,
             'if (block.timestamp > 0) {\n            balances[msg.sender] += msg.value;\n        } else {\n            balances[msg.sender] = 0; // Dead code: never executes\n        }')
-          .replace('balances[msg.sender] = 0;',
+          .replace(/balances\[msg\.sender\] = 0;/g,
             'uint256 _temp = 0;\n        if (address(this).balance >= 0) {\n            balances[msg.sender] = _temp; // Opaque: always true\n        }')
         break
 
@@ -306,8 +306,8 @@ export default function StrategiesPlayground() {
               </button>
             </div>
 
-            <div className="flex-1 min-h-[500px] code-container overflow-hidden">
-              <div className="h-full flex">
+            <div className="flex-1 min-h-[500px] code-container overflow-auto">
+              <div className="h-full flex min-w-full">
                 {/* Line numbers */}
                 <div className="select-none bg-cream-50 dark:bg-neutral-900 text-neutral-400 dark:text-neutral-600 text-right py-4 px-3 border-r border-cream-200 dark:border-neutral-800 font-mono text-sm">
                   {inputCode.split('\n').map((_, idx) => (
@@ -317,16 +317,16 @@ export default function StrategiesPlayground() {
                   ))}
                 </div>
                 {/* Code editor */}
-                <div className="flex-1 relative bg-white dark:bg-neutral-950">
+                <div className="flex-1 relative bg-white dark:bg-neutral-950 min-w-0">
                   <textarea
                     value={inputCode}
                     onChange={(e) => setInputCode(e.target.value)}
-                    className="absolute inset-0 w-full h-full p-4 font-mono text-sm bg-transparent text-transparent caret-neutral-800 dark:caret-neutral-200 resize-none focus:outline-none"
-                    style={{ lineHeight: '1.625rem' }}
+                    className="absolute inset-0 w-full h-full p-4 font-mono text-sm bg-transparent text-transparent caret-neutral-800 dark:caret-neutral-200 resize-none focus:outline-none overflow-auto"
+                    style={{ lineHeight: '1.625rem', whiteSpace: 'pre' }}
                     spellCheck={false}
                     placeholder="Paste your Solidity code here..."
                   />
-                  <pre className="p-4 font-mono text-sm pointer-events-none">
+                  <pre className="p-4 font-mono text-sm pointer-events-none overflow-auto">
                     <code className="language-solidity">
                       {inputCode.split('\n').map((line, idx) => (
                         <div
@@ -373,7 +373,7 @@ export default function StrategiesPlayground() {
               </button>
             </div>
 
-            <div className="flex-1 min-h-[500px] code-container overflow-hidden relative">
+            <div className="flex-1 min-h-[500px] code-container overflow-auto relative">
               {/* Transformation overlay */}
               {isTransforming && (
                 <div className="absolute inset-0 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-sm z-10 flex items-center justify-center">
@@ -406,7 +406,7 @@ export default function StrategiesPlayground() {
 
               {/* Output code */}
               {outputCode && (
-                <div className="h-full flex">
+                <div className="h-full flex min-w-full">
                   {/* Line numbers */}
                   <div className="select-none bg-cream-50 dark:bg-neutral-900 text-neutral-400 dark:text-neutral-600 text-right py-4 px-3 border-r border-cream-200 dark:border-neutral-800 font-mono text-sm">
                     {outputCode.split('\n').map((_, idx) => (
