@@ -1,0 +1,131 @@
+{
+  "id": "ss_l3_medium_nc_ds_233",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_233.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "timestamp_dependency",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "BlackJack",
+      "function_name": "_0x8338e2",
+      "line_numbers": []
+    },
+    "root_cause": "Weak randomness - predictable random number generation at line(s) 17",
+    "attack_vector": "Weak randomness - predictable random number generation at line(s) 17",
+    "impact": "Severity: medium",
+    "correct_fix": "Use Chainlink VRF or commit-reveal scheme for randomness"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_bad_randomness_blackjack",
+    "url": "https://etherscan.io/address/0xa65d59708838581520511d98fb8b5d1f76a96cad#code",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.9",
+    "num_lines": 299,
+    "num_contracts": 1,
+    "contract_names": [
+      "BlackJack"
+    ],
+    "num_functions": 15,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Weak randomness - predictable random number generation at line(s) 17",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_233.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_233.json",
+    "original_id": "smartbugs_bad_randomness_blackjack"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_233.sol",
+  "sanitized_from": "ds_233",
+  "derived_from": "nc_ds_233",
+  "original_id": "ds_233",
+  "identifier_mappings": {
+    "getPlayerCardsNumber": "_0x2793d1",
+    "getHouseCardsNumber": "_0x393f33",
+    "checkGameResult": "_0x1a0d99",
+    "playerShortage": "_0x77a558",
+    "playerScoreBig": "_0xfe9137",
+    "calculateScore": "_0x39c296",
+    "gameIsGoingOn": "_0x07c5ed",
+    "houseShortage": "_0x41e9e7",
+    "getPlayerCard": "_0x7b85ef",
+    "houseScoreBig": "_0xe7acb1",
+    "getGameState": "_0xb434b3",
+    "getHouseCard": "_0xc8629e",
+    "playerScore": "_0xb29a6a",
+    "playerCards": "_0x04b39a",
+    "finishGame": "_0x88f52d",
+    "bigAceUsed": "_0xfaa346",
+    "houseCards": "_0x74c40f",
+    "cardsDealt": "_0x8c98b6",
+    "cardNumber": "_0xe4654d",
+    "houseScore": "_0x6effe4",
+    "keccak256": "_0x960d39",
+    "nextCard": "_0x0deb6f",
+    "isBigAce": "_0x81a311",
+    "scoreBig": "_0xa67430",
+    "newCard": "_0xe7a7a9",
+    "valueOf": "_0x982f08",
+    "isUser": "_0x814ab0",
+    "minBet": "_0x3e14c4",
+    "player": "_0xe33deb",
+    "maxBet": "_0x3c8b24",
+    "score": "_0x5a7d47",
+    "cards": "_0x0b3d5a",
+    "state": "_0x38b12f",
+    "_card": "_0x983a7c",
+    "games": "_0x7592b8",
+    "isAce": "_0xe00fce",
+    "isTen": "_0x227a8b",
+    "stand": "_0xe5e539",
+    "card": "_0x4f08d7",
+    "deal": "_0x8338e2",
+    "game": "_0x5ac66f",
+    "bet": "_0x5f5a49",
+    "hit": "_0x5f51a8",
+    "id": "_0xeb35c6"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 44 identifiers using hex style"
+    ],
+    "rename_map_size": 44,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: deal \u2192 _0x8338e2"
+    ]
+  }
+}

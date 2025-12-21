@@ -1,0 +1,24 @@
+{
+  "id": "ds_179",
+  "original_id": "sealevel_4_initialization",
+  "source_dataset": "sealevel-attacks",
+  "language": "rust",
+  "chain": "solana",
+  "file_name": "4-initialization_insecure.rs",
+  "vulnerable_function": "initialization_insecure",
+  "vulnerable_lines": [],
+  "vulnerability_type": "missing_initialization_check",
+  "original_category": "4-initialization",
+  "severity": "critical",
+  "difficulty_tier": 2,
+  "description": "Missing initialization checks allow reinitialization attacks",
+  "fix_description": "Add initialization flag and check: require!(!account.is_initialized, ErrorCode::AlreadyInitialized)",
+  "is_vulnerable": true,
+  "context_level": "single_file",
+  "original_source_path": "programs/4-initialization/insecure/src/lib.rs",
+  "source_url": "Coral XYZ / Sealevel Attacks",
+  "references": [
+    "https://github.com/coral-xyz/sealevel-attacks"
+  ],
+  "framework": "anchor"
+}

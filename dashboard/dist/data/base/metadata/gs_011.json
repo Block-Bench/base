@@ -1,0 +1,84 @@
+{
+  "id": "gs_011",
+  "contract_file": "contracts/gs_011.sol",
+  "subset": "base",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "flash_loan",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "MinVotingPowerCondition",
+      "function_name": "isGranted",
+      "line_numbers": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
+    },
+    "root_cause": "The MinVotingPowerCondition contract allows any users who hold at least plugin.minProposerVotingPower() amount of tokens (locked in the LockManager or in their token balance) to create a proposal and execute LockToVote.createProposal. This logic can be easily bypassed if the token allows flashloan or flashmint. Given that isGranted checks the user's token balance (line 45: token.balanceOf(_who) + lockManager.getLockedBalance(_who)), the user does not even need to lock the flashloaned amount into the LockManager to be able to create and spam proposals.",
+    "attack_vector": "1. Flashloan the token.\n2. Create the proposal (isGranted passes because token.balanceOf includes flashloaned amount).\n3. Lock + vote the proposal and auto-execute it (EarlyExecution).\n4. Unlock the tokens.\n5. Repay the flashloan.\nAll in the very same transaction.",
+    "impact": "Severity: high",
+    "correct_fix": "Avoid using the token's balance and require the user to only use the locked amount. Change line 45 from 'token.balanceOf(_who) + lockManager.getLockedBalance(_who)' to just 'lockManager.getLockedBalance(_who)'. Store the proposal's creator in the proposal struct and require that the locked amount required to create the proposal won't be unlockable until the proposal ends."
+  },
+  "provenance": {
+    "source": "spearbit",
+    "original_id": "gs_spearbit_aragon-lock-to-vote_H01",
+    "url": "https://github.com/spearbit/portfolio/blob/master/pdfs/Aragon-Spearbit-Security-Review-July-2025.pdf",
+    "date_discovered": "2025-09-11",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 50,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "flash_loan",
+    "spearbit",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "The MinVotingPowerCondition.isGranted() function at line 45 checks 'token.balanceOf(_who) + lockManager.getLockedBalance(_who)'. Since token.balanceOf() can be temporarily inflated via flashloans, an attacker can bypass the minimum voting power requirement without actually having tokens locked. Combined with EarlyExecution mode, this allows creating and executing malicious proposals in a single transaction.",
+  "gold_standard_fields": {
+    "source_report": "Aragon DAO Gov Plugin Security Review",
+    "source_finding_id": "H-01",
+    "finding_title": "MinVotingPowerCondition logic can be bypassed via flashloans",
+    "difficulty_tier": 3,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "Attacker.flashloan() -> MinVotingPowerCondition.isGranted() checks token.balanceOf(_who) + lockManager.getLockedBalance(_who) -> returns true -> LockToVotePlugin.createProposal() succeeds -> repay flashloan"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_011.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_011.json",
+    "original_finding_title": "MinVotingPowerCondition logic can be bypassed via flashloans"
+  },
+  "original_subset": "gold_standard",
+  "context": "context/gs_011/",
+  "context_files": [
+    "context_01_LockToVotePlugin.sol",
+    "context_02_LockManagerBase.sol"
+  ]
+}

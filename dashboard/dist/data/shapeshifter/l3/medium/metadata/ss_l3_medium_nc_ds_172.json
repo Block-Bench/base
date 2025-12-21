@@ -1,0 +1,124 @@
+{
+  "id": "ss_l3_medium_nc_ds_172",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_172.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "balance",
+      "function_name": "_0xd7fcf7",
+      "line_numbers": []
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 100",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 100",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xb620cee6b52f96f3c6b253e6eea556aa2d214a99",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.23",
+    "num_lines": 135,
+    "num_contracts": 2,
+    "contract_names": [
+      "balance",
+      "FundManager"
+    ],
+    "num_functions": 17,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 100",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_172.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_172.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0xb620cee6b52f96f3c6b253e6eea556aa2d214a99"
+  },
+  "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "callSecondTarget": "_0xa771e4",
+    "manipulateSecret": "_0x411d00",
+    "callFirstTarget": "_0xd7fcf7",
+    "approvedPlayers": "_0xa4be8c",
+    "getPlayerCount": "_0x78a401",
+    "becomePlayer": "_0x13a27b",
+    "secondTarget": "_0x400116",
+    "unlockSecret": "_0xa994f4",
+    "checkSecret": "_0x3e073d",
+    "firstTarget": "_0x8b0ba0",
+    "onlyPlayers": "_0xcdac6a",
+    "claimPrize": "_0x021643",
+    "onlyWinner": "_0xe670ff",
+    "getLength": "_0xabd457",
+    "keccak256": "_0xce1849",
+    "guessSeed": "_0xbb3176",
+    "onlyOwner": "_0x30f9b9",
+    "setSecret": "_0x927cb9",
+    "winPrize": "_0x178da5",
+    "getPrize": "_0x8cdb49",
+    "players": "_0x76f6bf",
+    "_secret": "_0x0245c8",
+    "setSeed": "_0x7067da",
+    "addSeed": "_0x9d5db7",
+    "_index": "_0x9d7bf7",
+    "secret": "_0x96d962",
+    "_value": "_0xccd8a0",
+    "winner": "_0x19fda5",
+    "amount": "_0x6e726b",
+    "owner": "_0xefc010",
+    "_seed": "_0x1f4694",
+    "_add": "_0x936171",
+    "hash": "_0x9e0c26",
+    "seed": "_0xb05026"
+  },
+  "original_contract_file": "base/contracts/ds_172.sol",
+  "sanitized_from": "ds_172",
+  "derived_from": "nc_ds_172",
+  "original_id": "ds_172",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 34 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 34,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: callFirstTarget \u2192 _0xd7fcf7"
+    ]
+  }
+}

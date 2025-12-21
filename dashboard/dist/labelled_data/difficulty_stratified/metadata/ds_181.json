@@ -1,0 +1,22 @@
+{
+  "id": "ds_181",
+  "original_id": "defivulnlabs_sensefinance_exp",
+  "source_dataset": "DeFiVulnLabs",
+  "language": "solidity",
+  "chain": "evm",
+  "file_name": "SenseFinance_exp.sol",
+  "vulnerable_function": "multiple",
+  "vulnerable_lines": [],
+  "vulnerability_type": "logic_error",
+  "original_category": null,
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "description": "",
+  "fix_description": "",
+  "is_vulnerable": true,
+  "context_level": "intra_contract",
+  "original_source_path": "src/test/SenseFinance_exp.sol",
+  "source_url": null,
+  "references": [],
+  "framework": "foundry"
+}

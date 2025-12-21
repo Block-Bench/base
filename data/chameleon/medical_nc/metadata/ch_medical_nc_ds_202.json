@@ -1,0 +1,109 @@
+{
+  "id": "ch_medical_nc_ds_202",
+  "contract_file": "contracts/ch_medical_nc_ds_202.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "low",
+    "vulnerable_location": {
+      "contract_name": "CareAmplifier",
+      "function_name": "dischargeFunds",
+      "line_numbers": []
+    },
+    "root_cause": "# Honeypot Collection",
+    "attack_vector": "# Honeypot Collection",
+    "impact": "Severity: low",
+    "correct_fix": ""
+  },
+  "provenance": {
+    "source": "trail_of_bits",
+    "original_id": "notso_honeypots_multiplicator",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.18",
+    "num_lines": 26,
+    "num_contracts": 1,
+    "contract_names": [
+      "CareAmplifier"
+    ],
+    "num_functions": 2,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "not_so_smart",
+    "tier_3_hard",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "# Honeypot Collection",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_202.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_202.json",
+    "original_id": "notso_honeypots_multiplicator"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_202.sol",
+  "sanitized_from": "ds_202",
+  "derived_from": "sn_ds_202",
+  "original_id": "ds_202",
+  "identifier_mappings": {
+    "Multiplicator": "CareAmplifier",
+    "sender": "requestor",
+    "withdraw": "dischargeFunds",
+    "value": "measurement"
+  },
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 2719021270,
+    "coverage": {
+      "total_identifiers": 6,
+      "transformed": 4,
+      "untransformed": 2,
+      "skipped_reserved": 14,
+      "skipped_interface": 0,
+      "coverage_percent": 66.67,
+      "untransformed_details": [
+        {
+          "name": "multiplicate",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "adr",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "Multiplicator": "CareAmplifier",
+      "sender": "requestor",
+      "withdraw": "dischargeFunds",
+      "value": "measurement"
+    }
+  }
+}

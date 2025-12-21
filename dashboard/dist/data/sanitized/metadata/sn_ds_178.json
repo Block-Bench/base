@@ -1,0 +1,73 @@
+{
+  "id": "sn_ds_178",
+  "contract_file": "contracts/sn_ds_178.rs",
+  "subset": "sanitized",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "owner_checks",
+      "function_name": "owner_checks",
+      "line_numbers": []
+    },
+    "root_cause": "Missing owner validation allows use of accounts owned by wrong programs",
+    "attack_vector": "Missing owner validation allows use of accounts owned by wrong programs",
+    "impact": "Severity: critical",
+    "correct_fix": "Check account owner: require!(account.owner == expected_program_id, ErrorCode::InvalidOwner)"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "sealevel_2_owner_checks",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "N/A",
+    "num_lines": 26,
+    "num_contracts": 1,
+    "contract_names": [
+      "owner_checks"
+    ],
+    "num_functions": 1,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "sealevel_attacks",
+    "tier_2_medium",
+    "rust"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Missing owner validation allows use of accounts owned by wrong programs",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_178.rs",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_178.json",
+    "original_id": "sealevel_2_owner_checks"
+  },
+  "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "owner_checks_insecure": "owner_checks"
+  },
+  "original_contract_file": "base/contracts/ds_178.rs",
+  "sanitized_from": "ds_178"
+}

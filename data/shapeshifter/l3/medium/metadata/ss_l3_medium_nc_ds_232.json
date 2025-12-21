@@ -1,0 +1,135 @@
+{
+  "id": "ss_l3_medium_nc_ds_232",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_232.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "PausableToken",
+      "function_name": "_0xac45ab",
+      "line_numbers": []
+    },
+    "root_cause": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 264",
+    "attack_vector": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 264",
+    "impact": "Severity: high",
+    "correct_fix": "Use SafeMath library or Solidity 0.8+ with built-in overflow checks"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_arithmetic_BECToken",
+    "url": "https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-101#bectokensol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.16",
+    "num_lines": 216,
+    "num_contracts": 8,
+    "contract_names": [
+      "ERC20Basic",
+      "BasicToken",
+      "ERC20",
+      "StandardToken",
+      "Ownable",
+      "Pausable",
+      "PausableToken",
+      "BecToken"
+    ],
+    "num_functions": 23,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_4_expert",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 4,
+    "difficulty_tier_name": "multi_contract",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Integer overflow/underflow vulnerability - arithmetic operations without bounds checking at line(s) 264",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_232.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_232.json",
+    "original_id": "smartbugs_arithmetic_BECToken"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_232.sol",
+  "sanitized_from": "ds_232",
+  "derived_from": "nc_ds_232",
+  "original_id": "ds_232",
+  "identifier_mappings": {
+    "transferOwnership": "_0x7cad15",
+    "whenNotPaused": "_0xd8eb69",
+    "previousOwner": "_0x7fa1fd",
+    "batchTransfer": "_0xac45ab",
+    "transferFrom": "_0x3c8bb7",
+    "totalSupply": "_0x13e23e",
+    "_receivers": "_0xbf3105",
+    "whenPaused": "_0x401524",
+    "onlyOwner": "_0x0d8a81",
+    "balanceOf": "_0x489cd2",
+    "allowance": "_0x701717",
+    "remaining": "_0x1b74e5",
+    "decimals": "_0xffc922",
+    "_spender": "_0x6dd069",
+    "balances": "_0x23a3b0",
+    "newOwner": "_0x8626d8",
+    "version": "_0x3b13e6",
+    "allowed": "_0xf43d17",
+    "unpause": "_0x7110cc",
+    "spender": "_0x12a8d2",
+    "approve": "_0x0aa0bd",
+    "paused": "_0x7a6936",
+    "_value": "_0xca6f6e",
+    "symbol": "_0x6037a6",
+    "_owner": "_0x33db39",
+    "amount": "_0xd81b1a",
+    "pause": "_0x33c6c6",
+    "owner": "_0x3d40be",
+    "_from": "_0x9e90f6",
+    "name": "_0x5939cc",
+    "mul": "_0x79e2f5",
+    "who": "_0x3367f4",
+    "_to": "_0xfbc9d0",
+    "div": "_0xbc73e1",
+    "add": "_0x5d00a2",
+    "cnt": "_0x642c72",
+    "sub": "_0xcd84ff",
+    "to": "_0x5f8273"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 38 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 38,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: batchTransfer \u2192 _0xac45ab"
+    ]
+  }
+}

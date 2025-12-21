@@ -1,0 +1,128 @@
+{
+  "id": "ss_l3_medium_nc_tc_033",
+  "contract_file": "contracts/ss_l3_medium_nc_tc_033.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "SocketGateway",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $3,300,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_033",
+    "url": null,
+    "date_discovered": "2024-01-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 61,
+    "num_contracts": 2,
+    "contract_names": [
+      "SocketGateway",
+      "VulnerableRoute"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "bridge",
+    "arbitrary_call",
+    "user_input_validation",
+    "approval_exploit",
+    "calldata_injection",
+    "cross_chain"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-01-01",
+      "protocol_name": "Socket Gateway Route Manipulation",
+      "chain": "ethereum",
+      "funds_lost_usd": 3300000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Socket Gateway Route Manipulation exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_033.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_033.json",
+    "original_exploit_name": "Socket Gateway Route Manipulation"
+  },
+  "original_subset": "temporal_contamination",
+  "identifier_mappings": {
+    "receiverAddress": "_0x65e8da",
+    "approvedRoutes": "_0xeb0aee",
+    "swapExtraData": "_0xeb0ee5",
+    "performAction": "_0xe8e2a8",
+    "transferFrom": "_0x1adaac",
+    "executeRoute": "_0x0ec379",
+    "routeAddress": "_0xd7605f",
+    "routeData": "_0x5025bd",
+    "fromToken": "_0x6253e7",
+    "balanceOf": "_0xe4d147",
+    "addRoute": "_0x7fc7f7",
+    "metadata": "_0xa73292",
+    "toToken": "_0x6f9430",
+    "success": "_0xac841b",
+    "account": "_0x5e0116",
+    "spender": "_0x5a1a37",
+    "approve": "_0x3cf8a2",
+    "routeId": "_0x5cac82",
+    "routes": "_0x43d60e",
+    "result": "_0x923289",
+    "amount": "_0xb0b853",
+    "user": "_0x84cc0b",
+    "to": "_0x384d8e"
+  },
+  "original_contract_file": "base/contracts/tc_033.sol",
+  "sanitized_from": "tc_033",
+  "derived_from": "nc_tc_033",
+  "original_id": "tc_033",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 23 identifiers using hex style"
+    ],
+    "rename_map_size": 23,
+    "metadata_changes": []
+  }
+}

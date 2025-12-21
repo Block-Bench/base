@@ -1,0 +1,40 @@
+{
+  "id": "gs_008",
+  "original_id": "gs_c4_2025-10-hybra-finance_M07",
+  "source_dataset": "gold_standard",
+  "source_file": "Hybrafin.json",
+  "language": "solidity",
+  "chain": "ethereum",
+  "source_platform": "code4rena",
+  "source_report": "2025-10-hybra-finance",
+  "source_finding_id": "M-07",
+  "report_url": "https://code4rena.com/reports/2025-10-hybra-finance",
+  "github_repo_url": "https://github.com/code-423n4/2025-10-hybra-finance",
+  "contest_date": "2025-10-06",
+  "vulnerability_type": "logic_error",
+  "severity": "medium",
+  "difficulty_tier": 1,
+  "context_level": "multi_file",
+  "is_vulnerable": true,
+  "finding_title": "Claiming rewards in GovernanceHYBR will always revert",
+  "finding_description": "`claimRewards()` uses `IVoter.poolVote(veTokenId)` incorrectly; `poolVote` is a mapping, not a function returning an array, causing a revert.",
+  "attack_scenario": "A test votes on pools, warps time, and `claimRewards()` reverts due to invalid getter call.",
+  "fix_description": "Add `getPoolVote(veTokenId)` in `VoterV3.sol` to return the array. Status: Mitigation confirmed.",
+  "call_flow": "claimRewards() -> IVoter.poolVote(veTokenId) [invalid call] -> revert",
+  "context_hint": "Incorrect interface usage treats mapping as function, causing revert on reward claims.",
+  "primary_file_path": "ve33/contracts/GovernanceHYBR.sol",
+  "vulnerable_lines": [
+    370
+  ],
+  "vulnerable_functions": [
+    "claimRewards"
+  ],
+  "context_files": [
+    {
+      "filename": "context_01_VoterV3.sol",
+      "original_path": "ve33/contracts/VoterV3.sol",
+      "relevance": "VoterV3 holds the poolVote mapping that GovernanceHYBR tries to call as a getter function."
+    }
+  ],
+  "has_context": true
+}

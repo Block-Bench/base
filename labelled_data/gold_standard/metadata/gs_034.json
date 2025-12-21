@@ -1,0 +1,42 @@
+{
+  "id": "gs_034",
+  "original_id": "gs_c4_2025-10-sequence_M04",
+  "source_dataset": "gold_standard",
+  "source_file": "sequence.json",
+  "language": "solidity",
+  "chain": "ethereum",
+  "source_platform": "code4rena",
+  "source_report": "",
+  "source_finding_id": "M-04",
+  "report_url": "https://code4rena.com/reports/2025-10-sequence",
+  "github_repo_url": "https://github.com/code-423n4/2025-10-sequence",
+  "contest_date": "2025-10-07",
+  "vulnerability_type": "dos",
+  "severity": "medium",
+  "difficulty_tier": 2,
+  "context_level": "single_file",
+  "is_vulnerable": true,
+  "finding_title": "Factory deploy reverts instead of returning address when account already exists",
+  "finding_description": "Factory.deploy uses create2 but reverts with CreateCollision if address exists, violating ERC-4337 expectation to return address. Breaks simulations and bundler logic.",
+  "attack_scenario": "Deploy wallet once, call deploy again \u2192 reverts. Attacker can front-run to cause DoS. PoC: test_factory_double_deploy_PoC in AuditPoC.sol. Shows first deploy succeeds, second reverts.",
+  "fix_description": "Check if address exists via predicted.code.length, return it if so.",
+  "call_flow": "Factory.deploy(existing wallet) -> create2 collision -> revert CreateCollision (instead of returning address)",
+  "context_hint": "Factory reverts on redeploy attempt instead of returning existing address, breaking ERC-4337 compatibility and enabling DoS.",
+  "primary_file_path": "src/Factory.sol",
+  "vulnerable_lines": [
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26
+  ],
+  "vulnerable_functions": [
+    "deploy"
+  ],
+  "context_files": [],
+  "has_context": false
+}

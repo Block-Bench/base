@@ -1,0 +1,27 @@
+{
+  "id": "ds_175",
+  "original_id": "sealevel_0_signer_authorization",
+  "source_dataset": "sealevel-attacks",
+  "language": "rust",
+  "chain": "solana",
+  "file_name": "0-signer-authorization_insecure.rs",
+  "vulnerable_function": "signer_authorization_insecure",
+  "vulnerable_lines": [],
+  "vulnerability_type": "missing_signer_check",
+  "original_category": "0-signer-authorization",
+  "severity": "critical",
+  "difficulty_tier": 2,
+  "description": "Missing signer check allows unauthorized users to call functions that should be restricted",
+  "fix_description": "Add is_signer check: require!(ctx.accounts.authority.is_signer, ErrorCode::Unauthorized)",
+  "is_vulnerable": true,
+  "context_level": "single_file",
+  "original_source_path": "programs/0-signer-authorization/insecure/src/lib.rs",
+  "source_url": "Coral XYZ / Sealevel Attacks",
+  "references": [
+    "https://github.com/coral-xyz/sealevel-attacks"
+  ],
+  "framework": "anchor",
+  "contract_file": "contracts/ds_175.rs",
+  "subset": "annotated",
+  "original_subset": "difficulty_stratified"
+}

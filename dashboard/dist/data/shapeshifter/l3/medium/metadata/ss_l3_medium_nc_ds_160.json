@@ -1,0 +1,101 @@
+{
+  "id": "ss_l3_medium_nc_ds_160",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_160.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "balance",
+      "function_name": "_0xc66f0b",
+      "line_numbers": []
+    },
+    "root_cause": "Security vulnerability at line(s) 40, 41, 42",
+    "attack_vector": "Security vulnerability at line(s) 40, 41, 42",
+    "impact": "Severity: medium",
+    "correct_fix": "Apply security best practices to fix this vulnerability"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_other_crypto_roulette",
+    "url": "https://github.com/thec00n/smart-contract-honeypots/blob/master/CryptoRoulette.sol",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 57,
+    "num_contracts": 2,
+    "contract_names": [
+      "balance",
+      "CryptoRoulette"
+    ],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Security vulnerability at line(s) 40, 41, 42",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_160.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_160.json",
+    "original_id": "smartbugs_other_crypto_roulette"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_160.sol",
+  "sanitized_from": "ds_160",
+  "derived_from": "nc_ds_160",
+  "original_id": "ds_160",
+  "identifier_mappings": {
+    "secretNumber": "_0x08f418",
+    "gamesPlayed": "_0x05401f",
+    "lastPlayed": "_0x125486",
+    "ownerAddr": "_0xcf17f2",
+    "betPrice": "_0x44dc50",
+    "shuffle": "_0xcb3966",
+    "player": "_0x948960",
+    "play": "_0xc66f0b",
+    "game": "_0x3891b3",
+    "sha3": "_0x4f9f2b",
+    "kill": "_0xaa8819",
+    "now": "_0x366f5e"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 12 identifiers using hex style",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 12,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: play \u2192 _0xc66f0b"
+    ]
+  }
+}

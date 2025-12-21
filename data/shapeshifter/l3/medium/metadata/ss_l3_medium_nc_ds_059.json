@@ -1,0 +1,96 @@
+{
+  "id": "ss_l3_medium_nc_ds_059",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_059.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "SimpleWallet",
+      "function_name": "_0xca82b8",
+      "line_numbers": []
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 33",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 33",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x610495793564aed0f9c7fc48dc4c7c9151d34fd6",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.24",
+    "num_lines": 29,
+    "num_contracts": 1,
+    "contract_names": [
+      "SimpleWallet"
+    ],
+    "num_functions": 3,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": true,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 33",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_059.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_059.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x610495793564aed0f9c7fc48dc4c7c9151d34fd6"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_059.sol",
+  "sanitized_from": "ds_059",
+  "derived_from": "nc_ds_059",
+  "original_id": "ds_059",
+  "identifier_mappings": {
+    "depositsCount": "_0xaa155d",
+    "withdrawAll": "_0x4e4e55",
+    "sendMoney": "_0xca82b8",
+    "onlyOwner": "_0x6df281",
+    "withdraw": "_0xc7a84f",
+    "_target": "_0xc8e9d5",
+    "_value": "_0x8c5588",
+    "_data": "_0x037b7c",
+    "owner": "_0x165f3a"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 9 identifiers using hex style"
+    ],
+    "rename_map_size": 9,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: sendMoney \u2192 _0xca82b8"
+    ]
+  }
+}

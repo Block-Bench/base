@@ -1,0 +1,65 @@
+{
+  "id": "gs_031",
+  "original_id": "gs_c4_2025-10-sequence_M01",
+  "source_dataset": "gold_standard",
+  "source_file": "sequence.json",
+  "language": "solidity",
+  "chain": "ethereum",
+  "source_platform": "code4rena",
+  "source_report": "2025-10-sequence",
+  "source_finding_id": "M-01",
+  "report_url": "https://code4rena.com/reports/2025-10-sequence",
+  "github_repo_url": "https://github.com/code-423n4/2025-10-sequence",
+  "contest_date": "2025-10-07",
+  "vulnerability_type": "signature_replay",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "context_level": "multi_file",
+  "is_vulnerable": true,
+  "finding_title": "Session signatures replay across wallets due to missing wallet binding",
+  "finding_description": "SessionSig.hashCallWithReplayProtection omits wallet address in hash, allowing signatures for one wallet to replay on another with same config and nonce. SessionManager.recoverSapientSignature and BaseAuth.signatureValidation do not bind to msg.sender.",
+  "attack_scenario": "Sign payload for Wallet A, replay on Wallet B (same config, nonce). Drains both wallets. PoC: test/extensions/sessions/SessionReplay.t.sol, run forge test --match-test test_crossWalletSessionReplayDrainsSiblingWallet -vv. Logs show attacker draining two wallets.",
+  "fix_description": "Include address(this) in hashCallWithReplayProtection. Update SDK to hash (wallet, chainId, space, nonce, callIdx, call details).",
+  "call_flow": "Sign session for WalletA -> Submit to WalletB (same config/nonce) -> Validation passes -> Drain WalletB",
+  "context_hint": "Session signature hashes omit the wallet address, enabling cross-wallet replay attacks on identically configured wallets.",
+  "primary_file_path": "src/extensions/sessions/SessionSig.sol",
+  "vulnerable_lines": [
+    406,
+    407,
+    408,
+    409,
+    410,
+    411,
+    412,
+    413,
+    414,
+    415,
+    416,
+    417,
+    418,
+    419,
+    420,
+    421
+  ],
+  "vulnerable_functions": [
+    "hashCallWithReplayProtection"
+  ],
+  "context_files": [
+    {
+      "filename": "context_01_SessionManager.sol",
+      "original_path": "src/extensions/sessions/SessionManager.sol",
+      "relevance": "SessionManager recovery does not enforce wallet binding."
+    },
+    {
+      "filename": "context_02_BaseAuth.sol",
+      "original_path": "src/modules/auth/BaseAuth.sol",
+      "relevance": "BaseAuth validation lacks wallet-specific checks."
+    },
+    {
+      "filename": "context_03_Stage2Auth.sol",
+      "original_path": "src/modules/auth/Stage2Auth.sol",
+      "relevance": "Stage2Auth contributes to the overall signature validation flow that fails to bind to the specific wallet."
+    }
+  ],
+  "has_context": true
+}

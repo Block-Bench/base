@@ -1,0 +1,103 @@
+{
+  "id": "ss_l2_short_nc_ds_057",
+  "contract_file": "contracts/ss_l2_short_nc_ds_057.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Token",
+      "function_name": "d",
+      "line_numbers": [
+        27
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 27",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 27",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x52d2e0f9b01101a59b38a3d05c80b7618aeed984",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.19",
+    "num_lines": 24,
+    "num_contracts": 2,
+    "contract_names": [
+      "Token",
+      "EtherGet"
+    ],
+    "num_functions": 6,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_1_easy",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 1,
+    "difficulty_tier_name": "textbook",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 27",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_057.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_057.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x52d2e0f9b01101a59b38a3d05c80b7618aeed984"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_057.sol",
+  "sanitized_from": "ds_057",
+  "derived_from": "nc_ds_057",
+  "original_id": "ds_057",
+  "identifier_mappings": {
+    "withdrawTokens": "a",
+    "tokenContract": "b",
+    "withdrawEther": "c",
+    "getTokens": "d",
+    "balanceOf": "e",
+    "success": "f",
+    "_owner": "g",
+    "_value": "h",
+    "owner": "i",
+    "addr": "j",
+    "num": "k",
+    "_to": "l",
+    "tc": "m"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l2",
+    "variant": "short",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 13 identifiers using short style"
+    ],
+    "rename_map_size": 13,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: getTokens \u2192 d"
+    ]
+  }
+}

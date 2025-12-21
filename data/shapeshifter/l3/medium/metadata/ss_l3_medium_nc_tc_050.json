@@ -1,0 +1,137 @@
+{
+  "id": "ss_l3_medium_nc_tc_050",
+  "contract_file": "contracts/ss_l3_medium_nc_tc_050.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "MunchablesLockManager",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $62,000,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_050",
+    "url": null,
+    "date_discovered": "2024-03-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 108,
+    "num_contracts": 1,
+    "contract_names": [
+      "MunchablesLockManager"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "gamefi",
+    "private_key_compromise",
+    "rogue_developer",
+    "insider_threat",
+    "proxy_upgrade",
+    "funds_recovered"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-03-01",
+      "protocol_name": "Munchables",
+      "chain": "blast",
+      "funds_lost_usd": 62000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Munchables exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_050.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_050.json",
+    "original_exploit_name": "Munchables"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_050.sol",
+  "sanitized_from": "tc_050",
+  "derived_from": "nc_tc_050",
+  "original_id": "tc_050",
+  "identifier_mappings": {
+    "setConfigStorage": "_0x9cbc20",
+    "setLockRecipient": "_0x2c5980",
+    "emergencyUnlock": "_0x914216",
+    "playerBalances": "_0xaff323",
+    "_configStorage": "_0x15d93c",
+    "playerSettings": "_0x15a6ce",
+    "transferAdmin": "_0x1a9e1e",
+    "lockRecipient": "_0x5e675e",
+    "lockStartTime": "_0xb1b97b",
+    "configStorage": "_0x6f972c",
+    "newRecipient": "_0x8396d1",
+    "transferFrom": "_0xe56d9b",
+    "lockDuration": "_0xb3ba1d",
+    "lockedAmount": "_0x58a3bf",
+    "oldConfig": "_0xeaaaea",
+    "onlyAdmin": "_0x5d9e04",
+    "recipient": "_0x650734",
+    "newConfig": "_0x61b388",
+    "balanceOf": "_0xf98470",
+    "newAdmin": "_0xfa31d4",
+    "settings": "_0xd3fce0",
+    "duration": "_0xf6b7f1",
+    "account": "_0xb1c5b7",
+    "player": "_0x5c9026",
+    "unlock": "_0x7ae014",
+    "amount": "_0x5bbffb",
+    "admin": "_0x85166f",
+    "_weth": "_0x2fd779",
+    "weth": "_0x68f290",
+    "lock": "_0x3a0a2c",
+    "to": "_0x8c6e13"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 31 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 31,
+    "metadata_changes": []
+  }
+}

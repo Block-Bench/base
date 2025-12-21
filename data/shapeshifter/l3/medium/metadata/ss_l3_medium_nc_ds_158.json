@@ -1,0 +1,95 @@
+{
+  "id": "ss_l3_medium_nc_ds_158",
+  "contract_file": "contracts/ss_l3_medium_nc_ds_158.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "front_running",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "EthTxOrderDependenceMinimal",
+      "function_name": "_0x1d2f95",
+      "line_numbers": []
+    },
+    "root_cause": "Front-running vulnerability - transaction ordering dependence at line(s) 23",
+    "attack_vector": "Front-running vulnerability - transaction ordering dependence at line(s) 23",
+    "impact": "Severity: medium",
+    "correct_fix": "Use commit-reveal scheme or submarine sends"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_front_running_eth_tx_order_dependence_minimal",
+    "url": "https://github.com/ConsenSys/evm-analyzer-benchmark-suite",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.16",
+    "num_lines": 27,
+    "num_contracts": 1,
+    "contract_names": [
+      "EthTxOrderDependenceMinimal"
+    ],
+    "num_functions": 3,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Front-running vulnerability - transaction ordering dependence at line(s) 23",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_158.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_158.json",
+    "original_id": "smartbugs_front_running_eth_tx_order_dependence_minimal"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_158.sol",
+  "sanitized_from": "ds_158",
+  "derived_from": "nc_ds_158",
+  "original_id": "ds_158",
+  "identifier_mappings": {
+    "claimReward": "_0x4ddf54",
+    "submission": "_0xcfd235",
+    "setReward": "_0x1d2f95",
+    "claimed": "_0x2fb0cc",
+    "reward": "_0x70c24a",
+    "owner": "_0x9097b3"
+  },
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "nocomments",
+    "changes": [
+      "Renamed 6 identifiers using hex style",
+      "Wrapped assignment in conditional",
+      "Wrapped assignment in conditional"
+    ],
+    "rename_map_size": 6,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: setReward \u2192 _0x1d2f95"
+    ]
+  }
+}

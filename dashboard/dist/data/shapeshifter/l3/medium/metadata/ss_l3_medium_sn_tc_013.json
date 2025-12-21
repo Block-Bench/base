@@ -1,0 +1,132 @@
+{
+  "id": "ss_l3_medium_sn_tc_013",
+  "contract_file": "contracts/ss_l3_medium_sn_tc_013.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "pancake_hunny.sol",
+      "function_name": "_0x2aae62",
+      "line_numbers": []
+    },
+    "root_cause": "Using balanceOf(address(this)) for reward calculation instead of tracking actual deposits. Attacker sent tokens directly to contract before calling mintFor, inflating the balance used for reward calculation.",
+    "attack_vector": "Attacker flash loaned large amount of LP tokens, sent them directly to minter contract, called getReward which triggered mintFor. Function calculated rewards based on inflated balance, minting excessive HUNNY tokens.",
+    "impact": "Funds lost: $45,000,000",
+    "correct_fix": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": null,
+    "url": null,
+    "date_discovered": "2021-05-20",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 86,
+    "num_contracts": 1,
+    "contract_names": [
+      "RewardMinter"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "balance-manipulation",
+    "flash-loan",
+    "reward-calculation",
+    "balanceof-exploit"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2021-05-20",
+      "protocol_name": "PancakeHunny (PancakeBunny)",
+      "chain": "bsc",
+      "funds_lost_usd": 45000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous PancakeHunny (PancakeBunny) exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_013.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_013.json",
+    "original_exploit_name": "PancakeHunny (PancakeBunny)"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_013.sol",
+  "sanitized_from": "tc_013",
+  "identifier_mappings": {
+    "swapExactTokensForTokens": "_0x23157b",
+    "hunnyRewardAmount": "_0x406114",
+    "_performanceFee": "_0x6cf5bd",
+    "_withdrawalFee": "_0x759607",
+    "earnedRewards": "_0x18b7bb",
+    "tokenToReward": "_0xe7c29b",
+    "_rewardToken": "_0xd14fff",
+    "transferFrom": "_0xf61fdd",
+    "depositedLP": "_0xc07f15",
+    "rewardToken": "_0xab3cdc",
+    "balanceOf": "_0xb5f8a4",
+    "amountOut": "_0xc9d0c1",
+    "getReward": "_0x971b6c",
+    "deadline": "_0x8c59a4",
+    "lpAmount": "_0x42a625",
+    "_lpToken": "_0xfedbb1",
+    "amountIn": "_0xb87229",
+    "withdraw": "_0xb1adeb",
+    "account": "_0x51888b",
+    "amounts": "_0x8e2e82",
+    "lpToken": "_0xc46368",
+    "mintFor": "_0x2aae62",
+    "deposit": "_0xcd4de2",
+    "reward": "_0x61504c",
+    "amount": "_0x1154b1",
+    "feeSum": "_0xf6133e",
+    "flip": "_0x1239ab",
+    "path": "_0x747726",
+    "to": "_0xb643f4"
+  },
+  "derived_from": "sn_tc_013",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "sanitized",
+    "changes": [
+      "Renamed 29 identifiers using hex style"
+    ],
+    "rename_map_size": 29,
+    "metadata_changes": [
+      "Transformed ground_truth.vulnerable_location.function_name: mintFor \u2192 _0x2aae62"
+    ]
+  }
+}

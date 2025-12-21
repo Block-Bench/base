@@ -1,0 +1,75 @@
+{
+  "id": "nc_ds_218",
+  "contract_file": "contracts/nc_ds_218.rs",
+  "subset": "nocomments",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "arbitrary_cpi",
+      "function_name": "arbitrary_cpi",
+      "line_numbers": []
+    },
+    "root_cause": "Unconstrained Cross-Program Invocation (CPI) allows arbitrary program calls",
+    "attack_vector": "Unconstrained Cross-Program Invocation (CPI) allows arbitrary program calls",
+    "impact": "Severity: critical",
+    "correct_fix": "Constrain target program in CPI: require!(ctx.accounts.target_program.key() == expected_program_id)"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "sealevel_5_arbitrary_cpi",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "N/A",
+    "num_lines": 35,
+    "num_contracts": 1,
+    "contract_names": [
+      "arbitrary_cpi"
+    ],
+    "num_functions": 1,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "sealevel_attacks",
+    "tier_3_hard",
+    "rust"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 3,
+    "difficulty_tier_name": "subtle_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unconstrained Cross-Program Invocation (CPI) allows arbitrary program calls",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_218.rs",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_218.json",
+    "original_id": "sealevel_5_arbitrary_cpi"
+  },
+  "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "arbitrary_cpi_insecure": "arbitrary_cpi"
+  },
+  "original_contract_file": "base/contracts/ds_218.rs",
+  "sanitized_from": "ds_218",
+  "derived_from": "sn_ds_218",
+  "original_id": "ds_218"
+}

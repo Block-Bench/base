@@ -1,0 +1,43 @@
+{
+  "id": "gs_018",
+  "original_id": "gs_spearbit_aragon-lock-to-vote_M06",
+  "source_dataset": "gold_standard",
+  "source_file": "aragon.json",
+  "language": "solidity",
+  "chain": "ethereum",
+  "source_platform": "spearbit",
+  "source_report": "Aragon DAO Gov Plugin Security Review",
+  "source_finding_id": "M-06",
+  "report_url": "https://github.com/spearbit/portfolio/blob/master/pdfs/Aragon-Spearbit-Security-Review-July-2025.pdf",
+  "github_repo_url": "https://github.com/aragon/lock-to-vote-plugin/tree/b3c5503c",
+  "contest_date": "2025-09-11",
+  "vulnerability_type": "logic_error",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "context_level": "multi_file",
+  "is_vulnerable": true,
+  "finding_title": "currentTokenSupply() can be gamed risk-free to manipulate either side of votes in certain assets",
+  "finding_description": "The currentTokenSupply() function at LockToVotePlugin line 249-251 returns IERC20(lockManager.token()).totalSupply(). This is used in threshold checks (isMinVotingPowerReached, isMinApprovalReached). For tokens like ERC4626 shares, flash-mintable tokens (DAI, WETH), or tokens with permissionless minting, attackers can manipulate totalSupply to skew voting thresholds. This is especially impactful during the last block of a proposal.",
+  "attack_scenario": "1. A proposal is close to passing based on participation threshold.\n2. Attacker flash-mints large amount of tokens (e.g., via ERC4626 vault deposit).\n3. currentTokenSupply() returns inflated totalSupply.\n4. isMinVotingPowerReached() calculates: votes / inflatedSupply.\n5. Participation ratio appears lower than required.\n6. Proposal that should pass now fails.\n7. Attacker burns/withdraws the tokens in same transaction.",
+  "fix_description": "Avoid using currentTotalSupply where it can be skewed. Consider recording totalSupply at proposal creation time. Document token compatibility requirements. Use conservative figures if supply changes significantly.",
+  "call_flow": "Attacker.flashMint() -> totalSupply increases -> proposal.execute() -> MajorityVotingBase._hasSucceeded() -> isMinVotingPowerReached() -> currentTokenSupply() returns inflated value -> participation check fails -> Attacker.flashBurn()",
+  "context_hint": "The currentTokenSupply() at lines 249-251 returns IERC20.totalSupply() directly. For tokens where supply can be atomically manipulated (flash-mintable, ERC4626 shares), attackers can inflate/deflate supply during threshold calculations. This allows gaming the participation and approval requirements, especially on the last block of voting.",
+  "primary_file_path": "src/LockToVotePlugin.sol",
+  "vulnerable_lines": [
+    248,
+    249,
+    250,
+    251
+  ],
+  "vulnerable_functions": [
+    "currentTokenSupply"
+  ],
+  "context_files": [
+    {
+      "filename": "context_01_MajorityVotingBase.sol",
+      "original_path": "src/base/MajorityVotingBase.sol",
+      "relevance": "Contains isMinVotingPowerReached() and isMinApprovalReached() which call currentTokenSupply(). These functions are called during _hasSucceeded() checks to determine if a proposal can be executed."
+    }
+  ],
+  "has_context": true
+}

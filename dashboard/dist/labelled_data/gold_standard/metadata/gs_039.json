@@ -1,0 +1,31 @@
+{
+  "id": "gs_039",
+  "original_id": "gs_quantstamp_strata_strt001",
+  "source_dataset": "gold_standard",
+  "vulnerability_type": "rounding_error",
+  "severity": "medium",
+  "difficulty_tier": 2,
+  "context_level": "single_file",
+  "is_vulnerable": true,
+  "finding_title": "Decimal Precision Normalization Missing in Slippage Calculation",
+  "finding_description": "The deposit_viaSwap() function in TrancheDepositor does not normalize decimal differences between the input swap token and the tranche's base asset. When a user deposits a 6-decimal asset (USDC) into a tranche designed for 18-decimal assets (USDe), the slippage protection uses the wrong decimal scale, causing the transaction to be vulnerable to 99%+ MEV extraction despite slippage parameters being set.",
+  "vulnerable_lines": [
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56
+  ],
+  "vulnerable_functions": [
+    "deposit_viaSwap"
+  ],
+  "has_context": false,
+  "attack_scenario": "1. User wants to deposit 1000 USDC (1000e6 wei) into USDe tranche\n2. USDe has 18 decimals, expected deposit value = 1000e18 wei\n3. User specifies minDepositAmount = 995e18 (0.5% slippage tolerance)\n4. deposit_viaSwap() routes through DEX: USDC \u2192 USDe at market rate 1:1 (before MEV)\n5. Attacker sandwiches: depletes USDC liquidity, inflating USDe price\n6. User's 1000 USDC converted to only 10 USDe instead of 1000e18 USDe\n7. Slippage check compares: 10 USDe vs minDepositAmount (which is interpreted as 10 when decimals not normalized)\n8. Check passes: 10 >= 10, transaction succeeds\n9. User receives 10 USDe worth ~$10 instead of $1000\n10. Attacker backruns: profits from price recovery, extracts $990 of value",
+  "fix_description": "Normalize decimal differences before slippage validation. In deposit_viaSwap(): (1) Query decimals of both tokens: uint8 inDecimals = IERC20Metadata(inToken).decimals(); uint8 outDecimals = IERC20Metadata(outToken).decimals(); (2) Calculate decimal offset: int8 decimalDiff = int8(outDecimals) - int8(inDecimals); (3) Scale slippage amounts: if (decimalDiff > 0) { minDepositAmount = minDepositAmount / (10 ** uint8(decimalDiff)); } else { minDepositAmount = minDepositAmount * (10 ** uint8(-decimalDiff)); } (4) Then perform slippage check on normalized amounts. Alternatively, always normalize to 18 decimals before comparisons.",
+  "expert_notes": "This vulnerability combines two common mistakes: (1) assuming all ERC20 tokens have 18 decimals, and (2) not normalizing values before comparison operations. The fix is straightforward but critical: always convert to a common decimal baseline (usually 18) before performing amount comparisons. This pattern appears in many DEX-integrated protocols where slippage protection becomes ineffective due to decimal mismatches.",
+  "context_hint": "Slippage protection only works if the minimum amount is compared against the output using the same decimal scale. When input and output have different decimal places, the comparison becomes meaningless without normalization. This is particularly dangerous in tranches that use stable assets across multiple decimal standards (USDC=6, USDe=18, DAI=18, USDT=6).",
+  "call_flow": "User calls deposit_viaSwap(1000 USDC, minAmount=995e18, path=[USDC, USDe]) \u2192 DEX swaps without decimal normalization \u2192 Slippage check ignores decimal mismatch \u2192 MEV succeeds despite slippage protection \u2192 User receives ~1% of expected value"
+}

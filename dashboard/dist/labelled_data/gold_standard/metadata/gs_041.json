@@ -1,0 +1,28 @@
+{
+  "id": "gs_041",
+  "original_id": "gs_quantstamp_sequence_seq002",
+  "source_dataset": "gold_standard",
+  "vulnerability_type": "token_compatibility",
+  "severity": "medium",
+  "difficulty_tier": 2,
+  "context_level": "single_file",
+  "is_vulnerable": true,
+  "finding_title": "transferFrom() Usage Reverts on Non-Standard ERC-20 Tokens",
+  "finding_description": "The TrailsIntentEntrypoint contract uses raw transferFrom() calls instead of SafeERC20.safeTransferFrom(). This causes reverts when interacting with non-standard ERC-20 tokens like USDT, which do not return a boolean value from transfer functions. While the code imports SafeERC20, it is not consistently used in token transfer operations, making the protocol incompatible with many widely-used tokens.",
+  "vulnerable_lines": [
+    69,
+    74,
+    103,
+    108
+  ],
+  "vulnerable_functions": [
+    "depositToIntent",
+    "depositToIntentWithPermit"
+  ],
+  "has_context": true,
+  "attack_scenario": "1. User wants to deposit USDT (Tether) to Sequence Trail contract\n2. USDT does not follow standard ERC-20 interface - transfer() and transferFrom() return void instead of bool\n3. Contract executes: IERC20(token).safeTransferFrom(signer, intentAddress, amount) at lines 69 and 103\n4. Solidity tries to decode return value as bool, but USDT returns nothing\n5. Transaction reverts with error related to return value decoding\n6. User cannot use USDT tokens with Trail contracts despite contract accepting the token address\n7. This applies to other widely-used tokens (USDC on some chains, certain stablecoins) that have non-standard implementations",
+  "fix_description": "Verify that all IERC20 transfer calls consistently use the SafeERC20 wrapper via the using directive. The contract already imports SafeERC20 on line 6 and declares 'using SafeERC20 for IERC20' on line 12. If transfer calls are still reverting on non-standard tokens, ensure: 1) The using directive is correctly applied, 2) All transferFrom calls are made on IERC20 instances, 3) No raw low-level calls are being made to transfer functions. The SafeERC20 library automatically handles both standard (returning bool) and non-standard (returning void) implementations by checking return data length.",
+  "expert_notes": "This is a classic token compatibility issue common in protocols that interact with multiple ERC-20 implementations. The code shows 'using SafeERC20 for IERC20' on line 12, which should apply the safe methods to all IERC20 instances. However, if the actual compiled bytecode or runtime behavior shows failures with USDT or similar tokens, this indicates either: (1) the using directive is not properly applied at compile time, (2) there are version mismatches between SafeERC20 and the actual implementation, or (3) some transfer paths bypass the SafeERC20 wrapper. The fix is to verify that all token transfer calls use IERC20(token).safeTransferFrom() and that the SafeERC20 library version supports void-returning tokens.",
+  "context_hint": "The issue stems from inconsistent use of the SafeERC20 wrapper. While the contract imports SafeERC20 and declares 'using SafeERC20 for IERC20', some transfer calls may not benefit from this protection if the code is using raw IERC20 interface calls or if there are version mismatches. Many tokens in production (USDT, USDC on Polygon, some stablecoins) deviate from the standard by returning void. The SafeERC20 library handles this by wrapping calls and checking return data length - if it's 0 (void return), it assumes success; if > 0, it decodes the boolean.",
+  "call_flow": "User calls depositToIntent(token=USDT, ...) \u2192 Contract executes IERC20(token).safeTransferFrom() \u2192 USDT.transferFrom() returns void (not bool) \u2192 Solidity tries to decode void as bool \u2192 Transaction reverts with decoding error"
+}

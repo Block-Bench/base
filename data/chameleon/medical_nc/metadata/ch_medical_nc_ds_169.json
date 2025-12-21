@@ -1,0 +1,246 @@
+{
+  "id": "ch_medical_nc_ds_169",
+  "contract_file": "contracts/ch_medical_nc_ds_169.sol",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "TownCrier",
+      "function_name": "deliver",
+      "line_numbers": [
+        162
+      ]
+    },
+    "root_cause": "Unchecked return value - low-level call result not validated at line(s) 162",
+    "attack_vector": "Unchecked return value - low-level call result not validated at line(s) 162",
+    "impact": "Severity: medium",
+    "correct_fix": "Check return value and handle failures appropriately"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x89c1b3807d4c67df034fffb62f3509561218d30b",
+    "url": "etherscan.io",
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.4.9",
+    "num_lines": 213,
+    "num_contracts": 4,
+    "contract_names": [
+      "TownCrier",
+      "to",
+      "to",
+      "externalRequestconsultAlert"
+    ],
+    "num_functions": 13,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": true,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "smartbugs",
+    "tier_2_medium",
+    "solidity"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Unchecked return value - low-level call result not validated at line(s) 162",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": true
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_169.sol",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_169.json",
+    "original_id": "smartbugs_unchecked_low_level_calls_0x89c1b3807d4c67df034fffb62f3509561218d30b"
+  },
+  "original_subset": "difficulty_stratified",
+  "original_contract_file": "base/contracts/ds_169.sol",
+  "sanitized_from": "ds_169",
+  "derived_from": "sn_ds_169",
+  "original_id": "ds_169",
+  "identifier_mappings": {
+    "fee": "consultationFee",
+    "callbackAddr": "responseAddr",
+    "callbackFID": "responseFid",
+    "paramsHash": "parametersChecksum",
+    "Upgrade": "EnhanceSystem",
+    "newAddr": "updatedAddr",
+    "gas_price": "gas_servicecost",
+    "min_fee": "floor_consultationfee",
+    "cancellation_fee": "cancellation_consultationfee",
+    "RequestInfo": "RequestData",
+    "timestamp": "admissionTime",
+    "requestData": "requestRecord",
+    "DeliverInfo": "DeliverDetails",
+    "requestId": "requestChartnumber",
+    "gasPrice": "gasServicecost",
+    "callbackGas": "responseGas",
+    "respData": "respChart",
+    "flag": "alert",
+    "SGX_ADDRESS": "sgx_location",
+    "GAS_PRICE": "gas_servicecost616",
+    "MIN_FEE": "floor_consultationfee240",
+    "CANCELLATION_FEE": "cancellation_consultationfee786",
+    "CANCELLED_FEE_FLAG": "cancelled_consultationfee_indicator",
+    "DELIVERED_FEE_FLAG": "delivered_consultationfee_alert",
+    "FAIL_FLAG": "fail_indicator",
+    "SUCCESS_FLAG": "improvement_alert",
+    "externalCallFlag": "externalRequestconsultAlert",
+    "newVersion": "updatedRevision",
+    "sender": "requestor",
+    "upgrade": "enhanceSystem",
+    "price": "serviceCost",
+    "minGas": "minimumGas",
+    "withdraw": "dischargeFunds",
+    "value": "measurement"
+  },
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 2315685770,
+    "coverage": {
+      "total_identifiers": 54,
+      "transformed": 34,
+      "untransformed": 20,
+      "skipped_reserved": 33,
+      "skipped_interface": 0,
+      "coverage_percent": 62.96,
+      "untransformed_details": [
+        {
+          "name": "TownCrier",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Request",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requester",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requestType",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Cancel",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "canceller",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "killswitch",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requestCnt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "unrespondedCnt",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "requests",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "reset",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancellationGas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "suspend",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "restart",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "request",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deliver",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gas",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "gasprice",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "cancel",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "fee": "consultationFee",
+      "callbackAddr": "responseAddr",
+      "callbackFID": "responseFid",
+      "paramsHash": "parametersChecksum",
+      "Upgrade": "EnhanceSystem",
+      "newAddr": "updatedAddr",
+      "gas_price": "gas_servicecost",
+      "min_fee": "floor_consultationfee",
+      "cancellation_fee": "cancellation_consultationfee",
+      "RequestInfo": "RequestData",
+      "timestamp": "admissionTime",
+      "requestData": "requestRecord",
+      "DeliverInfo": "DeliverDetails",
+      "requestId": "requestChartnumber",
+      "gasPrice": "gasServicecost",
+      "callbackGas": "responseGas",
+      "respData": "respChart",
+      "flag": "alert",
+      "SGX_ADDRESS": "sgx_location",
+      "GAS_PRICE": "gas_servicecost616",
+      "MIN_FEE": "floor_consultationfee240",
+      "CANCELLATION_FEE": "cancellation_consultationfee786",
+      "CANCELLED_FEE_FLAG": "cancelled_consultationfee_indicator",
+      "DELIVERED_FEE_FLAG": "delivered_consultationfee_alert",
+      "FAIL_FLAG": "fail_indicator",
+      "SUCCESS_FLAG": "improvement_alert",
+      "externalCallFlag": "externalRequestconsultAlert",
+      "newVersion": "updatedRevision",
+      "sender": "requestor",
+      "upgrade": "enhanceSystem",
+      "price": "serviceCost",
+      "minGas": "minimumGas",
+      "withdraw": "dischargeFunds",
+      "value": "measurement"
+    }
+  }
+}

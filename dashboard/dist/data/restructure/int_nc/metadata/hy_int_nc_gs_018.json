@@ -1,0 +1,101 @@
+{
+  "id": "hy_int_nc_gs_018",
+  "contract_file": "contracts/hy_int_nc_gs_018.sol",
+  "subset": "restructure",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "LockToVotePlugin",
+      "function_name": "currentTokenSupply",
+      "line_numbers": [
+        248,
+        249,
+        250,
+        251
+      ],
+      "helper_functions": [
+        "_performCurrentTokenSupplyHandler"
+      ],
+      "vulnerability_spans_functions": true
+    },
+    "root_cause": "The currentTokenSupply() function at LockToVotePlugin line 249-251 returns IERC20(lockManager.token()).totalSupply(). This is used in threshold checks (isMinVotingPowerReached, isMinApprovalReached). For tokens like ERC4626 shares, flash-mintable tokens (DAI, WETH), or tokens with permissionless minting, attackers can manipulate totalSupply to skew voting thresholds. This is especially impactful during the last block of a proposal.",
+    "attack_vector": "1. A proposal is close to passing based on participation threshold.\n2. Attacker flash-mints large amount of tokens (e.g., via ERC4626 vault deposit).\n3. currentTokenSupply() returns inflated totalSupply.\n4. isMinVotingPowerReached() calculates: votes / inflatedSupply.\n5. Participation ratio appears lower than required.\n6. Proposal that should pass now fails.\n7. Attacker burns/withdraws the tokens in same transaction.",
+    "impact": "Severity: medium",
+    "correct_fix": "Avoid using currentTotalSupply where it can be skewed. Consider recording totalSupply at proposal creation time. Document token compatibility requirements. Use conservative figures if supply changes significantly."
+  },
+  "provenance": {
+    "source": "spearbit",
+    "original_id": "gs_spearbit_aragon-lock-to-vote_M06",
+    "url": "https://github.com/spearbit/portfolio/blob/master/pdfs/Aragon-Spearbit-Security-Review-July-2025.pdf",
+    "date_discovered": "2025-09-11",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 324,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "spearbit",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "The currentTokenSupply() at lines 249-251 returns IERC20.totalSupply() directly. For tokens where supply can be atomically manipulated (flash-mintable, ERC4626 shares), attackers can inflate/deflate supply during threshold calculations. This allows gaming the participation and approval requirements, especially on the last block of voting.",
+  "gold_standard_fields": {
+    "source_report": "Aragon DAO Gov Plugin Security Review",
+    "source_finding_id": "M-06",
+    "finding_title": "currentTokenSupply() can be gamed risk-free to manipulate either side of votes in certain assets",
+    "difficulty_tier": 3,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "Attacker.flashMint() -> totalSupply increases -> proposal.execute() -> MajorityVotingBase._hasSucceeded() -> isMinVotingPowerReached() -> currentTokenSupply() returns inflated value -> participation check fails -> Attacker.flashBurn()"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_018.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_018.json",
+    "original_finding_title": "currentTokenSupply() can be gamed risk-free to manipulate either side of votes in certain assets"
+  },
+  "original_subset": "gold_standard",
+  "context": "context/gs_018/",
+  "context_files": [
+    "context_01_MajorityVotingBase.sol"
+  ],
+  "original_contract_file": "base/contracts/gs_018.sol",
+  "sanitized_from": "gs_018",
+  "derived_from": "nc_gs_018",
+  "original_id": "gs_018",
+  "transformation": {
+    "strategy": "restructure",
+    "mode": "split",
+    "split_type": "internal_external",
+    "source": "nocomments",
+    "seed": 357948006,
+    "split_details": {
+      "original_function": "currentTokenSupply",
+      "helpers_created": [
+        "_performCurrentTokenSupplyHandler"
+      ],
+      "helpers_categories": [
+        "internal"
+      ],
+      "statements_per_helper": [
+        1
+      ]
+    }
+  }
+}

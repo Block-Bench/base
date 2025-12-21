@@ -1,0 +1,428 @@
+{
+  "name": "Gold Standard Dataset",
+  "description": "Curated vulnerability samples from professional security audits",
+  "total_items": 42,
+  "generated_at": "2025-12-17T19:29:14.785015",
+  "items": [
+    {
+      "id": "gs_001",
+      "original_id": "gs_c4_2025-10-hybra-finance_H01",
+      "vulnerability_type": "logic_error",
+      "severity": "high",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_002",
+      "original_id": "gs_c4_2025-10-hybra-finance_M01",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 1,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_003",
+      "original_id": "gs_c4_2025-10-hybra-finance_M02",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_004",
+      "original_id": "gs_c4_2025-10-hybra-finance_M03",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_005",
+      "original_id": "gs_c4_2025-10-hybra-finance_M04",
+      "vulnerability_type": "dos",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_006",
+      "original_id": "gs_c4_2025-10-hybra-finance_M05",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_007",
+      "original_id": "gs_c4_2025-10-hybra-finance_M06",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_008",
+      "original_id": "gs_c4_2025-10-hybra-finance_M07",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 1,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_009",
+      "original_id": "gs_c4_2025-10-hybra-finance_M08",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_011",
+      "original_id": "gs_spearbit_aragon-lock-to-vote_H01",
+      "vulnerability_type": "flash_loan",
+      "severity": "high",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_012",
+      "original_id": "gs_spearbit_aragon-lock-to-vote_H02",
+      "vulnerability_type": "flash_loan",
+      "severity": "high",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_013",
+      "original_id": "gs_spearbit_aragon-lock-to-vote_M01",
+      "vulnerability_type": "unchecked_return",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_014",
+      "original_id": "gs_spearbit_aragon-lock-to-vote_M02",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 1,
+      "context_level": "single_file",
+      "has_context": true,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_015",
+      "original_id": "gs_spearbit_aragon-lock-to-vote_M03",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_016",
+      "original_id": "gs_spearbit_aragon-lock-to-vote_M04",
+      "vulnerability_type": "access_control",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_017",
+      "original_id": "gs_spearbit_aragon-lock-to-vote_M05",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_018",
+      "original_id": "gs_spearbit_aragon-lock-to-vote_M06",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_019",
+      "original_id": "gs_mixbytes_gearbox-midas_H01",
+      "vulnerability_type": "logic_error",
+      "severity": "high",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "mixbytes"
+    },
+    {
+      "id": "gs_020",
+      "original_id": "gs_mixbytes_gearbox-midas_M01",
+      "vulnerability_type": "input_validation",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "mixbytes"
+    },
+    {
+      "id": "gs_021",
+      "original_id": "gs_spearbit_kyber-hook_M01",
+      "vulnerability_type": "signature_replay",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_022",
+      "original_id": "gs_spearbit_kyber-hook_M02",
+      "vulnerability_type": "front_running",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "spearbit"
+    },
+    {
+      "id": "gs_023",
+      "original_id": "gs_mixbytes_mantle-meth-aave_M01",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "mixbytes"
+    },
+    {
+      "id": "gs_024",
+      "original_id": "gs_mixbytes_mantle-meth-aave_M02",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "mixbytes"
+    },
+    {
+      "id": "gs_025",
+      "original_id": "gs_mixbytes_mantle-meth-aave_M03",
+      "vulnerability_type": "front_running",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "mixbytes"
+    },
+    {
+      "id": "gs_026",
+      "original_id": "gs_mixbytes_mantle-meth-aave_M04",
+      "vulnerability_type": "access_control",
+      "severity": "medium",
+      "difficulty_tier": 1,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "mixbytes"
+    },
+    {
+      "id": "gs_027",
+      "original_id": "gs_mixbytes_mantle-meth-aave_M05",
+      "vulnerability_type": "oracle_manipulation",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "mixbytes"
+    },
+    {
+      "id": "gs_028",
+      "original_id": "gs_mixbytes_mantle-meth-aave_M06",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "mixbytes"
+    },
+    {
+      "id": "gs_029",
+      "original_id": "gs_c4_2025-10-sequence_H01",
+      "vulnerability_type": "access_control",
+      "severity": "high",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_030",
+      "original_id": "gs_c4_2025-10-sequence_H02",
+      "vulnerability_type": "signature_replay",
+      "severity": "high",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_031",
+      "original_id": "gs_c4_2025-10-sequence_M01",
+      "vulnerability_type": "signature_replay",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_032",
+      "original_id": "gs_c4_2025-10-sequence_M02",
+      "vulnerability_type": "dos",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_033",
+      "original_id": "gs_c4_2025-10-sequence_M03",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_034",
+      "original_id": "gs_c4_2025-10-sequence_M04",
+      "vulnerability_type": "dos",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "code4rena"
+    },
+    {
+      "id": "gs_035",
+      "original_id": "gs_mixbytes_velodrome-pool-launcher_M01",
+      "vulnerability_type": "logic_error",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "multi_file",
+      "has_context": true,
+      "source_platform": "mixbytes"
+    },
+    {
+      "id": "gs_040",
+      "original_id": "gs_quantstamp_sequence_seq001",
+      "vulnerability_type": "access_control",
+      "severity": "high",
+      "difficulty_tier": 4,
+      "context_level": "single_file",
+      "has_context": true,
+      "source_platform": "quantstamp"
+    },
+    {
+      "id": "gs_042",
+      "original_id": "gs_cantina_kyber_001",
+      "vulnerability_type": "signature_validation",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "single_file",
+      "has_context": true,
+      "source_platform": "cantina"
+    },
+    {
+      "id": "gs_043",
+      "original_id": "gs_cantina_kyber_002",
+      "vulnerability_type": "frontrunning_nonce_invalidation",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": true,
+      "source_platform": "cantina"
+    },
+    {
+      "id": "gs_045",
+      "original_id": "gs_cantina_liminal_001",
+      "vulnerability_type": "access_control_fee",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "cantina"
+    },
+    {
+      "id": "gs_046",
+      "original_id": "gs_cantina_liminal_002",
+      "vulnerability_type": "type_conversion_loss",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "cantina"
+    },
+    {
+      "id": "gs_047",
+      "original_id": "gs_cantina_liminal_003",
+      "vulnerability_type": "access_control_oracle",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "cantina"
+    },
+    {
+      "id": "gs_048",
+      "original_id": "gs_cantina_sablier_staking_001",
+      "vulnerability_type": "denial_of_service",
+      "severity": "medium",
+      "difficulty_tier": 2,
+      "context_level": "single_file",
+      "has_context": true,
+      "source_platform": "cantina"
+    },
+    {
+      "id": "gs_052",
+      "original_id": "gs_cantina_basebridge_002",
+      "vulnerability_type": "incorrect_calculation",
+      "severity": "medium",
+      "difficulty_tier": 3,
+      "context_level": "single_file",
+      "has_context": false,
+      "source_platform": "cantina"
+    }
+  ]
+}

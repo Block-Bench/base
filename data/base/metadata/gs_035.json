@@ -1,0 +1,87 @@
+{
+  "id": "gs_035",
+  "contract_file": "contracts/gs_035.sol",
+  "subset": "base",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "V2Locker",
+      "function_name": "unlock",
+      "line_numbers": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ]
+    },
+    "root_cause": "The Locker.claimFees() function is protected by the onlyLocked modifier, which requires lockedUntil != 0. Inside V2Locker.unlock(), the contract sets lockedUntil = 0 (via delete lockedUntil) before transferring the LP tokens to the recipient. During the LP token transfer, the underlying pool credits all accumulated fees to the locker contract. Once the LP tokens are transferred out, the locker can no longer call claimFees() because it is no longer locked (lockedUntil == 0), leaving those fees permanently stranded on the contract. A user who forgets to call claimFees() before unlocking will lose the entire fee balance earned up to that moment.",
+    "attack_vector": "1. User creates a V2Locker and deposits LP tokens into a Velodrome V2 pool\n2. Over time, the pool accumulates trading fees for the locker\n3. The lock period expires and the user calls unlock() to retrieve their LP tokens\n4. Inside unlock(), lockedUntil is set to 0 on line 46\n5. The LP tokens are transferred to the recipient on line 48\n6. During this transfer, the V2Pool.claimFees() is implicitly called, crediting fees to the locker contract\n7. User realizes they forgot to claim fees and tries to call claimFees()\n8. claimFees() reverts with NotLocked() because lockedUntil == 0 (onlyLocked modifier check fails)\n9. The accumulated fees (token0 and token1) are permanently stuck on the locker contract with no way to retrieve them",
+    "impact": "Severity: medium",
+    "correct_fix": "Claim swap fees within the V2Locker.unlock() function before setting lockedUntil to 0. This ensures all accumulated fees are sent to the recipient before the lock state is cleared."
+  },
+  "provenance": {
+    "source": "mixbytes",
+    "original_id": "gs_mixbytes_velodrome-pool-launcher_M01",
+    "url": "https://github.com/mixbytes/audits_public/tree/master/Velodrome/Pool%20Launcher",
+    "date_discovered": "2025-09-12",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 149,
+    "num_contracts": 1,
+    "contract_names": [],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "mixbytes",
+    "gold_standard",
+    "audit_finding"
+  ],
+  "notes": "The unlock() function in V2Locker.sol sets lockedUntil to 0 before transferring LP tokens. The claimFees() function in the parent Locker.sol contract requires lockedUntil != 0 (onlyLocked modifier). When LP tokens are transferred, fees are credited to the locker, but they cannot be claimed afterward because the lock state has been cleared.",
+  "gold_standard_fields": {
+    "source_report": "Velodrome Pool Launcher Security Audit Report",
+    "source_finding_id": "M-1",
+    "finding_title": "Unclaimed Fees Become Inaccessible After V2Locker.unlock()",
+    "difficulty_tier": 2,
+    "context_level": "multi_file",
+    "has_context": true,
+    "call_flow": "User calls V2LockerFactory.unlock() -> V2Locker.unlock() -> delete lockedUntil (line 46) -> IERC20(pool).safeTransfer() triggers fee crediting -> fees stuck because claimFees() now reverts with NotLocked() due to lockedUntil == 0"
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/gold_standard/contracts/gs_035.sol",
+    "detailed_metadata": "labelled_data/gold_standard/metadata/gs_035.json",
+    "original_finding_title": "Unclaimed Fees Become Inaccessible After V2Locker.unlock()"
+  },
+  "original_subset": "gold_standard",
+  "context": "context/gs_035/",
+  "context_files": [
+    "context_01_Locker.sol"
+  ]
+}

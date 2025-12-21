@@ -1,0 +1,143 @@
+{
+  "id": "ss_l3_medium_sn_tc_036",
+  "contract_file": "contracts/ss_l3_medium_sn_tc_036.sol",
+  "subset": "shapeshifter",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "MigrateTroveZap",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $10,000,000",
+    "correct_fix": null
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "sample_036",
+    "url": null,
+    "date_discovered": "2024-03-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 117,
+    "num_contracts": 2,
+    "contract_names": [
+      "MigrateTroveZap",
+      "BorrowerOperations"
+    ],
+    "num_functions": 0,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "cdp",
+    "lending",
+    "delegate_approval",
+    "access_control",
+    "migration",
+    "zap_contract",
+    "authorization_bypass"
+  ],
+  "notes": null,
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2024-03-01",
+      "protocol_name": "Prisma Finance Delegate Approval",
+      "chain": "ethereum",
+      "funds_lost_usd": 10000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": false,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Prisma Finance Delegate Approval exploit"
+    }
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/temporal_contamination/contracts/tc_036.sol",
+    "detailed_metadata": "labelled_data/temporal_contamination/metadata/tc_036.json",
+    "original_exploit_name": "Prisma Finance Delegate Approval"
+  },
+  "original_subset": "temporal_contamination",
+  "original_contract_file": "base/contracts/tc_036.sol",
+  "sanitized_from": "tc_036",
+  "identifier_mappings": {
+    "getTroveCollAndDebt": "_0x8e48e1",
+    "openTroveAndMigrate": "_0x17720c",
+    "_borrowerOperations": "_0x55640b",
+    "setDelegateApproval": "_0x7c58d6",
+    "borrowerOperations": "_0x113b43",
+    "_collateralAmount": "_0x0cdfa0",
+    "_maxFeePercentage": "_0x768faa",
+    "maxFeePercentage": "_0x17dc87",
+    "collateralAmount": "_0x2e9982",
+    "closeTroveFor": "_0x4bc84c",
+    "_troveManager": "_0x8cae3f",
+    "troveManager": "_0x3c7a13",
+    "transferFrom": "_0x156b34",
+    "_isApproved": "_0x03545e",
+    "_debtAmount": "_0x42a69b",
+    "debtAmount": "_0x3fa27c",
+    "_upperHint": "_0xca024c",
+    "_lowerHint": "_0x677f7c",
+    "closeTrove": "_0x13f7e9",
+    "lowerHint": "_0xff223e",
+    "upperHint": "_0x3d2f47",
+    "_borrower": "_0x47aeaa",
+    "balanceOf": "_0x228f37",
+    "openTrove": "_0x3f165b",
+    "delegates": "_0x302772",
+    "liquidate": "_0x14a066",
+    "_delegate": "_0xaf3458",
+    "account": "_0x699e34",
+    "spender": "_0x835f74",
+    "_wstETH": "_0x38ee46",
+    "approve": "_0xb0a4a4",
+    "amount": "_0xe0a102",
+    "_mkUSD": "_0x7a5484",
+    "wstETH": "_0xb2708a",
+    "mkUSD": "_0xc7ab25",
+    "debt": "_0x53bf60",
+    "coll": "_0x70b76d",
+    "to": "_0x87761e"
+  },
+  "derived_from": "sn_tc_036",
+  "transformation": {
+    "strategy": "shapeshifter",
+    "level": "l3",
+    "variant": "medium",
+    "source": "sanitized",
+    "changes": [
+      "Renamed 38 identifiers using hex style"
+    ],
+    "rename_map_size": 38,
+    "metadata_changes": []
+  }
+}

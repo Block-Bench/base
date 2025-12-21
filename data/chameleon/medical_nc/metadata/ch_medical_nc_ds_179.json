@@ -1,0 +1,223 @@
+{
+  "id": "ch_medical_nc_ds_179",
+  "contract_file": "contracts/ch_medical_nc_ds_179.rs",
+  "subset": "chameleon_medical",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "other",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "initialization",
+      "function_name": "initialization",
+      "line_numbers": []
+    },
+    "root_cause": "Missing initialization checks allow reinitialization attacks",
+    "attack_vector": "Missing initialization checks allow reinitialization attacks",
+    "impact": "Severity: critical",
+    "correct_fix": "Add initialization flag and check: require!(!account.is_initialized, ErrorCode::AlreadyInitialized)"
+  },
+  "provenance": {
+    "source": "other",
+    "original_id": "sealevel_4_initialization",
+    "url": null,
+    "date_discovered": null,
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team"
+  },
+  "code_metadata": {
+    "solidity_version": "N/A",
+    "num_lines": 33,
+    "num_contracts": 1,
+    "contract_names": [
+      "initialization"
+    ],
+    "num_functions": 1,
+    "has_imports": true,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "sealevel_attacks",
+    "tier_2_medium",
+    "rust"
+  ],
+  "notes": null,
+  "difficulty_fields": {
+    "difficulty_tier": 2,
+    "difficulty_tier_name": "clear_audit",
+    "complexity_analysis": {
+      "complexity_factors": [],
+      "detection_hints": "Missing initialization checks allow reinitialization attacks",
+      "detection_challenges": null,
+      "estimated_human_time_minutes": null
+    },
+    "canonical_example": false
+  },
+  "evaluation_support": {
+    "annotated_contract": "labelled_data/difficulty_stratified/contracts/ds_179.rs",
+    "detailed_metadata": "labelled_data/difficulty_stratified/metadata/ds_179.json",
+    "original_id": "sealevel_4_initialization"
+  },
+  "original_subset": "difficulty_stratified",
+  "identifier_mappings": {
+    "declare_id": "declare_identifier",
+    "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS": "Fg6PaFpoGXkYsidCapacityWtk6W2BeZ7FEfcYkg476zPFsLnS",
+    "initialize": "activateSystem",
+    "Initialize": "ActivateSystem",
+    "ProgramResult": "ProgramFinding",
+    "user": "patient",
+    "User": "Patient",
+    "try_from_slice": "try_source_slice",
+    "data": "info",
+    "borrow": "requestAdvance",
+    "unwrap": "unpack",
+    "key": "identifier",
+    "try_borrow_mut_data": "try_requestadvance_mut_chart",
+    "info": "details",
+    "AccountInfo": "ProfileData"
+  },
+  "original_contract_file": "base/contracts/ds_179.rs",
+  "sanitized_from": "ds_179",
+  "derived_from": "sn_ds_179",
+  "original_id": "ds_179",
+  "transformation": {
+    "strategy": "chameleon",
+    "theme": "medical",
+    "source": "nocomments",
+    "seed": 2906762456,
+    "coverage": {
+      "total_identifiers": 40,
+      "transformed": 15,
+      "untransformed": 25,
+      "skipped_reserved": 3,
+      "skipped_interface": 0,
+      "coverage_percent": 37.5,
+      "untransformed_details": [
+        {
+          "name": "use",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "anchor_lang",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "prelude",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "borsh",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BorshDeserialize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "BorshSerialize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "std",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ops",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "DerefMut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "program",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "pub",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mod",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "initialization",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "ctx",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Context",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "let",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "mut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "authority",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "serialize",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "deref_mut",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "derive",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Accounts",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Signer",
+          "reason": "no synonym found"
+        },
+        {
+          "name": "Pubkey",
+          "reason": "no synonym found"
+        }
+      ],
+      "meets_threshold": false
+    },
+    "rename_map": {
+      "declare_id": "declare_identifier",
+      "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS": "Fg6PaFpoGXkYsidCapacityWtk6W2BeZ7FEfcYkg476zPFsLnS",
+      "initialize": "activateSystem",
+      "Initialize": "ActivateSystem",
+      "ProgramResult": "ProgramFinding",
+      "user": "patient",
+      "User": "Patient",
+      "try_from_slice": "try_source_slice",
+      "data": "info",
+      "borrow": "requestAdvance",
+      "unwrap": "unpack",
+      "key": "identifier",
+      "try_borrow_mut_data": "try_requestadvance_mut_chart",
+      "info": "details",
+      "AccountInfo": "ProfileData"
+    }
+  }
+}
