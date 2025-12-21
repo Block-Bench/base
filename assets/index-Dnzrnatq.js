@@ -54,23 +54,23 @@ contract VulnerableBank {
     function getBalance() external view returns (uint256) {
         return balances[msg.sender];
     }
-}`;function av(){const[r,o]=T.useState($h),[s,f]=T.useState(""),[h,m]=T.useState(ns[0]),[v,x]=T.useState(!1),[S,y]=T.useState(!1),[w,E]=T.useState(null),Q=T.useRef(null);T.useEffect(()=>{function R(j){Q.current&&!Q.current.contains(j.target)&&x(!1)}return document.addEventListener("mousedown",R),()=>document.removeEventListener("mousedown",R)},[]);const Z=R=>Xn.highlight(R||" ",Xn.languages.solidity,"solidity"),F=async()=>{if(!r.trim())return;y(!0),await new Promise(j=>setTimeout(j,800+Math.random()*400));let R=r;switch(h.id){case"sanitize":R=r.replace(/Vulnerable/g,"Basic").replace(/vulnerable/g,"basic").replace(/VULNERABILITY/g,"LOGIC").replace(/reentrancy/g,"transfer").replace(/Reentrancy/g,"Transfer");break;case"nocomments":R=r.replace(/\/\/.*$/gm,"").replace(/\/\*[\s\S]*?\*\//g,"").replace(/^\s*[\r\n]/gm,"");break;case"chameleon":R=r.replace(/VulnerableBank/g,"TreasureVault").replace(/balances/g,"goldHoldings").replace(/deposit/g,"storeGold").replace(/Deposit/g,"GoldStored").replace(/withdraw/g,"claimLoot").replace(/Withdrawal/g,"LootClaimed").replace(/getBalance/g,"checkTreasure");break;case"shapeshifter":R=r.replace('require(msg.value > 0, "Must deposit something");',`if (msg.value > 0 && (block.timestamp > 0)) {
+}`;function av(){const[r,o]=T.useState($h),[s,f]=T.useState(""),[h,m]=T.useState(ns[0]),[v,x]=T.useState(!1),[S,y]=T.useState(!1),[w,E]=T.useState(null),Q=T.useRef(null);T.useEffect(()=>{function R(j){Q.current&&!Q.current.contains(j.target)&&x(!1)}return document.addEventListener("mousedown",R),()=>document.removeEventListener("mousedown",R)},[]);const Z=R=>Xn.highlight(R||" ",Xn.languages.solidity,"solidity"),F=async()=>{if(!r.trim())return;y(!0),await new Promise(j=>setTimeout(j,800+Math.random()*400));let R=r;switch(h.id){case"sanitize":R=r.replace(/Vulnerable/g,"Basic").replace(/vulnerable/g,"basic").replace(/VULNERABILITY/g,"LOGIC").replace(/reentrancy/g,"transfer").replace(/Reentrancy/g,"Transfer");break;case"nocomments":R=r.replace(/\/\/.*$/gm,"").replace(/\/\*[\s\S]*?\*\//g,"").replace(/^\s*[\r\n]/gm,"");break;case"chameleon":R=r.replace(/VulnerableBank/g,"TreasureVault").replace(/balances/g,"goldHoldings").replace(/deposit/g,"storeGold").replace(/Deposit/g,"GoldStored").replace(/withdraw/g,"claimLoot").replace(/Withdrawal/g,"LootClaimed").replace(/getBalance/g,"checkTreasure");break;case"shapeshifter":R=r.replace(/require\(msg\.value > 0, "Must deposit something"\);/g,`if (msg.value > 0 && (block.timestamp > 0)) {
             // Opaque predicate: always true
         } else {
             revert("Must deposit something");
-        }`).replace('require(balance > 0, "No balance to withdraw");',`if (balance > 0 || (block.number < 0)) {
+        }`).replace(/require\(balance > 0, "No balance to withdraw"\);/g,`if (balance > 0 || (block.number < 0)) {
             // Opaque predicate: block.number < 0 always false
         } else {
             revert("No balance to withdraw");
-        }`).replace('require(success, "Transfer failed");',`if (success && (1 == 1)) {
+        }`).replace(/require\(success, "Transfer failed"\);/g,`if (success && (1 == 1)) {
             // Opaque predicate: 1 == 1 always true
         } else {
             revert("Transfer failed");
-        }`).replace("balances[msg.sender] += msg.value;",`if (block.timestamp > 0) {
+        }`).replace(/balances\[msg\.sender\] \+= msg\.value;/g,`if (block.timestamp > 0) {
             balances[msg.sender] += msg.value;
         } else {
             balances[msg.sender] = 0; // Dead code: never executes
-        }`).replace("balances[msg.sender] = 0;",`uint256 _temp = 0;
+        }`).replace(/balances\[msg\.sender\] = 0;/g,`uint256 _temp = 0;
         if (address(this).balance >= 0) {
             balances[msg.sender] = _temp; // Opaque: always true
         }`);break;case"hydra":R=r.replace(/\/\/.*$/gm,"").replace(/Vulnerable/g,"Basic").replace(/balances/g,"holdings");break;case"restructure":R=`// Original contract restructured into modules
