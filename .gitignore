@@ -34,3 +34,5 @@ Thumbs.db
 # Project specific
 dataset/raw/*/
 !dataset/raw/.gitkeep
+support/dataset/raw/*/
+!support/dataset/raw/.gitkeep
