@@ -110,20 +110,20 @@ export default function StrategiesPlayground() {
         break
 
       case 'shapeshifter':
-        // L3: Control flow obfuscation with opaque predicates
+        // L3: Control flow obfuscation with opaque predicates and dead code
         transformed = inputCode
-          // Replace simple conditionals with complex ones
-          .replace(/require\(msg\.value > 0, "Must deposit something"\);/g,
-            'if (!(msg.value > 0 && true)) revert("Must deposit something");')
-          .replace(/require\(balance > 0, "No balance to withdraw"\);/g,
-            'if (!(balance > 0 || false)) revert("No balance to withdraw");')
-          .replace(/require\(success, "Transfer failed"\);/g,
-            'if (!success && (1 == 1)) revert("Transfer failed");')
+          // Replace require statements with complex conditionals
+          .replace('require(msg.value > 0, "Must deposit something");',
+            'if (msg.value > 0 && (block.timestamp > 0)) {\n            // Opaque predicate: always true\n        } else {\n            revert("Must deposit something");\n        }')
+          .replace('require(balance > 0, "No balance to withdraw");',
+            'if (balance > 0 || (block.number < 0)) {\n            // Opaque predicate: block.number < 0 always false\n        } else {\n            revert("No balance to withdraw");\n        }')
+          .replace('require(success, "Transfer failed");',
+            'if (success && (1 == 1)) {\n            // Opaque predicate: 1 == 1 always true\n        } else {\n            revert("Transfer failed");\n        }')
           // Add dead code branches
-          .replace(/balances\[msg\.sender\] \+= msg\.value;/g,
-            'if (block.timestamp > 0) { balances[msg.sender] += msg.value; } else { balances[msg.sender] = 0; }')
-          .replace(/balances\[msg\.sender\] = 0;/g,
-            '{ uint256 _temp = 0; if (true) balances[msg.sender] = _temp; }')
+          .replace('balances[msg.sender] += msg.value;',
+            'if (block.timestamp > 0) {\n            balances[msg.sender] += msg.value;\n        } else {\n            balances[msg.sender] = 0; // Dead code: never executes\n        }')
+          .replace('balances[msg.sender] = 0;',
+            'uint256 _temp = 0;\n        if (address(this).balance >= 0) {\n            balances[msg.sender] = _temp; // Opaque: always true\n        }')
         break
 
       case 'hydra':
