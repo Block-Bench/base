@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LandingPage from './components/LandingPage'
 import Explorer from './components/Explorer'
 import CodeViewer from './components/CodeViewer'
@@ -6,7 +6,7 @@ import StrategiesPlayground from './components/StrategiesPlayground'
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/explorer" element={<Navigate to="/explorer/base" replace />} />
@@ -15,7 +15,7 @@ function App() {
         <Route path="/strategies" element={<StrategiesPlayground />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
