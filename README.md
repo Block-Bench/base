@@ -15,9 +15,15 @@
   <strong>263 Real-World Vulnerabilities • 13 Vulnerability Types • 1,343+ Transformed Variants</strong>
 </p>
 
+<p align="center">
+  <a href="https://block-bench.github.io/base/">🌐 View Interactive Dashboard</a>
+</p>
+
 ---
 
 **BlockBench** is a rigorous benchmark for evaluating AI models' ability to detect vulnerabilities in Solidity smart contracts. The benchmark includes 263 real-world vulnerable contracts with comprehensive ground truth metadata, spanning historical exploits, professional audit findings, and stratified difficulty levels.
+
+> 🚀 **[Explore the interactive dashboard](https://block-bench.github.io/base/)** to browse samples, view statistics, and test adversarial transformation strategies.
 
 ## 🎯 Purpose
 
