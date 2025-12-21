@@ -110,14 +110,20 @@ export default function StrategiesPlayground() {
         break
 
       case 'shapeshifter':
-        // L2: Single-letter identifier obfuscation
+        // L3: Control flow obfuscation with opaque predicates
         transformed = inputCode
-          .replace(/balances/g, 'a')
-          .replace(/deposit/g, 'b')
-          .replace(/withdraw/g, 'c')
-          .replace(/getBalance/g, 'd')
-          .replace(/msg\.sender/g, 'msg.sender') // Keep reserved
-          .replace(/msg\.value/g, 'msg.value')
+          // Replace simple conditionals with complex ones
+          .replace(/require\(msg\.value > 0, "Must deposit something"\);/g,
+            'if (!(msg.value > 0 && true)) revert("Must deposit something");')
+          .replace(/require\(balance > 0, "No balance to withdraw"\);/g,
+            'if (!(balance > 0 || false)) revert("No balance to withdraw");')
+          .replace(/require\(success, "Transfer failed"\);/g,
+            'if (!success && (1 == 1)) revert("Transfer failed");')
+          // Add dead code branches
+          .replace(/balances\[msg\.sender\] \+= msg\.value;/g,
+            'if (block.timestamp > 0) { balances[msg.sender] += msg.value; } else { balances[msg.sender] = 0; }')
+          .replace(/balances\[msg\.sender\] = 0;/g,
+            '{ uint256 _temp = 0; if (true) balances[msg.sender] = _temp; }')
         break
 
       case 'hydra':

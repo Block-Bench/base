@@ -21,16 +21,16 @@ export const DATASETS: DatasetConfig[] = [
   {
     id: 'base',
     name: 'Base Dataset',
-    description: '319 vulnerable smart contracts from all sources',
+    description: '263 vulnerable smart contracts from all sources',
     icon: 'database',
-    sampleCount: 319,
+    sampleCount: 263,
   },
   {
     id: 'annotated',
     name: 'Annotated Dataset',
     description: 'Rich vulnerability annotations with line locations',
     icon: 'tag',
-    sampleCount: 319,
+    sampleCount: 263,
   },
   {
     id: 'sanitized',
