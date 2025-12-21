@@ -9,7 +9,7 @@ import type {
 } from '../types'
 
 // Base paths for data
-const DATA_BASE = '/data'
+const DATA_BASE = `${import.meta.env.BASE_URL}data`.replace(/\/\//g, '/')
 
 // Cache for loaded data
 const indexCache: Map<string, DatasetIndex> = new Map()
