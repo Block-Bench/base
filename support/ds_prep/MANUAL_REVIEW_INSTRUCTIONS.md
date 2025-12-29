@@ -37,7 +37,39 @@ dataset/difficulty_stratified/
 
 ### How Difficulty Tiers Were Assigned
 
-Difficulty tiers were **manually assigned by security researchers** during the annotation process based on:
+**IMPORTANT:** Difficulty tiers are **NOT from the original data sources**. They were **automatically assigned by our processing scripts** using heuristics.
+
+The original sources (SmartBugs-Curated, Not-So-Smart-Contracts, DeFiVulnLabs) do **not** provide difficulty ratings.
+
+#### Assignment Logic by Source
+
+**SmartBugs-Curated** (`support/dataset/scripts/process_smartbugs.py`):
+- Tier 1: Simple reentrancy, basic access control (1-2 functions, <50 lines)
+- Tier 2: Integer overflow, unchecked return, DoS (moderate complexity)
+- Tier 3: Complex logic, multiple functions, cross-contract patterns
+- Tier 4: Rarely assigned (very complex edge cases)
+
+**Not-So-Smart-Contracts** (`support/dataset/scripts/process_not_so_smart.py`):
+- Tier 1: Basic vulnerabilities with simple patterns
+- Tier 2: Default for most standard vulnerabilities
+- Tier 3: Honeypots, complex multi-contract scenarios
+- Tier 4: Not typically assigned
+
+**DeFiVulnLabs** (`support/dataset/scripts/process_defivulnlabs.py`):
+- Tier 2: Default for standard vulnerabilities
+- Tier 3: Callback, delegatecall, unsafe patterns (filename indicators)
+- Tier 4: Flash loan, oracle manipulation, price manipulation (filename indicators)
+
+#### Heuristic Factors Used
+
+1. **Vulnerability type**: Reentrancy → easier, Oracle manipulation → harder
+2. **Code complexity**: Lines of code, function count, modifier count
+3. **Filename indicators**: "flash", "oracle", "callback" suggest higher difficulty
+4. **Pattern type**: Single function vs. cross-function vs. cross-contract
+
+#### Reviewer Action Required
+
+Since tiers are heuristically assigned, **reviewers should verify and potentially adjust** tier assignments based on:
 
 - **Detection complexity**: How hard is it to identify the vulnerability pattern?
 - **Context required**: Single file vs. multi-contract understanding needed?
