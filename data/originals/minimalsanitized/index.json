@@ -1,12 +1,35 @@
 {
-  "description": "Minimally sanitized original contracts",
+  "description": "Minimally sanitized temporal contamination contracts",
   "sanitization_rules": [
     "Remove 'Vulnerable' prefix from contract names",
     "Remove vulnerability-hinting comment blocks and lines",
+    "Preserve protocol names (Nomad, Beanstalk, etc.)",
     "Preserve normal comments, code structure, and logic"
   ],
   "total_files": 50,
-  "prefix": "ms_o_tc_",
+  "prefix": "ms_tc_",
   "source": "data/originals/contracts/o_tc_*.sol",
-  "created_date": "2025-12-29T13:11:24.563493"
+  "metadata_source": "data/originals/metadata/o_tc_*.json",
+  "contract_renames": {
+    "VulnerableNomadReplica": "NomadReplica",
+    "VulnerableBeanstalkGovernance": "BeanstalkGovernance",
+    "VulnerableParityWalletLibrary": "ParityWalletLibrary",
+    "VulnerableHarvestVault": "HarvestVault",
+    "VulnerableCurvePool": "CurvePool",
+    "VulnerableRoninBridge": "RoninBridge",
+    "VulnerableEthCrossChainManager": "EthCrossChainManager",
+    "VulnerableCreamLending": "CreamLending",
+    "VulnerableKyberSwapPool": "KyberSwapPool",
+    "VulnerableDAO": "DAO",
+    "VulnerableLendingPool": "LendingPool",
+    "VulnerableRariFuse": "RariFuse",
+    "VulnerableHunnyMinter": "HunnyMinter",
+    "VulnerableYearnVault": "YearnVault",
+    "VulnerableCompoundCToken": "CompoundCToken",
+    "VulnerableBZXLoanToken": "BZXLoanToken",
+    "VulnerablePickleController": "PickleController",
+    "VulnerableVault": "Vault",
+    "VulnerableRoute": "Route"
+  },
+  "created_date": "2025-12-29T19:40:31.479314"
 }

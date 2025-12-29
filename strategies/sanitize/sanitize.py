@@ -31,6 +31,7 @@ from strategies.common import (
     is_solidity_reserved,
     is_solidity_dot_property,
 )
+from strategies.common.line_markers import strip_line_markers, add_line_markers
 
 
 # =============================================================================
@@ -298,10 +299,157 @@ NAME_REPLACEMENTS = [
     # More overflow function variants
     (r'\boverflowmulocalonly\b', 'mullocalonly', 0),
     (r'\boverflow[a-z]+\b', 'calculate', 0),
+
+    # ===================
+    # PROTOCOL NAME REPLACEMENTS (Temporal Contamination)
+    # These remove specific protocol/project names that could identify famous exploits
+    # ===================
+
+    # Protocol names after Basic* prefix (from Vulnerable* → Basic* transformation)
+    (r'\bBasicNomadReplica\b', 'BasicBridgeReplica', 0),
+    (r'\bBasicBeanstalkGovernance\b', 'BasicGovernance', 0),
+    (r'\bBasicBZXLoanToken\b', 'BasicLoanToken', 0),
+    (r'\bBasicCompoundCToken\b', 'BasicCToken', 0),
+    (r'\bBasicCreamLending\b', 'BasicLending', 0),
+    (r'\bBasicCurvePool\b', 'BasicPool', 0),
+    (r'\bBasicHarvestVault\b', 'BasicVault', 0),
+    (r'\bBasicHunnyMinter\b', 'BasicMinter', 0),
+    (r'\bBasicKyberSwapPool\b', 'BasicSwapPool', 0),
+    (r'\bBasicParityWalletLibrary\b', 'BasicWalletLibrary', 0),
+    (r'\bBasicPickleController\b', 'BasicController', 0),
+    (r'\bBasicRariFuse\b', 'BasicLendingHub', 0),
+    (r'\bBasicRoninBridge\b', 'BasicBridge', 0),
+    (r'\bBasicYearnVault\b', 'BasicVault', 0),
+    (r'\bBasicEthCrossChainManager\b', 'BasicCrossChainManager', 0),
+
+    # Protocol names in non-Vulnerable contracts (helper/support contracts)
+    (r'\bNomadReplica\b', 'BridgeReplica', 0),
+    (r'\bBeanstalkGovernance\b', 'Governance', 0),
+    (r'\bAlphaHomoraBank\b', 'LeveragedBank', 0),
+    (r'\bAnyswapRouter\b', 'CrossRouter', 0),
+    (r'\bBedrockVault\b', 'StakingVault', 0),
+    (r'\bBeltStrategy\b', 'YieldStrategy', 0),
+    (r'\bBlueberryLending\b', 'LeveragedLending', 0),
+    (r'\bBurgerSwapRouter\b', 'SwapRouter', 0),
+    (r'\bCowSolver\b', 'BatchSolver', 0),
+    (r'\bCurveOracle\b', 'PoolOracle', 0),
+    (r'\bDODOPool\b', 'LiquidityPool', 0),
+    (r'\bExactlyMarket\b', 'LendingMarket', 0),
+    (r'\bFixedFloatHotWallet\b', 'ExchangeHotWallet', 0),
+    (r'\bGammaHypervisor\b', 'LiquidityHypervisor', 0),
+    (r'\bHedgeyClaimCampaigns\b', 'TokenClaimCampaigns', 0),
+    (r'\bHundredFinanceMarket\b', 'LendingMarket', 0),
+    (r'\bInverseLending\b', 'SyntheticLending', 0),
+    (r'\bMunchablesLockManager\b', 'GameLockManager', 0),
+    (r'\bOrbitBridge\b', 'CrossBridge', 0),
+    (r'\bParityWalletProxy\b', 'WalletProxy', 0),
+    (r'\bParityWalletLibrary\b', 'WalletLibrary', 0),
+    (r'\bPendleMarketRegister\b', 'YieldMarketRegister', 0),
+    (r'\bPenpieStaking\b', 'VeTokenStaking', 0),
+    (r'\bPickleStrategy\b', 'YieldStrategy', 0),
+    (r'\bPickleController\b', 'YieldController', 0),
+    (r'\bPlayDappToken\b', 'GameToken', 0),
+    (r'\bQBridge\b', 'QuantumBridge', 0),
+    (r'\bQBridgeHandler\b', 'BridgeHandler', 0),
+    (r'\bRadiantLendingPool\b', 'CrossLendingPool', 0),
+    (r'\bSenecaChamber\b', 'CDPChamber', 0),
+    (r'\bShezmuCollateralToken\b', 'CollateralToken', 0),
+    (r'\bShezmuVault\b', 'CollateralVault', 0),
+    (r'\bSocketGateway\b', 'BridgeGateway', 0),
+    (r'\bSonneMarket\b', 'CompMarket', 0),
+    (r'\bSpartanPool\b', 'LiquidityPool', 0),
+    (r'\bUraniumPair\b', 'SwapPair', 0),
+    (r'\bUwuLendingPool\b', 'LendingPool', 0),
+    (r'\bWarpVault\b', 'CollateralVault', 0),
+    (r'\bWiseLending\b', 'IsolatedLending', 0),
+    (r'\bEthCrossChainData\b', 'CrossChainData', 0),
+    (r'\bEthCrossChainManager\b', 'CrossChainManager', 0),
+    (r'\bRariFuse\b', 'LendingHub', 0),
+    (r'\bRoninBridge\b', 'GameBridge', 0),
+    (r'\bKyberSwapPool\b', 'ConcentratedPool', 0),
+    (r'\bHarvestVault\b', 'YieldVault', 0),
+    (r'\bYearnVault\b', 'YieldVault', 0),
+    (r'\bCreamLending\b', 'ForkLending', 0),
+    (r'\bCompoundCToken\b', 'CToken', 0),
+    (r'\bCurvePool\b', 'StablePool', 0),
+    (r'\bBZXLoanToken\b', 'MarginToken', 0),
+    (r'\bHunnyMinter\b', 'RewardMinter', 0),
+
+    # Generic protocol name patterns (catch remaining in identifiers)
+    (r'\bNomad([A-Z][a-zA-Z]*)\b', r'Bridge\1', 0),
+    (r'\bBeanstalk([A-Z][a-zA-Z]*)\b', r'Farm\1', 0),
+    (r'\bParity([A-Z][a-zA-Z]*)\b', r'Multi\1', 0),
+    (r'\bRonin([A-Z][a-zA-Z]*)\b', r'Game\1', 0),
+    (r'\bHarvest([A-Z][a-zA-Z]*)\b', r'Yield\1', 0),
+    (r'\bYearn([A-Z][a-zA-Z]*)\b', r'Yield\1', 0),
+    (r'\bCurve([A-Z][a-zA-Z]*)\b', r'Stable\1', 0),
+    (r'\bCompound([A-Z][a-zA-Z]*)\b', r'Lend\1', 0),
+    (r'\bAave([A-Z][a-zA-Z]*)\b', r'Lend\1', 0),
+    (r'\bUniswap([A-Z][a-zA-Z]*)\b', r'Swap\1', 0),
+    (r'\bSushiSwap([A-Z][a-zA-Z]*)\b', r'Swap\1', 0),
+    (r'\bPancakeSwap([A-Z][a-zA-Z]*)\b', r'Swap\1', 0),
+
+    # Interface/variable names with protocol references (camelCase and PascalCase)
+    (r'\bICurvePool\b', 'IStablePool', 0),
+    (r'\bICurve3Pool\b', 'IStable3Pool', 0),
+    (r'\bcurvePool\b', 'stablePool', 0),
+    (r'\bcurve3Pool\b', 'stable3Pool', 0),
+    (r'\b_curvePool\b', '_stablePool', 0),
+    (r'\b_curve3Pool\b', '_stable3Pool', 0),
+    (r'\b_investInCurve\b', '_investInPool', 0),
+    (r'\b_withdrawFromCurve\b', '_withdrawFromPool', 0),
+    (r'\bcurveBalance\b', 'poolBalance', 0),
+    (r'\bIAlphaHomora\b', 'ILeveragedLending', 0),
+    (r'\balphaHomora\b', 'leveragedLending', 0),
+    (r'\bIHundredFinance\b', 'ILendingMarket', 0),
+    (r'\bhundredFinance\b', 'lendingMarket', 0),
+    (r'\bIInverse\b', 'ISyntheticLending', 0),
+    (r'\binverseLending\b', 'syntheticLending', 0),
+
+    # Variable names with protocol hints
+    (r'\bhunnyRewardAmount\b', 'rewardAmount', 0),
+    (r'\bhunnyReward\b', 'tokenReward', 0),
+    (r'\byearnShares\b', 'vaultShares', 0),
+    (r'\bcompoundBalance\b', 'lendingBalance', 0),
+    (r'\bcreamBalance\b', 'lendingBalance', 0),
+
+    # More interface patterns
+    (r'\bICompoundToken\b', 'ILendToken', 0),
+    (r'\bICompound\b', 'ILendProtocol', 0),
+    (r'\bcompoundToken\b', 'lendToken', 0),
+
+    # Anyswap function patterns
+    (r'\banySwapOut([A-Za-z]*)\b', r'crossOut\1', 0),
+    (r'\b_anySwapOut\b', '_crossOut', 0),
+    (r'\banySwapIn([A-Za-z]*)\b', r'crossIn\1', 0),
+    (r'\b_anySwapIn\b', '_crossIn', 0),
+
+    # More camelCase protocol patterns
+    (r'\bharmony([A-Z][a-zA-Z]*)\b', r'cross\1', 0),
+    (r'\bHarmony([A-Z][a-zA-Z]*)\b', r'Cross\1', 0),
 ]
 
 # Comment patterns to remove (entire line or inline)
 COMMENT_PATTERNS_TO_REMOVE = [
+    # ===================
+    # PROTOCOL NAME REFERENCES IN COMMENTS
+    # These reveal which famous exploit the contract is based on
+    # ===================
+    r'//.*\b(Nomad|Beanstalk|Parity|Ronin|Harvest|Yearn|Compound|Cream|Curve|Kyber|Rari|bZx|BZX|Hunny|Pickle)\b.*$',
+    r'//.*\b(AlphaHomora|Alpha Homora|Anyswap|Bedrock|Belt|Blueberry|BurgerSwap)\b.*$',
+    r'//.*\b(DODO|Exactly|FixedFloat|Gamma|Hedgey|HundredFinance|Hundred Finance)\b.*$',
+    r'//.*\b(Inverse|Munchables|Orbit|Pendle|Penpie|PlayDapp|QBridge)\b.*$',
+    r'//.*\b(Radiant|Seneca|Shezmu|Socket|Sonne|Spartan|Uranium|Uwu|Warp|Wise)\b.*$',
+    r'//.*In (?:the )?real\s+\w+.*$',  # "In real Beanstalk", "In the real Parity wallet"
+    r'//.*(?:simplified|based on|derived from)\s+\w+\s+(?:hack|exploit|incident).*$',
+
+    # NatSpec comments with protocol names (block comment style)
+    r'\*.*\b(Nomad|Beanstalk|Parity|Ronin|Harvest|Yearn|Compound|Cream|Curve|Kyber|Rari|bZx|BZX|Hunny|Pickle)\b.*$',
+    r'\*.*\b(AlphaHomora|Alpha Homora|Anyswap|Bedrock|Belt|Blueberry|BurgerSwap)\b.*$',
+    r'\*.*\b(DODO|Exactly|FixedFloat|Gamma|Hedgey|HundredFinance|Hundred Finance)\b.*$',
+    r'\*.*\b(Inverse|Munchables|Orbit|Pendle|Penpie|PlayDapp|QBridge)\b.*$',
+    r'\*.*\b(Radiant|Seneca|Shezmu|Socket|Sonne|Spartan|Uranium|Uwu|Warp|Wise)\b.*$',
+
     # ===================
     # CORE VULNERABILITY KEYWORDS
     # ===================
@@ -506,28 +654,20 @@ RAW_TEXT_REPLACEMENTS = [
     (r'^Reentrancy vulnerability\s*$', '// Contract file', re.MULTILINE),
 ]
 
-# Metadata fields to completely remove (contain vulnerability details)
-# These are checked at any nesting level
+# Metadata fields to remove (not needed for judging)
+# NOTE: Metadata is for JUDGE only, not shown to models
+# Keep all fields needed for evaluation: root_cause, attack_scenario, fix_description, etc.
 METADATA_FIELDS_TO_REMOVE = [
-    'root_cause',
-    'attack_vector',
-    'detection_hints',
-    'vulnerability_description',
-    'exploit_explanation',
-    'fix_description',
-    'remediation',
-    'security_notes',
-    'correct_fix',
-    'detection_challenges',
+    # Only remove external links and redundant fields
+    'source_reference',       # External GitHub/source links
+    'external_references',    # External Twitter/blog links
+    'detection_hints',        # Hints for detection (not needed for judging correctness)
 ]
 
-# Metadata fields to rename (obfuscate purpose)
+# Metadata fields to rename - DISABLED
+# Judge needs original field names like vulnerability_type, is_vulnerable
 METADATA_FIELDS_TO_RENAME = {
-    'vulnerability_type': 'category',
-    'vulnerability_category': 'category',
-    'attack_type': 'operation_type',
-    'is_vulnerable': 'has_issue',
-    'vulnerable_location': 'issue_location',
+    # Intentionally empty - keep original field names for judge
 }
 
 
@@ -571,7 +711,11 @@ class SanitizationReport:
 
 def sanitize_metadata(metadata: dict) -> tuple[dict, list[str]]:
     """
-    Sanitize metadata by removing/anonymizing sensitive fields.
+    Sanitize metadata by removing fields not needed for judging.
+
+    NOTE: Metadata is for JUDGE only, not shown to models.
+    Keep all fields needed for evaluation (root_cause, attack_scenario,
+    fix_description, description, vulnerability_type, etc.)
 
     Args:
         metadata: The original metadata dictionary
@@ -582,31 +726,20 @@ def sanitize_metadata(metadata: dict) -> tuple[dict, list[str]]:
     changes = []
     result = metadata.copy()
 
-    # Remove sensitive fields entirely
+    # Remove only fields not needed for judging (external links)
     for field in METADATA_FIELDS_TO_REMOVE:
         if field in result:
             changes.append(f"Removed metadata field: {field}")
             del result[field]
 
-    # Rename fields to obfuscate purpose
+    # Rename fields (currently disabled - keep original names for judge)
     for old_name, new_name in METADATA_FIELDS_TO_RENAME.items():
         if old_name in result:
             result[new_name] = result.pop(old_name)
             changes.append(f"Renamed metadata field: {old_name} → {new_name}")
 
-    # Sanitize any remaining string values that might contain hints
-    vuln_keywords = re.compile(
-        r'\b(vulnerable|vulnerability|exploit|attack|insecure|unsafe|bug|hack|'
-        r'overflow|underflow|reentr|malicious|pwn|drain)\b',
-        re.IGNORECASE
-    )
-
-    for key, value in list(result.items()):
-        if isinstance(value, str) and vuln_keywords.search(value):
-            # For description-like fields, just note it was sanitized
-            if key in ['description', 'notes', 'comments']:
-                result[key] = '[sanitized]'
-                changes.append(f"Sanitized metadata value in: {key}")
+    # NOTE: Do NOT sanitize description/notes - judge needs full context
+    # The metadata is never shown to models, only used for evaluation
 
     return result, changes
 
@@ -614,6 +747,9 @@ def sanitize_metadata(metadata: dict) -> tuple[dict, list[str]]:
 def sanitize_code(code: str) -> tuple[str, list[str], dict[str, str]]:
     """
     Sanitize a code string by removing vulnerability hints.
+
+    Line markers (/*LN-N*/) are stripped before processing and fresh
+    sequential markers are added after processing.
 
     Args:
         code: The Solidity/Rust source code to sanitize
@@ -624,7 +760,9 @@ def sanitize_code(code: str) -> tuple[str, list[str], dict[str, str]]:
     """
     changes = []
     rename_mappings = {}  # Track identifier renames for metadata transformation
-    result = code
+
+    # Step 0: Strip existing line markers from input
+    result = strip_line_markers(code)
 
     # Step 1: Remove hint comments (single-line)
     for pattern in COMMENT_PATTERNS_TO_REMOVE:
@@ -726,21 +864,27 @@ def sanitize_code(code: str) -> tuple[str, list[str], dict[str, str]]:
     result = '\n'.join(line.rstrip() for line in result.split('\n'))
 
     # Step 8: Validate that Solidity built-ins are preserved
-    warnings = _validate_solidity_builtins(code, result)
+    # Note: Use original code with markers stripped for validation
+    original_clean = strip_line_markers(code)
+    warnings = _validate_solidity_builtins(original_clean, result)
     if warnings:
         for warning in warnings:
             changes.append(f"WARNING: {warning}")
 
+    # Step 9: Add fresh sequential line markers
+    result = add_line_markers(result)
+
     return result, changes, rename_mappings
 
 
-def transform_metadata_identifiers(metadata: dict, rename_mappings: dict[str, str]) -> tuple[dict, list[str]]:
+def transform_metadata_identifiers(metadata: dict, rename_mappings: dict[str, str], sanitized_code: str = None) -> tuple[dict, list[str]]:
     """
     Transform metadata identifiers using the rename mappings from code sanitization.
 
     Args:
         metadata: Original metadata dictionary
         rename_mappings: Dictionary of {original_name: new_name} from sanitize_code
+        sanitized_code: Optional sanitized code to infer contract name if not in mappings
 
     Returns:
         Tuple of (transformed_metadata, list_of_changes)
@@ -765,19 +909,32 @@ def transform_metadata_identifiers(metadata: dict, rename_mappings: dict[str, st
     ]
 
     def transform_value(value, field_path):
-        """Transform a value using rename_mappings."""
+        """Transform a value using rename_mappings, handling Vulnerable* prefix."""
         if isinstance(value, str):
+            # Direct match
             if value in rename_mappings:
                 new_value = rename_mappings[value]
                 changes.append(f"Transformed {field_path}: {value} → {new_value}")
                 return new_value
+            # Handle Vulnerable* prefix - check if Basic* version is in mappings
+            if value.startswith('Vulnerable'):
+                base_name = value[len('Vulnerable'):]
+                basic_name = f'Basic{base_name}'
+                if basic_name in rename_mappings:
+                    new_value = rename_mappings[basic_name]
+                    changes.append(f"Transformed {field_path}: {value} → {new_value}")
+                    return new_value
+                # Check if base_name itself is in mappings
+                if base_name in rename_mappings:
+                    new_value = rename_mappings[base_name]
+                    changes.append(f"Transformed {field_path}: {value} → {new_value}")
+                    return new_value
         elif isinstance(value, list):
             new_list = []
             for item in value:
-                if isinstance(item, str) and item in rename_mappings:
-                    new_item = rename_mappings[item]
-                    changes.append(f"Transformed {field_path} item: {item} → {new_item}")
-                    new_list.append(new_item)
+                if isinstance(item, str):
+                    transformed = transform_value(item, field_path)
+                    new_list.append(transformed)
                 else:
                     new_list.append(item)
             return new_list
@@ -787,6 +944,16 @@ def transform_metadata_identifiers(metadata: dict, rename_mappings: dict[str, st
     for field in top_level_fields:
         if field in result:
             result[field] = transform_value(result[field], field)
+
+    # If vulnerable_contract is still not set or not transformed, try to infer from sanitized code
+    if sanitized_code and (not result.get('vulnerable_contract') or
+                           result.get('vulnerable_contract', '').startswith('Vulnerable')):
+        match = re.search(r'contract\s+(\w+)', sanitized_code)
+        if match:
+            inferred_contract = match.group(1)
+            old_value = result.get('vulnerable_contract', 'NOT SET')
+            result['vulnerable_contract'] = inferred_contract
+            changes.append(f"Inferred vulnerable_contract from code: {old_value} → {inferred_contract}")
 
     # Transform nested fields
     for path, fields in nested_paths:
@@ -931,8 +1098,8 @@ def _save_sanitized(
         metadata = json.loads(original_metadata_path.read_text())
 
         # Transform identifiers in metadata using rename mappings
-        if rename_mappings:
-            metadata, metadata_changes = transform_metadata_identifiers(metadata, rename_mappings)
+        # Pass sanitized_code to infer vulnerable_contract if not in mappings
+        metadata, metadata_changes = transform_metadata_identifiers(metadata, rename_mappings or {}, sanitized_code)
 
         # Update metadata for sanitized version
         metadata['id'] = sanitized_id

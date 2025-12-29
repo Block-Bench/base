@@ -14,7 +14,15 @@
   "description": "Nomad Bridge hack exploiting improper initialization of message validation. After a contract upgrade, the acceptedRoot was mistakenly set to 0x00...00, allowing attackers to craft messages that bypassed validation and drain $190M across 41 different tokens.",
   "vulnerable_contract": "VulnerableNomadReplica",
   "vulnerable_function": "process",
-  "vulnerable_lines": [74, 75, 78, 96, 97, 98, 99],
+  "vulnerable_lines": [
+    74,
+    75,
+    78,
+    96,
+    97,
+    98,
+    99
+  ],
   "attack_scenario": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation. The process() function incorrectly accepts these messages, triggering token transfers without corresponding deposits on the source chain.",
   "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
   "fix_description": "Proper initialization of acceptedRoot after contract upgrades. Implement strict validation that acceptedRoot can never be 0x00...00. Add additional checks to ensure messages are properly committed to a merkle tree before processing. Implement emergency pause mechanisms.",
@@ -35,5 +43,8 @@
   ],
   "variant_type": "original",
   "variant_parent_id": null,
-  "notes": "One of the largest bridge hacks in history. Hundreds of copycat attackers repeated the exploit within hours once the vulnerability was discovered. The hack demonstrated the critical importance of proper state initialization during contract upgrades."
+  "notes": "One of the largest bridge hacks in history. Hundreds of copycat attackers repeated the exploit within hours once the vulnerability was discovered. The hack demonstrated the critical importance of proper state initialization during contract upgrades.",
+  "contract_file": "contracts/tc_001.sol",
+  "subset": "annotated",
+  "original_subset": "temporal_contamination"
 }
