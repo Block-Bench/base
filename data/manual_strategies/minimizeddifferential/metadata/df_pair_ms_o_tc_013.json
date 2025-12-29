@@ -1,0 +1,60 @@
+{
+  "pair_id": "df_pair_ms_o_tc_013",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_013",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_013",
+    "file": "contracts/df_a_ms_o_tc_013.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_013",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_013.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "pancake_hunny.sol",
+      "function_name": "mintFor",
+      "line_numbers": [
+        95,
+        98
+      ]
+    },
+    "root_cause": "Using balanceOf(address(this)) for reward calculation instead of tracking actual deposits. Attacker sent tokens directly to contract before calling mintFor, inflating the balance used for reward calculation.",
+    "attack_vector": "Attacker flash loaned large amount of LP tokens, sent them directly to minter contract, called getReward which triggered mintFor. Function calculated rewards based on inflated balance, minting excessive HUNNY tokens.",
+    "impact": "Funds lost: $45,000,000",
+    "correct_fix": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly."
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 7,
+    "diff_summary": "Minimal fix with 7 lines changed",
+    "raw_diff": "37a38\n>     uint256 public totalDeposits;\n47a49\n>         totalDeposits += amount;\n62,64c64\n<         uint256 hunnyRewardAmount = tokenToReward(\n<             lpToken.balanceOf(address(this))\n<         );\n---\n>         uint256 hunnyRewardAmount = tokenToReward(totalDeposits);\n83a84\n>         totalDeposits -= amount;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "PancakeHunny (PancakeBunny)",
+    "exploit_date": "2021-05-20",
+    "protocol_name": "PancakeHunny (PancakeBunny)",
+    "chain": "bsc",
+    "funds_lost_usd": 45000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "integer_overflow",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_013",
+  "created_date": "2025-12-29T13:22:45.517846"
+}

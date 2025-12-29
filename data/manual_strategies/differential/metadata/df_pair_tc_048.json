@@ -1,0 +1,59 @@
+{
+  "pair_id": "df_pair_tc_048",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_048",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_048",
+    "file": "contracts/df_a_tc_048.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "df_b_tc_048",
+    "file": "../../base/contracts/tc_048.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "SonneMarket",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $20,000,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 14,
+    "diff_summary": "Minimal fix with 14 lines changed",
+    "raw_diff": "6d5\n< \n12d10\n< \n28a27,29\n>     uint256 public constant MINIMUM_LIQUIDITY = 1e18;\n>     bool public liquidityBootstrapped;\n> \n42d42\n< \n49a50\n>         require(liquidityBootstrapped || totalSupply + mintAmount >= MINIMUM_LIQUIDITY, \"Insufficient liquidity\");\n52d52\n< \n59a60,63\n>         if (!liquidityBootstrapped && totalSupply >= MINIMUM_LIQUIDITY) {\n>             liquidityBootstrapped = true;\n>         }\n> \n68d71\n< \n84d86\n< \n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Sonne Finance",
+    "exploit_date": "2024-05-01",
+    "protocol_name": "Sonne Finance",
+    "chain": "optimism",
+    "funds_lost_usd": 20000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "oracle_manipulation"
+  ],
+  "quality_metrics": {
+    "diff_lines": 14,
+    "is_minimal": false,
+    "solidity_version_match": true
+  }
+}

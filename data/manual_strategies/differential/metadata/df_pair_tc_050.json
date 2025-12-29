@@ -1,0 +1,59 @@
+{
+  "pair_id": "df_pair_tc_050",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_050",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_050",
+    "file": "contracts/df_a_tc_050.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "df_b_tc_050",
+    "file": "../../base/contracts/tc_050.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "MunchablesLockManager",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $62,000,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 8,
+    "diff_summary": "Minimal fix with 8 lines changed",
+    "raw_diff": "6d5\n< \n12d10\n< \n69d66\n<         address player,\n71,72c68,70\n<     ) external onlyAdmin {\n<         playerSettings[player].lockRecipient = newRecipient;\n---\n>     ) external {\n>         require(newRecipient != address(0), \"Invalid recipient\");\n>         playerSettings[msg.sender].lockRecipient = newRecipient;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Munchables",
+    "exploit_date": "2024-03-01",
+    "protocol_name": "Munchables",
+    "chain": "blast",
+    "funds_lost_usd": 62000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "access_control"
+  ],
+  "quality_metrics": {
+    "diff_lines": 8,
+    "is_minimal": true,
+    "solidity_version_match": true
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "id": "fp_gs_027",
+  "contract_file": "contracts/fp_gs_027.sol",
+  "subset": "manual_strategies",
+  "strategy": "decoy",
+  "variant": "false_prophet",
+  "original_id": "gs_027",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Staking",
+      "function_name": "totalControlled",
+      "line_numbers": [
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296
+      ]
+    },
+    "root_cause": "Staking.totalControlled() derives the mETH/ETH exchange rate inputs from oracle.latestRecord() without validating the record timestamp. If the oracle lags significant state changes (e.g., validator rewards or slashing), the resulting rate becomes stale. An attacker can exploit this by timing mint/burn operations against outdated totals: redeeming mETH for excess ETH when a slashing is not yet reflected (overstated totalControlled()), or depositing ETH to mint excess mETH when recent rewards are not yet reflected (understated totalControlled()), extracting value from other users.",
+    "attack_vector": "Slashing scenario:\n1. Validators are slashed, reducing the actual ETH controlled by the protocol\n2. Oracle has not yet updated to reflect the slashing\n3. totalControlled() returns the old (higher) value\n4. Attacker calls unstakeRequest() and receives more ETH per mETH than they should\n5. Other users bear the loss when the oracle updates\n\nReward scenario:\n1. Validators earn significant rewards\n2. Oracle has not yet updated to reflect the new rewards\n3. totalControlled() returns the old (lower) value\n4. Attacker calls stake() and receives more mETH per ETH than they should\n5. The mETH is worth more once the oracle updates",
+    "impact": "Severity: medium",
+    "correct_fix": "Enforce freshness validation for oracle records when minting or burning mETH. The Oracle.latestRecord() function has no sanity checks - it simply returns _records[_records.length - 1]. The validations should be implemented on the caller side, specifically in the Staking.totalControlled() function."
+  },
+  "transformation_info": {
+    "strategy": "false_prophet",
+    "description": "Adds misleading comments that falsely claim oracle validation and security",
+    "changes_made": [
+      {
+        "location": "lines 35-47 (contract level)",
+        "type": "comment",
+        "text": "Added false security architecture claims stating 'Exchange rates are derived from authoritative oracle snapshots' and 'No critical accounting risks identified'"
+      },
+      {
+        "location": "lines 227-230 (ethToMETH function)",
+        "type": "comment",
+        "text": "Claims function ensures proportional issuance based on system-wide balances and fair minting across all market states"
+      },
+      {
+        "location": "lines 247-248 (mETHToETH function)",
+        "type": "comment",
+        "text": "Claims function ensures symmetric valuation between minting and redemption paths"
+      },
+      {
+        "location": "lines 258-268 (totalControlled function header)",
+        "type": "comment",
+        "text": "Claims function relies on latest oracle record as canonical snapshot and reflects coherent and up-to-date view of validator state"
+      },
+      {
+        "location": "line 270 (totalControlled function body)",
+        "type": "comment",
+        "text": "Claims 'Retrieve the most recent validated oracle record' (misleading - no validation occurs)"
+      }
+    ],
+    "code_logic_changed": false,
+    "vulnerability_preserved": true,
+    "false_claims": [
+      "Claims 'Internal Security Review' found 'No critical accounting risks identified' (FALSE - oracle staleness is a critical risk)",
+      "Claims exchange rates are derived from 'authoritative oracle snapshots' (MISLEADING - no validation of authority or freshness)",
+      "Claims oracle provides 'coherent and up-to-date view of validator state' (FALSE - oracle can be stale)",
+      "Claims 'most recent validated oracle record' is retrieved (FALSE - latestRecord() performs no validation)",
+      "Claims 'deterministic and auditable rate calculations' (MISLEADING - rates can be manipulated via stale oracle)"
+    ]
+  },
+  "provenance": {
+    "source": "mixbytes",
+    "original_id": "gs_mixbytes_mantle-meth-aave_M05",
+    "url": "https://github.com/mixbytes/audits_public/tree/master/Mantle%20Network/mETH%20x%20Aave%20Integration",
+    "date_discovered": "2025-10-22",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team",
+    "transformation_date": "2025-12-21"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.20",
+    "num_lines": 342,
+    "num_contracts": 1,
+    "contract_names": ["Staking"],
+    "num_functions": 9,
+    "has_imports": true,
+    "imports": [
+      "Initializable",
+      "AccessControlEnumerableUpgradeable",
+      "Math",
+      "IERC20",
+      "SafeERC20Upgradeable",
+      "ProtocolEvents",
+      "IDepositContract",
+      "IMETH",
+      "IOracleReadRecord",
+      "OracleRecord",
+      "IPauserRead",
+      "IStaking",
+      "IStakingReturnsWrite",
+      "IStakingInitiationRead",
+      "UnstakeRequest",
+      "IUnstakeRequestsManager",
+      "ILiquidityBuffer"
+    ],
+    "has_inheritance": true,
+    "inherits_from": ["Initializable", "AccessControlEnumerableUpgradeable", "IStaking", "StakingEvents", "ProtocolEvents"],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "oracle_manipulation",
+    "false_prophet",
+    "misleading_comments",
+    "decoy",
+    "manual_strategy",
+    "gold_standard"
+  ],
+  "notes": "False Prophet transformation: Added 5 misleading comment blocks creating a false narrative of oracle validation and security. Most egregiously, the contract-level comment claims 'Internal Security Review' found 'No critical accounting risks identified' and line 270 claims the oracle record is 'validated', when in fact oracle.latestRecord() at line 271 performs zero validation and can return stale data, enabling rate manipulation attacks.",
+  "original_subset": "gold_standard",
+  "context": "context/gs_027/",
+  "context_files": [
+    "context_01_Oracle.sol"
+  ]
+}

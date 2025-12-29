@@ -1,0 +1,71 @@
+{
+  "pair_id": "df_pair_ms_o_tc_017",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_017",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_017",
+    "file": "contracts/df_a_ms_o_tc_017.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_017",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_017.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "pickle_finance.sol",
+      "function_name": "swapExactJarForJar",
+      "line_numbers": [
+        88,
+        89,
+        90,
+        91,
+        118,
+        119,
+        120,
+        121,
+        122,
+        128,
+        129,
+        130,
+        131
+      ]
+    },
+    "root_cause": "Controller allowed arbitrary external calls with user-provided targets and data without validation. Strategy functions like withdrawAll() lacked access control checks, allowing controller to call them on behalf of attacker.",
+    "attack_vector": "Attacker created fake jar contracts, called swapExactJarForJar with malicious targets pointing to real strategies and calldata encoding withdrawAll(). Controller executed these calls, draining strategies.",
+    "impact": "Funds lost: $20,000,000",
+    "correct_fix": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors."
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 9,
+    "diff_summary": "Minimal fix with 9 lines changed",
+    "raw_diff": "29a30\n>     mapping(address => bool) public validTargets;\n45a47\n>             require(validTargets[_targets[i]], \"Target not allowed\");\n54a57,61\n> \n>     function addValidTarget(address target) external {\n>         require(msg.sender == governance, \"Not governance\");\n>         validTargets[target] = true;\n>     }\n66a74\n>         require(msg.sender == controller, \"Not controller\");\n71a80\n>         require(msg.sender == controller, \"Not controller\");\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Pickle Finance",
+    "exploit_date": "2020-11-21",
+    "protocol_name": "Pickle Finance",
+    "chain": "ethereum",
+    "funds_lost_usd": 20000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "access_control",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_017",
+  "created_date": "2025-12-29T13:22:45.521877"
+}

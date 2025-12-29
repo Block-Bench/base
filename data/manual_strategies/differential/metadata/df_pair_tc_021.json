@@ -1,0 +1,71 @@
+{
+  "pair_id": "df_pair_tc_021",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_021",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_021",
+    "file": "contracts/df_a_tc_021.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "df_b_tc_021",
+    "file": "../../base/contracts/tc_021.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "logic_error",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "DODOPool",
+        "functions": [
+          {
+            "name": "init",
+            "vulnerability": "Missing initialization guard allowing multiple calls to hijack maintainer role"
+          },
+          {
+            "name": "claimFees",
+            "vulnerability": "Only checks msg.sender == maintainer, but maintainer can be changed via reinitialization"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "The init() function lacked proper initialization protection (missing `require(!isInitialized)` check). This allowed attackers to call the initialization function again after deployment, overwriting critical parameters like the maintainer address and hijacking fee collection rights.",
+    "attack_vector": "1) Attacker identified DODO pool contracts without proper initialization locks. 2) Called init() with attacker-controlled parameters, setting maintainer address to attacker. 3) Since maintainer receives all swap fees, attacker could claim accumulated fees via claimFees(). 4) All future swap fees also redirected to attacker. 5) In some cases, could manipulate baseBalance/quoteBalance for profitable swaps. 6) Drained $3.8M from affected pools.",
+    "impact": "Funds lost: $3,800,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 2,
+    "diff_summary": "Minimal fix with 2 lines changed",
+    "raw_diff": "34a35,36\n>         require(!isInitialized, \"Already initialized\");\n> \n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "DODO Reinitialization",
+    "exploit_date": "2021-03-09",
+    "protocol_name": "DODO Reinitialization",
+    "chain": "ethereum",
+    "funds_lost_usd": 3800000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "logic_error"
+  ],
+  "quality_metrics": {
+    "diff_lines": 2,
+    "is_minimal": true,
+    "solidity_version_match": true
+  }
+}

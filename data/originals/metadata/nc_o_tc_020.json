@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_020",
+  "contract_file": "contracts/nc_o_tc_020.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_020",
+  "exploit_info": {
+    "exploit_name": "Warp Finance",
+    "date": "2020-12-17",
+    "amount_lost_usd": "7700000",
+    "vulnerability_type": "price_oracle_manipulation"
+  },
+  "description": "No-comment version of tc_020 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "price_oracle_manipulation"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_032",
+  "contract_file": "contracts/o_tc_032.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_032",
+  "exploit_info": {
+    "exploit_name": "Radiant Capital",
+    "date": "2024-01",
+    "amount_lost_usd": "4500000",
+    "vulnerability_type": "arithmetic_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/radiant_capital.sol",
+  "description": "Original annotated version of tc_032 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "arithmetic_manipulation"
+  ]
+}

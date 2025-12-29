@@ -1,0 +1,65 @@
+{
+  "pair_id": "df_pair_ms_o_tc_028",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_028",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_028",
+    "file": "contracts/df_a_ms_o_tc_028.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_028",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_028.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "logic_error",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "VulnerableVault",
+        "functions": [
+          {
+            "name": "deposit",
+            "vulnerability": "Doesn't check actual balance increase, credits full amount despite transfer fees"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "Vault assumed tokens received equal amount transferred. Didn't check actual balance increase before/after transfer. Deflationary tokens with transfer fees caused accounting mismatch between credited amounts and actual holdings.",
+    "attack_vector": "1) Deflationary token charges 10% fee on transfers. 2) Attacker deposits 100 tokens. 3) Vault receives only 90 tokens (10% burned as fee). 4) Vault credits attacker's account with full 100 tokens. 5) Attacker withdraws 100 tokens. 6) Vault sends 100 but only had 90 plus other users' funds. 7) Repeated deposits/withdrawals to drain $8.5M.",
+    "impact": "Funds lost: $8,500,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 5,
+    "diff_summary": "Minimal fix with 5 lines changed",
+    "raw_diff": "18a19\n>         uint256 balBefore = IERC20(token).balanceOf(address(this));\n19a21,22\n>         uint256 balAfter = IERC20(token).balanceOf(address(this));\n>         uint256 received = balAfter - balBefore;\n21c24\n<         deposits[msg.sender] += amount;\n---\n>         deposits[msg.sender] += received;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "BVaults SafeMoon Drain",
+    "exploit_date": "2021-05-30",
+    "protocol_name": "BVaults SafeMoon Drain",
+    "chain": "binance_smart_chain",
+    "funds_lost_usd": 8500000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "logic_error",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_028",
+  "created_date": "2025-12-29T13:22:45.531578"
+}

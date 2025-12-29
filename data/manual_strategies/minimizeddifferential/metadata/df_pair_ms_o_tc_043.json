@@ -1,0 +1,57 @@
+{
+  "pair_id": "df_pair_ms_o_tc_043",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_043",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_043",
+    "file": "contracts/df_a_ms_o_tc_043.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_043",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_043.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "SenecaChamber",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $6,400,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 17,
+    "diff_summary": "Minimal fix with 17 lines changed",
+    "raw_diff": "6d5\n< \n12d10\n< \n14d11\n< \n22a20,21\n>     mapping(address => bool) public allowedTargets;\n>     mapping(bytes4 => bool) public allowedSelectors;\n23a23,30\n>     function addAllowedTarget(address target) external {\n>         allowedTargets[target] = true;\n>     }\n> \n>     function addAllowedSelector(bytes4 selector) external {\n>         allowedSelectors[selector] = true;\n>     }\n> \n40a48,51\n>                 require(allowedTargets[target], \"Target not allowed\");\n>                 bytes4 selector = bytes4(callData);\n>                 require(allowedSelectors[selector], \"Selector not allowed\");\n> \n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Seneca Protocol (Chamber)",
+    "exploit_date": "2024-02-01",
+    "protocol_name": "Seneca Protocol (Chamber)",
+    "chain": "ethereum",
+    "funds_lost_usd": 6400000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "access_control",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_043",
+  "created_date": "2025-12-29T13:22:45.610483"
+}

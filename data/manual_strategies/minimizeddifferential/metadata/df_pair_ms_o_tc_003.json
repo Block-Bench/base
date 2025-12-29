@@ -1,0 +1,76 @@
+{
+  "pair_id": "df_pair_ms_o_tc_003",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_003",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_003",
+    "file": "contracts/df_a_ms_o_tc_003.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with initialization check and access control on kill function"
+  },
+  "version_b": {
+    "id": "ms_o_tc_003",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_003.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "WalletLibrary",
+      "function_name": "initWallet",
+      "affected_lines_b": [
+        22,
+        60
+      ]
+    },
+    "root_cause": "The library contract's initWallet() function had no access control preventing direct calls. Combined with a kill() function containing selfdestruct, this allowed anyone to destroy the shared library that all wallets depended on.",
+    "attack_vector": "User calls initWallet() directly on the WalletLibrary contract, becoming the owner. User then calls kill() which executes selfdestruct, destroying the library and freezing all 587 wallet proxies permanently.",
+    "impact": "Funds lost: $150,000,000"
+  },
+  "differential_details": {
+    "difference_type": "initialization_guard_and_access_control",
+    "changes_description_a": "Added require check for initialization in initWallet (line 22) and require for initialization in kill (line 60) to prevent unauthorized initialization and selfdestruct. Removed ability to reinitialize or destroy uninitialized library.",
+    "changes_description_b": "Removed initialization check and access control from initWallet (lines 22-27), allowing anyone to call initWallet directly and become owner. Also retained selfdestruct in kill, enabling anyone to destroy the library.",
+    "exact_changes": [
+      {
+        "location": "initWallet function (line 22)",
+        "version_a": "require(!initialized, \"Already initialized\");",
+        "version_b": "// No initialization check"
+      },
+      {
+        "location": "kill function (line 60)",
+        "version_a": "require(initialized && msg.sender == owner, \"Not authorized\");",
+        "version_b": "// No access control on selfdestruct"
+      }
+    ],
+    "why_this_matters": "The minimal fix prevents the catastrophic scenario where anyone can take ownership of the library and destroy it, permanently freezing all dependent wallet contracts."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Parity Wallet",
+    "exploit_date": "2017-11-06",
+    "protocol_name": "Parity Wallet",
+    "chain": "ethereum",
+    "funds_lost_usd": 150000000,
+    "transformation_date": "2025-12-21"
+  },
+  "tags": [
+    "delegatecall",
+    "selfdestruct",
+    "proxy_pattern",
+    "library",
+    "initialization",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_003",
+  "created_date": "2025-12-29T13:22:45.508469"
+}

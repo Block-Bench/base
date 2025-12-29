@@ -1,0 +1,57 @@
+{
+  "pair_id": "df_pair_ms_o_tc_032",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_032",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_032",
+    "file": "contracts/df_a_ms_o_tc_032.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_032",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_032.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "RadiantLendingPool",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $4,500,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 9,
+    "diff_summary": "Minimal fix with 9 lines changed",
+    "raw_diff": "6d5\n< \n12d10\n< \n14d11\n< \n108c105\n<                 new uint256[](assets.length),\n---\n>                 new uint256[](0),\n127c124,126\n<         return (a * RAY + halfB) / b;\n---\n>         uint256 result = (a * RAY + halfB) / b;\n>         require(result < type(uint256).max / 2, \"LiquidityIndex overflow\");\n>         return result;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Radiant Capital Rounding Exploit",
+    "exploit_date": "2024-01-01",
+    "protocol_name": "Radiant Capital Rounding Exploit",
+    "chain": "arbitrum",
+    "funds_lost_usd": 4500000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "integer_overflow",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_032",
+  "created_date": "2025-12-29T13:22:45.534972"
+}

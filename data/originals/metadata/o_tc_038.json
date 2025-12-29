@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_038",
+  "contract_file": "contracts/o_tc_038.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_038",
+  "exploit_info": {
+    "exploit_name": "Blueberry Protocol",
+    "date": "2024-02",
+    "amount_lost_usd": "1400000",
+    "vulnerability_type": "price_oracle_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/blueberry_protocol.sol",
+  "description": "Original annotated version of tc_038 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "price_oracle_manipulation"
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "id": "fp_tc_004",
+  "contract_file": "contracts/fp_tc_004.sol",
+  "subset": "manual_strategies",
+  "strategy": "decoy",
+  "variant": "false_prophet",
+  "original_id": "tc_004",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "YieldVault",
+      "function_name": "deposit, withdraw",
+      "line_numbers": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        96,
+        97,
+        98,
+        99,
+        100
+      ]
+    },
+    "root_cause": "The vault calculated share prices using getTotalAssets() which included current balances in Curve pools. These balances could be manipulated via large swaps within a single transaction. The protocol used spot prices instead of time-weighted average prices (TWAP), and had no protection against flash loan manipulation or slippage limits on price changes.",
+    "attack_vector": "Attacker takes $50M USDC + $17M USDT flash loans from Uniswap. Swaps USDT->USDC on Curve to inflate USDC price. Deposits 49M USDC into Harvest at inflated price, receiving more fUSDC shares. Swaps USDC->USDT to deflate price. Withdraws fUSDC shares at normal price, receiving more USDC than deposited. Repeats cycle 6 times to amplify profit. Repays flash loans with $24M profit.",
+    "impact": "Funds lost: $24,000,000",
+    "correct_fix": "Use Time-Weighted Average Price (TWAP) oracles instead of spot prices from AMMs. Implement deposit/withdrawal fees to make flash loan attacks unprofitable. Add slippage protection on all swaps. Limit maximum deposit/withdrawal amounts per block. Use multiple price sources (Chainlink oracles). Implement commit-reveal pattern for deposits/withdrawals. Add minimum time delay between deposits and withdrawals."
+  },
+  "transformation_info": {
+    "strategy": "false_prophet",
+    "description": "Adds misleading comments that falsely claim price manipulation protection",
+    "changes_made": [
+      {
+        "location": "line 7 (contract level)",
+        "type": "comment",
+        "text": "Changed from 'Users deposit tokens and receive vault shares representing their position' to 'Uses secure price calculations and slippage protection for deposits and withdrawals'"
+      },
+      {
+        "location": "line 44 (deposit function)",
+        "type": "comment",
+        "text": "Added claim 'Uses current asset price for share calculation to prevent manipulation'"
+      },
+      {
+        "location": "line 50 (share calculation)",
+        "type": "comment",
+        "text": "Added claim 'Ensures fair share allocation and prevents price manipulation'"
+      },
+      {
+        "location": "line 72 (withdraw function)",
+        "type": "comment",
+        "text": "Added claim 'Uses current asset price for withdrawal amount to prevent manipulation'"
+      },
+      {
+        "location": "line 79 (withdrawal calculation)",
+        "type": "comment",
+        "text": "Added claim 'Ensures fair withdrawal and prevents price manipulation'"
+      },
+      {
+        "location": "line 96 (getTotalAssets function)",
+        "type": "comment",
+        "text": "Added claim 'Includes invested balance for accurate asset valuation'"
+      },
+      {
+        "location": "line 106 (getPricePerFullShare function)",
+        "type": "comment",
+        "text": "Added claim 'Uses 18 decimal places for precision'"
+      },
+      {
+        "location": "line 116 (_investInCurve function)",
+        "type": "comment",
+        "text": "Added claim 'Updates invested balance for accurate accounting'"
+      },
+      {
+        "location": "line 124 (_withdrawFromCurve function)",
+        "type": "comment",
+        "text": "Added claim 'Checks invested balance to prevent over-withdrawal'"
+      }
+    ],
+    "code_logic_changed": false,
+    "vulnerability_preserved": true,
+    "false_claims": [
+      "Claims contract 'Uses secure price calculations and slippage protection' (FALSE - uses manipulable spot prices, no TWAP)",
+      "Claims 'Uses current asset price for share calculation to prevent manipulation' (FALSE - current price IS the vulnerability)",
+      "Claims 'Ensures fair share allocation and prevents price manipulation' (FALSE - $24M was stolen via price manipulation)",
+      "Claims 'Ensures fair withdrawal and prevents price manipulation' (FALSE - withdrawal uses manipulable spot price)",
+      "Claims getTotalAssets provides 'accurate asset valuation' (MISLEADING - includes manipulable Curve pool balances)",
+      "Repeatedly claims price manipulation prevention while using the exact vulnerable spot price mechanism"
+    ]
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "temporal_harvest_001",
+    "url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2020-10/HarvestFinance_exp.sol",
+    "date_discovered": "2020-10-26",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team",
+    "transformation_date": "2025-12-21"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 130,
+    "num_contracts": 1,
+    "contract_names": ["YieldVault"],
+    "num_functions": 6,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "flash_loan",
+    "price_manipulation",
+    "oracle",
+    "curve",
+    "amm",
+    "arbitrage",
+    "historical",
+    "false_prophet",
+    "misleading_comments",
+    "decoy",
+    "manual_strategy",
+    "temporal_contamination"
+  ],
+  "notes": "False Prophet transformation: Added 9 misleading comments creating a completely false narrative of price manipulation protection. Most egregiously, claims the contract 'Uses secure price calculations and slippage protection' when this is the famous $24M Harvest Finance flash loan price manipulation attack. Every comment about 'preventing price manipulation' is false - the contract uses spot prices from Curve pools which are the exact source of the vulnerability.",
+  "original_subset": "temporal_contamination",
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2020-10-26",
+      "protocol_name": "Harvest Finance",
+      "chain": "ethereum",
+      "funds_lost_usd": 24000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Harvest Finance exploit"
+    }
+  }
+}

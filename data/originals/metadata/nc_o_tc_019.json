@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_019",
+  "contract_file": "contracts/nc_o_tc_019.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_019",
+  "exploit_info": {
+    "exploit_name": "Qubit Bridge",
+    "date": "2022-01-27",
+    "amount_lost_usd": "80000000",
+    "vulnerability_type": "validation_bypass"
+  },
+  "description": "No-comment version of tc_019 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "validation_bypass"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_025",
+  "contract_file": "contracts/o_tc_025.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_025",
+  "exploit_info": {
+    "exploit_name": "Hundred Finance",
+    "date": "2022-03-15",
+    "amount_lost_usd": "6000000",
+    "vulnerability_type": "reentrancy"
+  },
+  "source_file": "pre_cutoff_originals/annotated/hundred_finance.sol",
+  "description": "Original annotated version of tc_025 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "reentrancy"
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "id": "fp_gs_011",
+  "contract_file": "contracts/fp_gs_011.sol",
+  "subset": "manual_strategies",
+  "strategy": "decoy",
+  "variant": "false_prophet",
+  "original_id": "gs_011",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "flash_loan",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "MinVotingPowerCondition",
+      "function_name": "isGranted",
+      "line_numbers": [
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
+    },
+    "root_cause": "The MinVotingPowerCondition contract allows any users who hold at least plugin.minProposerVotingPower() amount of tokens (locked in the LockManager or in their token balance) to create a proposal and execute LockToVote.createProposal. This logic can be easily bypassed if the token allows flashloan or flashmint. Given that isGranted checks the user's token balance (line 43: token.balanceOf(_who) + lockManager.getLockedBalance(_who)), the user does not even need to lock the flashloaned amount into the LockManager to be able to create and spam proposals.",
+    "attack_vector": "1. Flashloan the token.\n2. Create the proposal (isGranted passes because token.balanceOf includes flashloaned amount).\n3. Lock + vote the proposal and auto-execute it (EarlyExecution).\n4. Unlock the tokens.\n5. Repay the flashloan.\nAll in the very same transaction.",
+    "impact": "Severity: high",
+    "correct_fix": "Avoid using the token's balance and require the user to only use the locked amount. Change line 43 from 'token.balanceOf(_who) + lockManager.getLockedBalance(_who)' to just 'lockManager.getLockedBalance(_who)'. Store the proposal's creator in the proposal struct and require that the locked amount required to create the proposal won't be unlockable until the proposal ends."
+  },
+  "transformation_info": {
+    "strategy": "false_prophet",
+    "description": "Adds misleading comments that falsely claim security protections",
+    "changes_made": [
+      {
+        "location": "line 12 (contract level)",
+        "type": "comment",
+        "text": "Implements secure checks to prevent bypass of minimum voting power requirements"
+      },
+      {
+        "location": "line 33 (isGranted function)",
+        "type": "comment",
+        "text": "Implements flash loan protection by considering both locked and unlocked token balances"
+      },
+      {
+        "location": "line 42 (before balance calculation)",
+        "type": "comment",
+        "text": "Securely checks both locked and unlocked token balances to prevent flash loan attacks"
+      },
+      {
+        "location": "line 46 (before return statement)",
+        "type": "comment",
+        "text": "Ensures the minimum voting power requirement is met to prevent unauthorized proposal creation"
+      }
+    ],
+    "code_logic_changed": false,
+    "vulnerability_preserved": true,
+    "false_claims": [
+      "Claims contract implements secure checks (it doesn't)",
+      "Claims flash loan protection exists (the vulnerability IS a flash loan attack)",
+      "Claims checking both locked and unlocked balances is secure (that's the vulnerability)",
+      "Claims unauthorized proposal creation is prevented (it can be bypassed with flash loans)"
+    ]
+  },
+  "provenance": {
+    "source": "spearbit",
+    "original_id": "gs_spearbit_aragon-lock-to-vote_H01",
+    "url": "https://github.com/spearbit/portfolio/blob/master/pdfs/Aragon-Spearbit-Security-Review-July-2025.pdf",
+    "date_discovered": "2025-09-11",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team",
+    "transformation_date": "2025-12-21"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 49,
+    "num_contracts": 1,
+    "contract_names": ["MinVotingPowerCondition"],
+    "num_functions": 1,
+    "has_imports": true,
+    "imports": [
+      "ILockToGovernBase",
+      "ILockManager",
+      "IERC20",
+      "IPermissionCondition",
+      "PermissionCondition"
+    ],
+    "has_inheritance": true,
+    "inherits_from": ["PermissionCondition"],
+    "has_modifiers": false,
+    "has_events": false,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "flash_loan",
+    "false_prophet",
+    "misleading_comments",
+    "decoy",
+    "manual_strategy",
+    "gold_standard"
+  ],
+  "notes": "False Prophet transformation: Added 4 misleading comments that falsely claim the contract has flash loan protection and secure checks. The vulnerability (checking unlocked balance at line 43) remains unchanged, but the comments create a false narrative of security that might mislead auditors into thinking flash loan attacks are prevented.",
+  "original_subset": "gold_standard",
+  "context": "context/gs_011/",
+  "context_files": [
+    "context_01_LockToVotePlugin.sol",
+    "context_02_LockManagerBase.sol"
+  ]
+}

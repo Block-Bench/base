@@ -1,0 +1,161 @@
+{
+  "id": "fp_gs_028",
+  "contract_file": "contracts/fp_gs_028.sol",
+  "subset": "manual_strategies",
+  "strategy": "decoy",
+  "variant": "false_prophet",
+  "original_id": "gs_028",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "medium",
+    "vulnerable_location": {
+      "contract_name": "Staking",
+      "function_name": "_unstakeRequest",
+      "line_numbers": [
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220
+      ]
+    },
+    "root_cause": "When Staking.unstakeRequest() is called, the mETH/ETH rate is fixed and does not reflect slashing or rewards that may occur by the time Staking.claimUnstakeRequest() is executed. If two users create requests concurrently and losses arrive afterward, those losses are not socialized across them. One request may be fully paid while the other may revert on claim due to insufficient allocated funds. This can be exacerbated by frontrunning updates to LiquidityBuffer.cumulativeDrawdown(), enabling informed actors to anticipate loss application. Rewards are also misallocated: requests lock mETH but do not burn it until UnstakeRequestsManager.claim(), so these shares continue participating in reward distribution, diluting rewards for users who have not requested to unstake.",
+    "attack_vector": "Loss scenario:\n1. Alice and Bob each hold 100 mETH, pool controls 200 ETH\n2. Alice calls unstakeRequest(100 mETH), rate fixed at 1:1, expects 100 ETH\n3. Bob calls unstakeRequest(100 mETH), rate fixed at 1:1, expects 100 ETH\n4. Slashing event occurs, pool now only has 150 ETH\n5. Protocol allocates 100 ETH to Alice's claim (succeeds)\n6. Bob's claim reverts due to insufficient funds (only 50 ETH left)\n7. The slashing loss was not socialized - Alice escaped, Bob bears full loss\n\nReward dilution scenario:\n1. Alice and Bob each hold 100 mETH, pool controls 200 ETH\n2. Alice calls unstakeRequest(100 mETH) - shares locked but not burned\n3. 100 ETH reward is distributed across 200 mETH (all shares still exist)\n4. Only ~50 ETH is attributed to Bob instead of ~100 ETH\n5. Alice's locked shares continue to earn rewards until she claims",
+    "impact": "Severity: medium",
+    "correct_fix": "Align withdrawal settlement with the latest protocol state to socialize slashing and adjust reward accounting so pending unstakes do not accrue or dilute rewards. The client acknowledged this as a protocol design trade-off."
+  },
+  "transformation_info": {
+    "strategy": "false_prophet",
+    "description": "Adds misleading comments that falsely claim fairness and predictability in unstaking design",
+    "changes_made": [
+      {
+        "location": "lines 35-46 (contract level)",
+        "type": "comment",
+        "text": "Added false claims about 'predictable settlement outcomes', 'determinism and fairness', and 'No adverse edge cases identified'"
+      },
+      {
+        "location": "lines 174-175 (stake function)",
+        "type": "comment",
+        "text": "Claims mint amount ensures consistent entry pricing for all participants"
+      },
+      {
+        "location": "lines 200-201 (_unstakeRequest function)",
+        "type": "comment",
+        "text": "Claims exchange rate is resolved at request time to provide clear and predictable withdrawal expectation (misleading about fairness)"
+      },
+      {
+        "location": "lines 208-209 (_unstakeRequest function)",
+        "type": "comment",
+        "text": "Claims creating immutable request captures user's proportional share of protocol-controlled ETH (misleading - share changes with slashing/rewards)"
+      },
+      {
+        "location": "lines 215-216 (_unstakeRequest function)",
+        "type": "comment",
+        "text": "Claims locking mETH ensures request integrity while maintaining consistent global accounting (FALSE - locked mETH dilutes rewards)"
+      },
+      {
+        "location": "lines 226-227 (ethToMETH function)",
+        "type": "comment",
+        "text": "Claims consolidated protocol accounting ensures fair and balanced minting"
+      },
+      {
+        "location": "lines 240-241 (mETHToETH function)",
+        "type": "comment",
+        "text": "Claims redemption value aligned with same accounting framework used during minting (misleading - framework doesn't socialize losses)"
+      }
+    ],
+    "code_logic_changed": false,
+    "vulnerability_preserved": true,
+    "false_claims": [
+      "Claims 'Internal Review' found 'No adverse edge cases identified' (FALSE - slashing/reward misallocation are adverse edge cases)",
+      "Claims unstake flow provides 'predictable settlement outcomes' (MISLEADING - settlement depends on unpredictable slashing events)",
+      "Claims 'determinism and fairness' validated (FALSE - unfair loss distribution is the core vulnerability)",
+      "Claims fixing rate at request time provides 'clear and predictable withdrawal expectation' (MISLEADING - framed as feature when it's the vulnerability)",
+      "Claims locked mETH ensures 'request integrity' and 'consistent global accounting' (FALSE - locked-but-not-burned mETH distorts reward accounting)",
+      "Claims design provides 'consistent user experience' (FALSE - concurrent unstakers have inconsistent experiences with slashing)"
+    ]
+  },
+  "provenance": {
+    "source": "mixbytes",
+    "original_id": "gs_mixbytes_mantle-meth-aave_M06",
+    "url": "https://github.com/mixbytes/audits_public/tree/master/Mantle%20Network/mETH%20x%20Aave%20Integration",
+    "date_discovered": "2025-10-22",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team",
+    "transformation_date": "2025-12-21"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.20",
+    "num_lines": 302,
+    "num_contracts": 1,
+    "contract_names": ["Staking"],
+    "num_functions": 7,
+    "has_imports": true,
+    "imports": [
+      "Initializable",
+      "AccessControlEnumerableUpgradeable",
+      "Math",
+      "IERC20",
+      "SafeERC20Upgradeable",
+      "ProtocolEvents",
+      "IDepositContract",
+      "IMETH",
+      "IOracleReadRecord",
+      "OracleRecord",
+      "IPauserRead",
+      "IStaking",
+      "IStakingReturnsWrite",
+      "IStakingInitiationRead",
+      "UnstakeRequest",
+      "IUnstakeRequestsManager",
+      "ILiquidityBuffer"
+    ],
+    "has_inheritance": true,
+    "inherits_from": ["Initializable", "AccessControlEnumerableUpgradeable", "IStaking", "StakingEvents", "ProtocolEvents"],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "logic_error",
+    "false_prophet",
+    "misleading_comments",
+    "decoy",
+    "manual_strategy",
+    "gold_standard"
+  ],
+  "notes": "False Prophet transformation: Added 7 misleading comment blocks creating a false narrative of fairness, predictability, and robust accounting. Most egregiously, claims 'Internal Review' found 'No adverse edge cases identified' and frames the fixed exchange rate as a fairness feature ('clear and predictable withdrawal expectation') when it's actually the core vulnerability causing unfair loss distribution. The comments about locked mETH maintaining 'consistent global accounting' directly contradict the actual behavior where locked-but-not-burned shares dilute rewards.",
+  "original_subset": "gold_standard",
+  "context": "context/gs_028/",
+  "context_files": [
+    "context_01_UnstakeRequestsManager.sol"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_021",
+  "contract_file": "contracts/o_tc_021.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_021",
+  "exploit_info": {
+    "exploit_name": "DODO Reinitialization",
+    "date": "2021-03-09",
+    "amount_lost_usd": "3800000",
+    "vulnerability_type": "reinitialization"
+  },
+  "source_file": "pre_cutoff_originals/annotated/dodo_reinit.sol",
+  "description": "Original annotated version of tc_021 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "reinitialization"
+  ]
+}

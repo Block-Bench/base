@@ -1,0 +1,64 @@
+{
+  "pair_id": "df_pair_tc_014",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_014",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_014",
+    "file": "contracts/df_a_tc_014.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "df_b_tc_014",
+    "file": "../../base/contracts/tc_014.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "yearn_ydai.sol",
+      "function_name": "earn",
+      "line_numbers": [
+        106,
+        109,
+        111,
+        142
+      ]
+    },
+    "root_cause": "Using manipulable spot price from Curve pool (get_virtual_price) for vault strategy calculations. Spot prices can be manipulated within single transaction via flash loans that temporarily imbalance AMM pools.",
+    "attack_vector": "Attacker used flash loans to imbalance Curve 3pool, inflating virtual_price. Called vault.earn() which used inflated price. Normalized pool, repeated process multiple times to siphon value. Withdrew with inflated shares.",
+    "impact": "Funds lost: $11,000,000",
+    "correct_fix": "Use TWAP oracle instead of spot price. Implement slippage protection on Curve operations. Add sanity checks comparing spot price to time-weighted average. Limit strategy execution frequency."
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 14,
+    "diff_summary": "Minimal fix with 14 lines changed",
+    "raw_diff": "47a48,50\n>     uint256 public twapPrice;\n>     uint256 public lastUpdateTime;\n> \n51a55\n>         lastUpdateTime = block.timestamp;\n76c80,85\n<         uint256 virtualPrice = curve3Pool.get_virtual_price();\n---\n>         uint256 spotPrice = curve3Pool.get_virtual_price();\n>         uint256 timeElapsed = block.timestamp - lastUpdateTime;\n>         if (timeElapsed > 0) {\n>             twapPrice = (twapPrice * lastUpdateTime + spotPrice * timeElapsed) / block.timestamp;\n>             lastUpdateTime = block.timestamp;\n>         }\n99,100c108\n<             (crv3.balanceOf(address(this)) * curve3Pool.get_virtual_price()) /\n<             1e18;\n---\n>             (crv3.balanceOf(address(this)) * twapPrice) / 1e18;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Yearn Finance yDAI Vault",
+    "exploit_date": "2021-02-04",
+    "protocol_name": "Yearn Finance yDAI Vault",
+    "chain": "ethereum",
+    "funds_lost_usd": 11000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "oracle_manipulation"
+  ],
+  "quality_metrics": {
+    "diff_lines": 14,
+    "is_minimal": false,
+    "solidity_version_match": true
+  }
+}

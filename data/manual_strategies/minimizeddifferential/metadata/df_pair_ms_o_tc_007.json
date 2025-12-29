@@ -1,0 +1,95 @@
+{
+  "pair_id": "df_pair_ms_o_tc_007",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_007",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_007",
+    "file": "contracts/df_a_ms_o_tc_007.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_007",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_007.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "VulnerableEthCrossChainManager",
+      "function_name": "verifyHeaderAndExecuteTx",
+      "line_numbers": [
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ]
+    },
+    "root_cause": "EthCrossChainManager validated cross-chain transactions (headers, proofs) but didn't restrict which contracts could be targeted for execution. It allowed calling EthCrossChainData, which trusted EthCrossChainManager as owner. This created an access control bypass where anyone could call privileged functions on EthCrossChainData by routing through EthCrossChainManager with a valid cross-chain transaction.",
+    "attack_vector": "Attacker creates valid cross-chain transaction on Poly Network sidechain with target set to EthCrossChainData (the privileged data contract), not a user contract. Transaction calls putCurEpochConPubKeyBytes() to change validator public keys. EthCrossChainManager verifies header signatures and Merkle proof (both valid), then executes transaction by calling EthCrossChainData. Since msg.sender is EthCrossChainManager, the onlyOwner check passes. Attacker's keys become validator keys, allowing them to forge any cross-chain transaction and drain bridge.",
+    "impact": "Funds lost: $611,000,000",
+    "correct_fix": "Implement whitelist of allowed target contracts, explicitly excluding privileged contracts like EthCrossChainData. Use blacklist to forbid critical system contracts as targets. Separate privilege levels for cross-chain execution. Replace msg.sender-based authorization with more granular access controls. Add multi-sig requirements for critical operations like validator key updates. Implement emergency pause mechanisms. Add rate limiting and anomaly detection for cross-chain transactions."
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 6,
+    "diff_summary": "Minimal fix with 6 lines changed",
+    "raw_diff": "66a67,68\n>     mapping(address => bool) public allowedTargets;\n> \n74a77\n>         allowedTargets[_dataContract] = false;\n104a108,110\n>         // restrict what can be called\n>         require(allowedTargets[toContract], \"Target not allowed\");\n> \n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Poly Network",
+    "exploit_date": "2021-08-10",
+    "protocol_name": "Poly Network",
+    "chain": "ethereum",
+    "funds_lost_usd": 611000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "access_control",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_007",
+  "created_date": "2025-12-29T13:22:45.512393"
+}

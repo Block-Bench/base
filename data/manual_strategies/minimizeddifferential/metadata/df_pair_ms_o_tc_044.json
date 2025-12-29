@@ -1,0 +1,80 @@
+{
+  "pair_id": "df_pair_ms_o_tc_044",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_044",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_044",
+    "file": "contracts/df_a_ms_o_tc_044.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with allowed pairs whitelist for claimReward"
+  },
+  "version_b": {
+    "id": "ms_o_tc_044",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_044.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "SmartLoan",
+      "function_name": "claimReward",
+      "affected_lines_b": [
+        64,
+        68
+      ]
+    },
+    "root_cause": "claimReward function accepts any pair address and performs arbitrary call to it. Attacker can pass malicious contract address to execute arbitrary code in context of SmartLoan.",
+    "attack_vector": "Call claimReward with malicious contract address that has claimRewards function, malicious contract executes arbitrary logic, potentially draining funds or manipulating state.",
+    "impact": "Funds lost: $4,750,000"
+  },
+  "differential_details": {
+    "difference_type": "pair_whitelist",
+    "changes_description_a": "Added allowedPairs mapping to factory, addAllowedPair admin function, SmartLoan stores factory reference, claimReward checks factory.allowedPairs(pair) before making external call.",
+    "changes_description_b": "claimReward accepts any pair address without validation, enabling arbitrary external calls.",
+    "exact_changes": [
+      {
+        "location": "SmartLoansFactory (line 29)",
+        "version_a": "mapping(address => bool) public allowedPairs;",
+        "version_b": "// No pair whitelist"
+      },
+      {
+        "location": "addAllowedPair function (lines 42-45)",
+        "version_a": "function addAllowedPair(address pair) external { require(msg.sender == admin, \"Not admin\"); allowedPairs[pair] = true; }",
+        "version_b": "// Function does not exist"
+      },
+      {
+        "location": "claimReward function (line 80)",
+        "version_a": "require(factory.allowedPairs(pair), \"Pair not allowed\");",
+        "version_b": "// No pair validation"
+      }
+    ],
+    "why_this_matters": "Pair whitelist prevents arbitrary external calls by ensuring only admin-approved pair contracts can be called via claimReward."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "DeltaPrime",
+    "exploit_date": "2024-11-01",
+    "protocol_name": "DeltaPrime",
+    "chain": "arbitrum",
+    "funds_lost_usd": 4750000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": [
+    "lending",
+    "arbitrary_call",
+    "whitelist",
+    "access_control",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_044",
+  "created_date": "2025-12-29T13:22:45.612002"
+}

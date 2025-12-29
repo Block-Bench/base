@@ -342,6 +342,8 @@ COMMENT_PATTERNS_TO_REMOVE = [
     r'//.*[Ss]pot\s*the\s*bug.*$',
     r'//.*[Ff]ind\s+the\s+(bug|vulnerability).*$',
     r'//.*[Cc]an\s+you\s+spot.*$',
+    r'//.*[Ii]mmunefi.*$',
+    r'//.*twitter\.com/immunefi.*$',
 
     # ===================
     # VULNERABILITY DESCRIPTIONS
@@ -487,6 +489,8 @@ CONSOLE_LOG_REPLACEMENTS = [
     # String literals containing vulnerability keywords (safe replacements)
     (r'"Before exploiting[^"]*"', '"Before operation"', 0),
     (r'"After exploiting[^"]*"', '"After operation"', 0),
+    (r'"Afer exploiting[^"]*"', '"After operation"', 0),  # Typo variant
+    (r'"[^"]*exploiting[^"]*"', '"Operation result"', 0),  # Generic exploiting strings
 
     # emit statements with hints
     (r'emit\s+[Aa]ttack[^;]*;', 'emit OperationExecuted();', 0),
@@ -637,8 +641,21 @@ def sanitize_code(code: str) -> tuple[str, list[str], dict[str, str]]:
 
     def remove_hint_comment(match):
         comment = match.group(0)
+        # Remove if contains vulnerability keywords
         if vuln_hint_pattern.search(comment):
             changes.append(f"Removed block comment with vulnerability hint")
+            return ''
+        # Also remove DeFiVulnLabs documentation format (Name: + Description:/Mitigation:)
+        if 'Name:' in comment and ('Description:' in comment or 'Mitigation:' in comment):
+            changes.append(f"Removed DeFiVulnLabs documentation comment")
+            return ''
+        # Remove comments with security challenge hints
+        if '#spotthebug' in comment.lower() or 'immunefi' in comment.lower():
+            changes.append(f"Removed security challenge comment")
+            return ''
+        # Remove standalone Mitigation comments (fix documentation)
+        if 'Mitigation:' in comment or 'mitigation:' in comment:
+            changes.append(f"Removed mitigation documentation comment")
             return ''
         return comment
 

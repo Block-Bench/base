@@ -1,0 +1,57 @@
+{
+  "pair_id": "df_pair_ms_o_tc_033",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_033",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_033",
+    "file": "contracts/df_a_ms_o_tc_033.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_033",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_033.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "SocketGateway",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $3,300,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 15,
+    "diff_summary": "Minimal fix with 15 lines changed",
+    "raw_diff": "6d5\n< \n12d10\n< \n14d11\n< \n45a43,45\n>     // Whitelist of allowed function selectors\n>     bytes4[] public allowedSelectors = [IERC20.transfer.selector, IERC20.approve.selector];\n> \n54a55,63\n>             bytes4 selector = bytes4(swapExtraData);\n>             bool allowed = false;\n>             for (uint i = 0; i < allowedSelectors.length; i++) {\n>                 if (allowedSelectors[i] == selector) {\n>                     allowed = true;\n>                     break;\n>                 }\n>             }\n>             require(allowed, \"Function selector not allowed\");\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Socket Gateway Route Manipulation",
+    "exploit_date": "2024-01-01",
+    "protocol_name": "Socket Gateway Route Manipulation",
+    "chain": "ethereum",
+    "funds_lost_usd": 3300000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "access_control",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_033",
+  "created_date": "2025-12-29T13:22:45.535832"
+}

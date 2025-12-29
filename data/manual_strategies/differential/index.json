@@ -1,0 +1,173 @@
+{
+  "strategy": "differential",
+  "variant": "mixed",
+  "description": "Differential pairs for testing precise vulnerability understanding. Each pair contains a vulnerable version (base tc_*) and safe version (df_a_tc_*). Includes minimal (<=20 line diff) and extended (>20 line diff) variants.",
+  "total_pairs": 50,
+  "pairs": [
+    "df_pair_tc_001",
+    "df_pair_tc_002",
+    "df_pair_tc_003",
+    "df_pair_tc_004",
+    "df_pair_tc_005",
+    "df_pair_tc_006",
+    "df_pair_tc_007",
+    "df_pair_tc_008",
+    "df_pair_tc_009",
+    "df_pair_tc_010",
+    "df_pair_tc_011",
+    "df_pair_tc_012",
+    "df_pair_tc_013",
+    "df_pair_tc_014",
+    "df_pair_tc_015",
+    "df_pair_tc_016",
+    "df_pair_tc_017",
+    "df_pair_tc_018",
+    "df_pair_tc_019",
+    "df_pair_tc_020",
+    "df_pair_tc_021",
+    "df_pair_tc_022",
+    "df_pair_tc_023",
+    "df_pair_tc_024",
+    "df_pair_tc_025",
+    "df_pair_tc_026",
+    "df_pair_tc_027",
+    "df_pair_tc_028",
+    "df_pair_tc_029",
+    "df_pair_tc_030",
+    "df_pair_tc_031",
+    "df_pair_tc_032",
+    "df_pair_tc_033",
+    "df_pair_tc_034",
+    "df_pair_tc_035",
+    "df_pair_tc_036",
+    "df_pair_tc_037",
+    "df_pair_tc_038",
+    "df_pair_tc_039",
+    "df_pair_tc_040",
+    "df_pair_tc_041",
+    "df_pair_tc_042",
+    "df_pair_tc_043",
+    "df_pair_tc_044",
+    "df_pair_tc_045",
+    "df_pair_tc_046",
+    "df_pair_tc_047",
+    "df_pair_tc_048",
+    "df_pair_tc_049",
+    "df_pair_tc_050"
+  ],
+  "excluded_ids": [],
+  "extended_variant_ids": [8, 23, 40, 46],
+  "extended_variant_note": "tc_008, tc_023, tc_040, tc_046 have extended fixes (diff > 20 lines) but are fully functional.",
+  "version_naming": {
+    "df_a_tc_*": "Safe/fixed version (in differential/contracts/)",
+    "tc_* (base)": "Vulnerable version (in data/base/contracts/)"
+  },
+  "quality_thresholds": {
+    "max_diff_lines": 20,
+    "truly_minimal": 10
+  },
+  "verification_status": {
+    "verified_pairs": 50,
+    "issues_found": 0,
+    "new_pairs_added": [
+      {
+        "pair_id": "df_pair_tc_008",
+        "fix_type": "price_deviation_protection",
+        "original_issue": "Oracle manipulation via flash loan",
+        "variant": "extended"
+      },
+      {
+        "pair_id": "df_pair_tc_023",
+        "fix_type": "minimum_share_floor",
+        "original_issue": "Debt share manipulation",
+        "variant": "extended"
+      },
+      {
+        "pair_id": "df_pair_tc_025",
+        "fix_type": "reentrancy_guard",
+        "original_issue": "ERC667 reentrancy in borrow function"
+      },
+      {
+        "pair_id": "df_pair_tc_040",
+        "fix_type": "oracle_exchange_rate",
+        "original_issue": "Hardcoded 1:1 exchange rate",
+        "variant": "extended"
+      },
+      {
+        "pair_id": "df_pair_tc_046",
+        "fix_type": "timelock_protection",
+        "original_issue": "Single-key instant withdrawal",
+        "variant": "extended"
+      },
+      {
+        "pair_id": "df_pair_tc_020",
+        "fix_type": "price_deviation_protection",
+        "original_issue": "LP token flash loan manipulation"
+      },
+      {
+        "pair_id": "df_pair_tc_027",
+        "fix_type": "factory_validation",
+        "original_issue": "Fake pair injection"
+      },
+      {
+        "pair_id": "df_pair_tc_031",
+        "fix_type": "signature_verification",
+        "original_issue": "Missing signature validation in bridge"
+      },
+      {
+        "pair_id": "df_pair_tc_034",
+        "fix_type": "price_deviation_protection",
+        "original_issue": "Hypervisor share manipulation"
+      },
+      {
+        "pair_id": "df_pair_tc_037",
+        "fix_type": "cached_price_protection",
+        "original_issue": "Curve oracle manipulation"
+      },
+      {
+        "pair_id": "df_pair_tc_039",
+        "fix_type": "pool_whitelist",
+        "original_issue": "Callback without sender validation"
+      },
+      {
+        "pair_id": "df_pair_tc_041",
+        "fix_type": "access_control_modifier",
+        "original_issue": "Unrestricted mint function"
+      },
+      {
+        "pair_id": "df_pair_tc_044",
+        "fix_type": "pair_whitelist",
+        "original_issue": "Arbitrary external call"
+      },
+      {
+        "pair_id": "df_pair_tc_045",
+        "fix_type": "reentrancy_guard_and_market_validation",
+        "original_issue": "Reentrancy via fake market"
+      }
+    ],
+    "issues_resolved": [
+      {
+        "pair_id": "df_pair_tc_002",
+        "resolution": "Created proper fix with MIN_HOLDING_PERIOD check in deposit() and TIMELOCK_DELAY check in emergencyCommit()"
+      },
+      {
+        "pair_id": "df_pair_tc_004",
+        "resolution": "Created fix with price deviation protection (_checkPriceDeviation) to prevent flash loan manipulation"
+      },
+      {
+        "pair_id": "df_pair_tc_006",
+        "resolution": "Updated metadata to accurately describe code change (multi-sig for addSupportedToken), with historical context noting original Ronin hack was operational"
+      },
+      {
+        "pair_id": "df_pair_tc_025",
+        "resolution": "Fixed source mismatch - original df_a contained wrong contract (W_WALLET instead of LendingMarket). Created proper fix with nonReentrant modifier."
+      },
+      {
+        "pair_id": "df_pair_tc_008, tc_023, tc_040, tc_046",
+        "resolution": "Added as extended variants. tc_008: price deviation protection for oracle. tc_023: minimum share floor for debt calculation. tc_040: oracle-based exchange rate. tc_046: timelock for large withdrawals."
+      }
+    ],
+    "last_verified": "2025-12-29",
+    "completion_status": "All 50 TC samples now have differential pairs (46 minimal + 4 extended)"
+  }
+}

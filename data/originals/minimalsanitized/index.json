@@ -1,0 +1,12 @@
+{
+  "description": "Minimally sanitized original contracts",
+  "sanitization_rules": [
+    "Remove 'Vulnerable' prefix from contract names",
+    "Remove vulnerability-hinting comment blocks and lines",
+    "Preserve normal comments, code structure, and logic"
+  ],
+  "total_files": 50,
+  "prefix": "ms_o_tc_",
+  "source": "data/originals/contracts/o_tc_*.sol",
+  "created_date": "2025-12-29T13:11:24.563493"
+}
