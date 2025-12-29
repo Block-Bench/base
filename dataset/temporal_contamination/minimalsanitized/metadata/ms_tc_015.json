@@ -1,32 +1,45 @@
 {
   "id": "ms_tc_015",
-  "contract_file": "contracts/ms_tc_015.sol",
-  "subset": "originals",
-  "variant": "annotated",
-  "original_id": "tc_015",
-  "exploit_info": {
-    "exploit_name": "Compound TUSD",
-    "date": "2022-03-15",
-    "amount_lost_usd": "0",
-    "vulnerability_type": "logic_error"
-  },
-  "source_file": "pre_cutoff_originals/annotated/compound_tusd.sol",
-  "description": "Original annotated version of tc_015 with full vulnerability documentation",
-  "contains_annotations": true,
-  "leaky_contract_name": true,
-  "suitable_for_evaluation": false,
+  "exploit_name": "Compound cTUSD",
+  "date": "2022-03-15",
+  "blockchain": "ethereum",
+  "amount_stolen_usd": "0",
+  "amount_stolen_crypto": "N/A (funds returned)",
+  "vulnerability_type": "logic_error",
+  "attack_type": "token_sweep_exploit",
+  "difficulty": 2,
+  "impact": "medium",
+  "description": "Token sweep function allowed sweeping upgraded TUSD token. The sweepToken function only checked against old TUSD address, not accounting for token upgrade to new address.",
+  "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
+  "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
+  "vulnerable_contract": "compound_tusd.sol",
+  "vulnerable_function": "sweepToken",
+  "vulnerable_lines": [37, 38, 39, 40, 41, 42, 43, 44],
+  "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
   "tags": [
-    "original",
-    "annotated",
-    "temporal_contamination",
-    "logic_error"
+    "logic-error",
+    "token-upgrade",
+    "sweep-function",
+    "address-mismatch",
+    "compound"
   ],
+  "references": [
+    "https://etherscan.io/tx/0x0af5a6d2d8b49f68dcfd4599a0e767450e76e08a5aeba9b3d534a604d308e60b"
+  ],
+  "historical_significance": "Highlighted risks when underlying tokens upgrade. Showed importance of tracking all valid token addresses in integration contracts.",
+  "compiler_version": "0.8.0",
+  "is_pre_cutoff": true,
+  "cutoff_date": "2024-01-01",
+  "contract_file": "contracts/ms_tc_015.sol",
+  "subset": "annotated",
+  "original_subset": "temporal_contamination",
+  "original_id": "tc_015",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_015",
   "transformation": {
     "type": "minimal_sanitization",
     "source": "o_tc_015",
-    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableCompoundCToken -> CompoundCToken",
       "Removed 3 vulnerability comment block(s)",
@@ -35,6 +48,12 @@
     "contract_renames": {
       "VulnerableCompoundCToken": "CompoundCToken"
     },
-    "created_date": "2025-12-29T16:35:00.573053"
-  }
+    "created_date": "2025-12-29T19:57:25.467909"
+  },
+  "vulnerable_lines_original": [
+    45,
+    76,
+    80
+  ],
+  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 }

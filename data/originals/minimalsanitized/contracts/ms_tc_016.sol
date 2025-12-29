@@ -1,133 +1,134 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-interface IERC20 {
-    function transfer(address to, uint256 amount) external returns (bool);
-
-    function balanceOf(address account) external view returns (uint256);
-}
-
-contract BZXLoanToken {
-    string public name = "iETH";
-    string public symbol = "iETH";
-
-    mapping(address => uint256) public balances;
-    uint256 public totalSupply;
-    uint256 public totalAssetBorrow;
-    uint256 public totalAssetSupply;
-
-    /**
-     * @notice Mint loan tokens by depositing ETH
-     */
-    function mintWithEther(
-        address receiver
-    ) external payable returns (uint256 mintAmount) {
-        uint256 currentPrice = _tokenPrice();
-        mintAmount = (msg.value * 1e18) / currentPrice;
-
-        balances[receiver] += mintAmount;
-        totalSupply += mintAmount;
-        totalAssetSupply += msg.value;
-
-        return mintAmount;
-    }
-
-    /**
-     * @notice Transfer tokens to another address
-     * @param to Recipient address
-     * @param amount Amount to transfer
-     *
-     * The function updates balances and then calls _notifyTransfer which
-     * can trigger callbacks to the recipient. During this callback, the
-     * contract's state is in an inconsistent state - balances are updated
-     * but totalSupply hasn't been recalculated if needed.
-     *
-     * 1. Update sender balance (line 82)
-     * 2. Update receiver balance (line 83)
-     * 3. Call _notifyTransfer (line 85) <- CALLBACK
-     * 4. During callback, recipient can call transfer() again
-     * 5. New transfer() sees inconsistent state
-     * 6. Calculations based on this state are wrong
-     * 7. After 4-5 iterations, balances inflate
-     */
-    function transfer(address to, uint256 amount) external returns (bool) {
-        require(balances[msg.sender] >= amount, "Insufficient balance");
-
-        balances[msg.sender] -= amount;
-        balances[to] += amount;
-
-        _notifyTransfer(msg.sender, to, amount);
-
-        return true;
-    }
-
-    /**
-     * @notice Internal function that triggers callback
-     * @dev This is where the reentrancy/callback happens
-     */
-    function _notifyTransfer(
-        address from,
-        address to,
-        uint256 amount
-    ) internal {
-        // If 'to' is a contract, it might have a callback
-        // During this callback, contract state is inconsistent
-
-        // Simulate callback by calling a function on recipient if it's a contract
-        if (_isContract(to)) {
-            // This would trigger fallback/receive on recipient
-            // During that callback, recipient can call transfer() again
-            (bool success, ) = to.call("");
-            success; // Suppress warning
-        }
-    }
-
-    /**
-     * @notice Burn tokens back to ETH
-     */
-    function burnToEther(
-        address receiver,
-        uint256 amount
-    ) external returns (uint256 ethAmount) {
-        require(balances[msg.sender] >= amount, "Insufficient balance");
-
-        uint256 currentPrice = _tokenPrice();
-        ethAmount = (amount * currentPrice) / 1e18;
-
-        balances[msg.sender] -= amount;
-        totalSupply -= amount;
-        totalAssetSupply -= ethAmount;
-
-        payable(receiver).transfer(ethAmount);
-
-        return ethAmount;
-    }
-
-    /**
-     * @notice Calculate current token price
-     * @dev Price is based on total supply and total assets
-     */
-    function _tokenPrice() internal view returns (uint256) {
-        if (totalSupply == 0) {
-            return 1e18; // Initial price 1:1
-        }
-        return (totalAssetSupply * 1e18) / totalSupply;
-    }
-
-    /**
-     * @notice Check if address is a contract
-     */
-    function _isContract(address account) internal view returns (bool) {
-        uint256 size;
-        assembly {
-            size := extcodesize(account)
-        }
-        return size > 0;
-    }
-
-    function balanceOf(address account) external view returns (uint256) {
-        return balances[account];
-    }
-
-    receive() external payable {}
-}
+/*LN-1*/ // SPDX-License-Identifier: MIT
+/*LN-2*/ pragma solidity ^0.8.0;
+/*LN-3*/ 
+/*LN-4*/ interface IERC20 {
+/*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-6*/ 
+/*LN-7*/     function balanceOf(address account) external view returns (uint256);
+/*LN-8*/ }
+/*LN-9*/ 
+/*LN-10*/ contract BZXLoanToken {
+/*LN-11*/     string public name = "iETH";
+/*LN-12*/     string public symbol = "iETH";
+/*LN-13*/ 
+/*LN-14*/     mapping(address => uint256) public balances;
+/*LN-15*/     uint256 public totalSupply;
+/*LN-16*/     uint256 public totalAssetBorrow;
+/*LN-17*/     uint256 public totalAssetSupply;
+/*LN-18*/ 
+/*LN-19*/     /**
+/*LN-20*/      * @notice Mint loan tokens by depositing ETH
+/*LN-21*/      */
+/*LN-22*/     function mintWithEther(
+/*LN-23*/         address receiver
+/*LN-24*/     ) external payable returns (uint256 mintAmount) {
+/*LN-25*/         uint256 currentPrice = _tokenPrice();
+/*LN-26*/         mintAmount = (msg.value * 1e18) / currentPrice;
+/*LN-27*/ 
+/*LN-28*/         balances[receiver] += mintAmount;
+/*LN-29*/         totalSupply += mintAmount;
+/*LN-30*/         totalAssetSupply += msg.value;
+/*LN-31*/ 
+/*LN-32*/         return mintAmount;
+/*LN-33*/     }
+/*LN-34*/ 
+/*LN-35*/     /**
+/*LN-36*/      * @notice Transfer tokens to another address
+/*LN-37*/      * @param to Recipient address
+/*LN-38*/      * @param amount Amount to transfer
+/*LN-39*/      *
+/*LN-40*/      * The function updates balances and then calls _notifyTransfer which
+/*LN-41*/      * can trigger callbacks to the recipient. During this callback, the
+/*LN-42*/      * contract's state is in an inconsistent state - balances are updated
+/*LN-43*/      * but totalSupply hasn't been recalculated if needed.
+/*LN-44*/      *
+/*LN-45*/      * 1. Update sender balance (line 82)
+/*LN-46*/      * 2. Update receiver balance (line 83)
+/*LN-47*/      * 3. Call _notifyTransfer (line 85) <- CALLBACK
+/*LN-48*/      * 4. During callback, recipient can call transfer() again
+/*LN-49*/      * 5. New transfer() sees inconsistent state
+/*LN-50*/      * 6. Calculations based on this state are wrong
+/*LN-51*/      * 7. After 4-5 iterations, balances inflate
+/*LN-52*/      */
+/*LN-53*/     function transfer(address to, uint256 amount) external returns (bool) {
+/*LN-54*/         require(balances[msg.sender] >= amount, "Insufficient balance");
+/*LN-55*/ 
+/*LN-56*/         balances[msg.sender] -= amount;
+/*LN-57*/         balances[to] += amount;
+/*LN-58*/ 
+/*LN-59*/         _notifyTransfer(msg.sender, to, amount);
+/*LN-60*/ 
+/*LN-61*/         return true;
+/*LN-62*/     }
+/*LN-63*/ 
+/*LN-64*/     /**
+/*LN-65*/      * @notice Internal function that triggers callback
+/*LN-66*/      * @dev This is where the reentrancy/callback happens
+/*LN-67*/      */
+/*LN-68*/     function _notifyTransfer(
+/*LN-69*/         address from,
+/*LN-70*/         address to,
+/*LN-71*/         uint256 amount
+/*LN-72*/     ) internal {
+/*LN-73*/         // If 'to' is a contract, it might have a callback
+/*LN-74*/         // During this callback, contract state is inconsistent
+/*LN-75*/ 
+/*LN-76*/         // Simulate callback by calling a function on recipient if it's a contract
+/*LN-77*/         if (_isContract(to)) {
+/*LN-78*/             // This would trigger fallback/receive on recipient
+/*LN-79*/             // During that callback, recipient can call transfer() again
+/*LN-80*/             (bool success, ) = to.call("");
+/*LN-81*/             success; // Suppress warning
+/*LN-82*/         }
+/*LN-83*/     }
+/*LN-84*/ 
+/*LN-85*/     /**
+/*LN-86*/      * @notice Burn tokens back to ETH
+/*LN-87*/      */
+/*LN-88*/     function burnToEther(
+/*LN-89*/         address receiver,
+/*LN-90*/         uint256 amount
+/*LN-91*/     ) external returns (uint256 ethAmount) {
+/*LN-92*/         require(balances[msg.sender] >= amount, "Insufficient balance");
+/*LN-93*/ 
+/*LN-94*/         uint256 currentPrice = _tokenPrice();
+/*LN-95*/         ethAmount = (amount * currentPrice) / 1e18;
+/*LN-96*/ 
+/*LN-97*/         balances[msg.sender] -= amount;
+/*LN-98*/         totalSupply -= amount;
+/*LN-99*/         totalAssetSupply -= ethAmount;
+/*LN-100*/ 
+/*LN-101*/         payable(receiver).transfer(ethAmount);
+/*LN-102*/ 
+/*LN-103*/         return ethAmount;
+/*LN-104*/     }
+/*LN-105*/ 
+/*LN-106*/     /**
+/*LN-107*/      * @notice Calculate current token price
+/*LN-108*/      * @dev Price is based on total supply and total assets
+/*LN-109*/      */
+/*LN-110*/     function _tokenPrice() internal view returns (uint256) {
+/*LN-111*/         if (totalSupply == 0) {
+/*LN-112*/             return 1e18; // Initial price 1:1
+/*LN-113*/         }
+/*LN-114*/         return (totalAssetSupply * 1e18) / totalSupply;
+/*LN-115*/     }
+/*LN-116*/ 
+/*LN-117*/     /**
+/*LN-118*/      * @notice Check if address is a contract
+/*LN-119*/      */
+/*LN-120*/     function _isContract(address account) internal view returns (bool) {
+/*LN-121*/         uint256 size;
+/*LN-122*/         assembly {
+/*LN-123*/             size := extcodesize(account)
+/*LN-124*/         }
+/*LN-125*/         return size > 0;
+/*LN-126*/     }
+/*LN-127*/ 
+/*LN-128*/     function balanceOf(address account) external view returns (uint256) {
+/*LN-129*/         return balances[account];
+/*LN-130*/     }
+/*LN-131*/ 
+/*LN-132*/     receive() external payable {}
+/*LN-133*/ }
+/*LN-134*/ 

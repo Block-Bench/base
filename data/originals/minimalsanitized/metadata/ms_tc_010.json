@@ -14,10 +14,7 @@
   "attack_scenario": "Attacker deposited ETH, then called withdrawAll from a malicious contract with a fallback function that re-entered withdrawAll, draining funds before balance was updated.",
   "vulnerable_contract": "the_dao.sol",
   "vulnerable_function": "withdrawAll",
-  "vulnerable_lines": [
-    51,
-    53
-  ],
+  "vulnerable_lines": [],
   "fix_description": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern.",
   "tags": [
     "reentrancy",
@@ -52,7 +49,11 @@
     "contract_renames": {
       "VulnerableDAO": "DAO"
     },
-    "created_date": "2025-12-29T19:04:36.493502"
+    "created_date": "2025-12-29T19:40:31.441595"
   },
-  "vulnerable_lines_note": "Line numbers are from original; may differ slightly due to comment removal"
+  "vulnerable_lines_original": [
+    51,
+    53
+  ],
+  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 }

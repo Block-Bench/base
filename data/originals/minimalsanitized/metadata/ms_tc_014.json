@@ -14,12 +14,7 @@
   "attack_scenario": "Attacker used flash loans to imbalance Curve 3pool, inflating virtual_price. Called vault.earn() which used inflated price. Normalized pool, repeated process multiple times to siphon value. Withdrew with inflated shares.",
   "vulnerable_contract": "yearn_ydai.sol",
   "vulnerable_function": "earn",
-  "vulnerable_lines": [
-    106,
-    109,
-    111,
-    142
-  ],
+  "vulnerable_lines": [],
   "fix_description": "Use TWAP oracle instead of spot price. Implement slippage protection on Curve operations. Add sanity checks comparing spot price to time-weighted average. Limit strategy execution frequency.",
   "tags": [
     "flash-loan",
@@ -55,7 +50,13 @@
     "contract_renames": {
       "VulnerableYearnVault": "YearnVault"
     },
-    "created_date": "2025-12-29T19:04:36.497214"
+    "created_date": "2025-12-29T19:40:31.445516"
   },
-  "vulnerable_lines_note": "Line numbers are from original; may differ slightly due to comment removal"
+  "vulnerable_lines_original": [
+    106,
+    109,
+    111,
+    142
+  ],
+  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 }

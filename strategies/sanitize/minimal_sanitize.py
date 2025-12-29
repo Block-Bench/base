@@ -288,45 +288,68 @@ def update_metadata(original_metadata: dict, sanitized_id: str, original_id: str
         'created_date': datetime.now().isoformat()
     }
 
-    # Note: vulnerable_lines are not updated as line numbers may shift
-    # This would require complex line tracking - marked as approximate
-    if 'vulnerable_lines' in metadata and metadata['vulnerable_lines']:
-        metadata['vulnerable_lines_note'] = "Line numbers are from original; may differ slightly due to comment removal"
+    # Clear vulnerable_lines - must be manually updated to match LN-* markers
+    # The original line numbers don't apply to the sanitized version
+    if 'vulnerable_lines' in metadata:
+        metadata['vulnerable_lines_original'] = metadata['vulnerable_lines']  # Keep original for reference
+        metadata['vulnerable_lines'] = []  # Clear - needs manual update
+        metadata['vulnerable_lines_note'] = "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 
     return metadata
 
 
 def main():
+    import sys
+
     # Paths - script is in strategies/sanitize/
     script_dir = Path(__file__).parent  # sanitize/
     project_root = script_dir.parent.parent  # blockbench/base/
-    data_dir = project_root / "data"
 
-    input_contracts_dir = data_dir / "originals" / "contracts"
-    input_metadata_dir = data_dir / "originals" / "metadata"
-    output_dir = data_dir / "originals" / "minimalsanitized" / "contracts"
-    metadata_dir = data_dir / "originals" / "minimalsanitized" / "metadata"
+    # Check for command line arguments
+    if len(sys.argv) >= 3:
+        # Usage: python minimal_sanitize.py <input_dir> <output_dir>
+        input_base = Path(sys.argv[1])
+        output_base = Path(sys.argv[2])
+        input_contracts_dir = input_base / "contracts"
+        input_metadata_dir = input_base / "metadata"
+        output_dir = output_base / "contracts"
+        metadata_dir = output_base / "metadata"
+        # Detect file pattern from input directory
+        file_pattern = "tc_*.sol" if list(input_contracts_dir.glob("tc_*.sol")) else "o_tc_*.sol"
+    else:
+        # Default: data/originals -> data/originals/minimalsanitized
+        data_dir = project_root / "data"
+        input_contracts_dir = data_dir / "originals" / "contracts"
+        input_metadata_dir = data_dir / "originals" / "metadata"
+        output_dir = data_dir / "originals" / "minimalsanitized" / "contracts"
+        metadata_dir = data_dir / "originals" / "minimalsanitized" / "metadata"
+        file_pattern = "o_tc_*.sol"
 
     print(f"Input contracts: {input_contracts_dir}")
     print(f"Input metadata: {input_metadata_dir}")
     print(f"Output directory: {output_dir}")
+    print(f"File pattern: {file_pattern}")
 
     # Ensure output directories exist
     output_dir.mkdir(parents=True, exist_ok=True)
     metadata_dir.mkdir(parents=True, exist_ok=True)
 
-    # Process all o_tc_*.sol files
+    # Process all matching .sol files
     processed = 0
     errors = []
     all_renames = {}
 
-    for input_file in sorted(input_contracts_dir.glob("o_tc_*.sol")):
+    for input_file in sorted(input_contracts_dir.glob(file_pattern)):
         try:
             # Read original contract
             content = input_file.read_text()
 
-            # Extract ID (e.g., "tc_001" from "o_tc_001.sol")
-            original_id = input_file.stem.replace("o_", "")  # "tc_001"
+            # Extract ID - handle both "o_tc_001" and "tc_001" patterns
+            file_stem = input_file.stem
+            if file_stem.startswith("o_"):
+                original_id = file_stem.replace("o_", "")  # "o_tc_001" -> "tc_001"
+            else:
+                original_id = file_stem  # "tc_001" -> "tc_001"
             sanitized_id = f"ms_{original_id}"  # "ms_tc_001"
 
             # Process contract
@@ -337,8 +360,8 @@ def main():
             output_file = output_dir / f"{sanitized_id}.sol"
             output_file.write_text(sanitized_content)
 
-            # Read original metadata
-            orig_metadata_file = input_metadata_dir / f"o_{original_id}.json"
+            # Read original metadata - try both patterns
+            orig_metadata_file = input_metadata_dir / f"{file_stem}.json"
             if orig_metadata_file.exists():
                 original_metadata = json.loads(orig_metadata_file.read_text())
             else:
@@ -399,7 +422,11 @@ def main():
         "created_date": datetime.now().isoformat()
     }
 
-    index_file = data_dir / "originals" / "minimalsanitized" / "index.json"
+    # Write index file to output directory
+    if len(sys.argv) >= 3:
+        index_file = output_base / "index.json"
+    else:
+        index_file = data_dir / "originals" / "minimalsanitized" / "index.json"
     index_file.write_text(json.dumps(index, indent=2))
     print(f"\nIndex created: {index_file}")
 

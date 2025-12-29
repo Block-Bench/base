@@ -1,158 +1,159 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-contract CurvePool {
-    // Token balances in the pool
-    mapping(uint256 => uint256) public balances; // 0 = ETH, 1 = pETH
-
-    // LP token
-    mapping(address => uint256) public lpBalances;
-    uint256 public totalLPSupply;
-
-    uint256 private _status;
-    uint256 private constant _NOT_ENTERED = 1;
-    uint256 private constant _ENTERED = 2;
-
-    event LiquidityAdded(
-        address indexed provider,
-        uint256[2] amounts,
-        uint256 lpMinted
-    );
-    event LiquidityRemoved(
-        address indexed provider,
-        uint256 lpBurned,
-        uint256[2] amounts
-    );
-
-    constructor() {
-        _status = _NOT_ENTERED;
-    }
-
-    function add_liquidity(
-        uint256[2] memory amounts,
-        uint256 min_mint_amount
-    ) external payable returns (uint256) {
-        // In the real Vyper code, @nonreentrant decorator was present but ineffective
-
-        require(amounts[0] == msg.value, "ETH amount mismatch");
-
-        // Calculate LP tokens to mint
-        uint256 lpToMint;
-        if (totalLPSupply == 0) {
-            lpToMint = amounts[0] + amounts[1];
-        } else {
-            // Simplified: real formula is more complex
-            uint256 totalValue = balances[0] + balances[1];
-            lpToMint = ((amounts[0] + amounts[1]) * totalLPSupply) / totalValue;
-        }
-
-        require(lpToMint >= min_mint_amount, "Slippage");
-
-        // Update balances BEFORE external call (following CEI pattern)
-        // But Vyper bug allows reentrancy anyway
-        balances[0] += amounts[0];
-        balances[1] += amounts[1];
-
-        // Mint LP tokens
-        lpBalances[msg.sender] += lpToMint;
-        totalLPSupply += lpToMint;
-
-        // The @nonreentrant decorator SHOULD have prevented reentrancy but didn't
-        // due to compiler bug
-        if (amounts[0] > 0) {
-            // Simulate pool's internal operations that involve ETH transfer
-            // In reality, Curve pools update internal state during this
-            _handleETHTransfer(amounts[0]);
-        }
-
-        emit LiquidityAdded(msg.sender, amounts, lpToMint);
-        return lpToMint;
-    }
-
-    /**
-     * @notice Remove liquidity from the pool
-     * @param lpAmount Amount of LP tokens to burn
-     * @param min_amounts Minimum amounts to receive [ETH, pETH]
-     */
-    function remove_liquidity(
-        uint256 lpAmount,
-        uint256[2] memory min_amounts
-    ) external {
-        require(lpBalances[msg.sender] >= lpAmount, "Insufficient LP");
-
-        // Calculate amounts to return
-        uint256 amount0 = (lpAmount * balances[0]) / totalLPSupply;
-        uint256 amount1 = (lpAmount * balances[1]) / totalLPSupply;
-
-        require(
-            amount0 >= min_amounts[0] && amount1 >= min_amounts[1],
-            "Slippage"
-        );
-
-        // Burn LP tokens
-        lpBalances[msg.sender] -= lpAmount;
-        totalLPSupply -= lpAmount;
-
-        // Update balances
-        balances[0] -= amount0;
-        balances[1] -= amount1;
-
-        // Transfer tokens
-        if (amount0 > 0) {
-            payable(msg.sender).transfer(amount0);
-        }
-
-        uint256[2] memory amounts = [amount0, amount1];
-        emit LiquidityRemoved(msg.sender, lpAmount, amounts);
-    }
-
-    function _handleETHTransfer(uint256 amount) internal {
-        // In the real Curve Vyper code, operations here triggered reentrancy
-        // The Vyper @nonreentrant decorator failed to prevent it
-
-        // Simulate operations that trigger external call
-        // In reality, this involved complex pool rebalancing
-        (bool success, ) = msg.sender.call{value: 0}("");
-        require(success, "Transfer failed");
-    }
-
-    /**
-     * @notice Exchange tokens (simplified)
-     * @param i Index of input token
-     * @param j Index of output token
-     * @param dx Input amount
-     * @param min_dy Minimum output amount
-     */
-    function exchange(
-        int128 i,
-        int128 j,
-        uint256 dx,
-        uint256 min_dy
-    ) external payable returns (uint256) {
-        uint256 ui = uint256(int256(i));
-        uint256 uj = uint256(int256(j));
-
-        require(ui < 2 && uj < 2 && ui != uj, "Invalid indices");
-
-        // Simplified exchange logic
-        uint256 dy = (dx * balances[uj]) / (balances[ui] + dx);
-        require(dy >= min_dy, "Slippage");
-
-        if (ui == 0) {
-            require(msg.value == dx, "ETH mismatch");
-            balances[0] += dx;
-        }
-
-        balances[ui] += dx;
-        balances[uj] -= dy;
-
-        if (uj == 0) {
-            payable(msg.sender).transfer(dy);
-        }
-
-        return dy;
-    }
-
-    receive() external payable {
-    }
-}
+/*LN-1*/ // SPDX-License-Identifier: MIT
+/*LN-2*/ pragma solidity ^0.8.0;
+/*LN-3*/ 
+/*LN-4*/ contract CurvePool {
+/*LN-5*/     // Token balances in the pool
+/*LN-6*/     mapping(uint256 => uint256) public balances; // 0 = ETH, 1 = pETH
+/*LN-7*/ 
+/*LN-8*/     // LP token
+/*LN-9*/     mapping(address => uint256) public lpBalances;
+/*LN-10*/     uint256 public totalLPSupply;
+/*LN-11*/ 
+/*LN-12*/     uint256 private _status;
+/*LN-13*/     uint256 private constant _NOT_ENTERED = 1;
+/*LN-14*/     uint256 private constant _ENTERED = 2;
+/*LN-15*/ 
+/*LN-16*/     event LiquidityAdded(
+/*LN-17*/         address indexed provider,
+/*LN-18*/         uint256[2] amounts,
+/*LN-19*/         uint256 lpMinted
+/*LN-20*/     );
+/*LN-21*/     event LiquidityRemoved(
+/*LN-22*/         address indexed provider,
+/*LN-23*/         uint256 lpBurned,
+/*LN-24*/         uint256[2] amounts
+/*LN-25*/     );
+/*LN-26*/ 
+/*LN-27*/     constructor() {
+/*LN-28*/         _status = _NOT_ENTERED;
+/*LN-29*/     }
+/*LN-30*/ 
+/*LN-31*/     function add_liquidity(
+/*LN-32*/         uint256[2] memory amounts,
+/*LN-33*/         uint256 min_mint_amount
+/*LN-34*/     ) external payable returns (uint256) {
+/*LN-35*/         // In the real Vyper code, @nonreentrant decorator was present but ineffective
+/*LN-36*/ 
+/*LN-37*/         require(amounts[0] == msg.value, "ETH amount mismatch");
+/*LN-38*/ 
+/*LN-39*/         // Calculate LP tokens to mint
+/*LN-40*/         uint256 lpToMint;
+/*LN-41*/         if (totalLPSupply == 0) {
+/*LN-42*/             lpToMint = amounts[0] + amounts[1];
+/*LN-43*/         } else {
+/*LN-44*/             // Simplified: real formula is more complex
+/*LN-45*/             uint256 totalValue = balances[0] + balances[1];
+/*LN-46*/             lpToMint = ((amounts[0] + amounts[1]) * totalLPSupply) / totalValue;
+/*LN-47*/         }
+/*LN-48*/ 
+/*LN-49*/         require(lpToMint >= min_mint_amount, "Slippage");
+/*LN-50*/ 
+/*LN-51*/         // Update balances BEFORE external call (following CEI pattern)
+/*LN-52*/         // But Vyper bug allows reentrancy anyway
+/*LN-53*/         balances[0] += amounts[0];
+/*LN-54*/         balances[1] += amounts[1];
+/*LN-55*/ 
+/*LN-56*/         // Mint LP tokens
+/*LN-57*/         lpBalances[msg.sender] += lpToMint;
+/*LN-58*/         totalLPSupply += lpToMint;
+/*LN-59*/ 
+/*LN-60*/         // The @nonreentrant decorator SHOULD have prevented reentrancy but didn't
+/*LN-61*/         // due to compiler bug
+/*LN-62*/         if (amounts[0] > 0) {
+/*LN-63*/             // Simulate pool's internal operations that involve ETH transfer
+/*LN-64*/             // In reality, Curve pools update internal state during this
+/*LN-65*/             _handleETHTransfer(amounts[0]);
+/*LN-66*/         }
+/*LN-67*/ 
+/*LN-68*/         emit LiquidityAdded(msg.sender, amounts, lpToMint);
+/*LN-69*/         return lpToMint;
+/*LN-70*/     }
+/*LN-71*/ 
+/*LN-72*/     /**
+/*LN-73*/      * @notice Remove liquidity from the pool
+/*LN-74*/      * @param lpAmount Amount of LP tokens to burn
+/*LN-75*/      * @param min_amounts Minimum amounts to receive [ETH, pETH]
+/*LN-76*/      */
+/*LN-77*/     function remove_liquidity(
+/*LN-78*/         uint256 lpAmount,
+/*LN-79*/         uint256[2] memory min_amounts
+/*LN-80*/     ) external {
+/*LN-81*/         require(lpBalances[msg.sender] >= lpAmount, "Insufficient LP");
+/*LN-82*/ 
+/*LN-83*/         // Calculate amounts to return
+/*LN-84*/         uint256 amount0 = (lpAmount * balances[0]) / totalLPSupply;
+/*LN-85*/         uint256 amount1 = (lpAmount * balances[1]) / totalLPSupply;
+/*LN-86*/ 
+/*LN-87*/         require(
+/*LN-88*/             amount0 >= min_amounts[0] && amount1 >= min_amounts[1],
+/*LN-89*/             "Slippage"
+/*LN-90*/         );
+/*LN-91*/ 
+/*LN-92*/         // Burn LP tokens
+/*LN-93*/         lpBalances[msg.sender] -= lpAmount;
+/*LN-94*/         totalLPSupply -= lpAmount;
+/*LN-95*/ 
+/*LN-96*/         // Update balances
+/*LN-97*/         balances[0] -= amount0;
+/*LN-98*/         balances[1] -= amount1;
+/*LN-99*/ 
+/*LN-100*/         // Transfer tokens
+/*LN-101*/         if (amount0 > 0) {
+/*LN-102*/             payable(msg.sender).transfer(amount0);
+/*LN-103*/         }
+/*LN-104*/ 
+/*LN-105*/         uint256[2] memory amounts = [amount0, amount1];
+/*LN-106*/         emit LiquidityRemoved(msg.sender, lpAmount, amounts);
+/*LN-107*/     }
+/*LN-108*/ 
+/*LN-109*/     function _handleETHTransfer(uint256 amount) internal {
+/*LN-110*/         // In the real Curve Vyper code, operations here triggered reentrancy
+/*LN-111*/         // The Vyper @nonreentrant decorator failed to prevent it
+/*LN-112*/ 
+/*LN-113*/         // Simulate operations that trigger external call
+/*LN-114*/         // In reality, this involved complex pool rebalancing
+/*LN-115*/         (bool success, ) = msg.sender.call{value: 0}("");
+/*LN-116*/         require(success, "Transfer failed");
+/*LN-117*/     }
+/*LN-118*/ 
+/*LN-119*/     /**
+/*LN-120*/      * @notice Exchange tokens (simplified)
+/*LN-121*/      * @param i Index of input token
+/*LN-122*/      * @param j Index of output token
+/*LN-123*/      * @param dx Input amount
+/*LN-124*/      * @param min_dy Minimum output amount
+/*LN-125*/      */
+/*LN-126*/     function exchange(
+/*LN-127*/         int128 i,
+/*LN-128*/         int128 j,
+/*LN-129*/         uint256 dx,
+/*LN-130*/         uint256 min_dy
+/*LN-131*/     ) external payable returns (uint256) {
+/*LN-132*/         uint256 ui = uint256(int256(i));
+/*LN-133*/         uint256 uj = uint256(int256(j));
+/*LN-134*/ 
+/*LN-135*/         require(ui < 2 && uj < 2 && ui != uj, "Invalid indices");
+/*LN-136*/ 
+/*LN-137*/         // Simplified exchange logic
+/*LN-138*/         uint256 dy = (dx * balances[uj]) / (balances[ui] + dx);
+/*LN-139*/         require(dy >= min_dy, "Slippage");
+/*LN-140*/ 
+/*LN-141*/         if (ui == 0) {
+/*LN-142*/             require(msg.value == dx, "ETH mismatch");
+/*LN-143*/             balances[0] += dx;
+/*LN-144*/         }
+/*LN-145*/ 
+/*LN-146*/         balances[ui] += dx;
+/*LN-147*/         balances[uj] -= dy;
+/*LN-148*/ 
+/*LN-149*/         if (uj == 0) {
+/*LN-150*/             payable(msg.sender).transfer(dy);
+/*LN-151*/         }
+/*LN-152*/ 
+/*LN-153*/         return dy;
+/*LN-154*/     }
+/*LN-155*/ 
+/*LN-156*/     receive() external payable {
+/*LN-157*/     }
+/*LN-158*/ }
+/*LN-159*/ 

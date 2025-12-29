@@ -14,12 +14,7 @@
   "attack_scenario": "Attacker minted tokens, then transferred to self 4 times in loop. Each transfer triggered callback with inconsistent state. After iterations, token balance inflated. Burned inflated tokens back to ETH for profit.",
   "vulnerable_contract": "bzx_protocol.sol",
   "vulnerable_function": "transfer",
-  "vulnerable_lines": [
-    82,
-    83,
-    85,
-    100
-  ],
+  "vulnerable_lines": [],
   "fix_description": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
   "tags": [
     "reentrancy",
@@ -53,7 +48,13 @@
     "contract_renames": {
       "VulnerableBZXLoanToken": "BZXLoanToken"
     },
-    "created_date": "2025-12-29T19:04:36.499783"
+    "created_date": "2025-12-29T19:40:31.447428"
   },
-  "vulnerable_lines_note": "Line numbers are from original; may differ slightly due to comment removal"
+  "vulnerable_lines_original": [
+    82,
+    83,
+    85,
+    100
+  ],
+  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 }

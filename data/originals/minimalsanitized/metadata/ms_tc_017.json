@@ -14,21 +14,7 @@
   "attack_scenario": "Attacker created fake jar contracts, called swapExactJarForJar with malicious targets pointing to real strategies and calldata encoding withdrawAll(). Controller executed these calls, draining strategies.",
   "vulnerable_contract": "pickle_finance.sol",
   "vulnerable_function": "swapExactJarForJar",
-  "vulnerable_lines": [
-    88,
-    89,
-    90,
-    91,
-    118,
-    119,
-    120,
-    121,
-    122,
-    128,
-    129,
-    130,
-    131
-  ],
+  "vulnerable_lines": [],
   "fix_description": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors.",
   "tags": [
     "arbitrary-call",
@@ -63,7 +49,22 @@
     "contract_renames": {
       "VulnerablePickleController": "PickleController"
     },
-    "created_date": "2025-12-29T19:04:36.501538"
+    "created_date": "2025-12-29T19:40:31.448325"
   },
-  "vulnerable_lines_note": "Line numbers are from original; may differ slightly due to comment removal"
+  "vulnerable_lines_original": [
+    88,
+    89,
+    90,
+    91,
+    118,
+    119,
+    120,
+    121,
+    122,
+    128,
+    129,
+    130,
+    131
+  ],
+  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 }

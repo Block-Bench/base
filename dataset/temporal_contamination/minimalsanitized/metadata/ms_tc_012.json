@@ -1,32 +1,46 @@
 {
   "id": "ms_tc_012",
-  "contract_file": "contracts/ms_tc_012.sol",
-  "subset": "originals",
-  "variant": "annotated",
-  "original_id": "tc_012",
-  "exploit_info": {
-    "exploit_name": "Rari Capital",
-    "date": "2022-05-08",
-    "amount_lost_usd": "80000000",
-    "vulnerability_type": "reentrancy"
-  },
-  "source_file": "pre_cutoff_originals/annotated/rari_capital.sol",
-  "description": "Original annotated version of tc_012 with full vulnerability documentation",
-  "contains_annotations": true,
-  "leaky_contract_name": true,
-  "suitable_for_evaluation": false,
+  "exploit_name": "Rari Capital Fuse",
+  "date": "2022-05-08",
+  "blockchain": "ethereum",
+  "amount_stolen_usd": "80000000",
+  "amount_stolen_crypto": "Various",
+  "vulnerability_type": "reentrancy",
+  "attack_type": "cross_function_reentrancy",
+  "difficulty": 4,
+  "impact": "critical",
+  "description": "Cross-function reentrancy attack. The borrow function sent ETH before final health check, allowing attacker to call exitMarket during callback and bypass collateral requirements.",
+  "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
+  "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
+  "vulnerable_contract": "rari_capital.sol",
+  "vulnerable_function": "borrow",
+  "vulnerable_lines": [51, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 74, 75, 76, 77],
+  "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
   "tags": [
-    "original",
-    "annotated",
-    "temporal_contamination",
-    "reentrancy"
+    "reentrancy",
+    "cross-function",
+    "oracle-manipulation",
+    "lending",
+    "health-check"
   ],
+  "references": [
+    "https://www.blocksecteam.com/blog/2022/05/rari-capital-fuse-pool-hack/",
+    "https://twitter.com/FeiProtocol/status/1520847142650499072"
+  ],
+  "historical_significance": "Demonstrated sophisticated cross-function reentrancy. Shows that per-function reentrancy guards aren't sufficient when multiple functions share state.",
+  "compiler_version": "0.8.0",
+  "is_pre_cutoff": true,
+  "cutoff_date": "2024-01-01",
+  "contract_file": "contracts/ms_tc_012.sol",
+  "subset": "annotated",
+  "original_subset": "temporal_contamination",
+  "original_id": "tc_012",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_012",
   "transformation": {
     "type": "minimal_sanitization",
     "source": "o_tc_012",
-    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableRariFuse -> RariFuse",
       "Removed 4 vulnerability comment block(s)",
@@ -35,6 +49,12 @@
     "contract_renames": {
       "VulnerableRariFuse": "RariFuse"
     },
-    "created_date": "2025-12-29T16:35:00.570160"
-  }
+    "created_date": "2025-12-29T19:57:25.465028"
+  },
+  "vulnerable_lines_original": [
+    90,
+    93,
+    108
+  ],
+  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 }

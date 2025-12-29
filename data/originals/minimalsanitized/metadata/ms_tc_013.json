@@ -14,10 +14,7 @@
   "attack_scenario": "Attacker flash loaned large amount of LP tokens, sent them directly to minter contract, called getReward which triggered mintFor. Function calculated rewards based on inflated balance, minting excessive HUNNY tokens.",
   "vulnerable_contract": "pancake_hunny.sol",
   "vulnerable_function": "mintFor",
-  "vulnerable_lines": [
-    95,
-    98
-  ],
+  "vulnerable_lines": [],
   "fix_description": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
   "tags": [
     "balance-manipulation",
@@ -50,7 +47,11 @@
     "contract_renames": {
       "VulnerableHunnyMinter": "HunnyMinter"
     },
-    "created_date": "2025-12-29T19:04:36.496296"
+    "created_date": "2025-12-29T19:40:31.444609"
   },
-  "vulnerable_lines_note": "Line numbers are from original; may differ slightly due to comment removal"
+  "vulnerable_lines_original": [
+    95,
+    98
+  ],
+  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 }

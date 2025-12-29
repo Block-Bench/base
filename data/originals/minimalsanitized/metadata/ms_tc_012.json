@@ -14,11 +14,7 @@
   "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
   "vulnerable_contract": "rari_capital.sol",
   "vulnerable_function": "borrow",
-  "vulnerable_lines": [
-    90,
-    93,
-    108
-  ],
+  "vulnerable_lines": [],
   "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
   "tags": [
     "reentrancy",
@@ -53,7 +49,12 @@
     "contract_renames": {
       "VulnerableRariFuse": "RariFuse"
     },
-    "created_date": "2025-12-29T19:04:36.495337"
+    "created_date": "2025-12-29T19:40:31.443430"
   },
-  "vulnerable_lines_note": "Line numbers are from original; may differ slightly due to comment removal"
+  "vulnerable_lines_original": [
+    90,
+    93,
+    108
+  ],
+  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 }

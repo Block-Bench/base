@@ -14,11 +14,7 @@
   "attack_scenario": "Attacker supplied ERC-777 tokens (imBTC), then called withdraw. During token transfer, ERC-777 triggered attacker's tokensToSend hook, which re-entered withdraw before balance update.",
   "vulnerable_contract": "lendf_me.sol",
   "vulnerable_function": "withdraw",
-  "vulnerable_lines": [
-    91,
-    94,
-    95
-  ],
+  "vulnerable_lines": [],
   "fix_description": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth.",
   "tags": [
     "reentrancy",
@@ -53,7 +49,12 @@
     "contract_renames": {
       "VulnerableLendingPool": "LendingPool"
     },
-    "created_date": "2025-12-29T19:04:36.494428"
+    "created_date": "2025-12-29T19:40:31.442552"
   },
-  "vulnerable_lines_note": "Line numbers are from original; may differ slightly due to comment removal"
+  "vulnerable_lines_original": [
+    91,
+    94,
+    95
+  ],
+  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 }

@@ -1,93 +1,94 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-interface IDiamondCut {
-    struct FacetCut {
-        address facetAddress;
-        uint8 action;
-        bytes4[] functionSelectors;
-    }
-}
-
-contract BeanstalkGovernance {
-    // Voting power based on deposits
-    mapping(address => uint256) public depositedBalance;
-    mapping(address => uint256) public votingPower;
-
-    // Proposal structure
-    struct Proposal {
-        address proposer;
-        address target; // Contract to call
-        bytes data; // Calldata to execute
-        uint256 forVotes;
-        uint256 startTime;
-        bool executed;
-    }
-
-    mapping(uint256 => Proposal) public proposals;
-    mapping(uint256 => mapping(address => bool)) public hasVoted;
-    uint256 public proposalCount;
-
-    uint256 public totalVotingPower;
-
-    // Constants
-    uint256 constant EMERGENCY_THRESHOLD = 66; // 66% threshold for emergency commit
-
-    event ProposalCreated(
-        uint256 indexed proposalId,
-        address proposer,
-        address target
-    );
-    event Voted(uint256 indexed proposalId, address voter, uint256 votes);
-    event ProposalExecuted(uint256 indexed proposalId);
-
-    /**
-     * @notice Deposit tokens to gain voting power
-     * @param amount Amount to deposit
-     *
-     * This function allows anyone to gain voting power by depositing,
-     * including via flash-loaned funds with no time delay.
-     */
-    function deposit(uint256 amount) external {
-        // In real Beanstalk, this accepts BEAN3CRV LP tokens
-        // Simplified for demonstration
-        depositedBalance[msg.sender] += amount;
-        votingPower[msg.sender] += amount;
-        totalVotingPower += amount;
-    }
-
-    function propose(
-        IDiamondCut.FacetCut[] calldata, // Diamond cut (unused in this simplified version)
-        address _target,
-        bytes calldata _calldata,
-    /**
-     * @notice Vote on a proposal
-     * @param proposalId The ID of the proposal
-     */
-    function vote(uint256 proposalId) external {
-        require(!hasVoted[proposalId][msg.sender], "Already voted");
-        require(!proposals[proposalId].executed, "Already executed");
-
-        proposals[proposalId].forVotes += votingPower[msg.sender];
-        hasVoted[proposalId][msg.sender] = true;
-
-        emit Voted(proposalId, msg.sender, votingPower[msg.sender]);
-    }
-
-    function emergencyCommit(uint256 proposalId) external {
-        Proposal storage prop = proposals[proposalId];
-        require(!prop.executed, "Already executed");
-
-        // or minimum holding period
-        uint256 votePercentage = (prop.forVotes * 100) / totalVotingPower;
-        require(votePercentage >= EMERGENCY_THRESHOLD, "Insufficient votes");
-
-        prop.executed = true;
-
-        // Execute the proposal
-        (bool success, ) = prop.target.call(prop.data);
-        require(success, "Execution failed");
-
-        emit ProposalExecuted(proposalId);
-    }
-}
+/*LN-1*/ // SPDX-License-Identifier: MIT
+/*LN-2*/ pragma solidity ^0.8.0;
+/*LN-3*/ 
+/*LN-4*/ interface IDiamondCut {
+/*LN-5*/     struct FacetCut {
+/*LN-6*/         address facetAddress;
+/*LN-7*/         uint8 action;
+/*LN-8*/         bytes4[] functionSelectors;
+/*LN-9*/     }
+/*LN-10*/ }
+/*LN-11*/ 
+/*LN-12*/ contract BeanstalkGovernance {
+/*LN-13*/     // Voting power based on deposits
+/*LN-14*/     mapping(address => uint256) public depositedBalance;
+/*LN-15*/     mapping(address => uint256) public votingPower;
+/*LN-16*/ 
+/*LN-17*/     // Proposal structure
+/*LN-18*/     struct Proposal {
+/*LN-19*/         address proposer;
+/*LN-20*/         address target; // Contract to call
+/*LN-21*/         bytes data; // Calldata to execute
+/*LN-22*/         uint256 forVotes;
+/*LN-23*/         uint256 startTime;
+/*LN-24*/         bool executed;
+/*LN-25*/     }
+/*LN-26*/ 
+/*LN-27*/     mapping(uint256 => Proposal) public proposals;
+/*LN-28*/     mapping(uint256 => mapping(address => bool)) public hasVoted;
+/*LN-29*/     uint256 public proposalCount;
+/*LN-30*/ 
+/*LN-31*/     uint256 public totalVotingPower;
+/*LN-32*/ 
+/*LN-33*/     // Constants
+/*LN-34*/     uint256 constant EMERGENCY_THRESHOLD = 66; // 66% threshold for emergency commit
+/*LN-35*/ 
+/*LN-36*/     event ProposalCreated(
+/*LN-37*/         uint256 indexed proposalId,
+/*LN-38*/         address proposer,
+/*LN-39*/         address target
+/*LN-40*/     );
+/*LN-41*/     event Voted(uint256 indexed proposalId, address voter, uint256 votes);
+/*LN-42*/     event ProposalExecuted(uint256 indexed proposalId);
+/*LN-43*/ 
+/*LN-44*/     /**
+/*LN-45*/      * @notice Deposit tokens to gain voting power
+/*LN-46*/      * @param amount Amount to deposit
+/*LN-47*/      *
+/*LN-48*/      * This function allows anyone to gain voting power by depositing,
+/*LN-49*/      * including via flash-loaned funds with no time delay.
+/*LN-50*/      */
+/*LN-51*/     function deposit(uint256 amount) external {
+/*LN-52*/         // In real Beanstalk, this accepts BEAN3CRV LP tokens
+/*LN-53*/         // Simplified for demonstration
+/*LN-54*/         depositedBalance[msg.sender] += amount;
+/*LN-55*/         votingPower[msg.sender] += amount;
+/*LN-56*/         totalVotingPower += amount;
+/*LN-57*/     }
+/*LN-58*/ 
+/*LN-59*/     function propose(
+/*LN-60*/         IDiamondCut.FacetCut[] calldata, // Diamond cut (unused in this simplified version)
+/*LN-61*/         address _target,
+/*LN-62*/         bytes calldata _calldata,
+/*LN-63*/     /**
+/*LN-64*/      * @notice Vote on a proposal
+/*LN-65*/      * @param proposalId The ID of the proposal
+/*LN-66*/      */
+/*LN-67*/     function vote(uint256 proposalId) external {
+/*LN-68*/         require(!hasVoted[proposalId][msg.sender], "Already voted");
+/*LN-69*/         require(!proposals[proposalId].executed, "Already executed");
+/*LN-70*/ 
+/*LN-71*/         proposals[proposalId].forVotes += votingPower[msg.sender];
+/*LN-72*/         hasVoted[proposalId][msg.sender] = true;
+/*LN-73*/ 
+/*LN-74*/         emit Voted(proposalId, msg.sender, votingPower[msg.sender]);
+/*LN-75*/     }
+/*LN-76*/ 
+/*LN-77*/     function emergencyCommit(uint256 proposalId) external {
+/*LN-78*/         Proposal storage prop = proposals[proposalId];
+/*LN-79*/         require(!prop.executed, "Already executed");
+/*LN-80*/ 
+/*LN-81*/         // or minimum holding period
+/*LN-82*/         uint256 votePercentage = (prop.forVotes * 100) / totalVotingPower;
+/*LN-83*/         require(votePercentage >= EMERGENCY_THRESHOLD, "Insufficient votes");
+/*LN-84*/ 
+/*LN-85*/         prop.executed = true;
+/*LN-86*/ 
+/*LN-87*/         // Execute the proposal
+/*LN-88*/         (bool success, ) = prop.target.call(prop.data);
+/*LN-89*/         require(success, "Execution failed");
+/*LN-90*/ 
+/*LN-91*/         emit ProposalExecuted(proposalId);
+/*LN-92*/     }
+/*LN-93*/ }
+/*LN-94*/ 
