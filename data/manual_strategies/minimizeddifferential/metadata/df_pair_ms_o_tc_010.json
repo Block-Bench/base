@@ -1,0 +1,60 @@
+{
+  "pair_id": "df_pair_ms_o_tc_010",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_010",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_010",
+    "file": "contracts/df_a_ms_o_tc_010.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_010",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_010.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "the_dao.sol",
+      "function_name": "withdrawAll",
+      "line_numbers": [
+        51,
+        53
+      ]
+    },
+    "root_cause": "External call to msg.sender before updating internal state (credit balance). Violation of checks-effects-interactions pattern.",
+    "attack_vector": "Attacker deposited ETH, then called withdrawAll from a malicious contract with a fallback function that re-entered withdrawAll, draining funds before balance was updated.",
+    "impact": "Funds lost: $60,000,000",
+    "correct_fix": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern."
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 6,
+    "diff_summary": "Minimal fix with 6 lines changed",
+    "raw_diff": "2c2\n< pragma solidity ^0.4.19;\n---\n> pragma solidity ^0.8.31;\n19a20\n>             credit[msg.sender] = 0;\n21c22\n<             bool callResult = msg.sender.call.value(oCredit)();\n---\n>             (bool callResult, ) = msg.sender.call{value: oCredit}(\"\");\n23d23\n<             credit[msg.sender] = 0;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "The DAO",
+    "exploit_date": "2016-06-17",
+    "protocol_name": "The DAO",
+    "chain": "ethereum",
+    "funds_lost_usd": 60000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "reentrancy",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_010",
+  "created_date": "2025-12-29T13:22:45.515190"
+}

@@ -1,0 +1,69 @@
+{
+  "pair_id": "df_pair_ms_o_tc_024",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_024",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_024",
+    "file": "contracts/df_a_ms_o_tc_024.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_024",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_024.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "InverseLending + SimplifiedOracle",
+        "functions": [
+          {
+            "name": "getPrice",
+            "vulnerability": "Reads Curve virtual_price directly without TWAP or manipulation resistance"
+          },
+          {
+            "name": "borrow",
+            "vulnerability": "Relies on manipulatable oracle price for collateral valuation"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "The price oracle for Yearn Curve 3crypto LP tokens relied on Curve's get_virtual_price() which reflects current pool state. Flash loan attackers added massive liquidity in one transaction, inflating virtual_price. The oracle had no time-weighted averaging or manipulation resistance, so it reported the inflated price, allowing massive overborrowing.",
+    "attack_vector": "1) Flash loan 2700 WBTC from Aave. 2) Add 2677.5 WBTC + 22,500 USDT to Curve 3crypto pool. 3) Massive liquidity addition inflates Curve virtual_price from $1.00 to ~$1.50. 4) Deposit yvCrv3Crypto tokens as collateral. 5) Oracle reads inflated price, valuing collateral 50% higher than true worth. 6) Borrow maximum DOLA based on inflated collateral value (80% of $1.50 = $1.20 per token vs should be $0.80). 7) Remove liquidity from Curve, price normalizes. 8) Repay flash loan, keep overborrowed $15.6M DOLA.",
+    "impact": "Funds lost: $15,600,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 16,
+    "diff_summary": "Minimal fix with 16 lines changed",
+    "raw_diff": "27a28,30\n>     uint256 public twapPrice;\n>     uint256 public lastUpdateTime;\n> \n29a33\n>         lastUpdateTime = block.timestamp;\n31a36,45\n>     function updatePrice() external {\n>         uint256 spotPrice = curvePool.get_virtual_price();\n>         uint256 timeElapsed = block.timestamp - lastUpdateTime;\n> \n>         if (timeElapsed > 0) {\n>             twapPrice = (twapPrice * lastUpdateTime + spotPrice * timeElapsed) / block.timestamp;\n>             lastUpdateTime = block.timestamp;\n>         }\n>     }\n> \n33c47\n<         return curvePool.get_virtual_price();\n---\n>         return twapPrice;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Inverse Finance Oracle Manipulation",
+    "exploit_date": "2022-04-02",
+    "protocol_name": "Inverse Finance Oracle Manipulation",
+    "chain": "ethereum",
+    "funds_lost_usd": 15600000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "oracle_manipulation",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_024",
+  "created_date": "2025-12-29T13:22:45.527994"
+}

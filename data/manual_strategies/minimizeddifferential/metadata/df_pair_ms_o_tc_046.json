@@ -1,0 +1,93 @@
+{
+  "pair_id": "df_pair_ms_o_tc_046",
+  "strategy": "minimized_differential",
+  "variant": "extended",
+  "original_id": "tc_046",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_046",
+    "file": "contracts/df_a_ms_o_tc_046.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with timelock for large withdrawals to prevent instant fund drainage"
+  },
+  "version_b": {
+    "id": "ms_o_tc_046",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_046.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "FixedFloatHotWallet",
+      "function_name": "withdraw",
+      "affected_lines_b": [
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ]
+    },
+    "root_cause": "Single-key access control with immediate execution. If the owner's private key is compromised, attacker can instantly drain all funds with no delay or additional authorization required.",
+    "attack_vector": "Attacker compromises owner's private key (phishing, malware, social engineering). Calls withdraw() to drain all funds immediately. No timelock or multi-sig to prevent or delay the attack.",
+    "impact": "Funds lost: $26,000,000"
+  },
+  "differential_details": {
+    "difference_type": "timelock_protection",
+    "changes_description_a": "Added TIMELOCK_DELAY (24 hours), LARGE_WITHDRAWAL_THRESHOLD (10 ether), PendingWithdrawal struct, pendingWithdrawals mapping. Large withdrawals are queued and require executeQueuedWithdrawal() after timelock expires.",
+    "changes_description_b": "Withdrawals execute immediately with no delay, regardless of amount.",
+    "exact_changes": [
+      {
+        "location": "constants and struct (lines 15-25)",
+        "version_a": "uint256 public constant TIMELOCK_DELAY = 24 hours;\nuint256 public constant LARGE_WITHDRAWAL_THRESHOLD = 10 ether;\nstruct PendingWithdrawal { ... }\nmapping(bytes32 => PendingWithdrawal) public pendingWithdrawals;",
+        "version_b": "// No timelock constants or pending withdrawal tracking"
+      },
+      {
+        "location": "withdraw function (lines 40-54)",
+        "version_a": "if (amount >= LARGE_WITHDRAWAL_THRESHOLD) {\n    // Queue withdrawal with timelock\n    pendingWithdrawals[id] = PendingWithdrawal({...});\n    return;\n}\n_executeWithdrawal(token, to, amount);",
+        "version_b": "// Executes immediately for any amount"
+      },
+      {
+        "location": "executeQueuedWithdrawal (lines 56-66)",
+        "version_a": "function executeQueuedWithdrawal(bytes32 id) external onlyOwner {\n    require(block.timestamp >= pending.executeAfter, \"Timelock not expired\");\n    _executeWithdrawal(...);\n}",
+        "version_b": "// No queued withdrawal mechanism"
+      }
+    ],
+    "why_this_matters": "Timelock gives operators 24 hours to detect key compromise and respond (revoke, transfer ownership, or recover funds) before large withdrawals can execute."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "FixedFloat",
+    "exploit_date": "2024-02-01",
+    "protocol_name": "FixedFloat",
+    "chain": "ethereum",
+    "funds_lost_usd": 26000000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": [
+    "access_control",
+    "timelock",
+    "hot_wallet",
+    "single_key",
+    "private_key_compromise",
+    "withdrawal_delay",
+    "differential",
+    "extended",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_046",
+  "created_date": "2025-12-29T13:22:45.622039"
+}

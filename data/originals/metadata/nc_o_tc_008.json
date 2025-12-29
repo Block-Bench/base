@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_008",
+  "contract_file": "contracts/nc_o_tc_008.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_008",
+  "exploit_info": {
+    "exploit_name": "Cream Finance",
+    "date": "2021-10-27",
+    "amount_lost_usd": "130000000",
+    "vulnerability_type": "price_oracle_manipulation"
+  },
+  "description": "No-comment version of tc_008 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "price_oracle_manipulation"
+  ]
+}

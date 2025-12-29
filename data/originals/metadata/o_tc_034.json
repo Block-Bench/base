@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_034",
+  "contract_file": "contracts/o_tc_034.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_034",
+  "exploit_info": {
+    "exploit_name": "Gamma Strategies",
+    "date": "2024-01",
+    "amount_lost_usd": "6100000",
+    "vulnerability_type": "price_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/gamma_strategies.sol",
+  "description": "Original annotated version of tc_034 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "price_manipulation"
+  ]
+}

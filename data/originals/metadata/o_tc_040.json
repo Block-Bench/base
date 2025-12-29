@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_040",
+  "contract_file": "contracts/o_tc_040.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_040",
+  "exploit_info": {
+    "exploit_name": "Bedrock DeFi",
+    "date": "2024-09",
+    "amount_lost_usd": "2000000",
+    "vulnerability_type": "logic_error"
+  },
+  "source_file": "pre_cutoff_originals/annotated/bedrock_defi.sol",
+  "description": "Original annotated version of tc_040 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "logic_error"
+  ]
+}

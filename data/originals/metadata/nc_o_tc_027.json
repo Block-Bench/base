@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_027",
+  "contract_file": "contracts/nc_o_tc_027.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_027",
+  "exploit_info": {
+    "exploit_name": "BurgerSwap",
+    "date": "2021-05-28",
+    "amount_lost_usd": "7000000",
+    "vulnerability_type": "input_validation"
+  },
+  "description": "No-comment version of tc_027 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "input_validation"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_017",
+  "contract_file": "contracts/o_tc_017.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_017",
+  "exploit_info": {
+    "exploit_name": "Pickle Finance",
+    "date": "2020-11-21",
+    "amount_lost_usd": "20000000",
+    "vulnerability_type": "access_control"
+  },
+  "source_file": "pre_cutoff_originals/annotated/pickle_finance.sol",
+  "description": "Original annotated version of tc_017 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "access_control"
+  ]
+}

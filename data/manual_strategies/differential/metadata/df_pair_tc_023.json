@@ -1,0 +1,61 @@
+{
+  "pair_id": "df_pair_tc_023",
+  "strategy": "differential",
+  "variant": "extended",
+  "original_id": "tc_023",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_023",
+    "file": "contracts/df_a_tc_023.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimum share floor to prevent debt share manipulation"
+  },
+  "version_b": {
+    "id": "df_b_tc_023",
+    "file": "../../base/contracts/tc_023.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "logic_error",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "LeveragedVault",
+      "function_name": "_borrow",
+      "affected_lines_b": [63, 64, 65, 66, 67]
+    },
+    "root_cause": "Debt share calculation (amount * totalDebtShare / totalDebt) can be manipulated when totalDebt is artificially inflated. Attacker receives fewer shares than deserved, making their debt appear smaller than actual borrowed amount.",
+    "attack_vector": "Attacker manipulates external pool to inflate totalDebt calculation. Opens position with manipulated ratio. Share calculation gives fewer shares than deserved. When converting back, debt appears smaller. Attacker repays calculated debt and keeps difference.",
+    "impact": "Funds lost: $37,000,000"
+  },
+  "differential_details": {
+    "difference_type": "minimum_share_floor",
+    "changes_description_a": "Added MINIMUM_SHARE constant (1000) and require checks in _borrow() to ensure calculated shares meet minimum threshold, preventing manipulation of share-to-debt ratio.",
+    "changes_description_b": "No minimum share validation, allowing arbitrarily small shares to be assigned for borrowed amounts.",
+    "exact_changes": [
+      {
+        "location": "constant (line 35)",
+        "version_a": "uint256 public constant MINIMUM_SHARE = 1000;",
+        "version_b": "// No minimum share constant"
+      },
+      {
+        "location": "_borrow function (lines 63-66)",
+        "version_a": "if (totalDebtShare == 0) {\n    share = amount;\n    require(share >= MINIMUM_SHARE, \"Initial share too small\");\n} else {\n    share = (amount * totalDebtShare) / totalDebt;\n    require(share >= MINIMUM_SHARE, \"Share too small\");\n}",
+        "version_b": "if (totalDebtShare == 0) {\n    share = amount;\n} else {\n    share = (amount * totalDebtShare) / totalDebt;\n}"
+      }
+    ],
+    "why_this_matters": "Minimum share floor prevents manipulation attacks where inflated totalDebt causes tiny share allocations. If share calculation results in less than MINIMUM_SHARE, the transaction reverts."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Alpha Homora",
+    "exploit_date": "2021-02-13",
+    "protocol_name": "Alpha Homora",
+    "chain": "ethereum",
+    "funds_lost_usd": 37000000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": ["debt_share", "share_manipulation", "minimum_floor", "leverage", "iron_bank", "differential", "extended", "temporal_contamination"]
+}

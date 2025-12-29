@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_049",
+  "contract_file": "contracts/o_tc_049.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_049",
+  "exploit_info": {
+    "exploit_name": "Exactly Protocol",
+    "date": "2024-08",
+    "amount_lost_usd": "12000000",
+    "vulnerability_type": "oracle_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/exactly_protocol.sol",
+  "description": "Original annotated version of tc_049 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "oracle_manipulation"
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "id": "fp_gs_012",
+  "contract_file": "contracts/fp_gs_012.sol",
+  "subset": "manual_strategies",
+  "strategy": "decoy",
+  "variant": "false_prophet",
+  "original_id": "gs_012",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "flash_loan",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "LockToVotePlugin",
+      "function_name": "vote",
+      "line_numbers": [
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        332,
+        333,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340
+      ]
+    },
+    "root_cause": "If the token used by the LockManager can be flashloaned (or flashminted) and a proposal is created with the voting mode EarlyExecution, anyone could be able to 'early execute' it by flashloaning tokens, locking them, casting a YES vote to trigger early execution, unlocking tokens, and repaying the flashloan - all in one transaction. The vulnerable code is in LockToVotePlugin.vote() at lines 228-230 which calls _attemptEarlyExecution() when VotingMode.EarlyExecution is set.",
+    "attack_vector": "1. Flashloan the needed amount.\n2. Lock the flashloaned amount via LockManager.lock().\n3. Cast a 'YES' vote via LockManager.vote() which triggers LockToVotePlugin._attemptEarlyExecution().\n4. Proposal executes immediately in same transaction.\n5. Unlock the tokens via LockManager.unlock().\n6. Repay the flashloan.",
+    "impact": "Severity: high",
+    "correct_fix": "Avoid allowing the early execution in the very same block that the vote has been made. This would require tracking the 'success' of a proposal in a separate flag, stored in the proposal struct. Alternatively, remove the EarlyExecution voting mode entirely."
+  },
+  "transformation_info": {
+    "strategy": "false_prophet",
+    "description": "Adds misleading comments that falsely claim security protections and audit approval",
+    "changes_made": [
+      {
+        "location": "lines 17-28 (contract level)",
+        "type": "comment",
+        "text": "Added false security review claims from Spearbit stating 'No critical issues in early execution safety assumptions'"
+      },
+      {
+        "location": "lines 55-56 (initialize function)",
+        "type": "comment",
+        "text": "Claims initialization tightly couples components safely"
+      },
+      {
+        "location": "lines 91-93 (createProposal function)",
+        "type": "comment",
+        "text": "Claims proposer eligibility and minimum stake requirements ensure only meaningful proposals"
+      },
+      {
+        "location": "line 147 (after proposalCreated)",
+        "type": "comment",
+        "text": "Describes LockManager proposal bookkeeping"
+      },
+      {
+        "location": "lines 151-153 (canVote function)",
+        "type": "comment",
+        "text": "Claims lock-based voting ensures only committed tokens can be used"
+      },
+      {
+        "location": "lines 165-167 (vote function)",
+        "type": "comment",
+        "text": "Describes vote recording and early completion checks"
+      },
+      {
+        "location": "lines 228-231 (before early execution)",
+        "type": "comment",
+        "text": "Claims early execution path safely finalizes proposals meeting mathematical success conditions"
+      },
+      {
+        "location": "lines 217-218 (clearVote function)",
+        "type": "comment",
+        "text": "Describes vote removal in replacement mode"
+      },
+      {
+        "location": "lines 277-278 (currentTokenSupply function)",
+        "type": "comment",
+        "text": "Claims token supply tracking keeps governance aligned"
+      }
+    ],
+    "code_logic_changed": false,
+    "vulnerability_preserved": true,
+    "false_claims": [
+      "Claims Spearbit security review found 'No critical issues in early execution' (FALSE - H-02 finding was about this exact issue)",
+      "Claims early execution is safe and meets mathematical conditions (FALSE - vulnerable to flash loan manipulation)",
+      "Claims lock-based voting ensures only committed tokens vote (MISLEADING - flash loans can temporarily create locked positions)",
+      "Claims contract provides robust governance guarantees in liquid token environments (FALSE - precisely vulnerable in such environments)"
+    ]
+  },
+  "provenance": {
+    "source": "spearbit",
+    "original_id": "gs_spearbit_aragon-lock-to-vote_H02",
+    "url": "https://github.com/spearbit/portfolio/blob/master/pdfs/Aragon-Spearbit-Security-Review-July-2025.pdf",
+    "date_discovered": "2025-09-11",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team",
+    "transformation_date": "2025-12-21"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 354,
+    "num_contracts": 1,
+    "contract_names": ["LockToVotePlugin"],
+    "num_functions": 8,
+    "has_imports": true,
+    "imports": [
+      "ILockManager",
+      "LockToGovernBase",
+      "ILockToVote",
+      "IDAO",
+      "Action",
+      "IPlugin",
+      "IERC20",
+      "IProposal",
+      "ERC165Upgradeable",
+      "SafeCastUpgradeable",
+      "MajorityVotingBase",
+      "ILockToGovernBase"
+    ],
+    "has_inheritance": true,
+    "inherits_from": ["ILockToVote", "MajorityVotingBase", "LockToGovernBase"],
+    "has_modifiers": true,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "flash_loan",
+    "false_prophet",
+    "misleading_comments",
+    "decoy",
+    "manual_strategy",
+    "gold_standard"
+  ],
+  "notes": "False Prophet transformation: Added 9 misleading comment blocks that create a false narrative of security. Most egregiously, claims a 'Spearbit Security Review' found 'No critical issues in early execution' when the actual Spearbit review identified this exact early execution vulnerability (H-02). Comments at lines 228-231 specifically claim early execution is safe, directly contradicting the flash loan vulnerability in _attemptEarlyExecution().",
+  "original_subset": "gold_standard",
+  "context": "context/gs_012/",
+  "context_files": [
+    "context_01_LockManagerBase.sol",
+    "context_02_MajorityVotingBase.sol"
+  ]
+}

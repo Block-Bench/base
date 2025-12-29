@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_020",
+  "contract_file": "contracts/o_tc_020.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_020",
+  "exploit_info": {
+    "exploit_name": "Warp Finance",
+    "date": "2020-12-17",
+    "amount_lost_usd": "7700000",
+    "vulnerability_type": "price_oracle_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/warp_finance.sol",
+  "description": "Original annotated version of tc_020 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "price_oracle_manipulation"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_018",
+  "contract_file": "contracts/nc_o_tc_018.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_018",
+  "exploit_info": {
+    "exploit_name": "Indexed Finance",
+    "date": "2021-10-14",
+    "amount_lost_usd": "16000000",
+    "vulnerability_type": "pool_manipulation"
+  },
+  "description": "No-comment version of tc_018 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "pool_manipulation"
+  ]
+}

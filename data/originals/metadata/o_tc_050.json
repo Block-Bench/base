@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_050",
+  "contract_file": "contracts/o_tc_050.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_050",
+  "exploit_info": {
+    "exploit_name": "Munchables",
+    "date": "2024-03",
+    "amount_lost_usd": "62000000",
+    "vulnerability_type": "access_control"
+  },
+  "source_file": "pre_cutoff_originals/annotated/munchables.sol",
+  "description": "Original annotated version of tc_050 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "access_control"
+  ]
+}

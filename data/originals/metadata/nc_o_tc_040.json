@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_040",
+  "contract_file": "contracts/nc_o_tc_040.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_040",
+  "exploit_info": {
+    "exploit_name": "Bedrock DeFi",
+    "date": "2024-09",
+    "amount_lost_usd": "2000000",
+    "vulnerability_type": "logic_error"
+  },
+  "description": "No-comment version of tc_040 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "logic_error"
+  ]
+}

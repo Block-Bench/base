@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_022",
+  "contract_file": "contracts/nc_o_tc_022.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_022",
+  "exploit_info": {
+    "exploit_name": "Uranium Finance",
+    "date": "2021-04-28",
+    "amount_lost_usd": "50000000",
+    "vulnerability_type": "arithmetic_error"
+  },
+  "description": "No-comment version of tc_022 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "arithmetic_error"
+  ]
+}

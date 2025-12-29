@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_010",
+  "contract_file": "contracts/o_tc_010.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_010",
+  "exploit_info": {
+    "exploit_name": "The DAO",
+    "date": "2016-06-17",
+    "amount_lost_usd": "60000000",
+    "vulnerability_type": "reentrancy"
+  },
+  "source_file": "pre_cutoff_originals/annotated/the_dao.sol",
+  "description": "Original annotated version of tc_010 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "reentrancy"
+  ]
+}

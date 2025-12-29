@@ -1,0 +1,79 @@
+{
+  "pair_id": "df_pair_tc_006",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_006",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_006",
+    "file": "contracts/df_a_tc_006.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with multi-sig requirement for admin function addSupportedToken"
+  },
+  "version_b": {
+    "id": "df_b_tc_006",
+    "file": "../../base/contracts/tc_006.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "CrossChainBridge",
+      "function_name": "addSupportedToken",
+      "affected_lines_b": [
+        181,
+        182,
+        183
+      ]
+    },
+    "root_cause": "The addSupportedToken() admin function had no access control - anyone could call it to add arbitrary tokens. While the withdrawERC20For function requires multi-sig, administrative functions lacked the same protection, creating an attack vector for adding malicious tokens.",
+    "attack_vector": "An attacker could call addSupportedToken() without authorization to add a malicious token contract, potentially enabling token-related attacks on the bridge. Note: The original Ronin incident involved validator key compromise (operational issue), but this differential focuses on the code-level access control vulnerability in admin functions.",
+    "impact": "Funds lost: $625,000,000 (original incident - validator key compromise)",
+    "historical_context": "The real Ronin hack was primarily an operational security failure where attackers compromised 5 out of 9 validator keys through social engineering. This differential addresses a separate code-level vulnerability: lack of multi-sig on admin functions."
+  },
+  "differential_details": {
+    "difference_type": "admin_access_control",
+    "changes_description_a": "Added multi-sig signature verification to addSupportedToken function (lines 181-194). Now requires valid validator signatures to add new tokens, preventing unauthorized token additions.",
+    "changes_description_b": "addSupportedToken function has no access control (lines 181-183), allowing anyone to add arbitrary tokens to the supported list.",
+    "exact_changes": [
+      {
+        "location": "addSupportedToken function signature (line 181)",
+        "version_a": "function addSupportedToken(address _token, bytes memory _signatures) external {",
+        "version_b": "function addSupportedToken(address _token) external {"
+      },
+      {
+        "location": "addSupportedToken function body (lines 182-193)",
+        "version_a": "require(!supportedTokens[_token], \"Already supported\");\nrequire(_verifySignatures(...), \"Invalid signatures\");\nsupportedTokens[_token] = true;",
+        "version_b": "supportedTokens[_token] = true;"
+      }
+    ],
+    "why_this_matters": "The minimal fix adds multi-sig protection to admin functions, ensuring that critical operations like adding supported tokens require consensus among validators, preventing single-point-of-failure attacks on administrative capabilities."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Ronin Bridge",
+    "exploit_date": "2022-03-23",
+    "protocol_name": "Ronin Bridge",
+    "chain": "ethereum",
+    "funds_lost_usd": 625000000,
+    "transformation_date": "2025-12-21"
+  },
+  "tags": [
+    "bridge",
+    "multi_sig",
+    "access_control",
+    "admin_function",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination"
+  ],
+  "quality_metrics": {
+    "diff_lines": 13,
+    "is_minimal": true,
+    "solidity_version_match": true
+  }
+}

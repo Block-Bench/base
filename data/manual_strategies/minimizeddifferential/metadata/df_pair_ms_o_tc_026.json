@@ -1,0 +1,65 @@
+{
+  "pair_id": "df_pair_ms_o_tc_026",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_026",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_026",
+    "file": "contracts/df_a_ms_o_tc_026.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_026",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_026.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "signature_replay",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "AnyswapRouter",
+        "functions": [
+          {
+            "name": "anySwapOutUnderlyingWithPermit",
+            "vulnerability": "Proceeds with transfers even when permit validation fails"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "The permit validation used try-catch that swallowed failures without reverting. The function proceeded with token operations regardless of whether the permit succeeded, effectively bypassing authorization checks entirely.",
+    "attack_vector": "1) Attacker called anySwapOutUnderlyingWithPermit with victim's token address. 2) Passed invalid permit signature (v=0, r=0, s=0). 3) Permit validation failed silently. 4) Function continued executing anyway. 5) Tokens were burned/locked and bridged to destination chain. 6) Repeated to drain $8M worth of WETH and other tokens.",
+    "impact": "Funds lost: $8,000,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 2,
+    "diff_summary": "Minimal fix with 2 lines changed",
+    "raw_diff": "23c23\n<             try IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s) {} catch {}\n---\n>             IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s);\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Anyswap Permit Bypass",
+    "exploit_date": "2022-01-18",
+    "protocol_name": "Anyswap Permit Bypass",
+    "chain": "ethereum",
+    "funds_lost_usd": 8000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "signature_replay",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_026",
+  "created_date": "2025-12-29T13:22:45.529840"
+}

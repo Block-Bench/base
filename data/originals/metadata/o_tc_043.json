@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_043",
+  "contract_file": "contracts/o_tc_043.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_043",
+  "exploit_info": {
+    "exploit_name": "Seneca Protocol",
+    "date": "2024-02",
+    "amount_lost_usd": "6400000",
+    "vulnerability_type": "access_control"
+  },
+  "source_file": "pre_cutoff_originals/annotated/seneca_protocol.sol",
+  "description": "Original annotated version of tc_043 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "access_control"
+  ]
+}

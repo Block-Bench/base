@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_018",
+  "contract_file": "contracts/o_tc_018.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_018",
+  "exploit_info": {
+    "exploit_name": "Indexed Finance",
+    "date": "2021-10-14",
+    "amount_lost_usd": "16000000",
+    "vulnerability_type": "pool_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/indexed_finance.sol",
+  "description": "Original annotated version of tc_018 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "pool_manipulation"
+  ]
+}

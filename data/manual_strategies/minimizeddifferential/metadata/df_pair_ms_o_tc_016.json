@@ -1,0 +1,62 @@
+{
+  "pair_id": "df_pair_ms_o_tc_016",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_016",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_016",
+    "file": "contracts/df_a_ms_o_tc_016.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_016",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_016.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "bzx_protocol.sol",
+      "function_name": "transfer",
+      "line_numbers": [
+        82,
+        83,
+        85,
+        100
+      ]
+    },
+    "root_cause": "Token transfer function called external contract during state update. Callback occurred after balance updates but before finalization, creating state inconsistency exploitable through repeated self-transfers.",
+    "attack_vector": "Attacker minted tokens, then transferred to self 4 times in loop. Each transfer triggered callback with inconsistent state. After iterations, token balance inflated. Burned inflated tokens back to ETH for profit.",
+    "impact": "Funds lost: $8,000,000",
+    "correct_fix": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly."
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 13,
+    "diff_summary": "Minimal fix with 13 lines changed",
+    "raw_diff": "23a24,34\n>     uint256 private _status;\n>     uint256 private constant _NOT_ENTERED = 1;\n>     uint256 private constant _ENTERED = 2;\n> \n>     modifier nonReentrant() {\n>         require(_status != _ENTERED, \"Reentrancy\");\n>         _status = _ENTERED;\n>         _;\n>         _status = _NOT_ENTERED;\n>     }\n> \n37c48\n<     function transfer(address to, uint256 amount) external returns (bool) {\n---\n>     function transfer(address to, uint256 amount) external nonReentrant returns (bool) {\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "bZx Protocol",
+    "exploit_date": "2020-09-14",
+    "protocol_name": "bZx Protocol",
+    "chain": "ethereum",
+    "funds_lost_usd": 8000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "reentrancy",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_016",
+  "created_date": "2025-12-29T13:22:45.520829"
+}

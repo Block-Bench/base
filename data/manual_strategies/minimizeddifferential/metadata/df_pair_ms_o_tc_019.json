@@ -1,0 +1,69 @@
+{
+  "pair_id": "df_pair_ms_o_tc_019",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_019",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_019",
+    "file": "contracts/df_a_ms_o_tc_019.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_019",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_019.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "logic_error",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "QBridgeHandler",
+        "functions": [
+          {
+            "name": "deposit",
+            "vulnerability": "Missing validation that tokenContract != address(0)"
+          },
+          {
+            "name": "setResource",
+            "vulnerability": "Allows setting tokenAddress to address(0) without validation"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "The bridge handler did not validate that the token contract address was not zero. Calls to address(0) do not revert in the EVM, so the transferFrom call succeeded silently without moving any tokens. However, the deposit event was still emitted, causing the destination chain to mint unbacked tokens.",
+    "attack_vector": "1) Attacker identified or created a resourceID that mapped to address(0) in the bridge handler. 2) Called deposit() with this resourceID and large amount. 3) Handler attempted transferFrom on address(0), which succeeded without transferring anything. 4) Bridge emitted deposit event. 5) BSC handler received event and minted tokens to attacker. 6) Attacker repeated the exploit multiple times to extract $80M worth of tokens without providing any real collateral.",
+    "impact": "Funds lost: $80,000,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 5,
+    "diff_summary": "Minimal fix with 5 lines changed",
+    "raw_diff": "51a52\n>         require(tokenContract != address(0), \"Invalid token\");\n56c57,58\n<         IERC20(tokenContract).transferFrom(depositer, address(this), amount);\n---\n>         bool success = IERC20(tokenContract).transferFrom(depositer, address(this), amount);\n>         require(success, \"Transfer failed\");\n59a62\n>         require(tokenAddress != address(0), \"Invalid token\");\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Qubit Bridge Zero Address Bypass",
+    "exploit_date": "2022-01-27",
+    "protocol_name": "Qubit Bridge Zero Address Bypass",
+    "chain": "ethereum",
+    "funds_lost_usd": 80000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "logic_error",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_019",
+  "created_date": "2025-12-29T13:22:45.523620"
+}

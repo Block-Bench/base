@@ -1,0 +1,57 @@
+{
+  "pair_id": "df_pair_ms_o_tc_035",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_035",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_035",
+    "file": "contracts/df_a_ms_o_tc_035.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_035",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_035.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "WiseLending",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $460,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 13,
+    "diff_summary": "Minimal fix with 13 lines changed",
+    "raw_diff": "6d5\n< \n12d10\n< \n14d11\n< \n20d16\n< \n38a35,37\n>     uint256 public constant MIN_POOL_SIZE = 1e18;\n>     uint256 public constant MAX_RATIO = 1000;\n> \n56a56,59\n>             require(pool.pseudoTotalPool >= MIN_POOL_SIZE, \"Pool too small\");\n>             uint256 ratio = (pool.totalDepositShares * MAX_RATIO) / pool.pseudoTotalPool;\n>             require(ratio <= MAX_RATIO, \"Ratio too high\");\n> \n84a88,89\n>         require(withdrawAmount <= pool.pseudoTotalPool, \"Withdraw exceeds pool\");\n> \n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Wise Lending Rounding Error",
+    "exploit_date": "2024-01-01",
+    "protocol_name": "Wise Lending Rounding Error",
+    "chain": "ethereum",
+    "funds_lost_usd": 460000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "integer_overflow",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_035",
+  "created_date": "2025-12-29T13:22:45.538258"
+}
