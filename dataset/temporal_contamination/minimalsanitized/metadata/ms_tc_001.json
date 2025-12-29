@@ -53,10 +53,6 @@
     "contract_renames": {
       "VulnerableNomadReplica": "NomadReplica"
     },
-    "created_date": "2025-12-29T21:51:29.846696"
-  },
-  "vulnerable_lines_original": [
-    46,
-    84
-  ]
+    "created_date": "2025-12-29T22:32:44.502869"
+  }
 }

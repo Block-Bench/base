@@ -55,9 +55,6 @@
     "contract_renames": {
       "VulnerableRoninBridge": "RoninBridge"
     },
-    "created_date": "2025-12-29T21:51:29.854452"
-  },
-  "vulnerable_lines_original": [
-    44
-  ]
+    "created_date": "2025-12-29T22:32:44.510295"
+  }
 }

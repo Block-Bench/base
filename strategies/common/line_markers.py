@@ -2,20 +2,60 @@
 """
 Line Marker Utility for Strategy Outputs
 
-Adds stable line reference markers (/*LN-N*/) to Solidity code.
+Adds and strips stable line reference markers (/*LN-N*/) to/from Solidity code.
 These markers provide consistent line references across different versions
 of the same contract, independent of display line numbers.
 
 Usage:
-    from strategies.common.line_markers import add_line_markers
+    from strategies.common.line_markers import add_line_markers, strip_line_markers
 
-    marked_code = add_line_markers(code)
+    # Strip existing markers before processing
+    clean_code = strip_line_markers(code)
+
+    # Add fresh markers after processing
+    marked_code = add_line_markers(clean_code)
 
 The markers use format /*LN-N*/ where N is an integer (1-indexed).
 The "LN-" prefix reduces collision probability with existing comments.
 """
 
+import re
 from pathlib import Path
+
+# Pattern to match line markers /*LN-N*/ (with optional trailing space)
+LINE_MARKER_PATTERN = re.compile(r'/\*LN-\d+\*/ ?')
+
+
+def strip_line_markers(code: str) -> str:
+    """
+    Remove all line markers from code.
+
+    This allows processing scripts to work on clean content
+    and generate fresh markers for output.
+
+    Args:
+        code: The source code potentially containing line markers
+
+    Returns:
+        Code with all /*LN-N*/ markers removed
+
+    Example:
+        Input:
+            /*LN-1*/ pragma solidity ^0.8.0;
+            /*LN-2*/
+            /*LN-3*/ contract Foo {
+
+        Output:
+            pragma solidity ^0.8.0;
+
+            contract Foo {
+    """
+    lines = code.split('\n')
+    clean_lines = []
+    for line in lines:
+        clean_line = LINE_MARKER_PATTERN.sub('', line)
+        clean_lines.append(clean_line)
+    return '\n'.join(clean_lines)
 
 
 def add_line_markers(code: str) -> str:

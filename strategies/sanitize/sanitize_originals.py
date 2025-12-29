@@ -2,41 +2,34 @@
 """
 Full Sanitization Strategy for Smart Contract Originals
 
-Reads from: data/originals/contracts/o_tc_*.sol + metadata/o_tc_*.json
-Outputs to: data/originals/sanitized/contracts/sn_tc_*.sol + metadata/sn_tc_*.json
-
-This uses the main sanitize strategy to process originals.
+This script creates fully sanitized versions of original exploit contracts.
 Full sanitization removes ALL identifying information including:
-- Vulnerability hints in code
+- Vulnerability hints in code (comments and identifiers)
 - Protocol names in code (Nomad -> Bridge, Beanstalk -> Governance, etc.)
-- Protocol names in metadata sample_id
 
-Metadata is updated to reflect:
+Input: dataset/temporal_contamination/original/contracts/tc_*.sol + metadata/tc_*.json
+Output: dataset/temporal_contamination/sanitized/contracts/sn_tc_*.sol + metadata/sn_tc_*.json
+
+Metadata is copied from originals and updated to reflect:
 - New contract names matching sanitized code
 - Transformation tracking with rename mappings
 
 Usage:
     python strategies/sanitize/sanitize_originals.py
+    python strategies/sanitize/sanitize_originals.py <input_dir> <output_dir>
 """
 
 import sys
 import re
 import json
 from pathlib import Path
+from datetime import datetime
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from strategies.sanitize.sanitize import sanitize_code
-
-# Paths
-ORIGINALS_DIR = PROJECT_ROOT / "data" / "originals"
-INPUT_CONTRACTS = ORIGINALS_DIR / "contracts"
-INPUT_METADATA = ORIGINALS_DIR / "metadata"
-OUTPUT_DIR = ORIGINALS_DIR / "sanitized"
-OUTPUT_CONTRACTS = OUTPUT_DIR / "contracts"
-OUTPUT_METADATA = OUTPUT_DIR / "metadata"
 
 # Protocol name mappings for metadata sanitization
 PROTOCOL_MAPPINGS = {
@@ -86,26 +79,14 @@ PROTOCOL_MAPPINGS = {
     'wise': 'isolated',
 }
 
-# Fields to remove entirely from sanitized metadata
-# Note: Metadata is for judge only, not shown to models
-# Keep fields needed for evaluation (root_cause, attack_scenario, fix_description, description)
-FIELDS_TO_REMOVE = [
-    # These are redundant or not needed for judging
-    'source_reference',      # External links not needed for judging
-    'external_references',   # External links not needed for judging
-]
-
-# Fields to sanitize (remove protocol names) - only sample_id shown to distinguish variants
-FIELDS_TO_SANITIZE = [
-    'sample_id',
-]
+# Fields to sanitize in sample_id (remove protocol names)
+FIELDS_TO_SANITIZE = ['sample_id']
 
 
 def sanitize_text(text: str) -> str:
     """Remove protocol names from text."""
     result = text
     for protocol, replacement in PROTOCOL_MAPPINGS.items():
-        # Case-insensitive replacement
         pattern = re.compile(re.escape(protocol), re.IGNORECASE)
         result = pattern.sub(replacement, result)
     return result
@@ -113,6 +94,7 @@ def sanitize_text(text: str) -> str:
 
 def get_main_contract_from_code(code: str) -> str:
     """Extract the main (first) contract name from Solidity code."""
+    # Skip line markers when searching for contract
     match = re.search(r'contract\s+(\w+)', code)
     return match.group(1) if match else None
 
@@ -126,7 +108,6 @@ def _get_renamed_contract(old_name: str, rename_mappings: dict) -> str:
     # Try removing "Vulnerable" prefix and checking
     if old_name.startswith('Vulnerable'):
         base_name = old_name[len('Vulnerable'):]
-        # Check for Basic + base_name mapping
         basic_name = f'Basic{base_name}'
         if basic_name in rename_mappings:
             return rename_mappings[basic_name]
@@ -136,109 +117,144 @@ def _get_renamed_contract(old_name: str, rename_mappings: dict) -> str:
             # Apply generic sanitization
             return sanitize_text(old_name.replace('Vulnerable', 'Basic'))
 
-    # No mapping found, return original
     return old_name
 
 
-def sanitize_metadata(metadata: dict, rename_mappings: dict, sanitized_code: str = None) -> dict:
+def update_metadata(original_metadata: dict, sanitized_id: str, original_id: str,
+                   rename_mappings: dict, changes: list, source_dir: str) -> dict:
     """
-    Fully sanitize metadata for the sanitized variant.
+    Update metadata to reflect sanitization changes.
 
-    - Removes fields that reveal exploit details
-    - Sanitizes text fields to remove protocol names
-    - Updates contract/function names based on rename mappings
-    - Infers vulnerable_contract from sanitized code if not set in original
+    Copies all original metadata and updates only what changes with transformation:
+    - sample_id, contract_file (paths)
+    - vulnerable_contract (if renamed)
+    - vulnerable_lines (cleared - needs manual update for new line numbers)
+    - Adds transformation tracking
+
+    All other fields (description, attack_scenario, etc.) remain unchanged.
     """
-    result = metadata.copy()
+    metadata = original_metadata.copy()
 
-    # Remove fields that reveal exploit details
-    for field in FIELDS_TO_REMOVE:
-        if field in result:
-            del result[field]
+    # Update identifiers and paths
+    metadata['sample_id'] = sanitized_id
+    metadata['contract_file'] = f"contracts/{sanitized_id}.sol"
+    metadata['variant_type'] = 'sanitized'
+    metadata['variant_parent_id'] = original_id
 
-    # Sanitize text fields
-    for field in FIELDS_TO_SANITIZE:
-        if field in result and isinstance(result[field], str):
-            result[field] = sanitize_text(result[field])
+    # Update vulnerable_contract using the rename chain
+    if 'vulnerable_contract' in metadata:
+        old_contract = metadata['vulnerable_contract']
+        if isinstance(old_contract, dict):
+            contract_name = old_contract.get('name', '')
+            if contract_name:
+                old_contract['name'] = _get_renamed_contract(contract_name, rename_mappings)
+        elif isinstance(old_contract, str):
+            metadata['vulnerable_contract'] = _get_renamed_contract(old_contract, rename_mappings)
 
-    # Update vulnerable_contract using the full rename chain
-    if result.get('vulnerable_contract'):
-        old_value = result['vulnerable_contract']
-
-        # Handle nested vulnerable_contract (dict with 'name' key)
-        if isinstance(old_value, dict):
-            old_name = old_value.get('name', '')
-            if old_name:
-                new_name = _get_renamed_contract(old_name, rename_mappings)
-                old_value['name'] = new_name
-        elif isinstance(old_value, str):
-            result['vulnerable_contract'] = _get_renamed_contract(old_value, rename_mappings)
-    elif sanitized_code:
-        # Infer vulnerable_contract from the sanitized code if not set in original
-        main_contract = get_main_contract_from_code(sanitized_code)
-        if main_contract:
-            result['vulnerable_contract'] = main_contract
-
-    # Sanitize tags if present
-    if 'tags' in result and isinstance(result['tags'], list):
+    # Sanitize tags if present (remove protocol name tags)
+    if 'tags' in metadata and isinstance(metadata['tags'], list):
         sanitized_tags = []
-        for tag in result['tags']:
+        for tag in metadata['tags']:
             sanitized_tag = sanitize_text(tag)
-            # Skip tags that are just protocol names
             if sanitized_tag.lower() not in PROTOCOL_MAPPINGS.values():
                 sanitized_tags.append(sanitized_tag)
-        result['tags'] = sanitized_tags
+        metadata['tags'] = sanitized_tags
 
-    return result
+    # Add transformation tracking with proper source path
+    metadata['transformation'] = {
+        'type': 'full_sanitization',
+        'source_dir': source_dir,
+        'source_contract': f"{source_dir}/contracts/{original_id}.sol",
+        'source_metadata': f"{source_dir}/metadata/{original_id}.json",
+        'script': 'strategies/sanitize/sanitize_originals.py',
+        'changes': changes,
+        'contract_renames': rename_mappings,
+        'created_date': datetime.now().isoformat()
+    }
+
+    # Clear vulnerable_lines - line numbers change after sanitization
+    if 'vulnerable_lines' in metadata:
+        metadata['vulnerable_lines'] = []
+
+    return metadata
 
 
-def sanitize_originals():
-    """Sanitize all o_tc_* files using the main sanitize strategy."""
-    # Ensure output dirs exist
-    OUTPUT_CONTRACTS.mkdir(parents=True, exist_ok=True)
-    OUTPUT_METADATA.mkdir(parents=True, exist_ok=True)
+def sanitize_originals(input_base: Path = None, output_base: Path = None):
+    """Sanitize all tc_* files using the main sanitize strategy."""
 
-    # Find all o_tc_*.sol files
-    original_files = sorted(INPUT_CONTRACTS.glob("o_tc_*.sol"))
-    print(f"Found {len(original_files)} original TC files to sanitize")
+    # Determine paths
+    if input_base is None:
+        input_base = PROJECT_ROOT / "dataset" / "temporal_contamination" / "original"
+    if output_base is None:
+        output_base = PROJECT_ROOT / "dataset" / "temporal_contamination" / "sanitized"
+
+    input_contracts_dir = input_base / "contracts"
+    input_metadata_dir = input_base / "metadata"
+    output_contracts_dir = output_base / "contracts"
+    output_metadata_dir = output_base / "metadata"
+
+    # Detect file pattern
+    if list(input_contracts_dir.glob("tc_*.sol")):
+        file_pattern = "tc_*.sol"
+    elif list(input_contracts_dir.glob("o_tc_*.sol")):
+        file_pattern = "o_tc_*.sol"
+    else:
+        print("No matching files found")
+        return []
+
+    print(f"Input contracts: {input_contracts_dir}")
+    print(f"Input metadata: {input_metadata_dir}")
+    print(f"Output directory: {output_base}")
+    print(f"File pattern: {file_pattern}")
+
+    # Ensure output directories exist
+    output_contracts_dir.mkdir(parents=True, exist_ok=True)
+    output_metadata_dir.mkdir(parents=True, exist_ok=True)
+
+    # Find all matching .sol files
+    original_files = sorted(input_contracts_dir.glob(file_pattern))
+    print(f"Found {len(original_files)} files to sanitize")
 
     results = []
+    all_renames = {}
 
     for orig_file in original_files:
-        file_stem = orig_file.stem  # e.g., "o_tc_001"
-        original_id = file_stem.replace("o_", "")  # e.g., "tc_001"
-        sanitized_id = f"sn_{original_id}"  # e.g., "sn_tc_001"
+        file_stem = orig_file.stem
+        # Extract original_id (handle both tc_001 and o_tc_001 patterns)
+        if file_stem.startswith("o_"):
+            original_id = file_stem.replace("o_", "")
+        else:
+            original_id = file_stem
+        sanitized_id = f"sn_{original_id}"
 
         # Read original code
         original_code = orig_file.read_text()
 
-        # Sanitize using the main strategy
+        # Sanitize using the main strategy (now handles line markers automatically)
         sanitized_code, changes, rename_mappings = sanitize_code(original_code)
+        all_renames.update(rename_mappings)
 
         # Save sanitized contract
-        output_file = OUTPUT_CONTRACTS / f"{sanitized_id}.sol"
+        output_file = output_contracts_dir / f"{sanitized_id}.sol"
         output_file.write_text(sanitized_code)
 
-        # Load and update metadata
-        orig_metadata_file = INPUT_METADATA / f"{file_stem}.json"
+        # Load original metadata
+        orig_metadata_file = input_metadata_dir / f"{file_stem}.json"
         if orig_metadata_file.exists():
-            metadata = json.loads(orig_metadata_file.read_text())
+            original_metadata = json.loads(orig_metadata_file.read_text())
         else:
-            metadata = {"original_id": original_id}
+            original_metadata = {"original_id": original_id}
 
-        # Fully sanitize metadata (pass sanitized_code to infer vulnerable_contract if missing)
-        metadata = sanitize_metadata(metadata, rename_mappings, sanitized_code)
+        # Update metadata
+        updated_metadata = update_metadata(
+            original_metadata, sanitized_id, original_id,
+            rename_mappings, changes,
+            source_dir=str(input_base)
+        )
 
-        # Update basic identifiers
-        metadata['id'] = sanitized_id
-        metadata['original_id'] = original_id
-        metadata['contract_file'] = f"contracts/{sanitized_id}.sol"
-        metadata['variant_type'] = 'sanitized'
-        metadata['sanitization_changes'] = changes
-        metadata['rename_mappings'] = rename_mappings
-
-        output_metadata = OUTPUT_METADATA / f"{sanitized_id}.json"
-        output_metadata.write_text(json.dumps(metadata, indent=2))
+        # Save metadata
+        output_metadata_file = output_metadata_dir / f"{sanitized_id}.json"
+        output_metadata_file.write_text(json.dumps(updated_metadata, indent=2))
 
         results.append({
             'file_id': original_id,
@@ -255,12 +271,54 @@ def sanitize_originals():
 
     # Summary
     files_with_changes = [r for r in results if r['changes_count'] > 0]
-    print(f"\nSummary:")
-    print(f"  Total files: {len(results)}")
-    print(f"  Files with changes: {len(files_with_changes)}")
-    print(f"  Files unchanged: {len(results) - len(files_with_changes)}")
+    print(f"\n{'='*50}")
+    print(f"Full Sanitization Complete")
+    print(f"{'='*50}")
+    print(f"Processed: {len(results)} files")
+    print(f"Files with changes: {len(files_with_changes)}")
+    print(f"Files unchanged: {len(results) - len(files_with_changes)}")
+    print(f"Output: {output_base}")
+
+    if all_renames:
+        print(f"\nContract renames ({len(all_renames)}):")
+        for old, new in sorted(all_renames.items())[:10]:
+            print(f"  {old} → {new}")
+        if len(all_renames) > 10:
+            print(f"  ... and {len(all_renames) - 10} more")
+
+    # Create index file
+    index = {
+        "description": "Fully sanitized temporal contamination contracts",
+        "sanitization_rules": [
+            "Remove 'Vulnerable' prefix from contract names",
+            "Remove all vulnerability-hinting comments and identifiers",
+            "Replace protocol names with generic names (Nomad -> Bridge, etc.)",
+            "Preserve code structure and logic"
+        ],
+        "total_files": len(results),
+        "prefix": "sn_tc_",
+        "source_dir": str(input_base),
+        "source_contracts": str(input_contracts_dir),
+        "source_metadata": str(input_metadata_dir),
+        "contract_renames": all_renames,
+        "created_date": datetime.now().isoformat()
+    }
+
+    index_file = output_base / "index.json"
+    index_file.write_text(json.dumps(index, indent=2))
+    print(f"\nIndex created: {index_file}")
 
     return results
 
+
+def main():
+    if len(sys.argv) >= 3:
+        input_base = Path(sys.argv[1])
+        output_base = Path(sys.argv[2])
+        sanitize_originals(input_base, output_base)
+    else:
+        sanitize_originals()
+
+
 if __name__ == "__main__":
-    sanitize_originals()
+    main()

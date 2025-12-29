@@ -345,7 +345,6 @@ def update_metadata(original_metadata: dict, sanitized_id: str, original_id: str
     # Clear vulnerable_lines - line numbers change after sanitization
     # Must be manually updated to match new LN-* markers
     if 'vulnerable_lines' in metadata:
-        metadata['vulnerable_lines_original'] = metadata['vulnerable_lines']  # Keep for reference
         metadata['vulnerable_lines'] = []  # Clear - needs manual update
 
     return metadata

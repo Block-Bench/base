@@ -49,9 +49,6 @@
     "contract_renames": {
       "VulnerableHunnyMinter": "HunnyMinter"
     },
-    "created_date": "2025-12-29T21:51:29.864266"
-  },
-  "vulnerable_lines_original": [
-    108
-  ]
+    "created_date": "2025-12-29T22:32:44.522936"
+  }
 }

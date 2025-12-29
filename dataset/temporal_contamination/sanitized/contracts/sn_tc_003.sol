@@ -1,114 +1,115 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-contract BasicWalletLibrary {
-    // Owner mapping
-    mapping(address => bool) public isOwner;
-    address[] public owners;
-    uint256 public required; // Number of signatures required
-
-    // Initialization state
-    bool public initialized;
-
-    event OwnerAdded(address indexed owner);
-    event WalletDestroyed(address indexed destroyer);
-
-    function initWallet(
-        address[] memory _owners,
-        uint256 _required,
-        uint256 _daylimit
-    ) public {
-
-        // Should check: require(!initialized, "Already initialized");
-        // But even that wouldn't fully protect the library contract
-
-        // because initialized state was in the proxy's storage, not library's storage
-
-        // Clear existing owners
-        for (uint i = 0; i < owners.length; i++) {
-            isOwner[owners[i]] = false;
-        }
-        delete owners;
-
-        // Set new owners
-        for (uint i = 0; i < _owners.length; i++) {
-            address owner = _owners[i];
-            require(owner != address(0), "Invalid owner");
-            require(!isOwner[owner], "Duplicate owner");
-
-            isOwner[owner] = true;
-            owners.push(owner);
-            emit OwnerAdded(owner);
-        }
-
-        required = _required;
-        initialized = true;
-    }
-
-    /**
-     * @notice Check if an address is an owner
-     * @param _addr Address to check
-     * @return bool Whether the address is an owner
-     */
-    function isOwnerAddress(address _addr) public view returns (bool) {
-        return isOwner[_addr];
-    }
-
-    function kill(address payable _to) external {
-        require(isOwner[msg.sender], "Not an owner");
-
-        emit WalletDestroyed(msg.sender);
-
-        // All wallet proxies delegatecalling to this library will break
-        selfdestruct(_to);
-    }
-
-    /**
-     * @notice Example wallet function (simplified)
-     * @dev All wallet proxies would delegatecall to functions like this
-     */
-    function execute(address to, uint256 value, bytes memory data) external {
-        require(isOwner[msg.sender], "Not an owner");
-
-        (bool success, ) = to.call{value: value}(data);
-        require(success, "Execution failed");
-    }
-}
-
-/**
- * Example Wallet Proxy (how real wallets used the library)
- */
-contract WalletProxy {
-    // Library address (where all the logic lives)
-    address public libraryAddress;
-
-    constructor(address _library) {
-        libraryAddress = _library;
-    }
-
-    /**
-     * Fallback function - delegates all calls to the library
-     * When the library is destroyed via selfdestruct, this breaks completely
-     */
-    fallback() external payable {
-        address lib = libraryAddress;
-
-        // Delegatecall to library
-        assembly {
-            calldatacopy(0, 0, calldatasize())
-            let result := delegatecall(gas(), lib, 0, calldatasize(), 0, 0)
-            returndatacopy(0, 0, returndatasize())
-
-            switch result
-            case 0 {
-                revert(0, returndatasize())
-            }
-            default {
-                return(0, returndatasize())
-            }
-        }
-    }
-
-    receive() external payable {}
-}
-
+/*LN-1*/ // SPDX-License-Identifier: MIT
+/*LN-2*/ pragma solidity ^0.8.0;
+/*LN-3*/ 
+/*LN-4*/ contract BasicWalletLibrary {
+/*LN-5*/     // Owner mapping
+/*LN-6*/     mapping(address => bool) public isOwner;
+/*LN-7*/     address[] public owners;
+/*LN-8*/     uint256 public required; // Number of signatures required
+/*LN-9*/ 
+/*LN-10*/     // Initialization state
+/*LN-11*/     bool public initialized;
+/*LN-12*/ 
+/*LN-13*/     event OwnerAdded(address indexed owner);
+/*LN-14*/     event WalletDestroyed(address indexed destroyer);
+/*LN-15*/ 
+/*LN-16*/     function initWallet(
+/*LN-17*/         address[] memory _owners,
+/*LN-18*/         uint256 _required,
+/*LN-19*/         uint256 _daylimit
+/*LN-20*/     ) public {
+/*LN-21*/ 
+/*LN-22*/         // Should check: require(!initialized, "Already initialized");
+/*LN-23*/         // But even that wouldn't fully protect the library contract
+/*LN-24*/ 
+/*LN-25*/         // because initialized state was in the proxy's storage, not library's storage
+/*LN-26*/ 
+/*LN-27*/         // Clear existing owners
+/*LN-28*/         for (uint i = 0; i < owners.length; i++) {
+/*LN-29*/             isOwner[owners[i]] = false;
+/*LN-30*/         }
+/*LN-31*/         delete owners;
+/*LN-32*/ 
+/*LN-33*/         // Set new owners
+/*LN-34*/         for (uint i = 0; i < _owners.length; i++) {
+/*LN-35*/             address owner = _owners[i];
+/*LN-36*/             require(owner != address(0), "Invalid owner");
+/*LN-37*/             require(!isOwner[owner], "Duplicate owner");
+/*LN-38*/ 
+/*LN-39*/             isOwner[owner] = true;
+/*LN-40*/             owners.push(owner);
+/*LN-41*/             emit OwnerAdded(owner);
+/*LN-42*/         }
+/*LN-43*/ 
+/*LN-44*/         required = _required;
+/*LN-45*/         initialized = true;
+/*LN-46*/     }
+/*LN-47*/ 
+/*LN-48*/     /**
+/*LN-49*/      * @notice Check if an address is an owner
+/*LN-50*/      * @param _addr Address to check
+/*LN-51*/      * @return bool Whether the address is an owner
+/*LN-52*/      */
+/*LN-53*/     function isOwnerAddress(address _addr) public view returns (bool) {
+/*LN-54*/         return isOwner[_addr];
+/*LN-55*/     }
+/*LN-56*/ 
+/*LN-57*/     function kill(address payable _to) external {
+/*LN-58*/         require(isOwner[msg.sender], "Not an owner");
+/*LN-59*/ 
+/*LN-60*/         emit WalletDestroyed(msg.sender);
+/*LN-61*/ 
+/*LN-62*/         // All wallet proxies delegatecalling to this library will break
+/*LN-63*/         selfdestruct(_to);
+/*LN-64*/     }
+/*LN-65*/ 
+/*LN-66*/     /**
+/*LN-67*/      * @notice Example wallet function (simplified)
+/*LN-68*/      * @dev All wallet proxies would delegatecall to functions like this
+/*LN-69*/      */
+/*LN-70*/     function execute(address to, uint256 value, bytes memory data) external {
+/*LN-71*/         require(isOwner[msg.sender], "Not an owner");
+/*LN-72*/ 
+/*LN-73*/         (bool success, ) = to.call{value: value}(data);
+/*LN-74*/         require(success, "Execution failed");
+/*LN-75*/     }
+/*LN-76*/ }
+/*LN-77*/ 
+/*LN-78*/ /**
+/*LN-79*/  * Example Wallet Proxy (how real wallets used the library)
+/*LN-80*/  */
+/*LN-81*/ contract WalletProxy {
+/*LN-82*/     // Library address (where all the logic lives)
+/*LN-83*/     address public libraryAddress;
+/*LN-84*/ 
+/*LN-85*/     constructor(address _library) {
+/*LN-86*/         libraryAddress = _library;
+/*LN-87*/     }
+/*LN-88*/ 
+/*LN-89*/     /**
+/*LN-90*/      * Fallback function - delegates all calls to the library
+/*LN-91*/      * When the library is destroyed via selfdestruct, this breaks completely
+/*LN-92*/      */
+/*LN-93*/     fallback() external payable {
+/*LN-94*/         address lib = libraryAddress;
+/*LN-95*/ 
+/*LN-96*/         // Delegatecall to library
+/*LN-97*/         assembly {
+/*LN-98*/             calldatacopy(0, 0, calldatasize())
+/*LN-99*/             let result := delegatecall(gas(), lib, 0, calldatasize(), 0, 0)
+/*LN-100*/             returndatacopy(0, 0, returndatasize())
+/*LN-101*/ 
+/*LN-102*/             switch result
+/*LN-103*/             case 0 {
+/*LN-104*/                 revert(0, returndatasize())
+/*LN-105*/             }
+/*LN-106*/             default {
+/*LN-107*/                 return(0, returndatasize())
+/*LN-108*/             }
+/*LN-109*/         }
+/*LN-110*/     }
+/*LN-111*/ 
+/*LN-112*/     receive() external payable {}
+/*LN-113*/ }
+/*LN-114*/ 
+/*LN-115*/ 

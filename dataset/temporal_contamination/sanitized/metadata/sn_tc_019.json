@@ -1,51 +1,75 @@
 {
-  "sample_id": "temporal_qubit_bridge_019",
-  "exploit_name": "Qubit Bridge",
+  "id": "qubit_bridge_2022_01",
+  "exploit_name": "Qubit Bridge Zero Address Bypass",
   "date": "2022-01-27",
-  "amount_lost_usd": "80000000",
   "blockchain": "ethereum",
-  "language": "solidity",
+  "amount_lost_usd": "80000000",
   "vulnerability_type": "validation_bypass",
-  "vulnerability_subtype": "TODO_CLASSIFY",
-  "severity": "high",
-  "difficulty_tier": 3,
-  "is_vulnerable": true,
-  "temporal_category": "pre_cutoff",
-  "vulnerable_contract": "QuantumBridge",
-  "vulnerable_function": "transferFrom",
-  "vulnerable_lines": [],
-  "description": "Original annotated version of tc_019 with full vulnerability documentation",
-  "attack_scenario": "TODO: Describe how the attack works",
-  "root_cause": "TODO: Explain the root cause of the vulnerability",
-  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "difficulty": 3,
   "tags": [
-    "original",
-    "annotated",
-    "temporal_contamination",
-    "validation_bypass"
+    "validation",
+    "zero_address",
+    "cross_chain",
+    "access_control",
+    "ethereum",
+    "bsc"
   ],
+  "description": "The Qubit Bridge failed to validate that the token contract address was not zero before processing deposits. An attacker exploited this by passing address(0) as the token contract. Since calling address(0) does not revert in the EVM, no tokens were actually transferred, but the bridge still emitted deposit events. The destination chain handler saw these events and minted tokens without real collateral backing, allowing the attacker to drain $80M.",
+  "attack_scenario": "1) Attacker identified or created a resourceID that mapped to address(0) in the bridge handler. 2) Called deposit() with this resourceID and large amount. 3) Handler attempted transferFrom on address(0), which succeeded without transferring anything. 4) Bridge emitted deposit event. 5) BSC handler received event and minted tokens to attacker. 6) Attacker repeated the exploit multiple times to extract $80M worth of tokens without providing any real collateral.",
+  "vulnerable_contract": {
+    "name": "BridgeHandler",
+    "functions": [
+      {
+        "name": "deposit",
+        "vulnerability": "Missing validation that tokenContract != address(0)"
+      },
+      {
+        "name": "setResource",
+        "vulnerability": "Allows setting tokenAddress to address(0) without validation"
+      }
+    ]
+  },
+  "root_cause": "The bridge handler did not validate that the token contract address was not zero. Calls to address(0) do not revert in the EVM, so the transferFrom call succeeded silently without moving any tokens. However, the deposit event was still emitted, causing the destination chain to mint unbacked tokens.",
+  "vulnerable_lines": [],
+  "fix": "Add explicit validation: require(tokenContract != address(0), 'Invalid token'). Also verify that tokenContract is in the whitelist and that the transferFrom actually succeeded by checking balance changes or return values.",
+  "references": [
+    "https://twitter.com/QubitFin/status/1486892916055601154",
+    "https://certik.medium.com/qubit-bridge-collapse-exploited-to-the-tune-of-80-million-a7ab9068e1a0",
+    "https://medium.com/quillhash/decoding-qubit-bridge-hack-d14cd2a5fb5f"
+  ],
+  "temporal_category": "pre_cutoff",
   "variant_type": "sanitized",
-  "variant_parent_id": null,
-  "notes": "",
-  "id": "sn_tc_019",
-  "original_id": "tc_019",
+  "checks_effects_interactions_violated": false,
+  "involves_external_calls": true,
   "contract_file": "contracts/sn_tc_019.sol",
-  "sanitization_changes": [
-    "Removed comment: vulnerability...",
-    "Removed comment: VULNERABILITY...",
-    "Removed comment: VULNERABILITY...",
-    "Removed comment: VULNERABILITY...",
-    "Removed comment: attack...",
-    "Removed comment: // Attacker gets minted tokens without providing r...",
-    "Removed block comment with vulnerability hint",
-    "Removed block comment with vulnerability hint",
-    "Removed block comment with vulnerability hint",
-    "Removed block comment with vulnerability hint",
-    "Renamed: QBridge \u2192 QuantumBridge",
-    "Renamed: QBridgeHandler \u2192 BridgeHandler"
-  ],
-  "rename_mappings": {
-    "QBridge": "QuantumBridge",
-    "QBridgeHandler": "BridgeHandler"
+  "subset": "annotated",
+  "original_subset": "temporal_contamination",
+  "sample_id": "sn_tc_019",
+  "variant_parent_id": "tc_019",
+  "transformation": {
+    "type": "full_sanitization",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_019.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_019.json",
+    "script": "strategies/sanitize/sanitize_originals.py",
+    "changes": [
+      "Removed comment: vulnerability...",
+      "Removed comment: VULNERABILITY...",
+      "Removed comment: VULNERABILITY...",
+      "Removed comment: VULNERABILITY...",
+      "Removed comment: attack...",
+      "Removed comment: // Attacker gets minted tokens without providing r...",
+      "Removed block comment with vulnerability hint",
+      "Removed block comment with vulnerability hint",
+      "Removed block comment with vulnerability hint",
+      "Removed block comment with vulnerability hint",
+      "Renamed: QBridge \u2192 QuantumBridge",
+      "Renamed: QBridgeHandler \u2192 BridgeHandler"
+    ],
+    "contract_renames": {
+      "QBridge": "QuantumBridge",
+      "QBridgeHandler": "BridgeHandler"
+    },
+    "created_date": "2025-12-29T22:32:45.021213"
   }
 }

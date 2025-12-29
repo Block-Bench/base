@@ -55,10 +55,6 @@
       "Removed 2 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T21:51:29.882689"
-  },
-  "vulnerable_lines_original": [
-    41,
-    56
-  ]
+    "created_date": "2025-12-29T22:32:44.546398"
+  }
 }

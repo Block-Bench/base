@@ -51,10 +51,6 @@
     "contract_renames": {
       "VulnerableDAO": "DAO"
     },
-    "created_date": "2025-12-29T21:51:29.860849"
-  },
-  "vulnerable_lines_original": [
-    56,
-    58
-  ]
+    "created_date": "2025-12-29T22:32:44.519180"
+  }
 }

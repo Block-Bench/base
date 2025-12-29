@@ -53,10 +53,6 @@
     "contract_renames": {
       "VulnerableParityWalletLibrary": "ParityWalletLibrary"
     },
-    "created_date": "2025-12-29T21:51:29.849742"
-  },
-  "vulnerable_lines_original": [
-    65,
-    124
-  ]
+    "created_date": "2025-12-29T22:32:44.505718"
+  }
 }

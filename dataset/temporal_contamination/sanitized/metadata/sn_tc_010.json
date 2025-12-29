@@ -1,45 +1,60 @@
 {
-  "sample_id": "temporal_the_dao_010",
+  "id": "the_dao_2016",
   "exploit_name": "The DAO",
   "date": "2016-06-17",
-  "amount_lost_usd": "60000000",
   "blockchain": "ethereum",
-  "language": "solidity",
+  "amount_stolen_usd": "60000000",
+  "amount_stolen_crypto": "3600000 ETH",
   "vulnerability_type": "reentrancy",
-  "vulnerability_subtype": "TODO_CLASSIFY",
-  "severity": "high",
-  "difficulty_tier": 3,
-  "is_vulnerable": true,
-  "temporal_category": "pre_cutoff",
-  "vulnerable_contract": "DAO",
+  "attack_type": "recursive_call",
+  "difficulty": 2,
+  "impact": "critical",
+  "description": "Classic reentrancy attack that drained 3.6M ETH from The DAO. The withdrawAll function sent ETH before updating balances, allowing attackers to recursively call the function and drain funds.",
+  "root_cause": "External call to msg.sender before updating internal state (credit balance). Violation of checks-effects-interactions pattern.",
+  "attack_scenario": "Attacker deposited ETH, then called withdrawAll from a malicious contract with a fallback function that re-entered withdrawAll, draining funds before balance was updated.",
+  "vulnerable_contract": "the_dao.sol",
   "vulnerable_function": "withdrawAll",
   "vulnerable_lines": [],
-  "description": "Original annotated version of tc_010 with full vulnerability documentation",
-  "attack_scenario": "TODO: Describe how the attack works",
-  "root_cause": "TODO: Explain the root cause of the vulnerability",
-  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "fix_description": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern.",
   "tags": [
-    "original",
-    "annotated",
-    "temporal_contamination",
-    "reentrancy"
+    "reentrancy",
+    "classic",
+    "historical",
+    "checks-effects-interactions",
+    "external-call"
   ],
-  "variant_type": "sanitized",
-  "variant_parent_id": null,
-  "notes": "",
-  "id": "sn_tc_010",
-  "original_id": "tc_010",
+  "references": [
+    "https://www.coindesk.com/learn/2016/06/25/understanding-the-dao-attack/",
+    "https://medium.com/@MyPaoG/explaining-the-dao-exploit-for-beginners-in-solidity-80ee84f0d470"
+  ],
+  "historical_significance": "Most famous smart contract hack ever. Led to Ethereum hard fork into ETH and ETC. Established security best practices for entire industry.",
+  "compiler_version": "0.4.19",
+  "is_pre_cutoff": true,
+  "cutoff_date": "2024-01-01",
   "contract_file": "contracts/sn_tc_010.sol",
-  "sanitization_changes": [
-    "Removed comment: VULNERABLE...",
-    "Removed block comment with vulnerability hint",
-    "Removed block comment with vulnerability hint",
-    "Removed block comment with vulnerability hint",
-    "Renamed: DAO \u2192 DAO",
-    "WARNING: Built-in msg.sender count changed: 8 -> 4",
-    "WARNING: Built-in msg.value count changed: 3 -> 2"
-  ],
-  "rename_mappings": {
-    "DAO": "DAO"
+  "subset": "annotated",
+  "original_subset": "temporal_contamination",
+  "sample_id": "sn_tc_010",
+  "variant_type": "sanitized",
+  "variant_parent_id": "tc_010",
+  "transformation": {
+    "type": "full_sanitization",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_010.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_010.json",
+    "script": "strategies/sanitize/sanitize_originals.py",
+    "changes": [
+      "Removed comment: VULNERABLE...",
+      "Removed block comment with vulnerability hint",
+      "Removed block comment with vulnerability hint",
+      "Removed block comment with vulnerability hint",
+      "Renamed: DAO \u2192 DAO",
+      "WARNING: Built-in msg.sender count changed: 7 -> 4",
+      "WARNING: Built-in msg.value count changed: 3 -> 2"
+    ],
+    "contract_renames": {
+      "DAO": "DAO"
+    },
+    "created_date": "2025-12-29T22:32:44.918613"
   }
 }

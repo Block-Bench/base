@@ -57,10 +57,6 @@
       "Removed 2 vulnerability comment block(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T21:51:29.878936"
-  },
-  "vulnerable_lines_original": [
-    63,
-    121
-  ]
+    "created_date": "2025-12-29T22:32:44.542570"
+  }
 }

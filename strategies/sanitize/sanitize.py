@@ -31,6 +31,7 @@ from strategies.common import (
     is_solidity_reserved,
     is_solidity_dot_property,
 )
+from strategies.common.line_markers import strip_line_markers, add_line_markers
 
 
 # =============================================================================
@@ -747,6 +748,9 @@ def sanitize_code(code: str) -> tuple[str, list[str], dict[str, str]]:
     """
     Sanitize a code string by removing vulnerability hints.
 
+    Line markers (/*LN-N*/) are stripped before processing and fresh
+    sequential markers are added after processing.
+
     Args:
         code: The Solidity/Rust source code to sanitize
 
@@ -756,7 +760,9 @@ def sanitize_code(code: str) -> tuple[str, list[str], dict[str, str]]:
     """
     changes = []
     rename_mappings = {}  # Track identifier renames for metadata transformation
-    result = code
+
+    # Step 0: Strip existing line markers from input
+    result = strip_line_markers(code)
 
     # Step 1: Remove hint comments (single-line)
     for pattern in COMMENT_PATTERNS_TO_REMOVE:
@@ -858,10 +864,15 @@ def sanitize_code(code: str) -> tuple[str, list[str], dict[str, str]]:
     result = '\n'.join(line.rstrip() for line in result.split('\n'))
 
     # Step 8: Validate that Solidity built-ins are preserved
-    warnings = _validate_solidity_builtins(code, result)
+    # Note: Use original code with markers stripped for validation
+    original_clean = strip_line_markers(code)
+    warnings = _validate_solidity_builtins(original_clean, result)
     if warnings:
         for warning in warnings:
             changes.append(f"WARNING: {warning}")
+
+    # Step 9: Add fresh sequential line markers
+    result = add_line_markers(result)
 
     return result, changes, rename_mappings
 

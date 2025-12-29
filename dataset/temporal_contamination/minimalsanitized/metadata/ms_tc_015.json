@@ -50,9 +50,6 @@
     "contract_renames": {
       "VulnerableCompoundCToken": "CompoundCToken"
     },
-    "created_date": "2025-12-29T21:51:29.866216"
-  },
-  "vulnerable_lines_original": [
-    81
-  ]
+    "created_date": "2025-12-29T22:32:44.525517"
+  }
 }

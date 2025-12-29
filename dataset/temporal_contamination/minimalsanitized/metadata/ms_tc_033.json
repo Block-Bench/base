@@ -83,10 +83,6 @@
     "contract_renames": {
       "VulnerableRoute": "Route"
     },
-    "created_date": "2025-12-29T21:51:29.887079"
-  },
-  "vulnerable_lines_original": [
-    51,
-    88
-  ]
+    "created_date": "2025-12-29T22:32:44.550142"
+  }
 }
