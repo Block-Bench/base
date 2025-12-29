@@ -1,0 +1,37 @@
+{
+  "id": "ms_tc_043",
+  "contract_file": "contracts/ms_tc_043.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_043",
+  "exploit_info": {
+    "exploit_name": "Seneca Protocol",
+    "date": "2024-02",
+    "amount_lost_usd": "6400000",
+    "vulnerability_type": "access_control"
+  },
+  "source_file": "pre_cutoff_originals/annotated/seneca_protocol.sol",
+  "description": "Original annotated version of tc_043 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "access_control"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_043",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_043",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Removed 3 vulnerability comment block(s)",
+      "Removed 5 vulnerability hint line(s)"
+    ],
+    "contract_renames": {},
+    "created_date": "2025-12-29T16:35:00.597118"
+  }
+}

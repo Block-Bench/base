@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_026",
+  "contract_file": "contracts/o_tc_026.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_026",
+  "exploit_info": {
+    "exploit_name": "Anyswap",
+    "date": "2022-01-18",
+    "amount_lost_usd": "8000000",
+    "vulnerability_type": "signature_verification"
+  },
+  "source_file": "pre_cutoff_originals/annotated/anyswap.sol",
+  "description": "Original annotated version of tc_026 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "signature_verification"
+  ]
+}

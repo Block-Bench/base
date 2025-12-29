@@ -1,0 +1,47 @@
+{
+  "sample_id": "temporal_swap_027",
+  "exploit_name": "BurgerSwap",
+  "date": "2021-05-28",
+  "amount_lost_usd": "7000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "input_validation",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "SwapRouter",
+  "vulnerable_function": "swapExactTokensForTokens",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_027 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "input_validation"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_027",
+  "original_id": "tc_027",
+  "contract_file": "contracts/sn_tc_027.sol",
+  "sanitization_changes": [
+    "Removed comment: BURGERSWAP...",
+    "Removed comment: BurgerSwap...",
+    "Removed comment: VULNERABLE...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: // Attacker can pass fake token addresses...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: BurgerSwapRouter \u2192 SwapRouter"
+  ],
+  "rename_mappings": {
+    "BurgerSwapRouter": "SwapRouter"
+  }
+}

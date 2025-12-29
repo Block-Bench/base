@@ -1,0 +1,53 @@
+{
+  "sample_id": "temporal_dexswap_elastic_009",
+  "exploit_name": "KyberSwap Elastic",
+  "date": "2023-11-22",
+  "amount_lost_usd": "47000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "arithmetic_error",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "high",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "BasicSwapPool",
+  "vulnerable_function": "swap",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_009 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "arithmetic_error"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_009",
+  "original_id": "tc_009",
+  "contract_file": "contracts/sn_tc_009.sol",
+  "sanitization_changes": [
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: // The attacker can create positions that cause th...",
+    "Removed comment: // No overflow/underflow checks!...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: KyberSwapPool \u2192 KyberSwapPool",
+    "Renamed: BasicKyberSwapPool \u2192 BasicSwapPool"
+  ],
+  "rename_mappings": {
+    "KyberSwapPool": "KyberSwapPool",
+    "BasicKyberSwapPool": "BasicSwapPool"
+  }
+}

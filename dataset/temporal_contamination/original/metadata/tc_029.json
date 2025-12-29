@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_029",
+  "contract_file": "contracts/o_tc_029.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_029",
+  "exploit_info": {
+    "exploit_name": "Belt Finance",
+    "date": "2021-05-30",
+    "amount_lost_usd": "6200000",
+    "vulnerability_type": "price_oracle_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/belt_finance.sol",
+  "description": "Original annotated version of tc_029 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "price_oracle_manipulation"
+  ]
+}

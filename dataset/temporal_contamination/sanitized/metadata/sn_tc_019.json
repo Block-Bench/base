@@ -1,0 +1,51 @@
+{
+  "sample_id": "temporal_qubit_bridge_019",
+  "exploit_name": "Qubit Bridge",
+  "date": "2022-01-27",
+  "amount_lost_usd": "80000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "validation_bypass",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "high",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "QuantumBridge",
+  "vulnerable_function": "transferFrom",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_019 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "validation_bypass"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_019",
+  "original_id": "tc_019",
+  "contract_file": "contracts/sn_tc_019.sol",
+  "sanitization_changes": [
+    "Removed comment: vulnerability...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: attack...",
+    "Removed comment: // Attacker gets minted tokens without providing r...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: QBridge \u2192 QuantumBridge",
+    "Renamed: QBridgeHandler \u2192 BridgeHandler"
+  ],
+  "rename_mappings": {
+    "QBridge": "QuantumBridge",
+    "QBridgeHandler": "BridgeHandler"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "sample_id": "temporal_cdp_protocol_043",
+  "exploit_name": "Seneca Protocol",
+  "date": "2024-02",
+  "amount_lost_usd": "6400000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "access_control",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "CDPChamber",
+  "vulnerable_function": "transfer",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_043 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "access_control"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_043",
+  "original_id": "tc_043",
+  "contract_file": "contracts/sn_tc_043.sol",
+  "sanitization_changes": [
+    "Removed comment: Pendle...",
+    "Removed comment: SENECA...",
+    "Removed comment: Seneca...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: // Attacker can encode transferFrom() calls...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: SenecaChamber \u2192 CDPChamber",
+    "WARNING: Built-in msg.sender count changed: 3 -> 1",
+    "WARNING: Built-in abi.encode count changed: 2 -> 0",
+    "WARNING: Built-in abi.encodeWithSignature count changed: 1 -> 0"
+  ],
+  "rename_mappings": {
+    "SenecaChamber": "CDPChamber"
+  }
+}

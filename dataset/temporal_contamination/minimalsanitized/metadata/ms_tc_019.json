@@ -1,0 +1,37 @@
+{
+  "id": "ms_tc_019",
+  "contract_file": "contracts/ms_tc_019.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_019",
+  "exploit_info": {
+    "exploit_name": "Qubit Bridge",
+    "date": "2022-01-27",
+    "amount_lost_usd": "80000000",
+    "vulnerability_type": "validation_bypass"
+  },
+  "source_file": "pre_cutoff_originals/annotated/qubit_bridge.sol",
+  "description": "Original annotated version of tc_019 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "validation_bypass"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_019",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_019",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Removed 2 vulnerability comment block(s)",
+      "Removed 6 vulnerability hint line(s)"
+    ],
+    "contract_renames": {},
+    "created_date": "2025-12-29T16:35:00.577032"
+  }
+}

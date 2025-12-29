@@ -1,0 +1,51 @@
+{
+  "sample_id": "temporal_cross_026",
+  "exploit_name": "Anyswap",
+  "date": "2022-01-18",
+  "amount_lost_usd": "8000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "signature_verification",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "CrossRouter",
+  "vulnerable_function": "permit",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_026 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "signature_verification"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_026",
+  "original_id": "tc_026",
+  "contract_file": "contracts/sn_tc_026.sol",
+  "sanitization_changes": [
+    "Removed comment: ANYSWAP...",
+    "Removed comment: Anyswap...",
+    "Removed comment: VULNERABLE...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: // Attacker can pass invalid v,r,s and still succe...",
+    "Removed comment: // Since permit wasn't validated, attacker can dra...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: AnyswapRouter \u2192 CrossRouter",
+    "Renamed: UnderlyingWithPermit \u2192 UnderlyingWithPermit",
+    "Renamed: _anySwapOut \u2192 _crossOut"
+  ],
+  "rename_mappings": {
+    "AnyswapRouter": "CrossRouter",
+    "UnderlyingWithPermit": "UnderlyingWithPermit",
+    "_anySwapOut": "_crossOut"
+  }
+}

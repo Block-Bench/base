@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_023",
+  "contract_file": "contracts/o_tc_023.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_023",
+  "exploit_info": {
+    "exploit_name": "Alpha Homora",
+    "date": "2021-02-13",
+    "amount_lost_usd": "37000000",
+    "vulnerability_type": "accounting_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/alpha_homora.sol",
+  "description": "Original annotated version of tc_023 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "accounting_manipulation"
+  ]
+}

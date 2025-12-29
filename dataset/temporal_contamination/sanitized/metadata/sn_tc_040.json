@@ -1,0 +1,51 @@
+{
+  "sample_id": "temporal_staking_defi_040",
+  "exploit_name": "Bedrock DeFi",
+  "date": "2024-09",
+  "amount_lost_usd": "2000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "logic_error",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "StakingVault",
+  "vulnerable_function": "transfer",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_040 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "logic_error"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_040",
+  "original_id": "tc_040",
+  "contract_file": "contracts/sn_tc_040.sol",
+  "sanitization_changes": [
+    "Removed comment: BEDROCK...",
+    "Removed comment: Bedrock...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: BedrockVault \u2192 StakingVault",
+    "WARNING: Built-in msg.value count changed: 4 -> 3"
+  ],
+  "rename_mappings": {
+    "BedrockVault": "StakingVault"
+  }
+}

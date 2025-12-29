@@ -1,0 +1,53 @@
+{
+  "sample_id": "temporal_liquidity_reinitialization_021",
+  "exploit_name": "DODO Reinitialization",
+  "date": "2021-03-09",
+  "amount_lost_usd": "3800000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "reinitialization",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "LiquidityPool",
+  "vulnerable_function": "transfer",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_021 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "reinitialization"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_021",
+  "original_id": "tc_021",
+  "contract_file": "contracts/sn_tc_021.sol",
+  "sanitization_changes": [
+    "Removed comment: DODO...",
+    "Removed comment: DODO...",
+    "Removed comment: DODO...",
+    "Removed comment: DODO...",
+    "Removed comment: DODO...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: // The attacker has already changed the maintainer...",
+    "Removed comment: // If attacker reinitialized and set themselves as...",
+    "Removed comment: // Attacker could reinitialize, set themselves as ...",
+    "Removed comment: // Max fees to attacker...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: DODOPool \u2192 LiquidityPool"
+  ],
+  "rename_mappings": {
+    "DODOPool": "LiquidityPool"
+  }
+}

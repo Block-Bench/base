@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_039",
+  "contract_file": "contracts/o_tc_039.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_039",
+  "exploit_info": {
+    "exploit_name": "CoW Protocol",
+    "date": "2024-11",
+    "amount_lost_usd": "166000",
+    "vulnerability_type": "access_control"
+  },
+  "source_file": "pre_cutoff_originals/annotated/cow_protocol.sol",
+  "description": "Original annotated version of tc_039 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "access_control"
+  ]
+}

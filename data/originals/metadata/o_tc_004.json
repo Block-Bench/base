@@ -64,5 +64,8 @@
   ],
   "variant_type": "original",
   "variant_parent_id": null,
-  "notes": "One of the earliest and most significant flash loan price manipulation attacks. Demonstrated that vault protocols cannot safely use AMM spot prices for accounting. The attack was repeated 6 times in rapid succession to maximize profit, showing the attacker's sophistication."
+  "notes": "One of the earliest and most significant flash loan price manipulation attacks. Demonstrated that vault protocols cannot safely use AMM spot prices for accounting. The attack was repeated 6 times in rapid succession to maximize profit, showing the attacker's sophistication.",
+  "contract_file": "contracts/tc_004.sol",
+  "subset": "annotated",
+  "original_subset": "temporal_contamination"
 }

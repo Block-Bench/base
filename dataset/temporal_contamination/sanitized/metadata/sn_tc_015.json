@@ -1,0 +1,49 @@
+{
+  "sample_id": "temporal_lending_tusd_015",
+  "exploit_name": "Compound TUSD",
+  "date": "2022-03-15",
+  "amount_lost_usd": "0",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "logic_error",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "low",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "BasicCToken",
+  "vulnerable_function": "transfer",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_015 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "logic_error"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_015",
+  "original_id": "tc_015",
+  "contract_file": "contracts/sn_tc_015.sol",
+  "sanitization_changes": [
+    "Removed comment: Compound...",
+    "Removed comment: Compound...",
+    "Removed comment: Compound...",
+    "Removed comment: VULNERABLE...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: CompoundCToken \u2192 CompoundCToken",
+    "Renamed: BasicCompoundCToken \u2192 BasicCToken",
+    "WARNING: Built-in msg.sender count changed: 9 -> 6"
+  ],
+  "rename_mappings": {
+    "CompoundCToken": "CompoundCToken",
+    "BasicCompoundCToken": "BasicCToken"
+  }
+}

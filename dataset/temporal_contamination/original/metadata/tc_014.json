@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_014",
+  "contract_file": "contracts/o_tc_014.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_014",
+  "exploit_info": {
+    "exploit_name": "Yearn yDAI",
+    "date": "2021-02-04",
+    "amount_lost_usd": "11000000",
+    "vulnerability_type": "price_oracle_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/yearn_ydai.sol",
+  "description": "Original annotated version of tc_014 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "price_oracle_manipulation"
+  ]
+}

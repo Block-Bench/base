@@ -1,0 +1,40 @@
+{
+  "id": "ms_tc_015",
+  "contract_file": "contracts/ms_tc_015.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_015",
+  "exploit_info": {
+    "exploit_name": "Compound TUSD",
+    "date": "2022-03-15",
+    "amount_lost_usd": "0",
+    "vulnerability_type": "logic_error"
+  },
+  "source_file": "pre_cutoff_originals/annotated/compound_tusd.sol",
+  "description": "Original annotated version of tc_015 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "logic_error"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_015",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_015",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Renamed contract: VulnerableCompoundCToken -> CompoundCToken",
+      "Removed 3 vulnerability comment block(s)",
+      "Removed 1 vulnerability hint line(s)"
+    ],
+    "contract_renames": {
+      "VulnerableCompoundCToken": "CompoundCToken"
+    },
+    "created_date": "2025-12-29T16:35:00.573053"
+  }
+}

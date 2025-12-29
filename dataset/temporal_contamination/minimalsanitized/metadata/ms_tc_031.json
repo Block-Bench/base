@@ -1,0 +1,37 @@
+{
+  "id": "ms_tc_031",
+  "contract_file": "contracts/ms_tc_031.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_031",
+  "exploit_info": {
+    "exploit_name": "Orbit Chain",
+    "date": "2024-01",
+    "amount_lost_usd": "81000000",
+    "vulnerability_type": "bridge_security"
+  },
+  "source_file": "pre_cutoff_originals/annotated/orbit_chain.sol",
+  "description": "Original annotated version of tc_031 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "bridge_security"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_031",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_031",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Removed 2 vulnerability comment block(s)",
+      "Removed 4 vulnerability hint line(s)"
+    ],
+    "contract_renames": {},
+    "created_date": "2025-12-29T16:35:00.586609"
+  }
+}

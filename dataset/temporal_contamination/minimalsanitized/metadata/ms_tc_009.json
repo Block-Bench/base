@@ -1,0 +1,40 @@
+{
+  "id": "ms_tc_009",
+  "contract_file": "contracts/ms_tc_009.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_009",
+  "exploit_info": {
+    "exploit_name": "KyberSwap Elastic",
+    "date": "2023-11-22",
+    "amount_lost_usd": "47000000",
+    "vulnerability_type": "arithmetic_error"
+  },
+  "source_file": "pre_cutoff_originals/annotated/kyberswap.sol",
+  "description": "Original annotated version of tc_009 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "arithmetic_error"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_009",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_009",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Renamed contract: VulnerableKyberSwapPool -> KyberSwapPool",
+      "Removed 4 vulnerability comment block(s)",
+      "Removed 7 vulnerability hint line(s)"
+    ],
+    "contract_renames": {
+      "VulnerableKyberSwapPool": "KyberSwapPool"
+    },
+    "created_date": "2025-12-29T16:35:00.567158"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "temporal_contamination_minimalsanitized",
+  "description": "Minimally sanitized temporal contamination samples - vulnerability hints removed but protocol names preserved",
+  "total_contracts": 50,
+  "content": {
+    "vulnerability_annotations": false,
+    "leaky_identifiers": false,
+    "protocol_names": true
+  },
+  "sanitization_applied": [
+    "Removed 'Vulnerable' prefix from contract names",
+    "Removed VULNERABILITY/ROOT CAUSE/ATTACK VECTOR comment blocks",
+    "Preserved protocol-specific names (Nomad, Beanstalk, etc.)",
+    "Preserved normal NatSpec and inline comments",
+    "Preserved all code structure and logic",
+    "Updated metadata to reflect contract name changes"
+  ],
+  "source": "data/originals/contracts/o_tc_*.sol",
+  "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+  "naming_convention": "ms_tc_XXX where XXX is sequential ID (001-050)",
+  "created_date": "2025-12-29"
+}

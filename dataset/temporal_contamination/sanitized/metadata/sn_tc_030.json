@@ -1,0 +1,45 @@
+{
+  "sample_id": "temporal_liquidity_protocol_030",
+  "exploit_name": "Spartan Protocol",
+  "date": "2021-05-02",
+  "amount_lost_usd": "30000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "arithmetic_error",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "high",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "LiquidityPool",
+  "vulnerable_function": "addLiquidity",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_030 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "arithmetic_error"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_030",
+  "original_id": "tc_030",
+  "contract_file": "contracts/sn_tc_030.sol",
+  "sanitization_changes": [
+    "Removed comment: SPARTAN...",
+    "Removed comment: Spartan...",
+    "Removed comment: VULNERABLE...",
+    "Removed comment: BUG...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: SpartanPool \u2192 LiquidityPool"
+  ],
+  "rename_mappings": {
+    "SpartanPool": "LiquidityPool"
+  }
+}

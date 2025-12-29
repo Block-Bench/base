@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_045",
+  "contract_file": "contracts/o_tc_045.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_045",
+  "exploit_info": {
+    "exploit_name": "Penpie",
+    "date": "2024-09",
+    "amount_lost_usd": "27000000",
+    "vulnerability_type": "reentrancy"
+  },
+  "source_file": "pre_cutoff_originals/annotated/penpie.sol",
+  "description": "Original annotated version of tc_045 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "reentrancy"
+  ]
+}

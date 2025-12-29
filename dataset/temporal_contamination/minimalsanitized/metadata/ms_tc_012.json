@@ -1,0 +1,40 @@
+{
+  "id": "ms_tc_012",
+  "contract_file": "contracts/ms_tc_012.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_012",
+  "exploit_info": {
+    "exploit_name": "Rari Capital",
+    "date": "2022-05-08",
+    "amount_lost_usd": "80000000",
+    "vulnerability_type": "reentrancy"
+  },
+  "source_file": "pre_cutoff_originals/annotated/rari_capital.sol",
+  "description": "Original annotated version of tc_012 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "reentrancy"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_012",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_012",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Renamed contract: VulnerableRariFuse -> RariFuse",
+      "Removed 4 vulnerability comment block(s)",
+      "Removed 2 vulnerability hint line(s)"
+    ],
+    "contract_renames": {
+      "VulnerableRariFuse": "RariFuse"
+    },
+    "created_date": "2025-12-29T16:35:00.570160"
+  }
+}

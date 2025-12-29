@@ -1,0 +1,39 @@
+{
+  "id": "ms_tc_013",
+  "contract_file": "contracts/ms_tc_013.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_013",
+  "exploit_info": {
+    "exploit_name": "PancakeHunny",
+    "date": "2021-05-20",
+    "amount_lost_usd": "45000000",
+    "vulnerability_type": "arithmetic_error"
+  },
+  "source_file": "pre_cutoff_originals/annotated/pancake_hunny.sol",
+  "description": "Original annotated version of tc_013 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "arithmetic_error"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_013",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_013",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Renamed contract: VulnerableHunnyMinter -> HunnyMinter",
+      "Removed 2 vulnerability comment block(s)"
+    ],
+    "contract_renames": {
+      "VulnerableHunnyMinter": "HunnyMinter"
+    },
+    "created_date": "2025-12-29T16:35:00.571080"
+  }
+}

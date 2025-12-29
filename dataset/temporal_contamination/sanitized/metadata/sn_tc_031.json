@@ -1,0 +1,49 @@
+{
+  "sample_id": "temporal_cross_chain_031",
+  "exploit_name": "Orbit Chain",
+  "date": "2024-01",
+  "amount_lost_usd": "81000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "bridge_security",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "high",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "CrossBridge",
+  "vulnerable_function": "withdraw",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_031 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "bridge_security"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_031",
+  "original_id": "tc_031",
+  "contract_file": "contracts/sn_tc_031.sol",
+  "sanitization_changes": [
+    "Removed comment: ORBIT...",
+    "Removed comment: Orbit...",
+    "Removed comment: Orbit...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: // Attacker used compromised keys to generate vali...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: OrbitBridge \u2192 CrossBridge"
+  ],
+  "rename_mappings": {
+    "OrbitBridge": "CrossBridge"
+  }
+}

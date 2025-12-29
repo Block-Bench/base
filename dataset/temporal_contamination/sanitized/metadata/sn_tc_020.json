@@ -1,0 +1,52 @@
+{
+  "sample_id": "temporal_collateral_finance_020",
+  "exploit_name": "Warp Finance",
+  "date": "2020-12-17",
+  "amount_lost_usd": "7700000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "price_oracle_manipulation",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "CollateralVault",
+  "vulnerable_function": "withdraw",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_020 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "price_oracle_manipulation"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_020",
+  "original_id": "tc_020",
+  "contract_file": "contracts/sn_tc_020.sol",
+  "sanitization_changes": [
+    "Removed comment: Alpha Homora...",
+    "Removed comment: WARP...",
+    "Removed comment: Warp...",
+    "Removed comment: Warp...",
+    "Removed comment: Warp...",
+    "Removed comment: VULNERABLE...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: exploit...",
+    "Removed comment: // This assumes reserves are fairly priced, but fl...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: WarpVault \u2192 CollateralVault"
+  ],
+  "rename_mappings": {
+    "WarpVault": "CollateralVault"
+  }
+}

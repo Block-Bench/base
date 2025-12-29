@@ -1,0 +1,36 @@
+{
+  "id": "ms_tc_024",
+  "contract_file": "contracts/ms_tc_024.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_024",
+  "exploit_info": {
+    "exploit_name": "Inverse Finance",
+    "date": "2022-04-02",
+    "amount_lost_usd": "15600000",
+    "vulnerability_type": "price_oracle_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/inverse_finance.sol",
+  "description": "Original annotated version of tc_024 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "price_oracle_manipulation"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_024",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_024",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Removed 2 vulnerability comment block(s)"
+    ],
+    "contract_renames": {},
+    "created_date": "2025-12-29T16:35:00.581968"
+  }
+}

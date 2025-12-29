@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_007",
+  "contract_file": "contracts/o_tc_007.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_007",
+  "exploit_info": {
+    "exploit_name": "Poly Network",
+    "date": "2021-08-10",
+    "amount_lost_usd": "611000000",
+    "vulnerability_type": "access_control"
+  },
+  "source_file": "pre_cutoff_originals/annotated/poly_network.sol",
+  "description": "Original annotated version of tc_007 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "access_control"
+  ]
+}

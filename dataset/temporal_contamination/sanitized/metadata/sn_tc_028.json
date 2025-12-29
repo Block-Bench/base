@@ -1,0 +1,44 @@
+{
+  "sample_id": "temporal_bvaults_safemoon_028",
+  "exploit_name": "BVaults SafeMoon",
+  "date": "2021-05-30",
+  "amount_lost_usd": "8500000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "accounting_error",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "Vault",
+  "vulnerable_function": "withdraw",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_028 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "accounting_error"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_028",
+  "original_id": "tc_028",
+  "contract_file": "contracts/sn_tc_028.sol",
+  "sanitization_changes": [
+    "Removed comment: VULNERABLE...",
+    "Removed comment: VULNERABILITY...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: Vault \u2192 Vault",
+    "WARNING: Built-in msg.sender count changed: 7 -> 6"
+  ],
+  "rename_mappings": {
+    "Vault": "Vault"
+  }
+}

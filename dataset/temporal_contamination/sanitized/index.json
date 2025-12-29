@@ -1,0 +1,34 @@
+{
+  "name": "temporal_contamination_sanitized",
+  "description": "Fully sanitized temporal contamination samples - all vulnerability hints and protocol names removed",
+  "total_contracts": 50,
+  "content": {
+    "vulnerability_annotations": false,
+    "leaky_identifiers": false,
+    "protocol_names": false
+  },
+  "sanitization_applied": [
+    "Removed 'Vulnerable' prefix from contract names (replaced with 'Basic')",
+    "Removed VULNERABILITY/ROOT CAUSE/ATTACK VECTOR comment blocks",
+    "Removed protocol-specific names (Nomad -> Bridge, Beanstalk -> Farm, etc.)",
+    "Renamed protocol-specific interfaces and variables",
+    "Removed comments containing protocol names",
+    "Preserved code structure and logic"
+  ],
+  "protocol_name_mappings": {
+    "Nomad*": "Bridge*",
+    "Beanstalk*": "Governance/Farm*",
+    "Parity*": "Wallet/Multi*",
+    "Ronin*": "Bridge/Game*",
+    "Harvest*": "Vault/Yield*",
+    "Yearn*": "Vault/Yield*",
+    "Curve*": "Pool/Stable*",
+    "Compound*": "CToken/Lend*",
+    "Anyswap*": "Cross*",
+    "...": "See strategies/sanitize/sanitize.py for full list"
+  },
+  "source": "data/originals/contracts/o_tc_*.sol",
+  "script": "strategies/sanitize/sanitize.py",
+  "naming_convention": "sn_tc_XXX where XXX is sequential ID (001-050)",
+  "created_date": "2025-12-29"
+}

@@ -1,0 +1,46 @@
+{
+  "sample_id": "temporal_lending_finance_025",
+  "exploit_name": "Hundred Finance",
+  "date": "2022-03-15",
+  "amount_lost_usd": "6000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "reentrancy",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "medium",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "LendingMarket",
+  "vulnerable_function": "transfer",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_025 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "reentrancy"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_025",
+  "original_id": "tc_025",
+  "contract_file": "contracts/sn_tc_025.sol",
+  "sanitization_changes": [
+    "Removed comment: Compound...",
+    "Removed comment: HUNDRED FINANCE...",
+    "Removed comment: VULNERABLE...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: HundredFinanceMarket \u2192 LendingMarket",
+    "Renamed: ICompoundToken \u2192 ILendToken"
+  ],
+  "rename_mappings": {
+    "HundredFinanceMarket": "LendingMarket",
+    "ICompoundToken": "ILendToken"
+  }
+}

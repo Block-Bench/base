@@ -1,0 +1,37 @@
+{
+  "id": "ms_tc_018",
+  "contract_file": "contracts/ms_tc_018.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_018",
+  "exploit_info": {
+    "exploit_name": "Indexed Finance",
+    "date": "2021-10-14",
+    "amount_lost_usd": "16000000",
+    "vulnerability_type": "pool_manipulation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/indexed_finance.sol",
+  "description": "Original annotated version of tc_018 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "pool_manipulation"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_018",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_018",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Removed 3 vulnerability comment block(s)",
+      "Removed 4 vulnerability hint line(s)"
+    ],
+    "contract_renames": {},
+    "created_date": "2025-12-29T16:35:00.576221"
+  }
+}

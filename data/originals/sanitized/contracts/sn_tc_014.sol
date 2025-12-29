@@ -1,0 +1,112 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface IStable3Pool {
+    function add_liquidity(
+        uint256[3] memory amounts,
+        uint256 min_mint_amount
+    ) external;
+
+    function remove_liquidity_imbalance(
+        uint256[3] memory amounts,
+        uint256 max_burn_amount
+    ) external;
+
+    function get_virtual_price() external view returns (uint256);
+}
+
+interface IERC20 {
+    function transfer(address to, uint256 amount) external returns (bool);
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 amount
+    ) external returns (bool);
+
+    function balanceOf(address account) external view returns (uint256);
+
+    function approve(address spender, uint256 amount) external returns (bool);
+}
+
+contract BasicVault {
+    IERC20 public dai;
+    IERC20 public crv3;
+    IStable3Pool public stable3Pool;
+
+    mapping(address => uint256) public shares;
+    uint256 public totalShares;
+    uint256 public totalDeposits;
+
+    uint256 public constant MIN_EARN_THRESHOLD = 1000 ether;
+
+    constructor(address _dai, address _crv3, address _stable3Pool) {
+        dai = IERC20(_dai);
+        crv3 = IERC20(_crv3);
+        stable3Pool = IStable3Pool(_stable3Pool);
+    }
+
+    /**
+     * @notice Deposit DAI into the vault
+     */
+    function deposit(uint256 amount) external {
+        dai.transferFrom(msg.sender, address(this), amount);
+
+        uint256 shareAmount;
+        if (totalShares == 0) {
+            shareAmount = amount;
+        } else {
+            // Calculate shares based on current vault value
+            shareAmount = (amount * totalShares) / totalDeposits;
+        }
+
+        shares[msg.sender] += shareAmount;
+        totalShares += shareAmount;
+        totalDeposits += amount;
+    }
+
+    function earn() external {
+        uint256 vaultBalance = dai.balanceOf(address(this));
+        require(
+            vaultBalance >= MIN_EARN_THRESHOLD,
+            "Insufficient balance to earn"
+        );
+
+        uint256 virtualPrice = stable3Pool.get_virtual_price();
+
+        dai.approve(address(stable3Pool), vaultBalance);
+        uint256[3] memory amounts = [vaultBalance, 0, 0]; // Only DAI
+        stable3Pool.add_liquidity(amounts, 0);
+
+        // The vault now thinks it has value based on the manipulated virtual price
+        // If virtual_price is inflated, vault overestimates its holdings
+    }
+
+    /**
+     * @notice Withdraw shares from vault
+     */
+    function withdrawAll() external {
+        uint256 userShares = shares[msg.sender];
+        require(userShares > 0, "No shares");
+
+        // Calculate withdrawal amount based on current total value
+        uint256 withdrawAmount = (userShares * totalDeposits) / totalShares;
+
+        shares[msg.sender] = 0;
+        totalShares -= userShares;
+        totalDeposits -= withdrawAmount;
+
+        dai.transfer(msg.sender, withdrawAmount);
+    }
+
+    /**
+
+     */
+    function balance() public view returns (uint256) {
+        return
+            dai.balanceOf(address(this)) +
+            (crv3.balanceOf(address(this)) * stable3Pool.get_virtual_price()) /
+            1e18;
+    }
+}
+

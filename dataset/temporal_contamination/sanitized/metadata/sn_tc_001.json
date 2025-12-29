@@ -1,0 +1,63 @@
+{
+  "sample_id": "temporal_bridge_001",
+  "exploit_name": "Nomad Bridge",
+  "date": "2022-08-01",
+  "amount_lost_usd": "190000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "improper_initialization",
+  "vulnerability_subtype": "message_validation_bypass",
+  "severity": "critical",
+  "difficulty_tier": 4,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "description": "Nomad Bridge hack exploiting improper initialization of message validation. After a contract upgrade, the acceptedRoot was mistakenly set to 0x00...00, allowing attackers to craft messages that bypassed validation and drain $190M across 41 different tokens.",
+  "vulnerable_contract": "BasicBridgeReplica",
+  "vulnerable_function": "process",
+  "vulnerable_lines": [
+    74,
+    75,
+    78,
+    96,
+    97,
+    98,
+    99
+  ],
+  "attack_scenario": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation. The process() function incorrectly accepts these messages, triggering token transfers without corresponding deposits on the source chain.",
+  "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
+  "fix_description": "Proper initialization of acceptedRoot after contract upgrades. Implement strict validation that acceptedRoot can never be 0x00...00. Add additional checks to ensure messages are properly committed to a merkle tree before processing. Implement emergency pause mechanisms.",
+  "tags": [
+    "cross-chain",
+    "initialization",
+    "message_validation",
+    "upgrade",
+    "historical",
+    "mega_hack"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "One of the largest bridge hacks in history. Hundreds of copycat attackers repeated the exploit within hours once the vulnerability was discovered. The hack demonstrated the critical importance of proper state initialization during contract upgrades.",
+  "id": "sn_tc_001",
+  "original_id": "tc_001",
+  "contract_file": "contracts/sn_tc_001.sol",
+  "sanitization_changes": [
+    "Removed comment: Nomad...",
+    "Removed comment: Nomad...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: vulnerability...",
+    "Removed comment: // Attackers could craft messages where _messageRo...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: NomadReplica \u2192 NomadReplica",
+    "Renamed: BasicNomadReplica \u2192 BasicBridgeReplica"
+  ],
+  "rename_mappings": {
+    "NomadReplica": "NomadReplica",
+    "BasicNomadReplica": "BasicBridgeReplica"
+  }
+}

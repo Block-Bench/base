@@ -1,0 +1,44 @@
+{
+  "sample_id": "temporal_lendf.me_011",
+  "exploit_name": "Lendf.Me",
+  "date": "2020-04-19",
+  "amount_lost_usd": "25000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "reentrancy",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "high",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "LendingPool",
+  "vulnerable_function": "withdraw",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_011 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "reentrancy"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_011",
+  "original_id": "tc_011",
+  "contract_file": "contracts/sn_tc_011.sol",
+  "sanitization_changes": [
+    "Removed comment: VULNERABLE...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: LendingPool \u2192 LendingPool",
+    "WARNING: Built-in msg.sender count changed: 7 -> 4"
+  ],
+  "rename_mappings": {
+    "LendingPool": "LendingPool"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "o_tc_027",
+  "contract_file": "contracts/o_tc_027.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_027",
+  "exploit_info": {
+    "exploit_name": "BurgerSwap",
+    "date": "2021-05-28",
+    "amount_lost_usd": "7000000",
+    "vulnerability_type": "input_validation"
+  },
+  "source_file": "pre_cutoff_originals/annotated/burgerswap.sol",
+  "description": "Original annotated version of tc_027 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "input_validation"
+  ]
+}

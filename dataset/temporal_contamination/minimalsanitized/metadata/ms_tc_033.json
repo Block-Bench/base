@@ -1,0 +1,40 @@
+{
+  "id": "ms_tc_033",
+  "contract_file": "contracts/ms_tc_033.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_033",
+  "exploit_info": {
+    "exploit_name": "Socket Gateway",
+    "date": "2024-01",
+    "amount_lost_usd": "3300000",
+    "vulnerability_type": "access_control"
+  },
+  "source_file": "pre_cutoff_originals/annotated/socket_gateway.sol",
+  "description": "Original annotated version of tc_033 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "access_control"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_033",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_033",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Renamed contract: VulnerableRoute -> Route",
+      "Removed 2 vulnerability comment block(s)",
+      "Removed 5 vulnerability hint line(s)"
+    ],
+    "contract_renames": {
+      "VulnerableRoute": "Route"
+    },
+    "created_date": "2025-12-29T16:35:00.588499"
+  }
+}

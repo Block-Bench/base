@@ -1,0 +1,37 @@
+{
+  "id": "ms_tc_030",
+  "contract_file": "contracts/ms_tc_030.sol",
+  "subset": "originals",
+  "variant": "annotated",
+  "original_id": "tc_030",
+  "exploit_info": {
+    "exploit_name": "Spartan Protocol",
+    "date": "2021-05-02",
+    "amount_lost_usd": "30000000",
+    "vulnerability_type": "arithmetic_error"
+  },
+  "source_file": "pre_cutoff_originals/annotated/spartan_protocol.sol",
+  "description": "Original annotated version of tc_030 with full vulnerability documentation",
+  "contains_annotations": true,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "arithmetic_error"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_030",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source": "o_tc_030",
+    "script": "data/manual_strategies/scripts/minimal_sanitize.py",
+    "changes": [
+      "Removed 2 vulnerability comment block(s)",
+      "Removed 1 vulnerability hint line(s)"
+    ],
+    "contract_renames": {},
+    "created_date": "2025-12-29T16:35:00.585804"
+  }
+}

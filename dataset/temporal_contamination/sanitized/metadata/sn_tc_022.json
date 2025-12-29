@@ -1,0 +1,47 @@
+{
+  "sample_id": "temporal_swap_finance_022",
+  "exploit_name": "Uranium Finance",
+  "date": "2021-04-28",
+  "amount_lost_usd": "50000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "arithmetic_error",
+  "vulnerability_subtype": "TODO_CLASSIFY",
+  "severity": "high",
+  "difficulty_tier": 3,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "vulnerable_contract": "SwapPair",
+  "vulnerable_function": "transfer",
+  "vulnerable_lines": [],
+  "description": "Original annotated version of tc_022 with full vulnerability documentation",
+  "attack_scenario": "TODO: Describe how the attack works",
+  "root_cause": "TODO: Explain the root cause of the vulnerability",
+  "fix_description": "TODO: Describe how to fix the vulnerability",
+  "tags": [
+    "original",
+    "annotated",
+    "temporal_contamination",
+    "arithmetic_error"
+  ],
+  "variant_type": "sanitized",
+  "variant_parent_id": null,
+  "notes": "",
+  "id": "sn_tc_022",
+  "original_id": "tc_022",
+  "contract_file": "contracts/sn_tc_022.sol",
+  "sanitization_changes": [
+    "Removed comment: URANIUM...",
+    "Removed comment: Uranium...",
+    "Removed comment: Uranium...",
+    "Removed comment: VULNERABILITY...",
+    "Removed comment: BUG...",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Removed block comment with vulnerability hint",
+    "Renamed: UraniumPair \u2192 SwapPair"
+  ],
+  "rename_mappings": {
+    "UraniumPair": "SwapPair"
+  }
+}
