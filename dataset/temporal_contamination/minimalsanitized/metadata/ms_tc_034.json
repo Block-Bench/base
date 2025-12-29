@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_034",
+  "sample_id": "ms_tc_034",
   "exploit_name": "Gamma Strategies Hypervisor",
   "timestamp": "2024-01",
   "loss_amount_usd": 6100000,
@@ -21,7 +21,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Gamma Strategies managed liquidity positions on Uniswap V3/Algebra pools. Attackers used flashloans to manipulate pool prices, then exploited the vault's deposit/withdrawal and rebalancing mechanisms during price manipulation to extract $6.1M.",
-  "vulnerable_lines": [55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Lack of slippage protection and oracle usage in deposit/withdrawal share calculations",
     "attack_vector": "Flashloan price manipulation combined with vault interaction during manipulated state",
@@ -70,19 +70,22 @@
   "contract_file": "contracts/ms_tc_034.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_034",
-  "original_id": "tc_034",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_034",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_034",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_034.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_034.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 2 vulnerability comment block(s)",
       "Removed 8 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.485258"
-  }
+    "created_date": "2025-12-29T21:51:29.888312"
+  },
+  "vulnerable_lines_original": [
+    91
+  ]
 }

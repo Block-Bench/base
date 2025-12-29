@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_031",
+  "sample_id": "ms_tc_031",
   "exploit_name": "Orbit Chain Bridge Exploit",
   "timestamp": "2024-01",
   "loss_amount_usd": 81000000,
@@ -19,7 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Orbit Chain bridge suffered an $81M exploit when attackers compromised validator private keys and used them to forge signatures authorizing fraudulent cross-chain withdrawals. The bridge's multi-sig system (5-of-7) was bypassed through key compromise rather than smart contract vulnerabilities.",
-  "vulnerable_lines": [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Compromised validator private keys enabled signature forgery",
     "attack_vector": "Attackers gained access to 5 out of 7 validator keys and created valid ECDSA signatures for fake withdrawal transactions",
@@ -60,19 +60,22 @@
   "contract_file": "contracts/ms_tc_031.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_031",
-  "original_id": "tc_031",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_031",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_031",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_031.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_031.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 2 vulnerability comment block(s)",
       "Removed 4 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.481765"
-  }
+    "created_date": "2025-12-29T21:51:29.884283"
+  },
+  "vulnerable_lines_original": [
+    67
+  ]
 }

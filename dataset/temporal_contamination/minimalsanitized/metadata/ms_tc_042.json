@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_042",
+  "sample_id": "ms_tc_042",
   "exploit_name": "Hedgey Finance",
   "timestamp": "2024-04",
   "loss_amount_usd": 44700000,
@@ -19,7 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-04",
   "description": "Hedgey Finance, a token vesting platform, was exploited for $44.7M when attackers provided a malicious tokenLocker address in createLockedCampaign(). The contract made an arbitrary external call to this address, allowing attackers to steal tokens from any user who had approved Hedgey.",
-  "vulnerable_lines": [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "User-controlled tokenLocker address used in arbitrary external call without validation",
     "attack_vector": "Provide malicious contract as tokenLocker, use external call to invoke transferFrom on victim tokens",
@@ -66,19 +66,22 @@
   "contract_file": "contracts/ms_tc_042.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_042",
-  "original_id": "tc_042",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_042",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_042",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_042.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_042.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 3 vulnerability comment block(s)",
       "Removed 5 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.510314"
-  }
+    "created_date": "2025-12-29T21:51:29.897902"
+  },
+  "vulnerable_lines_original": [
+    84
+  ]
 }

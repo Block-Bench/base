@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_038",
+  "sample_id": "ms_tc_038",
   "exploit_name": "Blueberry Protocol Oracle Manipulation",
   "timestamp": "2024-02",
   "loss_amount_usd": 1400000,
@@ -20,7 +20,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "Blueberry Protocol, a leveraged yield farming platform, was exploited for $1.4M through oracle price manipulation. Attackers used flashloans to manipulate low-liquidity DEX token prices (specifically OHM), then deposited the inflated collateral and borrowed maximum assets from lending pools.",
-  "vulnerable_lines": [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 111, 112, 113, 114, 115, 116],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Oracle reliance on low-liquidity DEX spot prices without TWAP or external validation",
     "attack_vector": "Use flashloan to pump low-liquidity token price, mint collateral at inflated price, borrow maximum assets",
@@ -71,19 +71,23 @@
   "contract_file": "contracts/ms_tc_038.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_038",
-  "original_id": "tc_038",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_038",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_038",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_038.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_038.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 2 vulnerability comment block(s)",
       "Removed 7 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.490089"
-  }
+    "created_date": "2025-12-29T21:51:29.893046"
+  },
+  "vulnerable_lines_original": [
+    68,
+    92
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "id": "ms_tc_012",
+  "id": "rari_capital_2022",
   "exploit_name": "Rari Capital Fuse",
   "date": "2022-05-08",
   "blockchain": "ethereum",
@@ -14,7 +14,7 @@
   "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
   "vulnerable_contract": "rari_capital.sol",
   "vulnerable_function": "borrow",
-  "vulnerable_lines": [51, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 74, 75, 76, 77],
+  "vulnerable_lines": [],
   "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
   "tags": [
     "reentrancy",
@@ -34,12 +34,14 @@
   "contract_file": "contracts/ms_tc_012.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "original_id": "tc_012",
+  "sample_id": "ms_tc_012",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_012",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_012",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_012.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_012.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableRariFuse -> RariFuse",
@@ -49,12 +51,11 @@
     "contract_renames": {
       "VulnerableRariFuse": "RariFuse"
     },
-    "created_date": "2025-12-29T19:57:25.465028"
+    "created_date": "2025-12-29T21:51:29.863060"
   },
   "vulnerable_lines_original": [
-    90,
-    93,
-    108
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    110,
+    114,
+    125
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "sample_id": "temporal_harvest_001",
+  "sample_id": "ms_tc_004",
   "exploit_name": "Harvest Finance",
   "date": "2020-10-26",
   "amount_lost_usd": "24000000",
@@ -14,7 +14,7 @@
   "description": "Harvest Finance vault vulnerability where attacker used flash loans to manipulate Curve pool prices, depositing at inflated prices and withdrawing at deflated prices. The vault used spot prices from Curve without TWAP or slippage protection, allowing repeated arbitrage cycles to extract $24M.",
   "vulnerable_contract": "HarvestVault",
   "vulnerable_function": "deposit, withdraw",
-  "vulnerable_lines": [50, 51, 69, 70, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 97, 98, 99, 100],
+  "vulnerable_lines": [],
   "attack_scenario": "Attacker takes $50M USDC + $17M USDT flash loans from Uniswap. Swaps USDT->USDC on Curve to inflate USDC price. Deposits 49M USDC into Harvest at inflated price, receiving more fUSDC shares. Swaps USDC->USDT to deflate price. Withdraws fUSDC shares at normal price, receiving more USDC than deposited. Repeats cycle 6 times to amplify profit. Repays flash loans with $24M profit.",
   "root_cause": "The vault calculated share prices using getTotalAssets() which included current balances in Curve pools. These balances could be manipulated via large swaps within a single transaction. The protocol used spot prices instead of time-weighted average prices (TWAP), and had no protection against flash loan manipulation or slippage limits on price changes.",
   "fix_description": "Use Time-Weighted Average Price (TWAP) oracles instead of spot prices from AMMs. Implement deposit/withdrawal fees to make flash loan attacks unprofitable. Add slippage protection on all swaps. Limit maximum deposit/withdrawal amounts per block. Use multiple price sources (Chainlink oracles). Implement commit-reveal pattern for deposits/withdrawals. Add minimum time delay between deposits and withdrawals.",
@@ -38,11 +38,11 @@
   "contract_file": "contracts/ms_tc_004.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_004",
-  "original_id": "tc_004",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_004",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_004.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_004.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableHarvestVault -> HarvestVault",
@@ -52,38 +52,12 @@
     "contract_renames": {
       "VulnerableHarvestVault": "HarvestVault"
     },
-    "created_date": "2025-12-29T19:57:25.455089"
+    "created_date": "2025-12-29T21:51:29.851367"
   },
   "vulnerable_lines_original": [
-    74,
-    75,
-    76,
-    77,
-    78,
-    79,
-    80,
-    81,
-    94,
-    95,
-    96,
-    97,
-    98,
-    99,
-    100,
-    101,
-    115,
-    116,
+    88,
+    89,
     117,
-    118,
-    119,
-    120,
-    121,
-    122,
-    123,
-    130,
-    131,
-    132,
-    133
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    118
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_043",
+  "sample_id": "ms_tc_043",
   "exploit_name": "Seneca Protocol (Chamber)",
   "timestamp": "2024-02",
   "loss_amount_usd": 6400000,
@@ -19,7 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "Seneca Protocol's Chamber contract was exploited for $6.4M through its performOperations() function. The function accepted user-controlled target addresses and calldata, allowing attackers to call transferFrom() on tokens where victims had given approvals to Chamber.",
-  "vulnerable_lines": [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "User-controlled target address and calldata in performOperations allowing arbitrary external calls",
     "attack_vector": "Craft operation with transferFrom calldata targeting victim tokens, execute via performOperations",
@@ -69,19 +69,22 @@
   "contract_file": "contracts/ms_tc_043.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_043",
-  "original_id": "tc_043",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_043",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_043",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_043.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_043.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 3 vulnerability comment block(s)",
       "Removed 5 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.537778"
-  }
+    "created_date": "2025-12-29T21:51:29.898736"
+  },
+  "vulnerable_lines_original": [
+    66
+  ]
 }

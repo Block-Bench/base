@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_044",
+  "sample_id": "ms_tc_044",
   "exploit_name": "DeltaPrime",
   "timestamp": "2024-11",
   "loss_amount_usd": 4750000,
@@ -19,7 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-11",
   "description": "DeltaPrime suffered a $4.75M exploit when attackers compromised an admin private key with upgrade privileges. They upgraded a pool contract to inject malicious code, then exploited the backdoored contract to drain funds through fake pair contracts and balance manipulation.",
-  "vulnerable_lines": [43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Single private key compromise allowed arbitrary contract upgrades without timelock or multi-sig",
     "attack_vector": "Compromise admin key, upgrade pool to malicious implementation, exploit backdoor to drain funds",
@@ -71,19 +71,23 @@
   "contract_file": "contracts/ms_tc_044.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_044",
-  "original_id": "tc_044",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_044",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_044",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_044.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_044.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 4 vulnerability comment block(s)",
       "Removed 10 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.556120"
-  }
+    "created_date": "2025-12-29T21:51:29.899674"
+  },
+  "vulnerable_lines_original": [
+    65,
+    111
+  ]
 }

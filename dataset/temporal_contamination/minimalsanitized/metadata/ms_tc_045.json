@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_045",
+  "sample_id": "ms_tc_045",
   "exploit_name": "Penpie",
   "timestamp": "2024-09",
   "loss_amount_usd": 27000000,
@@ -19,7 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-09",
   "description": "Penpie, a Pendle yield optimizer, was exploited for $27M when attackers registered a fake Pendle market and exploited reentrancy in reward claiming. The fake market's claimRewards() callback reentered Penpie to manipulate balances, allowing withdrawal of real assets far exceeding deposits.",
-  "vulnerable_lines": [39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 74, 75, 76, 77, 78, 79],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Reentrancy vulnerability in claimRewards() combined with insufficient market validation on registration",
     "attack_vector": "Register fake Pendle market, exploit reentrancy during reward claim to inflate balances, withdraw real assets",
@@ -73,19 +73,23 @@
   "contract_file": "contracts/ms_tc_045.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_045",
-  "original_id": "tc_045",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_045",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_045",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_045.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_045.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 4 vulnerability comment block(s)",
       "Removed 10 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.562888"
-  }
+    "created_date": "2025-12-29T21:51:29.901053"
+  },
+  "vulnerable_lines_original": [
+    62,
+    109
+  ]
 }

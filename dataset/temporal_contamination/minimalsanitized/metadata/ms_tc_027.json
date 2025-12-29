@@ -1,5 +1,5 @@
 {
-  "id": "ms_tc_027",
+  "id": "burgerswap_2021_05",
   "exploit_name": "BurgerSwap Fake Token",
   "date": "2021-05-28",
   "blockchain": "binance_smart_chain",
@@ -14,9 +14,9 @@
     "uniswap_fork"
   ],
   "description": "BurgerSwap router didn't validate that token pairs were from the official factory. Attackers created fake tokens and malicious pairs with manipulated reserves, then used the router to swap through these fake pairs to extract real tokens at manipulated prices.",
-  "vulnerable_lines": [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38],
   "attack_scenario": "1) Attacker created fake token contracts mimicking legitimate addresses. 2) Created malicious pair contract with manipulated reserves (e.g., 1 fake token = 1000 real tokens). 3) Called router swap function with path through fake token. 4) Router accepted fake pair without factory validation. 5) Executed swap at manipulated price. 6) Extracted $7M in real tokens.",
   "root_cause": "Router's swap function didn't verify that pairs came from the official factory. It accepted any pair address provided in the path, allowing attackers to inject fake pairs with arbitrary reserve ratios.",
+  "vulnerable_lines": [],
   "fix": "Only accept pairs from official factory contract. Verify pair addresses: require(pair == factory.getPair(tokenA, tokenB)). Implement whitelist for tradeable tokens. Add pair creation validation.",
   "references": [
     "https://twitter.com/BurgerSwapBSC/status/1398310892343791619"
@@ -37,17 +37,23 @@
   "contract_file": "contracts/ms_tc_027.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "original_id": "tc_027",
+  "sample_id": "ms_tc_027",
   "variant_parent_id": "tc_027",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_027",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_027.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_027.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 2 vulnerability comment block(s)",
       "Removed 4 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.478892"
-  }
+    "created_date": "2025-12-29T21:51:29.881196"
+  },
+  "vulnerable_lines_original": [
+    40,
+    51
+  ]
 }

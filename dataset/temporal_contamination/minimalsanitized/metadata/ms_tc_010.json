@@ -1,5 +1,5 @@
 {
-  "id": "ms_tc_010",
+  "id": "the_dao_2016",
   "exploit_name": "The DAO",
   "date": "2016-06-17",
   "blockchain": "ethereum",
@@ -14,7 +14,7 @@
   "attack_scenario": "Attacker deposited ETH, then called withdrawAll from a malicious contract with a fallback function that re-entered withdrawAll, draining funds before balance was updated.",
   "vulnerable_contract": "the_dao.sol",
   "vulnerable_function": "withdrawAll",
-  "vulnerable_lines": [27, 28, 29, 30, 31, 32, 33, 34, 35],
+  "vulnerable_lines": [],
   "fix_description": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern.",
   "tags": [
     "reentrancy",
@@ -34,12 +34,14 @@
   "contract_file": "contracts/ms_tc_010.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "original_id": "tc_010",
+  "sample_id": "ms_tc_010",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_010",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_010",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_010.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_010.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableDAO -> DAO",
@@ -49,11 +51,10 @@
     "contract_renames": {
       "VulnerableDAO": "DAO"
     },
-    "created_date": "2025-12-29T19:57:25.463264"
+    "created_date": "2025-12-29T21:51:29.860849"
   },
   "vulnerable_lines_original": [
-    51,
-    53
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    56,
+    58
+  ]
 }

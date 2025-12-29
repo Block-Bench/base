@@ -1,5 +1,5 @@
 {
-  "sample_id": "temporal_poly_001",
+  "sample_id": "ms_tc_007",
   "exploit_name": "Poly Network",
   "date": "2021-08-10",
   "amount_lost_usd": "611000000",
@@ -14,7 +14,7 @@
   "description": "Poly Network cross-chain bridge vulnerability where EthCrossChainManager allowed executing cross-chain transactions targeting ANY contract, including the privileged EthCrossChainData contract. Attacker crafted transaction targeting EthCrossChainData to call putCurEpochConPubKeyBytes() which passed onlyOwner check (msg.sender was EthCrossChainManager), allowing attacker to set their own validator keys and drain $611M.",
   "vulnerable_contract": "EthCrossChainManager",
   "vulnerable_function": "verifyHeaderAndExecuteTx",
-  "vulnerable_lines": [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95],
+  "vulnerable_lines": [],
   "attack_scenario": "Attacker creates valid cross-chain transaction on Poly Network sidechain with target set to EthCrossChainData (the privileged data contract), not a user contract. Transaction calls putCurEpochConPubKeyBytes() to change validator public keys. EthCrossChainManager verifies header signatures and Merkle proof (both valid), then executes transaction by calling EthCrossChainData. Since msg.sender is EthCrossChainManager, the onlyOwner check passes. Attacker's keys become validator keys, allowing them to forge any cross-chain transaction and drain bridge.",
   "root_cause": "EthCrossChainManager validated cross-chain transactions (headers, proofs) but didn't restrict which contracts could be targeted for execution. It allowed calling EthCrossChainData, which trusted EthCrossChainManager as owner. This created an access control bypass where anyone could call privileged functions on EthCrossChainData by routing through EthCrossChainManager with a valid cross-chain transaction.",
   "fix_description": "Implement whitelist of allowed target contracts, explicitly excluding privileged contracts like EthCrossChainData. Use blacklist to forbid critical system contracts as targets. Separate privilege levels for cross-chain execution. Replace msg.sender-based authorization with more granular access controls. Add multi-sig requirements for critical operations like validator key updates. Implement emergency pause mechanisms. Add rate limiting and anomaly detection for cross-chain transactions.",
@@ -39,11 +39,11 @@
   "contract_file": "contracts/ms_tc_007.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_007",
-  "original_id": "tc_007",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_007",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_007.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_007.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableEthCrossChainManager -> EthCrossChainManager",
@@ -53,46 +53,9 @@
     "contract_renames": {
       "VulnerableEthCrossChainManager": "EthCrossChainManager"
     },
-    "created_date": "2025-12-29T19:57:25.459299"
+    "created_date": "2025-12-29T21:51:29.856104"
   },
   "vulnerable_lines_original": [
-    90,
-    91,
-    92,
-    93,
-    94,
-    95,
-    96,
-    97,
-    98,
-    99,
-    100,
-    101,
-    102,
-    103,
-    104,
-    105,
-    106,
-    107,
-    108,
-    109,
-    110,
-    111,
-    112,
-    113,
-    114,
-    115,
-    116,
-    117,
-    118,
-    50,
-    51,
-    52,
-    53,
-    54,
-    55,
-    56,
-    57
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    150
+  ]
 }

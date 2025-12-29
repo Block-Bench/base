@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_041",
+  "sample_id": "ms_tc_041",
   "exploit_name": "Shezmu Protocol",
   "timestamp": "2024-09",
   "loss_amount_usd": 4900000,
@@ -19,7 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-09",
   "description": "Shezmu, a CDP protocol, was exploited for $4.9M when attackers discovered the collateral token's mint() function had no access control. Anyone could mint unlimited collateral tokens, deposit them into the vault, and borrow real ShezUSD against worthless minted collateral.",
-  "vulnerable_lines": [27, 28, 29, 30, 31, 32, 33, 34, 35],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Missing access control modifier on mint() function allowing anyone to mint unlimited tokens",
     "attack_vector": "Mint maximum collateral tokens without authorization, deposit as collateral, borrow real assets",
@@ -65,19 +65,22 @@
   "contract_file": "contracts/ms_tc_041.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_041",
-  "original_id": "tc_041",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_041",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_041",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_041.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_041.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 3 vulnerability comment block(s)",
       "Removed 5 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.493341"
-  }
+    "created_date": "2025-12-29T21:51:29.896642"
+  },
+  "vulnerable_lines_original": [
+    42
+  ]
 }

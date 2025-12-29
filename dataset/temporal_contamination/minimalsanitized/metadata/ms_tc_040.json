@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_040",
+  "sample_id": "ms_tc_040",
   "exploit_name": "Bedrock DeFi Exchange Rate Exploit",
   "timestamp": "2024-09",
   "loss_amount_usd": 2000000,
@@ -20,7 +20,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-09",
   "description": "Bedrock DeFi, a liquid staking platform for uniBTC, was exploited for $2M due to an incorrect hardcoded 1:1 ETH:BTC exchange rate in its mint function. Attackers deposited ETH and received uniBTC at par value, despite ETH being worth ~20x less than BTC, then swapped for profit.",
-  "vulnerable_lines": [49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 96, 97, 98, 99, 100, 101, 102],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Hardcoded 1:1 ETH:BTC exchange rate ignoring actual market prices (~20x difference)",
     "attack_vector": "Mint uniBTC by depositing ETH at incorrect 1:1 rate, swap uniBTC for real BTC-pegged assets at market rate",
@@ -69,19 +69,23 @@
   "contract_file": "contracts/ms_tc_040.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_040",
-  "original_id": "tc_040",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_040",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_040",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_040.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_040.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 3 vulnerability comment block(s)",
       "Removed 6 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.492315"
-  }
+    "created_date": "2025-12-29T21:51:29.895444"
+  },
+  "vulnerable_lines_original": [
+    70,
+    121
+  ]
 }

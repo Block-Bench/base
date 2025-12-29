@@ -1,5 +1,5 @@
 {
-  "sample_id": "temporal_cream_001",
+  "sample_id": "ms_tc_008",
   "exploit_name": "Cream Finance",
   "date": "2021-10-27",
   "amount_lost_usd": "130000000",
@@ -14,7 +14,7 @@
   "description": "Cream Finance lending protocol exploited via complex flash loan attack manipulating yUSD token price. Attacker used $500M DAI flash loan to mint crYUSD collateral, then 524K ETH flash loan for crETH collateral. By borrowing yUSD and withdrawing it from Curve pool, attacker inflated remaining yUSD price in oracle. The inflated crYUSD collateral value ($1.5B vs $500M) allowed borrowing massive amounts to drain protocol for $130M profit.",
   "vulnerable_contract": "CreamLending",
   "vulnerable_function": "borrow, calculateBorrowPower",
-  "vulnerable_lines": [70, 71, 102, 105, 108, 133, 134],
+  "vulnerable_lines": [],
   "attack_scenario": "Attacker flash loans $500M DAI from MakerDAO, converts to yUSD, deposits to Cream for crYUSD collateral. Flash loans 524K ETH from Aave, deposits for crETH collateral. Borrows yUSD multiple times against ETH collateral. Withdraws yUSD from Curve to underlying tokens, reducing yUSD supply in pool. Reduced supply makes remaining yUSD appear more valuable. Oracle reports inflated yUSD price. Attacker's crYUSD collateral now valued at $1.5B (was $500M). Borrows massive amounts against inflated collateral value. Repays flash loans with $130M profit.",
   "root_cause": "Cream used price oracles that derived token prices from AMM pools (Curve) without manipulation resistance. yUSD price was calculated from its underlying assets in Curve pool. Attacker could manipulate this by draining the Curve pool within a single transaction. The protocol used spot prices instead of TWAPs, had no flash loan attack detection, and listed low-liquidity tokens vulnerable to price manipulation.",
   "fix_description": "Use Time-Weighted Average Price (TWAP) oracles instead of spot prices. Integrate Chainlink or other manipulation-resistant oracle networks. Never use LP token prices directly from AMM pools without safeguards. Implement price sanity checks and circuit breakers for rapid price changes. Add per-market borrow caps. Use gradual price updates with rate limiting. Aggregate multiple oracle sources and use median values. Add flash loan attack detection. Avoid listing low-liquidity tokens. Implement deposit/borrow delays.",
@@ -39,11 +39,11 @@
   "contract_file": "contracts/ms_tc_008.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_008",
-  "original_id": "tc_008",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_008",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_008.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_008.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableCreamLending -> CreamLending",
@@ -53,38 +53,10 @@
     "contract_renames": {
       "VulnerableCreamLending": "CreamLending"
     },
-    "created_date": "2025-12-29T19:57:25.460835"
+    "created_date": "2025-12-29T21:51:29.857893"
   },
   "vulnerable_lines_original": [
-    91,
-    92,
-    93,
-    94,
-    95,
-    96,
-    116,
-    117,
-    118,
-    119,
-    120,
-    121,
-    122,
-    123,
-    124,
-    125,
-    126,
-    127,
-    128,
-    129,
-    130,
-    131,
-    132,
-    133,
-    134,
-    135,
-    136,
-    137,
-    138
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    113,
+    163
+  ]
 }

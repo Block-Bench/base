@@ -73,9 +73,44 @@ VULN_PATTERN = re.compile('|'.join(VULNERABILITY_KEYWORDS), re.IGNORECASE)
 # Pattern to match "Vulnerable" prefix in contract names
 VULNERABLE_CONTRACT_PATTERN = re.compile(r'\bcontract\s+Vulnerable(\w+)')
 
+# Pattern to match line markers /*LN-N*/ (with optional trailing space)
+LINE_MARKER_PATTERN = re.compile(r'/\*LN-\d+\*/ ?')
+
+
+def strip_line_markers(content: str) -> str:
+    """
+    Remove all line markers from content.
+
+    This allows processing scripts to work on clean content
+    and generate fresh markers for output.
+    """
+    # Remove line markers from each line
+    lines = content.split('\n')
+    clean_lines = []
+    for line in lines:
+        clean_line = LINE_MARKER_PATTERN.sub('', line)
+        clean_lines.append(clean_line)
+    return '\n'.join(clean_lines)
+
+
+def add_line_markers(content: str) -> str:
+    """
+    Add fresh sequential line markers to content.
+
+    Format: /*LN-N*/ where N is 1-indexed line number.
+    """
+    lines = content.split('\n')
+    marked_lines = []
+    for i, line in enumerate(lines, start=1):
+        marked_lines.append(f'/*LN-{i}*/ {line}')
+    return '\n'.join(marked_lines)
+
 
 def should_remove_line(line: str) -> bool:
-    """Check if a line should be removed entirely."""
+    """Check if a line should be removed entirely.
+
+    Note: Expects clean content without line markers.
+    """
     stripped = line.strip()
 
     # Skip empty lines (keep them)
@@ -148,7 +183,10 @@ def clean_title_comment(line: str) -> str:
 
 
 def clean_inline_comment(line: str) -> str:
-    """Remove inline comments that contain vulnerability keywords."""
+    """Remove inline comments that contain vulnerability keywords.
+
+    Note: This function expects line content WITHOUT line markers.
+    """
     # Check if line has code followed by inline comment
     if '//' in line:
         code_part, comment_part = line.split('//', 1)
@@ -165,7 +203,13 @@ def process_solidity_file(content: str) -> Tuple[str, Dict[str, str], List[str]]
 
     Returns:
         Tuple of (sanitized_content, contract_renames, changes_list)
+
+    Note: Input may contain line markers - they are stripped first.
+          Output will have fresh sequential line markers.
     """
+    # First, strip any existing line markers from input
+    content = strip_line_markers(content)
+
     # Extract contract renames before processing
     contract_renames = extract_contract_renames(content)
     changes = []
@@ -187,7 +231,7 @@ def process_solidity_file(content: str) -> Tuple[str, Dict[str, str], List[str]]
         line = lines[i]
 
         # Track block comments
-        if '/**' in line or '/*' in line:
+        if not in_block_comment and ('/**' in line or '/*' in line):
             in_block_comment = True
             block_comment_lines = [line]
             i += 1
@@ -244,25 +288,32 @@ def process_solidity_file(content: str) -> Tuple[str, Dict[str, str], List[str]]
         cleaned_lines.append(line)
         prev_blank = is_blank
 
-    return '\n'.join(cleaned_lines), contract_renames, changes
+    # Generate fresh sequential line markers for output
+    sanitized_content = '\n'.join(cleaned_lines)
+    marked_content = add_line_markers(sanitized_content)
+
+    return marked_content, contract_renames, changes
 
 
 def update_metadata(original_metadata: dict, sanitized_id: str, original_id: str,
-                   contract_renames: Dict[str, str], changes: List[str]) -> dict:
+                   contract_renames: Dict[str, str], changes: List[str],
+                   source_dir: str = None) -> dict:
     """
     Update metadata to reflect sanitization changes.
 
-    Copies all original metadata and updates:
-    - id, contract_file
+    Copies all original metadata and updates only what changes with transformation:
+    - sample_id, contract_file (paths)
     - vulnerable_contract (if renamed)
+    - vulnerable_lines (cleared - needs manual update for new line numbers)
     - Adds transformation tracking
+
+    All other fields (description, attack_scenario, etc.) remain unchanged.
     """
     # Start with a copy of original metadata
     metadata = original_metadata.copy()
 
-    # Update basic identifiers
-    metadata['id'] = sanitized_id
-    metadata['original_id'] = original_id
+    # Update identifiers and paths
+    metadata['sample_id'] = sanitized_id
     metadata['contract_file'] = f"contracts/{sanitized_id}.sol"
     metadata['variant_type'] = 'minimalsanitized'
     metadata['variant_parent_id'] = original_id
@@ -278,22 +329,24 @@ def update_metadata(original_metadata: dict, sanitized_id: str, original_id: str
         elif isinstance(old_contract, str) and old_contract in contract_renames:
             metadata['vulnerable_contract'] = contract_renames[old_contract]
 
-    # Add transformation tracking
+    # Add transformation tracking with proper source path
+    source_path = source_dir if source_dir else f"dataset/temporal_contamination/original"
     metadata['transformation'] = {
         'type': 'minimal_sanitization',
-        'source': f'o_{original_id}',
+        'source_dir': source_path,
+        'source_contract': f"{source_path}/contracts/{original_id}.sol",
+        'source_metadata': f"{source_path}/metadata/{original_id}.json",
         'script': 'strategies/sanitize/minimal_sanitize.py',
         'changes': changes,
         'contract_renames': contract_renames,
         'created_date': datetime.now().isoformat()
     }
 
-    # Clear vulnerable_lines - must be manually updated to match LN-* markers
-    # The original line numbers don't apply to the sanitized version
+    # Clear vulnerable_lines - line numbers change after sanitization
+    # Must be manually updated to match new LN-* markers
     if 'vulnerable_lines' in metadata:
-        metadata['vulnerable_lines_original'] = metadata['vulnerable_lines']  # Keep original for reference
+        metadata['vulnerable_lines_original'] = metadata['vulnerable_lines']  # Keep for reference
         metadata['vulnerable_lines'] = []  # Clear - needs manual update
-        metadata['vulnerable_lines_note'] = "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
 
     return metadata
 
@@ -371,7 +424,8 @@ def main():
             # Update and write metadata
             updated_metadata = update_metadata(
                 original_metadata, sanitized_id, original_id,
-                contract_renames, changes
+                contract_renames, changes,
+                source_dir=str(input_base)
             )
             metadata_file = metadata_dir / f"{sanitized_id}.json"
             metadata_file.write_text(json.dumps(updated_metadata, indent=2))
@@ -416,8 +470,9 @@ def main():
         ],
         "total_files": processed,
         "prefix": "ms_tc_",
-        "source": "data/originals/contracts/o_tc_*.sol",
-        "metadata_source": "data/originals/metadata/o_tc_*.json",
+        "source_dir": str(input_base),
+        "source_contracts": str(input_contracts_dir),
+        "source_metadata": str(input_metadata_dir),
         "contract_renames": all_renames,
         "created_date": datetime.now().isoformat()
     }

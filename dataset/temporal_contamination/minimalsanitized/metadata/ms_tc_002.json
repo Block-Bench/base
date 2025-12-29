@@ -1,5 +1,5 @@
 {
-  "sample_id": "temporal_beanstalk_001",
+  "sample_id": "ms_tc_002",
   "exploit_name": "Beanstalk",
   "date": "2022-04-17",
   "amount_lost_usd": "182000000",
@@ -14,7 +14,7 @@
   "description": "Beanstalk governance attack using flash loans to gain voting power and execute malicious proposal. Attacker borrowed $1B via flash loan, deposited into Silo to gain majority voting power, proposed and immediately executed a malicious governance action to drain the protocol, then repaid the flash loan.",
   "vulnerable_contract": "BeanstalkGovernance",
   "vulnerable_function": "emergencyCommit",
-  "vulnerable_lines": [54, 55, 56, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92],
+  "vulnerable_lines": [],
   "attack_scenario": "Attacker takes massive flash loan from Aave ($1B in stablecoins), swaps for Curve 3pool LP tokens, deposits into Beanstalk Silo gaining >66% voting power, creates malicious governance proposal to transfer all funds, votes with flash-loan-funded power, immediately executes via emergencyCommit(), drains protocol, repays flash loan with profit.",
   "root_cause": "Governance system allowed instant voting power from deposits with no time-weighting or holding period. The emergencyCommit() function enabled immediate execution of proposals that reached 66% approval, with no time delay for community review. This combination made flash loan governance attacks trivial to execute.",
   "fix_description": "Implement time-weighted voting where voting power increases with duration of deposit. Add minimum holding period before deposits grant voting rights. Implement mandatory time delay (timelock) between proposal creation and execution. Remove or heavily restrict emergencyCommit() function. Use snapshot-based voting to prevent same-block deposit and vote. Add multi-sig or guardian oversight for emergency functions.",
@@ -38,11 +38,11 @@
   "contract_file": "contracts/ms_tc_002.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_002",
-  "original_id": "tc_002",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_002",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_002.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_002.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableBeanstalkGovernance -> BeanstalkGovernance",
@@ -52,32 +52,13 @@
     "contract_renames": {
       "VulnerableBeanstalkGovernance": "BeanstalkGovernance"
     },
-    "created_date": "2025-12-29T19:57:25.452464"
+    "created_date": "2025-12-29T21:51:29.848235"
   },
   "vulnerable_lines_original": [
+    87,
     88,
-    89,
-    90,
-    91,
-    92,
-    99,
-    100,
-    101,
-    102,
-    103,
-    137,
-    138,
-    139,
-    140,
-    141,
-    142,
-    143,
-    144,
-    145,
-    146,
-    147,
-    148,
-    149
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    154,
+    155,
+    161
+  ]
 }

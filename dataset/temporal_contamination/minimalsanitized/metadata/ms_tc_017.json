@@ -1,5 +1,5 @@
 {
-  "id": "ms_tc_017",
+  "id": "pickle_finance_2020",
   "exploit_name": "Pickle Finance",
   "date": "2020-11-21",
   "blockchain": "ethereum",
@@ -14,7 +14,7 @@
   "attack_scenario": "Attacker created fake jar contracts, called swapExactJarForJar with malicious targets pointing to real strategies and calldata encoding withdrawAll(). Controller executed these calls, draining strategies.",
   "vulnerable_contract": "pickle_finance.sol",
   "vulnerable_function": "swapExactJarForJar",
-  "vulnerable_lines": [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 71, 72, 73, 74, 75, 76, 82, 83, 84, 85],
+  "vulnerable_lines": [],
   "fix_description": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors.",
   "tags": [
     "arbitrary-call",
@@ -34,12 +34,14 @@
   "contract_file": "contracts/ms_tc_017.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "original_id": "tc_017",
+  "sample_id": "ms_tc_017",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_017",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_017",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_017.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_017.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerablePickleController -> PickleController",
@@ -49,22 +51,9 @@
     "contract_renames": {
       "VulnerablePickleController": "PickleController"
     },
-    "created_date": "2025-12-29T19:57:25.469977"
+    "created_date": "2025-12-29T21:51:29.869871"
   },
   "vulnerable_lines_original": [
-    88,
-    89,
-    90,
-    91,
-    118,
-    119,
-    120,
-    121,
-    122,
-    128,
-    129,
-    130,
-    131
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    92
+  ]
 }

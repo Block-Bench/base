@@ -1,5 +1,5 @@
 {
-  "sample_id": "temporal_parity_001",
+  "sample_id": "ms_tc_003",
   "exploit_name": "Parity Wallet",
   "date": "2017-11-06",
   "amount_lost_usd": "150000000",
@@ -14,7 +14,7 @@
   "description": "Parity multi-sig wallet library vulnerability where anyone could call initWallet() on the shared library contract to become owner, then call kill() to selfdestruct it. This permanently froze $150M+ across 587 wallet contracts that relied on the destroyed library. The bug was accidentally triggered by a user, not a malicious attacker.",
   "vulnerable_contract": "ParityWalletLibrary",
   "vulnerable_function": "kill",
-  "vulnerable_lines": [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 57, 58, 59, 60, 61, 62, 63, 64],
+  "vulnerable_lines": [],
   "attack_scenario": "User calls initWallet() directly on the WalletLibrary contract (not via delegatecall from a proxy), becoming the owner of the library itself. User then calls kill() function which executes selfdestruct, destroying the library contract. All 587 wallet proxies that delegatecall to this library are now permanently frozen with no way to access funds.",
   "root_cause": "The library contract's initWallet() function had no access control preventing direct calls. In the proxy pattern, libraries should never have initialization functions that can be called directly. Combined with a kill() function containing selfdestruct, this allowed anyone to destroy the shared library that all wallets depended on.",
   "fix_description": "Library contracts should not have initialization functions callable directly (only via delegatecall). Remove selfdestruct from library contracts entirely. Use Solidity's 'library' keyword instead of 'contract' for shared logic. Add explicit access controls checking deployment context. Use modern upgradeable proxy patterns (EIP-1967) with proper initialization guards. Separate proxy storage from library logic clearly.",
@@ -39,11 +39,11 @@
   "contract_file": "contracts/ms_tc_003.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_003",
-  "original_id": "tc_003",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_003",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_003.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_003.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableParityWalletLibrary -> ParityWalletLibrary",
@@ -53,45 +53,10 @@
     "contract_renames": {
       "VulnerableParityWalletLibrary": "ParityWalletLibrary"
     },
-    "created_date": "2025-12-29T19:57:25.453615"
+    "created_date": "2025-12-29T21:51:29.849742"
   },
   "vulnerable_lines_original": [
-    59,
-    60,
-    61,
-    62,
-    63,
-    64,
     65,
-    66,
-    67,
-    68,
-    69,
-    70,
-    71,
-    72,
-    73,
-    74,
-    75,
-    76,
-    77,
-    78,
-    79,
-    80,
-    81,
-    82,
-    83,
-    84,
-    85,
-    103,
-    104,
-    105,
-    106,
-    107,
-    108,
-    109,
-    110,
-    111
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    124
+  ]
 }

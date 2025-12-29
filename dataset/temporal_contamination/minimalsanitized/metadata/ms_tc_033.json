@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_033",
+  "sample_id": "ms_tc_033",
   "exploit_name": "Socket Gateway Route Manipulation",
   "timestamp": "2024-01",
   "loss_amount_usd": 3300000,
@@ -19,7 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Socket Gateway, a cross-chain bridge aggregator, was exploited for $3.3M when attackers discovered route 406 accepted arbitrary user-controlled calldata. By injecting transferFrom calls into swapExtraData, attackers drained tokens from any user who had approved the Socket Gateway contract.",
-  "vulnerable_lines": [29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "User-controlled calldata executed without validation in route contract",
     "attack_vector": "Inject IERC20.transferFrom() calls via swapExtraData parameter to drain approved tokens from victims",
@@ -67,13 +67,13 @@
   "contract_file": "contracts/ms_tc_033.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_033",
-  "original_id": "tc_033",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_033",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_033",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_033.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_033.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableRoute -> Route",
@@ -83,6 +83,10 @@
     "contract_renames": {
       "VulnerableRoute": "Route"
     },
-    "created_date": "2025-12-29T19:57:25.483882"
-  }
+    "created_date": "2025-12-29T21:51:29.887079"
+  },
+  "vulnerable_lines_original": [
+    51,
+    88
+  ]
 }

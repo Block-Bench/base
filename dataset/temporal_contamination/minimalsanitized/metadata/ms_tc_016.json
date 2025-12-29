@@ -1,5 +1,5 @@
 {
-  "id": "ms_tc_016",
+  "id": "bzx_protocol_2020",
   "exploit_name": "bZx Protocol",
   "date": "2020-09-14",
   "blockchain": "ethereum",
@@ -14,7 +14,7 @@
   "attack_scenario": "Attacker minted tokens, then transferred to self 4 times in loop. Each transfer triggered callback with inconsistent state. After iterations, token balance inflated. Burned inflated tokens back to ETH for profit.",
   "vulnerable_contract": "bzx_protocol.sol",
   "vulnerable_function": "transfer",
-  "vulnerable_lines": [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83],
+  "vulnerable_lines": [],
   "fix_description": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
   "tags": [
     "reentrancy",
@@ -34,12 +34,14 @@
   "contract_file": "contracts/ms_tc_016.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "original_id": "tc_016",
+  "sample_id": "ms_tc_016",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_016",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_016",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_016.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_016.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableBZXLoanToken -> BZXLoanToken",
@@ -48,13 +50,10 @@
     "contract_renames": {
       "VulnerableBZXLoanToken": "BZXLoanToken"
     },
-    "created_date": "2025-12-29T19:57:25.469096"
+    "created_date": "2025-12-29T21:51:29.867604"
   },
   "vulnerable_lines_original": [
-    82,
-    83,
-    85,
-    100
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    88,
+    109
+  ]
 }

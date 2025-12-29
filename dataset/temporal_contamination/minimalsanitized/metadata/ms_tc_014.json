@@ -1,5 +1,5 @@
 {
-  "id": "ms_tc_014",
+  "id": "yearn_ydai_2021",
   "exploit_name": "Yearn Finance yDAI Vault",
   "date": "2021-02-04",
   "blockchain": "ethereum",
@@ -14,7 +14,7 @@
   "attack_scenario": "Attacker used flash loans to imbalance Curve 3pool, inflating virtual_price. Called vault.earn() which used inflated price. Normalized pool, repeated process multiple times to siphon value. Withdrew with inflated shares.",
   "vulnerable_contract": "yearn_ydai.sol",
   "vulnerable_function": "earn",
-  "vulnerable_lines": [75, 106, 107, 108, 109, 110, 111],
+  "vulnerable_lines": [],
   "fix_description": "Use TWAP oracle instead of spot price. Implement slippage protection on Curve operations. Add sanity checks comparing spot price to time-weighted average. Limit strategy execution frequency.",
   "tags": [
     "flash-loan",
@@ -35,12 +35,14 @@
   "contract_file": "contracts/ms_tc_014.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "original_id": "tc_014",
+  "sample_id": "ms_tc_014",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_014",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_014",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_014.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_014.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableYearnVault -> YearnVault",
@@ -50,13 +52,10 @@
     "contract_renames": {
       "VulnerableYearnVault": "YearnVault"
     },
-    "created_date": "2025-12-29T19:57:25.466927"
+    "created_date": "2025-12-29T21:51:29.865369"
   },
   "vulnerable_lines_original": [
-    106,
-    109,
-    111,
-    142
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    128,
+    162
+  ]
 }

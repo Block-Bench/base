@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_049",
+  "sample_id": "ms_tc_049",
   "exploit_name": "Exactly Protocol",
   "timestamp": "2024-08",
   "loss_amount_usd": 12000000,
@@ -19,6 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-08",
   "description": "Exactly Protocol lost $12M when attackers exploited the DebtPreviewer helper contract. By providing a malicious market address in the debt calculation, they manipulated their perceived collateral value, allowing over-borrowing far exceeding actual collateral.",
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "DebtPreviewer trusted user-provided market addresses without validation, allowing fake market data injection",
     "attack_vector": "Deploy malicious market returning fake collateral, pass to previewer in borrow check, over-borrow",
@@ -67,19 +68,23 @@
   "contract_file": "contracts/ms_tc_049.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_049",
-  "original_id": "tc_049",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_049",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_049",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_049.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_049.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 4 vulnerability comment block(s)",
       "Removed 9 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.580533"
-  }
+    "created_date": "2025-12-29T21:51:29.909526"
+  },
+  "vulnerable_lines_original": [
+    77,
+    160
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "id": "ms_tc_020",
+  "id": "warp_finance_2020_12",
   "exploit_name": "Warp Finance LP Token Price Manipulation",
   "date": "2020-12-17",
   "blockchain": "ethereum",
@@ -16,7 +16,6 @@
     "defi_lending"
   ],
   "description": "Warp Finance allowed users to deposit Uniswap LP tokens as collateral and borrow stablecoins. The protocol calculated LP token value using current pool reserves without protection against flash loan manipulation. An attacker used flash loans to massively imbalance a Uniswap pool, inflating the calculated value of their LP tokens, then borrowed far more than their collateral's true worth.",
-  "vulnerable_lines": [54, 55, 56, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89],
   "attack_scenario": "1) Flash loan 5M DAI. 2) Swap DAI -> ETH in Uniswap pool, heavily imbalancing reserves (6M DAI, 100 ETH). 3) LP token value calculation uses manipulated reserves, showing inflated value. 4) Deposit LP tokens as collateral in Warp Finance. 5) Borrow maximum stablecoins based on inflated collateral valuation (2-3x more than true value). 6) Swap back to rebalance pool. 7) Repay flash loan. 8) Keep overborrowed funds. Loss: $7.7M.",
   "vulnerable_contract": {
     "name": "WarpVault",
@@ -32,6 +31,7 @@
     ]
   },
   "root_cause": "LP token value was calculated directly from current Uniswap pool reserves without using time-weighted average prices (TWAP) or external oracles. Flash loan attackers could temporarily manipulate pool reserves within a single transaction, inflating the perceived value of LP tokens and overborrowing against them.",
+  "vulnerable_lines": [],
   "fix": "Use Uniswap V2/V3 TWAP oracles for price feeds instead of instantaneous reserves. Implement manipulation-resistant LP token valuation formulas (such as Alpha Homora V2's fair LP pricing). Use external price oracles like Chainlink for asset prices. Consider requiring multi-block delays for large collateral value increases.",
   "references": [
     "https://peckshield.medium.com/warpfinance-incident-root-cause-analysis-581a7f0e2437",
@@ -45,17 +45,22 @@
   "contract_file": "contracts/ms_tc_020.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "original_id": "tc_020",
+  "sample_id": "ms_tc_020",
   "variant_parent_id": "tc_020",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_020",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_020.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_020.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 3 vulnerability comment block(s)",
       "Removed 3 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.472950"
-  }
+    "created_date": "2025-12-29T21:51:29.874025"
+  },
+  "vulnerable_lines_original": [
+    112
+  ]
 }

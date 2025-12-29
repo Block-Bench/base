@@ -1,5 +1,5 @@
 {
-  "sample_id": "temporal_nomad_001",
+  "sample_id": "ms_tc_001",
   "exploit_name": "Nomad Bridge",
   "date": "2022-08-01",
   "amount_lost_usd": "190000000",
@@ -14,7 +14,7 @@
   "description": "Nomad Bridge hack exploiting improper initialization of message validation. After a contract upgrade, the acceptedRoot was mistakenly set to 0x00...00, allowing attackers to craft messages that bypassed validation and drain $190M across 41 different tokens.",
   "vulnerable_contract": "NomadReplica",
   "vulnerable_function": "process",
-  "vulnerable_lines": [18, 52, 53, 76, 77, 78],
+  "vulnerable_lines": [],
   "attack_scenario": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation. The process() function incorrectly accepts these messages, triggering token transfers without corresponding deposits on the source chain.",
   "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
   "fix_description": "Proper initialization of acceptedRoot after contract upgrades. Implement strict validation that acceptedRoot can never be 0x00...00. Add additional checks to ensure messages are properly committed to a merkle tree before processing. Implement emergency pause mechanisms.",
@@ -39,11 +39,11 @@
   "contract_file": "contracts/ms_tc_001.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_001",
-  "original_id": "tc_001",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_001",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_001.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_001.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableNomadReplica -> NomadReplica",
@@ -53,16 +53,10 @@
     "contract_renames": {
       "VulnerableNomadReplica": "NomadReplica"
     },
-    "created_date": "2025-12-29T19:57:25.451307"
+    "created_date": "2025-12-29T21:51:29.846696"
   },
   "vulnerable_lines_original": [
-    74,
-    75,
-    78,
-    96,
-    97,
-    98,
-    99
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    46,
+    84
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_048",
+  "sample_id": "ms_tc_048",
   "exploit_name": "Sonne Finance",
   "timestamp": "2024-05",
   "loss_amount_usd": 20000000,
@@ -19,6 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-05",
   "description": "Sonne Finance, a Compound V2 fork on Optimism, lost $20M through a donation attack on a low-liquidity market. The attacker deposited minimal tokens, donated large amounts directly to inflate the exchange rate, then used the inflated collateral value to borrow assets far exceeding actual collateral.",
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Exchange rate calculation vulnerable when totalSupply is very small, allowing donation to manipulate underlying/supply ratio",
     "attack_vector": "Mint minimal cTokens, donate underlying to contract, exchange rate inflates, use as over-valued collateral",
@@ -66,19 +67,23 @@
   "contract_file": "contracts/ms_tc_048.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_048",
-  "original_id": "tc_048",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_048",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_048",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_048.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_048.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 3 vulnerability comment block(s)",
       "Removed 8 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.579446"
-  }
+    "created_date": "2025-12-29T21:51:29.908518"
+  },
+  "vulnerable_lines_original": [
+    76,
+    84
+  ]
 }

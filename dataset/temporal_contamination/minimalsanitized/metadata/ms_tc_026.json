@@ -1,5 +1,5 @@
 {
-  "id": "ms_tc_026",
+  "id": "anyswap_2022_01",
   "exploit_name": "Anyswap Permit Bypass",
   "date": "2022-01-18",
   "blockchain": "ethereum",
@@ -14,9 +14,9 @@
     "cross_chain"
   ],
   "description": "Anyswap bridge's anySwapOutUnderlyingWithPermit function had incomplete validation of EIP-2612 permit signatures. The function proceeded with token transfers even when permit validation failed, allowing attackers to bridge tokens without proper authorization.",
-  "vulnerable_lines": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
   "attack_scenario": "1) Attacker called anySwapOutUnderlyingWithPermit with victim's token address. 2) Passed invalid permit signature (v=0, r=0, s=0). 3) Permit validation failed silently. 4) Function continued executing anyway. 5) Tokens were burned/locked and bridged to destination chain. 6) Repeated to drain $8M worth of WETH and other tokens.",
   "root_cause": "The permit validation used try-catch that swallowed failures without reverting. The function proceeded with token operations regardless of whether the permit succeeded, effectively bypassing authorization checks entirely.",
+  "vulnerable_lines": [],
   "fix": "Require permit to succeed: remove try-catch or explicitly check return value. Alternatively, require existing approval if permit fails. Never proceed with token operations without verified authorization.",
   "references": [
     "https://twitter.com/AnyswapNetwork/status/1483420010546745344"
@@ -37,17 +37,23 @@
   "contract_file": "contracts/ms_tc_026.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "original_id": "tc_026",
+  "sample_id": "ms_tc_026",
   "variant_parent_id": "tc_026",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_026",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_026.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_026.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 2 vulnerability comment block(s)",
       "Removed 4 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.478253"
-  }
+    "created_date": "2025-12-29T21:51:29.880519"
+  },
+  "vulnerable_lines_original": [
+    37,
+    42
+  ]
 }

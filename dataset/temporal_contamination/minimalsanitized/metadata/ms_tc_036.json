@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_036",
+  "sample_id": "ms_tc_036",
   "exploit_name": "Prisma Finance Delegate Approval",
   "timestamp": "2024-03",
   "loss_amount_usd": 10000000,
@@ -20,7 +20,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-03",
   "description": "Prisma Finance suffered a $10M exploit through its MigrateTroveZap contract which accepted user-controlled account parameters. Attackers exploited delegate approvals to open troves and mint debt tokens on behalf of victims who had approved the zap contract, then received the minted tokens themselves.",
-  "vulnerable_lines": [56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 93, 94, 95, 96, 97, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "User-controlled account parameter in zap contract combined with overly permissive delegate approval system",
     "attack_vector": "Use delegate approval to open troves on victim accounts with attacker's collateral, mint debt to attacker, victim gets debt obligation",
@@ -68,19 +68,23 @@
   "contract_file": "contracts/ms_tc_036.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_036",
-  "original_id": "tc_036",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_036",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_036",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_036.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_036.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 2 vulnerability comment block(s)",
       "Removed 9 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.487854"
-  }
+    "created_date": "2025-12-29T21:51:29.890755"
+  },
+  "vulnerable_lines_original": [
+    95,
+    105
+  ]
 }

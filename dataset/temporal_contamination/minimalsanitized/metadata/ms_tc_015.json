@@ -1,5 +1,5 @@
 {
-  "id": "ms_tc_015",
+  "id": "compound_tusd_2022",
   "exploit_name": "Compound cTUSD",
   "date": "2022-03-15",
   "blockchain": "ethereum",
@@ -14,7 +14,7 @@
   "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
   "vulnerable_contract": "compound_tusd.sol",
   "vulnerable_function": "sweepToken",
-  "vulnerable_lines": [37, 38, 39, 40, 41, 42, 43, 44],
+  "vulnerable_lines": [],
   "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
   "tags": [
     "logic-error",
@@ -33,12 +33,14 @@
   "contract_file": "contracts/ms_tc_015.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "original_id": "tc_015",
+  "sample_id": "ms_tc_015",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_015",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_015",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_015.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_015.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableCompoundCToken -> CompoundCToken",
@@ -48,12 +50,9 @@
     "contract_renames": {
       "VulnerableCompoundCToken": "CompoundCToken"
     },
-    "created_date": "2025-12-29T19:57:25.467909"
+    "created_date": "2025-12-29T21:51:29.866216"
   },
   "vulnerable_lines_original": [
-    45,
-    76,
-    80
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    81
+  ]
 }

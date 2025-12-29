@@ -1,5 +1,5 @@
 {
-  "sample_id": "temporal_ronin_001",
+  "sample_id": "ms_tc_006",
   "exploit_name": "Ronin Bridge",
   "date": "2022-03-23",
   "amount_lost_usd": "625000000",
@@ -14,7 +14,7 @@
   "description": "Ronin Bridge hack where attackers compromised 5 out of 9 validator private keys, all controlled or accessible by a single entity (Sky Mavis). With control of 5 validators, attackers forged valid signatures for fake withdrawal requests, draining $625M in ETH and USDC. The vulnerability was excessive centralization and poor key management, not a smart contract bug.",
   "vulnerable_contract": "RoninBridge",
   "vulnerable_function": "withdrawERC20For",
-  "vulnerable_lines": [9, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118],
+  "vulnerable_lines": [],
   "attack_scenario": "Attackers (Lazarus Group) compromised Sky Mavis infrastructure through social engineering and gained access to private keys for 4 validators directly controlled by Sky Mavis and 1 DAO validator that Sky Mavis had temporary access to. With 5 out of 9 required validator keys, attackers created fake withdrawal transactions with genuinely valid signatures. Bridge contract verified signatures (all valid), processed withdrawals, and transferred $625M to attacker addresses.",
   "root_cause": "Excessive centralization where a single entity (Sky Mavis) controlled or had access to 5 out of 9 validators - exactly the threshold needed to approve withdrawals. Poor key management practices allowed attackers to compromise all necessary keys through a single infrastructure breach. The smart contract logic was correct, but the validator setup violated the principle of decentralization that multi-sig security depends on.",
   "fix_description": "Increase total validator count significantly. Ensure no single entity controls multiple validators. Implement hardware security modules (HSMs) for key storage. Use Multi-Party Computation (MPC) threshold signatures instead of simple multi-sig. Require geographic and organizational diversity among validators. Implement real-time monitoring and anomaly detection for unusual withdrawals. Add withdrawal limits and timelocks for large amounts. Use cold wallets with delays for large reserves. Conduct regular security audits and penetration testing.",
@@ -41,11 +41,11 @@
   "contract_file": "contracts/ms_tc_006.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_006",
-  "original_id": "tc_006",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_006",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_006.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_006.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Renamed contract: VulnerableRoninBridge -> RoninBridge",
@@ -55,33 +55,9 @@
     "contract_renames": {
       "VulnerableRoninBridge": "RoninBridge"
     },
-    "created_date": "2025-12-29T19:57:25.457888"
+    "created_date": "2025-12-29T21:51:29.854452"
   },
   "vulnerable_lines_original": [
-    81,
-    82,
-    83,
-    84,
-    85,
-    86,
-    87,
-    88,
-    89,
-    90,
-    91,
-    92,
-    93,
-    94,
-    95,
-    96,
-    97,
-    98,
-    99,
-    100,
-    101,
-    102,
-    103,
-    113
-  ],
-  "vulnerable_lines_note": "MUST BE MANUALLY UPDATED: Use LN-* marker numbers from sanitized contract"
+    44
+  ]
 }

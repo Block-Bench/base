@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_032",
+  "sample_id": "ms_tc_032",
   "exploit_name": "Radiant Capital Rounding Exploit",
   "timestamp": "2024-01",
   "loss_amount_usd": 4500000,
@@ -20,7 +20,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Radiant Capital (Aave V2 fork on Arbitrum) was exploited for $4.5M through manipulation of the liquidityIndex via repeated flashloan cycles. The attacker executed 151 nested flashloans to inflate the liquidityIndex to extreme values, causing rounding errors in the rayDiv function that allowed extracting more funds than deposited.",
-  "vulnerable_lines": [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 148, 149, 150, 151, 152],
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Unbounded liquidityIndex growth combined with fixed-point arithmetic rounding errors",
     "attack_vector": "Repeated flashloan deposit/withdrawal cycles to manipulate liquidityIndex, then exploit rounding in withdrawal calculations",
@@ -69,19 +69,23 @@
   "contract_file": "contracts/ms_tc_032.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_032",
-  "original_id": "tc_032",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_032",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_032",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_032.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_032.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 2 vulnerability comment block(s)",
       "Removed 4 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.482828"
-  }
+    "created_date": "2025-12-29T21:51:29.886040"
+  },
+  "vulnerable_lines_original": [
+    71,
+    169
+  ]
 }

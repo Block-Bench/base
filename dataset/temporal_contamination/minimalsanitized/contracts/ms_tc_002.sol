@@ -60,35 +60,54 @@
 /*LN-60*/         IDiamondCut.FacetCut[] calldata, // Diamond cut (unused in this simplified version)
 /*LN-61*/         address _target,
 /*LN-62*/         bytes calldata _calldata,
-/*LN-63*/     /**
-/*LN-64*/      * @notice Vote on a proposal
-/*LN-65*/      * @param proposalId The ID of the proposal
-/*LN-66*/      */
-/*LN-67*/     function vote(uint256 proposalId) external {
-/*LN-68*/         require(!hasVoted[proposalId][msg.sender], "Already voted");
-/*LN-69*/         require(!proposals[proposalId].executed, "Already executed");
-/*LN-70*/ 
-/*LN-71*/         proposals[proposalId].forVotes += votingPower[msg.sender];
-/*LN-72*/         hasVoted[proposalId][msg.sender] = true;
+/*LN-63*/         uint8 /* _pauseOrUnpause */
+/*LN-64*/     ) external returns (uint256) {
+/*LN-65*/         proposalCount++;
+/*LN-66*/ 
+/*LN-67*/         Proposal storage prop = proposals[proposalCount];
+/*LN-68*/         prop.proposer = msg.sender;
+/*LN-69*/         prop.target = _target;
+/*LN-70*/         prop.data = _calldata;
+/*LN-71*/         prop.startTime = block.timestamp;
+/*LN-72*/         prop.executed = false;
 /*LN-73*/ 
-/*LN-74*/         emit Voted(proposalId, msg.sender, votingPower[msg.sender]);
-/*LN-75*/     }
-/*LN-76*/ 
-/*LN-77*/     function emergencyCommit(uint256 proposalId) external {
-/*LN-78*/         Proposal storage prop = proposals[proposalId];
-/*LN-79*/         require(!prop.executed, "Already executed");
-/*LN-80*/ 
-/*LN-81*/         // or minimum holding period
-/*LN-82*/         uint256 votePercentage = (prop.forVotes * 100) / totalVotingPower;
-/*LN-83*/         require(votePercentage >= EMERGENCY_THRESHOLD, "Insufficient votes");
-/*LN-84*/ 
-/*LN-85*/         prop.executed = true;
-/*LN-86*/ 
-/*LN-87*/         // Execute the proposal
-/*LN-88*/         (bool success, ) = prop.target.call(prop.data);
-/*LN-89*/         require(success, "Execution failed");
-/*LN-90*/ 
-/*LN-91*/         emit ProposalExecuted(proposalId);
-/*LN-92*/     }
-/*LN-93*/ }
-/*LN-94*/ 
+/*LN-74*/         // Auto-vote with proposer's voting power
+/*LN-75*/         prop.forVotes = votingPower[msg.sender];
+/*LN-76*/         hasVoted[proposalCount][msg.sender] = true;
+/*LN-77*/ 
+/*LN-78*/         emit ProposalCreated(proposalCount, msg.sender, _target);
+/*LN-79*/         return proposalCount;
+/*LN-80*/     }
+/*LN-81*/ 
+/*LN-82*/     /**
+/*LN-83*/      * @notice Vote on a proposal
+/*LN-84*/      * @param proposalId The ID of the proposal
+/*LN-85*/      */
+/*LN-86*/     function vote(uint256 proposalId) external {
+/*LN-87*/         require(!hasVoted[proposalId][msg.sender], "Already voted");
+/*LN-88*/         require(!proposals[proposalId].executed, "Already executed");
+/*LN-89*/ 
+/*LN-90*/         proposals[proposalId].forVotes += votingPower[msg.sender];
+/*LN-91*/         hasVoted[proposalId][msg.sender] = true;
+/*LN-92*/ 
+/*LN-93*/         emit Voted(proposalId, msg.sender, votingPower[msg.sender]);
+/*LN-94*/     }
+/*LN-95*/ 
+/*LN-96*/     function emergencyCommit(uint256 proposalId) external {
+/*LN-97*/         Proposal storage prop = proposals[proposalId];
+/*LN-98*/         require(!prop.executed, "Already executed");
+/*LN-99*/ 
+/*LN-100*/         // or minimum holding period
+/*LN-101*/         uint256 votePercentage = (prop.forVotes * 100) / totalVotingPower;
+/*LN-102*/         require(votePercentage >= EMERGENCY_THRESHOLD, "Insufficient votes");
+/*LN-103*/ 
+/*LN-104*/         prop.executed = true;
+/*LN-105*/ 
+/*LN-106*/         // Execute the proposal
+/*LN-107*/         (bool success, ) = prop.target.call(prop.data);
+/*LN-108*/         require(success, "Execution failed");
+/*LN-109*/ 
+/*LN-110*/         emit ProposalExecuted(proposalId);
+/*LN-111*/     }
+/*LN-112*/ }
+/*LN-113*/ 

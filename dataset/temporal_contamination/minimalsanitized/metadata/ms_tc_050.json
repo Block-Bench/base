@@ -1,5 +1,5 @@
 {
-  "sample_id": "sample_050",
+  "sample_id": "ms_tc_050",
   "exploit_name": "Munchables",
   "timestamp": "2024-03",
   "loss_amount_usd": 62000000,
@@ -19,6 +19,7 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-03",
   "description": "Munchables, a GameFi project on Blast L2, lost $62M when a rogue developer (later revealed as North Korean operative) used admin keys to upgrade contracts and redirect user funds. Uniquely, all funds were recovered after negotiations. The incident highlights insider threats and importance of developer vetting.",
+  "vulnerable_lines": [],
   "vulnerability_details": {
     "root_cause": "Single developer had access to admin private keys without multi-sig or oversight, allowing malicious upgrades",
     "attack_vector": "Rogue developer upgrades LockManager, modifies user withdrawal addresses, drains all locked funds",
@@ -71,19 +72,23 @@
   "contract_file": "contracts/ms_tc_050.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
-  "id": "ms_tc_050",
-  "original_id": "tc_050",
   "variant_type": "minimalsanitized",
   "variant_parent_id": "tc_050",
   "transformation": {
     "type": "minimal_sanitization",
-    "source": "o_tc_050",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_050.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_050.json",
     "script": "strategies/sanitize/minimal_sanitize.py",
     "changes": [
       "Removed 3 vulnerability comment block(s)",
       "Removed 7 vulnerability hint line(s)"
     ],
     "contract_renames": {},
-    "created_date": "2025-12-29T19:57:25.581690"
-  }
+    "created_date": "2025-12-29T21:51:29.910726"
+  },
+  "vulnerable_lines_original": [
+    117,
+    125
+  ]
 }
