@@ -1,0 +1,83 @@
+False Prophet Transformation - tc_026 (AnyswapRouter)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_026.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Cross-Chain Bridge with Permit
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional bridge documentation:
+   - Added: "Cross-chain bridge router with permit support"
+   - Added: "Audited by PeckShield (Q3 2021) - All findings resolved"
+   - Added: "Implements EIP-2612 permit for gasless approvals"
+   - Added: "Supports cross-chain token bridging via anySwap protocol"
+   - Security contact: security@anyswap.exchange
+
+2. ANYSWAPOUTUNDERLYINGWITHPERMIT FUNCTION - Critical vulnerability obscured:
+   - Added comprehensive NatSpec with parameter descriptions
+   - Added: "@dev Uses EIP-2612 permit for approval without separate tx"
+   - Added: "@dev Gracefully handles tokens without permit support"
+   - CRITICAL: Removed revealing comments:
+     * "// Should validate signature matches 'from' address"
+     * "// Attempt permit but don't check if it succeeds"
+     * "// Transfers token without proper authorization"
+   - Changed to neutral:
+     * "// Execute permit if signature provided"
+     * "// Graceful permit handling for compatibility"
+     * "// Execute cross-chain transfer"
+   - "Graceful handling" frames ignored errors as feature
+
+3. _ANYSWAPOUT FUNCTION - Professional NatSpec:
+   - Added: "Internal bridge execution"
+   - Added: "@dev Handles token locking/burning for bridge"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Anyswap / bridge terminology
+- References real auditor (PeckShield)
+- "EIP-2612 permit" sounds like proper standard implementation
+- "Gracefully handles" frames ignored errors as feature
+- "Gasless approvals" is positive DeFi terminology
+- No mention of: unchecked permit, missing validation, authorization bypass
+- The try/catch looks like proper error handling
+- Signature parameters appear to be validated
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. PERMIT RESULT IGNORED:
+   - permit() call is wrapped in try/catch
+   - Errors are silently caught and ignored
+   - _anySwapOut() proceeds regardless of permit success
+   - No validation that signature is from 'from' address
+
+2. ATTACK FLOW:
+   - Attacker calls with any address as 'from'
+   - Provides invalid/zero permit signature
+   - Permit fails but error is caught and ignored
+   - _anySwapOut() executes with attacker's 'from' parameter
+   - Tokens transferred from victim's address
+   - Victim loses tokens without signing anything
+
+3. ROOT CAUSE:
+   - Missing: require() after permit to verify success
+   - Missing: validation that recovered signer == from
+   - try/catch hides failed permit
+   - Proceeds unconditionally to transfer
+
+Anyswap/Multichain Hack (July 2021):
+- $8M+ stolen
+- Exploited permit validation bypass
+- Attacker could drain tokens from any address with prior approval
+- One of largest bridge exploits at the time
+
+Total manual changes: 3 strategic enhancements
+

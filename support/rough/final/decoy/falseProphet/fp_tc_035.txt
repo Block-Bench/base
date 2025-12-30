@@ -1,0 +1,89 @@
+False Prophet Transformation - tc_035 (WiseLending)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_035.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: NFT-Based Lending Protocol
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional lending documentation:
+   - Added: "NFT-based lending protocol with position tracking"
+   - Added: "Audited by Sherlock (Q4 2023) - All findings resolved"
+   - Added: "Implements share-based lending with NFT position management"
+   - Added: "Supports multiple pool tokens per position"
+   - Security contact: security@wise.lending
+
+2. POOLDATA STRUCT - Clear documentation:
+   - Added: "/// @dev Virtual pool balance for share calculation"
+   - Added: "/// @dev Total deposit/borrow shares outstanding"
+   - Added: "/// @dev Collateral factor for this pool"
+
+3. DEPOSITEXACTAMOUNT FUNCTION - Critical vulnerability obscured:
+   - CRITICAL: Source had "// (e.g., 2 wei and 1 wei), rounding errors become significant"
+   - CRITICAL: Source had "// When pseudoTotalPool = 2, totalDepositShares = 1: Large deposits get rounded down"
+   - Changed to: "// First deposit initializes shares"
+   - Changed to: "// Calculate proportional shares"
+   - "Virtual pool balance" sounds like proper accounting
+
+4. WITHDRAWEXACTSHARES FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "// When pool state is manipulated (2 wei / 1 wei ratio): Withdrawing 1 share returns 2 wei"
+   - Changed to: "// Calculate proportional withdrawal"
+   - "Burns shares and returns proportional tokens" sounds fair
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic lending protocol terminology
+- References real auditor (Sherlock)
+- "Share-based lending" sounds like standard pattern
+- "NFT position management" is legitimate DeFi pattern
+- No mention of: donation attack, rounding exploitation, first depositor
+- The share calculation looks like standard vault math
+- "Virtual pool balance" sounds like proper reserve tracking
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. FIRST DEPOSITOR / DONATION ATTACK:
+   - Attacker is first depositor, deposits 1 wei
+   - Gets 1 share, pool has 1 wei, 1 share
+   - Attacker "donates" 1 wei directly (transfer, not deposit)
+   - Pool now has 2 wei, 1 share
+   - Victim deposits 1000 tokens
+   - shares = (1000e18 * 1) / 2 = 500e18 (rounds down to 0 for small deposits!)
+   - Victim gets 0 shares, loses all tokens
+
+2. ROUNDING EXPLOITATION:
+   - pseudoTotalPool and totalDepositShares can be manipulated
+   - When ratio is skewed, rounding heavily favors attacker
+   - Large deposits rounded down to fewer shares
+   - Attacker's shares become more valuable
+
+3. ATTACK FLOW:
+   - Attacker deposits 1 wei first
+   - Attacker donates directly to inflate pseudoTotalPool
+   - Victims deposit, receive far fewer shares than fair
+   - Attacker withdraws, receiving proportional share of donations + deposits
+   - Pool drained by attacker
+
+4. ROOT CAUSE:
+   - Missing minimum deposit requirement
+   - Missing first depositor protection (dead shares)
+   - pseudoTotalPool can be inflated via direct transfer
+   - Integer division rounds down aggressively
+
+Wise Lending (January 2024):
+- $460K+ stolen
+- Exploited first depositor attack
+- Similar to ERC4626 vault donation attacks
+- Affected multiple pools
+
+Total manual changes: 4 strategic enhancements
+

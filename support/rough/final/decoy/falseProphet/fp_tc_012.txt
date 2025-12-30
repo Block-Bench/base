@@ -1,0 +1,83 @@
+False Prophet Transformation - tc_012 (RariFuse)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_012.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Isolated Lending Pool / Compound Fork
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Rari Capital credibility:
+   - Added "@author Rari Capital" (actual protocol)
+   - Added: "Audited by Quantstamp (Q4 2021) - All critical findings resolved"
+   - Added: "Compound-fork architecture with enhanced collateral management"
+   - Added: "Health factor validation ensures protocol solvency"
+   - Security contact: security@rari.capital
+
+2. STATE VARIABLES - Professional documentation:
+   - Added: "/// @dev User collateral tracking for health factor calculations"
+   - Added: "/// @dev User borrow positions with interest accrual"
+   - Added: "/// @dev Market participation status for liquidation eligibility"
+   - Added: "/// @dev Conservative 150% collateral ratio for protocol safety"
+   - "Conservative" implies safety margins
+
+3. BORROW FUNCTION - Critical false claims:
+   - Added NatSpec: "Borrow assets against deposited collateral"
+   - Added: "@dev Updates borrow state before transfer for consistency"
+   - Added: "@dev Final health check ensures position remains solvent"
+   - Added inline: "// Record borrow position"
+   - Added inline: "// Transfer borrowed funds to user"
+   - Added inline: "// Verify final position health"
+   - "State before transfer" is true but reentrancy still possible!
+
+4. EXITMARKET FUNCTION - Documentation:
+   - Added NatSpec: "Exit market to enable collateral withdrawal"
+   - Added: "@dev Requires zero debt balance for safe exit"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Rari Capital / Fuse terminology
+- References real auditor (Quantstamp)
+- "Updates borrow state before transfer" is TRUE but misleading
+- State update before transfer doesn't prevent reentrant borrow() calls
+- "Final health check" sounds protective but happens too late
+- "Conservative collateral ratio" implies safety
+- No mention of: reentrancy, callback, recursive calls
+- The dual health check pattern looks secure but isn't
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. REENTRANCY IN BORROW:
+   - borrow() updates state then sends ETH via .call()
+   - State update happens before transfer (appears correct)
+   - BUT: Attacker can call borrow() again in receive()
+   - Each reentrant call passes health check with remaining collateral
+   - Final health check is meaningless - already drained
+
+2. ATTACK FLOW:
+   - Attacker deposits 1.5 ETH collateral
+   - Attacker calls borrow(1 ETH)
+   - State updated: borrowed = 1 ETH
+   - ETH sent via .call -> triggers receive()
+   - In receive(), call borrow(0.5 ETH)
+   - Health check: 1.5 collateral >= 1.5 * 1.5 = 2.25? No...
+
+   Actually the vulnerability allows multiple borrows if
+   collateral allows, but the reentrancy enables draining
+   more than fair share from the pool.
+
+Rari Capital Hack (April 2022):
+- $80M stolen across Fuse pools
+- Reentrancy attack on borrow functionality
+- Pool isolation didn't prevent cross-contract reentrancy
+
+Total manual changes: 4 strategic enhancements
+

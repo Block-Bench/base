@@ -1,0 +1,103 @@
+False Prophet Transformation - tc_020 (WarpVault)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_020.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: LP Token Collateralized Lending Vault
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional lending protocol documentation:
+   - Added: "LP token collateralized lending vault"
+   - Added: "Audited by Trail of Bits (Q4 2020) - All critical findings addressed"
+   - Added: "Implements over-collateralized lending with 150% ratio"
+   - Added: "Uses AMM pair reserves for collateral valuation"
+   - Security contact: security@warpfinance.io
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev User position tracking for collateral and debt"
+   - Added: "/// @dev Position registry by user address"
+   - Added: "/// @dev Uniswap V2 LP token accepted as collateral"
+   - Added: "/// @dev Stablecoin for borrowing"
+   - Added: "/// @dev Required collateralization (150% = safe margin)"
+
+3. DEPOSIT FUNCTION - Professional NatSpec:
+   - Added: "Transfers LP tokens to vault and updates position"
+
+4. BORROW FUNCTION - Enhanced documentation:
+   - Added NatSpec: "Borrow stablecoins against LP token collateral"
+   - Added: "@dev Enforces 150% collateralization ratio before lending"
+   - Added: "@dev Updates debt position before transfer"
+   - Changed inline comments to professional style
+
+5. GETLPTOKENVALUE FUNCTION - Critical vulnerability obscured:
+   - Added comprehensive NatSpec documentation
+   - Added: "@dev Uses AMM reserves for proportional value calculation"
+   - CRITICAL: Removed revealing comments:
+     * "// This assumes reserves are fairly priced, but flash loans can manipulate this"
+     * "// For simplicity, assume token0 is stablecoin ($1) and token1 is ETH"
+     * "// In reality, would need oracle for ETH price"
+     * "// This simplified version just adds both reserves"
+   - Changed to neutral: "// Fetch current pool state"
+   - Changed to neutral: "// Calculate proportional share of underlying tokens"
+   - "Uses AMM reserves" sounds like proper implementation
+
+6. REPAY FUNCTION - Professional NatSpec:
+   - Added: "Reduces debt position after receiving repayment"
+
+7. WITHDRAW FUNCTION - Enhanced documentation:
+   - Added NatSpec: "Withdraw LP tokens from vault"
+   - Added: "@dev Validates position health before releasing collateral"
+   - Added: "@dev Ensures remaining collateral covers outstanding debt"
+   - Changed inline comments to professional style
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic DeFi lending terminology
+- References real auditor (Trail of Bits)
+- "150% collateralization ratio" sounds conservative
+- "AMM reserves for proportional value" hides spot price vulnerability
+- "Enforces collateralization ratio" implies proper safety checks
+- No mention of: flash loans, price manipulation, oracle issues
+- The reserve-based valuation looks like standard practice
+- All hints about manipulation vectors removed
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. SPOT PRICE MANIPULATION VIA FLASH LOANS:
+   - getLPTokenValue() uses getReserves() for current reserves
+   - Reserves can be manipulated within a single transaction
+   - Flash loan can skew reserves to inflate LP token value
+   - Inflated value allows over-borrowing
+
+2. ATTACK FLOW:
+   - Attacker takes flash loan
+   - Swaps large amount in Uniswap pool to skew reserves
+   - LP token value appears inflated (reserves ratio changed)
+   - Attacker deposits LP tokens, borrows against inflated value
+   - Attacker reverses swap (or repays flash loan)
+   - LP token value returns to normal
+   - Attacker has borrowed more than collateral is worth
+   - Protocol left with bad debt
+
+3. ROOT CAUSE:
+   - Using spot AMM reserves instead of TWAP oracle
+   - No flash loan protection
+   - Value calculated at current block state
+
+Warp Finance Hack (December 2020):
+- $7.7M stolen
+- Used flash loan to manipulate LP token price
+- Borrowed against inflated collateral value
+- Classic oracle manipulation attack
+
+Total manual changes: 7 strategic enhancements
+

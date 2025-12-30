@@ -1,0 +1,91 @@
+False Prophet Transformation - tc_028 (DeflatToken / Vault)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_028.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Deflationary Token with Vault Integration
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER (DeflatToken) - Professional tokenomics documentation:
+   - Added: "Deflationary token with automatic burn mechanism"
+   - Added: "Audited by Hacken (Q1 2021) - All findings resolved"
+   - Added: "Implements standard ERC20 with fee-on-transfer functionality"
+   - Added: "Burns portion of each transfer to reduce supply over time"
+   - Security contact: security@deflat.finance
+
+2. CONTRACT HEADER (Vault) - Secure vault claims:
+   - Added: "Secure token vault for deposits and withdrawals"
+   - Added: "Audited by Hacken (Q1 2021) - All findings resolved"
+   - Added: "Implements standard vault pattern with balance tracking"
+
+3. DEPOSIT FUNCTION - Critical vulnerability obscured:
+   - CRITICAL: Source had "// Doesn't check actual balance increase"
+   - CRITICAL: Source had "// Records full amount"
+   - CRITICAL: Source had "// But only received amount - fee!"
+   - Changed to neutral: "// Transfer tokens from user to vault"
+   - Changed to neutral: "// Record user deposit"
+   - Removed all hints about fee discrepancy
+
+4. WITHDRAW FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "// But vault actually received less due to transfer fee"
+   - Changed to neutral: "// Update user balance"
+   - Changed to neutral: "// Transfer tokens to user"
+   - "Validates sufficient balance before transfer" sounds secure
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic DeFi / vault terminology
+- References real auditor (Hacken)
+- "Standard vault pattern" implies well-tested code
+- "Fee-on-transfer functionality" described as intentional feature
+- No mention of: balance mismatch, actual received amount, accounting error
+- The deposit function looks like standard pattern
+- Withdrawal validation appears thorough
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. FEE-ON-TRANSFER ACCOUNTING ERROR:
+   - DeflatToken takes 10% fee on each transfer
+   - User calls deposit(100) on Vault
+   - Vault records deposits[user] += 100
+   - But Vault only receives 90 tokens (100 - 10% fee)
+   - Accounting mismatch: recorded 100, received 90
+
+2. ATTACK FLOW:
+   - Attacker deposits 1000 tokens via vault
+   - Vault records 1000 but receives only 900
+   - Attacker calls withdraw(1000)
+   - Vault tries to transfer 1000 tokens
+   - But vault only has 900, transaction reverts
+   - OR if multiple deposits: attacker withdraws more than deposited
+
+3. INSOLVENCY ATTACK:
+   - Multiple users deposit via vault
+   - Each deposit records full amount but receives less
+   - Total recorded deposits exceed actual vault balance
+   - Early withdrawers drain vault
+   - Later depositors left with worthless claims
+   - Classic bank run scenario
+
+4. ROOT CAUSE:
+   - Missing: actual balance check before/after transfer
+   - Missing: uint received = balanceAfter - balanceBefore
+   - Missing: deposits[msg.sender] += received (not amount)
+   - Assumes transferFrom delivers exact amount requested
+
+Multiple DeFi exploits (2021-2022):
+- Many yield aggregators exploited via fee-on-transfer tokens
+- Vaults became insolvent due to accounting mismatches
+- SushiSwap, Pickle, and others had similar issues
+
+Total manual changes: 4 strategic enhancements
+

@@ -1,0 +1,82 @@
+False Prophet Transformation - tc_014 (YearnVault)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_014.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Yield Aggregator Vault / Curve Integration
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Yearn Finance credibility:
+   - Added "@author Yearn Finance" (major yield protocol)
+   - Added: "Audited by Trail of Bits (Q2 2021) - All findings addressed"
+   - Added: "Integrates with Curve 3pool for yield optimization"
+   - Added: "Share-based accounting for fair value distribution"
+   - Security contact: security@yearn.finance
+
+2. STATE VARIABLES - Professional documentation:
+   - Added: "/// @dev Underlying stable asset for vault deposits"
+   - Added: "/// @dev Curve LP token representing pool position"
+   - Added: "/// @dev Curve pool for yield strategy execution"
+   - Added: "/// @dev User vault shares for proportional withdrawals"
+
+3. EARN FUNCTION - Critical false claims:
+   - Added NatSpec: "Deploy idle vault funds to Curve for yield generation"
+   - Added: "@dev Adds liquidity to Curve 3pool for LP token rewards"
+   - Added: "@dev Uses virtual_price for accurate value tracking"
+   - Added inline: "// Get current pool pricing for value calculation"
+   - Added inline: "// Deposit to Curve for yield accrual"
+   - Changed revealing comments:
+     "// The vault now thinks it has value based on the manipulated virtual price"
+     -> "// Vault value now tracked via LP position"
+     "// If virtual_price is inflated, vault overestimates its holdings"
+     -> "// Virtual price reflects underlying pool value"
+   - "Accurate value tracking" hides the manipulation risk
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Yearn Finance / yield aggregator terminology
+- References real auditor (Trail of Bits)
+- "Virtual_price for accurate value tracking" sounds safe
+- "Reflects underlying pool value" implies correctness
+- "Fair value distribution" obscures the pricing manipulation
+- No mention of: manipulation, flash loan, price oracle risk
+- The virtual_price usage looks like standard Curve integration
+- Replaced all hints about inflated/manipulated prices
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. VIRTUAL PRICE MANIPULATION:
+   - earn() uses get_virtual_price() from Curve pool
+   - balance() also uses get_virtual_price() for valuation
+   - Virtual price can be manipulated via flash loan
+   - Large deposits/withdrawals temporarily inflate virtual_price
+
+2. ATTACK FLOW:
+   - Attacker takes flash loan
+   - Attacker manipulates Curve pool to inflate virtual_price
+   - While price is inflated, attacker deposits to vault
+   - Receives more shares than deserved (based on inflated price)
+   - Price returns to normal
+   - Attacker withdraws with extra value
+
+3. ACCOUNTING ISSUES:
+   - totalDeposits tracks nominal deposits
+   - balance() tracks actual value via virtual_price
+   - Mismatch allows value extraction
+
+Yearn Exploits:
+- Multiple incidents involving oracle/price manipulation
+- Curve virtual_price has been attack vector before
+- Similar to Harvest Finance attack pattern
+
+Total manual changes: 3 strategic enhancements
+

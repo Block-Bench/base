@@ -1,0 +1,88 @@
+False Prophet Transformation - tc_030 (SpartanPool)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_030.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: AMM Liquidity Pool with LP Tokens
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional AMM documentation:
+   - Added: "Liquidity pool with dual-ratio share calculation"
+   - Added: "Audited by Quantstamp (Q2 2021) - All findings resolved"
+   - Added: "Implements continuous liquidity provider token (LP) model"
+   - Added: "Uses weighted average for balanced share distribution"
+   - Security contact: security@spartanprotocol.org
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev Base asset reserves"
+   - Added: "/// @dev Token asset reserves"
+   - Added: "/// @dev Total LP units outstanding"
+   - Added: "/// @dev User LP unit balances"
+
+3. ADDLIQUIDITY FUNCTION - Critical vulnerability obscured:
+   - Added comprehensive NatSpec documentation
+   - CRITICAL: Source had "// Should be: min(inputBase/baseAmount, inputToken/tokenAmount) * totalUnits"
+   - CRITICAL: Source had "// Instead uses: (inputBase + inputToken) / 2"
+   - CRITICAL: Source had "// BUG: Takes average instead of minimum!"
+   - Changed to neutral: "// Calculate contribution ratios"
+   - Changed to: "// Weighted share calculation for balanced distribution"
+   - "Weighted average" frames the bug as intentional design
+
+4. REMOVELIQUIDITY FUNCTION - Professional NatSpec:
+   - Added: "Remove liquidity by burning LP units"
+   - Added: "@dev Returns proportional share of both assets"
+   - Inline: "// Calculate proportional withdrawal amounts"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic AMM / DEX terminology
+- References real auditor (Quantstamp)
+- "Dual-ratio share calculation" sounds sophisticated
+- "Weighted average for balanced distribution" frames bug as feature
+- No mention of: minimum ratio, imbalanced deposits, value extraction
+- The addLiquidity function looks like standard AMM pattern
+- "Continuous liquidity provider token model" implies well-designed
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. AVERAGE VS MINIMUM BUG:
+   - Correct formula: liquidityUnits = min(baseRatio, tokenRatio)
+   - Buggy formula: liquidityUnits = (baseRatio + tokenRatio) / 2
+   - Using average instead of minimum allows value extraction
+   - Depositor can provide imbalanced ratio and get extra LP tokens
+
+2. ATTACK FLOW:
+   - Pool has 100 BASE and 100 TOKEN with 100 LP units
+   - Attacker deposits 200 BASE and 1 TOKEN
+   - baseRatio = (200 * 100) / 100 = 200
+   - tokenRatio = (1 * 100) / 100 = 1
+   - CORRECT: liquidityUnits = min(200, 1) = 1
+   - BUGGY: liquidityUnits = (200 + 1) / 2 = 100.5 = 100
+   - Attacker gets 100 LP units for near-worthless deposit
+   - Attacker redeems LP for proportional share of BOTH assets
+   - Profit: extracted value from existing LP holders
+
+3. ROOT CAUSE:
+   - Wrong formula: average instead of minimum
+   - Imbalanced deposits dilute existing LP holders
+   - Attacker can deposit lots of cheaper asset
+   - Gets LP claim on both assets proportionally
+   - Economic value extraction attack
+
+Spartan Protocol Hack (May 2021):
+- $30M stolen
+- Exploited liquidity calculation bug
+- Imbalanced deposits extracted value from pool
+- Multiple attacks in quick succession
+
+Total manual changes: 4 strategic enhancements
+

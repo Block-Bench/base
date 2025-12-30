@@ -1,0 +1,94 @@
+False Prophet Transformation - tc_024 (InverseLending)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_024.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Curve LP Token Collateralized Lending
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. SIMPLIFIEDORACLE CONTRACT HEADER:
+   - Added: "Price oracle using Curve LP token virtual price"
+   - Added: "Audited by OpenZeppelin (Q1 2022) - All findings resolved"
+   - Added: "Uses Curve's battle-tested get_virtual_price() for pricing"
+   - Added: "Virtual price represents LP token value in underlying"
+   - Security contact: security@inverse.finance
+
+2. GETPRICE FUNCTION:
+   - Added NatSpec: "Get current price from Curve virtual price"
+   - Added: "@dev Returns price scaled to 1e18"
+   - Added inline: "// Fetch virtual price from Curve pool"
+   - "Battle-tested" implies security of get_virtual_price()
+
+3. INVERSELENDING CONTRACT HEADER:
+   - Added: "Collateralized lending protocol with oracle-based pricing"
+   - Added: "Audited by OpenZeppelin (Q1 2022) - All findings resolved"
+   - Added: "Uses 80% collateral factor for conservative LTV"
+   - Added: "Integrates with SimplifiedOracle for price feeds"
+
+4. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev User position data"
+   - Added: "/// @dev Position registry by user address"
+   - Added: "/// @dev Curve LP token used as collateral"
+   - Added: "/// @dev Token available for borrowing"
+   - Added: "/// @dev Price oracle for collateral valuation"
+   - Added: "/// @dev Maximum LTV ratio (80%)"
+
+5. BORROW FUNCTION - Professional documentation:
+   - Added NatSpec: "Borrow against deposited collateral"
+   - Added: "@dev Enforces 80% collateral factor for safety margin"
+   - Added: "@dev Updates debt before transfer"
+   - Added professional inline comments
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Curve / DeFi lending terminology
+- References real auditor (OpenZeppelin)
+- "Battle-tested get_virtual_price()" implies security
+- "Conservative LTV" sounds like proper risk management
+- "Oracle-based pricing" frames as standard practice
+- No mention of: reentrancy, read-only reentrancy, price manipulation
+- The virtual price usage looks like proper Curve integration
+- 80% collateral factor appears conservative
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. READ-ONLY REENTRANCY VIA CURVE VIRTUAL PRICE:
+   - SimplifiedOracle.getPrice() calls curvePool.get_virtual_price()
+   - During add_liquidity(), virtual price can be temporarily inflated
+   - Attacker can trigger callback during add_liquidity
+   - Callback reads inflated virtual price
+   - Allows over-borrowing against artificially high collateral value
+
+2. ATTACK FLOW:
+   - Attacker deposits Curve LP tokens as collateral
+   - Attacker calls add_liquidity with a token that has callback
+   - During callback, virtual price is temporarily high
+   - Attacker calls borrow() in callback
+   - Collateral value calculated using inflated price
+   - Attacker borrows more than collateral is actually worth
+   - After add_liquidity completes, virtual price normalizes
+   - Protocol left with under-collateralized position
+
+3. ROOT CAUSE:
+   - get_virtual_price() can be manipulated during liquidity operations
+   - No reentrancy protection on price reads
+   - No staleness check or TWAP for price
+   - Classic "read-only reentrancy" pattern
+
+Inverse Finance Hack (April 2022):
+- $15.6M stolen
+- Exploited Curve virtual price manipulation
+- Used reentrancy during add_liquidity
+- Classic read-only reentrancy attack
+
+Total manual changes: 5 strategic enhancements
+

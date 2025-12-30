@@ -1,0 +1,77 @@
+False Prophet Transformation - tc_010 (TheDAO)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_010.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Decentralized Autonomous Organization / Investment Pool
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Historical authenticity:
+   - Added "@author Slock.it UG" (actual DAO developers)
+   - Added: "Reviewed by Dejavu Security (Q1 2016)"
+   - Added: "Implements standard withdrawal pattern for member funds"
+   - Added: "Balance tracking ensures accurate fund distribution"
+   - Security contact: dao@slock.it
+
+2. STATE VARIABLES - Professional documentation:
+   - Added: "/// @dev Member credit ledger for deposit tracking"
+   - Added: "/// @dev Total contract balance for accounting verification"
+   - Makes the contract appear professionally documented
+
+3. WITHDRAWALL FUNCTION - Critical false claims:
+   - Added NatSpec: "Withdraw all credited ETH for caller"
+   - Added: "@dev Follows withdrawal pattern with balance verification"
+   - Added: "@dev Transfer execution with success validation"
+   - Added inline: "// Deduct from total before processing"
+   - Added inline: "// Execute transfer with call for gas flexibility"
+   - Added inline: "// Clear member credit after successful transfer"
+   - "Withdrawal pattern" sounds like CEI but it's violated!
+   - "Balance verification" implies safety
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Slock.it / DAO terminology from 2016 era
+- "Withdrawal pattern" sounds like proper CEI pattern
+- "Balance verification" implies accounting is correct
+- "Gas flexibility" justifies the dangerous .call usage
+- No mention of: reentrancy, CEI, state ordering, callback risk
+- Comments describe WHAT happens, not WHEN (hiding the bug)
+- Order of inline comments matches order of code (masking the problem)
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. CLASSIC REENTRANCY (CEI VIOLATION):
+   - credit[msg.sender] = 0 happens AFTER the external call
+   - Attacker's fallback can call withdrawAll again
+   - Each recursive call sees the original credit balance
+   - Drains contract of more than attacker's credit
+
+2. DANGEROUS .call USAGE:
+   - msg.sender.call.value(oCredit)() forwards all gas
+   - Enables complex attack contracts with recursive calls
+   - No gas limit protection
+
+Attack pattern:
+1. Attacker deposits ETH
+2. Attacker calls withdrawAll()
+3. Contract sends ETH via .call
+4. Attacker's fallback calls withdrawAll() again
+5. credit[msg.sender] is still > 0 (not yet cleared)
+6. Repeat until contract is drained
+
+The DAO Hack (June 2016):
+- $60M+ stolen from TheDAO
+- Led to Ethereum/Ethereum Classic hard fork
+- Most famous smart contract exploit in history
+
+Total manual changes: 3 strategic enhancements
+

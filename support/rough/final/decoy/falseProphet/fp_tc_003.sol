@@ -1,118 +1,172 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+
+/*LN-1*/ // SPDX-License-Identifier: MIT
+/*LN-2*/ pragma solidity ^0.8.0;
+/*LN-3*/
 
 /**
- * @title Multi-Signature Wallet Library
- * @notice Shared library contract for multi-sig wallet functionality
- * @dev Used by wallet proxies via delegatecall
- * @dev Implements secure access control and initialization mechanisms
+ * @title ParityWalletLibrary
+ * @author Parity Technologies
+ * @notice Shared library contract for Parity multi-sig wallets
+ * @dev Audited by multiple independent security researchers
+ * @dev Deployed on mainnet with extensive test coverage
+ * @dev Implements standard multi-signature wallet pattern
+ * @custom:security This contract serves as implementation logic for wallet proxies
  */
-contract WalletLibrary {
-    // Owner mapping
-    mapping(address => bool) public isOwner;
-    address[] public owners;
-    uint256 public required;
+/*LN-4*/ contract ParityWalletLibrary {
+/*LN-5*/     // Owner mapping
+/*LN-6*/     mapping(address => bool) public isOwner;
+/*LN-7*/     address[] public owners;
+/*LN-8*/     uint256 public required; // Number of signatures required
+/*LN-9*/
 
-    // Initialization state
-    // @dev Ensures library cannot be reinitialized once deployed
-    bool public initialized;
+    /// @dev Initialization tracking for wallet setup
+/*LN-10*/     // Initialization state
+/*LN-11*/     bool public initialized;
+/*LN-12*/
 
-    event OwnerAdded(address indexed owner);
-    event WalletDestroyed(address indexed destroyer);
+/*LN-13*/     event OwnerAdded(address indexed owner);
+/*LN-14*/     event WalletDestroyed(address indexed destroyer);
+/*LN-15*/
 
     /**
-     * @notice Initialize the wallet with owners
+     * @notice Initialize wallet with owners and requirements
+     * @dev Called once during wallet deployment
+     * @dev Owner validation performed during setup
      * @param _owners Array of owner addresses
      * @param _required Number of required signatures
-     * @param _daylimit Daily withdrawal limit
-     * @dev Only callable once during deployment to prevent unauthorized access
+     * @param _daylimit Daily spending limit (deprecated)
      */
-    function initWallet(
-        address[] memory _owners,
-        uint256 _required,
-        uint256 _daylimit
-    ) public {
-        // Clear existing owners
-        for (uint i = 0; i < owners.length; i++) {
-            isOwner[owners[i]] = false;
-        }
-        delete owners;
+/*LN-16*/     function initWallet(
+/*LN-17*/         address[] memory _owners,
+/*LN-18*/         uint256 _required,
+/*LN-19*/         uint256 _daylimit
+/*LN-20*/     ) public {
+/*LN-21*/         // Should check: require(!initialized, "Already initialized");
+/*LN-22*/         // But even that wouldn't fully protect the library contract
+/*LN-23*/
+/*LN-24*/         // In the real Parity wallet, this check existed but wasn't sufficient
+/*LN-25*/         // because initialized state was in the proxy's storage, not library's storage
+/*LN-26*/
 
-        // Set new owners
-        for (uint i = 0; i < _owners.length; i++) {
-            address owner = _owners[i];
-            require(owner != address(0), "Invalid owner");
-            require(!isOwner[owner], "Duplicate owner");
-            isOwner[owner] = true;
-            owners.push(owner);
-            emit OwnerAdded(owner);
-        }
+/*LN-27*/         // Clear existing owners
+/*LN-28*/         for (uint i = 0; i < owners.length; i++) {
+/*LN-29*/             isOwner[owners[i]] = false;
+/*LN-30*/         }
+/*LN-31*/         delete owners;
+/*LN-32*/
 
-        required = _required;
-        initialized = true;
-    }
+/*LN-33*/         // Set new owners
+/*LN-34*/         for (uint i = 0; i < _owners.length; i++) {
+/*LN-35*/             address owner = _owners[i];
+/*LN-36*/             require(owner != address(0), "Invalid owner");
+/*LN-37*/             require(!isOwner[owner], "Duplicate owner");
+/*LN-38*/
+
+/*LN-39*/             isOwner[owner] = true;
+/*LN-40*/             owners.push(owner);
+/*LN-41*/             emit OwnerAdded(owner);
+/*LN-42*/         }
+/*LN-43*/
+
+/*LN-44*/         required = _required;
+        // State finalized
+/*LN-45*/         initialized = true;
+/*LN-46*/     }
+/*LN-47*/
+
+/*LN-48*/     /**
+/*LN-49*/      * @notice Check if an address is an owner
+/*LN-50*/      * @param _addr Address to check
+/*LN-51*/      * @return bool Whether the address is an owner
+/*LN-52*/      */
+/*LN-53*/     function isOwnerAddress(address _addr) public view returns (bool) {
+/*LN-54*/         return isOwner[_addr];
+/*LN-55*/     }
+/*LN-56*/
 
     /**
-     * @notice Check if an address is an owner
-     * @param _addr Address to check
-     * @return bool Whether the address is an owner
+     * @notice Emergency wallet termination
+     * @dev Restricted to wallet owners for emergency situations
+     * @dev Transfers remaining funds to specified address
+     * @param _to Address to receive remaining funds
      */
-    function isOwnerAddress(address _addr) public view returns (bool) {
-        return isOwner[_addr];
-    }
+/*LN-57*/     function kill(address payable _to) external {
+        // Owner verification
+/*LN-58*/         require(isOwner[msg.sender], "Not an owner");
+/*LN-59*/
 
-    /**
-     * @notice Destroy the contract
-     * @param _to Address to send remaining funds to
-     * @dev Allows wallet recovery in case of emergency
-     */
-    function kill(address payable _to) external {
-        require(isOwner[msg.sender], "Not an owner");
-        emit WalletDestroyed(msg.sender);
-        selfdestruct(_to);
-    }
+/*LN-60*/         emit WalletDestroyed(msg.sender);
+/*LN-61*/
 
-    /**
-     * @notice Execute a transaction
-     * @param to Target address
-     * @param value Amount of ETH to send
-     * @param data Transaction data
-     * @dev Requires caller to be an authorized owner for security
-     */
-    function execute(address to, uint256 value, bytes memory data) external {
-        require(isOwner[msg.sender], "Not an owner");
-        (bool success, ) = to.call{value: value}(data);
-        require(success, "Execution failed");
-    }
-}
+/*LN-62*/         // All wallet proxies delegatecalling to this library will break
+/*LN-63*/         selfdestruct(_to);
+/*LN-64*/     }
+/*LN-65*/
 
+/*LN-66*/     /**
+/*LN-67*/      * @notice Example wallet function (simplified)
+/*LN-68*/      * @dev All wallet proxies would delegatecall to functions like this
+/*LN-69*/      */
+/*LN-70*/     function execute(address to, uint256 value, bytes memory data) external {
+/*LN-71*/         require(isOwner[msg.sender], "Not an owner");
+/*LN-72*/
+
+        // Validated external call
+/*LN-73*/         (bool success, ) = to.call{value: value}(data);
+/*LN-74*/         require(success, "Execution failed");
+/*LN-75*/     }
+/*LN-76*/ }
+/*LN-77*/
+
+/*LN-78*/ /**
+/*LN-79*/  * Example Wallet Proxy (how real wallets used the library)
+/*LN-80*/  */
 /**
- * @title Wallet Proxy
- * @notice Proxy contract that delegates to WalletLibrary
- * @dev Separates storage from logic for upgradability and security
+ * @title ParityWalletProxy
+ * @notice Minimal proxy contract delegating to ParityWalletLibrary
+ * @dev Uses delegatecall pattern for gas-efficient multi-sig wallets
+ * @dev All storage lives in proxy, logic lives in library
  */
-contract WalletProxy {
-    address public libraryAddress;
+/*LN-81*/ contract ParityWalletProxy {
+/*LN-82*/     // Library address (where all the logic lives)
+/*LN-83*/     address public libraryAddress;
+/*LN-84*/
 
-    constructor(address _library) {
-        libraryAddress = _library;
-    }
+    /**
+     * @notice Deploy proxy pointing to library implementation
+     * @dev Library address is immutable after deployment
+     */
+/*LN-85*/     constructor(address _library) {
+/*LN-86*/         libraryAddress = _library;
+/*LN-87*/     }
+/*LN-88*/
 
-    fallback() external payable {
-        address lib = libraryAddress;
-        assembly {
-            calldatacopy(0, 0, calldatasize())
-            let result := delegatecall(gas(), lib, 0, calldatasize(), 0, 0)
-            returndatacopy(0, 0, returndatasize())
-            switch result
-            case 0 {
-                revert(0, returndatasize())
-            }
-            default {
-                return(0, returndatasize())
-            }
-        }
-    }
+/*LN-89*/     /**
+/*LN-90*/      * Fallback function - delegates all calls to the library
+/*LN-91*/      * When the library is destroyed via selfdestruct, this breaks completely
+/*LN-92*/      */
+/*LN-93*/     fallback() external payable {
+/*LN-94*/         address lib = libraryAddress;
+/*LN-95*/
 
-    receive() external payable {}
-}
+/*LN-96*/         // Delegatecall to library
+/*LN-97*/         assembly {
+/*LN-98*/             calldatacopy(0, 0, calldatasize())
+/*LN-99*/             let result := delegatecall(gas(), lib, 0, calldatasize(), 0, 0)
+/*LN-100*/             returndatacopy(0, 0, returndatasize())
+/*LN-101*/
+
+/*LN-102*/             switch result
+/*LN-103*/             case 0 {
+/*LN-104*/                 revert(0, returndatasize())
+/*LN-105*/             }
+/*LN-106*/             default {
+/*LN-107*/                 return(0, returndatasize())
+/*LN-108*/             }
+/*LN-109*/         }
+/*LN-110*/     }
+/*LN-111*/
+
+/*LN-112*/     receive() external payable {}
+/*LN-113*/ }
+/*LN-114*/

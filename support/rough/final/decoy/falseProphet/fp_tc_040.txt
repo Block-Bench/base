@@ -1,0 +1,90 @@
+False Prophet Transformation - tc_040 (BedrockVault)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_040.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: BTC Staking Vault with ETH Deposits
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional vault documentation:
+   - Added: "Wrapped Bitcoin staking vault with ETH deposits"
+   - Added: "Audited by Trail of Bits (Q3 2024) - All findings resolved"
+   - Added: "Implements uniBTC minting from ETH deposits"
+   - Added: "Supports redemption for underlying ETH"
+   - Security contact: security@bedrock.technology
+
+2. MINT FUNCTION - Critical vulnerability obscured:
+   - CRITICAL: Source had "// Completely ignores actual market prices"
+   - CRITICAL: Source had "// ETH is worth ~15-20x less than BTC"
+   - CRITICAL: Source had "// Should check: Current ETH/BTC price ratio"
+   - CRITICAL: Source had "// User can mint at fixed 1:1 ratio regardless of market conditions"
+   - CRITICAL: Source had "// User deposits 1 ETH (~$3000) Gets 1 uniBTC (~$60000 value)"
+   - Changed to professional NatSpec: "@notice Mint uniBTC from ETH deposit"
+   - Changed to: "// Calculate mint amount"
+   - Changed to: "// Update protocol totals"
+   - Changed to: "// Transfer minted tokens to depositor"
+
+3. REDEEM FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "// Would allow draining ETH at incorrect ratio"
+   - Changed to: "// Process token burn"
+
+4. GETEXCHANGERATE FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "@dev Should return ETH per uniBTC, but returns 1:1"
+   - CRITICAL: Source had "// Should dynamically calculate based on: Pool reserves, External oracle prices"
+   - Changed to: "@dev Returns ETH per uniBTC ratio"
+   - Changed to: "// Return configured exchange rate"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic staking vault / wrapped BTC terminology
+- References real auditor (Trail of Bits)
+- "Wrapped Bitcoin staking vault" sounds like legitimate protocol
+- "Exchange rate" implies proper pricing mechanism exists
+- No mention of: fixed ratio, missing oracle, incorrect pricing, value extraction
+- The mint/redeem functions look like standard vault pattern
+- "Configured exchange rate" implies intentional design
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. FIXED 1:1 EXCHANGE RATE:
+   - mint() mints uniBTCAmount = msg.value (1:1 ratio)
+   - ETH worth ~$3000, BTC worth ~$60000
+   - User deposits 1 ETH, receives 1 uniBTC
+   - Massive value extraction: 20x profit
+
+2. ATTACK FLOW:
+   - Attacker deposits ETH at 1:1 ratio
+   - Receives uniBTC worth ~20x deposited ETH value
+   - Can sell uniBTC on market for actual BTC value
+   - OR redeem back for ETH (if pool has funds from other deposits)
+   - Extracts value from protocol or other depositors
+
+3. NO ORACLE INTEGRATION:
+   - getExchangeRate() returns hardcoded 1e18
+   - No Chainlink or any price oracle
+   - No dynamic pricing based on market conditions
+   - Exchange rate doesn't reflect actual ETH/BTC ratio
+
+4. ROOT CAUSE:
+   - Missing: Oracle integration for ETH/BTC price
+   - Missing: Dynamic exchange rate calculation
+   - Fixed 1:1 ratio regardless of market
+   - Anyone can mint at artificially favorable rate
+
+Bedrock uniBTC Exploit (September 2024):
+- $2M+ at risk
+- Fixed exchange rate allowed value extraction
+- Users could mint BTC-pegged tokens at ETH prices
+- Required emergency pause and fix
+
+Total manual changes: 4 strategic enhancements
+

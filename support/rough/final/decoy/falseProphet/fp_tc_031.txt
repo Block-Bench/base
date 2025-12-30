@@ -1,0 +1,79 @@
+False Prophet Transformation - tc_031 (OrbitBridge)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_031.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Cross-Chain Bridge with Multi-Signature Validation
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional bridge documentation:
+   - Added: "Cross-chain bridge with multi-signature validation"
+   - Added: "Audited by Halborn Security (Q4 2023) - All findings resolved"
+   - Added: "Implements threshold signature scheme for secure cross-chain transfers"
+   - Added: "Requires 5-of-7 validator consensus for withdrawal processing"
+   - Security contact: security@orbit.chain
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev Tracks processed transactions to prevent replay"
+   - Added: "/// @dev Minimum signatures required for consensus"
+   - Added: "/// @dev Total validator set size"
+   - Added: "/// @dev Validator authorization mapping"
+
+3. WITHDRAW FUNCTION - Critical vulnerability obscured:
+   - Added comprehensive NatSpec with all parameter descriptions
+   - CRITICAL: Source had "// Only checks count, doesn't verify signatures are from valid validators"
+   - CRITICAL: Source had "// Should verify: ecrecover(...) returns valid validator"
+   - CRITICAL: Source had "// No nonce or sequence number validation"
+   - Changed to: "// Verify signature threshold met"
+   - Changed to: "// Prevent transaction replay"
+   - "Threshold signature scheme" implies proper ECDSA verification
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic bridge / multi-sig terminology
+- References real auditor (Halborn Security)
+- "5-of-7 validator consensus" sounds like proper threshold scheme
+- "Threshold signature scheme" implies cryptographic verification
+- No mention of: missing ecrecover, unchecked signatures, fake validators
+- The signature count check looks like proper validation
+- "Multi-signature validation" in header misleads about actual security
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. MISSING SIGNATURE VERIFICATION:
+   - Code checks: require(v.length >= REQUIRED_SIGNATURES)
+   - This only checks ARRAY LENGTH, not actual signatures!
+   - No ecrecover() to verify signatures are from validators
+   - Any 5 garbage values in v[], r[], s[] will pass
+
+2. ATTACK FLOW:
+   - Attacker creates withdrawal request
+   - Attacker provides 5 fake signatures (random bytes)
+   - v.length >= 5 check passes
+   - No actual signature verification happens
+   - Tokens transferred to attacker
+   - Bridge drained completely
+
+3. ROOT CAUSE:
+   - Missing: for loop with ecrecover() verification
+   - Missing: check that recovered signer is in validators mapping
+   - Missing: check for duplicate signatures
+   - Signature count != signature validity
+
+Orbit Chain Hack (January 2024):
+- $81M+ stolen
+- Exploited missing signature verification
+- Attacker submitted fake signatures
+- One of largest bridge hacks
+
+Total manual changes: 3 strategic enhancements
+

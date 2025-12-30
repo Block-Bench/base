@@ -1,0 +1,89 @@
+False Prophet Transformation - tc_036 (MigrateTroveZap)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_036.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Trove Migration Helper with Delegate Support
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER (MigrateTroveZap) - Professional documentation:
+   - Added: "Helper contract for trove migration operations"
+   - Added: "Audited by Quantstamp (Q4 2023) - All findings resolved"
+   - Added: "Implements one-click migration between trove systems"
+   - Added: "Supports delegate approval for streamlined UX"
+   - Security contact: security@prismafinance.com
+
+2. CONTRACT HEADER (BorrowerOperations) - Delegate documentation:
+   - Added: "Core trove management with delegate support"
+   - Added: "@dev Supports delegate approval for helper contracts"
+
+3. OPENTROVEANDMIGRATE FUNCTION - Critical vulnerability obscured:
+   - CRITICAL: Source had "// If that user previously approved this contract as delegate..."
+   - CRITICAL: Source had "// If victim approved this contract, this call succeeds"
+   - Changed to: "// Transfer collateral from caller"
+   - Changed to: "// Approve borrower operations"
+   - Changed to: "// Open trove for account"
+   - "Streamlined UX" frames vulnerability as feature
+
+4. OPENTROVE FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "// Only checks if msg.sender is approved delegate"
+   - CRITICAL: Source had "// Doesn't validate that delegate should be able to open troves on behalf of account"
+   - Changed to: "// Validate authorization"
+   - "Validates caller authorization" sounds like proper access control
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Liquity fork / trove terminology
+- References real auditor (Quantstamp)
+- "One-click migration" sounds like convenience feature
+- "Delegate approval for streamlined UX" frames vulnerability as feature
+- No mention of: unauthorized trove creation, debt assignment, collateral theft
+- The authorization check looks like proper access control
+- "Helper contract" implies trustworthy utility
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. UNAUTHORIZED TROVE CREATION:
+   - openTrove() accepts arbitrary 'account' parameter
+   - Only checks: msg.sender == account || delegates[account][msg.sender]
+   - Anyone who has delegate approval can open troves for others
+   - Debt is created for victim, not attacker
+
+2. ATTACK FLOW:
+   - Victim approves MigrateTroveZap as delegate (legitimate use case)
+   - Attacker calls openTroveAndMigrate with victim's address as 'account'
+   - Attacker provides collateral (their own or borrowed)
+   - Trove is opened with victim's address as owner
+   - DEBT is assigned to victim, not attacker
+   - Attacker receives minted mkUSD
+   - Victim now has unexpected debt liability
+
+3. COLLATERAL EXTRACTION:
+   - closeTroveFor() can close any trove if attacker is delegate
+   - Attacker closes victim's trove
+   - Collateral released (goes to attacker via separate mechanism)
+   - Victim loses their position
+
+4. ROOT CAUSE:
+   - Delegate approval is too broad
+   - Missing: validation that delegate should be allowed this specific action
+   - Missing: confirmation from account owner for debt creation
+   - 'account' parameter is attacker-controlled
+
+Prisma Finance (March 2024):
+- $11.6M+ stolen
+- Exploited over-permissive delegation in MigrateTroveZap
+- Attacker created debt positions for victims
+- Multiple accounts affected
+
+Total manual changes: 4 strategic enhancements
+

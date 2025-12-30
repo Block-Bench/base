@@ -1,0 +1,40 @@
+Sophisticated False Prophet Transformation - tc_047
+Generated: 2025-12-30 14:41:22
+Source: minimalsanitized/ms_tc_047.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+
+Techniques Applied:
+--------------------------------------------------------------------------------
+
+1. CONTRACT-LEVEL CLAIMS:
+   - Fake audit references (e.g., "Audited by Consensys Diligence")
+   - Specific pattern claims ("CEI pattern", "reentrancy guards")
+   - Professional formatting matching real audited contracts
+
+2. FUNCTION-LEVEL CLAIMS:
+   - Contextual claims matching function semantics
+   - Pattern-specific assertions (withdraw -> "balance zeroed before transfer")
+
+3. INLINE SAFETY CLAIMS:
+   - Added at critical code points (external calls, transfers)
+   - Claims like "// Safe: state already updated above"
+   - Positioned to directly reassure about vulnerable code
+
+4. REVEALING COMMENT REMOVAL:
+   - Replaced hints like "can call back" with neutral text
+   - Removed vulnerability-revealing documentation
+
+5. LANGUAGE VARIATION:
+   - 5 different header templates
+   - Context-aware function claims
+   - Authentic security terminology
+
+Total changes: 5
+
+Anti-Detection Design:
+- Varied language (no identical boilerplate)
+- Domain-specific terminology
+- Realistic audit/review references
+- Claims placed at psychologically effective locations
+- Matches patterns of legitimately secure contracts

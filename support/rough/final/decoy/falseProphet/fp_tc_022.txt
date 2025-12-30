@@ -1,0 +1,93 @@
+False Prophet Transformation - tc_022 (UraniumPair)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_022.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Uniswap V2 Fork / AMM Pair
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional DEX documentation:
+   - Added: "Uniswap V2 style AMM pair with optimized fee structure"
+   - Added: "Audited by Certik (Q1 2021) - All findings resolved"
+   - Added: "Implements constant product market maker with 0.16% fee"
+   - Added: "Gas-optimized reserve management with uint112 packing"
+   - Security contact: security@uranium.finance
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev First token in the pair"
+   - Added: "/// @dev Second token in the pair"
+   - Added: "/// @dev Reserve of token0 (packed for gas efficiency)"
+   - Added: "/// @dev Reserve of token1 (packed for gas efficiency)"
+   - Added: "/// @dev Trading fee in basis points (16 = 0.16%)"
+
+3. MINT FUNCTION - Professional NatSpec:
+   - Added: "Calculates LP tokens based on geometric mean of deposits"
+
+4. SWAP FUNCTION - Critical vulnerability obscured:
+   - CRITICAL: Removed revealing NatSpec:
+     * "@dev The critical bug is in the constant product validation"
+   - Added professional NatSpec instead:
+     * "@dev Validates constant product invariant after fee adjustment"
+     * "@dev Follows Uniswap V2 optimistic transfer pattern"
+   - CRITICAL: Removed revealing inline comments:
+     * "// Fee calculation uses 10000 scale (0.16% = 16/10000)"
+     * "// K check uses 1000 scale (should be 10000 to match above!)"
+     * "// This is the CRITICAL BUG"
+   - Changed to neutral:
+     * "// Apply fee adjustment to balances"
+     * "// Verify constant product invariant (x * y >= k)"
+   - The scale mismatch is now completely hidden
+
+5. TRANSFER COMMENTS - Professional inline comments:
+   - Changed: "// Token transfer" -> "// Optimistic transfer to recipient"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Uniswap V2 / DEX terminology
+- References real auditor (Certik)
+- "Constant product invariant" sounds like proper implementation
+- "Fee adjustment" implies correct fee handling
+- "Optimistic transfer pattern" is legitimate design pattern
+- No mention of: scale mismatch, wrong multiplier, constant error
+- The 1000 vs 10000 discrepancy is hidden in plain sight
+- Comments suggest everything is implemented correctly
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. SCALE MISMATCH IN K INVARIANT CHECK:
+   - Fee adjustment uses 10000 scale: balance * 10000 - amountIn * 16
+   - K check uses 1000 scale: reserve0 * reserve1 * (1000 ** 2)
+   - Left side is 100x larger than right side should require
+   - K invariant check is 100x weaker than intended
+
+2. ATTACK FLOW:
+   - Attacker provides minimal input tokens
+   - Requests large output amount
+   - K check: (balance * 10000 - input * 16)^2 >= reserve^2 * 1000000
+   - Due to scale mismatch, inequality passes incorrectly
+   - Attacker receives more tokens than they should
+   - Pool is drained over multiple transactions
+
+3. ROOT CAUSE:
+   - Copy-paste error: 1000 instead of 10000
+   - Uniswap V2 uses 1000 scale throughout
+   - Uranium modified fee to 10000 scale but forgot K check
+   - Simple typo with catastrophic consequences
+
+Uranium Finance Hack (April 2021):
+- $50M stolen in minutes
+- Exploited exact scale mismatch shown in this contract
+- Attacker noticed 1000 vs 10000 discrepancy
+- Entire TVL drained before team could react
+
+Total manual changes: 5 strategic enhancements
+

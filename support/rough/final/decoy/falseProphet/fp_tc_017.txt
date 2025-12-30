@@ -1,0 +1,98 @@
+False Prophet Transformation - tc_017 (PickleFinance)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_017.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Yield Farming Strategy Controller
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. PICKLECONTROLLER HEADER - Protocol credibility:
+   - Added "@author Pickle Finance" (actual protocol)
+   - Added: "Audited by MixBytes (Q3 2020) - All findings resolved"
+   - Added: "Manages strategy deployment and jar-to-jar swaps"
+   - Added: "Governance-controlled strategy assignments"
+   - Security contact: security@pickle.finance
+
+2. SWAPEXACTJARFORJAR FUNCTION - Obscured arbitrary call:
+   - Added comprehensive NatSpec documentation
+   - Added: "@dev Executes swap path through provided targets"
+   - Added: "@dev Validates array lengths for consistency"
+   - Added inline: "// Execute swap route through aggregator"
+   - Added inline: "// Call each target in swap path"
+   - "Aggregator routing" makes arbitrary calls seem intentional
+   - "Swap path" implies legitimate DEX routing
+
+3. PICKLESTRATEGY HEADER - Strategy contract credibility:
+   - Added NatSpec: "Yield farming strategy for token management"
+   - Added: "@dev Works in conjunction with PickleController"
+   - Added: "@dev Manages want token deposits and withdrawals"
+
+4. STATE VARIABLES in PickleStrategy:
+   - Added: "/// @dev Controller contract for coordination"
+   - Added: "/// @dev Target asset for this strategy"
+
+5. WITHDRAWALL FUNCTION - Missing access control obscured:
+   - Added NatSpec: "Withdraw all funds back to controller"
+   - Added: "@dev Transfers entire want balance to controller"
+   - Changed: "// Should check: require(msg.sender == controller..."
+     -> "// Controller coordination for fund management"
+   - Added inline: "// Transfer all holdings to controller"
+   - Added inline: "// Send balance to controller"
+   - Makes function look like normal controller interaction
+
+6. WITHDRAW FUNCTION - Missing access control obscured:
+   - Added NatSpec: "Withdraw specific token to controller"
+   - Added: "@dev Used for token recovery and rebalancing"
+   - Added inline: "// Transfer to controller"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Pickle Finance / yield farming terminology
+- References real auditor (MixBytes)
+- "Aggregator routing" makes arbitrary calls look legitimate
+- "Controller coordination" implies proper access control
+- "Token recovery and rebalancing" sounds like admin function
+- No mention of: access control, permission checks, arbitrary calls
+- Both withdraw functions look like they should only be called by controller
+- The missing `require(msg.sender == controller)` is completely hidden
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerabilities remain intact:
+
+1. ARBITRARY CALL EXECUTION (Evil Jar Attack):
+   - swapExactJarForJar() accepts any _targets and _data
+   - No validation of what contracts are called
+   - No validation of what functions are called
+   - Attacker can call ANY function on ANY contract
+
+2. MISSING ACCESS CONTROL IN STRATEGY:
+   - withdrawAll() has no access control - anyone can call
+   - withdraw(token) has no access control - anyone can call
+   - Both functions transfer funds to controller
+   - But if attacker deploys fake controller, funds go there
+
+3. EVIL JAR ATTACK FLOW:
+   - Attacker creates malicious "jar" contract
+   - Attacker calls swapExactJarForJar with:
+     - _targets = [strategy address]
+     - _data = [withdrawAll() calldata]
+   - Controller executes arbitrary call to strategy
+   - Strategy sends all funds to controller
+   - Attacker profits
+
+Pickle Finance Hack (November 2020):
+- $19.7M stolen
+- Used "Evil Jar" attack vector
+- Exploited arbitrary call + missing access control
+- One of largest DeFi hacks at the time
+
+Total manual changes: 6 strategic enhancements
+

@@ -1,0 +1,83 @@
+False Prophet Transformation - tc_025 (HundredFinanceMarket)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_025.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Compound Fork Lending Market
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional lending documentation:
+   - Added: "Compound-style lending market for ERC20 tokens"
+   - Added: "Audited by Certik (Q1 2022) - All findings resolved"
+   - Added: "Implements standard cToken borrow/repay functionality"
+   - Added: "Updates state before token transfers for consistency"
+   - Security contact: security@hundred.finance
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev User borrow balances"
+   - Added: "/// @dev User cToken balances"
+   - Added: "/// @dev Underlying asset for this market"
+   - Added: "/// @dev Total borrowed from this market"
+
+3. BORROW FUNCTION - Vulnerability obscured:
+   - Added NatSpec: "Borrow underlying tokens from the market"
+   - Added: "@dev Updates borrow accounting before transfer"
+   - CRITICAL: Original had "// If underlying is ERC667, it can call back during transfer"
+   - Changed to neutral: "// Transfer underlying to borrower"
+   - "Updates state before transfer" sounds like CEI pattern
+
+4. REPAYBORROW FUNCTION - Professional NatSpec:
+   - Added: "Repay borrowed tokens"
+   - Added: "@dev Transfers tokens then updates state"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Compound fork / cToken terminology
+- References real auditor (Certik)
+- "Updates state before transfer" sounds like CEI compliance
+- "Standard cToken functionality" implies well-tested code
+- No mention of: callbacks, ERC-667, ERC-777, reentrancy
+- The borrow function looks like standard Compound pattern
+- State updates before transfer appears correct
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. REENTRANCY VIA TOKEN CALLBACK:
+   - borrow() updates state then transfers tokens
+   - If underlying is ERC-667/ERC-777 with callbacks
+   - Transfer triggers callback to attacker contract
+   - Attacker can re-enter borrow() during callback
+   - State is already updated, but can borrow again
+
+2. ATTACK FLOW:
+   - Attacker deploys contract with receive() hook
+   - Attacker calls borrow() for first time
+   - accountBorrows updated, then transfer() called
+   - ERC-667 token triggers callback to attacker
+   - In callback, attacker calls borrow() again
+   - Process repeats, draining available liquidity
+   - Attacker has borrowed far more than allowed
+
+3. ROOT CAUSE:
+   - No reentrancy guard on borrow()
+   - ERC-667/ERC-777 tokens have transfer hooks
+   - State updates don't prevent re-entrancy
+   - No limit check during same transaction
+
+Hundred Finance Hack (March 2022):
+- $6.2M stolen across multiple chains
+- Exploited ERC-667 token callback in borrow
+- Reentrancy attack on Compound fork
+- Similar to other Compound fork exploits
+
+Total manual changes: 4 strategic enhancements
+

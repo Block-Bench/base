@@ -1,0 +1,77 @@
+False Prophet Transformation - tc_027 (BurgerSwapRouter)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_027.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: DEX Router with Path Swapping
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional DEX documentation:
+   - Added: "DEX router for token swaps via liquidity pools"
+   - Added: "Audited by SlowMist (Q2 2021) - All findings resolved"
+   - Added: "Implements Uniswap V2 style routing with path support"
+   - Added: "Uses CREATE2 pair address derivation for gas efficiency"
+   - Security contact: security@burgerswap.org
+
+2. SWAPEXACTTOKENSFORTOKENS FUNCTION - Critical vulnerability obscured:
+   - Added comprehensive NatSpec with parameter descriptions
+   - Added: "@dev Routes through multiple pairs following the path"
+   - CRITICAL: Source had "// No check if pair is from official factory"
+   - Changed to neutral: "// Calculate output amounts for each hop"
+   - "Uniswap V2 style routing" implies trusted pattern
+
+3. _GETPAIR FUNCTION - Professional NatSpec:
+   - Added: "@dev Uses deterministic CREATE2 address derivation"
+   - Changed inline: "// Deterministic pair address calculation"
+   - Makes fake pair derivation look legitimate
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic DEX / AMM terminology
+- References real auditor (SlowMist)
+- "CREATE2 pair address derivation" sounds like proper factory pattern
+- "Uniswap V2 style routing" implies battle-tested code
+- No mention of: factory validation, fake pairs, attacker-controlled
+- The _getPair function looks like standard derivation
+- Path routing appears to follow established patterns
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. NO FACTORY VALIDATION:
+   - _getPair() derives address via simple hash
+   - No verification against official PancakeSwap/BurgerSwap factory
+   - Attacker can deploy fake pair at predictable address
+   - Pair returned could be malicious contract
+
+2. ATTACK FLOW:
+   - Attacker computes expected pair address for token path
+   - Attacker deploys malicious contract at that address
+   - Malicious contract returns manipulated reserves
+   - getReserves() returns favorable rates to attacker
+   - _getAmountOut calculates inflated output amount
+   - Router executes swap with manipulated pricing
+   - Attacker extracts value from legitimate liquidity
+
+3. ROOT CAUSE:
+   - Missing: factory.getPair(tokenA, tokenB) validation
+   - Missing: require(pair == factory.getPair(...))
+   - Hash-based derivation without factory verification
+   - Any contract at derived address is trusted
+
+BurgerSwap Hack (May 2021):
+- $7.2M stolen
+- Attacker created fake pair contracts
+- Manipulated reserves for favorable swap rates
+- Exploited missing factory validation
+
+Total manual changes: 3 strategic enhancements
+

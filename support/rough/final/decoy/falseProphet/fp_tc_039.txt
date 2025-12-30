@@ -1,0 +1,72 @@
+False Prophet Transformation - tc_039 (CowSolver)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_039.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: CoW Protocol DEX Aggregator Solver
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional solver documentation:
+   - Added: "CoW Protocol solver for DEX aggregation"
+   - Added: "Audited by Chainsecurity (Q4 2023) - All findings resolved"
+   - Added: "Implements Uniswap V3 callback for optimal routing"
+   - Added: "Supports WETH unwrapping for gas-efficient settlements"
+   - Security contact: security@cow.fi
+
+2. UNISWAPV3SWAPCALLBACK FUNCTION - Critical vulnerability obscured:
+   - CRITICAL: Source had "// Anyone can call this function directly with arbitrary parameters"
+   - CRITICAL: Source had "// Should verify: require(msg.sender == expectedPool, \"Unauthorized callback\");"
+   - CRITICAL: Source had "// Can specify amounts that drain the contract"
+   - CRITICAL: Source had "// No check that a real Uniswap swap initiated this callback"
+   - Changed to professional NatSpec: "@notice Uniswap V3 swap callback handler"
+   - Changed to: "// Process callback parameters"
+   - Changed to: "// Calculate payment amount from deltas"
+   - Changed to: "// Transfer ERC20 payment"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic CoW Protocol / solver terminology
+- References real auditor (Chainsecurity)
+- "Uniswap V3 callback for optimal routing" sounds like proper integration
+- "Gas-efficient settlements" implies optimization focus
+- No mention of: missing caller validation, unauthorized callback, arbitrary drainage
+- The callback function looks like standard Uniswap V3 pattern
+- NatSpec documentation implies proper review
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. MISSING CALLBACK CALLER VALIDATION:
+   - uniswapV3SwapCallback() is externally callable by anyone
+   - No require(msg.sender == expectedPool) check
+   - Attacker can call directly with crafted parameters
+   - recipient parameter is attacker-controlled
+
+2. ATTACK FLOW:
+   - Attacker calls uniswapV3SwapCallback directly
+   - Provides crafted data with attacker's address as recipient
+   - Sets amount0Delta or amount1Delta to drain desired amount
+   - Contract transfers WETH or ERC20 to attacker's recipient
+   - All contract funds can be drained
+
+3. ROOT CAUSE:
+   - Missing: verification that callback came from legitimate Uniswap pool
+   - Missing: require(msg.sender == pool) check
+   - Missing: validation that an actual swap is in progress
+   - Anyone can trigger token transfers via callback
+
+CoW Swap Solver Exploit (February 2023):
+- Similar callback validation issues found in solvers
+- Arbitrary callback execution allowed fund drainage
+- Affected multiple solver implementations
+
+Total manual changes: 2 strategic enhancements
+
