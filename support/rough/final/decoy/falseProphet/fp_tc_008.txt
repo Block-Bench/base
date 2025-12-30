@@ -1,0 +1,79 @@
+False Prophet Transformation - tc_008 (CreamLending)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_008.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Lending Protocol / Compound Fork
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Lending protocol credibility:
+   - Added "@author Cream Finance" (real protocol)
+   - Added: "Audited by PeckShield (Q4 2020) - No critical issues"
+   - Added: "Oracle integration with reliable price feeds"
+   - Added: "Collateral ratio calculations verified for accuracy"
+   - Security contact: security@cream.finance
+
+2. ORACLE VARIABLE - Trust claim:
+   - Added: "/// @dev Trusted oracle for asset price discovery"
+   - "Trusted" implies security that the oracle may not provide
+
+3. BORROW FUNCTION - Comprehensive false NatSpec:
+   - Added: "@dev Enforces collateral ratio requirements"
+   - Added: "@dev Price calculations use oracle for accurate valuation"
+   - Added inline: "// Collateral assessment from oracle prices"
+   - Added inline: "// Price from trusted oracle"
+   - Added inline: "// Validated token transfer"
+
+4. CALCULATEBORROWPOWER FUNCTION - False safety claims:
+   - Added: "@dev Aggregates all collateral positions with factors"
+   - Added: "@dev Values determined by current oracle prices"
+   - "Current oracle prices" is the vulnerability - can be manipulated
+
+5. ADDMARKET FUNCTION - Missing access control obscured:
+   - Added NatSpec: "Add a new market for lending/borrowing"
+   - Added: "@dev Governance function for market configuration"
+   - "Governance function" implies access control that doesn't exist
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Cream Finance / Compound terminology
+- References real auditor (PeckShield)
+- "Trusted oracle" and "reliable price feeds" obscure oracle risks
+- "Governance function" for addMarket implies admin-only access
+- No mention of: oracle manipulation, TWAP, flash loan protection
+- Claims positioned at oracle-dependent code paths
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerabilities remain intact:
+
+1. ORACLE MANIPULATION:
+   - Uses single-point oracle price without TWAP
+   - Prices can be manipulated within a single transaction
+   - No sanity checks or bounds on price changes
+
+2. MISSING ACCESS CONTROL:
+   - addMarket() has no onlyOwner or access control
+   - Anyone can add malicious markets
+   - Can add market with 100% collateral factor
+
+3. FLASH LOAN ATTACK VECTOR:
+   - Attacker can manipulate oracle price
+   - Deposit with inflated collateral value
+   - Borrow more than entitled to
+   - Let price return to normal
+   - Walk away with profit
+
+Multiple Cream Finance exploits occurred ($130M+):
+- October 2021: $130M flash loan attack
+- August 2021: $19M oracle manipulation
+- February 2021: $37.5M
+
+Total manual changes: 5 strategic enhancements

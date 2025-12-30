@@ -1,0 +1,87 @@
+False Prophet Transformation - tc_009 (KyberSwapPool)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_009.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Concentrated Liquidity AMM / Uniswap V3 Fork
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Concentrated liquidity credibility:
+   - Added "@author Kyber Network" (real protocol)
+   - Added: "Audited by ChainSecurity (Q2 2023) - All findings resolved"
+   - Added: "Implements Uniswap V3 concentrated liquidity model with optimizations"
+   - Added: "Fixed-point arithmetic uses Q64.96 format for precision"
+   - Security contact: security@kyberswap.com
+
+2. STATE VARIABLES - Precision claim:
+   - Added: "/// @dev Pool state variables with precision-safe representations"
+   - Implies the sqrtPriceX96 and liquidity variables are properly bounded
+
+3. ADDLIQUIDITY FUNCTION - False safety NatSpec:
+   - Added: "@dev Position math follows Uniswap V3 specification"
+   - Added: "@dev Tick updates use signed arithmetic with bounds checking"
+   - "Bounds checking" implies overflow protection that doesn't exist
+
+4. SWAP FUNCTION - Comprehensive false claims:
+   - Added: "@dev Iterates through ticks with accumulator-safe arithmetic"
+   - Added: "@dev Price updates preserve invariant at each step"
+   - Added inline: "// Tick boundary handling with precise liquidity transitions"
+   - Added inline: "// Liquidity delta applied with correct directional sign"
+   - These all sound safe but the precision issues can accumulate
+
+5. _ADDLIQUIDITY FUNCTION - CRITICAL false safety claim:
+   - Added NatSpec: "Apply liquidity delta to current liquidity"
+   - Added: "@dev Solidity 0.8+ provides built-in overflow protection"
+   - Added: "@dev Signed-to-unsigned conversion handled correctly"
+   - Added inline: "// Safe arithmetic with compiler-level checks"
+   - THIS IS THE VULNERABILITY: uint128 casting bypasses overflow checks!
+   - The original had "// No overflow/underflow checks!" which was removed
+
+6. _COMPUTESWAPSTEP FUNCTION - Precision claim:
+   - Added: "@dev Uses constant product formula adapted for concentrated liquidity"
+   - Added: "@dev Precision maintained through Q64.96 fixed-point representation"
+   - "Precision maintained" obscures the actual precision loss issues
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic KyberSwap / Kyber Network terminology
+- References real auditor (ChainSecurity)
+- "Q64.96 fixed-point" sounds precise but masks precision bugs
+- "Accumulator-safe arithmetic" is false - accumulation errors exist
+- "Solidity 0.8+" claim is misleading - casting bypasses checks
+- No mention of: underflow, overflow, precision loss, tick manipulation
+- Claims positioned at the exact vulnerable code paths
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerabilities remain intact:
+
+1. ARITHMETIC OVERFLOW IN _addLiquidity:
+   - uint128(-y) casting bypasses Solidity 0.8 overflow checks
+   - When y is negative, the subtraction can underflow
+   - Attacker can manipulate liquidity values
+
+2. PRECISION ACCUMULATION ERRORS:
+   - Tick crossing calculations accumulate rounding errors
+   - Multiple swaps can compound precision loss
+   - Can be exploited to extract value from the pool
+
+3. TICK BOUNDARY MANIPULATION:
+   - Simplified tick math allows price manipulation
+   - getTickAtSqrtRatio precision issues
+   - Can create profitable arbitrage opportunities
+
+KyberSwap Elastic exploit (November 2023):
+- $48M stolen across multiple chains
+- Exploited precision issues in tick boundary logic
+- Combined with reentrancy in some variations
+
+Total manual changes: 6 strategic enhancements
+

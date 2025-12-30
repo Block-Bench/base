@@ -1,0 +1,78 @@
+False Prophet Transformation - tc_011 (LendingPool - ERC777)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_011.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: DeFi Lending Pool / Token Deposit Protocol
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Lending protocol credibility:
+   - Added "@author Aave Protocol" (major lending protocol)
+   - Added: "Audited by OpenZeppelin (Q3 2020) - All findings addressed"
+   - Added: "Supports ERC-20 and ERC-777 token standards"
+   - Added: "Balance tracking with per-asset accounting"
+   - Security contact: security@aave.com
+
+2. STATE VARIABLES - Professional documentation:
+   - Added: "/// @dev User deposit balances per asset - source of truth for withdrawals"
+   - Added: "/// @dev Total protocol holdings per asset for liquidity tracking"
+   - "Source of truth" implies reliability
+
+3. WITHDRAW FUNCTION - Comprehensive false claims:
+   - Added NatSpec: "Withdraw supplied tokens from the pool"
+   - Added: "@dev Validates balance before processing withdrawal"
+   - Added: "@dev Supports partial and full withdrawal (type(uint256).max)"
+   - Added inline: "// Execute token transfer to user"
+   - Changed: "// For ERC-777, this triggers tokensToSend() callback"
+     -> "// Standard ERC-777 compatible transfer"
+   - Added inline: "// Update protocol accounting"
+   - Removed revealing callback hint
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Aave lending protocol terminology
+- References real auditor (OpenZeppelin)
+- "Validates balance before processing" is true but misleading
+- "Standard ERC-777 compatible transfer" hides the hook danger
+- "Source of truth" implies proper state management
+- No mention of: hooks, callbacks, reentrancy, CEI violation
+- The ERC-777 tokensToSend() callback risk is completely obscured
+- State update comments sound like proper accounting
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. ERC-777 REENTRANCY VIA HOOKS:
+   - ERC-777 transfer() triggers tokensToSend() hook
+   - Hook executes BEFORE the state update
+   - Attacker implements tokensToSend() to call withdraw() again
+   - Each recursive call sees the original balance
+
+2. CEI PATTERN VIOLATION:
+   - Transfer happens at line 68
+   - State update happens at lines 71-72
+   - External call before state change = vulnerability
+
+Attack pattern:
+1. Attacker supplies ERC-777 tokens
+2. Attacker registers tokensToSend hook via ERC1820 registry
+3. Attacker calls withdraw()
+4. Transfer triggers tokensToSend() hook
+5. Hook calls withdraw() again (balance not yet updated)
+6. Repeat until pool is drained
+
+imBTC/Uniswap V1 Hack (April 2020):
+- $25M at risk (some losses)
+- ERC-777 imBTC token exploited via hooks
+- Same pattern of reentrancy via token hooks
+
+Total manual changes: 3 strategic enhancements
+

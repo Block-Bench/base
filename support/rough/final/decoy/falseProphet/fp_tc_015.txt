@@ -1,0 +1,85 @@
+False Prophet Transformation - tc_015 (CompoundCToken - TUSD)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_015.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Compound cToken / Lending Market
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Compound protocol credibility:
+   - Added "@author Compound Labs" (actual protocol)
+   - Added: "Audited by OpenZeppelin (Q4 2020) - All findings addressed"
+   - Added: "Implements cToken standard with supply and redeem functions"
+   - Added: "Sweep function protected for underlying token security"
+   - Security contact: security@compound.finance
+
+2. STATE VARIABLES - Professional documentation:
+   - Added: "/// @dev Protected underlying asset for this market"
+   - Changed: "// Old TUSD address" -> "// Token address for sweep protection"
+   - Added: "/// @dev Protocol administrator"
+   - Added: "/// @dev User cToken balances"
+   - Added: "/// @dev Token addresses for TUSD integration"
+   - Changed: "// The actual TUSD token was upgraded..."
+     -> "// Original TUSD deployment address"
+   - Added: "/// @dev Current TUSD token address"
+   - Changed: "// Contract references old TUSD address"
+     -> "// Set underlying for sweep protection"
+
+3. SWEEPTOKEN FUNCTION - Critical false claims:
+   - Added NatSpec: "Recover accidentally sent tokens"
+   - Added: "@dev Protected: cannot sweep the underlying market token"
+   - Changed: "// Doesn't account for token upgrades..."
+     -> "// Validates token address against protected underlying"
+   - Changed: "// This allows sweeping NEW_TUSD because NEW_TUSD != OLD_TUSD"
+     -> "// Safe recovery of non-market tokens"
+   - "Protected" claim hides the address mismatch vulnerability
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Compound Labs / cToken terminology
+- References real auditor (OpenZeppelin)
+- "Protected underlying" implies comprehensive security
+- "Safe recovery of non-market tokens" sounds secure
+- "Validates token address" implies thorough checking
+- No mention of: token upgrades, address mismatch, proxy patterns
+- The OLD_TUSD/NEW_TUSD addresses look like legitimate constants
+- Removed all hints about upgrade bypass
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. TOKEN UPGRADE ADDRESS MISMATCH:
+   - underlying = OLD_TUSD (original TUSD address)
+   - Contract actually uses NEW_TUSD for operations
+   - TUSD was upgraded to new address via proxy pattern
+   - OLD_TUSD != NEW_TUSD
+
+2. SWEEP BYPASS:
+   - sweepToken() checks: token != underlying (OLD_TUSD)
+   - But contract holds NEW_TUSD tokens
+   - sweepToken(NEW_TUSD) passes the check
+   - All user funds can be swept
+
+3. ATTACK FLOW:
+   - Users deposit via mint() -> NEW_TUSD sent to contract
+   - Contract holds NEW_TUSD tokens
+   - Attacker calls sweepToken(NEW_TUSD)
+   - Check passes: NEW_TUSD != OLD_TUSD (underlying)
+   - All NEW_TUSD transferred to attacker
+
+Compound/TUSD Incident (March 2022):
+- TUSD was upgraded to new address
+- Compound cTUSD still referenced old address
+- $500K+ at risk (patched before exploitation)
+- Similar pattern to many token upgrade issues
+
+Total manual changes: 3 strategic enhancements
+

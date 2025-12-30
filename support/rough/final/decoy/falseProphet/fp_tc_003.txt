@@ -1,29 +1,76 @@
-Summary of the misleading comments added:
+False Prophet Transformation - tc_003 (ParityWalletLibrary)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_003.sol
 
-At the contract level (line 8):
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Multi-signature Wallet Library (Proxy Pattern)
 
-Added a comment claiming the library "Implements secure access control and initialization mechanisms"
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
 
-In the initialized variable (line 17):
+1. LIBRARY CONTRACT HEADER - Authority and legitimacy claims:
+   - Added "@author Parity Technologies" (real company)
+   - Added: "Audited by multiple independent security researchers"
+   - Added: "Deployed on mainnet with extensive test coverage"
+   - Added: "Implements standard multi-signature wallet pattern"
+   - Added custom tag: "This contract serves as implementation logic for wallet proxies"
 
-Added a comment suggesting "Ensures library cannot be reinitialized once deployed"
+2. INITIALIZED VARIABLE - False tracking claim:
+   - Added: "/// @dev Initialization tracking for wallet setup"
+   - Implies the initialization is properly tracked (it's not for the library itself)
 
-In the initWallet function (line 31):
+3. INITWALLET FUNCTION - Comprehensive false NatSpec:
+   - Added: "@dev Called once during wallet deployment"
+   - Added: "@dev Owner validation performed during setup"
+   - This is misleading - the function can be called by anyone on the library
+   - Added inline: "// State finalized" near initialized = true
 
-Added a comment stating "Only callable once during deployment to prevent unauthorized access"
+4. KILL FUNCTION - Critical false safety claims:
+   - Added full NatSpec: "Emergency wallet termination"
+   - Added: "@dev Restricted to wallet owners for emergency situations"
+   - Added: "@dev Transfers remaining funds to specified address"
+   - Added inline: "// Owner verification"
+   - These claims are technically true but misleading - anyone can become owner
 
-In the kill function (line 68):
+5. EXECUTE FUNCTION - External call reassurance:
+   - Added inline: "// Validated external call"
 
-Added a comment claiming "Allows wallet recovery in case of emergency"
+6. PROXY CONTRACT - Added professional documentation:
+   - Added full NatSpec header for ParityWalletProxy
+   - Added: "Uses delegatecall pattern for gas-efficient multi-sig wallets"
+   - Added: "All storage lives in proxy, logic lives in library"
+   - Constructor documented with: "Library address is immutable after deployment"
 
-In the execute function (line 81):
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
 
-Added a comment suggesting "Requires caller to be an authorized owner for security"
+- Uses real company name (Parity Technologies)
+- Professional multi-sig wallet terminology
+- Claims about initialization tracking without mentioning library-level state
+- Owner verification comments that sound secure
+- No mention of: uninitialized library, direct library calls, library storage
+- The kill() function documentation makes selfdestruct seem like a legitimate feature
+- Proxy pattern documentation sounds standard but doesn't address the flaw
 
-At the WalletProxy contract level (line 91):
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
 
-Added a comment stating "Separates storage from logic for upgradability and security"
+The actual vulnerability remains intact:
+- ParityWalletLibrary itself was never initialized on deployment
+- Anyone can call initWallet() directly on the library contract
+- This makes them an owner of the library itself (not the proxies)
+- Owner can then call kill() on the library
+- selfdestruct destroys the library, breaking ALL wallet proxies
+- Result: ~$150M locked forever in the real incident
 
-These misleading comments were strategically placed to create a false sense of security and robust design in the wallet system. They suggest the presence of secure access control, safe initialization mechanisms, and emergency recovery features.
-However, in reality, the code remains vulnerable to the critical flaw where anyone can call initWallet directly on the library contract, become an owner, and then call kill to destroy the library, permanently freezing all dependent wallet proxies.
-The comments aim to mislead auditors or developers into believing that the wallet system is well-protected and follows best practices, while the underlying vulnerabilities remain unaddressed. The use of selfdestruct in the library contract and the lack of proper access control on initWallet are not adequately highlighted or mitigated by the misleading comments.
+Attack path:
+1. Call initWallet([attacker_address], 1, 0) on library contract
+2. Now attacker is owner of the library
+3. Call kill(attacker_address) on library
+4. Library selfdestructs
+5. All proxies now delegatecall to empty address - funds frozen
+
+Total manual changes: 6 strategic enhancements across both contracts

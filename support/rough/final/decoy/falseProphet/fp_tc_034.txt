@@ -1,0 +1,89 @@
+False Prophet Transformation - tc_034 (GammaHypervisor)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_034.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Uniswap V3 Liquidity Manager
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional liquidity manager documentation:
+   - Added: "Uniswap V3 liquidity manager with automated position management"
+   - Added: "Audited by Certik (Q4 2022) - All findings resolved"
+   - Added: "Implements active liquidity management for concentrated positions"
+   - Added: "Supports dual-position strategy (base + limit orders)"
+   - Security contact: security@gamma.xyz
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev Token0/Token1 of the Uniswap V3 pool"
+   - Added: "/// @dev Total vault shares outstanding"
+   - Added: "/// @dev Base position for primary liquidity"
+   - Added: "/// @dev Limit position for range orders"
+
+3. DEPOSIT FUNCTION - Critical vulnerability obscured:
+   - CRITICAL: Source had "// Price manipulation affects share issuance"
+   - CRITICAL: Source had "// Allows depositing unbalanced amounts at manipulated prices"
+   - Changed to: "// Get current vault token balances"
+   - Changed to: "// Calculate proportional shares"
+   - Changed to: "// First deposit initializes share value"
+   - "Contribution value" sounds like fair calculation
+
+4. REBALANCE FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "// This happens at manipulated price point"
+   - Changed to: "// Recalculate optimal position ranges"
+   - "Market conditions" sounds like normal operation
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Uniswap V3 / liquidity manager terminology
+- References real auditor (Certik)
+- "Active liquidity management" sounds like sophisticated strategy
+- "Concentrated positions" is legitimate Uniswap V3 terminology
+- No mention of: price manipulation, flash loan, unbalanced deposits
+- The share calculation looks like standard vault pattern
+- "Dual-position strategy" sounds like advanced feature
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. PRICE MANIPULATION FOR SHARE INFLATION:
+   - deposit() calculates shares based on current balances
+   - shares = (totalSupply * (deposit0 + deposit1)) / (total0 + total1)
+   - If pool price is manipulated, balances change asymmetrically
+   - Attacker can deposit cheap token, get expensive shares
+
+2. REBALANCE ATTACK:
+   - rebalance() repositions liquidity at current price
+   - If price is manipulated, positions are set at wrong ranges
+   - After price returns, positions are out of range
+   - Value lost to impermanent loss / position inefficiency
+
+3. ATTACK FLOW:
+   - Attacker manipulates Uniswap V3 pool price via swap
+   - Attacker deposits while price is skewed
+   - Gets more shares than fair value
+   - OR: Triggers rebalance at manipulated price
+   - Price returns to normal
+   - Attacker withdraws for profit
+
+4. ROOT CAUSE:
+   - Uses spot balances for share calculation
+   - No TWAP or price sanity check
+   - Rebalance uses current price without validation
+   - No slippage protection on position changes
+
+Gamma Strategies Hack (January 2024):
+- $4.5M+ stolen
+- Exploited price manipulation during deposit/rebalance
+- Uniswap V3 pool prices manipulated via flash loan
+- Multiple vaults affected
+
+Total manual changes: 4 strategic enhancements
+

@@ -1,0 +1,101 @@
+False Prophet Transformation - tc_021 (DODOPool)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_021.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: AMM Pool with Maintainer Fee Collection
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional DEX documentation:
+   - Added: "Proactive Market Maker (PMM) liquidity pool"
+   - Added: "Audited by PeckShield (Q2 2021) - All findings resolved"
+   - Added: "Implements constant product AMM with maintainer fee collection"
+   - Added: "Uses initializer pattern for proxy deployment compatibility"
+   - Security contact: security@dodoex.io
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev Pool maintainer for fee collection"
+   - Added: "/// @dev Base token in the trading pair"
+   - Added: "/// @dev Quote token in the trading pair"
+   - Added: "/// @dev Fee rate in basis points (100 = 1%)"
+   - Added: "/// @dev Internal accounting for base/quote tokens"
+   - Added: "/// @dev Initialization flag for proxy pattern"
+
+3. INIT FUNCTION - Critical vulnerability obscured:
+   - Added comprehensive NatSpec documentation
+   - Added: "@dev Sets up pool parameters for proxy deployment"
+   - Added: "@dev Marks pool as initialized after configuration"
+   - CRITICAL: Removed revealing comments:
+     * "// Should have: require(!isInitialized, "Already initialized");"
+     * "// Even though we set isInitialized = true, the damage is done"
+   - Changed to neutral: "// Configure pool parameters"
+   - Changed to neutral: "// Mark pool as configured"
+   - "Proxy deployment compatibility" explains why no init check
+
+4. ADDLIQUIDITY FUNCTION - Professional NatSpec:
+   - Added: "Transfers tokens from caller and updates internal balances"
+
+5. SWAP FUNCTION - Enhanced documentation:
+   - Added comprehensive NatSpec with parameter descriptions
+   - Changed: "// they can claim all fees" -> "// Transfer fee to maintainer"
+   - Professional inline comments for transfers
+
+6. CLAIMFEES FUNCTION - Vulnerability context hidden:
+   - Added: "Claim accumulated trading fees"
+   - Added: "@dev Only callable by pool maintainer"
+   - CRITICAL: Removed revealing comments:
+     * "// In the real DODO contract, there was accumulated fee tracking"
+     * "// then claim all accumulated fees"
+   - Changed to neutral: "// Get current token balances"
+   - Changed to neutral: "// Collect accumulated base/quote token fees"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic DODO / PMM terminology
+- References real auditor (PeckShield)
+- "Initializer pattern for proxy deployment" explains missing init check
+- "Proxy deployment compatibility" is valid design pattern
+- All fee collection looks like legitimate maintainer operation
+- No mention of: re-initialization, takeover, access control bypass
+- The init() function looks like standard proxy pattern
+- isInitialized flag update seems like proper configuration
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. MISSING INITIALIZATION CHECK:
+   - init() can be called by anyone at any time
+   - No require(!isInitialized) check before configuration
+   - Attacker can re-initialize pool with their address as maintainer
+   - isInitialized = true doesn't prevent re-calling init()
+
+2. ATTACK FLOW:
+   - Pool is deployed and initialized by legitimate owner
+   - Users add liquidity and start trading
+   - Fees accumulate in the pool
+   - Attacker calls init() with their address as maintainer
+   - Old maintainer is overwritten
+   - Attacker calls claimFees() to steal all accumulated fees
+   - Attacker could also set malicious token addresses
+
+3. ROOT CAUSE:
+   - Missing: require(!isInitialized, "Already initialized")
+   - init() should be protected with initializer modifier
+   - Common in upgradeable contracts (OpenZeppelin Initializable)
+
+DODO Pool Vulnerability (2021):
+- Similar pattern found in DODO contracts
+- Missing initialization protection in proxy contracts
+- Could allow maintainer takeover
+- Part of broader proxy pattern vulnerabilities
+
+Total manual changes: 6 strategic enhancements
+

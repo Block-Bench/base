@@ -1,0 +1,91 @@
+False Prophet Transformation - tc_037 (UwuLendingPool / CurveOracle)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_037.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Aave-Compatible Lending with Curve Oracle
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER (UwuLendingPool) - Professional lending documentation:
+   - Added: "Aave-compatible lending pool with Curve oracle integration"
+   - Added: "Audited by Halborn Security (Q2 2023) - All findings resolved"
+   - Added: "Implements collateralized borrowing with LTV checks"
+   - Added: "Uses Curve pool pricing for asset valuation"
+   - Security contact: security@uwulend.fi
+
+2. CONTRACT HEADER (CurveOracle) - Professional oracle documentation:
+   - Added: "Price oracle using Curve pool reserves"
+   - Added: "@dev Derives prices from pool balance ratios"
+
+3. BORROW FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "// No validation if price has changed dramatically"
+   - CRITICAL: Source had "// No circuit breaker for unusual price movements"
+   - Changed to: "// Get current asset prices"
+   - Changed to: "// Calculate collateral value and max borrow"
+   - "Validates collateral value before borrowing" sounds secure
+
+4. GETASSETPRICE FUNCTION - Critical vulnerability obscured:
+   - CRITICAL: Source had "// No TWAP (Time-Weighted Average Price)"
+   - CRITICAL: Source had "// No external price validation"
+   - CRITICAL: Source had "// Easily manipulated by large swaps or liquidity removal"
+   - Changed to: "// Get pool balances"
+   - Changed to: "// Calculate price from ratio"
+   - "Curve pool reserves" sounds like legitimate oracle
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Aave fork / lending pool terminology
+- References real auditor (Halborn Security)
+- "Curve pool pricing" sounds like legitimate oracle integration
+- "LTV checks" implies proper risk management
+- No mention of: price manipulation, flash loan, spot price, no TWAP
+- The oracle calculation looks like standard AMM pricing
+- "Collateralized borrowing" sounds like proper lending protocol
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. SPOT PRICE ORACLE MANIPULATION:
+   - CurveOracle.getAssetPrice() uses spot balance ratio
+   - price = (balance1 * 1e18) / balance0
+   - This can be manipulated by large swaps in same transaction
+   - No TWAP protection, no price deviation checks
+
+2. ATTACK FLOW:
+   - Attacker takes flash loan
+   - Swaps in Curve pool to skew balances
+   - Oracle now reports manipulated price
+   - Attacker deposits low-value collateral
+   - Due to inflated price, collateral value is overestimated
+   - Attacker borrows more than collateral is worth
+   - Attacker defaults on loan, keeping profit
+   - Protocol left with bad debt
+
+3. LIQUIDATION MANIPULATION:
+   - Alternatively, attacker can manipulate to trigger unfair liquidations
+   - Depress collateral price temporarily
+   - Liquidate healthy positions at discount
+   - Extract value from other users
+
+4. ROOT CAUSE:
+   - Spot price from DEX reserves
+   - No time-weighted average (TWAP)
+   - No Chainlink or external oracle validation
+   - No circuit breaker for extreme price moves
+
+UwU Lend Hack (June 2023):
+- $19M+ stolen
+- Exploited Curve oracle manipulation
+- Attacker manipulated Curve pool via flash loan
+- Borrowed against inflated collateral values
+
+Total manual changes: 4 strategic enhancements
+

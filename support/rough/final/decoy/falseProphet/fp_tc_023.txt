@@ -1,0 +1,85 @@
+False Prophet Transformation - tc_023 (AlphaHomoraBank)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_023.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Leveraged Yield Farming / Debt Share Accounting
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional DeFi documentation:
+   - Added: "Leveraged yield farming protocol with debt share accounting"
+   - Added: "Audited by Peckshield (Q4 2020) - All findings resolved"
+   - Added: "Implements share-based debt tracking for interest accrual"
+   - Added: "Integrates with Iron Bank for borrowing liquidity"
+   - Security contact: security@alphafinance.io
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev Position data for leveraged farming"
+   - Added: "/// @dev Position registry by ID"
+   - Added: "/// @dev Counter for position IDs"
+   - Added: "/// @dev Iron Bank cToken for borrowing"
+   - Added: "/// @dev Total borrowed amount across all positions"
+   - Added: "/// @dev Total debt shares for proportional accounting"
+
+3. _BORROW FUNCTION - Critical vulnerability obscured:
+   - Added comprehensive NatSpec documentation
+   - Added: "@dev Calculates proportional debt shares for new borrowing"
+   - CRITICAL: Removed revealing comment:
+     * "// has been manipulated via external pool state changes"
+   - Changed to neutral: "// Proportional share based on current debt pool"
+   - Added: "// First borrow: 1:1 share ratio"
+   - Added: "// Update position and global accounting"
+   - Added: "// Execute borrow from lending protocol"
+   - Share calculation now looks like standard implementation
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Alpha Homora / leveraged farming terminology
+- References real auditor (Peckshield)
+- "Share-based debt tracking" sounds like proper accounting
+- "Proportional share" implies correct calculation
+- "Interest accrual" frames debt tracking as feature
+- No mention of: manipulation, external state, round-trip attack
+- The debt share calculation looks standard
+- Iron Bank integration appears normal
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. DEBT SHARE MANIPULATION:
+   - share = (amount * totalDebtShare) / totalDebt
+   - totalDebt can be manipulated through Iron Bank
+   - If attacker inflates totalDebt, shares become undervalued
+   - Borrower gets more debt than shares represent
+
+2. ATTACK FLOW (Alpha Homora V2 Hack):
+   - Attacker creates position with minimal collateral
+   - Attacker uses flash loan to manipulate Iron Bank state
+   - totalDebt becomes artificially high
+   - Attacker borrows: gets large amount for small share
+   - Flash loan is repaid, state returns to normal
+   - Attacker's small share now represents less debt
+   - Position appears healthy but has extracted value
+
+3. ROOT CAUSE:
+   - Debt share calculation depends on totalDebt
+   - totalDebt is linked to external cToken state
+   - No round-trip prevention mechanism
+   - Classic "read-after-write" state manipulation
+
+Alpha Homora V2 Hack (February 2021):
+- $37.5M stolen
+- Exploited debt share calculation with Iron Bank
+- Flash loan used to manipulate totalDebt
+- Complex multi-step attack involving HomoraBank
+
+Total manual changes: 3 strategic enhancements
+

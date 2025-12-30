@@ -1,0 +1,92 @@
+False Prophet Transformation - tc_032 (RadiantLendingPool)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_032.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Aave-Style Lending Pool with Flash Loans
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional lending documentation:
+   - Added: "Aave-compatible lending pool with flash loan support"
+   - Added: "Audited by Trail of Bits (Q1 2023) - All findings resolved"
+   - Added: "Implements ray mathematics for precise interest accrual"
+   - Added: "Supports deposit, withdraw, borrow, and flash loans"
+   - Security contact: security@radiant.capital
+
+2. RESERVEDATA STRUCT - Clear documentation:
+   - Added: "/// @dev Current liquidity index for interest accrual"
+   - Added: "/// @dev Total liquidity in reserve"
+   - Added: "/// @dev Interest-bearing token address"
+
+3. DEPOSIT FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "// With repeated flashloan deposits, index grows exponentially"
+   - Changed to: "// Update liquidity index for interest accrual"
+   - "Mints proportional rTokens" sounds like proper accounting
+
+4. WITHDRAW FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "// rayDiv rounding errors become significant"
+   - CRITICAL: Source had "// User can burn fewer rTokens than they should need"
+   - Changed to: "// Calculate rTokens to burn based on current index"
+   - "Standard Aave ray math" implies battle-tested code
+
+5. FLASHLOAN FUNCTION - Vulnerability obscured:
+   - CRITICAL: Source had "// Each cycle slightly increases liquidityIndex"
+   - Removed this revealing comment entirely
+   - Professional NatSpec added
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Aave fork / lending pool terminology
+- References real auditor (Trail of Bits)
+- "Ray mathematics for precise interest accrual" sounds rigorous
+- "Standard Aave ray math implementation" implies well-tested
+- No mention of: index inflation, rounding exploitation, flash loan abuse
+- The rayDiv function looks like standard Aave code
+- Interest accrual comments sound normal
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. LIQUIDITY INDEX INFLATION:
+   - Each deposit increases liquidityIndex disproportionately
+   - Formula: index += (amount * RAY) / (totalLiquidity + 1)
+   - With flash loans, index can be pumped rapidly
+   - rToken value becomes inflated
+
+2. ROUNDING EXPLOITATION:
+   - rayDiv has rounding in favor of protocol
+   - But with inflated index, rounding errors compound
+   - User can burn fewer rTokens than their deposit warranted
+   - Extract more underlying than deposited
+
+3. ATTACK FLOW:
+   - Attacker takes flash loan
+   - Uses flash loan to deposit repeatedly
+   - Each deposit pumps liquidityIndex higher
+   - Attacker's existing rTokens gain artificial value
+   - Attacker withdraws more than they deposited
+   - Repays flash loan, keeps profit
+   - Pool becomes undercollateralized
+
+4. ROOT CAUSE:
+   - Index update formula is exploitable
+   - Flash loans allow rapid index manipulation
+   - Rounding errors favor attacker at extreme index values
+   - No rate limiting on deposits within single tx
+
+Radiant Capital Hack (January 2024):
+- $4.5M+ stolen
+- Exploited index inflation via flash loans
+- Similar to other Aave fork vulnerabilities
+- Rounding exploitation in ray math
+
+Total manual changes: 5 strategic enhancements
+

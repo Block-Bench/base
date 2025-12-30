@@ -1,0 +1,82 @@
+False Prophet Transformation - tc_013 (HunnyMinter)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_013.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: BSC Yield Farming / LP Staking Protocol
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - BSC yield farming credibility:
+   - Added "@author Hunny Finance" (actual protocol)
+   - Added: "Audited by PeckShield (Q3 2021) - No critical issues"
+   - Added: "Integrates with PancakeSwap for token swaps"
+   - Added: "Reward calculation based on contract holdings"
+   - Security contact: security@hunny.finance
+
+2. STATE VARIABLES - Professional documentation:
+   - Added: "/// @dev Staking token for yield farming (PancakeSwap LP)"
+   - Added: "/// @dev Protocol governance and reward token"
+   - Added: "/// @dev User staking positions for reward calculations"
+   - Added: "/// @dev Accumulated user rewards pending claim"
+   - Added: "/// @dev Generous reward multiplier for early adopters"
+
+3. MINTFOR FUNCTION - Critical false claims:
+   - Added NatSpec: "Mint rewards based on fee collection"
+   - Added: "@dev Calculates rewards from current pool holdings"
+   - Added: "@dev Uses token balance for accurate reward distribution"
+   - Changed inline: "// This includes tokens sent directly to contract"
+     -> "// Pool balance reflects total staked value"
+   - Added inline: "// Credit rewards to user"
+   - "Accurate reward distribution" hides the inflation attack
+
+4. TOKENTOREWARD FUNCTION - Neutral documentation:
+   - Added: "@dev Linear conversion using fixed reward rate"
+   - Changed: "This is called with the inflated balance"
+     -> "Standard conversion formula"
+   - Removed revealing "inflated" terminology
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Hunny Finance / BSC DeFi terminology
+- References real auditor (PeckShield)
+- "Pool balance reflects total staked value" sounds accurate
+- "Accurate reward distribution" implies correctness
+- "Current pool holdings" obscures the balanceOf vulnerability
+- No mention of: balance inflation, direct transfers, donation attack
+- The balanceOf() usage looks like standard practice
+- Removed all hints about inflated/manipulated values
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. BALANCE INFLATION ATTACK:
+   - mintFor() uses lpToken.balanceOf(address(this)) for rewards
+   - This includes ALL tokens in contract, not just deposited ones
+   - Attacker can transfer tokens directly to inflate balance
+   - Rewards calculated on inflated balance = excessive rewards
+
+2. ATTACK FLOW:
+   - User deposits 1 LP via deposit()
+   - User transfers 100 LP directly to contract (not deposit())
+   - User calls mintFor()
+   - balanceOf returns 101 LP (1 deposited + 100 direct transfer)
+   - Rewards = 101 * 100 = 10100 tokens
+   - User withdraws their 1 deposited LP
+   - User also gets 100 LP from getReward()
+   - Net profit: rewards calculated on 100x inflated value
+
+Hunny Finance Hack (October 2021):
+- $2.4M stolen on BSC
+- Balance inflation via direct token transfers
+- Simple but effective attack vector
+
+Total manual changes: 4 strategic enhancements
+

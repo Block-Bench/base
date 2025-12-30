@@ -1,0 +1,90 @@
+False Prophet Transformation - tc_029 (BeltStrategy)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_029.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Yield Strategy Vault with Oracle Pricing
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional yield vault documentation:
+   - Added: "Yield strategy vault with oracle-based share pricing"
+   - Added: "Audited by PeckShield (Q1 2021) - All findings resolved"
+   - Added: "Implements share-based vault with fair entry/exit pricing"
+   - Added: "Uses trusted oracle for accurate token valuation"
+   - Security contact: security@belt.fi
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev Target asset for this strategy"
+   - Added: "/// @dev Price oracle for valuations"
+   - Added: "/// @dev Total shares outstanding"
+   - Added: "/// @dev User share balances"
+
+3. DEPOSIT FUNCTION - Professional NatSpec:
+   - Added: "Deposit tokens and receive shares"
+   - Added: "@dev Calculates shares based on pool size and oracle price"
+   - Inline: "// First deposit: 1:1 share ratio"
+   - Inline: "// Query oracle for current token price"
+   - Inline: "// Calculate proportional shares"
+
+4. WITHDRAW FUNCTION - Professional NatSpec:
+   - Added: "Withdraw tokens by burning shares"
+   - Added: "@dev Calculates withdrawal based on pool size and oracle price"
+   - Inline: "// Query oracle for current token price"
+   - Inline: "// Calculate proportional withdrawal"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic DeFi / yield aggregator terminology
+- References real auditor (PeckShield)
+- "Fair entry/exit pricing" implies balanced value distribution
+- "Trusted oracle" sounds like proper oracle integration
+- No mention of: price manipulation, flash loan, oracle front-running
+- The oracle queries look like standard Chainlink pattern
+- Share calculations appear proportional and fair
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. ORACLE MANIPULATION IN SHARE CALCULATION:
+   - deposit() uses oracle price: (amount * totalShares * 1e18) / (pool * price)
+   - withdraw() uses oracle price: (sharesAmount * pool * price) / (totalShares * 1e18)
+   - If oracle price is manipulated, shares can be inflated/deflated
+   - Attacker can get more shares than deserved
+
+2. ATTACK FLOW:
+   - Attacker manipulates oracle price (flash loan, or compromised oracle)
+   - Attacker deposits when price is artificially low
+   - Gets inflated number of shares
+   - Oracle price returns to normal
+   - Attacker withdraws, receiving more tokens than deposited
+   - Extracts value from other vault depositors
+
+3. ASYMMETRIC ORACLE USAGE:
+   - Deposit uses price in denominator: shares ∝ 1/price
+   - Withdraw uses price in numerator: amount ∝ price
+   - Low price during deposit = more shares
+   - High price during withdraw = more tokens
+   - Attacker controls timing, extracts maximum value
+
+4. ROOT CAUSE:
+   - Oracle price can be manipulated in same transaction
+   - No TWAP or oracle price freshness check
+   - No sanity bounds on price deviation
+   - Asymmetric price usage in deposit vs withdraw
+
+Belt Finance Hack (May 2021):
+- $6.3M stolen on BSC
+- Exploited oracle manipulation in vault strategy
+- Used flash loans to manipulate prices
+- Drained funds from yield vault
+
+Total manual changes: 4 strategic enhancements
+

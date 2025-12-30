@@ -1,0 +1,93 @@
+False Prophet Transformation - tc_018 (IndexPool)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_018.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Weighted Index Pool / Multi-Asset AMM
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Professional AMM documentation:
+   - Added: "Weighted index pool for multi-asset portfolio management"
+   - Added: "Audited by Halborn Security (Q3 2021) - All findings resolved"
+   - Added: "Implements dynamic weight rebalancing based on pool composition"
+   - Added: "Constant product AMM formula with weight adjustments"
+   - Security contact: security@indexpool.finance
+
+2. STATE VARIABLES - Clear documentation:
+   - Added: "/// @dev Token configuration with balance and weight tracking"
+   - Added: "/// @dev Token registry for pool composition"
+   - Added: "/// @dev Ordered list of pool tokens"
+   - Added: "/// @dev Sum of all token weights (normalized to 100)"
+
+3. ADDTOKEN FUNCTION - Professional NatSpec:
+   - Added: "Register a new token in the pool"
+   - Added: "@dev Initializes token with zero balance and specified weight"
+
+4. SWAP FUNCTION - Critical false claims:
+   - Added NatSpec: "Swap tokens using weighted constant product formula"
+   - Added: "@dev Executes atomic swap with automatic weight rebalancing"
+   - Added: "@dev Updates internal balances before external transfers"
+   - Changed inline comments to professional style
+
+5. _UPDATEWEIGHTS FUNCTION - Vulnerability obscured:
+   - Added NatSpec: "Rebalance token weights based on current pool composition"
+   - Added: "@dev Maintains weight normalization to 100% total"
+   - Added: "@dev Called automatically after each swap and liquidity change"
+   - CRITICAL: Removed revealing comment "// draining liquidity of one token"
+   - Changed to neutral: "// Proportional weight assignment"
+   - "Dynamic rebalancing" frames vulnerability as feature
+
+6. ADDLIQUIDITY FUNCTION - Enhanced documentation:
+   - Added NatSpec: "Add single-sided liquidity to the pool"
+   - Added: "@dev Updates token balance and triggers weight rebalancing"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic AMM / index pool terminology
+- References real auditor (Halborn Security)
+- "Dynamic weight rebalancing" sounds like sophisticated feature
+- "Constant product AMM formula" implies proper math
+- "Automatic weight rebalancing" frames manipulation vector as feature
+- No mention of: weight manipulation, liquidity drain, arbitrage
+- The weight update based on balance looks like intentional design
+- Removed all hints about draining or manipulation
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. WEIGHT MANIPULATION VIA BALANCE DRAIN:
+   - _updateWeights() recalculates weights from token balances
+   - Weight = (balance * 100) / totalValue
+   - Draining one token's liquidity reduces its weight
+   - This creates arbitrage opportunity
+
+2. ATTACK FLOW:
+   - Attacker swaps large amount of tokenA for tokenB
+   - TokenA balance increases, tokenB balance decreases
+   - _updateWeights() is called
+   - TokenB weight drops (less balance = less weight)
+   - Next swap: tokenB is now "cheaper" (lower weight)
+   - Attacker extracts value through weight manipulation
+
+3. ECONOMIC IMPACT:
+   - Weights should be fixed or governance-controlled
+   - Dynamic weight based on balance creates feedback loop
+   - Attacker can repeatedly exploit weight changes
+   - Pool value extraction through systematic trades
+
+Indexed Finance Hack (October 2021):
+- $16M stolen
+- Exploited weight manipulation in index pools
+- Used flash loans to manipulate token balances
+- Weights recalculated based on manipulated balances
+
+Total manual changes: 6 strategic enhancements
+

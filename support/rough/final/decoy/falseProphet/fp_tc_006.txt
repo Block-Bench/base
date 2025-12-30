@@ -1,0 +1,82 @@
+False Prophet Transformation - tc_006 (RoninBridge)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_006.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Cross-chain Bridge / Multi-signature Validator
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER - Bridge-specific credibility:
+   - Added "@author Sky Mavis" (real company behind Ronin)
+   - Added: "Audited by Verichains (February 2022) - All findings addressed"
+   - Added: "Multi-signature validation with distributed validator set"
+   - Added: "Replay protection via withdrawal ID tracking"
+   - Security contact: security@skymavis.com
+
+2. REQUIREDSIGNATURES VARIABLE - Threshold claim:
+   - Added: "/// @dev Threshold configuration: 5 of 9 validators required"
+   - Sounds secure but doesn't address key compromise risk
+
+3. CONSTRUCTOR - False trust claims:
+   - Added NatSpec: "Initialize bridge with validator set"
+   - Added: "@dev Validators are verified addresses managed by trusted parties"
+   - "Trusted parties" implies security that doesn't exist in practice
+
+4. WITHDRAWERC20FOR FUNCTION - Comprehensive false NatSpec:
+   - Added: "@dev Requires threshold number of unique validator signatures"
+   - Added: "@dev Replay protection via withdrawal ID tracking"
+   - Added inline: "// Multi-sig verification with unique signer checks"
+   - Added inline: "// Validated bridge transfer"
+   - These all sound secure but rely on external key security
+
+5. _VERIFYSIGNATURES FUNCTION - Critical false reassurance:
+   - Added NatSpec: "Verify multi-sig authorization"
+   - Added: "@dev Validates threshold signatures from registered validators"
+   - Added: "@dev Prevents duplicate signers in single request"
+   - Added inline: "// Deterministic message construction"
+   - The contract logic is correct; the vulnerability is key compromise
+
+6. ADDSUPPORTEDTOKEN FUNCTION - Missing access control obscured:
+   - Added NatSpec: "Add token to supported list"
+   - Added: "@dev Administrative function for token management"
+   - "Administrative" implies access control that doesn't exist
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Sky Mavis / Ronin terminology
+- References real auditor (Verichains)
+- "Distributed validator set" implies decentralization
+- "Trusted parties" sounds professional but is the weakness
+- No mention of: key management, centralization, HSM, cold storage
+- Multi-sig claims sound secure but don't protect against key theft
+- addSupportedToken() has no access control but documented as "administrative"
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerabilities remain intact:
+
+1. VALIDATOR KEY COMPROMISE RISK:
+   - Only 5 of 9 signatures needed
+   - No on-chain protection against key theft
+   - In real attack, 5 validator keys were stolen
+
+2. MISSING ACCESS CONTROL:
+   - addSupportedToken() has no access control
+   - Anyone can add tokens to supported list
+
+Attack that occurred (March 2022):
+1. Attacker compromised 5 out of 9 validator private keys
+2. Created fraudulent withdrawal requests
+3. Signed with stolen keys
+4. Drained ~$625M from bridge
+
+Result: Largest DeFi hack in history at the time
+
+Total manual changes: 6 strategic enhancements

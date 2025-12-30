@@ -1,0 +1,82 @@
+False Prophet Transformation - tc_033 (SocketGateway)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_033.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Cross-Chain Bridge Aggregator
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. CONTRACT HEADER (SocketGateway) - Professional aggregator documentation:
+   - Added: "Cross-chain aggregator with pluggable route architecture"
+   - Added: "Audited by OpenZeppelin (Q3 2022) - All findings resolved"
+   - Added: "Implements modular route system for bridge aggregation"
+   - Added: "Routes are whitelisted before execution"
+   - Security contact: security@socket.tech
+
+2. CONTRACT HEADER (Route) - Bridge route documentation:
+   - Added: "Bridge route implementation with swap support"
+   - Added: "@dev Implements performAction for bridge execution"
+
+3. EXECUTEROUTE FUNCTION - Critical vulnerability obscured:
+   - CRITICAL: Source had "// No validation of what the route contract will do"
+   - CRITICAL: Source had "// No validation of routeData content"
+   - Changed to: "// Verify route is registered"
+   - Changed to: "// Verify route is approved"
+   - Changed to: "// Execute approved route"
+   - "Whitelisted before execution" implies safety
+
+4. PERFORMACTION FUNCTION - Vulnerability obscured:
+   - Added comprehensive NatSpec
+   - Source had raw call with arbitrary data
+   - Changed to: "// Execute swap operation"
+   - "Optional swap calldata" sounds like legitimate feature
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic bridge aggregator terminology
+- References real auditor (OpenZeppelin)
+- "Pluggable route architecture" sounds like good design
+- "Whitelisted before execution" implies access control
+- No mention of: arbitrary calldata, unvalidated input, code injection
+- The route approval check looks like proper validation
+- "Modular route system" implies well-designed architecture
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. ARBITRARY CALLDATA EXECUTION:
+   - executeRoute() passes user-controlled routeData to route.call()
+   - Route is validated but routeData content is NOT
+   - performAction() passes swapExtraData directly to fromToken.call()
+   - User controls what function is called on any address
+
+2. ATTACK FLOW:
+   - Attacker finds approved route (e.g., standard swap route)
+   - Attacker crafts malicious routeData/swapExtraData
+   - swapExtraData contains call to transfer() or approve()
+   - fromToken.call(swapExtraData) executes attacker's payload
+   - Attacker drains tokens that have approved SocketGateway
+   - All users who approved Socket lose their tokens
+
+3. ROOT CAUSE:
+   - Missing: validation that swapExtraData is only calling expected functions
+   - Missing: function selector whitelist
+   - Missing: parameter validation on calldata
+   - Arbitrary low-level call with user input
+
+Socket Gateway Hack (January 2024):
+- $3.3M+ stolen
+- Exploited arbitrary calldata in route execution
+- Attacker drained tokens from users who had approved Socket
+- Required users to approve Socket for convenience
+
+Total manual changes: 4 strategic enhancements
+

@@ -1,0 +1,81 @@
+False Prophet Transformation - tc_007 (Poly Network)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_007.sol
+
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Cross-chain Bridge / Transaction Relay
+
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
+
+1. ETHCROSSCHAINDATA HEADER - Cross-chain credibility:
+   - Added "@author Poly Network" (real protocol)
+   - Added: "Audited by SlowMist (Q1 2021) - Security verified"
+   - Added: "Owner-gated functions for validator key management"
+   - Added: "Integrated with cross-chain verification system"
+
+2. ONLYOWNER MODIFIER - Access control claim:
+   - Added: "/// @dev Access control enforced on all privileged operations"
+   - This is technically true but misleading - the owner IS the vulnerable contract
+
+3. PUTCUREPOCHCONPUBKEYBYTES FUNCTION - False safety:
+   - Added NatSpec: "Update validator public keys for current epoch"
+   - Added: "@dev Restricted to owner (EthCrossChainManager)"
+   - This sounds secure but the owner can be impersonated via crafted proofs
+
+4. ETHCROSSCHAINMANAGER HEADER - Professional documentation:
+   - Added "@author Poly Network"
+   - Added: "Manages cross-chain transaction verification and execution"
+   - Added: "Verifies block headers and Merkle proofs from other chains"
+   - Added: "@custom:security Trusted relay infrastructure"
+
+5. VERIFYHEADERANDEXECUTETX FUNCTION - Critical false claims:
+   - Added NatSpec: "Verify cross-chain transaction and execute"
+   - Added: "@dev Multi-step verification: header, proof, then execution"
+   - Added: "@dev Only executes after cryptographic verification passes"
+   - Added inline: "// Header validation against validator consensus"
+   - Added inline: "// Cryptographic proof verification"
+   - Added inline: "// Verified cross-chain execution"
+   - These claims sound secure but _decodeTx allows arbitrary target calls
+
+6. OWNERSHIP TRANSFER FUNCTION - Standard terminology:
+   - Added NatSpec: "Standard ownership transfer with zero-address check"
+
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
+
+- Uses authentic Poly Network cross-chain terminology
+- References real auditor (SlowMist)
+- "Multi-step verification" sounds like defense-in-depth
+- "Cryptographic proof verification" implies security
+- "Trusted relay infrastructure" obscures centralization risk
+- No mention of: arbitrary call targets, proof manipulation, key takeover
+- The onlyOwner modifier IS enforced - but the owner is the vulnerable contract
+
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
+
+The actual vulnerability remains intact:
+
+1. PRIVILEGED CALL ESCALATION:
+   - EthCrossChainManager is the owner of EthCrossChainData
+   - verifyHeaderAndExecuteTx can execute arbitrary calls as the manager
+   - Crafted proofs can target putCurEpochConPubKeyBytes or transferOwnership
+
+2. VALIDATOR KEY REPLACEMENT:
+   - Attacker crafts proof to call putCurEpochConPubKeyBytes
+   - Replaces validator keys with attacker-controlled keys
+   - Now attacker controls all future cross-chain verifications
+
+Attack that occurred (August 2021):
+1. Attacker crafted proof targeting EthCrossChainData
+2. Called putCurEpochConPubKeyBytes to replace validator keys
+3. With new keys, approved fraudulent withdrawals
+4. Drained ~$611M from bridge (later returned by attacker)
+
+Result: Largest DeFi hack at the time (funds returned)
+
+Total manual changes: 6 strategic enhancements across both contracts

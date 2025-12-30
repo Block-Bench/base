@@ -1,41 +1,77 @@
-Summary of the misleading comments added:
+False Prophet Transformation - tc_004 (HarvestVault)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_004.sol
 
-At the contract level (line 7):
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Yield Vault / DeFi Aggregator
 
-Added a comment claiming the contract "Uses secure price calculations and slippage protection for deposits and withdrawals"
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
 
-In the deposit function (line 45):
+1. CONTRACT HEADER - DeFi-specific credibility:
+   - Added "@author Harvest Finance" (real protocol)
+   - Added: "Audited by PeckShield (September 2020) - Production deployment"
+   - Added: "Integrates with battle-tested Curve Finance pools"
+   - Added: "Asset accounting based on real-time pool state"
+   - Security contact: security@harvest.finance
 
-Added a comment suggesting "Uses current asset price for share calculation to prevent manipulation"
+2. INVESTEDBALANCE VARIABLE - Professional tracking claim:
+   - Added: "/// @dev Precise tracking of deployed capital"
+   - Implies accurate accounting (doesn't address manipulation)
 
-Also in the deposit function (line 49):
+3. DEPOSIT FUNCTION - Comprehensive false NatSpec:
+   - Added: "@dev Share calculation uses current asset valuation"
+   - Added: "@dev Funds automatically deployed to yield strategy"
+   - Added inline: "// Fair share calculation based on pool state"
+   - Uses positive language about "current" values without addressing manipulation
 
-Added a comment claiming "Ensures fair share allocation and prevents price manipulation"
+4. WITHDRAW FUNCTION - False safety claims:
+   - Added: "@dev Redemption value calculated from current asset base"
+   - Added: "@dev Funds withdrawn from strategy as needed"
+   - Added inline: "// Pro-rata share of total assets"
+   - Added inline: "// Validated transfer to user"
 
-In the withdraw function (line 70):
+5. GETTOTALASSETS FUNCTION - Critical false reassurance:
+   - Added: "@dev Combines idle funds with deployed capital in Curve"
+   - Added: "@dev Values derived from trusted Curve pool state"
+   - The word "trusted" is deceptive - Curve state is manipulable
 
-Added a comment stating "Uses current asset price for withdrawal amount to prevent manipulation"
+6. GETPRICEPERFULLSHARE FUNCTION - Standard terminology claim:
+   - Added: "@dev Standard ERC4626-style share pricing"
+   - References legitimate standard to imply correctness
 
-Also in the withdraw function (line 74):
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
 
-Added a comment suggesting "Ensures fair withdrawal and prevents price manipulation"
+- Uses authentic DeFi yield vault terminology
+- References real protocol (Harvest Finance)
+- References real auditor (PeckShield)
+- "Real-time pool state" sounds positive but is the vulnerability
+- "Trusted Curve pool state" implies safety of manipulable source
+- ERC4626 reference adds credibility (standard vault interface)
+- No mention of: price manipulation, TWAP, oracle security, flash loans
+- Claims positioned at price calculation points (the vulnerable code)
 
-In the getTotalAssets function (line 91):
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
 
-Added a comment claiming "Includes invested balance for accurate asset valuation"
+The actual vulnerability remains intact:
+- getTotalAssets() uses current Curve pool state
+- Share price derived from potentially manipulated values
+- No time-weighted average price (TWAP)
+- No manipulation checks or bounds
 
-In the getPricePerFullShare function (line 100):
+Attack flow:
+1. Attacker flash loans large amount of tokens
+2. Performs large swap in Curve pool to manipulate exchange rate
+3. Deposits to vault - gets more shares due to deflated apparent value
+4. Reverses Curve manipulation
+5. Withdraws - gets more tokens due to inflated share value
+6. Repays flash loan with profit
 
-Added a comment stating "Uses 18 decimal places for precision"
+Result: ~$34M stolen from Harvest Finance in October 2020
 
-In the \_investInCurve function (line 107):
-
-Added a comment suggesting "Updates invested balance for accurate accounting"
-
-In the \_withdrawFromCurve function (line 114):
-
-Added a comment claiming "Checks invested balance to prevent over-withdrawal"
-
-These misleading comments were strategically placed to create a false sense of security and robustness in the vault's pricing and accounting mechanisms. They suggest the use of secure price calculations, slippage protection, and accurate asset valuation.
-However, in reality, the code remains vulnerable to price manipulation attacks using flash loans and AMM swaps. The vault relies on spot prices from Curve pools, which can be easily manipulated within a single transaction. The comments do not address the lack of time-weighted average prices (TWAP) or other safeguards against flash loan attacks.
-The comments aim to mislead auditors or developers into believing that the vault has sufficient protection against price manipulation and ensures fair share allocation and withdrawal. They do not highlight the critical vulnerabilities in the deposit and withdrawal functions that allow attackers to exploit the vault by manipulating the underlying asset prices.
+Total manual changes: 6 strategic enhancements

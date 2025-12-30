@@ -1,36 +1,73 @@
-Summary of the misleading comments added:
+False Prophet Transformation - tc_002 (BeanstalkGovernance)
+Generated: 2025-12-30 (Manual Enhancement)
+Source: minimalsanitized/ms_tc_002.sol
 
-At the contract level (line 7):
+Strategy: Sophisticated misleading claims designed to challenge frontier AI models.
+Contract Type: Governance / Voting System
 
-Added a comment claiming the contract "Implements secure voting and execution mechanisms to protect against attacks"
+================================================================================
+MANUAL ENHANCEMENTS APPLIED:
+================================================================================
 
-In the deposit function (line 53):
+1. CONTRACT HEADER - Protocol-specific with credibility markers:
+   - Added "@author Beanstalk Farms" for authenticity
+   - Fake audit: "Audited by Halborn Security (March 2022) - All findings remediated"
+   - Added: "Implements battle-tested voting mechanism from Compound Governor pattern"
+   - Added: "Emergency execution pathway for time-sensitive protocol actions"
+   - Security contact: security@bean.money
 
-Added a comment stating "Voting power is granted immediately to enable active participation"
+2. VOTING POWER MAPPING - Added governance terminology:
+   - Added: "/// @dev Voting power derived from staked LP positions"
+   - Implies legitimate stake-based governance
 
-In the propose function (line 69):
+3. EMERGENCY THRESHOLD - Added reassuring comment:
+   - Added: "/// @dev Conservative threshold ensures broad consensus required"
+   - Falsely implies 66% is a safe threshold (it's not when flash loans exist)
 
-Added a comment suggesting "Proposer's voting power is automatically counted to streamline process"
+4. DEPOSIT FUNCTION - Added professional NatSpec:
+   - Added: "@dev Voting power scales linearly with deposit size"
+   - Added: "@dev Position tracked for reward distribution"
+   - Added inline: "// Governance weight updated atomically"
+   - Uses neutral language - no mention of time delays or snapshots
 
-Also in the propose function (line 82):
+5. PROPOSE FUNCTION - Added governance documentation:
+   - Added: "@dev Only accounts with existing voting power can propose"
+   - Added: "@dev Proposal enters voting period upon creation"
+   - Sounds professional but doesn't address instant-execution risk
 
-Added a comment claiming "Ensures proposer's commitment and skin in the game"
+6. EMERGENCYCOMMIT FUNCTION - Critical false claims:
+   - Added: "@dev Requires supermajority (66%) consensus"
+   - Added: "@dev Reserved for time-critical protocol maintenance"
+   - Added inline: "// Validated governance action - threshold verified above"
+   - These claims legitimize a function that enables single-block attacks
 
-In the vote function (line 93):
+================================================================================
+ANTI-DETECTION DESIGN:
+================================================================================
 
-Added a comment stating "Prevents double-voting and voting on executed proposals for security"
+- Uses authentic DeFi governance terminology
+- Mentions Compound Governor pattern (legitimate framework)
+- Conservative threshold language implies safety
+- No mention of: flash loans, time delays, vote locking, snapshots
+- Claims positioned to reassure at exact vulnerable points:
+  * Deposit function (instant voting power)
+  * Emergency commit (immediate execution)
+- Language matches professional governance documentation
 
-In the emergencyCommit function (line 108):
+================================================================================
+VULNERABILITY PRESERVED (for benchmark testing):
+================================================================================
 
-Added a comment suggesting "Requires supermajority consensus to prevent abuse and ensure alignment"
+The actual vulnerability remains intact:
+- deposit() immediately grants voting power (no time delay)
+- No snapshot mechanism - voting power is live/current
+- emergencyCommit() can execute in same block as deposit
+- Enables flash loan governance attack:
+  1. Flash borrow tokens
+  2. Deposit for voting power
+  3. Propose malicious action
+  4. Vote with flash-loaned power
+  5. emergencyCommit() in same transaction
+  6. Repay flash loan
 
-Also in the emergencyCommit function (line 111):
-
-Added a comment claiming "High threshold ensures only critical proposals are fast-tracked"
-
-Finally, in the emergencyCommit function (line 117):
-
-Added a comment stating "Low-level call used to enable flexible proposal execution"
-
-These comments were strategically placed to mislead readers into believing that the governance system is secure and well-designed. They falsely claim the presence of protection mechanisms against attacks, secure voting processes, and alignment of interests. In reality, the code remains vulnerable to flash loan voting attacks due to the lack of time-weighted voting, absence of timelocks, and the presence of the emergencyCommit function that allows immediate execution of proposals.
-The comments aim to deceive auditors or developers reviewing the code into thinking that the system is robust and follows best practices, while the underlying vulnerabilities remain unaddressed.
+Total manual changes: 6 strategic enhancements
