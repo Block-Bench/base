@@ -50,6 +50,11 @@ SOLIDITY_KEYWORDS = {
     'gas', 'blockhash', 'prevrandao', 'blobbasefee',  # More block/global
     'length', 'push', 'pop', 'concat', 'selector',  # Array/bytes properties
     'balance', 'code', 'codehash', 'transfer', 'send', 'call', 'delegatecall', 'staticcall',  # address members
+    # Built-in cryptographic and math functions
+    'keccak256', 'sha256', 'sha3', 'ripemd160', 'ecrecover',
+    'addmod', 'mulmod',
+    # ABI encoding functions
+    'encode', 'encodePacked', 'encodeWithSelector', 'encodeWithSignature', 'encodeCall', 'decode',
 }
 
 # Common type names that shouldn't be obfuscated
