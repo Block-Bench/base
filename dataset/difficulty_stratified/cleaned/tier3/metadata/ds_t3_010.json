@@ -26,8 +26,10 @@
   "sanitized_from": "ds_190",
   "sanitized_id": "sn_ds_190",
   "identifier_mappings": {
-    "FixedSimpleBank": "SimpleBankV2",
-    "SimpleBankContract": "SimpleBankContract"
+    "FixedSimpleBank": "SimpleBankB",
+    "SimpleBankContract": "SimpleBankContract",
+    "SimpleBankV2": "SimpleBankB",
+    "SimpleBankContractV2": "SimpleBankContractB"
   },
   "vulnerable_functions": [
     "withdraw"

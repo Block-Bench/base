@@ -11,7 +11,7 @@
   "original_category": "reentrancy",
   "severity": "high",
   "difficulty_tier": 3,
-  "description": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 426",
+  "description": "Reentrancy vulnerability - external call before state update allows recursive calls",
   "fix_description": "Apply checks-effects-interactions pattern: update state before external calls, or use ReentrancyGuard",
   "is_vulnerable": true,
   "context_level": "single_file",

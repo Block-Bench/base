@@ -7,15 +7,15 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ContractTest is Test {
     BasicERC721 BasicERC721Contract;
-    ERC721V2 FixedERC721Contract;
+    ERC721B ERC721ContractB;
     address alice = vm.addr(1);
     address bob = vm.addr(2);
 
     function setUp() public {
         BasicERC721Contract = new BasicERC721();
         BasicERC721Contract.safeMint(alice, 1);
-        FixedERC721Contract = new ERC721V2();
-        FixedERC721Contract.safeMint(alice, 1);
+        ERC721ContractB = new ERC721B();
+        ERC721ContractB.safeMint(alice, 1);
     }
 
     function testBasicERC721() public {
@@ -26,11 +26,11 @@ contract ContractTest is Test {
         console.log(BasicERC721Contract.ownerOf(1));
     }
 
-    function testFixedERC721() public {
-        FixedERC721Contract.ownerOf(1);
+    function testERC721B() public {
+        ERC721ContractB.ownerOf(1);
         vm.prank(bob);
         vm.expectRevert();
-        FixedERC721Contract.transferFrom(address(alice), address(bob), 1);
+        ERC721ContractB.transferFrom(address(alice), address(bob), 1);
         console.log(BasicERC721Contract.ownerOf(1));
     }
 
@@ -63,7 +63,7 @@ contract BasicERC721 is ERC721, Ownable {
     }
 }
 
-contract ERC721V2 is ERC721, Ownable {
+contract ERC721B is ERC721, Ownable {
     constructor() ERC721("MyNFT", "MNFT") {}
 
     function transferFrom(

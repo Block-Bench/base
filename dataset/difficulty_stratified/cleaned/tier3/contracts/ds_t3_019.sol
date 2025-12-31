@@ -21,12 +21,12 @@ contract EtherStore {
     }
 }
 
-contract EtherStoreRemediated {
+contract EtherStoreB {
     mapping(address => uint256) public balances;
     bool internal locked;
 
-    modifier nonReentrant() {
-        require(!locked, "No re-entrancy");
+    modifier checkLock() {
+        require(!locked, "Locked");
         locked = true;
         _;
         locked = false;
@@ -36,7 +36,7 @@ contract EtherStoreRemediated {
         balances[msg.sender] += msg.value;
     }
 
-    function withdrawFunds(uint256 _weiToWithdraw) public nonReentrant {
+    function withdrawFunds(uint256 _weiToWithdraw) public checkLock {
         require(balances[msg.sender] >= _weiToWithdraw);
         balances[msg.sender] -= _weiToWithdraw;
         (bool send, ) = msg.sender.call{value: _weiToWithdraw}("");
@@ -46,27 +46,27 @@ contract EtherStoreRemediated {
 
 contract ContractTest is Test {
     EtherStore store;
-    EtherStoreRemediated storeRemediated;
+    EtherStoreB storeB;
     EtherStoreOperator operator;
-    EtherStoreOperator operatorV2;
+    EtherStoreOperator operatorB;
 
     function setUp() public {
         store = new EtherStore();
-        storeRemediated = new EtherStoreRemediated();
+        storeB = new EtherStoreB();
         operator = new EtherStoreOperator(address(store));
-        operatorV2 = new EtherStoreOperator(address(storeRemediated));
+        operatorB = new EtherStoreOperator(address(storeB));
         vm.deal(address(store), 5 ether);
-        vm.deal(address(storeRemediated), 5 ether);
+        vm.deal(address(storeB), 5 ether);
         vm.deal(address(operator), 2 ether);
-        vm.deal(address(operatorV2), 2 ether);
+        vm.deal(address(operatorB), 2 ether);
     }
 
     function testWithdrawal() public {
         operator.Operator();
     }
 
-    function test_RevertRemediated() public {
-        operatorV2.Operator();
+    function testWithdrawalB() public {
+        operatorB.Operator();
     }
 }
 
@@ -91,8 +91,6 @@ contract EtherStoreOperator is Test {
         console.log("Operator contract balance", address(this).balance);
         console.log("EtherStore balance", address(store).balance);
     }
-
-    // fallback() external payable {}
 
     receive() external payable {
         console.log("Operator contract balance", address(this).balance);

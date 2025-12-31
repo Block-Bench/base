@@ -5,11 +5,11 @@ import "forge-std/Test.sol";
 
 contract ContractTest is Test {
     StructDeletion StructDeletionContract;
-    StructDeletionV2 StructDeletionContractV2;
+    StructDeletionB StructDeletionContractB;
 
     function setUp() public {
         StructDeletionContract = new StructDeletion();
-        StructDeletionContractV2 = new StructDeletionV2();
+        StructDeletionContractB = new StructDeletionB();
     }
 
     function testStructDeletion() public {
@@ -19,11 +19,11 @@ contract ContractTest is Test {
         StructDeletionContract.getStruct(10, 10);
     }
 
-    function testFixedStructDeletion() public {
-        StructDeletionContractV2.addStruct(10, 10);
-        StructDeletionContractV2.getStruct(10, 10);
-        StructDeletionContractV2.deleteStruct(10);
-        StructDeletionContractV2.getStruct(10, 10);
+    function testStructDeletionB() public {
+        StructDeletionContractB.addStruct(10, 10);
+        StructDeletionContractB.getStruct(10, 10);
+        StructDeletionContractB.deleteStruct(10);
+        StructDeletionContractB.getStruct(10, 10);
     }
 
     receive() external payable {}
@@ -58,7 +58,7 @@ contract StructDeletion {
     }
 }
 
-contract StructDeletionV2 {
+contract StructDeletionB {
     struct MyStruct {
         uint256 id;
         mapping(uint256 => bool) flags;

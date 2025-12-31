@@ -27,9 +27,12 @@
   "sanitized_id": "sn_ds_188",
   "identifier_mappings": {
     "StructDeletionBug": "StructDeletion",
-    "FixedStructDeletion": "StructDeletionV2",
+    "FixedStructDeletion": "StructDeletionB",
     "StructDeletionContract": "StructDeletionContract",
-    "StructDeletion": "StructDeletion"
+    "StructDeletion": "StructDeletion",
+    "StructDeletionV2": "StructDeletionB",
+    "StructDeletionContractV2": "StructDeletionContractB",
+    "testFixedStructDeletion": "testStructDeletionB"
   },
   "vulnerable_functions": [
     "deleteStruct"

@@ -11,7 +11,7 @@
   "original_category": null,
   "severity": "medium",
   "difficulty_tier": 3,
-  "description": "Custom transferFrom function in contract VulnerableERC721, \ndoes not properly check if msg.sender is the current owner of the token or an approved address.\nAs a result, any address can call the transferFrom function to transfer any token, \nregardless of who the current owner is. \nThis allows unauthorized users to transfer tokens they do not own, leading to potential theft of assets.",
+  "description": "Custom transferFrom function in the ERC721 contract does not properly check if msg.sender is the current owner of the token or an approved address. As a result, any address can call the transferFrom function to transfer any token, regardless of who the current owner is. This allows unauthorized users to transfer tokens they do not own, leading to potential theft of assets.",
   "fix_description": "To ensure that msg.sender is the current owner of the token or an approved address.",
   "is_vulnerable": true,
   "context_level": "intra_contract",
@@ -27,9 +27,12 @@
   "sanitized_id": "sn_ds_191",
   "identifier_mappings": {
     "VulnerableERC721": "BasicERC721",
-    "FixedERC721": "ERC721V2",
+    "FixedERC721": "ERC721B",
     "VulnerableERC721Contract": "BasicERC721Contract",
-    "testVulnerableERC721": "testBasicERC721"
+    "testVulnerableERC721": "testBasicERC721",
+    "ERC721V2": "ERC721B",
+    "FixedERC721Contract": "ERC721ContractB",
+    "testFixedERC721": "testERC721B"
   },
   "vulnerable_functions": [
     "transferFrom"

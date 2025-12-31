@@ -11,7 +11,7 @@
   "original_category": "access_control",
   "severity": "high",
   "difficulty_tier": 3,
-  "description": "Access control vulnerability - missing or incorrect authorization checks at line(s) 223",
+  "description": "Access control vulnerability - missing or incorrect authorization checks",
   "fix_description": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin",
   "is_vulnerable": true,
   "context_level": "single_file",
