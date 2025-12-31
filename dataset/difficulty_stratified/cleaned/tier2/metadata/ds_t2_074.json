@@ -11,7 +11,7 @@
   "original_category": "other",
   "severity": "medium",
   "difficulty_tier": 2,
-  "description": "Security vulnerability at line(s) 23",
+  "description": "The register() function contains a logic error that can be exploited. The implementation does not correctly validate or process inputs, leading to unintended behavior.",
   "fix_description": "Apply security best practices to fix this vulnerability",
   "is_vulnerable": true,
   "context_level": "single_file",

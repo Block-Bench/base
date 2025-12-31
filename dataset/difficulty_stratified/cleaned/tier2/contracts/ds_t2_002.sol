@@ -8,61 +8,57 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract ContractTest is Test {
     RewardToken RewardTokenContract;
-    StakingRewards VulnStakingRewardsContract;
-    StakingRewardsV2 FixedtakingRewardsContract;
+    StakingRewards StakingRewardsContractA;
+    StakingRewardsB StakingRewardsContractB;
     address alice = vm.addr(1);
 
     function setUp() public {
         RewardTokenContract = new RewardToken();
-        VulnStakingRewardsContract = new StakingRewards(
+        StakingRewardsContractA = new StakingRewards(
             address(RewardTokenContract)
         );
         RewardTokenContract.transfer(address(alice), 10000 ether);
-        FixedtakingRewardsContract = new StakingRewardsV2(
+        StakingRewardsContractB = new StakingRewardsB(
             address(RewardTokenContract)
         );
-        //RewardTokenContract.transfer(address(alice),10000 ether);
     }
 
-    function testVulnStakingRewards() public {
+    function testStakingRewardsA() public {
         console.log(
-            "Before rug RewardToken balance in VulnStakingRewardsContract",
+            "Before RewardToken balance",
             RewardTokenContract.balanceOf(address(this))
         );
         vm.prank(alice);
-        //If alice transfer reward token to VulnStakingRewardsContract
         RewardTokenContract.transfer(
-            address(VulnStakingRewardsContract),
+            address(StakingRewardsContractA),
             10000 ether
         );
-        //admin can rug reward token over recoverERC20()
-        VulnStakingRewardsContract.recoverERC20(
+        StakingRewardsContractA.recoverERC20(
             address(RewardTokenContract),
             1000 ether
         );
         console.log(
-            "After rug RewardToken balance in VulnStakingRewardsContract",
+            "After RewardToken balance",
             RewardTokenContract.balanceOf(address(this))
         );
     }
 
-    function testFixedStakingRewards() public {
+    function testStakingRewardsB() public {
         console.log(
-            "Before rug RewardToken balance in VulnStakingRewardsContract",
+            "Before RewardToken balance",
             RewardTokenContract.balanceOf(address(this))
         );
         vm.prank(alice);
-        //If alice transfer reward token to VulnStakingRewardsContract
         RewardTokenContract.transfer(
-            address(FixedtakingRewardsContract),
+            address(StakingRewardsContractB),
             10000 ether
         );
-        FixedtakingRewardsContract.recoverERC20(
+        StakingRewardsContractB.recoverERC20(
             address(RewardTokenContract),
             1000 ether
         );
         console.log(
-            "After rug RewardToken balance in VulnStakingRewardsContract",
+            "After RewardToken balance",
             RewardTokenContract.balanceOf(address(this))
         );
     }
@@ -97,7 +93,7 @@ contract StakingRewards {
     }
 }
 
-contract StakingRewardsV2 {
+contract StakingRewardsB {
     using SafeERC20 for IERC20;
 
     IERC20 public rewardsToken;

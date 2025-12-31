@@ -5,27 +5,25 @@ import "forge-std/Test.sol";
 
 contract ContractTest is Test {
     ArrayDeletion ArrayDeletionContract;
-    ArrayDeletionV2 ArrayDeletionContractV2;
+    ArrayDeletionB ArrayDeletionContractB;
 
     function setUp() public {
         ArrayDeletionContract = new ArrayDeletion();
-        ArrayDeletionContractV2 = new ArrayDeletionV2();
+        ArrayDeletionContractB = new ArrayDeletionB();
     }
 
-    function testArrayDeletion() public {
+    function testArrayDeletionA() public {
         ArrayDeletionContract.myArray(1);
-        //delete incorrectly
         ArrayDeletionContract.deleteElement(1);
         ArrayDeletionContract.myArray(1);
         ArrayDeletionContract.getLength();
     }
 
-    function testFixedArrayDeletion() public {
-        ArrayDeletionContractV2.myArray(1);
-        //delete incorrectly
-        ArrayDeletionContractV2.deleteElement(1);
-        ArrayDeletionContractV2.myArray(1);
-        ArrayDeletionContractV2.getLength();
+    function testArrayDeletionB() public {
+        ArrayDeletionContractB.myArray(1);
+        ArrayDeletionContractB.deleteElement(1);
+        ArrayDeletionContractB.myArray(1);
+        ArrayDeletionContractB.getLength();
     }
 
     receive() external payable {}
@@ -44,31 +42,15 @@ contract ArrayDeletion {
     }
 }
 
-contract ArrayDeletionV2 {
+contract ArrayDeletionB {
     uint[] public myArray = [1, 2, 3, 4, 5];
 
     function deleteElement(uint index) external {
         require(index < myArray.length, "Invalid index");
-
-        // Swap the element to be deleted with the last element
         myArray[index] = myArray[myArray.length - 1];
-
-        // Delete the last element
         myArray.pop();
     }
 
-    /*Mitigation 2: By shifting them from right to left.
-    function deleteElement(uint index) external {
-        require(index < myArray.length, "Invalid index");
-
-        for (uint i = _index; i < myArray.length - 1; i++) {
-            myArray[i] = myArray[i + 1];
-        }
-
-        // Delete the last element
-        myArray.pop();
-    }
-    */
     function getLength() public view returns (uint) {
         return myArray.length;
     }

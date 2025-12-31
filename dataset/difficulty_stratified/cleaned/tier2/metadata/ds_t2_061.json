@@ -11,7 +11,7 @@
   "original_category": "bad_randomness",
   "severity": "medium",
   "difficulty_tier": 2,
-  "description": "Weak randomness - predictable random number generation at line(s) 35",
+  "description": "Weak randomness - predictable random number generation",
   "fix_description": "Use Chainlink VRF or commit-reveal scheme for randomness",
   "is_vulnerable": true,
   "context_level": "single_file",

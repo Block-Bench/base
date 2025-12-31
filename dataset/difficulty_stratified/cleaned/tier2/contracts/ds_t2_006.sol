@@ -11,29 +11,28 @@ contract ContractTest is Test {
         address bob = vm.addr(2);
         vm.deal(address(alice), 1 ether);
         vm.deal(address(bob), 1 ether);
-        //vm.startPrank(alice);
         ArrayContract = new Array();
-        ArrayContract.updaterewardDebt(100); // update rewardDebt to 100
+        ArrayContract.updaterewardDebt(100);
         (uint amount, uint rewardDebt) = ArrayContract.userInfo(address(this));
-        console.log("Non-updated rewardDebt", rewardDebt);
+        console.log("rewardDebt after first update", rewardDebt);
 
-        console.log("Update rewardDebt with storage");
-        ArrayContract.fixedupdaterewardDebt(100);
+        console.log("Calling second update method");
+        ArrayContract.updaterewardDebtB(100);
         (uint newamount, uint newrewardDebt) = ArrayContract.userInfo(
             address(this)
         );
-        console.log("Updated rewardDebt", newrewardDebt);
+        console.log("rewardDebt after second update", newrewardDebt);
     }
 
     receive() external payable {}
 }
 
 contract Array is Test {
-    mapping(address => UserInfo) public userInfo; // storage
+    mapping(address => UserInfo) public userInfo;
 
     struct UserInfo {
-        uint256 amount; // How many tokens got staked by user.
-        uint256 rewardDebt; // Reward debt. See Explanation below.
+        uint256 amount;
+        uint256 rewardDebt;
     }
 
     function updaterewardDebt(uint amount) public {
@@ -41,8 +40,8 @@ contract Array is Test {
         user.rewardDebt = amount;
     }
 
-    function fixedupdaterewardDebt(uint amount) public {
-        UserInfo storage user = userInfo[msg.sender]; // storage
+    function updaterewardDebtB(uint amount) public {
+        UserInfo storage user = userInfo[msg.sender];
         user.rewardDebt = amount;
     }
 }

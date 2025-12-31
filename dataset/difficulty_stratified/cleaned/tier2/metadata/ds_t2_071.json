@@ -11,7 +11,7 @@
   "original_category": "front_running",
   "severity": "medium",
   "difficulty_tier": 2,
-  "description": "Front-running vulnerability - transaction ordering dependence at line(s) 23",
+  "description": "Front-running vulnerability - transaction ordering dependence",
   "fix_description": "Use commit-reveal scheme or submarine sends",
   "is_vulnerable": true,
   "context_level": "single_file",

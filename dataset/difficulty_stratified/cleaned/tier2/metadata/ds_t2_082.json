@@ -11,7 +11,7 @@
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",
   "difficulty_tier": 2,
-  "description": "Unchecked return value - low-level call result not validated at line(s) 162",
+  "description": "Unchecked return value - low-level call result not validated",
   "fix_description": "Check return value and handle failures appropriately",
   "is_vulnerable": true,
   "context_level": "single_file",

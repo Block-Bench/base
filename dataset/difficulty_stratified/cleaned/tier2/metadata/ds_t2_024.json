@@ -5,7 +5,7 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "Returnfalse.sol",
-  "vulnerable_function": "multiple",
+  "vulnerable_function": "testTransfer",
   "vulnerable_lines": [],
   "vulnerability_type": "logic_error",
   "original_category": null,
@@ -26,6 +26,6 @@
   "sanitized_from": "ds_111",
   "sanitized_id": "sn_ds_111",
   "vulnerable_functions": [
-    "transfer"
+    "testTransfer"
   ]
 }

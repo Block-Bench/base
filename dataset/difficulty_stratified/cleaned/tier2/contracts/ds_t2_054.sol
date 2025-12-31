@@ -13,7 +13,7 @@ contract SingleTxCounter {
         count *= input;
     }
 
-    function underflowtostate(uint256 input) public {
+    function subFromState(uint256 input) public {
         count -= input;
     }
 
@@ -25,7 +25,7 @@ contract SingleTxCounter {
         uint res = count * input;
     }
 
-    function underflowlocalonly(uint256 input) public {
+    function subLocalOnly(uint256 input) public {
        	uint res = count - input;
     }
 

@@ -4,30 +4,23 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 
 contract ContractTest is Test {
-    SimpleBank VSimpleBankContract;
-    SimpleBankV2 SimpleBankContractV2;
+    SimpleBank SimpleBankContractA;
+    SimpleBankB SimpleBankContractB;
 
     function setUp() public {
-        VSimpleBankContract = new SimpleBank();
-        SimpleBankContractV2 = new SimpleBankV2();
+        SimpleBankContractA = new SimpleBank();
+        SimpleBankContractB = new SimpleBankB();
     }
 
-    function testSelfTransfer() public {
-        VSimpleBankContract.transfer(address(this), address(this), 10000);
-        VSimpleBankContract.transfer(address(this), address(this), 10000);
-        VSimpleBankContract.balanceOf(address(this));
-        /*
-        unchecked {
-        _balances[_id][Alice] = 10000 - 10000;
-        _balances[_id][Alice] = 10000 + 10000;
-         total balance of [Alice] = 20000
-        }
-        */
+    function testSelfTransferA() public {
+        SimpleBankContractA.transfer(address(this), address(this), 10000);
+        SimpleBankContractA.transfer(address(this), address(this), 10000);
+        SimpleBankContractA.balanceOf(address(this));
     }
 
-    function testFixedSelfTransfer() public {
+    function testSelfTransferB() public {
         vm.expectRevert("Cannot transfer funds to the same address.");
-        SimpleBankContractV2.transfer(address(this), address(this), 10000);
+        SimpleBankContractB.transfer(address(this), address(this), 10000);
     }
 
     receive() external payable {}
@@ -41,7 +34,6 @@ contract SimpleBank {
     }
 
     function transfer(address _from, address _to, uint256 _amount) public {
-        // not check self-transfer
         uint256 _fromBalance = _balances[_from];
         uint256 _toBalance = _balances[_to];
 
@@ -52,7 +44,7 @@ contract SimpleBank {
     }
 }
 
-contract SimpleBankV2 {
+contract SimpleBankB {
     mapping(address => uint256) private _balances;
 
     function balanceOf(address _account) public view virtual returns (uint256) {
@@ -60,7 +52,6 @@ contract SimpleBankV2 {
     }
 
     function transfer(address _from, address _to, uint256 _amount) public {
-
         require(_from != _to, "Cannot transfer funds to the same address.");
 
         uint256 _fromBalance = _balances[_from];
@@ -69,11 +60,6 @@ contract SimpleBankV2 {
         unchecked {
             _balances[_from] = _fromBalance - _amount;
             _balances[_to] = _toBalance + _amount;
-            /*
-            Another mitigation
-            _balances[_id][_from] -= _amount;
-            _balances[_id][_to] += _amount;
-            */
         }
     }
 }

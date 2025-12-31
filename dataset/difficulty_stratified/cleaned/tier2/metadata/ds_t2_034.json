@@ -11,8 +11,8 @@
   "original_category": "denial_of_service",
   "severity": "medium",
   "difficulty_tier": 2,
-  "description": "# Denial of Service",
-  "fix_description": "",
+  "description": "The bid() function sends the previous highest bidder their refund using send() or transfer(). If the previous bidder is a contract that rejects Ether, the entire bid transaction reverts, allowing that contract to block all future bids and win the auction by default.",
+  "fix_description": "Implement a pull payment pattern where outbid bidders withdraw their funds themselves. Use a pendingReturns mapping to track amounts owed.",
   "is_vulnerable": true,
   "context_level": "single_file",
   "original_source_path": "denial_of_service/auction.sol",
@@ -27,7 +27,8 @@
   "sanitized_id": "sn_ds_121",
   "identifier_mappings": {
     "DosAuction": "SimpleAuction",
-    "SecureAuction": "AuctionV2"
+    "SecureAuction": "AuctionB",
+    "AuctionV2": "AuctionB"
   },
   "vulnerable_functions": [
     "bid"
