@@ -14,7 +14,11 @@
   "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
   "vulnerable_contract": "LendingHub",
   "vulnerable_function": "borrow",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    68,
+    71,
+    76
+  ],
   "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
   "tags": [
     "reentrancy",

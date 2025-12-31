@@ -18,7 +18,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-04",
   "description": "Hedgey Finance, a token vesting platform, was exploited for $44.7M when attackers provided a malicious tokenLocker address in createLockedCampaign(). The contract made an arbitrary external call to this address, allowing attackers to steal tokens from any user who had approved Hedgey.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    65
+  ],
   "vulnerability_details": {
     "root_cause": "User-controlled tokenLocker address used in arbitrary external call without validation",
     "attack_vector": "Provide malicious contract as tokenLocker, use external call to invoke transferFrom on victim tokens",

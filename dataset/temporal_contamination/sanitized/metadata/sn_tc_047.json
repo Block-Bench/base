@@ -19,7 +19,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "PlayDapp's PLA token suffered a $290M exploit when attackers compromised a private key with minting privileges. They minted 1.79 billion tokens without restrictions, causing a 90% price collapse. The attack was repeated on the migration contract, demonstrating persistent access control vulnerabilities.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    45
+  ],
   "vulnerability_details": {
     "root_cause": "Single private key controlled unlimited minting function without supply cap or multi-sig",
     "attack_vector": "Compromise minter key, call mint() repeatedly to create billions of tokens, dump on DEXes",

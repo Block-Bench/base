@@ -19,7 +19,9 @@
   "attack_scenario": "1) Flash loan 5M DAI. 2) Swap DAI -> ETH in Uniswap pool, heavily imbalancing reserves (6M DAI, 100 ETH). 3) LP token value calculation uses manipulated reserves, showing inflated value. 4) Deposit LP tokens as collateral in Warp Finance. 5) Borrow maximum stablecoins based on inflated collateral valuation (2-3x more than true value). 6) Swap back to rebalance pool. 7) Repay flash loan. 8) Keep overborrowed funds. Loss: $7.7M.",
   "vulnerable_contract": "CollateralVault",
   "root_cause": "LP token value was calculated directly from current Uniswap pool reserves without using time-weighted average prices (TWAP) or external oracles. Flash loan attackers could temporarily manipulate pool reserves within a single transaction, inflating the perceived value of LP tokens and overborrowing against them.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    73
+  ],
   "fix": "Use Uniswap V2/V3 TWAP oracles for price feeds instead of instantaneous reserves. Implement manipulation-resistant LP token valuation formulas (such as Alpha Homora V2's fair LP pricing). Use external price oracles like Chainlink for asset prices. Consider requiring multi-block delays for large collateral value increases.",
   "references": [
     "https://peckshield.medium.com/warpfinance-incident-root-cause-analysis-581a7f0e2437",

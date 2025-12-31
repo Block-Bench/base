@@ -14,7 +14,9 @@
   "attack_scenario": "Attacker flash loaned large amount of LP tokens, sent them directly to minter contract, called getReward which triggered mintFor. Function calculated rewards based on inflated balance, minting excessive HUNNY tokens.",
   "vulnerable_contract": "RewardMinter",
   "vulnerable_function": "mintFor",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    79
+  ],
   "fix_description": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
   "tags": [
     "balance-manipulation",

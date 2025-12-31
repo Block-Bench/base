@@ -14,7 +14,10 @@
   "attack_scenario": "Attacker minted tokens, then transferred to self 4 times in loop. Each transfer triggered callback with inconsistent state. After iterations, token balance inflated. Burned inflated tokens back to ETH for profit.",
   "vulnerable_contract": "MarginToken",
   "vulnerable_function": "transfer",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    59,
+    78
+  ],
   "fix_description": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
   "tags": [
     "reentrancy",

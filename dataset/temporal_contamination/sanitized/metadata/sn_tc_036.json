@@ -18,7 +18,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-03",
   "description": "Prisma Finance suffered a $10M exploit through its MigrateTroveZap contract which accepted user-controlled account parameters. Attackers exploited delegate approvals to open troves and mint debt tokens on behalf of victims who had approved the zap contract, then received the minted tokens themselves.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    77,
+    85
+  ],
   "vulnerability_details": {
     "root_cause": "User-controlled account parameter in zap contract combined with overly permissive delegate approval system",
     "attack_vector": "Use delegate approval to open troves on victim accounts with attacker's collateral, mint debt to attacker, victim gets debt obligation",

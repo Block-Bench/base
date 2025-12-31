@@ -14,7 +14,9 @@
   "attack_scenario": "Attacker created fake jar contracts, called swapExactJarForJar with malicious targets pointing to real strategies and calldata encoding withdrawAll(). Controller executed these calls, draining strategies.",
   "vulnerable_contract": "YieldController",
   "vulnerable_function": "swapExactJarForJar",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    41
+  ],
   "fix_description": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors.",
   "tags": [
     "arbitrary-call",

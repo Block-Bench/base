@@ -19,7 +19,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-06",
   "description": "UwU Lend, an Aave V2 fork, was exploited for $19.3M through oracle price manipulation. Attackers used massive flashloans to drain liquidity from Curve pools containing sUSDE, causing the oracle to report inflated prices. They then deposited sUSDE as collateral at the manipulated price and borrowed maximum assets against it.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    97,
+    142
+  ],
   "vulnerability_details": {
     "root_cause": "Oracle reliance on manipulable Curve pool spot prices without TWAP or external validation",
     "attack_vector": "Drain Curve pool liquidity to manipulate sUSDE price, deposit at inflated value, borrow maximum assets",
