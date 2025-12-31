@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_216",
   "sanitized_from": "ds_216",
-  "sanitized_id": "sn_ds_216"
+  "sanitized_id": "sn_ds_216",
+  "vulnerable_functions": [
+    "wager"
+  ]
 }

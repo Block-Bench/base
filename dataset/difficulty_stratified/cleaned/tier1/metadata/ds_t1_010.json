@@ -11,7 +11,7 @@
   "original_category": "access_control",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "Access control vulnerability - missing or incorrect authorization checks at line(s) 20",
+  "description": "The withdrawAll() function uses tx.origin for authorization instead of msg.sender. An attacker can deploy a phishing contract that tricks the owner into calling it, which then calls withdrawAll() - the tx.origin check passes because the original caller is the owner.",
   "fix_description": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin",
   "is_vulnerable": true,
   "context_level": "single_file",
@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_011",
   "sanitized_from": "ds_011",
-  "sanitized_id": "sn_ds_011"
+  "sanitized_id": "sn_ds_011",
+  "vulnerable_functions": [
+    "withdrawAll"
+  ]
 }

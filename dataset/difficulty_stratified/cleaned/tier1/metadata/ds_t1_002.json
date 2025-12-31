@@ -5,14 +5,14 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "Reentrancy.sol",
-  "vulnerable_function": "getBalance",
+  "vulnerable_function": "withdrawBalance",
   "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "# Re-entrancy\nA state variable is changed after a contract uses `call.value`. The attacker uses\n[a fallback function](ReentrancyExploit.sol#L26-L33)\u2014which is automatically executed after\nEther is transferred from the targeted contract\u2014to execute the vulnerable function again, *before* the\nstate variable is changed.",
-  "fix_description": "",
+  "description": "The withdrawBalance() function makes an external call using call.value() before updating the user's balance to zero. An attacker can exploit this by deploying a contract with a fallback function that recursively calls withdrawBalance(), draining the contract's funds.",
+  "fix_description": "Apply the checks-effects-interactions pattern: update userBalance[msg.sender] = 0 before making the external call. Alternatively, use a ReentrancyGuard mutex or transfer()/send() instead of call.value().",
   "is_vulnerable": true,
   "context_level": "single_file",
   "original_source_path": "reentrancy/Reentrancy.sol",
@@ -32,5 +32,8 @@
     "Reentrance": "TokenVault",
     "withdrawBalance_fixed": "withdrawBalanceV2",
     "withdrawBalance_fixed_2": "withdrawBalanceV3"
-  }
+  },
+  "vulnerable_functions": [
+    "withdrawBalance"
+  ]
 }

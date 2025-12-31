@@ -31,5 +31,8 @@
     "Exploit": "operate",
     "function attack(": "function operate(",
     ".attack{": ".operate{"
-  }
+  },
+  "vulnerable_functions": [
+    "operate"
+  ]
 }

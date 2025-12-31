@@ -24,5 +24,9 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_226",
   "sanitized_from": "ds_226",
-  "sanitized_id": "sn_ds_226"
+  "sanitized_id": "sn_ds_226",
+  "vulnerable_functions": [
+    "mint_approved",
+    "verify"
+  ]
 }

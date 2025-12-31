@@ -29,5 +29,8 @@
     "AttackerContract": "OperatorContract",
     "Attack": "Operator",
     "Exploit": "operate"
-  }
+  },
+  "vulnerable_functions": [
+    "deposit"
+  ]
 }

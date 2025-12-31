@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_130",
   "identifier_mappings": {
     "Unprotected": "OpenAccess"
-  }
+  },
+  "vulnerable_functions": [
+    "changeOwner"
+  ]
 }

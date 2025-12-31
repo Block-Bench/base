@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_135",
   "identifier_mappings": {
     "IntegerOverflowMappingSym1": "MappingCounter"
-  }
+  },
+  "vulnerable_functions": [
+    "init"
+  ]
 }

@@ -27,5 +27,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_114",
   "sanitized_from": "ds_114",
-  "sanitized_id": "sn_ds_114"
+  "sanitized_id": "sn_ds_114",
+  "vulnerable_functions": [
+    "LCOpenTimeout"
+  ]
 }

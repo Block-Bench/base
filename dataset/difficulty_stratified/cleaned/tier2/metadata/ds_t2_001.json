@@ -28,5 +28,9 @@
   "identifier_mappings": {
     "HashCollisionBug": "HashCollision",
     "HashCollision": "HashCollision"
-  }
+  },
+  "vulnerable_functions": [
+    "createHash",
+    "deposit"
+  ]
 }

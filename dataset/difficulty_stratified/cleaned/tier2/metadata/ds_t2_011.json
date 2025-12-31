@@ -28,5 +28,8 @@
   "identifier_mappings": {
     "testOverflow": "testCalculation",
     "overflowed": "calculate"
-  }
+  },
+  "vulnerable_functions": [
+    "increaseLockTime"
+  ]
 }

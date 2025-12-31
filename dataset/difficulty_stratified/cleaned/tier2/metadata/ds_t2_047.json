@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_134",
   "identifier_mappings": {
     "IntegerOverflowBenign1": "BenignCounter"
-  }
+  },
+  "vulnerable_functions": [
+    "run"
+  ]
 }

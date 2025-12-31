@@ -30,5 +30,8 @@
     "FixedeBank": "BankV2",
     "Bank": "Bank",
     "testVulnerableBank": "testBasicBank"
-  }
+  },
+  "vulnerable_functions": [
+    "unlockToken"
+  ]
 }

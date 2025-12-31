@@ -29,5 +29,9 @@
     "testExploit": "testOperation",
     "s": "s",
     "UniswapV3ETHRefundExploitTest": "UniswapV3ETHRefundOperationTest"
-  }
+  },
+  "vulnerable_functions": [
+    "exactInputSingle",
+    "refundETH"
+  ]
 }

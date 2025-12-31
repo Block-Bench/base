@@ -30,5 +30,8 @@
     "FixedSimpleBank": "SimpleBankV2",
     "SimpleBankContract": "SimpleBankContract",
     "SimpleBank": "SimpleBank"
-  }
+  },
+  "vulnerable_functions": [
+    "executeOperation"
+  ]
 }

@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_213",
   "sanitized_from": "ds_213",
-  "sanitized_id": "sn_ds_213"
+  "sanitized_id": "sn_ds_213",
+  "vulnerable_functions": [
+    "PartialFundsTransfer"
+  ]
 }

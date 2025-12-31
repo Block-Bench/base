@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_167",
   "sanitized_from": "ds_167",
-  "sanitized_id": "sn_ds_167"
+  "sanitized_id": "sn_ds_167",
+  "vulnerable_functions": [
+    "fallback"
+  ]
 }

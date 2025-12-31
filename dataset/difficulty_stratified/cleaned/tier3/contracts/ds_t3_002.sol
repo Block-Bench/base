@@ -32,7 +32,7 @@ contract ContractTest is Test {
 
 contract Proxy {
 
-    bytes32 internal _IMPLEMENTATION_SLOT = keccak256("where.bug.ser"); // wrong
+    bytes32 internal _IMPLEMENTATION_SLOT = keccak256("proxy.implementation.slot");
 
     constructor(address implementation) {
         _setImplementation(address(0));

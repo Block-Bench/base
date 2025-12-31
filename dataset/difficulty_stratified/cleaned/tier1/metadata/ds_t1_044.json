@@ -11,7 +11,7 @@
   "original_category": "reentrancy",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 24",
+  "description": "The withdrawBalance() function makes an external call via msg.sender.call.value() before updating the sender's balance. An attacker can deploy a malicious contract that re-enters withdrawBalance() in its fallback function, draining funds before the balance is decremented.",
   "fix_description": "Apply checks-effects-interactions pattern: update state before external calls, or use ReentrancyGuard",
   "is_vulnerable": true,
   "context_level": "single_file",
@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_045",
   "identifier_mappings": {
     "Reentrance": "TokenVault"
-  }
+  },
+  "vulnerable_functions": [
+    "withdrawBalance"
+  ]
 }

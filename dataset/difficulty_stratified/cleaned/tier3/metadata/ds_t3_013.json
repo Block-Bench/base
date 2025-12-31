@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_193",
   "sanitized_from": "ds_193",
-  "sanitized_id": "sn_ds_193"
+  "sanitized_id": "sn_ds_193",
+  "vulnerable_functions": [
+    "transfer"
+  ]
 }

@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_153",
   "identifier_mappings": {
     "DosOneFunc": "SingleFuncRegistry"
-  }
+  },
+  "vulnerable_functions": [
+    "ifillArray"
+  ]
 }

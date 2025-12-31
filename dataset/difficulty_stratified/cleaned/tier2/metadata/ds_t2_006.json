@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_093",
   "sanitized_from": "ds_093",
-  "sanitized_id": "sn_ds_093"
+  "sanitized_id": "sn_ds_093",
+  "vulnerable_functions": [
+    "updaterewardDebt"
+  ]
 }

@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_233",
   "sanitized_from": "ds_233",
-  "sanitized_id": "sn_ds_233"
+  "sanitized_id": "sn_ds_233",
+  "vulnerable_functions": [
+    "deal"
+  ]
 }

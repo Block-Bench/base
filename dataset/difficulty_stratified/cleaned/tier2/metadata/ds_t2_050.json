@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_137",
   "identifier_mappings": {
     "IntegerOverflowMul": "MultiplyCounter"
-  }
+  },
+  "vulnerable_functions": [
+    "run"
+  ]
 }

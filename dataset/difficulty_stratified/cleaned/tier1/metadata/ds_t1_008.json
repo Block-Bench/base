@@ -11,7 +11,7 @@
   "original_category": "access_control",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "Access control vulnerability - missing or incorrect authorization checks at line(s) 20",
+  "description": "The set() function allows anyone to extend the map array and write arbitrary values. The owner variable is never initialized in a constructor, defaulting to address(0). This allows arbitrary storage manipulation and the withdraw function's owner check is ineffective.",
   "fix_description": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin",
   "is_vulnerable": true,
   "context_level": "single_file",
@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_009",
   "sanitized_from": "ds_009",
-  "sanitized_id": "sn_ds_009"
+  "sanitized_id": "sn_ds_009",
+  "vulnerable_functions": [
+    "set"
+  ]
 }

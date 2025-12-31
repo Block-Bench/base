@@ -30,5 +30,8 @@
     "CrowdFundSafe": "CrowdFundBatched",
     "refundSafe": "refundBatched",
     "CrowdFundBad": "CrowdFundBasic"
-  }
+  },
+  "vulnerable_functions": [
+    "refundAll"
+  ]
 }

@@ -26,5 +26,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_119",
   "sanitized_from": "ds_119",
-  "sanitized_id": "sn_ds_119"
+  "sanitized_id": "sn_ds_119",
+  "vulnerable_functions": [
+    "claimThrone"
+  ]
 }

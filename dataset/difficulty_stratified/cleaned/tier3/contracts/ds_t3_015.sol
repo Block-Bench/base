@@ -4,12 +4,12 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 
 contract ContractTest is Test {
-    AlternateBankManager buggyManager;
-    BankManagerV2 fixedManager;
+    BankManagerA managerA;
+    BankManagerB managerB;
 
     function setUp() public {
-        buggyManager = new AlternateBankManager();
-        fixedManager = new BankManagerV2();
+        managerA = new BankManagerA();
+        managerB = new BankManagerB();
 
         // Initialize both managers with the same 3 banks
         address[] memory initialBanks = new address[](3);
@@ -24,16 +24,16 @@ contract ContractTest is Test {
         initialBanks[2] = address(0x3);
         initialNames[2] = "Global Bank";
 
-        buggyManager.addBanks(initialBanks, initialNames);
-        fixedManager.addBanks(initialBanks, initialNames);
+        managerA.addBanks(initialBanks, initialNames);
+        managerB.addBanks(initialBanks, initialNames);
 
         // Verify initial state
         emit log_string("Initial state of both bank managers:");
-        emit log_named_uint("Alternate manager bank count", buggyManager.getBankCount());
-        emit log_named_uint("Fixed manager bank count", fixedManager.getBankCount());
+        emit log_named_uint("Manager A bank count", managerA.getBankCount());
+        emit log_named_uint("Manager B bank count", managerB.getBankCount());
     }
 
-    function testReturnVsBreak() public {
+    function testRemoveBanks() public {
         // Try to remove all banks marked for removal
         emit log_string("\nRemoving banks marked for removal");
 
@@ -42,17 +42,15 @@ contract ContractTest is Test {
         banksToRemove[0] = address(0x1); // ABC Bank
         banksToRemove[1] = address(0x2); // XYZ Bank
         banksToRemove[2] = address(0x3); // Global Bank
-        console.log("------------Testing buggyManager---------------");
-        // With buggy implementation (using return)
-        buggyManager.removeBanksWithReturn(banksToRemove);
-        emit log_named_uint("Alternate manager (with return) bank count after removal", buggyManager.getBankCount());
-        buggyManager.listBanks();
+        console.log("------------Testing Manager A---------------");
+        managerA.removeBanksMethodA(banksToRemove);
+        emit log_named_uint("Manager A bank count after removal", managerA.getBankCount());
+        managerA.listBanks();
 
-        console.log("------------Testing BankManagerV2---------------");
-        // With fixed implementation (using break)
-        fixedManager.removeBanksWithBreak(banksToRemove);
-        emit log_named_uint("Fixed manager (with break) bank count after removal", fixedManager.getBankCount());
-        fixedManager.listBanks();
+        console.log("------------Testing Manager B---------------");
+        managerB.removeBanksMethodB(banksToRemove);
+        emit log_named_uint("Manager B bank count after removal", managerB.getBankCount());
+        managerB.listBanks();
     }
 }
 
@@ -99,11 +97,11 @@ contract BankManager {
     }
 }
 
-// Alternate implementation using 'return' incorrectly
-contract AlternateBankManager is BankManager, Test {
+// Implementation A
+contract BankManagerA is BankManager, Test {
     // Remove all banks in the provided list
 
-    function removeBanksWithReturn(address[] memory banksToRemove) public {
+    function removeBanksMethodA(address[] memory banksToRemove) public {
         for (uint i = 0; i < banks.length; i++) {
             for (uint j = 0; j < banksToRemove.length; j++) {
                 if (banks[i].bankAddress == banksToRemove[j]) {
@@ -121,7 +119,7 @@ contract AlternateBankManager is BankManager, Test {
 
     // Helper function to list all banks in this manager
     function listBanks() public {
-        emit log_string("Banks in buggy manager:");
+        emit log_string("Banks in manager A:");
         for (uint i = 0; i < banks.length; i++) {
             emit log_string(string(abi.encodePacked(
                 "Bank ", toString(i), ": ",
@@ -166,12 +164,11 @@ contract AlternateBankManager is BankManager, Test {
     }
 }
 
-// Fixed implementation using proper iteration
-contract BankManagerV2 is BankManager, Test {
+// Implementation B
+contract BankManagerB is BankManager, Test {
     // Remove all banks in the provided list
 
-    function removeBanksWithBreak(address[] memory banksToRemove) public {
-        // We need to iterate backwards to avoid index issues when removing elements
+    function removeBanksMethodB(address[] memory banksToRemove) public {
         for (int i = int(banks.length) - 1; i >= 0; i--) {
             for (uint j = 0; j < banksToRemove.length; j++) {
                 if (banks[uint(i)].bankAddress == banksToRemove[j]) {
@@ -189,7 +186,7 @@ contract BankManagerV2 is BankManager, Test {
 
     // Helper function to list all banks in this manager
     function listBanks() public {
-        emit log_string("Banks in fixed manager:");
+        emit log_string("Banks in manager B:");
         for (uint i = 0; i < banks.length; i++) {
             emit log_string(string(abi.encodePacked(
                 "Bank ", toString(i), ": ",

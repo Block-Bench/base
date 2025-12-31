@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_102",
   "identifier_mappings": {
     "Exploit": "operate"
-  }
+  },
+  "vulnerable_functions": [
+    "changeOwner"
+  ]
 }

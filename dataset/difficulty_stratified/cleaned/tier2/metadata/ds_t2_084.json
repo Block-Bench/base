@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_171",
   "sanitized_from": "ds_171",
-  "sanitized_id": "sn_ds_171"
+  "sanitized_id": "sn_ds_171",
+  "vulnerable_functions": [
+    "fundPuppets"
+  ]
 }

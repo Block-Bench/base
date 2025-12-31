@@ -30,5 +30,8 @@
     "FixedArrayDeletion": "ArrayDeletionV2",
     "ArrayDeletionContract": "ArrayDeletionContract",
     "ArrayDeletion": "ArrayDeletion"
-  }
+  },
+  "vulnerable_functions": [
+    "deleteElement"
+  ]
 }

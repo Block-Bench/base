@@ -34,5 +34,9 @@
     "TargetRemediated": "TargetV2",
     "pwned": "completed",
     "FailedAttackContract": "FailedOperatorContract"
-  }
+  },
+  "vulnerable_functions": [
+    "isContract",
+    "protected"
+  ]
 }

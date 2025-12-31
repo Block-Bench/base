@@ -28,5 +28,8 @@
   "identifier_mappings": {
     "Exploit": "operate",
     "attacker": "operator"
-  }
+  },
+  "vulnerable_functions": [
+    "initialize"
+  ]
 }

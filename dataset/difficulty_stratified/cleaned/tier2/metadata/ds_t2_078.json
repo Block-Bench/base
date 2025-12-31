@@ -29,5 +29,8 @@
     "Attacker": "Operator",
     "function attack(": "function operate(",
     "this.attack": "this.operate"
-  }
+  },
+  "vulnerable_functions": [
+    "invest"
+  ]
 }

@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_132",
   "identifier_mappings": {
     "Overflow": "Ledger"
-  }
+  },
+  "vulnerable_functions": [
+    "add"
+  ]
 }

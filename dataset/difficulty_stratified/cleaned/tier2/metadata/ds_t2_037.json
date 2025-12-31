@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_124",
   "identifier_mappings": {
     "_fixed": "V2"
-  }
+  },
+  "vulnerable_functions": [
+    "set"
+  ]
 }

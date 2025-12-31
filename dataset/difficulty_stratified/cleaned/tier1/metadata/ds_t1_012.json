@@ -11,7 +11,7 @@
   "original_category": "access_control",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "Access control vulnerability - missing or incorrect authorization checks at line(s) 12, 13",
+  "description": "The sudicideAnyone() function calls selfdestruct without any access control, allowing any address to destroy the contract and send its balance to themselves.",
   "fix_description": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin",
   "is_vulnerable": true,
   "context_level": "single_file",
@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_013",
   "identifier_mappings": {
     "SimpleSuicide": "SimpleDestruct"
-  }
+  },
+  "vulnerable_functions": [
+    "sudicideAnyone"
+  ]
 }
