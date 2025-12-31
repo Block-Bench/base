@@ -1,21 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.2;
+pragma solidity ^0.4.10;
 
-contract SimpleDAO {
-  mapping (address => uint) public credit;
-
-  function donate(address to) payable {
-    credit[to] += msg.value;
-  }
-
-  function withdraw(uint amount) {
-    if (credit[msg.sender]>= amount) {
-      bool res = msg.sender.call.value(amount)();
-      credit[msg.sender]-=amount;
+contract Caller {
+    function callAddress(address a) {
+        a.call();
     }
-  }
-
-  function queryCredit(address to) returns (uint){
-    return credit[to];
-  }
 }

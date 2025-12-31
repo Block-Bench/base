@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "governmental_survey.sol",
   "vulnerable_function": "invest",
-  "vulnerable_lines": [
-    27
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "timestamp_dependency",
   "original_category": "time_manipulation",
   "severity": "low",

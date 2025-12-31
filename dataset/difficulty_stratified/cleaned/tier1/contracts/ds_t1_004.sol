@@ -1,11 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.15;
 
-contract Ledger {
-    uint private sellerBalance=0;
+contract OpenAccess{
+    address private owner;
 
-    function add(uint value) returns (bool){
-        sellerBalance += value;
+    modifier onlyowner {
+        require(msg.sender==owner);
+        _;
+    }
+
+    function OpenAccess()
+        public
+    {
+        owner = msg.sender;
+    }
+
+    function changeOwner(address _newOwner)
+        public
+    {
+       owner = _newOwner;
     }
 
 }

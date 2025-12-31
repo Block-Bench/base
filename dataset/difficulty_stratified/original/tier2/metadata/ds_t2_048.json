@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "integer_overflow_mapping_sym_1.sol",
   "vulnerable_function": "init",
-  "vulnerable_lines": [
-    16
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "integer_issues",
   "original_category": "arithmetic",
   "severity": "high",

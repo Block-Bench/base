@@ -1,66 +1,58 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 29
+ * @vulnerable_at_lines: 41
  */
+ 
+pragma solidity ^0.4.19;
 
-pragma solidity ^0.4.25;
-
-contract W_WALLET
+contract ETH_VAULT
 {
-    function Put(uint _unlockTime)
-    public
-    payable
+    mapping (address => uint) public balances;
+    
+    Log TransferLog;
+    
+    uint public MinDeposit = 1 ether;
+    
+    function ETH_VAULT(address _log)
+    public 
     {
-        var acc = Acc[msg.sender];
-        acc.balance += msg.value;
-        acc.unlockTime = _unlockTime>now?_unlockTime:now;
-        LogFile.AddMessage(msg.sender,msg.value,"Put");
+        TransferLog = Log(_log);
     }
-
-    function Collect(uint _am)
+    
+    function Deposit()
     public
     payable
     {
-        var acc = Acc[msg.sender];
-        if( acc.balance>=MinSum && acc.balance>=_am && now>acc.unlockTime)
+        if(msg.value > MinDeposit)
+        {
+            balances[msg.sender]+=msg.value;
+            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
+        }
+    }
+    
+    function CashOut(uint _am)
+    public
+    payable
+    {
+        if(_am<=balances[msg.sender])
         {
             // <yes> <report> REENTRANCY
             if(msg.sender.call.value(_am)())
             {
-                acc.balance-=_am;
-                LogFile.AddMessage(msg.sender,_am,"Collect");
+                balances[msg.sender]-=_am;
+                TransferLog.AddMessage(msg.sender,_am,"CashOut");
             }
         }
     }
-
-    function() 
-    public 
-    payable
-    {
-        Put(0);
-    }
-
-    struct Holder   
-    {
-        uint unlockTime;
-        uint balance;
-    }
-
-    mapping (address => Holder) public Acc;
-
-    Log LogFile;
-
-    uint public MinSum = 1 ether;    
-
-    function W_WALLET(address log) public{
-        LogFile = Log(log);
-    }
+    
+    function() public payable{}    
+    
 }
-
 
 contract Log 
 {
+   
     struct Message
     {
         address Sender;
@@ -68,11 +60,11 @@ contract Log
         uint Val;
         uint  Time;
     }
-
+    
     Message[] public History;
-
+    
     Message LastMsg;
-
+    
     function AddMessage(address _adr,uint _val,string _data)
     public
     {

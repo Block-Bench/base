@@ -1,57 +1,23 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 63
+ * @vulnerable_at_lines: 29
  */
 
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.25;
 
-contract MONEY_BOX   
+contract WALLET
 {
-    struct Holder   
-    {
-        uint unlockTime;
-        uint balance;
-    }
-    
-    mapping (address => Holder) public Acc;
-    
-    uint public MinSum;
-    
-    Log LogFile;
-    
-    bool intitalized;
-    
-    function SetMinSum(uint _val)
-    public
-    {
-        if(intitalized)throw;
-        MinSum = _val;
-    }
-    
-    function SetLogFile(address _log)
-    public
-    {
-        if(intitalized)throw;
-        LogFile = Log(_log);
-    }
-    
-    function Initialized()
-    public
-    {
-        intitalized = true;
-    }
-    
-    function Put(uint _lockTime)
+    function Put(uint _unlockTime)
     public
     payable
     {
         var acc = Acc[msg.sender];
         acc.balance += msg.value;
-        if(now+_lockTime>acc.unlockTime)acc.unlockTime=now+_lockTime;
+        acc.unlockTime = _unlockTime>now?_unlockTime:now;
         LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
-    
+
     function Collect(uint _am)
     public
     payable
@@ -67,14 +33,29 @@ contract MONEY_BOX
             }
         }
     }
-    
+
     function() 
     public 
     payable
     {
         Put(0);
     }
-    
+
+    struct Holder   
+    {
+        uint unlockTime;
+        uint balance;
+    }
+
+    mapping (address => Holder) public Acc;
+
+    Log LogFile;
+
+    uint public MinSum = 1 ether;    
+
+    function WALLET(address log) public{
+        LogFile = Log(log);
+    }
 }
 
 
@@ -87,11 +68,11 @@ contract Log
         uint Val;
         uint  Time;
     }
-    
+
     Message[] public History;
-    
+
     Message LastMsg;
-    
+
     function AddMessage(address _adr,uint _val,string _data)
     public
     {

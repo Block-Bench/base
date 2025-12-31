@@ -5,7 +5,7 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "coin.sol",
-  "vulnerable_function": "owned",
+  "vulnerable_function": "migrate_and_destroy",
   "vulnerable_lines": [],
   "vulnerability_type": "forced_ether",
   "original_category": "forced_ether_reception",

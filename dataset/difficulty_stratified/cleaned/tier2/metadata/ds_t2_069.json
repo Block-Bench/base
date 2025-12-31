@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "ERC20.sol",
   "vulnerable_function": "approve",
-  "vulnerable_lines": [
-    110
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "front_running",
   "original_category": "front_running",
   "severity": "medium",

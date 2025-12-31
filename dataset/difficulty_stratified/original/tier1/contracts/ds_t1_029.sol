@@ -1,21 +1,15 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 63
+ * @vulnerable_at_lines: 54
  */
 
 pragma solidity ^0.4.19;
 
-contract PENNY_BY_PENNY  
+contract DEP_BANK 
 {
-    struct Holder   
-    {
-        uint unlockTime;
-        uint balance;
-    }
-    
-    mapping (address => Holder) public Acc;
-    
+    mapping (address=>uint256) public balances;   
+   
     uint public MinSum;
     
     LogFile Log;
@@ -42,13 +36,11 @@ contract PENNY_BY_PENNY
         intitalized = true;
     }
     
-    function Put(uint _lockTime)
+    function Deposit()
     public
     payable
     {
-        var acc = Acc[msg.sender];
-        acc.balance += msg.value;
-        if(now+_lockTime>acc.unlockTime)acc.unlockTime=now+_lockTime;
+        balances[msg.sender]+= msg.value;
         Log.AddMessage(msg.sender,msg.value,"Put");
     }
     
@@ -56,13 +48,12 @@ contract PENNY_BY_PENNY
     public
     payable
     {
-        var acc = Acc[msg.sender];
-        if( acc.balance>=MinSum && acc.balance>=_am && now>acc.unlockTime)
+        if(balances[msg.sender]>=MinSum && balances[msg.sender]>=_am)
         {
             // <yes> <report> REENTRANCY
             if(msg.sender.call.value(_am)())
             {
-                acc.balance-=_am;
+                balances[msg.sender]-=_am;
                 Log.AddMessage(msg.sender,_am,"Collect");
             }
         }
@@ -72,7 +63,7 @@ contract PENNY_BY_PENNY
     public 
     payable
     {
-        Put(0);
+        Deposit();
     }
     
 }

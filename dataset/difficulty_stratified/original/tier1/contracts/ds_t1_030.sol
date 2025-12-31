@@ -1,76 +1,57 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 54
+ * @vulnerable_at_lines: 40
  */
 
 pragma solidity ^0.4.19;
 
-contract DEP_BANK 
+contract Private_Bank
 {
-    mapping (address=>uint256) public balances;   
-   
-    uint public MinSum;
+    mapping (address => uint) public balances;
     
-    LogFile Log;
+    uint public MinDeposit = 1 ether;
     
-    bool intitalized;
+    Log TransferLog;
     
-    function SetMinSum(uint _val)
-    public
+    function Private_Bank(address _log)
     {
-        if(intitalized)throw;
-        MinSum = _val;
-    }
-    
-    function SetLogFile(address _log)
-    public
-    {
-        if(intitalized)throw;
-        Log = LogFile(_log);
-    }
-    
-    function Initialized()
-    public
-    {
-        intitalized = true;
+        TransferLog = Log(_log);
     }
     
     function Deposit()
     public
     payable
     {
-        balances[msg.sender]+= msg.value;
-        Log.AddMessage(msg.sender,msg.value,"Put");
+        if(msg.value > MinDeposit)
+        {
+            balances[msg.sender]+=msg.value;
+            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
+        }
     }
     
-    function Collect(uint _am)
+    function CashOut(uint _am)
     public
     payable
     {
-        if(balances[msg.sender]>=MinSum && balances[msg.sender]>=_am)
+        if(_am<=balances[msg.sender])
         {
             // <yes> <report> REENTRANCY
             if(msg.sender.call.value(_am)())
             {
                 balances[msg.sender]-=_am;
-                Log.AddMessage(msg.sender,_am,"Collect");
+                TransferLog.AddMessage(msg.sender,_am,"CashOut");
             }
         }
     }
     
-    function() 
-    public 
-    payable
-    {
-        Deposit();
-    }
+    function() public payable{}    
     
 }
 
-
-contract LogFile
+contract Log 
 {
+   
     struct Message
     {
         address Sender;

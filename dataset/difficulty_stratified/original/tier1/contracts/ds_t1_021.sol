@@ -1,96 +1,100 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 54
+ * @vulnerable_at_lines: 94
  */
 
 pragma solidity ^0.4.19;
 
-contract BANK_SAFE
+contract Ownable
 {
-    mapping (address=>uint256) public balances;   
-   
-    uint public MinSum;
+    address newOwner;
+    address owner = msg.sender;
     
-    LogFile Log;
-    
-    bool intitalized;
-    
-    function SetMinSum(uint _val)
+    function changeOwner(address addr)
     public
+    onlyOwner
     {
-        if(intitalized)throw;
-        MinSum = _val;
+        newOwner = addr;
     }
     
-    function SetLogFile(address _log)
+    function confirmOwner() 
     public
     {
-        if(intitalized)throw;
-        Log = LogFile(_log);
-    }
-    
-    function Initialized()
-    public
-    {
-        intitalized = true;
-    }
-    
-    function Deposit()
-    public
-    payable
-    {
-        balances[msg.sender]+= msg.value;
-        Log.AddMessage(msg.sender,msg.value,"Put");
-    }
-    
-    function Collect(uint _am)
-    public
-    payable
-    {
-        if(balances[msg.sender]>=MinSum && balances[msg.sender]>=_am)
+        if(msg.sender==newOwner)
         {
-            // <yes> <report> REENTRANCY
-            if(msg.sender.call.value(_am)())
-            {
-                balances[msg.sender]-=_am;
-                Log.AddMessage(msg.sender,_am,"Collect");
-            }
+            owner=newOwner;
         }
     }
     
-    function() 
+    modifier onlyOwner
+    {
+        if(owner == msg.sender)_;
+    }
+}
+
+contract Token is Ownable
+{
+    address owner = msg.sender;
+    function WithdrawToken(address token, uint256 amount,address to)
     public 
+    onlyOwner
+    {
+        token.call(bytes4(sha3("transfer(address,uint256)")),to,amount); 
+    }
+}
+
+contract TokenBank is Token
+{
+    uint public MinDeposit;
+    mapping (address => uint) public Holders;
+    
+     ///Constructor
+    function initTokenBank()
+    public
+    {
+        owner = msg.sender;
+        MinDeposit = 1 ether;
+    }
+    
+    function()
     payable
     {
         Deposit();
     }
-    
-}
-
-
-
-contract LogFile
-{
-    struct Message
+   
+    function Deposit() 
+    payable
     {
-        address Sender;
-        string  Data;
-        uint Val;
-        uint  Time;
+        if(msg.value>MinDeposit)
+        {
+            Holders[msg.sender]+=msg.value;
+        }
     }
     
-    Message[] public History;
-    
-    Message LastMsg;
-    
-    function AddMessage(address _adr,uint _val,string _data)
+    function WitdrawTokenToHolder(address _to,address _token,uint _amount)
     public
+    onlyOwner
     {
-        LastMsg.Sender = _adr;
-        LastMsg.Time = now;
-        LastMsg.Val = _val;
-        LastMsg.Data = _data;
-        History.push(LastMsg);
+        if(Holders[_to]>0)
+        {
+            Holders[_to]=0;
+            WithdrawToken(_token,_amount,_to);     
+        }
+    }
+   
+    function WithdrawToHolder(address _addr, uint _wei) 
+    public
+    onlyOwner
+    payable
+    {
+        if(Holders[_addr]>0)
+        {
+            // <yes> <report> REENTRANCY
+            if(_addr.call.value(_wei)())
+            {
+                Holders[_addr]-=_wei;
+            }
+        }
     }
 }

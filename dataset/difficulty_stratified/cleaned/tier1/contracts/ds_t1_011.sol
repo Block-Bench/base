@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
- contract Phishable {
-    address public owner;
+contract Proxy {
 
-    constructor (address _owner) {
-        owner = _owner;
-    }
+  address owner;
 
-    function () public payable {} // collect ether
+  constructor() public {
+    owner = msg.sender;
+  }
 
-    function withdrawAll(address _recipient) public {
-        require(tx.origin == owner);
-        _recipient.transfer(this.balance);
-    }
+  function forward(address callee, bytes _data) public {
+    require(callee.delegatecall(_data));
+  }
+
 }

@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "eth_tx_order_dependence_minimal.sol",
   "vulnerable_function": "setReward",
-  "vulnerable_lines": [
-    23
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "front_running",
   "original_category": "front_running",
   "severity": "medium",

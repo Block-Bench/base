@@ -1,24 +1,23 @@
 /*
- * @source: https://consensys.github.io/smart-contract-best-practices/recommendations/#avoid-using-txorigin
- * @author: Consensys Diligence
+ * @source: https://github.com/sigp/solidity-security-blog
+ * @author: -
  * @vulnerable_at_lines: 20
- * Modified by Gerhard Wagner
  */
 
-pragma solidity ^0.4.24;
+ pragma solidity ^0.4.22;
 
-contract MyContract {
+ contract Phishable {
+    address public owner;
 
-    address owner;
-
-    function MyContract() public {
-        owner = msg.sender;
+    constructor (address _owner) {
+        owner = _owner;
     }
 
-    function sendTo(address receiver, uint amount) public {
+    function () public payable {} // collect ether
+
+    function withdrawAll(address _recipient) public {
         // <yes> <report> ACCESS_CONTROL
         require(tx.origin == owner);
-        receiver.transfer(amount);
+        _recipient.transfer(this.balance);
     }
-
 }

@@ -1,55 +1,78 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.19;
 
-contract ETH_FUND
+contract PENNY_BY_PENNY
 {
-    mapping (address => uint) public balances;
-
-    uint public MinDeposit = 1 ether;
-
-    Log TransferLog;
-
-    uint lastBlock;
-
-    function ETH_FUND(address _log)
-    public
+    struct Holder
     {
-        TransferLog = Log(_log);
+        uint unlockTime;
+        uint balance;
     }
 
-    function Deposit()
+    mapping (address => Holder) public Acc;
+
+    uint public MinSum;
+
+    LogFile Log;
+
+    bool intitalized;
+
+    function SetMinSum(uint _val)
+    public
+    {
+        if(intitalized)throw;
+        MinSum = _val;
+    }
+
+    function SetLogFile(address _log)
+    public
+    {
+        if(intitalized)throw;
+        Log = LogFile(_log);
+    }
+
+    function Initialized()
+    public
+    {
+        intitalized = true;
+    }
+
+    function Put(uint _lockTime)
     public
     payable
     {
-        if(msg.value > MinDeposit)
-        {
-            balances[msg.sender]+=msg.value;
-            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
-            lastBlock = block.number;
-        }
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
+        if(now+_lockTime>acc.unlockTime)acc.unlockTime=now+_lockTime;
+        Log.AddMessage(msg.sender,msg.value,"Put");
     }
 
-    function CashOut(uint _am)
+    function Collect(uint _am)
     public
     payable
     {
-        if(_am<=balances[msg.sender]&&block.number>lastBlock)
+        var acc = Acc[msg.sender];
+        if( acc.balance>=MinSum && acc.balance>=_am && now>acc.unlockTime)
         {
             if(msg.sender.call.value(_am)())
             {
-                balances[msg.sender]-=_am;
-                TransferLog.AddMessage(msg.sender,_am,"CashOut");
+                acc.balance-=_am;
+                Log.AddMessage(msg.sender,_am,"Collect");
             }
         }
     }
 
-    function() public payable{}
+    function()
+    public
+    payable
+    {
+        Put(0);
+    }
 
 }
 
-contract Log
+contract LogFile
 {
-
     struct Message
     {
         address Sender;

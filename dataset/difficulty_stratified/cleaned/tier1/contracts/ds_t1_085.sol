@@ -1,22 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.18;
-
- contract Lotto {
-
-     bool public payedOut = false;
-     address public winner;
-     uint public winAmount;
-
-     // ... extra functionality here
-
-     function sendToWinner() public {
-         require(!payedOut);
-         winner.send(winAmount);
-         payedOut = true;
-     }
-
-     function withdrawLeftOver() public {
-         require(payedOut);
-         msg.sender.send(this.balance);
-     }
- }
+pragma solidity ^0.4.0;
+contract SendBack {
+    mapping (address => uint) userBalances;
+    function withdrawBalance() {
+		uint amountToWithdraw = userBalances[msg.sender];
+		userBalances[msg.sender] = 0;
+		msg.sender.send(amountToWithdraw);
+	}
+}

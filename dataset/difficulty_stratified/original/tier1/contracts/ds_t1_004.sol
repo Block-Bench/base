@@ -1,18 +1,31 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.15;
 
-contract Overflow {
-    uint private sellerBalance=0;
-    
-    function add(uint value) returns (bool){
-        sellerBalance += value; // possible overflow
+contract Unprotected{
+    address private owner;
 
-        // possible auditor assert
-        // assert(sellerBalance >= value); 
-    } 
+    modifier onlyowner {
+        require(msg.sender==owner);
+        _;
+    }
 
-    function safe_add(uint value) returns (bool){
-        require(value + sellerBalance >= sellerBalance);
-        sellerBalance += value; 
-    } 
+    function Unprotected()
+        public 
+    {
+        owner = msg.sender;
+    }
+
+    // This function should be protected
+    function changeOwner(address _newOwner) 
+        public
+    {
+       owner = _newOwner;
+    }
+
+    function changeOwner_fixed(address _newOwner) 
+        public 
+        onlyowner
+    {
+       owner = _newOwner;
+    }
 }

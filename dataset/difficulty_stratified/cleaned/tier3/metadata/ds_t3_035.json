@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0x7d09edb07d23acb532a82be3da5c17d9d85806b4.sol",
   "vulnerable_function": "donateToWhale",
-  "vulnerable_lines": [
-    198
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

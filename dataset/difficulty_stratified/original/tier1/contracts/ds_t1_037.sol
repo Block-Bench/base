@@ -1,24 +1,31 @@
 /*
- * @source: https://github.com/seresistvanandras/EthBench/blob/master/Benchmark/Simple/reentrant.sol
- * @author: -
- * @vulnerable_at_lines: 21
+ * @source: https://github.com/sigp/solidity-security-blog
+ * @author: Suhabe Bugrara
+ * @vulnerable_at_lines: 27
  */
 
-pragma solidity ^0.4.0;
-contract EtherBank{
-    mapping (address => uint) userBalances;
-    function getBalance(address user) constant returns(uint) {  
-		return userBalances[user];
-	}
+//added pragma version
+pragma solidity ^0.4.10;
 
-	function addToBalance() {  
-		userBalances[msg.sender] += msg.value;
-	}
+contract EtherStore {
 
-	function withdrawBalance() {  
-		uint amountToWithdraw = userBalances[msg.sender];
+    uint256 public withdrawalLimit = 1 ether;
+    mapping(address => uint256) public lastWithdrawTime;
+    mapping(address => uint256) public balances;
+
+    function depositFunds() public payable {
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdrawFunds (uint256 _weiToWithdraw) public {
+        require(balances[msg.sender] >= _weiToWithdraw);
+        // limit the withdrawal
+        require(_weiToWithdraw <= withdrawalLimit);
+        // limit the time allowed to withdraw
+        require(now >= lastWithdrawTime[msg.sender] + 1 weeks);
         // <yes> <report> REENTRANCY
-		if (!(msg.sender.call.value(amountToWithdraw)())) { throw; }
-		userBalances[msg.sender] = 0;
-	}    
-}
+        require(msg.sender.call.value(_weiToWithdraw)());
+        balances[msg.sender] -= _weiToWithdraw;
+        lastWithdrawTime[msg.sender] = now;
+    }
+ }

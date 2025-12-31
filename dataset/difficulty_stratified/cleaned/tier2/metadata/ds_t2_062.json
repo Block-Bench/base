@@ -5,10 +5,8 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "random_number_generator.sol",
-  "vulnerable_function": "unknown",
-  "vulnerable_lines": [
-    12
-  ],
+  "vulnerable_function": "random",
+  "vulnerable_lines": [],
   "vulnerability_type": "weak_randomness",
   "original_category": "bad_randomness",
   "severity": "medium",

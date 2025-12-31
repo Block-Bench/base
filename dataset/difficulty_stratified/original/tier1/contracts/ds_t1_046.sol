@@ -1,27 +1,14 @@
 /*
- * @source: http://blockchain.unica.it/projects/ethereum-survey/attacks.html#simpledao
+ * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 19
+ * @vulnerable_at_lines: 12
  */
 
-pragma solidity ^0.4.2;
+pragma solidity ^0.4.10;
 
-contract SimpleDAO {
-  mapping (address => uint) public credit;
-
-  function donate(address to) payable {
-    credit[to] += msg.value;
-  }
-
-  function withdraw(uint amount) {
-    if (credit[msg.sender]>= amount) {
-      // <yes> <report> REENTRANCY
-      bool res = msg.sender.call.value(amount)();
-      credit[msg.sender]-=amount;
+contract Caller {
+    function callAddress(address a) {
+        // <yes> <report> UNCHECKED_LL_CALLS
+        a.call();
     }
-  }
-
-  function queryCredit(address to) returns (uint){
-    return credit[to];
-  }
 }

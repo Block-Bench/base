@@ -1,22 +1,22 @@
 /*
- * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-105#wallet-02-refund-nosubsol
+ * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-105#wallet-03-wrong-constructorsol
  * @author: -
- * @vulnerable_at_lines: 36
+ * @vulnerable_at_lines: 19,20
  */
 
  pragma solidity ^0.4.24;
 
  /* User can add pay in and withdraw Ether.
-    Unfortunately the developer forgot set the user's balance to 0 when refund() is called.
-    An attacker can pay in a small amount of Ether and call refund() repeatedly to empty the contract.
+    The constructor is wrongly named, so anyone can become 'creator' and withdraw all funds.
  */
 
  contract Wallet {
      address creator;
 
      mapping(address => uint256) balances;
-
-     constructor() public {
+     
+     // <yes> <report> ACCESS_CONTROL
+     function initWallet() public {
          creator = msg.sender;
      }
 
@@ -29,11 +29,6 @@
          require(amount <= balances[msg.sender]);
          msg.sender.transfer(amount);
          balances[msg.sender] -= amount;
-     }
-
-     function refund() public {
-         // <yes> <report> ACCESS_CONTROL
-         msg.sender.transfer(balances[msg.sender]);
      }
 
      // In an emergency the owner can migrate  allfunds to a different address.

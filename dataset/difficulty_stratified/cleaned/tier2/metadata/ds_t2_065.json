@@ -6,13 +6,7 @@
   "chain": "evm",
   "file_name": "dos_number.sol",
   "vulnerable_function": "insertNnumbers",
-  "vulnerable_lines": [
-    18,
-    19,
-    20,
-    21,
-    22
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "dos",
   "original_category": "denial_of_service",
   "severity": "medium",

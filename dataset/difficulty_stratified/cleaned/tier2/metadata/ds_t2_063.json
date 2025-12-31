@@ -5,10 +5,8 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "auction.sol",
-  "vulnerable_function": "is",
-  "vulnerable_lines": [
-    23
-  ],
+  "vulnerable_function": "bid",
+  "vulnerable_lines": [],
   "vulnerability_type": "dos",
   "original_category": "denial_of_service",
   "severity": "medium",

@@ -1,22 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.19;
+pragma solidity ^0.5.0;
 
-contract CommunityVault {
-    mapping (address => uint) credit;
-    uint balance;
+contract SimpleVault {
 
-    function withdrawAll() public {
-        uint oCredit = credit[msg.sender];
-        if (oCredit > 0) {
-            balance -= oCredit;
-            bool callResult = msg.sender.call.value(oCredit)();
-            require (callResult);
-            credit[msg.sender] = 0;
-        }
-    }
+    mapping (address => uint) private userBalances;
 
-    function deposit() public payable {
-        credit[msg.sender] += msg.value;
-        balance += msg.value;
+    function withdrawBalance() public {
+        uint amountToWithdraw = userBalances[msg.sender];
+        (bool success, ) = msg.sender.call.value(amountToWithdraw)("");
+        require(success);
+        userBalances[msg.sender] = 0;
     }
 }

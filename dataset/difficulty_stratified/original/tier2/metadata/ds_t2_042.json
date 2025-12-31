@@ -6,10 +6,7 @@
   "chain": "evm",
   "file_name": "rubixi.sol",
   "vulnerable_function": "DynamicPyramid",
-  "vulnerable_lines": [
-    23,
-    24
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

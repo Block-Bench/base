@@ -1,29 +1,16 @@
 /*
- * @source: https://github.com/sigp/solidity-security-blog
- * @author: Suhabe Bugrara
- * @vulnerable_at_lines: 20,27
+ * @source: https://github.com/seresistvanandras/EthBench/blob/master/Benchmark/Simple/mishandled.sol 
+ * @author: -
+ * @vulnerable_at_lines: 14
  */
 
- pragma solidity ^0.4.18;
- 
- contract Lotto {
-
-     bool public payedOut = false;
-     address public winner;
-     uint public winAmount;
-
-     // ... extra functionality here
-
-     function sendToWinner() public {
-         require(!payedOut);
-         // <yes> <report> UNCHECKED_LL_CALLS
-         winner.send(winAmount);
-         payedOut = true;
-     }
-
-     function withdrawLeftOver() public {
-         require(payedOut);
-         // <yes> <report> UNCHECKED_LL_CALLS
-         msg.sender.send(this.balance);
-     }
- }
+pragma solidity ^0.4.0;
+contract SendBack {
+    mapping (address => uint) userBalances;
+    function withdrawBalance() {  
+		uint amountToWithdraw = userBalances[msg.sender];
+		userBalances[msg.sender] = 0;
+        // <yes> <report> UNCHECKED_LL_CALLS
+		msg.sender.send(amountToWithdraw);
+	}
+}

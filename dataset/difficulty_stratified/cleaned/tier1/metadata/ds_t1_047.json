@@ -1,30 +1,30 @@
 {
   "id": "ds_t1_047",
-  "original_id": "smartbugs_unchecked_low_level_calls_0x0cbe050f75bc8f8c2d6c0d249fea125fd6e1acc9",
+  "original_id": "smartbugs_unchecked_low_level_calls_0x2972d548497286d18e92b5fa1f8f9139e5653fd2",
   "source_dataset": "smartbugs-curated",
   "language": "solidity",
   "chain": "evm",
-  "file_name": "0x0cbe050f75bc8f8c2d6c0d249fea125fd6e1acc9.sol",
-  "vulnerable_function": "callAddress",
+  "file_name": "0x2972d548497286d18e92b5fa1f8f9139e5653fd2.sol",
+  "vulnerable_function": "transfer",
   "vulnerable_lines": [
-    12
+    14
   ],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",
   "difficulty_tier": 1,
-  "description": "Unchecked return value - low-level call result not validated at line(s) 12",
+  "description": "Unchecked return value - low-level call result not validated at line(s) 14",
   "fix_description": "Check return value and handle failures appropriately",
   "is_vulnerable": true,
   "context_level": "single_file",
-  "original_source_path": "dataset/unchecked_low_level_calls/0x0cbe050f75bc8f8c2d6c0d249fea125fd6e1acc9.sol",
+  "original_source_path": "dataset/unchecked_low_level_calls/0x2972d548497286d18e92b5fa1f8f9139e5653fd2.sol",
   "source_url": "etherscan.io",
   "references": [],
   "framework": null,
   "contract_file": "contracts/ds_t1_047.sol",
   "subset": "cleaned",
   "original_subset": "difficulty_stratified",
-  "original_ds_id": "ds_047",
-  "sanitized_from": "ds_047",
-  "sanitized_id": "sn_ds_047"
+  "original_ds_id": "ds_048",
+  "sanitized_from": "ds_048",
+  "sanitized_id": "sn_ds_048"
 }

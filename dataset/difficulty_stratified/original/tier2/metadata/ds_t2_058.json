@@ -5,10 +5,8 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "etheraffle.sol",
-  "vulnerable_function": "unknown",
-  "vulnerable_lines": [
-    49
-  ],
+  "vulnerable_function": "chooseWinner",
+  "vulnerable_lines": [],
   "vulnerability_type": "weak_randomness",
   "original_category": "bad_randomness",
   "severity": "medium",

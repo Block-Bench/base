@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "multiowned_vulnerable.sol",
   "vulnerable_function": "newOwner",
-  "vulnerable_lines": [
-    38
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

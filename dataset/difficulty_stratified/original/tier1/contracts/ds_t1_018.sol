@@ -1,55 +1,77 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 38
+ * @vulnerable_at_lines: 55
  */
 
 pragma solidity ^0.4.19;
 
-contract PrivateBank
+contract ACCURAL_DEPOSIT
 {
-    mapping (address => uint) public balances;
+    mapping (address=>uint256) public balances;   
+   
+    uint public MinSum = 1 ether;
     
-    uint public MinDeposit = 1 ether;
+    LogFile Log = LogFile(0x0486cF65A2F2F3A392CBEa398AFB7F5f0B72FF46);
     
-    Log TransferLog;
+    bool intitalized;
     
-    function PrivateBank(address _log)
+    function SetMinSum(uint _val)
+    public
     {
-        TransferLog = Log(_log);
+        if(intitalized)revert();
+        MinSum = _val;
+    }
+    
+    function SetLogFile(address _log)
+    public
+    {
+        if(intitalized)revert();
+        Log = LogFile(_log);
+    }
+    
+    function Initialized()
+    public
+    {
+        intitalized = true;
     }
     
     function Deposit()
     public
     payable
     {
-        if(msg.value >= MinDeposit)
-        {
-            balances[msg.sender]+=msg.value;
-            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
-        }
+        balances[msg.sender]+= msg.value;
+        Log.AddMessage(msg.sender,msg.value,"Put");
     }
     
-    function CashOut(uint _am)
+    function Collect(uint _am)
+    public
+    payable
     {
-        if(_am<=balances[msg.sender])
-        {            
+        if(balances[msg.sender]>=MinSum && balances[msg.sender]>=_am)
+        {
             // <yes> <report> REENTRANCY
             if(msg.sender.call.value(_am)())
             {
                 balances[msg.sender]-=_am;
-                TransferLog.AddMessage(msg.sender,_am,"CashOut");
+                Log.AddMessage(msg.sender,_am,"Collect");
             }
         }
     }
     
-    function() public payable{}    
+    function() 
+    public 
+    payable
+    {
+        Deposit();
+    }
     
 }
 
-contract Log 
+
+
+contract LogFile
 {
-   
     struct Message
     {
         address Sender;

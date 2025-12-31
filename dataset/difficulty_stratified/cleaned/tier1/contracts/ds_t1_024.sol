@@ -1,61 +1,59 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.25;
 
-contract PrivateDeposit
+contract W_WALLET
 {
-    mapping (address => uint) public balances;
-
-    uint public MinDeposit = 1 ether;
-    address public owner;
-
-    Log TransferLog;
-
-    modifier onlyOwner() {
-        require(tx.origin == owner);
-        _;
-    }
-
-    function PrivateDeposit()
-    {
-        owner = msg.sender;
-        TransferLog = new Log();
-    }
-
-    function setLog(address _lib) onlyOwner
-    {
-        TransferLog = Log(_lib);
-    }
-
-    function Deposit()
+    function Put(uint _unlockTime)
     public
     payable
     {
-        if(msg.value >= MinDeposit)
-        {
-            balances[msg.sender]+=msg.value;
-            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
-        }
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
+        acc.unlockTime = _unlockTime>now?_unlockTime:now;
+        LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
 
-    function CashOut(uint _am)
+    function Collect(uint _am)
+    public
+    payable
     {
-        if(_am<=balances[msg.sender])
+        var acc = Acc[msg.sender];
+        if( acc.balance>=MinSum && acc.balance>=_am && now>acc.unlockTime)
         {
             if(msg.sender.call.value(_am)())
             {
-                balances[msg.sender]-=_am;
-                TransferLog.AddMessage(msg.sender,_am,"CashOut");
+                acc.balance-=_am;
+                LogFile.AddMessage(msg.sender,_am,"Collect");
             }
         }
     }
 
-    function() public payable{}
+    function()
+    public
+    payable
+    {
+        Put(0);
+    }
 
+    struct Holder
+    {
+        uint unlockTime;
+        uint balance;
+    }
+
+    mapping (address => Holder) public Acc;
+
+    Log LogFile;
+
+    uint public MinSum = 1 ether;
+
+    function W_WALLET(address log) public{
+        LogFile = Log(log);
+    }
 }
 
 contract Log
 {
-
     struct Message
     {
         address Sender;

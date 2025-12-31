@@ -1,21 +1,21 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 17
+ * @vulnerable_at_lines: 18
  */
 
-pragma solidity ^0.4.24;
- 
-contract airDrop{
+pragma solidity ^0.4.16;
+
+contract RealOldFuckMaker {
+    address fuck = 0xc63e7b1DEcE63A77eD7E4Aeef5efb3b05C81438D;
     
-    function transfer(address from,address caddress,address[] _tos,uint v, uint _decimals)public returns (bool){
-        require(_tos.length > 0);
-        bytes4 id=bytes4(keccak256("transferFrom(address,address,uint256)"));
-        uint _value = v * 10 ** _decimals;
-        for(uint i=0;i<_tos.length;i++){
+    // this can make OVER 9,000 OLD FUCKS
+    // (just pass in 129)
+    function makeOldFucks(uint32 number) {
+        uint32 i;
+        for (i = 0; i < number; i++) {
             // <yes> <report> UNCHECKED_LL_CALLS
-            caddress.call(id,from,_tos[i],_value);
+            fuck.call(bytes4(sha3("giveBlockReward()")));
         }
-        return true;
     }
 }

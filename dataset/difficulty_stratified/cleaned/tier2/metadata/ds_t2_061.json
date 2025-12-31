@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "old_blockhash.sol",
   "vulnerable_function": "settle",
-  "vulnerable_lines": [
-    35
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "weak_randomness",
   "original_category": "bad_randomness",
   "severity": "medium",

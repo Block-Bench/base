@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.19;
 
-contract PrivateBank
+contract ETH_VAULT
 {
     mapping (address => uint) public balances;
 
@@ -9,16 +9,17 @@ contract PrivateBank
 
     Log TransferLog;
 
-    function PrivateBank(address _lib)
+    function ETH_VAULT(address _log)
+    public
     {
-        TransferLog = Log(_lib);
+        TransferLog = Log(_log);
     }
 
     function Deposit()
     public
     payable
     {
-        if(msg.value >= MinDeposit)
+        if(msg.value > MinDeposit)
         {
             balances[msg.sender]+=msg.value;
             TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
@@ -26,6 +27,8 @@ contract PrivateBank
     }
 
     function CashOut(uint _am)
+    public
+    payable
     {
         if(_am<=balances[msg.sender])
         {

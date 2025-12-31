@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "lottery.sol",
   "vulnerable_function": "makeBet",
-  "vulnerable_lines": [
-    38
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "weak_randomness",
   "original_category": "bad_randomness",
   "severity": "medium",

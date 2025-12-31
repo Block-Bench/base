@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.22;
 
-contract MyContract {
+ contract Phishable {
+    address public owner;
 
-    address owner;
-
-    function MyContract() public {
-        owner = msg.sender;
+    constructor (address _owner) {
+        owner = _owner;
     }
 
-    function sendTo(address receiver, uint amount) public {
+    function () public payable {} // collect ether
+
+    function withdrawAll(address _recipient) public {
         require(tx.origin == owner);
-        receiver.transfer(amount);
+        _recipient.transfer(this.balance);
     }
-
 }

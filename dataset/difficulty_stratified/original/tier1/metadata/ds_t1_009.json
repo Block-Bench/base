@@ -1,11 +1,11 @@
 {
   "id": "ds_t1_009",
-  "original_id": "smartbugs_access_control_mapping_write",
+  "original_id": "smartbugs_access_control_mycontract",
   "source_dataset": "smartbugs-curated",
   "language": "solidity",
   "chain": "evm",
-  "file_name": "mapping_write.sol",
-  "vulnerable_function": "set",
+  "file_name": "mycontract.sol",
+  "vulnerable_function": "sendTo",
   "vulnerable_lines": [
     20
   ],
@@ -17,12 +17,12 @@
   "fix_description": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin",
   "is_vulnerable": true,
   "context_level": "single_file",
-  "original_source_path": "dataset/access_control/mapping_write.sol",
-  "source_url": "https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-124#mapping-writesol",
+  "original_source_path": "dataset/access_control/mycontract.sol",
+  "source_url": "https://consensys.github.io/smart-contract-best-practices/recommendations/#avoid-using-txorigin",
   "references": [],
   "framework": null,
   "contract_file": "contracts/ds_t1_009.sol",
   "subset": "annotated",
   "original_subset": "difficulty_stratified",
-  "original_ds_id": "ds_009"
+  "original_ds_id": "ds_010"
 }

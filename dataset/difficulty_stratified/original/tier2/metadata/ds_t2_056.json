@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "token.sol",
   "vulnerable_function": "transfer",
-  "vulnerable_lines": [
-    20
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "integer_issues",
   "original_category": "arithmetic",
   "severity": "high",

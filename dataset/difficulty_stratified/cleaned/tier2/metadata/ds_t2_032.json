@@ -5,7 +5,7 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "KingOfTheEtherThrone.sol",
-  "vulnerable_function": "KingOfTheEtherThrone",
+  "vulnerable_function": "claimThrone",
   "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_external_call",

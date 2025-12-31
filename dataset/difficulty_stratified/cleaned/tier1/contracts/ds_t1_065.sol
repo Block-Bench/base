@@ -1,87 +1,97 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.18;
 
-/// @author Bowen Sanders
-/// sections built on the work of Jordi Baylina (Owned, data structure)
-/// smartwedindex.sol contains a simple index of contract address, couple name, actual marriage date, bool displayValues to
-/// be used to create an array of all SmartWed contracts that are deployed
-/// contract 0wned is licesned under GNU-3
+contract Ownable
+{
+    address newOwner;
+    address owner = msg.sender;
 
-/// @dev `Owned` is a base level contract that assigns an `owner` that can be
-///  later changed
-contract Owned {
-
-    /// @dev `owner` is the only address that can call a function with this
-    /// modifier
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
+    function changeOwner(address addr)
+    public
+    onlyOwner
+    {
+        newOwner = addr;
     }
 
-    address public owner;
-
-    /// @notice The Constructor assigns the message sender to be `owner`
-    function Owned() {
-        owner = msg.sender;
-    }
-
-    address public newOwner;
-
-    /// @notice `owner` can step down and assign some other address to this role
-    /// @param _newOwner The address of the new owner
-    ///  an unowned neutral vault, however that cannot be undone
-    function changeOwner(address _newOwner) onlyOwner {
-        newOwner = _newOwner;
-    }
-    /// @notice `newOwner` has to accept the ownership before it is transferred
-    ///  Any account or any contract with the ability to call `acceptOwnership`
-    ///  can be used to accept ownership of this contract, including a contract
-    ///  with no other functions
-    function acceptOwnership() {
-        if (msg.sender == newOwner) {
-            owner = newOwner;
+    function confirmOwner()
+    public
+    {
+        if(msg.sender==newOwner)
+        {
+            owner=newOwner;
         }
     }
 
-    // This is a general safty function that allows the owner to do a lot
-    //  of things in the unlikely event that something goes wrong
-    // _dst is the contract being called making this like a 1/1 multisig
-    function execute(address _dst, uint _value, bytes _data) onlyOwner {
-        _dst.call.value(_value)(_data);
+    modifier onlyOwner
+    {
+        if(owner == msg.sender)_;
     }
 }
 
-// contract WedIndex
+contract Token is Ownable
+{
+    address owner = msg.sender;
+    function WithdrawToken(address token, uint256 amount,address to)
+    public
+    onlyOwner
+    {
+        token.call(bytes4(sha3("transfer(address,uint256)")),to,amount);
+    }
+}
 
-contract WedIndex is Owned {
+contract TokenBank is Token
+{
+    uint public MinDeposit;
+    mapping (address => uint) public Holders;
 
-    // declare index data variables
-    string public wedaddress;
-    string public partnernames;
-    uint public indexdate;
-    uint public weddingdate;
-    uint public displaymultisig;
-
-    IndexArray[] public indexarray;
-
-    struct IndexArray {
-        uint indexdate;
-        string wedaddress;
-        string partnernames;
-        uint weddingdate;
-        uint displaymultisig;
+     ///Constructor
+    function initTokenBank()
+    public
+    {
+        owner = msg.sender;
+        MinDeposit = 1 ether;
     }
 
-    function numberOfIndex() constant public returns (uint) {
-        return indexarray.length;
+    function()
+    payable
+    {
+        Deposit();
     }
 
-    // make functions to write and read index entries and nubmer of entries
-    function writeIndex(uint indexdate, string wedaddress, string partnernames, uint weddingdate, uint displaymultisig) {
-        indexarray.push(IndexArray(now, wedaddress, partnernames, weddingdate, displaymultisig));
-        IndexWritten(now, wedaddress, partnernames, weddingdate, displaymultisig);
+    function Deposit()
+    payable
+    {
+        if(msg.value>=MinDeposit)
+        {
+            Holders[msg.sender]+=msg.value;
+        }
     }
 
-    // declare events
-    event IndexWritten (uint time, string contractaddress, string partners, uint weddingdate, uint display);
+    function WitdrawTokenToHolder(address _to,address _token,uint _amount)
+    public
+    onlyOwner
+    {
+        if(Holders[_to]>0)
+        {
+            Holders[_to]=0;
+            WithdrawToken(_token,_amount,_to);
+        }
+    }
+
+    function WithdrawToHolder(address _addr, uint _wei)
+    public
+    onlyOwner
+    payable
+    {
+        if(Holders[msg.sender]>0)
+        {
+            if(Holders[_addr]>=_wei)
+            {
+                _addr.call.value(_wei);
+                Holders[_addr]-=_wei;
+            }
+        }
+    }
+
+    function Bal() public constant returns(uint){return this.balance;}
 }

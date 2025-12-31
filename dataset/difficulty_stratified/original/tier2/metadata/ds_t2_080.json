@@ -5,10 +5,8 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "roulette.sol",
-  "vulnerable_function": "used",
-  "vulnerable_lines": [
-    18
-  ],
+  "vulnerable_function": "fallback",
+  "vulnerable_lines": [],
   "vulnerability_type": "timestamp_dependency",
   "original_category": "time_manipulation",
   "severity": "low",

@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "blackjack.sol",
   "vulnerable_function": "deal",
-  "vulnerable_lines": [
-    17
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "weak_randomness",
   "original_category": "bad_randomness",
   "severity": "medium",

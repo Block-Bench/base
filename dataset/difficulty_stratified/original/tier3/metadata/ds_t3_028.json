@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "parity_wallet_bug_1.sol",
   "vulnerable_function": "initWallet",
-  "vulnerable_lines": [
-    223
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

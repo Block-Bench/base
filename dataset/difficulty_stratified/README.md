@@ -64,7 +64,7 @@ In addition to automated sanitization, the following contracts received **manual
 | `ds_t1_004` | Contained fixed version and assert hints | Removed `safe_add` function and auditor assert comments |
 | `ds_t1_005` | Contained fixed version and "should be protected" comment | Removed `changeOwnerV2` function and revealing comment |
 | `ds_t1_006` | Missing interface required to demonstrate vulnerability | Added mismatched interface and caller contract |
-| `ds_t1_007` | Metadata incorrectly referenced `withdraw` instead of `fallback` | Updated metadata to reference correct vulnerable function |
+| `ds_t1_007` | Metadata incorrectly referenced `withdraw` instead of `fallback` | Updated `vulnerable_function` to `fallback` |
 | `ds_t1_039` | Contained attack contract (`executor`) demonstrating exploit | Removed attack contract |
 | `ds_t1_041` | Comment explicitly explained reentrancy vulnerability | Removed revealing comment |
 | `ds_t1_045` | Comment hinted at fallback-based attack vector | Removed revealing comments |

@@ -1,29 +1,26 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.18;
 
-contract ModifierBank {
-  mapping (address => uint) public tokenBalance;
-  string constant name = "Nu Token";
+contract TokenVault {
 
-  //If a contract has a zero balance and supports the token give them some token
-  function airDrop() hasNoBalance supportsToken  public{
-    tokenBalance[msg.sender] += 20;
+  mapping(address => uint) public balances;
+
+  function donate(address _to) public payable {
+    balances[_to] += msg.value;
   }
 
-  //Checks that the contract responds the way we want
-  modifier supportsToken() {
-    require(keccak256(abi.encodePacked("Nu Token")) == Bank(msg.sender).supportsToken());
-    _;
+  function balanceOf(address _who) public view returns (uint balance) {
+    return balances[_who];
   }
-  //Checks that the caller has a zero balance
-  modifier hasNoBalance {
-      require(tokenBalance[msg.sender] == 0);
-      _;
-  }
-}
 
-contract Bank{
-    function supportsToken() external pure returns(bytes32){
-        return(keccak256(abi.encodePacked("Nu Token")));
+  function withdraw(uint _amount) public {
+    if(balances[msg.sender] >= _amount) {
+      if(msg.sender.call.value(_amount)()) {
+        _amount;
+      }
+      balances[msg.sender] -= _amount;
     }
+  }
+
+  function() public payable {}
 }

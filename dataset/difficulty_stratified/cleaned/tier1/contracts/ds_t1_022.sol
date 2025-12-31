@@ -1,94 +1,78 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.25;
 
-contract Ownable
+contract U_BANK
 {
-    address newOwner;
-    address owner = msg.sender;
-
-    function changeOwner(address addr)
+    function Put(uint _unlockTime)
     public
-    onlyOwner
+    payable
     {
-        newOwner = addr;
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
+        acc.unlockTime = _unlockTime>now?_unlockTime:now;
+        LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
 
-    function confirmOwner()
+    function Collect(uint _am)
     public
+    payable
     {
-        if(msg.sender==newOwner)
+        var acc = Acc[msg.sender];
+        if( acc.balance>=MinSum && acc.balance>=_am && now>acc.unlockTime)
         {
-            owner=newOwner;
+            if(msg.sender.call.value(_am)())
+            {
+                acc.balance-=_am;
+                LogFile.AddMessage(msg.sender,_am,"Collect");
+            }
         }
-    }
-
-    modifier onlyOwner
-    {
-        if(owner == msg.sender)_;
-    }
-}
-
-contract Token is Ownable
-{
-    address owner = msg.sender;
-    function WithdrawToken(address token, uint256 amount,address to)
-    public
-    onlyOwner
-    {
-        token.call(bytes4(sha3("transfer(address,uint256)")),to,amount);
-    }
-}
-
-contract TokenBank is Token
-{
-    uint public MinDeposit;
-    mapping (address => uint) public Holders;
-
-     ///Constructor
-    function initTokenBank()
-    public
-    {
-        owner = msg.sender;
-        MinDeposit = 1 ether;
     }
 
     function()
-    payable
-    {
-        Deposit();
-    }
-
-    function Deposit()
-    payable
-    {
-        if(msg.value>MinDeposit)
-        {
-            Holders[msg.sender]+=msg.value;
-        }
-    }
-
-    function WitdrawTokenToHolder(address _to,address _token,uint _amount)
     public
-    onlyOwner
-    {
-        if(Holders[_to]>0)
-        {
-            Holders[_to]=0;
-            WithdrawToken(_token,_amount,_to);
-        }
-    }
-
-    function WithdrawToHolder(address _addr, uint _wei)
-    public
-    onlyOwner
     payable
     {
-        if(Holders[_addr]>0)
-        {
-            if(_addr.call.value(_wei)())
-            {
-                Holders[_addr]-=_wei;
-            }
-        }
+        Put(0);
+    }
+
+    struct Holder
+    {
+        uint unlockTime;
+        uint balance;
+    }
+
+    mapping (address => Holder) public Acc;
+
+    Log LogFile;
+
+    uint public MinSum = 2 ether;
+
+    function U_BANK(address log) public{
+        LogFile = Log(log);
+    }
+}
+
+contract Log
+{
+    struct Message
+    {
+        address Sender;
+        string  Data;
+        uint Val;
+        uint  Time;
+    }
+
+    Message[] public History;
+
+    Message LastMsg;
+
+    function AddMessage(address _adr,uint _val,string _data)
+    public
+    {
+        LastMsg.Sender = _adr;
+        LastMsg.Time = now;
+        LastMsg.Val = _val;
+        LastMsg.Data = _data;
+        History.push(LastMsg);
     }
 }

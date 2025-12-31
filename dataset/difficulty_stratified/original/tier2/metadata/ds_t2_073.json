@@ -6,11 +6,7 @@
   "chain": "evm",
   "file_name": "crypto_roulette.sol",
   "vulnerable_function": "play",
-  "vulnerable_lines": [
-    40,
-    41,
-    42
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "logic_error",
   "original_category": "other",
   "severity": "medium",

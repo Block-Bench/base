@@ -1,62 +1,40 @@
 /*
- * @source: https://github.com/sigp/solidity-security-blog
+ * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-124#arbitrary-location-write-simplesol
  * @author: Suhabe Bugrara
- * @vulnerable_at_lines: 31,38
+ * @vulnerable_at_lines: 27
  */
 
-//added pragma version
-pragma solidity ^0.4.22;
+ pragma solidity ^0.4.25;
 
-contract FibonacciBalance {
+ contract Wallet {
+     uint[] private bonusCodes;
+     address private owner;
 
-    address public fibonacciLibrary;
-    // the current fibonacci number to withdraw
-    uint public calculatedFibNumber;
-    // the starting fibonacci sequence number
-    uint public start = 3;
-    uint public withdrawalCounter;
-    // the fibonancci function selector
-    bytes4 constant fibSig = bytes4(sha3("setFibonacci(uint256)"));
+     constructor() public {
+         bonusCodes = new uint[](0);
+         owner = msg.sender;
+     }
 
-    // constructor - loads the contract with ether
-    constructor(address _fibonacciLibrary) public payable {
-        fibonacciLibrary = _fibonacciLibrary;
-    }
+     function () public payable {
+     }
 
-    function withdraw() {
-        withdrawalCounter += 1;
-        // calculate the fibonacci number for the current withdrawal user
-        // this sets calculatedFibNumber
-        // <yes> <report> ACCESS_CONTROL
-        require(fibonacciLibrary.delegatecall(fibSig, withdrawalCounter));
-        msg.sender.transfer(calculatedFibNumber * 1 ether);
-    }
+     function PushBonusCode(uint c) public {
+         bonusCodes.push(c);
+     }
 
-    // allow users to call fibonacci library functions
-    function() public {
-        // <yes> <report> ACCESS_CONTROL
-        require(fibonacciLibrary.delegatecall(msg.data));
-    }
-}
+     function PopBonusCode() public {
+         // <yes> <report> ACCESS_CONTROL
+         require(0 <= bonusCodes.length); // this condition is always true since array lengths are unsigned
+         bonusCodes.length--; // an underflow can be caused here
+     }
 
-// library contract - calculates fibonacci-like numbers;
-contract FibonacciLib {
-    // initializing the standard fibonacci sequence;
-    uint public start;
-    uint public calculatedFibNumber;
+     function UpdateBonusCodeAt(uint idx, uint c) public {
+         require(idx < bonusCodes.length);
+         bonusCodes[idx] = c; // write to any index less than bonusCodes.length
+     }
 
-    // modify the zeroth number in the sequence
-    function setStart(uint _start) public {
-        start = _start;
-    }
-
-    function setFibonacci(uint n) public {
-        calculatedFibNumber = fibonacci(n);
-    }
-
-    function fibonacci(uint n) internal returns (uint) {
-        if (n == 0) return start;
-        else if (n == 1) return start + 1;
-        else return fibonacci(n - 1) + fibonacci(n - 2);
-    }
-}
+     function Destroy() public {
+         require(msg.sender == owner);
+         selfdestruct(msg.sender);
+     }
+ }

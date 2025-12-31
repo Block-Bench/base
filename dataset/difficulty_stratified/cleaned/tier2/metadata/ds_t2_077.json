@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "ether_lotto.sol",
   "vulnerable_function": "play",
-  "vulnerable_lines": [
-    43
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "timestamp_dependency",
   "original_category": "time_manipulation",
   "severity": "low",

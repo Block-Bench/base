@@ -1,30 +1,24 @@
 /*
- * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-124#mapping-writesol
- * @author: Suhabe Bugrara
+ * @source: https://consensys.github.io/smart-contract-best-practices/recommendations/#avoid-using-txorigin
+ * @author: Consensys Diligence
  * @vulnerable_at_lines: 20
+ * Modified by Gerhard Wagner
  */
 
- pragma solidity ^0.4.24;
+pragma solidity ^0.4.24;
 
- //This code is derived from the Capture the Ether https://capturetheether.com/challenges/math/mapping/
+contract MyContract {
 
- contract Map {
-     address public owner;
-     uint256[] map;
+    address owner;
 
-     function set(uint256 key, uint256 value) public {
-         if (map.length <= key) {
-             map.length = key + 1;
-         }
+    function MyContract() public {
+        owner = msg.sender;
+    }
+
+    function sendTo(address receiver, uint amount) public {
         // <yes> <report> ACCESS_CONTROL
-         map[key] = value;
-     }
+        require(tx.origin == owner);
+        receiver.transfer(amount);
+    }
 
-     function get(uint256 key) public view returns (uint256) {
-         return map[key];
-     }
-     function withdraw() public{
-       require(msg.sender == owner);
-       msg.sender.transfer(address(this).balance);
-     }
- }
+}

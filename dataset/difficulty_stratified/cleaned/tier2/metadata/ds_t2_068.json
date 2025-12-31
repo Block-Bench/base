@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "send_loop.sol",
   "vulnerable_function": "refundAll",
-  "vulnerable_lines": [
-    24
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "dos",
   "original_category": "denial_of_service",
   "severity": "medium",

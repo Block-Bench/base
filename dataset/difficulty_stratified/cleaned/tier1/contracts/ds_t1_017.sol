@@ -1,69 +1,49 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.19;
 
-contract PERSONAL_BANK
+contract PrivateBank
 {
-    mapping (address=>uint256) public balances;
+    mapping (address => uint) public balances;
 
-    uint public MinSum = 1 ether;
+    uint public MinDeposit = 1 ether;
 
-    LogFile Log = LogFile(0x0486cF65A2F2F3A392CBEa398AFB7F5f0B72FF46);
+    Log TransferLog;
 
-    bool intitalized;
-
-    function SetMinSum(uint _val)
-    public
+    function PrivateBank(address _log)
     {
-        if(intitalized)revert();
-        MinSum = _val;
-    }
-
-    function SetLogFile(address _log)
-    public
-    {
-        if(intitalized)revert();
-        Log = LogFile(_log);
-    }
-
-    function Initialized()
-    public
-    {
-        intitalized = true;
+        TransferLog = Log(_log);
     }
 
     function Deposit()
     public
     payable
     {
-        balances[msg.sender]+= msg.value;
-        Log.AddMessage(msg.sender,msg.value,"Put");
+        if(msg.value >= MinDeposit)
+        {
+            balances[msg.sender]+=msg.value;
+            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
+        }
     }
 
-    function Collect(uint _am)
-    public
-    payable
+    function CashOut(uint _am)
     {
-        if(balances[msg.sender]>=MinSum && balances[msg.sender]>=_am)
+        if(_am<=balances[msg.sender])
         {
             if(msg.sender.call.value(_am)())
             {
                 balances[msg.sender]-=_am;
-                Log.AddMessage(msg.sender,_am,"Collect");
+                TransferLog.AddMessage(msg.sender,_am,"CashOut");
             }
         }
     }
 
-    function()
-    public
-    payable
-    {
-        Deposit();
-    }
+    function() public payable{}
 
 }
 
-contract LogFile
+contract Log
 {
+
     struct Message
     {
         address Sender;

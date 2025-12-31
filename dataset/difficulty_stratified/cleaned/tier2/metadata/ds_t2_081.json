@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "timed_crowdsale.sol",
   "vulnerable_function": "isSaleFinished",
-  "vulnerable_lines": [
-    13
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "timestamp_dependency",
   "original_category": "time_manipulation",
   "severity": "low",

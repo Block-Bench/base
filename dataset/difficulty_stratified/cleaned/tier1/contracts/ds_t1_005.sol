@@ -1,24 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.15;
 
-contract OpenAccess{
-    address private owner;
+interface IAlice {
+    function set(uint new_val) external;
+}
 
-    modifier onlyowner {
-        require(msg.sender==owner);
-        _;
+contract Alice {
+    int public val;
+
+    function set(int new_val){
+        val = new_val;
     }
 
-    function OpenAccess()
-        public
-    {
-        owner = msg.sender;
+    function(){
+        val = 1;
     }
+}
 
-    function changeOwner(address _newOwner)
-        public
-    {
-       owner = _newOwner;
+contract AliceCaller {
+    function callAlice(address alice, uint value) public {
+        IAlice(alice).set(value);
     }
-
 }

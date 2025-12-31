@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "incorrect_constructor_name2.sol",
   "vulnerable_function": "missing",
-  "vulnerable_lines": [
-    18
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",
