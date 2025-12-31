@@ -18,7 +18,7 @@
 /*LN-18*/     function withdraw(address token) external;
 /*LN-19*/ }
 /*LN-20*/ 
-/*LN-21*/ contract BasicController {
+/*LN-21*/ contract YieldController {
 /*LN-22*/     address public governance;
 /*LN-23*/     mapping(address => address) public strategies;
 /*LN-24*/ 
@@ -63,15 +63,13 @@
 /*LN-63*/ 
 /*LN-64*/     function withdrawAll() external {
 /*LN-65*/ 
-/*LN-66*/ 
-/*LN-67*/         uint256 balance = IERC20(want).balanceOf(address(this));
-/*LN-68*/         IERC20(want).transfer(controller, balance);
-/*LN-69*/     }
+/*LN-66*/         uint256 balance = IERC20(want).balanceOf(address(this));
+/*LN-67*/         IERC20(want).transfer(controller, balance);
+/*LN-68*/     }
+/*LN-69*/ 
 /*LN-70*/ 
-/*LN-71*/ 
-/*LN-72*/     function withdraw(address token) external {
-/*LN-73*/ 
-/*LN-74*/         uint256 balance = IERC20(token).balanceOf(address(this));
-/*LN-75*/         IERC20(token).transfer(controller, balance);
-/*LN-76*/     }
-/*LN-77*/ }
+/*LN-71*/     function withdraw(address token) external {
+/*LN-72*/         uint256 balance = IERC20(token).balanceOf(address(this));
+/*LN-73*/         IERC20(token).transfer(controller, balance);
+/*LN-74*/     }
+/*LN-75*/ }

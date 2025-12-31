@@ -33,18 +33,16 @@
 /*LN-33*/         for (uint256 i = 0; i < actions.length; i++) {
 /*LN-34*/             if (actions[i] == OPERATION_CALL) {
 /*LN-35*/ 
-/*LN-36*/ 
-/*LN-37*/                 (address target, bytes memory callData, , , ) = abi.decode(
-/*LN-38*/                     datas[i],
-/*LN-39*/                     (address, bytes, uint256, uint256, uint256)
-/*LN-40*/                 );
-/*LN-41*/ 
-/*LN-42*/ 
-/*LN-43*/                 (bool success, ) = target.call{value: values[i]}(callData);
-/*LN-44*/                 require(success, "Call failed");
-/*LN-45*/             }
-/*LN-46*/         }
-/*LN-47*/ 
-/*LN-48*/         return (0, 0);
-/*LN-49*/     }
-/*LN-50*/ }
+/*LN-36*/                 (address target, bytes memory callData, , , ) = abi.decode(
+/*LN-37*/                     datas[i],
+/*LN-38*/                     (address, bytes, uint256, uint256, uint256)
+/*LN-39*/                 );
+/*LN-40*/ 
+/*LN-41*/                 (bool success, ) = target.call{value: values[i]}(callData);
+/*LN-42*/                 require(success, "Call failed");
+/*LN-43*/             }
+/*LN-44*/         }
+/*LN-45*/ 
+/*LN-46*/         return (0, 0);
+/*LN-47*/     }
+/*LN-48*/ }

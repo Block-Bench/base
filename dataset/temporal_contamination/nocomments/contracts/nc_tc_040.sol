@@ -48,12 +48,12 @@
 /*LN-48*/     function mint() external payable {
 /*LN-49*/         require(msg.value > 0, "No ETH sent");
 /*LN-50*/ 
-/*LN-51*/ 
-/*LN-52*/         uint256 uniBTCAmount = msg.value;
-/*LN-53*/ 
-/*LN-54*/ 
-/*LN-55*/         totalETHDeposited += msg.value;
-/*LN-56*/         totalUniBTCMinted += uniBTCAmount;
+/*LN-51*/         uint256 uniBTCAmount = msg.value;
+/*LN-52*/ 
+/*LN-53*/         totalETHDeposited += msg.value;
+/*LN-54*/         totalUniBTCMinted += uniBTCAmount;
+/*LN-55*/ 
+/*LN-56*/         /
 /*LN-57*/ 
 /*LN-58*/ 
 /*LN-59*/         uniBTC.transfer(msg.sender, uniBTCAmount);
@@ -64,21 +64,19 @@
 /*LN-64*/         require(amount > 0, "No amount specified");
 /*LN-65*/         require(uniBTC.balanceOf(msg.sender) >= amount, "Insufficient balance");
 /*LN-66*/ 
-/*LN-67*/ 
-/*LN-68*/         uniBTC.transferFrom(msg.sender, address(this), amount);
-/*LN-69*/ 
-/*LN-70*/         uint256 ethAmount = amount;
-/*LN-71*/         require(address(this).balance >= ethAmount, "Insufficient ETH");
-/*LN-72*/ 
-/*LN-73*/         payable(msg.sender).transfer(ethAmount);
-/*LN-74*/     }
+/*LN-67*/         uniBTC.transferFrom(msg.sender, address(this), amount);
+/*LN-68*/ 
+/*LN-69*/         uint256 ethAmount = amount;
+/*LN-70*/         require(address(this).balance >= ethAmount, "Insufficient ETH");
+/*LN-71*/ 
+/*LN-72*/         payable(msg.sender).transfer(ethAmount);
+/*LN-73*/     }
+/*LN-74*/ 
 /*LN-75*/ 
-/*LN-76*/ 
-/*LN-77*/     function getExchangeRate() external pure returns (uint256) {
-/*LN-78*/ 
-/*LN-79*/ 
-/*LN-80*/         return 1e18;
-/*LN-81*/     }
-/*LN-82*/ 
-/*LN-83*/     receive() external payable {}
-/*LN-84*/ }
+/*LN-76*/     function getExchangeRate() external pure returns (uint256) {
+/*LN-77*/ 
+/*LN-78*/         return 1e18;
+/*LN-79*/     }
+/*LN-80*/ 
+/*LN-81*/     receive() external payable {}
+/*LN-82*/ }

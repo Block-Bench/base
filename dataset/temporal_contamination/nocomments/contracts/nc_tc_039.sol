@@ -45,28 +45,26 @@
 /*LN-45*/             address recipient
 /*LN-46*/         ) = abi.decode(data, (uint256, address, address, address));
 /*LN-47*/ 
-/*LN-48*/ 
-/*LN-49*/         uint256 amountToPay;
-/*LN-50*/         if (amount0Delta > 0) {
-/*LN-51*/             amountToPay = uint256(amount0Delta);
-/*LN-52*/         } else {
-/*LN-53*/             amountToPay = uint256(amount1Delta);
-/*LN-54*/         }
-/*LN-55*/ 
-/*LN-56*/ 
-/*LN-57*/         if (tokenIn == address(WETH)) {
-/*LN-58*/             WETH.withdraw(amountToPay);
-/*LN-59*/             payable(recipient).transfer(amountToPay);
-/*LN-60*/         } else {
-/*LN-61*/             IERC20(tokenIn).transfer(recipient, amountToPay);
-/*LN-62*/         }
-/*LN-63*/     }
-/*LN-64*/ 
-/*LN-65*/ 
-/*LN-66*/     function executeSettlement(bytes calldata settlementData) external {
-/*LN-67*/         require(msg.sender == settlement, "Only settlement");
+/*LN-48*/         uint256 amountToPay;
+/*LN-49*/         if (amount0Delta > 0) {
+/*LN-50*/             amountToPay = uint256(amount0Delta);
+/*LN-51*/         } else {
+/*LN-52*/             amountToPay = uint256(amount1Delta);
+/*LN-53*/         }
+/*LN-54*/ 
+/*LN-55*/         if (tokenIn == address(WETH)) {
+/*LN-56*/             WETH.withdraw(amountToPay);
+/*LN-57*/             payable(recipient).transfer(amountToPay);
+/*LN-58*/         } else {
+/*LN-59*/             IERC20(tokenIn).transfer(recipient, amountToPay);
+/*LN-60*/         }
+/*LN-61*/     }
+/*LN-62*/ 
+/*LN-63*/ 
+/*LN-64*/     function executeSettlement(bytes calldata settlementData) external {
+/*LN-65*/         require(msg.sender == settlement, "Only settlement");
+/*LN-66*/ 
+/*LN-67*/     }
 /*LN-68*/ 
-/*LN-69*/     }
-/*LN-70*/ 
-/*LN-71*/     receive() external payable {}
-/*LN-72*/ }
+/*LN-69*/     receive() external payable {}
+/*LN-70*/ }

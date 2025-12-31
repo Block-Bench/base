@@ -46,7 +46,7 @@
     "contract_renames": {
       "SpartanPool": "LiquidityPool"
     },
-    "created_date": "2025-12-31T16:05:03.486290"
+    "created_date": "2025-12-31T18:47:09.408341"
   },
   "vulnerable_function": "addLiquidity",
   "sanitized_from": "ms_tc_030"

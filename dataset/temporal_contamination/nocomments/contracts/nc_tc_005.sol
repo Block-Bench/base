@@ -1,6 +1,6 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ contract BasicPool {
+/*LN-3*/ contract StablePool {
 /*LN-4*/ 
 /*LN-5*/     mapping(uint256 => uint256) public balances;
 /*LN-6*/ 
@@ -135,6 +135,5 @@
 /*LN-135*/     }
 /*LN-136*/ 
 /*LN-137*/     receive() external payable {
-/*LN-138*/ 
-/*LN-139*/     }
-/*LN-140*/ }
+/*LN-138*/     }
+/*LN-139*/ }

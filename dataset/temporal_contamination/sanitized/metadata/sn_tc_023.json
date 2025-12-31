@@ -52,7 +52,7 @@
     "contract_renames": {
       "AlphaHomoraBank": "LeveragedBank"
     },
-    "created_date": "2025-12-31T16:05:03.444389"
+    "created_date": "2025-12-31T18:47:09.358104"
   },
   "vulnerable_function": "_borrow",
   "sanitized_from": "ms_tc_023"

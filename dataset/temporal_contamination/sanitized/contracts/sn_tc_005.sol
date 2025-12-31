@@ -105,7 +105,7 @@
 /*LN-105*/ 
 /*LN-106*/         // Simulate operations that trigger external call
 /*LN-107*/ 
-/*LN-108*/         (bool success, ) = msg.se// In reality, this involved complex pool rebalancingnder.call{value: 0}("");
+/*LN-108*/         (bool success, ) = msg.sender.call{value: 0}("");
 /*LN-109*/         require(success, "Transfer failed");
 /*LN-110*/     }
 /*LN-111*/ 

@@ -49,23 +49,23 @@
 /*LN-49*/         mkUSD = _mkUSD;
 /*LN-50*/     }
 /*LN-51*/ 
-/*LN-52*/     function openTroveAndMigrate(
-/*LN-53*/         address troveManager,
-/*LN-54*/         address account,
-/*LN-55*/         uint256 maxFeePercentage,
-/*LN-56*/         uint256 collateralAmount,
-/*LN-57*/         uint256 debtAmount,
-/*LN-58*/         address upperHint,
-/*LN-59*/         address lowerHint
-/*LN-60*/     ) external {
-/*LN-61*/ 
+/*LN-52*/ 
+/*LN-53*/     function openTroveAndMigrate(
+/*LN-54*/         address troveManager,
+/*LN-55*/         address account,
+/*LN-56*/         uint256 maxFeePercentage,
+/*LN-57*/         uint256 collateralAmount,
+/*LN-58*/         uint256 debtAmount,
+/*LN-59*/         address upperHint,
+/*LN-60*/         address lowerHint
+/*LN-61*/     ) external {
 /*LN-62*/ 
-/*LN-63*/         IERC20(wstETH).transferFrom(
-/*LN-64*/             msg.sender,
-/*LN-65*/             address(this),
-/*LN-66*/             collateralAmount
-/*LN-67*/         );
-/*LN-68*/ 
+/*LN-63*/ 
+/*LN-64*/         IERC20(wstETH).transferFrom(
+/*LN-65*/             msg.sender,
+/*LN-66*/             address(this),
+/*LN-67*/             collateralAmount
+/*LN-68*/         );
 /*LN-69*/ 
 /*LN-70*/         IERC20(wstETH).approve(address(borrowerOperations), collateralAmount);
 /*LN-71*/ 
@@ -82,48 +82,49 @@
 /*LN-82*/         IERC20(mkUSD).transfer(msg.sender, debtAmount);
 /*LN-83*/     }
 /*LN-84*/ 
-/*LN-85*/     function closeTroveFor(address troveManager, address account) external {
-/*LN-86*/ 
+/*LN-85*/ 
+/*LN-86*/     function closeTroveFor(address troveManager, address account) external {
 /*LN-87*/ 
-/*LN-88*/         borrowerOperations.closeTrove(troveManager, account);
-/*LN-89*/     }
-/*LN-90*/ }
-/*LN-91*/ 
-/*LN-92*/ contract BorrowerOperations {
-/*LN-93*/     mapping(address => mapping(address => bool)) public delegates;
-/*LN-94*/     ITroveManager public troveManager;
-/*LN-95*/ 
+/*LN-88*/ 
+/*LN-89*/         borrowerOperations.closeTrove(troveManager, account);
+/*LN-90*/     }
+/*LN-91*/ }
+/*LN-92*/ 
+/*LN-93*/ contract BorrowerOperations {
+/*LN-94*/     mapping(address => mapping(address => bool)) public delegates;
+/*LN-95*/     ITroveManager public troveManager;
 /*LN-96*/ 
-/*LN-97*/     function setDelegateApproval(address _delegate, bool _isApproved) external {
-/*LN-98*/         delegates[msg.sender][_delegate] = _isApproved;
-/*LN-99*/     }
-/*LN-100*/ 
-/*LN-101*/     function openTrove(
-/*LN-102*/         address _troveManager,
-/*LN-103*/         address account,
-/*LN-104*/         uint256 _maxFeePercentage,
-/*LN-105*/         uint256 _collateralAmount,
-/*LN-106*/         uint256 _debtAmount,
-/*LN-107*/         address _upperHint,
-/*LN-108*/         address _lowerHint
-/*LN-109*/     ) external {
-/*LN-110*/ 
-/*LN-111*/ 
-/*LN-112*/         require(
-/*LN-113*/             msg.sender == account || delegates[account][msg.sender],
-/*LN-114*/             "Not authorized"
-/*LN-115*/         );
-/*LN-116*/ 
+/*LN-97*/ 
+/*LN-98*/     function setDelegateApproval(address _delegate, bool _isApproved) external {
+/*LN-99*/         delegates[msg.sender][_delegate] = _isApproved;
+/*LN-100*/     }
+/*LN-101*/ 
+/*LN-102*/ 
+/*LN-103*/     function openTrove(
+/*LN-104*/         address _troveManager,
+/*LN-105*/         address account,
+/*LN-106*/         uint256 _maxFeePercentage,
+/*LN-107*/         uint256 _collateralAmount,
+/*LN-108*/         uint256 _debtAmount,
+/*LN-109*/         address _upperHint,
+/*LN-110*/         address _lowerHint
+/*LN-111*/     ) external {
+/*LN-112*/ 
+/*LN-113*/         require(
+/*LN-114*/             msg.sender == account || delegates[account][msg.sender],
+/*LN-115*/             "Not authorized"
+/*LN-116*/         );
 /*LN-117*/ 
-/*LN-118*/     }
-/*LN-119*/ 
+/*LN-118*/ 
+/*LN-119*/     }
 /*LN-120*/ 
-/*LN-121*/     function closeTrove(address _troveManager, address account) external {
-/*LN-122*/         require(
-/*LN-123*/             msg.sender == account || delegates[account][msg.sender],
-/*LN-124*/             "Not authorized"
-/*LN-125*/         );
-/*LN-126*/ 
+/*LN-121*/ 
+/*LN-122*/     function closeTrove(address _troveManager, address account) external {
+/*LN-123*/         require(
+/*LN-124*/             msg.sender == account || delegates[account][msg.sender],
+/*LN-125*/             "Not authorized"
+/*LN-126*/         );
 /*LN-127*/ 
-/*LN-128*/     }
-/*LN-129*/ }
+/*LN-128*/ 
+/*LN-129*/     }
+/*LN-130*/ }

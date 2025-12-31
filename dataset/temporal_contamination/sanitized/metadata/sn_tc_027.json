@@ -48,7 +48,7 @@
     "contract_renames": {
       "BurgerSwapRouter": "SwapRouter"
     },
-    "created_date": "2025-12-31T16:05:03.469452"
+    "created_date": "2025-12-31T18:47:09.387231"
   },
   "vulnerable_function": "swapExactTokensForTokens",
   "sanitized_from": "ms_tc_027"

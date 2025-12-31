@@ -52,7 +52,7 @@
       "QBridge": "QuantumBridge",
       "QBridgeHandler": "BridgeHandler"
     },
-    "created_date": "2025-12-31T16:05:03.391431"
+    "created_date": "2025-12-31T18:47:09.302346"
   },
   "vulnerable_function": "deposit",
   "sanitized_from": "ms_tc_019"

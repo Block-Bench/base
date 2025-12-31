@@ -43,7 +43,7 @@
     "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [],
     "contract_renames": {},
-    "created_date": "2025-12-31T16:05:03.476054"
+    "created_date": "2025-12-31T18:47:09.395039"
   },
   "vulnerable_function": "deposit",
   "sanitized_from": "ms_tc_028"

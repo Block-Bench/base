@@ -86,7 +86,7 @@
     "contract_renames": {
       "ExactlyMarket": "LendingMarket"
     },
-    "created_date": "2025-12-31T16:05:03.680076"
+    "created_date": "2025-12-31T18:47:09.631798"
   },
   "vulnerable_contract": "DebtPreviewer",
   "vulnerable_function": "previewDebt",

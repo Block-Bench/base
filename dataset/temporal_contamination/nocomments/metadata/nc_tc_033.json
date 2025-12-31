@@ -18,7 +18,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Socket Gateway, a cross-chain bridge aggregator, was exploited for $3.3M when attackers discovered route 406 accepted arbitrary user-controlled calldata. By injecting transferFrom calls into swapExtraData, attackers drained tokens from any user who had approved the Socket Gateway contract.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    32,
+    59
+  ],
   "vulnerability_details": {
     "root_cause": "User-controlled calldata executed without validation in route contract",
     "attack_vector": "Inject IERC20.transferFrom() calls via swapExtraData parameter to drain approved tokens from victims",
@@ -79,6 +82,9 @@
       "Regenerated fresh line markers"
     ],
     "comments_removed": 6,
-    "created_date": "2025-12-29T23:10:21.407646"
-  }
+    "created_date": "2025-12-31T18:47:26.820421"
+  },
+  "vulnerable_contract": "BridgeGateway",
+  "vulnerable_function": "executeRoute",
+  "sanitized_from": "ms_tc_033"
 }

@@ -82,7 +82,7 @@
       "ShezmuCollateralToken": "CollateralToken",
       "ShezmuVault": "CollateralVault"
     },
-    "created_date": "2025-12-31T16:05:03.606168"
+    "created_date": "2025-12-31T18:47:09.564271"
   },
   "vulnerable_contract": "CollateralToken",
   "vulnerable_function": "mint",

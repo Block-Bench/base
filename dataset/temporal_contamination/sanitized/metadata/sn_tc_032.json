@@ -87,7 +87,7 @@
     "contract_renames": {
       "RadiantLendingPool": "CrossLendingPool"
     },
-    "created_date": "2025-12-31T16:05:03.506379"
+    "created_date": "2025-12-31T18:47:09.443600"
   },
   "vulnerable_contract": "CrossLendingPool",
   "vulnerable_function": "flashLoan",

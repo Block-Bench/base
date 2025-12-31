@@ -14,7 +14,7 @@
 /*LN-14*/     ) external;
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ contract BasicLendingPool {
+/*LN-17*/ contract LendingPool {
 /*LN-18*/     mapping(address => mapping(address => uint256)) public supplied;
 /*LN-19*/     mapping(address => uint256) public totalSupplied;
 /*LN-20*/ 
@@ -32,35 +32,36 @@
 /*LN-32*/         return amount;
 /*LN-33*/     }
 /*LN-34*/ 
-/*LN-35*/     function withdraw(
-/*LN-36*/         address asset,
-/*LN-37*/         uint256 requestedAmount
-/*LN-38*/     ) external returns (uint256) {
-/*LN-39*/         uint256 userBalance = supplied[msg.sender][asset];
-/*LN-40*/         require(userBalance > 0, "No balance");
-/*LN-41*/ 
+/*LN-35*/ 
+/*LN-36*/     function withdraw(
+/*LN-37*/         address asset,
+/*LN-38*/         uint256 requestedAmount
+/*LN-39*/     ) external returns (uint256) {
+/*LN-40*/         uint256 userBalance = supplied[msg.sender][asset];
+/*LN-41*/         require(userBalance > 0, "No balance");
 /*LN-42*/ 
-/*LN-43*/         uint256 withdrawAmount = requestedAmount;
-/*LN-44*/         if (requestedAmount == type(uint256).max) {
-/*LN-45*/             withdrawAmount = userBalance;
-/*LN-46*/         }
-/*LN-47*/         require(withdrawAmount <= userBalance, "Insufficient balance");
-/*LN-48*/ 
+/*LN-43*/ 
+/*LN-44*/         uint256 withdrawAmount = requestedAmount;
+/*LN-45*/         if (requestedAmount == type(uint256).max) {
+/*LN-46*/             withdrawAmount = userBalance;
+/*LN-47*/         }
+/*LN-48*/         require(withdrawAmount <= userBalance, "Insufficient balance");
 /*LN-49*/ 
-/*LN-50*/         IERC777(asset).transfer(msg.sender, withdrawAmount);
-/*LN-51*/ 
+/*LN-50*/ 
+/*LN-51*/         IERC777(asset).transfer(msg.sender, withdrawAmount);
 /*LN-52*/ 
-/*LN-53*/         supplied[msg.sender][asset] -= withdrawAmount;
-/*LN-54*/         totalSupplied[asset] -= withdrawAmount;
-/*LN-55*/ 
-/*LN-56*/         return withdrawAmount;
-/*LN-57*/     }
-/*LN-58*/ 
+/*LN-53*/ 
+/*LN-54*/         supplied[msg.sender][asset] -= withdrawAmount;
+/*LN-55*/         totalSupplied[asset] -= withdrawAmount;
+/*LN-56*/ 
+/*LN-57*/         return withdrawAmount;
+/*LN-58*/     }
 /*LN-59*/ 
-/*LN-60*/     function getSupplied(
-/*LN-61*/         address user,
-/*LN-62*/         address asset
-/*LN-63*/     ) external view returns (uint256) {
-/*LN-64*/         return supplied[user][asset];
-/*LN-65*/     }
-/*LN-66*/ }
+/*LN-60*/ 
+/*LN-61*/     function getSupplied(
+/*LN-62*/         address user,
+/*LN-63*/         address asset
+/*LN-64*/     ) external view returns (uint256) {
+/*LN-65*/         return supplied[user][asset];
+/*LN-66*/     }
+/*LN-67*/ }

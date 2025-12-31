@@ -85,7 +85,7 @@
     "contract_renames": {
       "SocketGateway": "BridgeGateway"
     },
-    "created_date": "2025-12-31T16:05:03.513747"
+    "created_date": "2025-12-31T18:47:09.456543"
   },
   "vulnerable_contract": "BridgeGateway",
   "vulnerable_function": "executeRoute",

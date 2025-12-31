@@ -26,27 +26,27 @@
 /*LN-26*/         validatorList = new address[](TOTAL_VALIDATORS);
 /*LN-27*/     }
 /*LN-28*/ 
-/*LN-29*/     function withdraw(
-/*LN-30*/         address hubContract,
-/*LN-31*/         string memory fromChain,
-/*LN-32*/         bytes memory fromAddr,
-/*LN-33*/         address toAddr,
-/*LN-34*/         address token,
-/*LN-35*/         bytes32[] memory bytes32s,
-/*LN-36*/         uint256[] memory uints,
-/*LN-37*/         bytes memory data,
-/*LN-38*/         uint8[] memory v,
-/*LN-39*/         bytes32[] memory r,
-/*LN-40*/         bytes32[] memory s
-/*LN-41*/     ) external {
-/*LN-42*/         bytes32 txHash = bytes32s[1];
-/*LN-43*/ 
+/*LN-29*/ 
+/*LN-30*/     function withdraw(
+/*LN-31*/         address hubContract,
+/*LN-32*/         string memory fromChain,
+/*LN-33*/         bytes memory fromAddr,
+/*LN-34*/         address toAddr,
+/*LN-35*/         address token,
+/*LN-36*/         bytes32[] memory bytes32s,
+/*LN-37*/         uint256[] memory uints,
+/*LN-38*/         bytes memory data,
+/*LN-39*/         uint8[] memory v,
+/*LN-40*/         bytes32[] memory r,
+/*LN-41*/         bytes32[] memory s
+/*LN-42*/     ) external {
+/*LN-43*/         bytes32 txHash = bytes32s[1];
 /*LN-44*/ 
-/*LN-45*/         require(
-/*LN-46*/             !processedTransactions[txHash],
-/*LN-47*/             "Transaction already processed"
-/*LN-48*/         );
-/*LN-49*/ 
+/*LN-45*/ 
+/*LN-46*/         require(
+/*LN-47*/             !processedTransactions[txHash],
+/*LN-48*/             "Transaction already processed"
+/*LN-49*/         );
 /*LN-50*/ 
 /*LN-51*/         require(v.length >= REQUIRED_SIGNATURES, "Insufficient signatures");
 /*LN-52*/         require(
@@ -54,20 +54,19 @@
 /*LN-54*/             "Signature length mismatch"
 /*LN-55*/         );
 /*LN-56*/ 
-/*LN-57*/ 
-/*LN-58*/         uint256 amount = uints[0];
+/*LN-57*/         uint256 amount = uints[0];
+/*LN-58*/ 
 /*LN-59*/ 
-/*LN-60*/ 
-/*LN-61*/         processedTransactions[txHash] = true;
+/*LN-60*/         processedTransactions[txHash] = true;
+/*LN-61*/ 
 /*LN-62*/ 
-/*LN-63*/ 
-/*LN-64*/         IERC20(token).transfer(toAddr, amount);
-/*LN-65*/ 
-/*LN-66*/         emit WithdrawalProcessed(txHash, token, toAddr, amount);
-/*LN-67*/     }
+/*LN-63*/         IERC20(token).transfer(toAddr, amount);
+/*LN-64*/ 
+/*LN-65*/         emit WithdrawalProcessed(txHash, token, toAddr, amount);
+/*LN-66*/     }
+/*LN-67*/ 
 /*LN-68*/ 
-/*LN-69*/ 
-/*LN-70*/     function addValidator(address validator) external {
-/*LN-71*/         validators[validator] = true;
-/*LN-72*/     }
-/*LN-73*/ }
+/*LN-69*/     function addValidator(address validator) external {
+/*LN-70*/         validators[validator] = true;
+/*LN-71*/     }
+/*LN-72*/ }

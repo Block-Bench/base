@@ -51,7 +51,7 @@
     "contract_renames": {
       "WarpVault": "CollateralVault"
     },
-    "created_date": "2025-12-31T16:05:03.404941"
+    "created_date": "2025-12-31T18:47:09.316682"
   },
   "vulnerable_function": "borrow",
   "sanitized_from": "ms_tc_020"

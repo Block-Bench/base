@@ -83,7 +83,7 @@
     "contract_renames": {
       "HedgeyClaimCampaigns": "TokenClaimCampaigns"
     },
-    "created_date": "2025-12-31T16:05:03.620887"
+    "created_date": "2025-12-31T18:47:09.573220"
   },
   "vulnerable_contract": "TokenClaimCampaigns",
   "vulnerable_function": "createLockedCampaign",

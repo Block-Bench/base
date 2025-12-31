@@ -19,7 +19,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-03",
   "description": "Munchables, a GameFi project on Blast L2, lost $62M when a rogue developer (later revealed as North Korean operative) used admin keys to upgrade contracts and redirect user funds. Uniquely, all funds were recovered after negotiations. The incident highlights insider threats and importance of developer vetting.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    71,
+    76
+  ],
   "vulnerability_details": {
     "root_cause": "Single developer had access to admin private keys without multi-sig or oversight, allowing malicious upgrades",
     "attack_vector": "Rogue developer upgrades LockManager, modifies user withdrawal addresses, drains all locked funds",
@@ -81,10 +84,13 @@
     "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata/sn_tc_050.json",
     "script": "strategies/nocomments/nocomments_tc.py",
     "changes": [
-      "Removed 5 comments (single-line and multi-line)",
+      "Removed 9 comments (single-line and multi-line)",
       "Regenerated fresh line markers"
     ],
-    "comments_removed": 5,
-    "created_date": "2025-12-29T23:10:21.419191"
-  }
+    "comments_removed": 9,
+    "created_date": "2025-12-31T18:47:26.836244"
+  },
+  "vulnerable_contract": "GameLockManager",
+  "vulnerable_function": "setLockRecipient",
+  "sanitized_from": "ms_tc_050"
 }

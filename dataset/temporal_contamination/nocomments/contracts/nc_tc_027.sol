@@ -22,22 +22,20 @@
 /*LN-22*/         for (uint i = 0; i < path.length - 1; i++) {
 /*LN-23*/             address pair = _getPair(path[i], path[i+1]);
 /*LN-24*/ 
-/*LN-25*/ 
-/*LN-26*/             (uint112 reserve0, uint112 reserve1,) = IPair(pair).getReserves();
-/*LN-27*/ 
-/*LN-28*/             amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);
-/*LN-29*/         }
-/*LN-30*/ 
-/*LN-31*/         return amounts;
-/*LN-32*/     }
-/*LN-33*/ 
-/*LN-34*/     function _getPair(address tokenA, address tokenB) internal pure returns (address) {
-/*LN-35*/ 
-/*LN-36*/ 
-/*LN-37*/         return address(uint160(uint256(keccak256(abi.encodePacked(tokenA, tokenB)))));
-/*LN-38*/     }
-/*LN-39*/ 
-/*LN-40*/     function _getAmountOut(uint256 amountIn, uint112 reserveIn, uint112 reserveOut) internal pure returns (uint256) {
-/*LN-41*/         return (amountIn * uint256(reserveOut)) / uint256(reserveIn);
-/*LN-42*/     }
-/*LN-43*/ }
+/*LN-25*/             (uint112 reserve0, uint112 reserve1,) = IPair(pair).getReserves();
+/*LN-26*/ 
+/*LN-27*/             amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);
+/*LN-28*/         }
+/*LN-29*/ 
+/*LN-30*/         return amounts;
+/*LN-31*/     }
+/*LN-32*/ 
+/*LN-33*/     function _getPair(address tokenA, address tokenB) internal pure returns (address) {
+/*LN-34*/ 
+/*LN-35*/         return address(uint160(uint256(keccak256(abi.encodePacked(tokenA, tokenB)))));
+/*LN-36*/     }
+/*LN-37*/ 
+/*LN-38*/     function _getAmountOut(uint256 amountIn, uint112 reserveIn, uint112 reserveOut) internal pure returns (uint256) {
+/*LN-39*/         return (amountIn * uint256(reserveOut)) / uint256(reserveIn);
+/*LN-40*/     }
+/*LN-41*/ }

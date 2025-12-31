@@ -97,7 +97,7 @@
       "ICurvePool": "IStablePool",
       "curvePool": "stablePool"
     },
-    "created_date": "2025-12-31T16:05:03.564473"
+    "created_date": "2025-12-31T18:47:09.520203"
   },
   "vulnerable_contract": "LendingPool",
   "vulnerable_function": "deposit",

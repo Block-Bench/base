@@ -87,7 +87,7 @@
     "contract_renames": {
       "GammaHypervisor": "LiquidityHypervisor"
     },
-    "created_date": "2025-12-31T16:05:03.526779"
+    "created_date": "2025-12-31T18:47:09.474992"
   },
   "vulnerable_contract": "LiquidityHypervisor",
   "vulnerable_function": "deposit",

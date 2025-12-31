@@ -88,7 +88,7 @@
     "contract_renames": {
       "BedrockVault": "StakingVault"
     },
-    "created_date": "2025-12-31T16:05:03.592736"
+    "created_date": "2025-12-31T18:47:09.549634"
   },
   "vulnerable_contract": "StakingVault",
   "vulnerable_function": "mint",

@@ -28,7 +28,7 @@
 /*LN-28*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-29*/ }
 /*LN-30*/ 
-/*LN-31*/ contract BasicVault {
+/*LN-31*/ contract YieldVault {
 /*LN-32*/     IERC20 public dai;
 /*LN-33*/     IERC20 public crv3;
 /*LN-34*/     IStable3Pool public stable3Pool;
@@ -75,29 +75,28 @@
 /*LN-75*/         uint256[3] memory amounts = [vaultBalance, 0, 0];
 /*LN-76*/         stable3Pool.add_liquidity(amounts, 0);
 /*LN-77*/ 
-/*LN-78*/ 
-/*LN-79*/     }
+/*LN-78*/     }
+/*LN-79*/ 
 /*LN-80*/ 
-/*LN-81*/ 
-/*LN-82*/     function withdrawAll() external {
-/*LN-83*/         uint256 userShares = shares[msg.sender];
-/*LN-84*/         require(userShares > 0, "No shares");
+/*LN-81*/     function withdrawAll() external {
+/*LN-82*/         uint256 userShares = shares[msg.sender];
+/*LN-83*/         require(userShares > 0, "No shares");
+/*LN-84*/ 
 /*LN-85*/ 
-/*LN-86*/ 
-/*LN-87*/         uint256 withdrawAmount = (userShares * totalDeposits) / totalShares;
-/*LN-88*/ 
-/*LN-89*/         shares[msg.sender] = 0;
-/*LN-90*/         totalShares -= userShares;
-/*LN-91*/         totalDeposits -= withdrawAmount;
-/*LN-92*/ 
-/*LN-93*/         dai.transfer(msg.sender, withdrawAmount);
-/*LN-94*/     }
+/*LN-86*/         uint256 withdrawAmount = (userShares * totalDeposits) / totalShares;
+/*LN-87*/ 
+/*LN-88*/         shares[msg.sender] = 0;
+/*LN-89*/         totalShares -= userShares;
+/*LN-90*/         totalDeposits -= withdrawAmount;
+/*LN-91*/ 
+/*LN-92*/         dai.transfer(msg.sender, withdrawAmount);
+/*LN-93*/     }
+/*LN-94*/ 
 /*LN-95*/ 
-/*LN-96*/ 
-/*LN-97*/     function balance() public view returns (uint256) {
-/*LN-98*/         return
-/*LN-99*/             dai.balanceOf(address(this)) +
-/*LN-100*/             (crv3.balanceOf(address(this)) * stable3Pool.get_virtual_price()) /
-/*LN-101*/             1e18;
-/*LN-102*/     }
-/*LN-103*/ }
+/*LN-96*/     function balance() public view returns (uint256) {
+/*LN-97*/         return
+/*LN-98*/             dai.balanceOf(address(this)) +
+/*LN-99*/             (crv3.balanceOf(address(this)) * stable3Pool.get_virtual_price()) /
+/*LN-100*/             1e18;
+/*LN-101*/     }
+/*LN-102*/ }

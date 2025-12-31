@@ -51,7 +51,7 @@
       "UnderlyingWithPermit": "UnderlyingWithPermit",
       "_anySwapOut": "_crossOut"
     },
-    "created_date": "2025-12-31T16:05:03.464064"
+    "created_date": "2025-12-31T18:47:09.380268"
   },
   "vulnerable_function": "permit",
   "sanitized_from": "ms_tc_026"

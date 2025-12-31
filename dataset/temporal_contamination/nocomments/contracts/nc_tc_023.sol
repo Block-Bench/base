@@ -56,16 +56,16 @@
 /*LN-56*/         return positionId;
 /*LN-57*/     }
 /*LN-58*/ 
-/*LN-59*/     function _borrow(uint256 positionId, uint256 amount) internal {
-/*LN-60*/         Position storage pos = positions[positionId];
-/*LN-61*/ 
+/*LN-59*/ 
+/*LN-60*/     function _borrow(uint256 positionId, uint256 amount) internal {
+/*LN-61*/         Position storage pos = positions[positionId];
 /*LN-62*/ 
-/*LN-63*/         uint256 share;
-/*LN-64*/ 
-/*LN-65*/         if (totalDebtShare == 0) {
-/*LN-66*/             share = amount;
-/*LN-67*/         } else {
-/*LN-68*/ 
+/*LN-63*/ 
+/*LN-64*/         uint256 share;
+/*LN-65*/ 
+/*LN-66*/         if (totalDebtShare == 0) {
+/*LN-67*/             share = amount;
+/*LN-68*/         } else {
 /*LN-69*/ 
 /*LN-70*/             share = (amount * totalDebtShare) / totalDebt;
 /*LN-71*/         }
@@ -94,28 +94,29 @@
 /*LN-94*/ 
 /*LN-95*/     }
 /*LN-96*/ 
-/*LN-97*/     function getPositionDebt(
-/*LN-98*/         uint256 positionId
-/*LN-99*/     ) external view returns (uint256) {
-/*LN-100*/         Position storage pos = positions[positionId];
-/*LN-101*/ 
-/*LN-102*/         if (totalDebtShare == 0) return 0;
-/*LN-103*/ 
+/*LN-97*/ 
+/*LN-98*/     function getPositionDebt(
+/*LN-99*/         uint256 positionId
+/*LN-100*/     ) external view returns (uint256) {
+/*LN-101*/         Position storage pos = positions[positionId];
+/*LN-102*/ 
+/*LN-103*/         if (totalDebtShare == 0) return 0;
 /*LN-104*/ 
-/*LN-105*/         return (pos.debtShare * totalDebt) / totalDebtShare;
-/*LN-106*/     }
-/*LN-107*/ 
+/*LN-105*/ 
+/*LN-106*/         return (pos.debtShare * totalDebt) / totalDebtShare;
+/*LN-107*/     }
 /*LN-108*/ 
-/*LN-109*/     function liquidate(uint256 positionId) external {
-/*LN-110*/         Position storage pos = positions[positionId];
-/*LN-111*/ 
-/*LN-112*/         uint256 debt = (pos.debtShare * totalDebt) / totalDebtShare;
-/*LN-113*/ 
+/*LN-109*/ 
+/*LN-110*/     function liquidate(uint256 positionId) external {
+/*LN-111*/         Position storage pos = positions[positionId];
+/*LN-112*/ 
+/*LN-113*/         uint256 debt = (pos.debtShare * totalDebt) / totalDebtShare;
 /*LN-114*/ 
-/*LN-115*/         require(pos.collateral * 100 < debt * 150, "Position is healthy");
-/*LN-116*/ 
+/*LN-115*/ 
+/*LN-116*/         require(pos.collateral * 100 < debt * 150, "Position is healthy");
 /*LN-117*/ 
-/*LN-118*/         pos.collateral = 0;
-/*LN-119*/         pos.debtShare = 0;
-/*LN-120*/     }
-/*LN-121*/ }
+/*LN-118*/ 
+/*LN-119*/         pos.collateral = 0;
+/*LN-120*/         pos.debtShare = 0;
+/*LN-121*/     }
+/*LN-122*/ }

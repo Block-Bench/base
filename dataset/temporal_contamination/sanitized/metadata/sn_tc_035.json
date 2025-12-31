@@ -87,7 +87,7 @@
     "contract_renames": {
       "WiseLending": "IsolatedLending"
     },
-    "created_date": "2025-12-31T16:05:03.539344"
+    "created_date": "2025-12-31T18:47:09.492246"
   },
   "vulnerable_contract": "IsolatedLending",
   "vulnerable_function": "depositExactAmount",

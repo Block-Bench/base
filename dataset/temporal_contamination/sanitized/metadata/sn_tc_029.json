@@ -49,7 +49,7 @@
     "contract_renames": {
       "BeltStrategy": "YieldStrategy"
     },
-    "created_date": "2025-12-31T16:05:03.481638"
+    "created_date": "2025-12-31T18:47:09.401850"
   },
   "vulnerable_function": "deposit",
   "sanitized_from": "ms_tc_029"

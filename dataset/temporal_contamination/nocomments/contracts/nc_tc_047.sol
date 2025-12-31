@@ -33,62 +33,63 @@
 /*LN-33*/         _mint(msg.sender, 700_000_000 * 10 ** 18);
 /*LN-34*/     }
 /*LN-35*/ 
-/*LN-36*/     modifier onlyMinter() {
-/*LN-37*/         require(msg.sender == minter, "Not minter");
-/*LN-38*/         _;
-/*LN-39*/     }
-/*LN-40*/ 
-/*LN-41*/     function mint(address to, uint256 amount) external onlyMinter {
-/*LN-42*/ 
-/*LN-43*/         _mint(to, amount);
-/*LN-44*/         emit Minted(to, amount);
-/*LN-45*/     }
-/*LN-46*/ 
+/*LN-36*/ 
+/*LN-37*/     modifier onlyMinter() {
+/*LN-38*/         require(msg.sender == minter, "Not minter");
+/*LN-39*/         _;
+/*LN-40*/     }
+/*LN-41*/ 
+/*LN-42*/     function mint(address to, uint256 amount) external onlyMinter {
+/*LN-43*/ 
+/*LN-44*/         _mint(to, amount);
+/*LN-45*/         emit Minted(to, amount);
+/*LN-46*/     }
 /*LN-47*/ 
-/*LN-48*/     function _mint(address to, uint256 amount) internal {
-/*LN-49*/         require(to != address(0), "Mint to zero address");
-/*LN-50*/ 
-/*LN-51*/         totalSupply += amount;
-/*LN-52*/         balanceOf[to] += amount;
-/*LN-53*/ 
-/*LN-54*/         emit Transfer(address(0), to, amount);
-/*LN-55*/     }
-/*LN-56*/ 
-/*LN-57*/     function setMinter(address newMinter) external onlyMinter {
+/*LN-48*/ 
+/*LN-49*/     function _mint(address to, uint256 amount) internal {
+/*LN-50*/         require(to != address(0), "Mint to zero address");
+/*LN-51*/ 
+/*LN-52*/         totalSupply += amount;
+/*LN-53*/         balanceOf[to] += amount;
+/*LN-54*/ 
+/*LN-55*/         emit Transfer(address(0), to, amount);
+/*LN-56*/     }
+/*LN-57*/ 
 /*LN-58*/ 
-/*LN-59*/         minter = newMinter;
-/*LN-60*/     }
-/*LN-61*/ 
-/*LN-62*/     function transfer(address to, uint256 amount) external returns (bool) {
-/*LN-63*/         require(balanceOf[msg.sender] >= amount, "Insufficient balance");
-/*LN-64*/         balanceOf[msg.sender] -= amount;
-/*LN-65*/         balanceOf[to] += amount;
-/*LN-66*/         emit Transfer(msg.sender, to, amount);
-/*LN-67*/         return true;
-/*LN-68*/     }
-/*LN-69*/ 
-/*LN-70*/     function approve(address spender, uint256 amount) external returns (bool) {
-/*LN-71*/         allowance[msg.sender][spender] = amount;
-/*LN-72*/         emit Approval(msg.sender, spender, amount);
-/*LN-73*/         return true;
-/*LN-74*/     }
-/*LN-75*/ 
-/*LN-76*/     function transferFrom(
-/*LN-77*/         address from,
-/*LN-78*/         address to,
-/*LN-79*/         uint256 amount
-/*LN-80*/     ) external returns (bool) {
-/*LN-81*/         require(balanceOf[from] >= amount, "Insufficient balance");
-/*LN-82*/         require(
-/*LN-83*/             allowance[from][msg.sender] >= amount,
-/*LN-84*/             "Insufficient allowance"
-/*LN-85*/         );
-/*LN-86*/ 
-/*LN-87*/         balanceOf[from] -= amount;
-/*LN-88*/         balanceOf[to] += amount;
-/*LN-89*/         allowance[from][msg.sender] -= amount;
-/*LN-90*/ 
-/*LN-91*/         emit Transfer(from, to, amount);
-/*LN-92*/         return true;
-/*LN-93*/     }
-/*LN-94*/ }
+/*LN-59*/     function setMinter(address newMinter) external onlyMinter {
+/*LN-60*/         minter = newMinter;
+/*LN-61*/     }
+/*LN-62*/ 
+/*LN-63*/     function transfer(address to, uint256 amount) external returns (bool) {
+/*LN-64*/         require(balanceOf[msg.sender] >= amount, "Insufficient balance");
+/*LN-65*/         balanceOf[msg.sender] -= amount;
+/*LN-66*/         balanceOf[to] += amount;
+/*LN-67*/         emit Transfer(msg.sender, to, amount);
+/*LN-68*/         return true;
+/*LN-69*/     }
+/*LN-70*/ 
+/*LN-71*/     function approve(address spender, uint256 amount) external returns (bool) {
+/*LN-72*/         allowance[msg.sender][spender] = amount;
+/*LN-73*/         emit Approval(msg.sender, spender, amount);
+/*LN-74*/         return true;
+/*LN-75*/     }
+/*LN-76*/ 
+/*LN-77*/     function transferFrom(
+/*LN-78*/         address from,
+/*LN-79*/         address to,
+/*LN-80*/         uint256 amount
+/*LN-81*/     ) external returns (bool) {
+/*LN-82*/         require(balanceOf[from] >= amount, "Insufficient balance");
+/*LN-83*/         require(
+/*LN-84*/             allowance[from][msg.sender] >= amount,
+/*LN-85*/             "Insufficient allowance"
+/*LN-86*/         );
+/*LN-87*/ 
+/*LN-88*/         balanceOf[from] -= amount;
+/*LN-89*/         balanceOf[to] += amount;
+/*LN-90*/         allowance[from][msg.sender] -= amount;
+/*LN-91*/ 
+/*LN-92*/         emit Transfer(from, to, amount);
+/*LN-93*/         return true;
+/*LN-94*/     }
+/*LN-95*/ }

@@ -82,7 +82,7 @@
     "contract_renames": {
       "FloatHotWallet": "FloatHotWallet"
     },
-    "created_date": "2025-12-31T16:05:03.649924"
+    "created_date": "2025-12-31T18:47:09.600885"
   },
   "vulnerable_contract": "FloatHotWalletV2",
   "vulnerable_function": "withdraw",

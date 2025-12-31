@@ -44,21 +44,21 @@
 /*LN-44*/         return results;
 /*LN-45*/     }
 /*LN-46*/ 
-/*LN-47*/     function mint(address token, uint256 amount) external returns (uint256) {
-/*LN-48*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
-/*LN-49*/ 
-/*LN-50*/         uint256 price = oracle.getPrice(token);
-/*LN-51*/ 
+/*LN-47*/ 
+/*LN-48*/     function mint(address token, uint256 amount) external returns (uint256) {
+/*LN-49*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
+/*LN-50*/ 
+/*LN-51*/         uint256 price = oracle.getPrice(token);
 /*LN-52*/ 
 /*LN-53*/         markets[token].accountCollateral[msg.sender] += amount;
 /*LN-54*/         return 0;
 /*LN-55*/     }
 /*LN-56*/ 
-/*LN-57*/     function borrow(
-/*LN-58*/         address borrowToken,
-/*LN-59*/         uint256 borrowAmount
-/*LN-60*/     ) external returns (uint256) {
-/*LN-61*/ 
+/*LN-57*/ 
+/*LN-58*/     function borrow(
+/*LN-59*/         address borrowToken,
+/*LN-60*/         uint256 borrowAmount
+/*LN-61*/     ) external returns (uint256) {
 /*LN-62*/         uint256 totalCollateralValue = 0;
 /*LN-63*/ 
 /*LN-64*/ 
@@ -88,11 +88,11 @@
 /*LN-88*/     }
 /*LN-89*/ }
 /*LN-90*/ 
-/*LN-91*/ contract ManipulableOracle is IPriceOracle {
+/*LN-91*/ contract TestOracle is IPriceOracle {
 /*LN-92*/     mapping(address => uint256) public prices;
 /*LN-93*/ 
-/*LN-94*/     function getPrice(address token) external view override returns (uint256) {
-/*LN-95*/ 
+/*LN-94*/ 
+/*LN-95*/     function getPrice(address token) external view override returns (uint256) {
 /*LN-96*/ 
 /*LN-97*/         return prices[token];
 /*LN-98*/     }

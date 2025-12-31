@@ -18,7 +18,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-11",
   "description": "DeltaPrime suffered a $4.75M exploit when attackers compromised an admin private key with upgrade privileges. They upgraded a pool contract to inject malicious code, then exploited the backdoored contract to drain funds through fake pair contracts and balance manipulation.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    47,
+    75
+  ],
   "vulnerability_details": {
     "root_cause": "Single private key compromise allowed arbitrary contract upgrades without timelock or multi-sig",
     "attack_vector": "Compromise admin key, upgrade pool to malicious implementation, exploit backdoor to drain funds",
@@ -79,10 +82,13 @@
     "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata/sn_tc_044.json",
     "script": "strategies/nocomments/nocomments_tc.py",
     "changes": [
-      "Removed 9 comments (single-line and multi-line)",
+      "Removed 6 comments (single-line and multi-line)",
       "Regenerated fresh line markers"
     ],
-    "comments_removed": 9,
-    "created_date": "2025-12-29T23:10:21.414416"
-  }
+    "comments_removed": 6,
+    "created_date": "2025-12-31T18:47:26.830793"
+  },
+  "vulnerable_contract": "SmartLoansFactory",
+  "vulnerable_function": "upgradePool",
+  "sanitized_from": "ms_tc_044"
 }

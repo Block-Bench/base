@@ -55,41 +55,39 @@
 /*LN-55*/ 
 /*LN-56*/         uint256 mintTokens = (mintAmount * 1e18) / exchangeRateMantissa;
 /*LN-57*/ 
-/*LN-58*/ 
-/*LN-59*/         totalSupply += mintTokens;
-/*LN-60*/         balanceOf[msg.sender] += mintTokens;
-/*LN-61*/ 
-/*LN-62*/         underlying.transferFrom(msg.sender, address(this), mintAmount);
-/*LN-63*/ 
-/*LN-64*/         emit Mint(msg.sender, mintAmount, mintTokens);
-/*LN-65*/         return mintTokens;
-/*LN-66*/     }
+/*LN-58*/         totalSupply += mintTokens;
+/*LN-59*/         balanceOf[msg.sender] += mintTokens;
+/*LN-60*/ 
+/*LN-61*/         underlying.transferFrom(msg.sender, address(this), mintAmount);
+/*LN-62*/ 
+/*LN-63*/         emit Mint(msg.sender, mintAmount, mintTokens);
+/*LN-64*/         return mintTokens;
+/*LN-65*/     }
+/*LN-66*/ 
 /*LN-67*/ 
-/*LN-68*/ 
-/*LN-69*/     function redeem(uint256 redeemTokens) external returns (uint256) {
-/*LN-70*/         require(balanceOf[msg.sender] >= redeemTokens, "Insufficient balance");
-/*LN-71*/ 
-/*LN-72*/         uint256 exchangeRateMantissa = exchangeRate();
+/*LN-68*/     function redeem(uint256 redeemTokens) external returns (uint256) {
+/*LN-69*/         require(balanceOf[msg.sender] >= redeemTokens, "Insufficient balance");
+/*LN-70*/ 
+/*LN-71*/         uint256 exchangeRateMantissa = exchangeRate();
+/*LN-72*/ 
 /*LN-73*/ 
-/*LN-74*/ 
-/*LN-75*/         uint256 redeemAmount = (redeemTokens * exchangeRateMantissa) / 1e18;
-/*LN-76*/ 
-/*LN-77*/         balanceOf[msg.sender] -= redeemTokens;
-/*LN-78*/         totalSupply -= redeemTokens;
-/*LN-79*/ 
-/*LN-80*/         underlying.transfer(msg.sender, redeemAmount);
-/*LN-81*/ 
-/*LN-82*/         emit Redeem(msg.sender, redeemAmount, redeemTokens);
-/*LN-83*/         return redeemAmount;
-/*LN-84*/     }
+/*LN-74*/         uint256 redeemAmount = (redeemTokens * exchangeRateMantissa) / 1e18;
+/*LN-75*/ 
+/*LN-76*/         balanceOf[msg.sender] -= redeemTokens;
+/*LN-77*/         totalSupply -= redeemTokens;
+/*LN-78*/ 
+/*LN-79*/         underlying.transfer(msg.sender, redeemAmount);
+/*LN-80*/ 
+/*LN-81*/         emit Redeem(msg.sender, redeemAmount, redeemTokens);
+/*LN-82*/         return redeemAmount;
+/*LN-83*/     }
+/*LN-84*/ 
 /*LN-85*/ 
-/*LN-86*/ 
-/*LN-87*/     function balanceOfUnderlying(
-/*LN-88*/         address account
-/*LN-89*/     ) external view returns (uint256) {
-/*LN-90*/         uint256 exchangeRateMantissa = exchangeRate();
-/*LN-91*/ 
-/*LN-92*/ 
-/*LN-93*/         return (balanceOf[account] * exchangeRateMantissa) / 1e18;
-/*LN-94*/     }
-/*LN-95*/ }
+/*LN-86*/     function balanceOfUnderlying(
+/*LN-87*/         address account
+/*LN-88*/     ) external view returns (uint256) {
+/*LN-89*/         uint256 exchangeRateMantissa = exchangeRate();
+/*LN-90*/ 
+/*LN-91*/         return (balanceOf[account] * exchangeRateMantissa) / 1e18;
+/*LN-92*/     }
+/*LN-93*/ }

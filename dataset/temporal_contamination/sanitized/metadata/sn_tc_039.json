@@ -87,7 +87,7 @@
     "contract_renames": {
       "CowSolver": "BatchSolver"
     },
-    "created_date": "2025-12-31T16:05:03.583214"
+    "created_date": "2025-12-31T18:47:09.540397"
   },
   "vulnerable_contract": "BatchSolver",
   "vulnerable_function": "uniswapV3SwapCallback",

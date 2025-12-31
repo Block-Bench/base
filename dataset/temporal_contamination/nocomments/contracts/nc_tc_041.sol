@@ -86,8 +86,8 @@
 /*LN-86*/         collateralBalance[msg.sender] += amount;
 /*LN-87*/     }
 /*LN-88*/ 
-/*LN-89*/     function borrow(uint256 amount) external {
-/*LN-90*/ 
+/*LN-89*/ 
+/*LN-90*/     function borrow(uint256 amount) external {
 /*LN-91*/ 
 /*LN-92*/         uint256 maxBorrow = (collateralBalance[msg.sender] * BASIS_POINTS) /
 /*LN-93*/             COLLATERAL_RATIO;

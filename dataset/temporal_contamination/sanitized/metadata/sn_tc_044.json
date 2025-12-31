@@ -85,7 +85,7 @@
     "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [],
     "contract_renames": {},
-    "created_date": "2025-12-31T16:05:03.637538"
+    "created_date": "2025-12-31T18:47:09.586859"
   },
   "vulnerable_contract": "SmartLoansFactory",
   "vulnerable_function": "upgradePool",

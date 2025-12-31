@@ -44,8 +44,8 @@
 /*LN-44*/         }
 /*LN-45*/     }
 /*LN-46*/ 
-/*LN-47*/     function withdraw(address market, uint256 amount) external {
-/*LN-48*/ 
+/*LN-47*/ 
+/*LN-48*/     function withdraw(address market, uint256 amount) external {
 /*LN-49*/         require(
 /*LN-50*/             userBalances[market][msg.sender] >= amount,
 /*LN-51*/             "Insufficient balance"

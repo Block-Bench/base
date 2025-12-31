@@ -19,7 +19,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Radiant Capital (Aave V2 fork on Arbitrum) was exploited for $4.5M through manipulation of the liquidityIndex via repeated flashloan cycles. The attacker executed 151 nested flashloans to inflate the liquidityIndex to extreme values, causing rounding errors in the rayDiv function that allowed extracting more funds than deposited.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    55,
+    136
+  ],
   "vulnerability_details": {
     "root_cause": "Unbounded liquidityIndex growth combined with fixed-point arithmetic rounding errors",
     "attack_vector": "Repeated flashloan deposit/withdrawal cycles to manipulate liquidityIndex, then exploit rounding in withdrawal calculations",
@@ -77,10 +80,13 @@
     "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata/sn_tc_032.json",
     "script": "strategies/nocomments/nocomments_tc.py",
     "changes": [
-      "Removed 11 comments (single-line and multi-line)",
+      "Removed 13 comments (single-line and multi-line)",
       "Regenerated fresh line markers"
     ],
-    "comments_removed": 11,
-    "created_date": "2025-12-29T23:10:21.407121"
-  }
+    "comments_removed": 13,
+    "created_date": "2025-12-31T18:47:26.819715"
+  },
+  "vulnerable_contract": "CrossLendingPool",
+  "vulnerable_function": "flashLoan",
+  "sanitized_from": "ms_tc_032"
 }

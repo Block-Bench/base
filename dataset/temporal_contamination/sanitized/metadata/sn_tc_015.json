@@ -51,7 +51,7 @@
     "contract_renames": {
       "CompoundCToken": "CToken"
     },
-    "created_date": "2025-12-31T16:05:03.350612"
+    "created_date": "2025-12-31T18:47:09.261624"
   },
   "sanitized_from": "ms_tc_015"
 }
