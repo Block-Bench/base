@@ -11,7 +11,7 @@
   "original_category": "access_control",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "Access control vulnerability - missing or incorrect authorization checks at line(s) 36",
+  "description": "The refund() function transfers the caller's balance without subtracting it from their recorded balance. An attacker can call refund() multiple times to drain the contract, as their balance is never decremented.",
   "fix_description": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin",
   "is_vulnerable": true,
   "context_level": "single_file",
@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_014",
   "sanitized_from": "ds_014",
-  "sanitized_id": "sn_ds_014"
+  "sanitized_id": "sn_ds_014",
+  "vulnerable_functions": [
+    "refund"
+  ]
 }

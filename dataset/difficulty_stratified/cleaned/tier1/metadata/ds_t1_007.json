@@ -11,7 +11,7 @@
   "original_category": "access_control",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "Access control vulnerability - missing or incorrect authorization checks at line(s) 27",
+  "description": "The PopBonusCode() function decrements bonusCodes.length without proper bounds checking. Since the require statement (0 <= bonusCodes.length) is always true for unsigned integers, an attacker can underflow the array length, then use UpdateBonusCodeAt() to write to arbitrary storage slots.",
   "fix_description": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin",
   "is_vulnerable": true,
   "context_level": "single_file",
@@ -24,5 +24,9 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_008",
   "sanitized_from": "ds_008",
-  "sanitized_id": "sn_ds_008"
+  "sanitized_id": "sn_ds_008",
+  "vulnerable_functions": [
+    "PopBonusCode",
+    "UpdateBonusCodeAt"
+  ]
 }

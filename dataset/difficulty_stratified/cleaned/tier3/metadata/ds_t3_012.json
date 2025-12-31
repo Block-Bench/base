@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_192",
   "identifier_mappings": {
     "VulnPermit": "PermitToken"
-  }
+  },
+  "vulnerable_functions": [
+    "depositWithPermit"
+  ]
 }

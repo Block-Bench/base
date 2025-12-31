@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_222",
   "identifier_mappings": {
     "attacker": "operator"
-  }
+  },
+  "vulnerable_functions": [
+    "transferProxy"
+  ]
 }

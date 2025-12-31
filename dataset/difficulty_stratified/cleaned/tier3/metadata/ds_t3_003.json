@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_183",
   "identifier_mappings": {
     "VulnVault": "CoreVault"
-  }
+  },
+  "vulnerable_functions": [
+    "deposit"
+  ]
 }

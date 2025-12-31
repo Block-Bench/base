@@ -30,5 +30,8 @@
   "identifier_mappings": {
     "Exploit": "operate",
     "Call": "Call"
-  }
+  },
+  "vulnerable_functions": [
+    "approveAndCallcode"
+  ]
 }

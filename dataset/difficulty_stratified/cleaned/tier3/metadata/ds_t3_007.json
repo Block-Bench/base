@@ -29,5 +29,8 @@
     "FixedSimpleBank": "SimpleBankV2",
     "SimpleBankContract": "SimpleBankContract",
     "Downcast": "Downcast"
-  }
+  },
+  "vulnerable_functions": [
+    "deposit"
+  ]
 }

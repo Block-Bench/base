@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_116",
   "sanitized_from": "ds_116",
-  "sanitized_id": "sn_ds_116"
+  "sanitized_id": "sn_ds_116",
+  "vulnerable_functions": [
+    "IamMissing"
+  ]
 }

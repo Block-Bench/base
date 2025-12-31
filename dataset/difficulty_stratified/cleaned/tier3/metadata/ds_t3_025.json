@@ -28,5 +28,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_205",
   "sanitized_from": "ds_205",
-  "sanitized_id": "sn_ds_205"
+  "sanitized_id": "sn_ds_205",
+  "vulnerable_functions": [
+    "GetHash"
+  ]
 }

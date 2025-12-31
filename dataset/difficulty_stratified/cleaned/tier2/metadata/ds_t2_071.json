@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_158",
   "sanitized_from": "ds_158",
-  "sanitized_id": "sn_ds_158"
+  "sanitized_id": "sn_ds_158",
+  "vulnerable_functions": [
+    "setReward"
+  ]
 }

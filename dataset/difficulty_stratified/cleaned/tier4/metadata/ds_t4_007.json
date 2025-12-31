@@ -24,5 +24,9 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_227",
   "sanitized_from": "ds_227",
-  "sanitized_id": "sn_ds_227"
+  "sanitized_id": "sn_ds_227",
+  "vulnerable_functions": [
+    "receiveMoney",
+    "withdrawMoney"
+  ]
 }

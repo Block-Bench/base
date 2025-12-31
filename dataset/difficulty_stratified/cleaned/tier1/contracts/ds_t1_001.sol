@@ -10,7 +10,7 @@ contract theRun {
         uint private fees = 0;
         uint private feeFrac = 20; //Fraction for fees in per"thousand", not percent, so 20 is 2%
 
-        uint private PotFrac = 30; //For the WinningPot ,30=> 3% are collected. This is fixed.
+        uint private PotFrac = 30; //For the WinningPot ,30=> 3% are collected.
 
         address private admin;
 

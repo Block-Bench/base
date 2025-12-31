@@ -28,5 +28,8 @@
   "identifier_mappings": {
     "FixedSimpleBank": "SimpleBankV2",
     "SimpleBankContract": "SimpleBankContract"
-  }
+  },
+  "vulnerable_functions": [
+    "withdraw"
+  ]
 }

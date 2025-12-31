@@ -30,5 +30,8 @@
     "FixedERC721": "ERC721V2",
     "VulnerableERC721Contract": "BasicERC721Contract",
     "testVulnerableERC721": "testBasicERC721"
-  }
+  },
+  "vulnerable_functions": [
+    "transferFrom"
+  ]
 }

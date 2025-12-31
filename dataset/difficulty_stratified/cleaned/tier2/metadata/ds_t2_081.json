@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_168",
   "sanitized_from": "ds_168",
-  "sanitized_id": "sn_ds_168"
+  "sanitized_id": "sn_ds_168",
+  "vulnerable_functions": [
+    "isSaleFinished"
+  ]
 }

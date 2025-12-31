@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_138",
   "identifier_mappings": {
     "IntegerOverflowMultiTxMultiFuncFeasible": "MultiTxCalculator"
-  }
+  },
+  "vulnerable_functions": [
+    "run"
+  ]
 }

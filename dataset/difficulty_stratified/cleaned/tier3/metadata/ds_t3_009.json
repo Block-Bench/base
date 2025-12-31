@@ -26,5 +26,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_189",
   "sanitized_from": "ds_189",
-  "sanitized_id": "sn_ds_189"
+  "sanitized_id": "sn_ds_189",
+  "vulnerable_functions": [
+    "mint"
+  ]
 }

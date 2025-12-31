@@ -27,5 +27,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_113",
   "sanitized_from": "ds_113",
-  "sanitized_id": "sn_ds_113"
+  "sanitized_id": "sn_ds_113",
+  "vulnerable_functions": [
+    "splitDAO"
+  ]
 }

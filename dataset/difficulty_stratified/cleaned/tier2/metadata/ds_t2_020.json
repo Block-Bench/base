@@ -27,5 +27,9 @@
   "sanitized_id": "sn_ds_107",
   "identifier_mappings": {
     "testStorageExploit": "testStorageOperation"
-  }
+  },
+  "vulnerable_functions": [
+    "mint",
+    "SwapCallback"
+  ]
 }

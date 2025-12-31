@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_151",
   "identifier_mappings": {
     "DosGas": "GasAuction"
-  }
+  },
+  "vulnerable_functions": [
+    "emptyCreditors"
+  ]
 }

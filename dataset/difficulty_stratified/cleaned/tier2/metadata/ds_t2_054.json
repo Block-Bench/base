@@ -31,5 +31,8 @@
     "overflowmultostate": "multostate",
     "overflowlocalonly": "localcalc",
     "overflowmulocalonly": "mullocalonly"
-  }
+  },
+  "vulnerable_functions": [
+    "addtostate"
+  ]
 }

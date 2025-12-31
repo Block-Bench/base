@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_181",
   "identifier_mappings": {
     "testExploit": "testOperation"
-  }
+  },
+  "vulnerable_functions": [
+    "onSwap"
+  ]
 }

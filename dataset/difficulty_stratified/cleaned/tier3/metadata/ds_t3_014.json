@@ -28,5 +28,9 @@
   "identifier_mappings": {
     "Exploit": "operate",
     "pwn": "execute"
-  }
+  },
+  "vulnerable_functions": [
+    "fallback",
+    "execute"
+  ]
 }

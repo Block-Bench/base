@@ -29,5 +29,8 @@
   "sanitized_id": "sn_ds_221",
   "identifier_mappings": {
     "testERC777Reentrancy": "testERC777Callback"
-  }
+  },
+  "vulnerable_functions": [
+    "claim"
+  ]
 }

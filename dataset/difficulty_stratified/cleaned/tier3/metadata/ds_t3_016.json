@@ -28,5 +28,8 @@
   "identifier_mappings": {
     "testExploit": "testOperation",
     "attacker": "operator"
-  }
+  },
+  "vulnerable_functions": [
+    "mint"
+  ]
 }

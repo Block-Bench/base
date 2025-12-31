@@ -27,5 +27,9 @@
   "sanitized_id": "sn_ds_223",
   "identifier_mappings": {
     "Exploit": "operate"
-  }
+  },
+  "vulnerable_functions": [
+    "testcollision",
+    "foo"
+  ]
 }

@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_150",
   "identifier_mappings": {
     "DosAuction": "SimpleAuction"
-  }
+  },
+  "vulnerable_functions": [
+    "bid"
+  ]
 }

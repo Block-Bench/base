@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_209",
   "sanitized_from": "ds_209",
-  "sanitized_id": "sn_ds_209"
+  "sanitized_id": "sn_ds_209",
+  "vulnerable_functions": [
+    "initWallet"
+  ]
 }

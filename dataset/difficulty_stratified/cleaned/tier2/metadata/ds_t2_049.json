@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_136",
   "identifier_mappings": {
     "IntegerOverflowMinimal": "MinimalCounter"
-  }
+  },
+  "vulnerable_functions": [
+    "run"
+  ]
 }

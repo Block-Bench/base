@@ -11,8 +11,8 @@
   "original_category": "integer_overflow",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "# Integer Overflow",
-  "fix_description": "",
+  "description": "The add() function performs arithmetic addition without overflow checks. When sellerBalance += value is executed with a large value, it can wrap around to a small number, allowing an attacker to manipulate the balance.",
+  "fix_description": "Use SafeMath library for arithmetic operations, or upgrade to Solidity 0.8+ which has built-in overflow checks.",
   "is_vulnerable": true,
   "context_level": "single_file",
   "original_source_path": "integer_overflow/integer_overflow_1.sol",
@@ -30,5 +30,8 @@
   "sanitized_id": "sn_ds_004",
   "identifier_mappings": {
     "Overflow": "Ledger"
-  }
+  },
+  "vulnerable_functions": [
+    "add"
+  ]
 }

@@ -8,7 +8,7 @@ contract EtherLotto {
     // Amount of ether needed for participating in the lottery.
     uint constant TICKET_AMOUNT = 10;
 
-    // Fixed amount fee for each lottery game.
+    // Constant fee for each lottery game.
     uint constant FEE_AMOUNT = 1;
 
     // Address where fee is sent.
@@ -26,7 +26,7 @@ contract EtherLotto {
     // is invoked, the sender has an oportunity for winning pot.
     function play() payable {
 
-        // Participants must spend some fixed ether before playing lottery.
+        // Participants must spend the required ether before playing lottery.
         assert(msg.value == TICKET_AMOUNT);
 
         // Increase pot for each participant.

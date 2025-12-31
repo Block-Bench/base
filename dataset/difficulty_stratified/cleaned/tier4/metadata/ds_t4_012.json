@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_232",
   "sanitized_from": "ds_232",
-  "sanitized_id": "sn_ds_232"
+  "sanitized_id": "sn_ds_232",
+  "vulnerable_functions": [
+    "batchTransfer"
+  ]
 }

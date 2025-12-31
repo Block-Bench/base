@@ -29,5 +29,9 @@
     "Exploit": "operate",
     "testOverflow2": "testCalculation",
     "overflowed": "calculate"
-  }
+  },
+  "vulnerable_functions": [
+    "_transfer",
+    "transferFrom"
+  ]
 }

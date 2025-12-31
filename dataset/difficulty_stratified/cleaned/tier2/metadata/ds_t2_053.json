@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_140",
   "identifier_mappings": {
     "Overflow_Add": "AdditionLedger"
-  }
+  },
+  "vulnerable_functions": [
+    "add"
+  ]
 }

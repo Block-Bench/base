@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_215",
   "sanitized_from": "ds_215",
-  "sanitized_id": "sn_ds_215"
+  "sanitized_id": "sn_ds_215",
+  "vulnerable_functions": [
+    "donateToWhale"
+  ]
 }

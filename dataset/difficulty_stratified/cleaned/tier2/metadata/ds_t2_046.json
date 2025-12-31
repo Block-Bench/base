@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_133",
   "identifier_mappings": {
     "IntegerOverflowAdd": "AdditionCounter"
-  }
+  },
+  "vulnerable_functions": [
+    "run"
+  ]
 }

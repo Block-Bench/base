@@ -28,5 +28,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_204",
   "sanitized_from": "ds_204",
-  "sanitized_id": "sn_ds_204"
+  "sanitized_id": "sn_ds_204",
+  "vulnerable_functions": [
+    "participate"
+  ]
 }

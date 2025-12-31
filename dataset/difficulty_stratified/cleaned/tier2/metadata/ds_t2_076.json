@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_163",
   "sanitized_from": "ds_163",
-  "sanitized_id": "sn_ds_163"
+  "sanitized_id": "sn_ds_163",
+  "vulnerable_functions": [
+    "sendCoin"
+  ]
 }

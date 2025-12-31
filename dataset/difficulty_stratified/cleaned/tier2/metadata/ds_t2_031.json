@@ -30,5 +30,8 @@
   "sanitized_id": "sn_ds_118",
   "identifier_mappings": {
     "Suicidal": "Destructible"
-  }
+  },
+  "vulnerable_functions": [
+    "suicide"
+  ]
 }

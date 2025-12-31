@@ -34,5 +34,8 @@
     "hack": "execute",
     "testPwn": "testExecution",
     "performReadOnlyReentrnacy": "performReadOnlyCallback"
-  }
+  },
+  "vulnerable_functions": [
+    "getReward"
+  ]
 }

@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_164",
   "sanitized_from": "ds_164",
-  "sanitized_id": "sn_ds_164"
+  "sanitized_id": "sn_ds_164",
+  "vulnerable_functions": [
+    "play"
+  ]
 }

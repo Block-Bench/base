@@ -5,14 +5,14 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "Unprotected.sol",
-  "vulnerable_function": "OpenAccess",
+  "vulnerable_function": "changeOwner",
   "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "unprotected_function",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "# Unprotected function\nMissing (or incorrectly used) modifier on a function allows an attacker to use sensitive functionality in the contract.",
-  "fix_description": "",
+  "description": "The changeOwner() function is declared public without the onlyowner modifier, allowing any address to call it and take ownership of the contract. The modifier exists but is not applied to this critical function.",
+  "fix_description": "Add the onlyowner modifier to the changeOwner() function to restrict access to the current owner only.",
   "is_vulnerable": true,
   "context_level": "single_file",
   "original_source_path": "unprotected_function/Unprotected.sol",
@@ -33,5 +33,8 @@
   "identifier_mappings": {
     "Unprotected": "OpenAccess",
     "_fixed": "V2"
-  }
+  },
+  "vulnerable_functions": [
+    "changeOwner"
+  ]
 }

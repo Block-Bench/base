@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_172",
   "identifier_mappings": {
     "DrainMe": "FundManager"
-  }
+  },
+  "vulnerable_functions": [
+    "callFirstTarget"
+  ]
 }

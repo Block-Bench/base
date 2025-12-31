@@ -28,5 +28,8 @@
   "identifier_mappings": {
     "VulnStakingRewards": "StakingRewards",
     "FixedtakingRewards": "StakingRewardsV2"
-  }
+  },
+  "vulnerable_functions": [
+    "recoverERC20"
+  ]
 }

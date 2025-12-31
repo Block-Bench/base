@@ -24,5 +24,9 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_224",
   "sanitized_from": "ds_224",
-  "sanitized_id": "sn_ds_224"
+  "sanitized_id": "sn_ds_224",
+  "vulnerable_functions": [
+    "getPrice",
+    "exchange"
+  ]
 }

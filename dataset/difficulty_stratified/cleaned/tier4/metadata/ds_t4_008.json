@@ -24,5 +24,10 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_228",
   "sanitized_from": "ds_228",
-  "sanitized_id": "sn_ds_228"
+  "sanitized_id": "sn_ds_228",
+  "vulnerable_functions": [
+    "deposit",
+    "withdraw",
+    "tokenToShares"
+  ]
 }

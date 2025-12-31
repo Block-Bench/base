@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_142",
   "sanitized_from": "ds_142",
-  "sanitized_id": "sn_ds_142"
+  "sanitized_id": "sn_ds_142",
+  "vulnerable_functions": [
+    "increaseLockTime"
+  ]
 }

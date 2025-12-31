@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_152",
   "identifier_mappings": {
     "DosNumber": "NumberRegistry"
-  }
+  },
+  "vulnerable_functions": [
+    "insertNnumbers"
+  ]
 }

@@ -24,5 +24,8 @@
   "original_subset": "difficulty_stratified",
   "original_ds_id": "ds_099",
   "sanitized_from": "ds_099",
-  "sanitized_id": "sn_ds_099"
+  "sanitized_id": "sn_ds_099",
+  "vulnerable_functions": [
+    "withdraw"
+  ]
 }

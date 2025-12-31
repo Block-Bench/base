@@ -28,5 +28,8 @@
   "identifier_mappings": {
     "DosAuction": "SimpleAuction",
     "SecureAuction": "AuctionV2"
-  }
+  },
+  "vulnerable_functions": [
+    "bid"
+  ]
 }

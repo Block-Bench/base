@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_207",
   "identifier_mappings": {
     "RaceCondition": "TokenExchange"
-  }
+  },
+  "vulnerable_functions": [
+    "buy"
+  ]
 }

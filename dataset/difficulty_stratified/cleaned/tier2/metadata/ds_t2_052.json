@@ -27,5 +27,8 @@
   "sanitized_id": "sn_ds_139",
   "identifier_mappings": {
     "IntegerOverflowMultiTxOneFuncFeasible": "SingleFuncCalculator"
-  }
+  },
+  "vulnerable_functions": [
+    "run"
+  ]
 }

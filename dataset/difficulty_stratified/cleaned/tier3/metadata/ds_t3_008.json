@@ -30,5 +30,8 @@
     "FixedStructDeletion": "StructDeletionV2",
     "StructDeletionContract": "StructDeletionContract",
     "StructDeletion": "StructDeletion"
-  }
+  },
+  "vulnerable_functions": [
+    "deleteStruct"
+  ]
 }

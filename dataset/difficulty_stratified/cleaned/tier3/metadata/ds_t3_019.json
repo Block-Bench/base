@@ -36,5 +36,8 @@
     "attack = new": "operator = new",
     "attack.": "operator.",
     "(attack)": "(operator)"
-  }
+  },
+  "vulnerable_functions": [
+    "withdrawFunds"
+  ]
 }

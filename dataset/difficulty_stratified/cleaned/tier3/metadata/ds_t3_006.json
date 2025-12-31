@@ -31,5 +31,9 @@
     "function attack(": "function operate(",
     "AttackContract": "OperatorContract",
     "abi.encodeWithSignature(\"attack()\"": "abi.encodeWithSignature(\"operate()\""
-  }
+  },
+  "vulnerable_functions": [
+    "initialize",
+    "upgradeToAndCall"
+  ]
 }
