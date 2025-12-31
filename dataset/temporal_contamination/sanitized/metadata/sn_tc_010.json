@@ -12,7 +12,7 @@
   "description": "Classic reentrancy attack that drained 3.6M ETH from The DAO. The withdrawAll function sent ETH before updating balances, allowing attackers to recursively call the function and drain funds.",
   "root_cause": "External call to msg.sender before updating internal state (credit balance). Violation of checks-effects-interactions pattern.",
   "attack_scenario": "Attacker deposited ETH, then called withdrawAll from a malicious contract with a fallback function that re-entered withdrawAll, draining funds before balance was updated.",
-  "vulnerable_contract": "the_dao.sol",
+  "vulnerable_contract": "DAO",
   "vulnerable_function": "withdrawAll",
   "vulnerable_lines": [],
   "fix_description": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern.",
@@ -38,23 +38,16 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_010",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_010.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_010.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
-    "changes": [
-      "Removed comment: VULNERABLE...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: DAO \u2192 DAO",
-      "WARNING: Built-in msg.sender count changed: 7 -> 4",
-      "WARNING: Built-in msg.value count changed: 3 -> 2"
-    ],
-    "contract_renames": {
-      "DAO": "DAO"
-    },
-    "created_date": "2025-12-29T22:32:44.918613"
-  }
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_010.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_010.json",
+    "original_id": "tc_010",
+    "minimalsanitized_id": "ms_tc_010",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
+    "changes": [],
+    "contract_renames": {},
+    "created_date": "2025-12-31T16:05:03.307561"
+  },
+  "sanitized_from": "ms_tc_010"
 }

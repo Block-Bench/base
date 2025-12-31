@@ -14,110 +14,114 @@
 /*LN-14*/ }
 /*LN-15*/ 
 /*LN-16*/ /**
-/*LN-17*/ 
-/*LN-18*/  */
-/*LN-19*/ contract GameLockManager {
-/*LN-20*/     address public admin;
-/*LN-21*/     address public configStorage;
-/*LN-22*/ 
-/*LN-23*/     struct PlayerSettings {
-/*LN-24*/         uint256 lockedAmount;
-/*LN-25*/         address lockRecipient;
-/*LN-26*/         uint256 lockDuration;
-/*LN-27*/         uint256 lockStartTime;
-/*LN-28*/     }
-/*LN-29*/ 
-/*LN-30*/     mapping(address => PlayerSettings) public playerSettings;
-/*LN-31*/     mapping(address => uint256) public playerBalances;
-/*LN-32*/ 
-/*LN-33*/     IERC20 public immutable weth;
-/*LN-34*/ 
-/*LN-35*/     event Locked(address player, uint256 amount, address recipient);
-/*LN-36*/     event ConfigUpdated(address oldConfig, address newConfig);
-/*LN-37*/ 
-/*LN-38*/     constructor(address _weth) {
-/*LN-39*/         admin = msg.sender;
-/*LN-40*/         weth = IERC20(_weth);
-/*LN-41*/     }
-/*LN-42*/ 
-/*LN-43*/     modifier onlyAdmin() {
-/*LN-44*/         require(msg.sender == admin, "Not admin");
-/*LN-45*/         _;
-/*LN-46*/     }
-/*LN-47*/ 
-/*LN-48*/     /**
-/*LN-49*/      * @dev Users lock tokens to earn rewards
-/*LN-50*/      */
-/*LN-51*/     function lock(uint256 amount, uint256 duration) external {
-/*LN-52*/         require(amount > 0, "Zero amount");
-/*LN-53*/ 
-/*LN-54*/         weth.transferFrom(msg.sender, address(this), amount);
-/*LN-55*/ 
-/*LN-56*/         playerBalances[msg.sender] += amount;
-/*LN-57*/         playerSettings[msg.sender] = PlayerSettings({
-/*LN-58*/             lockedAmount: amount,
-/*LN-59*/             lockRecipient: msg.sender,
-/*LN-60*/             lockDuration: duration,
-/*LN-61*/             lockStartTime: block.timestamp
-/*LN-62*/         });
-/*LN-63*/ 
-/*LN-64*/         emit Locked(msg.sender, amount, msg.sender);
-/*LN-65*/     }
-/*LN-66*/ 
-/*LN-67*/     function setConfigStorage(address _configStorage) external onlyAdmin {
-/*LN-68*/ 
-/*LN-69*/         address oldConfig = configStorage;
-/*LN-70*/         configStorage = _configStorage;
-/*LN-71*/ 
-/*LN-72*/         emit ConfigUpdated(oldConfig, _configStorage);
-/*LN-73*/     }
-/*LN-74*/ 
-/*LN-75*/     function setLockRecipient(
-/*LN-76*/         address player,
-/*LN-77*/         address newRecipient
-/*LN-78*/     ) external onlyAdmin {
-/*LN-79*/ 
-/*LN-80*/         playerSettings[player].lockRecipient = newRecipient;
-/*LN-81*/     }
-/*LN-82*/ 
-/*LN-83*/     /**
-/*LN-84*/      * @dev Unlock funds after lock period expires
-/*LN-85*/      */
-/*LN-86*/     function unlock() external {
-/*LN-87*/         PlayerSettings memory settings = playerSettings[msg.sender];
-/*LN-88*/ 
-/*LN-89*/         require(settings.lockedAmount > 0, "No locked tokens");
-/*LN-90*/         require(
-/*LN-91*/             block.timestamp >= settings.lockStartTime + settings.lockDuration,
-/*LN-92*/             "Still locked"
-/*LN-93*/         );
-/*LN-94*/ 
-/*LN-95*/         uint256 amount = settings.lockedAmount;
+/*LN-17*/  */
+/*LN-18*/ contract GameLockManager {
+/*LN-19*/     address public admin;
+/*LN-20*/     address public configStorage;
+/*LN-21*/ 
+/*LN-22*/     struct PlayerSettings {
+/*LN-23*/         uint256 lockedAmount;
+/*LN-24*/         address lockRecipient;
+/*LN-25*/         uint256 lockDuration;
+/*LN-26*/         uint256 lockStartTime;
+/*LN-27*/     }
+/*LN-28*/ 
+/*LN-29*/     mapping(address => PlayerSettings) public playerSettings;
+/*LN-30*/     mapping(address => uint256) public playerBalances;
+/*LN-31*/ 
+/*LN-32*/     IERC20 public immutable weth;
+/*LN-33*/ 
+/*LN-34*/     event Locked(address player, uint256 amount, address recipient);
+/*LN-35*/     event ConfigUpdated(address oldConfig, address newConfig);
+/*LN-36*/ 
+/*LN-37*/     constructor(address _weth) {
+/*LN-38*/         admin = msg.sender;
+/*LN-39*/         weth = IERC20(_weth);
+/*LN-40*/     }
+/*LN-41*/ 
+/*LN-42*/     /**
+/*LN-43*/      */
+/*LN-44*/     modifier onlyAdmin() {
+/*LN-45*/         require(msg.sender == admin, "Not admin");
+/*LN-46*/         _;
+/*LN-47*/     }
+/*LN-48*/ 
+/*LN-49*/     /**
+/*LN-50*/      * @dev Users lock tokens to earn rewards
+/*LN-51*/      */
+/*LN-52*/     function lock(uint256 amount, uint256 duration) external {
+/*LN-53*/         require(amount > 0, "Zero amount");
+/*LN-54*/ 
+/*LN-55*/         weth.transferFrom(msg.sender, address(this), amount);
+/*LN-56*/ 
+/*LN-57*/         playerBalances[msg.sender] += amount;
+/*LN-58*/         playerSettings[msg.sender] = PlayerSettings({
+/*LN-59*/             lockedAmount: amount,
+/*LN-60*/             lockRecipient: msg.sender,
+/*LN-61*/             lockDuration: duration,
+/*LN-62*/             lockStartTime: block.timestamp
+/*LN-63*/         });
+/*LN-64*/ 
+/*LN-65*/         emit Locked(msg.sender, amount, msg.sender);
+/*LN-66*/     }
+/*LN-67*/ 
+/*LN-68*/     /**
+/*LN-69*/      */
+/*LN-70*/     function setConfigStorage(address _configStorage) external onlyAdmin {
+/*LN-71*/         address oldConfig = configStorage;
+/*LN-72*/         configStorage = _configStorage;
+/*LN-73*/ 
+/*LN-74*/         emit ConfigUpdated(oldConfig, _configStorage);
+/*LN-75*/     }
+/*LN-76*/ 
+/*LN-77*/     function setLockRecipient(
+/*LN-78*/         address player,
+/*LN-79*/         address newRecipient
+/*LN-80*/     ) external onlyAdmin {
+/*LN-81*/ 
+/*LN-82*/         playerSettings[player].lockRecipient = newRecipient;
+/*LN-83*/     }
+/*LN-84*/ 
+/*LN-85*/     /**
+/*LN-86*/      * @dev Unlock funds after lock period expires
+/*LN-87*/      */
+/*LN-88*/     function unlock() external {
+/*LN-89*/         PlayerSettings memory settings = playerSettings[msg.sender];
+/*LN-90*/ 
+/*LN-91*/         require(settings.lockedAmount > 0, "No locked tokens");
+/*LN-92*/         require(
+/*LN-93*/             block.timestamp >= settings.lockStartTime + settings.lockDuration,
+/*LN-94*/             "Still locked"
+/*LN-95*/         );
 /*LN-96*/ 
-/*LN-97*/         address recipient = settings.lockRecipient;
+/*LN-97*/         uint256 amount = settings.lockedAmount;
 /*LN-98*/ 
-/*LN-99*/         delete playerSettings[msg.sender];
-/*LN-100*/         playerBalances[msg.sender] = 0;
-/*LN-101*/ 
-/*LN-102*/         weth.transfer(recipient, amount);
-/*LN-103*/     }
-/*LN-104*/ 
-/*LN-105*/     function emergencyUnlock(address player) external onlyAdmin {
-/*LN-106*/         PlayerSettings memory settings = playerSettings[player];
-/*LN-107*/         uint256 amount = settings.lockedAmount;
-/*LN-108*/         address recipient = settings.lockRecipient;
-/*LN-109*/ 
-/*LN-110*/         delete playerSettings[player];
-/*LN-111*/         playerBalances[player] = 0;
-/*LN-112*/ 
-/*LN-113*/         // Sends to whoever admin set as lockRecipient
-/*LN-114*/         weth.transfer(recipient, amount);
-/*LN-115*/     }
+/*LN-99*/         address recipient = settings.lockRecipient;
+/*LN-100*/ 
+/*LN-101*/         delete playerSettings[msg.sender];
+/*LN-102*/         playerBalances[msg.sender] = 0;
+/*LN-103*/ 
+/*LN-104*/         weth.transfer(recipient, amount);
+/*LN-105*/     }
+/*LN-106*/ 
+/*LN-107*/     /**
+/*LN-108*/      */
+/*LN-109*/     function emergencyUnlock(address player) external onlyAdmin {
+/*LN-110*/         PlayerSettings memory settings = playerSettings[player];
+/*LN-111*/         uint256 amount = settings.lockedAmount;
+/*LN-112*/         address recipient = settings.lockRecipient;
+/*LN-113*/ 
+/*LN-114*/         delete playerSettings[player];
+/*LN-115*/         playerBalances[player] = 0;
 /*LN-116*/ 
-/*LN-117*/     function transferAdmin(address newAdmin) external onlyAdmin {
-/*LN-118*/ 
-/*LN-119*/         admin = newAdmin;
-/*LN-120*/     }
-/*LN-121*/ }
-/*LN-122*/ 
-/*LN-123*/ 
+/*LN-117*/         // Sends to whoever admin set as lockRecipient
+/*LN-118*/         weth.transfer(recipient, amount);
+/*LN-119*/     }
+/*LN-120*/ 
+/*LN-121*/     /**
+/*LN-122*/      */
+/*LN-123*/     function transferAdmin(address newAdmin) external onlyAdmin {
+/*LN-124*/         admin = newAdmin;
+/*LN-125*/     }
+/*LN-126*/ }
+/*LN-127*/ 

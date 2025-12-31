@@ -28,29 +28,27 @@
 /*LN-28*/         if (totalShares == 0) {
 /*LN-29*/             sharesAdded = amount;
 /*LN-30*/         } else {
-/*LN-31*/ 
-/*LN-32*/             uint256 price = IPriceOracle(oracle).getPrice(wantToken);
-/*LN-33*/             sharesAdded = (amount * totalShares * 1e18) / (pool * price);
-/*LN-34*/         }
-/*LN-35*/ 
-/*LN-36*/         shares[msg.sender] += sharesAdded;
-/*LN-37*/         totalShares += sharesAdded;
-/*LN-38*/ 
-/*LN-39*/         IERC20(wantToken).transferFrom(msg.sender, address(this), amount);
-/*LN-40*/         return sharesAdded;
-/*LN-41*/     }
-/*LN-42*/ 
-/*LN-43*/     function withdraw(uint256 sharesAmount) external {
-/*LN-44*/         uint256 pool = IERC20(wantToken).balanceOf(address(this));
-/*LN-45*/ 
-/*LN-46*/         uint256 price = IPriceOracle(oracle).getPrice(wantToken);
-/*LN-47*/         uint256 amount = (sharesAmount * pool * price) / (totalShares * 1e18);
-/*LN-48*/ 
-/*LN-49*/         shares[msg.sender] -= sharesAmount;
-/*LN-50*/         totalShares -= sharesAmount;
-/*LN-51*/ 
-/*LN-52*/         IERC20(wantToken).transfer(msg.sender, amount);
-/*LN-53*/     }
-/*LN-54*/ }
-/*LN-55*/ 
-/*LN-56*/ 
+/*LN-31*/             uint256 price = IPriceOracle(oracle).getPrice(wantToken);
+/*LN-32*/             sharesAdded = (amount * totalShares * 1e18) / (pool * price);
+/*LN-33*/         }
+/*LN-34*/ 
+/*LN-35*/         shares[msg.sender] += sharesAdded;
+/*LN-36*/         totalShares += sharesAdded;
+/*LN-37*/ 
+/*LN-38*/         IERC20(wantToken).transferFrom(msg.sender, address(this), amount);
+/*LN-39*/         return sharesAdded;
+/*LN-40*/     }
+/*LN-41*/ 
+/*LN-42*/     function withdraw(uint256 sharesAmount) external {
+/*LN-43*/         uint256 pool = IERC20(wantToken).balanceOf(address(this));
+/*LN-44*/ 
+/*LN-45*/         uint256 price = IPriceOracle(oracle).getPrice(wantToken);
+/*LN-46*/         uint256 amount = (sharesAmount * pool * price) / (totalShares * 1e18);
+/*LN-47*/ 
+/*LN-48*/         shares[msg.sender] -= sharesAmount;
+/*LN-49*/         totalShares -= sharesAmount;
+/*LN-50*/ 
+/*LN-51*/         IERC20(wantToken).transfer(msg.sender, amount);
+/*LN-52*/     }
+/*LN-53*/ }
+/*LN-54*/ 

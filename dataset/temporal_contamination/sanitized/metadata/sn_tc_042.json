@@ -68,37 +68,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_042",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_042.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_042.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_042.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_042.json",
+    "original_id": "tc_042",
+    "minimalsanitized_id": "ms_tc_042",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: Hedgey...",
-      "Removed comment: Hedgey...",
-      "Removed comment: HEDGEY...",
-      "Removed comment: Hedgey...",
-      "Removed comment: Hedgey...",
-      "Removed comment: Hedgey...",
-      "Removed comment: Hedgey...",
-      "Removed comment: Hedgey...",
-      "Removed comment: Hedgey...",
-      "Removed comment: Hedgey...",
-      "Removed comment: Hedgey...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker can specify malicious contract address...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: HedgeyClaimCampaigns \u2192 TokenClaimCampaigns",
-      "WARNING: Built-in msg.sender count changed: 4 -> 1",
-      "WARNING: Built-in tx.origin count changed: 1 -> 0"
+      "Renamed: HedgeyClaimCampaigns \u2192 TokenClaimCampaigns"
     ],
     "contract_renames": {
       "HedgeyClaimCampaigns": "TokenClaimCampaigns"
     },
-    "created_date": "2025-12-29T22:32:45.436756"
-  }
+    "created_date": "2025-12-31T16:05:03.620887"
+  },
+  "vulnerable_contract": "TokenClaimCampaigns",
+  "vulnerable_function": "createLockedCampaign",
+  "sanitized_from": "ms_tc_042"
 }

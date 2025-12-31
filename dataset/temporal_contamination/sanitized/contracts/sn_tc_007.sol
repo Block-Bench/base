@@ -49,7 +49,7 @@
 /*LN-49*/     }
 /*LN-50*/ }
 /*LN-51*/ 
-/*LN-52*/ contract BasicCrossChainManager {
+/*LN-52*/ contract CrossChainManager {
 /*LN-53*/     address public dataContract; // CrossChainData address
 /*LN-54*/ 
 /*LN-55*/     event CrossChainEvent(
@@ -84,63 +84,56 @@
 /*LN-84*/             bytes memory args
 /*LN-85*/         ) = _decodeTx(proof);
 /*LN-86*/ 
-/*LN-87*/         // This allows calling privileged functions on CrossChainData
+/*LN-87*/         // Execute the transaction
 /*LN-88*/ 
-/*LN-89*/         // Execute the transaction
-/*LN-90*/ 
-/*LN-91*/         // So onlyOwner checks in CrossChainData will pass!
-/*LN-92*/         (bool success, ) = toContract.call(abi.encodePacked(method, args));
-/*LN-93*/         require(success, "Execution failed");
+/*LN-89*/         (bool success, ) = toContract.call(abi.encodePacked(method, args));
+/*LN-90*/         require(success, "Execution failed");
+/*LN-91*/ 
+/*LN-92*/         return true;
+/*LN-93*/     }
 /*LN-94*/ 
-/*LN-95*/         return true;
-/*LN-96*/     }
-/*LN-97*/ 
-/*LN-98*/     /**
-/*LN-99*/      * @notice Verify block header signatures (simplified)
-/*LN-100*/      */
-/*LN-101*/     function _verifyHeader(
-/*LN-102*/         bytes memory rawHeader,
-/*LN-103*/         bytes memory headerSig
-/*LN-104*/     ) internal pure returns (bool) {
-/*LN-105*/         // Simplified: In reality, this verifies validator signatures
-/*LN-106*/ 
-/*LN-107*/         return true;
-/*LN-108*/     }
-/*LN-109*/ 
-/*LN-110*/     /**
-/*LN-111*/      * @notice Verify Merkle proof (simplified)
-/*LN-112*/      */
-/*LN-113*/     function _verifyProof(
-/*LN-114*/         bytes memory proof,
-/*LN-115*/         bytes memory rawHeader
-/*LN-116*/     ) internal pure returns (bool) {
-/*LN-117*/         // Simplified: In reality, this verifies Merkle proof
-/*LN-118*/ 
-/*LN-119*/         return true;
-/*LN-120*/     }
-/*LN-121*/ 
-/*LN-122*/     /**
-/*LN-123*/      * @notice Decode transaction data (simplified)
-/*LN-124*/      */
-/*LN-125*/     function _decodeTx(
-/*LN-126*/         bytes memory proof
-/*LN-127*/     )
-/*LN-128*/         internal
-/*LN-129*/         view
-/*LN-130*/         returns (address toContract, bytes memory method, bytes memory args)
-/*LN-131*/     {
-/*LN-132*/         // Simplified decoding
-/*LN-133*/ 
-/*LN-134*/         // toContract = dataContract (CrossChainData address)
-/*LN-135*/         // method = "putCurEpochConPubKeyBytes" function selector
-/*LN-136*/ 
-/*LN-137*/         toContract = dataContract;
-/*LN-138*/         method = abi.encodeWithSignature(
-/*LN-139*/             "putCurEpochConPubKeyBytes(bytes)",
-/*LN-140*/             ""
-/*LN-141*/         );
-/*LN-142*/         args = "";
-/*LN-143*/     }
-/*LN-144*/ }
-/*LN-145*/ 
-/*LN-146*/ 
+/*LN-95*/     /**
+/*LN-96*/      * @notice Verify block header signatures (simplified)
+/*LN-97*/      */
+/*LN-98*/     function _verifyHeader(
+/*LN-99*/         bytes memory rawHeader,
+/*LN-100*/         bytes memory headerSig
+/*LN-101*/     ) internal pure returns (bool) {
+/*LN-102*/         // Simplified: In reality, this verifies validator signatures
+/*LN-103*/         return true;
+/*LN-104*/     }
+/*LN-105*/ 
+/*LN-106*/     /**
+/*LN-107*/      * @notice Verify Merkle proof (simplified)
+/*LN-108*/      */
+/*LN-109*/     function _verifyProof(
+/*LN-110*/         bytes memory proof,
+/*LN-111*/         bytes memory rawHeader
+/*LN-112*/     ) internal pure returns (bool) {
+/*LN-113*/         // Simplified: In reality, this verifies Merkle proof
+/*LN-114*/         return true;
+/*LN-115*/     }
+/*LN-116*/ 
+/*LN-117*/     /**
+/*LN-118*/      * @notice Decode transaction data (simplified)
+/*LN-119*/      */
+/*LN-120*/     function _decodeTx(
+/*LN-121*/         bytes memory proof
+/*LN-122*/     )
+/*LN-123*/         internal
+/*LN-124*/         view
+/*LN-125*/         returns (address toContract, bytes memory method, bytes memory args)
+/*LN-126*/     {
+/*LN-127*/         // Simplified decoding
+/*LN-128*/         // toContract = dataContract (CrossChainData address)
+/*LN-129*/         // method = "putCurEpochConPubKeyBytes" function selector
+/*LN-130*/ 
+/*LN-131*/         toContract = dataContract;
+/*LN-132*/         method = abi.encodeWithSignature(
+/*LN-133*/             "putCurEpochConPubKeyBytes(bytes)",
+/*LN-134*/             ""
+/*LN-135*/         );
+/*LN-136*/         args = "";
+/*LN-137*/     }
+/*LN-138*/ }
+/*LN-139*/ 

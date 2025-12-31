@@ -26,42 +26,28 @@
   "variant_type": "sanitized",
   "checks_effects_interactions_violated": false,
   "involves_external_calls": true,
-  "vulnerable_contract": {
-    "name": "YieldStrategy",
-    "functions": [
-      {
-        "name": "deposit",
-        "vulnerability": "Uses manipulatable oracle price for share calculation"
-      },
-      {
-        "name": "withdraw",
-        "vulnerability": "Uses manipulatable price for withdrawal amount"
-      }
-    ]
-  },
+  "vulnerable_contract": "YieldStrategy",
   "contract_file": "contracts/sn_tc_029.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
   "sample_id": "sn_tc_029",
   "variant_parent_id": "tc_029",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_029.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_029.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_029.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_029.json",
+    "original_id": "tc_029",
+    "minimalsanitized_id": "ms_tc_029",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: BELT...",
-      "Removed comment: Belt...",
-      "Removed comment: VULNERABLE...",
-      "Removed comment: VULNERABLE...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: BeltStrategy \u2192 YieldStrategy"
     ],
     "contract_renames": {
       "BeltStrategy": "YieldStrategy"
     },
-    "created_date": "2025-12-29T22:32:45.168985"
-  }
+    "created_date": "2025-12-31T16:05:03.481638"
+  },
+  "vulnerable_function": "deposit",
+  "sanitized_from": "ms_tc_029"
 }

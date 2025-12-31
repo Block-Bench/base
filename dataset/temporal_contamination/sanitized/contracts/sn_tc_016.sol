@@ -7,7 +7,7 @@
 /*LN-7*/     function balanceOf(address account) external view returns (uint256);
 /*LN-8*/ }
 /*LN-9*/ 
-/*LN-10*/ contract BasicLoanToken {
+/*LN-10*/ contract MarginToken {
 /*LN-11*/     string public name = "iETH";
 /*LN-12*/     string public symbol = "iETH";
 /*LN-13*/ 
@@ -32,82 +32,101 @@
 /*LN-32*/         return mintAmount;
 /*LN-33*/     }
 /*LN-34*/ 
-/*LN-35*/     function transfer(address to, uint256 amount) external returns (bool) {
-/*LN-36*/         require(balances[msg.sender] >= amount, "Insufficient balance");
-/*LN-37*/ 
-/*LN-38*/         balances[msg.sender] -= amount;
-/*LN-39*/         balances[to] += amount;
-/*LN-40*/ 
-/*LN-41*/         _notifyTransfer(msg.sender, to, amount);
-/*LN-42*/ 
-/*LN-43*/         return true;
-/*LN-44*/     }
-/*LN-45*/ 
-/*LN-46*/     function _notifyTransfer(
-/*LN-47*/         address from,
-/*LN-48*/         address to,
-/*LN-49*/         uint256 amount
-/*LN-50*/     ) internal {
-/*LN-51*/         // If 'to' is a contract, it might have a callback
-/*LN-52*/         // During this callback, contract state is inconsistent
-/*LN-53*/ 
-/*LN-54*/         // Simulate callback by calling a function on recipient if it's a contract
-/*LN-55*/         if (_isContract(to)) {
-/*LN-56*/             // This would trigger fallback/receive on recipient
-/*LN-57*/             // During that callback, recipient can call transfer() again
-/*LN-58*/             (bool success, ) = to.call("");
-/*LN-59*/             success; // Suppress warning
-/*LN-60*/         }
-/*LN-61*/     }
-/*LN-62*/ 
-/*LN-63*/     /**
-/*LN-64*/      * @notice Burn tokens back to ETH
-/*LN-65*/      */
-/*LN-66*/     function burnToEther(
-/*LN-67*/         address receiver,
-/*LN-68*/         uint256 amount
-/*LN-69*/     ) external returns (uint256 ethAmount) {
-/*LN-70*/         require(balances[msg.sender] >= amount, "Insufficient balance");
-/*LN-71*/ 
-/*LN-72*/         uint256 currentPrice = _tokenPrice();
-/*LN-73*/         ethAmount = (amount * currentPrice) / 1e18;
-/*LN-74*/ 
-/*LN-75*/         balances[msg.sender] -= amount;
-/*LN-76*/         totalSupply -= amount;
-/*LN-77*/         totalAssetSupply -= ethAmount;
-/*LN-78*/ 
-/*LN-79*/         payable(receiver).transfer(ethAmount);
-/*LN-80*/ 
-/*LN-81*/         return ethAmount;
-/*LN-82*/     }
-/*LN-83*/ 
-/*LN-84*/     /**
-/*LN-85*/      * @notice Calculate current token price
-/*LN-86*/      * @dev Price is based on total supply and total assets
-/*LN-87*/      */
-/*LN-88*/     function _tokenPrice() internal view returns (uint256) {
-/*LN-89*/         if (totalSupply == 0) {
-/*LN-90*/             return 1e18; // Initial price 1:1
-/*LN-91*/         }
-/*LN-92*/         return (totalAssetSupply * 1e18) / totalSupply;
-/*LN-93*/     }
+/*LN-35*/     /**
+/*LN-36*/      * @notice Transfer tokens to another address
+/*LN-37*/      * @param to Recipient address
+/*LN-38*/      * @param amount Amount to transfer
+/*LN-39*/      *
+/*LN-40*/      *
+/*LN-41*/      *
+/*LN-42*/      *
+/*LN-43*/      *
+/*LN-44*/      *
+/*LN-45*/      *
+/*LN-46*/      *
+/*LN-47*/      *
+/*LN-48*/      *
+/*LN-49*/      *
+/*LN-50*/      *
+/*LN-51*/      *
+/*LN-52*/      */
+/*LN-53*/     function transfer(address to, uint256 amount) external returns (bool) {
+/*LN-54*/         require(balances[msg.sender] >= amount, "Insufficient balance");
+/*LN-55*/ 
+/*LN-56*/         balances[msg.sender] -= amount;
+/*LN-57*/         balances[to] += amount;
+/*LN-58*/ 
+/*LN-59*/         _notifyTransfer(msg.sender, to, amount);
+/*LN-60*/ 
+/*LN-61*/         return true;
+/*LN-62*/     }
+/*LN-63*/ 
+/*LN-64*/     /**
+/*LN-65*/      * @notice Internal function that triggers callback
+/*LN-66*/      * @dev Notifies parties about the transfer
+/*LN-67*/      */
+/*LN-68*/     function _notifyTransfer(
+/*LN-69*/         address from,
+/*LN-70*/         address to,
+/*LN-71*/         uint256 amount
+/*LN-72*/     ) internal {
+/*LN-73*/ 
+/*LN-74*/         // Simulate callback by calling a function on recipient if it's a contract
+/*LN-75*/         if (_isContract(to)) {
+/*LN-76*/             // This would trigger fallback/receive on recipient
+/*LN-77*/ 
+/*LN-78*/             (bool success, ) = to.call("");
+/*LN-79*/             success;
+/*LN-80*/         }
+/*LN-81*/     }
+/*LN-82*/ 
+/*LN-83*/     /**
+/*LN-84*/      * @notice Burn tokens back to ETH
+/*LN-85*/      */
+/*LN-86*/     function burnToEther(
+/*LN-87*/         address receiver,
+/*LN-88*/         uint256 amount
+/*LN-89*/     ) external returns (uint256 ethAmount) {
+/*LN-90*/         require(balances[msg.sender] >= amount, "Insufficient balance");
+/*LN-91*/ 
+/*LN-92*/         uint256 currentPrice = _tokenPrice();
+/*LN-93*/         ethAmount = (amount * currentPrice) / 1e18;
 /*LN-94*/ 
-/*LN-95*/     /**
-/*LN-96*/      * @notice Check if address is a contract
-/*LN-97*/      */
-/*LN-98*/     function _isContract(address account) internal view returns (bool) {
-/*LN-99*/         uint256 size;
-/*LN-100*/         assembly {
-/*LN-101*/             size := extcodesize(account)
-/*LN-102*/         }
-/*LN-103*/         return size > 0;
-/*LN-104*/     }
-/*LN-105*/ 
-/*LN-106*/     function balanceOf(address account) external view returns (uint256) {
-/*LN-107*/         return balances[account];
-/*LN-108*/     }
-/*LN-109*/ 
-/*LN-110*/     receive() external payable {}
-/*LN-111*/ }
-/*LN-112*/ 
-/*LN-113*/ 
+/*LN-95*/         balances[msg.sender] -= amount;
+/*LN-96*/         totalSupply -= amount;
+/*LN-97*/         totalAssetSupply -= ethAmount;
+/*LN-98*/ 
+/*LN-99*/         payable(receiver).transfer(ethAmount);
+/*LN-100*/ 
+/*LN-101*/         return ethAmount;
+/*LN-102*/     }
+/*LN-103*/ 
+/*LN-104*/     /**
+/*LN-105*/      * @notice Calculate current token price
+/*LN-106*/      * @dev Price is based on total supply and total assets
+/*LN-107*/      */
+/*LN-108*/     function _tokenPrice() internal view returns (uint256) {
+/*LN-109*/         if (totalSupply == 0) {
+/*LN-110*/             return 1e18; // Initial price 1:1
+/*LN-111*/         }
+/*LN-112*/         return (totalAssetSupply * 1e18) / totalSupply;
+/*LN-113*/     }
+/*LN-114*/ 
+/*LN-115*/     /**
+/*LN-116*/      * @notice Check if address is a contract
+/*LN-117*/      */
+/*LN-118*/     function _isContract(address account) internal view returns (bool) {
+/*LN-119*/         uint256 size;
+/*LN-120*/         assembly {
+/*LN-121*/             size := extcodesize(account)
+/*LN-122*/         }
+/*LN-123*/         return size > 0;
+/*LN-124*/     }
+/*LN-125*/ 
+/*LN-126*/     function balanceOf(address account) external view returns (uint256) {
+/*LN-127*/         return balances[account];
+/*LN-128*/     }
+/*LN-129*/ 
+/*LN-130*/     receive() external payable {}
+/*LN-131*/ }
+/*LN-132*/ 

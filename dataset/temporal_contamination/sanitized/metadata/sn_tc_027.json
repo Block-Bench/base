@@ -25,40 +25,28 @@
   "variant_type": "sanitized",
   "checks_effects_interactions_violated": false,
   "involves_external_calls": true,
-  "vulnerable_contract": {
-    "name": "SwapRouter",
-    "functions": [
-      {
-        "name": "swapExactTokensForTokens",
-        "vulnerability": "Accepts any pair address without factory validation"
-      }
-    ]
-  },
+  "vulnerable_contract": "SwapRouter",
   "contract_file": "contracts/sn_tc_027.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
   "sample_id": "sn_tc_027",
   "variant_parent_id": "tc_027",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_027.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_027.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_027.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_027.json",
+    "original_id": "tc_027",
+    "minimalsanitized_id": "ms_tc_027",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: BURGERSWAP...",
-      "Removed comment: BurgerSwap...",
-      "Removed comment: VULNERABLE...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker can pass fake token addresses...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: BurgerSwapRouter \u2192 SwapRouter"
     ],
     "contract_renames": {
       "BurgerSwapRouter": "SwapRouter"
     },
-    "created_date": "2025-12-29T22:32:45.142094"
-  }
+    "created_date": "2025-12-31T16:05:03.469452"
+  },
+  "vulnerable_function": "swapExactTokensForTokens",
+  "sanitized_from": "ms_tc_027"
 }

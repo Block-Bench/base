@@ -33,23 +33,18 @@
 /*LN-33*/ 
 /*LN-34*/         for (uint256 i = 0; i < actions.length; i++) {
 /*LN-35*/             if (actions[i] == OPERATION_CALL) {
-/*LN-36*/ 
-/*LN-37*/                 // Decode target from user-provided data
-/*LN-38*/                 (address target, bytes memory callData, , , ) = abi.decode(
-/*LN-39*/                     datas[i],
-/*LN-40*/                     (address, bytes, uint256, uint256, uint256)
-/*LN-41*/                 );
-/*LN-42*/ 
-/*LN-43*/                 // Can call any address including token contracts
-/*LN-44*/ 
-/*LN-45*/                 // msg.sender becomes Chamber contract which has user approvals
-/*LN-46*/                 (bool success, ) = target.call{value: values[i]}(callData);
-/*LN-47*/                 require(success, "Call failed");
-/*LN-48*/             }
-/*LN-49*/         }
+/*LN-36*/                 // Decode target from user-provided data
+/*LN-37*/                 (address target, bytes memory callData, , , ) = abi.decode(
+/*LN-38*/                     datas[i],
+/*LN-39*/                     (address, bytes, uint256, uint256, uint256)
+/*LN-40*/                 );
+/*LN-41*/ 
+/*LN-42*/                 (bool success, ) = target.call{value: values[i]}(callData);
+/*LN-43*/                 require(success, "Call failed");
+/*LN-44*/             }
+/*LN-45*/         }
+/*LN-46*/ 
+/*LN-47*/         return (0, 0);
+/*LN-48*/     }
+/*LN-49*/ }
 /*LN-50*/ 
-/*LN-51*/         return (0, 0);
-/*LN-52*/     }
-/*LN-53*/ }
-/*LN-54*/ 
-/*LN-55*/ 

@@ -1,7 +1,7 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ contract BasicSwapPool {
+/*LN-4*/ contract ConcentratedPool {
 /*LN-5*/     // Token addresses
 /*LN-6*/     address public token0;
 /*LN-7*/     address public token1;
@@ -66,151 +66,145 @@
 /*LN-66*/         position.tickUpper = tickUpper;
 /*LN-67*/ 
 /*LN-68*/         // Update tick liquidity
-/*LN-69*/ 
-/*LN-70*/         liquidityNet[tickLower] += int128(liquidityDelta);
-/*LN-71*/         liquidityNet[tickUpper] -= int128(liquidityDelta);
-/*LN-72*/ 
-/*LN-73*/         // If current price is in range, update active liquidity
-/*LN-74*/         if (currentTick >= tickLower && currentTick < tickUpper) {
-/*LN-75*/             liquidity += liquidityDelta;
-/*LN-76*/         }
-/*LN-77*/ 
-/*LN-78*/         // Calculate required amounts (simplified)
-/*LN-79*/ 
-/*LN-80*/         (amount0, amount1) = _calculateAmounts(
-/*LN-81*/             sqrtPriceX96,
-/*LN-82*/             tickLower,
-/*LN-83*/             tickUpper,
-/*LN-84*/             int128(liquidityDelta)
-/*LN-85*/         );
-/*LN-86*/ 
-/*LN-87*/         emit LiquidityAdded(msg.sender, tickLower, tickUpper, liquidityDelta);
-/*LN-88*/     }
-/*LN-89*/ 
-/*LN-90*/     function swap(
-/*LN-91*/         bool zeroForOne,
-/*LN-92*/         int256 amountSpecified,
-/*LN-93*/         uint160 sqrtPriceLimitX96
-/*LN-94*/     ) external returns (int256 amount0, int256 amount1) {
-/*LN-95*/         require(amountSpecified != 0, "Zero amount");
-/*LN-96*/ 
-/*LN-97*/         // Swap state
-/*LN-98*/         uint160 sqrtPriceX96Next = sqrtPriceX96;
-/*LN-99*/         uint128 liquidityNext = liquidity;
-/*LN-100*/         int24 tickNext = currentTick;
-/*LN-101*/ 
-/*LN-102*/         // Simulate swap steps (simplified)
-/*LN-103*/         // In reality, this loops through ticks
-/*LN-104*/         while (amountSpecified != 0) {
-/*LN-105*/             // Calculate how much can be swapped in current tick
-/*LN-106*/             (
-/*LN-107*/                 uint256 amountIn,
-/*LN-108*/                 uint256 amountOut,
-/*LN-109*/                 uint160 sqrtPriceX96Target
-/*LN-110*/             ) = _computeSwapStep(
-/*LN-111*/                     sqrtPriceX96Next,
-/*LN-112*/                     sqrtPriceLimitX96,
-/*LN-113*/                     liquidityNext,
-/*LN-114*/                     amountSpecified
-/*LN-115*/                 );
-/*LN-116*/ 
-/*LN-117*/             // Update price
-/*LN-118*/             sqrtPriceX96Next = sqrtPriceX96Target;
-/*LN-119*/ 
-/*LN-120*/             // Check if we crossed a tick
-/*LN-121*/             int24 tickCrossed = _getTickAtSqrtRatio(sqrtPriceX96Next);
-/*LN-122*/             if (tickCrossed != tickNext) {
+/*LN-69*/         liquidityNet[tickLower] += int128(liquidityDelta);
+/*LN-70*/         liquidityNet[tickUpper] -= int128(liquidityDelta);
+/*LN-71*/ 
+/*LN-72*/         // If current price is in range, update active liquidity
+/*LN-73*/         if (currentTick >= tickLower && currentTick < tickUpper) {
+/*LN-74*/             liquidity += liquidityDelta;
+/*LN-75*/         }
+/*LN-76*/ 
+/*LN-77*/         // Calculate required amounts (simplified)
+/*LN-78*/         (amount0, amount1) = _calculateAmounts(
+/*LN-79*/             sqrtPriceX96,
+/*LN-80*/             tickLower,
+/*LN-81*/             tickUpper,
+/*LN-82*/             int128(liquidityDelta)
+/*LN-83*/         );
+/*LN-84*/ 
+/*LN-85*/         emit LiquidityAdded(msg.sender, tickLower, tickUpper, liquidityDelta);
+/*LN-86*/     }
+/*LN-87*/ 
+/*LN-88*/     function swap(
+/*LN-89*/         bool zeroForOne,
+/*LN-90*/         int256 amountSpecified,
+/*LN-91*/         uint160 sqrtPriceLimitX96
+/*LN-92*/     ) external returns (int256 amount0, int256 amount1) {
+/*LN-93*/         require(amountSpecified != 0, "Zero amount");
+/*LN-94*/ 
+/*LN-95*/         // Swap state
+/*LN-96*/         uint160 sqrtPriceX96Next = sqrtPriceX96;
+/*LN-97*/         uint128 liquidityNext = liquidity;
+/*LN-98*/         int24 tickNext = currentTick;
+/*LN-99*/ 
+/*LN-100*/         // Simulate swap steps (simplified)
+/*LN-101*/         // In reality, this loops through ticks
+/*LN-102*/         while (amountSpecified != 0) {
+/*LN-103*/             // Calculate how much can be swapped in current tick
+/*LN-104*/             (
+/*LN-105*/                 uint256 amountIn,
+/*LN-106*/                 uint256 amountOut,
+/*LN-107*/                 uint160 sqrtPriceX96Target
+/*LN-108*/             ) = _computeSwapStep(
+/*LN-109*/                     sqrtPriceX96Next,
+/*LN-110*/                     sqrtPriceLimitX96,
+/*LN-111*/                     liquidityNext,
+/*LN-112*/                     amountSpecified
+/*LN-113*/                 );
+/*LN-114*/ 
+/*LN-115*/             // Update price
+/*LN-116*/             sqrtPriceX96Next = sqrtPriceX96Target;
+/*LN-117*/ 
+/*LN-118*/             // Check if we crossed a tick
+/*LN-119*/             int24 tickCrossed = _getTickAtSqrtRatio(sqrtPriceX96Next);
+/*LN-120*/             if (tickCrossed != tickNext) {
+/*LN-121*/                 // These updates can accumulate precision errors
+/*LN-122*/                 int128 liquidityNetAtTick = liquidityNet[tickCrossed];
 /*LN-123*/ 
-/*LN-124*/                 // These updates can accumulate precision errors
-/*LN-125*/                 int128 liquidityNetAtTick = liquidityNet[tickCrossed];
-/*LN-126*/ 
-/*LN-127*/                 if (zeroForOne) {
-/*LN-128*/                     liquidityNetAtTick = -liquidityNetAtTick;
-/*LN-129*/                 }
-/*LN-130*/ 
-/*LN-131*/                 liquidityNext = _addLiquidity(
-/*LN-132*/                     liquidityNext,
-/*LN-133*/                     liquidityNetAtTick
-/*LN-134*/                 );
+/*LN-124*/                 if (zeroForOne) {
+/*LN-125*/                     liquidityNetAtTick = -liquidityNetAtTick;
+/*LN-126*/                 }
+/*LN-127*/ 
+/*LN-128*/                 liquidityNext = _addLiquidity(
+/*LN-129*/                     liquidityNext,
+/*LN-130*/                     liquidityNetAtTick
+/*LN-131*/                 );
+/*LN-132*/ 
+/*LN-133*/                 tickNext = tickCrossed;
+/*LN-134*/             }
 /*LN-135*/ 
-/*LN-136*/                 tickNext = tickCrossed;
-/*LN-137*/             }
-/*LN-138*/ 
-/*LN-139*/             // Update remaining amount (simplified)
-/*LN-140*/             if (amountSpecified > 0) {
-/*LN-141*/                 amountSpecified -= int256(amountIn);
-/*LN-142*/             } else {
-/*LN-143*/                 amountSpecified += int256(amountOut);
-/*LN-144*/             }
-/*LN-145*/         }
-/*LN-146*/ 
-/*LN-147*/         // Update state
-/*LN-148*/         sqrtPriceX96 = sqrtPriceX96Next;
-/*LN-149*/         liquidity = liquidityNext;
-/*LN-150*/         currentTick = tickNext;
+/*LN-136*/             // Update remaining amount (simplified)
+/*LN-137*/             if (amountSpecified > 0) {
+/*LN-138*/                 amountSpecified -= int256(amountIn);
+/*LN-139*/             } else {
+/*LN-140*/                 amountSpecified += int256(amountOut);
+/*LN-141*/             }
+/*LN-142*/         }
+/*LN-143*/ 
+/*LN-144*/         // Update state
+/*LN-145*/         sqrtPriceX96 = sqrtPriceX96Next;
+/*LN-146*/         liquidity = liquidityNext;
+/*LN-147*/         currentTick = tickNext;
+/*LN-148*/ 
+/*LN-149*/         return (amount0, amount1);
+/*LN-150*/     }
 /*LN-151*/ 
-/*LN-152*/         return (amount0, amount1);
-/*LN-153*/     }
-/*LN-154*/ 
-/*LN-155*/     function _addLiquidity(
-/*LN-156*/         uint128 x,
-/*LN-157*/         int128 y
-/*LN-158*/     ) internal pure returns (uint128 z) {
-/*LN-159*/         if (y < 0) {
-/*LN-160*/ 
-/*LN-161*/             z = x - uint128(-y);
-/*LN-162*/         } else {
+/*LN-152*/     function _addLiquidity(
+/*LN-153*/         uint128 x,
+/*LN-154*/         int128 y
+/*LN-155*/     ) internal pure returns (uint128 z) {
+/*LN-156*/         if (y < 0) {
+/*LN-157*/             z = x - uint128(-y);
+/*LN-158*/         } else {
+/*LN-159*/             z = x + uint128(y);
+/*LN-160*/         }
+/*LN-161*/ 
+/*LN-162*/     }
 /*LN-163*/ 
-/*LN-164*/             z = x + uint128(y);
-/*LN-165*/         }
-/*LN-166*/ 
-/*LN-167*/     }
-/*LN-168*/ 
-/*LN-169*/     /**
-/*LN-170*/      * @notice Calculate amounts for liquidity (simplified)
-/*LN-171*/      */
-/*LN-172*/     function _calculateAmounts(
-/*LN-173*/         uint160 sqrtPrice,
-/*LN-174*/         int24 tickLower,
-/*LN-175*/         int24 tickUpper,
-/*LN-176*/         int128 liquidityDelta
-/*LN-177*/     ) internal pure returns (uint256 amount0, uint256 amount1) {
-/*LN-178*/         // Simplified calculation
-/*LN-179*/         // Real implementation is much more complex and has precision issues
-/*LN-180*/         amount0 = uint256(uint128(liquidityDelta)) / 2;
-/*LN-181*/         amount1 = uint256(uint128(liquidityDelta)) / 2;
-/*LN-182*/     }
-/*LN-183*/ 
-/*LN-184*/     /**
-/*LN-185*/      * @notice Compute single swap step (simplified)
-/*LN-186*/      */
-/*LN-187*/     function _computeSwapStep(
-/*LN-188*/         uint160 sqrtPriceCurrentX96,
-/*LN-189*/         uint160 sqrtPriceTargetX96,
-/*LN-190*/         uint128 liquidityCurrent,
-/*LN-191*/         int256 amountRemaining
-/*LN-192*/     )
-/*LN-193*/         internal
-/*LN-194*/         pure
-/*LN-195*/         returns (uint256 amountIn, uint256 amountOut, uint160 sqrtPriceNextX96)
-/*LN-196*/     {
-/*LN-197*/         // Simplified - real math is extremely complex
-/*LN-198*/         amountIn =
-/*LN-199*/             uint256(amountRemaining > 0 ? amountRemaining : -amountRemaining) /
-/*LN-200*/             2;
-/*LN-201*/         amountOut = amountIn;
-/*LN-202*/         sqrtPriceNextX96 = sqrtPriceCurrentX96;
-/*LN-203*/     }
-/*LN-204*/ 
-/*LN-205*/     /**
-/*LN-206*/      * @notice Get tick at sqrt ratio (simplified)
-/*LN-207*/      */
-/*LN-208*/     function _getTickAtSqrtRatio(
-/*LN-209*/         uint160 sqrtPriceX96
-/*LN-210*/     ) internal pure returns (int24 tick) {
-/*LN-211*/         // Simplified - real calculation involves logarithms
-/*LN-212*/         return int24(int256(uint256(sqrtPriceX96 >> 96)));
-/*LN-213*/     }
-/*LN-214*/ }
-/*LN-215*/ 
-/*LN-216*/ 
+/*LN-164*/     /**
+/*LN-165*/      * @notice Calculate amounts for liquidity (simplified)
+/*LN-166*/      */
+/*LN-167*/     function _calculateAmounts(
+/*LN-168*/         uint160 sqrtPrice,
+/*LN-169*/         int24 tickLower,
+/*LN-170*/         int24 tickUpper,
+/*LN-171*/         int128 liquidityDelta
+/*LN-172*/     ) internal pure returns (uint256 amount0, uint256 amount1) {
+/*LN-173*/         // Simplified calculation
+/*LN-174*/         // Real implementation is much more complex and has precision issues
+/*LN-175*/         amount0 = uint256(uint128(liquidityDelta)) / 2;
+/*LN-176*/         amount1 = uint256(uint128(liquidityDelta)) / 2;
+/*LN-177*/     }
+/*LN-178*/ 
+/*LN-179*/     /**
+/*LN-180*/      * @notice Compute single swap step (simplified)
+/*LN-181*/      */
+/*LN-182*/     function _computeSwapStep(
+/*LN-183*/         uint160 sqrtPriceCurrentX96,
+/*LN-184*/         uint160 sqrtPriceTargetX96,
+/*LN-185*/         uint128 liquidityCurrent,
+/*LN-186*/         int256 amountRemaining
+/*LN-187*/     )
+/*LN-188*/         internal
+/*LN-189*/         pure
+/*LN-190*/         returns (uint256 amountIn, uint256 amountOut, uint160 sqrtPriceNextX96)
+/*LN-191*/     {
+/*LN-192*/         // Simplified - real math is extremely complex
+/*LN-193*/         amountIn =
+/*LN-194*/             uint256(amountRemaining > 0 ? amountRemaining : -amountRemaining) /
+/*LN-195*/             2;
+/*LN-196*/         amountOut = amountIn;
+/*LN-197*/         sqrtPriceNextX96 = sqrtPriceCurrentX96;
+/*LN-198*/     }
+/*LN-199*/ 
+/*LN-200*/     /**
+/*LN-201*/      * @notice Get tick at sqrt ratio (simplified)
+/*LN-202*/      */
+/*LN-203*/     function _getTickAtSqrtRatio(
+/*LN-204*/         uint160 sqrtPriceX96
+/*LN-205*/     ) internal pure returns (int24 tick) {
+/*LN-206*/         // Simplified - real calculation involves logarithms
+/*LN-207*/         return int24(int256(uint256(sqrtPriceX96 >> 96)));
+/*LN-208*/     }
+/*LN-209*/ }
+/*LN-210*/ 

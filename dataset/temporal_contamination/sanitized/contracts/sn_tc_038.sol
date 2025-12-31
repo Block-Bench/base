@@ -47,64 +47,64 @@
 /*LN-47*/         return results;
 /*LN-48*/     }
 /*LN-49*/ 
-/*LN-50*/     function mint(address token, uint256 amount) external returns (uint256) {
-/*LN-51*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
-/*LN-52*/ 
-/*LN-53*/         uint256 price = oracle.getPrice(token);
-/*LN-54*/ 
-/*LN-55*/         // No checks for dramatic price changes
-/*LN-56*/         // No TWAP or external price validation
+/*LN-50*/     /**
+/*LN-51*/      * @notice Mint collateral tokens
+/*LN-52*/      */
+/*LN-53*/     function mint(address token, uint256 amount) external returns (uint256) {
+/*LN-54*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
+/*LN-55*/ 
+/*LN-56*/         uint256 price = oracle.getPrice(token);
 /*LN-57*/ 
 /*LN-58*/         markets[token].accountCollateral[msg.sender] += amount;
 /*LN-59*/         return 0;
 /*LN-60*/     }
 /*LN-61*/ 
-/*LN-62*/     function borrow(
-/*LN-63*/         address borrowToken,
-/*LN-64*/         uint256 borrowAmount
-/*LN-65*/     ) external returns (uint256) {
-/*LN-66*/ 
-/*LN-67*/         uint256 totalCollateralValue = 0;
-/*LN-68*/ 
-/*LN-69*/         // Sum up all collateral value (would iterate through user's collateral)
-/*LN-70*/         // Using manipulated oracle prices
-/*LN-71*/ 
-/*LN-72*/         uint256 borrowPrice = oracle.getPrice(borrowToken);
-/*LN-73*/         uint256 borrowValue = (borrowAmount * borrowPrice) / 1e18;
-/*LN-74*/ 
-/*LN-75*/         uint256 maxBorrowValue = (totalCollateralValue * COLLATERAL_FACTOR) /
-/*LN-76*/             BASIS_POINTS;
-/*LN-77*/ 
-/*LN-78*/         require(borrowValue <= maxBorrowValue, "Insufficient collateral");
-/*LN-79*/ 
-/*LN-80*/         markets[borrowToken].accountBorrows[msg.sender] += borrowAmount;
-/*LN-81*/         IERC20(borrowToken).transfer(msg.sender, borrowAmount);
-/*LN-82*/ 
-/*LN-83*/         return 0;
-/*LN-84*/     }
-/*LN-85*/ 
-/*LN-86*/     /**
-/*LN-87*/      * @notice Liquidate undercollateralized position
-/*LN-88*/      */
-/*LN-89*/     function liquidate(
-/*LN-90*/         address borrower,
-/*LN-91*/         address repayToken,
-/*LN-92*/         uint256 repayAmount,
-/*LN-93*/         address collateralToken
-/*LN-94*/     ) external {
-/*LN-95*/         // Liquidation logic (simplified)
-/*LN-96*/         // Would check if borrower is undercollateralized
-/*LN-97*/ 
+/*LN-62*/     /**
+/*LN-63*/      * @notice Borrow tokens against collateral
+/*LN-64*/      */
+/*LN-65*/     function borrow(
+/*LN-66*/         address borrowToken,
+/*LN-67*/         uint256 borrowAmount
+/*LN-68*/     ) external returns (uint256) {
+/*LN-69*/         uint256 totalCollateralValue = 0;
+/*LN-70*/ 
+/*LN-71*/         // Sum up all collateral value (would iterate through user's collateral)
+/*LN-72*/ 
+/*LN-73*/         uint256 borrowPrice = oracle.getPrice(borrowToken);
+/*LN-74*/         uint256 borrowValue = (borrowAmount * borrowPrice) / 1e18;
+/*LN-75*/ 
+/*LN-76*/         uint256 maxBorrowValue = (totalCollateralValue * COLLATERAL_FACTOR) /
+/*LN-77*/             BASIS_POINTS;
+/*LN-78*/ 
+/*LN-79*/         require(borrowValue <= maxBorrowValue, "Insufficient collateral");
+/*LN-80*/ 
+/*LN-81*/         markets[borrowToken].accountBorrows[msg.sender] += borrowAmount;
+/*LN-82*/         IERC20(borrowToken).transfer(msg.sender, borrowAmount);
+/*LN-83*/ 
+/*LN-84*/         return 0;
+/*LN-85*/     }
+/*LN-86*/ 
+/*LN-87*/     /**
+/*LN-88*/      * @notice Liquidate undercollateralized position
+/*LN-89*/      */
+/*LN-90*/     function liquidate(
+/*LN-91*/         address borrower,
+/*LN-92*/         address repayToken,
+/*LN-93*/         uint256 repayAmount,
+/*LN-94*/         address collateralToken
+/*LN-95*/     ) external {
+/*LN-96*/         // Liquidation logic (simplified)
+/*LN-97*/         // Would check if borrower is undercollateralized
 /*LN-98*/     }
 /*LN-99*/ }
 /*LN-100*/ 
-/*LN-101*/ contract ManipulableOracle is IPriceOracle {
+/*LN-101*/ contract TestOracle is IPriceOracle {
 /*LN-102*/     mapping(address => uint256) public prices;
 /*LN-103*/ 
-/*LN-104*/     function getPrice(address token) external view override returns (uint256) {
-/*LN-105*/ 
-/*LN-106*/         // Then oracle reads manipulated price
-/*LN-107*/         // No circuit breakers or sanity checks
+/*LN-104*/     /**
+/*LN-105*/      * @notice Get token price
+/*LN-106*/      */
+/*LN-107*/     function getPrice(address token) external view override returns (uint256) {
 /*LN-108*/ 
 /*LN-109*/         return prices[token];
 /*LN-110*/     }
@@ -114,4 +114,3 @@
 /*LN-114*/     }
 /*LN-115*/ }
 /*LN-116*/ 
-/*LN-117*/ 

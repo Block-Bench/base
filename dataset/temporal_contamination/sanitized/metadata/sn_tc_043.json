@@ -72,31 +72,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_043",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_043.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_043.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_043.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_043.json",
+    "original_id": "tc_043",
+    "minimalsanitized_id": "ms_tc_043",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: Pendle...",
-      "Removed comment: SENECA...",
-      "Removed comment: Seneca...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker can encode transferFrom() calls...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: SenecaChamber \u2192 CDPChamber",
-      "WARNING: Built-in msg.sender count changed: 3 -> 1",
-      "WARNING: Built-in abi.encode count changed: 2 -> 0",
-      "WARNING: Built-in abi.encodeWithSignature count changed: 1 -> 0"
+      "Renamed: SenecaChamber \u2192 CDPChamber"
     ],
     "contract_renames": {
       "SenecaChamber": "CDPChamber"
     },
-    "created_date": "2025-12-29T22:32:45.445398"
-  }
+    "created_date": "2025-12-31T16:05:03.628807"
+  },
+  "vulnerable_contract": "CDPChamber",
+  "vulnerable_function": "performOperations",
+  "sanitized_from": "ms_tc_043"
 }

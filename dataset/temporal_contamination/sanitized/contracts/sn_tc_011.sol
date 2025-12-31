@@ -15,7 +15,7 @@
 /*LN-15*/     ) external;
 /*LN-16*/ }
 /*LN-17*/ 
-/*LN-18*/ contract BasicLendingPool {
+/*LN-18*/ contract LendingPool {
 /*LN-19*/     mapping(address => mapping(address => uint256)) public supplied;
 /*LN-20*/     mapping(address => uint256) public totalSupplied;
 /*LN-21*/ 
@@ -37,39 +37,51 @@
 /*LN-37*/         return amount;
 /*LN-38*/     }
 /*LN-39*/ 
-/*LN-40*/     function withdraw(
-/*LN-41*/         address asset,
-/*LN-42*/         uint256 requestedAmount
-/*LN-43*/     ) external returns (uint256) {
-/*LN-44*/         uint256 userBalance = supplied[msg.sender][asset];
-/*LN-45*/         require(userBalance > 0, "No balance");
-/*LN-46*/ 
-/*LN-47*/         // Determine actual withdrawal amount
-/*LN-48*/         uint256 withdrawAmount = requestedAmount;
-/*LN-49*/         if (requestedAmount == type(uint256).max) {
-/*LN-50*/             withdrawAmount = userBalance;
-/*LN-51*/         }
-/*LN-52*/         require(withdrawAmount <= userBalance, "Insufficient balance");
-/*LN-53*/ 
-/*LN-54*/         // For ERC-777, this triggers tokensToSend() callback
-/*LN-55*/         IERC777(asset).transfer(msg.sender, withdrawAmount);
-/*LN-56*/ 
-/*LN-57*/         // Update state (happens too late!)
-/*LN-58*/         supplied[msg.sender][asset] -= withdrawAmount;
-/*LN-59*/         totalSupplied[asset] -= withdrawAmount;
-/*LN-60*/ 
-/*LN-61*/         return withdrawAmount;
-/*LN-62*/     }
-/*LN-63*/ 
-/*LN-64*/     /**
-/*LN-65*/      * @notice Get user's supplied balance
-/*LN-66*/      */
-/*LN-67*/     function getSupplied(
-/*LN-68*/         address user,
-/*LN-69*/         address asset
-/*LN-70*/     ) external view returns (uint256) {
-/*LN-71*/         return supplied[user][asset];
-/*LN-72*/     }
-/*LN-73*/ }
-/*LN-74*/ 
-/*LN-75*/ 
+/*LN-40*/     /**
+/*LN-41*/      * @notice Withdraw supplied tokens
+/*LN-42*/      * @param asset The token to withdraw
+/*LN-43*/      * @param requestedAmount Amount to withdraw (type(uint256).max for all)
+/*LN-44*/      *
+/*LN-45*/      *
+/*LN-46*/      *
+/*LN-47*/      *
+/*LN-48*/      *
+/*LN-49*/      *
+/*LN-50*/      *
+/*LN-51*/      *
+/*LN-52*/      */
+/*LN-53*/     function withdraw(
+/*LN-54*/         address asset,
+/*LN-55*/         uint256 requestedAmount
+/*LN-56*/     ) external returns (uint256) {
+/*LN-57*/         uint256 userBalance = supplied[msg.sender][asset];
+/*LN-58*/         require(userBalance > 0, "No balance");
+/*LN-59*/ 
+/*LN-60*/         // Determine actual withdrawal amount
+/*LN-61*/         uint256 withdrawAmount = requestedAmount;
+/*LN-62*/         if (requestedAmount == type(uint256).max) {
+/*LN-63*/             withdrawAmount = userBalance;
+/*LN-64*/         }
+/*LN-65*/         require(withdrawAmount <= userBalance, "Insufficient balance");
+/*LN-66*/ 
+/*LN-67*/         // For ERC-777, this triggers tokensToSend() callback
+/*LN-68*/         IERC777(asset).transfer(msg.sender, withdrawAmount);
+/*LN-69*/ 
+/*LN-70*/         // Update state
+/*LN-71*/         supplied[msg.sender][asset] -= withdrawAmount;
+/*LN-72*/         totalSupplied[asset] -= withdrawAmount;
+/*LN-73*/ 
+/*LN-74*/         return withdrawAmount;
+/*LN-75*/     }
+/*LN-76*/ 
+/*LN-77*/     /**
+/*LN-78*/      * @notice Get user's supplied balance
+/*LN-79*/      */
+/*LN-80*/     function getSupplied(
+/*LN-81*/         address user,
+/*LN-82*/         address asset
+/*LN-83*/     ) external view returns (uint256) {
+/*LN-84*/         return supplied[user][asset];
+/*LN-85*/     }
+/*LN-86*/ }
+/*LN-87*/ 

@@ -61,74 +61,77 @@
 /*LN-61*/         return positionId;
 /*LN-62*/     }
 /*LN-63*/ 
-/*LN-64*/     function _borrow(uint256 positionId, uint256 amount) internal {
-/*LN-65*/         Position storage pos = positions[positionId];
-/*LN-66*/ 
-/*LN-67*/         // Calculate debt shares for this borrow
-/*LN-68*/         uint256 share;
+/*LN-64*/     /**
+/*LN-65*/      * @dev Internal function to borrow funds for a position
+/*LN-66*/      */
+/*LN-67*/     function _borrow(uint256 positionId, uint256 amount) internal {
+/*LN-68*/         Position storage pos = positions[positionId];
 /*LN-69*/ 
-/*LN-70*/         if (totalDebtShare == 0) {
-/*LN-71*/             share = amount;
-/*LN-72*/         } else {
-/*LN-73*/ 
-/*LN-74*/             // has been manipulated via external pool state changes
-/*LN-75*/             share = (amount * totalDebtShare) / totalDebt;
-/*LN-76*/         }
-/*LN-77*/ 
-/*LN-78*/         pos.debtShare += share;
-/*LN-79*/         totalDebtShare += share;
-/*LN-80*/         totalDebt += amount;
-/*LN-81*/ 
-/*LN-82*/         ICErc20(cToken).borrow(amount);
-/*LN-83*/     }
-/*LN-84*/ 
-/*LN-85*/     /**
-/*LN-86*/      * @notice Repay debt for a position
-/*LN-87*/      */
-/*LN-88*/     function repay(uint256 positionId, uint256 amount) external {
-/*LN-89*/         Position storage pos = positions[positionId];
-/*LN-90*/         require(msg.sender == pos.owner, "Not position owner");
-/*LN-91*/ 
-/*LN-92*/         // Calculate how many shares this repayment covers
-/*LN-93*/         uint256 shareToRemove = (amount * totalDebtShare) / totalDebt;
-/*LN-94*/ 
-/*LN-95*/         require(pos.debtShare >= shareToRemove, "Excessive repayment");
+/*LN-70*/         // Calculate debt shares for this borrow
+/*LN-71*/         uint256 share;
+/*LN-72*/ 
+/*LN-73*/         if (totalDebtShare == 0) {
+/*LN-74*/             share = amount;
+/*LN-75*/         } else {
+/*LN-76*/ 
+/*LN-77*/             share = (amount * totalDebtShare) / totalDebt;
+/*LN-78*/         }
+/*LN-79*/ 
+/*LN-80*/         pos.debtShare += share;
+/*LN-81*/         totalDebtShare += share;
+/*LN-82*/         totalDebt += amount;
+/*LN-83*/ 
+/*LN-84*/         ICErc20(cToken).borrow(amount);
+/*LN-85*/     }
+/*LN-86*/ 
+/*LN-87*/     /**
+/*LN-88*/      * @notice Repay debt for a position
+/*LN-89*/      */
+/*LN-90*/     function repay(uint256 positionId, uint256 amount) external {
+/*LN-91*/         Position storage pos = positions[positionId];
+/*LN-92*/         require(msg.sender == pos.owner, "Not position owner");
+/*LN-93*/ 
+/*LN-94*/         // Calculate how many shares this repayment covers
+/*LN-95*/         uint256 shareToRemove = (amount * totalDebtShare) / totalDebt;
 /*LN-96*/ 
-/*LN-97*/         pos.debtShare -= shareToRemove;
-/*LN-98*/         totalDebtShare -= shareToRemove;
-/*LN-99*/         totalDebt -= amount;
-/*LN-100*/ 
-/*LN-101*/         // Transfer tokens from user (simplified)
-/*LN-102*/     }
-/*LN-103*/ 
-/*LN-104*/     function getPositionDebt(
-/*LN-105*/         uint256 positionId
-/*LN-106*/     ) external view returns (uint256) {
-/*LN-107*/         Position storage pos = positions[positionId];
-/*LN-108*/ 
-/*LN-109*/         if (totalDebtShare == 0) return 0;
-/*LN-110*/ 
-/*LN-111*/         // Debt calculation based on current share
-/*LN-112*/ 
-/*LN-113*/         return (pos.debtShare * totalDebt) / totalDebtShare;
-/*LN-114*/     }
+/*LN-97*/         require(pos.debtShare >= shareToRemove, "Excessive repayment");
+/*LN-98*/ 
+/*LN-99*/         pos.debtShare -= shareToRemove;
+/*LN-100*/         totalDebtShare -= shareToRemove;
+/*LN-101*/         totalDebt -= amount;
+/*LN-102*/ 
+/*LN-103*/         // Transfer tokens from user (simplified)
+/*LN-104*/     }
+/*LN-105*/ 
+/*LN-106*/     /**
+/*LN-107*/      * @notice Get current debt amount for a position
+/*LN-108*/      */
+/*LN-109*/     function getPositionDebt(
+/*LN-110*/         uint256 positionId
+/*LN-111*/     ) external view returns (uint256) {
+/*LN-112*/         Position storage pos = positions[positionId];
+/*LN-113*/ 
+/*LN-114*/         if (totalDebtShare == 0) return 0;
 /*LN-115*/ 
-/*LN-116*/     /**
-/*LN-117*/      * @notice Liquidate an unhealthy position
-/*LN-118*/      */
-/*LN-119*/     function liquidate(uint256 positionId) external {
-/*LN-120*/         Position storage pos = positions[positionId];
-/*LN-121*/ 
-/*LN-122*/         uint256 debt = (pos.debtShare * totalDebt) / totalDebtShare;
-/*LN-123*/ 
-/*LN-124*/         // Check if position is underwater
-/*LN-125*/         // Simplified: collateral should be > 150% of debt
-/*LN-126*/         require(pos.collateral * 100 < debt * 150, "Position is healthy");
+/*LN-116*/         // Debt calculation based on current share
+/*LN-117*/         return (pos.debtShare * totalDebt) / totalDebtShare;
+/*LN-118*/     }
+/*LN-119*/ 
+/*LN-120*/     /**
+/*LN-121*/      * @notice Liquidate an unhealthy position
+/*LN-122*/      */
+/*LN-123*/     function liquidate(uint256 positionId) external {
+/*LN-124*/         Position storage pos = positions[positionId];
+/*LN-125*/ 
+/*LN-126*/         uint256 debt = (pos.debtShare * totalDebt) / totalDebtShare;
 /*LN-127*/ 
-/*LN-128*/         // Liquidate and transfer collateral to liquidator
-/*LN-129*/         pos.collateral = 0;
-/*LN-130*/         pos.debtShare = 0;
-/*LN-131*/     }
-/*LN-132*/ }
-/*LN-133*/ 
-/*LN-134*/ 
+/*LN-128*/         // Check if position is underwater
+/*LN-129*/         // Simplified: collateral should be > 150% of debt
+/*LN-130*/         require(pos.collateral * 100 < debt * 150, "Position is healthy");
+/*LN-131*/ 
+/*LN-132*/         // Liquidate and transfer collateral to liquidator
+/*LN-133*/         pos.collateral = 0;
+/*LN-134*/         pos.debtShare = 0;
+/*LN-135*/     }
+/*LN-136*/ }
+/*LN-137*/ 

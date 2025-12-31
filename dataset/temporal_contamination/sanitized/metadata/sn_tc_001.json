@@ -12,7 +12,7 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Nomad Bridge hack exploiting improper initialization of message validation. After a contract upgrade, the acceptedRoot was mistakenly set to 0x00...00, allowing attackers to craft messages that bypassed validation and drain $190M across 41 different tokens.",
-  "vulnerable_contract": "BasicBridgeReplica",
+  "vulnerable_contract": "BridgeReplica",
   "vulnerable_function": "process",
   "vulnerable_lines": [],
   "attack_scenario": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation. The process() function incorrectly accepts these messages, triggering token transfers without corresponding deposits on the source chain.",
@@ -39,31 +39,20 @@
   "subset": "annotated",
   "original_subset": "temporal_contamination",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_001.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_001.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_001.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_001.json",
+    "original_id": "tc_001",
+    "minimalsanitized_id": "ms_tc_001",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: Nomad...",
-      "Removed comment: Nomad...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: vulnerability...",
-      "Removed comment: // Attackers could craft messages where _messageRo...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: NomadReplica \u2192 NomadReplica",
-      "Renamed: BasicNomadReplica \u2192 BasicBridgeReplica"
+      "Renamed: NomadReplica \u2192 BridgeReplica"
     ],
     "contract_renames": {
-      "NomadReplica": "NomadReplica",
-      "BasicNomadReplica": "BasicBridgeReplica"
+      "NomadReplica": "BridgeReplica"
     },
-    "created_date": "2025-12-29T22:32:44.780256"
-  }
+    "created_date": "2025-12-31T16:05:03.184279"
+  },
+  "sanitized_from": "ms_tc_001"
 }

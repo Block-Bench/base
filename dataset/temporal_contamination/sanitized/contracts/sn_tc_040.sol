@@ -49,60 +49,41 @@
 /*LN-49*/     function mint() external payable {
 /*LN-50*/         require(msg.value > 0, "No ETH sent");
 /*LN-51*/ 
-/*LN-52*/         // Completely ignores actual market prices
-/*LN-53*/         // ETH is worth ~15-20x less than BTC
-/*LN-54*/ 
-/*LN-55*/         uint256 uniBTCAmount = msg.value;
+/*LN-52*/         uint256 uniBTCAmount = msg.value;
+/*LN-53*/ 
+/*LN-54*/         totalETHDeposited += msg.value;
+/*LN-55*/         totalUniBTCMinted += uniBTCAmount;
 /*LN-56*/ 
-/*LN-57*/         // Should check:
-/*LN-58*/         // - Current ETH/BTC price ratio
-/*LN-59*/         // - Use Chainlink or other oracle
-/*LN-60*/         // - Validate exchange rate is reasonable
-/*LN-61*/ 
-/*LN-62*/         // User can mint at fixed 1:1 ratio regardless of market conditions
-/*LN-63*/ 
-/*LN-64*/         totalETHDeposited += msg.value;
-/*LN-65*/         totalUniBTCMinted += uniBTCAmount;
-/*LN-66*/ 
-/*LN-67*/         // User deposits 1 ETH (~$3000)
-/*LN-68*/         // Gets 1 uniBTC (~$60000 value)
-/*LN-69*/         // 20x value extraction
-/*LN-70*/ 
-/*LN-71*/         // Transfer uniBTC to user
-/*LN-72*/         uniBTC.transfer(msg.sender, uniBTCAmount);
-/*LN-73*/     }
+/*LN-57*/         /
+/*LN-58*/ 
+/*LN-59*/         // Transfer uniBTC to user
+/*LN-60*/         uniBTC.transfer(msg.sender, uniBTCAmount);
+/*LN-61*/     }
+/*LN-62*/ 
+/*LN-63*/     /**
+/*LN-64*/      * @notice Redeem ETH by burning uniBTC
+/*LN-65*/      */
+/*LN-66*/     function redeem(uint256 amount) external {
+/*LN-67*/         require(amount > 0, "No amount specified");
+/*LN-68*/         require(uniBTC.balanceOf(msg.sender) >= amount, "Insufficient balance");
+/*LN-69*/ 
+/*LN-70*/         uniBTC.transferFrom(msg.sender, address(this), amount);
+/*LN-71*/ 
+/*LN-72*/         uint256 ethAmount = amount;
+/*LN-73*/         require(address(this).balance >= ethAmount, "Insufficient ETH");
 /*LN-74*/ 
-/*LN-75*/     /**
-/*LN-76*/      * @notice Redeem ETH by burning uniBTC
-/*LN-77*/      */
-/*LN-78*/     function redeem(uint256 amount) external {
-/*LN-79*/         require(amount > 0, "No amount specified");
-/*LN-80*/         require(uniBTC.balanceOf(msg.sender) >= amount, "Insufficient balance");
-/*LN-81*/ 
-/*LN-82*/         // Would allow draining ETH at incorrect ratio
+/*LN-75*/         payable(msg.sender).transfer(ethAmount);
+/*LN-76*/     }
+/*LN-77*/ 
+/*LN-78*/     /**
+/*LN-79*/      * @notice Get current exchange rate
+/*LN-80*/      * @dev Should return ETH per uniBTC, but returns 1:1
+/*LN-81*/      */
+/*LN-82*/     function getExchangeRate() external pure returns (uint256) {
 /*LN-83*/ 
-/*LN-84*/         uniBTC.transferFrom(msg.sender, address(this), amount);
-/*LN-85*/ 
-/*LN-86*/         uint256 ethAmount = amount;
-/*LN-87*/         require(address(this).balance >= ethAmount, "Insufficient ETH");
-/*LN-88*/ 
-/*LN-89*/         payable(msg.sender).transfer(ethAmount);
-/*LN-90*/     }
-/*LN-91*/ 
-/*LN-92*/     /**
-/*LN-93*/      * @notice Get current exchange rate
-/*LN-94*/      * @dev Should return ETH per uniBTC, but returns 1:1
-/*LN-95*/      */
-/*LN-96*/     function getExchangeRate() external pure returns (uint256) {
-/*LN-97*/ 
-/*LN-98*/         // Should dynamically calculate based on:
-/*LN-99*/         // - Pool reserves
-/*LN-100*/         // - External oracle prices
-/*LN-101*/         // - Total assets vs total supply
-/*LN-102*/         return 1e18;
-/*LN-103*/     }
-/*LN-104*/ 
-/*LN-105*/     receive() external payable {}
-/*LN-106*/ }
-/*LN-107*/ 
-/*LN-108*/ 
+/*LN-84*/         return 1e18;
+/*LN-85*/     }
+/*LN-86*/ 
+/*LN-87*/     receive() external payable {}
+/*LN-88*/ }
+/*LN-89*/ 

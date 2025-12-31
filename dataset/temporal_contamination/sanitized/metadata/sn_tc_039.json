@@ -70,32 +70,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_039",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_039.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_039.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_039.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_039.json",
+    "original_id": "tc_039",
+    "minimalsanitized_id": "ms_tc_039",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker can specify their own address as solve...",
-      "Removed comment: // Contract will transfer tokens to attacker-contr...",
-      "Removed comment: // Attacker controls where funds ultimately go...",
-      "Removed comment: // amount0Delta and amount1Delta controlled by att...",
-      "Removed comment: // Attacker gets tokens without providing anything...",
-      "Removed comment: // Anyone can call this function directly with arb...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: CowSolver \u2192 BatchSolver",
-      "WARNING: Built-in msg.sender count changed: 8 -> 2"
+      "Renamed: CowSolver \u2192 BatchSolver"
     ],
     "contract_renames": {
       "CowSolver": "BatchSolver"
     },
-    "created_date": "2025-12-29T22:32:45.367491"
-  }
+    "created_date": "2025-12-31T16:05:03.583214"
+  },
+  "vulnerable_contract": "BatchSolver",
+  "vulnerable_function": "uniswapV3SwapCallback",
+  "sanitized_from": "ms_tc_039"
 }

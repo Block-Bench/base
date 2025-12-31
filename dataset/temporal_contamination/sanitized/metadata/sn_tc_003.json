@@ -12,7 +12,7 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Parity multi-sig wallet library vulnerability where anyone could call initWallet() on the shared library contract to become owner, then call kill() to selfdestruct it. This permanently froze $150M+ across 587 wallet contracts that relied on the destroyed library. The bug was accidentally triggered by a user, not a malicious attacker.",
-  "vulnerable_contract": "BasicWalletLibrary",
+  "vulnerable_contract": "WalletLibrary",
   "vulnerable_function": "kill",
   "vulnerable_lines": [],
   "attack_scenario": "User calls initWallet() directly on the WalletLibrary contract (not via delegatecall from a proxy), becoming the owner of the library itself. User then calls kill() function which executes selfdestruct, destroying the library contract. All 587 wallet proxies that delegatecall to this library are now permanently frozen with no way to access funds.",
@@ -40,31 +40,22 @@
   "subset": "annotated",
   "original_subset": "temporal_contamination",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_003.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_003.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_003.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_003.json",
+    "original_id": "tc_003",
+    "minimalsanitized_id": "ms_tc_003",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: Parity...",
-      "Removed comment: Parity...",
-      "Removed comment: Parity...",
-      "Removed comment: Parity...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: ParityWalletLibrary \u2192 ParityWalletLibrary",
-      "Renamed: BasicParityWalletLibrary \u2192 BasicWalletLibrary",
-      "Renamed: ParityWalletProxy \u2192 WalletProxy"
+      "Renamed: ParityWalletProxy \u2192 WalletProxy",
+      "Renamed: ParityWalletLibrary \u2192 WalletLibrary"
     ],
     "contract_renames": {
-      "ParityWalletLibrary": "ParityWalletLibrary",
-      "BasicParityWalletLibrary": "BasicWalletLibrary",
-      "ParityWalletProxy": "WalletProxy"
+      "ParityWalletProxy": "WalletProxy",
+      "ParityWalletLibrary": "WalletLibrary"
     },
-    "created_date": "2025-12-29T22:32:44.807645"
-  }
+    "created_date": "2025-12-31T16:05:03.205871"
+  },
+  "sanitized_from": "ms_tc_003"
 }

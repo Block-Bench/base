@@ -29,62 +29,68 @@
 /*LN-29*/         stablePool = IStablePool(_stablePool);
 /*LN-30*/     }
 /*LN-31*/ 
-/*LN-32*/     function getPrice() external view returns (uint256) {
-/*LN-33*/         return stablePool.get_virtual_price();
-/*LN-34*/     }
-/*LN-35*/ }
-/*LN-36*/ 
-/*LN-37*/ contract SyntheticLending {
-/*LN-38*/     struct Position {
-/*LN-39*/         uint256 collateral;
-/*LN-40*/         uint256 borrowed;
-/*LN-41*/     }
-/*LN-42*/ 
-/*LN-43*/     mapping(address => Position) public positions;
+/*LN-32*/     /**
+/*LN-33*/      */
+/*LN-34*/     function getPrice() external view returns (uint256) {
+/*LN-35*/         return stablePool.get_virtual_price();
+/*LN-36*/     }
+/*LN-37*/ }
+/*LN-38*/ 
+/*LN-39*/ contract SyntheticLending {
+/*LN-40*/     struct Position {
+/*LN-41*/         uint256 collateral;
+/*LN-42*/         uint256 borrowed;
+/*LN-43*/     }
 /*LN-44*/ 
-/*LN-45*/     address public collateralToken;
-/*LN-46*/     address public borrowToken;
-/*LN-47*/     address public oracle;
-/*LN-48*/ 
-/*LN-49*/     uint256 public constant COLLATERAL_FACTOR = 80;
+/*LN-45*/     mapping(address => Position) public positions;
+/*LN-46*/ 
+/*LN-47*/     address public collateralToken;
+/*LN-48*/     address public borrowToken;
+/*LN-49*/     address public oracle;
 /*LN-50*/ 
-/*LN-51*/     constructor(
-/*LN-52*/         address _collateralToken,
-/*LN-53*/         address _borrowToken,
-/*LN-54*/         address _oracle
-/*LN-55*/     ) {
-/*LN-56*/         collateralToken = _collateralToken;
-/*LN-57*/         borrowToken = _borrowToken;
-/*LN-58*/         oracle = _oracle;
-/*LN-59*/     }
-/*LN-60*/ 
-/*LN-61*/     /**
-/*LN-62*/      * @notice Deposit collateral
-/*LN-63*/      */
-/*LN-64*/     function deposit(uint256 amount) external {
-/*LN-65*/         IERC20(collateralToken).transferFrom(msg.sender, address(this), amount);
-/*LN-66*/         positions[msg.sender].collateral += amount;
-/*LN-67*/     }
-/*LN-68*/ 
-/*LN-69*/     function borrow(uint256 amount) external {
-/*LN-70*/         uint256 collateralValue = getCollateralValue(msg.sender);
-/*LN-71*/         uint256 maxBorrow = (collateralValue * COLLATERAL_FACTOR) / 100;
-/*LN-72*/ 
-/*LN-73*/         require(
-/*LN-74*/             positions[msg.sender].borrowed + amount <= maxBorrow,
-/*LN-75*/             "Insufficient collateral"
-/*LN-76*/         );
-/*LN-77*/ 
-/*LN-78*/         positions[msg.sender].borrowed += amount;
-/*LN-79*/         IERC20(borrowToken).transfer(msg.sender, amount);
-/*LN-80*/     }
+/*LN-51*/     uint256 public constant COLLATERAL_FACTOR = 80;
+/*LN-52*/ 
+/*LN-53*/     constructor(
+/*LN-54*/         address _collateralToken,
+/*LN-55*/         address _borrowToken,
+/*LN-56*/         address _oracle
+/*LN-57*/     ) {
+/*LN-58*/         collateralToken = _collateralToken;
+/*LN-59*/         borrowToken = _borrowToken;
+/*LN-60*/         oracle = _oracle;
+/*LN-61*/     }
+/*LN-62*/ 
+/*LN-63*/     /**
+/*LN-64*/      * @notice Deposit collateral
+/*LN-65*/      */
+/*LN-66*/     function deposit(uint256 amount) external {
+/*LN-67*/         IERC20(collateralToken).transferFrom(msg.sender, address(this), amount);
+/*LN-68*/         positions[msg.sender].collateral += amount;
+/*LN-69*/     }
+/*LN-70*/ 
+/*LN-71*/     /**
+/*LN-72*/      */
+/*LN-73*/     function borrow(uint256 amount) external {
+/*LN-74*/         uint256 collateralValue = getCollateralValue(msg.sender);
+/*LN-75*/         uint256 maxBorrow = (collateralValue * COLLATERAL_FACTOR) / 100;
+/*LN-76*/ 
+/*LN-77*/         require(
+/*LN-78*/             positions[msg.sender].borrowed + amount <= maxBorrow,
+/*LN-79*/             "Insufficient collateral"
+/*LN-80*/         );
 /*LN-81*/ 
-/*LN-82*/     function getCollateralValue(address user) public view returns (uint256) {
-/*LN-83*/         uint256 collateralAmount = positions[user].collateral;
-/*LN-84*/         uint256 price = SimplifiedOracle(oracle).getPrice();
+/*LN-82*/         positions[msg.sender].borrowed += amount;
+/*LN-83*/         IERC20(borrowToken).transfer(msg.sender, amount);
+/*LN-84*/     }
 /*LN-85*/ 
-/*LN-86*/         return (collateralAmount * price) / 1e18;
-/*LN-87*/     }
-/*LN-88*/ }
-/*LN-89*/ 
-/*LN-90*/ 
+/*LN-86*/     /**
+/*LN-87*/      * @notice Calculate collateral value using oracle price
+/*LN-88*/      */
+/*LN-89*/     function getCollateralValue(address user) public view returns (uint256) {
+/*LN-90*/         uint256 collateralAmount = positions[user].collateral;
+/*LN-91*/         uint256 price = SimplifiedOracle(oracle).getPrice();
+/*LN-92*/ 
+/*LN-93*/         return (collateralAmount * price) / 1e18;
+/*LN-94*/     }
+/*LN-95*/ }
+/*LN-96*/ 

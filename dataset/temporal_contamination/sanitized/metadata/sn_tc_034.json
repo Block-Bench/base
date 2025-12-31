@@ -72,36 +72,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_034",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_034.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_034.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_034.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_034.json",
+    "original_id": "tc_034",
+    "minimalsanitized_id": "ms_tc_034",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: GAMMA...",
-      "Removed comment: Gamma...",
-      "Removed comment: Gamma...",
-      "Removed comment: Gamma...",
-      "Removed comment: Gamma...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker can manipulate price before deposit to...",
-      "Removed comment: // Attacker can withdraw more value after price ma...",
-      "Removed comment: // No protection against sandwich attacks during r...",
-      "Removed comment: // Price manipulation affects share issuance...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: GammaHypervisor \u2192 LiquidityHypervisor"
     ],
     "contract_renames": {
       "GammaHypervisor": "LiquidityHypervisor"
     },
-    "created_date": "2025-12-29T22:32:45.254608"
-  }
+    "created_date": "2025-12-31T16:05:03.526779"
+  },
+  "vulnerable_contract": "LiquidityHypervisor",
+  "vulnerable_function": "deposit",
+  "sanitized_from": "ms_tc_034"
 }

@@ -12,7 +12,7 @@
   "description": "ERC-777 reentrancy attack exploiting tokensToSend hooks. The withdraw function transferred tokens before updating balances, allowing recursive withdrawals through ERC-777 callbacks.",
   "root_cause": "Token transfer before state update, combined with ERC-777 tokensToSend hook that allows reentrancy. Same checks-effects-interactions violation but with token hooks instead of fallback.",
   "attack_scenario": "Attacker supplied ERC-777 tokens (imBTC), then called withdraw. During token transfer, ERC-777 triggered attacker's tokensToSend hook, which re-entered withdraw before balance update.",
-  "vulnerable_contract": "lendf_me.sol",
+  "vulnerable_contract": "LendingPool",
   "vulnerable_function": "withdraw",
   "vulnerable_lines": [],
   "fix_description": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth.",
@@ -37,22 +37,16 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_011",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_011.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_011.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
-    "changes": [
-      "Removed comment: VULNERABLE...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: LendingPool \u2192 LendingPool",
-      "WARNING: Built-in msg.sender count changed: 7 -> 4"
-    ],
-    "contract_renames": {
-      "LendingPool": "LendingPool"
-    },
-    "created_date": "2025-12-29T22:32:44.927547"
-  }
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_011.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_011.json",
+    "original_id": "tc_011",
+    "minimalsanitized_id": "ms_tc_011",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
+    "changes": [],
+    "contract_renames": {},
+    "created_date": "2025-12-31T16:05:03.316183"
+  },
+  "sanitized_from": "ms_tc_011"
 }

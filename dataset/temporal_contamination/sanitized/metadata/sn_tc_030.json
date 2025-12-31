@@ -24,38 +24,28 @@
   "variant_type": "sanitized",
   "checks_effects_interactions_violated": false,
   "involves_external_calls": false,
-  "vulnerable_contract": {
-    "name": "LiquidityPool",
-    "functions": [
-      {
-        "name": "addLiquidity",
-        "vulnerability": "Uses average of ratios instead of minimum for LP unit calculation"
-      }
-    ]
-  },
+  "vulnerable_contract": "LiquidityPool",
   "contract_file": "contracts/sn_tc_030.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
   "sample_id": "sn_tc_030",
   "variant_parent_id": "tc_030",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_030.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_030.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_030.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_030.json",
+    "original_id": "tc_030",
+    "minimalsanitized_id": "ms_tc_030",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: SPARTAN...",
-      "Removed comment: Spartan...",
-      "Removed comment: VULNERABLE...",
-      "Removed comment: BUG...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: SpartanPool \u2192 LiquidityPool"
     ],
     "contract_renames": {
       "SpartanPool": "LiquidityPool"
     },
-    "created_date": "2025-12-29T22:32:45.175151"
-  }
+    "created_date": "2025-12-31T16:05:03.486290"
+  },
+  "vulnerable_function": "addLiquidity",
+  "sanitized_from": "ms_tc_030"
 }

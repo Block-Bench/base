@@ -71,32 +71,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_032",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_032.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_032.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_032.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_032.json",
+    "original_id": "tc_032",
+    "minimalsanitized_id": "ms_tc_032",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: RADIANT...",
-      "Removed comment: Radiant...",
-      "Removed comment: Radiant...",
-      "Removed comment: Radiant...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // After 150+ iterations, rounding errors become e...",
-      "Removed comment: // With repeated flashloan deposits, index grows e...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: RadiantLendingPool \u2192 CrossLendingPool"
     ],
     "contract_renames": {
       "RadiantLendingPool": "CrossLendingPool"
     },
-    "created_date": "2025-12-29T22:32:45.208092"
-  }
+    "created_date": "2025-12-31T16:05:03.506379"
+  },
+  "vulnerable_contract": "CrossLendingPool",
+  "vulnerable_function": "flashLoan",
+  "sanitized_from": "ms_tc_032"
 }

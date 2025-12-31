@@ -25,32 +25,21 @@
   "variant_type": "sanitized",
   "checks_effects_interactions_violated": true,
   "involves_external_calls": true,
-  "vulnerable_contract": {
-    "name": "LendingMarket",
-    "functions": [
-      {
-        "name": "borrow",
-        "vulnerability": "Transfers tokens before state updates, vulnerable to ERC667 reentrancy"
-      }
-    ]
-  },
+  "vulnerable_contract": "LendingMarket",
   "contract_file": "contracts/sn_tc_025.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
   "sample_id": "sn_tc_025",
   "variant_parent_id": "tc_025",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_025.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_025.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_025.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_025.json",
+    "original_id": "tc_025",
+    "minimalsanitized_id": "ms_tc_025",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: Compound...",
-      "Removed comment: HUNDRED FINANCE...",
-      "Removed comment: VULNERABLE...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: HundredFinanceMarket \u2192 LendingMarket",
       "Renamed: ICompoundToken \u2192 ILendToken"
     ],
@@ -58,6 +47,8 @@
       "HundredFinanceMarket": "LendingMarket",
       "ICompoundToken": "ILendToken"
     },
-    "created_date": "2025-12-29T22:32:45.110393"
-  }
+    "created_date": "2025-12-31T16:05:03.460021"
+  },
+  "vulnerable_function": "borrow",
+  "sanitized_from": "ms_tc_025"
 }
