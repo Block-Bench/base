@@ -12,7 +12,7 @@
   "severity": "critical",
   "difficulty_tier": 2,
   "description": "SIR (Storage Injection via Reentrancy) vulnerability transient storage test",
-  "fix_description": "",
+  "fix_description": "Apply the checks-effects-interactions pattern: update state variables before making external calls. Consider using a ReentrancyGuard mutex or OpenZeppelin's nonReentrant modifier.",
   "is_vulnerable": true,
   "context_level": "single_file",
   "original_source_path": "src/test/TransientStorageMisuse.t.sol",

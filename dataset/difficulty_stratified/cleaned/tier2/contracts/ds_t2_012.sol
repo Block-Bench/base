@@ -11,7 +11,7 @@ contract ContractTest is Test {
         SimpleBankContract = new SimpleBank();
     }
 
-    function testVulnSignatureValidation() public {
+    function testSignatureValidation() public {
         payable(address(SimpleBankContract)).transfer(10 ether);
         address alice = vm.addr(1);
         vm.startPrank(alice);

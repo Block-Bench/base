@@ -8,10 +8,7 @@ contract SimpleAuction {
   function bid() payable {
     require(msg.value > currentBid);
 
-    //If the refund fails, the entire transaction reverts.
-
     if (currentFrontrunner != 0) {
-      //E.g. if recipients fallback function is just revert()
       require(currentFrontrunner.send(currentBid));
     }
 
@@ -20,13 +17,12 @@ contract SimpleAuction {
   }
 }
 
-contract AuctionV2 {
+contract AuctionB {
   address currentFrontrunner;
   uint    currentBid;
 
   mapping(address => uint) refunds;
 
-  //Avoids "pushing" balance to users favoring "pull" architecture
   function bid() payable external {
     require(msg.value > currentBid);
 
@@ -38,9 +34,7 @@ contract AuctionV2 {
     currentBid         = msg.value;
   }
 
-  //Allows users to get their refund from auction
   function withdraw() external {
-    //Do all state manipulation before external call to
     uint refund = refunds[msg.sender];
     refunds[msg.sender] = 0;
 

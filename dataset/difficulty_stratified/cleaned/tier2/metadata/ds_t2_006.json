@@ -25,6 +25,9 @@
   "original_ds_id": "ds_093",
   "sanitized_from": "ds_093",
   "sanitized_id": "sn_ds_093",
+  "identifier_mappings": {
+    "fixedupdaterewardDebt": "updaterewardDebtB"
+  },
   "vulnerable_functions": [
     "updaterewardDebt"
   ]

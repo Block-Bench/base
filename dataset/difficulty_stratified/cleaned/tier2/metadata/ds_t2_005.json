@@ -26,8 +26,11 @@
   "sanitized_from": "ds_092",
   "sanitized_id": "sn_ds_092",
   "identifier_mappings": {
-    "FixedSimpleBank": "SimpleBankV2",
-    "SimpleBankContract": "SimpleBankContract"
+    "FixedSimpleBank": "SimpleBankB",
+    "SimpleBankV2": "SimpleBankB",
+    "VSimpleBankContract": "SimpleBankContractA",
+    "SimpleBankContractV2": "SimpleBankContractB",
+    "testFixedSelfTransfer": "testSelfTransferB"
   },
   "vulnerable_functions": [
     "transfer"

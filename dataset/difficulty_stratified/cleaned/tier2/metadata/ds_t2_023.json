@@ -27,9 +27,12 @@
   "sanitized_id": "sn_ds_110",
   "identifier_mappings": {
     "VulnerableBank": "BasicBank",
-    "FixedeBank": "BankV2",
-    "Bank": "Bank",
-    "testVulnerableBank": "testBasicBank"
+    "FixedeBank": "BasicBankB",
+    "BankV2": "BasicBankB",
+    "FixedeBankContract": "BankContractB",
+    "testVulnerableBank": "testBasicBankA",
+    "testBasicBank": "testBasicBankA",
+    "testFixedBank": "testBasicBankB"
   },
   "vulnerable_functions": [
     "unlockToken"

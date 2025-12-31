@@ -11,7 +11,7 @@
   "original_category": "time_manipulation",
   "severity": "low",
   "difficulty_tier": 2,
-  "description": "Timestamp dependency - reliance on block.timestamp for critical logic at line(s) 27",
+  "description": "Timestamp dependency - reliance on block.timestamp for critical logic",
   "fix_description": "Use block.number for time-based logic or accept timestamp manipulation risk",
   "is_vulnerable": true,
   "context_level": "single_file",

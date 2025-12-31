@@ -6,7 +6,7 @@ import "forge-std/Test.sol";
 contract ContractTest is Test {
     LotteryGame LotteryGameContract;
 
-    function testBackdoorCall() public {
+    function testLotteryGame() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
         LotteryGameContract = new LotteryGame();
@@ -17,9 +17,9 @@ contract ContractTest is Test {
         LotteryGameContract.pickWinner(address(alice));
         console.log("Prize: ", LotteryGameContract.prize());
 
-        console.log("Now, admin sets the winner to drain out the prize.");
+        console.log("Now, admin calls pickWinner.");
         LotteryGameContract.pickWinner(address(bob));
-        console.log("Admin manipulated winner: ", LotteryGameContract.winner());
+        console.log("Winner: ", LotteryGameContract.winner());
         console.log("operate completed");
     }
 
@@ -48,7 +48,6 @@ contract LotteryGame {
 
     function pickWinner(address random) public safeCheck {
         assembly {
-            // admin backddoor which can set winner address
             sstore(1, random)
         }
     }

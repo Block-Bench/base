@@ -27,9 +27,10 @@
   "sanitized_id": "sn_ds_106",
   "identifier_mappings": {
     "ArrayDeletionBug": "ArrayDeletion",
-    "FixedArrayDeletion": "ArrayDeletionV2",
-    "ArrayDeletionContract": "ArrayDeletionContract",
-    "ArrayDeletion": "ArrayDeletion"
+    "FixedArrayDeletion": "ArrayDeletionB",
+    "ArrayDeletionV2": "ArrayDeletionB",
+    "ArrayDeletionContractV2": "ArrayDeletionContractB",
+    "testFixedArrayDeletion": "testArrayDeletionB"
   },
   "vulnerable_functions": [
     "deleteElement"

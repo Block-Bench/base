@@ -27,7 +27,12 @@
   "sanitized_id": "sn_ds_089",
   "identifier_mappings": {
     "VulnStakingRewards": "StakingRewards",
-    "FixedtakingRewards": "StakingRewardsV2"
+    "FixedtakingRewards": "StakingRewardsB",
+    "StakingRewardsV2": "StakingRewardsB",
+    "VulnStakingRewardsContract": "StakingRewardsContractA",
+    "FixedtakingRewardsContract": "StakingRewardsContractB",
+    "testVulnStakingRewards": "testStakingRewardsA",
+    "testFixedStakingRewards": "testStakingRewardsB"
   },
   "vulnerable_functions": [
     "recoverERC20"

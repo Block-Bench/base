@@ -17,7 +17,7 @@ contract ContractTest is Test {
         console.log("Owner of wallet contract", WalletContract.owner());
         vm.prank(eve);
         OperatorContract = new Operator(WalletContract);
-        console.log("Owner of attack contract", OperatorContract.owner());
+        console.log("Owner of operator contract", OperatorContract.owner());
         console.log("Eve of balance", address(eve).balance);
 
         vm.prank(alice, alice);
@@ -38,7 +38,6 @@ contract Wallet {
     }
 
     function transfer(address payable _to, uint _amount) public {
-        // check with msg.sender instead of tx.origin
         require(tx.origin == owner, "Not owner");
 
         (bool sent, ) = _to.call{value: _amount}("");
