@@ -1,21 +1,22 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 18
+ * @vulnerable_at_lines: 16
  */
 
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.24;
 
-contract RealOldFuckMaker {
-    address fuck = 0xc63e7b1DEcE63A77eD7E4Aeef5efb3b05C81438D;
+
+contract B {
+    address public owner = msg.sender;
     
-    // this can make OVER 9,000 OLD FUCKS
-    // (just pass in 129)
-    function makeOldFucks(uint32 number) {
-        uint32 i;
-        for (i = 0; i < number; i++) {
-            // <yes> <report> UNCHECKED_LL_CALLS
-            fuck.call(bytes4(sha3("giveBlockReward()")));
-        }
+    function go() public payable {
+        address target = 0xC8A60C51967F4022BF9424C337e9c6F0bD220E1C;
+        // <yes> <report> UNCHECKED_LL_CALLS
+        target.call.value(msg.value)();
+        owner.transfer(address(this).balance);
+    }
+    
+    function() public payable {
     }
 }

@@ -1,14 +1,12 @@
 {
   "id": "ds_t1_035",
-  "original_id": "smartbugs_reentrancy_0xcead721ef5b11f1a7b530171aab69b16c5e66b6e",
+  "original_id": "smartbugs_reentrancy_0xf015c35649c82f5467c9c74b7f28ee67665aad68",
   "source_dataset": "smartbugs-curated",
   "language": "solidity",
   "chain": "evm",
-  "file_name": "0xcead721ef5b11f1a7b530171aab69b16c5e66b6e.sol",
+  "file_name": "0xf015c35649c82f5467c9c74b7f28ee67665aad68.sol",
   "vulnerable_function": "Collect",
-  "vulnerable_lines": [
-    29
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",
   "severity": "high",
@@ -17,14 +15,14 @@
   "fix_description": "Apply checks-effects-interactions pattern: update state before external calls, or use ReentrancyGuard",
   "is_vulnerable": true,
   "context_level": "single_file",
-  "original_source_path": "dataset/reentrancy/0xcead721ef5b11f1a7b530171aab69b16c5e66b6e.sol",
+  "original_source_path": "dataset/reentrancy/0xf015c35649c82f5467c9c74b7f28ee67665aad68.sol",
   "source_url": "etherscan.io",
   "references": [],
   "framework": null,
   "contract_file": "contracts/ds_t1_035.sol",
   "subset": "cleaned",
   "original_subset": "difficulty_stratified",
-  "original_ds_id": "ds_035",
-  "sanitized_from": "ds_035",
-  "sanitized_id": "sn_ds_035"
+  "original_ds_id": "ds_036",
+  "sanitized_from": "ds_036",
+  "sanitized_id": "sn_ds_036"
 }

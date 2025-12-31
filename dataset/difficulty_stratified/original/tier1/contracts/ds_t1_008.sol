@@ -1,40 +1,30 @@
 /*
- * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-124#arbitrary-location-write-simplesol
+ * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-124#mapping-writesol
  * @author: Suhabe Bugrara
- * @vulnerable_at_lines: 27
+ * @vulnerable_at_lines: 20
  */
 
- pragma solidity ^0.4.25;
+ pragma solidity ^0.4.24;
 
- contract Wallet {
-     uint[] private bonusCodes;
-     address private owner;
+ //This code is derived from the Capture the Ether https://capturetheether.com/challenges/math/mapping/
 
-     constructor() public {
-         bonusCodes = new uint[](0);
-         owner = msg.sender;
+ contract Map {
+     address public owner;
+     uint256[] map;
+
+     function set(uint256 key, uint256 value) public {
+         if (map.length <= key) {
+             map.length = key + 1;
+         }
+        // <yes> <report> ACCESS_CONTROL
+         map[key] = value;
      }
 
-     function () public payable {
+     function get(uint256 key) public view returns (uint256) {
+         return map[key];
      }
-
-     function PushBonusCode(uint c) public {
-         bonusCodes.push(c);
-     }
-
-     function PopBonusCode() public {
-         // <yes> <report> ACCESS_CONTROL
-         require(0 <= bonusCodes.length); // this condition is always true since array lengths are unsigned
-         bonusCodes.length--; // an underflow can be caused here
-     }
-
-     function UpdateBonusCodeAt(uint idx, uint c) public {
-         require(idx < bonusCodes.length);
-         bonusCodes[idx] = c; // write to any index less than bonusCodes.length
-     }
-
-     function Destroy() public {
-         require(msg.sender == owner);
-         selfdestruct(msg.sender);
+     function withdraw() public{
+       require(msg.sender == owner);
+       msg.sender.transfer(address(this).balance);
      }
  }

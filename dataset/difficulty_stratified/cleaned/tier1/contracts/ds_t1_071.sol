@@ -1,28 +1,15 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.23;
 
-contract SimpleWallet {
-    address public owner = msg.sender;
-    uint public depositsCount;
+contract keepMyEther {
+    mapping(address => uint256) public balances;
 
-    modifier onlyOwner {
-        require(msg.sender == owner);
-        _;
+    function () payable public {
+        balances[msg.sender] += msg.value;
     }
 
-    function() public payable {
-        depositsCount++;
-    }
-
-    function withdrawAll() public onlyOwner {
-        withdraw(address(this).balance);
-    }
-
-    function withdraw(uint _value) public onlyOwner {
-        msg.sender.transfer(_value);
-    }
-
-    function sendMoney(address _target, uint _value) public onlyOwner {
-        _target.call.value(_value)();
+    function withdraw() public {
+        msg.sender.call.value(balances[msg.sender])();
+        balances[msg.sender] = 0;
     }
 }

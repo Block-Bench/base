@@ -1,28 +1,94 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.19;
 
-contract SimpleWallet {
-    address public owner = msg.sender;
-    uint public depositsCount;
+contract Ownable
+{
+    address newOwner;
+    address owner = msg.sender;
 
-    modifier onlyOwner {
-        require(msg.sender == owner);
-        _;
+    function changeOwner(address addr)
+    public
+    onlyOwner
+    {
+        newOwner = addr;
     }
 
-    function() public payable {
-        depositsCount++;
+    function confirmOwner()
+    public
+    {
+        if(msg.sender==newOwner)
+        {
+            owner=newOwner;
+        }
     }
 
-    function withdrawAll() public onlyOwner {
-        withdraw(address(this).balance);
+    modifier onlyOwner
+    {
+        if(owner == msg.sender)_;
+    }
+}
+
+contract Token is Ownable
+{
+    address owner = msg.sender;
+    function WithdrawToken(address token, uint256 amount,address to)
+    public
+    onlyOwner
+    {
+        token.call(bytes4(sha3("transfer(address,uint256)")),to,amount);
+    }
+}
+
+contract TokenBank is Token
+{
+    uint public MinDeposit;
+    mapping (address => uint) public Holders;
+
+     ///Constructor
+    function initTokenBank()
+    public
+    {
+        owner = msg.sender;
+        MinDeposit = 1 ether;
     }
 
-    function withdraw(uint _value) public onlyOwner {
-        msg.sender.transfer(_value);
+    function()
+    payable
+    {
+        Deposit();
     }
 
-    function sendMoney(address _target, uint _value, bytes _data) public onlyOwner {
-        _target.call.value(_value)(_data);
+    function Deposit()
+    payable
+    {
+        if(msg.value>MinDeposit)
+        {
+            Holders[msg.sender]+=msg.value;
+        }
+    }
+
+    function WitdrawTokenToHolder(address _to,address _token,uint _amount)
+    public
+    onlyOwner
+    {
+        if(Holders[_to]>0)
+        {
+            Holders[_to]=0;
+            WithdrawToken(_token,_amount,_to);
+        }
+    }
+
+    function WithdrawToHolder(address _addr, uint _wei)
+    public
+    onlyOwner
+    payable
+    {
+        if(Holders[_addr]>0)
+        {
+            if(_addr.call.value(_wei)())
+            {
+                Holders[_addr]-=_wei;
+            }
+        }
     }
 }

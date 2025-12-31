@@ -5,7 +5,7 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "SpankChain.sol",
-  "vulnerable_function": "totalSupply",
+  "vulnerable_function": "approveAndCall",
   "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",

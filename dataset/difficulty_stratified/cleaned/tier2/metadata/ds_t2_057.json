@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "tokensalechallenge.sol",
   "vulnerable_function": "buy",
-  "vulnerable_lines": [
-    23
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "integer_issues",
   "original_category": "arithmetic",
   "severity": "high",

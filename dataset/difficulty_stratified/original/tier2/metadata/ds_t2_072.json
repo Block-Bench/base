@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "odds_and_evens.sol",
   "vulnerable_function": "play",
-  "vulnerable_lines": [
-    25
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "front_running",
   "original_category": "front_running",
   "severity": "medium",

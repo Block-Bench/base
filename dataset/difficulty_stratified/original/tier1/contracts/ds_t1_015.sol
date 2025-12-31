@@ -1,22 +1,22 @@
 /*
- * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-105#wallet-03-wrong-constructorsol
+ * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-105#wallet-04-confused-signsol
  * @author: -
- * @vulnerable_at_lines: 19,20
+ * @vulnerable_at_lines: 30
  */
 
  pragma solidity ^0.4.24;
 
  /* User can add pay in and withdraw Ether.
-    The constructor is wrongly named, so anyone can become 'creator' and withdraw all funds.
+    Unfortunatelty, the developer was drunk and used the wrong comparison operator in "withdraw()"
+    Anybody can withdraw arbitrary amounts of Ether :()
  */
 
  contract Wallet {
      address creator;
 
      mapping(address => uint256) balances;
-     
-     // <yes> <report> ACCESS_CONTROL
-     function initWallet() public {
+
+     constructor() public {
          creator = msg.sender;
      }
 
@@ -26,7 +26,8 @@
      }
 
      function withdraw(uint256 amount) public {
-         require(amount <= balances[msg.sender]);
+         // <yes> <report> ACCESS_CONTROL
+         require(amount >= balances[msg.sender]);
          msg.sender.transfer(amount);
          balances[msg.sender] -= amount;
      }

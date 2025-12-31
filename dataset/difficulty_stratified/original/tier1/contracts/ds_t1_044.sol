@@ -1,21 +1,29 @@
 /*
- * @source: https://consensys.github.io/smart-contract-best-practices/known_attacks/
- * @author: consensys
- * @vulnerable_at_lines: 17
+ * @source: https://github.com/trailofbits/not-so-smart-contracts/blob/master/reentrancy/Reentrancy.sol
+ * @author: -
+ * @vulnerable_at_lines: 24
  */
 
-pragma solidity ^0.5.0;
+ pragma solidity ^0.4.15;
 
-contract Reentrancy_insecure {
+ contract Reentrance {
+     mapping (address => uint) userBalance;
 
-    // INSECURE
-    mapping (address => uint) private userBalances;
+     function getBalance(address u) constant returns(uint){
+         return userBalance[u];
+     }
 
-    function withdrawBalance() public {
-        uint amountToWithdraw = userBalances[msg.sender];
-        // <yes> <report> REENTRANCY
-        (bool success, ) = msg.sender.call.value(amountToWithdraw)(""); // At this point, the caller's code is executed, and can call withdrawBalance again
-        require(success);
-        userBalances[msg.sender] = 0;
-    }
-}
+     function addToBalance() payable{
+         userBalance[msg.sender] += msg.value;
+     }
+
+     function withdrawBalance(){
+         // send userBalance[msg.sender] ethers to msg.sender
+         // if mgs.sender is a contract, it will call its fallback function
+         // <yes> <report> REENTRANCY
+         if( ! (msg.sender.call.value(userBalance[msg.sender])() ) ){
+             throw;
+         }
+         userBalance[msg.sender] = 0;
+     }
+ }

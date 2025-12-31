@@ -1,35 +1,28 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 33
+ * @vulnerable_at_lines: 25
  */
 
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.23;
 
+/*
+!!! THIS CONTRACT IS EXPLOITABLE AND FOR EDUCATIONAL PURPOSES ONLY !!!
 
-contract SimpleWallet {
-    address public owner = msg.sender;
-    uint public depositsCount;
+This smart contract allows a user to (insecurely) store funds
+in this smart contract and withdraw them at any later point in time
+*/
+
+contract keepMyEther {
+    mapping(address => uint256) public balances;
     
-    modifier onlyOwner {
-        require(msg.sender == owner);
-        _;
+    function () payable public {
+        balances[msg.sender] += msg.value;
     }
     
-    function() public payable {
-        depositsCount++;
-    }
-    
-    function withdrawAll() public onlyOwner {
-        withdraw(address(this).balance);
-    }
-    
-    function withdraw(uint _value) public onlyOwner {
-        msg.sender.transfer(_value);
-    }
-    
-    function sendMoney(address _target, uint _value) public onlyOwner {
+    function withdraw() public {
         // <yes> <report> UNCHECKED_LL_CALLS
-        _target.call.value(_value)();
+        msg.sender.call.value(balances[msg.sender])();
+        balances[msg.sender] = 0;
     }
 }

@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "overflow_single_tx.sol",
   "vulnerable_function": "overflowaddtostate",
-  "vulnerable_lines": [
-    18
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "integer_issues",
   "original_category": "arithmetic",
   "severity": "high",

@@ -1,28 +1,21 @@
 /*
- * @source: https://github.com/ConsenSys/evm-analyzer-benchmark-suite
- * @author: Suhabe Bugrara
- * @vulnerable_at_lines: 18
+ * @source: https://consensys.github.io/smart-contract-best-practices/known_attacks/
+ * @author: consensys
+ * @vulnerable_at_lines: 17
  */
 
-pragma solidity ^0.4.19;
+pragma solidity ^0.5.0;
 
-contract ReentrancyDAO {
-    mapping (address => uint) credit;
-    uint balance;
+contract Reentrancy_insecure {
 
-    function withdrawAll() public {
-        uint oCredit = credit[msg.sender];
-        if (oCredit > 0) {
-            balance -= oCredit;
-            // <yes> <report> REENTRANCY
-            bool callResult = msg.sender.call.value(oCredit)();
-            require (callResult);
-            credit[msg.sender] = 0;
-        }
-    }
+    // INSECURE
+    mapping (address => uint) private userBalances;
 
-    function deposit() public payable {
-        credit[msg.sender] += msg.value;
-        balance += msg.value;
+    function withdrawBalance() public {
+        uint amountToWithdraw = userBalances[msg.sender];
+        // <yes> <report> REENTRANCY
+        (bool success, ) = msg.sender.call.value(amountToWithdraw)(""); // At this point, the caller's code is executed, and can call withdrawBalance again
+        require(success);
+        userBalances[msg.sender] = 0;
     }
 }

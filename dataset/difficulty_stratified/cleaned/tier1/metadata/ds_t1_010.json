@@ -1,14 +1,12 @@
 {
   "id": "ds_t1_010",
-  "original_id": "smartbugs_access_control_mycontract",
+  "original_id": "smartbugs_access_control_phishable",
   "source_dataset": "smartbugs-curated",
   "language": "solidity",
   "chain": "evm",
-  "file_name": "mycontract.sol",
-  "vulnerable_function": "sendTo",
-  "vulnerable_lines": [
-    20
-  ],
+  "file_name": "phishable.sol",
+  "vulnerable_function": "withdrawAll",
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",
@@ -17,14 +15,14 @@
   "fix_description": "Add proper access control modifiers (onlyOwner, require statements) or avoid tx.origin",
   "is_vulnerable": true,
   "context_level": "single_file",
-  "original_source_path": "dataset/access_control/mycontract.sol",
-  "source_url": "https://consensys.github.io/smart-contract-best-practices/recommendations/#avoid-using-txorigin",
+  "original_source_path": "dataset/access_control/phishable.sol",
+  "source_url": "https://github.com/sigp/solidity-security-blog",
   "references": [],
   "framework": null,
   "contract_file": "contracts/ds_t1_010.sol",
   "subset": "cleaned",
   "original_subset": "difficulty_stratified",
-  "original_ds_id": "ds_010",
-  "sanitized_from": "ds_010",
-  "sanitized_id": "sn_ds_010"
+  "original_ds_id": "ds_011",
+  "sanitized_from": "ds_011",
+  "sanitized_id": "sn_ds_011"
 }

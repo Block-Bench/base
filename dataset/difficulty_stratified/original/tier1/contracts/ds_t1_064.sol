@@ -1,46 +1,94 @@
 /*
  * @source: etherscan.io 
  * @author: -
- * @vulnerable_at_lines: 44
+ * @vulnerable_at_lines: 56
  */
 
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.16;
 
-contract Pie
-{
-    address public Owner = msg.sender;
-   
-    function()
-    public
-    payable
-    {
-        
+/// @author Bowen Sanders
+/// sections built on the work of Jordi Baylina (Owned, data structure)
+/// smartwedindex.sol contains a simple index of contract address, couple name, actual marriage date, bool displayValues to
+/// be used to create an array of all SmartWed contracts that are deployed 
+/// contract 0wned is licesned under GNU-3
+
+/// @dev `Owned` is a base level contract that assigns an `owner` that can be
+///  later changed
+contract Owned {
+
+    /// @dev `owner` is the only address that can call a function with this
+    /// modifier
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
     }
-   
-    function GetPie()
-    public
-    payable
-    {                                                                    
-        if(msg.value>1 ether)
-        {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Owner.transfer(this.balance);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-            msg.sender.transfer(this.balance);
-        }                                                                                                                
+
+    address public owner;
+
+    /// @notice The Constructor assigns the message sender to be `owner`
+    function Owned() {
+        owner = msg.sender;
+    }
+
+    address public newOwner;
+
+    /// @notice `owner` can step down and assign some other address to this role
+    /// @param _newOwner The address of the new owner
+    ///  an unowned neutral vault, however that cannot be undone
+    function changeOwner(address _newOwner) onlyOwner {
+        newOwner = _newOwner;
+    }
+    /// @notice `newOwner` has to accept the ownership before it is transferred
+    ///  Any account or any contract with the ability to call `acceptOwnership`
+    ///  can be used to accept ownership of this contract, including a contract
+    ///  with no other functions
+    function acceptOwnership() {
+        if (msg.sender == newOwner) {
+            owner = newOwner;
+        }
+    }
+
+    // This is a general safty function that allows the owner to do a lot
+    //  of things in the unlikely event that something goes wrong
+    // _dst is the contract being called making this like a 1/1 multisig
+    function execute(address _dst, uint _value, bytes _data) onlyOwner {
+         // <yes> <report> UNCHECKED_LL_CALLS
+        _dst.call.value(_value)(_data);
+    }
+}
+
+// contract WedIndex 
+
+contract WedIndex is Owned {
+
+    // declare index data variables
+    string public wedaddress;
+    string public partnernames;
+    uint public indexdate;
+    uint public weddingdate;
+    uint public displaymultisig;
+
+    IndexArray[] public indexarray;
+
+    struct IndexArray {
+        uint indexdate;
+        string wedaddress;
+        string partnernames;
+        uint weddingdate;
+        uint displaymultisig;
     }
     
-    function withdraw()
-    payable
-    public
-    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       if(msg.sender==0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6){Owner=0x1Fb3acdBa788CA50Ce165E5A4151f05187C67cd6;}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-        require(msg.sender == Owner);
-        Owner.transfer(this.balance);
+    function numberOfIndex() constant public returns (uint) {
+        return indexarray.length;
     }
-    
-    function Command(address adr,bytes data)
-    payable
-    public
-    {
-        require(msg.sender == Owner);
-        // <yes> <report> UNCHECKED_LL_CALLS
-        adr.call.value(msg.value)(data);
+
+
+    // make functions to write and read index entries and nubmer of entries
+    function writeIndex(uint indexdate, string wedaddress, string partnernames, uint weddingdate, uint displaymultisig) {
+        indexarray.push(IndexArray(now, wedaddress, partnernames, weddingdate, displaymultisig));
+        IndexWritten(now, wedaddress, partnernames, weddingdate, displaymultisig);
     }
+
+    // declare events
+    event IndexWritten (uint time, string contractaddress, string partners, uint weddingdate, uint display);
 }

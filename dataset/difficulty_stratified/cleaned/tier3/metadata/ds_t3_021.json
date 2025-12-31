@@ -5,7 +5,7 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "PrivateBank.sol",
-  "vulnerable_function": "Private_Bank",
+  "vulnerable_function": "CashOut",
   "vulnerable_lines": [],
   "vulnerability_type": "honeypot",
   "original_category": "honeypots",

@@ -1,23 +1,22 @@
 /*
- * @source: https://github.com/sigp/solidity-security-blog
+ * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-112#proxysol
  * @author: -
- * @vulnerable_at_lines: 20
+ * @vulnerable_at_lines: 19
  */
 
- pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
- contract Phishable {
-    address public owner;
+contract Proxy {
 
-    constructor (address _owner) {
-        owner = _owner;
-    }
+  address owner;
 
-    function () public payable {} // collect ether
+  constructor() public {
+    owner = msg.sender;
+  }
 
-    function withdrawAll(address _recipient) public {
-        // <yes> <report> ACCESS_CONTROL
-        require(tx.origin == owner);
-        _recipient.transfer(this.balance);
-    }
+  function forward(address callee, bytes _data) public {
+    // <yes> <report> ACCESS_CONTROL
+    require(callee.delegatecall(_data)); //Use delegatecall with caution and make sure to never call into untrusted contracts
+  }
+
 }

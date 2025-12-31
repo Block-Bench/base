@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "spank_chain_payment.sol",
   "vulnerable_function": "LCOpenTimeout",
-  "vulnerable_lines": [
-    426
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",
   "severity": "high",

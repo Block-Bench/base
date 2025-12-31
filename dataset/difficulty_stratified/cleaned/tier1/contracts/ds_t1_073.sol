@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.24;
 
 contract Proxy  {
     modifier onlyOwner { if (msg.sender == Owner) _; } address Owner = msg.sender;
@@ -23,7 +23,7 @@ contract VaultProxy is Proxy {
     }
 
     function deposit() public payable {
-        if (msg.value > 0.25 ether) {
+        if (msg.value > 0.5 ether) {
             Deposits[msg.sender] += msg.value;
         }
     }

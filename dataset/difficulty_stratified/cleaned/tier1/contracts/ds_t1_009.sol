@@ -1,22 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.24;
 
- contract Map {
-     address public owner;
-     uint256[] map;
+contract MyContract {
 
-     function set(uint256 key, uint256 value) public {
-         if (map.length <= key) {
-             map.length = key + 1;
-         }
-         map[key] = value;
-     }
+    address owner;
 
-     function get(uint256 key) public view returns (uint256) {
-         return map[key];
-     }
-     function withdraw() public{
-       require(msg.sender == owner);
-       msg.sender.transfer(address(this).balance);
-     }
- }
+    function MyContract() public {
+        owner = msg.sender;
+    }
+
+    function sendTo(address receiver, uint amount) public {
+        require(tx.origin == owner);
+        receiver.transfer(amount);
+    }
+
+}

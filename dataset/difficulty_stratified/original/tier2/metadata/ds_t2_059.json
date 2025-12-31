@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "guess_the_random_number.sol",
   "vulnerable_function": "GuessTheRandomNumberChallenge",
-  "vulnerable_lines": [
-    15
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "weak_randomness",
   "original_category": "bad_randomness",
   "severity": "medium",

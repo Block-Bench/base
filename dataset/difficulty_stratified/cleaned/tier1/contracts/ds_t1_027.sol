@@ -1,59 +1,55 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.25;
+pragma solidity ^0.4.19;
 
-contract X_WALLET
+contract ETH_FUND
 {
-    function Put(uint _unlockTime)
+    mapping (address => uint) public balances;
+
+    uint public MinDeposit = 1 ether;
+
+    Log TransferLog;
+
+    uint lastBlock;
+
+    function ETH_FUND(address _log)
     public
-    payable
     {
-        var acc = Acc[msg.sender];
-        acc.balance += msg.value;
-        acc.unlockTime = _unlockTime>now?_unlockTime:now;
-        LogFile.AddMessage(msg.sender,msg.value,"Put");
+        TransferLog = Log(_log);
     }
 
-    function Collect(uint _am)
+    function Deposit()
     public
     payable
     {
-        var acc = Acc[msg.sender];
-        if( acc.balance>=MinSum && acc.balance>=_am && now>acc.unlockTime)
+        if(msg.value > MinDeposit)
+        {
+            balances[msg.sender]+=msg.value;
+            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
+            lastBlock = block.number;
+        }
+    }
+
+    function CashOut(uint _am)
+    public
+    payable
+    {
+        if(_am<=balances[msg.sender]&&block.number>lastBlock)
         {
             if(msg.sender.call.value(_am)())
             {
-                acc.balance-=_am;
-                LogFile.AddMessage(msg.sender,_am,"Collect");
+                balances[msg.sender]-=_am;
+                TransferLog.AddMessage(msg.sender,_am,"CashOut");
             }
         }
     }
 
-    function()
-    public
-    payable
-    {
-        Put(0);
-    }
+    function() public payable{}
 
-    struct Holder
-    {
-        uint unlockTime;
-        uint balance;
-    }
-
-    mapping (address => Holder) public Acc;
-
-    Log LogFile;
-
-    uint public MinSum = 1 ether;
-
-    function X_WALLET(address log) public{
-        LogFile = Log(log);
-    }
 }
 
 contract Log
 {
+
     struct Message
     {
         address Sender;

@@ -6,7 +6,7 @@
 
 pragma solidity ^0.4.19;
 
-contract PRIVATE_ETH_CELL
+contract BANK_SAFE
 {
     mapping (address=>uint256) public balances;   
    
@@ -19,14 +19,14 @@ contract PRIVATE_ETH_CELL
     function SetMinSum(uint _val)
     public
     {
-        require(!intitalized);
+        if(intitalized)throw;
         MinSum = _val;
     }
     
     function SetLogFile(address _log)
     public
     {
-        require(!intitalized);
+        if(intitalized)throw;
         Log = LogFile(_log);
     }
     

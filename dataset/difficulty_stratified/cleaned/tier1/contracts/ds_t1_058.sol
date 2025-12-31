@@ -1,35 +1,28 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
-contract MultiplicatorX3
-{
-    address public Owner = msg.sender;
+contract SimpleWallet {
+    address public owner = msg.sender;
+    uint public depositsCount;
 
-    function() public payable{}
-
-    function withdraw()
-    payable
-    public
-    {
-        require(msg.sender == Owner);
-        Owner.transfer(this.balance);
+    modifier onlyOwner {
+        require(msg.sender == owner);
+        _;
     }
 
-    function Command(address adr,bytes data)
-    payable
-    public
-    {
-        require(msg.sender == Owner);
-        adr.call.value(msg.value)(data);
+    function() public payable {
+        depositsCount++;
     }
 
-    function multiplicate(address adr)
-    public
-    payable
-    {
-        if(msg.value>=this.balance)
-        {
-            adr.transfer(this.balance+msg.value);
-        }
+    function withdrawAll() public onlyOwner {
+        withdraw(address(this).balance);
+    }
+
+    function withdraw(uint _value) public onlyOwner {
+        msg.sender.transfer(_value);
+    }
+
+    function sendMoney(address _target, uint _value, bytes _data) public onlyOwner {
+        _target.call.value(_value)(_data);
     }
 }

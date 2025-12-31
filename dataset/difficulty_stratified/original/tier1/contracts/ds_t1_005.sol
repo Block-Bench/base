@@ -1,31 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.15;
 
-contract Unprotected{
-    address private owner;
+contract Alice { 
+    int public val;
 
-    modifier onlyowner {
-        require(msg.sender==owner);
-        _;
+    function set(int new_val){
+        val = new_val;
     }
 
-    function Unprotected()
-        public 
-    {
-        owner = msg.sender;
+    function set_fixed(int new_val){
+        val = new_val;
     }
 
-    // This function should be protected
-    function changeOwner(address _newOwner) 
-        public
-    {
-       owner = _newOwner;
-    }
-
-    function changeOwner_fixed(address _newOwner) 
-        public 
-        onlyowner
-    {
-       owner = _newOwner;
+    function(){
+        val = 1;
     }
 }

@@ -1,10 +1,10 @@
 {
   "id": "ds_t1_020",
-  "original_id": "smartbugs_reentrancy_0x4e73b32ed6c35f570686b89848e5f39f20ecc106",
+  "original_id": "smartbugs_reentrancy_0x561eac93c92360949ab1f1403323e6db345cbf31",
   "source_dataset": "smartbugs-curated",
   "language": "solidity",
   "chain": "evm",
-  "file_name": "0x4e73b32ed6c35f570686b89848e5f39f20ecc106.sol",
+  "file_name": "0x561eac93c92360949ab1f1403323e6db345cbf31.sol",
   "vulnerable_function": "Collect",
   "vulnerable_lines": [
     54
@@ -17,12 +17,12 @@
   "fix_description": "Apply checks-effects-interactions pattern: update state before external calls, or use ReentrancyGuard",
   "is_vulnerable": true,
   "context_level": "single_file",
-  "original_source_path": "dataset/reentrancy/0x4e73b32ed6c35f570686b89848e5f39f20ecc106.sol",
+  "original_source_path": "dataset/reentrancy/0x561eac93c92360949ab1f1403323e6db345cbf31.sol",
   "source_url": "etherscan.io",
   "references": [],
   "framework": null,
   "contract_file": "contracts/ds_t1_020.sol",
   "subset": "annotated",
   "original_subset": "difficulty_stratified",
-  "original_ds_id": "ds_020"
+  "original_ds_id": "ds_021"
 }

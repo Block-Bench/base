@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "timelock.sol",
   "vulnerable_function": "increaseLockTime",
-  "vulnerable_lines": [
-    22
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "integer_issues",
   "original_category": "arithmetic",
   "severity": "high",

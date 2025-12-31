@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0xe09b1ab8111c2729a76f16de96bc86a7af837928.sol",
   "vulnerable_function": "wager",
-  "vulnerable_lines": [
-    150
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

@@ -1,31 +1,28 @@
 /*
  * @source: https://consensys.github.io/smart-contract-best-practices/known_attacks/
  * @author: consensys
- * @vulnerable_at_lines: 28
+ * @vulnerable_at_lines: 24
  */
 
 pragma solidity ^0.4.24;
 
-contract Reentrancy_bonus{
+contract Reentrancy_cross_function {
 
     // INSECURE
     mapping (address => uint) private userBalances;
-    mapping (address => bool) private claimedBonus;
-    mapping (address => uint) private rewardsForA;
 
-    function withdrawReward(address recipient) public {
-        uint amountToWithdraw = rewardsForA[recipient];
-        rewardsForA[recipient] = 0;
-        (bool success, ) = recipient.call.value(amountToWithdraw)("");
-        require(success);
+    function transfer(address to, uint amount) {
+        if (userBalances[msg.sender] >= amount) {
+            userBalances[to] += amount;
+            userBalances[msg.sender] -= amount;
+        }
     }
 
-    function getFirstWithdrawalBonus(address recipient) public {
-        require(!claimedBonus[recipient]); // Each recipient should only be able to claim the bonus once
-
-        rewardsForA[recipient] += 100;
+    function withdrawBalance() public {
+        uint amountToWithdraw = userBalances[msg.sender];
         // <yes> <report> REENTRANCY
-        withdrawReward(recipient); // At this point, the caller will be able to execute getFirstWithdrawalBonus again.
-        claimedBonus[recipient] = true;
+        (bool success, ) = msg.sender.call.value(amountToWithdraw)(""); // At this point, the caller's code is executed, and can call transfer()
+        require(success);
+        userBalances[msg.sender] = 0;
     }
 }

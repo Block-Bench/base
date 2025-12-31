@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "list_dos.sol",
   "vulnerable_function": "lendGovernmentMoney",
-  "vulnerable_lines": [
-    46
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "dos",
   "original_category": "denial_of_service",
   "severity": "medium",

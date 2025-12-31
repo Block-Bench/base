@@ -1,32 +1,31 @@
 /*
- * @source: https://ethernaut.zeppelin.solutions/level/0xf70706db003e94cfe4b5e27ffd891d5c81b39488
- * @author: Alejandro Santander
- * @vulnerable_at_lines: 24
+ * @source: https://consensys.github.io/smart-contract-best-practices/known_attacks/
+ * @author: consensys
+ * @vulnerable_at_lines: 28
  */
 
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
-contract Reentrance {
+contract Reentrancy_bonus{
 
-  mapping(address => uint) public balances;
+    // INSECURE
+    mapping (address => uint) private userBalances;
+    mapping (address => bool) private claimedBonus;
+    mapping (address => uint) private rewardsForA;
 
-  function donate(address _to) public payable {
-    balances[_to] += msg.value;
-  }
-
-  function balanceOf(address _who) public view returns (uint balance) {
-    return balances[_who];
-  }
-
-  function withdraw(uint _amount) public {
-    if(balances[msg.sender] >= _amount) {
-      // <yes> <report> REENTRANCY
-      if(msg.sender.call.value(_amount)()) {
-        _amount;
-      }
-      balances[msg.sender] -= _amount;
+    function withdrawReward(address recipient) public {
+        uint amountToWithdraw = rewardsForA[recipient];
+        rewardsForA[recipient] = 0;
+        (bool success, ) = recipient.call.value(amountToWithdraw)("");
+        require(success);
     }
-  }
 
-  function() public payable {}
+    function getFirstWithdrawalBonus(address recipient) public {
+        require(!claimedBonus[recipient]); // Each recipient should only be able to claim the bonus once
+
+        rewardsForA[recipient] += 100;
+        // <yes> <report> REENTRANCY
+        withdrawReward(recipient); // At this point, the caller will be able to execute getFirstWithdrawalBonus again.
+        claimedBonus[recipient] = true;
+    }
 }

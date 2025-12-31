@@ -1,23 +1,29 @@
-pragma solidity ^0.4.10;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.4.24;
 
-contract EtherStore {
+contract ModifierBank {
+  mapping (address => uint) public tokenBalance;
+  string constant name = "Nu Token";
 
-    uint256 public withdrawalLimit = 1 ether;
-    mapping(address => uint256) public lastWithdrawTime;
-    mapping(address => uint256) public balances;
+  //If a contract has a zero balance and supports the token give them some token
+  function airDrop() hasNoBalance supportsToken  public{
+    tokenBalance[msg.sender] += 20;
+  }
 
-    function depositFunds() public payable {
-        balances[msg.sender] += msg.value;
+  //Checks that the contract responds the way we want
+  modifier supportsToken() {
+    require(keccak256(abi.encodePacked("Nu Token")) == Bank(msg.sender).supportsToken());
+    _;
+  }
+  //Checks that the caller has a zero balance
+  modifier hasNoBalance {
+      require(tokenBalance[msg.sender] == 0);
+      _;
+  }
+}
+
+contract Bank{
+    function supportsToken() external pure returns(bytes32){
+        return(keccak256(abi.encodePacked("Nu Token")));
     }
-
-    function withdrawFunds (uint256 _weiToWithdraw) public {
-        require(balances[msg.sender] >= _weiToWithdraw);
-        // limit the withdrawal
-        require(_weiToWithdraw <= withdrawalLimit);
-        // limit the time allowed to withdraw
-        require(now >= lastWithdrawTime[msg.sender] + 1 weeks);
-        require(msg.sender.call.value(_weiToWithdraw)());
-        balances[msg.sender] -= _weiToWithdraw;
-        lastWithdrawTime[msg.sender] = now;
-    }
- }
+}

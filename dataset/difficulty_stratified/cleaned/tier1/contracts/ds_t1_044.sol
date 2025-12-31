@@ -1,14 +1,21 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.15;
 
-contract SimpleVault {
+ contract TokenVault {
+     mapping (address => uint) userBalance;
 
-    mapping (address => uint) private userBalances;
+     function getBalance(address u) constant returns(uint){
+         return userBalance[u];
+     }
 
-    function withdrawBalance() public {
-        uint amountToWithdraw = userBalances[msg.sender];
-        (bool success, ) = msg.sender.call.value(amountToWithdraw)("");
-        require(success);
-        userBalances[msg.sender] = 0;
-    }
-}
+     function addToBalance() payable{
+         userBalance[msg.sender] += msg.value;
+     }
+
+     function withdrawBalance(){
+         if( ! (msg.sender.call.value(userBalance[msg.sender])() ) ){
+             throw;
+         }
+         userBalance[msg.sender] = 0;
+     }
+ }

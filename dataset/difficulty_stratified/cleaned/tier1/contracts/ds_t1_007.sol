@@ -1,53 +1,34 @@
-pragma solidity ^0.4.22;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.4.25;
 
-contract FibonacciBalance {
+ contract Wallet {
+     uint[] private bonusCodes;
+     address private owner;
 
-    address public fibonacciLibrary;
-    // the current fibonacci number to withdraw
-    uint public calculatedFibNumber;
-    // the starting fibonacci sequence number
-    uint public start = 3;
-    uint public withdrawalCounter;
-    // the fibonancci function selector
-    bytes4 constant fibSig = bytes4(sha3("setFibonacci(uint256)"));
+     constructor() public {
+         bonusCodes = new uint[](0);
+         owner = msg.sender;
+     }
 
-    // constructor - loads the contract with ether
-    constructor(address _fibonacciLibrary) public payable {
-        fibonacciLibrary = _fibonacciLibrary;
-    }
+     function () public payable {
+     }
 
-    function withdraw() {
-        withdrawalCounter += 1;
-        // calculate the fibonacci number for the current withdrawal user
-        // this sets calculatedFibNumber
-        require(fibonacciLibrary.delegatecall(fibSig, withdrawalCounter));
-        msg.sender.transfer(calculatedFibNumber * 1 ether);
-    }
+     function PushBonusCode(uint c) public {
+         bonusCodes.push(c);
+     }
 
-    // allow users to call fibonacci library functions
-    function() public {
-        require(fibonacciLibrary.delegatecall(msg.data));
-    }
-}
+     function PopBonusCode() public {
+         require(0 <= bonusCodes.length); // this condition is always true since array lengths are unsigned
+         bonusCodes.length--;
+     }
 
-// library contract - calculates fibonacci-like numbers;
-contract FibonacciLib {
-    // initializing the standard fibonacci sequence;
-    uint public start;
-    uint public calculatedFibNumber;
+     function UpdateBonusCodeAt(uint idx, uint c) public {
+         require(idx < bonusCodes.length);
+         bonusCodes[idx] = c; // write to any index less than bonusCodes.length
+     }
 
-    // modify the zeroth number in the sequence
-    function setStart(uint _start) public {
-        start = _start;
-    }
-
-    function setFibonacci(uint n) public {
-        calculatedFibNumber = fibonacci(n);
-    }
-
-    function fibonacci(uint n) internal returns (uint) {
-        if (n == 0) return start;
-        else if (n == 1) return start + 1;
-        else return fibonacci(n - 1) + fibonacci(n - 2);
-    }
-}
+     function Destroy() public {
+         require(msg.sender == owner);
+         selfdestruct(msg.sender);
+     }
+ }

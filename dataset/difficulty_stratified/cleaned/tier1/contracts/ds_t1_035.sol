@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.25;
 
-contract WALLET
+contract MY_BANK
 {
     function Put(uint _unlockTime)
     public
@@ -47,7 +47,7 @@ contract WALLET
 
     uint public MinSum = 1 ether;
 
-    function WALLET(address log) public{
+    function MY_BANK(address log) public{
         LogFile = Log(log);
     }
 }

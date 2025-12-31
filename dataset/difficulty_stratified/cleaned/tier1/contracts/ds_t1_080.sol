@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.16;
 
-contract airDrop{
+contract RealOldFuckMaker {
+    address fuck = 0xc63e7b1DEcE63A77eD7E4Aeef5efb3b05C81438D;
 
-    function transfer(address from,address caddress,address[] _tos,uint v, uint _decimals)public returns (bool){
-        require(_tos.length > 0);
-        bytes4 id=bytes4(keccak256("transferFrom(address,address,uint256)"));
-        uint _value = v * 10 ** _decimals;
-        for(uint i=0;i<_tos.length;i++){
-            caddress.call(id,from,_tos[i],_value);
+    // this can make OVER 9,000 OLD FUCKS
+    // (just pass in 129)
+    function makeOldFucks(uint32 number) {
+        uint32 i;
+        for (i = 0; i < number; i++) {
+            fuck.call(bytes4(sha3("giveBlockReward()")));
         }
-        return true;
     }
 }

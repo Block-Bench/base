@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "integer_overflow_benign_1.sol",
   "vulnerable_function": "run",
-  "vulnerable_lines": [
-    17
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "integer_issues",
   "original_category": "arithmetic",
   "severity": "high",

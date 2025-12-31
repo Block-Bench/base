@@ -5,7 +5,7 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "Lottery.sol",
-  "vulnerable_function": "OpenAddressLottery",
+  "vulnerable_function": "participate",
   "vulnerable_lines": [],
   "vulnerability_type": "honeypot",
   "original_category": "honeypots",

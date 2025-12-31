@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0x19cf8481ea15427a98ba3cdd6d9e14690011ab10.sol",
   "vulnerable_function": "PartialFundsTransfer",
-  "vulnerable_lines": [
-    439
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

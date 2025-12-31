@@ -1,23 +1,21 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.2;
 
- contract TokenVault {
-     mapping (address => uint) userBalance;
+contract SimpleDAO {
+  mapping (address => uint) public credit;
 
-     function getBalance(address u) constant returns(uint){
-         return userBalance[u];
-     }
+  function donate(address to) payable {
+    credit[to] += msg.value;
+  }
 
-     function addToBalance() payable{
-         userBalance[msg.sender] += msg.value;
-     }
+  function withdraw(uint amount) {
+    if (credit[msg.sender]>= amount) {
+      bool res = msg.sender.call.value(amount)();
+      credit[msg.sender]-=amount;
+    }
+  }
 
-     function withdrawBalance(){
-         // send userBalance[msg.sender] ethers to msg.sender
-         // if mgs.sender is a contract, it will call its fallback function
-         if( ! (msg.sender.call.value(userBalance[msg.sender])() ) ){
-             throw;
-         }
-         userBalance[msg.sender] = 0;
-     }
- }
+  function queryCredit(address to) returns (uint){
+    return credit[to];
+  }
+}

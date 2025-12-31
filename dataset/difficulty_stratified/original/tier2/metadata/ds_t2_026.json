@@ -5,7 +5,7 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "DAO.sol",
-  "vulnerable_function": "balanceOf",
+  "vulnerable_function": "splitDAO",
   "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",

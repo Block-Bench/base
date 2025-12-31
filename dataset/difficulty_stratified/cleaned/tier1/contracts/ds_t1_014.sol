@@ -6,7 +6,7 @@ pragma solidity ^0.4.24;
 
      mapping(address => uint256) balances;
 
-     constructor() public {
+     function initWallet() public {
          creator = msg.sender;
      }
 
@@ -19,10 +19,6 @@ pragma solidity ^0.4.24;
          require(amount <= balances[msg.sender]);
          msg.sender.transfer(amount);
          balances[msg.sender] -= amount;
-     }
-
-     function refund() public {
-         msg.sender.transfer(balances[msg.sender]);
      }
 
      // In an emergency the owner can migrate  allfunds to a different address.

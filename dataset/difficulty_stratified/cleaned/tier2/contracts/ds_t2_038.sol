@@ -9,8 +9,6 @@ contract Missing{
         _;
     }
 
-    // The name of the constructor should be Missing
-
     function IamMissing()
         public
     {

@@ -6,11 +6,7 @@
   "chain": "evm",
   "file_name": "dos_address.sol",
   "vulnerable_function": "emptyCreditors",
-  "vulnerable_lines": [
-    16,
-    17,
-    18
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "dos",
   "original_category": "denial_of_service",
   "severity": "medium",

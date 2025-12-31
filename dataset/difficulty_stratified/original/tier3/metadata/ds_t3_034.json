@@ -5,10 +5,8 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "0x663e4229142a27f00bafb5d087e1e730648314c3.sol",
-  "vulnerable_function": "unknown",
-  "vulnerable_lines": [
-    1152
-  ],
+  "vulnerable_function": "giveBirth",
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

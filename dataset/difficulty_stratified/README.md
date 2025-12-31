@@ -54,6 +54,30 @@ Vulnerability hints removed while preserving the vulnerable code patterns. Use f
 - Removed DeFiVulnLabs documentation blocks (`Name:`, `Description:`, `Mitigation:`)
 - Removed security challenge hints (`#spotthebug`, `immunefi`)
 
+### Manual Cleanings
+
+In addition to automated sanitization, the following contracts received **manual review and cleaning** to address issues identified during quality assurance:
+
+| Contract | Issue | Fix Applied |
+|----------|-------|-------------|
+| `ds_t1_002` | Contained fixed versions and fallback hint comment | Removed fixed functions (`withdrawBalanceV2`, `withdrawBalanceV3`) and revealing comments |
+| `ds_t1_004` | Contained fixed version and assert hints | Removed `safe_add` function and auditor assert comments |
+| `ds_t1_005` | Contained fixed version and "should be protected" comment | Removed `changeOwnerV2` function and revealing comment |
+| `ds_t1_006` | Missing interface required to demonstrate vulnerability | Added mismatched interface and caller contract |
+| `ds_t1_007` | Metadata incorrectly referenced `withdraw` instead of `fallback` | Updated `vulnerable_function` to `fallback` |
+| `ds_t1_039` | Contained attack contract (`executor`) demonstrating exploit | Removed attack contract |
+| `ds_t1_041` | Comment explicitly explained reentrancy vulnerability | Removed revealing comment |
+| `ds_t1_045` | Comment hinted at fallback-based attack vector | Removed revealing comments |
+| `ds_t2_015` | Comment revealed missing access control | Removed "wrong visibility" comment |
+| `ds_t2_029` | Comment revealed constructor naming vulnerability | Removed "constructor should be Missing" comment |
+| `ds_t2_038` | Comment revealed constructor naming vulnerability | Removed "constructor should be Missing" comment |
+| `ds_t2_043` | Comment revealed missing access control | Removed "should be protected" comment |
+| `ds_t2_037` | Contained fixed version (`setV2`) showing correct interface type | Removed `setV2` from interface and caller |
+| `ds_t2_045` | Contained commented-out fixed version and assert hints | Removed `safe_add` comments and auditor assert hints |
+| `ds_t4_001` | Comments explained reentrancy attack mechanism | Removed bypass hint, reentrancy explanation, and "Reentered" log |
+
+These manual interventions ensure the cleaned dataset provides a fair evaluation without information leakage while preserving all vulnerable code patterns.
+
 ## Statistics
 
 ### Source Distribution

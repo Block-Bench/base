@@ -6,12 +6,7 @@
   "chain": "evm",
   "file_name": "lucky_doubler.sol",
   "vulnerable_function": "rand",
-  "vulnerable_lines": [
-    127,
-    128,
-    129,
-    130
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "weak_randomness",
   "original_category": "bad_randomness",
   "severity": "medium",

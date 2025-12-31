@@ -1,34 +1,22 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.25;
+pragma solidity ^0.4.24;
 
- contract Wallet {
-     uint[] private bonusCodes;
-     address private owner;
+ contract Map {
+     address public owner;
+     uint256[] map;
 
-     constructor() public {
-         bonusCodes = new uint[](0);
-         owner = msg.sender;
+     function set(uint256 key, uint256 value) public {
+         if (map.length <= key) {
+             map.length = key + 1;
+         }
+         map[key] = value;
      }
 
-     function () public payable {
+     function get(uint256 key) public view returns (uint256) {
+         return map[key];
      }
-
-     function PushBonusCode(uint c) public {
-         bonusCodes.push(c);
-     }
-
-     function PopBonusCode() public {
-         require(0 <= bonusCodes.length); // this condition is always true since array lengths are unsigned
-         bonusCodes.length--;
-     }
-
-     function UpdateBonusCodeAt(uint idx, uint c) public {
-         require(idx < bonusCodes.length);
-         bonusCodes[idx] = c; // write to any index less than bonusCodes.length
-     }
-
-     function Destroy() public {
-         require(msg.sender == owner);
-         selfdestruct(msg.sender);
+     function withdraw() public{
+       require(msg.sender == owner);
+       msg.sender.transfer(address(this).balance);
      }
  }

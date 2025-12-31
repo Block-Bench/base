@@ -1,30 +1,28 @@
 {
   "id": "ds_t1_031",
-  "original_id": "smartbugs_reentrancy_0xb5e1b1ee15c6fa0e48fce100125569d430f1bd12",
+  "original_id": "smartbugs_reentrancy_0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e",
   "source_dataset": "smartbugs-curated",
   "language": "solidity",
   "chain": "evm",
-  "file_name": "0xb5e1b1ee15c6fa0e48fce100125569d430f1bd12.sol",
+  "file_name": "0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
   "vulnerable_function": "CashOut",
-  "vulnerable_lines": [
-    40
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",
   "severity": "high",
   "difficulty_tier": 1,
-  "description": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 40",
+  "description": "Reentrancy vulnerability - external call before state update allows recursive calls at line(s) 38",
   "fix_description": "Apply checks-effects-interactions pattern: update state before external calls, or use ReentrancyGuard",
   "is_vulnerable": true,
   "context_level": "single_file",
-  "original_source_path": "dataset/reentrancy/0xb5e1b1ee15c6fa0e48fce100125569d430f1bd12.sol",
+  "original_source_path": "dataset/reentrancy/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
   "source_url": "etherscan.io",
   "references": [],
   "framework": null,
   "contract_file": "contracts/ds_t1_031.sol",
   "subset": "cleaned",
   "original_subset": "difficulty_stratified",
-  "original_ds_id": "ds_031",
-  "sanitized_from": "ds_031",
-  "sanitized_id": "sn_ds_031"
+  "original_ds_id": "ds_032",
+  "sanitized_from": "ds_032",
+  "sanitized_id": "sn_ds_032"
 }

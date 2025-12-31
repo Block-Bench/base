@@ -1,26 +1,24 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
-contract TokenVault {
+contract BonusVault{
 
-  mapping(address => uint) public balances;
+    mapping (address => uint) private userBalances;
+    mapping (address => bool) private claimedBonus;
+    mapping (address => uint) private rewardsForA;
 
-  function donate(address _to) public payable {
-    balances[_to] += msg.value;
-  }
-
-  function balanceOf(address _who) public view returns (uint balance) {
-    return balances[_who];
-  }
-
-  function withdraw(uint _amount) public {
-    if(balances[msg.sender] >= _amount) {
-      if(msg.sender.call.value(_amount)()) {
-        _amount;
-      }
-      balances[msg.sender] -= _amount;
+    function withdrawReward(address recipient) public {
+        uint amountToWithdraw = rewardsForA[recipient];
+        rewardsForA[recipient] = 0;
+        (bool success, ) = recipient.call.value(amountToWithdraw)("");
+        require(success);
     }
-  }
 
-  function() public payable {}
+    function getFirstWithdrawalBonus(address recipient) public {
+        require(!claimedBonus[recipient]); // Each recipient should only be able to claim the bonus once
+
+        rewardsForA[recipient] += 100;
+        withdrawReward(recipient);
+        claimedBonus[recipient] = true;
+    }
 }

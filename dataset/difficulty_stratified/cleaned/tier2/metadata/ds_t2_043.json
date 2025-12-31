@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "unprotected0.sol",
   "vulnerable_function": "changeOwner",
-  "vulnerable_lines": [
-    25
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

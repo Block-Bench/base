@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "name_registrar.sol",
   "vulnerable_function": "register",
-  "vulnerable_lines": [
-    23
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "logic_error",
   "original_category": "other",
   "severity": "medium",

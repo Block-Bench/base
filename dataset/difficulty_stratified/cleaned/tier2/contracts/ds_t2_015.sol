@@ -29,7 +29,6 @@ contract ownerGame {
         owner = msg.sender;
     }
 
-    // wrong visibility of changeOwner function should be onlyOwner
     function changeOwner(address _new) public {
         owner = _new;
     }
