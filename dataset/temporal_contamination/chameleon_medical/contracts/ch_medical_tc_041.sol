@@ -4,7 +4,7 @@
 /*LN-4*/     function transfer(address to, uint256 quantity) external returns (bool);
 /*LN-5*/ 
 /*LN-6*/     function transferFrom(
-/*LN-7*/         address referrer,
+/*LN-7*/         address source,
 /*LN-8*/         address to,
 /*LN-9*/         uint256 quantity
 /*LN-10*/     ) external returns (bool);
@@ -41,18 +41,18 @@
 /*LN-41*/     }
 /*LN-42*/ 
 /*LN-43*/     function transferFrom(
-/*LN-44*/         address referrer,
+/*LN-44*/         address source,
 /*LN-45*/         address to,
 /*LN-46*/         uint256 quantity
 /*LN-47*/     ) external override returns (bool) {
-/*LN-48*/         require(balanceOf[referrer] >= quantity, "Insufficient balance");
+/*LN-48*/         require(balanceOf[source] >= quantity, "Insufficient balance");
 /*LN-49*/         require(
-/*LN-50*/             allowance[referrer][msg.requestor] >= quantity,
+/*LN-50*/             allowance[source][msg.requestor] >= quantity,
 /*LN-51*/             "Insufficient allowance"
 /*LN-52*/         );
-/*LN-53*/         balanceOf[referrer] -= quantity;
+/*LN-53*/         balanceOf[source] -= quantity;
 /*LN-54*/         balanceOf[to] += quantity;
-/*LN-55*/         allowance[referrer][msg.requestor] -= quantity;
+/*LN-55*/         allowance[source][msg.requestor] -= quantity;
 /*LN-56*/         return true;
 /*LN-57*/     }
 /*LN-58*/ 
@@ -72,7 +72,7 @@
 /*LN-72*/     mapping(address => uint256) public securitydepositAccountcredits;
 /*LN-73*/     mapping(address => uint256) public outstandingbalanceAccountcredits;
 /*LN-74*/ 
-/*LN-75*/     uint256 public constant securitydeposit_proportion = 150;
+/*LN-75*/     uint256 public constant securitydeposit_factor = 150;
 /*LN-76*/     uint256 public constant BASIS_POINTS = 100;
 /*LN-77*/ 
 /*LN-78*/     constructor(address _securitydepositCredential, address _shezUSD) {
@@ -81,16 +81,16 @@
 /*LN-81*/     }
 /*LN-82*/ 
 /*LN-83*/ 
-/*LN-84*/     function attachSecuritydeposit(uint256 quantity) external {
+/*LN-84*/     function insertSecuritydeposit(uint256 quantity) external {
 /*LN-85*/         securitydepositCredential.transferFrom(msg.requestor, address(this), quantity);
 /*LN-86*/         securitydepositAccountcredits[msg.requestor] += quantity;
 /*LN-87*/     }
 /*LN-88*/ 
-/*LN-89*/     function requestAdvance(uint256 quantity) external {
-/*LN-90*/ 
+/*LN-89*/ 
+/*LN-90*/     function requestAdvance(uint256 quantity) external {
 /*LN-91*/ 
 /*LN-92*/         uint256 ceilingRequestadvance = (securitydepositAccountcredits[msg.requestor] * BASIS_POINTS) /
-/*LN-93*/             securitydeposit_proportion;
+/*LN-93*/             securitydeposit_factor;
 /*LN-94*/ 
 /*LN-95*/         require(
 /*LN-96*/             outstandingbalanceAccountcredits[msg.requestor] + quantity <= ceilingRequestadvance,
@@ -114,10 +114,10 @@
 /*LN-114*/             "Insufficient collateral"
 /*LN-115*/         );
 /*LN-116*/         uint256 remainingSecuritydeposit = securitydepositAccountcredits[msg.requestor] - quantity;
-/*LN-117*/         uint256 ceilingOutstandingbalance = (remainingSecuritydeposit * BASIS_POINTS) /
-/*LN-118*/             securitydeposit_proportion;
+/*LN-117*/         uint256 maximumOutstandingbalance = (remainingSecuritydeposit * BASIS_POINTS) /
+/*LN-118*/             securitydeposit_factor;
 /*LN-119*/         require(
-/*LN-120*/             outstandingbalanceAccountcredits[msg.requestor] <= ceilingOutstandingbalance,
+/*LN-120*/             outstandingbalanceAccountcredits[msg.requestor] <= maximumOutstandingbalance,
 /*LN-121*/             "Would be undercollateralized"
 /*LN-122*/         );
 /*LN-123*/ 

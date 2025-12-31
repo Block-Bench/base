@@ -19,7 +19,7 @@
   "cutoff_date": "2024-02",
   "description": "FixedFloat, a crypto exchange, lost $26M when attackers compromised the private key controlling hot wallet withdrawals. The single-key architecture with no multi-sig or timelock allowed immediate drainage of Bitcoin and Ethereum holdings.",
   "vulnerable_lines": [
-    32
+    34
   ],
   "vulnerability_details": {
     "root_cause": "Single private key controlled withdrawal function without multi-signature or timelock protection",
@@ -82,7 +82,7 @@
     "contract_renames": {
       "FloatHotWallet": "FloatHotWallet"
     },
-    "created_date": "2025-12-31T18:47:09.600885"
+    "created_date": "2025-12-31T20:00:32.333545"
   },
   "vulnerable_contract": "FloatHotWalletV2",
   "vulnerable_function": "withdraw",

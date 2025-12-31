@@ -12,9 +12,12 @@
   "description": "Classic reentrancy attack that drained 3.6M ETH from The DAO. The withdrawAll function sent ETH before updating balances, allowing attackers to recursively call the function and drain funds.",
   "root_cause": "External call to msg.sender before updating internal state (credit balance). Violation of checks-effects-interactions pattern.",
   "attack_scenario": "Attacker deposited ETH, then called withdrawAll from a malicious contract with a fallback function that re-entered withdrawAll, draining funds before balance was updated.",
-  "vulnerable_contract": "the_dao.sol",
+  "vulnerable_contract": "DAO",
   "vulnerable_function": "_0x390062",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    13,
+    15
+  ],
   "fix_description": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern.",
   "tags": [
     "reentrancy",
@@ -61,13 +64,14 @@
       "withdrawAll": "_0x390062",
       "callResult": "_0x0cce35",
       "getCredit": "_0x8cd0a4",
-      "oCredit": "_0x7d6277",
-      "deposit": "_0x7248ad",
+      "deposit": "_0x7d6277",
+      "oCredit": "_0x7248ad",
       "credit": "_0x477183",
       "user": "_0x347a3f"
     },
     "coverage_percent": 41.18,
     "identifiers_transformed": 7,
-    "created_date": "2025-12-30T00:24:49.055040"
-  }
+    "created_date": "2025-12-31T19:59:41.155615"
+  },
+  "sanitized_from": "ms_tc_010"
 }

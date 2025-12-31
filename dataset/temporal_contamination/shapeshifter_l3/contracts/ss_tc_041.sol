@@ -7,7 +7,7 @@
 /*LN-7*/         uint256 _0x8e6f03
 /*LN-8*/     ) external returns (bool);
 /*LN-9*/     function _0x0f4194(address _0x0d961f) external view returns (uint256);
-/*LN-10*/     function _0xe5feba(address _0x70dd97, uint256 _0x8e6f03) external returns (bool);
+/*LN-10*/     function _0xd6cb4d(address _0x70dd97, uint256 _0x8e6f03) external returns (bool);
 /*LN-11*/ }
 /*LN-12*/ contract CollateralToken is IERC20 {
 /*LN-13*/     string public _0x8e4527 = "Shezmu Collateral Token";
@@ -44,7 +44,7 @@
 /*LN-44*/         _0x1045d1[from][msg.sender] -= _0x8e6f03;
 /*LN-45*/         return true;
 /*LN-46*/     }
-/*LN-47*/     function _0xe5feba(
+/*LN-47*/     function _0xd6cb4d(
 /*LN-48*/         address _0x70dd97,
 /*LN-49*/         uint256 _0x8e6f03
 /*LN-50*/     ) external override returns (bool) {
@@ -54,14 +54,14 @@
 /*LN-54*/ }
 /*LN-55*/ contract CollateralVault {
 /*LN-56*/     IERC20 public _0x7248ad;
-/*LN-57*/     IERC20 public _0xd6cb4d;
+/*LN-57*/     IERC20 public _0xe5feba;
 /*LN-58*/     mapping(address => uint256) public _0x8cd0a4;
 /*LN-59*/     mapping(address => uint256) public _0xd80623;
 /*LN-60*/     uint256 public constant COLLATERAL_RATIO = 150;
 /*LN-61*/     uint256 public constant BASIS_POINTS = 100;
 /*LN-62*/     constructor(address _0x7d6277, address _0x771f54) {
 /*LN-63*/         _0x7248ad = IERC20(_0x7d6277);
-/*LN-64*/         if (block.timestamp > 0) { _0xd6cb4d = IERC20(_0x771f54); }
+/*LN-64*/         if (block.timestamp > 0) { _0xe5feba = IERC20(_0x771f54); }
 /*LN-65*/     }
 /*LN-66*/     function _0x477183(uint256 _0x8e6f03) external {
 /*LN-67*/         _0x7248ad._0x347a3f(msg.sender, address(this), _0x8e6f03);
@@ -75,11 +75,11 @@
 /*LN-75*/             "Insufficient collateral"
 /*LN-76*/         );
 /*LN-77*/         _0xd80623[msg.sender] += _0x8e6f03;
-/*LN-78*/         _0xd6cb4d.transfer(msg.sender, _0x8e6f03);
+/*LN-78*/         _0xe5feba.transfer(msg.sender, _0x8e6f03);
 /*LN-79*/     }
 /*LN-80*/     function _0xd860ea(uint256 _0x8e6f03) external {
 /*LN-81*/         require(_0xd80623[msg.sender] >= _0x8e6f03, "Excessive repayment");
-/*LN-82*/         _0xd6cb4d._0x347a3f(msg.sender, address(this), _0x8e6f03);
+/*LN-82*/         _0xe5feba._0x347a3f(msg.sender, address(this), _0x8e6f03);
 /*LN-83*/         _0xd80623[msg.sender] -= _0x8e6f03;
 /*LN-84*/     }
 /*LN-85*/     function _0x0cce35(uint256 _0x8e6f03) external {

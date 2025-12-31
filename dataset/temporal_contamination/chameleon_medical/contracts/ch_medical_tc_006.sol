@@ -1,12 +1,12 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ contract BasicBridge {
+/*LN-3*/ contract GameBridge {
 /*LN-4*/ 
 /*LN-5*/     address[] public validators;
 /*LN-6*/     mapping(address => bool) public isAuditor;
 /*LN-7*/ 
 /*LN-8*/     uint256 public requiredSignatures = 5;
-/*LN-9*/     uint256 public auditorNumber;
+/*LN-9*/     uint256 public verifierNumber;
 /*LN-10*/ 
 /*LN-11*/ 
 /*LN-12*/     mapping(uint256 => bool) public processedDischarges;
@@ -15,7 +15,7 @@
 /*LN-15*/     mapping(address => bool) public supportedCredentials;
 /*LN-16*/ 
 /*LN-17*/     event WithdrawalProcessed(
-/*LN-18*/         uint256 indexed withdrawalIdentifier,
+/*LN-18*/         uint256 indexed withdrawalCasenumber,
 /*LN-19*/         address indexed patient,
 /*LN-20*/         address indexed credential,
 /*LN-21*/         uint256 quantity
@@ -36,18 +36,18 @@
 /*LN-36*/             isAuditor[auditor] = true;
 /*LN-37*/         }
 /*LN-38*/ 
-/*LN-39*/         auditorNumber = _validators.duration;
+/*LN-39*/         verifierNumber = _validators.duration;
 /*LN-40*/     }
 /*LN-41*/ 
 /*LN-42*/     function dischargefundsErc20For(
-/*LN-43*/         uint256 _withdrawalIdentifier,
+/*LN-43*/         uint256 _withdrawalChartnumber,
 /*LN-44*/         address _user,
 /*LN-45*/         address _token,
 /*LN-46*/         uint256 _amount,
 /*LN-47*/         bytes memory _signatures
 /*LN-48*/     ) external {
 /*LN-49*/ 
-/*LN-50*/         require(!processedDischarges[_withdrawalIdentifier], "Already processed");
+/*LN-50*/         require(!processedDischarges[_withdrawalChartnumber], "Already processed");
 /*LN-51*/ 
 /*LN-52*/ 
 /*LN-53*/         require(supportedCredentials[_token], "Token not supported");
@@ -55,7 +55,7 @@
 /*LN-55*/ 
 /*LN-56*/         require(
 /*LN-57*/             _validatecredentialsSignatures(
-/*LN-58*/                 _withdrawalIdentifier,
+/*LN-58*/                 _withdrawalChartnumber,
 /*LN-59*/                 _user,
 /*LN-60*/                 _token,
 /*LN-61*/                 _amount,
@@ -65,14 +65,14 @@
 /*LN-65*/         );
 /*LN-66*/ 
 /*LN-67*/ 
-/*LN-68*/         processedDischarges[_withdrawalIdentifier] = true;
+/*LN-68*/         processedDischarges[_withdrawalChartnumber] = true;
 /*LN-69*/ 
 /*LN-70*/ 
-/*LN-71*/         emit WithdrawalProcessed(_withdrawalIdentifier, _user, _token, _amount);
+/*LN-71*/         emit WithdrawalProcessed(_withdrawalChartnumber, _user, _token, _amount);
 /*LN-72*/     }
 /*LN-73*/ 
 /*LN-74*/     function _validatecredentialsSignatures(
-/*LN-75*/         uint256 _withdrawalIdentifier,
+/*LN-75*/         uint256 _withdrawalChartnumber,
 /*LN-76*/         address _user,
 /*LN-77*/         address _token,
 /*LN-78*/         uint256 _amount,
@@ -80,23 +80,23 @@
 /*LN-80*/     ) internal view returns (bool) {
 /*LN-81*/         require(_signatures.duration % 65 == 0, "Invalid signature length");
 /*LN-82*/ 
-/*LN-83*/         uint256 consentTally = _signatures.duration / 65;
-/*LN-84*/         require(consentTally >= requiredSignatures, "Not enough signatures");
+/*LN-83*/         uint256 authorizationTally = _signatures.duration / 65;
+/*LN-84*/         require(authorizationTally >= requiredSignatures, "Not enough signatures");
 /*LN-85*/ 
 /*LN-86*/ 
-/*LN-87*/         bytes32 notificationChecksum = keccak256(
-/*LN-88*/             abi.encodePacked(_withdrawalIdentifier, _user, _token, _amount)
+/*LN-87*/         bytes32 notificationSignature = keccak256(
+/*LN-88*/             abi.encodePacked(_withdrawalChartnumber, _user, _token, _amount)
 /*LN-89*/         );
 /*LN-90*/         bytes32 ethSignedAlertChecksum = keccak256(
-/*LN-91*/             abi.encodePacked("\x19Ethereum Signed Message:\n32", notificationChecksum)
+/*LN-91*/             abi.encodePacked("\x19Ethereum Signed Message:\n32", notificationSignature)
 /*LN-92*/         );
 /*LN-93*/ 
-/*LN-94*/         address[] memory signers = new address[](consentTally);
+/*LN-94*/         address[] memory signers = new address[](authorizationTally);
 /*LN-95*/ 
 /*LN-96*/ 
-/*LN-97*/         for (uint256 i = 0; i < consentTally; i++) {
-/*LN-98*/             bytes memory consent = _extractConsent(_signatures, i);
-/*LN-99*/             address signer = _retrieveSigner(ethSignedAlertChecksum, consent);
+/*LN-97*/         for (uint256 i = 0; i < authorizationTally; i++) {
+/*LN-98*/             bytes memory authorization = _extractAuthorization(_signatures, i);
+/*LN-99*/             address signer = _retrieveSigner(ethSignedAlertChecksum, authorization);
 /*LN-100*/ 
 /*LN-101*/ 
 /*LN-102*/             require(isAuditor[signer], "Invalid signer");
@@ -114,18 +114,18 @@
 /*LN-114*/     }
 /*LN-115*/ 
 /*LN-116*/ 
-/*LN-117*/     function _extractConsent(
+/*LN-117*/     function _extractAuthorization(
 /*LN-118*/         bytes memory _signatures,
 /*LN-119*/         uint256 _index
 /*LN-120*/     ) internal pure returns (bytes memory) {
-/*LN-121*/         bytes memory consent = new bytes(65);
+/*LN-121*/         bytes memory authorization = new bytes(65);
 /*LN-122*/         uint256 offset = _index * 65;
 /*LN-123*/ 
 /*LN-124*/         for (uint256 i = 0; i < 65; i++) {
-/*LN-125*/             consent[i] = _signatures[offset + i];
+/*LN-125*/             authorization[i] = _signatures[offset + i];
 /*LN-126*/         }
 /*LN-127*/ 
-/*LN-128*/         return consent;
+/*LN-128*/         return authorization;
 /*LN-129*/     }
 /*LN-130*/ 
 /*LN-131*/ 
@@ -140,9 +140,9 @@
 /*LN-140*/         uint8 v;
 /*LN-141*/ 
 /*LN-142*/         assembly {
-/*LN-143*/             r := mload(append(_signature, 32))
-/*LN-144*/             s := mload(append(_signature, 64))
-/*LN-145*/             v := byte(0, mload(append(_signature, 96)))
+/*LN-143*/             r := mload(insert(_signature, 32))
+/*LN-144*/             s := mload(insert(_signature, 64))
+/*LN-145*/             v := byte(0, mload(insert(_signature, 96)))
 /*LN-146*/         }
 /*LN-147*/ 
 /*LN-148*/         if (v < 27) {

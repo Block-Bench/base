@@ -18,12 +18,14 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Orbit Chain bridge suffered an $81M exploit when attackers compromised validator private keys and used them to forge signatures authorizing fraudulent cross-chain withdrawals. The bridge's multi-sig system (5-of-7) was bypassed through key compromise rather than smart contract vulnerabilities.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    39
+  ],
   "vulnerability_details": {
     "root_cause": "Compromised validator private keys enabled signature forgery",
     "attack_vector": "Attackers gained access to 5 out of 7 validator keys and created valid ECDSA signatures for fake withdrawal transactions",
     "vulnerable_functions": [
-      "_0x1045d1()"
+      "_0x2ff8d2()"
     ],
     "key_weakness": [
       "Insufficient validator key security",
@@ -87,23 +89,26 @@
       "addValidator": "_0x8cd0a4",
       "hubContract": "_0x7d6277",
       "validators": "_0x7248ad",
-      "recipient": "_0x477183",
-      "balanceOf": "_0x347a3f",
-      "validator": "_0x2c833f",
+      "validator": "_0x477183",
+      "recipient": "_0x347a3f",
+      "balanceOf": "_0x2c833f",
       "fromChain": "_0xd80623",
-      "withdraw": "_0x1045d1",
-      "fromAddr": "_0x0f4194",
-      "bytes32s": "_0x2ff8d2",
+      "fromAddr": "_0x1045d1",
+      "bytes32s": "_0x0f4194",
+      "withdraw": "_0x2ff8d2",
       "account": "_0x6ff151",
       "amount": "_0x771f54",
-      "toAddr": "_0x0d961f",
-      "txHash": "_0x65ce0c",
-      "uints": "_0xd6cb4d",
-      "token": "_0x70dd97",
+      "txHash": "_0x0d961f",
+      "toAddr": "_0x65ce0c",
+      "token": "_0xd6cb4d",
+      "uints": "_0x70dd97",
       "to": "_0xe5feba"
     },
     "coverage_percent": 65.52,
     "identifiers_transformed": 19,
-    "created_date": "2025-12-30T00:24:49.114015"
-  }
+    "created_date": "2025-12-31T19:59:41.203997"
+  },
+  "vulnerable_contract": "CrossBridge",
+  "vulnerable_function": "_0x2ff8d2",
+  "sanitized_from": "ms_tc_031"
 }

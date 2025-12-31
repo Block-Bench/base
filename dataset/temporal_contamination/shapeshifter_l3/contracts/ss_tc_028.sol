@@ -1,6 +1,6 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ interface IERC20 {
-/*LN-3*/     function _0x7248ad(address _0x2c833f) external view returns (uint256);
+/*LN-3*/     function _0x7248ad(address _0xd80623) external view returns (uint256);
 /*LN-4*/     function transfer(address _0x771f54, uint256 _0x1045d1) external returns (bool);
 /*LN-5*/     function _0x0cce35(address from, address _0x771f54, uint256 _0x1045d1) external returns (bool);
 /*LN-6*/ }
@@ -25,13 +25,13 @@
 /*LN-25*/         return true;
 /*LN-26*/     }
 /*LN-27*/ }
-/*LN-28*/ contract BasicVault {
+/*LN-28*/ contract Vault {
 /*LN-29*/     address public _0x2ff8d2;
 /*LN-30*/     mapping(address => uint256) public _0x477183;
 /*LN-31*/     constructor(address _0x0f4194) {
 /*LN-32*/         _0x2ff8d2 = _0x0f4194;
 /*LN-33*/     }
-/*LN-34*/     function _0xd80623(uint256 _0x1045d1) external {
+/*LN-34*/     function _0x2c833f(uint256 _0x1045d1) external {
 /*LN-35*/         IERC20(_0x2ff8d2)._0x0cce35(msg.sender, address(this), _0x1045d1);
 /*LN-36*/         _0x477183[msg.sender] += _0x1045d1;
 /*LN-37*/     }

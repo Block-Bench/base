@@ -12,9 +12,13 @@
   "description": "Cross-function reentrancy attack. The borrow function sent ETH before final health check, allowing attacker to call exitMarket during callback and bypass collateral requirements.",
   "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
   "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
-  "vulnerable_contract": "rari_capital.sol",
+  "vulnerable_contract": "LendingHub",
   "vulnerable_function": "requestAdvance",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    63,
+    66,
+    71
+  ],
   "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
   "tags": [
     "reentrancy",
@@ -48,38 +52,39 @@
       "Renamed 28/68 identifiers (41.2% coverage)"
     ],
     "rename_map": {
-      "enterMarkets": "admitMarkets",
+      "enterMarkets": "registerMarkets",
       "cTokens": "cCredentials",
-      "exitMarket": "dischargeMarket",
+      "exitMarket": "checkoutMarket",
       "cToken": "cCredential",
-      "getAccountLiquidity": "acquireChartAvailableresources",
-      "account": "chart",
+      "getAccountLiquidity": "acquireProfileAvailableresources",
+      "account": "profile",
       "deposits": "payments",
       "borrowed": "advancedAmount",
       "totalDeposits": "totalamountPayments",
       "totalBorrowed": "totalamountAdvancedamount",
       "COLLATERAL_FACTOR": "securitydeposit_factor",
-      "depositAndEnterMarket": "submitpaymentAndRegisterMarket",
+      "depositAndEnterMarket": "submitpaymentAndCheckinMarket",
       "sender": "requestor",
       "value": "measurement",
-      "isHealthy": "verifyHealthy",
+      "isHealthy": "validateHealthy",
       "additionalBorrow": "additionalRequestadvance",
       "totalDebt": "totalamountOutstandingbalance",
       "collateralValue": "securitydepositMeasurement",
       "borrow": "requestAdvance",
       "amount": "quantity",
       "collateral": "securityDeposit",
-      "success": "improvement",
+      "success": "recovery",
       "check": "inspectStatus",
       "debt": "outstandingBalance",
       "withdraw": "dischargeFunds",
-      "Exit": "Discharge",
+      "Exit": "Checkout",
       "market": "serviceMarket",
       "first": "initial"
     },
     "coverage_percent": 41.18,
     "identifiers_transformed": 28,
     "identifiers_total": 68,
-    "created_date": "2025-12-29T23:26:42.390342"
-  }
+    "created_date": "2025-12-31T19:50:53.766848"
+  },
+  "sanitized_from": "ms_tc_012"
 }

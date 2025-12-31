@@ -54,36 +54,34 @@
 /*LN-54*/         totalETHDeposited += msg.value;
 /*LN-55*/         totalUniBTCMinted += uniBTCAmount;
 /*LN-56*/ 
-/*LN-57*/         /
-/*LN-58*/ 
-/*LN-59*/         // Transfer uniBTC to user
-/*LN-60*/         uniBTC.transfer(msg.sender, uniBTCAmount);
-/*LN-61*/     }
-/*LN-62*/ 
-/*LN-63*/     /**
-/*LN-64*/      * @notice Redeem ETH by burning uniBTC
-/*LN-65*/      */
-/*LN-66*/     function redeem(uint256 amount) external {
-/*LN-67*/         require(amount > 0, "No amount specified");
-/*LN-68*/         require(uniBTC.balanceOf(msg.sender) >= amount, "Insufficient balance");
+/*LN-57*/         // Transfer uniBTC to user
+/*LN-58*/         uniBTC.transfer(msg.sender, uniBTCAmount);
+/*LN-59*/     }
+/*LN-60*/ 
+/*LN-61*/     /**
+/*LN-62*/      * @notice Redeem ETH by burning uniBTC
+/*LN-63*/      */
+/*LN-64*/     function redeem(uint256 amount) external {
+/*LN-65*/         require(amount > 0, "No amount specified");
+/*LN-66*/         require(uniBTC.balanceOf(msg.sender) >= amount, "Insufficient balance");
+/*LN-67*/ 
+/*LN-68*/         uniBTC.transferFrom(msg.sender, address(this), amount);
 /*LN-69*/ 
-/*LN-70*/         uniBTC.transferFrom(msg.sender, address(this), amount);
-/*LN-71*/ 
-/*LN-72*/         uint256 ethAmount = amount;
-/*LN-73*/         require(address(this).balance >= ethAmount, "Insufficient ETH");
-/*LN-74*/ 
-/*LN-75*/         payable(msg.sender).transfer(ethAmount);
-/*LN-76*/     }
-/*LN-77*/ 
-/*LN-78*/     /**
-/*LN-79*/      * @notice Get current exchange rate
-/*LN-80*/      * @dev Should return ETH per uniBTC, but returns 1:1
-/*LN-81*/      */
-/*LN-82*/     function getExchangeRate() external pure returns (uint256) {
-/*LN-83*/ 
-/*LN-84*/         return 1e18;
-/*LN-85*/     }
-/*LN-86*/ 
-/*LN-87*/     receive() external payable {}
-/*LN-88*/ }
-/*LN-89*/ 
+/*LN-70*/         uint256 ethAmount = amount;
+/*LN-71*/         require(address(this).balance >= ethAmount, "Insufficient ETH");
+/*LN-72*/ 
+/*LN-73*/         payable(msg.sender).transfer(ethAmount);
+/*LN-74*/     }
+/*LN-75*/ 
+/*LN-76*/     /**
+/*LN-77*/      * @notice Get current exchange rate
+/*LN-78*/      * @dev Should return ETH per uniBTC, but returns 1:1
+/*LN-79*/      */
+/*LN-80*/     function getExchangeRate() external pure returns (uint256) {
+/*LN-81*/ 
+/*LN-82*/         return 1e18;
+/*LN-83*/     }
+/*LN-84*/ 
+/*LN-85*/     receive() external payable {}
+/*LN-86*/ }
+/*LN-87*/ 

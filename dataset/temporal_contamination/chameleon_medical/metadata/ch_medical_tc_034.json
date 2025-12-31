@@ -20,7 +20,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Gamma Strategies managed liquidity positions on Uniswap V3/Algebra pools. Attackers used flashloans to manipulate pool prices, then exploited the vault's deposit/withdrawal and rebalancing mechanisms during price manipulation to extract $6.1M.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    73
+  ],
   "vulnerability_details": {
     "root_cause": "Lack of slippage protection and oracle usage in deposit/withdrawal share calculations",
     "attack_vector": "Flashloan price manipulation combined with vault interaction during manipulated state",
@@ -92,18 +94,18 @@
       "amountSpecified": "quantitySpecified",
       "sqrtPriceLimitX96": "sqrtServicecostCapX96",
       "data": "chart",
-      "flash": "urgent",
+      "flash": "emergency",
       "LiquidityHypervisor": "AvailableresourcesHypervisor",
-      "pool": "treatmentPool",
+      "pool": "carePool",
       "Position": "CarePosition",
       "liquidity": "availableResources",
-      "limitPosition": "capPosition",
+      "limitPosition": "boundPosition",
       "deposit": "submitPayment",
       "shares": "portions",
       "sender": "requestor",
-      "amount0Current": "amount0Present",
+      "amount0Current": "amount0Active",
       "amount1Current": "amount1Active",
-      "_addLiquidity": "_insertAvailableresources",
+      "_addLiquidity": "_attachAvailableresources",
       "withdraw": "dischargeFunds",
       "rebalance": "adjust",
       "_removeLiquidity": "_discontinueAvailableresources"
@@ -111,6 +113,9 @@
     "coverage_percent": 33.33,
     "identifiers_transformed": 24,
     "identifiers_total": 72,
-    "created_date": "2025-12-29T23:26:42.422387"
-  }
+    "created_date": "2025-12-31T19:50:53.803092"
+  },
+  "vulnerable_contract": "AvailableresourcesHypervisor",
+  "vulnerable_function": "submitPayment",
+  "sanitized_from": "ms_tc_034"
 }

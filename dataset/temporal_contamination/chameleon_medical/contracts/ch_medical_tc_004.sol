@@ -1,11 +1,11 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ interface ValidatetablePool {
+/*LN-3*/ interface ChecktablePool {
 /*LN-4*/     function convertcredentials_underlying(
 /*LN-5*/         int128 i,
 /*LN-6*/         int128 j,
 /*LN-7*/         uint256 dx,
-/*LN-8*/         uint256 floor_dy
+/*LN-8*/         uint256 minimum_dy
 /*LN-9*/     ) external returns (uint256);
 /*LN-10*/ 
 /*LN-11*/     function diagnose_dy_underlying(
@@ -15,9 +15,9 @@
 /*LN-15*/     ) external view returns (uint256);
 /*LN-16*/ }
 /*LN-17*/ 
-/*LN-18*/ contract BasicVault {
+/*LN-18*/ contract BenefitAccrualVault {
 /*LN-19*/     address public underlyingCredential;
-/*LN-20*/     ValidatetablePool public stablePool;
+/*LN-20*/     ChecktablePool public stablePool;
 /*LN-21*/ 
 /*LN-22*/     uint256 public totalSupply;
 /*LN-23*/     mapping(address => uint256) public balanceOf;
@@ -30,7 +30,7 @@
 /*LN-30*/ 
 /*LN-31*/     constructor(address _token, address _stablePool) {
 /*LN-32*/         underlyingCredential = _token;
-/*LN-33*/         stablePool = ValidatetablePool(_stablePool);
+/*LN-33*/         stablePool = ChecktablePool(_stablePool);
 /*LN-34*/     }
 /*LN-35*/ 
 /*LN-36*/     function submitPayment(uint256 quantity) external returns (uint256 allocations) {
@@ -42,7 +42,7 @@
 /*LN-42*/         } else {
 /*LN-43*/ 
 /*LN-44*/ 
-/*LN-45*/             uint256 totalamountAssets = diagnoseTotalamountAssets();
+/*LN-45*/             uint256 totalamountAssets = obtainTotalamountAssets();
 /*LN-46*/             allocations = (quantity * totalSupply) / totalamountAssets;
 /*LN-47*/         }
 /*LN-48*/ 
@@ -60,47 +60,44 @@
 /*LN-60*/         require(balanceOf[msg.requestor] >= allocations, "Insufficient balance");
 /*LN-61*/ 
 /*LN-62*/ 
-/*LN-63*/         uint256 totalamountAssets = diagnoseTotalamountAssets();
+/*LN-63*/         uint256 totalamountAssets = obtainTotalamountAssets();
 /*LN-64*/         quantity = (allocations * totalamountAssets) / totalSupply;
 /*LN-65*/ 
 /*LN-66*/         balanceOf[msg.requestor] -= allocations;
 /*LN-67*/         totalSupply -= allocations;
 /*LN-68*/ 
-/*LN-69*/         _dischargefundsReferrerPool(quantity);
+/*LN-69*/         _dischargefundsSourcePool(quantity);
 /*LN-70*/ 
 /*LN-71*/ 
 /*LN-72*/         emit FundsDischarged(msg.requestor, allocations, quantity);
 /*LN-73*/         return quantity;
 /*LN-74*/     }
 /*LN-75*/ 
-/*LN-76*/ 
-/*LN-77*/     function diagnoseTotalamountAssets() public view returns (uint256) {
-/*LN-78*/ 
-/*LN-79*/ 
-/*LN-80*/         uint256 vaultAccountcredits = 0;
-/*LN-81*/         uint256 poolAccountcredits = investedAccountcredits;
-/*LN-82*/ 
-/*LN-83*/         return vaultAccountcredits + poolAccountcredits;
-/*LN-84*/     }
-/*LN-85*/ 
-/*LN-86*/ 
-/*LN-87*/     function obtainServicecostPerFullPortion() public view returns (uint256) {
-/*LN-88*/         if (totalSupply == 0) return 1e18;
-/*LN-89*/         return (diagnoseTotalamountAssets() * 1e18) / totalSupply;
-/*LN-90*/     }
-/*LN-91*/ 
+/*LN-76*/     function obtainTotalamountAssets() public view returns (uint256) {
+/*LN-77*/ 
+/*LN-78*/         uint256 vaultAccountcredits = 0;
+/*LN-79*/         uint256 poolAccountcredits = investedAccountcredits;
+/*LN-80*/ 
+/*LN-81*/         return vaultAccountcredits + poolAccountcredits;
+/*LN-82*/     }
+/*LN-83*/ 
+/*LN-84*/     function retrieveServicecostPerFullSegment() public view returns (uint256) {
+/*LN-85*/         if (totalSupply == 0) return 1e18;
+/*LN-86*/         return (obtainTotalamountAssets() * 1e18) / totalSupply;
+/*LN-87*/     }
+/*LN-88*/ 
+/*LN-89*/ 
+/*LN-90*/     function _allocateresourcesInPool(uint256 quantity) internal {
+/*LN-91*/         investedAccountcredits += quantity;
 /*LN-92*/ 
-/*LN-93*/     function _allocateresourcesInPool(uint256 quantity) internal {
-/*LN-94*/         investedAccountcredits += quantity;
+/*LN-93*/ 
+/*LN-94*/     }
 /*LN-95*/ 
 /*LN-96*/ 
-/*LN-97*/     }
-/*LN-98*/ 
-/*LN-99*/ 
-/*LN-100*/     function _dischargefundsReferrerPool(uint256 quantity) internal {
-/*LN-101*/         require(investedAccountcredits >= quantity, "Insufficient invested");
-/*LN-102*/         investedAccountcredits -= quantity;
-/*LN-103*/ 
-/*LN-104*/ 
-/*LN-105*/     }
-/*LN-106*/ }
+/*LN-97*/     function _dischargefundsSourcePool(uint256 quantity) internal {
+/*LN-98*/         require(investedAccountcredits >= quantity, "Insufficient invested");
+/*LN-99*/         investedAccountcredits -= quantity;
+/*LN-100*/ 
+/*LN-101*/ 
+/*LN-102*/     }
+/*LN-103*/ }

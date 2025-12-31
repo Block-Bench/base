@@ -18,8 +18,7 @@
   "attack_scenario": "1) Flash loan large amounts to manipulate price oracle down. 2) Deposit to vault when price is artificially low. 3) Share calculation: sharesAdded = (amount * totalShares) / (pool * price), so low price = more shares. 4) Release flash loan, price recovers. 5) Withdraw with inflated share count. 6) Withdrawal amount = (shares * pool * price) / totalShares, high price = more tokens. 7) Profit $6.2M from price manipulation cycle.",
   "root_cause": "Vault share pricing relied on oracle that could be manipulated within single transaction. No TWAP or manipulation resistance. Share calculations used instantaneous price values vulnerable to flash loan attacks.",
   "vulnerable_lines": [
-    30,
-    44
+    30
   ],
   "fix": "Use TWAP oracles resistant to single-block manipulation. Implement share price manipulation checks. Add deposit/withdraw delays. Use multiple independent oracle sources. Cap maximum share price changes per block.",
   "references": [
@@ -46,7 +45,7 @@
       "Regenerated fresh line markers"
     ],
     "comments_removed": 1,
-    "created_date": "2025-12-31T18:47:26.812479"
+    "created_date": "2025-12-31T20:00:38.854533"
   },
   "vulnerable_function": "deposit",
   "sanitized_from": "ms_tc_029"

@@ -15,8 +15,8 @@
   "vulnerable_contract": "BridgeReplica",
   "vulnerable_function": "process",
   "vulnerable_lines": [
-    17,
-    50
+    18,
+    53
   ],
   "attack_scenario": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation. The process() function incorrectly accepts these messages, triggering token transfers without corresponding deposits on the source chain.",
   "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
@@ -55,7 +55,7 @@
     "contract_renames": {
       "NomadReplica": "BridgeReplica"
     },
-    "created_date": "2025-12-31T18:47:09.100770"
+    "created_date": "2025-12-31T20:00:31.912229"
   },
   "sanitized_from": "ms_tc_001"
 }

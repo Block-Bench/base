@@ -19,7 +19,11 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-11",
   "description": "CoW Protocol's solver contract was exploited for $166K when an attacker directly called the uniswapV3SwapCallback function with crafted parameters. The callback lacked msg.sender validation, allowing anyone to invoke it and extract funds without performing a legitimate swap.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    38,
+    57,
+    59
+  ],
   "vulnerability_details": {
     "root_cause": "Missing msg.sender validation in Uniswap V3 callback function, allowing direct external calls",
     "attack_vector": "Directly call uniswapV3SwapCallback with malicious parameters, bypassing swap validation to extract funds",
@@ -82,25 +86,28 @@
     ],
     "rename_map": {
       "amount": "quantity",
-      "from": "referrer",
-      "account": "chart",
+      "from": "source",
+      "account": "profile",
       "spender": "serviceProvider",
       "deposit": "submitPayment",
       "withdraw": "dischargeFunds",
-      "settlement": "updatetlement",
+      "settlement": "modifytlement",
       "uniswapV3SwapCallback": "uniswapV3ExchangecredentialsNotification",
-      "data": "record",
+      "data": "chart",
       "price": "serviceCost",
       "tokenIn": "credentialIn",
       "recipient": "beneficiary",
       "amountToPay": "quantityReceiverPay",
       "executeSettlement": "implementdecisionSettlement",
-      "settlementData": "settlementChart",
+      "settlementData": "settlementRecord",
       "sender": "requestor"
     },
     "coverage_percent": 28.57,
     "identifiers_transformed": 16,
     "identifiers_total": 56,
-    "created_date": "2025-12-29T23:26:42.431645"
-  }
+    "created_date": "2025-12-31T19:50:53.811927"
+  },
+  "vulnerable_contract": "BatchSolver",
+  "vulnerable_function": "uniswapV3ExchangecredentialsNotification",
+  "sanitized_from": "ms_tc_039"
 }

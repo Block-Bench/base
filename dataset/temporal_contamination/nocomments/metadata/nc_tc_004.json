@@ -17,7 +17,6 @@
   "vulnerable_lines": [
     45,
     46,
-    63,
     64
   ],
   "attack_scenario": "Attacker takes $50M USDC + $17M USDT flash loans from Uniswap. Swaps USDT->USDC on Curve to inflate USDC price. Deposits 49M USDC into Harvest at inflated price, receiving more fUSDC shares. Swaps USDC->USDT to deflate price. Withdraws fUSDC shares at normal price, receiving more USDC than deposited. Repeats cycle 6 times to amplify profit. Repays flash loans with $24M profit.",
@@ -53,7 +52,7 @@
       "Regenerated fresh line markers"
     ],
     "comments_removed": 20,
-    "created_date": "2025-12-31T18:47:26.789860"
+    "created_date": "2025-12-31T20:00:38.839551"
   },
   "sanitized_from": "ms_tc_004"
 }

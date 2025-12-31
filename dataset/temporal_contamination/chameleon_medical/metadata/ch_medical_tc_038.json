@@ -19,7 +19,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "Blueberry Protocol, a leveraged yield farming platform, was exploited for $1.4M through oracle price manipulation. Attackers used flashloans to manipulate low-liquidity DEX token prices (specifically OHM), then deposited the inflated collateral and borrowed maximum assets from lending pools.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    51,
+    65
+  ],
   "vulnerability_details": {
     "root_cause": "Oracle reliance on low-liquidity DEX spot prices without TWAP or external validation",
     "attack_vector": "Use flashloan to pump low-liquidity token price, mint collateral at inflated price, borrow maximum assets",
@@ -92,10 +95,10 @@
       "getPrice": "retrieveCost",
       "token": "credential",
       "Market": "ServiceMarket",
-      "isListed": "testListed",
+      "isListed": "verifyListed",
       "collateralFactor": "securitydepositFactor",
       "accountCollateral": "profileSecuritydeposit",
-      "accountBorrows": "profileBorrows",
+      "accountBorrows": "chartBorrows",
       "oracle": "costOracle",
       "COLLATERAL_FACTOR": "securitydeposit_factor",
       "enterMarkets": "registerMarkets",
@@ -116,13 +119,16 @@
       "repayToken": "settlebalanceCredential",
       "repayAmount": "settlebalanceQuantity",
       "collateralToken": "securitydepositCredential",
-      "ManipulableOracle": "VulnerableOracle",
-      "prices": "charges",
+      "TestOracle": "TestCostoracle",
+      "prices": "costs",
       "setPrice": "groupServicecost"
     },
     "coverage_percent": 47.3,
     "identifiers_transformed": 35,
     "identifiers_total": 74,
-    "created_date": "2025-12-29T23:26:42.430557"
-  }
+    "created_date": "2025-12-31T19:50:53.810902"
+  },
+  "vulnerable_contract": "LeveragedLending",
+  "vulnerable_function": "issueCredential",
+  "sanitized_from": "ms_tc_038"
 }

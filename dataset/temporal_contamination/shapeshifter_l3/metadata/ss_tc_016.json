@@ -12,9 +12,12 @@
   "description": "Transfer callback manipulation allowing state inconsistency. The transfer function updated balances then called _notifyTransfer which triggered callbacks, allowing repeated transfers with stale state calculations.",
   "root_cause": "Token transfer function called external contract during state update. Callback occurred after balance updates but before finalization, creating state inconsistency exploitable through repeated self-transfers.",
   "attack_scenario": "Attacker minted tokens, then transferred to self 4 times in loop. Each transfer triggered callback with inconsistent state. After iterations, token balance inflated. Burned inflated tokens back to ETH for profit.",
-  "vulnerable_contract": "bzx_protocol.sol",
+  "vulnerable_contract": "MarginToken",
   "vulnerable_function": "transfer",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    27,
+    36
+  ],
   "fix_description": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
   "tags": [
     "reentrancy",
@@ -62,10 +65,10 @@
       "_notifyTransfer": "_0x8cd0a4",
       "mintWithEther": "_0x7d6277",
       "currentPrice": "_0x7248ad",
-      "totalSupply": "_0x477183",
-      "_isContract": "_0x347a3f",
+      "burnToEther": "_0x477183",
+      "totalSupply": "_0x347a3f",
       "_tokenPrice": "_0x2c833f",
-      "burnToEther": "_0xd80623",
+      "_isContract": "_0xd80623",
       "mintAmount": "_0x1045d1",
       "balanceOf": "_0x0f4194",
       "ethAmount": "_0x2ff8d2",
@@ -81,6 +84,7 @@
     },
     "coverage_percent": 67.74,
     "identifiers_transformed": 21,
-    "created_date": "2025-12-30T00:24:49.075812"
-  }
+    "created_date": "2025-12-31T19:59:41.169844"
+  },
+  "sanitized_from": "ms_tc_016"
 }

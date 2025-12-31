@@ -7,38 +7,37 @@
 /*LN-7*/ 
 /*LN-8*/     mapping(address => uint256) public units;
 /*LN-9*/ 
-/*LN-10*/     function attachAvailableresources(uint256 intakeBase, uint256 intakeCredential) external returns (uint256 availableresourcesUnits) {
+/*LN-10*/     function insertAvailableresources(uint256 intakeBase, uint256 submissionCredential) external returns (uint256 availableresourcesUnits) {
 /*LN-11*/ 
 /*LN-12*/         if (totalamountUnits == 0) {
 /*LN-13*/             availableresourcesUnits = intakeBase;
 /*LN-14*/         } else {
 /*LN-15*/ 
-/*LN-16*/ 
-/*LN-17*/             uint256 baseProportion = (intakeBase * totalamountUnits) / baseQuantity;
-/*LN-18*/             uint256 credentialProportion = (intakeCredential * totalamountUnits) / credentialQuantity;
-/*LN-19*/ 
-/*LN-20*/             availableresourcesUnits = (baseProportion + credentialProportion) / 2;
-/*LN-21*/         }
-/*LN-22*/ 
-/*LN-23*/         units[msg.requestor] += availableresourcesUnits;
-/*LN-24*/         totalamountUnits += availableresourcesUnits;
-/*LN-25*/ 
-/*LN-26*/         baseQuantity += intakeBase;
-/*LN-27*/         credentialQuantity += intakeCredential;
-/*LN-28*/ 
-/*LN-29*/         return availableresourcesUnits;
-/*LN-30*/     }
-/*LN-31*/ 
-/*LN-32*/     function dropAvailableresources(uint256 availableresourcesUnits) external returns (uint256, uint256) {
-/*LN-33*/         uint256 resultBase = (availableresourcesUnits * baseQuantity) / totalamountUnits;
-/*LN-34*/         uint256 outcomeCredential = (availableresourcesUnits * credentialQuantity) / totalamountUnits;
-/*LN-35*/ 
-/*LN-36*/         units[msg.requestor] -= availableresourcesUnits;
-/*LN-37*/         totalamountUnits -= availableresourcesUnits;
-/*LN-38*/ 
-/*LN-39*/         baseQuantity -= resultBase;
-/*LN-40*/         credentialQuantity -= outcomeCredential;
-/*LN-41*/ 
-/*LN-42*/         return (resultBase, outcomeCredential);
-/*LN-43*/     }
-/*LN-44*/ }
+/*LN-16*/             uint256 baseProportion = (intakeBase * totalamountUnits) / baseQuantity;
+/*LN-17*/             uint256 credentialFactor = (submissionCredential * totalamountUnits) / credentialQuantity;
+/*LN-18*/ 
+/*LN-19*/             availableresourcesUnits = (baseProportion + credentialFactor) / 2;
+/*LN-20*/         }
+/*LN-21*/ 
+/*LN-22*/         units[msg.requestor] += availableresourcesUnits;
+/*LN-23*/         totalamountUnits += availableresourcesUnits;
+/*LN-24*/ 
+/*LN-25*/         baseQuantity += intakeBase;
+/*LN-26*/         credentialQuantity += submissionCredential;
+/*LN-27*/ 
+/*LN-28*/         return availableresourcesUnits;
+/*LN-29*/     }
+/*LN-30*/ 
+/*LN-31*/     function dischargeAvailableresources(uint256 availableresourcesUnits) external returns (uint256, uint256) {
+/*LN-32*/         uint256 outcomeBase = (availableresourcesUnits * baseQuantity) / totalamountUnits;
+/*LN-33*/         uint256 resultCredential = (availableresourcesUnits * credentialQuantity) / totalamountUnits;
+/*LN-34*/ 
+/*LN-35*/         units[msg.requestor] -= availableresourcesUnits;
+/*LN-36*/         totalamountUnits -= availableresourcesUnits;
+/*LN-37*/ 
+/*LN-38*/         baseQuantity -= outcomeBase;
+/*LN-39*/         credentialQuantity -= resultCredential;
+/*LN-40*/ 
+/*LN-41*/         return (outcomeBase, resultCredential);
+/*LN-42*/     }
+/*LN-43*/ }

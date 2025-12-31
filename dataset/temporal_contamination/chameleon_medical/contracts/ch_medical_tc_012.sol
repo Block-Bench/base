@@ -1,18 +1,18 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
 /*LN-3*/ interface IComptroller {
-/*LN-4*/     function admitMarkets(
+/*LN-4*/     function registerMarkets(
 /*LN-5*/         address[] memory cCredentials
 /*LN-6*/     ) external returns (uint256[] memory);
 /*LN-7*/ 
-/*LN-8*/     function dischargeMarket(address cCredential) external returns (uint256);
+/*LN-8*/     function checkoutMarket(address cCredential) external returns (uint256);
 /*LN-9*/ 
-/*LN-10*/     function acquireChartAvailableresources(
-/*LN-11*/         address chart
+/*LN-10*/     function acquireProfileAvailableresources(
+/*LN-11*/         address profile
 /*LN-12*/     ) external view returns (uint256, uint256, uint256);
 /*LN-13*/ }
 /*LN-14*/ 
-/*LN-15*/ contract BasicLendingHub {
+/*LN-15*/ contract LendingHub {
 /*LN-16*/     IComptroller public comptroller;
 /*LN-17*/ 
 /*LN-18*/     mapping(address => uint256) public payments;
@@ -28,24 +28,24 @@
 /*LN-28*/     }
 /*LN-29*/ 
 /*LN-30*/ 
-/*LN-31*/     function submitpaymentAndRegisterMarket() external payable {
+/*LN-31*/     function submitpaymentAndCheckinMarket() external payable {
 /*LN-32*/         payments[msg.requestor] += msg.measurement;
 /*LN-33*/         totalamountPayments += msg.measurement;
 /*LN-34*/         inMarket[msg.requestor] = true;
 /*LN-35*/     }
 /*LN-36*/ 
 /*LN-37*/ 
-/*LN-38*/     function verifyHealthy(
-/*LN-39*/         address chart,
+/*LN-38*/     function validateHealthy(
+/*LN-39*/         address profile,
 /*LN-40*/         uint256 additionalRequestadvance
 /*LN-41*/     ) public view returns (bool) {
-/*LN-42*/         uint256 totalamountOutstandingbalance = advancedAmount[chart] + additionalRequestadvance;
+/*LN-42*/         uint256 totalamountOutstandingbalance = advancedAmount[profile] + additionalRequestadvance;
 /*LN-43*/         if (totalamountOutstandingbalance == 0) return true;
 /*LN-44*/ 
 /*LN-45*/ 
-/*LN-46*/         if (!inMarket[chart]) return false;
+/*LN-46*/         if (!inMarket[profile]) return false;
 /*LN-47*/ 
-/*LN-48*/         uint256 securitydepositMeasurement = payments[chart];
+/*LN-48*/         uint256 securitydepositMeasurement = payments[profile];
 /*LN-49*/         return securitydepositMeasurement >= (totalamountOutstandingbalance * securitydeposit_factor) / 100;
 /*LN-50*/     }
 /*LN-51*/ 
@@ -54,19 +54,19 @@
 /*LN-54*/         require(address(this).balance >= quantity, "Insufficient funds");
 /*LN-55*/ 
 /*LN-56*/ 
-/*LN-57*/         require(verifyHealthy(msg.requestor, quantity), "Insufficient collateral");
+/*LN-57*/         require(validateHealthy(msg.requestor, quantity), "Insufficient collateral");
 /*LN-58*/ 
 /*LN-59*/ 
 /*LN-60*/         advancedAmount[msg.requestor] += quantity;
 /*LN-61*/         totalamountAdvancedamount += quantity;
 /*LN-62*/ 
-/*LN-63*/         (bool improvement, ) = payable(msg.requestor).call{measurement: quantity}("");
-/*LN-64*/         require(improvement, "Transfer failed");
+/*LN-63*/         (bool recovery, ) = payable(msg.requestor).call{measurement: quantity}("");
+/*LN-64*/         require(recovery, "Transfer failed");
 /*LN-65*/ 
-/*LN-66*/         require(verifyHealthy(msg.requestor, 0), "Health check failed");
+/*LN-66*/         require(validateHealthy(msg.requestor, 0), "Health check failed");
 /*LN-67*/     }
 /*LN-68*/ 
-/*LN-69*/     function dischargeMarket() external {
+/*LN-69*/     function checkoutMarket() external {
 /*LN-70*/         require(advancedAmount[msg.requestor] == 0, "Outstanding debt");
 /*LN-71*/         inMarket[msg.requestor] = false;
 /*LN-72*/     }

@@ -17,8 +17,8 @@
   "attack_scenario": "1) Attacker created fake token contracts mimicking legitimate addresses. 2) Created malicious pair contract with manipulated reserves (e.g., 1 fake token = 1000 real tokens). 3) Called router swap function with path through fake token. 4) Router accepted fake pair without factory validation. 5) Executed swap at manipulated price. 6) Extracted $7M in real tokens.",
   "root_cause": "Router's swap function didn't verify that pairs came from the official factory. It accepted any pair address provided in the path, allowing attackers to inject fake pairs with arbitrary reserve ratios.",
   "vulnerable_lines": [
-    26,
-    36
+    27,
+    37
   ],
   "fix": "Only accept pairs from official factory contract. Verify pair addresses: require(pair == factory.getPair(tokenA, tokenB)). Implement whitelist for tradeable tokens. Add pair creation validation.",
   "references": [
@@ -48,7 +48,7 @@
     "contract_renames": {
       "BurgerSwapRouter": "SwapRouter"
     },
-    "created_date": "2025-12-31T18:47:09.387231"
+    "created_date": "2025-12-31T20:00:32.165143"
   },
   "vulnerable_function": "swapExactTokensForTokens",
   "sanitized_from": "ms_tc_027"

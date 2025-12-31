@@ -18,14 +18,16 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "FixedFloat, a crypto exchange, lost $26M when attackers compromised the private key controlling hot wallet withdrawals. The single-key architecture with no multi-sig or timelock allowed immediate drainage of Bitcoin and Ethereum holdings.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    17
+  ],
   "vulnerability_details": {
     "root_cause": "Single private key controlled withdrawal function without multi-signature or timelock protection",
     "attack_vector": "Compromise admin key via phishing/malware, call withdraw() to drain hot wallets",
     "vulnerable_functions": [
-      "_0x477183()",
-      "_0x0cce35()",
-      "_0x8cd0a4()"
+      "_0x347a3f()",
+      "_0x8cd0a4()",
+      "_0x0cce35()"
     ],
     "key_weakness": [
       "Single private key controls all funds",
@@ -89,20 +91,23 @@
     ],
     "rename_map": {
       "authorizedOperators": "_0x390062",
-      "emergencyWithdraw": "_0x0cce35",
-      "transferOwnership": "_0x8cd0a4",
+      "transferOwnership": "_0x0cce35",
+      "emergencyWithdraw": "_0x8cd0a4",
       "onlyOwner": "_0x7d6277",
       "balanceOf": "_0x7248ad",
-      "withdraw": "_0x477183",
-      "newOwner": "_0x347a3f",
+      "newOwner": "_0x477183",
+      "withdraw": "_0x347a3f",
       "account": "_0x2c833f",
       "amount": "_0xd80623",
-      "token": "_0x1045d1",
-      "owner": "_0x0f4194",
+      "owner": "_0x1045d1",
+      "token": "_0x0f4194",
       "to": "_0x2ff8d2"
     },
     "coverage_percent": 54.55,
     "identifiers_transformed": 12,
-    "created_date": "2025-12-30T00:24:49.159129"
-  }
+    "created_date": "2025-12-31T19:59:41.245796"
+  },
+  "vulnerable_contract": "FloatHotWalletV2",
+  "vulnerable_function": "_0x347a3f",
+  "sanitized_from": "ms_tc_046"
 }

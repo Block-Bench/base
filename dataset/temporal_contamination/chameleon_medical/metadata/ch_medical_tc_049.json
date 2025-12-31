@@ -17,7 +17,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-08",
   "description": "Exactly Protocol lost $12M when attackers exploited the DebtPreviewer helper contract. By providing a malicious market address in the debt calculation, they manipulated their perceived collateral value, allowing over-borrowing far exceeding actual collateral.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    39,
+    110
+  ],
   "vulnerability_details": {
     "root_cause": "DebtPreviewer trusted user-provided market addresses without validation, allowing fake market data injection",
     "attack_vector": "Deploy malicious market returning fake collateral, pass to previewer in borrow check, over-borrow",
@@ -82,8 +85,8 @@
     "rename_map": {
       "amount": "quantity",
       "from": "source",
-      "account": "profile",
-      "getAccountSnapshot": "retrieveProfileSnapshot",
+      "account": "chart",
+      "getAccountSnapshot": "retrieveChartSnapshot",
       "collateral": "securityDeposit",
       "exchangeRate": "conversionRate",
       "DebtPreviewer": "OutstandingbalancePreviewer",
@@ -103,12 +106,15 @@
       "sender": "requestor",
       "borrow": "requestAdvance",
       "newDebt": "currentOutstandingbalance",
-      "maxBorrow": "maximumRequestadvance",
+      "maxBorrow": "ceilingRequestadvance",
       "borrowed": "advancedAmount"
     },
     "coverage_percent": 37.88,
     "identifiers_transformed": 25,
     "identifiers_total": 66,
-    "created_date": "2025-12-29T23:26:42.516929"
-  }
+    "created_date": "2025-12-31T19:50:53.826637"
+  },
+  "vulnerable_contract": "OutstandingbalancePreviewer",
+  "vulnerable_function": "previewOutstandingbalance",
+  "sanitized_from": "ms_tc_049"
 }

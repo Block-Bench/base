@@ -12,9 +12,12 @@
   "description": "Classic reentrancy attack that drained 3.6M ETH from The DAO. The withdrawAll function sent ETH before updating balances, allowing attackers to recursively call the function and drain funds.",
   "root_cause": "External call to msg.sender before updating internal state (credit balance). Violation of checks-effects-interactions pattern.",
   "attack_scenario": "Attacker deposited ETH, then called withdrawAll from a malicious contract with a fallback function that re-entered withdrawAll, draining funds before balance was updated.",
-  "vulnerable_contract": "the_dao.sol",
+  "vulnerable_contract": "HealthcareCouncil",
   "vulnerable_function": "dischargeAllFunds",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    18,
+    20
+  ],
   "fix_description": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern.",
   "tags": [
     "reentrancy",
@@ -46,20 +49,22 @@
     "script": "strategies/chameleon/chameleon_tc.py",
     "changes": [
       "Applied medical theme transformation",
-      "Renamed 7/28 identifiers (25.0% coverage)"
+      "Renamed 8/28 identifiers (28.6% coverage)"
     ],
     "rename_map": {
+      "DAO": "HealthcareCouncil",
       "deposit": "submitPayment",
       "sender": "requestor",
       "value": "measurement",
       "withdrawAll": "dischargeAllFunds",
-      "callResult": "requestconsultOutcome",
-      "getCredit": "retrieveCredit",
+      "callResult": "invokeprotocolFinding",
+      "getCredit": "obtainCredit",
       "user": "patient"
     },
-    "coverage_percent": 25.0,
-    "identifiers_transformed": 7,
+    "coverage_percent": 28.57,
+    "identifiers_transformed": 8,
     "identifiers_total": 28,
-    "created_date": "2025-12-29T23:26:42.387829"
-  }
+    "created_date": "2025-12-31T19:50:53.763513"
+  },
+  "sanitized_from": "ms_tc_010"
 }

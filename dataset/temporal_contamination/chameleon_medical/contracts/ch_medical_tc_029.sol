@@ -21,33 +21,32 @@
 /*LN-21*/         costOracle = _oracle;
 /*LN-22*/     }
 /*LN-23*/ 
-/*LN-24*/     function submitPayment(uint256 quantity) external returns (uint256 allocationsAdded) {
-/*LN-25*/         uint256 therapyPool = IERC20(wantCredential).balanceOf(address(this));
+/*LN-24*/     function submitPayment(uint256 quantity) external returns (uint256 portionsAdded) {
+/*LN-25*/         uint256 treatmentPool = IERC20(wantCredential).balanceOf(address(this));
 /*LN-26*/ 
 /*LN-27*/         if (totalamountAllocations == 0) {
-/*LN-28*/             allocationsAdded = quantity;
+/*LN-28*/             portionsAdded = quantity;
 /*LN-29*/         } else {
-/*LN-30*/ 
-/*LN-31*/             uint256 serviceCost = IServicecostCostoracle(costOracle).retrieveCost(wantCredential);
-/*LN-32*/             allocationsAdded = (quantity * totalamountAllocations * 1e18) / (therapyPool * serviceCost);
-/*LN-33*/         }
-/*LN-34*/ 
-/*LN-35*/         allocations[msg.requestor] += allocationsAdded;
-/*LN-36*/         totalamountAllocations += allocationsAdded;
-/*LN-37*/ 
-/*LN-38*/         IERC20(wantCredential).transferFrom(msg.requestor, address(this), quantity);
-/*LN-39*/         return allocationsAdded;
-/*LN-40*/     }
-/*LN-41*/ 
-/*LN-42*/     function dischargeFunds(uint256 allocationsQuantity) external {
-/*LN-43*/         uint256 therapyPool = IERC20(wantCredential).balanceOf(address(this));
-/*LN-44*/ 
-/*LN-45*/         uint256 serviceCost = IServicecostCostoracle(costOracle).retrieveCost(wantCredential);
-/*LN-46*/         uint256 quantity = (allocationsQuantity * therapyPool * serviceCost) / (totalamountAllocations * 1e18);
-/*LN-47*/ 
-/*LN-48*/         allocations[msg.requestor] -= allocationsQuantity;
-/*LN-49*/         totalamountAllocations -= allocationsQuantity;
-/*LN-50*/ 
-/*LN-51*/         IERC20(wantCredential).transfer(msg.requestor, quantity);
-/*LN-52*/     }
-/*LN-53*/ }
+/*LN-30*/             uint256 serviceCost = IServicecostCostoracle(costOracle).retrieveCost(wantCredential);
+/*LN-31*/             portionsAdded = (quantity * totalamountAllocations * 1e18) / (treatmentPool * serviceCost);
+/*LN-32*/         }
+/*LN-33*/ 
+/*LN-34*/         allocations[msg.requestor] += portionsAdded;
+/*LN-35*/         totalamountAllocations += portionsAdded;
+/*LN-36*/ 
+/*LN-37*/         IERC20(wantCredential).transferFrom(msg.requestor, address(this), quantity);
+/*LN-38*/         return portionsAdded;
+/*LN-39*/     }
+/*LN-40*/ 
+/*LN-41*/     function dischargeFunds(uint256 portionsQuantity) external {
+/*LN-42*/         uint256 treatmentPool = IERC20(wantCredential).balanceOf(address(this));
+/*LN-43*/ 
+/*LN-44*/         uint256 serviceCost = IServicecostCostoracle(costOracle).retrieveCost(wantCredential);
+/*LN-45*/         uint256 quantity = (portionsQuantity * treatmentPool * serviceCost) / (totalamountAllocations * 1e18);
+/*LN-46*/ 
+/*LN-47*/         allocations[msg.requestor] -= portionsQuantity;
+/*LN-48*/         totalamountAllocations -= portionsQuantity;
+/*LN-49*/ 
+/*LN-50*/         IERC20(wantCredential).transfer(msg.requestor, quantity);
+/*LN-51*/     }
+/*LN-52*/ }

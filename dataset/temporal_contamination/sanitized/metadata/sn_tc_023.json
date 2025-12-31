@@ -19,7 +19,7 @@
   "vulnerable_contract": "LeveragedBank",
   "root_cause": "Debt share calculation depended on totalDebt value that could be manipulated via external pool state changes. The share-to-amount conversion (amount * totalDebtShare / totalDebt) was vulnerable when totalDebt was artificially inflated through pool manipulation, resulting in attackers receiving fewer debt shares than they should for borrowed amounts.",
   "vulnerable_lines": [
-    77
+    78
   ],
   "fix": "Use manipulation-resistant accounting that doesn't rely on external pool states. Implement debt ceilings per position. Use time-weighted averages for debt calculations. Separate internal debt tracking from external dependencies. Add sanity checks ensuring debt shares properly reflect borrowed amounts.",
   "references": [
@@ -52,7 +52,7 @@
     "contract_renames": {
       "AlphaHomoraBank": "LeveragedBank"
     },
-    "created_date": "2025-12-31T18:47:09.358104"
+    "created_date": "2025-12-31T20:00:32.143984"
   },
   "vulnerable_function": "_borrow",
   "sanitized_from": "ms_tc_023"

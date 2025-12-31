@@ -20,7 +20,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-09",
   "description": "Bedrock DeFi, a liquid staking platform for uniBTC, was exploited for $2M due to an incorrect hardcoded 1:1 ETH:BTC exchange rate in its mint function. Attackers deposited ETH and received uniBTC at par value, despite ETH being worth ~20x less than BTC, then swapped for profit.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    51,
+    78
+  ],
   "vulnerability_details": {
     "root_cause": "Hardcoded 1:1 ETH:BTC exchange rate ignoring actual market prices (~20x difference)",
     "attack_vector": "Mint uniBTC by depositing ETH at incorrect 1:1 rate, swap uniBTC for real BTC-pegged assets at market rate",
@@ -85,7 +88,7 @@
     "rename_map": {
       "amount": "quantity",
       "from": "referrer",
-      "account": "chart",
+      "account": "profile",
       "spender": "serviceProvider",
       "ExactInputSingleParams": "ExactSubmissionSingleSettings",
       "tokenIn": "credentialIn",
@@ -96,10 +99,10 @@
       "amountIn": "quantityIn",
       "amountOutMinimum": "quantityOutMinimum",
       "sqrtPriceLimitX96": "sqrtServicecostCapX96",
-      "exactInputSingle": "exactIntakeSingle",
-      "params": "settings",
+      "exactInputSingle": "exactSubmissionSingle",
+      "params": "parameters",
       "amountOut": "quantityOut",
-      "router": "transferGuide",
+      "router": "patientRouter",
       "totalETHDeposited": "totalamountEthDeposited",
       "totalUniBTCMinted": "totalamountUniBtcMinted",
       "mint": "issueCredential",
@@ -108,11 +111,14 @@
       "sender": "requestor",
       "redeem": "claimResources",
       "ethAmount": "ethQuantity",
-      "getExchangeRate": "obtainConvertcredentialsRatio"
+      "getExchangeRate": "acquireConvertcredentialsFactor"
     },
     "coverage_percent": 37.14,
     "identifiers_transformed": 26,
     "identifiers_total": 70,
-    "created_date": "2025-12-29T23:26:42.433372"
-  }
+    "created_date": "2025-12-31T19:50:53.813401"
+  },
+  "vulnerable_contract": "StakingVault",
+  "vulnerable_function": "issueCredential",
+  "sanitized_from": "ms_tc_040"
 }

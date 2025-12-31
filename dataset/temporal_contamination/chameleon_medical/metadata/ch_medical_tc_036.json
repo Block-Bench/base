@@ -18,7 +18,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-03",
   "description": "Prisma Finance suffered a $10M exploit through its MigrateTroveZap contract which accepted user-controlled account parameters. Attackers exploited delegate approvals to open troves and mint debt tokens on behalf of victims who had approved the zap contract, then received the minted tokens themselves.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    74,
+    82
+  ],
   "vulnerability_details": {
     "root_cause": "User-controlled account parameter in zap contract combined with overly permissive delegate approval system",
     "attack_vector": "Use delegate approval to open troves on victim accounts with attacker's collateral, mint debt to attacker, victim gets debt obligation",
@@ -81,22 +84,22 @@
     ],
     "rename_map": {
       "amount": "quantity",
-      "from": "referrer",
-      "account": "profile",
+      "from": "source",
+      "account": "chart",
       "spender": "serviceProvider",
-      "setDelegateApproval": "collectionAssignproxyApproval",
-      "troveManager": "troveCoordinator",
-      "_maxFeePercentage": "_ceilingConsultationfeePercentage",
+      "setDelegateApproval": "groupAssignproxyApproval",
+      "troveManager": "troveHandler",
+      "_maxFeePercentage": "_maximumConsultationfeePercentage",
       "_collateralAmount": "_securitydepositQuantity",
       "_debtAmount": "_outstandingbalanceQuantity",
       "ITroveManager": "ITroveCoordinator",
-      "getTroveCollAndDebt": "obtainTroveCollAndOutstandingbalance",
+      "getTroveCollAndDebt": "retrieveTroveCollAndOutstandingbalance",
       "debt": "outstandingBalance",
       "liquidate": "forceSettlement",
       "MigrateTroveZap": "TransferrecordsTroveZap",
       "borrowerOperations": "patientFinanceOperations",
       "openTroveAndMigrate": "openTroveAndTransferrecords",
-      "maxFeePercentage": "ceilingConsultationfeePercentage",
+      "maxFeePercentage": "maximumConsultationfeePercentage",
       "collateralAmount": "securitydepositQuantity",
       "debtAmount": "outstandingbalanceQuantity",
       "sender": "requestor",
@@ -106,6 +109,9 @@
     "coverage_percent": 33.85,
     "identifiers_transformed": 22,
     "identifiers_total": 65,
-    "created_date": "2025-12-29T23:26:42.426423"
-  }
+    "created_date": "2025-12-31T19:50:53.807364"
+  },
+  "vulnerable_contract": "TransferrecordsTroveZap",
+  "vulnerable_function": "openTroveAndTransferrecords",
+  "sanitized_from": "ms_tc_036"
 }

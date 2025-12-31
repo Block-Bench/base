@@ -16,7 +16,9 @@
   "description": "BVaults didn't account for deflationary tokens (like SafeMoon) that burn a percentage on transfer. The vault credited users for the full deposit amount but only received a reduced amount after fees, allowing withdrawals that drained more than deposited.",
   "attack_scenario": "1) Deflationary token charges 10% fee on transfers. 2) Attacker deposits 100 tokens. 3) Vault receives only 90 tokens (10% burned as fee). 4) Vault credits attacker's account with full 100 tokens. 5) Attacker withdraws 100 tokens. 6) Vault sends 100 but only had 90 plus other users' funds. 7) Repeated deposits/withdrawals to drain $8.5M.",
   "root_cause": "Vault assumed tokens received equal amount transferred. Didn't check actual balance increase before/after transfer. Deflationary tokens with transfer fees caused accounting mismatch between credited amounts and actual holdings.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    36
+  ],
   "fix": "Check actual balance change: balBefore = token.balanceOf(address(this)); token.transferFrom(...); balAfter = token.balanceOf(address(this)); received = balAfter - balBefore; deposits[user] += received;",
   "references": [
     "https://twitter.com/CertiKAlert/status/1398977818532528128"
@@ -25,15 +27,7 @@
   "variant_type": "shapeshifter_l3",
   "checks_effects_interactions_violated": false,
   "involves_external_calls": true,
-  "vulnerable_contract": {
-    "name": "Vault",
-    "functions": [
-      {
-        "name": "_0xd80623",
-        "vulnerability": "Doesn't check actual balance increase, credits full amount despite transfer fees"
-      }
-    ]
-  },
+  "vulnerable_contract": "Vault",
   "contract_file": "contracts/ss_tc_028.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
@@ -67,8 +61,8 @@
       "balanceOf": "_0x7248ad",
       "deposits": "_0x477183",
       "withdraw": "_0x347a3f",
-      "account": "_0x2c833f",
-      "deposit": "_0xd80623",
+      "deposit": "_0x2c833f",
+      "account": "_0xd80623",
       "amount": "_0x1045d1",
       "_token": "_0x0f4194",
       "token": "_0x2ff8d2",
@@ -77,6 +71,8 @@
     },
     "coverage_percent": 58.33,
     "identifiers_transformed": 14,
-    "created_date": "2025-12-30T00:24:49.108716"
-  }
+    "created_date": "2025-12-31T19:59:41.199086"
+  },
+  "vulnerable_function": "_0x2c833f",
+  "sanitized_from": "ms_tc_028"
 }

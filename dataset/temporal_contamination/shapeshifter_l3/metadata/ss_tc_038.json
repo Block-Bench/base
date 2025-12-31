@@ -19,14 +19,17 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "Blueberry Protocol, a leveraged yield farming platform, was exploited for $1.4M through oracle price manipulation. Attackers used flashloans to manipulate low-liquidity DEX token prices (specifically OHM), then deposited the inflated collateral and borrowed maximum assets from lending pools.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    38,
+    47
+  ],
   "vulnerability_details": {
     "root_cause": "Oracle reliance on low-liquidity DEX spot prices without TWAP or external validation",
     "attack_vector": "Use flashloan to pump low-liquidity token price, mint collateral at inflated price, borrow maximum assets",
     "vulnerable_functions": [
       "_0xb7cc25()",
-      "_0x2f7c62()",
-      "_0xd6cb4d()"
+      "_0xac561e()",
+      "_0x70dd97()"
     ],
     "key_weakness": [
       "Price derived from manipulable low-liquidity DEX pools",
@@ -99,30 +102,30 @@
       "collateralToken": "_0x7d6277",
       "maxBorrowValue": "_0x7248ad",
       "accountBorrows": "_0x477183",
-      "transferFrom": "_0x347a3f",
-      "borrowAmount": "_0x2c833f",
+      "borrowAmount": "_0x347a3f",
+      "transferFrom": "_0x2c833f",
       "enterMarkets": "_0xd80623",
-      "borrowPrice": "_0x1045d1",
-      "borrowToken": "_0x0f4194",
-      "repayAmount": "_0x2ff8d2",
-      "borrowValue": "_0x6ff151",
+      "repayAmount": "_0x1045d1",
+      "borrowValue": "_0x0f4194",
+      "borrowToken": "_0x2ff8d2",
+      "borrowPrice": "_0x6ff151",
       "repayToken": "_0x771f54",
       "liquidate": "_0x0d961f",
       "balanceOf": "_0x65ce0c",
-      "getPrice": "_0xd6cb4d",
-      "borrower": "_0x70dd97",
+      "borrower": "_0xd6cb4d",
+      "getPrice": "_0x70dd97",
       "isListed": "_0xe5feba",
       "setPrice": "_0x8e6f03",
       "vTokens": "_0x0353ce",
       "account": "_0x51bedd",
-      "spender": "_0xd860ea",
+      "approve": "_0xd860ea",
       "results": "_0xae3550",
-      "markets": "_0x8e4527",
-      "approve": "_0x4f9b02",
-      "prices": "_0x6e3d9a",
-      "amount": "_0xac561e",
-      "oracle": "_0x3454e7",
-      "borrow": "_0x2f7c62",
+      "spender": "_0x8e4527",
+      "markets": "_0x4f9b02",
+      "amount": "_0x6e3d9a",
+      "borrow": "_0xac561e",
+      "prices": "_0x3454e7",
+      "oracle": "_0x2f7c62",
       "price": "_0xc285d4",
       "token": "_0x3184cf",
       "mint": "_0xb7cc25",
@@ -130,6 +133,9 @@
     },
     "coverage_percent": 77.27,
     "identifiers_transformed": 34,
-    "created_date": "2025-12-30T00:24:49.140114"
-  }
+    "created_date": "2025-12-31T19:59:41.227088"
+  },
+  "vulnerable_contract": "LeveragedLending",
+  "vulnerable_function": "_0xb7cc25",
+  "sanitized_from": "ms_tc_038"
 }

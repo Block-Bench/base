@@ -12,9 +12,11 @@
   "description": "Balance calculation exploit using balanceOf. The mintFor function calculated rewards based on contract's total balance, allowing attacker to inflate rewards by sending tokens directly before minting.",
   "root_cause": "Using balanceOf(address(this)) for reward calculation instead of tracking actual deposits. Attacker sent tokens directly to contract before calling mintFor, inflating the balance used for reward calculation.",
   "attack_scenario": "Attacker flash loaned large amount of LP tokens, sent them directly to minter contract, called getReward which triggered mintFor. Function calculated rewards based on inflated balance, minting excessive HUNNY tokens.",
-  "vulnerable_contract": "pancake_hunny.sol",
+  "vulnerable_contract": "BenefitIssuer",
   "vulnerable_function": "issuecredentialFor",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    60
+  ],
   "fix_description": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
   "tags": [
     "balance-manipulation",
@@ -54,15 +56,15 @@
       "swapExactTokensForTokens": "exchangecredentialsExactCredentialsForCredentials",
       "amountIn": "quantityIn",
       "amountOut": "quantityOut",
-      "path": "pathway",
+      "path": "route",
       "deadline": "expirationDate",
-      "BasicMinter": "BasicCreator",
+      "RewardMinter": "BenefitIssuer",
       "lpToken": "lpCredential",
       "rewardToken": "benefitCredential",
-      "earnedRewards": "accumulatedBenefits",
-      "REWARD_RATE": "credit_factor",
+      "earnedRewards": "gatheredBenefits",
+      "REWARD_RATE": "credit_frequency",
       "_lpToken": "_lpCredential",
-      "_rewardToken": "_creditCredential",
+      "_rewardToken": "_benefitCredential",
       "deposit": "submitPayment",
       "sender": "requestor",
       "mintFor": "issuecredentialFor",
@@ -74,13 +76,14 @@
       "tokenToReward": "credentialDestinationBenefit",
       "lpAmount": "lpQuantity",
       "getReward": "retrieveBenefit",
-      "reward": "coverage",
+      "reward": "benefit",
       "rewards": "benefits",
       "withdraw": "dischargeFunds"
     },
     "coverage_percent": 43.94,
     "identifiers_transformed": 29,
     "identifiers_total": 66,
-    "created_date": "2025-12-29T23:26:42.391813"
-  }
+    "created_date": "2025-12-31T19:50:53.768380"
+  },
+  "sanitized_from": "ms_tc_013"
 }

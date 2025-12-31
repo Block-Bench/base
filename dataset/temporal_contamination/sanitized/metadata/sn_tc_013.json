@@ -15,7 +15,7 @@
   "vulnerable_contract": "RewardMinter",
   "vulnerable_function": "mintFor",
   "vulnerable_lines": [
-    79
+    81
   ],
   "fix_description": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
   "tags": [
@@ -55,7 +55,7 @@
       "HunnyMinter": "RewardMinter",
       "hunnyRewardAmount": "rewardAmount"
     },
-    "created_date": "2025-12-31T18:47:09.244145"
+    "created_date": "2025-12-31T20:00:32.049485"
   },
   "sanitized_from": "ms_tc_013"
 }

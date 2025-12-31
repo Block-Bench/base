@@ -19,8 +19,8 @@
   "cutoff_date": "2024-11",
   "description": "DeltaPrime suffered a $4.75M exploit when attackers compromised an admin private key with upgrade privileges. They upgraded a pool contract to inject malicious code, then exploited the backdoored contract to drain funds through fake pair contracts and balance manipulation.",
   "vulnerable_lines": [
-    48,
-    79
+    49,
+    82
   ],
   "vulnerability_details": {
     "root_cause": "Single private key compromise allowed arbitrary contract upgrades without timelock or multi-sig",
@@ -85,7 +85,7 @@
     "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [],
     "contract_renames": {},
-    "created_date": "2025-12-31T18:47:09.586859"
+    "created_date": "2025-12-31T20:00:32.319757"
   },
   "vulnerable_contract": "SmartLoansFactory",
   "vulnerable_function": "upgradePool",

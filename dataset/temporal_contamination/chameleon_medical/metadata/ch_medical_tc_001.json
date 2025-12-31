@@ -12,9 +12,12 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Nomad Bridge hack exploiting improper initialization of message validation. After a contract upgrade, the acceptedRoot was mistakenly set to 0x00...00, allowing attackers to craft messages that bypassed validation and drain $190M across 41 different tokens.",
-  "vulnerable_contract": "BasicBridgeReplica",
-  "vulnerable_function": "handle",
-  "vulnerable_lines": [],
+  "vulnerable_contract": "SystemReplica",
+  "vulnerable_function": "treat",
+  "vulnerable_lines": [
+    15,
+    40
+  ],
   "attack_scenario": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation. The process() function incorrectly accepts these messages, triggering token transfers without corresponding deposits on the source chain.",
   "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
   "fix_description": "Proper initialization of acceptedRoot after contract upgrades. Implement strict validation that acceptedRoot can never be 0x00...00. Add additional checks to ensure messages are properly committed to a merkle tree before processing. Implement emergency pause mechanisms.",
@@ -47,27 +50,29 @@
     "script": "strategies/chameleon/chameleon_tc.py",
     "changes": [
       "Applied medical theme transformation",
-      "Renamed 14/51 identifiers (27.5% coverage)"
+      "Renamed 15/51 identifiers (29.4% coverage)"
     ],
     "rename_map": {
-      "MessageStatus": "NotificationCondition",
+      "BridgeReplica": "SystemReplica",
+      "MessageStatus": "NotificationState",
       "Pending": "Awaiting",
       "acceptedRoot": "acceptedOrigin",
       "bridgeRouter": "systemConnectionRouter",
       "MessageProcessed": "NotificationProcessed",
-      "messageHash": "notificationSignature",
-      "success": "improvement",
-      "process": "handle",
-      "root": "origin",
-      "_messageRoot": "_alertOrigin",
+      "messageHash": "alertChecksum",
+      "success": "recovery",
+      "process": "treat",
+      "root": "source",
+      "_messageRoot": "_notificationOrigin",
       "routerSuccess": "routerRecovery",
-      "length": "extent",
-      "setAcceptedRoot": "groupAcceptedOrigin",
-      "_newRoot": "_updatedSource"
+      "length": "duration",
+      "setAcceptedRoot": "groupAcceptedSource",
+      "_newRoot": "_currentSource"
     },
-    "coverage_percent": 27.45,
-    "identifiers_transformed": 14,
+    "coverage_percent": 29.41,
+    "identifiers_transformed": 15,
     "identifiers_total": 51,
-    "created_date": "2025-12-29T23:26:42.371411"
-  }
+    "created_date": "2025-12-31T19:50:53.745682"
+  },
+  "sanitized_from": "ms_tc_001"
 }

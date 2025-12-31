@@ -55,7 +55,7 @@
       "curvePool": "stablePool",
       "_curvePool": "_stablePool"
     },
-    "created_date": "2025-12-31T18:47:09.369519"
+    "created_date": "2025-12-31T20:00:32.151757"
   },
   "vulnerable_function": "borrow",
   "sanitized_from": "ms_tc_024"

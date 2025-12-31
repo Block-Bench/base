@@ -16,7 +16,7 @@
   "vulnerable_function": "transfer",
   "vulnerable_lines": [
     59,
-    78
+    80
   ],
   "fix_description": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
   "tags": [
@@ -53,7 +53,7 @@
     "contract_renames": {
       "BZXLoanToken": "MarginToken"
     },
-    "created_date": "2025-12-31T18:47:09.272753"
+    "created_date": "2025-12-31T20:00:32.074357"
   },
   "sanitized_from": "ms_tc_016"
 }

@@ -20,7 +20,7 @@
   "root_cause": "Token weights in index pools were recalculated based on instantaneous token balances after swaps. Flash loan attackers could temporarily drain liquidity of a single token, causing weight recalculation to heavily undervalue that token, then buy it back at manipulated prices.",
   "vulnerable_lines": [
     56,
-    100
+    101
   ],
   "fix": "Use time-weighted average prices (TWAP) or external price oracles instead of instantaneous balance-based weight calculations. Implement gradual weight adjustments over multiple blocks rather than immediate updates.",
   "references": [
@@ -49,7 +49,7 @@
       "Removed comment: // In real implementation, this would use oracle p..."
     ],
     "contract_renames": {},
-    "created_date": "2025-12-31T18:47:09.295019"
+    "created_date": "2025-12-31T20:00:32.093134"
   },
   "vulnerable_function": "_updateWeights",
   "sanitized_from": "ms_tc_018"

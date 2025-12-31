@@ -12,9 +12,11 @@
   "description": "Arbitrary external call vulnerability in controller's swap function. The swapExactJarForJar function accepted user-provided target addresses and calldata, making unchecked external calls that drained strategy funds.",
   "root_cause": "Controller allowed arbitrary external calls with user-provided targets and data without validation. Strategy functions like withdrawAll() lacked access control checks, allowing controller to call them on behalf of attacker.",
   "attack_scenario": "Attacker created fake jar contracts, called swapExactJarForJar with malicious targets pointing to real strategies and calldata encoding withdrawAll(). Controller executed these calls, draining strategies.",
-  "vulnerable_contract": "pickle_finance.sol",
+  "vulnerable_contract": "YieldController",
   "vulnerable_function": "_0x390062",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    30
+  ],
   "fix_description": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors.",
   "tags": [
     "arbitrary-call",
@@ -77,15 +79,16 @@
       "success": "_0x65ce0c",
       "amount": "_0xd6cb4d",
       "_toJar": "_0x70dd97",
-      "_data": "_0xe5feba",
+      "token": "_0xe5feba",
       "_want": "_0x8e6f03",
-      "token": "_0x0353ce",
+      "_data": "_0x0353ce",
       "want": "_0x51bedd",
       "jar": "_0xd860ea",
       "to": "_0xae3550"
     },
     "coverage_percent": 70.59,
     "identifiers_transformed": 24,
-    "created_date": "2025-12-30T00:24:49.078506"
-  }
+    "created_date": "2025-12-31T19:59:41.172237"
+  },
+  "sanitized_from": "ms_tc_017"
 }

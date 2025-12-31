@@ -15,7 +15,10 @@
   "description": "Anyswap bridge's anySwapOutUnderlyingWithPermit function had incomplete validation of EIP-2612 permit signatures. The function proceeded with token transfers even when permit validation failed, allowing attackers to bridge tokens without proper authorization.",
   "attack_scenario": "1) Attacker called anySwapOutUnderlyingWithPermit with victim's token address. 2) Passed invalid permit signature (v=0, r=0, s=0). 3) Permit validation failed silently. 4) Function continued executing anyway. 5) Tokens were burned/locked and bridged to destination chain. 6) Repeated to drain $8M worth of WETH and other tokens.",
   "root_cause": "The permit validation used try-catch that swallowed failures without reverting. The function proceeded with token operations regardless of whether the permit succeeded, effectively bypassing authorization checks entirely.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    18,
+    20
+  ],
   "fix": "Require permit to succeed: remove try-catch or explicitly check return value. Alternatively, require existing approval if permit fails. Never proceed with token operations without verified authorization.",
   "references": [
     "https://twitter.com/AnyswapNetwork/status/1483420010546745344"
@@ -24,15 +27,7 @@
   "variant_type": "shapeshifter_l3",
   "checks_effects_interactions_violated": false,
   "involves_external_calls": true,
-  "vulnerable_contract": {
-    "name": "CrossRouter",
-    "functions": [
-      {
-        "name": "anySwapOutUnderlyingWithPermit",
-        "vulnerability": "Proceeds with transfers even when permit validation fails"
-      }
-    ]
-  },
+  "vulnerable_contract": "CrossRouter",
   "contract_file": "contracts/ss_tc_026.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
@@ -60,18 +55,20 @@
     ],
     "rename_map": {
       "crossOutUnderlyingWithPermit": "_0x390062",
-      "toChainID": "_0x0cce35",
-      "_crossOut": "_0x8cd0a4",
+      "_crossOut": "_0x0cce35",
+      "toChainID": "_0x8cd0a4",
       "deadline": "_0x7d6277",
       "spender": "_0x7248ad",
       "amount": "_0x477183",
       "permit": "_0x347a3f",
-      "token": "_0x2c833f",
-      "owner": "_0xd80623",
+      "owner": "_0x2c833f",
+      "token": "_0xd80623",
       "to": "_0x1045d1"
     },
     "coverage_percent": 50.0,
     "identifiers_transformed": 10,
-    "created_date": "2025-12-30T00:24:49.105048"
-  }
+    "created_date": "2025-12-31T19:59:41.195578"
+  },
+  "vulnerable_function": "_0x347a3f",
+  "sanitized_from": "ms_tc_026"
 }

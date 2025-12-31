@@ -19,7 +19,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Radiant Capital (Aave V2 fork on Arbitrum) was exploited for $4.5M through manipulation of the liquidityIndex via repeated flashloan cycles. The attacker executed 151 nested flashloans to inflate the liquidityIndex to extreme values, causing rounding errors in the rayDiv function that allowed extracting more funds than deposited.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    55,
+    136
+  ],
   "vulnerability_details": {
     "root_cause": "Unbounded liquidityIndex growth combined with fixed-point arithmetic rounding errors",
     "attack_vector": "Repeated flashloan deposit/withdrawal cycles to manipulate liquidityIndex, then exploit rounding in withdrawal calculations",
@@ -83,36 +86,39 @@
     ],
     "rename_map": {
       "amount": "quantity",
-      "from": "source",
+      "from": "referrer",
       "account": "profile",
       "spender": "serviceProvider",
-      "IFlashLoanReceiver": "IUrgentLoanPatient",
+      "IFlashLoanReceiver": "IEmergencyLoanRecipient",
       "executeOperation": "implementdecisionOperation",
       "params": "settings",
-      "ReserveData": "ReserveRecord",
-      "liquidityIndex": "availableresourcesRank",
+      "ReserveData": "ReserveInfo",
+      "liquidityIndex": "availableresourcesSlot",
       "totalLiquidity": "totalamountAvailableresources",
       "rTokenAddress": "rCredentialLocation",
       "reserves": "healthReserves",
       "deposit": "submitPayment",
       "sender": "requestor",
-      "currentLiquidityIndex": "presentAvailableresourcesPosition",
+      "currentLiquidityIndex": "presentAvailableresourcesSlot",
       "rTokenAmount": "rCredentialQuantity",
       "_mintRToken": "_issuecredentialRCredential",
       "withdraw": "dischargeFunds",
       "rTokensToBurn": "rCredentialsDestinationArchiverecord",
       "_burnRToken": "_archiverecordRCredential",
       "borrow": "requestAdvance",
-      "interestRateMode": "interestRatioMode",
-      "flashLoan": "urgentLoan",
-      "receiverAddress": "patientWard",
+      "interestRateMode": "interestFactorMode",
+      "flashLoan": "emergencyLoan",
+      "receiverAddress": "recipientWard",
       "length": "extent",
-      "callback": "notification",
+      "callback": "response",
       "rToken": "rCredential"
     },
     "coverage_percent": 32.93,
     "identifiers_transformed": 27,
     "identifiers_total": 82,
-    "created_date": "2025-12-29T23:26:42.419288"
-  }
+    "created_date": "2025-12-31T19:50:53.799974"
+  },
+  "vulnerable_contract": "CrossLendingPool",
+  "vulnerable_function": "emergencyLoan",
+  "sanitized_from": "ms_tc_032"
 }

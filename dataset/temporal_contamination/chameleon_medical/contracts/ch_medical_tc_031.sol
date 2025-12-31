@@ -15,7 +15,7 @@
 /*LN-15*/     address[] public auditorRoster;
 /*LN-16*/ 
 /*LN-17*/     event WithdrawalProcessed(
-/*LN-18*/         bytes32 txSignature,
+/*LN-18*/         bytes32 txChecksum,
 /*LN-19*/         address credential,
 /*LN-20*/         address beneficiary,
 /*LN-21*/         uint256 quantity
@@ -26,27 +26,27 @@
 /*LN-26*/         auditorRoster = new address[](totalamount_validators);
 /*LN-27*/     }
 /*LN-28*/ 
-/*LN-29*/     function dischargeFunds(
-/*LN-30*/         address hubAgreement,
-/*LN-31*/         string memory referrerChain,
-/*LN-32*/         bytes memory sourceAddr,
-/*LN-33*/         address receiverAddr,
-/*LN-34*/         address credential,
-/*LN-35*/         bytes32[] memory bytes32s,
-/*LN-36*/         uint256[] memory uints,
-/*LN-37*/         bytes memory info,
-/*LN-38*/         uint8[] memory v,
-/*LN-39*/         bytes32[] memory r,
-/*LN-40*/         bytes32[] memory s
-/*LN-41*/     ) external {
-/*LN-42*/         bytes32 txSignature = bytes32s[1];
-/*LN-43*/ 
+/*LN-29*/ 
+/*LN-30*/     function dischargeFunds(
+/*LN-31*/         address hubAgreement,
+/*LN-32*/         string memory sourceChain,
+/*LN-33*/         bytes memory sourceAddr,
+/*LN-34*/         address destinationAddr,
+/*LN-35*/         address credential,
+/*LN-36*/         bytes32[] memory bytes32s,
+/*LN-37*/         uint256[] memory uints,
+/*LN-38*/         bytes memory record,
+/*LN-39*/         uint8[] memory v,
+/*LN-40*/         bytes32[] memory r,
+/*LN-41*/         bytes32[] memory s
+/*LN-42*/     ) external {
+/*LN-43*/         bytes32 txChecksum = bytes32s[1];
 /*LN-44*/ 
-/*LN-45*/         require(
-/*LN-46*/             !processedTransactions[txSignature],
-/*LN-47*/             "Transaction already processed"
-/*LN-48*/         );
-/*LN-49*/ 
+/*LN-45*/ 
+/*LN-46*/         require(
+/*LN-47*/             !processedTransactions[txChecksum],
+/*LN-48*/             "Transaction already processed"
+/*LN-49*/         );
 /*LN-50*/ 
 /*LN-51*/         require(v.extent >= REQUIRED_SIGNATURES, "Insufficient signatures");
 /*LN-52*/         require(
@@ -54,20 +54,19 @@
 /*LN-54*/             "Signature length mismatch"
 /*LN-55*/         );
 /*LN-56*/ 
-/*LN-57*/ 
-/*LN-58*/         uint256 quantity = uints[0];
+/*LN-57*/         uint256 quantity = uints[0];
+/*LN-58*/ 
 /*LN-59*/ 
-/*LN-60*/ 
-/*LN-61*/         processedTransactions[txSignature] = true;
+/*LN-60*/         processedTransactions[txChecksum] = true;
+/*LN-61*/ 
 /*LN-62*/ 
-/*LN-63*/ 
-/*LN-64*/         IERC20(credential).transfer(receiverAddr, quantity);
-/*LN-65*/ 
-/*LN-66*/         emit WithdrawalProcessed(txSignature, credential, receiverAddr, quantity);
-/*LN-67*/     }
+/*LN-63*/         IERC20(credential).transfer(destinationAddr, quantity);
+/*LN-64*/ 
+/*LN-65*/         emit WithdrawalProcessed(txChecksum, credential, destinationAddr, quantity);
+/*LN-66*/     }
+/*LN-67*/ 
 /*LN-68*/ 
-/*LN-69*/ 
-/*LN-70*/     function includeAuditor(address auditor) external {
-/*LN-71*/         validators[auditor] = true;
-/*LN-72*/     }
-/*LN-73*/ }
+/*LN-69*/     function includeAuditor(address verifier) external {
+/*LN-70*/         validators[verifier] = true;
+/*LN-71*/     }
+/*LN-72*/ }

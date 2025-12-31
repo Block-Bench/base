@@ -19,7 +19,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "Seneca Protocol's Chamber contract was exploited for $6.4M through its performOperations() function. The function accepted user-controlled target addresses and calldata, allowing attackers to call transferFrom() on tokens where victims had given approvals to Chamber.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    41
+  ],
   "vulnerability_details": {
     "root_cause": "User-controlled target address and calldata in performOperations allowing arbitrary external calls",
     "attack_vector": "Craft operation with transferFrom calldata targeting victim tokens, execute via performOperations",
@@ -87,16 +89,19 @@
       "from": "referrer",
       "account": "chart",
       "spender": "serviceProvider",
-      "OPERATION_CALL": "operation_requestconsult",
-      "length": "duration",
-      "Length": "Extent",
+      "OPERATION_CALL": "operation_consultspecialist",
+      "length": "extent",
+      "Length": "Duration",
       "target": "objective",
-      "success": "recovery",
+      "success": "improvement",
       "value": "measurement"
     },
     "coverage_percent": 18.18,
     "identifiers_transformed": 10,
     "identifiers_total": 55,
-    "created_date": "2025-12-29T23:26:42.494142"
-  }
+    "created_date": "2025-12-31T19:50:53.818151"
+  },
+  "vulnerable_contract": "CDPChamber",
+  "vulnerable_function": "performOperations",
+  "sanitized_from": "ms_tc_043"
 }

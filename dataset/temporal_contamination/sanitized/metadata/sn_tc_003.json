@@ -16,7 +16,7 @@
   "vulnerable_function": "kill",
   "vulnerable_lines": [
     20,
-    56
+    62
   ],
   "attack_scenario": "User calls initWallet() directly on the WalletLibrary contract (not via delegatecall from a proxy), becoming the owner of the library itself. User then calls kill() function which executes selfdestruct, destroying the library contract. All 587 wallet proxies that delegatecall to this library are now permanently frozen with no way to access funds.",
   "root_cause": "The library contract's initWallet() function had no access control preventing direct calls. In the proxy pattern, libraries should never have initialization functions that can be called directly. Combined with a kill() function containing selfdestruct, this allowed anyone to destroy the shared library that all wallets depended on.",
@@ -58,7 +58,7 @@
       "ParityWalletProxy": "WalletProxy",
       "ParityWalletLibrary": "WalletLibrary"
     },
-    "created_date": "2025-12-31T18:47:09.122353"
+    "created_date": "2025-12-31T20:00:31.932670"
   },
   "sanitized_from": "ms_tc_003"
 }

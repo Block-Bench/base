@@ -3,18 +3,18 @@
 /*LN-3*/ interface IERC777 {
 /*LN-4*/     function transfer(address to, uint256 quantity) external returns (bool);
 /*LN-5*/ 
-/*LN-6*/     function balanceOf(address profile) external view returns (uint256);
+/*LN-6*/     function balanceOf(address chart) external view returns (uint256);
 /*LN-7*/ }
 /*LN-8*/ 
 /*LN-9*/ interface IERC1820Registry {
-/*LN-10*/     function groupGatewayImplementer(
-/*LN-11*/         address profile,
+/*LN-10*/     function collectionGatewayImplementer(
+/*LN-11*/         address chart,
 /*LN-12*/         bytes32 gatewayChecksum,
 /*LN-13*/         address implementer
 /*LN-14*/     ) external;
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ contract BasicLendingPool {
+/*LN-17*/ contract MedicalCreditPool {
 /*LN-18*/     mapping(address => mapping(address => uint256)) public contributedAmount;
 /*LN-19*/     mapping(address => uint256) public totalamountContributedamount;
 /*LN-20*/ 
@@ -32,35 +32,36 @@
 /*LN-32*/         return quantity;
 /*LN-33*/     }
 /*LN-34*/ 
-/*LN-35*/     function dischargeFunds(
-/*LN-36*/         address asset,
-/*LN-37*/         uint256 requestedQuantity
-/*LN-38*/     ) external returns (uint256) {
-/*LN-39*/         uint256 patientCredits = contributedAmount[msg.requestor][asset];
-/*LN-40*/         require(patientCredits > 0, "No balance");
-/*LN-41*/ 
+/*LN-35*/ 
+/*LN-36*/     function dischargeFunds(
+/*LN-37*/         address asset,
+/*LN-38*/         uint256 requestedQuantity
+/*LN-39*/     ) external returns (uint256) {
+/*LN-40*/         uint256 patientCredits = contributedAmount[msg.requestor][asset];
+/*LN-41*/         require(patientCredits > 0, "No balance");
 /*LN-42*/ 
-/*LN-43*/         uint256 dischargefundsQuantity = requestedQuantity;
-/*LN-44*/         if (requestedQuantity == type(uint256).ceiling) {
-/*LN-45*/             dischargefundsQuantity = patientCredits;
-/*LN-46*/         }
-/*LN-47*/         require(dischargefundsQuantity <= patientCredits, "Insufficient balance");
-/*LN-48*/ 
+/*LN-43*/ 
+/*LN-44*/         uint256 dischargefundsQuantity = requestedQuantity;
+/*LN-45*/         if (requestedQuantity == type(uint256).maximum) {
+/*LN-46*/             dischargefundsQuantity = patientCredits;
+/*LN-47*/         }
+/*LN-48*/         require(dischargefundsQuantity <= patientCredits, "Insufficient balance");
 /*LN-49*/ 
-/*LN-50*/         IERC777(asset).transfer(msg.requestor, dischargefundsQuantity);
-/*LN-51*/ 
+/*LN-50*/ 
+/*LN-51*/         IERC777(asset).transfer(msg.requestor, dischargefundsQuantity);
 /*LN-52*/ 
-/*LN-53*/         contributedAmount[msg.requestor][asset] -= dischargefundsQuantity;
-/*LN-54*/         totalamountContributedamount[asset] -= dischargefundsQuantity;
-/*LN-55*/ 
-/*LN-56*/         return dischargefundsQuantity;
-/*LN-57*/     }
-/*LN-58*/ 
+/*LN-53*/ 
+/*LN-54*/         contributedAmount[msg.requestor][asset] -= dischargefundsQuantity;
+/*LN-55*/         totalamountContributedamount[asset] -= dischargefundsQuantity;
+/*LN-56*/ 
+/*LN-57*/         return dischargefundsQuantity;
+/*LN-58*/     }
 /*LN-59*/ 
-/*LN-60*/     function diagnoseContributedamount(
-/*LN-61*/         address patient,
-/*LN-62*/         address asset
-/*LN-63*/     ) external view returns (uint256) {
-/*LN-64*/         return contributedAmount[patient][asset];
-/*LN-65*/     }
-/*LN-66*/ }
+/*LN-60*/ 
+/*LN-61*/     function diagnoseContributedamount(
+/*LN-62*/         address patient,
+/*LN-63*/         address asset
+/*LN-64*/     ) external view returns (uint256) {
+/*LN-65*/         return contributedAmount[patient][asset];
+/*LN-66*/     }
+/*LN-67*/ }

@@ -16,21 +16,11 @@
   ],
   "description": "Alpha Homora V2 integrated with Cream's Iron Bank for leveraged yield farming. The vulnerability was in how debt shares were calculated when totalDebt could be manipulated through external pool state changes. Attackers borrowed funds and manipulated pool reserves to skew the share-to-amount conversion, allowing them to receive far more value than their debt obligations reflected.",
   "attack_scenario": "1) Attacker opened leveraged position and borrowed initial funds from Iron Bank. 2) Used flash loans to manipulate sUSD/USDC pool reserves. 3) Pool manipulation caused totalDebt calculations to become stale/incorrect. 4) Opened second position with manipulated totalDebt value. 5) Debt share calculation: (borrowAmount * totalDebtShare) / inflatedTotalDebt resulted in fewer shares than deserved. 6) When converting back, attacker's debt appeared much smaller than actual borrowed amount. 7) Repaid calculated debt and withdrew collateral, keeping difference. 8) Repeated to drain $37M.",
-  "vulnerable_contract": {
-    "name": "LeveragedBank",
-    "functions": [
-      {
-        "name": "_0xe5feba",
-        "vulnerability": "Debt share calculation relies on manipulatable totalDebt value"
-      },
-      {
-        "name": "_0x8cd0a4",
-        "vulnerability": "Returns debt based on potentially manipulated share ratio"
-      }
-    ]
-  },
+  "vulnerable_contract": "LeveragedBank",
   "root_cause": "Debt share calculation depended on totalDebt value that could be manipulated via external pool state changes. The share-to-amount conversion (amount * totalDebtShare / totalDebt) was vulnerable when totalDebt was artificially inflated through pool manipulation, resulting in attackers receiving fewer debt shares than they should for borrowed amounts.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    49
+  ],
   "fix": "Use manipulation-resistant accounting that doesn't rely on external pool states. Implement debt ceilings per position. Use time-weighted averages for debt calculations. Separate internal debt tracking from external dependencies. Add sanity checks ensuring debt shares properly reflect borrowed amounts.",
   "references": [
     "https://blog.alphaventuredao.io/alpha-homora-v2-post-mortem/",
@@ -75,31 +65,33 @@
       "nextPositionId": "_0x7d6277",
       "totalDebtShare": "_0x7248ad",
       "shareToRemove": "_0x477183",
-      "transferFrom": "_0x347a3f",
+      "openPosition": "_0x347a3f",
       "borrowAmount": "_0x2c833f",
-      "openPosition": "_0xd80623",
-      "positionId": "_0x1045d1",
-      "collateral": "_0x0f4194",
-      "positions": "_0x2ff8d2",
+      "transferFrom": "_0xd80623",
+      "collateral": "_0x1045d1",
+      "positionId": "_0x0f4194",
+      "debtShare": "_0x2ff8d2",
       "liquidate": "_0x6ff151",
-      "debtShare": "_0x771f54",
+      "totalDebt": "_0x771f54",
       "balanceOf": "_0x0d961f",
-      "totalDebt": "_0x65ce0c",
-      "_cToken": "_0xd6cb4d",
-      "account": "_0x70dd97",
+      "positions": "_0x65ce0c",
+      "account": "_0xd6cb4d",
+      "_cToken": "_0x70dd97",
       "_borrow": "_0xe5feba",
       "amount": "_0x8e6f03",
-      "cToken": "_0x0353ce",
-      "borrow": "_0x51bedd",
+      "borrow": "_0x0353ce",
+      "cToken": "_0x51bedd",
       "owner": "_0xd860ea",
-      "repay": "_0xae3550",
-      "share": "_0x8e4527",
+      "share": "_0xae3550",
+      "repay": "_0x8e4527",
       "debt": "_0x4f9b02",
       "pos": "_0x6e3d9a",
       "to": "_0xac561e"
     },
     "coverage_percent": 73.68,
     "identifiers_transformed": 28,
-    "created_date": "2025-12-30T00:24:49.099299"
-  }
+    "created_date": "2025-12-31T19:59:41.190961"
+  },
+  "vulnerable_function": "_0xe5feba",
+  "sanitized_from": "ms_tc_023"
 }

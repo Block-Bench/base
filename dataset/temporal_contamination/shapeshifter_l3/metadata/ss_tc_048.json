@@ -18,14 +18,17 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-05",
   "description": "Sonne Finance, a Compound V2 fork on Optimism, lost $20M through a donation attack on a low-liquidity market. The attacker deposited minimal tokens, donated large amounts directly to inflate the exchange rate, then used the inflated collateral value to borrow assets far exceeding actual collateral.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    29,
+    31
+  ],
   "vulnerability_details": {
     "root_cause": "Exchange rate calculation vulnerable when totalSupply is very small, allowing donation to manipulate underlying/supply ratio",
     "attack_vector": "Mint minimal cTokens, donate underlying to contract, exchange rate inflates, use as over-valued collateral",
     "vulnerable_functions": [
       "_0x477183()",
-      "_0xae3550()",
-      "_0x0353ce()",
+      "_0xd860ea()",
+      "_0xe5feba()",
       "_0x0cce35()"
     ],
     "key_weakness": [
@@ -93,31 +96,34 @@
       "balanceOfUnderlying": "_0x0cce35",
       "totalUnderlying": "_0x8cd0a4",
       "totalReserves": "_0x7d6277",
-      "transferFrom": "_0x7248ad",
+      "redeemAmount": "_0x7248ad",
       "exchangeRate": "_0x477183",
-      "redeemTokens": "_0x347a3f",
-      "redeemAmount": "_0x2c833f",
-      "totalBorrows": "_0xd80623",
+      "transferFrom": "_0x347a3f",
+      "totalBorrows": "_0x2c833f",
+      "redeemTokens": "_0xd80623",
       "totalSupply": "_0x1045d1",
       "_underlying": "_0x0f4194",
-      "underlying": "_0x2ff8d2",
-      "mintTokens": "_0x6ff151",
+      "mintTokens": "_0x2ff8d2",
+      "underlying": "_0x6ff151",
       "mintAmount": "_0x771f54",
       "balanceOf": "_0x0d961f",
       "decimals": "_0x65ce0c",
       "redeemer": "_0xd6cb4d",
       "account": "_0x70dd97",
-      "minter": "_0xe5feba",
-      "amount": "_0x8e6f03",
-      "redeem": "_0x0353ce",
+      "redeem": "_0xe5feba",
+      "minter": "_0x8e6f03",
+      "amount": "_0x0353ce",
       "symbol": "_0x51bedd",
-      "cash": "_0xd860ea",
-      "mint": "_0xae3550",
-      "name": "_0x8e4527",
+      "mint": "_0xd860ea",
+      "name": "_0xae3550",
+      "cash": "_0x8e4527",
       "to": "_0x4f9b02"
     },
     "coverage_percent": 72.22,
     "identifiers_transformed": 26,
-    "created_date": "2025-12-30T00:24:49.164170"
-  }
+    "created_date": "2025-12-31T19:59:41.250878"
+  },
+  "vulnerable_contract": "CompMarket",
+  "vulnerable_function": "_0x477183",
+  "sanitized_from": "ms_tc_048"
 }

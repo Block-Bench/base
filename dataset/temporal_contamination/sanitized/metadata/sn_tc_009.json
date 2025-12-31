@@ -58,7 +58,7 @@
     "contract_renames": {
       "KyberSwapPool": "ConcentratedPool"
     },
-    "created_date": "2025-12-31T18:47:09.210292"
+    "created_date": "2025-12-31T20:00:32.019701"
   },
   "sanitized_from": "ms_tc_009"
 }

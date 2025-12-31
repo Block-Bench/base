@@ -12,9 +12,13 @@
   "description": "Cross-function reentrancy attack. The borrow function sent ETH before final health check, allowing attacker to call exitMarket during callback and bypass collateral requirements.",
   "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
   "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
-  "vulnerable_contract": "rari_capital.sol",
-  "vulnerable_function": "_0x51bedd",
-  "vulnerable_lines": [],
+  "vulnerable_contract": "LendingHub",
+  "vulnerable_function": "_0x0353ce",
+  "vulnerable_lines": [
+    43,
+    45,
+    49
+  ],
   "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
   "tags": [
     "reentrancy",
@@ -67,21 +71,22 @@
       "enterMarkets": "_0x2c833f",
       "comptroller": "_0xd80623",
       "exitMarket": "_0x1045d1",
-      "isHealthy": "_0x0f4194",
-      "totalDebt": "_0x2ff8d2",
-      "withdraw": "_0x6ff151",
-      "deposits": "_0x771f54",
-      "borrowed": "_0x0d961f",
-      "inMarket": "_0x65ce0c",
+      "totalDebt": "_0x0f4194",
+      "isHealthy": "_0x2ff8d2",
+      "borrowed": "_0x6ff151",
+      "inMarket": "_0x771f54",
+      "deposits": "_0x0d961f",
+      "withdraw": "_0x65ce0c",
       "account": "_0xd6cb4d",
       "cTokens": "_0x70dd97",
       "success": "_0xe5feba",
       "amount": "_0x8e6f03",
-      "cToken": "_0x0353ce",
-      "borrow": "_0x51bedd"
+      "borrow": "_0x0353ce",
+      "cToken": "_0x51bedd"
     },
     "coverage_percent": 68.75,
     "identifiers_transformed": 22,
-    "created_date": "2025-12-30T00:24:49.059886"
-  }
+    "created_date": "2025-12-31T19:59:41.160379"
+  },
+  "sanitized_from": "ms_tc_012"
 }

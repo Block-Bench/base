@@ -84,7 +84,7 @@
     "contract_renames": {
       "PlayDappToken": "GameToken"
     },
-    "created_date": "2025-12-31T18:47:09.610436"
+    "created_date": "2025-12-31T20:00:32.342155"
   },
   "vulnerable_contract": "GameToken",
   "vulnerable_function": "mint",
