@@ -16,7 +16,10 @@
   "description": "BurgerSwap router didn't validate that token pairs were from the official factory. Attackers created fake tokens and malicious pairs with manipulated reserves, then used the router to swap through these fake pairs to extract real tokens at manipulated prices.",
   "attack_scenario": "1) Attacker created fake token contracts mimicking legitimate addresses. 2) Created malicious pair contract with manipulated reserves (e.g., 1 fake token = 1000 real tokens). 3) Called router swap function with path through fake token. 4) Router accepted fake pair without factory validation. 5) Executed swap at manipulated price. 6) Extracted $7M in real tokens.",
   "root_cause": "Router's swap function didn't verify that pairs came from the official factory. It accepted any pair address provided in the path, allowing attackers to inject fake pairs with arbitrary reserve ratios.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    25,
+    35
+  ],
   "fix": "Only accept pairs from official factory contract. Verify pair addresses: require(pair == factory.getPair(tokenA, tokenB)). Implement whitelist for tradeable tokens. Add pair creation validation.",
   "references": [
     "https://twitter.com/BurgerSwapBSC/status/1398310892343791619"
@@ -25,15 +28,7 @@
   "variant_type": "chameleon_medical",
   "checks_effects_interactions_violated": false,
   "involves_external_calls": true,
-  "vulnerable_contract": {
-    "name": "SwapRouter",
-    "functions": [
-      {
-        "name": "swapExactTokensForTokens",
-        "vulnerability": "Accepts any pair address without factory validation"
-      }
-    ]
-  },
+  "vulnerable_contract": "ServiceExchangeRouter",
   "contract_file": "contracts/ch_medical_tc_027.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
@@ -52,16 +47,16 @@
     ],
     "rename_map": {
       "IPair": "IDuo",
-      "getReserves": "acquireHealthreserves",
+      "getReserves": "obtainHealthreserves",
       "SwapRouter": "ServiceExchangeRouter",
       "swapExactTokensForTokens": "exchangecredentialsExactCredentialsForCredentials",
       "amountIn": "quantityIn",
       "amountOutMin": "quantityOutFloor",
       "path": "pathway",
-      "deadline": "expirationDate",
+      "deadline": "dueDate",
       "length": "duration",
-      "pair": "couple",
-      "_getPair": "_obtainCouple",
+      "pair": "duo",
+      "_getPair": "_diagnoseDuo",
       "_getAmountOut": "_obtainQuantityOut",
       "tokenA": "credentialA",
       "tokenB": "credentialB"
@@ -69,6 +64,8 @@
     "coverage_percent": 29.79,
     "identifiers_transformed": 14,
     "identifiers_total": 47,
-    "created_date": "2025-12-29T23:26:42.412768"
-  }
+    "created_date": "2025-12-31T19:50:53.793522"
+  },
+  "vulnerable_function": "exchangecredentialsExactCredentialsForCredentials",
+  "sanitized_from": "ms_tc_027"
 }

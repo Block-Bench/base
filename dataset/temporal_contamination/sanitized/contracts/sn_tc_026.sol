@@ -19,21 +19,16 @@
 /*LN-19*/         uint256 toChainID
 /*LN-20*/     ) external {
 /*LN-21*/ 
-/*LN-22*/         // Should validate signature matches 'from' address
+/*LN-22*/         if (v != 0 || r != bytes32(0) || s != bytes32(0)) {
 /*LN-23*/ 
-/*LN-24*/         if (v != 0 || r != bytes32(0) || s != bytes32(0)) {
-/*LN-25*/             // Attempt permit but don't check if it succeeds
-/*LN-26*/             try IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s) {} catch {}
-/*LN-27*/         }
-/*LN-28*/ 
-/*LN-29*/         // Transfers token without proper authorization
-/*LN-30*/         _crossOut(from, token, to, amount, toChainID);
-/*LN-31*/     }
-/*LN-32*/ 
-/*LN-33*/     function _crossOut(address from, address token, address to, uint256 amount, uint256 toChainID) internal {
-/*LN-34*/         // Bridge logic - burns or locks tokens
-/*LN-35*/ 
-/*LN-36*/     }
-/*LN-37*/ }
-/*LN-38*/ 
-/*LN-39*/ 
+/*LN-24*/             try IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s) {} catch {}
+/*LN-25*/         }
+/*LN-26*/ 
+/*LN-27*/         _crossOut(from, token, to, amount, toChainID);
+/*LN-28*/     }
+/*LN-29*/ 
+/*LN-30*/     function _crossOut(address from, address token, address to, uint256 amount, uint256 toChainID) internal {
+/*LN-31*/         // Bridge logic - burns or locks tokens
+/*LN-32*/     }
+/*LN-33*/ }
+/*LN-34*/ 

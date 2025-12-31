@@ -12,9 +12,15 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Beanstalk governance attack using flash loans to gain voting power and execute malicious proposal. Attacker borrowed $1B via flash loan, deposited into Silo to gain majority voting power, proposed and immediately executed a malicious governance action to drain the protocol, then repaid the flash loan.",
-  "vulnerable_contract": "BasicGovernance",
+  "vulnerable_contract": "Governance",
   "vulnerable_function": "emergencyCommit",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    48,
+    49,
+    91,
+    92,
+    97
+  ],
   "attack_scenario": "Attacker takes massive flash loan from Aave ($1B in stablecoins), swaps for Curve 3pool LP tokens, deposits into Beanstalk Silo gaining >66% voting power, creates malicious governance proposal to transfer all funds, votes with flash-loan-funded power, immediately executes via emergencyCommit(), drains protocol, repays flash loan with profit.",
   "root_cause": "Governance system allowed instant voting power from deposits with no time-weighting or holding period. The emergencyCommit() function enabled immediate execution of proposals that reached 66% approval, with no time delay for community review. This combination made flash loan governance attacks trivial to execute.",
   "fix_description": "Implement time-weighted voting where voting power increases with duration of deposit. Add minimum holding period before deposits grant voting rights. Implement mandatory time delay (timelock) between proposal creation and execution. Remove or heavily restrict emergencyCommit() function. Use snapshot-based voting to prevent same-block deposit and vote. Add multi-sig or guardian oversight for emergency functions.",
@@ -44,10 +50,11 @@
     "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata/sn_tc_002.json",
     "script": "strategies/nocomments/nocomments_tc.py",
     "changes": [
-      "Removed 14 comments (single-line and multi-line)",
+      "Removed 15 comments (single-line and multi-line)",
       "Regenerated fresh line markers"
     ],
-    "comments_removed": 14,
-    "created_date": "2025-12-29T23:10:21.387332"
-  }
+    "comments_removed": 15,
+    "created_date": "2025-12-31T20:00:38.838236"
+  },
+  "sanitized_from": "ms_tc_002"
 }

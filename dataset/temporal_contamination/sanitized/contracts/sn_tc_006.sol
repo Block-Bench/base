@@ -1,7 +1,7 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ contract BasicBridge {
+/*LN-4*/ contract GameBridge {
 /*LN-5*/     // Validator addresses
 /*LN-6*/     address[] public validators;
 /*LN-7*/     mapping(address => bool) public isValidator;
@@ -54,121 +54,119 @@
 /*LN-54*/         require(supportedTokens[_token], "Token not supported");
 /*LN-55*/ 
 /*LN-56*/         // Verify signatures
-/*LN-57*/ 
-/*LN-58*/         require(
-/*LN-59*/             _verifySignatures(
-/*LN-60*/                 _withdrawalId,
-/*LN-61*/                 _user,
-/*LN-62*/                 _token,
-/*LN-63*/                 _amount,
-/*LN-64*/                 _signatures
-/*LN-65*/             ),
-/*LN-66*/             "Invalid signatures"
-/*LN-67*/         );
-/*LN-68*/ 
-/*LN-69*/         // Mark as processed
-/*LN-70*/         processedWithdrawals[_withdrawalId] = true;
-/*LN-71*/ 
-/*LN-72*/         // Transfer tokens
-/*LN-73*/         // In reality, this would transfer from bridge reserves
-/*LN-74*/         // IERC20(_token).transfer(_user, _amount);
-/*LN-75*/ 
-/*LN-76*/         emit WithdrawalProcessed(_withdrawalId, _user, _token, _amount);
-/*LN-77*/     }
-/*LN-78*/ 
-/*LN-79*/     function _verifySignatures(
-/*LN-80*/         uint256 _withdrawalId,
-/*LN-81*/         address _user,
-/*LN-82*/         address _token,
-/*LN-83*/         uint256 _amount,
-/*LN-84*/         bytes memory _signatures
-/*LN-85*/     ) internal view returns (bool) {
-/*LN-86*/         require(_signatures.length % 65 == 0, "Invalid signature length");
-/*LN-87*/ 
-/*LN-88*/         uint256 signatureCount = _signatures.length / 65;
-/*LN-89*/         require(signatureCount >= requiredSignatures, "Not enough signatures");
-/*LN-90*/ 
-/*LN-91*/         // Reconstruct the message hash
-/*LN-92*/         bytes32 messageHash = keccak256(
-/*LN-93*/             abi.encodePacked(_withdrawalId, _user, _token, _amount)
-/*LN-94*/         );
-/*LN-95*/         bytes32 ethSignedMessageHash = keccak256(
-/*LN-96*/             abi.encodePacked("\x19Ethereum Signed Message:\n32", messageHash)
-/*LN-97*/         );
-/*LN-98*/ 
-/*LN-99*/         address[] memory signers = new address[](signatureCount);
-/*LN-100*/ 
-/*LN-101*/         // Extract and verify each signature
-/*LN-102*/         for (uint256 i = 0; i < signatureCount; i++) {
-/*LN-103*/             bytes memory signature = _extractSignature(_signatures, i);
-/*LN-104*/             address signer = _recoverSigner(ethSignedMessageHash, signature);
-/*LN-105*/ 
-/*LN-106*/             // Check if signer is a validator
-/*LN-107*/             require(isValidator[signer], "Invalid signer");
-/*LN-108*/ 
-/*LN-109*/             // Check for duplicate signers
-/*LN-110*/             for (uint256 j = 0; j < i; j++) {
-/*LN-111*/                 require(signers[j] != signer, "Duplicate signer");
-/*LN-112*/             }
-/*LN-113*/ 
-/*LN-114*/             signers[i] = signer;
-/*LN-115*/         }
-/*LN-116*/ 
-/*LN-117*/         // All checks passed
-/*LN-118*/         return true;
-/*LN-119*/     }
-/*LN-120*/ 
-/*LN-121*/     /**
-/*LN-122*/      * @notice Extract a single signature from concatenated signatures
-/*LN-123*/      */
-/*LN-124*/     function _extractSignature(
-/*LN-125*/         bytes memory _signatures,
-/*LN-126*/         uint256 _index
-/*LN-127*/     ) internal pure returns (bytes memory) {
-/*LN-128*/         bytes memory signature = new bytes(65);
-/*LN-129*/         uint256 offset = _index * 65;
-/*LN-130*/ 
-/*LN-131*/         for (uint256 i = 0; i < 65; i++) {
-/*LN-132*/             signature[i] = _signatures[offset + i];
-/*LN-133*/         }
-/*LN-134*/ 
-/*LN-135*/         return signature;
-/*LN-136*/     }
-/*LN-137*/ 
-/*LN-138*/     /**
-/*LN-139*/      * @notice Recover signer from signature
-/*LN-140*/      */
-/*LN-141*/     function _recoverSigner(
-/*LN-142*/         bytes32 _hash,
-/*LN-143*/         bytes memory _signature
-/*LN-144*/     ) internal pure returns (address) {
-/*LN-145*/         require(_signature.length == 65, "Invalid signature length");
-/*LN-146*/ 
-/*LN-147*/         bytes32 r;
-/*LN-148*/         bytes32 s;
-/*LN-149*/         uint8 v;
-/*LN-150*/ 
-/*LN-151*/         assembly {
-/*LN-152*/             r := mload(add(_signature, 32))
-/*LN-153*/             s := mload(add(_signature, 64))
-/*LN-154*/             v := byte(0, mload(add(_signature, 96)))
-/*LN-155*/         }
-/*LN-156*/ 
-/*LN-157*/         if (v < 27) {
-/*LN-158*/             v += 27;
-/*LN-159*/         }
-/*LN-160*/ 
-/*LN-161*/         require(v == 27 || v == 28, "Invalid signature v value");
-/*LN-162*/ 
-/*LN-163*/         return ecrecover(_hash, v, r, s);
-/*LN-164*/     }
-/*LN-165*/ 
-/*LN-166*/     /**
-/*LN-167*/      * @notice Add supported token (admin function)
-/*LN-168*/      */
-/*LN-169*/     function addSupportedToken(address _token) external {
-/*LN-170*/         supportedTokens[_token] = true;
-/*LN-171*/     }
-/*LN-172*/ }
-/*LN-173*/ 
-/*LN-174*/ 
+/*LN-57*/         require(
+/*LN-58*/             _verifySignatures(
+/*LN-59*/                 _withdrawalId,
+/*LN-60*/                 _user,
+/*LN-61*/                 _token,
+/*LN-62*/                 _amount,
+/*LN-63*/                 _signatures
+/*LN-64*/             ),
+/*LN-65*/             "Invalid signatures"
+/*LN-66*/         );
+/*LN-67*/ 
+/*LN-68*/         // Mark as processed
+/*LN-69*/         processedWithdrawals[_withdrawalId] = true;
+/*LN-70*/ 
+/*LN-71*/         // Transfer tokens
+/*LN-72*/         // In reality, this would transfer from bridge reserves
+/*LN-73*/         // IERC20(_token).transfer(_user, _amount);
+/*LN-74*/ 
+/*LN-75*/         emit WithdrawalProcessed(_withdrawalId, _user, _token, _amount);
+/*LN-76*/     }
+/*LN-77*/ 
+/*LN-78*/     function _verifySignatures(
+/*LN-79*/         uint256 _withdrawalId,
+/*LN-80*/         address _user,
+/*LN-81*/         address _token,
+/*LN-82*/         uint256 _amount,
+/*LN-83*/         bytes memory _signatures
+/*LN-84*/     ) internal view returns (bool) {
+/*LN-85*/         require(_signatures.length % 65 == 0, "Invalid signature length");
+/*LN-86*/ 
+/*LN-87*/         uint256 signatureCount = _signatures.length / 65;
+/*LN-88*/         require(signatureCount >= requiredSignatures, "Not enough signatures");
+/*LN-89*/ 
+/*LN-90*/         // Reconstruct the message hash
+/*LN-91*/         bytes32 messageHash = keccak256(
+/*LN-92*/             abi.encodePacked(_withdrawalId, _user, _token, _amount)
+/*LN-93*/         );
+/*LN-94*/         bytes32 ethSignedMessageHash = keccak256(
+/*LN-95*/             abi.encodePacked("\x19Ethereum Signed Message:\n32", messageHash)
+/*LN-96*/         );
+/*LN-97*/ 
+/*LN-98*/         address[] memory signers = new address[](signatureCount);
+/*LN-99*/ 
+/*LN-100*/         // Extract and verify each signature
+/*LN-101*/         for (uint256 i = 0; i < signatureCount; i++) {
+/*LN-102*/             bytes memory signature = _extractSignature(_signatures, i);
+/*LN-103*/             address signer = _recoverSigner(ethSignedMessageHash, signature);
+/*LN-104*/ 
+/*LN-105*/             // Check if signer is a validator
+/*LN-106*/             require(isValidator[signer], "Invalid signer");
+/*LN-107*/ 
+/*LN-108*/             // Check for duplicate signers
+/*LN-109*/             for (uint256 j = 0; j < i; j++) {
+/*LN-110*/                 require(signers[j] != signer, "Duplicate signer");
+/*LN-111*/             }
+/*LN-112*/ 
+/*LN-113*/             signers[i] = signer;
+/*LN-114*/         }
+/*LN-115*/ 
+/*LN-116*/         // All checks passed
+/*LN-117*/         return true;
+/*LN-118*/     }
+/*LN-119*/ 
+/*LN-120*/     /**
+/*LN-121*/      * @notice Extract a single signature from concatenated signatures
+/*LN-122*/      */
+/*LN-123*/     function _extractSignature(
+/*LN-124*/         bytes memory _signatures,
+/*LN-125*/         uint256 _index
+/*LN-126*/     ) internal pure returns (bytes memory) {
+/*LN-127*/         bytes memory signature = new bytes(65);
+/*LN-128*/         uint256 offset = _index * 65;
+/*LN-129*/ 
+/*LN-130*/         for (uint256 i = 0; i < 65; i++) {
+/*LN-131*/             signature[i] = _signatures[offset + i];
+/*LN-132*/         }
+/*LN-133*/ 
+/*LN-134*/         return signature;
+/*LN-135*/     }
+/*LN-136*/ 
+/*LN-137*/     /**
+/*LN-138*/      * @notice Recover signer from signature
+/*LN-139*/      */
+/*LN-140*/     function _recoverSigner(
+/*LN-141*/         bytes32 _hash,
+/*LN-142*/         bytes memory _signature
+/*LN-143*/     ) internal pure returns (address) {
+/*LN-144*/         require(_signature.length == 65, "Invalid signature length");
+/*LN-145*/ 
+/*LN-146*/         bytes32 r;
+/*LN-147*/         bytes32 s;
+/*LN-148*/         uint8 v;
+/*LN-149*/ 
+/*LN-150*/         assembly {
+/*LN-151*/             r := mload(add(_signature, 32))
+/*LN-152*/             s := mload(add(_signature, 64))
+/*LN-153*/             v := byte(0, mload(add(_signature, 96)))
+/*LN-154*/         }
+/*LN-155*/ 
+/*LN-156*/         if (v < 27) {
+/*LN-157*/             v += 27;
+/*LN-158*/         }
+/*LN-159*/ 
+/*LN-160*/         require(v == 27 || v == 28, "Invalid signature v value");
+/*LN-161*/ 
+/*LN-162*/         return ecrecover(_hash, v, r, s);
+/*LN-163*/     }
+/*LN-164*/ 
+/*LN-165*/     /**
+/*LN-166*/      * @notice Add supported token (admin function)
+/*LN-167*/      */
+/*LN-168*/     function addSupportedToken(address _token) external {
+/*LN-169*/         supportedTokens[_token] = true;
+/*LN-170*/     }
+/*LN-171*/ }
+/*LN-172*/ 

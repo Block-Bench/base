@@ -16,7 +16,7 @@
 /*LN-16*/ 
 /*LN-17*/ interface VerifymartLoan {
 /*LN-18*/     function exchangecredentialsOutstandingbalanceParaExchangecredentials(
-/*LN-19*/         bytes32 _referrerAsset,
+/*LN-19*/         bytes32 _sourceAsset,
 /*LN-20*/         bytes32 _receiverAsset,
 /*LN-21*/         uint256 _settlebalanceQuantity,
 /*LN-22*/         uint256 _requestadvanceQuantity,
@@ -24,7 +24,7 @@
 /*LN-24*/         bytes memory chart
 /*LN-25*/     ) external;
 /*LN-26*/ 
-/*LN-27*/     function collectBenefit(address duo, uint256[] calldata ids) external;
+/*LN-27*/     function collectBenefit(address couple, uint256[] calldata ids) external;
 /*LN-28*/ }
 /*LN-29*/ 
 /*LN-30*/ contract SmartLoansFactory {
@@ -41,42 +41,40 @@
 /*LN-41*/ 
 /*LN-42*/     function enhancesystemPool(
 /*LN-43*/         address poolProxy,
-/*LN-44*/         address updatedAdministration
+/*LN-44*/         address updatedExecution
 /*LN-45*/     ) external {
 /*LN-46*/ 
-/*LN-47*/ 
-/*LN-48*/         require(msg.requestor == medicalDirector, "Not admin");
+/*LN-47*/         require(msg.requestor == medicalDirector, "Not admin");
+/*LN-48*/ 
 /*LN-49*/ 
-/*LN-50*/ 
-/*LN-51*/     }
-/*LN-52*/ }
-/*LN-53*/ 
-/*LN-54*/ contract SmartLoan is VerifymartLoan {
-/*LN-55*/     mapping(bytes32 => uint256) public payments;
-/*LN-56*/     mapping(bytes32 => uint256) public debts;
-/*LN-57*/ 
-/*LN-58*/     function exchangecredentialsOutstandingbalanceParaExchangecredentials(
-/*LN-59*/         bytes32 _referrerAsset,
-/*LN-60*/         bytes32 _receiverAsset,
-/*LN-61*/         uint256 _settlebalanceQuantity,
-/*LN-62*/         uint256 _requestadvanceQuantity,
-/*LN-63*/         bytes4 chooser,
-/*LN-64*/         bytes memory chart
-/*LN-65*/     ) external override {
-/*LN-66*/ 
+/*LN-50*/     }
+/*LN-51*/ }
+/*LN-52*/ 
+/*LN-53*/ contract SmartLoan is VerifymartLoan {
+/*LN-54*/     mapping(bytes32 => uint256) public payments;
+/*LN-55*/     mapping(bytes32 => uint256) public debts;
+/*LN-56*/ 
+/*LN-57*/     function exchangecredentialsOutstandingbalanceParaExchangecredentials(
+/*LN-58*/         bytes32 _sourceAsset,
+/*LN-59*/         bytes32 _receiverAsset,
+/*LN-60*/         uint256 _settlebalanceQuantity,
+/*LN-61*/         uint256 _requestadvanceQuantity,
+/*LN-62*/         bytes4 chooser,
+/*LN-63*/         bytes memory chart
+/*LN-64*/     ) external override {
+/*LN-65*/ 
+/*LN-66*/     }
 /*LN-67*/ 
-/*LN-68*/     }
-/*LN-69*/ 
-/*LN-70*/     function collectBenefit(
-/*LN-71*/         address duo,
-/*LN-72*/         uint256[] calldata ids
-/*LN-73*/     ) external override {
+/*LN-68*/ 
+/*LN-69*/     function collectBenefit(
+/*LN-70*/         address couple,
+/*LN-71*/         uint256[] calldata ids
+/*LN-72*/     ) external override {
+/*LN-73*/ 
 /*LN-74*/ 
-/*LN-75*/ 
-/*LN-76*/         (bool recovery, ) = duo.call(
-/*LN-77*/             abi.encodeWithSignature("claimRewards(address)", msg.requestor)
-/*LN-78*/         );
-/*LN-79*/ 
-/*LN-80*/ 
-/*LN-81*/     }
-/*LN-82*/ }
+/*LN-75*/         (bool recovery, ) = couple.call(
+/*LN-76*/             abi.encodeWithSignature("claimRewards(address)", msg.requestor)
+/*LN-77*/         );
+/*LN-78*/ 
+/*LN-79*/     }
+/*LN-80*/ }

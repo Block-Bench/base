@@ -26,69 +26,69 @@
 /*LN-26*/         tokenList.push(token);
 /*LN-27*/     }
 /*LN-28*/ 
-/*LN-29*/     function swap(
-/*LN-30*/         address tokenIn,
-/*LN-31*/         address tokenOut,
-/*LN-32*/         uint256 amountIn
-/*LN-33*/     ) external returns (uint256 amountOut) {
-/*LN-34*/         require(tokens[tokenIn].addr != address(0), "Invalid token");
-/*LN-35*/         require(tokens[tokenOut].addr != address(0), "Invalid token");
-/*LN-36*/ 
+/*LN-29*/ 
+/*LN-30*/     function swap(
+/*LN-31*/         address tokenIn,
+/*LN-32*/         address tokenOut,
+/*LN-33*/         uint256 amountIn
+/*LN-34*/     ) external returns (uint256 amountOut) {
+/*LN-35*/         require(tokens[tokenIn].addr != address(0), "Invalid token");
+/*LN-36*/         require(tokens[tokenOut].addr != address(0), "Invalid token");
 /*LN-37*/ 
-/*LN-38*/         IERC20(tokenIn).transfer(address(this), amountIn);
-/*LN-39*/         tokens[tokenIn].balance += amountIn;
-/*LN-40*/ 
+/*LN-38*/ 
+/*LN-39*/         IERC20(tokenIn).transfer(address(this), amountIn);
+/*LN-40*/         tokens[tokenIn].balance += amountIn;
 /*LN-41*/ 
-/*LN-42*/         amountOut = calculateSwapAmount(tokenIn, tokenOut, amountIn);
-/*LN-43*/ 
+/*LN-42*/ 
+/*LN-43*/         amountOut = calculateSwapAmount(tokenIn, tokenOut, amountIn);
 /*LN-44*/ 
-/*LN-45*/         require(
-/*LN-46*/             tokens[tokenOut].balance >= amountOut,
-/*LN-47*/             "Insufficient liquidity"
-/*LN-48*/         );
-/*LN-49*/         tokens[tokenOut].balance -= amountOut;
-/*LN-50*/         IERC20(tokenOut).transfer(msg.sender, amountOut);
-/*LN-51*/ 
-/*LN-52*/         _updateWeights();
-/*LN-53*/ 
-/*LN-54*/         return amountOut;
-/*LN-55*/     }
-/*LN-56*/ 
+/*LN-45*/ 
+/*LN-46*/         require(
+/*LN-47*/             tokens[tokenOut].balance >= amountOut,
+/*LN-48*/             "Insufficient liquidity"
+/*LN-49*/         );
+/*LN-50*/         tokens[tokenOut].balance -= amountOut;
+/*LN-51*/         IERC20(tokenOut).transfer(msg.sender, amountOut);
+/*LN-52*/ 
+/*LN-53*/         _updateWeights();
+/*LN-54*/ 
+/*LN-55*/         return amountOut;
+/*LN-56*/     }
 /*LN-57*/ 
-/*LN-58*/     function calculateSwapAmount(
-/*LN-59*/         address tokenIn,
-/*LN-60*/         address tokenOut,
-/*LN-61*/         uint256 amountIn
-/*LN-62*/     ) public view returns (uint256) {
-/*LN-63*/         uint256 weightIn = tokens[tokenIn].weight;
-/*LN-64*/         uint256 weightOut = tokens[tokenOut].weight;
-/*LN-65*/         uint256 balanceOut = tokens[tokenOut].balance;
-/*LN-66*/ 
+/*LN-58*/ 
+/*LN-59*/     function calculateSwapAmount(
+/*LN-60*/         address tokenIn,
+/*LN-61*/         address tokenOut,
+/*LN-62*/         uint256 amountIn
+/*LN-63*/     ) public view returns (uint256) {
+/*LN-64*/         uint256 weightIn = tokens[tokenIn].weight;
+/*LN-65*/         uint256 weightOut = tokens[tokenOut].weight;
+/*LN-66*/         uint256 balanceOut = tokens[tokenOut].balance;
 /*LN-67*/ 
-/*LN-68*/         uint256 numerator = balanceOut * amountIn * weightOut;
-/*LN-69*/         uint256 denominator = tokens[tokenIn].balance *
-/*LN-70*/             weightIn +
-/*LN-71*/             amountIn *
-/*LN-72*/             weightOut;
-/*LN-73*/ 
-/*LN-74*/         return numerator / denominator;
-/*LN-75*/     }
-/*LN-76*/ 
-/*LN-77*/     function _updateWeights() internal {
-/*LN-78*/         uint256 totalValue = 0;
-/*LN-79*/ 
+/*LN-68*/ 
+/*LN-69*/         uint256 numerator = balanceOut * amountIn * weightOut;
+/*LN-70*/         uint256 denominator = tokens[tokenIn].balance *
+/*LN-71*/             weightIn +
+/*LN-72*/             amountIn *
+/*LN-73*/             weightOut;
+/*LN-74*/ 
+/*LN-75*/         return numerator / denominator;
+/*LN-76*/     }
+/*LN-77*/ 
+/*LN-78*/     function _updateWeights() internal {
+/*LN-79*/         uint256 totalValue = 0;
 /*LN-80*/ 
-/*LN-81*/         for (uint256 i = 0; i < tokenList.length; i++) {
-/*LN-82*/             address token = tokenList[i];
-/*LN-83*/ 
+/*LN-81*/ 
+/*LN-82*/         for (uint256 i = 0; i < tokenList.length; i++) {
+/*LN-83*/             address token = tokenList[i];
 /*LN-84*/ 
-/*LN-85*/             totalValue += tokens[token].balance;
-/*LN-86*/         }
-/*LN-87*/ 
+/*LN-85*/ 
+/*LN-86*/             totalValue += tokens[token].balance;
+/*LN-87*/         }
 /*LN-88*/ 
-/*LN-89*/         for (uint256 i = 0; i < tokenList.length; i++) {
-/*LN-90*/             address token = tokenList[i];
-/*LN-91*/ 
+/*LN-89*/ 
+/*LN-90*/         for (uint256 i = 0; i < tokenList.length; i++) {
+/*LN-91*/             address token = tokenList[i];
 /*LN-92*/ 
 /*LN-93*/             tokens[token].weight = (tokens[token].balance * 100) / totalValue;
 /*LN-94*/         }

@@ -12,6 +12,6 @@
   "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized",
   "source_contracts": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/contracts",
   "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata",
-  "total_comments_removed": 523,
-  "created_date": "2025-12-29T23:10:21.419298"
+  "total_comments_removed": 457,
+  "created_date": "2025-12-31T20:00:38.865424"
 }

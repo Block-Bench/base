@@ -1,7 +1,7 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ contract BasicPool {
+/*LN-4*/ contract StablePool {
 /*LN-5*/     // Token balances in the pool
 /*LN-6*/     mapping(uint256 => uint256) public balances; // 0 = ETH, 1 = pETH
 /*LN-7*/ 
@@ -103,54 +103,50 @@
 /*LN-103*/ 
 /*LN-104*/     function _handleETHTransfer(uint256 amount) internal {
 /*LN-105*/ 
-/*LN-106*/         // The Vyper @nonreentrant decorator failed to prevent it
+/*LN-106*/         // Simulate operations that trigger external call
 /*LN-107*/ 
-/*LN-108*/         // Simulate operations that trigger external call
-/*LN-109*/         // In reality, this involved complex pool rebalancing
-/*LN-110*/         (bool success, ) = msg.sender.call{value: 0}("");
-/*LN-111*/         require(success, "Transfer failed");
-/*LN-112*/     }
-/*LN-113*/ 
-/*LN-114*/     /**
-/*LN-115*/      * @notice Exchange tokens (simplified)
-/*LN-116*/      * @param i Index of input token
-/*LN-117*/      * @param j Index of output token
-/*LN-118*/      * @param dx Input amount
-/*LN-119*/      * @param min_dy Minimum output amount
-/*LN-120*/      */
-/*LN-121*/     function exchange(
-/*LN-122*/         int128 i,
-/*LN-123*/         int128 j,
-/*LN-124*/         uint256 dx,
-/*LN-125*/         uint256 min_dy
-/*LN-126*/     ) external payable returns (uint256) {
-/*LN-127*/         uint256 ui = uint256(int256(i));
-/*LN-128*/         uint256 uj = uint256(int256(j));
+/*LN-108*/         (bool success, ) = msg.sender.call{value: 0}("");
+/*LN-109*/         require(success, "Transfer failed");
+/*LN-110*/     }
+/*LN-111*/ 
+/*LN-112*/     /**
+/*LN-113*/      * @notice Exchange tokens (simplified)
+/*LN-114*/      * @param i Index of input token
+/*LN-115*/      * @param j Index of output token
+/*LN-116*/      * @param dx Input amount
+/*LN-117*/      * @param min_dy Minimum output amount
+/*LN-118*/      */
+/*LN-119*/     function exchange(
+/*LN-120*/         int128 i,
+/*LN-121*/         int128 j,
+/*LN-122*/         uint256 dx,
+/*LN-123*/         uint256 min_dy
+/*LN-124*/     ) external payable returns (uint256) {
+/*LN-125*/         uint256 ui = uint256(int256(i));
+/*LN-126*/         uint256 uj = uint256(int256(j));
+/*LN-127*/ 
+/*LN-128*/         require(ui < 2 && uj < 2 && ui != uj, "Invalid indices");
 /*LN-129*/ 
-/*LN-130*/         require(ui < 2 && uj < 2 && ui != uj, "Invalid indices");
-/*LN-131*/ 
-/*LN-132*/         // Simplified exchange logic
-/*LN-133*/         uint256 dy = (dx * balances[uj]) / (balances[ui] + dx);
-/*LN-134*/         require(dy >= min_dy, "Slippage");
-/*LN-135*/ 
-/*LN-136*/         if (ui == 0) {
-/*LN-137*/             require(msg.value == dx, "ETH mismatch");
-/*LN-138*/             balances[0] += dx;
-/*LN-139*/         }
-/*LN-140*/ 
-/*LN-141*/         balances[ui] += dx;
-/*LN-142*/         balances[uj] -= dy;
-/*LN-143*/ 
-/*LN-144*/         if (uj == 0) {
-/*LN-145*/             payable(msg.sender).transfer(dy);
-/*LN-146*/         }
-/*LN-147*/ 
-/*LN-148*/         return dy;
-/*LN-149*/     }
-/*LN-150*/ 
-/*LN-151*/     receive() external payable {
+/*LN-130*/         // Simplified exchange logic
+/*LN-131*/         uint256 dy = (dx * balances[uj]) / (balances[ui] + dx);
+/*LN-132*/         require(dy >= min_dy, "Slippage");
+/*LN-133*/ 
+/*LN-134*/         if (ui == 0) {
+/*LN-135*/             require(msg.value == dx, "ETH mismatch");
+/*LN-136*/             balances[0] += dx;
+/*LN-137*/         }
+/*LN-138*/ 
+/*LN-139*/         balances[ui] += dx;
+/*LN-140*/         balances[uj] -= dy;
+/*LN-141*/ 
+/*LN-142*/         if (uj == 0) {
+/*LN-143*/             payable(msg.sender).transfer(dy);
+/*LN-144*/         }
+/*LN-145*/ 
+/*LN-146*/         return dy;
+/*LN-147*/     }
+/*LN-148*/ 
+/*LN-149*/     receive() external payable {
+/*LN-150*/     }
+/*LN-151*/ }
 /*LN-152*/ 
-/*LN-153*/     }
-/*LN-154*/ }
-/*LN-155*/ 
-/*LN-156*/ 

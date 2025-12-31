@@ -19,7 +19,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-05",
   "description": "Sonne Finance, a Compound V2 fork on Optimism, lost $20M through a donation attack on a low-liquidity market. The attacker deposited minimal tokens, donated large amounts directly to inflate the exchange rate, then used the inflated collateral value to borrow assets far exceeding actual collateral.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    44,
+    49
+  ],
   "vulnerability_details": {
     "root_cause": "Exchange rate calculation vulnerable when totalSupply is very small, allowing donation to manipulate underlying/supply ratio",
     "attack_vector": "Mint minimal cTokens, donate underlying to contract, exchange rate inflates, use as over-valued collateral",
@@ -81,5 +84,7 @@
     ],
     "contract_renames": {},
     "created_date": "2025-12-29T22:32:44.566340"
-  }
+  },
+  "vulnerable_contract": "SonneMarket",
+  "vulnerable_function": "exchangeRate"
 }

@@ -19,7 +19,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "PlayDapp's PLA token suffered a $290M exploit when attackers compromised a private key with minting privileges. They minted 1.79 billion tokens without restrictions, causing a 90% price collapse. The attack was repeated on the migration contract, demonstrating persistent access control vulnerabilities.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    42
+  ],
   "vulnerability_details": {
     "root_cause": "Single private key controlled unlimited minting function without supply cap or multi-sig",
     "attack_vector": "Compromise minter key, call mint() repeatedly to create billions of tokens, dump on DEXes",
@@ -81,12 +83,12 @@
     ],
     "rename_map": {
       "amount": "quantity",
-      "account": "profile",
+      "account": "chart",
       "GameToken": "GameCredential",
       "PlayDapp": "ParticipateDapp",
       "Token": "Credential",
-      "minter": "issuer",
-      "from": "referrer",
+      "minter": "creator",
+      "from": "source",
       "value": "measurement",
       "Approval": "AccessAuthorized",
       "spender": "serviceProvider",
@@ -94,12 +96,15 @@
       "onlyMinter": "onlyCredentialIssuer",
       "mint": "issueCredential",
       "Mint": "IssueCredential",
-      "setMinter": "groupIssuer",
-      "newMinter": "updatedCreator"
+      "setMinter": "collectionCreator",
+      "newMinter": "currentCreator"
     },
     "coverage_percent": 25.81,
     "identifiers_transformed": 16,
     "identifiers_total": 62,
-    "created_date": "2025-12-29T23:26:42.513173"
-  }
+    "created_date": "2025-12-31T19:50:53.823181"
+  },
+  "vulnerable_contract": "GameCredential",
+  "vulnerable_function": "issueCredential",
+  "sanitized_from": "ms_tc_047"
 }

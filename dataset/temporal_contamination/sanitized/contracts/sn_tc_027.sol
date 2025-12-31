@@ -23,24 +23,21 @@
 /*LN-23*/         for (uint i = 0; i < path.length - 1; i++) {
 /*LN-24*/             address pair = _getPair(path[i], path[i+1]);
 /*LN-25*/ 
-/*LN-26*/             // No check if pair is from official factory
-/*LN-27*/             (uint112 reserve0, uint112 reserve1,) = IPair(pair).getReserves();
-/*LN-28*/ 
-/*LN-29*/             amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);
-/*LN-30*/         }
-/*LN-31*/ 
-/*LN-32*/         return amounts;
-/*LN-33*/     }
-/*LN-34*/ 
-/*LN-35*/     function _getPair(address tokenA, address tokenB) internal pure returns (address) {
-/*LN-36*/         // Simplified - should check factory
-/*LN-37*/ 
-/*LN-38*/         return address(uint160(uint256(keccak256(abi.encodePacked(tokenA, tokenB)))));
-/*LN-39*/     }
-/*LN-40*/ 
-/*LN-41*/     function _getAmountOut(uint256 amountIn, uint112 reserveIn, uint112 reserveOut) internal pure returns (uint256) {
-/*LN-42*/         return (amountIn * uint256(reserveOut)) / uint256(reserveIn);
-/*LN-43*/     }
-/*LN-44*/ }
-/*LN-45*/ 
-/*LN-46*/ 
+/*LN-26*/             (uint112 reserve0, uint112 reserve1,) = IPair(pair).getReserves();
+/*LN-27*/ 
+/*LN-28*/             amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);
+/*LN-29*/         }
+/*LN-30*/ 
+/*LN-31*/         return amounts;
+/*LN-32*/     }
+/*LN-33*/ 
+/*LN-34*/     function _getPair(address tokenA, address tokenB) internal pure returns (address) {
+/*LN-35*/         // Simplified - should check factory
+/*LN-36*/         return address(uint160(uint256(keccak256(abi.encodePacked(tokenA, tokenB)))));
+/*LN-37*/     }
+/*LN-38*/ 
+/*LN-39*/     function _getAmountOut(uint256 amountIn, uint112 reserveIn, uint112 reserveOut) internal pure returns (uint256) {
+/*LN-40*/         return (amountIn * uint256(reserveOut)) / uint256(reserveIn);
+/*LN-41*/     }
+/*LN-42*/ }
+/*LN-43*/ 

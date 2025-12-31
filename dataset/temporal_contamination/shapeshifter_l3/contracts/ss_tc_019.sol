@@ -5,7 +5,7 @@
 /*LN-5*/         address _0xd6cb4d,
 /*LN-6*/         uint256 _0x65ce0c
 /*LN-7*/     ) external returns (bool);
-/*LN-8*/     function _0x0f4194(address _0x6ff151) external view returns (uint256);
+/*LN-8*/     function _0x0f4194(address _0x0d961f) external view returns (uint256);
 /*LN-9*/ }
 /*LN-10*/ contract QuantumBridge {
 /*LN-11*/     address public _0x771f54;
@@ -18,20 +18,20 @@
 /*LN-18*/     constructor(address _0x2ff8d2) {
 /*LN-19*/         _0x771f54 = _0x2ff8d2;
 /*LN-20*/     }
-/*LN-21*/     function _0x0d961f(
+/*LN-21*/     function _0x6ff151(
 /*LN-22*/         uint8 _0x0cce35,
 /*LN-23*/         bytes32 _0xd80623,
 /*LN-24*/         bytes calldata data
 /*LN-25*/     ) external payable {
 /*LN-26*/         _0x347a3f += 1;
-/*LN-27*/         BridgeHandler(_0x771f54)._0x0d961f(_0xd80623, msg.sender, data);
+/*LN-27*/         BridgeHandler(_0x771f54)._0x6ff151(_0xd80623, msg.sender, data);
 /*LN-28*/         emit Deposit(_0x0cce35, _0xd80623, _0x347a3f);
 /*LN-29*/     }
 /*LN-30*/ }
 /*LN-31*/ contract BridgeHandler {
 /*LN-32*/     mapping(bytes32 => address) public _0x390062;
 /*LN-33*/     mapping(address => bool) public _0x8cd0a4;
-/*LN-34*/     function _0x0d961f(
+/*LN-34*/     function _0x6ff151(
 /*LN-35*/         bytes32 _0xd80623,
 /*LN-36*/         address _0x1045d1,
 /*LN-37*/         bytes calldata data

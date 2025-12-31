@@ -18,7 +18,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "FixedFloat, a crypto exchange, lost $26M when attackers compromised the private key controlling hot wallet withdrawals. The single-key architecture with no multi-sig or timelock allowed immediate drainage of Bitcoin and Ethereum holdings.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    34
+  ],
   "vulnerability_details": {
     "root_cause": "Single private key controlled withdrawal function without multi-signature or timelock protection",
     "attack_vector": "Compromise admin key via phishing/malware, call withdraw() to drain hot wallets",
@@ -67,33 +69,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_046",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_046.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_046.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_046.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_046.json",
+    "original_id": "tc_046",
+    "minimalsanitized_id": "ms_tc_046",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: FIXEDFLOAT...",
-      "Removed comment: FixedFloat...",
-      "Removed comment: FixedFloat...",
-      "Removed comment: FixedFloat...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: FloatHotWallet \u2192 FloatHotWallet"
     ],
     "contract_renames": {
       "FloatHotWallet": "FloatHotWallet"
     },
-    "created_date": "2025-12-29T22:32:45.487175"
-  }
+    "created_date": "2025-12-31T20:00:32.333545"
+  },
+  "vulnerable_contract": "FloatHotWalletV2",
+  "vulnerable_function": "withdraw",
+  "sanitized_from": "ms_tc_046"
 }

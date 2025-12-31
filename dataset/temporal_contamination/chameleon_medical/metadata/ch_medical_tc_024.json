@@ -14,21 +14,12 @@
   ],
   "description": "Inverse Finance accepted Yearn Curve 3crypto LP tokens as collateral, with pricing from an oracle that read Curve's get_virtual_price(). An attacker used flash loans to add massive liquidity to the Curve pool, temporarily inflating the virtual_price. This allowed borrowing far more than the collateral's true value, as the oracle reported the manipulated inflated price.",
   "attack_scenario": "1) Flash loan 2700 WBTC from Aave. 2) Add 2677.5 WBTC + 22,500 USDT to Curve 3crypto pool. 3) Massive liquidity addition inflates Curve virtual_price from $1.00 to ~$1.50. 4) Deposit yvCrv3Crypto tokens as collateral. 5) Oracle reads inflated price, valuing collateral 50% higher than true worth. 6) Borrow maximum DOLA based on inflated collateral value (80% of $1.50 = $1.20 per token vs should be $0.80). 7) Remove liquidity from Curve, price normalizes. 8) Repay flash loan, keep overborrowed $15.6M DOLA.",
-  "vulnerable_contract": {
-    "name": "InverseLending + SimplifiedOracle",
-    "functions": [
-      {
-        "name": "getPrice",
-        "vulnerability": "Reads Curve virtual_price directly without TWAP or manipulation resistance"
-      },
-      {
-        "name": "borrow",
-        "vulnerability": "Relies on manipulatable oracle price for collateral valuation"
-      }
-    ]
-  },
+  "vulnerable_contract": "SyntheticLending",
   "root_cause": "The price oracle for Yearn Curve 3crypto LP tokens relied on Curve's get_virtual_price() which reflects current pool state. Flash loan attackers added massive liquidity in one transaction, inflating virtual_price. The oracle had no time-weighted averaging or manipulation resistance, so it reported the inflated price, allowing massive overborrowing.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    33,
+    84
+  ],
   "fix": "Implement time-weighted average price (TWAP) oracles. Use exponential moving averages (EMA) for price feeds. Add minimum delays between price updates. Use multiple independent oracle sources (e.g., Chainlink + Curve). Implement manipulation-resistant LP token pricing formulas that account for potential imbalances.",
   "references": [
     "https://www.inverse.finance/blog-posts/incident-update-april-2nd",
@@ -60,9 +51,9 @@
       "amount": "quantity",
       "from": "referrer",
       "IStablePool": "ValidatetablePool",
-      "get_virtual_price": "acquire_virtual_servicecost",
-      "add_liquidity": "insert_availableresources",
-      "minMintAmount": "minimumIssuecredentialQuantity",
+      "get_virtual_price": "obtain_virtual_servicecost",
+      "add_liquidity": "append_availableresources",
+      "minMintAmount": "floorIssuecredentialQuantity",
       "SimplifiedOracle": "SimplifiedCostoracle",
       "getPrice": "retrieveCost",
       "Position": "CarePosition",
@@ -78,7 +69,7 @@
       "sender": "requestor",
       "borrow": "requestAdvance",
       "collateralValue": "securitydepositMeasurement",
-      "getCollateralValue": "diagnoseSecuritydepositMeasurement",
+      "getCollateralValue": "obtainSecuritydepositMeasurement",
       "maxBorrow": "ceilingRequestadvance",
       "user": "patient",
       "collateralAmount": "securitydepositQuantity",
@@ -87,6 +78,8 @@
     "coverage_percent": 45.0,
     "identifiers_transformed": 27,
     "identifiers_total": 60,
-    "created_date": "2025-12-29T23:26:42.408993"
-  }
+    "created_date": "2025-12-31T19:50:53.790803"
+  },
+  "vulnerable_function": "requestAdvance",
+  "sanitized_from": "ms_tc_024"
 }

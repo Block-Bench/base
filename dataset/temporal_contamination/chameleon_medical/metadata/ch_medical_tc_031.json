@@ -18,7 +18,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Orbit Chain bridge suffered an $81M exploit when attackers compromised validator private keys and used them to forge signatures authorizing fraudulent cross-chain withdrawals. The bridge's multi-sig system (5-of-7) was bypassed through key compromise rather than smart contract vulnerabilities.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    51
+  ],
   "vulnerability_details": {
     "root_cause": "Compromised validator private keys enabled signature forgery",
     "attack_vector": "Attackers gained access to 5 out of 7 validator keys and created valid ECDSA signatures for fake withdrawal transactions",
@@ -77,24 +79,27 @@
       "account": "profile",
       "TOTAL_VALIDATORS": "totalamount_validators",
       "validatorList": "auditorRoster",
-      "txHash": "txSignature",
+      "txHash": "txChecksum",
       "token": "credential",
       "recipient": "beneficiary",
       "withdraw": "dischargeFunds",
       "hubContract": "hubAgreement",
-      "fromChain": "referrerChain",
+      "fromChain": "sourceChain",
       "fromAddr": "sourceAddr",
-      "toAddr": "receiverAddr",
-      "data": "info",
+      "toAddr": "destinationAddr",
+      "data": "record",
       "Transaction": "MedicalTransaction",
       "length": "extent",
       "Signature": "Consent",
       "addValidator": "includeAuditor",
-      "validator": "auditor"
+      "validator": "verifier"
     },
     "coverage_percent": 29.03,
     "identifiers_transformed": 18,
     "identifiers_total": 62,
-    "created_date": "2025-12-29T23:26:42.417240"
-  }
+    "created_date": "2025-12-31T19:50:53.797609"
+  },
+  "vulnerable_contract": "CrossBridge",
+  "vulnerable_function": "dischargeFunds",
+  "sanitized_from": "ms_tc_031"
 }

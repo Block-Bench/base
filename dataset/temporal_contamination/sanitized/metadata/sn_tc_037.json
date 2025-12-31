@@ -19,7 +19,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-06",
   "description": "UwU Lend, an Aave V2 fork, was exploited for $19.3M through oracle price manipulation. Attackers used massive flashloans to drain liquidity from Curve pools containing sUSDE, causing the oracle to report inflated prices. They then deposited sUSDE as collateral at the manipulated price and borrowed maximum assets against it.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    97,
+    148
+  ],
   "vulnerability_details": {
     "root_cause": "Oracle reliance on manipulable Curve pool spot prices without TWAP or external validation",
     "attack_vector": "Drain Curve pool liquidity to manipulate sUSDE price, deposit at inflated value, borrow maximum assets",
@@ -74,32 +77,15 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_037",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_037.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_037.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_037.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_037.json",
+    "original_id": "tc_037",
+    "minimalsanitized_id": "ms_tc_037",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
       "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: UWU...",
-      "Removed comment: UwU...",
-      "Removed comment: UwU...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker can drain pool to manipulate price...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: CurveOracle \u2192 PoolOracle",
       "Renamed: UwuLendingPool \u2192 LendingPool",
       "Renamed: ICurvePool \u2192 IStablePool",
@@ -111,6 +97,9 @@
       "ICurvePool": "IStablePool",
       "curvePool": "stablePool"
     },
-    "created_date": "2025-12-29T22:32:45.332861"
-  }
+    "created_date": "2025-12-31T20:00:32.262477"
+  },
+  "vulnerable_contract": "LendingPool",
+  "vulnerable_function": "deposit",
+  "sanitized_from": "ms_tc_037"
 }

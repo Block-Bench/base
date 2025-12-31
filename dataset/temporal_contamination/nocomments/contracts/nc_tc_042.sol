@@ -61,27 +61,25 @@
 /*LN-61*/ 
 /*LN-62*/         if (donation.amount > 0 && donation.tokenLocker != address(0)) {
 /*LN-63*/ 
-/*LN-64*/ 
-/*LN-65*/             (bool success, ) = donation.tokenLocker.call(
-/*LN-66*/                 abi.encodeWithSignature(
-/*LN-67*/                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
-/*LN-68*/                     campaign.token,
-/*LN-69*/                     donation.amount,
-/*LN-70*/                     donation.start,
-/*LN-71*/                     donation.cliff,
-/*LN-72*/                     donation.rate,
-/*LN-73*/                     donation.period
-/*LN-74*/                 )
-/*LN-75*/             );
-/*LN-76*/ 
-/*LN-77*/ 
-/*LN-78*/             require(success, "Token lock failed");
-/*LN-79*/         }
-/*LN-80*/     }
-/*LN-81*/ 
-/*LN-82*/ 
-/*LN-83*/     function cancelCampaign(bytes16 campaignId) external {
-/*LN-84*/         require(campaigns[campaignId].manager == msg.sender, "Not manager");
-/*LN-85*/         delete campaigns[campaignId];
-/*LN-86*/     }
-/*LN-87*/ }
+/*LN-64*/             (bool success, ) = donation.tokenLocker.call(
+/*LN-65*/                 abi.encodeWithSignature(
+/*LN-66*/                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
+/*LN-67*/                     campaign.token,
+/*LN-68*/                     donation.amount,
+/*LN-69*/                     donation.start,
+/*LN-70*/                     donation.cliff,
+/*LN-71*/                     donation.rate,
+/*LN-72*/                     donation.period
+/*LN-73*/                 )
+/*LN-74*/             );
+/*LN-75*/ 
+/*LN-76*/             require(success, "Token lock failed");
+/*LN-77*/         }
+/*LN-78*/     }
+/*LN-79*/ 
+/*LN-80*/ 
+/*LN-81*/     function cancelCampaign(bytes16 campaignId) external {
+/*LN-82*/         require(campaigns[campaignId].manager == msg.sender, "Not manager");
+/*LN-83*/         delete campaigns[campaignId];
+/*LN-84*/     }
+/*LN-85*/ }

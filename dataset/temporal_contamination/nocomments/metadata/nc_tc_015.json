@@ -12,9 +12,11 @@
   "description": "Token sweep function allowed sweeping upgraded TUSD token. The sweepToken function only checked against old TUSD address, not accounting for token upgrade to new address.",
   "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
   "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
-  "vulnerable_contract": "compound_tusd.sol",
+  "vulnerable_contract": "CToken",
   "vulnerable_function": "sweepToken",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    35
+  ],
   "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
   "tags": [
     "logic-error",
@@ -42,10 +44,11 @@
     "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata/sn_tc_015.json",
     "script": "strategies/nocomments/nocomments_tc.py",
     "changes": [
-      "Removed 8 comments (single-line and multi-line)",
+      "Removed 4 comments (single-line and multi-line)",
       "Regenerated fresh line markers"
     ],
-    "comments_removed": 8,
-    "created_date": "2025-12-29T23:10:21.396736"
-  }
+    "comments_removed": 4,
+    "created_date": "2025-12-31T20:00:38.846542"
+  },
+  "sanitized_from": "ms_tc_015"
 }

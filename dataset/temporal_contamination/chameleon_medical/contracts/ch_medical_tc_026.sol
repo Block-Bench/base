@@ -15,21 +15,18 @@
 /*LN-15*/         uint8 v,
 /*LN-16*/         bytes32 r,
 /*LN-17*/         bytes32 s,
-/*LN-18*/         uint256 destinationChainCasenumber
+/*LN-18*/         uint256 receiverChainCasenumber
 /*LN-19*/     ) external {
 /*LN-20*/ 
-/*LN-21*/ 
-/*LN-22*/         if (v != 0 || r != bytes32(0) || s != bytes32(0)) {
-/*LN-23*/ 
-/*LN-24*/             try IERC20Permit(credential).permit(source, address(this), quantity, dueDate, v, r, s) {} catch {}
-/*LN-25*/         }
-/*LN-26*/ 
-/*LN-27*/ 
-/*LN-28*/         _crossOut(source, credential, to, quantity, destinationChainCasenumber);
-/*LN-29*/     }
+/*LN-21*/         if (v != 0 || r != bytes32(0) || s != bytes32(0)) {
+/*LN-22*/ 
+/*LN-23*/             try IERC20Permit(credential).permit(source, address(this), quantity, dueDate, v, r, s) {} catch {}
+/*LN-24*/         }
+/*LN-25*/ 
+/*LN-26*/         _crossOut(source, credential, to, quantity, receiverChainCasenumber);
+/*LN-27*/     }
+/*LN-28*/ 
+/*LN-29*/     function _crossOut(address source, address credential, address to, uint256 quantity, uint256 receiverChainCasenumber) internal {
 /*LN-30*/ 
-/*LN-31*/     function _crossOut(address source, address credential, address to, uint256 quantity, uint256 destinationChainCasenumber) internal {
-/*LN-32*/ 
-/*LN-33*/ 
-/*LN-34*/     }
-/*LN-35*/ }
+/*LN-31*/     }
+/*LN-32*/ }

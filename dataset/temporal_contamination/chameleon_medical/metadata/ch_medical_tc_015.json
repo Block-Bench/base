@@ -12,9 +12,11 @@
   "description": "Token sweep function allowed sweeping upgraded TUSD token. The sweepToken function only checked against old TUSD address, not accounting for token upgrade to new address.",
   "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
   "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
-  "vulnerable_contract": "compound_tusd.sol",
+  "vulnerable_contract": "CCredential",
   "vulnerable_function": "sweepCredential",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    35
+  ],
   "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
   "tags": [
     "logic-error",
@@ -48,12 +50,12 @@
     ],
     "rename_map": {
       "amount": "quantity",
-      "account": "profile",
-      "BasicCToken": "BasicCCredential",
+      "account": "chart",
+      "CToken": "CCredential",
       "admin": "medicalDirector",
-      "accountTokens": "profileCredentials",
+      "accountTokens": "chartCredentials",
       "OLD_TUSD": "former_tusd",
-      "NEW_TUSD": "updated_tusd",
+      "NEW_TUSD": "current_tusd",
       "sender": "requestor",
       "mint": "issueCredential",
       "sweepToken": "sweepCredential",
@@ -63,6 +65,7 @@
     "coverage_percent": 30.0,
     "identifiers_transformed": 12,
     "identifiers_total": 40,
-    "created_date": "2025-12-29T23:26:42.394627"
-  }
+    "created_date": "2025-12-31T19:50:53.771181"
+  },
+  "sanitized_from": "ms_tc_015"
 }

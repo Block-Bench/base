@@ -1,6 +1,6 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ contract BasicPool {
+/*LN-3*/ contract StablePool {
 /*LN-4*/ 
 /*LN-5*/     mapping(uint256 => uint256) public accountCreditsMap;
 /*LN-6*/ 
@@ -27,7 +27,7 @@
 /*LN-27*/         _status = _NOT_ENTERED;
 /*LN-28*/     }
 /*LN-29*/ 
-/*LN-30*/     function include_availableresources(
+/*LN-30*/     function append_availableresources(
 /*LN-31*/         uint256[2] memory amounts,
 /*LN-32*/         uint256 minimum_issuecredential_quantity
 /*LN-33*/     ) external payable returns (uint256) {
@@ -64,7 +64,7 @@
 /*LN-64*/     }
 /*LN-65*/ 
 /*LN-66*/ 
-/*LN-67*/     function drop_availableresources(
+/*LN-67*/     function eliminate_availableresources(
 /*LN-68*/         uint256 lpQuantity,
 /*LN-69*/         uint256[2] memory floor_amounts
 /*LN-70*/     ) external {
@@ -108,7 +108,7 @@
 /*LN-108*/         int128 i,
 /*LN-109*/         int128 j,
 /*LN-110*/         uint256 dx,
-/*LN-111*/         uint256 minimum_dy
+/*LN-111*/         uint256 floor_dy
 /*LN-112*/     ) external payable returns (uint256) {
 /*LN-113*/         uint256 ui = uint256(int256(i));
 /*LN-114*/         uint256 uj = uint256(int256(j));
@@ -117,7 +117,7 @@
 /*LN-117*/ 
 /*LN-118*/ 
 /*LN-119*/         uint256 dy = (dx * accountCreditsMap[uj]) / (accountCreditsMap[ui] + dx);
-/*LN-120*/         require(dy >= minimum_dy, "Slippage");
+/*LN-120*/         require(dy >= floor_dy, "Slippage");
 /*LN-121*/ 
 /*LN-122*/         if (ui == 0) {
 /*LN-123*/             require(msg.measurement == dx, "ETH mismatch");
@@ -135,6 +135,5 @@
 /*LN-135*/     }
 /*LN-136*/ 
 /*LN-137*/     receive() external payable {
-/*LN-138*/ 
-/*LN-139*/     }
-/*LN-140*/ }
+/*LN-138*/     }
+/*LN-139*/ }

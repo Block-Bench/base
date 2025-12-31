@@ -28,18 +28,16 @@
 /*LN-28*/         accountBorrows[msg.sender] += amount;
 /*LN-29*/         totalBorrows += amount;
 /*LN-30*/ 
-/*LN-31*/         // If underlying is ERC667, it can call back during transfer
-/*LN-32*/         IERC20(underlying).transfer(msg.sender, amount);
-/*LN-33*/     }
-/*LN-34*/ 
-/*LN-35*/     function repayBorrow(uint256 amount) external {
-/*LN-36*/         // Transfer tokens from user
-/*LN-37*/         IERC20(underlying).transferFrom(msg.sender, address(this), amount);
-/*LN-38*/ 
-/*LN-39*/         // Update borrow state
-/*LN-40*/         accountBorrows[msg.sender] -= amount;
-/*LN-41*/         totalBorrows -= amount;
-/*LN-42*/     }
-/*LN-43*/ }
-/*LN-44*/ 
-/*LN-45*/ 
+/*LN-31*/         IERC20(underlying).transfer(msg.sender, amount);
+/*LN-32*/     }
+/*LN-33*/ 
+/*LN-34*/     function repayBorrow(uint256 amount) external {
+/*LN-35*/         // Transfer tokens from user
+/*LN-36*/         IERC20(underlying).transferFrom(msg.sender, address(this), amount);
+/*LN-37*/ 
+/*LN-38*/         // Update borrow state
+/*LN-39*/         accountBorrows[msg.sender] -= amount;
+/*LN-40*/         totalBorrows -= amount;
+/*LN-41*/     }
+/*LN-42*/ }
+/*LN-43*/ 

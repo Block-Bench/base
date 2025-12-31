@@ -74,7 +74,7 @@
 /*LN-74*/     function registerMarket(address market) external {
 /*LN-75*/ 
 /*LN-76*/        
-/*LN-78*/         registeredMarkets[market] = true;
-/*LN-79*/     }
-/*LN-80*/ }
-/*LN-81*/ 
+/*LN-77*/         registeredMarkets[market] = true;
+/*LN-78*/     }
+/*LN-79*/ }
+/*LN-80*/ 

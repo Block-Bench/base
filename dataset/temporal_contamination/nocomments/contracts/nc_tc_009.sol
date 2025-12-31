@@ -1,6 +1,6 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ contract BasicSwapPool {
+/*LN-3*/ contract ConcentratedPool {
 /*LN-4*/ 
 /*LN-5*/     address public token0;
 /*LN-6*/     address public token1;
@@ -110,88 +110,85 @@
 /*LN-110*/             int24 tickCrossed = _getTickAtSqrtRatio(sqrtPriceX96Next);
 /*LN-111*/             if (tickCrossed != tickNext) {
 /*LN-112*/ 
-/*LN-113*/ 
-/*LN-114*/                 int128 liquidityNetAtTick = liquidityNet[tickCrossed];
-/*LN-115*/ 
-/*LN-116*/                 if (zeroForOne) {
-/*LN-117*/                     liquidityNetAtTick = -liquidityNetAtTick;
-/*LN-118*/                 }
-/*LN-119*/ 
-/*LN-120*/                 liquidityNext = _addLiquidity(
-/*LN-121*/                     liquidityNext,
-/*LN-122*/                     liquidityNetAtTick
-/*LN-123*/                 );
-/*LN-124*/ 
-/*LN-125*/                 tickNext = tickCrossed;
-/*LN-126*/             }
+/*LN-113*/                 int128 liquidityNetAtTick = liquidityNet[tickCrossed];
+/*LN-114*/ 
+/*LN-115*/                 if (zeroForOne) {
+/*LN-116*/                     liquidityNetAtTick = -liquidityNetAtTick;
+/*LN-117*/                 }
+/*LN-118*/ 
+/*LN-119*/                 liquidityNext = _addLiquidity(
+/*LN-120*/                     liquidityNext,
+/*LN-121*/                     liquidityNetAtTick
+/*LN-122*/                 );
+/*LN-123*/ 
+/*LN-124*/                 tickNext = tickCrossed;
+/*LN-125*/             }
+/*LN-126*/ 
 /*LN-127*/ 
-/*LN-128*/ 
-/*LN-129*/             if (amountSpecified > 0) {
-/*LN-130*/                 amountSpecified -= int256(amountIn);
-/*LN-131*/             } else {
-/*LN-132*/                 amountSpecified += int256(amountOut);
-/*LN-133*/             }
-/*LN-134*/         }
+/*LN-128*/             if (amountSpecified > 0) {
+/*LN-129*/                 amountSpecified -= int256(amountIn);
+/*LN-130*/             } else {
+/*LN-131*/                 amountSpecified += int256(amountOut);
+/*LN-132*/             }
+/*LN-133*/         }
+/*LN-134*/ 
 /*LN-135*/ 
-/*LN-136*/ 
-/*LN-137*/         sqrtPriceX96 = sqrtPriceX96Next;
-/*LN-138*/         liquidity = liquidityNext;
-/*LN-139*/         currentTick = tickNext;
-/*LN-140*/ 
-/*LN-141*/         return (amount0, amount1);
-/*LN-142*/     }
-/*LN-143*/ 
-/*LN-144*/     function _addLiquidity(
-/*LN-145*/         uint128 x,
-/*LN-146*/         int128 y
-/*LN-147*/     ) internal pure returns (uint128 z) {
-/*LN-148*/         if (y < 0) {
-/*LN-149*/ 
-/*LN-150*/             z = x - uint128(-y);
-/*LN-151*/         } else {
+/*LN-136*/         sqrtPriceX96 = sqrtPriceX96Next;
+/*LN-137*/         liquidity = liquidityNext;
+/*LN-138*/         currentTick = tickNext;
+/*LN-139*/ 
+/*LN-140*/         return (amount0, amount1);
+/*LN-141*/     }
+/*LN-142*/ 
+/*LN-143*/     function _addLiquidity(
+/*LN-144*/         uint128 x,
+/*LN-145*/         int128 y
+/*LN-146*/     ) internal pure returns (uint128 z) {
+/*LN-147*/         if (y < 0) {
+/*LN-148*/             z = x - uint128(-y);
+/*LN-149*/         } else {
+/*LN-150*/             z = x + uint128(y);
+/*LN-151*/         }
 /*LN-152*/ 
-/*LN-153*/             z = x + uint128(y);
-/*LN-154*/         }
+/*LN-153*/     }
+/*LN-154*/ 
 /*LN-155*/ 
-/*LN-156*/     }
-/*LN-157*/ 
-/*LN-158*/ 
-/*LN-159*/     function _calculateAmounts(
-/*LN-160*/         uint160 sqrtPrice,
-/*LN-161*/         int24 tickLower,
-/*LN-162*/         int24 tickUpper,
-/*LN-163*/         int128 liquidityDelta
-/*LN-164*/     ) internal pure returns (uint256 amount0, uint256 amount1) {
-/*LN-165*/ 
-/*LN-166*/ 
-/*LN-167*/         amount0 = uint256(uint128(liquidityDelta)) / 2;
-/*LN-168*/         amount1 = uint256(uint128(liquidityDelta)) / 2;
-/*LN-169*/     }
-/*LN-170*/ 
-/*LN-171*/ 
-/*LN-172*/     function _computeSwapStep(
-/*LN-173*/         uint160 sqrtPriceCurrentX96,
-/*LN-174*/         uint160 sqrtPriceTargetX96,
-/*LN-175*/         uint128 liquidityCurrent,
-/*LN-176*/         int256 amountRemaining
-/*LN-177*/     )
-/*LN-178*/         internal
-/*LN-179*/         pure
-/*LN-180*/         returns (uint256 amountIn, uint256 amountOut, uint160 sqrtPriceNextX96)
-/*LN-181*/     {
-/*LN-182*/ 
-/*LN-183*/         amountIn =
-/*LN-184*/             uint256(amountRemaining > 0 ? amountRemaining : -amountRemaining) /
-/*LN-185*/             2;
-/*LN-186*/         amountOut = amountIn;
-/*LN-187*/         sqrtPriceNextX96 = sqrtPriceCurrentX96;
-/*LN-188*/     }
-/*LN-189*/ 
-/*LN-190*/ 
-/*LN-191*/     function _getTickAtSqrtRatio(
-/*LN-192*/         uint160 sqrtPriceX96
-/*LN-193*/     ) internal pure returns (int24 tick) {
-/*LN-194*/ 
-/*LN-195*/         return int24(int256(uint256(sqrtPriceX96 >> 96)));
-/*LN-196*/     }
-/*LN-197*/ }
+/*LN-156*/     function _calculateAmounts(
+/*LN-157*/         uint160 sqrtPrice,
+/*LN-158*/         int24 tickLower,
+/*LN-159*/         int24 tickUpper,
+/*LN-160*/         int128 liquidityDelta
+/*LN-161*/     ) internal pure returns (uint256 amount0, uint256 amount1) {
+/*LN-162*/ 
+/*LN-163*/ 
+/*LN-164*/         amount0 = uint256(uint128(liquidityDelta)) / 2;
+/*LN-165*/         amount1 = uint256(uint128(liquidityDelta)) / 2;
+/*LN-166*/     }
+/*LN-167*/ 
+/*LN-168*/ 
+/*LN-169*/     function _computeSwapStep(
+/*LN-170*/         uint160 sqrtPriceCurrentX96,
+/*LN-171*/         uint160 sqrtPriceTargetX96,
+/*LN-172*/         uint128 liquidityCurrent,
+/*LN-173*/         int256 amountRemaining
+/*LN-174*/     )
+/*LN-175*/         internal
+/*LN-176*/         pure
+/*LN-177*/         returns (uint256 amountIn, uint256 amountOut, uint160 sqrtPriceNextX96)
+/*LN-178*/     {
+/*LN-179*/ 
+/*LN-180*/         amountIn =
+/*LN-181*/             uint256(amountRemaining > 0 ? amountRemaining : -amountRemaining) /
+/*LN-182*/             2;
+/*LN-183*/         amountOut = amountIn;
+/*LN-184*/         sqrtPriceNextX96 = sqrtPriceCurrentX96;
+/*LN-185*/     }
+/*LN-186*/ 
+/*LN-187*/ 
+/*LN-188*/     function _getTickAtSqrtRatio(
+/*LN-189*/         uint160 sqrtPriceX96
+/*LN-190*/     ) internal pure returns (int24 tick) {
+/*LN-191*/ 
+/*LN-192*/         return int24(int256(uint256(sqrtPriceX96 >> 96)));
+/*LN-193*/     }
+/*LN-194*/ }

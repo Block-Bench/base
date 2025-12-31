@@ -19,7 +19,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "Blueberry Protocol, a leveraged yield farming platform, was exploited for $1.4M through oracle price manipulation. Attackers used flashloans to manipulate low-liquidity DEX token prices (specifically OHM), then deposited the inflated collateral and borrowed maximum assets from lending pools.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    56,
+    77
+  ],
   "vulnerability_details": {
     "root_cause": "Oracle reliance on low-liquidity DEX spot prices without TWAP or external validation",
     "attack_vector": "Use flashloan to pump low-liquidity token price, mint collateral at inflated price, borrow maximum assets",
@@ -73,33 +76,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_038",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_038.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_038.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_038.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_038.json",
+    "original_id": "tc_038",
+    "minimalsanitized_id": "ms_tc_038",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: BLUEBERRY...",
-      "Removed comment: Blueberry...",
-      "Removed comment: Blueberry...",
-      "Removed comment: Blueberry...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: vulnerable...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker can use flashloans to manipulate DEX p...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: BlueberryLending \u2192 LeveragedLending"
     ],
     "contract_renames": {
       "BlueberryLending": "LeveragedLending"
     },
-    "created_date": "2025-12-29T22:32:45.352261"
-  }
+    "created_date": "2025-12-31T20:00:32.272911"
+  },
+  "vulnerable_contract": "LeveragedLending",
+  "vulnerable_function": "mint",
+  "sanitized_from": "ms_tc_038"
 }

@@ -20,14 +20,16 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Gamma Strategies managed liquidity positions on Uniswap V3/Algebra pools. Attackers used flashloans to manipulate pool prices, then exploited the vault's deposit/withdrawal and rebalancing mechanisms during price manipulation to extract $6.1M.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    54
+  ],
   "vulnerability_details": {
     "root_cause": "Lack of slippage protection and oracle usage in deposit/withdrawal share calculations",
     "attack_vector": "Flashloan price manipulation combined with vault interaction during manipulated state",
     "vulnerable_functions": [
-      "_0xae3550()",
+      "_0x8e4527()",
       "_0x8e6f03()",
-      "_0x771f54()"
+      "_0x2ff8d2()"
     ],
     "key_weakness": [
       "No TWAP or external oracle for price validation",
@@ -103,34 +105,37 @@
       "basePosition": "_0xd80623",
       "totalSupply": "_0x1045d1",
       "zeroForOne": "_0x0f4194",
-      "recipient": "_0x2ff8d2",
-      "tickLower": "_0x6ff151",
-      "rebalance": "_0x771f54",
-      "liquidity": "_0x0d961f",
-      "balanceOf": "_0x65ce0c",
-      "tickUpper": "_0xd6cb4d",
+      "rebalance": "_0x2ff8d2",
+      "recipient": "_0x6ff151",
+      "tickUpper": "_0x771f54",
+      "balanceOf": "_0x0d961f",
+      "tickLower": "_0x65ce0c",
+      "liquidity": "_0xd6cb4d",
       "deposit0": "_0x70dd97",
       "deposit1": "_0xe5feba",
       "withdraw": "_0x8e6f03",
-      "amount1": "_0x0353ce",
+      "amount0": "_0x0353ce",
       "account": "_0x51bedd",
-      "spender": "_0xd860ea",
-      "deposit": "_0xae3550",
-      "amount0": "_0x8e4527",
-      "approve": "_0x4f9b02",
+      "approve": "_0xd860ea",
+      "amount1": "_0xae3550",
+      "deposit": "_0x8e4527",
+      "spender": "_0x4f9b02",
       "amount": "_0x6e3d9a",
-      "shares": "_0xac561e",
-      "total0": "_0x3454e7",
-      "total1": "_0x2f7c62",
-      "token0": "_0xc285d4",
-      "token1": "_0x3184cf",
+      "token1": "_0xac561e",
+      "shares": "_0x3454e7",
+      "token0": "_0x2f7c62",
+      "total1": "_0xc285d4",
+      "total0": "_0x3184cf",
       "flash": "_0xb7cc25",
-      "pool": "_0xb01af6",
-      "swap": "_0x876f47",
+      "swap": "_0xb01af6",
+      "pool": "_0x876f47",
       "to": "_0x163f22"
     },
     "coverage_percent": 78.26,
     "identifiers_transformed": 36,
-    "created_date": "2025-12-30T00:24:49.124098"
-  }
+    "created_date": "2025-12-31T19:59:41.213383"
+  },
+  "vulnerable_contract": "LiquidityHypervisor",
+  "vulnerable_function": "_0x8e4527",
+  "sanitized_from": "ms_tc_034"
 }

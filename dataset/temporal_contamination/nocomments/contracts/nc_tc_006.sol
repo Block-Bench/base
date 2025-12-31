@@ -1,6 +1,6 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ contract BasicBridge {
+/*LN-3*/ contract GameBridge {
 /*LN-4*/ 
 /*LN-5*/     address[] public validators;
 /*LN-6*/     mapping(address => bool) public isValidator;

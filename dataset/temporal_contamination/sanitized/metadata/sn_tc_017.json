@@ -12,9 +12,11 @@
   "description": "Arbitrary external call vulnerability in controller's swap function. The swapExactJarForJar function accepted user-provided target addresses and calldata, making unchecked external calls that drained strategy funds.",
   "root_cause": "Controller allowed arbitrary external calls with user-provided targets and data without validation. Strategy functions like withdrawAll() lacked access control checks, allowing controller to call them on behalf of attacker.",
   "attack_scenario": "Attacker created fake jar contracts, called swapExactJarForJar with malicious targets pointing to real strategies and calldata encoding withdrawAll(). Controller executed these calls, draining strategies.",
-  "vulnerable_contract": "pickle_finance.sol",
+  "vulnerable_contract": "YieldController",
   "vulnerable_function": "swapExactJarForJar",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    41
+  ],
   "fix_description": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors.",
   "tags": [
     "arbitrary-call",
@@ -37,33 +39,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_017",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_017.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_017.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_017.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_017.json",
+    "original_id": "tc_017",
+    "minimalsanitized_id": "ms_tc_017",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: Pickle...",
-      "Removed comment: Pickle...",
-      "Removed comment: VULNERABLE...",
-      "Removed comment: VULNERABLE...",
-      "Removed comment: VULNERABLE...",
-      "Removed comment: // But it doesn't matter because attacker already ...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: PickleController \u2192 PickleController",
-      "Renamed: BasicPickleController \u2192 BasicController",
       "Renamed: PickleStrategy \u2192 YieldStrategy",
-      "WARNING: Built-in msg.sender count changed: 4 -> 3",
-      "WARNING: Built-in abi.encodeWithSignature count changed: 2 -> 0"
+      "Renamed: PickleController \u2192 YieldController"
     ],
     "contract_renames": {
-      "PickleController": "PickleController",
-      "BasicPickleController": "BasicController",
-      "PickleStrategy": "YieldStrategy"
+      "PickleStrategy": "YieldStrategy",
+      "PickleController": "YieldController"
     },
-    "created_date": "2025-12-29T22:32:44.998391"
-  }
+    "created_date": "2025-12-31T20:00:32.081428"
+  },
+  "sanitized_from": "ms_tc_017"
 }

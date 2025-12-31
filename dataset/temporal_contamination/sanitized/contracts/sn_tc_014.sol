@@ -29,7 +29,7 @@
 /*LN-29*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-30*/ }
 /*LN-31*/ 
-/*LN-32*/ contract BasicVault {
+/*LN-32*/ contract YieldVault {
 /*LN-33*/     IERC20 public dai;
 /*LN-34*/     IERC20 public crv3;
 /*LN-35*/     IStable3Pool public stable3Pool;
@@ -78,36 +78,33 @@
 /*LN-78*/         uint256[3] memory amounts = [vaultBalance, 0, 0]; // Only DAI
 /*LN-79*/         stable3Pool.add_liquidity(amounts, 0);
 /*LN-80*/ 
-/*LN-81*/         // The vault now thinks it has value based on the manipulated virtual price
-/*LN-82*/         // If virtual_price is inflated, vault overestimates its holdings
-/*LN-83*/     }
-/*LN-84*/ 
-/*LN-85*/     /**
-/*LN-86*/      * @notice Withdraw shares from vault
-/*LN-87*/      */
-/*LN-88*/     function withdrawAll() external {
-/*LN-89*/         uint256 userShares = shares[msg.sender];
-/*LN-90*/         require(userShares > 0, "No shares");
-/*LN-91*/ 
-/*LN-92*/         // Calculate withdrawal amount based on current total value
-/*LN-93*/         uint256 withdrawAmount = (userShares * totalDeposits) / totalShares;
-/*LN-94*/ 
-/*LN-95*/         shares[msg.sender] = 0;
-/*LN-96*/         totalShares -= userShares;
-/*LN-97*/         totalDeposits -= withdrawAmount;
-/*LN-98*/ 
-/*LN-99*/         dai.transfer(msg.sender, withdrawAmount);
-/*LN-100*/     }
+/*LN-81*/     }
+/*LN-82*/ 
+/*LN-83*/     /**
+/*LN-84*/      * @notice Withdraw shares from vault
+/*LN-85*/      */
+/*LN-86*/     function withdrawAll() external {
+/*LN-87*/         uint256 userShares = shares[msg.sender];
+/*LN-88*/         require(userShares > 0, "No shares");
+/*LN-89*/ 
+/*LN-90*/         // Calculate withdrawal amount based on current total value
+/*LN-91*/         uint256 withdrawAmount = (userShares * totalDeposits) / totalShares;
+/*LN-92*/ 
+/*LN-93*/         shares[msg.sender] = 0;
+/*LN-94*/         totalShares -= userShares;
+/*LN-95*/         totalDeposits -= withdrawAmount;
+/*LN-96*/ 
+/*LN-97*/         dai.transfer(msg.sender, withdrawAmount);
+/*LN-98*/     }
+/*LN-99*/ 
+/*LN-100*/     /**
 /*LN-101*/ 
-/*LN-102*/     /**
-/*LN-103*/ 
-/*LN-104*/      */
-/*LN-105*/     function balance() public view returns (uint256) {
-/*LN-106*/         return
-/*LN-107*/             dai.balanceOf(address(this)) +
-/*LN-108*/             (crv3.balanceOf(address(this)) * stable3Pool.get_virtual_price()) /
-/*LN-109*/             1e18;
-/*LN-110*/     }
-/*LN-111*/ }
-/*LN-112*/ 
-/*LN-113*/ 
+/*LN-102*/      */
+/*LN-103*/     function balance() public view returns (uint256) {
+/*LN-104*/         return
+/*LN-105*/             dai.balanceOf(address(this)) +
+/*LN-106*/             (crv3.balanceOf(address(this)) * stable3Pool.get_virtual_price()) /
+/*LN-107*/             1e18;
+/*LN-108*/     }
+/*LN-109*/ }
+/*LN-110*/ 

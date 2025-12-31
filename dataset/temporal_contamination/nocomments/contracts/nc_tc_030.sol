@@ -13,32 +13,31 @@
 /*LN-13*/             liquidityUnits = inputBase;
 /*LN-14*/         } else {
 /*LN-15*/ 
-/*LN-16*/ 
-/*LN-17*/             uint256 baseRatio = (inputBase * totalUnits) / baseAmount;
-/*LN-18*/             uint256 tokenRatio = (inputToken * totalUnits) / tokenAmount;
-/*LN-19*/ 
-/*LN-20*/             liquidityUnits = (baseRatio + tokenRatio) / 2;
-/*LN-21*/         }
-/*LN-22*/ 
-/*LN-23*/         units[msg.sender] += liquidityUnits;
-/*LN-24*/         totalUnits += liquidityUnits;
-/*LN-25*/ 
-/*LN-26*/         baseAmount += inputBase;
-/*LN-27*/         tokenAmount += inputToken;
-/*LN-28*/ 
-/*LN-29*/         return liquidityUnits;
-/*LN-30*/     }
-/*LN-31*/ 
-/*LN-32*/     function removeLiquidity(uint256 liquidityUnits) external returns (uint256, uint256) {
-/*LN-33*/         uint256 outputBase = (liquidityUnits * baseAmount) / totalUnits;
-/*LN-34*/         uint256 outputToken = (liquidityUnits * tokenAmount) / totalUnits;
-/*LN-35*/ 
-/*LN-36*/         units[msg.sender] -= liquidityUnits;
-/*LN-37*/         totalUnits -= liquidityUnits;
-/*LN-38*/ 
-/*LN-39*/         baseAmount -= outputBase;
-/*LN-40*/         tokenAmount -= outputToken;
-/*LN-41*/ 
-/*LN-42*/         return (outputBase, outputToken);
-/*LN-43*/     }
-/*LN-44*/ }
+/*LN-16*/             uint256 baseRatio = (inputBase * totalUnits) / baseAmount;
+/*LN-17*/             uint256 tokenRatio = (inputToken * totalUnits) / tokenAmount;
+/*LN-18*/ 
+/*LN-19*/             liquidityUnits = (baseRatio + tokenRatio) / 2;
+/*LN-20*/         }
+/*LN-21*/ 
+/*LN-22*/         units[msg.sender] += liquidityUnits;
+/*LN-23*/         totalUnits += liquidityUnits;
+/*LN-24*/ 
+/*LN-25*/         baseAmount += inputBase;
+/*LN-26*/         tokenAmount += inputToken;
+/*LN-27*/ 
+/*LN-28*/         return liquidityUnits;
+/*LN-29*/     }
+/*LN-30*/ 
+/*LN-31*/     function removeLiquidity(uint256 liquidityUnits) external returns (uint256, uint256) {
+/*LN-32*/         uint256 outputBase = (liquidityUnits * baseAmount) / totalUnits;
+/*LN-33*/         uint256 outputToken = (liquidityUnits * tokenAmount) / totalUnits;
+/*LN-34*/ 
+/*LN-35*/         units[msg.sender] -= liquidityUnits;
+/*LN-36*/         totalUnits -= liquidityUnits;
+/*LN-37*/ 
+/*LN-38*/         baseAmount -= outputBase;
+/*LN-39*/         tokenAmount -= outputToken;
+/*LN-40*/ 
+/*LN-41*/         return (outputBase, outputToken);
+/*LN-42*/     }
+/*LN-43*/ }

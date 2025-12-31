@@ -18,7 +18,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-09",
   "description": "Penpie, a Pendle yield optimizer, was exploited for $27M when attackers registered a fake Pendle market and exploited reentrancy in reward claiming. The fake market's claimRewards() callback reentered Penpie to manipulate balances, allowing withdrawal of real assets far exceeding deposits.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    39,
+    66
+  ],
   "vulnerability_details": {
     "root_cause": "Reentrancy vulnerability in claimRewards() combined with insufficient market validation on registration",
     "attack_vector": "Register fake Pendle market, exploit reentrancy during reward claim to inflate balances, withdraw real assets",
@@ -81,10 +84,13 @@
     "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata/sn_tc_045.json",
     "script": "strategies/nocomments/nocomments_tc.py",
     "changes": [
-      "Removed 5 comments (single-line and multi-line)",
+      "Removed 6 comments (single-line and multi-line)",
       "Regenerated fresh line markers"
     ],
-    "comments_removed": 5,
-    "created_date": "2025-12-29T23:10:21.415034"
-  }
+    "comments_removed": 6,
+    "created_date": "2025-12-31T20:00:38.862750"
+  },
+  "vulnerable_contract": "VeTokenStaking",
+  "vulnerable_function": "registerMarket",
+  "sanitized_from": "ms_tc_045"
 }

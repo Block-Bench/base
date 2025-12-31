@@ -13,7 +13,7 @@
 /*LN-13*/ }
 /*LN-14*/ 
 /*LN-15*/ contract HealthcareCreditMarket {
-/*LN-16*/     mapping(address => uint256) public chartBorrows;
+/*LN-16*/     mapping(address => uint256) public profileBorrows;
 /*LN-17*/     mapping(address => uint256) public profileCredentials;
 /*LN-18*/ 
 /*LN-19*/     address public underlying;
@@ -24,19 +24,18 @@
 /*LN-24*/     }
 /*LN-25*/ 
 /*LN-26*/     function requestAdvance(uint256 quantity) external {
-/*LN-27*/         chartBorrows[msg.requestor] += quantity;
+/*LN-27*/         profileBorrows[msg.requestor] += quantity;
 /*LN-28*/         totalamountBorrows += quantity;
 /*LN-29*/ 
-/*LN-30*/ 
-/*LN-31*/         IERC20(underlying).transfer(msg.requestor, quantity);
-/*LN-32*/     }
-/*LN-33*/ 
-/*LN-34*/     function settlebalanceRequestadvance(uint256 quantity) external {
-/*LN-35*/ 
-/*LN-36*/         IERC20(underlying).transferFrom(msg.requestor, address(this), quantity);
+/*LN-30*/         IERC20(underlying).transfer(msg.requestor, quantity);
+/*LN-31*/     }
+/*LN-32*/ 
+/*LN-33*/     function settlebalanceRequestadvance(uint256 quantity) external {
+/*LN-34*/ 
+/*LN-35*/         IERC20(underlying).transferFrom(msg.requestor, address(this), quantity);
+/*LN-36*/ 
 /*LN-37*/ 
-/*LN-38*/ 
-/*LN-39*/         chartBorrows[msg.requestor] -= quantity;
-/*LN-40*/         totalamountBorrows -= quantity;
-/*LN-41*/     }
-/*LN-42*/ }
+/*LN-38*/         profileBorrows[msg.requestor] -= quantity;
+/*LN-39*/         totalamountBorrows -= quantity;
+/*LN-40*/     }
+/*LN-41*/ }

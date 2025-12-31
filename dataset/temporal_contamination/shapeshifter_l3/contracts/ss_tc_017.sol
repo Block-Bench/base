@@ -4,14 +4,14 @@
 /*LN-4*/     function _0x1045d1(address _0x0d961f) external view returns (uint256);
 /*LN-5*/ }
 /*LN-6*/ interface IJar {
-/*LN-7*/     function _0x0353ce() external view returns (address);
+/*LN-7*/     function _0xe5feba() external view returns (address);
 /*LN-8*/     function _0x6ff151(uint256 _0xd6cb4d) external;
 /*LN-9*/ }
 /*LN-10*/ interface IStrategy {
 /*LN-11*/     function _0x7d6277() external;
-/*LN-12*/     function _0x6ff151(address _0x0353ce) external;
+/*LN-12*/     function _0x6ff151(address _0xe5feba) external;
 /*LN-13*/ }
-/*LN-14*/ contract BasicController {
+/*LN-14*/ contract YieldController {
 /*LN-15*/     address public _0xd80623;
 /*LN-16*/     mapping(address => address) public _0x347a3f;
 /*LN-17*/     constructor() {
@@ -23,11 +23,11 @@
 /*LN-23*/         uint256 _0x8cd0a4,
 /*LN-24*/         uint256 _0x0cce35,
 /*LN-25*/         address[] calldata _0x0f4194,
-/*LN-26*/         bytes[] calldata _0xe5feba
+/*LN-26*/         bytes[] calldata _0x0353ce
 /*LN-27*/     ) external {
-/*LN-28*/         require(_0x0f4194.length == _0xe5feba.length, "Length mismatch");
+/*LN-28*/         require(_0x0f4194.length == _0x0353ce.length, "Length mismatch");
 /*LN-29*/         for (uint256 i = 0; i < _0x0f4194.length; i++) {
-/*LN-30*/             (bool _0x65ce0c, ) = _0x0f4194[i].call(_0xe5feba[i]);
+/*LN-30*/             (bool _0x65ce0c, ) = _0x0f4194[i].call(_0x0353ce[i]);
 /*LN-31*/             require(_0x65ce0c, "Call failed");
 /*LN-32*/         }
 /*LN-33*/     }
@@ -47,8 +47,8 @@
 /*LN-47*/         uint256 balance = IERC20(_0x51bedd)._0x1045d1(address(this));
 /*LN-48*/         IERC20(_0x51bedd).transfer(_0x2c833f, balance);
 /*LN-49*/     }
-/*LN-50*/     function _0x6ff151(address _0x0353ce) external {
-/*LN-51*/         uint256 balance = IERC20(_0x0353ce)._0x1045d1(address(this));
-/*LN-52*/         IERC20(_0x0353ce).transfer(_0x2c833f, balance);
+/*LN-50*/     function _0x6ff151(address _0xe5feba) external {
+/*LN-51*/         uint256 balance = IERC20(_0xe5feba)._0x1045d1(address(this));
+/*LN-52*/         IERC20(_0xe5feba).transfer(_0x2c833f, balance);
 /*LN-53*/     }
 /*LN-54*/ }

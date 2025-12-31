@@ -38,46 +38,38 @@
 /*LN-38*/         bytes calldata data
 /*LN-39*/     ) external payable {
 /*LN-40*/ 
-/*LN-41*/         // Should verify: require(msg.sender == expectedPool, "Unauthorized callback");
-/*LN-42*/ 
-/*LN-43*/         // Decode callback data
-/*LN-44*/         (
-/*LN-45*/             uint256 price,
-/*LN-46*/             address solver,
-/*LN-47*/             address tokenIn,
-/*LN-48*/             address recipient
-/*LN-49*/         ) = abi.decode(data, (uint256, address, address, address));
-/*LN-50*/ 
-/*LN-51*/         // Can specify amounts that drain the contract
-/*LN-52*/ 
-/*LN-53*/         // Calculate payment amount based on manipulated parameters
-/*LN-54*/         uint256 amountToPay;
-/*LN-55*/         if (amount0Delta > 0) {
-/*LN-56*/             amountToPay = uint256(amount0Delta);
-/*LN-57*/         } else {
-/*LN-58*/             amountToPay = uint256(amount1Delta);
-/*LN-59*/         }
-/*LN-60*/ 
-/*LN-61*/         // No check that a real Uniswap swap initiated this callback
-/*LN-62*/ 
-/*LN-63*/         if (tokenIn == address(WETH)) {
-/*LN-64*/             WETH.withdraw(amountToPay);
-/*LN-65*/             payable(recipient).transfer(amountToPay);
-/*LN-66*/         } else {
-/*LN-67*/             IERC20(tokenIn).transfer(recipient, amountToPay);
-/*LN-68*/         }
-/*LN-69*/     }
-/*LN-70*/ 
-/*LN-71*/     /**
-/*LN-72*/      * @notice Execute settlement (normal flow)
-/*LN-73*/      * @dev This is how the function SHOULD be called, through proper settlement
-/*LN-74*/      */
-/*LN-75*/     function executeSettlement(bytes calldata settlementData) external {
-/*LN-76*/         require(msg.sender == settlement, "Only settlement");
-/*LN-77*/         // Normal settlement logic...
-/*LN-78*/     }
-/*LN-79*/ 
-/*LN-80*/     receive() external payable {}
-/*LN-81*/ }
-/*LN-82*/ 
-/*LN-83*/ 
+/*LN-41*/         // Decode callback data
+/*LN-42*/         (
+/*LN-43*/             uint256 price,
+/*LN-44*/             address solver,
+/*LN-45*/             address tokenIn,
+/*LN-46*/             address recipient
+/*LN-47*/         ) = abi.decode(data, (uint256, address, address, address));
+/*LN-48*/ 
+/*LN-49*/         uint256 amountToPay;
+/*LN-50*/         if (amount0Delta > 0) {
+/*LN-51*/             amountToPay = uint256(amount0Delta);
+/*LN-52*/         } else {
+/*LN-53*/             amountToPay = uint256(amount1Delta);
+/*LN-54*/         }
+/*LN-55*/ 
+/*LN-56*/         if (tokenIn == address(WETH)) {
+/*LN-57*/             WETH.withdraw(amountToPay);
+/*LN-58*/             payable(recipient).transfer(amountToPay);
+/*LN-59*/         } else {
+/*LN-60*/             IERC20(tokenIn).transfer(recipient, amountToPay);
+/*LN-61*/         }
+/*LN-62*/     }
+/*LN-63*/ 
+/*LN-64*/     /**
+/*LN-65*/      * @notice Execute settlement (normal flow)
+/*LN-66*/      * @dev This is how the function SHOULD be called, through proper settlement
+/*LN-67*/      */
+/*LN-68*/     function executeSettlement(bytes calldata settlementData) external {
+/*LN-69*/         require(msg.sender == settlement, "Only settlement");
+/*LN-70*/         // Normal settlement logic...
+/*LN-71*/     }
+/*LN-72*/ 
+/*LN-73*/     receive() external payable {}
+/*LN-74*/ }
+/*LN-75*/ 

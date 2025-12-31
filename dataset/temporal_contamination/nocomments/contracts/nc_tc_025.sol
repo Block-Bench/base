@@ -27,16 +27,15 @@
 /*LN-27*/         accountBorrows[msg.sender] += amount;
 /*LN-28*/         totalBorrows += amount;
 /*LN-29*/ 
-/*LN-30*/ 
-/*LN-31*/         IERC20(underlying).transfer(msg.sender, amount);
-/*LN-32*/     }
-/*LN-33*/ 
-/*LN-34*/     function repayBorrow(uint256 amount) external {
-/*LN-35*/ 
-/*LN-36*/         IERC20(underlying).transferFrom(msg.sender, address(this), amount);
+/*LN-30*/         IERC20(underlying).transfer(msg.sender, amount);
+/*LN-31*/     }
+/*LN-32*/ 
+/*LN-33*/     function repayBorrow(uint256 amount) external {
+/*LN-34*/ 
+/*LN-35*/         IERC20(underlying).transferFrom(msg.sender, address(this), amount);
+/*LN-36*/ 
 /*LN-37*/ 
-/*LN-38*/ 
-/*LN-39*/         accountBorrows[msg.sender] -= amount;
-/*LN-40*/         totalBorrows -= amount;
-/*LN-41*/     }
-/*LN-42*/ }
+/*LN-38*/         accountBorrows[msg.sender] -= amount;
+/*LN-39*/         totalBorrows -= amount;
+/*LN-40*/     }
+/*LN-41*/ }

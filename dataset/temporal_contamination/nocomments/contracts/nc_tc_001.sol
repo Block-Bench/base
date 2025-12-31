@@ -1,6 +1,6 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ contract BasicBridgeReplica {
+/*LN-3*/ contract BridgeReplica {
 /*LN-4*/ 
 /*LN-5*/     enum MessageStatus {
 /*LN-6*/         None,
@@ -26,15 +26,15 @@
 /*LN-26*/         bridgeRouter = _bridgeRouter;
 /*LN-27*/     }
 /*LN-28*/ 
-/*LN-29*/     function process(bytes memory _message) external returns (bool success) {
-/*LN-30*/         bytes32 messageHash = keccak256(_message);
-/*LN-31*/ 
+/*LN-29*/ 
+/*LN-30*/     function process(bytes memory _message) external returns (bool success) {
+/*LN-31*/         bytes32 messageHash = keccak256(_message);
 /*LN-32*/ 
-/*LN-33*/         require(
-/*LN-34*/             messages[messageHash] != MessageStatus.Processed,
-/*LN-35*/             "Already processed"
-/*LN-36*/         );
-/*LN-37*/ 
+/*LN-33*/ 
+/*LN-34*/         require(
+/*LN-35*/             messages[messageHash] != MessageStatus.Processed,
+/*LN-36*/             "Already processed"
+/*LN-37*/         );
 /*LN-38*/ 
 /*LN-39*/         bytes32 root = _messageRoot(_message);
 /*LN-40*/         require(root == acceptedRoot, "Invalid root");
@@ -49,19 +49,20 @@
 /*LN-49*/         return routerSuccess;
 /*LN-50*/     }
 /*LN-51*/ 
-/*LN-52*/     function _messageRoot(
-/*LN-53*/         bytes memory _message
-/*LN-54*/     ) internal pure returns (bytes32) {
-/*LN-55*/ 
+/*LN-52*/ 
+/*LN-53*/     function _messageRoot(
+/*LN-54*/         bytes memory _message
+/*LN-55*/     ) internal pure returns (bytes32) {
 /*LN-56*/ 
-/*LN-57*/         if (_message.length > 32 && uint256(bytes32(_message)) == 0) {
-/*LN-58*/             return bytes32(0);
-/*LN-59*/         }
-/*LN-60*/ 
-/*LN-61*/         return keccak256(_message);
-/*LN-62*/     }
-/*LN-63*/ 
-/*LN-64*/     function setAcceptedRoot(bytes32 _newRoot) external {
-/*LN-65*/         acceptedRoot = _newRoot;
-/*LN-66*/     }
-/*LN-67*/ }
+/*LN-57*/ 
+/*LN-58*/         if (_message.length > 32 && uint256(bytes32(_message)) == 0) {
+/*LN-59*/             return bytes32(0);
+/*LN-60*/         }
+/*LN-61*/ 
+/*LN-62*/         return keccak256(_message);
+/*LN-63*/     }
+/*LN-64*/ 
+/*LN-65*/     function setAcceptedRoot(bytes32 _newRoot) external {
+/*LN-66*/         acceptedRoot = _newRoot;
+/*LN-67*/     }
+/*LN-68*/ }

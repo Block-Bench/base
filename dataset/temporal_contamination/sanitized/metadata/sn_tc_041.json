@@ -16,7 +16,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-09",
   "description": "Shezmu, a CDP protocol, was exploited for $4.9M when attackers discovered the collateral token's mint() function had no access control. Anyone could mint unlimited collateral tokens, deposit them into the vault, and borrow real ShezUSD against worthless minted collateral.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    27
+  ],
   "vulnerability_details": {
     "root_cause": "Missing access control modifier on mint() function allowing anyone to mint unlimited tokens",
     "attack_vector": "Mint maximum collateral tokens without authorization, deposit as collateral, borrow real assets",
@@ -65,31 +67,24 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_041",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_041.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_041.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_041.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_041.json",
+    "original_id": "tc_041",
+    "minimalsanitized_id": "ms_tc_041",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: SHEZMU...",
-      "Removed comment: Shezmu...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker gets real value using fake collateral...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: ShezmuCollateralToken \u2192 CollateralToken",
-      "Renamed: ShezmuVault \u2192 CollateralVault",
-      "WARNING: Built-in msg.sender count changed: 22 -> 21"
+      "Renamed: ShezmuVault \u2192 CollateralVault"
     ],
     "contract_renames": {
       "ShezmuCollateralToken": "CollateralToken",
       "ShezmuVault": "CollateralVault"
     },
-    "created_date": "2025-12-29T22:32:45.423118"
-  }
+    "created_date": "2025-12-31T20:00:32.299333"
+  },
+  "vulnerable_contract": "CollateralToken",
+  "vulnerable_function": "mint",
+  "sanitized_from": "ms_tc_041"
 }

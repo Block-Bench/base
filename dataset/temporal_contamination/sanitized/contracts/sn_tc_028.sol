@@ -35,7 +35,7 @@
 /*LN-35*/     }
 /*LN-36*/ }
 /*LN-37*/ 
-/*LN-38*/ contract BasicVault {
+/*LN-38*/ contract Vault {
 /*LN-39*/     address public token;
 /*LN-40*/     mapping(address => uint256) public deposits;
 /*LN-41*/ 
@@ -45,21 +45,18 @@
 /*LN-45*/ 
 /*LN-46*/     function deposit(uint256 amount) external {
 /*LN-47*/ 
-/*LN-48*/         // Doesn't check actual balance increase
-/*LN-49*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
-/*LN-50*/ 
-/*LN-51*/         deposits[msg.sender] += amount; // Records full amount
-/*LN-52*/         // But only received amount - fee!
-/*LN-53*/     }
-/*LN-54*/ 
-/*LN-55*/     function withdraw(uint256 amount) external {
-/*LN-56*/         require(deposits[msg.sender] >= amount, "Insufficient");
-/*LN-57*/ 
-/*LN-58*/         deposits[msg.sender] -= amount;
-/*LN-59*/ 
-/*LN-60*/         // But vault actually received less due to transfer fee
-/*LN-61*/         IERC20(token).transfer(msg.sender, amount);
-/*LN-62*/     }
-/*LN-63*/ }
-/*LN-64*/ 
-/*LN-65*/ 
+/*LN-48*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
+/*LN-49*/ 
+/*LN-50*/         deposits[msg.sender] += amount;
+/*LN-51*/ 
+/*LN-52*/     }
+/*LN-53*/ 
+/*LN-54*/     function withdraw(uint256 amount) external {
+/*LN-55*/         require(deposits[msg.sender] >= amount, "Insufficient");
+/*LN-56*/ 
+/*LN-57*/         deposits[msg.sender] -= amount;
+/*LN-58*/ 
+/*LN-59*/         IERC20(token).transfer(msg.sender, amount);
+/*LN-60*/     }
+/*LN-61*/ }
+/*LN-62*/ 

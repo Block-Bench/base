@@ -17,14 +17,17 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-08",
   "description": "Exactly Protocol lost $12M when attackers exploited the DebtPreviewer helper contract. By providing a malicious market address in the debt calculation, they manipulated their perceived collateral value, allowing over-borrowing far exceeding actual collateral.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    31,
+    85
+  ],
   "vulnerability_details": {
     "root_cause": "DebtPreviewer trusted user-provided market addresses without validation, allowing fake market data injection",
     "attack_vector": "Deploy malicious market returning fake collateral, pass to previewer in borrow check, over-borrow",
     "vulnerable_functions": [
       "_0xd80623()",
       "_0x390062()",
-      "_0x6e3d9a()"
+      "_0x8e4527()"
     ],
     "key_weakness": [
       "User-provided market addresses unvalidated",
@@ -95,28 +98,28 @@
       "collateralValue": "_0x8cd0a4",
       "totalCollateral": "_0x7d6277",
       "overallHealth": "_0x7248ad",
-      "transferFrom": "_0x477183",
+      "healthFactor": "_0x477183",
       "exchangeRate": "_0x347a3f",
-      "healthFactor": "_0x2c833f",
+      "transferFrom": "_0x2c833f",
       "previewDebt": "_0xd80623",
-      "_previewer": "_0x1045d1",
-      "collateral": "_0x0f4194",
-      "debtValue": "_0x2ff8d2",
-      "previewer": "_0x6ff151",
-      "balanceOf": "_0x771f54",
-      "maxBorrow": "_0x0d961f",
-      "totalDebt": "_0x65ce0c",
-      "deposits": "_0xd6cb4d",
-      "borrowed": "_0x70dd97",
+      "collateral": "_0x1045d1",
+      "_previewer": "_0x0f4194",
+      "totalDebt": "_0x2ff8d2",
+      "debtValue": "_0x6ff151",
+      "previewer": "_0x771f54",
+      "balanceOf": "_0x0d961f",
+      "maxBorrow": "_0x65ce0c",
+      "borrowed": "_0xd6cb4d",
+      "deposits": "_0x70dd97",
       "account": "_0xe5feba",
-      "newDebt": "_0x8e6f03",
+      "deposit": "_0x8e6f03",
       "borrows": "_0x0353ce",
-      "deposit": "_0x51bedd",
-      "markets": "_0xd860ea",
+      "markets": "_0x51bedd",
+      "newDebt": "_0xd860ea",
       "amount": "_0xae3550",
-      "market": "_0x8e4527",
+      "borrow": "_0x8e4527",
       "_asset": "_0x4f9b02",
-      "borrow": "_0x6e3d9a",
+      "market": "_0x6e3d9a",
       "asset": "_0xac561e",
       "debt": "_0x3454e7",
       "max": "_0x2f7c62",
@@ -124,6 +127,9 @@
     },
     "coverage_percent": 75.61,
     "identifiers_transformed": 31,
-    "created_date": "2025-12-30T00:24:49.167729"
-  }
+    "created_date": "2025-12-31T19:59:41.254250"
+  },
+  "vulnerable_contract": "DebtPreviewer",
+  "vulnerable_function": "_0xd80623",
+  "sanitized_from": "ms_tc_049"
 }

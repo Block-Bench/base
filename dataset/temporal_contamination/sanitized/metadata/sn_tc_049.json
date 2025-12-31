@@ -17,7 +17,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-08",
   "description": "Exactly Protocol lost $12M when attackers exploited the DebtPreviewer helper contract. By providing a malicious market address in the debt calculation, they manipulated their perceived collateral value, allowing over-borrowing far exceeding actual collateral.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    40,
+    116
+  ],
   "vulnerability_details": {
     "root_cause": "DebtPreviewer trusted user-provided market addresses without validation, allowing fake market data injection",
     "attack_vector": "Deploy malicious market returning fake collateral, pass to previewer in borrow check, over-borrow",
@@ -69,36 +72,23 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_049",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_049.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_049.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_049.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_049.json",
+    "original_id": "tc_049",
+    "minimalsanitized_id": "ms_tc_049",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: EXACTLY...",
       "Removed comment: Exactly...",
-      "Removed comment: Exactly...",
-      "Removed comment: Exactly...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: ExactlyMarket \u2192 LendingMarket"
     ],
     "contract_renames": {
       "ExactlyMarket": "LendingMarket"
     },
-    "created_date": "2025-12-29T22:32:45.530948"
-  }
+    "created_date": "2025-12-31T20:00:32.364382"
+  },
+  "vulnerable_contract": "DebtPreviewer",
+  "vulnerable_function": "previewDebt",
+  "sanitized_from": "ms_tc_049"
 }

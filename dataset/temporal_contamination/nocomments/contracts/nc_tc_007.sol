@@ -48,7 +48,7 @@
 /*LN-48*/     }
 /*LN-49*/ }
 /*LN-50*/ 
-/*LN-51*/ contract BasicCrossChainManager {
+/*LN-51*/ contract CrossChainManager {
 /*LN-52*/     address public dataContract;
 /*LN-53*/ 
 /*LN-54*/     event CrossChainEvent(
@@ -95,35 +95,33 @@
 /*LN-95*/         bytes memory headerSig
 /*LN-96*/     ) internal pure returns (bool) {
 /*LN-97*/ 
-/*LN-98*/ 
-/*LN-99*/         return true;
-/*LN-100*/     }
+/*LN-98*/         return true;
+/*LN-99*/     }
+/*LN-100*/ 
 /*LN-101*/ 
-/*LN-102*/ 
-/*LN-103*/     function _verifyProof(
-/*LN-104*/         bytes memory proof,
-/*LN-105*/         bytes memory rawHeader
-/*LN-106*/     ) internal pure returns (bool) {
-/*LN-107*/ 
-/*LN-108*/ 
-/*LN-109*/         return true;
-/*LN-110*/     }
-/*LN-111*/ 
-/*LN-112*/ 
-/*LN-113*/     function _decodeTx(
-/*LN-114*/         bytes memory proof
-/*LN-115*/     )
-/*LN-116*/         internal
-/*LN-117*/         view
-/*LN-118*/         returns (address toContract, bytes memory method, bytes memory args)
-/*LN-119*/     {
-/*LN-120*/ 
-/*LN-121*/ 
-/*LN-122*/         toContract = dataContract;
-/*LN-123*/         method = abi.encodeWithSignature(
-/*LN-124*/             "putCurEpochConPubKeyBytes(bytes)",
-/*LN-125*/             ""
-/*LN-126*/         );
-/*LN-127*/         args = "";
-/*LN-128*/     }
-/*LN-129*/ }
+/*LN-102*/     function _verifyProof(
+/*LN-103*/         bytes memory proof,
+/*LN-104*/         bytes memory rawHeader
+/*LN-105*/     ) internal pure returns (bool) {
+/*LN-106*/ 
+/*LN-107*/         return true;
+/*LN-108*/     }
+/*LN-109*/ 
+/*LN-110*/ 
+/*LN-111*/     function _decodeTx(
+/*LN-112*/         bytes memory proof
+/*LN-113*/     )
+/*LN-114*/         internal
+/*LN-115*/         view
+/*LN-116*/         returns (address toContract, bytes memory method, bytes memory args)
+/*LN-117*/     {
+/*LN-118*/ 
+/*LN-119*/ 
+/*LN-120*/         toContract = dataContract;
+/*LN-121*/         method = abi.encodeWithSignature(
+/*LN-122*/             "putCurEpochConPubKeyBytes(bytes)",
+/*LN-123*/             ""
+/*LN-124*/         );
+/*LN-125*/         args = "";
+/*LN-126*/     }
+/*LN-127*/ }

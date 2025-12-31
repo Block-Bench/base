@@ -12,9 +12,11 @@
   "description": "Token sweep function allowed sweeping upgraded TUSD token. The sweepToken function only checked against old TUSD address, not accounting for token upgrade to new address.",
   "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
   "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
-  "vulnerable_contract": "compound_tusd.sol",
+  "vulnerable_contract": "CToken",
   "vulnerable_function": "sweepToken",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    39
+  ],
   "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
   "tags": [
     "logic-error",
@@ -36,27 +38,20 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_015",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_015.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_015.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_015.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_015.json",
+    "original_id": "tc_015",
+    "minimalsanitized_id": "ms_tc_015",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: Compound...",
-      "Removed comment: Compound...",
-      "Removed comment: Compound...",
-      "Removed comment: VULNERABLE...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: CompoundCToken \u2192 CompoundCToken",
-      "Renamed: BasicCompoundCToken \u2192 BasicCToken",
-      "WARNING: Built-in msg.sender count changed: 9 -> 6"
+      "Renamed: CompoundCToken \u2192 CToken"
     ],
     "contract_renames": {
-      "CompoundCToken": "CompoundCToken",
-      "BasicCompoundCToken": "BasicCToken"
+      "CompoundCToken": "CToken"
     },
-    "created_date": "2025-12-29T22:32:44.974519"
-  }
+    "created_date": "2025-12-31T20:00:32.064176"
+  },
+  "sanitized_from": "ms_tc_015"
 }

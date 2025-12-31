@@ -45,46 +45,41 @@
 /*LN-45*/         address newImplementation
 /*LN-46*/     ) external {
 /*LN-47*/ 
-/*LN-48*/         // No multi-sig requirement
-/*LN-49*/         // No timelock delay
-/*LN-50*/         require(msg.sender == admin, "Not admin");
-/*LN-51*/ 
-/*LN-52*/         // No validation of new implementation code
-/*LN-53*/ 
-/*LN-54*/         // Upgrade the proxy to point to new implementation
-/*LN-55*/         // (Simplified - actual upgrade uses proxy pattern)
-/*LN-56*/     }
-/*LN-57*/ }
+/*LN-48*/         require(msg.sender == admin, "Not admin");
+/*LN-49*/ 
+/*LN-50*/         // Upgrade the proxy to point to new implementation
+/*LN-51*/         // (Simplified - actual upgrade uses proxy pattern)
+/*LN-52*/     }
+/*LN-53*/ }
+/*LN-54*/ 
+/*LN-55*/ contract SmartLoan is ISmartLoan {
+/*LN-56*/     mapping(bytes32 => uint256) public deposits;
+/*LN-57*/     mapping(bytes32 => uint256) public debts;
 /*LN-58*/ 
-/*LN-59*/ contract SmartLoan is ISmartLoan {
-/*LN-60*/     mapping(bytes32 => uint256) public deposits;
-/*LN-61*/     mapping(bytes32 => uint256) public debts;
-/*LN-62*/ 
-/*LN-63*/     function swapDebtParaSwap(
-/*LN-64*/         bytes32 _fromAsset,
-/*LN-65*/         bytes32 _toAsset,
-/*LN-66*/         uint256 _repayAmount,
-/*LN-67*/         uint256 _borrowAmount,
-/*LN-68*/         bytes4 selector,
-/*LN-69*/         bytes memory data
-/*LN-70*/     ) external override {
-/*LN-71*/ 
-/*LN-72*/         // Simplified swap logic
-/*LN-73*/ 
-/*LN-74*/     }
-/*LN-75*/ 
-/*LN-76*/     function claimReward(
-/*LN-77*/         address pair,
-/*LN-78*/         uint256[] calldata ids
-/*LN-79*/     ) external override {
-/*LN-80*/ 
-/*LN-81*/         // Call to pair contract to claim rewards
-/*LN-82*/         (bool success, ) = pair.call(
-/*LN-83*/             abi.encodeWithSignature("claimRewards(address)", msg.sender)
-/*LN-84*/         );
+/*LN-59*/     function swapDebtParaSwap(
+/*LN-60*/         bytes32 _fromAsset,
+/*LN-61*/         bytes32 _toAsset,
+/*LN-62*/         uint256 _repayAmount,
+/*LN-63*/         uint256 _borrowAmount,
+/*LN-64*/         bytes4 selector,
+/*LN-65*/         bytes memory data
+/*LN-66*/     ) external override {
+/*LN-67*/         // Simplified swap logic
+/*LN-68*/     }
+/*LN-69*/ 
+/*LN-70*/     /**
+/*LN-71*/      * @notice Claim rewards from staking pairs
+/*LN-72*/      */
+/*LN-73*/     function claimReward(
+/*LN-74*/         address pair,
+/*LN-75*/         uint256[] calldata ids
+/*LN-76*/     ) external override {
+/*LN-77*/ 
+/*LN-78*/         // Call to pair contract to claim rewards
+/*LN-79*/         (bool success, ) = pair.call(
+/*LN-80*/             abi.encodeWithSignature("claimRewards(address)", msg.sender)
+/*LN-81*/         );
+/*LN-82*/ 
+/*LN-83*/     }
+/*LN-84*/ }
 /*LN-85*/ 
-/*LN-86*/         // Malicious pair contract can manipulate balances and drain funds
-/*LN-87*/     }
-/*LN-88*/ }
-/*LN-89*/ 
-/*LN-90*/ 

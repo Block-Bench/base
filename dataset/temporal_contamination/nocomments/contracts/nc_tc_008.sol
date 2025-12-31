@@ -14,7 +14,7 @@
 /*LN-14*/     function underlying() external view returns (address);
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ contract BasicLending {
+/*LN-17*/ contract ForkLending {
 /*LN-18*/ 
 /*LN-19*/     IOracle public oracle;
 /*LN-20*/ 
@@ -37,53 +37,53 @@
 /*LN-37*/         oracle = IOracle(_oracle);
 /*LN-38*/     }
 /*LN-39*/ 
-/*LN-40*/     function mint(address cToken, uint256 amount) external {
-/*LN-41*/         require(supportedMarkets[cToken], "Market not supported");
-/*LN-42*/ 
+/*LN-40*/ 
+/*LN-41*/     function mint(address cToken, uint256 amount) external {
+/*LN-42*/         require(supportedMarkets[cToken], "Market not supported");
 /*LN-43*/ 
-/*LN-44*/         userDeposits[msg.sender][cToken] += amount;
-/*LN-45*/ 
-/*LN-46*/         emit Deposit(msg.sender, cToken, amount);
-/*LN-47*/     }
-/*LN-48*/ 
-/*LN-49*/     function borrow(address cToken, uint256 amount) external {
-/*LN-50*/         require(supportedMarkets[cToken], "Market not supported");
-/*LN-51*/ 
+/*LN-44*/ 
+/*LN-45*/         userDeposits[msg.sender][cToken] += amount;
+/*LN-46*/ 
+/*LN-47*/         emit Deposit(msg.sender, cToken, amount);
+/*LN-48*/     }
+/*LN-49*/ 
+/*LN-50*/     function borrow(address cToken, uint256 amount) external {
+/*LN-51*/         require(supportedMarkets[cToken], "Market not supported");
 /*LN-52*/ 
-/*LN-53*/         uint256 borrowPower = calculateBorrowPower(msg.sender);
-/*LN-54*/ 
+/*LN-53*/ 
+/*LN-54*/         uint256 borrowPower = calculateBorrowPower(msg.sender);
 /*LN-55*/ 
-/*LN-56*/         uint256 currentBorrows = calculateTotalBorrows(msg.sender);
-/*LN-57*/ 
+/*LN-56*/ 
+/*LN-57*/         uint256 currentBorrows = calculateTotalBorrows(msg.sender);
 /*LN-58*/ 
-/*LN-59*/         uint256 borrowValue = (oracle.getUnderlyingPrice(cToken) * amount) /
-/*LN-60*/             1e18;
-/*LN-61*/ 
+/*LN-59*/ 
+/*LN-60*/         uint256 borrowValue = (oracle.getUnderlyingPrice(cToken) * amount) /
+/*LN-61*/             1e18;
 /*LN-62*/ 
-/*LN-63*/         require(
-/*LN-64*/             currentBorrows + borrowValue <= borrowPower,
-/*LN-65*/             "Insufficient collateral"
-/*LN-66*/         );
-/*LN-67*/ 
+/*LN-63*/ 
+/*LN-64*/         require(
+/*LN-65*/             currentBorrows + borrowValue <= borrowPower,
+/*LN-66*/             "Insufficient collateral"
+/*LN-67*/         );
 /*LN-68*/ 
-/*LN-69*/         userBorrows[msg.sender][cToken] += amount;
-/*LN-70*/ 
+/*LN-69*/ 
+/*LN-70*/         userBorrows[msg.sender][cToken] += amount;
 /*LN-71*/ 
-/*LN-72*/         emit Borrow(msg.sender, cToken, amount);
-/*LN-73*/     }
-/*LN-74*/ 
-/*LN-75*/     function calculateBorrowPower(address user) public view returns (uint256) {
-/*LN-76*/         uint256 totalPower = 0;
-/*LN-77*/ 
+/*LN-72*/ 
+/*LN-73*/         emit Borrow(msg.sender, cToken, amount);
+/*LN-74*/     }
+/*LN-75*/ 
+/*LN-76*/     function calculateBorrowPower(address user) public view returns (uint256) {
+/*LN-77*/         uint256 totalPower = 0;
 /*LN-78*/ 
-/*LN-79*/         address[] memory markets = new address[](2);
-/*LN-80*/ 
-/*LN-81*/         for (uint256 i = 0; i < markets.length; i++) {
-/*LN-82*/             address cToken = markets[i];
-/*LN-83*/             uint256 balance = userDeposits[user][cToken];
-/*LN-84*/ 
-/*LN-85*/             if (balance > 0) {
-/*LN-86*/ 
+/*LN-79*/ 
+/*LN-80*/         address[] memory markets = new address[](2);
+/*LN-81*/ 
+/*LN-82*/         for (uint256 i = 0; i < markets.length; i++) {
+/*LN-83*/             address cToken = markets[i];
+/*LN-84*/             uint256 balance = userDeposits[user][cToken];
+/*LN-85*/ 
+/*LN-86*/             if (balance > 0) {
 /*LN-87*/ 
 /*LN-88*/                 uint256 price = oracle.getUnderlyingPrice(cToken);
 /*LN-89*/ 

@@ -12,9 +12,12 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Curve Finance pools compiled with vulnerable Vyper versions (0.2.15, 0.2.16, 0.3.0) had a compiler bug that broke the @nonreentrant decorator. Attacker exploited reentrancy in add_liquidity() function by calling it recursively during ETH transfer callback, minting LP tokens twice and draining ~$70M across multiple pools.",
-  "vulnerable_contract": "BasicPool",
+  "vulnerable_contract": "StablePool",
   "vulnerable_function": "add_liquidity",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    65,
+    115
+  ],
   "attack_scenario": "Attacker takes 80,000 ETH flash loan from Balancer. Calls add_liquidity() with 40,000 ETH. During ETH operations in add_liquidity(), contract transfers ETH which triggers attacker's receive() function. Attacker calls add_liquidity() again recursively with another 40,000 ETH. Due to Vyper compiler bug, the @nonreentrant decorator fails to prevent this. Pool mints LP tokens twice for overlapping deposits. Attacker removes liquidity with inflated LP balance, extracting more assets than deposited.",
   "root_cause": "Vyper compiler versions 0.2.15, 0.2.16, and 0.3.0 had a bug in the @nonreentrant decorator implementation. When multiple functions used the decorator, the compiler generated incorrect bytecode that checked the wrong storage slot for reentrancy state. This made the protection completely ineffective, allowing reentrancy despite the decorator being present in the source code.",
   "fix_description": "Upgrade to patched Vyper versions (0.3.1+, 0.2.17+) that fix the @nonreentrant compiler bug. Recompile all affected contracts with fixed compiler. Redeploy pools with corrected bytecode. Add additional contract-level reentrancy guards as defense-in-depth. Strictly follow Checks-Effects-Interactions pattern. Minimize external calls in critical functions. Test with multiple compiler versions.",
@@ -39,41 +42,21 @@
   "subset": "annotated",
   "original_subset": "temporal_contamination",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_005.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_005.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_005.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_005.json",
+    "original_id": "tc_005",
+    "minimalsanitized_id": "ms_tc_005",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
       "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: // In the real Vyper code, @nonreentrant decorator...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: Curve...",
-      "Removed comment: bug...",
-      "Removed comment: bug...",
-      "Removed comment: bug...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: bug...",
-      "Removed comment: vulnerability...",
-      "Removed comment: // In Vyper, this line existed and triggered the a...",
-      "Removed comment: // Attacker's contract would implement receive() t...",
-      "Removed comment: // The @nonreentrant decorator SHOULD have prevent...",
-      "Removed comment: // Update balances BEFORE external call (following...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: CurvePool \u2192 CurvePool",
-      "Renamed: BasicCurvePool \u2192 BasicPool"
+      "Renamed: CurvePool \u2192 StablePool"
     ],
     "contract_renames": {
-      "CurvePool": "CurvePool",
-      "BasicCurvePool": "BasicPool"
+      "CurvePool": "StablePool"
     },
-    "created_date": "2025-12-29T22:32:44.839977"
-  }
+    "created_date": "2025-12-31T20:00:31.958203"
+  },
+  "sanitized_from": "ms_tc_005"
 }

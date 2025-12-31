@@ -41,21 +41,21 @@
 /*LN-41*/         return nftId;
 /*LN-42*/     }
 /*LN-43*/ 
-/*LN-44*/     function depositExactAmount(
-/*LN-45*/         uint256 _nftId,
-/*LN-46*/         address _poolToken,
-/*LN-47*/         uint256 _amount
-/*LN-48*/     ) external returns (uint256 shareAmount) {
-/*LN-49*/         IERC20(_poolToken).transferFrom(msg.sender, address(this), _amount);
-/*LN-50*/ 
-/*LN-51*/         PoolData storage pool = lendingPoolData[_poolToken];
-/*LN-52*/ 
+/*LN-44*/ 
+/*LN-45*/     function depositExactAmount(
+/*LN-46*/         uint256 _nftId,
+/*LN-47*/         address _poolToken,
+/*LN-48*/         uint256 _amount
+/*LN-49*/     ) external returns (uint256 shareAmount) {
+/*LN-50*/         IERC20(_poolToken).transferFrom(msg.sender, address(this), _amount);
+/*LN-51*/ 
+/*LN-52*/         PoolData storage pool = lendingPoolData[_poolToken];
 /*LN-53*/ 
-/*LN-54*/         if (pool.totalDepositShares == 0) {
-/*LN-55*/             shareAmount = _amount;
-/*LN-56*/             pool.totalDepositShares = _amount;
-/*LN-57*/         } else {
-/*LN-58*/ 
+/*LN-54*/ 
+/*LN-55*/         if (pool.totalDepositShares == 0) {
+/*LN-56*/             shareAmount = _amount;
+/*LN-57*/             pool.totalDepositShares = _amount;
+/*LN-58*/         } else {
 /*LN-59*/ 
 /*LN-60*/             shareAmount =
 /*LN-61*/                 (_amount * pool.totalDepositShares) /
@@ -69,67 +69,69 @@
 /*LN-69*/         return shareAmount;
 /*LN-70*/     }
 /*LN-71*/ 
-/*LN-72*/     function withdrawExactShares(
-/*LN-73*/         uint256 _nftId,
-/*LN-74*/         address _poolToken,
-/*LN-75*/         uint256 _shares
-/*LN-76*/     ) external returns (uint256 withdrawAmount) {
-/*LN-77*/         require(
-/*LN-78*/             userLendingShares[_nftId][_poolToken] >= _shares,
-/*LN-79*/             "Insufficient shares"
-/*LN-80*/         );
-/*LN-81*/ 
-/*LN-82*/         PoolData storage pool = lendingPoolData[_poolToken];
-/*LN-83*/ 
+/*LN-72*/ 
+/*LN-73*/     function withdrawExactShares(
+/*LN-74*/         uint256 _nftId,
+/*LN-75*/         address _poolToken,
+/*LN-76*/         uint256 _shares
+/*LN-77*/     ) external returns (uint256 withdrawAmount) {
+/*LN-78*/         require(
+/*LN-79*/             userLendingShares[_nftId][_poolToken] >= _shares,
+/*LN-80*/             "Insufficient shares"
+/*LN-81*/         );
+/*LN-82*/ 
+/*LN-83*/         PoolData storage pool = lendingPoolData[_poolToken];
 /*LN-84*/ 
-/*LN-85*/         withdrawAmount =
-/*LN-86*/             (_shares * pool.pseudoTotalPool) /
-/*LN-87*/             pool.totalDepositShares;
-/*LN-88*/ 
-/*LN-89*/         userLendingShares[_nftId][_poolToken] -= _shares;
-/*LN-90*/         pool.totalDepositShares -= _shares;
-/*LN-91*/         pool.pseudoTotalPool -= withdrawAmount;
-/*LN-92*/ 
-/*LN-93*/         IERC20(_poolToken).transfer(msg.sender, withdrawAmount);
-/*LN-94*/ 
-/*LN-95*/         return withdrawAmount;
-/*LN-96*/     }
-/*LN-97*/ 
-/*LN-98*/     function withdrawExactAmount(
-/*LN-99*/         uint256 _nftId,
-/*LN-100*/         address _poolToken,
-/*LN-101*/         uint256 _withdrawAmount
-/*LN-102*/     ) external returns (uint256 shareBurned) {
-/*LN-103*/         PoolData storage pool = lendingPoolData[_poolToken];
-/*LN-104*/ 
-/*LN-105*/         shareBurned =
-/*LN-106*/             (_withdrawAmount * pool.totalDepositShares) /
-/*LN-107*/             pool.pseudoTotalPool;
-/*LN-108*/ 
-/*LN-109*/         require(
-/*LN-110*/             userLendingShares[_nftId][_poolToken] >= shareBurned,
-/*LN-111*/             "Insufficient shares"
-/*LN-112*/         );
-/*LN-113*/ 
-/*LN-114*/         userLendingShares[_nftId][_poolToken] -= shareBurned;
-/*LN-115*/         pool.totalDepositShares -= shareBurned;
-/*LN-116*/         pool.pseudoTotalPool -= _withdrawAmount;
-/*LN-117*/ 
-/*LN-118*/         IERC20(_poolToken).transfer(msg.sender, _withdrawAmount);
+/*LN-85*/ 
+/*LN-86*/         withdrawAmount =
+/*LN-87*/             (_shares * pool.pseudoTotalPool) /
+/*LN-88*/             pool.totalDepositShares;
+/*LN-89*/ 
+/*LN-90*/         userLendingShares[_nftId][_poolToken] -= _shares;
+/*LN-91*/         pool.totalDepositShares -= _shares;
+/*LN-92*/         pool.pseudoTotalPool -= withdrawAmount;
+/*LN-93*/ 
+/*LN-94*/         IERC20(_poolToken).transfer(msg.sender, withdrawAmount);
+/*LN-95*/ 
+/*LN-96*/         return withdrawAmount;
+/*LN-97*/     }
+/*LN-98*/ 
+/*LN-99*/ 
+/*LN-100*/     function withdrawExactAmount(
+/*LN-101*/         uint256 _nftId,
+/*LN-102*/         address _poolToken,
+/*LN-103*/         uint256 _withdrawAmount
+/*LN-104*/     ) external returns (uint256 shareBurned) {
+/*LN-105*/         PoolData storage pool = lendingPoolData[_poolToken];
+/*LN-106*/ 
+/*LN-107*/         shareBurned =
+/*LN-108*/             (_withdrawAmount * pool.totalDepositShares) /
+/*LN-109*/             pool.pseudoTotalPool;
+/*LN-110*/ 
+/*LN-111*/         require(
+/*LN-112*/             userLendingShares[_nftId][_poolToken] >= shareBurned,
+/*LN-113*/             "Insufficient shares"
+/*LN-114*/         );
+/*LN-115*/ 
+/*LN-116*/         userLendingShares[_nftId][_poolToken] -= shareBurned;
+/*LN-117*/         pool.totalDepositShares -= shareBurned;
+/*LN-118*/         pool.pseudoTotalPool -= _withdrawAmount;
 /*LN-119*/ 
-/*LN-120*/         return shareBurned;
-/*LN-121*/     }
-/*LN-122*/ 
-/*LN-123*/ 
-/*LN-124*/     function getPositionLendingShares(
-/*LN-125*/         uint256 _nftId,
-/*LN-126*/         address _poolToken
-/*LN-127*/     ) external view returns (uint256) {
-/*LN-128*/         return userLendingShares[_nftId][_poolToken];
-/*LN-129*/     }
-/*LN-130*/ 
-/*LN-131*/ 
-/*LN-132*/     function getTotalPool(address _poolToken) external view returns (uint256) {
-/*LN-133*/         return lendingPoolData[_poolToken].pseudoTotalPool;
-/*LN-134*/     }
-/*LN-135*/ }
+/*LN-120*/         IERC20(_poolToken).transfer(msg.sender, _withdrawAmount);
+/*LN-121*/ 
+/*LN-122*/         return shareBurned;
+/*LN-123*/     }
+/*LN-124*/ 
+/*LN-125*/ 
+/*LN-126*/     function getPositionLendingShares(
+/*LN-127*/         uint256 _nftId,
+/*LN-128*/         address _poolToken
+/*LN-129*/     ) external view returns (uint256) {
+/*LN-130*/         return userLendingShares[_nftId][_poolToken];
+/*LN-131*/     }
+/*LN-132*/ 
+/*LN-133*/ 
+/*LN-134*/     function getTotalPool(address _poolToken) external view returns (uint256) {
+/*LN-135*/         return lendingPoolData[_poolToken].pseudoTotalPool;
+/*LN-136*/     }
+/*LN-137*/ }

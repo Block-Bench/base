@@ -12,7 +12,7 @@
 /*LN-12*/     ) external view returns (uint256, uint256, uint256);
 /*LN-13*/ }
 /*LN-14*/ 
-/*LN-15*/ contract BasicLendingHub {
+/*LN-15*/ contract LendingHub {
 /*LN-16*/     IComptroller public comptroller;
 /*LN-17*/ 
 /*LN-18*/     mapping(address => uint256) public deposits;

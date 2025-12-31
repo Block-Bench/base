@@ -16,7 +16,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-09",
   "description": "Shezmu, a CDP protocol, was exploited for $4.9M when attackers discovered the collateral token's mint() function had no access control. Anyone could mint unlimited collateral tokens, deposit them into the vault, and borrow real ShezUSD against worthless minted collateral.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    26
+  ],
   "vulnerability_details": {
     "root_cause": "Missing access control modifier on mint() function allowing anyone to mint unlimited tokens",
     "attack_vector": "Mint maximum collateral tokens without authorization, deposit as collateral, borrow real assets",
@@ -77,7 +79,7 @@
     ],
     "rename_map": {
       "amount": "quantity",
-      "from": "referrer",
+      "from": "source",
       "account": "chart",
       "spender": "serviceProvider",
       "CollateralToken": "SecuritydepositCredential",
@@ -89,20 +91,23 @@
       "collateralToken": "securitydepositCredential",
       "collateralBalance": "securitydepositAccountcredits",
       "debtBalance": "outstandingbalanceAccountcredits",
-      "COLLATERAL_RATIO": "securitydeposit_proportion",
+      "COLLATERAL_RATIO": "securitydeposit_factor",
       "_collateralToken": "_securitydepositCredential",
-      "addCollateral": "attachSecuritydeposit",
+      "addCollateral": "insertSecuritydeposit",
       "borrow": "requestAdvance",
       "maxBorrow": "ceilingRequestadvance",
       "collateral": "securityDeposit",
       "repay": "settleBalance",
       "withdrawCollateral": "dischargefundsSecuritydeposit",
       "remainingCollateral": "remainingSecuritydeposit",
-      "maxDebt": "ceilingOutstandingbalance"
+      "maxDebt": "maximumOutstandingbalance"
     },
     "coverage_percent": 32.86,
     "identifiers_transformed": 23,
     "identifiers_total": 70,
-    "created_date": "2025-12-29T23:26:42.438787"
-  }
+    "created_date": "2025-12-31T19:50:53.815563"
+  },
+  "vulnerable_contract": "SecuritydepositCredential",
+  "vulnerable_function": "issueCredential",
+  "sanitized_from": "ms_tc_041"
 }

@@ -12,9 +12,11 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Poly Network cross-chain bridge vulnerability where EthCrossChainManager allowed executing cross-chain transactions targeting ANY contract, including the privileged EthCrossChainData contract. Attacker crafted transaction targeting EthCrossChainData to call putCurEpochConPubKeyBytes() which passed onlyOwner check (msg.sender was EthCrossChainManager), allowing attacker to set their own validator keys and drain $611M.",
-  "vulnerable_contract": "BasicCrossChainManager",
+  "vulnerable_contract": "CrossChainManager",
   "vulnerable_function": "verifyHeaderAndExecuteTx",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    91
+  ],
   "attack_scenario": "Attacker creates valid cross-chain transaction on Poly Network sidechain with target set to EthCrossChainData (the privileged data contract), not a user contract. Transaction calls putCurEpochConPubKeyBytes() to change validator public keys. EthCrossChainManager verifies header signatures and Merkle proof (both valid), then executes transaction by calling EthCrossChainData. Since msg.sender is EthCrossChainManager, the onlyOwner check passes. Attacker's keys become validator keys, allowing them to forge any cross-chain transaction and drain bridge.",
   "root_cause": "EthCrossChainManager validated cross-chain transactions (headers, proofs) but didn't restrict which contracts could be targeted for execution. It allowed calling EthCrossChainData, which trusted EthCrossChainManager as owner. This created an access control bypass where anyone could call privileged functions on EthCrossChainData by routing through EthCrossChainManager with a valid cross-chain transaction.",
   "fix_description": "Implement whitelist of allowed target contracts, explicitly excluding privileged contracts like EthCrossChainData. Use blacklist to forbid critical system contracts as targets. Separate privilege levels for cross-chain execution. Replace msg.sender-based authorization with more granular access controls. Add multi-sig requirements for critical operations like validator key updates. Implement emergency pause mechanisms. Add rate limiting and anomaly detection for cross-chain transactions.",
@@ -39,36 +41,22 @@
   "subset": "annotated",
   "original_subset": "temporal_contamination",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_007.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_007.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_007.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_007.json",
+    "original_id": "tc_007",
+    "minimalsanitized_id": "ms_tc_007",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: // In the real attack:...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker can set toContract = dataContract...",
-      "Removed comment: // The attacker provided VALID headers and signatu...",
-      "Removed comment: // The attacker provided VALID proofs...",
-      "Removed comment: // args = attacker's public keys...",
-      "Removed comment: // Would contain attacker's keys...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: EthCrossChainManager \u2192 EthCrossChainManager",
-      "Renamed: BasicEthCrossChainManager \u2192 BasicCrossChainManager",
       "Renamed: EthCrossChainData \u2192 CrossChainData",
-      "WARNING: Built-in msg.sender count changed: 8 -> 2"
+      "Renamed: EthCrossChainManager \u2192 CrossChainManager"
     ],
     "contract_renames": {
-      "EthCrossChainManager": "EthCrossChainManager",
-      "BasicEthCrossChainManager": "BasicCrossChainManager",
-      "EthCrossChainData": "CrossChainData"
+      "EthCrossChainData": "CrossChainData",
+      "EthCrossChainManager": "CrossChainManager"
     },
-    "created_date": "2025-12-29T22:32:44.873001"
-  }
+    "created_date": "2025-12-31T20:00:31.984766"
+  },
+  "sanitized_from": "ms_tc_007"
 }

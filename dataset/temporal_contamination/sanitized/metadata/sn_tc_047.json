@@ -19,7 +19,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "PlayDapp's PLA token suffered a $290M exploit when attackers compromised a private key with minting privileges. They minted 1.79 billion tokens without restrictions, causing a 90% price collapse. The attack was repeated on the migration contract, demonstrating persistent access control vulnerabilities.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    45
+  ],
   "vulnerability_details": {
     "root_cause": "Single private key controlled unlimited minting function without supply cap or multi-sig",
     "attack_vector": "Compromise minter key, call mint() repeatedly to create billions of tokens, dump on DEXes",
@@ -69,37 +71,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_047",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_047.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_047.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_047.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_047.json",
+    "original_id": "tc_047",
+    "minimalsanitized_id": "ms_tc_047",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: PLAYDAPP...",
-      "Removed comment: PlayDapp...",
-      "Removed comment: PlayDapp...",
-      "Removed comment: PlayDapp...",
-      "Removed comment: PlayDapp...",
-      "Removed comment: PlayDapp...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker can mint unlimited tokens in single tr...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: PlayDappToken \u2192 GameToken",
-      "WARNING: Built-in block.timestamp count changed: 1 -> 0"
+      "Renamed: PlayDappToken \u2192 GameToken"
     ],
     "contract_renames": {
       "PlayDappToken": "GameToken"
     },
-    "created_date": "2025-12-29T22:32:45.498911"
-  }
+    "created_date": "2025-12-31T20:00:32.342155"
+  },
+  "vulnerable_contract": "GameToken",
+  "vulnerable_function": "mint",
+  "sanitized_from": "ms_tc_047"
 }

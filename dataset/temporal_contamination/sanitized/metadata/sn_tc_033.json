@@ -18,7 +18,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Socket Gateway, a cross-chain bridge aggregator, was exploited for $3.3M when attackers discovered route 406 accepted arbitrary user-controlled calldata. By injecting transferFrom calls into swapExtraData, attackers drained tokens from any user who had approved the Socket Gateway contract.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    39,
+    71
+  ],
   "vulnerability_details": {
     "root_cause": "User-controlled calldata executed without validation in route contract",
     "attack_vector": "Inject IERC20.transferFrom() calls via swapExtraData parameter to drain approved tokens from victims",
@@ -69,35 +72,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_033",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_033.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_033.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_033.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_033.json",
+    "original_id": "tc_033",
+    "minimalsanitized_id": "ms_tc_033",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: SOCKET...",
-      "Removed comment: Socket...",
-      "Removed comment: Socket...",
-      "Removed comment: Socket...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABLE...",
-      "Removed comment: vulnerable...",
-      "Removed comment: // Attacker can inject arbitrary function calls he...",
-      "Removed comment: // Including IERC20.transferFrom(victim, attacker,...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: Route \u2192 Route",
-      "Renamed: SocketGateway \u2192 BridgeGateway",
-      "WARNING: Built-in msg.sender count changed: 2 -> 1",
-      "WARNING: Built-in abi.encodeWithSelector count changed: 2 -> 0"
+      "Renamed: SocketGateway \u2192 BridgeGateway"
     ],
     "contract_renames": {
-      "Route": "Route",
       "SocketGateway": "BridgeGateway"
     },
-    "created_date": "2025-12-29T22:32:45.227938"
-  }
+    "created_date": "2025-12-31T20:00:32.212969"
+  },
+  "vulnerable_contract": "BridgeGateway",
+  "vulnerable_function": "executeRoute",
+  "sanitized_from": "ms_tc_033"
 }

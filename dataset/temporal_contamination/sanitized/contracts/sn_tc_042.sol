@@ -62,31 +62,28 @@
 /*LN-62*/ 
 /*LN-63*/         if (donation.amount > 0 && donation.tokenLocker != address(0)) {
 /*LN-64*/ 
-/*LN-65*/             // Makes call to donation.tokenLocker without validation
-/*LN-66*/             (bool success, ) = donation.tokenLocker.call(
-/*LN-67*/                 abi.encodeWithSignature(
-/*LN-68*/                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
-/*LN-69*/                     campaign.token,
-/*LN-70*/                     donation.amount,
-/*LN-71*/                     donation.start,
-/*LN-72*/                     donation.cliff,
-/*LN-73*/                     donation.rate,
-/*LN-74*/                     donation.period
-/*LN-75*/                 )
-/*LN-76*/             );
-/*LN-77*/ 
-/*LN-78*/             // But malicious contract can do anything, including token theft
-/*LN-79*/             require(success, "Token lock failed");
-/*LN-80*/         }
-/*LN-81*/     }
-/*LN-82*/ 
-/*LN-83*/     /**
-/*LN-84*/      * @notice Cancel a campaign
-/*LN-85*/      */
-/*LN-86*/     function cancelCampaign(bytes16 campaignId) external {
-/*LN-87*/         require(campaigns[campaignId].manager == msg.sender, "Not manager");
-/*LN-88*/         delete campaigns[campaignId];
-/*LN-89*/     }
-/*LN-90*/ }
-/*LN-91*/ 
-/*LN-92*/ 
+/*LN-65*/             (bool success, ) = donation.tokenLocker.call(
+/*LN-66*/                 abi.encodeWithSignature(
+/*LN-67*/                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
+/*LN-68*/                     campaign.token,
+/*LN-69*/                     donation.amount,
+/*LN-70*/                     donation.start,
+/*LN-71*/                     donation.cliff,
+/*LN-72*/                     donation.rate,
+/*LN-73*/                     donation.period
+/*LN-74*/                 )
+/*LN-75*/             );
+/*LN-76*/ 
+/*LN-77*/             require(success, "Token lock failed");
+/*LN-78*/         }
+/*LN-79*/     }
+/*LN-80*/ 
+/*LN-81*/     /**
+/*LN-82*/      * @notice Cancel a campaign
+/*LN-83*/      */
+/*LN-84*/     function cancelCampaign(bytes16 campaignId) external {
+/*LN-85*/         require(campaigns[campaignId].manager == msg.sender, "Not manager");
+/*LN-86*/         delete campaigns[campaignId];
+/*LN-87*/     }
+/*LN-88*/ }
+/*LN-89*/ 

@@ -9,7 +9,7 @@
 /*LN-9*/         uint256 quantity
 /*LN-10*/     ) external returns (bool);
 /*LN-11*/ 
-/*LN-12*/     function balanceOf(address profile) external view returns (uint256);
+/*LN-12*/     function balanceOf(address chart) external view returns (uint256);
 /*LN-13*/ }
 /*LN-14*/ 
 /*LN-15*/ 
@@ -55,41 +55,39 @@
 /*LN-55*/ 
 /*LN-56*/         uint256 issuecredentialCredentials = (issuecredentialQuantity * 1e18) / convertcredentialsFrequencyMantissa;
 /*LN-57*/ 
-/*LN-58*/ 
-/*LN-59*/         totalSupply += issuecredentialCredentials;
-/*LN-60*/         balanceOf[msg.requestor] += issuecredentialCredentials;
-/*LN-61*/ 
-/*LN-62*/         underlying.transferFrom(msg.requestor, address(this), issuecredentialQuantity);
-/*LN-63*/ 
-/*LN-64*/         emit IssueCredential(msg.requestor, issuecredentialQuantity, issuecredentialCredentials);
-/*LN-65*/         return issuecredentialCredentials;
-/*LN-66*/     }
+/*LN-58*/         totalSupply += issuecredentialCredentials;
+/*LN-59*/         balanceOf[msg.requestor] += issuecredentialCredentials;
+/*LN-60*/ 
+/*LN-61*/         underlying.transferFrom(msg.requestor, address(this), issuecredentialQuantity);
+/*LN-62*/ 
+/*LN-63*/         emit IssueCredential(msg.requestor, issuecredentialQuantity, issuecredentialCredentials);
+/*LN-64*/         return issuecredentialCredentials;
+/*LN-65*/     }
+/*LN-66*/ 
 /*LN-67*/ 
-/*LN-68*/ 
-/*LN-69*/     function claimResources(uint256 claimresourcesCredentials) external returns (uint256) {
-/*LN-70*/         require(balanceOf[msg.requestor] >= claimresourcesCredentials, "Insufficient balance");
-/*LN-71*/ 
-/*LN-72*/         uint256 convertcredentialsFrequencyMantissa = conversionRate();
+/*LN-68*/     function claimResources(uint256 claimresourcesCredentials) external returns (uint256) {
+/*LN-69*/         require(balanceOf[msg.requestor] >= claimresourcesCredentials, "Insufficient balance");
+/*LN-70*/ 
+/*LN-71*/         uint256 convertcredentialsFrequencyMantissa = conversionRate();
+/*LN-72*/ 
 /*LN-73*/ 
-/*LN-74*/ 
-/*LN-75*/         uint256 claimresourcesQuantity = (claimresourcesCredentials * convertcredentialsFrequencyMantissa) / 1e18;
-/*LN-76*/ 
-/*LN-77*/         balanceOf[msg.requestor] -= claimresourcesCredentials;
-/*LN-78*/         totalSupply -= claimresourcesCredentials;
-/*LN-79*/ 
-/*LN-80*/         underlying.transfer(msg.requestor, claimresourcesQuantity);
-/*LN-81*/ 
-/*LN-82*/         emit ClaimResources(msg.requestor, claimresourcesQuantity, claimresourcesCredentials);
-/*LN-83*/         return claimresourcesQuantity;
-/*LN-84*/     }
+/*LN-74*/         uint256 claimresourcesQuantity = (claimresourcesCredentials * convertcredentialsFrequencyMantissa) / 1e18;
+/*LN-75*/ 
+/*LN-76*/         balanceOf[msg.requestor] -= claimresourcesCredentials;
+/*LN-77*/         totalSupply -= claimresourcesCredentials;
+/*LN-78*/ 
+/*LN-79*/         underlying.transfer(msg.requestor, claimresourcesQuantity);
+/*LN-80*/ 
+/*LN-81*/         emit ClaimResources(msg.requestor, claimresourcesQuantity, claimresourcesCredentials);
+/*LN-82*/         return claimresourcesQuantity;
+/*LN-83*/     }
+/*LN-84*/ 
 /*LN-85*/ 
-/*LN-86*/ 
-/*LN-87*/     function accountcreditsOfUnderlying(
-/*LN-88*/         address profile
-/*LN-89*/     ) external view returns (uint256) {
-/*LN-90*/         uint256 convertcredentialsFrequencyMantissa = conversionRate();
-/*LN-91*/ 
-/*LN-92*/ 
-/*LN-93*/         return (balanceOf[profile] * convertcredentialsFrequencyMantissa) / 1e18;
-/*LN-94*/     }
-/*LN-95*/ }
+/*LN-86*/     function accountcreditsOfUnderlying(
+/*LN-87*/         address chart
+/*LN-88*/     ) external view returns (uint256) {
+/*LN-89*/         uint256 convertcredentialsFrequencyMantissa = conversionRate();
+/*LN-90*/ 
+/*LN-91*/         return (balanceOf[chart] * convertcredentialsFrequencyMantissa) / 1e18;
+/*LN-92*/     }
+/*LN-93*/ }

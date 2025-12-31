@@ -15,21 +15,11 @@
   ],
   "description": "DODO's liquidity pool contract had an init() function that could be called multiple times without proper access control or initialization guard. An attacker called init() again after deployment, setting themselves as the maintainer (fee recipient) and hijacking accumulated fees. The vulnerability allowed manipulation of critical pool parameters post-deployment.",
   "attack_scenario": "1) Attacker identified DODO pool contracts without proper initialization locks. 2) Called init() with attacker-controlled parameters, setting maintainer address to attacker. 3) Since maintainer receives all swap fees, attacker could claim accumulated fees via claimFees(). 4) All future swap fees also redirected to attacker. 5) In some cases, could manipulate baseBalance/quoteBalance for profitable swaps. 6) Drained $3.8M from affected pools.",
-  "vulnerable_contract": {
-    "name": "LiquidityPool",
-    "functions": [
-      {
-        "name": "init",
-        "vulnerability": "Missing initialization guard allowing multiple calls to hijack maintainer role"
-      },
-      {
-        "name": "claimFees",
-        "vulnerability": "Only checks msg.sender == maintainer, but maintainer can be changed via reinitialization"
-      }
-    ]
-  },
+  "vulnerable_contract": "LiquidityPool",
   "root_cause": "The init() function lacked proper initialization protection (missing `require(!isInitialized)` check). This allowed attackers to call the initialization function again after deployment, overwriting critical parameters like the maintainer address and hijacking fee collection rights.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    37
+  ],
   "fix": "Add initialization guard: `require(!initialized, 'Already initialized')` at the start of init(). Better approach: use OpenZeppelin's Initializable pattern with the `initializer` modifier which prevents reinitialization. For upgradeable contracts, use `initializer` and `reinitializer(version)` modifiers appropriately.",
   "references": [
     "https://blog.dodoex.io/dodo-pool-incident-postmortem-with-a-little-help-from-our-friends-327e66872d42",
@@ -46,31 +36,22 @@
   "sample_id": "sn_tc_021",
   "variant_parent_id": "tc_021",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_021.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_021.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_021.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_021.json",
+    "original_id": "tc_021",
+    "minimalsanitized_id": "ms_tc_021",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
       "Removed comment: DODO...",
-      "Removed comment: DODO...",
-      "Removed comment: DODO...",
-      "Removed comment: DODO...",
-      "Removed comment: DODO...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // The attacker has already changed the maintainer...",
-      "Removed comment: // If attacker reinitialized and set themselves as...",
-      "Removed comment: // Attacker could reinitialize, set themselves as ...",
-      "Removed comment: // Max fees to attacker...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
       "Renamed: DODOPool \u2192 LiquidityPool"
     ],
     "contract_renames": {
       "DODOPool": "LiquidityPool"
     },
-    "created_date": "2025-12-29T22:32:45.047158"
-  }
+    "created_date": "2025-12-31T20:00:32.121440"
+  },
+  "vulnerable_function": "init",
+  "sanitized_from": "ms_tc_021"
 }

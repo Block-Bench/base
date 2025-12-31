@@ -110,7 +110,7 @@
 /*LN-110*/     }
 /*LN-111*/ 
 /*LN-112*/     /**
-/*LN-113*/      * @dev DebtPreviewer can be manipulated to show false debt levels
+/*LN-113*/      * @dev Internal function to borrow funds
 /*LN-114*/      */
 /*LN-115*/     function borrow(uint256 amount, address[] calldata markets) external {
 /*LN-116*/         (uint256 totalCollateral, uint256 totalDebt, ) = previewer

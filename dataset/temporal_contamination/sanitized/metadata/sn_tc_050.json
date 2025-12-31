@@ -19,7 +19,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-03",
   "description": "Munchables, a GameFi project on Blast L2, lost $62M when a rogue developer (later revealed as North Korean operative) used admin keys to upgrade contracts and redirect user funds. Uniquely, all funds were recovered after negotiations. The incident highlights insider threats and importance of developer vetting.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    77,
+    82
+  ],
   "vulnerability_details": {
     "root_cause": "Single developer had access to admin private keys without multi-sig or oversight, allowing malicious upgrades",
     "attack_vector": "Rogue developer upgrades LockManager, modifies user withdrawal addresses, drains all locked funds",
@@ -75,39 +78,22 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_050",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_050.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_050.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_050.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_050.json",
+    "original_id": "tc_050",
+    "minimalsanitized_id": "ms_tc_050",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
     "changes": [
-      "Removed comment: MUNCHABLES...",
-      "Removed comment: Munchables...",
-      "Removed comment: Munchables...",
-      "Removed comment: Munchables...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Renamed: MunchablesLockManager \u2192 GameLockManager",
-      "WARNING: Built-in msg.sender count changed: 13 -> 11",
-      "WARNING: Built-in msg.data count changed: 1 -> 0",
-      "WARNING: Built-in block.timestamp count changed: 3 -> 2",
-      "WARNING: Built-in abi.encode count changed: 1 -> 0"
+      "Renamed: MunchablesLockManager \u2192 GameLockManager"
     ],
     "contract_renames": {
       "MunchablesLockManager": "GameLockManager"
     },
-    "created_date": "2025-12-29T22:32:45.543440"
-  }
+    "created_date": "2025-12-31T20:00:32.374817"
+  },
+  "vulnerable_contract": "GameLockManager",
+  "vulnerable_function": "setLockRecipient",
+  "sanitized_from": "ms_tc_050"
 }

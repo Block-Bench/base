@@ -34,7 +34,7 @@
 /*LN-34*/     }
 /*LN-35*/ }
 /*LN-36*/ 
-/*LN-37*/ contract BasicVault {
+/*LN-37*/ contract Vault {
 /*LN-38*/     address public token;
 /*LN-39*/     mapping(address => uint256) public deposits;
 /*LN-40*/ 
@@ -44,19 +44,17 @@
 /*LN-44*/ 
 /*LN-45*/     function deposit(uint256 amount) external {
 /*LN-46*/ 
-/*LN-47*/ 
-/*LN-48*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
-/*LN-49*/ 
-/*LN-50*/         deposits[msg.sender] += amount;
-/*LN-51*/ 
-/*LN-52*/     }
-/*LN-53*/ 
-/*LN-54*/     function withdraw(uint256 amount) external {
-/*LN-55*/         require(deposits[msg.sender] >= amount, "Insufficient");
-/*LN-56*/ 
-/*LN-57*/         deposits[msg.sender] -= amount;
-/*LN-58*/ 
-/*LN-59*/ 
-/*LN-60*/         IERC20(token).transfer(msg.sender, amount);
-/*LN-61*/     }
-/*LN-62*/ }
+/*LN-47*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
+/*LN-48*/ 
+/*LN-49*/         deposits[msg.sender] += amount;
+/*LN-50*/ 
+/*LN-51*/     }
+/*LN-52*/ 
+/*LN-53*/     function withdraw(uint256 amount) external {
+/*LN-54*/         require(deposits[msg.sender] >= amount, "Insufficient");
+/*LN-55*/ 
+/*LN-56*/         deposits[msg.sender] -= amount;
+/*LN-57*/ 
+/*LN-58*/         IERC20(token).transfer(msg.sender, amount);
+/*LN-59*/     }
+/*LN-60*/ }

@@ -42,13 +42,13 @@
 /*LN-42*/      * @param asset The token to withdraw
 /*LN-43*/      * @param requestedAmount Amount to withdraw (type(uint256).max for all)
 /*LN-44*/      *
-/*LN-45*/      * The function transfers tokens BEFORE updating the user's balance.
-/*LN-46*/      * For ERC-777 tokens, the transfer triggers tokensToSend() hook on the sender,
-/*LN-47*/      * creating a reentrancy opportunity.
+/*LN-45*/      *
+/*LN-46*/      *
+/*LN-47*/      *
 /*LN-48*/      *
-/*LN-49*/      * 1. Calculate withdrawal amount (line 86-88)
-/*LN-50*/      * 2. Transfer tokens (line 91) <- EXTERNAL CALL WITH HOOK
-/*LN-51*/      * 3. Update balances (line 94-95) <- TOO LATE!
+/*LN-49*/      *
+/*LN-50*/      *
+/*LN-51*/      *
 /*LN-52*/      */
 /*LN-53*/     function withdraw(
 /*LN-54*/         address asset,

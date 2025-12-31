@@ -15,9 +15,9 @@
 /*LN-15*/ }
 /*LN-16*/ 
 /*LN-17*/ interface IPendleMarket {
-/*LN-18*/     function obtainCreditCredentials() external view returns (address[] memory);
+/*LN-18*/     function retrieveCreditCredentials() external view returns (address[] memory);
 /*LN-19*/ 
-/*LN-20*/     function coverageIndexesActive() external returns (uint256[] memory);
+/*LN-20*/     function benefitIndexesPresent() external returns (uint256[] memory);
 /*LN-21*/ 
 /*LN-22*/     function collectBenefits(address patient) external returns (uint256[] memory);
 /*LN-23*/ }
@@ -44,8 +44,8 @@
 /*LN-44*/         }
 /*LN-45*/     }
 /*LN-46*/ 
-/*LN-47*/     function dischargeFunds(address serviceMarket, uint256 quantity) external {
-/*LN-48*/ 
+/*LN-47*/ 
+/*LN-48*/     function dischargeFunds(address serviceMarket, uint256 quantity) external {
 /*LN-49*/         require(
 /*LN-50*/             patientAccountcreditsmap[serviceMarket][msg.requestor] >= quantity,
 /*LN-51*/             "Insufficient balance"
@@ -61,7 +61,7 @@
 /*LN-61*/ contract YieldMarketEnroll {
 /*LN-62*/     mapping(address => bool) public registeredMarkets;
 /*LN-63*/ 
-/*LN-64*/     function admitMarket(address serviceMarket) external {
+/*LN-64*/     function enrollMarket(address serviceMarket) external {
 /*LN-65*/ 
 /*LN-66*/         registeredMarkets[serviceMarket] = true;
 /*LN-67*/     }

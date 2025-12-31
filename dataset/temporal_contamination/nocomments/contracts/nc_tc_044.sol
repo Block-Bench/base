@@ -44,39 +44,37 @@
 /*LN-44*/         address newImplementation
 /*LN-45*/     ) external {
 /*LN-46*/ 
-/*LN-47*/ 
-/*LN-48*/         require(msg.sender == admin, "Not admin");
+/*LN-47*/         require(msg.sender == admin, "Not admin");
+/*LN-48*/ 
 /*LN-49*/ 
-/*LN-50*/ 
-/*LN-51*/     }
-/*LN-52*/ }
-/*LN-53*/ 
-/*LN-54*/ contract SmartLoan is ISmartLoan {
-/*LN-55*/     mapping(bytes32 => uint256) public deposits;
-/*LN-56*/     mapping(bytes32 => uint256) public debts;
-/*LN-57*/ 
-/*LN-58*/     function swapDebtParaSwap(
-/*LN-59*/         bytes32 _fromAsset,
-/*LN-60*/         bytes32 _toAsset,
-/*LN-61*/         uint256 _repayAmount,
-/*LN-62*/         uint256 _borrowAmount,
-/*LN-63*/         bytes4 selector,
-/*LN-64*/         bytes memory data
-/*LN-65*/     ) external override {
-/*LN-66*/ 
+/*LN-50*/     }
+/*LN-51*/ }
+/*LN-52*/ 
+/*LN-53*/ contract SmartLoan is ISmartLoan {
+/*LN-54*/     mapping(bytes32 => uint256) public deposits;
+/*LN-55*/     mapping(bytes32 => uint256) public debts;
+/*LN-56*/ 
+/*LN-57*/     function swapDebtParaSwap(
+/*LN-58*/         bytes32 _fromAsset,
+/*LN-59*/         bytes32 _toAsset,
+/*LN-60*/         uint256 _repayAmount,
+/*LN-61*/         uint256 _borrowAmount,
+/*LN-62*/         bytes4 selector,
+/*LN-63*/         bytes memory data
+/*LN-64*/     ) external override {
+/*LN-65*/ 
+/*LN-66*/     }
 /*LN-67*/ 
-/*LN-68*/     }
-/*LN-69*/ 
-/*LN-70*/     function claimReward(
-/*LN-71*/         address pair,
-/*LN-72*/         uint256[] calldata ids
-/*LN-73*/     ) external override {
+/*LN-68*/ 
+/*LN-69*/     function claimReward(
+/*LN-70*/         address pair,
+/*LN-71*/         uint256[] calldata ids
+/*LN-72*/     ) external override {
+/*LN-73*/ 
 /*LN-74*/ 
-/*LN-75*/ 
-/*LN-76*/         (bool success, ) = pair.call(
-/*LN-77*/             abi.encodeWithSignature("claimRewards(address)", msg.sender)
-/*LN-78*/         );
-/*LN-79*/ 
-/*LN-80*/ 
-/*LN-81*/     }
-/*LN-82*/ }
+/*LN-75*/         (bool success, ) = pair.call(
+/*LN-76*/             abi.encodeWithSignature("claimRewards(address)", msg.sender)
+/*LN-77*/         );
+/*LN-78*/ 
+/*LN-79*/     }
+/*LN-80*/ }

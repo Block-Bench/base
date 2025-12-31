@@ -18,7 +18,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-04",
   "description": "Hedgey Finance, a token vesting platform, was exploited for $44.7M when attackers provided a malicious tokenLocker address in createLockedCampaign(). The contract made an arbitrary external call to this address, allowing attackers to steal tokens from any user who had approved Hedgey.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    64
+  ],
   "vulnerability_details": {
     "root_cause": "User-controlled tokenLocker address used in arbitrary external call without validation",
     "attack_vector": "Provide malicious contract as tokenLocker, use external call to invoke transferFrom on victim tokens",
@@ -74,10 +76,13 @@
     "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata/sn_tc_042.json",
     "script": "strategies/nocomments/nocomments_tc.py",
     "changes": [
-      "Removed 4 comments (single-line and multi-line)",
+      "Removed 2 comments (single-line and multi-line)",
       "Regenerated fresh line markers"
     ],
-    "comments_removed": 4,
-    "created_date": "2025-12-29T23:10:21.413407"
-  }
+    "comments_removed": 2,
+    "created_date": "2025-12-31T20:00:38.861624"
+  },
+  "vulnerable_contract": "TokenClaimCampaigns",
+  "vulnerable_function": "createLockedCampaign",
+  "sanitized_from": "ms_tc_042"
 }

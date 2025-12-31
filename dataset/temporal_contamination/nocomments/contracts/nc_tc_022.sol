@@ -87,34 +87,33 @@
 /*LN-87*/         uint256 balance0Adjusted = balance0 * 10000 - amount0In * TOTAL_FEE;
 /*LN-88*/         uint256 balance1Adjusted = balance1 * 10000 - amount1In * TOTAL_FEE;
 /*LN-89*/ 
-/*LN-90*/ 
-/*LN-91*/         require(
-/*LN-92*/             balance0Adjusted * balance1Adjusted >=
-/*LN-93*/                 uint256(_reserve0) * _reserve1 * (1000 ** 2),
-/*LN-94*/             "UraniumSwap: K"
-/*LN-95*/         );
+/*LN-90*/         require(
+/*LN-91*/             balance0Adjusted * balance1Adjusted >=
+/*LN-92*/                 uint256(_reserve0) * _reserve1 * (1000 ** 2),
+/*LN-93*/             "UraniumSwap: K"
+/*LN-94*/         );
+/*LN-95*/ 
 /*LN-96*/ 
-/*LN-97*/ 
-/*LN-98*/         reserve0 = uint112(balance0);
-/*LN-99*/         reserve1 = uint112(balance1);
-/*LN-100*/     }
+/*LN-97*/         reserve0 = uint112(balance0);
+/*LN-98*/         reserve1 = uint112(balance1);
+/*LN-99*/     }
+/*LN-100*/ 
 /*LN-101*/ 
-/*LN-102*/ 
-/*LN-103*/     function getReserves() external view returns (uint112, uint112, uint32) {
-/*LN-104*/         return (reserve0, reserve1, 0);
-/*LN-105*/     }
+/*LN-102*/     function getReserves() external view returns (uint112, uint112, uint32) {
+/*LN-103*/         return (reserve0, reserve1, 0);
+/*LN-104*/     }
+/*LN-105*/ 
 /*LN-106*/ 
-/*LN-107*/ 
-/*LN-108*/     function sqrt(uint256 y) internal pure returns (uint256 z) {
-/*LN-109*/         if (y > 3) {
-/*LN-110*/             z = y;
-/*LN-111*/             uint256 x = y / 2 + 1;
-/*LN-112*/             while (x < z) {
-/*LN-113*/                 z = x;
-/*LN-114*/                 x = (y / x + x) / 2;
-/*LN-115*/             }
-/*LN-116*/         } else if (y != 0) {
-/*LN-117*/             z = 1;
-/*LN-118*/         }
-/*LN-119*/     }
-/*LN-120*/ }
+/*LN-107*/     function sqrt(uint256 y) internal pure returns (uint256 z) {
+/*LN-108*/         if (y > 3) {
+/*LN-109*/             z = y;
+/*LN-110*/             uint256 x = y / 2 + 1;
+/*LN-111*/             while (x < z) {
+/*LN-112*/                 z = x;
+/*LN-113*/                 x = (y / x + x) / 2;
+/*LN-114*/             }
+/*LN-115*/         } else if (y != 0) {
+/*LN-116*/             z = 1;
+/*LN-117*/         }
+/*LN-118*/     }
+/*LN-119*/ }

@@ -11,8 +11,8 @@
   "total_files": 50,
   "prefix": "ch_medical_",
   "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/nocomments",
-  "average_coverage_percent": 35.06,
-  "total_identifiers_transformed": 1068,
-  "total_identifiers": 3046,
-  "created_date": "2025-12-29T23:26:42.519645"
+  "average_coverage_percent": 35.21,
+  "total_identifiers_transformed": 1072,
+  "total_identifiers": 3045,
+  "created_date": "2025-12-31T19:50:53.829235"
 }

@@ -15,7 +15,7 @@
 /*LN-15*/     ) external view returns (uint256);
 /*LN-16*/ }
 /*LN-17*/ 
-/*LN-18*/ contract BasicVault {
+/*LN-18*/ contract YieldVault {
 /*LN-19*/     address public underlyingToken;
 /*LN-20*/     IStablePool public stablePool;
 /*LN-21*/ 
@@ -73,34 +73,31 @@
 /*LN-73*/         return amount;
 /*LN-74*/     }
 /*LN-75*/ 
-/*LN-76*/ 
-/*LN-77*/     function getTotalAssets() public view returns (uint256) {
-/*LN-78*/ 
-/*LN-79*/ 
-/*LN-80*/         uint256 vaultBalance = 0;
-/*LN-81*/         uint256 poolBalance = investedBalance;
-/*LN-82*/ 
-/*LN-83*/         return vaultBalance + poolBalance;
-/*LN-84*/     }
-/*LN-85*/ 
-/*LN-86*/ 
-/*LN-87*/     function getPricePerFullShare() public view returns (uint256) {
-/*LN-88*/         if (totalSupply == 0) return 1e18;
-/*LN-89*/         return (getTotalAssets() * 1e18) / totalSupply;
-/*LN-90*/     }
-/*LN-91*/ 
+/*LN-76*/     function getTotalAssets() public view returns (uint256) {
+/*LN-77*/ 
+/*LN-78*/         uint256 vaultBalance = 0;
+/*LN-79*/         uint256 poolBalance = investedBalance;
+/*LN-80*/ 
+/*LN-81*/         return vaultBalance + poolBalance;
+/*LN-82*/     }
+/*LN-83*/ 
+/*LN-84*/     function getPricePerFullShare() public view returns (uint256) {
+/*LN-85*/         if (totalSupply == 0) return 1e18;
+/*LN-86*/         return (getTotalAssets() * 1e18) / totalSupply;
+/*LN-87*/     }
+/*LN-88*/ 
+/*LN-89*/ 
+/*LN-90*/     function _investInPool(uint256 amount) internal {
+/*LN-91*/         investedBalance += amount;
 /*LN-92*/ 
-/*LN-93*/     function _investInPool(uint256 amount) internal {
-/*LN-94*/         investedBalance += amount;
+/*LN-93*/ 
+/*LN-94*/     }
 /*LN-95*/ 
 /*LN-96*/ 
-/*LN-97*/     }
-/*LN-98*/ 
-/*LN-99*/ 
-/*LN-100*/     function _withdrawFromPool(uint256 amount) internal {
-/*LN-101*/         require(investedBalance >= amount, "Insufficient invested");
-/*LN-102*/         investedBalance -= amount;
-/*LN-103*/ 
-/*LN-104*/ 
-/*LN-105*/     }
-/*LN-106*/ }
+/*LN-97*/     function _withdrawFromPool(uint256 amount) internal {
+/*LN-98*/         require(investedBalance >= amount, "Insufficient invested");
+/*LN-99*/         investedBalance -= amount;
+/*LN-100*/ 
+/*LN-101*/ 
+/*LN-102*/     }
+/*LN-103*/ }

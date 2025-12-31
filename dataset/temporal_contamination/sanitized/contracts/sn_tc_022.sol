@@ -90,41 +90,38 @@
 /*LN-90*/         uint256 balance0Adjusted = balance0 * 10000 - amount0In * TOTAL_FEE;
 /*LN-91*/         uint256 balance1Adjusted = balance1 * 10000 - amount1In * TOTAL_FEE;
 /*LN-92*/ 
-/*LN-93*/         // K check uses 1000 scale (should be 10000 to match above!)
-/*LN-94*/ 
-/*LN-95*/         require(
-/*LN-96*/             balance0Adjusted * balance1Adjusted >=
-/*LN-97*/                 uint256(_reserve0) * _reserve1 * (1000 ** 2),
-/*LN-98*/             "UraniumSwap: K"
-/*LN-99*/         );
-/*LN-100*/ 
-/*LN-101*/         // Update reserves
-/*LN-102*/         reserve0 = uint112(balance0);
-/*LN-103*/         reserve1 = uint112(balance1);
-/*LN-104*/     }
-/*LN-105*/ 
-/*LN-106*/     /**
-/*LN-107*/      * @notice Get current reserves
-/*LN-108*/      */
-/*LN-109*/     function getReserves() external view returns (uint112, uint112, uint32) {
-/*LN-110*/         return (reserve0, reserve1, 0);
-/*LN-111*/     }
-/*LN-112*/ 
-/*LN-113*/     /**
-/*LN-114*/      * @notice Helper function for square root
-/*LN-115*/      */
-/*LN-116*/     function sqrt(uint256 y) internal pure returns (uint256 z) {
-/*LN-117*/         if (y > 3) {
-/*LN-118*/             z = y;
-/*LN-119*/             uint256 x = y / 2 + 1;
-/*LN-120*/             while (x < z) {
-/*LN-121*/                 z = x;
-/*LN-122*/                 x = (y / x + x) / 2;
-/*LN-123*/             }
-/*LN-124*/         } else if (y != 0) {
-/*LN-125*/             z = 1;
-/*LN-126*/         }
-/*LN-127*/     }
-/*LN-128*/ }
-/*LN-129*/ 
-/*LN-130*/ 
+/*LN-93*/         require(
+/*LN-94*/             balance0Adjusted * balance1Adjusted >=
+/*LN-95*/                 uint256(_reserve0) * _reserve1 * (1000 ** 2),
+/*LN-96*/             "UraniumSwap: K"
+/*LN-97*/         );
+/*LN-98*/ 
+/*LN-99*/         // Update reserves
+/*LN-100*/         reserve0 = uint112(balance0);
+/*LN-101*/         reserve1 = uint112(balance1);
+/*LN-102*/     }
+/*LN-103*/ 
+/*LN-104*/     /**
+/*LN-105*/      * @notice Get current reserves
+/*LN-106*/      */
+/*LN-107*/     function getReserves() external view returns (uint112, uint112, uint32) {
+/*LN-108*/         return (reserve0, reserve1, 0);
+/*LN-109*/     }
+/*LN-110*/ 
+/*LN-111*/     /**
+/*LN-112*/      * @notice Helper function for square root
+/*LN-113*/      */
+/*LN-114*/     function sqrt(uint256 y) internal pure returns (uint256 z) {
+/*LN-115*/         if (y > 3) {
+/*LN-116*/             z = y;
+/*LN-117*/             uint256 x = y / 2 + 1;
+/*LN-118*/             while (x < z) {
+/*LN-119*/                 z = x;
+/*LN-120*/                 x = (y / x + x) / 2;
+/*LN-121*/             }
+/*LN-122*/         } else if (y != 0) {
+/*LN-123*/             z = 1;
+/*LN-124*/         }
+/*LN-125*/     }
+/*LN-126*/ }
+/*LN-127*/ 

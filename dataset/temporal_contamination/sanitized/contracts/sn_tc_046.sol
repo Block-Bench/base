@@ -8,66 +8,67 @@
 /*LN-8*/ }
 /*LN-9*/ 
 /*LN-10*/ /**
-/*LN-11*/ 
-/*LN-12*/  */
-/*LN-13*/ contract FloatHotWalletV2 {
-/*LN-14*/     address public owner;
-/*LN-15*/ 
-/*LN-16*/     // No multi-sig, no timelock, no withdrawal limits
-/*LN-17*/ 
-/*LN-18*/     mapping(address => bool) public authorizedOperators;
-/*LN-19*/ 
-/*LN-20*/     event Withdrawal(address token, address to, uint256 amount);
-/*LN-21*/ 
-/*LN-22*/     constructor() {
-/*LN-23*/         owner = msg.sender;
-/*LN-24*/     }
-/*LN-25*/ 
-/*LN-26*/     modifier onlyOwner() {
-/*LN-27*/         require(msg.sender == owner, "Not owner");
-/*LN-28*/         _;
-/*LN-29*/     }
-/*LN-30*/ 
-/*LN-31*/     function withdraw(
-/*LN-32*/         address token,
-/*LN-33*/         address to,
-/*LN-34*/         uint256 amount
-/*LN-35*/     ) external onlyOwner {
-/*LN-36*/ 
-/*LN-37*/         if (token == address(0)) {
-/*LN-38*/             // Withdraw ETH
-/*LN-39*/             payable(to).transfer(amount);
-/*LN-40*/         } else {
-/*LN-41*/             // Withdraw ERC20 tokens
-/*LN-42*/             IERC20(token).transfer(to, amount);
-/*LN-43*/         }
-/*LN-44*/ 
-/*LN-45*/         emit Withdrawal(token, to, amount);
-/*LN-46*/     }
-/*LN-47*/ 
-/*LN-48*/     function emergencyWithdraw(address token) external onlyOwner {
-/*LN-49*/ 
-/*LN-50*/         uint256 balance;
-/*LN-51*/         if (token == address(0)) {
-/*LN-52*/             balance = address(this).balance;
-/*LN-53*/             payable(owner).transfer(balance);
-/*LN-54*/         } else {
-/*LN-55*/             balance = IERC20(token).balanceOf(address(this));
-/*LN-56*/             IERC20(token).transfer(owner, balance);
-/*LN-57*/         }
-/*LN-58*/ 
-/*LN-59*/         emit Withdrawal(token, owner, balance);
-/*LN-60*/     }
+/*LN-11*/  */
+/*LN-12*/ contract FloatHotWalletV2 {
+/*LN-13*/     address public owner;
+/*LN-14*/ 
+/*LN-15*/     mapping(address => bool) public authorizedOperators;
+/*LN-16*/ 
+/*LN-17*/     event Withdrawal(address token, address to, uint256 amount);
+/*LN-18*/ 
+/*LN-19*/     constructor() {
+/*LN-20*/         owner = msg.sender;
+/*LN-21*/     }
+/*LN-22*/ 
+/*LN-23*/     /**
+/*LN-24*/      */
+/*LN-25*/     modifier onlyOwner() {
+/*LN-26*/         require(msg.sender == owner, "Not owner");
+/*LN-27*/         _;
+/*LN-28*/     }
+/*LN-29*/ 
+/*LN-30*/     /**
+/*LN-31*/      */
+/*LN-32*/     function withdraw(
+/*LN-33*/         address token,
+/*LN-34*/         address to,
+/*LN-35*/         uint256 amount
+/*LN-36*/     ) external onlyOwner {
+/*LN-37*/ 
+/*LN-38*/         if (token == address(0)) {
+/*LN-39*/             // Withdraw ETH
+/*LN-40*/             payable(to).transfer(amount);
+/*LN-41*/         } else {
+/*LN-42*/             // Withdraw ERC20 tokens
+/*LN-43*/             IERC20(token).transfer(to, amount);
+/*LN-44*/         }
+/*LN-45*/ 
+/*LN-46*/         emit Withdrawal(token, to, amount);
+/*LN-47*/     }
+/*LN-48*/ 
+/*LN-49*/     /**
+/*LN-50*/      */
+/*LN-51*/     function emergencyWithdraw(address token) external onlyOwner {
+/*LN-52*/ 
+/*LN-53*/         uint256 balance;
+/*LN-54*/         if (token == address(0)) {
+/*LN-55*/             balance = address(this).balance;
+/*LN-56*/             payable(owner).transfer(balance);
+/*LN-57*/         } else {
+/*LN-58*/             balance = IERC20(token).balanceOf(address(this));
+/*LN-59*/             IERC20(token).transfer(owner, balance);
+/*LN-60*/         }
 /*LN-61*/ 
-/*LN-62*/     /**
-/*LN-63*/      * @dev Transfer ownership - critical function with no protection
-/*LN-64*/      */
-/*LN-65*/     function transferOwnership(address newOwner) external onlyOwner {
-/*LN-66*/ 
-/*LN-67*/         owner = newOwner;
-/*LN-68*/     }
-/*LN-69*/ 
-/*LN-70*/     receive() external payable {}
-/*LN-71*/ }
-/*LN-72*/ 
-/*LN-73*/ 
+/*LN-62*/         emit Withdrawal(token, owner, balance);
+/*LN-63*/     }
+/*LN-64*/ 
+/*LN-65*/     /**
+/*LN-66*/      * @dev Transfer ownership - critical function with no protection
+/*LN-67*/      */
+/*LN-68*/     function transferOwnership(address newOwner) external onlyOwner {
+/*LN-69*/         owner = newOwner;
+/*LN-70*/     }
+/*LN-71*/ 
+/*LN-72*/     receive() external payable {}
+/*LN-73*/ }
+/*LN-74*/ 

@@ -18,7 +18,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-11",
   "description": "DeltaPrime suffered a $4.75M exploit when attackers compromised an admin private key with upgrade privileges. They upgraded a pool contract to inject malicious code, then exploited the backdoored contract to drain funds through fake pair contracts and balance manipulation.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    49,
+    82
+  ],
   "vulnerability_details": {
     "root_cause": "Single private key compromise allowed arbitrary contract upgrades without timelock or multi-sig",
     "attack_vector": "Compromise admin key, upgrade pool to malicious implementation, exploit backdoor to drain funds",
@@ -73,28 +76,18 @@
   "variant_type": "sanitized",
   "variant_parent_id": "tc_044",
   "transformation": {
-    "type": "full_sanitization",
-    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_044.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_044.json",
-    "script": "strategies/sanitize/sanitize_originals.py",
-    "changes": [
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: exploit...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: VULNERABILITY...",
-      "Removed comment: // Attacker uploaded malicious implementation...",
-      "Removed comment: // Attacker's upgraded version allows arbitrary ex...",
-      "Removed comment: // Attacker can provide malicious fake pair contra...",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint",
-      "Removed block comment with vulnerability hint"
-    ],
+    "type": "full_sanitization_from_minimalsanitized",
+    "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts/ms_tc_044.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/metadata/ms_tc_044.json",
+    "original_id": "tc_044",
+    "minimalsanitized_id": "ms_tc_044",
+    "script": "strategies/sanitize/sanitize_on_minimal_sanitize.py",
+    "changes": [],
     "contract_renames": {},
-    "created_date": "2025-12-29T22:32:45.457752"
-  }
+    "created_date": "2025-12-31T20:00:32.319757"
+  },
+  "vulnerable_contract": "SmartLoansFactory",
+  "vulnerable_function": "upgradePool",
+  "sanitized_from": "ms_tc_044"
 }

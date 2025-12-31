@@ -47,78 +47,78 @@
 /*LN-47*/         positions[msg.sender].lpTokenAmount += amount;
 /*LN-48*/     }
 /*LN-49*/ 
-/*LN-50*/     function borrow(uint256 amount) external {
-/*LN-51*/         uint256 collateralValue = getLPTokenValue(
-/*LN-52*/             positions[msg.sender].lpTokenAmount
-/*LN-53*/         );
-/*LN-54*/         uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;
-/*LN-55*/ 
-/*LN-56*/         require(
-/*LN-57*/             positions[msg.sender].borrowed + amount <= maxBorrow,
-/*LN-58*/             "Insufficient collateral"
-/*LN-59*/         );
-/*LN-60*/ 
-/*LN-61*/         positions[msg.sender].borrowed += amount;
-/*LN-62*/         IERC20(stablecoin).transfer(msg.sender, amount);
-/*LN-63*/     }
-/*LN-64*/ 
-/*LN-65*/     function getLPTokenValue(uint256 lpAmount) public view returns (uint256) {
-/*LN-66*/         if (lpAmount == 0) return 0;
+/*LN-50*/     /**
+/*LN-51*/      * @notice Borrow stablecoins against LP token collateral
+/*LN-52*/      */
+/*LN-53*/     function borrow(uint256 amount) external {
+/*LN-54*/         uint256 collateralValue = getLPTokenValue(
+/*LN-55*/             positions[msg.sender].lpTokenAmount
+/*LN-56*/         );
+/*LN-57*/         uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;
+/*LN-58*/ 
+/*LN-59*/         require(
+/*LN-60*/             positions[msg.sender].borrowed + amount <= maxBorrow,
+/*LN-61*/             "Insufficient collateral"
+/*LN-62*/         );
+/*LN-63*/ 
+/*LN-64*/         positions[msg.sender].borrowed += amount;
+/*LN-65*/         IERC20(stablecoin).transfer(msg.sender, amount);
+/*LN-66*/     }
 /*LN-67*/ 
-/*LN-68*/         IUniswapV2Pair pair = IUniswapV2Pair(lpToken);
-/*LN-69*/ 
-/*LN-70*/         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
-/*LN-71*/         uint256 totalSupply = pair.totalSupply();
+/*LN-68*/     function getLPTokenValue(uint256 lpAmount) public view returns (uint256) {
+/*LN-69*/         if (lpAmount == 0) return 0;
+/*LN-70*/ 
+/*LN-71*/         IUniswapV2Pair pair = IUniswapV2Pair(lpToken);
 /*LN-72*/ 
-/*LN-73*/         // Calculate share of reserves owned by these LP tokens
-/*LN-74*/ 
-/*LN-75*/         uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;
-/*LN-76*/         uint256 amount1 = (uint256(reserve1) * lpAmount) / totalSupply;
+/*LN-73*/         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
+/*LN-74*/         uint256 totalSupply = pair.totalSupply();
+/*LN-75*/ 
+/*LN-76*/         // Calculate share of reserves owned by these LP tokens
 /*LN-77*/ 
-/*LN-78*/         // For simplicity, assume token0 is stablecoin ($1) and token1 is ETH
-/*LN-79*/         // In reality, would need oracle for ETH price
+/*LN-78*/         uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;
+/*LN-79*/         uint256 amount1 = (uint256(reserve1) * lpAmount) / totalSupply;
 /*LN-80*/ 
-/*LN-81*/         uint256 value0 = amount0; // amount0 is stablecoin, worth face value
-/*LN-82*/ 
-/*LN-83*/         // This simplified version just adds both reserves
+/*LN-81*/         // For simplicity, assume token0 is stablecoin ($1) and token1 is ETH
+/*LN-82*/         // In reality, would need oracle for ETH price
+/*LN-83*/         uint256 value0 = amount0; // amount0 is stablecoin, worth face value
 /*LN-84*/ 
-/*LN-85*/         uint256 totalValue = amount0 + amount1;
-/*LN-86*/ 
-/*LN-87*/         return totalValue;
-/*LN-88*/     }
-/*LN-89*/ 
-/*LN-90*/     /**
-/*LN-91*/      * @notice Repay borrowed amount
-/*LN-92*/      */
-/*LN-93*/     function repay(uint256 amount) external {
-/*LN-94*/         require(positions[msg.sender].borrowed >= amount, "Repay exceeds debt");
-/*LN-95*/ 
-/*LN-96*/         IERC20(stablecoin).transferFrom(msg.sender, address(this), amount);
-/*LN-97*/         positions[msg.sender].borrowed -= amount;
-/*LN-98*/     }
-/*LN-99*/ 
-/*LN-100*/     /**
-/*LN-101*/      * @notice Withdraw LP tokens
-/*LN-102*/      */
-/*LN-103*/     function withdraw(uint256 amount) external {
-/*LN-104*/         require(
-/*LN-105*/             positions[msg.sender].lpTokenAmount >= amount,
-/*LN-106*/             "Insufficient balance"
-/*LN-107*/         );
-/*LN-108*/ 
-/*LN-109*/         // Check that position remains healthy after withdrawal
-/*LN-110*/         uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;
-/*LN-111*/         uint256 remainingValue = getLPTokenValue(remainingLP);
-/*LN-112*/         uint256 maxBorrow = (remainingValue * 100) / COLLATERAL_RATIO;
-/*LN-113*/ 
-/*LN-114*/         require(
-/*LN-115*/             positions[msg.sender].borrowed <= maxBorrow,
-/*LN-116*/             "Withdrawal would liquidate position"
-/*LN-117*/         );
-/*LN-118*/ 
-/*LN-119*/         positions[msg.sender].lpTokenAmount -= amount;
-/*LN-120*/         IERC20(lpToken).transfer(msg.sender, amount);
-/*LN-121*/     }
-/*LN-122*/ }
-/*LN-123*/ 
+/*LN-85*/         // This simplified version just adds both reserves
+/*LN-86*/         uint256 totalValue = amount0 + amount1;
+/*LN-87*/ 
+/*LN-88*/         return totalValue;
+/*LN-89*/     }
+/*LN-90*/ 
+/*LN-91*/     /**
+/*LN-92*/      * @notice Repay borrowed amount
+/*LN-93*/      */
+/*LN-94*/     function repay(uint256 amount) external {
+/*LN-95*/         require(positions[msg.sender].borrowed >= amount, "Repay exceeds debt");
+/*LN-96*/ 
+/*LN-97*/         IERC20(stablecoin).transferFrom(msg.sender, address(this), amount);
+/*LN-98*/         positions[msg.sender].borrowed -= amount;
+/*LN-99*/     }
+/*LN-100*/ 
+/*LN-101*/     /**
+/*LN-102*/      * @notice Withdraw LP tokens
+/*LN-103*/      */
+/*LN-104*/     function withdraw(uint256 amount) external {
+/*LN-105*/         require(
+/*LN-106*/             positions[msg.sender].lpTokenAmount >= amount,
+/*LN-107*/             "Insufficient balance"
+/*LN-108*/         );
+/*LN-109*/ 
+/*LN-110*/         // Check that position remains healthy after withdrawal
+/*LN-111*/         uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;
+/*LN-112*/         uint256 remainingValue = getLPTokenValue(remainingLP);
+/*LN-113*/         uint256 maxBorrow = (remainingValue * 100) / COLLATERAL_RATIO;
+/*LN-114*/ 
+/*LN-115*/         require(
+/*LN-116*/             positions[msg.sender].borrowed <= maxBorrow,
+/*LN-117*/             "Withdrawal would liquidate position"
+/*LN-118*/         );
+/*LN-119*/ 
+/*LN-120*/         positions[msg.sender].lpTokenAmount -= amount;
+/*LN-121*/         IERC20(lpToken).transfer(msg.sender, amount);
+/*LN-122*/     }
+/*LN-123*/ }
 /*LN-124*/ 

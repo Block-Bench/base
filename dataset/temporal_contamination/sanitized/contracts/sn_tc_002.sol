@@ -9,7 +9,7 @@
 /*LN-9*/     }
 /*LN-10*/ }
 /*LN-11*/ 
-/*LN-12*/ contract BasicGovernance {
+/*LN-12*/ contract Governance {
 /*LN-13*/     // Voting power based on deposits
 /*LN-14*/     mapping(address => uint256) public depositedBalance;
 /*LN-15*/     mapping(address => uint256) public votingPower;
@@ -41,68 +41,73 @@
 /*LN-41*/     event Voted(uint256 indexed proposalId, address voter, uint256 votes);
 /*LN-42*/     event ProposalExecuted(uint256 indexed proposalId);
 /*LN-43*/ 
-/*LN-44*/     function deposit(uint256 amount) external {
-/*LN-45*/ 
-/*LN-46*/         // Simplified for demonstration
-/*LN-47*/         depositedBalance[msg.sender] += amount;
-/*LN-48*/         votingPower[msg.sender] += amount;
-/*LN-49*/         totalVotingPower += amount;
-/*LN-50*/     }
-/*LN-51*/ 
-/*LN-52*/     function propose(
-/*LN-53*/         IDiamondCut.FacetCut[] calldata, // Diamond cut (unused in this simplified version)
-/*LN-54*/         address _target,
-/*LN-55*/         bytes calldata _calldata,
-/*LN-56*/         uint8 /* _pauseOrUnpause */
-/*LN-57*/     ) external returns (uint256) {
-/*LN-58*/         proposalCount++;
-/*LN-59*/ 
-/*LN-60*/         Proposal storage prop = proposals[proposalCount];
-/*LN-61*/         prop.proposer = msg.sender;
-/*LN-62*/         prop.target = _target;
-/*LN-63*/         prop.data = _calldata;
-/*LN-64*/         prop.startTime = block.timestamp;
-/*LN-65*/         prop.executed = false;
+/*LN-44*/     /**
+/*LN-45*/      * @notice Deposit tokens to gain voting power
+/*LN-46*/      * @param amount Amount to deposit
+/*LN-47*/      *
+/*LN-48*/      * This function allows anyone to gain voting power by depositing,
+/*LN-49*/      * including via flash-loaned funds with no time delay.
+/*LN-50*/      */
+/*LN-51*/     function deposit(uint256 amount) external {
+/*LN-52*/ 
+/*LN-53*/         // Simplified for demonstration
+/*LN-54*/         depositedBalance[msg.sender] += amount;
+/*LN-55*/         votingPower[msg.sender] += amount;
+/*LN-56*/         totalVotingPower += amount;
+/*LN-57*/     }
+/*LN-58*/ 
+/*LN-59*/     function propose(
+/*LN-60*/         IDiamondCut.FacetCut[] calldata, // Diamond cut (unused in this simplified version)
+/*LN-61*/         address _target,
+/*LN-62*/         bytes calldata _calldata,
+/*LN-63*/         uint8 /* _pauseOrUnpause */
+/*LN-64*/     ) external returns (uint256) {
+/*LN-65*/         proposalCount++;
 /*LN-66*/ 
-/*LN-67*/         // Auto-vote with proposer's voting power
-/*LN-68*/         prop.forVotes = votingPower[msg.sender];
-/*LN-69*/         hasVoted[proposalCount][msg.sender] = true;
-/*LN-70*/ 
-/*LN-71*/         emit ProposalCreated(proposalCount, msg.sender, _target);
-/*LN-72*/         return proposalCount;
-/*LN-73*/     }
-/*LN-74*/ 
-/*LN-75*/     /**
-/*LN-76*/      * @notice Vote on a proposal
-/*LN-77*/      * @param proposalId The ID of the proposal
-/*LN-78*/      */
-/*LN-79*/     function vote(uint256 proposalId) external {
-/*LN-80*/         require(!hasVoted[proposalId][msg.sender], "Already voted");
-/*LN-81*/         require(!proposals[proposalId].executed, "Already executed");
-/*LN-82*/ 
-/*LN-83*/         proposals[proposalId].forVotes += votingPower[msg.sender];
-/*LN-84*/         hasVoted[proposalId][msg.sender] = true;
-/*LN-85*/ 
-/*LN-86*/         emit Voted(proposalId, msg.sender, votingPower[msg.sender]);
-/*LN-87*/     }
-/*LN-88*/ 
-/*LN-89*/     function emergencyCommit(uint256 proposalId) external {
-/*LN-90*/         Proposal storage prop = proposals[proposalId];
-/*LN-91*/         require(!prop.executed, "Already executed");
+/*LN-67*/         Proposal storage prop = proposals[proposalCount];
+/*LN-68*/         prop.proposer = msg.sender;
+/*LN-69*/         prop.target = _target;
+/*LN-70*/         prop.data = _calldata;
+/*LN-71*/         prop.startTime = block.timestamp;
+/*LN-72*/         prop.executed = false;
+/*LN-73*/ 
+/*LN-74*/         // Auto-vote with proposer's voting power
+/*LN-75*/         prop.forVotes = votingPower[msg.sender];
+/*LN-76*/         hasVoted[proposalCount][msg.sender] = true;
+/*LN-77*/ 
+/*LN-78*/         emit ProposalCreated(proposalCount, msg.sender, _target);
+/*LN-79*/         return proposalCount;
+/*LN-80*/     }
+/*LN-81*/ 
+/*LN-82*/     /**
+/*LN-83*/      * @notice Vote on a proposal
+/*LN-84*/      * @param proposalId The ID of the proposal
+/*LN-85*/      */
+/*LN-86*/     function vote(uint256 proposalId) external {
+/*LN-87*/         require(!hasVoted[proposalId][msg.sender], "Already voted");
+/*LN-88*/         require(!proposals[proposalId].executed, "Already executed");
+/*LN-89*/ 
+/*LN-90*/         proposals[proposalId].forVotes += votingPower[msg.sender];
+/*LN-91*/         hasVoted[proposalId][msg.sender] = true;
 /*LN-92*/ 
-/*LN-93*/         // or minimum holding period
-/*LN-94*/         uint256 votePercentage = (prop.forVotes * 100) / totalVotingPower;
-/*LN-95*/         require(votePercentage >= EMERGENCY_THRESHOLD, "Insufficient votes");
-/*LN-96*/ 
-/*LN-97*/         prop.executed = true;
-/*LN-98*/ 
-/*LN-99*/         // Execute the proposal
-/*LN-100*/ 
-/*LN-101*/         (bool success, ) = prop.target.call(prop.data);
-/*LN-102*/         require(success, "Execution failed");
+/*LN-93*/         emit Voted(proposalId, msg.sender, votingPower[msg.sender]);
+/*LN-94*/     }
+/*LN-95*/ 
+/*LN-96*/     function emergencyCommit(uint256 proposalId) external {
+/*LN-97*/         Proposal storage prop = proposals[proposalId];
+/*LN-98*/         require(!prop.executed, "Already executed");
+/*LN-99*/ 
+/*LN-100*/         // or minimum holding period
+/*LN-101*/         uint256 votePercentage = (prop.forVotes * 100) / totalVotingPower;
+/*LN-102*/         require(votePercentage >= EMERGENCY_THRESHOLD, "Insufficient votes");
 /*LN-103*/ 
-/*LN-104*/         emit ProposalExecuted(proposalId);
-/*LN-105*/     }
-/*LN-106*/ }
-/*LN-107*/ 
-/*LN-108*/ 
+/*LN-104*/         prop.executed = true;
+/*LN-105*/ 
+/*LN-106*/         // Execute the proposal
+/*LN-107*/         (bool success, ) = prop.target.call(prop.data);
+/*LN-108*/         require(success, "Execution failed");
+/*LN-109*/ 
+/*LN-110*/         emit ProposalExecuted(proposalId);
+/*LN-111*/     }
+/*LN-112*/ }
+/*LN-113*/ 

@@ -17,7 +17,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-08",
   "description": "Exactly Protocol lost $12M when attackers exploited the DebtPreviewer helper contract. By providing a malicious market address in the debt calculation, they manipulated their perceived collateral value, allowing over-borrowing far exceeding actual collateral.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    39,
+    110
+  ],
   "vulnerability_details": {
     "root_cause": "DebtPreviewer trusted user-provided market addresses without validation, allowing fake market data injection",
     "attack_vector": "Deploy malicious market returning fake collateral, pass to previewer in borrow check, over-borrow",
@@ -75,10 +78,13 @@
     "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata/sn_tc_049.json",
     "script": "strategies/nocomments/nocomments_tc.py",
     "changes": [
-      "Removed 5 comments (single-line and multi-line)",
+      "Removed 7 comments (single-line and multi-line)",
       "Regenerated fresh line markers"
     ],
-    "comments_removed": 5,
-    "created_date": "2025-12-29T23:10:21.418592"
-  }
+    "comments_removed": 7,
+    "created_date": "2025-12-31T20:00:38.864758"
+  },
+  "vulnerable_contract": "DebtPreviewer",
+  "vulnerable_function": "previewDebt",
+  "sanitized_from": "ms_tc_049"
 }

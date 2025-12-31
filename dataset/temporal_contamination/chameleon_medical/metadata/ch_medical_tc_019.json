@@ -16,21 +16,11 @@
   ],
   "description": "The Qubit Bridge failed to validate that the token contract address was not zero before processing deposits. An attacker exploited this by passing address(0) as the token contract. Since calling address(0) does not revert in the EVM, no tokens were actually transferred, but the bridge still emitted deposit events. The destination chain handler saw these events and minted tokens without real collateral backing, allowing the attacker to drain $80M.",
   "attack_scenario": "1) Attacker identified or created a resourceID that mapped to address(0) in the bridge handler. 2) Called deposit() with this resourceID and large amount. 3) Handler attempted transferFrom on address(0), which succeeded without transferring anything. 4) Bridge emitted deposit event. 5) BSC handler received event and minted tokens to attacker. 6) Attacker repeated the exploit multiple times to extract $80M worth of tokens without providing any real collateral.",
-  "vulnerable_contract": {
-    "name": "BridgeHandler",
-    "functions": [
-      {
-        "name": "deposit",
-        "vulnerability": "Missing validation that tokenContract != address(0)"
-      },
-      {
-        "name": "setResource",
-        "vulnerability": "Allows setting tokenAddress to address(0) without validation"
-      }
-    ]
-  },
+  "vulnerable_contract": "IntegrationHandler",
   "root_cause": "The bridge handler did not validate that the token contract address was not zero. Calls to address(0) do not revert in the EVM, so the transferFrom call succeeded silently without moving any tokens. However, the deposit event was still emitted, causing the destination chain to mint unbacked tokens.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    57
+  ],
   "fix": "Add explicit validation: require(tokenContract != address(0), 'Invalid token'). Also verify that tokenContract is in the whitelist and that the transferFrom actually succeeded by checking balance changes or return values.",
   "references": [
     "https://twitter.com/QubitFin/status/1486892916055601154",
@@ -58,27 +48,29 @@
       "Renamed 17/50 identifiers (34.0% coverage)"
     ],
     "rename_map": {
-      "from": "source",
+      "from": "referrer",
       "amount": "quantity",
-      "account": "profile",
-      "handler": "caseHandler",
+      "account": "chart",
+      "handler": "patientHandler",
       "Deposit": "SubmitPayment",
-      "destinationDomainID": "endpointDomainChartnumber",
+      "destinationDomainID": "targetDomainChartnumber",
       "resourceID": "resourceCasenumber",
-      "depositNonce": "submitpaymentVisitnumber",
+      "depositNonce": "submitpaymentSequence",
       "deposit": "submitPayment",
-      "data": "record",
+      "data": "info",
       "BridgeHandler": "IntegrationHandler",
       "sender": "requestor",
-      "resourceIDToTokenContractAddress": "resourceChartnumberReceiverCredentialPolicyFacility",
+      "resourceIDToTokenContractAddress": "resourceChartnumberReceiverCredentialAgreementLocation",
       "contractWhitelist": "policyWhitelist",
-      "tokenContract": "credentialPolicy",
-      "setResource": "groupResource",
-      "tokenAddress": "credentialFacility"
+      "tokenContract": "credentialAgreement",
+      "setResource": "collectionResource",
+      "tokenAddress": "credentialLocation"
     },
     "coverage_percent": 34.0,
     "identifiers_transformed": 17,
     "identifiers_total": 50,
-    "created_date": "2025-12-29T23:26:42.399938"
-  }
+    "created_date": "2025-12-31T19:50:53.781985"
+  },
+  "vulnerable_function": "submitPayment",
+  "sanitized_from": "ms_tc_019"
 }

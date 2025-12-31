@@ -12,9 +12,12 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Nomad Bridge hack exploiting improper initialization of message validation. After a contract upgrade, the acceptedRoot was mistakenly set to 0x00...00, allowing attackers to craft messages that bypassed validation and drain $190M across 41 different tokens.",
-  "vulnerable_contract": "BasicBridgeReplica",
+  "vulnerable_contract": "BridgeReplica",
   "vulnerable_function": "process",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    15,
+    40
+  ],
   "attack_scenario": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation. The process() function incorrectly accepts these messages, triggering token transfers without corresponding deposits on the source chain.",
   "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
   "fix_description": "Proper initialization of acceptedRoot after contract upgrades. Implement strict validation that acceptedRoot can never be 0x00...00. Add additional checks to ensure messages are properly committed to a merkle tree before processing. Implement emergency pause mechanisms.",
@@ -45,10 +48,11 @@
     "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/metadata/sn_tc_001.json",
     "script": "strategies/nocomments/nocomments_tc.py",
     "changes": [
-      "Removed 16 comments (single-line and multi-line)",
+      "Removed 13 comments (single-line and multi-line)",
       "Regenerated fresh line markers"
     ],
-    "comments_removed": 16,
-    "created_date": "2025-12-29T23:10:21.386561"
-  }
+    "comments_removed": 13,
+    "created_date": "2025-12-31T20:00:38.837577"
+  },
+  "sanitized_from": "ms_tc_001"
 }

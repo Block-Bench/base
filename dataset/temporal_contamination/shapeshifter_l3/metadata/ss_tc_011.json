@@ -12,9 +12,12 @@
   "description": "ERC-777 reentrancy attack exploiting tokensToSend hooks. The withdraw function transferred tokens before updating balances, allowing recursive withdrawals through ERC-777 callbacks.",
   "root_cause": "Token transfer before state update, combined with ERC-777 tokensToSend hook that allows reentrancy. Same checks-effects-interactions violation but with token hooks instead of fallback.",
   "attack_scenario": "Attacker supplied ERC-777 tokens (imBTC), then called withdraw. During token transfer, ERC-777 triggered attacker's tokensToSend hook, which re-entered withdraw before balance update.",
-  "vulnerable_contract": "lendf_me.sol",
+  "vulnerable_contract": "LendingPool",
   "vulnerable_function": "_0x0f4194",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    34,
+    35
+  ],
   "fix_description": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth.",
   "tags": [
     "reentrancy",
@@ -60,11 +63,11 @@
       "setInterfaceImplementer": "_0x390062",
       "requestedAmount": "_0x0cce35",
       "withdrawAmount": "_0x8cd0a4",
-      "interfaceHash": "_0x7d6277",
-      "totalSupplied": "_0x7248ad",
+      "totalSupplied": "_0x7d6277",
+      "interfaceHash": "_0x7248ad",
       "userBalance": "_0x477183",
-      "implementer": "_0x347a3f",
-      "getSupplied": "_0x2c833f",
+      "getSupplied": "_0x347a3f",
+      "implementer": "_0x2c833f",
       "balanceOf": "_0xd80623",
       "supplied": "_0x1045d1",
       "withdraw": "_0x0f4194",
@@ -79,6 +82,7 @@
     },
     "coverage_percent": 65.52,
     "identifiers_transformed": 19,
-    "created_date": "2025-12-30T00:24:49.056947"
-  }
+    "created_date": "2025-12-31T19:59:41.157512"
+  },
+  "sanitized_from": "ms_tc_011"
 }

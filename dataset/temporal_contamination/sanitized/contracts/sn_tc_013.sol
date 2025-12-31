@@ -23,7 +23,7 @@
 /*LN-23*/     ) external returns (uint[] memory amounts);
 /*LN-24*/ }
 /*LN-25*/ 
-/*LN-26*/ contract BasicMinter {
+/*LN-26*/ contract RewardMinter {
 /*LN-27*/     IERC20 public lpToken; // LP token (e.g., CAKE-BNB)
 /*LN-28*/     IERC20 public rewardToken;
 /*LN-29*/ 
@@ -45,55 +45,69 @@
 /*LN-45*/         depositedLP[msg.sender] += amount;
 /*LN-46*/     }
 /*LN-47*/ 
-/*LN-48*/     function mintFor(
-/*LN-49*/         address flip,
-/*LN-50*/         uint256 _withdrawalFee,
-/*LN-51*/         uint256 _performanceFee,
-/*LN-52*/         address to,
-/*LN-53*/         uint256 /* amount - unused */
-/*LN-54*/     ) external {
-/*LN-55*/         require(flip == address(lpToken), "Invalid token");
-/*LN-56*/ 
-/*LN-57*/         // Transfer fees from caller
-/*LN-58*/         uint256 feeSum = _performanceFee + _withdrawalFee;
-/*LN-59*/         lpToken.transferFrom(msg.sender, address(this), feeSum);
-/*LN-60*/ 
-/*LN-61*/         // This includes tokens sent directly to contract, not just fees
-/*LN-62*/         uint256 rewardAmount = tokenToReward(
-/*LN-63*/             lpToken.balanceOf(address(this))
-/*LN-64*/         );
-/*LN-65*/ 
-/*LN-66*/         // Mint excessive rewards
-/*LN-67*/         earnedRewards[to] += rewardAmount;
-/*LN-68*/     }
-/*LN-69*/ 
-/*LN-70*/     /**
-/*LN-71*/      * @notice Convert LP token amount to reward amount
-/*LN-72*/      * @dev This is called with the inflated balance
-/*LN-73*/      */
-/*LN-74*/     function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
-/*LN-75*/         return lpAmount * REWARD_RATE;
-/*LN-76*/     }
+/*LN-48*/     /**
+/*LN-49*/      * @notice Calculate and mint rewards for user
+/*LN-50*/      * @param flip The LP token address
+/*LN-51*/      * @param _withdrawalFee Withdrawal fee amount
+/*LN-52*/      * @param _performanceFee Performance fee amount
+/*LN-53*/      * @param to Recipient address
+/*LN-54*/      *
+/*LN-55*/ 
+/*LN-56*/      *
+/*LN-57*/      *
+/*LN-58*/ 
+/*LN-59*/      *
+/*LN-60*/      *
+/*LN-61*/      *
+/*LN-62*/      *
+/*LN-63*/      *
+/*LN-64*/      */
+/*LN-65*/     function mintFor(
+/*LN-66*/         address flip,
+/*LN-67*/         uint256 _withdrawalFee,
+/*LN-68*/         uint256 _performanceFee,
+/*LN-69*/         address to,
+/*LN-70*/         uint256 /* amount - unused */
+/*LN-71*/     ) external {
+/*LN-72*/         require(flip == address(lpToken), "Invalid token");
+/*LN-73*/ 
+/*LN-74*/         // Transfer fees from caller
+/*LN-75*/         uint256 feeSum = _performanceFee + _withdrawalFee;
+/*LN-76*/         lpToken.transferFrom(msg.sender, address(this), feeSum);
 /*LN-77*/ 
-/*LN-78*/     /**
-/*LN-79*/      * @notice Claim earned rewards
-/*LN-80*/      */
-/*LN-81*/     function getReward() external {
-/*LN-82*/         uint256 reward = earnedRewards[msg.sender];
-/*LN-83*/         require(reward > 0, "No rewards");
+/*LN-78*/         uint256 rewardAmount = tokenToReward(
+/*LN-79*/             lpToken.balanceOf(address(this))
+/*LN-80*/         );
+/*LN-81*/ 
+/*LN-82*/         earnedRewards[to] += rewardAmount;
+/*LN-83*/     }
 /*LN-84*/ 
-/*LN-85*/         earnedRewards[msg.sender] = 0;
-/*LN-86*/         rewardToken.transfer(msg.sender, reward);
-/*LN-87*/     }
-/*LN-88*/ 
-/*LN-89*/     /**
-/*LN-90*/      * @notice Withdraw deposited LP tokens
-/*LN-91*/      */
-/*LN-92*/     function withdraw(uint256 amount) external {
-/*LN-93*/         require(depositedLP[msg.sender] >= amount, "Insufficient balance");
-/*LN-94*/         depositedLP[msg.sender] -= amount;
-/*LN-95*/         lpToken.transfer(msg.sender, amount);
-/*LN-96*/     }
-/*LN-97*/ }
-/*LN-98*/ 
+/*LN-85*/     /**
+/*LN-86*/      * @notice Convert LP token amount to reward amount
+/*LN-87*/      * @dev This is called with the inflated balance
+/*LN-88*/      */
+/*LN-89*/     function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
+/*LN-90*/         return lpAmount * REWARD_RATE;
+/*LN-91*/     }
+/*LN-92*/ 
+/*LN-93*/     /**
+/*LN-94*/      * @notice Claim earned rewards
+/*LN-95*/      */
+/*LN-96*/     function getReward() external {
+/*LN-97*/         uint256 reward = earnedRewards[msg.sender];
+/*LN-98*/         require(reward > 0, "No rewards");
 /*LN-99*/ 
+/*LN-100*/         earnedRewards[msg.sender] = 0;
+/*LN-101*/         rewardToken.transfer(msg.sender, reward);
+/*LN-102*/     }
+/*LN-103*/ 
+/*LN-104*/     /**
+/*LN-105*/      * @notice Withdraw deposited LP tokens
+/*LN-106*/      */
+/*LN-107*/     function withdraw(uint256 amount) external {
+/*LN-108*/         require(depositedLP[msg.sender] >= amount, "Insufficient balance");
+/*LN-109*/         depositedLP[msg.sender] -= amount;
+/*LN-110*/         lpToken.transfer(msg.sender, amount);
+/*LN-111*/     }
+/*LN-112*/ }
+/*LN-113*/ 

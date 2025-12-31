@@ -19,7 +19,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-02",
   "description": "Seneca Protocol's Chamber contract was exploited for $6.4M through its performOperations() function. The function accepted user-controlled target addresses and calldata, allowing attackers to call transferFrom() on tokens where victims had given approvals to Chamber.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    31
+  ],
   "vulnerability_details": {
     "root_cause": "User-controlled target address and calldata in performOperations allowing arbitrary external calls",
     "attack_vector": "Craft operation with transferFrom calldata targeting victim tokens, execute via performOperations",
@@ -96,21 +98,24 @@
       "transferFrom": "_0x0cce35",
       "vaultOwners": "_0x8cd0a4",
       "balanceOf": "_0x7d6277",
-      "account": "_0x7248ad",
-      "approve": "_0x477183",
-      "actions": "_0x347a3f",
-      "spender": "_0x2c833f",
-      "success": "_0xd80623",
-      "value1": "_0x1045d1",
-      "target": "_0x0f4194",
+      "success": "_0x7248ad",
+      "spender": "_0x477183",
+      "account": "_0x347a3f",
+      "approve": "_0x2c833f",
+      "actions": "_0xd80623",
+      "value2": "_0x1045d1",
+      "values": "_0x0f4194",
       "amount": "_0x2ff8d2",
-      "value2": "_0x6ff151",
-      "values": "_0x771f54",
+      "target": "_0x6ff151",
+      "value1": "_0x771f54",
       "datas": "_0x0d961f",
       "to": "_0x65ce0c"
     },
     "coverage_percent": 61.54,
     "identifiers_transformed": 16,
-    "created_date": "2025-12-30T00:24:49.153406"
-  }
+    "created_date": "2025-12-31T19:59:41.239778"
+  },
+  "vulnerable_contract": "CDPChamber",
+  "vulnerable_function": "_0x390062",
+  "sanitized_from": "ms_tc_043"
 }

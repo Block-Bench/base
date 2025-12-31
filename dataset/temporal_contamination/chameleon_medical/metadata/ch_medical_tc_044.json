@@ -18,7 +18,10 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-11",
   "description": "DeltaPrime suffered a $4.75M exploit when attackers compromised an admin private key with upgrade privileges. They upgraded a pool contract to inject malicious code, then exploited the backdoored contract to drain funds through fake pair contracts and balance manipulation.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    47,
+    75
+  ],
   "vulnerability_details": {
     "root_cause": "Single private key compromise allowed arbitrary contract upgrades without timelock or multi-sig",
     "attack_vector": "Compromise admin key, upgrade pool to malicious implementation, exploit backdoor to drain funds",
@@ -90,18 +93,18 @@
       "spender": "serviceProvider",
       "ISmartLoan": "VerifymartLoan",
       "swapDebtParaSwap": "exchangecredentialsOutstandingbalanceParaExchangecredentials",
-      "_fromAsset": "_referrerAsset",
+      "_fromAsset": "_sourceAsset",
       "_toAsset": "_receiverAsset",
       "_repayAmount": "_settlebalanceQuantity",
       "_borrowAmount": "_requestadvanceQuantity",
       "selector": "chooser",
       "data": "chart",
       "claimReward": "collectBenefit",
-      "pair": "duo",
+      "pair": "couple",
       "admin": "medicalDirector",
       "sender": "requestor",
       "upgradePool": "enhancesystemPool",
-      "newImplementation": "updatedAdministration",
+      "newImplementation": "updatedExecution",
       "deposits": "payments",
       "success": "recovery",
       "claimRewards": "collectBenefits"
@@ -109,6 +112,9 @@
     "coverage_percent": 33.33,
     "identifiers_transformed": 21,
     "identifiers_total": 63,
-    "created_date": "2025-12-29T23:26:42.496036"
-  }
+    "created_date": "2025-12-31T19:50:53.819324"
+  },
+  "vulnerable_contract": "SmartLoansFactory",
+  "vulnerable_function": "enhancesystemPool",
+  "sanitized_from": "ms_tc_044"
 }

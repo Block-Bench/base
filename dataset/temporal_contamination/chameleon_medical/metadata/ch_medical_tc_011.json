@@ -12,9 +12,12 @@
   "description": "ERC-777 reentrancy attack exploiting tokensToSend hooks. The withdraw function transferred tokens before updating balances, allowing recursive withdrawals through ERC-777 callbacks.",
   "root_cause": "Token transfer before state update, combined with ERC-777 tokensToSend hook that allows reentrancy. Same checks-effects-interactions violation but with token hooks instead of fallback.",
   "attack_scenario": "Attacker supplied ERC-777 tokens (imBTC), then called withdraw. During token transfer, ERC-777 triggered attacker's tokensToSend hook, which re-entered withdraw before balance update.",
-  "vulnerable_contract": "lendf_me.sol",
+  "vulnerable_contract": "MedicalCreditPool",
   "vulnerable_function": "dischargeFunds",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    51,
+    54
+  ],
   "fix_description": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth.",
   "tags": [
     "reentrancy",
@@ -45,13 +48,14 @@
     "script": "strategies/chameleon/chameleon_tc.py",
     "changes": [
       "Applied medical theme transformation",
-      "Renamed 16/49 identifiers (32.7% coverage)"
+      "Renamed 17/49 identifiers (34.7% coverage)"
     ],
     "rename_map": {
       "amount": "quantity",
-      "account": "profile",
-      "setInterfaceImplementer": "groupGatewayImplementer",
+      "account": "chart",
+      "setInterfaceImplementer": "collectionGatewayImplementer",
       "interfaceHash": "gatewayChecksum",
+      "LendingPool": "MedicalCreditPool",
       "supplied": "contributedAmount",
       "totalSupplied": "totalamountContributedamount",
       "supply": "provideResources",
@@ -61,13 +65,14 @@
       "requestedAmount": "requestedQuantity",
       "userBalance": "patientCredits",
       "withdrawAmount": "dischargefundsQuantity",
-      "max": "ceiling",
+      "max": "maximum",
       "getSupplied": "diagnoseContributedamount",
       "user": "patient"
     },
-    "coverage_percent": 32.65,
-    "identifiers_transformed": 16,
+    "coverage_percent": 34.69,
+    "identifiers_transformed": 17,
     "identifiers_total": 49,
-    "created_date": "2025-12-29T23:26:42.388823"
-  }
+    "created_date": "2025-12-31T19:50:53.764921"
+  },
+  "sanitized_from": "ms_tc_011"
 }

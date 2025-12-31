@@ -41,33 +41,34 @@
 /*LN-41*/         // Get pending rewards
 /*LN-42*/         uint256[] memory rewards = IPendleMarket(market).claimRewards(user);
 /*LN-43*/ 
-/*LN-44*/         // Update user's reward balance (should happen before external call)
+/*LN-44*/         // Update user's reward balance
 /*LN-45*/         for (uint256 i = 0; i < rewards.length; i++) {
 /*LN-46*/             // Process rewards
 /*LN-47*/         }
 /*LN-48*/     }
 /*LN-49*/ 
-/*LN-50*/     function withdraw(address market, uint256 amount) external {
-/*LN-51*/ 
-/*LN-52*/         require(
-/*LN-53*/             userBalances[market][msg.sender] >= amount,
-/*LN-54*/             "Insufficient balance"
-/*LN-55*/         );
-/*LN-56*/ 
-/*LN-57*/         userBalances[market][msg.sender] -= amount;
-/*LN-58*/         totalStaked[market] -= amount;
-/*LN-59*/ 
-/*LN-60*/         IERC20(market).transfer(msg.sender, amount);
-/*LN-61*/     }
-/*LN-62*/ }
-/*LN-63*/ 
-/*LN-64*/ contract YieldMarketRegister {
-/*LN-65*/     mapping(address => bool) public registeredMarkets;
-/*LN-66*/ 
-/*LN-67*/     function registerMarket(address market) external {
+/*LN-50*/     /**
+/*LN-51*/      * @notice Withdraw staked tokens
+/*LN-52*/      */
+/*LN-53*/     function withdraw(address market, uint256 amount) external {
+/*LN-54*/         require(
+/*LN-55*/             userBalances[market][msg.sender] >= amount,
+/*LN-56*/             "Insufficient balance"
+/*LN-57*/         );
+/*LN-58*/ 
+/*LN-59*/         userBalances[market][msg.sender] -= amount;
+/*LN-60*/         totalStaked[market] -= amount;
+/*LN-61*/ 
+/*LN-62*/         IERC20(market).transfer(msg.sender, amount);
+/*LN-63*/     }
+/*LN-64*/ }
+/*LN-65*/ 
+/*LN-66*/ contract YieldMarketRegister {
+/*LN-67*/     mapping(address => bool) public registeredMarkets;
 /*LN-68*/ 
-/*LN-69*/         registeredMarkets[market] = true;
-/*LN-70*/     }
-/*LN-71*/ }
-/*LN-72*/ 
-/*LN-73*/ 
+/*LN-69*/     function registerMarket(address market) external {
+/*LN-70*/ 
+/*LN-71*/         registeredMarkets[market] = true;
+/*LN-72*/     }
+/*LN-73*/ }
+/*LN-74*/ 

@@ -158,7 +158,7 @@
 /*LN-158*/         } else {
 /*LN-159*/             z = x + uint128(y);
 /*LN-160*/         }
-/*LN-161*/         // No overflow/underflow checks!
+/*LN-161*/ 
 /*LN-162*/     }
 /*LN-163*/ 
 /*LN-164*/     /**

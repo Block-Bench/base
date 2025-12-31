@@ -63,7 +63,7 @@
 /*LN-63*/     }
 /*LN-64*/ 
 /*LN-65*/     /**
-/*LN-66*/      * @dev Debt shares are calculated incorrectly when totalDebt is manipulated
+/*LN-66*/      * @dev Internal function to borrow funds for a position
 /*LN-67*/      */
 /*LN-68*/     function _borrow(uint256 positionId, uint256 amount) internal {
 /*LN-69*/         Position storage pos = positions[positionId];

@@ -27,55 +27,52 @@
 /*LN-27*/         validatorList = new address[](TOTAL_VALIDATORS);
 /*LN-28*/     }
 /*LN-29*/ 
-/*LN-30*/     function withdraw(
-/*LN-31*/         address hubContract,
-/*LN-32*/         string memory fromChain,
-/*LN-33*/         bytes memory fromAddr,
-/*LN-34*/         address toAddr,
-/*LN-35*/         address token,
-/*LN-36*/         bytes32[] memory bytes32s,
-/*LN-37*/         uint256[] memory uints,
-/*LN-38*/         bytes memory data,
-/*LN-39*/         uint8[] memory v,
-/*LN-40*/         bytes32[] memory r,
-/*LN-41*/         bytes32[] memory s
-/*LN-42*/     ) external {
-/*LN-43*/         bytes32 txHash = bytes32s[1];
-/*LN-44*/ 
-/*LN-45*/         // Check if transaction already processed
-/*LN-46*/         require(
-/*LN-47*/             !processedTransactions[txHash],
-/*LN-48*/             "Transaction already processed"
-/*LN-49*/         );
-/*LN-50*/ 
-/*LN-51*/         // Only checks count, doesn't verify signatures are from valid validators
-/*LN-52*/         require(v.length >= REQUIRED_SIGNATURES, "Insufficient signatures");
-/*LN-53*/         require(
-/*LN-54*/             v.length == r.length && r.length == s.length,
-/*LN-55*/             "Signature length mismatch"
-/*LN-56*/         );
-/*LN-57*/ 
-/*LN-58*/         // Should verify: ecrecover(messageHash, v[i], r[i], s[i]) returns valid validator
+/*LN-30*/     /**
+/*LN-31*/      * @notice Process cross-chain withdrawal
+/*LN-32*/      */
+/*LN-33*/     function withdraw(
+/*LN-34*/         address hubContract,
+/*LN-35*/         string memory fromChain,
+/*LN-36*/         bytes memory fromAddr,
+/*LN-37*/         address toAddr,
+/*LN-38*/         address token,
+/*LN-39*/         bytes32[] memory bytes32s,
+/*LN-40*/         uint256[] memory uints,
+/*LN-41*/         bytes memory data,
+/*LN-42*/         uint8[] memory v,
+/*LN-43*/         bytes32[] memory r,
+/*LN-44*/         bytes32[] memory s
+/*LN-45*/     ) external {
+/*LN-46*/         bytes32 txHash = bytes32s[1];
+/*LN-47*/ 
+/*LN-48*/         // Check if transaction already processed
+/*LN-49*/         require(
+/*LN-50*/             !processedTransactions[txHash],
+/*LN-51*/             "Transaction already processed"
+/*LN-52*/         );
+/*LN-53*/ 
+/*LN-54*/         require(v.length >= REQUIRED_SIGNATURES, "Insufficient signatures");
+/*LN-55*/         require(
+/*LN-56*/             v.length == r.length && r.length == s.length,
+/*LN-57*/             "Signature length mismatch"
+/*LN-58*/         );
 /*LN-59*/ 
-/*LN-60*/         // No nonce or sequence number validation
+/*LN-60*/         uint256 amount = uints[0];
 /*LN-61*/ 
-/*LN-62*/         uint256 amount = uints[0];
-/*LN-63*/ 
-/*LN-64*/         // Mark as processed
-/*LN-65*/         processedTransactions[txHash] = true;
-/*LN-66*/ 
-/*LN-67*/         // Transfer tokens to recipient
-/*LN-68*/         IERC20(token).transfer(toAddr, amount);
-/*LN-69*/ 
-/*LN-70*/         emit WithdrawalProcessed(txHash, token, toAddr, amount);
-/*LN-71*/     }
-/*LN-72*/ 
-/*LN-73*/     /**
-/*LN-74*/      * @notice Add validator (admin only in real implementation)
-/*LN-75*/      */
-/*LN-76*/     function addValidator(address validator) external {
-/*LN-77*/         validators[validator] = true;
-/*LN-78*/     }
-/*LN-79*/ }
-/*LN-80*/ 
-/*LN-81*/ 
+/*LN-62*/         // Mark as processed
+/*LN-63*/         processedTransactions[txHash] = true;
+/*LN-64*/ 
+/*LN-65*/         // Transfer tokens to recipient
+/*LN-66*/         IERC20(token).transfer(toAddr, amount);
+/*LN-67*/ 
+/*LN-68*/         emit WithdrawalProcessed(txHash, token, toAddr, amount);
+/*LN-69*/     }
+/*LN-70*/ 
+/*LN-71*/     /**
+/*LN-72*/      * @notice Add validator (admin only in real implementation)
+/*LN-73*/      */
+/*LN-74*/     function addValidator(address validator) external {
+/*LN-75*/         validators[validator] = true;
+/*LN-76*/     }
+/*LN-77*/ }
+/*LN-78*/ 

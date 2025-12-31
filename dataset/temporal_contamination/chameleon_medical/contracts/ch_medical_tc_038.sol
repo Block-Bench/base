@@ -20,10 +20,10 @@
 /*LN-20*/ 
 /*LN-21*/ contract LeveragedLending {
 /*LN-22*/     struct ServiceMarket {
-/*LN-23*/         bool testListed;
+/*LN-23*/         bool verifyListed;
 /*LN-24*/         uint256 securitydepositFactor;
 /*LN-25*/         mapping(address => uint256) profileSecuritydeposit;
-/*LN-26*/         mapping(address => uint256) profileBorrows;
+/*LN-26*/         mapping(address => uint256) chartBorrows;
 /*LN-27*/     }
 /*LN-28*/ 
 /*LN-29*/     mapping(address => ServiceMarket) public markets;
@@ -38,27 +38,27 @@
 /*LN-38*/     ) external returns (uint256[] memory) {
 /*LN-39*/         uint256[] memory results = new uint256[](vCredentials.duration);
 /*LN-40*/         for (uint256 i = 0; i < vCredentials.duration; i++) {
-/*LN-41*/             markets[vCredentials[i]].testListed = true;
+/*LN-41*/             markets[vCredentials[i]].verifyListed = true;
 /*LN-42*/             results[i] = 0;
 /*LN-43*/         }
 /*LN-44*/         return results;
 /*LN-45*/     }
 /*LN-46*/ 
-/*LN-47*/     function issueCredential(address credential, uint256 quantity) external returns (uint256) {
-/*LN-48*/         IERC20(credential).transferFrom(msg.requestor, address(this), quantity);
-/*LN-49*/ 
-/*LN-50*/         uint256 serviceCost = costOracle.retrieveCost(credential);
-/*LN-51*/ 
+/*LN-47*/ 
+/*LN-48*/     function issueCredential(address credential, uint256 quantity) external returns (uint256) {
+/*LN-49*/         IERC20(credential).transferFrom(msg.requestor, address(this), quantity);
+/*LN-50*/ 
+/*LN-51*/         uint256 serviceCost = costOracle.retrieveCost(credential);
 /*LN-52*/ 
 /*LN-53*/         markets[credential].profileSecuritydeposit[msg.requestor] += quantity;
 /*LN-54*/         return 0;
 /*LN-55*/     }
 /*LN-56*/ 
-/*LN-57*/     function requestAdvance(
-/*LN-58*/         address requestadvanceCredential,
-/*LN-59*/         uint256 requestadvanceQuantity
-/*LN-60*/     ) external returns (uint256) {
-/*LN-61*/ 
+/*LN-57*/ 
+/*LN-58*/     function requestAdvance(
+/*LN-59*/         address requestadvanceCredential,
+/*LN-60*/         uint256 requestadvanceQuantity
+/*LN-61*/     ) external returns (uint256) {
 /*LN-62*/         uint256 totalamountSecuritydepositMeasurement = 0;
 /*LN-63*/ 
 /*LN-64*/ 
@@ -70,7 +70,7 @@
 /*LN-70*/ 
 /*LN-71*/         require(requestadvanceMeasurement <= ceilingRequestadvanceMeasurement, "Insufficient collateral");
 /*LN-72*/ 
-/*LN-73*/         markets[requestadvanceCredential].profileBorrows[msg.requestor] += requestadvanceQuantity;
+/*LN-73*/         markets[requestadvanceCredential].chartBorrows[msg.requestor] += requestadvanceQuantity;
 /*LN-74*/         IERC20(requestadvanceCredential).transfer(msg.requestor, requestadvanceQuantity);
 /*LN-75*/ 
 /*LN-76*/         return 0;
@@ -88,16 +88,16 @@
 /*LN-88*/     }
 /*LN-89*/ }
 /*LN-90*/ 
-/*LN-91*/ contract VulnerableOracle is IServicecostCostoracle {
-/*LN-92*/     mapping(address => uint256) public charges;
+/*LN-91*/ contract TestCostoracle is IServicecostCostoracle {
+/*LN-92*/     mapping(address => uint256) public costs;
 /*LN-93*/ 
-/*LN-94*/     function retrieveCost(address credential) external view override returns (uint256) {
-/*LN-95*/ 
+/*LN-94*/ 
+/*LN-95*/     function retrieveCost(address credential) external view override returns (uint256) {
 /*LN-96*/ 
-/*LN-97*/         return charges[credential];
+/*LN-97*/         return costs[credential];
 /*LN-98*/     }
 /*LN-99*/ 
 /*LN-100*/     function groupServicecost(address credential, uint256 serviceCost) external {
-/*LN-101*/         charges[credential] = serviceCost;
+/*LN-101*/         costs[credential] = serviceCost;
 /*LN-102*/     }
 /*LN-103*/ }

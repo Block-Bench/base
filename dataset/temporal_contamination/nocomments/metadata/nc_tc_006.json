@@ -12,9 +12,11 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Ronin Bridge hack where attackers compromised 5 out of 9 validator private keys, all controlled or accessible by a single entity (Sky Mavis). With control of 5 validators, attackers forged valid signatures for fake withdrawal requests, draining $625M in ETH and USDC. The vulnerability was excessive centralization and poor key management, not a smart contract bug.",
-  "vulnerable_contract": "BasicBridge",
+  "vulnerable_contract": "GameBridge",
   "vulnerable_function": "withdrawERC20For",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    8
+  ],
   "attack_scenario": "Attackers (Lazarus Group) compromised Sky Mavis infrastructure through social engineering and gained access to private keys for 4 validators directly controlled by Sky Mavis and 1 DAO validator that Sky Mavis had temporary access to. With 5 out of 9 required validator keys, attackers created fake withdrawal transactions with genuinely valid signatures. Bridge contract verified signatures (all valid), processed withdrawals, and transferred $625M to attacker addresses.",
   "root_cause": "Excessive centralization where a single entity (Sky Mavis) controlled or had access to 5 out of 9 validators - exactly the threshold needed to approve withdrawals. Poor key management practices allowed attackers to compromise all necessary keys through a single infrastructure breach. The smart contract logic was correct, but the validator setup violated the principle of decentralization that multi-sig security depends on.",
   "fix_description": "Increase total validator count significantly. Ensure no single entity controls multiple validators. Implement hardware security modules (HSMs) for key storage. Use Multi-Party Computation (MPC) threshold signatures instead of simple multi-sig. Require geographic and organizational diversity among validators. Implement real-time monitoring and anomaly detection for unusual withdrawals. Add withdrawal limits and timelocks for large amounts. Use cold wallets with delays for large reserves. Conduct regular security audits and penetration testing.",
@@ -51,6 +53,7 @@
       "Regenerated fresh line markers"
     ],
     "comments_removed": 20,
-    "created_date": "2025-12-29T23:10:21.390492"
-  }
+    "created_date": "2025-12-31T20:00:38.841141"
+  },
+  "sanitized_from": "ms_tc_006"
 }
