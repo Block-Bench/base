@@ -25,15 +25,7 @@
   "variant_type": "minimalsanitized",
   "checks_effects_interactions_violated": false,
   "involves_external_calls": false,
-  "vulnerable_contract": {
-    "name": "SpartanPool",
-    "functions": [
-      {
-        "name": "addLiquidity",
-        "vulnerability": "Uses average of ratios instead of minimum for LP unit calculation"
-      }
-    ]
-  },
+  "vulnerable_contract": "SpartanPool",
   "contract_file": "contracts/ms_tc_030.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
@@ -51,5 +43,6 @@
     ],
     "contract_renames": {},
     "created_date": "2025-12-29T22:32:44.547062"
-  }
+  },
+  "vulnerable_function": "addLiquidity"
 }

@@ -102,7 +102,7 @@
 /*LN-102*/     }
 /*LN-103*/ }
 /*LN-104*/ 
-/*LN-105*/ contract ManipulableOracle is IPriceOracle {
+/*LN-105*/ contract TestOracle is IPriceOracle {
 /*LN-106*/     mapping(address => uint256) public prices;
 /*LN-107*/ 
 /*LN-108*/     /**

@@ -83,5 +83,7 @@
     ],
     "contract_renames": {},
     "created_date": "2025-12-29T22:32:44.558838"
-  }
+  },
+  "vulnerable_contract": "BedrockVault",
+  "vulnerable_function": "mint"
 }

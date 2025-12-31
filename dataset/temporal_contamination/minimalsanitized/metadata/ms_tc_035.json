@@ -83,5 +83,7 @@
     ],
     "contract_renames": {},
     "created_date": "2025-12-29T22:32:44.552707"
-  }
+  },
+  "vulnerable_contract": "WiseLending",
+  "vulnerable_function": "depositExactAmount"
 }

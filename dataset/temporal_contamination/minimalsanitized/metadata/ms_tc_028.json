@@ -25,15 +25,7 @@
   "variant_type": "minimalsanitized",
   "checks_effects_interactions_violated": false,
   "involves_external_calls": true,
-  "vulnerable_contract": {
-    "name": "Vault",
-    "functions": [
-      {
-        "name": "deposit",
-        "vulnerability": "Doesn't check actual balance increase, credits full amount despite transfer fees"
-      }
-    ]
-  },
+  "vulnerable_contract": "Vault",
   "contract_file": "contracts/ms_tc_028.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
@@ -54,5 +46,6 @@
       "VulnerableVault": "Vault"
     },
     "created_date": "2025-12-29T22:32:44.545770"
-  }
+  },
+  "vulnerable_function": "deposit"
 }

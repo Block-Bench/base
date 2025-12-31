@@ -87,5 +87,7 @@
     ],
     "contract_renames": {},
     "created_date": "2025-12-29T22:32:44.563518"
-  }
+  },
+  "vulnerable_contract": "PenpieStaking",
+  "vulnerable_function": "registerMarket"
 }

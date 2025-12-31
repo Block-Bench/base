@@ -63,7 +63,7 @@
 /*LN-63*/ 
 /*LN-64*/     /**
 /*LN-65*/      * @notice Internal function that triggers callback
-/*LN-66*/      * @dev This is where the reentrancy/callback happens
+/*LN-66*/      * @dev Notifies parties about the transfer
 /*LN-67*/      */
 /*LN-68*/     function _notifyTransfer(
 /*LN-69*/         address from,

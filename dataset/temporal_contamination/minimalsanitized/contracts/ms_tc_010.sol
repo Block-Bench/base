@@ -16,13 +16,13 @@
 /*LN-16*/     /**
 /*LN-17*/      * @notice Withdraw all credited ETH
 /*LN-18*/      *
-/*LN-19*/      * The function follows the pattern:
-/*LN-20*/      * 1. Check balance (line 49)
-/*LN-21*/      * 2. Send ETH (line 51) <- EXTERNAL CALL
-/*LN-22*/      * 3. Update state (line 53) <- TOO LATE!
+/*LN-19*/      *
+/*LN-20*/      *
+/*LN-21*/      *
+/*LN-22*/      *
 /*LN-23*/      *
-/*LN-24*/      * This is a textbook "checks-effects-interactions" violation.
-/*LN-25*/      * State should be updated BEFORE external calls.
+/*LN-24*/      *
+/*LN-25*/      *
 /*LN-26*/      */
 /*LN-27*/     function withdrawAll() public {
 /*LN-28*/         uint256 oCredit = credit[msg.sender];

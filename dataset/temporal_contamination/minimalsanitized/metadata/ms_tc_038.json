@@ -83,7 +83,11 @@
       "Removed 2 vulnerability comment block(s)",
       "Removed 7 vulnerability hint line(s)"
     ],
-    "contract_renames": {},
+    "contract_renames": {
+      "ManipulableOracle": "TestOracle"
+    },
     "created_date": "2025-12-29T22:32:44.556578"
-  }
+  },
+  "vulnerable_contract": "BlueberryLending",
+  "vulnerable_function": "mint"
 }

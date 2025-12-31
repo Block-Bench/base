@@ -83,5 +83,7 @@
     ],
     "contract_renames": {},
     "created_date": "2025-12-29T22:32:44.549303"
-  }
+  },
+  "vulnerable_contract": "RadiantLendingPool",
+  "vulnerable_function": "flashLoan"
 }

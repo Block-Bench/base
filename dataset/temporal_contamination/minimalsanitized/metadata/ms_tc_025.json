@@ -25,15 +25,7 @@
   "variant_type": "minimalsanitized",
   "checks_effects_interactions_violated": true,
   "involves_external_calls": true,
-  "vulnerable_contract": {
-    "name": "HundredFinanceMarket",
-    "functions": [
-      {
-        "name": "borrow",
-        "vulnerability": "Transfers tokens before state updates, vulnerable to ERC667 reentrancy"
-      }
-    ]
-  },
+  "vulnerable_contract": "HundredFinanceMarket",
   "contract_file": "contracts/ms_tc_025.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
@@ -51,5 +43,6 @@
     ],
     "contract_renames": {},
     "created_date": "2025-12-29T22:32:44.543186"
-  }
+  },
+  "vulnerable_function": "borrow"
 }

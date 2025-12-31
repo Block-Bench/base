@@ -79,5 +79,7 @@
     ],
     "contract_renames": {},
     "created_date": "2025-12-29T22:32:44.559889"
-  }
+  },
+  "vulnerable_contract": "ShezmuCollateralToken",
+  "vulnerable_function": "mint"
 }

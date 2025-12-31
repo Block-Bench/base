@@ -74,5 +74,7 @@
     ],
     "contract_renames": {},
     "created_date": "2025-12-29T22:32:44.548072"
-  }
+  },
+  "vulnerable_contract": "OrbitBridge",
+  "vulnerable_function": "withdraw"
 }
