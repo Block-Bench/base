@@ -14,7 +14,7 @@ contract ContractTest is Test {
     function testSafeMint() public {
         MaxMint721Contract = new MaxMint721();
         MaxMint721Contract.mint(maxMints);
-        console.log("Bypassed maxMints, we got 19 NFTs");
+        console.log("Total NFTs received:", 19);
         assertEq(MaxMint721Contract.balanceOf(address(this)), 19);
         console.log("NFT minted:", MaxMint721Contract.balanceOf(address(this)));
     }

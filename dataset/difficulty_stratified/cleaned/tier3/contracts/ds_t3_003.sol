@@ -5,33 +5,32 @@ import "forge-std/Test.sol";
 
 contract ContractTest is Test {
     STA STAContract;
-    CoreVault VulnVaultContract;
+    CoreVault CoreVaultContract;
     Vault VaultContract;
 
     function setUp() public {
         STAContract = new STA();
-        VulnVaultContract = new CoreVault(address(STAContract));
+        CoreVaultContract = new CoreVault(address(STAContract));
         VaultContract = new Vault(address(STAContract));
     }
 
-    function testVulnFeeOnTransfer() public {
+    function testCoreVaultDeposit() public {
         address alice = vm.addr(1);
         address bob = vm.addr(2);
         STAContract.balanceOf(address(this));
         STAContract.transfer(alice, 1000000);
-        console.log("Alice's STA balance:", STAContract.balanceOf(alice)); // charge 1% fee
+        console.log("Alice's STA balance:", STAContract.balanceOf(alice));
         vm.startPrank(alice);
-        STAContract.approve(address(VulnVaultContract), type(uint256).max);
-        VulnVaultContract.deposit(10000);
-        //VulnVaultContract.getBalance(alice);
+        STAContract.approve(address(CoreVaultContract), type(uint256).max);
+        CoreVaultContract.deposit(10000);
 
         console.log(
-            "Alice deposit 10000 STA, but Alice's STA balance in VulnVaultContract:",
-            VulnVaultContract.getBalance(alice)
-        ); // charge 1% fee
+            "Alice deposit 10000 STA, Alice's balance in CoreVaultContract:",
+            CoreVaultContract.getBalance(alice)
+        );
         assertEq(
-            STAContract.balanceOf(address(VulnVaultContract)),
-            VulnVaultContract.getBalance(alice)
+            STAContract.balanceOf(address(CoreVaultContract)),
+            CoreVaultContract.getBalance(alice)
         );
     }
 

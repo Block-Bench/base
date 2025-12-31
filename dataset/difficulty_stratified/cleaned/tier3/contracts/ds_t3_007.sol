@@ -7,11 +7,11 @@ import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
 contract ContractTest is Test {
     SimpleBank SimpleBankContract;
-    SimpleBankV2 SimpleBankContractV2;
+    SimpleBankB SimpleBankContractB;
 
     function setUp() public {
         SimpleBankContract = new SimpleBank();
-        SimpleBankContractV2 = new SimpleBankV2();
+        SimpleBankContractB = new SimpleBankB();
     }
 
     function testAltDowncast() public {
@@ -27,7 +27,7 @@ contract ContractTest is Test {
 
     function testsafeDowncast() public {
         vm.expectRevert("SafeCast: value doesn't fit in 8 bits");
-        SimpleBankContractV2.deposit(257); //revert
+        SimpleBankContractB.deposit(257); //revert
     }
 
     receive() external payable {}
@@ -51,7 +51,7 @@ contract SimpleBank {
     }
 }
 
-contract SimpleBankV2 {
+contract SimpleBankB {
     using SafeCast for uint256; // Use SafeCast for uint256
 
     mapping(address => uint) private balances;

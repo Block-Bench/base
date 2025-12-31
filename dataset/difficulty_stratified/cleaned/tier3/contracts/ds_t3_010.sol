@@ -5,11 +5,11 @@ import "forge-std/Test.sol";
 
 contract ContractTest is Test {
     SimpleBank SimpleBankContract;
-    SimpleBankV2 SimpleBankContractV2;
+    SimpleBankB SimpleBankContractB;
 
     function setUp() public {
         SimpleBankContract = new SimpleBank();
-        SimpleBankContractV2 = new SimpleBankV2();
+        SimpleBankContractB = new SimpleBankB();
     }
 
     function testTransferFail() public {
@@ -20,9 +20,9 @@ contract ContractTest is Test {
     }
 
     function testCall() public {
-        SimpleBankContractV2.deposit{value: 1 ether}();
-        assertEq(SimpleBankContractV2.getBalance(), 1 ether);
-        SimpleBankContractV2.withdraw(1 ether);
+        SimpleBankContractB.deposit{value: 1 ether}();
+        assertEq(SimpleBankContractB.getBalance(), 1 ether);
+        SimpleBankContractB.withdraw(1 ether);
     }
 
     receive() external payable {
@@ -50,7 +50,7 @@ contract SimpleBank {
     }
 }
 
-contract SimpleBankV2 {
+contract SimpleBankB {
     mapping(address => uint) private balances;
 
     function deposit() public payable {

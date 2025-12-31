@@ -26,7 +26,9 @@
   "sanitized_from": "ds_192",
   "sanitized_id": "sn_ds_192",
   "identifier_mappings": {
-    "VulnPermit": "PermitToken"
+    "VulnPermit": "PermitToken",
+    "VulnPermitContract": "PermitContract",
+    "testVulnPhantomPermit": "testPhantomPermit"
   },
   "vulnerable_functions": [
     "depositWithPermit"
