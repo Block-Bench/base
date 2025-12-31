@@ -15,7 +15,6 @@ pragma solidity ^0.4.15;
          owner = msg.sender;
      }
 
-     // This function should be protected
      function changeOwner(address _newOwner)
          public
      {

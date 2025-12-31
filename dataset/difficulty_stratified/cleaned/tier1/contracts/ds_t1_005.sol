@@ -15,17 +15,10 @@ contract OpenAccess{
         owner = msg.sender;
     }
 
-    // This function should be protected
     function changeOwner(address _newOwner)
         public
     {
        owner = _newOwner;
     }
 
-    function changeOwnerV2(address _newOwner)
-        public
-        onlyowner
-    {
-       owner = _newOwner;
-    }
 }

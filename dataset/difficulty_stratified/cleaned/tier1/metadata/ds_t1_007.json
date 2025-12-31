@@ -5,9 +5,11 @@
   "language": "solidity",
   "chain": "evm",
   "file_name": "FibonacciBalance.sol",
-  "vulnerable_function": "withdraw",
+  "vulnerable_function": "fallback",
   "vulnerable_lines": [
-    31
+    28,
+    29,
+    30
   ],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
