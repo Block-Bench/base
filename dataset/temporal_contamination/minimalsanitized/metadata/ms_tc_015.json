@@ -14,7 +14,9 @@
   "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
   "vulnerable_contract": "CompoundCToken",
   "vulnerable_function": "sweepToken",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    39
+  ],
   "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
   "tags": [
     "logic-error",

@@ -14,7 +14,10 @@
   "attack_scenario": "Attacker used flash loans to imbalance Curve 3pool, inflating virtual_price. Called vault.earn() which used inflated price. Normalized pool, repeated process multiple times to siphon value. Withdrew with inflated shares.",
   "vulnerable_contract": "YearnVault",
   "vulnerable_function": "earn",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    75,
+    109
+  ],
   "fix_description": "Use TWAP oracle instead of spot price. Implement slippage protection on Curve operations. Add sanity checks comparing spot price to time-weighted average. Limit strategy execution frequency.",
   "tags": [
     "flash-loan",

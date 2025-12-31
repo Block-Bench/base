@@ -21,7 +21,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Gamma Strategies managed liquidity positions on Uniswap V3/Algebra pools. Attackers used flashloans to manipulate pool prices, then exploited the vault's deposit/withdrawal and rebalancing mechanisms during price manipulation to extract $6.1M.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    77
+  ],
   "vulnerability_details": {
     "root_cause": "Lack of slippage protection and oracle usage in deposit/withdrawal share calculations",
     "attack_vector": "Flashloan price manipulation combined with vault interaction during manipulated state",

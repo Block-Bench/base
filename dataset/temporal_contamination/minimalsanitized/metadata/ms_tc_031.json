@@ -19,7 +19,9 @@
   "temporal_category": "pre_cutoff",
   "cutoff_date": "2024-01",
   "description": "Orbit Chain bridge suffered an $81M exploit when attackers compromised validator private keys and used them to forge signatures authorizing fraudulent cross-chain withdrawals. The bridge's multi-sig system (5-of-7) was bypassed through key compromise rather than smart contract vulnerabilities.",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    55
+  ],
   "vulnerability_details": {
     "root_cause": "Compromised validator private keys enabled signature forgery",
     "attack_vector": "Attackers gained access to 5 out of 7 validator keys and created valid ECDSA signatures for fake withdrawal transactions",
