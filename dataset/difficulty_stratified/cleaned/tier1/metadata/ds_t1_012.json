@@ -6,10 +6,7 @@
   "chain": "evm",
   "file_name": "simple_suicide.sol",
   "vulnerable_function": "sudicideAnyone",
-  "vulnerable_lines": [
-    12,
-    13
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

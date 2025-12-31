@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0xa1fceeff3acc57d257b917e30c4df661401d6431.sol",
   "vulnerable_function": "transfer",
-  "vulnerable_lines": [
-    31
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

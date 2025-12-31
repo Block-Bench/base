@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "wallet_04_confused_sign.sol",
   "vulnerable_function": "withdraw",
-  "vulnerable_lines": [
-    30
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

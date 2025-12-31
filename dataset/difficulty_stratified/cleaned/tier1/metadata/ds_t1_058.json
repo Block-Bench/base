@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0x610495793564aed0f9c7fc48dc4c7c9151d34fd6.sol",
   "vulnerable_function": "sendMoney",
-  "vulnerable_lines": [
-    33
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

@@ -6,10 +6,7 @@
   "chain": "evm",
   "file_name": "wallet_03_wrong_constructor.sol",
   "vulnerable_function": "initWallet",
-  "vulnerable_lines": [
-    19,
-    20
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

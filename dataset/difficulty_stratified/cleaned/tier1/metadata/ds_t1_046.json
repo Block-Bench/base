@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0x0cbe050f75bc8f8c2d6c0d249fea125fd6e1acc9.sol",
   "vulnerable_function": "callAddress",
-  "vulnerable_lines": [
-    12
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

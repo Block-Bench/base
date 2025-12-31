@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "lotto.sol",
   "vulnerable_function": "sendToWinner",
-  "vulnerable_lines": [
-    20
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

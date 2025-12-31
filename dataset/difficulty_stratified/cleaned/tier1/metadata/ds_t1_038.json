@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "modifier_reentrancy.sol",
   "vulnerable_function": "airDrop",
-  "vulnerable_lines": [
-    15
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",
   "severity": "high",

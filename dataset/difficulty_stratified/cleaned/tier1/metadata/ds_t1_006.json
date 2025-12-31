@@ -6,11 +6,7 @@
   "chain": "evm",
   "file_name": "FibonacciBalance.sol",
   "vulnerable_function": "fallback",
-  "vulnerable_lines": [
-    28,
-    29,
-    30
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

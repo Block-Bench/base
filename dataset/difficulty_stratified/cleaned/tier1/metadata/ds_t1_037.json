@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "etherstore.sol",
   "vulnerable_function": "withdrawFunds",
-  "vulnerable_lines": [
-    27
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",
   "severity": "high",

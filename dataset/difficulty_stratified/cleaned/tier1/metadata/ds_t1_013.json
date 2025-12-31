@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "wallet_02_refund_nosub.sol",
   "vulnerable_function": "refund",
-  "vulnerable_lines": [
-    36
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

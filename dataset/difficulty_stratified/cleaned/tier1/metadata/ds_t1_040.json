@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "reentrancy_bonus.sol",
   "vulnerable_function": "getFirstWithdrawalBonus",
-  "vulnerable_lines": [
-    28
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",
   "severity": "high",

@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "arbitrary_location_write_simple.sol",
   "vulnerable_function": "PopBonusCode",
-  "vulnerable_lines": [
-    27
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

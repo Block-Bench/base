@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "mapping_write.sol",
   "vulnerable_function": "set",
-  "vulnerable_lines": [
-    20
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",

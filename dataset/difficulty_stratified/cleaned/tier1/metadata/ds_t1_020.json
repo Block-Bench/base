@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0x561eac93c92360949ab1f1403323e6db345cbf31.sol",
   "vulnerable_function": "Collect",
-  "vulnerable_lines": [
-    54
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",
   "severity": "high",

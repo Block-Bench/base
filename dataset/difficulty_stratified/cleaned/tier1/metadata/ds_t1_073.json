@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0xbebbfe5b549f5db6e6c78ca97cac19d1fb03082c.sol",
   "vulnerable_function": "proxy",
-  "vulnerable_lines": [
-    14
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

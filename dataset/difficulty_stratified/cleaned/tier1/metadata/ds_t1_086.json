@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "unchecked_return_value.sol",
   "vulnerable_function": "callnotchecked",
-  "vulnerable_lines": [
-    17
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

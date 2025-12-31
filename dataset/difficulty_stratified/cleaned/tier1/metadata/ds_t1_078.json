@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0xe82f0742a71a02b9e9ffc142fdcb6eb1ed06fb87.sol",
   "vulnerable_function": "Command",
-  "vulnerable_lines": [
-    39
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

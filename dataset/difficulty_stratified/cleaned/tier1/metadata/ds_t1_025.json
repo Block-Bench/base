@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0x8c7777c45481dba411450c228cb692ac3d550344.sol",
   "vulnerable_function": "CashOut",
-  "vulnerable_lines": [
-    41
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "reentrancy",
   "original_category": "reentrancy",
   "severity": "high",

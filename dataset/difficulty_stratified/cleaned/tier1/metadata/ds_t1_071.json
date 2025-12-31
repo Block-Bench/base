@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0xb7c5c5aa4d42967efe906e1b66cb8df9cebf04f7.sol",
   "vulnerable_function": "withdraw",
-  "vulnerable_lines": [
-    25
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "0xf29ebe930a539a60279ace72c707cba851a57707.sol",
   "vulnerable_function": "go",
-  "vulnerable_lines": [
-    16
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

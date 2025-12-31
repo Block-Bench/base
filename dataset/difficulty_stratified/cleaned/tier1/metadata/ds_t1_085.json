@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "mishandled.sol",
   "vulnerable_function": "withdrawBalance",
-  "vulnerable_lines": [
-    14
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "unchecked_return",
   "original_category": "unchecked_low_level_calls",
   "severity": "medium",

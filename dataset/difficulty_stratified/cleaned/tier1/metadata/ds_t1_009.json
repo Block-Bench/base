@@ -6,9 +6,7 @@
   "chain": "evm",
   "file_name": "mycontract.sol",
   "vulnerable_function": "sendTo",
-  "vulnerable_lines": [
-    20
-  ],
+  "vulnerable_lines": [],
   "vulnerability_type": "access_control",
   "original_category": "access_control",
   "severity": "high",
