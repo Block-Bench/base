@@ -11,7 +11,7 @@
   "original_category": "bad_randomness",
   "severity": "medium",
   "difficulty_tier": 4,
-  "description": "Weak randomness - predictable random number generation at line(s) 559",
+  "description": "Weak randomness in the won function. The random number generation relies on block variables and contract state that can be predicted or influenced. This makes the lottery outcome predictable and allows gaming the system.",
   "fix_description": "Use Chainlink VRF or commit-reveal scheme for randomness",
   "is_vulnerable": true,
   "context_level": "single_file",

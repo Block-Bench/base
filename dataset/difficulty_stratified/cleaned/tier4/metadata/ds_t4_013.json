@@ -11,7 +11,7 @@
   "original_category": "bad_randomness",
   "severity": "medium",
   "difficulty_tier": 4,
-  "description": "Weak randomness - predictable random number generation at line(s) 17",
+  "description": "Weak randomness in the deal function. The random number generation uses block.number and blockhash which are predictable by miners and can be manipulated. This allows predicting or influencing the outcome of the card dealing mechanism.",
   "fix_description": "Use Chainlink VRF or commit-reveal scheme for randomness",
   "is_vulnerable": true,
   "context_level": "single_file",
