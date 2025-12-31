@@ -12,7 +12,7 @@
   "severity": "high",
   "difficulty_tier": 4,
   "description": "In this case because the last byte of the proxyAdmin address is `0x72`, initialized was interpreted as a truthy value.",
-  "fix_description": "",
+  "fix_description": "Use a storage gap or ensure the proxyAdmin address and initialized boolean are stored in separate storage slots to prevent overlap.",
   "is_vulnerable": true,
   "context_level": "intra_contract",
   "original_source_path": "src/test/Storage-collision-audio.sol",

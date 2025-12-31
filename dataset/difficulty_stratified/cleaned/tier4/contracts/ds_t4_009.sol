@@ -14,13 +14,12 @@ contract ContractTest is Test {
         ); // ETH/USD
     }
 
-    function testUnSafePrice() public {
-        //Chainlink oracle data feed is not sufficiently validated and can return stale price.
+    function testBasicPrice() public {
         (, int256 answer, , , ) = priceFeed.latestRoundData();
         emit log_named_decimal_int("price", answer, 8);
     }
 
-    function testSafePrice() public {
+    function testValidatedPrice() public {
         (
             uint80 roundId,
             int256 answer,

@@ -25,6 +25,10 @@
   "original_ds_id": "ds_229",
   "sanitized_from": "ds_229",
   "sanitized_id": "sn_ds_229",
+  "identifier_mappings": {
+    "testUnSafePrice": "testBasicPrice",
+    "testSafePrice": "testValidatedPrice"
+  },
   "vulnerable_functions": [
     "latestRoundData"
   ]
