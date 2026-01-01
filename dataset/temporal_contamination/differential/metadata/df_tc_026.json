@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "BridgeRouter",
-  "vulnerable_function": null,
+  "vulnerable_function": "bridgeOutWithPermit",
   "vulnerable_lines": [],
   "attack_scenario": "1) Attacker called anySwapOutUnderlyingWithPermit with victim's token address. 2) Passed invalid permit signature (v=0, r=0, s=0). 3) Permit validation failed silently. 4) Function continued executing anyway. 5) Tokens were burned/locked and bridged to destination chain. 6) Repeated to drain $8M worth of WETH and other tokens.",
   "root_cause": "The permit validation used try-catch that swallowed failures without reverting. The function proceeded with token operations regardless of whether the permit succeeded, effectively bypassing authorization checks entirely.",
@@ -44,8 +44,14 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 2 lines changed. Added: IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s);",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s);",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "BridgeRouter"

@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "PlayDappToken",
-  "vulnerable_function": null,
+  "vulnerable_function": "mint",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -46,8 +46,34 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 15 lines changed. Added: uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18;; mapping(address => bool) public authorizedMinters;; uint256 public constant MIN_SIGNERS = 2;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "mapping(address => bool) public authorizedMinters;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 public constant MIN_SIGNERS = 2;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "address[] public minters;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "constructor(address[] memory _minters) {",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "PlayDappToken"

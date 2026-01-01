@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "SocketGateway",
-  "vulnerable_function": null,
+  "vulnerable_function": "executeRoute",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -45,8 +45,34 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 15 lines changed. Added: bytes4[] public allowedSelectors = [IERC20.transfer.selector, IERC20.approve.selector];; bytes4 selector = bytes4(swapExtraData);; bool allowed = false;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "bytes4[] public allowedSelectors = [IERC20.transfer.selector, IERC20.approve.selector];",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "bytes4 selector = bytes4(swapExtraData);",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "bool allowed = false;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "for (uint i = 0; i < allowedSelectors.length; i++) {",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "if (allowedSelectors[i] == selector) {",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "SocketGateway",

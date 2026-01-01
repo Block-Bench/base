@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "TokenVault",
-  "vulnerable_function": null,
+  "vulnerable_function": "deposit",
   "vulnerable_lines": [],
   "attack_scenario": "1) Deflationary token charges 10% fee on transfers. 2) Attacker deposits 100 tokens. 3) Vault receives only 90 tokens (10% burned as fee). 4) Vault credits attacker's account with full 100 tokens. 5) Attacker withdraws 100 tokens. 6) Vault sends 100 but only had 90 plus other users' funds. 7) Repeated deposits/withdrawals to drain $8.5M.",
   "root_cause": "Vault assumed tokens received equal amount transferred. Didn't check actual balance increase before/after transfer. Deflationary tokens with transfer fees caused accounting mismatch between credited amounts and actual holdings.",
@@ -45,8 +45,29 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 5 lines changed. Added: uint256 balBefore = IERC20(token).balanceOf(address(this));; uint256 balAfter = IERC20(token).balanceOf(address(this));; uint256 received = balAfter - balBefore;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "uint256 balBefore = IERC20(token).balanceOf(address(this));",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 balAfter = IERC20(token).balanceOf(address(this));",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 received = balAfter - balBefore;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "deposits[msg.sender] += received;",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "TokenVault"

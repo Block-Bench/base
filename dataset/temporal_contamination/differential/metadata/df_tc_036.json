@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "MigrateTroveZap",
-  "vulnerable_function": null,
+  "vulnerable_function": "openTroveAndMigrate",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -47,8 +47,34 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 15 lines changed. Added: borrowerOperations = IBorrowerOperations(_borrowerOperations);; wstETH = _wstETH;; mkUSD = _mkUSD;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "borrowerOperations = IBorrowerOperations(_borrowerOperations);",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "wstETH = _wstETH;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "mkUSD = _mkUSD;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(account == msg.sender, \"Account must be caller\");",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(account == msg.sender, \"Account must be caller\");",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "MigrateTroveZap",

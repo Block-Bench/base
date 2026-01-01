@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "CrossChainBridge",
-  "vulnerable_function": null,
+  "vulnerable_function": "deposit",
   "vulnerable_lines": [],
   "attack_scenario": "1) Attacker identified or created a resourceID that mapped to address(0) in the bridge handler. 2) Called deposit() with this resourceID and large amount. 3) Handler attempted transferFrom on address(0), which succeeded without transferring anything. 4) Bridge emitted deposit event. 5) BSC handler received event and minted tokens to attacker. 6) Attacker repeated the exploit multiple times to extract $80M worth of tokens without providing any real collateral.",
   "root_cause": "The bridge handler did not validate that the token contract address was not zero. Calls to address(0) do not revert in the EVM, so the transferFrom call succeeded silently without moving any tokens. However, the deposit event was still emitted, causing the destination chain to mint unbacked tokens.",
@@ -46,8 +46,29 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 5 lines changed. Added: require(tokenContract != address(0), \"Invalid token\");; bool success = IERC20(tokenContract).transferFrom(depositer, address(this), amount);; require(success, \"Transfer failed\");",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "require(tokenContract != address(0), \"Invalid token\");",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "bool success = IERC20(tokenContract).transferFrom(depositer, address(this), amount);",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(success, \"Transfer failed\");",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(tokenAddress != address(0), \"Invalid token\");",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "CrossChainBridge",

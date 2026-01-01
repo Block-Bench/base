@@ -45,9 +45,25 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
-    "why_fix_works": "",
+    "fix_description": "Minimal fix with 6 lines changed. Added: pragma solidity ^0.8.31;; credit[msg.sender] = 0;; (bool callResult, ) = msg.sender.call{value: oCredit}(\"\");",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "pragma solidity ^0.8.31;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "credit[msg.sender] = 0;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "(bool callResult, ) = msg.sender.call{value: oCredit}(\"\");",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
+    "why_fix_works": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern.",
     "contracts_in_file": [
       "CreditSystem"
     ],

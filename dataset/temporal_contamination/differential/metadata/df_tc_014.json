@@ -46,9 +46,35 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
-    "why_fix_works": "",
+    "fix_description": "Minimal fix with 14 lines changed. Added: uint256 public twapPrice;; uint256 public lastUpdateTime;; lastUpdateTime = block.timestamp;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "uint256 public twapPrice;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 public lastUpdateTime;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "lastUpdateTime = block.timestamp;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 spotPrice = curve3Pool.get_virtual_price();",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 timeElapsed = block.timestamp - lastUpdateTime;",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
+    "why_fix_works": "Use TWAP oracle instead of spot price. Implement slippage protection on Curve operations. Add sanity checks comparing spot price to time-weighted average. Limit strategy execution frequency.",
     "contracts_in_file": [
       "YieldVault"
     ],

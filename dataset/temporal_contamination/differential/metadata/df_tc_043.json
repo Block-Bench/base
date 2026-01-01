@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "SenecaChamber",
-  "vulnerable_function": null,
+  "vulnerable_function": "performOperations",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -46,8 +46,34 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 17 lines changed. Added: mapping(address => bool) public allowedTargets;; mapping(bytes4 => bool) public allowedSelectors;; function addAllowedTarget(address target) external {",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "mapping(address => bool) public allowedTargets;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "mapping(bytes4 => bool) public allowedSelectors;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "function addAllowedTarget(address target) external {",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "allowedTargets[target] = true;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "}",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "SenecaChamber"

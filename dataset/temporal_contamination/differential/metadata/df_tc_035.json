@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "WiseLending",
-  "vulnerable_function": null,
+  "vulnerable_function": "depositExactAmount",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -46,8 +46,34 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 13 lines changed. Added: uint256 public constant MIN_POOL_SIZE = 1e18;; uint256 public constant MAX_RATIO = 1000;; require(pool.pseudoTotalPool >= MIN_POOL_SIZE, \"Pool too small\");",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "uint256 public constant MIN_POOL_SIZE = 1e18;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 public constant MAX_RATIO = 1000;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(pool.pseudoTotalPool >= MIN_POOL_SIZE, \"Pool too small\");",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 ratio = (pool.totalDepositShares * MAX_RATIO) / pool.pseudoTotalPool;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(ratio <= MAX_RATIO, \"Ratio too high\");",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "WiseLending"

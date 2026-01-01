@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "DebtPreviewer",
-  "vulnerable_function": null,
+  "vulnerable_function": "previewDebt",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -46,8 +46,34 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 10 lines changed. Added: mapping(address => bool) public approvedMarkets;; function addApprovedMarket(address market) external {; approvedMarkets[market] = true;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "mapping(address => bool) public approvedMarkets;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "function addApprovedMarket(address market) external {",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "approvedMarkets[market] = true;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "}",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(approvedMarkets[market], \"Market not approved\");",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "DebtPreviewer",

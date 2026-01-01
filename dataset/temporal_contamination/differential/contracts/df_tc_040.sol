@@ -36,7 +36,7 @@
 /*LN-36*/     function getETHtoBTCRate() external view returns (uint256);
 /*LN-37*/ }
 /*LN-38*/ 
-/*LN-39*/ contract BedrockVault {
+/*LN-39*/ contract StakingVault {
 /*LN-40*/     IERC20 public immutable uniBTC;
 /*LN-41*/     IERC20 public immutable WBTC;
 /*LN-42*/     IUniswapV3Router public immutable router;

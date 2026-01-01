@@ -12,7 +12,7 @@
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with proper exchange rate from oracle instead of hardcoded 1:1",
-  "vulnerable_contract": "BedrockVault",
+  "vulnerable_contract": "StakingVault",
   "vulnerable_function": "mint, getExchangeRate",
   "vulnerable_lines": [],
   "attack_scenario": "",

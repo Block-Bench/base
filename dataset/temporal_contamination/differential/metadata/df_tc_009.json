@@ -52,9 +52,25 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
-    "why_fix_works": "",
+    "fix_description": "Minimal fix with 5 lines changed. Added: require(x >= uint128(-y), \"Underflow\");; require(x + uint128(y) >= x, \"Overflow\");; uint256(amountRemaining > 0 ? amountRemaining : -amountRemaining) / 2;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "require(x >= uint128(-y), \"Underflow\");",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(x + uint128(y) >= x, \"Overflow\");",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256(amountRemaining > 0 ? amountRemaining : -amountRemaining) / 2;",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
+    "why_fix_works": "Add overflow/underflow checks to all liquidity arithmetic operations. Use Solidity 0.8+ checked arithmetic or SafeMath library. Implement more precise rounding in liquidity delta calculations. Add invariant checks before and after tick crossings to validate liquidity state. Implement bounds checking",
     "contracts_in_file": [
       "ConcentratedLiquidityPool"
     ],

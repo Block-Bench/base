@@ -13,7 +13,7 @@
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
   "vulnerable_contract": "VaultStrategy",
-  "vulnerable_function": null,
+  "vulnerable_function": "deposit",
   "vulnerable_lines": [],
   "attack_scenario": "1) Flash loan large amounts to manipulate price oracle down. 2) Deposit to vault when price is artificially low. 3) Share calculation: sharesAdded = (amount * totalShares) / (pool * price), so low price = more shares. 4) Release flash loan, price recovers. 5) Withdraw with inflated share count. 6) Withdrawal amount = (shares * pool * price) / totalShares, high price = more tokens. 7) Profit $6.2M from price manipulation cycle.",
   "root_cause": "Vault share pricing relied on oracle that could be manipulated within single transaction. No TWAP or manipulation resistance. Share calculations used instantaneous price values vulnerable to flash loan attacks.",
@@ -46,8 +46,29 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 8 lines changed. Added: interface ITWAPOracle {; function getTWAP(address token) external view returns (uint256);; uint256 price = ITWAPOracle(oracle).getTWAP(wantToken);",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "interface ITWAPOracle {",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "function getTWAP(address token) external view returns (uint256);",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 price = ITWAPOracle(oracle).getTWAP(wantToken);",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 price = ITWAPOracle(oracle).getTWAP(wantToken);",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "VaultStrategy"
