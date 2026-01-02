@@ -1,0 +1,232 @@
+schema_version: "1.0"
+sample_id: "ms_tc_001"
+vulnerability_type: "improper_initialization"
+vulnerable_lines: [18, 53]
+
+code_acts:
+
+  # Lines 1-3: License and Pragma
+  - id: "CA1"
+    type: "UNRELATED"
+    lines: [1, 2, 3]
+    code: |
+      // SPDX-License-Identifier: MIT
+      pragma solidity ^0.8.0;
+    security_function: "UNRELATED"
+    rationale: "License identifier and Solidity version pragma. Standard boilerplate with no security implications."
+
+  # Lines 4-16: Contract Declaration, Enum, and Mappings
+  - id: "CA2"
+    type: "UNRELATED"
+    lines: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    code: |
+      contract NomadReplica {
+          enum MessageStatus { None, Pending, Processed }
+          mapping(bytes32 => MessageStatus) public messages;
+    security_function: "UNRELATED"
+    rationale: "Contract declaration, message status enum, and messages mapping. The enum and mapping support replay protection but are not themselves security-relevant code acts."
+
+  # Line 18: Uninitialized acceptedRoot
+  - id: "CA3"
+    type: "INITIALIZATION"
+    lines: [18]
+    code: "bytes32 public acceptedRoot;"
+    security_function: "ROOT_CAUSE"
+    rationale: "Critical state variable declared without initialization. In Solidity, bytes32 defaults to 0x00...00. This uninitialized state is the primary root cause of the Nomad Bridge vulnerability. Attackers could craft messages with zero roots that matched this default value, bypassing message validation entirely. Properly initializing this variable to a non-zero value would have prevented the $190M exploit."
+
+  # Lines 20-24: bridgeRouter and nonces
+  - id: "CA4"
+    type: "UNRELATED"
+    lines: [20, 21, 22, 23, 24]
+    code: |
+      address public bridgeRouter;
+      mapping(uint32 => uint32) public nonces;
+    security_function: "UNRELATED"
+    rationale: "Storage variables for bridge router address and nonce tracking. bridgeRouter is properly initialized in constructor. These do not contribute to the vulnerability."
+
+  # Line 26: Event Declaration
+  - id: "CA5"
+    type: "UNRELATED"
+    lines: [26]
+    code: "event MessageProcessed(bytes32 indexed messageHash, bool success);"
+    security_function: "UNRELATED"
+    rationale: "Event declaration for logging. Events have no security impact."
+
+  # Lines 28-30: Constructor
+  - id: "CA6"
+    type: "INITIALIZATION"
+    lines: [28, 29, 30]
+    code: |
+      constructor(address _bridgeRouter) {
+          bridgeRouter = _bridgeRouter;
+      }
+    security_function: "ROOT_CAUSE"
+    rationale: "Constructor initializes bridgeRouter but critically omits initialization of acceptedRoot. This is the location where acceptedRoot should have been set to a valid non-zero merkle root. The absence of 'acceptedRoot = _validRoot;' directly enables the exploit. A properly designed constructor would require both parameters."
+
+  # Lines 32-40: NatSpec Documentation
+  - id: "CA7"
+    type: "UNRELATED"
+    lines: [32, 33, 34, 35, 36, 37, 38, 39, 40]
+    code: |
+      /**
+       * @notice Process a cross-chain message
+       * @param _message The formatted message to process
+       * @return success Whether the message was successfully processed
+       * The function checks if acceptedRoot matches...
+       */
+    security_function: "UNRELATED"
+    rationale: "NatSpec documentation comments. No executable code."
+
+  # Line 41: Function Signature
+  - id: "CA8"
+    type: "UNRELATED"
+    lines: [41]
+    code: "function process(bytes memory _message) external returns (bool success) {"
+    security_function: "UNRELATED"
+    rationale: "Function signature declaration. The function is public/external which is appropriate for a bridge message processor."
+
+  # Line 42: Message Hash Computation
+  - id: "CA9"
+    type: "STORAGE_READ"
+    lines: [42]
+    code: "bytes32 messageHash = keccak256(_message);"
+    security_function: "BENIGN"
+    rationale: "Computes keccak256 hash of the message for use in replay protection. This is correctly implemented using the standard Solidity hash function. The hash uniquely identifies each message."
+
+  # Lines 44-48: Replay Protection Check
+  - id: "CA10"
+    type: "INPUT_VAL"
+    lines: [44, 45, 46, 47, 48]
+    code: |
+      require(
+          messages[messageHash] != MessageStatus.Processed,
+          "Already processed"
+      );
+    security_function: "BENIGN"
+    rationale: "Replay protection that prevents the same message from being processed twice. Correctly implemented - checks the messages mapping and reverts if already processed. This check works as intended but does not prevent the vulnerability since attackers can submit different messages that all produce zero roots."
+
+  # Lines 50-52: Empty Lines and Root Computation
+  - id: "CA11"
+    type: "CTRL_FLOW"
+    lines: [50, 51, 52]
+    code: "bytes32 root = _messageRoot(_message);"
+    security_function: "PREREQ"
+    rationale: "Calls internal function to compute the message root. This is a prerequisite for the exploit because _messageRoot() can return bytes32(0) for specially crafted messages. The computed zero root is then compared against the uninitialized acceptedRoot. However, this is not ROOT_CAUSE because if acceptedRoot were properly initialized, a zero root would fail validation."
+
+  # Line 53: Critical Validation Check
+  - id: "CA12"
+    type: "INPUT_VAL"
+    lines: [53]
+    code: 'require(root == acceptedRoot, "Invalid root");'
+    security_function: "ROOT_CAUSE"
+    rationale: "The critical validation check that should prevent unauthorized message processing. This is ROOT_CAUSE because it fails when both root and acceptedRoot are zero (0x00 == 0x00 passes). The check is syntactically correct but semantically broken due to uninitialized state. A proper implementation would include: require(acceptedRoot != bytes32(0), 'Not initialized') before this comparison."
+
+  # Lines 55-56: State Update
+  - id: "CA13"
+    type: "STATE_MOD"
+    lines: [55, 56]
+    code: "messages[messageHash] = MessageStatus.Processed;"
+    security_function: "BENIGN"
+    rationale: "Marks the message as processed BEFORE the external call, following the Checks-Effects-Interactions (CEI) pattern. This correctly prevents reentrancy by updating state before any external interaction. Well-implemented security pattern."
+
+  # Lines 58-59: External Call to Bridge Router
+  - id: "CA14"
+    type: "EXT_CALL"
+    lines: [58, 59]
+    code: "(bool routerSuccess, ) = bridgeRouter.call(_message);"
+    security_function: "PREREQ"
+    rationale: "External call that forwards the message to bridgeRouter for token transfer execution. This is where funds are actually moved/stolen. It is PREREQ because the external call itself is correctly implemented (follows CEI, checks return value), but it enables the financial impact of the exploit. If the validation at line 53 worked correctly, malicious messages would never reach this call."
+
+  # Lines 61-62: Event Emission and Return
+  - id: "CA15"
+    type: "STATE_MOD"
+    lines: [61, 62]
+    code: |
+      emit MessageProcessed(messageHash, routerSuccess);
+      return routerSuccess;
+    security_function: "BENIGN"
+    rationale: "Emits event for logging and returns success status. Events are for off-chain tracking and have no security impact. Return value correctly propagates the router call result."
+
+  # Line 63: Function Closing Brace
+  - id: "CA16"
+    type: "UNRELATED"
+    lines: [63]
+    code: "}"
+    security_function: "UNRELATED"
+    rationale: "Closing brace of process function."
+
+  # Lines 65-81: _messageRoot Internal Function
+  - id: "CA17"
+    type: "CTRL_FLOW"
+    lines: [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81]
+    code: |
+      function _messageRoot(bytes memory _message) internal pure returns (bytes32) {
+          // Simplified merkle proof logic
+          if (_message.length > 32 && uint256(bytes32(_message)) == 0) {
+              return bytes32(0);
+          }
+          return keccak256(_message);
+      }
+    security_function: "PREREQ"
+    rationale: "Internal function that computes the message root. Lines 76-78 show that messages starting with 32 zero bytes will return bytes32(0). This provides the mechanism for attackers to craft messages with predictable zero roots. However, it is PREREQ not ROOT_CAUSE because the function is doing what it was designed to do (compute a root). The vulnerability exists because acceptedRoot is also zero, not because this function can return zero."
+
+  # Lines 83-85: setAcceptedRoot Function
+  - id: "CA18"
+    type: "ACCESS_CTRL"
+    lines: [83, 84, 85]
+    code: |
+      function setAcceptedRoot(bytes32 _newRoot) external {
+          acceptedRoot = _newRoot;
+      }
+    security_function: "SECONDARY_VULN"
+    rationale: "This function allows ANYONE to set acceptedRoot - no onlyOwner modifier, no access control whatsoever. This is a REAL vulnerability (CWE-284: Improper Access Control) but it is NOT the documented vulnerability. The Nomad exploit used the UNINITIALIZED zero value, not this function. An attacker could theoretically use this to change acceptedRoot, but that was not the actual attack vector. This is classified as SECONDARY_VULN because it would be correct for a model to flag this as a vulnerability, even though it's not the improper_initialization that caused the $190M loss."
+
+  # Lines 86-87: Contract Closing
+  - id: "CA19"
+    type: "UNRELATED"
+    lines: [86, 87]
+    code: "}"
+    security_function: "UNRELATED"
+    rationale: "Closing brace of contract."
+
+summary:
+  total_code_acts: 19
+  total_lines_covered: 87
+
+  by_security_function:
+    ROOT_CAUSE: 3
+    SECONDARY_VULN: 1
+    PREREQ: 3
+    BENIGN: 4
+    UNRELATED: 8
+    INSUFF_GUARD: 0
+    DECOY: 0
+
+  root_causes:
+    - id: "CA3"
+      line: 18
+      description: "Uninitialized acceptedRoot declaration"
+    - id: "CA6"
+      lines: [28, 29, 30]
+      description: "Constructor missing acceptedRoot initialization"
+    - id: "CA12"
+      line: 53
+      description: "Validation check passes when both values are zero"
+
+  secondary_vulns:
+    - id: "CA18"
+      lines: [83, 84, 85]
+      description: "Missing access control on setAcceptedRoot"
+      vuln_type: "access_control"
+
+  prerequisites:
+    - id: "CA11"
+      description: "Root computation call"
+    - id: "CA14"
+      description: "External call to bridge router"
+    - id: "CA17"
+      description: "_messageRoot function enabling zero root creation"
+
+  vulnerable_lines_mapping:
+    18: "CA3 - ROOT_CAUSE - acceptedRoot declaration without initialization"
+    53: "CA12 - ROOT_CAUSE - validation check that passes incorrectly"
