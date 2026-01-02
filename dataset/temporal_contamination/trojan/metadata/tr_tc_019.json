@@ -13,8 +13,10 @@
   "temporal_category": "pre_cutoff",
   "description": "The Qubit Bridge failed to validate that the token contract address was not zero before processing deposits. An attacker exploited this by passing address(0) as the token contract. Since calling address(0) does not revert in the EVM, no tokens were actually transferred, but the bridge still emitted deposit events. The destination chain handler saw these events and minted tokens without real collateral backing, allowing the attacker to drain $80M.",
   "vulnerable_contract": "CrossChainBridge",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_function": "deposit",
+  "vulnerable_lines": [
+    67
+  ],
   "attack_scenario": "1) Attacker identified or created a resourceID that mapped to address(0) in the bridge handler. 2) Called deposit() with this resourceID and large amount. 3) Handler attempted transferFrom on address(0), which succeeded without transferring anything. 4) Bridge emitted deposit event. 5) BSC handler received event and minted tokens to attacker. 6) Attacker repeated the exploit multiple times to extract $80M worth of tokens without providing any real collateral.",
   "root_cause": "The bridge handler did not validate that the token contract address was not zero. Calls to address(0) do not revert in the EVM, so the transferFrom call succeeded silently without moving any tokens. However, the deposit event was still emitted, causing the destination chain to mint unbacked tokens.",
   "fix_description": "",
@@ -63,6 +65,9 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.658376"
+    "created_date": "2025-12-30T01:40:33.658376",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:09.739245",
+    "code_renames": {}
   }
 }

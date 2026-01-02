@@ -24,7 +24,7 @@
 /*LN-24*/     ) external;
 /*LN-25*/ }
 /*LN-26*/ 
-/*LN-27*/ contract GammaHypervisor {
+/*LN-27*/ contract LiquidityHypervisor {
 /*LN-28*/     IERC20 public token0;
 /*LN-29*/     IERC20 public token1;
 /*LN-30*/     IUniswapV3Pool public pool;

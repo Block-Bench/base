@@ -6,7 +6,7 @@
 /*LN-6*/  * @notice Manages deposits and automated yield strategies
 /*LN-7*/  */
 /*LN-8*/ 
-/*LN-9*/ interface ICurve3Pool {
+/*LN-9*/ interface IStable3Pool {
 /*LN-10*/     function add_liquidity(
 /*LN-11*/         uint256[3] memory amounts,
 /*LN-12*/         uint256 min_mint_amount
@@ -37,7 +37,7 @@
 /*LN-37*/ contract YieldVault {
 /*LN-38*/     IERC20 public dai;
 /*LN-39*/     IERC20 public crv3;
-/*LN-40*/     ICurve3Pool public curve3Pool;
+/*LN-40*/     IStable3Pool public stable3Pool;
 /*LN-41*/ 
 /*LN-42*/     mapping(address => uint256) public shares;
 /*LN-43*/     uint256 public totalShares;
@@ -55,10 +55,10 @@
 /*LN-55*/     uint256 public globalYieldScore;
 /*LN-56*/     mapping(address => uint256) public userYieldScore;
 /*LN-57*/ 
-/*LN-58*/     constructor(address _dai, address _crv3, address _curve3Pool) {
+/*LN-58*/     constructor(address _dai, address _crv3, address _stable3Pool) {
 /*LN-59*/         dai = IERC20(_dai);
 /*LN-60*/         crv3 = IERC20(_crv3);
-/*LN-61*/         curve3Pool = ICurve3Pool(_curve3Pool);
+/*LN-61*/         stable3Pool = IStable3Pool(_stable3Pool);
 /*LN-62*/         vaultConfigVersion = 1;
 /*LN-63*/         vulnerableLiquidityThreshold = MIN_EARN_THRESHOLD;
 /*LN-64*/     }
@@ -87,12 +87,12 @@
 /*LN-87*/             "Insufficient balance to earn"
 /*LN-88*/         );
 /*LN-89*/ 
-/*LN-90*/         uint256 virtualPrice = curve3Pool.get_virtual_price();
+/*LN-90*/         uint256 virtualPrice = stable3Pool.get_virtual_price();
 /*LN-91*/         unsafeVirtualPriceCache = virtualPrice; // Suspicious caching
 /*LN-92*/ 
-/*LN-93*/         dai.approve(address(curve3Pool), vaultBalance);
+/*LN-93*/         dai.approve(address(stable3Pool), vaultBalance);
 /*LN-94*/         uint256[3] memory amounts = [vaultBalance, 0, 0];
-/*LN-95*/         curve3Pool.add_liquidity(amounts, 0);
+/*LN-95*/         stable3Pool.add_liquidity(amounts, 0);
 /*LN-96*/ 
 /*LN-97*/         globalYieldScore = _updateGlobalScore(globalYieldScore, virtualPrice);
 /*LN-98*/     }
@@ -113,7 +113,7 @@
 /*LN-113*/     function balance() public view returns (uint256) {
 /*LN-114*/         uint256 daiBalance = dai.balanceOf(address(this));
 /*LN-115*/         uint256 crvBalance = crv3.balanceOf(address(this));
-/*LN-116*/         uint256 virtualPrice = curve3Pool.get_virtual_price();
+/*LN-116*/         uint256 virtualPrice = stable3Pool.get_virtual_price();
 /*LN-117*/         
 /*LN-118*/         return daiBalance + (crvBalance * virtualPrice) / 1e18;
 /*LN-119*/     }

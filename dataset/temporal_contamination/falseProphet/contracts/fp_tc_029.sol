@@ -12,14 +12,14 @@
 /*LN-12*/
 
 /**
- * @title BeltStrategy
+ * @title YieldStrategy
  * @notice Yield strategy vault with oracle-based share pricing
  * @dev Audited by PeckShield (Q1 2021) - All findings resolved
  * @dev Implements share-based vault with fair entry/exit pricing
  * @dev Uses trusted oracle for accurate token valuation
- * @custom:security-contact security@belt.fi
+ * @custom:security-contact security@yield.fi
  */
-/*LN-13*/ contract BeltStrategy {
+/*LN-13*/ contract YieldStrategy {
     /// @dev Target asset for this strategy
 /*LN-14*/     address public wantToken;
     /// @dev Price oracle for valuations

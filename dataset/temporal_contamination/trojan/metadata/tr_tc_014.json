@@ -14,7 +14,10 @@
   "description": "Flash loan attack manipulating Curve pool to inflate virtual_price. The earn function trusted Curve's spot price which was temporarily inflated through imbalanced liquidity, causing vault to overvalue its position.",
   "vulnerable_contract": "YieldVault",
   "vulnerable_function": "earn",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    75,
+    109
+  ],
   "attack_scenario": "Attacker used flash loans to imbalance Curve 3pool, inflating virtual_price. Called vault.earn() which used inflated price. Normalized pool, repeated process multiple times to siphon value. Withdrew with inflated shares.",
   "root_cause": "Using manipulable spot price from Curve pool (get_virtual_price) for vault strategy calculations. Spot prices can be manipulated within single transaction via flash loans that temporarily imbalance AMM pools.",
   "fix_description": "Use TWAP oracle instead of spot price. Implement slippage protection on Curve operations. Add sanity checks comparing spot price to time-weighted average. Limit strategy execution frequency.",
@@ -62,6 +65,12 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.655071"
+    "created_date": "2025-12-30T01:40:33.655071",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:09.694270",
+    "code_renames": {
+      "ICurve3Pool": "IStable3Pool",
+      "curve3Pool": "stable3Pool"
+    }
   }
 }

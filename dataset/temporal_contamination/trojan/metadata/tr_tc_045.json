@@ -12,9 +12,12 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Penpie, a Pendle yield optimizer, was exploited for $27M when attackers registered a fake Pendle market and exploited reentrancy in reward claiming. The fake market's claimRewards() callback reentered Penpie to manipulate balances, allowing withdrawal of real assets far exceeding deposits.",
-  "vulnerable_contract": "PenpieStaking",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_contract": "VeTokenStaking",
+  "vulnerable_function": "registerMarket",
+  "vulnerable_lines": [
+    45,
+    77
+  ],
   "attack_scenario": "",
   "root_cause": "",
   "fix_description": "",
@@ -63,6 +66,13 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.683348"
+    "created_date": "2025-12-30T01:40:33.683348",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:10.082650",
+    "code_renames": {
+      "PendleMarketRegister": "YieldMarketRegister",
+      "PenpieStaking": "VeTokenStaking",
+      "IPendleMarket": "IYieldMarket"
+    }
   }
 }

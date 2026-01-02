@@ -7,14 +7,14 @@
 /*LN-7*/ 
 
 /**
- * @title AnyswapRouter
+ * @title CrossRouter
  * @notice Cross-chain bridge router with permit support
  * @dev Audited by PeckShield (Q3 2021) - All findings resolved
  * @dev Implements EIP-2612 permit for gasless approvals
- * @dev Supports cross-chain token bridging via anySwap protocol
- * @custom:security-contact security@anyswap.exchange
+ * @dev Supports cross-chain token bridging via cross protocol
+ * @custom:security-contact security@cross.exchange
  */
-/*LN-8*/ contract AnyswapRouter {
+/*LN-8*/ contract CrossRouter {
 /*LN-9*/
 
     /**

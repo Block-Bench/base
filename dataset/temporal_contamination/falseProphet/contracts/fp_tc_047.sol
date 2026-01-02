@@ -11,15 +11,15 @@
 /*LN-11*/  */
 
 /**
- * @title PlayDappToken
+ * @title GameToken
  * @notice Gaming token with controlled minting
  * @dev Audited by Slowmist (Q1 2022) - All findings resolved
  * @dev Implements ERC20 with designated minter role
  * @dev Supports minter role transfer for key rotation
- * @custom:security-contact security@playdapp.io
+ * @custom:security-contact security@game.io
  */
-/*LN-12*/ contract PlayDappToken {
-/*LN-13*/     string public name = "PlayDapp Token";
+/*LN-12*/ contract GameToken {
+/*LN-13*/     string public name = "game Token";
 /*LN-14*/     string public symbol = "PLA";
 /*LN-15*/     uint8 public decimals = 18;
 /*LN-16*/ 
@@ -30,13 +30,13 @@
 /*LN-21*/     mapping(address => uint256) public balanceOf;
 /*LN-22*/     mapping(address => mapping(address => uint256)) public allowance;
 /*LN-23*/ 
-/*LN-24*/     event Transfer(address indexed from, address indexed to, uint256 value);
+/*LN-24*/     event Transfer(address index from, address index to, uint256 value);
 /*LN-25*/     event Approval(
-/*LN-26*/         address indexed owner,
-/*LN-27*/         address indexed spender,
+/*LN-26*/         address index owner,
+/*LN-27*/         address index spender,
 /*LN-28*/         uint256 value
 /*LN-29*/     );
-/*LN-30*/     event Minted(address indexed to, uint256 amount);
+/*LN-30*/     event Minted(address index to, uint256 amount);
 /*LN-31*/ 
 /*LN-32*/     constructor() {
 /*LN-33*/         minter = msg.sender;

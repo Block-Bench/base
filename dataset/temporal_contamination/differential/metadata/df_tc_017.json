@@ -45,9 +45,35 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
-    "why_fix_works": "",
+    "fix_description": "Minimal fix with 9 lines changed. Added: mapping(address => bool) public validTargets;; require(validTargets[_targets[i]], \"Target not allowed\");; function addValidTarget(address target) external {",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "mapping(address => bool) public validTargets;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(validTargets[_targets[i]], \"Target not allowed\");",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "function addValidTarget(address target) external {",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(msg.sender == governance, \"Not governance\");",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "validTargets[target] = true;",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
+    "why_fix_works": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors.",
     "contracts_in_file": [
       "VaultController",
       "Strategy"

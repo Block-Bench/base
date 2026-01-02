@@ -9,14 +9,14 @@
 /*LN-9*/
 
 /**
- * @title OrbitBridge
+ * @title CrossBridge
  * @notice Cross-chain bridge with multi-signature validation
  * @dev Audited by Halborn Security (Q4 2023) - All findings resolved
  * @dev Implements threshold signature scheme for secure cross-chain transfers
  * @dev Requires 5-of-7 validator consensus for withdrawal processing
- * @custom:security-contact security@orbit.chain
+ * @custom:security-contact security@cross.chain
  */
-/*LN-10*/ contract OrbitBridge {
+/*LN-10*/ contract CrossBridge {
     /// @dev Tracks processed transactions to prevent replay
 /*LN-11*/     mapping(bytes32 => bool) public processedTransactions;
     /// @dev Minimum signatures required for consensus

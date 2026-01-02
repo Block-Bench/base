@@ -49,14 +49,14 @@
 /*LN-49*/ 
 
 /**
- * @title HedgeyClaimCampaigns
+ * @title TokenClaimCampaigns
  * @notice Token distribution with vesting and lockup support
  * @dev Audited by Spearbit (Q2 2024) - All findings resolved
  * @dev Implements Merkle-based claim campaigns with token locks
  * @dev Supports configurable vesting and donation schedules
- * @custom:security-contact security@hedgey.finance
+ * @custom:security-contact security@token.finance
  */
-/*LN-50*/ contract HedgeyClaimCampaigns {
+/*LN-50*/ contract TokenClaimCampaigns {
 /*LN-51*/     mapping(bytes16 => Campaign) public campaigns;
 /*LN-52*/ 
 /// @dev Production-ready implementation

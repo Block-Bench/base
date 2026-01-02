@@ -14,7 +14,10 @@
   "description": "ERC-777 reentrancy attack exploiting tokensToSend hooks. The withdraw function transferred tokens before updating balances, allowing recursive withdrawals through ERC-777 callbacks.",
   "vulnerable_contract": "LendingPool",
   "vulnerable_function": "withdraw",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    68,
+    71
+  ],
   "attack_scenario": "Attacker supplied ERC-777 tokens (imBTC), then called withdraw. During token transfer, ERC-777 triggered attacker's tokensToSend hook, which re-entered withdraw before balance update.",
   "root_cause": "Token transfer before state update, combined with ERC-777 tokensToSend hook that allows reentrancy. Same checks-effects-interactions violation but with token hooks instead of fallback.",
   "fix_description": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth.",
@@ -61,6 +64,9 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.652222"
+    "created_date": "2025-12-30T01:40:33.652222",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:09.654016",
+    "code_renames": {}
   }
 }

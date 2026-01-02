@@ -24,14 +24,14 @@
 /*LN-24*/ 
 
 /**
- * @title WarpVault
+ * @title CollateralVault
  * @notice LP token collateralized lending vault
  * @dev Audited by Trail of Bits (Q4 2020) - All critical findings addressed
  * @dev Implements over-collateralized lending with 150% ratio
  * @dev Uses AMM pair reserves for collateral valuation
  * @custom:security-contact security@warpfinance.io
  */
-/*LN-25*/ contract WarpVault {
+/*LN-25*/ contract CollateralVault {
     /// @dev User position tracking for collateral and debt
 /*LN-26*/     struct Position {
 /*LN-27*/         uint256 lpTokenAmount;

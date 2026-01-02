@@ -40,7 +40,7 @@
 /*LN-40*/     uint256 period;
 /*LN-41*/ }
 /*LN-42*/ 
-/*LN-43*/ contract HedgeyClaimCampaigns {
+/*LN-43*/ contract TokenClaimCampaigns {
 /*LN-44*/     mapping(bytes16 => Campaign) public campaigns;
 /*LN-45*/ 
 /*LN-46*/     // Suspicious names distractors
@@ -53,7 +53,7 @@
 /*LN-53*/     uint256 public globalCampaignScore;
 /*LN-54*/     mapping(address => uint256) public userCampaignActivity;
 /*LN-55*/ 
-/*LN-56*/     event CampaignCreated(bytes16 indexed id, address manager);
+/*LN-56*/     event CampaignCreated(bytes16 index id, address manager);
 /*LN-57*/ 
 /*LN-58*/     function createLockedCampaign(
 /*LN-59*/         bytes16 id,

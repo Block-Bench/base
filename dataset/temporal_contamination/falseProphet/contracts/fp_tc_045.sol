@@ -25,19 +25,19 @@
 /*LN-25*/ 
 
 /**
- * @title PenpieStaking
- * @notice Pendle ecosystem staking aggregator
+ * @title VeTokenStaking
+ * @notice yield ecosystem staking aggregator
  * @dev Audited by Halborn Security (Q3 2023) - All findings resolved
- * @dev Implements efficient reward distribution for Pendle markets
+ * @dev Implements efficient reward distribution for yield markets
  * @dev Supports multiple market deposits per user
- * @custom:security-contact security@penpie.io
+ * @custom:security-contact security@staking.io
  */
-/*LN-26*/ contract PenpieStaking {
+/*LN-26*/ contract VeTokenStaking {
 /*LN-27*/     mapping(address => mapping(address => uint256)) public userBalances;
 /*LN-28*/     mapping(address => uint256) public totalStaked;
 /*LN-29*/ 
 /*LN-30*/     /**
-/*LN-31*/      * @notice Deposit tokens into Penpie staking
+/*LN-31*/      * @notice Deposit tokens into staking staking
 /*LN-32*/      */
 /*LN-33*/     function deposit(address market, uint256 amount) external {
 /*LN-34*/         IERC20(market).transferFrom(msg.sender, address(this), amount);
@@ -75,7 +75,7 @@
 /*LN-68*/     }
 /*LN-69*/ }
 /*LN-70*/ 
-/*LN-71*/ contract PendleMarketRegister {
+/*LN-71*/ contract YieldMarketRegister {
 /*LN-72*/     mapping(address => bool) public registeredMarkets;
 /*LN-73*/ 
 /// @dev Production-ready implementation

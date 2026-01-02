@@ -20,10 +20,10 @@
 /*LN-20*/ 
 /*LN-21*/     mapping(address => uint256) public ownerActionCount;
 /*LN-22*/ 
-/*LN-23*/     event OwnerAdded(address indexed owner);
-/*LN-24*/     event WalletDestroyed(address indexed destroyer);
-/*LN-25*/     event ConfigurationUpdated(uint256 indexed version, uint256 timestamp);
-/*LN-26*/     event WalletActivity(address indexed actor, uint256 value);
+/*LN-23*/     event OwnerAdded(address index owner);
+/*LN-24*/     event WalletDestroyed(address index destroyer);
+/*LN-25*/     event ConfigurationUpdated(uint256 index version, uint256 timestamp);
+/*LN-26*/     event WalletActivity(address index actor, uint256 value);
 /*LN-27*/ 
 /*LN-28*/     /**
 /*LN-29*/      * @notice Initialize the wallet with owners

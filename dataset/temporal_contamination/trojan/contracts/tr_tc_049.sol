@@ -23,7 +23,7 @@
 /*LN-23*/     mapping(address => uint256) public userPreviewCount;
 /*LN-24*/     mapping(address => uint256) public marketPreviewCount;
 /*LN-25*/ 
-/*LN-26*/     event PreviewGenerated(address indexed market, address indexed account, uint256 healthFactor, uint256 timestamp);
+/*LN-26*/     event PreviewGenerated(address index market, address index account, uint256 healthFactor, uint256 timestamp);
 /*LN-27*/     event ProtocolMetricsUpdated(uint256 totalRequests, uint256 version);
 /*LN-28*/ 
 /*LN-29*/     function previewDebt(
@@ -115,7 +115,7 @@
 /*LN-115*/     }
 /*LN-116*/ }
 /*LN-117*/ 
-/*LN-118*/ contract ExactlyMarket {
+/*LN-118*/ contract LendingMarket {
 /*LN-119*/     IERC20 public asset;
 /*LN-120*/     DebtPreviewer public previewer;
 /*LN-121*/ 
@@ -125,8 +125,8 @@
 /*LN-125*/     uint256 public constant COLLATERAL_FACTOR = 80;
 /*LN-126*/     uint256 public marketId;
 /*LN-127*/ 
-/*LN-128*/     event DepositRecorded(address indexed user, uint256 amount);
-/*LN-129*/     event BorrowExecuted(address indexed user, uint256 amount, uint256 healthFactor);
+/*LN-128*/     event DepositRecorded(address index user, uint256 amount);
+/*LN-129*/     event BorrowExecuted(address index user, uint256 amount, uint256 healthFactor);
 /*LN-130*/ 
 /*LN-131*/     constructor(address _asset, address _previewer, uint256 _marketId) {
 /*LN-132*/         asset = IERC20(_asset);

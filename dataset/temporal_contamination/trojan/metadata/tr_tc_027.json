@@ -13,8 +13,11 @@
   "temporal_category": "pre_cutoff",
   "description": "BurgerSwap router didn't validate that token pairs were from the official factory. Attackers created fake tokens and malicious pairs with manipulated reserves, then used the router to swap through these fake pairs to extract real tokens at manipulated prices.",
   "vulnerable_contract": "SwapRouter",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_function": "swapExactTokensForTokens",
+  "vulnerable_lines": [
+    27,
+    37
+  ],
   "attack_scenario": "1) Attacker created fake token contracts mimicking legitimate addresses. 2) Created malicious pair contract with manipulated reserves (e.g., 1 fake token = 1000 real tokens). 3) Called router swap function with path through fake token. 4) Router accepted fake pair without factory validation. 5) Executed swap at manipulated price. 6) Extracted $7M in real tokens.",
   "root_cause": "Router's swap function didn't verify that pairs came from the official factory. It accepted any pair address provided in the path, allowing attackers to inject fake pairs with arbitrary reserve ratios.",
   "fix_description": "",
@@ -61,6 +64,9 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.665919"
+    "created_date": "2025-12-30T01:40:33.665919",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:09.819584",
+    "code_renames": {}
   }
 }

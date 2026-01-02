@@ -13,7 +13,7 @@
 /*LN-13*/     ) external returns (bool);
 /*LN-14*/ }
 /*LN-15*/ 
-/*LN-16*/ interface ICurvePool {
+/*LN-16*/ interface IStablePool {
 /*LN-17*/     function get_virtual_price() external view returns (uint256);
 /*LN-18*/ 
 /*LN-19*/     function add_liquidity(
@@ -23,19 +23,19 @@
 /*LN-23*/ }
 /*LN-24*/ 
 /*LN-25*/ contract PriceOracle {
-/*LN-26*/     ICurvePool public curvePool;
+/*LN-26*/     IStablePool public stablePool;
 /*LN-27*/ 
 /*LN-28*/     // Suspicious names distractors
 /*LN-29*/     bool public unsafePriceBypass;
 /*LN-30*/     uint256 public manipulatedPriceCount;
 /*LN-31*/     uint256 public vulnerableVirtualPriceCache;
 /*LN-32*/ 
-/*LN-33*/     constructor(address _curvePool) {
-/*LN-34*/         curvePool = ICurvePool(_curvePool);
+/*LN-33*/     constructor(address _stablePool) {
+/*LN-34*/         stablePool = IStablePool(_stablePool);
 /*LN-35*/     }
 /*LN-36*/ 
 /*LN-37*/     function getPrice() external view returns (uint256) {
-/*LN-38*/         uint256 price = curvePool.get_virtual_price();
+/*LN-38*/         uint256 price = stablePool.get_virtual_price();
 /*LN-39*/         
 /*LN-40*/         if (unsafePriceBypass) {
 /*LN-41*/             // Removed state-modifying lines to maintain 'view' validity

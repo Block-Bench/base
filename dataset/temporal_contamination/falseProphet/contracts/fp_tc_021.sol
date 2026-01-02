@@ -15,14 +15,14 @@
 /*LN-15*/ 
 
 /**
- * @title DODOPool
+ * @title LiquidityPool
  * @notice Proactive Market Maker (PMM) liquidity pool
  * @dev Audited by PeckShield (Q2 2021) - All findings resolved
  * @dev Implements constant product AMM with maintainer fee collection
  * @dev Uses initializer pattern for proxy deployment compatibility
  * @custom:security-contact security@dodoex.io
  */
-/*LN-16*/ contract DODOPool {
+/*LN-16*/ contract LiquidityPool {
     /// @dev Pool maintainer for fee collection
 /*LN-17*/     address public maintainer;
     /// @dev Base token in the trading pair

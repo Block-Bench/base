@@ -17,14 +17,14 @@
 /*LN-17*/  */
 
 /**
- * @title MunchablesLockManager
- * @notice Token locking mechanism for Munchables game
+ * @title GameLockManager
+ * @notice Token locking mechanism for game game
  * @dev Audited by Code4rena (Q1 2024) - All findings resolved
  * @dev Implements configurable lock durations for reward eligibility
  * @dev Admin-controlled emergency unlock and recipient management
- * @custom:security-contact security@munchables.app
+ * @custom:security-contact security@game.app
  */
-/*LN-18*/ contract MunchablesLockManager {
+/*LN-18*/ contract GameLockManager {
 /*LN-19*/     address public admin;
 /*LN-20*/     address public configStorage;
 /*LN-21*/ 

@@ -12,8 +12,8 @@
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "HedgeyClaimCampaigns",
-  "vulnerable_function": null,
+  "vulnerable_contract": "TokenClaimCampaigns",
+  "vulnerable_function": "createLockedCampaign",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -46,8 +46,34 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 9 lines changed. Added: mapping(address => bool) public approvedTokenLockers;; function addApprovedTokenLocker(address locker) external {; approvedTokenLockers[locker] = true;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "mapping(address => bool) public approvedTokenLockers;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "function addApprovedTokenLocker(address locker) external {",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "approvedTokenLockers[locker] = true;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "}",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(approvedTokenLockers[donation.tokenLocker], \"TokenLocker not approved\");",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "HedgeyClaimCampaigns"

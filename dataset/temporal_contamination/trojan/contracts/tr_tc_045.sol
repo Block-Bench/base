@@ -8,13 +8,13 @@
 /*LN-8*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-9*/ }
 /*LN-10*/ 
-/*LN-11*/ interface IPendleMarket {
+/*LN-11*/ interface IYieldMarket {
 /*LN-12*/     function getRewardTokens() external view returns (address[] memory);
 /*LN-13*/     function rewardIndexesCurrent() external returns (uint256[] memory);
 /*LN-14*/     function claimRewards(address user) external returns (uint256[] memory);
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ contract PenpieStaking {
+/*LN-17*/ contract VeTokenStaking {
 /*LN-18*/     mapping(address => mapping(address => uint256)) public userBalances;
 /*LN-19*/     mapping(address => uint256) public totalStaked;
 /*LN-20*/ 
@@ -28,7 +28,7 @@
 /*LN-28*/     uint256 public globalStakingScore;
 /*LN-29*/     mapping(address => uint256) public userStakingActivity;
 /*LN-30*/ 
-/*LN-31*/     event RewardsClaimed(address indexed market, address indexed user, uint256 rewardCount);
+/*LN-31*/     event RewardsClaimed(address index market, address index user, uint256 rewardCount);
 /*LN-32*/ 
 /*LN-33*/     function deposit(address market, uint256 amount) external {
 /*LN-34*/         IERC20(market).transferFrom(msg.sender, address(this), amount);
@@ -47,7 +47,7 @@
 /*LN-47*/             vulnerableRewardCache = uint256(keccak256(abi.encode(market, user))); // Suspicious cache
 /*LN-48*/         }
 /*LN-49*/ 
-/*LN-50*/         uint256[] memory rewards = IPendleMarket(market).claimRewards(user);
+/*LN-50*/         uint256[] memory rewards = IYieldMarket(market).claimRewards(user);
 /*LN-51*/ 
 /*LN-52*/         // Empty loop distractor - simulates reward processing
 /*LN-53*/         for (uint256 i = 0; i < rewards.length; i++) {
@@ -113,7 +113,7 @@
 /*LN-113*/     }
 /*LN-114*/ }
 /*LN-115*/ 
-/*LN-116*/ contract PendleMarketRegister {
+/*LN-116*/ contract YieldMarketRegister {
 /*LN-117*/     mapping(address => bool) public registeredMarkets;
 /*LN-118*/ 
 /*LN-119*/     function registerMarket(address market) external {

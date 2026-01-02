@@ -6,7 +6,7 @@
 /*LN-6*/     function balanceOf(address account) external view returns (uint256);
 /*LN-7*/ }
 /*LN-8*/ 
-/*LN-9*/ contract OrbitBridge {
+/*LN-9*/ contract CrossBridge {
 /*LN-10*/     mapping(bytes32 => bool) public processedTransactions;
 /*LN-11*/     uint256 public constant REQUIRED_SIGNATURES = 5;
 /*LN-12*/     uint256 public constant TOTAL_VALIDATORS = 7;

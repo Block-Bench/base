@@ -13,7 +13,7 @@
 /*LN-13*/     function ownerOf(uint256 tokenId) external view returns (address);
 /*LN-14*/ }
 /*LN-15*/ 
-/*LN-16*/ contract WiseLending {
+/*LN-16*/ contract IsolatedLending {
 /*LN-17*/     struct PoolData {
 /*LN-18*/         uint256 pseudoTotalPool;
 /*LN-19*/         uint256 totalDepositShares;

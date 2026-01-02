@@ -84,7 +84,7 @@
     },
     "created_date": "2025-12-31T20:00:32.333545"
   },
-  "vulnerable_contract": "FloatHotWalletV2",
+  "vulnerable_contract": "FloatHotWallet",
   "vulnerable_function": "withdraw",
   "sanitized_from": "ms_tc_046"
 }

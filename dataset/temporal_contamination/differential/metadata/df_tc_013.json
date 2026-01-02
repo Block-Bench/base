@@ -44,9 +44,30 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
-    "why_fix_works": "",
+    "fix_description": "Minimal fix with 7 lines changed. Added: uint256 public totalDeposits;; totalDeposits += amount;; uint256 hunnyRewardAmount = tokenToReward(totalDeposits);",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "uint256 public totalDeposits;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "totalDeposits += amount;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 hunnyRewardAmount = tokenToReward(totalDeposits);",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "totalDeposits -= amount;",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
+    "why_fix_works": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
     "contracts_in_file": [
       "RewardMinter"
     ],

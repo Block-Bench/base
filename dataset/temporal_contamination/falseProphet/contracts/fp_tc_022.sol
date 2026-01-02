@@ -15,14 +15,14 @@
 /*LN-15*/ 
 
 /**
- * @title UraniumPair
+ * @title SwapPair
  * @notice Uniswap V2 style AMM pair with optimized fee structure
  * @dev Audited by Certik (Q1 2021) - All findings resolved
  * @dev Implements constant product market maker with 0.16% fee
  * @dev Gas-optimized reserve management with uint112 packing
- * @custom:security-contact security@uranium.finance
+ * @custom:security-contact security@swap.finance
  */
-/*LN-16*/ contract UraniumPair {
+/*LN-16*/ contract SwapPair {
     /// @dev First token in the pair
 /*LN-17*/     address public token0;
     /// @dev Second token in the pair

@@ -45,9 +45,35 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
-    "why_fix_works": "",
+    "fix_description": "Minimal fix with 9 lines changed. Added: mapping(address => bool) public validUnderlying;; underlying = NEW_TUSD;; validUnderlying[OLD_TUSD] = true;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "mapping(address => bool) public validUnderlying;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "underlying = NEW_TUSD;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "validUnderlying[OLD_TUSD] = true;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "validUnderlying[NEW_TUSD] = true;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(validUnderlying[NEW_TUSD], \"Invalid underlying\");",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
+    "why_fix_works": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
     "contracts_in_file": [
       "CompoundMarket"
     ],

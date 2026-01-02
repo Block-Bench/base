@@ -36,7 +36,7 @@
 /*LN-36*/     mapping(int24 => uint256) public tickUsageCount;
 /*LN-37*/ 
 /*LN-38*/     event Swap(
-/*LN-39*/         address indexed sender,
+/*LN-39*/         address index sender,
 /*LN-40*/         uint256 amount0In,
 /*LN-41*/         uint256 amount1In,
 /*LN-42*/         uint256 amount0Out,
@@ -44,14 +44,14 @@
 /*LN-44*/     );
 /*LN-45*/ 
 /*LN-46*/     event LiquidityAdded(
-/*LN-47*/         address indexed provider,
+/*LN-47*/         address index provider,
 /*LN-48*/         int24 tickLower,
 /*LN-49*/         int24 tickUpper,
 /*LN-50*/         uint128 liquidity
 /*LN-51*/     );
 /*LN-52*/ 
-/*LN-53*/     event PoolConfigUpdated(uint256 indexed version, uint256 timestamp);
-/*LN-54*/     event PoolActivity(address indexed user, uint256 value);
+/*LN-53*/     event PoolConfigUpdated(uint256 index version, uint256 timestamp);
+/*LN-54*/     event PoolActivity(address index user, uint256 value);
 /*LN-55*/ 
 /*LN-56*/     /**
 /*LN-57*/      * @notice Add liquidity to a price range

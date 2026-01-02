@@ -52,9 +52,9 @@
 /*LN-52*/     mapping(address => uint256) public userMigrationCount;
 /*LN-53*/     mapping(address => uint256) public userActivityScore;
 /*LN-54*/ 
-/*LN-55*/     event MigrationCompleted(address indexed account, uint256 collateral, uint256 debt);
-/*LN-56*/     event ActivityRecorded(address indexed user, uint256 score);
-/*LN-57*/     event ConfigUpdated(uint256 indexed version);
+/*LN-55*/     event MigrationCompleted(address index account, uint256 collateral, uint256 debt);
+/*LN-56*/     event ActivityRecorded(address index user, uint256 score);
+/*LN-57*/     event ConfigUpdated(uint256 index version);
 /*LN-58*/ 
 /*LN-59*/     constructor(address _borrowerOperations, address _wstETH, address _mkUSD) {
 /*LN-60*/         borrowerOperations = IBorrowerOperations(_borrowerOperations);
@@ -176,8 +176,8 @@
 /*LN-176*/     uint256 public lastOperationBlock;
 /*LN-177*/     mapping(address => uint256) public accountOperationCount;
 /*LN-178*/ 
-/*LN-179*/     event DelegateApprovalSet(address indexed owner, address indexed delegate, bool approved);
-/*LN-180*/     event OperationRecorded(address indexed account, uint256 count);
+/*LN-179*/     event DelegateApprovalSet(address index owner, address index delegate, bool approved);
+/*LN-180*/     event OperationRecorded(address index account, uint256 count);
 /*LN-181*/ 
 /*LN-182*/     function setDelegateApproval(address _delegate, bool _isApproved) external {
 /*LN-183*/         delegates[msg.sender][_delegate] = _isApproved;

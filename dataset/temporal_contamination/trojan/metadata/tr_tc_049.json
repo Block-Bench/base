@@ -13,8 +13,11 @@
   "temporal_category": "pre_cutoff",
   "description": "Exactly Protocol lost $12M when attackers exploited the DebtPreviewer helper contract. By providing a malicious market address in the debt calculation, they manipulated their perceived collateral value, allowing over-borrowing far exceeding actual collateral.",
   "vulnerable_contract": "DebtPreviewer",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_function": "previewDebt",
+  "vulnerable_lines": [
+    40,
+    116
+  ],
   "attack_scenario": "",
   "root_cause": "",
   "fix_description": "",
@@ -63,6 +66,11 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.686658"
+    "created_date": "2025-12-30T01:40:33.686658",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:10.141757",
+    "code_renames": {
+      "ExactlyMarket": "LendingMarket"
+    }
   }
 }

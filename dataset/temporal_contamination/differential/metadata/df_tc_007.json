@@ -50,9 +50,25 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
-    "why_fix_works": "",
+    "fix_description": "Minimal fix with 6 lines changed. Added: mapping(address => bool) public allowedTargets;; allowedTargets[_dataContract] = false;; require(allowedTargets[toContract], \"Target not allowed\");",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "mapping(address => bool) public allowedTargets;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "allowedTargets[_dataContract] = false;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(allowedTargets[toContract], \"Target not allowed\");",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
+    "why_fix_works": "Implement whitelist of allowed target contracts, explicitly excluding privileged contracts like EthCrossChainData. Use blacklist to forbid critical system contracts as targets. Separate privilege levels for cross-chain execution. Replace msg.sender-based authorization with more granular access contr",
     "contracts_in_file": [
       "CrossChainData",
       "CrossChainManager"

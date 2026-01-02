@@ -14,7 +14,10 @@
   "description": "Transfer callback manipulation allowing state inconsistency. The transfer function updated balances then called _notifyTransfer which triggered callbacks, allowing repeated transfers with stale state calculations.",
   "vulnerable_contract": "LoanToken",
   "vulnerable_function": "transfer",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    59,
+    80
+  ],
   "attack_scenario": "Attacker minted tokens, then transferred to self 4 times in loop. Each transfer triggered callback with inconsistent state. After iterations, token balance inflated. Burned inflated tokens back to ETH for profit.",
   "root_cause": "Token transfer function called external contract during state update. Callback occurred after balance updates but before finalization, creating state inconsistency exploitable through repeated self-transfers.",
   "fix_description": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
@@ -61,6 +64,9 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.656450"
+    "created_date": "2025-12-30T01:40:33.656450",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:09.709729",
+    "code_renames": {}
   }
 }

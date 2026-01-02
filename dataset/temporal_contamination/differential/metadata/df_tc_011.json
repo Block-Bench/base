@@ -45,9 +45,15 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
-    "why_fix_works": "",
+    "fix_description": "Minimal fix with 4 lines changed. Added: IERC777(asset).transfer(msg.sender, withdrawAmount);",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "IERC777(asset).transfer(msg.sender, withdrawAmount);",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
+    "why_fix_works": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth.",
     "contracts_in_file": [
       "LendingPool"
     ],

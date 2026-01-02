@@ -25,7 +25,7 @@
 /*LN-25*/     ) external payable returns (uint256 amountOut);
 /*LN-26*/ }
 /*LN-27*/ 
-/*LN-28*/ contract BedrockVault {
+/*LN-28*/ contract StakingVault {
 /*LN-29*/     IERC20 public immutable uniBTC;
 /*LN-30*/     IERC20 public immutable WBTC;
 /*LN-31*/     IUniswapV3Router public immutable router;

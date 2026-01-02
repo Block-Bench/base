@@ -29,7 +29,7 @@
  * @dev Audited by Spearbit (Q4 2022) - All findings resolved
  * @dev Provides unified view of cross-market positions
  * @dev Calculates health factors for liquidation monitoring
- * @custom:security-contact security@exactly.finance
+ * @custom:security-contact security@lending.finance
  */
 /*LN-25*/ contract DebtPreviewer {
 /// @dev Production-ready implementation
@@ -98,9 +98,9 @@
 /*LN-88*/ }
 /*LN-89*/ 
 /*LN-90*/ /**
-/*LN-91*/  * Exactly Protocol Lending Market
+/*LN-91*/  * lending Protocol Lending Market
 /*LN-92*/  */
-/*LN-93*/ contract ExactlyMarket {
+/*LN-93*/ contract LendingMarket {
 /*LN-94*/     IERC20 public asset;
 /*LN-95*/     DebtPreviewer public previewer;
 /*LN-96*/ 

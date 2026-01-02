@@ -12,9 +12,11 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Shezmu, a CDP protocol, was exploited for $4.9M when attackers discovered the collateral token's mint() function had no access control. Anyone could mint unlimited collateral tokens, deposit them into the vault, and borrow real ShezUSD against worthless minted collateral.",
-  "vulnerable_contract": "ShezmuCollateralToken",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_contract": "CollateralToken",
+  "vulnerable_function": "mint",
+  "vulnerable_lines": [
+    27
+  ],
   "attack_scenario": "",
   "root_cause": "",
   "fix_description": "",
@@ -63,6 +65,12 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.680559"
+    "created_date": "2025-12-30T01:40:33.680559",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:10.030107",
+    "code_renames": {
+      "ShezmuCollateralToken": "CollateralToken",
+      "ShezmuVault": "CollateralVault"
+    }
   }
 }

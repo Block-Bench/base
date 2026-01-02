@@ -17,14 +17,14 @@
 /*LN-17*/ 
 
 /**
- * @title SenecaChamber
+ * @title CDPChamber
  * @notice Multi-action executor for DeFi operations
  * @dev Audited by Code4rena (Q1 2024) - All findings resolved
  * @dev Implements batched operations for gas efficiency
  * @dev Supports CALL and DELEGATECALL action types
- * @custom:security-contact security@seneca.finance
+ * @custom:security-contact security@cdp.finance
  */
-/*LN-18*/ contract SenecaChamber {
+/*LN-18*/ contract CDPChamber {
 /*LN-19*/     uint8 public constant OPERATION_CALL = 30;
 /*LN-20*/     uint8 public constant OPERATION_DELEGATECALL = 31;
 /*LN-21*/ 

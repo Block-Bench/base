@@ -44,7 +44,7 @@
 /*LN-44*/     uint256 period;
 /*LN-45*/ }
 /*LN-46*/ 
-/*LN-47*/ contract HedgeyClaimCampaigns {
+/*LN-47*/ contract TokenClaimCampaigns {
 /*LN-48*/     mapping(bytes16 => Campaign) public campaigns;
 /*LN-49*/     mapping(address => bool) public approvedTokenLockers;
 /*LN-50*/     address public admin;

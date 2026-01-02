@@ -8,7 +8,7 @@
 /*LN-8*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-9*/ }
 /*LN-10*/ 
-/*LN-11*/ contract SocketGateway {
+/*LN-11*/ contract BridgeGateway {
 /*LN-12*/     mapping(uint32 => address) public routes;
 /*LN-13*/     mapping(address => bool) public approvedRoutes;
 /*LN-14*/ 
@@ -93,7 +93,7 @@
 /*LN-93*/ }
 /*LN-94*/ 
 /*LN-95*/ contract VulnerableRoute {
-/*LN-96*/     SocketGateway public gateway;
+/*LN-96*/     BridgeGateway public gateway;
 /*LN-97*/ 
 /*LN-98*/     function performAction(
 /*LN-99*/         address fromToken,

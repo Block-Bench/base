@@ -11,11 +11,11 @@
 /*LN-11*/     function balanceOf(address account) external view returns (uint256);
 /*LN-12*/ }
 /*LN-13*/ 
-/*LN-14*/ contract SonneMarket {
+/*LN-14*/ contract CompMarket {
 /*LN-15*/     IERC20 public underlying;
 /*LN-16*/ 
-/*LN-17*/     string public name = "Sonne WETH";
-/*LN-18*/     string public symbol = "soWETH";
+/*LN-17*/     string public name = "Comp WETH";
+/*LN-18*/     string public symbol = "cWETH";
 /*LN-19*/     uint8 public decimals = 8;
 /*LN-20*/ 
 /*LN-21*/     uint256 public totalSupply;

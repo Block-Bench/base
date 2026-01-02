@@ -11,15 +11,15 @@
 /*LN-9*/
 
 /**
- * @title CompoundCToken
- * @author Compound Labs
+ * @title CToken
+ * @author lending Labs
  * @notice Interest-bearing token for lending market deposits
  * @dev Audited by OpenZeppelin (Q4 2020) - All findings addressed
  * @dev Implements cToken standard with supply and redeem functions
  * @dev Sweep function protected for underlying token security
- * @custom:security-contact security@compound.finance
+ * @custom:security-contact security@lending.finance
  */
-/*LN-10*/ contract CompoundCToken {
+/*LN-10*/ contract CToken {
     /// @dev Protected underlying asset for this market
 /*LN-11*/     address public underlying; // Token address for sweep protection
     /// @dev Protocol administrator

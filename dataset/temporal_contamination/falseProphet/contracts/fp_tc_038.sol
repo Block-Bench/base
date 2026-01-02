@@ -21,14 +21,14 @@
 /*LN-21*/
 
 /**
- * @title BlueberryLending
- * @notice Compound-style lending protocol with multi-asset support
+ * @title LeveragedLending
+ * @notice lending-style lending protocol with multi-asset support
  * @dev Audited by Sherlock (Q1 2023) - All findings resolved
  * @dev Implements collateral-backed borrowing with LTV enforcement
  * @dev Uses trusted oracle for asset valuation
- * @custom:security-contact security@blueberry.garden
+ * @custom:security-contact security@leveraged.garden
  */
-/*LN-22*/ contract BlueberryLending {
+/*LN-22*/ contract LeveragedLending {
 /*LN-23*/     struct Market {
         /// @dev Market listing status
 /*LN-24*/         bool isListed;

@@ -12,9 +12,12 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Bedrock DeFi, a liquid staking platform for uniBTC, was exploited for $2M due to an incorrect hardcoded 1:1 ETH:BTC exchange rate in its mint function. Attackers deposited ETH and received uniBTC at par value, despite ETH being worth ~20x less than BTC, then swapped for profit.",
-  "vulnerable_contract": "BedrockVault",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_contract": "StakingVault",
+  "vulnerable_function": "mint",
+  "vulnerable_lines": [
+    55,
+    101
+  ],
   "attack_scenario": "",
   "root_cause": "",
   "fix_description": "",
@@ -63,6 +66,11 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.679423"
+    "created_date": "2025-12-30T01:40:33.679423",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:10.006704",
+    "code_renames": {
+      "BedrockVault": "StakingVault"
+    }
   }
 }

@@ -12,9 +12,12 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Blueberry Protocol, a leveraged yield farming platform, was exploited for $1.4M through oracle price manipulation. Attackers used flashloans to manipulate low-liquidity DEX token prices (specifically OHM), then deposited the inflated collateral and borrowed maximum assets from lending pools.",
-  "vulnerable_contract": "",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_contract": "LeveragedLending",
+  "vulnerable_function": "mint",
+  "vulnerable_lines": [
+    56,
+    77
+  ],
   "attack_scenario": "",
   "root_cause": "",
   "fix_description": "",
@@ -55,6 +58,11 @@
     "contract_type": "",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.943928"
+    "created_date": "2025-12-30T21:14:14.943928",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T00:36:44.579717",
+    "contract_renames": {
+      "BlueberryLending": "LeveragedLending"
+    }
   }
 }

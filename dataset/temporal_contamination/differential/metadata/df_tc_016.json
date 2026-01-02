@@ -45,9 +45,35 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
-    "why_fix_works": "",
+    "fix_description": "Minimal fix with 13 lines changed. Added: uint256 private _status;; uint256 private constant _NOT_ENTERED = 1;; uint256 private constant _ENTERED = 2;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": "uint256 private _status;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 private constant _NOT_ENTERED = 1;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 private constant _ENTERED = 2;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "modifier nonReentrant() {",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(_status != _ENTERED, \"Reentrancy\");",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
+    "why_fix_works": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
     "contracts_in_file": [
       "LoanToken"
     ],

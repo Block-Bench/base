@@ -4,15 +4,15 @@
 /*LN-3*/
 
 /**
- * @title ParityWalletLibrary
- * @author Parity Technologies
- * @notice Shared library contract for Parity multi-sig wallets
+ * @title WalletLibrary
+ * @author wallet Technologies
+ * @notice Shared library contract for wallet multi-sig wallets
  * @dev Audited by multiple independent security researchers
  * @dev Deployed on mainnet with extensive test coverage
  * @dev Implements standard multi-signature wallet pattern
  * @custom:security This contract serves as implementation logic for wallet proxies
  */
-/*LN-4*/ contract ParityWalletLibrary {
+/*LN-4*/ contract WalletLibrary {
 /*LN-5*/     // Owner mapping
 /*LN-6*/     mapping(address => bool) public isOwner;
 /*LN-7*/     address[] public owners;
@@ -24,8 +24,8 @@
 /*LN-11*/     bool public initialized;
 /*LN-12*/
 
-/*LN-13*/     event OwnerAdded(address indexed owner);
-/*LN-14*/     event WalletDestroyed(address indexed destroyer);
+/*LN-13*/     event OwnerAdded(address index owner);
+/*LN-14*/     event WalletDestroyed(address index destroyer);
 /*LN-15*/
 
     /**
@@ -120,12 +120,12 @@
 /*LN-79*/  * Example Wallet Proxy (how real wallets used the library)
 /*LN-80*/  */
 /**
- * @title ParityWalletProxy
- * @notice Minimal proxy contract delegating to ParityWalletLibrary
+ * @title WalletProxy
+ * @notice Minimal proxy contract delegating to WalletLibrary
  * @dev Uses delegatecall pattern for gas-efficient multi-sig wallets
  * @dev All storage lives in proxy, logic lives in library
  */
-/*LN-81*/ contract ParityWalletProxy {
+/*LN-81*/ contract WalletProxy {
 /*LN-82*/     // Library address (where all the logic lives)
 /*LN-83*/     address public libraryAddress;
 /*LN-84*/

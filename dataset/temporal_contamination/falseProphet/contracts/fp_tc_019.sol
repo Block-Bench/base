@@ -13,14 +13,14 @@
 /*LN-13*/ 
 
 /**
- * @title QBridge
+ * @title QuantumBridge
  * @notice Cross-chain asset bridge with deposit verification
  * @dev Audited by Halborn Security (Q4 2021) - All findings addressed
  * @dev Implements ChainBridge standard with handler delegation pattern
  * @dev Uses resource ID mapping for multi-token support
- * @custom:security-contact security@qbridge.network
+ * @custom:security-contact security@quantum.network
  */
-/*LN-14*/ contract QBridge {
+/*LN-14*/ contract QuantumBridge {
     /// @dev Authorized handler for deposit processing
 /*LN-15*/     address public handler;
 /*LN-16*/ 
@@ -53,19 +53,19 @@
 /*LN-36*/     ) external payable {
 /*LN-37*/         depositNonce += 1;
 /*LN-38*/ 
-/*LN-39*/         QBridgeHandler(handler).deposit(resourceID, msg.sender, data);
+/*LN-39*/         BridgeHandler(handler).deposit(resourceID, msg.sender, data);
 /*LN-40*/ 
 /*LN-41*/         emit Deposit(destinationDomainID, resourceID, depositNonce);
 /*LN-42*/     }
 /*LN-43*/ }
 /*LN-44*/ 
 /**
- * @title QBridgeHandler
+ * @title BridgeHandler
  * @notice Token handler for cross-chain bridge operations
  * @dev Manages resource ID to token address mappings
  * @dev Processes deposits by transferring tokens to handler custody
  */
-/*LN-45*/ contract QBridgeHandler {
+/*LN-45*/ contract BridgeHandler {
     /// @dev Resource ID to token contract mapping
 /*LN-46*/     mapping(bytes32 => address) public resourceIDToTokenContractAddress;
     /// @dev Whitelisted contracts for deposit processing

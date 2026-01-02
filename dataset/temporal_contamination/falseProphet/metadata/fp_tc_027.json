@@ -12,17 +12,12 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "BurgerSwap router didn't validate that token pairs were from the official factory. Attackers created fake tokens and malicious pairs with manipulated reserves, then used the router to swap through these fake pairs to extract real tokens at manipulated prices.",
-  "vulnerable_contract": {
-    "name": "BurgerSwapRouter",
-    "functions": [
-      {
-        "name": "swapExactTokensForTokens",
-        "vulnerability": "Accepts any pair address without factory validation"
-      }
-    ]
-  },
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_contract": "SwapRouter",
+  "vulnerable_function": "swapExactTokensForTokens",
+  "vulnerable_lines": [
+    27,
+    37
+  ],
   "attack_scenario": "1) Attacker created fake token contracts mimicking legitimate addresses. 2) Created malicious pair contract with manipulated reserves (e.g., 1 fake token = 1000 real tokens). 3) Called router swap function with path through fake token. 4) Router accepted fake pair without factory validation. 5) Executed swap at manipulated price. 6) Extracted $7M in real tokens.",
   "root_cause": "Router's swap function didn't verify that pairs came from the official factory. It accepted any pair address provided in the path, allowing attackers to inject fake pairs with arbitrary reserve ratios.",
   "fix_description": "",
@@ -79,6 +74,11 @@
     "contract_type": "DEX Router with Path Swapping",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.936858"
+    "created_date": "2025-12-30T21:14:14.936858",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T00:36:44.013538",
+    "contract_renames": {
+      "BurgerSwapRouter": "SwapRouter"
+    }
   }
 }

@@ -21,14 +21,14 @@
 /*LN-21*/ 
 
 /**
- * @title AlphaHomoraBank
+ * @title LeveragedBank
  * @notice Leveraged yield farming protocol with debt share accounting
  * @dev Audited by Peckshield (Q4 2020) - All findings resolved
  * @dev Implements share-based debt tracking for interest accrual
  * @dev Integrates with Iron Bank for borrowing liquidity
  * @custom:security-contact security@alphafinance.io
  */
-/*LN-22*/ contract AlphaHomoraBank {
+/*LN-22*/ contract LeveragedBank {
     /// @dev Position data for leveraged farming
 /*LN-23*/     struct Position {
 /*LN-24*/         address owner;
@@ -69,7 +69,7 @@
 /*LN-54*/         });
 /*LN-55*/ 
 /*LN-56*/         // User provides collateral (simplified)
-/*LN-57*/         // In real Alpha Homora, this would involve LP tokens
+/*LN-57*/         // In real leveraged leveraged, this would involve LP tokens
 /*LN-58*/ 
 /*LN-59*/         // Borrow from Iron Bank
 /*LN-60*/         _borrow(positionId, borrowAmount);

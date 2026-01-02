@@ -17,15 +17,15 @@
 /*LN-17*/ 
 
 /**
- * @title ShezmuCollateralToken
- * @notice Collateral token for Shezmu CDP protocol
+ * @title CollateralToken
+ * @notice Collateral token for collateral CDP protocol
  * @dev Audited by Sherlock (Q3 2024) - All findings resolved
  * @dev Implements standard ERC20 with minting capability
  * @dev Used as collateral backing for shezUSD loans
- * @custom:security-contact security@shezmu.io
+ * @custom:security-contact security@collateral.io
  */
-/*LN-18*/ contract ShezmuCollateralToken is IERC20 {
-/*LN-19*/     string public name = "Shezmu Collateral Token";
+/*LN-18*/ contract CollateralToken is IERC20 {
+/*LN-19*/     string public name = "collateral Collateral Token";
 /*LN-20*/     string public symbol = "SCT";
 /*LN-21*/     uint8 public decimals = 18;
 /*LN-22*/ 
@@ -86,7 +86,7 @@
 /*LN-69*/     }
 /*LN-70*/ }
 /*LN-71*/ 
-/*LN-72*/ contract ShezmuVault {
+/*LN-72*/ contract CollateralVault {
 /*LN-73*/     IERC20 public collateralToken;
 /*LN-74*/     IERC20 public shezUSD;
 /*LN-75*/ 

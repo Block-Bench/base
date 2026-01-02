@@ -13,8 +13,10 @@
   "temporal_category": "pre_cutoff",
   "description": "Spartan Protocol AMM had critical error in addLiquidity function. Instead of using minimum of base/token ratios for LP units (like Uniswap), it used the average. This allowed attackers to provide imbalanced liquidity and receive far more LP tokens than deserved.",
   "vulnerable_contract": "LiquidityPool",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_function": "addLiquidity",
+  "vulnerable_lines": [
+    23
+  ],
   "attack_scenario": "1) Pool: 100 BASE, 100 TOKEN, 100 totalUnits. 2) Attacker adds 1 BASE + 99 TOKEN (heavily imbalanced). 3) baseRatio = 1*100/100 = 1, tokenRatio = 99*100/100 = 99. 4) BUG: liquidityUnits = (1+99)/2 = 50 (should be min(1,99) = 1!). 5) Attacker got 50 units for only 1 BASE worth of value. 6) Removes liquidity: gets 33 BASE + 33 TOKEN. 7) Net profit per cycle. 8) Repeated to drain $30M.",
   "root_cause": "addLiquidity used average of ratios instead of minimum. Formula: (baseRatio + tokenRatio) / 2 instead of min(baseRatio, tokenRatio). This broke the fundamental AMM invariant that LP tokens should represent proportional ownership.",
   "fix_description": "",
@@ -61,6 +63,9 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.667995"
+    "created_date": "2025-12-30T01:40:33.667995",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:09.848257",
+    "code_renames": {}
   }
 }

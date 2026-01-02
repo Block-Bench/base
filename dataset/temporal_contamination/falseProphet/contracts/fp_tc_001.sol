@@ -3,15 +3,15 @@
 /*LN-3*/
 
 /**
- * @title NomadReplica
- * @author Nomad Protocol Security Team
+ * @title BridgeReplica
+ * @author bridge Protocol Security Team
  * @notice Cross-chain message relay contract - Production deployment
  * @dev Audited by Trail of Bits (September 2022) - No critical findings
  * @dev Internal security review completed prior to mainnet launch
  * @dev Formal verification of message processing logic completed
- * @custom:security-contact security@nomad.xyz
+ * @custom:security-contact security@bridge.xyz
  */
-/*LN-4*/ contract NomadReplica {
+/*LN-4*/ contract BridgeReplica {
 /*LN-5*/     // Message status enum
 /*LN-6*/     enum MessageStatus {
 /*LN-7*/         None,
@@ -37,7 +37,7 @@
 /*LN-23*/     // Nonce tracking
 /*LN-24*/     mapping(uint32 => uint32) public nonces;
 /*LN-25*/
-/*LN-26*/     event MessageProcessed(bytes32 indexed messageHash, bool success);
+/*LN-26*/     event MessageProcessed(bytes32 index messageHash, bool success);
 /*LN-27*/
 
     /**

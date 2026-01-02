@@ -70,14 +70,14 @@
 /*LN-70*/         uint256 feeSum = _performanceFee + _withdrawalFee;
 /*LN-71*/         lpToken.transferFrom(msg.sender, address(this), feeSum);
 /*LN-72*/ 
-/*LN-73*/         uint256 hunnyRewardAmount = tokenToReward(
+/*LN-73*/         uint256 rewardAmount = tokenToReward(
 /*LN-74*/             lpToken.balanceOf(address(this))
 /*LN-75*/         );
 /*LN-76*/ 
-/*LN-77*/         earnedRewards[to] += hunnyRewardAmount;
+/*LN-77*/         earnedRewards[to] += rewardAmount;
 /*LN-78*/ 
 /*LN-79*/         userMintCount[msg.sender] += 1;
-/*LN-80*/         _recordActivity(to, hunnyRewardAmount);
+/*LN-80*/         _recordActivity(to, rewardAmount);
 /*LN-81*/     }
 /*LN-82*/ 
 /*LN-83*/     function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {

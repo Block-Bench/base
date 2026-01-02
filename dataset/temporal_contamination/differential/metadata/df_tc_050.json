@@ -12,8 +12,8 @@
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "MunchablesLockManager",
-  "vulnerable_function": null,
+  "vulnerable_contract": "GameLockManager",
+  "vulnerable_function": "setLockRecipient",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -46,8 +46,24 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "",
-    "exact_changes": [],
+    "fix_description": "Minimal fix with 8 lines changed. Added: ) external {; require(newRecipient != address(0), \"Invalid recipient\");; playerSettings[msg.sender].lockRecipient = newRecipient;",
+    "exact_changes": [
+      {
+        "location": "Added line",
+        "version_a": ") external {",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(newRecipient != address(0), \"Invalid recipient\");",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "playerSettings[msg.sender].lockRecipient = newRecipient;",
+        "version_b": "// Not present in vulnerable version"
+      }
+    ],
     "why_fix_works": "",
     "contracts_in_file": [
       "MunchablesLockManager"
