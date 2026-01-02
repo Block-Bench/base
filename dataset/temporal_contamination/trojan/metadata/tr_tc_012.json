@@ -14,7 +14,11 @@
   "description": "Cross-function reentrancy attack. The borrow function sent ETH before final health check, allowing attacker to call exitMarket during callback and bypass collateral requirements.",
   "vulnerable_contract": "LendingProtocol",
   "vulnerable_function": "borrow",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    68,
+    71,
+    76
+  ],
   "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
   "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
   "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
@@ -61,6 +65,9 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.653025"
+    "created_date": "2025-12-30T01:40:33.653025",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:09.674832",
+    "code_renames": {}
   }
 }

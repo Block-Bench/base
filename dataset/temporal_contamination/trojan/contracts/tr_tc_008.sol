@@ -44,10 +44,10 @@
 /*LN-44*/     mapping(address => uint256) public userRiskScore;
 /*LN-45*/     mapping(address => uint256) public userActivityCount;
 /*LN-46*/ 
-/*LN-47*/     event Deposit(address indexed user, address indexed cToken, uint256 amount);
-/*LN-48*/     event Borrow(address indexed user, address indexed cToken, uint256 amount);
-/*LN-49*/     event RiskConfigUpdated(uint256 indexed version, uint256 timestamp);
-/*LN-50*/     event UserActivity(address indexed user, uint256 value);
+/*LN-47*/     event Deposit(address index user, address index cToken, uint256 amount);
+/*LN-48*/     event Borrow(address index user, address index cToken, uint256 amount);
+/*LN-49*/     event RiskConfigUpdated(uint256 index version, uint256 timestamp);
+/*LN-50*/     event UserActivity(address index user, uint256 value);
 /*LN-51*/ 
 /*LN-52*/     constructor(address _oracle) {
 /*LN-53*/         oracle = IOracle(_oracle);

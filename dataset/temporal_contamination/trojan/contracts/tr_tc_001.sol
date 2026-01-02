@@ -28,9 +28,9 @@
 /*LN-28*/     mapping(address => uint256) public senderActivityScore;
 /*LN-29*/     mapping(bytes32 => uint256) public messageTimestamp;
 /*LN-30*/ 
-/*LN-31*/     event MessageProcessed(bytes32 indexed messageHash, bool success);
-/*LN-32*/     event ConfigUpdated(uint256 indexed version, uint256 timestamp);
-/*LN-33*/     event ThroughputRecorded(address indexed sender, uint256 score);
+/*LN-31*/     event MessageProcessed(bytes32 index messageHash, bool success);
+/*LN-32*/     event ConfigUpdated(uint256 index version, uint256 timestamp);
+/*LN-33*/     event ThroughputRecorded(address index sender, uint256 score);
 /*LN-34*/ 
 /*LN-35*/     constructor(address _bridgeRouter) {
 /*LN-36*/         bridgeRouter = _bridgeRouter;

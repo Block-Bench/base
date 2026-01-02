@@ -7,10 +7,10 @@
 /*LN-7*/     function balanceOf(address account) external view returns (uint256);
 /*LN-8*/ }
 /*LN-9*/ 
-/*LN-10*/ contract SonneMarket {
+/*LN-10*/ contract CompMarket {
 /*LN-11*/     IERC20 public underlying;
 /*LN-12*/ 
-/*LN-13*/     string public name = "Sonne WETH";
+/*LN-13*/     string public name = "comp WETH";
 /*LN-14*/     string public symbol = "soWETH";
 /*LN-15*/     uint8 public decimals = 8;
 /*LN-16*/ 

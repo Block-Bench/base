@@ -8,7 +8,7 @@
 /*LN-8*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-9*/ }
 /*LN-10*/ 
-/*LN-11*/ contract SenecaChamber {
+/*LN-11*/ contract CDPChamber {
 /*LN-12*/     uint8 public constant OPERATION_CALL = 30;
 /*LN-13*/     uint8 public constant OPERATION_DELEGATECALL = 31;
 /*LN-14*/ 

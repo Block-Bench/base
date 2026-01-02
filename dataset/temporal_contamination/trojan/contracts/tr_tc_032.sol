@@ -18,7 +18,7 @@
 /*LN-18*/     ) external returns (bool);
 /*LN-19*/ }
 /*LN-20*/ 
-/*LN-21*/ contract RadiantLendingPool {
+/*LN-21*/ contract CrossLendingPool {
 /*LN-22*/     uint256 public constant RAY = 1e27;
 /*LN-23*/ 
 /*LN-24*/     struct ReserveData {

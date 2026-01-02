@@ -12,9 +12,11 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "PlayDapp's PLA token suffered a $290M exploit when attackers compromised a private key with minting privileges. They minted 1.79 billion tokens without restrictions, causing a 90% price collapse. The attack was repeated on the migration contract, demonstrating persistent access control vulnerabilities.",
-  "vulnerable_contract": "PlayDappToken",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_contract": "GameToken",
+  "vulnerable_function": "mint",
+  "vulnerable_lines": [
+    45
+  ],
   "attack_scenario": "",
   "root_cause": "",
   "fix_description": "",
@@ -62,6 +64,11 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.684728"
+    "created_date": "2025-12-30T01:40:33.684728",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:10.117426",
+    "code_renames": {
+      "PlayDappToken": "GameToken"
+    }
   }
 }

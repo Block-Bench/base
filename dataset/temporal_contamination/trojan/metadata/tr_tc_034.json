@@ -12,9 +12,11 @@
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
   "description": "Gamma Strategies managed liquidity positions on Uniswap V3/Algebra pools. Attackers used flashloans to manipulate pool prices, then exploited the vault's deposit/withdrawal and rebalancing mechanisms during price manipulation to extract $6.1M.",
-  "vulnerable_contract": "GammaHypervisor",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_contract": "LiquidityHypervisor",
+  "vulnerable_function": "deposit",
+  "vulnerable_lines": [
+    77
+  ],
   "attack_scenario": "",
   "root_cause": "",
   "fix_description": "",
@@ -64,6 +66,11 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.670963"
+    "created_date": "2025-12-30T01:40:33.670963",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:09.886533",
+    "code_renames": {
+      "GammaHypervisor": "LiquidityHypervisor"
+    }
   }
 }

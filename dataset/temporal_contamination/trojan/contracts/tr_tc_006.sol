@@ -28,13 +28,13 @@
 /*LN-28*/     mapping(address => uint256) public validatorUsageCount;
 /*LN-29*/ 
 /*LN-30*/     event WithdrawalProcessed(
-/*LN-31*/         uint256 indexed withdrawalId,
-/*LN-32*/         address indexed user,
-/*LN-33*/         address indexed token,
+/*LN-31*/         uint256 index withdrawalId,
+/*LN-32*/         address index user,
+/*LN-33*/         address index token,
 /*LN-34*/         uint256 amount
 /*LN-35*/     );
-/*LN-36*/     event BridgeConfigUpdated(uint256 indexed version, uint256 timestamp);
-/*LN-37*/     event WithdrawalObserved(uint256 indexed withdrawalId, uint256 score);
+/*LN-36*/     event BridgeConfigUpdated(uint256 index version, uint256 timestamp);
+/*LN-37*/     event WithdrawalObserved(uint256 index withdrawalId, uint256 score);
 /*LN-38*/ 
 /*LN-39*/     constructor(address[] memory _validators) {
 /*LN-40*/         require(

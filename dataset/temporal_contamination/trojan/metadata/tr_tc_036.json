@@ -13,8 +13,11 @@
   "temporal_category": "pre_cutoff",
   "description": "Prisma Finance suffered a $10M exploit through its MigrateTroveZap contract which accepted user-controlled account parameters. Attackers exploited delegate approvals to open troves and mint debt tokens on behalf of victims who had approved the zap contract, then received the minted tokens themselves.",
   "vulnerable_contract": "MigrateTroveZap",
-  "vulnerable_function": "",
-  "vulnerable_lines": [],
+  "vulnerable_function": "openTroveAndMigrate",
+  "vulnerable_lines": [
+    79,
+    87
+  ],
   "attack_scenario": "",
   "root_cause": "",
   "fix_description": "",
@@ -64,6 +67,9 @@
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.673604"
+    "created_date": "2025-12-30T01:40:33.673604",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T02:10:09.924295",
+    "code_renames": {}
   }
 }

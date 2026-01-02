@@ -8,8 +8,8 @@
 /*LN-8*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-9*/ }
 /*LN-10*/ 
-/*LN-11*/ contract ShezmuCollateralToken is IERC20 {
-/*LN-12*/     string public name = "Shezmu Collateral Token";
+/*LN-11*/ contract CollateralToken is IERC20 {
+/*LN-12*/     string public name = "collateral Collateral Token";
 /*LN-13*/     string public symbol = "SCT";
 /*LN-14*/     uint8 public decimals = 18;
 /*LN-15*/ 
@@ -112,7 +112,7 @@
 /*LN-112*/     }
 /*LN-113*/ }
 /*LN-114*/ 
-/*LN-115*/ contract ShezmuVault {
+/*LN-115*/ contract CollateralVault {
 /*LN-116*/     IERC20 public collateralToken;
 /*LN-117*/     IERC20 public shezUSD;
 /*LN-118*/ 

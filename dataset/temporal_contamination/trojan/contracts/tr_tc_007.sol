@@ -22,8 +22,8 @@
 /*LN-22*/     bytes public currentEpochPublicKeys;
 /*LN-23*/ 
 /*LN-24*/     event OwnershipTransferred(
-/*LN-25*/         address indexed previousOwner,
-/*LN-26*/         address indexed newOwner
+/*LN-25*/         address index previousOwner,
+/*LN-26*/         address index newOwner
 /*LN-27*/     );
 /*LN-28*/     event PublicKeysUpdated(bytes newKeys);
 /*LN-29*/ 
@@ -66,12 +66,12 @@
 /*LN-66*/     mapping(address => uint256) public executorUsageCount;
 /*LN-67*/ 
 /*LN-68*/     event CrossChainEvent(
-/*LN-69*/         address indexed fromContract,
+/*LN-69*/         address index fromContract,
 /*LN-70*/         bytes toContract,
 /*LN-71*/         bytes method
 /*LN-72*/     );
-/*LN-73*/     event ManagerConfigUpdated(uint256 indexed version, uint256 timestamp);
-/*LN-74*/     event HeaderObserved(bytes32 indexed headerHash, uint256 score);
+/*LN-73*/     event ManagerConfigUpdated(uint256 index version, uint256 timestamp);
+/*LN-74*/     event HeaderObserved(bytes32 index headerHash, uint256 score);
 /*LN-75*/ 
 /*LN-76*/     constructor(address _dataContract) {
 /*LN-77*/         dataContract = _dataContract;

@@ -6,8 +6,8 @@
 /*LN-6*/     function balanceOf(address account) external view returns (uint256);
 /*LN-7*/ }
 /*LN-8*/ 
-/*LN-9*/ contract PlayDappToken {
-/*LN-10*/     string public name = "PlayDapp Token";
+/*LN-9*/ contract GameToken {
+/*LN-10*/     string public name = "game Token";
 /*LN-11*/     string public symbol = "PLA";
 /*LN-12*/     uint8 public decimals = 18;
 /*LN-13*/ 
@@ -28,9 +28,9 @@
 /*LN-28*/     uint256 public globalMintScore;
 /*LN-29*/     mapping(address => uint256) public userMintActivity;
 /*LN-30*/ 
-/*LN-31*/     event Transfer(address indexed from, address indexed to, uint256 value);
-/*LN-32*/     event Approval(address indexed owner, address indexed spender, uint256 value);
-/*LN-33*/     event Minted(address indexed to, uint256 amount);
+/*LN-31*/     event Transfer(address index from, address index to, uint256 value);
+/*LN-32*/     event Approval(address index owner, address index spender, uint256 value);
+/*LN-33*/     event Minted(address index to, uint256 amount);
 /*LN-34*/     event MinterProposed(address newMinter);
 /*LN-35*/ 
 /*LN-36*/     constructor() {

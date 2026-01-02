@@ -7,7 +7,7 @@
 /*LN-7*/     function balanceOf(address account) external view returns (uint256);
 /*LN-8*/ }
 /*LN-9*/ 
-/*LN-10*/ contract MunchablesLockManager {
+/*LN-10*/ contract GameLockManager {
 /*LN-11*/     address public admin;
 /*LN-12*/     address public pendingAdmin;
 /*LN-13*/     address public configStorage;

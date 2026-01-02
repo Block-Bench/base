@@ -6,7 +6,7 @@
 /*LN-6*/     function transferFrom(address from, address to, uint256 amount) external returns (bool);
 /*LN-7*/ }
 /*LN-8*/ 
-/*LN-9*/ interface ICompoundToken {
+/*LN-9*/ interface ILendToken {
 /*LN-10*/     function borrow(uint256 amount) external;
 /*LN-11*/     function repayBorrow(uint256 amount) external;
 /*LN-12*/     function redeem(uint256 tokens) external;

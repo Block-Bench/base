@@ -12,7 +12,7 @@
 /*LN-12*/     function getPrice(address token) external view returns (uint256);
 /*LN-13*/ }
 /*LN-14*/ 
-/*LN-15*/ contract BlueberryLending {
+/*LN-15*/ contract LeveragedLending {
 /*LN-16*/     struct Market {
 /*LN-17*/         bool isListed;
 /*LN-18*/         uint256 collateralFactor;

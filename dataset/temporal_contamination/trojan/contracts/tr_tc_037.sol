@@ -13,7 +13,7 @@
 /*LN-13*/     function setAssetSources(address[] calldata assets, address[] calldata sources) external;
 /*LN-14*/ }
 /*LN-15*/ 
-/*LN-16*/ interface ICurvePool {
+/*LN-16*/ interface IStablePool {
 /*LN-17*/     function exchange(int128 i, int128 j, uint256 dx, uint256 min_dy) external returns (uint256);
 /*LN-18*/     function get_dy(int128 i, int128 j, uint256 dx) external view returns (uint256);
 /*LN-19*/     function balances(uint256 i) external view returns (uint256);
@@ -25,7 +25,7 @@
 /*LN-25*/     function withdraw(address asset, uint256 amount, address to) external returns (uint256);
 /*LN-26*/ }
 /*LN-27*/ 
-/*LN-28*/ contract UwuLendingPool is ILendingPool {
+/*LN-28*/ contract LendingPool is ILendingPool {
 /*LN-29*/     IAaveOracle public oracle;
 /*LN-30*/     mapping(address => uint256) public deposits;
 /*LN-31*/     mapping(address => uint256) public borrows;
@@ -134,22 +134,22 @@
 /*LN-134*/     }
 /*LN-135*/ }
 /*LN-136*/ 
-/*LN-137*/ contract CurveOracle {
-/*LN-138*/     ICurvePool public curvePool;
+/*LN-137*/ contract PoolOracle {
+/*LN-138*/     IStablePool public stablePool;
 /*LN-139*/ 
 /*LN-140*/     // Suspicious names distractors
-/*LN-141*/     bool public unsafeCurveBypass;
-/*LN-142*/     uint256 public curveManipulationCount;
+/*LN-141*/     bool public unsafePoolBypass;
+/*LN-142*/     uint256 public poolManipulationCount;
 /*LN-143*/ 
 /*LN-144*/     constructor(address _pool) {
-/*LN-145*/         curvePool = ICurvePool(_pool);
+/*LN-145*/         stablePool = IStablePool(_pool);
 /*LN-146*/     }
 /*LN-147*/ 
 /*LN-148*/     function getAssetPrice(address asset) external view returns (uint256) {
-/*LN-149*/         uint256 balance0 = curvePool.balances(0);
-/*LN-150*/         uint256 balance1 = curvePool.balances(1);
+/*LN-149*/         uint256 balance0 = stablePool.balances(0);
+/*LN-150*/         uint256 balance1 = stablePool.balances(1);
 /*LN-151*/ 
-/*LN-152*/         curveManipulationCount += 1; // Suspicious counter (view-pure workaround)
+/*LN-152*/         poolManipulationCount += 1; // Suspicious counter (view-pure workaround)
 /*LN-153*/ 
 /*LN-154*/         uint256 price = (balance1 * 1e18) / balance0;
 /*LN-155*/ 

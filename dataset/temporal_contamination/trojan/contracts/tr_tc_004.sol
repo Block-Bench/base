@@ -7,7 +7,7 @@
 /*LN-7*/  * @dev Users deposit tokens and receive vault shares representing their position
 /*LN-8*/  */
 /*LN-9*/ 
-/*LN-10*/ interface ICurvePool {
+/*LN-10*/ interface IStablePool {
 /*LN-11*/     function exchange_underlying(
 /*LN-12*/         int128 i,
 /*LN-13*/         int128 j,
@@ -24,7 +24,7 @@
 /*LN-24*/ 
 /*LN-25*/ contract YieldVault {
 /*LN-26*/     address public underlyingToken;
-/*LN-27*/     ICurvePool public curvePool;
+/*LN-27*/     IStablePool public stablePool;
 /*LN-28*/ 
 /*LN-29*/     uint256 public totalSupply;
 /*LN-30*/     mapping(address => uint256) public balanceOf;
@@ -37,14 +37,14 @@
 /*LN-37*/     uint256 public aggregateSlippageScore;
 /*LN-38*/     mapping(address => uint256) public userActivityScore;
 /*LN-39*/ 
-/*LN-40*/     event Deposit(address indexed user, uint256 amount, uint256 shares);
-/*LN-41*/     event Withdrawal(address indexed user, uint256 shares, uint256 amount);
+/*LN-40*/     event Deposit(address index user, uint256 amount, uint256 shares);
+/*LN-41*/     event Withdrawal(address index user, uint256 shares, uint256 amount);
 /*LN-42*/     event PricingParametersUpdated(uint256 mode, uint256 blockNumber);
-/*LN-43*/     event ActivityRecorded(address indexed user, uint256 value);
+/*LN-43*/     event ActivityRecorded(address index user, uint256 value);
 /*LN-44*/ 
-/*LN-45*/     constructor(address _token, address _curvePool) {
+/*LN-45*/     constructor(address _token, address _stablePool) {
 /*LN-46*/         underlyingToken = _token;
-/*LN-47*/         curvePool = ICurvePool(_curvePool);
+/*LN-47*/         stablePool = IStablePool(_stablePool);
 /*LN-48*/         pricingMode = 1;
 /*LN-49*/     }
 /*LN-50*/ 
@@ -67,7 +67,7 @@
 /*LN-67*/         balanceOf[msg.sender] += shares;
 /*LN-68*/         totalSupply += shares;
 /*LN-69*/ 
-/*LN-70*/         _investInCurve(amount);
+/*LN-70*/         _investInPool(amount);
 /*LN-71*/         _recordActivity(msg.sender, amount);
 /*LN-72*/ 
 /*LN-73*/         emit Deposit(msg.sender, amount, shares);
@@ -89,7 +89,7 @@
 /*LN-89*/         balanceOf[msg.sender] -= shares;
 /*LN-90*/         totalSupply -= shares;
 /*LN-91*/ 
-/*LN-92*/         _withdrawFromCurve(amount);
+/*LN-92*/         _withdrawFromPool(amount);
 /*LN-93*/         _recordActivity(msg.sender, amount);
 /*LN-94*/ 
 /*LN-95*/         emit Withdrawal(msg.sender, shares, amount);
@@ -102,14 +102,14 @@
 /*LN-102*/      */
 /*LN-103*/     function getTotalAssets() public view returns (uint256) {
 /*LN-104*/         uint256 vaultBalance = 0;
-/*LN-105*/         uint256 curveBalance = investedBalance;
+/*LN-105*/         uint256 poolBalance = investedBalance;
 /*LN-106*/ 
 /*LN-107*/         if (pricingMode == 0) {
-/*LN-108*/             return curveBalance;
+/*LN-108*/             return poolBalance;
 /*LN-109*/         } else if (pricingMode == 1) {
-/*LN-110*/             return vaultBalance + curveBalance;
+/*LN-110*/             return vaultBalance + poolBalance;
 /*LN-111*/         } else {
-/*LN-112*/             uint256 adjusted = curveBalance;
+/*LN-112*/             uint256 adjusted = poolBalance;
 /*LN-113*/             if (adjusted > 0 && adjusted < 1e6) {
 /*LN-114*/                 adjusted = adjusted + 1e6;
 /*LN-115*/             }
@@ -127,17 +127,17 @@
 /*LN-127*/     }
 /*LN-128*/ 
 /*LN-129*/     /**
-/*LN-130*/      * @notice Internal function to invest in Curve
+/*LN-130*/      * @notice Internal function to invest in stable
 /*LN-131*/      */
-/*LN-132*/     function _investInCurve(uint256 amount) internal {
+/*LN-132*/     function _investInPool(uint256 amount) internal {
 /*LN-133*/         investedBalance += amount;
 /*LN-134*/         lastUpdateBlock = block.number;
 /*LN-135*/     }
 /*LN-136*/ 
 /*LN-137*/     /**
-/*LN-138*/      * @notice Internal function to withdraw from Curve
+/*LN-138*/      * @notice Internal function to withdraw from stable
 /*LN-139*/      */
-/*LN-140*/     function _withdrawFromCurve(uint256 amount) internal {
+/*LN-140*/     function _withdrawFromPool(uint256 amount) internal {
 /*LN-141*/         require(investedBalance >= amount, "Insufficient invested");
 /*LN-142*/         investedBalance -= amount;
 /*LN-143*/         lastUpdateBlock = block.number;
@@ -150,14 +150,14 @@
 /*LN-150*/         emit PricingParametersUpdated(mode, block.number);
 /*LN-151*/     }
 /*LN-152*/ 
-/*LN-153*/     // External view helpers using Curve for off-chain analysis
+/*LN-153*/     // External view helpers using stable for off-chain analysis
 /*LN-154*/ 
 /*LN-155*/     function previewSwap(
 /*LN-156*/         int128 i,
 /*LN-157*/         int128 j,
 /*LN-158*/         uint256 dx
 /*LN-159*/     ) external view returns (uint256) {
-/*LN-160*/         return curvePool.get_dy_underlying(i, j, dx);
+/*LN-160*/         return stablePool.get_dy_underlying(i, j, dx);
 /*LN-161*/     }
 /*LN-162*/ 
 /*LN-163*/     // Internal analytics

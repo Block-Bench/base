@@ -2,7 +2,7 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
 /*LN-4*/ /**
-/*LN-5*/  * @title Compound Market Token
+/*LN-5*/  * @title lending Market Token
 /*LN-6*/  * @notice Represents claims on supplied assets
 /*LN-7*/  */
 /*LN-8*/ 
@@ -12,7 +12,7 @@
 /*LN-12*/     function balanceOf(address account) external view returns (uint256);
 /*LN-13*/ }
 /*LN-14*/ 
-/*LN-15*/ contract CompoundMarket {
+/*LN-15*/ contract LendingMarket {
 /*LN-16*/     address public underlying;
 /*LN-17*/     address public admin;
 /*LN-18*/ 
