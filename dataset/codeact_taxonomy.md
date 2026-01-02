@@ -24,7 +24,7 @@ Code Act taxonomy enables us to measure whether models understand the actual sec
 
 ## Code Act Types
 
-There are **19 Code Act types** that cover the spectrum of operations in smart contracts. Types 1-15 are security-relevant operations, while types 16-19 are structural elements that typically have no direct security impact but are included for complete code coverage.
+There are **22 Code Act types** that cover the spectrum of operations in smart contracts. Types 1-17 are security-relevant operations, while types 18-22 are structural elements that typically have no direct security impact but are included for complete code coverage.
 
 ### 1. EXT_CALL — External Call
 
@@ -281,7 +281,42 @@ bytes32 public acceptedRoot;  // defaults to 0x00
 
 ---
 
-### 16. COMMENT — Documentation
+### 16. COMPUTATION — Hash/Encode Operations
+
+**Definition:** Cryptographic hashing, ABI encoding, and other computational operations that don't involve arithmetic overflow risk.
+
+**Security Relevance:** Generally benign, but relevant for understanding data flow.
+
+**Solidity Patterns:**
+```solidity
+keccak256(abi.encodePacked(a, b))
+abi.encode(param1, param2)
+abi.decode(data, (uint256, address))
+bytes32 hash = keccak256(_message);
+```
+
+**Note:** Distinct from ARITHMETIC which covers overflow-prone operations.
+
+---
+
+### 17. EVENT_EMIT — Event Emission
+
+**Definition:** Emitting events to transaction logs.
+
+**Security Relevance:** None directly. Events don't modify contract state, only write to logs.
+
+**Solidity Patterns:**
+```solidity
+emit Transfer(from, to, amount);
+emit Approval(owner, spender, value);
+emit MessageProcessed(hash, success);
+```
+
+**Note:** Distinct from EVENT_DEF which is the event declaration.
+
+---
+
+### 18. COMMENT — Documentation
 
 **Definition:** NatSpec comments, inline comments, and documentation blocks.
 
@@ -297,7 +332,7 @@ bytes32 public acceptedRoot;  // defaults to 0x00
 
 ---
 
-### 17. DIRECTIVE — Compiler Directives
+### 19. DIRECTIVE — Compiler Directives
 
 **Definition:** Pragma statements, SPDX license identifiers, and import statements.
 
@@ -312,9 +347,9 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 ---
 
-### 18. DECLARATION — Type Declarations
+### 20. DECLARATION — Type Declarations
 
-**Definition:** State variable declarations, struct definitions, enum definitions, constant declarations.
+**Definition:** State variable declarations, struct definitions, enum definitions, constant declarations, function signatures.
 
 **Security Relevance:** Usually benign, but declaration without initialization can be problematic.
 
@@ -325,11 +360,12 @@ mapping(address => uint256) public balances;
 struct User { address addr; uint256 balance; }
 enum Status { Pending, Active, Closed }
 uint256 constant MAX_SUPPLY = 1000000;
+function withdraw(uint256 amount) external;
 ```
 
 ---
 
-### 19. EVENT_DEF — Event Definition
+### 21. EVENT_DEF — Event Definition
 
 **Definition:** Event declarations (not emissions).
 
@@ -340,6 +376,21 @@ uint256 constant MAX_SUPPLY = 1000000;
 event Transfer(address indexed from, address indexed to, uint256 amount);
 event Approval(address indexed owner, address indexed spender, uint256 value);
 ```
+
+---
+
+### 22. SYNTAX — Structural Tokens
+
+**Definition:** Closing braces, empty structural elements, and other syntax tokens.
+
+**Security Relevance:** None. Pure syntax with no semantic meaning.
+
+**Solidity Patterns:**
+```solidity
+}  // closing brace
+```
+
+**Note:** Distinct from DECLARATION. Used for batching structural tokens in annotations.
 
 ---
 
@@ -362,10 +413,13 @@ event Approval(address indexed owner, address indexed spender, uint256 value);
 | STORAGE_READ | Storage Read | Could the cached value become stale? |
 | SIGNATURE | Signature | Is the signature properly validated? |
 | INITIALIZATION | Initialization | Are critical variables properly initialized? |
+| COMPUTATION | Hash/Encode | N/A (typically benign) |
+| EVENT_EMIT | Event Emission | N/A (logs only, no state change) |
 | COMMENT | Documentation | N/A (non-security-relevant) |
 | DIRECTIVE | Compiler Directive | Does pragma version affect security? |
 | DECLARATION | Type Declaration | Is initialization missing? |
 | EVENT_DEF | Event Definition | N/A (non-security-relevant) |
+| SYNTAX | Structural Token | N/A (pure syntax) |
 
 ---
 
@@ -532,7 +586,7 @@ function withdraw() external {
 
 | Term | Definition |
 |------|------------|
-| **Code Act** | Discrete, security-relevant code operation |
+| **Code Act** | Discrete code operation in a smart contract |
 | **Security Function** | Role a Code Act plays in a vulnerability |
 | **ROOT_CAUSE** | Code Act that directly enables the documented exploit |
 | **SECONDARY_VULN** | Real vulnerability but not the documented one |
@@ -540,7 +594,7 @@ function withdraw() external {
 | **INSUFF_GUARD** | Failed protection attempt |
 | **DECOY** | Safe code that looks suspicious |
 | **BENIGN** | Correctly implemented security-relevant code |
-| **UNRELATED** | Not security-relevant |
+| **UNRELATED** | Not security-relevant (omitted from annotations by default) |
 | **Transition** | Change in Security Function between versions |
 | **CEI Pattern** | Checks-Effects-Interactions (secure ordering) |
 

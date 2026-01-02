@@ -1568,7 +1568,16 @@ Provide JSON Schema files so users can validate their own annotations or extensi
               "RANDOM",
               "ORACLE",
               "REENTRY_GUARD",
-              "STORAGE_READ"
+              "STORAGE_READ",
+              "SIGNATURE",
+              "INITIALIZATION",
+              "COMPUTATION",
+              "EVENT_EMIT",
+              "COMMENT",
+              "DIRECTIVE",
+              "DECLARATION",
+              "EVENT_DEF",
+              "SYNTAX"
             ]
           },
           "vulnerable": {
@@ -1585,6 +1594,7 @@ Provide JSON Schema files so users can validate their own annotations or extensi
               "security_function": {
                 "enum": [
                   "ROOT_CAUSE",
+                  "SECONDARY_VULN",
                   "PREREQ",
                   "INSUFF_GUARD",
                   "DECOY",
@@ -1601,7 +1611,72 @@ Provide JSON Schema files so users can validate their own annotations or extensi
 }
 ```
 
-### 10.4 Statistics File
+### 10.4 Line-to-Code-Act Scoring
+
+Annotations include `line_to_code_act` mappings for scoring model outputs. This approach:
+
+1. **Maps lines to code acts** (not directly to security functions)
+2. **Avoids semantic issues** with closing braces, syntax tokens inheriting ROOT_CAUSE status
+3. **Treats the code act as the meaningful unit** for evaluation
+
+**Why line_to_code_act instead of line_to_security_function?**
+
+Consider a constructor:
+```solidity
+/*LN-28*/     constructor(address _bridgeRouter) {
+/*LN-29*/         bridgeRouter = _bridgeRouter;
+/*LN-30*/     }
+```
+
+If this constructor is a ROOT_CAUSE (missing initialization), directly labeling line 30 (`}`) as ROOT_CAUSE is misleading — a closing brace has no semantic meaning.
+
+With `line_to_code_act`:
+- Lines 28, 29, 30 all map to code act `CA2`
+- `CA2` has security_function `ROOT_CAUSE`
+- If a model references any of these lines, it correctly identifies the code act
+
+**Annotation Structure:**
+
+```yaml
+# Maps each line to its code act
+line_to_code_act:
+  18: "CA1"      # acceptedRoot declaration
+  28: "CA2"      # constructor (all lines map to same code act)
+  29: "CA2"
+  30: "CA2"
+  42: "CA3"      # hash computation
+  # ... etc
+
+# Quick lookup for security function
+code_act_security_functions:
+  CA1: "ROOT_CAUSE"
+  CA2: "ROOT_CAUSE"
+  CA3: "BENIGN"
+  # ... etc
+```
+
+**Scoring Algorithm:**
+
+```python
+def score_model_output(model_line_references, annotation):
+    results = []
+    for line in model_line_references:
+        if line in annotation['line_to_code_act']:
+            code_act = annotation['line_to_code_act'][line]
+            security_fn = annotation['code_act_security_functions'][code_act]
+            results.append({
+                'line': line,
+                'code_act': code_act,
+                'security_function': security_fn,
+                'correct': security_fn in ['ROOT_CAUSE', 'SECONDARY_VULN', 'PREREQ']
+            })
+        else:
+            # Line not in map (empty line or unmapped)
+            results.append({'line': line, 'error': 'unmapped_line'})
+    return results
+```
+
+### 10.5 Statistics File
 
 ```yaml
 # annotations/statistics/annotation_stats.yaml
