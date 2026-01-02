@@ -7,7 +7,7 @@ contract Destructible {
 }
 contract C is Destructible {
   address owner;
-  function C() {
+  constructor() {
     owner = msg.sender;
   }
 }

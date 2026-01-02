@@ -11,7 +11,7 @@ contract TokenInterface {
 
     /// @param _owner The address from which the balance will be retrieved
     /// @return The balance
-    function balanceOf(address _owner) constant returns (uint256 balance);
+    function balanceOf(address _owner) returns (uint256 balance);
 
     /// @notice Send `_amount` tokens to `_to` from `msg.sender`
     /// @param _to The address of the recipient
@@ -41,7 +41,7 @@ contract TokenInterface {
     function allowance(
         address _owner,
         address _spender
-    ) constant returns (uint256 remaining);
+    ) returns (uint256 remaining);
 
     event Transfer(address indexed _from, address indexed _to, uint256 _amount);
     event Approval(
@@ -54,9 +54,9 @@ contract TokenInterface {
 contract Token is TokenInterface {
     // Protects users by preventing the execution of method calls that
     // inadvertently also transferred ether
-    modifier noEther() {if (msg.value > 0) throw; _;}
+    modifier noEther() {if (msg.value > 0) revert(); _;}
 
-    function balanceOf(address _owner) constant returns (uint256 balance) {
+    function balanceOf(address _owner) returns (uint256 balance) {
         return balances[_owner];
     }
 
@@ -97,7 +97,7 @@ contract Token is TokenInterface {
         return true;
     }
 
-    function allowance(address _owner, address _spender) constant returns (uint256 remaining) {
+    function allowance(address _owner, address _spender)  returns (uint256 remaining) {
         return allowed[_owner][_spender];
     }
 }
@@ -130,13 +130,13 @@ contract ManagedAccount is ManagedAccountInterface{
     // When the contract receives a transaction without data this is called.
     // It counts the amount of ether it receives and stores it in
     // accumulatedInput.
-    function() {
+    fallback() public payable {
         accumulatedInput += msg.value;
     }
 
     function payOut(address _recipient, uint _amount) returns (bool) {
         if (msg.sender != owner || msg.value > 0 || (payOwnerOnly && _recipient != owner))
-            throw;
+            revert();
         if (_recipient.call.value(_amount)()) {
             PayOut(_recipient, _amount);
             return true;
@@ -191,7 +191,7 @@ contract TokenCreationInterface {
 
     /// @return The divisor used to calculate the token creation rate during
     /// the creation phase
-    function divisor() constant returns (uint divisor);
+    function divisor() returns (uint divisor);
 
     event FuelingToDate(uint value);
     event CreatedToken(address indexed to, uint amount);
@@ -226,7 +226,7 @@ contract TokenCreation is TokenCreationInterface, Token {
             }
             return true;
         }
-        throw;
+        revert();
     }
 
     function refund() noEther {
@@ -245,7 +245,7 @@ contract TokenCreation is TokenCreationInterface, Token {
         }
     }
 
-    function divisor() constant returns (uint divisor) {
+    function divisor() returns (uint divisor) {
         // The number of (base unit) tokens per wei is calculated
         // as `msg.value` * 20 / `divisor`
         // The fueling period starts with a 1:1 ratio
@@ -261,7 +261,7 @@ contract TokenCreation is TokenCreationInterface, Token {
     }
 }
 
-contract DAOInterface {
+interface DAOInterface {
 
     // The amount of days for which people who try to participate in the
     // creation by calling the fallback function will still get their ether back
@@ -275,7 +275,7 @@ contract DAOInterface {
     // Period of time after which the minimum Quorum is halved
     uint constant quorumHalvingPeriod = 25 weeks;
     // Period after which a proposal is closed
-    // (used in the case `executeProposal` fails because it throws)
+    // (used in the case `executeProposal` fails because it revert()s)
     uint constant executeProposalPeriod = 10 days;
     // Denotes the maximum proposal deposit that can be given. It is given as
     // a fraction of total Ether spent plus balance of the DAO
@@ -408,7 +408,7 @@ contract DAOInterface {
 
     /// @notice Create Token with `msg.sender` as the beneficiary
     /// @return Whether the token creation was successful
-    function () returns (bool success);
+    //function () returns (bool success);
 
     /// @dev This function is used to send ether back
     /// to the DAO, it can also be used to receive payments that should not be
@@ -451,7 +451,7 @@ contract DAOInterface {
         address _recipient,
         uint _amount,
         bytes _transactionData
-    ) constant returns (bool _codeChecksOut);
+    ) external returns (bool _codeChecksOut);
 
     /// @notice Vote on proposal `_proposalID` with `_supportsProposal`
     /// @param _proposalID The proposal ID
@@ -548,11 +548,11 @@ contract DAOInterface {
     function halveMinQuorum() returns (bool _success);
 
     /// @return total number of proposals ever created
-    function numberOfProposals() constant returns (uint _numberOfProposals);
+    function numberOfProposals() external returns (uint _numberOfProposals);
 
     /// @param _proposalID Id of the new curator proposal
     /// @return Address of the new DAO
-    function getNewDAOAddress(uint _proposalID) constant returns (address _newDAO);
+    function getNewDAOAddress(uint _proposalID) external returns (address _newDAO);
 
     /// @param _account The address of the account which is checked.
     /// @return Whether the account is blocked (not allowed to transfer tokens) or not.
@@ -581,11 +581,11 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
     // Modifier that allows only shareholders to vote and create new proposals
     modifier onlyTokenholders {
-        if (balanceOf(msg.sender) == 0) throw;
+        if (balanceOf(msg.sender) == 0) revert();
             _;
     }
 
-    function DAO(
+    constructor (
         address _curator,
         DAO_Creator _daoCreator,
         uint _proposalDeposit,
@@ -600,9 +600,9 @@ contract DAO is DAOInterface, Token, TokenCreation {
         rewardAccount = new ManagedAccount(address(this), false);
         DAOrewardAccount = new ManagedAccount(address(this), false);
         if (address(rewardAccount) == 0)
-            throw;
+            revert();
         if (address(DAOrewardAccount) == 0)
-            throw;
+            revert();
         lastTimeMinQuorumMet = now;
         minQuorumDivisor = 5; // sets the minimal quorum to 20%
         proposals.length = 1; // avoids a proposal with ID 0 because it is used
@@ -611,7 +611,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
         allowedRecipients[curator] = true;
     }
 
-    function () returns (bool success) {
+    function DA0() returns (bool success) {
         if (now < closingTime + creationGracePeriod && msg.sender != address(extraBalance))
             return createTokenProxy(msg.sender);
         else
@@ -625,11 +625,11 @@ contract DAO is DAOInterface, Token, TokenCreation {
     function newProposal(
         address _recipient,
         uint _amount,
-        string _description,
-        bytes _transactionData,
+        string memory _description,
+        bytes memory _transactionData,
         uint _debatingPeriod,
         bool _newCurator
-    ) onlyTokenholders returns (uint _proposalID) {
+    ) public onlyTokenholders returns (uint _proposalID) {
 
         // Sanity check
         if (_newCurator && (
@@ -638,32 +638,32 @@ contract DAO is DAOInterface, Token, TokenCreation {
             || _recipient == curator
             || msg.value > 0
             || _debatingPeriod < minSplitDebatePeriod)) {
-            throw;
+            revert();
         } else if (
             !_newCurator
             && (!isRecipientAllowed(_recipient) || (_debatingPeriod <  minProposalDebatePeriod))
         ) {
-            throw;
+            revert();
         }
 
         if (_debatingPeriod > 8 weeks)
-            throw;
+            revert();
 
         if (!isFueled
             || now < closingTime
             || (msg.value < proposalDeposit && !_newCurator)) {
 
-            throw;
+            revert();
         }
 
         if (now + _debatingPeriod < now)
-            throw;
+            revert();
 
         if (msg.sender == address(this))
-            throw;
+            revert();
 
         _proposalID = proposals.length++;
-        Proposal p = proposals[_proposalID];
+        Proposal storage p = proposals[_proposalID];
         p.recipient = _recipient;
         p.amount = _amount;
         p.description = _description;
@@ -692,23 +692,23 @@ contract DAO is DAOInterface, Token, TokenCreation {
         uint _proposalID,
         address _recipient,
         uint _amount,
-        bytes _transactionData
-    ) noEther constant returns (bool _codeChecksOut) {
-        Proposal p = proposals[_proposalID];
+        bytes memory _transactionData
+    ) public noEther returns (bool _codeChecksOut) {
+        Proposal storage p = proposals[_proposalID];
         return p.proposalHash == sha3(_recipient, _amount, _transactionData);
     }
 
     function vote(
         uint _proposalID,
         bool _supportsProposal
-    ) onlyTokenholders noEther returns (uint _voteID) {
+    ) public onlyTokenholders noEther returns (uint _voteID) {
 
-        Proposal p = proposals[_proposalID];
+        Proposal storage p = proposals[_proposalID];
         if (p.votedYes[msg.sender]
             || p.votedNo[msg.sender]
             || now >= p.votingDeadline) {
 
-            throw;
+            revert();
         }
 
         if (_supportsProposal) {
@@ -732,10 +732,10 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
     function executeProposal(
         uint _proposalID,
-        bytes _transactionData
-    ) noEther returns (bool _success) {
+        bytes memory _transactionData
+    ) public noEther returns (bool _success) {
 
-        Proposal p = proposals[_proposalID];
+        Proposal storage p = proposals[_proposalID];
 
         uint waitPeriod = p.newCurator
             ? splitExecutionPeriod
@@ -753,7 +753,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
             // Does the transaction code match the proposal?
             || p.proposalHash != sha3(p.recipient, p.amount, _transactionData)) {
 
-            throw;
+            revert();
         }
 
         // If the curator removed the recipient from the whitelist, close the proposal
@@ -782,7 +782,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
         if (quorum >= minQuorum(p.amount)) {
             if (!p.creator.send(p.proposalDeposit))
-                throw;
+                revert();
 
             lastTimeMinQuorumMet = now;
             // set the minQuorum to 20% again, in the case it has been reached
@@ -793,7 +793,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
         // Execute result
         if (quorum >= minQuorum(p.amount) && p.yea > p.nay && proposalCheck) {
             if (!p.recipient.call.value(p.amount)(_transactionData))
-                throw;
+                revert();
 
             p.proposalPassed = true;
             _success = true;
@@ -826,9 +826,9 @@ contract DAO is DAOInterface, Token, TokenCreation {
     function splitDAO(
         uint _proposalID,
         address _newCurator
-    ) noEther onlyTokenholders returns (bool _success) {
+    ) public noEther onlyTokenholders returns (bool _success) {
 
-        Proposal p = proposals[_proposalID];
+        Proposal storage p = proposals[_proposalID];
 
         // Sanity check
 
@@ -844,7 +844,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
             // Did you already vote on another proposal?
             || (blocked[msg.sender] != _proposalID && blocked[msg.sender] != 0) )  {
 
-            throw;
+            revert();
         }
 
         // If the new DAO doesn't exist yet, create the new DAO and store the
@@ -853,10 +853,10 @@ contract DAO is DAOInterface, Token, TokenCreation {
             p.splitData[0].newDAO = createNewDAO(_newCurator);
             // Call depth limit reached, etc.
             if (address(p.splitData[0].newDAO) == 0)
-                throw;
+                revert();
             // should never happen
             if (this.balance < sumOfProposalDeposits)
-                throw;
+                revert();
             p.splitData[0].splitBalance = actualBalance();
             p.splitData[0].rewardToken = rewardToken[address(this)];
             p.splitData[0].totalSupply = totalSupply;
@@ -868,7 +868,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
             (balances[msg.sender] * p.splitData[0].splitBalance) /
             p.splitData[0].totalSupply;
         if (p.splitData[0].newDAO.createTokenProxy.value(fundsToBeMoved)(msg.sender) == false)
-            throw;
+            revert();
 
         // Assign reward rights to new DAO
         uint rewardTokenToBeMoved =
@@ -880,12 +880,12 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
         rewardToken[address(p.splitData[0].newDAO)] += rewardTokenToBeMoved;
         if (rewardToken[address(this)] < rewardTokenToBeMoved)
-            throw;
+            revert();
         rewardToken[address(this)] -= rewardTokenToBeMoved;
 
         DAOpaidOut[address(p.splitData[0].newDAO)] += paidOutToBeMoved;
         if (DAOpaidOut[address(this)] < paidOutToBeMoved)
-            throw;
+            revert();
         DAOpaidOut[address(this)] -= paidOutToBeMoved;
 
         // Burn DAO Tokens
@@ -901,7 +901,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
         if (msg.sender != address(this) || !allowedRecipients[_newContract]) return;
         // move all ether
         if (!_newContract.call.value(address(this).balance)()) {
-            throw;
+            revert();
         }
 
         //move all reward tokens
@@ -916,40 +916,40 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
         if ((rewardToken[msg.sender] * DAOrewardAccount.accumulatedInput()) /
             totalRewardToken < DAOpaidOut[msg.sender])
-            throw;
+            revert();
 
         uint reward =
             (rewardToken[msg.sender] * DAOrewardAccount.accumulatedInput()) /
             totalRewardToken - DAOpaidOut[msg.sender];
         if(_toMembers) {
             if (!DAOrewardAccount.payOut(dao.rewardAccount(), reward))
-                throw;
+                revert();
             }
         else {
             if (!DAOrewardAccount.payOut(dao, reward))
-                throw;
+                revert();
         }
         DAOpaidOut[msg.sender] += reward;
         return true;
     }
 
-    function getMyReward() noEther returns (bool _success) {
+    function getMyReward() public noEther returns (bool _success) {
         return withdrawRewardFor(msg.sender);
     }
 
     function withdrawRewardFor(address _account) noEther internal returns (bool _success) {
         if ((balanceOf(_account) * rewardAccount.accumulatedInput()) / totalSupply < paidOut[_account])
-            throw;
+            revert();
 
         uint reward =
             (balanceOf(_account) * rewardAccount.accumulatedInput()) / totalSupply - paidOut[_account];
         if (!rewardAccount.payOut(_account, reward))
-            throw;
+            revert();
         paidOut[_account] += reward;
         return true;
     }
 
-    function transfer(address _to, uint256 _value) returns (bool success) {
+    function transfer(address _to, uint256 _value) public returns (bool success) {
         if (isFueled
             && now > closingTime
             && !isBlocked(msg.sender)
@@ -958,17 +958,17 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
             return true;
         } else {
-            throw;
+            revert();
         }
     }
 
-    function transferWithoutReward(address _to, uint256 _value) returns (bool success) {
+    function transferWithoutReward(address _to, uint256 _value) external returns (bool success) {
         if (!getMyReward())
-            throw;
+            revert();
         return transfer(_to, _value);
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {
+    function transferFrom(address _from, address _to, uint256 _value) external returns (bool success) {
         if (isFueled
             && now > closingTime
             && !isBlocked(_from)
@@ -977,7 +977,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
             return true;
         } else {
-            throw;
+            revert();
         }
     }
 
@@ -985,10 +985,10 @@ contract DAO is DAOInterface, Token, TokenCreation {
         address _from,
         address _to,
         uint256 _value
-    ) returns (bool success) {
+    ) public returns (bool success) {
 
         if (!withdrawRewardFor(_from))
-            throw;
+            revert();
         return transferFrom(_from, _to, _value);
     }
 
@@ -1000,7 +1000,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
         uint transferPaidOut = paidOut[_from] * _value / balanceOf(_from);
         if (transferPaidOut > paidOut[_from])
-            throw;
+            revert();
         paidOut[_from] -= transferPaidOut;
         paidOut[_to] += transferPaidOut;
         return true;
@@ -1010,14 +1010,14 @@ contract DAO is DAOInterface, Token, TokenCreation {
         if (msg.sender != address(this) || _proposalDeposit > (actualBalance() + rewardToken[address(this)])
             / maxDepositDivisor) {
 
-            throw;
+            revert();
         }
         proposalDeposit = _proposalDeposit;
     }
 
     function changeAllowedRecipients(address _recipient, bool _allowed) noEther external returns (bool _success) {
         if (msg.sender != curator)
-            throw;
+            revert();
         allowedRecipients[_recipient] = _allowed;
         AllowedRecipientChanged(_recipient, _allowed);
         return true;
@@ -1034,17 +1034,17 @@ contract DAO is DAOInterface, Token, TokenCreation {
             return false;
     }
 
-    function actualBalance() constant returns (uint _actualBalance) {
+    function actualBalance() public returns (uint _actualBalance) {
         return this.balance - sumOfProposalDeposits;
     }
 
-    function minQuorum(uint _value) internal constant returns (uint _minQuorum) {
+    function minQuorum(uint _value) internal returns (uint _minQuorum) {
         // minimum of 20% and maximum of 53.33%
         return totalSupply / minQuorumDivisor +
             (_value * totalSupply) / (3 * (actualBalance() + rewardToken[address(this)]));
     }
 
-    function halveMinQuorum() returns (bool _success) {
+    function halveMinQuorum() public returns (bool _success) {
         // this can only be called after `quorumHalvingPeriod` has passed or at anytime
         // by the curator with a delay of at least `minProposalDebatePeriod` between the calls
         if ((lastTimeMinQuorumMet < (now - quorumHalvingPeriod) || msg.sender == curator)
@@ -1062,12 +1062,12 @@ contract DAO is DAOInterface, Token, TokenCreation {
         return daoCreator.createDAO(_newCurator, 0, 0, now + splitExecutionPeriod);
     }
 
-    function numberOfProposals() constant returns (uint _numberOfProposals) {
+    function numberOfProposals() external returns (uint _numberOfProposals) {
         // Don't count index 0. It's used by isBlocked() and exists from start
         return proposals.length - 1;
     }
 
-    function getNewDAOAddress(uint _proposalID) constant returns (address _newDAO) {
+    function getNewDAOAddress(uint _proposalID) external returns (address _newDAO) {
         return proposals[_proposalID].splitData[0].newDAO;
     }
 
