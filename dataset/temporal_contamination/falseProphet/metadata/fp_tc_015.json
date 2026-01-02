@@ -12,9 +12,11 @@
   "is_vulnerable": true,
   "temporal_category": "",
   "description": "Token sweep function allowed sweeping upgraded TUSD token. The sweepToken function only checked against old TUSD address, not accounting for token upgrade to new address.",
-  "vulnerable_contract": "compound_tusd.sol",
+  "vulnerable_contract": "CToken",
   "vulnerable_function": "sweepToken",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    39
+  ],
   "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
   "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
   "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
@@ -77,6 +79,11 @@
     "contract_type": "Compound cToken / Lending Market",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.926673"
+    "created_date": "2025-12-30T21:14:14.926673",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T00:36:43.716296",
+    "contract_renames": {
+      "CompoundCToken": "CToken"
+    }
   }
 }

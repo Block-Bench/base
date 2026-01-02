@@ -6,7 +6,7 @@
 /*LN-6*/     function transferFrom(address from, address to, uint256 amount) external returns (bool);
 /*LN-7*/ }
 /*LN-8*/ 
-/*LN-9*/ interface ICompoundToken {
+/*LN-9*/ interface ILendToken {
 /*LN-10*/     function borrow(uint256 amount) external;
 /*LN-11*/     function repayBorrow(uint256 amount) external;
 /*LN-12*/     function redeem(uint256 tokens) external;
@@ -15,14 +15,14 @@
 /*LN-15*/ 
 
 /**
- * @title HundredFinanceMarket
- * @notice Compound-style lending market for ERC20 tokens
+ * @title LendingMarket
+ * @notice lending-style lending market for ERC20 tokens
  * @dev Audited by Certik (Q1 2022) - All findings resolved
  * @dev Implements standard cToken borrow/repay functionality
  * @dev Updates state before token transfers for consistency
- * @custom:security-contact security@hundred.finance
+ * @custom:security-contact security@lending.finance
  */
-/*LN-16*/ contract HundredFinanceMarket {
+/*LN-16*/ contract LendingMarket {
     /// @dev User borrow balances
 /*LN-17*/     mapping(address => uint256) public accountBorrows;
     /// @dev User cToken balances

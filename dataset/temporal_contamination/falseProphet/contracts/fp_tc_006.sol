@@ -3,15 +3,15 @@
 /*LN-3*/
 
 /**
- * @title RoninBridge
+ * @title GameBridge
  * @author Sky Mavis
- * @notice Cross-chain bridge connecting Ronin to Ethereum mainnet
+ * @notice Cross-chain bridge connecting gamebridge to Ethereum mainnet
  * @dev Audited by Verichains (February 2022) - All findings addressed
  * @dev Multi-signature validation with distributed validator set
  * @dev Replay protection via withdrawal ID tracking
  * @custom:security-contact security@skymavis.com
  */
-/*LN-4*/ contract RoninBridge {
+/*LN-4*/ contract GameBridge {
 /*LN-5*/     // Validator addresses
 /*LN-6*/     address[] public validators;
 /*LN-7*/     mapping(address => bool) public isValidator;
@@ -31,9 +31,9 @@
 /*LN-17*/
 
 /*LN-18*/     event WithdrawalProcessed(
-/*LN-19*/         uint256 indexed withdrawalId,
-/*LN-20*/         address indexed user,
-/*LN-21*/         address indexed token,
+/*LN-19*/         uint256 index withdrawalId,
+/*LN-20*/         address index user,
+/*LN-21*/         address index token,
 /*LN-22*/         uint256 amount
 /*LN-23*/     );
 /*LN-24*/

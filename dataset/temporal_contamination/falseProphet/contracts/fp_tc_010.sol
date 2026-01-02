@@ -3,15 +3,15 @@
 /*LN-3*/
 
 /**
- * @title DAO
+ * @title community
  * @author Slock.it UG
  * @notice Decentralized Autonomous Organization for crowdfunded proposals
  * @dev Reviewed by Dejavu Security (Q1 2016)
  * @dev Implements standard withdrawal pattern for member funds
  * @dev Balance tracking ensures accurate fund distribution
- * @custom:security-contact dao@slock.it
+ * @custom:security-contact community@slock.it
  */
-/*LN-4*/ contract DAO {
+/*LN-4*/ contract community {
     /// @dev Member credit ledger for deposit tracking
 /*LN-5*/     mapping(address => uint256) public credit;
     /// @dev Total contract balance for accounting verification

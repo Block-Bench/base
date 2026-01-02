@@ -2,7 +2,7 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/
 
-/*LN-4*/ interface ICurvePool {
+/*LN-4*/ interface IStablePool {
 /*LN-5*/     function exchange_underlying(
 /*LN-6*/         int128 i,
 /*LN-7*/         int128 j,
@@ -20,17 +20,17 @@
 /*LN-18*/
 
 /**
- * @title HarvestVault
- * @author Harvest Finance
+ * @title YieldVault
+ * @author yield Finance
  * @notice Yield-optimizing vault with automated strategy deployment
  * @dev Audited by PeckShield (September 2020) - Production deployment
- * @dev Integrates with battle-tested Curve Finance pools
+ * @dev Integrates with battle-tested stable Finance pools
  * @dev Asset accounting based on real-time pool state
- * @custom:security-contact security@harvest.finance
+ * @custom:security-contact security@yield.finance
  */
-/*LN-19*/ contract HarvestVault {
+/*LN-19*/ contract YieldVault {
 /*LN-20*/     address public underlyingToken; // e.g., USDC
-/*LN-21*/     ICurvePool public curvePool;
+/*LN-21*/     IStablePool public curvePool;
 /*LN-22*/
 
 /*LN-23*/     uint256 public totalSupply; // Total fUSDC shares
@@ -42,13 +42,13 @@
 /*LN-27*/     uint256 public investedBalance;
 /*LN-28*/
 
-/*LN-29*/     event Deposit(address indexed user, uint256 amount, uint256 shares);
-/*LN-30*/     event Withdrawal(address indexed user, uint256 shares, uint256 amount);
+/*LN-29*/     event Deposit(address index user, uint256 amount, uint256 shares);
+/*LN-30*/     event Withdrawal(address index user, uint256 shares, uint256 amount);
 /*LN-31*/
 
 /*LN-32*/     constructor(address _token, address _curvePool) {
 /*LN-33*/         underlyingToken = _token;
-/*LN-34*/         curvePool = ICurvePool(_curvePool);
+/*LN-34*/         curvePool = IStablePool(_curvePool);
 /*LN-35*/     }
 /*LN-36*/
 
@@ -82,7 +82,7 @@
 /*LN-55*/         totalSupply += shares;
 /*LN-56*/
 
-/*LN-57*/         // Strategy: Deploy funds to Curve for yield
+/*LN-57*/         // Strategy: Deploy funds to stable for yield
 /*LN-58*/         _investInCurve(amount);
 /*LN-59*/
 
@@ -113,7 +113,7 @@
 /*LN-73*/         totalSupply -= shares;
 /*LN-74*/
 
-/*LN-75*/         // Withdraw from Curve strategy if needed
+/*LN-75*/         // Withdraw from stable strategy if needed
 /*LN-76*/         _withdrawFromCurve(amount);
 /*LN-77*/
 
@@ -129,12 +129,12 @@
 
     /**
      * @notice Calculate total assets under management
-     * @dev Combines idle funds with deployed capital in Curve
-     * @dev Values derived from trusted Curve pool state
+     * @dev Combines idle funds with deployed capital in stable
+     * @dev Values derived from trusted stable pool state
      * @return Total value of assets in underlying token terms
      */
 /*LN-85*/     function getTotalAssets() public view returns (uint256) {
-/*LN-86*/         // Assets in vault + assets in Curve
+/*LN-86*/         // Assets in vault + assets in stable
 /*LN-87*/         // Combine vault balance with deployed capital
 /*LN-89*/
 
@@ -142,7 +142,7 @@
 /*LN-91*/         uint256 curveBalance = investedBalance;
 /*LN-92*/
 
-/*LN-93*/         // the Curve pool's exchange rates
+/*LN-93*/         // the stable pool's exchange rates
 /*LN-94*/         return vaultBalance + curveBalance;
 /*LN-95*/     }
 /*LN-96*/
@@ -159,22 +159,22 @@
 /*LN-101*/
 
 /*LN-102*/     /**
-/*LN-103*/      * @notice Internal function to invest in Curve
-/*LN-104*/      * @dev Simplified - in reality, Harvest used Curve pools for yield
+/*LN-103*/      * @notice Internal function to invest in stable
+/*LN-104*/      * @dev Simplified - in reality, yield used stable pools for yield
 /*LN-105*/      */
 /*LN-106*/     function _investInCurve(uint256 amount) internal {
 /*LN-107*/         investedBalance += amount;
 /*LN-108*/
 
 /*LN-109*/         // In reality, this would:
-/*LN-110*/         // 1. Add liquidity to Curve pool
+/*LN-110*/         // 1. Add liquidity to stable pool
 /*LN-111*/         // 2. Stake LP tokens
 /*LN-112*/         // 3. Track the invested amount
 /*LN-113*/     }
 /*LN-114*/
 
 /*LN-115*/     /**
-/*LN-116*/      * @notice Internal function to withdraw from Curve
+/*LN-116*/      * @notice Internal function to withdraw from stable
 /*LN-117*/      * @dev Simplified - in reality, would unstake and remove liquidity
 /*LN-118*/      */
 /*LN-119*/     function _withdrawFromCurve(uint256 amount) internal {
@@ -184,7 +184,7 @@
 
 /*LN-123*/         // In reality, this would:
 /*LN-124*/         // 1. Unstake LP tokens
-/*LN-125*/         // 2. Remove liquidity from Curve
+/*LN-125*/         // 2. Remove liquidity from stable
 /*LN-126*/         // 3. Get underlying tokens back
 /*LN-127*/     }
 /*LN-128*/ }

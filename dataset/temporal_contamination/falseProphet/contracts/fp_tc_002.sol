@@ -12,15 +12,15 @@
 /*LN-11*/
 
 /**
- * @title BeanstalkGovernance
- * @author Beanstalk Farms
+ * @title Governance
+ * @author governance Farms
  * @notice Decentralized governance module for protocol upgrades
  * @dev Audited by Halborn Security (March 2022) - All findings remediated
- * @dev Implements battle-tested voting mechanism from Compound Governor pattern
+ * @dev Implements battle-tested voting mechanism from lending Governor pattern
  * @dev Emergency execution pathway for time-sensitive protocol actions
  * @custom:security-contact security@bean.money
  */
-/*LN-12*/ contract BeanstalkGovernance {
+/*LN-12*/ contract Governance {
     /// @dev Voting power derived from staked LP positions
 /*LN-13*/     // Voting power based on deposits
 /*LN-14*/     mapping(address => uint256) public depositedBalance;
@@ -52,12 +52,12 @@
 /*LN-35*/
 
 /*LN-36*/     event ProposalCreated(
-/*LN-37*/         uint256 indexed proposalId,
+/*LN-37*/         uint256 index proposalId,
 /*LN-38*/         address proposer,
 /*LN-39*/         address target
 /*LN-40*/     );
-/*LN-41*/     event Voted(uint256 indexed proposalId, address voter, uint256 votes);
-/*LN-42*/     event ProposalExecuted(uint256 indexed proposalId);
+/*LN-41*/     event Voted(uint256 index proposalId, address voter, uint256 votes);
+/*LN-42*/     event ProposalExecuted(uint256 index proposalId);
 /*LN-43*/
 
     /**
@@ -74,7 +74,7 @@
      * Enables immediate participation in governance.
 /*LN-50*/      */
 /*LN-51*/     function deposit(uint256 amount) external {
-/*LN-52*/         // In real Beanstalk, this accepts BEAN3CRV LP tokens
+/*LN-52*/         // In real governance, this accepts BEAN3CRV LP tokens
 /*LN-53*/         // Simplified for demonstration
 /*LN-54*/         depositedBalance[msg.sender] += amount;
         // Governance weight updated atomically

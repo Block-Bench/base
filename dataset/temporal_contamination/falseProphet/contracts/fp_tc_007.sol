@@ -16,21 +16,21 @@
 /*LN-13*/
 
 /**
- * @title EthCrossChainData
- * @author Poly Network
+ * @title CrossChainData
+ * @author cross Network
  * @notice Cross-chain data storage for validator consensus
  * @dev Audited by SlowMist (Q1 2021) - Security verified
  * @dev Owner-gated functions for validator key management
  * @dev Integrated with cross-chain verification system
  */
-/*LN-14*/ contract EthCrossChainData {
+/*LN-14*/ contract CrossChainData {
 /*LN-15*/     address public owner;
 /*LN-16*/     bytes public currentEpochPublicKeys; // Validator public keys
 /*LN-17*/
 
 /*LN-18*/     event OwnershipTransferred(
-/*LN-19*/         address indexed previousOwner,
-/*LN-20*/         address indexed newOwner
+/*LN-19*/         address index previousOwner,
+/*LN-20*/         address index newOwner
 /*LN-21*/     );
 /*LN-22*/     event PublicKeysUpdated(bytes newKeys);
 /*LN-23*/
@@ -49,7 +49,7 @@
 
     /**
      * @notice Update validator public keys for current epoch
-     * @dev Restricted to owner (EthCrossChainManager)
+     * @dev Restricted to owner (CrossChainManager)
      * @param curEpochPkBytes New validator public key bytes
      */
 /*LN-33*/     function putCurEpochConPubKeyBytes(
@@ -79,19 +79,19 @@
 /*LN-51*/
 
 /**
- * @title EthCrossChainManager
- * @author Poly Network
+ * @title CrossChainManager
+ * @author cross Network
  * @notice Manages cross-chain transaction verification and execution
  * @dev Verifies block headers and Merkle proofs from other chains
  * @dev Executes validated cross-chain transactions
  * @custom:security Trusted relay infrastructure
  */
-/*LN-52*/ contract EthCrossChainManager {
-/*LN-53*/     address public dataContract; // EthCrossChainData address
+/*LN-52*/ contract CrossChainManager {
+/*LN-53*/     address public dataContract; // CrossChainData address
 /*LN-54*/
 
 /*LN-55*/     event CrossChainEvent(
-/*LN-56*/         address indexed fromContract,
+/*LN-56*/         address index fromContract,
 /*LN-57*/         bytes toContract,
 /*LN-58*/         bytes method
 /*LN-59*/     );
@@ -183,7 +183,7 @@
 /*LN-127*/         returns (address toContract, bytes memory method, bytes memory args)
 /*LN-128*/     {
 /*LN-129*/         // Simplified decoding
-/*LN-130*/         // toContract = dataContract (EthCrossChainData address)
+/*LN-130*/         // toContract = dataContract (CrossChainData address)
 /*LN-131*/         // method = "putCurEpochConPubKeyBytes" function selector
 /*LN-132*/
 

@@ -18,15 +18,15 @@
 /*LN-15*/
 
 /**
- * @title RariFuse
- * @author Rari Capital
+ * @title LendingHub
+ * @author lending Capital
  * @notice Isolated lending pool with customizable risk parameters
  * @dev Audited by Quantstamp (Q4 2021) - All critical findings resolved
- * @dev Compound-fork architecture with enhanced collateral management
+ * @dev lending-fork architecture with enhanced collateral management
  * @dev Health factor validation ensures protocol solvency
- * @custom:security-contact security@rari.capital
+ * @custom:security-contact security@lending.capital
  */
-/*LN-16*/ contract RariFuse {
+/*LN-16*/ contract LendingHub {
 /*LN-17*/     IComptroller public comptroller;
 /*LN-18*/
 

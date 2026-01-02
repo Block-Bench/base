@@ -12,9 +12,11 @@
   "is_vulnerable": true,
   "temporal_category": "",
   "description": "Arbitrary external call vulnerability in controller's swap function. The swapExactJarForJar function accepted user-provided target addresses and calldata, making unchecked external calls that drained strategy funds.",
-  "vulnerable_contract": "pickle_finance.sol",
+  "vulnerable_contract": "YieldController",
   "vulnerable_function": "swapExactJarForJar",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    41
+  ],
   "attack_scenario": "Attacker created fake jar contracts, called swapExactJarForJar with malicious targets pointing to real strategies and calldata encoding withdrawAll(). Controller executed these calls, draining strategies.",
   "root_cause": "Controller allowed arbitrary external calls with user-provided targets and data without validation. Strategy functions like withdrawAll() lacked access control checks, allowing controller to call them on behalf of attacker.",
   "fix_description": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors.",
@@ -79,6 +81,12 @@
     "contract_type": "Yield Farming Strategy Controller",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.927886"
+    "created_date": "2025-12-30T21:14:14.927886",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T00:36:43.748565",
+    "contract_renames": {
+      "PickleStrategy": "YieldStrategy",
+      "PickleController": "YieldController"
+    }
   }
 }

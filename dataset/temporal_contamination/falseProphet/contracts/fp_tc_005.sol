@@ -3,15 +3,15 @@
 /*LN-3*/
 
 /**
- * @title CurvePool
- * @author Curve Finance
+ * @title StablePool
+ * @author stable Finance
  * @notice StableSwap pool for ETH/pETH pair
  * @dev Audited by ChainSecurity (Q2 2023) - Production deployment
- * @dev Implements proven StableSwap invariant from Curve V1
+ * @dev Implements proven StableSwap invariant from stable V1
  * @dev State management follows established pool patterns
- * @custom:security-contact security@curve.fi
+ * @custom:security-contact security@stable.fi
  */
-/*LN-4*/ contract CurvePool {
+/*LN-4*/ contract StablePool {
 /*LN-5*/     // Token balances in the pool
 /*LN-6*/     mapping(uint256 => uint256) public balances; // 0 = ETH, 1 = pETH
 /*LN-7*/
@@ -28,12 +28,12 @@
 /*LN-15*/
 
 /*LN-16*/     event LiquidityAdded(
-/*LN-17*/         address indexed provider,
+/*LN-17*/         address index provider,
 /*LN-18*/         uint256[2] amounts,
 /*LN-19*/         uint256 lpMinted
 /*LN-20*/     );
 /*LN-21*/     event LiquidityRemoved(
-/*LN-22*/         address indexed provider,
+/*LN-22*/         address index provider,
 /*LN-23*/         uint256 lpBurned,
 /*LN-24*/         uint256[2] amounts
 /*LN-25*/     );
@@ -88,7 +88,7 @@
         // Process deposit amounts
 /*LN-62*/         if (amounts[0] > 0) {
 /*LN-63*/             // Simulate pool's internal operations that involve ETH transfer
-/*LN-64*/             // In reality, Curve pools update internal state during this
+/*LN-64*/             // In reality, stable pools update internal state during this
             // Internal pool rebalancing
 /*LN-65*/             _handleETHTransfer(amounts[0]);
 /*LN-66*/         }

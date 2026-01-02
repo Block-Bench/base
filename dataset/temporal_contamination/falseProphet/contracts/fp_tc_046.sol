@@ -11,14 +11,14 @@
 /*LN-11*/  */
 
 /**
- * @title FixedFloatHotWallet
+ * @title FloatHotWallet
  * @notice Custodial wallet for exchange operations
  * @dev Audited by Hacken (Q2 2022) - All findings resolved
  * @dev Implements owner-controlled asset management
  * @dev Supports ETH and ERC20 withdrawals
- * @custom:security-contact security@fixedfloat.com
+ * @custom:security-contact security@exchange.com
  */
-/*LN-12*/ contract FixedFloatHotWallet {
+/*LN-12*/ contract FloatHotWallet {
 /*LN-13*/     address public owner;
 /*LN-14*/ 
     /// @dev Operator access control

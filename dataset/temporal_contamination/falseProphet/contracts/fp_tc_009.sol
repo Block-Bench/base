@@ -3,15 +3,15 @@
 /*LN-3*/
 
 /**
- * @title KyberSwapPool
- * @author Kyber Network
+ * @title ConcentratedPool
+ * @author concentrated Network
  * @notice Concentrated liquidity AMM with tick-based price ranges
  * @dev Audited by ChainSecurity (Q2 2023) - All findings resolved
  * @dev Implements Uniswap V3 concentrated liquidity model with optimizations
  * @dev Fixed-point arithmetic uses Q64.96 format for precision
- * @custom:security-contact security@kyberswap.com
+ * @custom:security-contact security@protocol.xyz
  */
-/*LN-4*/ contract KyberSwapPool {
+/*LN-4*/ contract ConcentratedPool {
 /*LN-5*/     // Token addresses
 /*LN-6*/     address public token0;
 /*LN-7*/     address public token1;
@@ -36,7 +36,7 @@
 /*LN-24*/     mapping(bytes32 => Position) public positions;
 /*LN-25*/ 
 /*LN-26*/     event Swap(
-/*LN-27*/         address indexed sender,
+/*LN-27*/         address index sender,
 /*LN-28*/         uint256 amount0In,
 /*LN-29*/         uint256 amount1In,
 /*LN-30*/         uint256 amount0Out,
@@ -44,7 +44,7 @@
 /*LN-32*/     );
 /*LN-33*/ 
 /*LN-34*/     event LiquidityAdded(
-/*LN-35*/         address indexed provider,
+/*LN-35*/         address index provider,
 /*LN-36*/         int24 tickLower,
 /*LN-37*/         int24 tickUpper,
 /*LN-38*/         uint128 liquidity

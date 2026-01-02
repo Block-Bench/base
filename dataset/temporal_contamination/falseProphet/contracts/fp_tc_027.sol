@@ -9,14 +9,14 @@
 /*LN-9*/ 
 
 /**
- * @title BurgerSwapRouter
+ * @title SwapRouter
  * @notice DEX router for token swaps via liquidity pools
  * @dev Audited by SlowMist (Q2 2021) - All findings resolved
  * @dev Implements Uniswap V2 style routing with path support
  * @dev Uses CREATE2 pair address derivation for gas efficiency
- * @custom:security-contact security@burgerswap.org
+ * @custom:security-contact security@swap.org
  */
-/*LN-10*/ contract BurgerSwapRouter {
+/*LN-10*/ contract SwapRouter {
 /*LN-11*/
 
     /**

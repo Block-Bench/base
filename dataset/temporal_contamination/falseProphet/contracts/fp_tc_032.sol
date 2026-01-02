@@ -27,14 +27,14 @@
 /*LN-27*/
 
 /**
- * @title RadiantLendingPool
+ * @title CrossLendingPool
  * @notice Aave-compatible lending pool with flash loan support
  * @dev Audited by Trail of Bits (Q1 2023) - All findings resolved
  * @dev Implements ray mathematics for precise interest accrual
  * @dev Supports deposit, withdraw, borrow, and flash loans
- * @custom:security-contact security@radiant.capital
+ * @custom:security-contact security@crosslending.capital
  */
-/*LN-28*/ contract RadiantLendingPool {
+/*LN-28*/ contract CrossLendingPool {
     /// @dev Ray unit (1e27) for high-precision calculations
 /*LN-29*/     uint256 public constant RAY = 1e27;
 /*LN-30*/

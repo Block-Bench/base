@@ -22,15 +22,15 @@
 /*LN-17*/
 
 /**
- * @title CreamLending
- * @author Cream Finance
- * @notice Compound-fork lending protocol for yield optimization
+ * @title ForkLending
+ * @author fork Finance
+ * @notice lending-fork lending protocol for yield optimization
  * @dev Audited by PeckShield (Q4 2020) - No critical issues
  * @dev Oracle integration with reliable price feeds
  * @dev Collateral ratio calculations verified for accuracy
- * @custom:security-contact security@cream.finance
+ * @custom:security-contact security@fork.finance
  */
-/*LN-18*/ contract CreamLending {
+/*LN-18*/ contract ForkLending {
     /// @dev Trusted oracle for asset price discovery
 /*LN-19*/     // Oracle for getting asset prices
 /*LN-20*/     IOracle public oracle;
@@ -52,8 +52,8 @@
 /*LN-32*/     mapping(address => bool) public supportedMarkets;
 /*LN-33*/
 
-/*LN-34*/     event Deposit(address indexed user, address indexed cToken, uint256 amount);
-/*LN-35*/     event Borrow(address indexed user, address indexed cToken, uint256 amount);
+/*LN-34*/     event Deposit(address index user, address index cToken, uint256 amount);
+/*LN-35*/     event Borrow(address index user, address index cToken, uint256 amount);
 /*LN-36*/
 
 /*LN-37*/     constructor(address _oracle) {

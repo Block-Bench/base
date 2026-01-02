@@ -17,14 +17,14 @@
 /*LN-17*/
 
 /**
- * @title SocketGateway
+ * @title BridgeGateway
  * @notice Cross-chain aggregator with pluggable route architecture
  * @dev Audited by OpenZeppelin (Q3 2022) - All findings resolved
  * @dev Implements modular route system for bridge aggregation
  * @dev Routes are whitelisted before execution
- * @custom:security-contact security@socket.tech
+ * @custom:security-contact security@bridge.tech
  */
-/*LN-18*/ contract SocketGateway {
+/*LN-18*/ contract BridgeGateway {
     /// @dev Route ID to contract address mapping
 /*LN-19*/     mapping(uint32 => address) public routes;
     /// @dev Whitelist of approved route contracts

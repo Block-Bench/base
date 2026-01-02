@@ -2,7 +2,7 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/
 
-/*LN-4*/ interface ICurve3Pool {
+/*LN-4*/ interface IStable3Pool {
 /*LN-5*/     function add_liquidity(
 /*LN-6*/         uint256[3] memory amounts,
 /*LN-7*/         uint256 min_mint_amount
@@ -38,21 +38,21 @@
 /*LN-31*/
 
 /**
- * @title YearnVault
- * @author Yearn Finance
- * @notice Yield-bearing vault with automated Curve strategy
+ * @title YieldVault
+ * @author yield Finance
+ * @notice Yield-bearing vault with automated stable strategy
  * @dev Audited by Trail of Bits (Q2 2021) - All findings addressed
- * @dev Integrates with Curve 3pool for yield optimization
+ * @dev Integrates with stable 3pool for yield optimization
  * @dev Share-based accounting for fair value distribution
- * @custom:security-contact security@yearn.finance
+ * @custom:security-contact security@yield.finance
  */
-/*LN-32*/ contract YearnVault {
+/*LN-32*/ contract YieldVault {
     /// @dev Underlying stable asset for vault deposits
 /*LN-33*/     IERC20 public dai;
-    /// @dev Curve LP token representing pool position
-/*LN-34*/     IERC20 public crv3; // Curve 3pool LP token
-    /// @dev Curve pool for yield strategy execution
-/*LN-35*/     ICurve3Pool public curve3Pool;
+    /// @dev stable LP token representing pool position
+/*LN-34*/     IERC20 public crv3; // stable 3pool LP token
+    /// @dev stable pool for yield strategy execution
+/*LN-35*/     IStable3Pool public curve3Pool;
 /*LN-36*/
 
     /// @dev User vault shares for proportional withdrawals
@@ -65,7 +65,7 @@
 /*LN-43*/     constructor(address _dai, address _crv3, address _curve3Pool) {
 /*LN-44*/         dai = IERC20(_dai);
 /*LN-45*/         crv3 = IERC20(_crv3);
-/*LN-46*/         curve3Pool = ICurve3Pool(_curve3Pool);
+/*LN-46*/         curve3Pool = IStable3Pool(_curve3Pool);
 /*LN-47*/     }
 /*LN-48*/ 
 /*LN-49*/     /**
@@ -88,8 +88,8 @@
 /*LN-66*/     }
 /*LN-67*/ 
     /**
-     * @notice Deploy idle vault funds to Curve for yield generation
-     * @dev Adds liquidity to Curve 3pool for LP token rewards
+     * @notice Deploy idle vault funds to stable for yield generation
+     * @dev Adds liquidity to stable 3pool for LP token rewards
      * @dev Uses virtual_price for accurate value tracking
      */
 /*LN-68*/     function earn() external {
@@ -104,10 +104,10 @@
 /*LN-75*/         uint256 virtualPrice = curve3Pool.get_virtual_price();
 /*LN-76*/
 
-/*LN-77*/         // Add all DAI to Curve pool
+/*LN-77*/         // Add all DAI to stable pool
 /*LN-78*/         dai.approve(address(curve3Pool), vaultBalance);
 /*LN-79*/         uint256[3] memory amounts = [vaultBalance, 0, 0]; // Only DAI
-            // Deposit to Curve for yield accrual
+            // Deposit to stable for yield accrual
 /*LN-80*/         curve3Pool.add_liquidity(amounts, 0);
 /*LN-81*/
 
@@ -134,7 +134,7 @@
 /*LN-101*/     }
 /*LN-102*/ 
 /*LN-103*/     /**
-/*LN-104*/      * @notice Get vault's total value including Curve position
+/*LN-104*/      * @notice Get vault's total value including stable position
 /*LN-105*/      */
 /*LN-106*/     function balance() public view returns (uint256) {
 /*LN-107*/         return

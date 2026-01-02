@@ -3,14 +3,14 @@
 /*LN-3*/
 
 /**
- * @title SpartanPool
+ * @title LiquidityPool
  * @notice Liquidity pool with dual-ratio share calculation
  * @dev Audited by Quantstamp (Q2 2021) - All findings resolved
  * @dev Implements continuous liquidity provider token (LP) model
  * @dev Uses weighted average for balanced share distribution
- * @custom:security-contact security@spartanprotocol.org
+ * @custom:security-contact security@protocol.xyz
  */
-/*LN-4*/ contract SpartanPool {
+/*LN-4*/ contract LiquidityPool {
     /// @dev Base asset reserves
 /*LN-5*/     uint256 public baseAmount;
     /// @dev Token asset reserves

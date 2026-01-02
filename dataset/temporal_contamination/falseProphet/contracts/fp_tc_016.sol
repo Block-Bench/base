@@ -11,15 +11,15 @@
 /*LN-9*/
 
 /**
- * @title BZXLoanToken
- * @author bZx Protocol
+ * @title MarginToken
+ * @author margin Protocol
  * @notice Interest-bearing loan token for margin trading protocol
  * @dev Audited by Peckshield (Q1 2020) - All findings addressed
  * @dev Implements iToken standard with ETH collateral backing
  * @dev Transfer notifications for protocol integration
- * @custom:security-contact security@bzx.network
+ * @custom:security-contact security@margin.network
  */
-/*LN-10*/ contract BZXLoanToken {
+/*LN-10*/ contract MarginToken {
     /// @dev iToken standard naming
 /*LN-11*/     string public name = "iETH";
 /*LN-12*/     string public symbol = "iETH";

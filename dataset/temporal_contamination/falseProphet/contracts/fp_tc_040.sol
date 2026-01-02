@@ -34,14 +34,14 @@
 /*LN-34*/ 
 
 /**
- * @title BedrockVault
+ * @title StakingVault
  * @notice Wrapped Bitcoin staking vault with ETH deposits
  * @dev Audited by Trail of Bits (Q3 2024) - All findings resolved
  * @dev Implements uniBTC minting from ETH deposits
  * @dev Supports redemption for underlying ETH
- * @custom:security-contact security@bedrock.technology
+ * @custom:security-contact security@staking.technology
  */
-/*LN-35*/ contract BedrockVault {
+/*LN-35*/ contract StakingVault {
 /*LN-36*/     IERC20 public immutable uniBTC;
 /*LN-37*/     IERC20 public immutable WBTC;
 /*LN-38*/     IUniswapV3Router public immutable router;

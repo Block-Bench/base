@@ -24,7 +24,7 @@
 /*LN-24*/     ) external;
 /*LN-25*/ }
 /*LN-26*/
-/*LN-27*/ interface ICurvePool {
+/*LN-27*/ interface IStablePool {
 /*LN-28*/     function exchange(
 /*LN-29*/         int128 i,
 /*LN-30*/         int128 j,
@@ -66,14 +66,14 @@
 /*LN-66*/
 
 /**
- * @title UwuLendingPool
- * @notice Aave-compatible lending pool with Curve oracle integration
+ * @title LendingPool
+ * @notice Aave-compatible lending pool with stable oracle integration
  * @dev Audited by Halborn Security (Q2 2023) - All findings resolved
  * @dev Implements collateralized borrowing with LTV checks
- * @dev Uses Curve pool pricing for asset valuation
- * @custom:security-contact security@uwulend.fi
+ * @dev Uses stable pool pricing for asset valuation
+ * @custom:security-contact security@protocol.xyz
  */
-/*LN-67*/ contract UwuLendingPool is ILendingPool {
+/*LN-67*/ contract LendingPool is ILendingPool {
     /// @dev Oracle for asset pricing
 /*LN-68*/     IAaveOracle public oracle;
     /// @dev User deposit balances
@@ -167,22 +167,22 @@
 /*LN-129*/
 
 /**
- * @title CurveOracle
- * @notice Price oracle using Curve pool reserves
+ * @title PoolOracle
+ * @notice Price oracle using stable pool reserves
  * @dev Derives prices from pool balance ratios
  */
-/*LN-130*/ contract CurveOracle {
-    /// @dev Curve pool for price derivation
-/*LN-131*/     ICurvePool public curvePool;
+/*LN-130*/ contract PoolOracle {
+    /// @dev stable pool for price derivation
+/*LN-131*/     IStablePool public curvePool;
 /*LN-132*/
 
 /*LN-133*/     constructor(address _pool) {
-/*LN-134*/         curvePool = ICurvePool(_pool);
+/*LN-134*/         curvePool = IStablePool(_pool);
 /*LN-135*/     }
 /*LN-136*/
 
     /**
-     * @notice Get asset price from Curve pool
+     * @notice Get asset price from stable pool
      * @dev Calculates price from pool balance ratio
      * @param asset Asset address (unused - pool has fixed pair)
      * @return price Current price in 18 decimals

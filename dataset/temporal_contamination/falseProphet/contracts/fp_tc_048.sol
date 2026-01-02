@@ -17,24 +17,24 @@
 /*LN-17*/  */
 
 /**
- * @title SonneMarket
- * @notice Compound-style lending market for WETH
+ * @title CompMarket
+ * @notice lending-style lending market for WETH
  * @dev Audited by Peckshield (Q2 2023) - All findings resolved
  * @dev Implements cToken mechanics with exchange rate accrual
  * @dev Supports collateralized borrowing in unified comptroller
- * @custom:security-contact security@sonne.finance
+ * @custom:security-contact security@comp.finance
  */
-/*LN-18*/ contract SonneMarket {
+/*LN-18*/ contract CompMarket {
 /*LN-19*/     IERC20 public underlying;
 /*LN-20*/ 
-/*LN-21*/     string public name = "Sonne WETH";
+/*LN-21*/     string public name = "comp WETH";
 /*LN-22*/     string public symbol = "soWETH";
 /*LN-23*/     uint8 public decimals = 8;
 /*LN-24*/ 
 /*LN-25*/     uint256 public totalSupply;
 /*LN-26*/     mapping(address => uint256) public balanceOf;
 /*LN-27*/ 
-/*LN-28*/     // Compound-style interest rate tracking
+/*LN-28*/     // lending-style interest rate tracking
 /*LN-29*/     uint256 public totalBorrows;
 /*LN-30*/     uint256 public totalReserves;
 /*LN-31*/ 

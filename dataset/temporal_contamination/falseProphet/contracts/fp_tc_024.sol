@@ -13,7 +13,7 @@
 /*LN-13*/     ) external returns (bool);
 /*LN-14*/ }
 /*LN-15*/ 
-/*LN-16*/ interface ICurvePool {
+/*LN-16*/ interface IStablePool {
 /*LN-17*/     function get_virtual_price() external view returns (uint256);
 /*LN-18*/ 
 /*LN-19*/     function add_liquidity(
@@ -25,40 +25,40 @@
 
 /**
  * @title SimplifiedOracle
- * @notice Price oracle using Curve LP token virtual price
+ * @notice Price oracle using stable LP token virtual price
  * @dev Audited by OpenZeppelin (Q1 2022) - All findings resolved
- * @dev Uses Curve's battle-tested get_virtual_price() for pricing
+ * @dev Uses stable's battle-tested get_virtual_price() for pricing
  * @dev Virtual price represents LP token value in underlying
- * @custom:security-contact security@inverse.finance
+ * @custom:security-contact security@synthetic.finance
  */
 /*LN-25*/ contract SimplifiedOracle {
-    /// @dev Reference to Curve pool for price feed
-/*LN-26*/     ICurvePool public curvePool;
+    /// @dev Reference to stable pool for price feed
+/*LN-26*/     IStablePool public curvePool;
 /*LN-27*/ 
 /*LN-28*/     constructor(address _curvePool) {
-/*LN-29*/         curvePool = ICurvePool(_curvePool);
+/*LN-29*/         curvePool = IStablePool(_curvePool);
 /*LN-30*/     }
 /*LN-31*/ 
     /**
-     * @notice Get current price from Curve virtual price
+     * @notice Get current price from stable virtual price
      * @dev Returns price scaled to 1e18
      * @return Current LP token price in underlying
      */
 /*LN-34*/     function getPrice() external view returns (uint256) {
-            // Fetch virtual price from Curve pool
+            // Fetch virtual price from stable pool
 /*LN-35*/         return curvePool.get_virtual_price();
 /*LN-36*/     }
 /*LN-37*/ }
 /*LN-38*/
 
 /**
- * @title InverseLending
+ * @title SyntheticLending
  * @notice Collateralized lending protocol with oracle-based pricing
  * @dev Audited by OpenZeppelin (Q1 2022) - All findings resolved
  * @dev Uses 80% collateral factor for conservative LTV
  * @dev Integrates with SimplifiedOracle for price feeds
  */
-/*LN-39*/ contract InverseLending {
+/*LN-39*/ contract SyntheticLending {
     /// @dev User position data
 /*LN-40*/     struct Position {
 /*LN-41*/         uint256 collateral;
@@ -68,7 +68,7 @@
     /// @dev Position registry by user address
 /*LN-45*/     mapping(address => Position) public positions;
 /*LN-46*/
-    /// @dev Curve LP token used as collateral
+    /// @dev stable LP token used as collateral
 /*LN-47*/     address public collateralToken;
     /// @dev Token available for borrowing
 /*LN-48*/     address public borrowToken;

@@ -12,9 +12,13 @@
   "is_vulnerable": true,
   "temporal_category": "",
   "description": "Cross-function reentrancy attack. The borrow function sent ETH before final health check, allowing attacker to call exitMarket during callback and bypass collateral requirements.",
-  "vulnerable_contract": "rari_capital.sol",
+  "vulnerable_contract": "LendingHub",
   "vulnerable_function": "borrow",
-  "vulnerable_lines": [],
+  "vulnerable_lines": [
+    68,
+    71,
+    76
+  ],
   "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
   "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
   "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
@@ -88,6 +92,11 @@
     "contract_type": "Isolated Lending Pool / Compound Fork",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.924781"
+    "created_date": "2025-12-30T21:14:14.924781",
+    "sanitized": true,
+    "sanitization_date": "2026-01-02T00:36:43.665987",
+    "contract_renames": {
+      "RariFuse": "LendingHub"
+    }
   }
 }

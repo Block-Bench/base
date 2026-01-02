@@ -23,14 +23,14 @@
 /*LN-23*/
 
 /**
- * @title WiseLending
+ * @title IsolatedLending
  * @notice NFT-based lending protocol with position tracking
  * @dev Audited by Sherlock (Q4 2023) - All findings resolved
  * @dev Implements share-based lending with NFT position management
  * @dev Supports multiple pool tokens per position
- * @custom:security-contact security@wise.lending
+ * @custom:security-contact security@isolated.lending
  */
-/*LN-24*/ contract WiseLending {
+/*LN-24*/ contract IsolatedLending {
 /*LN-25*/     struct PoolData {
         /// @dev Virtual pool balance for share calculation
 /*LN-26*/         uint256 pseudoTotalPool;

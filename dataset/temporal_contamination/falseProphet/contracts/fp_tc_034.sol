@@ -34,14 +34,14 @@
 /*LN-34*/
 
 /**
- * @title GammaHypervisor
+ * @title LiquidityHypervisor
  * @notice Uniswap V3 liquidity manager with automated position management
  * @dev Audited by Certik (Q4 2022) - All findings resolved
  * @dev Implements active liquidity management for concentrated positions
  * @dev Supports dual-position strategy (base + limit orders)
- * @custom:security-contact security@gamma.xyz
+ * @custom:security-contact security@liquidity.xyz
  */
-/*LN-35*/ contract GammaHypervisor {
+/*LN-35*/ contract LiquidityHypervisor {
     /// @dev Token0 of the Uniswap V3 pool
 /*LN-36*/     IERC20 public token0;
     /// @dev Token1 of the Uniswap V3 pool

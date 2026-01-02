@@ -27,15 +27,15 @@
 /*LN-21*/
 
 /**
- * @title PickleController
- * @author Pickle Finance
+ * @title YieldController
+ * @author yield Finance
  * @notice Yield farming strategy controller for jar management
  * @dev Audited by MixBytes (Q3 2020) - All findings resolved
  * @dev Manages strategy deployment and jar-to-jar swaps
  * @dev Governance-controlled strategy assignments
- * @custom:security-contact security@pickle.finance
+ * @custom:security-contact security@yield.finance
  */
-/*LN-22*/ contract PickleController {
+/*LN-22*/ contract YieldController {
 /*LN-23*/     address public governance;
 /*LN-24*/     mapping(address => address) public strategies; // jar => strategy
 /*LN-25*/ 
@@ -88,13 +88,13 @@
 /*LN-57*/
 
 /**
- * @title PickleStrategy
- * @author Pickle Finance
+ * @title YieldStrategy
+ * @author yield Finance
  * @notice Yield farming strategy for token management
- * @dev Works in conjunction with PickleController
+ * @dev Works in conjunction with YieldController
  * @dev Manages want token deposits and withdrawals
  */
-/*LN-58*/ contract PickleStrategy {
+/*LN-58*/ contract YieldStrategy {
     /// @dev Controller contract for coordination
 /*LN-59*/     address public controller;
     /// @dev Target asset for this strategy

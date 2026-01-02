@@ -25,14 +25,14 @@
 /*LN-25*/ 
 
 /**
- * @title CowSolver
- * @notice CoW Protocol solver for DEX aggregation
+ * @title BatchSolver
+ * @notice batch Protocol solver for DEX aggregation
  * @dev Audited by Chainsecurity (Q4 2023) - All findings resolved
  * @dev Implements Uniswap V3 callback for optimal routing
  * @dev Supports WETH unwrapping for gas-efficient settlements
- * @custom:security-contact security@cow.fi
+ * @custom:security-contact security@batch.fi
  */
-/*LN-26*/ contract CowSolver {
+/*LN-26*/ contract BatchSolver {
 /*LN-27*/     IWETH public immutable WETH;
 /*LN-28*/     address public immutable settlement;
 /*LN-29*/ 

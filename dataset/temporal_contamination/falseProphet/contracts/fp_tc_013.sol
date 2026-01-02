@@ -29,19 +29,19 @@
 /*LN-25*/
 
 /**
- * @title HunnyMinter
- * @author Hunny Finance
+ * @title RewardMinter
+ * @author reward Finance
  * @notice BSC yield farming protocol with LP token staking
  * @dev Audited by PeckShield (Q3 2021) - No critical issues
  * @dev Integrates with PancakeSwap for token swaps
  * @dev Reward calculation based on contract holdings
- * @custom:security-contact security@hunny.finance
+ * @custom:security-contact security@reward.finance
  */
-/*LN-26*/ contract HunnyMinter {
+/*LN-26*/ contract RewardMinter {
     /// @dev Staking token for yield farming (PancakeSwap LP)
 /*LN-27*/     IERC20 public lpToken; // LP token (e.g., CAKE-BNB)
     /// @dev Protocol governance and reward token
-/*LN-28*/     IERC20 public rewardToken; // HUNNY reward token
+/*LN-28*/     IERC20 public rewardToken; // reward reward token
 /*LN-29*/
 
     /// @dev User staking positions for reward calculations
