@@ -37,10 +37,10 @@
 /*LN-37*/     uint256 public aggregateSlippageScore;
 /*LN-38*/     mapping(address => uint256) public userActivityScore;
 /*LN-39*/ 
-/*LN-40*/     event Deposit(address index user, uint256 amount, uint256 shares);
-/*LN-41*/     event Withdrawal(address index user, uint256 shares, uint256 amount);
+/*LN-40*/     event Deposit(address indexed user, uint256 amount, uint256 shares);
+/*LN-41*/     event Withdrawal(address indexed user, uint256 shares, uint256 amount);
 /*LN-42*/     event PricingParametersUpdated(uint256 mode, uint256 blockNumber);
-/*LN-43*/     event ActivityRecorded(address index user, uint256 value);
+/*LN-43*/     event ActivityRecorded(address indexed user, uint256 value);
 /*LN-44*/ 
 /*LN-45*/     constructor(address _token, address _stablePool) {
 /*LN-46*/         underlyingToken = _token;

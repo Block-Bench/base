@@ -15,8 +15,8 @@
   "vulnerable_contract": "AMMPool",
   "vulnerable_function": "add_liquidity",
   "vulnerable_lines": [
-    65,
-    115
+    75,
+    124
   ],
   "attack_scenario": "Attacker takes 80,000 ETH flash loan from Balancer. Calls add_liquidity() with 40,000 ETH. During ETH operations in add_liquidity(), contract transfers ETH which triggers attacker's receive() function. Attacker calls add_liquidity() again recursively with another 40,000 ETH. Due to Vyper compiler bug, the @nonreentrant decorator fails to prevent this. Pool mints LP tokens twice for overlapping deposits. Attacker removes liquidity with inflated LP balance, extracting more assets than deposited.",
   "root_cause": "Vyper compiler versions 0.2.15, 0.2.16, and 0.3.0 had a bug in the @nonreentrant decorator implementation. When multiple functions used the decorator, the compiler generated incorrect bytecode that checked the wrong storage slot for reentrancy state. This made the protection completely ineffective, allowing reentrancy despite the decorator being present in the source code.",

@@ -12,7 +12,7 @@
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with initialization check and access control on kill function",
-  "vulnerable_contract": "for",
+  "vulnerable_contract": "WalletLibrary",
   "vulnerable_function": "initWallet",
   "vulnerable_lines": [],
   "attack_scenario": "User calls initWallet() directly on the WalletLibrary contract (not via delegatecall from a proxy), becoming the owner of the library itself. User then calls kill() function which executes selfdestruct, destroying the library contract. All 587 wallet proxies that delegatecall to this library are now permanently frozen with no way to access funds.",
@@ -66,9 +66,7 @@
     ],
     "why_fix_works": "The minimal fix prevents the catastrophic scenario where anyone can take ownership of the library and destroy it, permanently freezing all dependent wallet contracts.",
     "contracts_in_file": [
-      "for",
       "WalletLibrary",
-      "that",
       "WalletProxy"
     ],
     "created_date": "2025-12-30T02:02:17.924533"
