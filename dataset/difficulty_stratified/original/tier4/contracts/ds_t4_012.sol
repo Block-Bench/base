@@ -1,306 +1,308 @@
 /*
- * @source: https://smartcontractsecurity.github.io/SWC-registry/docs/SWC-101#bectokensol
+ * @article: https://blog.positive.com/predicting-random-numbers-in-ethereum-smart-contracts-e5358c6b8620
+ * @source: https://etherscan.io/address/0xa65d59708838581520511d98fb8b5d1f76a96cad#code
+ * @vulnerable_at_lines: 17,19,21
  * @author: -
- * @vulnerable_at_lines: 264
  */
 
-pragma solidity ^0.4.16;
+ pragma solidity ^0.4.9;
 
-/**
- * @title SafeMath
- * @dev Math operations with safety checks that throw on error
- */
-library SafeMath {
-  function mul(uint256 a, uint256 b) internal constant returns (uint256) {
-    uint256 c = a * b;
-    require(a == 0 || c / a == b);
-    return c;
-  }
+library Deck {
+	// returns random number from 0 to 51
+	// let's say 'value' % 4 means suit (0 - Hearts, 1 - Spades, 2 - Diamonds, 3 - Clubs)
+	//			 'value' / 4 means: 0 - King, 1 - Ace, 2 - 10 - pip values, 11 - Jacket, 12 - Queen
 
-  function div(uint256 a, uint256 b) internal constant returns (uint256) {
-    // require(b > 0); // Solidity automatically throws when dividing by 0
-    uint256 c = a / b;
-    // require(a == b * c + a % b); // There is no case in which this doesn't hold
-    return c;
-  }
+	function deal(address player, uint8 cardNumber) internal returns (uint8) {
+		// <yes> <report> BAD_RANDOMNESS
+		uint b = block.number;
+		// <yes> <report> BAD_RANDOMNESS
+		uint timestamp = block.timestamp;
+		// <yes> <report> BAD_RANDOMNESS
+		return uint8(uint256(keccak256(block.blockhash(b), player, cardNumber, timestamp)) % 52);
+	}
 
-  function sub(uint256 a, uint256 b) internal constant returns (uint256) {
-    require(b <= a);
-    return a - b;
-  }
+	function valueOf(uint8 card, bool isBigAce) internal constant returns (uint8) {
+		uint8 value = card / 4;
+		if (value == 0 || value == 11 || value == 12) { // Face cards
+			return 10;
+		}
+		if (value == 1 && isBigAce) { // Ace is worth 11
+			return 11;
+		}
+		return value;
+	}
 
-  function add(uint256 a, uint256 b) internal constant returns (uint256) {
-    uint256 c = a + b;
-    require(c >= a);
-    return c;
-  }
-}
+	function isAce(uint8 card) internal constant returns (bool) {
+		return card / 4 == 1;
+	}
 
-/**
- * @title ERC20Basic
- * @dev Simpler version of ERC20 interface
- * @dev see https://github.com/ethereum/EIPs/issues/179
- */
-contract ERC20Basic {
-  uint256 public totalSupply;
-  function balanceOf(address who) public constant returns (uint256);
-  function transfer(address to, uint256 value) public returns (bool);
-  event Transfer(address indexed from, address indexed to, uint256 value);
-}
-
-/**
- * @title Basic token
- * @dev Basic version of StandardToken, with no allowances.
- */
-contract BasicToken is ERC20Basic {
-  using SafeMath for uint256;
-
-  mapping(address => uint256) balances;
-
-  /**
-  * @dev transfer token for a specified address
-  * @param _to The address to transfer to.
-  * @param _value The amount to be transferred.
-  */
-  function transfer(address _to, uint256 _value) public returns (bool) {
-    require(_to != address(0));
-    require(_value > 0 && _value <= balances[msg.sender]);
-
-    // SafeMath.sub will throw if there is not enough balance.
-    balances[msg.sender] = balances[msg.sender].sub(_value);
-    balances[_to] = balances[_to].add(_value);
-    Transfer(msg.sender, _to, _value);
-    return true;
-  }
-
-  /**
-  * @dev Gets the balance of the specified address.
-  * @param _owner The address to query the the balance of.
-  * @return An uint256 representing the amount owned by the passed address.
-  */
-  function balanceOf(address _owner) public constant returns (uint256 balance) {
-    return balances[_owner];
-  }
-}
-
-/**
- * @title ERC20 interface
- * @dev see https://github.com/ethereum/EIPs/issues/20
- */
-contract ERC20 is ERC20Basic {
-  function allowance(address owner, address spender) public constant returns (uint256);
-  function transferFrom(address from, address to, uint256 value) public returns (bool);
-  function approve(address spender, uint256 value) public returns (bool);
-  event Approval(address indexed owner, address indexed spender, uint256 value);
+	function isTen(uint8 card) internal constant returns (bool) {
+		return card / 4 == 10;
+	}
 }
 
 
-/**
- * @title Standard ERC20 token
- *
- * @dev Implementation of the basic standard token.
- * @dev https://github.com/ethereum/EIPs/issues/20
- * @dev Based on code by FirstBlood: https://github.com/Firstbloodio/token/blob/master/smart_contract/FirstBloodToken.sol
- */
-contract StandardToken is ERC20, BasicToken {
+contract BlackJack {
+	using Deck for *;
 
-  mapping (address => mapping (address => uint256)) internal allowed;
+	uint public minBet = 50 finney; // 0.05 eth
+	uint public maxBet = 5 ether;
 
+	uint8 BLACKJACK = 21;
 
-  /**
-   * @dev Transfer tokens from one address to another
-   * @param _from address The address which you want to send tokens from
-   * @param _to address The address which you want to transfer to
-   * @param _value uint256 the amount of tokens to be transferred
-   */
-  function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
-    require(_to != address(0));
-    require(_value > 0 && _value <= balances[_from]);
-    require(_value <= allowed[_from][msg.sender]);
+  enum GameState { Ongoing, Player, Tie, House }
 
-    balances[_from] = balances[_from].sub(_value);
-    balances[_to] = balances[_to].add(_value);
-    allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
-    Transfer(_from, _to, _value);
-    return true;
-  }
+	struct Game {
+		address player; // address игрока
+		uint bet; // стывка
 
-  /**
-   * @dev Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
-   *
-   * Beware that changing an allowance with this method brings the risk that someone may use both the old
-   * and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
-   * race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
-   * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
-   * @param _spender The address which will spend the funds.
-   * @param _value The amount of tokens to be spent.
-   */
-  function approve(address _spender, uint256 _value) public returns (bool) {
-    allowed[msg.sender][_spender] = _value;
-    Approval(msg.sender, _spender, _value);
-    return true;
-  }
+		uint8[] houseCards; // карты диллера
+		uint8[] playerCards; // карты игрока
 
-  /**
-   * @dev Function to check the amount of tokens that an owner allowed to a spender.
-   * @param _owner address The address which owns the funds.
-   * @param _spender address The address which will spend the funds.
-   * @return A uint256 specifying the amount of tokens still available for the spender.
-   */
-  function allowance(address _owner, address _spender) public constant returns (uint256 remaining) {
-    return allowed[_owner][_spender];
-  }
-}
+		GameState state; // состояние
+		uint8 cardsDealt;
+	}
 
-/**
- * @title Ownable
- * @dev The Ownable contract has an owner address, and provides basic authorization control
- * functions, this simplifies the implementation of "user permissions".
- */
-contract Ownable {
-  address public owner;
+	mapping (address => Game) public games;
 
+	modifier gameIsGoingOn() {
+		if (games[msg.sender].player == 0 || games[msg.sender].state != GameState.Ongoing) {
+			throw; // game doesn't exist or already finished
+		}
+		_;
+	}
 
-  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+	event Deal(
+        bool isUser,
+        uint8 _card
+    );
 
+    event GameStatus(
+    	uint8 houseScore,
+    	uint8 houseScoreBig,
+    	uint8 playerScore,
+    	uint8 playerScoreBig
+    );
 
-  /**
-   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-   * account.
-   */
-  function Ownable() {
-    owner = msg.sender;
-  }
+    event Log(
+    	uint8 value
+    );
 
+	function BlackJack() {
 
-  /**
-   * @dev Throws if called by any account other than the owner.
-   */
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
+	}
 
+	function () payable {
 
-  /**
-   * @dev Allows the current owner to transfer control of the contract to a newOwner.
-   * @param newOwner The address to transfer ownership to.
-   */
-  function transferOwnership(address newOwner) onlyOwner public {
-    require(newOwner != address(0));
-    OwnershipTransferred(owner, newOwner);
-    owner = newOwner;
-  }
+	}
 
-}
+	// starts a new game
+	function deal() public payable {
+		if (games[msg.sender].player != 0 && games[msg.sender].state == GameState.Ongoing) {
+			throw; // game is already going on
+		}
 
-/**
- * @title Pausable
- * @dev Base contract which allows children to implement an emergency stop mechanism.
- */
-contract Pausable is Ownable {
-  event Pause();
-  event Unpause();
+		if (msg.value < minBet || msg.value > maxBet) {
+			throw; // incorrect bet
+		}
 
-  bool public paused = false;
+		uint8[] memory houseCards = new uint8[](1);
+		uint8[] memory playerCards = new uint8[](2);
 
+		// deal the cards
+		playerCards[0] = Deck.deal(msg.sender, 0);
+		Deal(true, playerCards[0]);
+		houseCards[0] = Deck.deal(msg.sender, 1);
+		Deal(false, houseCards[0]);
+		playerCards[1] = Deck.deal(msg.sender, 2);
+		Deal(true, playerCards[1]);
 
-  /**
-   * @dev Modifier to make a function callable only when the contract is not paused.
-   */
-  modifier whenNotPaused() {
-    require(!paused);
-    _;
-  }
+		games[msg.sender] = Game({
+			player: msg.sender,
+			bet: msg.value,
+			houseCards: houseCards,
+			playerCards: playerCards,
+			state: GameState.Ongoing,
+			cardsDealt: 3
+		});
 
-  /**
-   * @dev Modifier to make a function callable only when the contract is paused.
-   */
-  modifier whenPaused() {
-    require(paused);
-    _;
-  }
+		checkGameResult(games[msg.sender], false);
+	}
 
-  /**
-   * @dev called by the owner to pause, triggers stopped state
-   */
-  function pause() onlyOwner whenNotPaused public {
-    paused = true;
-    Pause();
-  }
+	// deals one more card to the player
+	function hit() public gameIsGoingOn {
+		uint8 nextCard = games[msg.sender].cardsDealt;
+		games[msg.sender].playerCards.push(Deck.deal(msg.sender, nextCard));
+		games[msg.sender].cardsDealt = nextCard + 1;
+		Deal(true, games[msg.sender].playerCards[games[msg.sender].playerCards.length - 1]);
+		checkGameResult(games[msg.sender], false);
+	}
 
-  /**
-   * @dev called by the owner to unpause, returns to normal state
-   */
-  function unpause() onlyOwner whenPaused public {
-    paused = false;
-    Unpause();
-  }
-}
+	// finishes the game
+	function stand() public gameIsGoingOn {
 
-/**
- * @title Pausable token
- *
- * @dev StandardToken modified with pausable transfers.
- **/
+		var (houseScore, houseScoreBig) = calculateScore(games[msg.sender].houseCards);
 
-contract PausableToken is StandardToken, Pausable {
+		while (houseScoreBig < 17) {
+			uint8 nextCard = games[msg.sender].cardsDealt;
+			uint8 newCard = Deck.deal(msg.sender, nextCard);
+			games[msg.sender].houseCards.push(newCard);
+			games[msg.sender].cardsDealt = nextCard + 1;
+			houseScoreBig += Deck.valueOf(newCard, true);
+			Deal(false, newCard);
+		}
 
-  function transfer(address _to, uint256 _value) public whenNotPaused returns (bool) {
-    return super.transfer(_to, _value);
-  }
+		checkGameResult(games[msg.sender], true);
+	}
 
-  function transferFrom(address _from, address _to, uint256 _value) public whenNotPaused returns (bool) {
-    return super.transferFrom(_from, _to, _value);
-  }
+	// @param finishGame - whether to finish the game or not (in case of Blackjack the game finishes anyway)
+	function checkGameResult(Game game, bool finishGame) private {
+		// calculate house score
+		var (houseScore, houseScoreBig) = calculateScore(game.houseCards);
+		// calculate player score
+		var (playerScore, playerScoreBig) = calculateScore(game.playerCards);
 
-  function approve(address _spender, uint256 _value) public whenNotPaused returns (bool) {
-    return super.approve(_spender, _value);
-  }
+		GameStatus(houseScore, houseScoreBig, playerScore, playerScoreBig);
 
-  function batchTransfer(address[] _receivers, uint256 _value) public whenNotPaused returns (bool) {
-    uint cnt = _receivers.length;
-    // <yes> <report> ARITHMETIC
-    uint256 amount = uint256(cnt) * _value;
-    require(cnt > 0 && cnt <= 20);
-    require(_value > 0 && balances[msg.sender] >= amount);
+		if (houseScoreBig == BLACKJACK || houseScore == BLACKJACK) {
+			if (playerScore == BLACKJACK || playerScoreBig == BLACKJACK) {
+				// TIE
+				if (!msg.sender.send(game.bet)) throw; // return bet to the player
+				games[msg.sender].state = GameState.Tie; // finish the game
+				return;
+			} else {
+				// HOUSE WON
+				games[msg.sender].state = GameState.House; // simply finish the game
+				return;
+			}
+		} else {
+			if (playerScore == BLACKJACK || playerScoreBig == BLACKJACK) {
+				// PLAYER WON
+				if (game.playerCards.length == 2 && (Deck.isTen(game.playerCards[0]) || Deck.isTen(game.playerCards[1]))) {
+					// Natural blackjack => return x2.5
+					if (!msg.sender.send((game.bet * 5) / 2)) throw; // send prize to the player
+				} else {
+					// Usual blackjack => return x2
+					if (!msg.sender.send(game.bet * 2)) throw; // send prize to the player
+				}
+				games[msg.sender].state = GameState.Player; // finish the game
+				return;
+			} else {
 
-    balances[msg.sender] = balances[msg.sender].sub(amount);
-    for (uint i = 0; i < cnt; i++) {
-        balances[_receivers[i]] = balances[_receivers[i]].add(_value);
-        Transfer(msg.sender, _receivers[i], _value);
-    }
-    return true;
-  }
-}
+				if (playerScore > BLACKJACK) {
+					// BUST, HOUSE WON
+					Log(1);
+					games[msg.sender].state = GameState.House; // finish the game
+					return;
+				}
 
-/**
- * @title Bec Token
- *
- * @dev Implementation of Bec Token based on the basic standard token.
- */
-contract BecToken is PausableToken {
-    /**
-    * Public variables of the token
-    * The following variables are OPTIONAL vanities. One does not have to include them.
-    * They allow one to customise the token contract & in no way influences the core functionality.
-    * Some wallets/interfaces might not even bother to look at this information.
-    */
-    string public name = "BeautyChain";
-    string public symbol = "BEC";
-    string public version = '1.0.0';
-    uint8 public decimals = 18;
+				if (!finishGame) {
+					return; // continue the game
+				}
 
-    /**
-     * @dev Function to check the amount of tokens that an owner allowed to a spender.
-     */
-    function BecToken() {
-      totalSupply = 7000000000 * (10**(uint256(decimals)));
-      balances[msg.sender] = totalSupply;    // Give the creator all initial tokens
-    }
+                // недобор
+				uint8 playerShortage = 0;
+				uint8 houseShortage = 0;
 
-    function () {
-        //if ether is sent to this address, send it back.
-        revert();
-    }
+				// player decided to finish the game
+				if (playerScoreBig > BLACKJACK) {
+					if (playerScore > BLACKJACK) {
+						// HOUSE WON
+						games[msg.sender].state = GameState.House; // simply finish the game
+						return;
+					} else {
+						playerShortage = BLACKJACK - playerScore;
+					}
+				} else {
+					playerShortage = BLACKJACK - playerScoreBig;
+				}
+
+				if (houseScoreBig > BLACKJACK) {
+					if (houseScore > BLACKJACK) {
+						// PLAYER WON
+						if (!msg.sender.send(game.bet * 2)) throw; // send prize to the player
+						games[msg.sender].state = GameState.Player;
+						return;
+					} else {
+						houseShortage = BLACKJACK - houseScore;
+					}
+				} else {
+					houseShortage = BLACKJACK - houseScoreBig;
+				}
+
+                // ?????????????????????? почему игра заканчивается?
+				if (houseShortage == playerShortage) {
+					// TIE
+					if (!msg.sender.send(game.bet)) throw; // return bet to the player
+					games[msg.sender].state = GameState.Tie;
+				} else if (houseShortage > playerShortage) {
+					// PLAYER WON
+					if (!msg.sender.send(game.bet * 2)) throw; // send prize to the player
+					games[msg.sender].state = GameState.Player;
+				} else {
+					games[msg.sender].state = GameState.House;
+				}
+			}
+		}
+	}
+
+	function calculateScore(uint8[] cards) private constant returns (uint8, uint8) {
+		uint8 score = 0;
+		uint8 scoreBig = 0; // in case of Ace there could be 2 different scores
+		bool bigAceUsed = false;
+		for (uint i = 0; i < cards.length; ++i) {
+			uint8 card = cards[i];
+			if (Deck.isAce(card) && !bigAceUsed) { // doesn't make sense to use the second Ace as 11, because it leads to the losing
+				scoreBig += Deck.valueOf(card, true);
+				bigAceUsed = true;
+			} else {
+				scoreBig += Deck.valueOf(card, false);
+			}
+			score += Deck.valueOf(card, false);
+		}
+		return (score, scoreBig);
+	}
+
+	function getPlayerCard(uint8 id) public gameIsGoingOn constant returns(uint8) {
+		if (id < 0 || id > games[msg.sender].playerCards.length) {
+			throw;
+		}
+		return games[msg.sender].playerCards[id];
+	}
+
+	function getHouseCard(uint8 id) public gameIsGoingOn constant returns(uint8) {
+		if (id < 0 || id > games[msg.sender].houseCards.length) {
+			throw;
+		}
+		return games[msg.sender].houseCards[id];
+	}
+
+	function getPlayerCardsNumber() public gameIsGoingOn constant returns(uint) {
+		return games[msg.sender].playerCards.length;
+	}
+
+	function getHouseCardsNumber() public gameIsGoingOn constant returns(uint) {
+		return games[msg.sender].houseCards.length;
+	}
+
+	function getGameState() public constant returns (uint8) {
+		if (games[msg.sender].player == 0) {
+			throw; // game doesn't exist
+		}
+
+		Game game = games[msg.sender];
+
+		if (game.state == GameState.Player) {
+			return 1;
+		}
+		if (game.state == GameState.House) {
+			return 2;
+		}
+		if (game.state == GameState.Tie) {
+			return 3;
+		}
+
+		return 0; // the game is still going on
+	}
+
 }

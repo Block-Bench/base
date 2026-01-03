@@ -2,74 +2,182 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /*
-Name: Oracle data feed is insufficiently validated
+Name: Missing flash loan initiator check
 
 Description:
-Chainlink price feed latestRoundData is used to retrieve price feed from chainlink. 
-We need to makes sure that the answer is not negative and  price is not stale.
+Missing flash loan initiator check refers to a potential security vulnerability in a flash loan implementation 
+where the initiator of the flash loan is not properly verified or checked, anyone could exploit the flash loan 
+functionality and set the receiver address to a vulnerable protocol.
+  
+By doing so, an attacker could potentially manipulate balances, open trades, drain funds, 
+or carry out other malicious actions within the vulnerable protocol. 
+This poses significant risks to the security and integrity of the protocol and its users.
 
-Mitigation:
-latestAnswer function is deprecated. Instead, use the latestRoundData function 
-to retrieve the price and make sure to add checks for stale data.
+Mitigation:  
+Check the initiator of the flash loan and revert if the initiator is not authorized.
 
 REF:
-https://twitter.com/1nf0s3cpt/status/1674611468975878144
-https://github.com/sherlock-audit/2023-02-blueberry-judging/issues/94
-https://code4rena.com/reports/2022-10-inverse#m-17-chainlink-oracle-data-feed-is-not-sufficiently-validated-and-can-return-stale-price
-https://docs.chain.link/data-feeds/historical-data#getrounddata-return-values
+https://twitter.com/ret2basic/status/1681150722434551809
+https://github.com/sherlock-audit/2023-05-dodo-judging/issues/34
 */
 
 contract ContractTest is Test {
-    AggregatorV3Interface internal priceFeed;
+    USDa USDaContract;
+    LendingPool LendingPoolContract;
+    SimpleBankBug SimpleBankBugContract;
+    FixedSimpleBank FixedSimpleBankContract;
 
     function setUp() public {
-        vm.createSelectFork("mainnet", 17568400);
-
-        priceFeed = AggregatorV3Interface(
-            0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
-        ); // ETH/USD
+        USDaContract = new USDa();
+        LendingPoolContract = new LendingPool(address(USDaContract));
+        SimpleBankBugContract = new SimpleBankBug(
+            address(LendingPoolContract),
+            address(USDaContract)
+        );
+        USDaContract.transfer(address(LendingPoolContract), 10000 ether);
+        FixedSimpleBankContract = new FixedSimpleBank(
+            address(LendingPoolContract),
+            address(USDaContract)
+        );
     }
 
-    function testUnSafePrice() public {
-        //Chainlink oracle data feed is not sufficiently validated and can return stale price.
-        (, int256 answer, , , ) = priceFeed.latestRoundData();
-        emit log_named_decimal_int("price", answer, 8);
+    function testFlashLoanFlaw() public {
+        LendingPoolContract.flashLoan(
+            500 ether,
+            address(SimpleBankBugContract),
+            "0x0"
+        );
     }
 
-    function testSafePrice() public {
-        (
-            uint80 roundId,
-            int256 answer,
-            ,
-            uint256 updatedAt,
-            uint80 answeredInRound
-        ) = priceFeed.latestRoundData();
-        /*
-        Mitigation:
-        answeredInRound: The round ID in which the answer was computed
-        updatedAt: Timestamp of when the round was updated
-        answer: The answer for this round
-        */
-        require(answeredInRound >= roundId, "answer is stale");
-        require(updatedAt > 0, "round is incomplete");
-        require(answer > 0, "Invalid feed answer");
-        emit log_named_decimal_int("price", answer, 8);
+    function testFlashLoanSecure() public {
+        vm.expectRevert("Unauthorized");
+        LendingPoolContract.flashLoan(
+            500 ether,
+            address(FixedSimpleBankContract),
+            "0x0"
+        );
     }
 
     receive() external payable {}
 }
 
-interface AggregatorV3Interface {
-    function latestRoundData()
-        external
-        view
-        returns (
-            uint80 roundId,
-            int256 answer,
-            uint256 startedAt,
-            uint256 updatedAt,
-            uint80 answeredInRound
+contract SimpleBankBug {
+    using SafeERC20 for IERC20;
+    IERC20 public USDa;
+    LendingPool public lendingPool;
+
+    constructor(address _lendingPoolAddress, address _asset) {
+        lendingPool = LendingPool(_lendingPoolAddress);
+        USDa = IERC20(_asset);
+    }
+
+    function flashLoan(
+        uint256 amounts,
+        address receiverAddress,
+        bytes calldata data
+    ) external {
+        receiverAddress = address(this);
+
+        lendingPool.flashLoan(amounts, receiverAddress, data);
+    }
+
+    function executeOperation(
+        uint256 amounts,
+        address receiverAddress,
+        address _initiator,
+        bytes calldata data
+    ) external {
+        /* Perform your desired logic here
+        Open opsition, close opsition, drain funds, etc.
+        _closetrade(...) or _opentrade(...)
+        */
+
+        // transfer all borrowed assets back to the lending pool
+        IERC20(USDa).safeTransfer(address(lendingPool), amounts);
+    }
+}
+
+contract FixedSimpleBank {
+    using SafeERC20 for IERC20;
+    IERC20 public USDa;
+    LendingPool public lendingPool;
+
+    constructor(address _lendingPoolAddress, address _asset) {
+        lendingPool = LendingPool(_lendingPoolAddress);
+        USDa = IERC20(_asset);
+    }
+
+    function flashLoan(
+        uint256 amounts,
+        address receiverAddress,
+        bytes calldata data
+    ) external {
+        address receiverAddress = address(this);
+
+        lendingPool.flashLoan(amounts, receiverAddress, data);
+    }
+
+    function executeOperation(
+        uint256 amounts,
+        address receiverAddress,
+        address _initiator,
+        bytes calldata data
+    ) external {
+        // Mitigation: make sure to check the initiator
+        require(_initiator == address(this), "Unauthorized");
+
+        // transfer all borrowed assets back to the lending pool
+        IERC20(USDa).safeTransfer(address(lendingPool), amounts);
+    }
+}
+
+contract USDa is ERC20, Ownable {
+    constructor() ERC20("USDA", "USDA") {
+        _mint(msg.sender, 10000 * 10 ** decimals());
+    }
+
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+}
+
+interface IFlashLoanReceiver {
+    function executeOperation(
+        uint256 amounts,
+        address receiverAddress,
+        address _initiator,
+        bytes calldata data
+    ) external;
+}
+
+contract LendingPool {
+    IERC20 public USDa;
+
+    constructor(address _USDA) {
+        USDa = IERC20(_USDA);
+    }
+
+    function flashLoan(
+        uint256 amount,
+        address borrower,
+        bytes calldata data
+    ) public {
+        uint256 balanceBefore = USDa.balanceOf(address(this));
+        require(balanceBefore >= amount, "Not enough liquidity");
+        require(USDa.transfer(borrower, amount), "Flashloan transfer failed");
+        IFlashLoanReceiver(borrower).executeOperation(
+            amount,
+            borrower,
+            msg.sender,
+            data
         );
+
+        uint256 balanceAfter = USDa.balanceOf(address(this));
+        require(balanceAfter >= balanceBefore, "Flashloan not repaid");
+    }
 }
