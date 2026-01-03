@@ -19,22 +19,3 @@ contract SimpleBank {
         payable(msg.sender).transfer(amount);
     }
 }
-
-contract SimpleBankB {
-    mapping(address => uint) private balances;
-
-    function deposit() public payable {
-        balances[msg.sender] += msg.value;
-    }
-
-    function getBalance() public view returns (uint) {
-        return balances[msg.sender];
-    }
-
-    function withdraw(uint amount) public {
-        require(balances[msg.sender] >= amount);
-        balances[msg.sender] -= amount;
-        (bool success, ) = payable(msg.sender).call{value: amount}("");
-        require(success, " Transfer of ETH Failed");
-    }
-}
