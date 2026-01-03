@@ -1,8 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
-
-import "forge-std/Test.sol";
-
 /*
 This excersise is about selfdestructing (deprecated) and force sending ether to a contract
 Force implements neither receive nor fallaback functions. Calls with any value will revert.

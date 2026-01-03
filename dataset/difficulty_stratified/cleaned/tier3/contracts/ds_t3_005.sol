@@ -1,22 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
-
-contract ContractTest is Test {
-    SimplePool SimplePoolContract;
-
-    function setUp() public {
-        SimplePoolContract = new SimplePool();
-    }
-
-    function testRounding_error() public view {
-        SimplePoolContract.getCurrentReward();
-    }
-
-    receive() external payable {}
-}
-
 contract SimplePool {
     uint public totalDebt;
     uint public lastAccrueInterestTime;
@@ -40,7 +24,6 @@ contract SimplePool {
         //console.log(_supplied);
         // Calculate the reward
         _reward = (totalDebt * _timeDelta) / (365 days * 1e18);
-        console.log("Current reward", _reward);
 
         // 31536000 is the number of seconds in a year
         // 365 days * 1e18 = 31_536_000_000_000_000_000_000_000

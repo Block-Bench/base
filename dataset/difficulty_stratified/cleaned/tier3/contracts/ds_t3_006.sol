@@ -1,44 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
-
-contract ContractTest is Test {
-    Engine EngineContract;
-    Motorbike MotorbikeContract;
-    Operator OperatorContract;
-
-    function testUninitialized() public {
-        EngineContract = new Engine();
-        MotorbikeContract = new Motorbike(address(EngineContract));
-        OperatorContract = new Operator();
-
-        console.log("Upgrader before:", EngineContract.upgrader());
-        address(EngineContract).call(abi.encodeWithSignature("initialize()"));
-        console.log("Upgrader after:", EngineContract.upgrader());
-
-        bytes memory initEncoded = abi.encodeWithSignature("operate()");
-        address(EngineContract).call(
-            abi.encodeWithSignature(
-                "upgradeToAndCall(address,bytes)",
-                address(OperatorContract),
-                initEncoded
-            )
-        );
-
-        console.log("operate completed");
-        console.log("Since EngineContract destroyed, next call will fail.");
-        address(EngineContract).call(
-            abi.encodeWithSignature(
-                "upgradeToAndCall(address,bytes)",
-                address(OperatorContract),
-                initEncoded
-            )
-        );
-    }
-}
 
 contract Motorbike {
     // keccak-256 hash of "eip1967.proxy.implementation" subtracted by 1

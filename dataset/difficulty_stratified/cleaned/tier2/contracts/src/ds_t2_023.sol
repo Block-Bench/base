@@ -1,77 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
-
-import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract ContractTest is Test {
-    BasicBank BasicBankContract;
-    BanksLP BanksLPContract;
-    BasicBankB BankContractB;
-    address alice = vm.addr(1);
-
-    function setUp() public {
-        BasicBankContract = new BasicBank();
-        BankContractB = new BasicBankB();
-        BanksLPContract = new BanksLP();
-        BanksLPContract.transfer(address(alice), 10000);
-        BanksLPContract.transfer(address(BasicBankContract), 100000);
-    }
-
-    function testBasicBankA() public {
-        console.log("Current timestamp", block.timestamp);
-        vm.startPrank(alice);
-        BanksLPContract.approve(address(BasicBankContract), 10000);
-        console.log(
-            "Before locking, my BanksLP balance",
-            BanksLPContract.balanceOf(address(alice))
-        );
-        BasicBankContract.createLocker(
-            address(BanksLPContract),
-            10000,
-            86400
-        );
-        console.log(
-            "Before operation",
-            BanksLPContract.balanceOf(address(alice))
-        );
-
-        for (uint i = 0; i < 10; i++) {
-            BasicBankContract.unlockToken(1);
-        }
-        console.log(
-            "After operation",
-            BanksLPContract.balanceOf(address(alice))
-        );
-    }
-
-    function testBasicBankB() public {
-        console.log("Current timestamp", block.timestamp);
-        vm.startPrank(alice);
-        BanksLPContract.approve(address(BankContractB), 10000);
-        console.log(
-            "Before locking, my BanksLP balance",
-            BanksLPContract.balanceOf(address(alice))
-        );
-        BankContractB.createLocker(address(BanksLPContract), 10000, 86400);
-        console.log(
-            "Before operation",
-            BanksLPContract.balanceOf(address(alice))
-        );
-
-        for (uint i = 0; i < 10; i++) {
-            {
-                vm.expectRevert();
-                BankContractB.unlockToken(1);
-            }
-        }
-        console.log(
-            "After operation",
-            BanksLPContract.balanceOf(address(alice))
-        );
-    }
-}
 
 contract BasicBank {
     struct Locker {

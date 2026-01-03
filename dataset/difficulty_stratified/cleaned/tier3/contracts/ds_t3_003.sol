@@ -1,63 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
-
-contract ContractTest is Test {
-    STA STAContract;
-    CoreVault CoreVaultContract;
-    Vault VaultContract;
-
-    function setUp() public {
-        STAContract = new STA();
-        CoreVaultContract = new CoreVault(address(STAContract));
-        VaultContract = new Vault(address(STAContract));
-    }
-
-    function testCoreVaultDeposit() public {
-        address alice = vm.addr(1);
-        address bob = vm.addr(2);
-        STAContract.balanceOf(address(this));
-        STAContract.transfer(alice, 1000000);
-        console.log("Alice's STA balance:", STAContract.balanceOf(alice));
-        vm.startPrank(alice);
-        STAContract.approve(address(CoreVaultContract), type(uint256).max);
-        CoreVaultContract.deposit(10000);
-
-        console.log(
-            "Alice deposit 10000 STA, Alice's balance in CoreVaultContract:",
-            CoreVaultContract.getBalance(alice)
-        );
-        assertEq(
-            STAContract.balanceOf(address(CoreVaultContract)),
-            CoreVaultContract.getBalance(alice)
-        );
-    }
-
-    function testFeeOnTransfer() public {
-        address alice = vm.addr(1);
-        address bob = vm.addr(2);
-        STAContract.balanceOf(address(this));
-        STAContract.transfer(alice, 1000000);
-        console.log("Alice's STA balance:", STAContract.balanceOf(alice)); // charge 1% fee
-        vm.startPrank(alice);
-        STAContract.approve(address(VaultContract), type(uint256).max);
-        VaultContract.deposit(10000);
-        //VaultContract.getBalance(alice);
-
-        console.log(
-            "Alice deposit 10000, Alice's STA balance in VaultContract:",
-            VaultContract.getBalance(alice)
-        ); // charge 1% fee
-        assertEq(
-            STAContract.balanceOf(address(VaultContract)),
-            VaultContract.getBalance(alice)
-        );
-    }
-
-    receive() external payable {}
-}
-
 interface IERC20 {
     function totalSupply() external view returns (uint256);
 

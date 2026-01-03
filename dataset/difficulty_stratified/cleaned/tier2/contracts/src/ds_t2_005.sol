@@ -1,31 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
-
-contract ContractTest is Test {
-    SimpleBank SimpleBankContractA;
-    SimpleBankB SimpleBankContractB;
-
-    function setUp() public {
-        SimpleBankContractA = new SimpleBank();
-        SimpleBankContractB = new SimpleBankB();
-    }
-
-    function testSelfTransferA() public {
-        SimpleBankContractA.transfer(address(this), address(this), 10000);
-        SimpleBankContractA.transfer(address(this), address(this), 10000);
-        SimpleBankContractA.balanceOf(address(this));
-    }
-
-    function testSelfTransferB() public {
-        vm.expectRevert("Cannot transfer funds to the same address.");
-        SimpleBankContractB.transfer(address(this), address(this), 10000);
-    }
-
-    receive() external payable {}
-}
-
 contract SimpleBank {
     mapping(address => uint256) private _balances;
 
