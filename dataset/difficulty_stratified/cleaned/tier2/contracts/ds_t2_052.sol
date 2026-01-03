@@ -17,23 +17,15 @@ contract Ethraffle_v4b {
         bytes32 randHash
     );
 
-    event TicketPurchase(
-        uint raffleId,
-        address contestant,
-        uint number
-    );
+    event TicketPurchase(uint raffleId, address contestant, uint number);
 
-    event TicketRefund(
-        uint raffleId,
-        address contestant,
-        uint number
-    );
+    event TicketRefund(uint raffleId, address contestant, uint number);
 
     // Constants
     uint public constant prize = 2.5 ether;
     uint public constant fee = 0.03 ether;
     uint public constant totalTickets = 50;
-    uint public constant pricePerTicket = (prize + fee) / totalTickets; // Make sure this divides evenly
+    uint public constant pricePerTicket = (prize + fee) / totalTickets;
     address feeAddress;
 
     // Other internal variables
@@ -41,7 +33,7 @@ contract Ethraffle_v4b {
     uint public raffleId = 1;
     uint public blockNumber = block.number;
     uint nextTicket = 0;
-    mapping (uint => Contestant) contestants;
+    mapping(uint => Contestant) contestants;
     uint[] gaps;
 
     // Initialization
@@ -50,11 +42,11 @@ contract Ethraffle_v4b {
     }
 
     // Call buyTickets() when receiving Ether outside a function
-    function () payable public {
+    function() public payable {
         buyTickets();
     }
 
-    function buyTickets() payable public {
+    function buyTickets() public payable {
         if (paused) {
             msg.sender.transfer(msg.value);
             return;
@@ -65,7 +57,7 @@ contract Ethraffle_v4b {
         while (moneySent >= pricePerTicket && nextTicket < totalTickets) {
             uint currTicket = 0;
             if (gaps.length > 0) {
-                currTicket = gaps[gaps.length-1];
+                currTicket = gaps[gaps.length - 1];
                 gaps.length--;
             } else {
                 currTicket = nextTicket++;
@@ -95,16 +87,20 @@ contract Ethraffle_v4b {
 
         uint winningNumber = uint(randHash) % totalTickets;
         address winningAddress = contestants[winningNumber].addr;
-        RaffleResult(raffleId, winningNumber, winningAddress, seed1, seed2, seed3, randHash);
+        RaffleResult(
+            raffleId,
+            winningNumber,
+            winningAddress,
+            seed1,
+            seed2,
+            seed3,
+            randHash
+        );
 
         // Start next raffle
         raffleId++;
         nextTicket = 0;
         blockNumber = block.number;
-
-        // gaps.length = 0 isn't necessary here,
-        // because buyTickets() eventually clears
-        // the gaps array in the loop itself.
 
         // Distribute prize and fee
         winningAddress.transfer(prize);
@@ -115,7 +111,10 @@ contract Ethraffle_v4b {
     function getRefund() public {
         uint refund = 0;
         for (uint i = 0; i < totalTickets; i++) {
-            if (msg.sender == contestants[i].addr && raffleId == contestants[i].raffleId) {
+            if (
+                msg.sender == contestants[i].addr &&
+                raffleId == contestants[i].raffleId
+            ) {
                 refund += pricePerTicket;
                 contestants[i] = Contestant(address(0), 0);
                 gaps.push(i);
@@ -140,7 +139,15 @@ contract Ethraffle_v4b {
                 }
             }
 
-            RaffleResult(raffleId, totalTickets, address(0), address(0), address(0), 0, 0);
+            RaffleResult(
+                raffleId,
+                totalTickets,
+                address(0),
+                address(0),
+                address(0),
+                0,
+                0
+            );
             raffleId++;
             nextTicket = 0;
             blockNumber = block.number;
