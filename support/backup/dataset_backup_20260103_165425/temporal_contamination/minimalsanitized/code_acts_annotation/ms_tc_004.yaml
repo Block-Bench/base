@@ -1,0 +1,387 @@
+schema_version: "1.0"
+sample_id: "ms_tc_004"
+vulnerability_type: "price_oracle_manipulation"
+vulnerability_subtype: "flash_loan_amm_manipulation"
+vulnerable_lines: [50, 51, 69, 70]
+
+# Full line coverage for scoring. UNRELATED items are batched for efficiency.
+# Detailed rationales only for security-relevant code acts.
+
+code_acts:
+
+  # ============================================
+  # SECURITY-RELEVANT CODE ACTS (detailed)
+  # ============================================
+
+  - id: "CA1"
+    type: "ORACLE"
+    lines: [50]
+    code: "uint256 totalAssets = getTotalAssets();"
+    security_function: "ROOT_CAUSE"
+    rationale: "Retrieves spot price from Curve pool that can be manipulated via flash loan swaps within the same transaction. No TWAP or slippage protection."
+
+  - id: "CA2"
+    type: "COMPUTATION"
+    lines: [51]
+    code: "shares = (amount * totalSupply) / totalAssets;"
+    security_function: "ROOT_CAUSE"
+    rationale: "Calculates shares using manipulable totalAssets. Attacker inflates price before deposit to receive more shares than deserved."
+
+  - id: "CA3"
+    type: "ORACLE"
+    lines: [69]
+    code: "uint256 totalAssets = getTotalAssets();"
+    security_function: "ROOT_CAUSE"
+    rationale: "Same spot price retrieval in withdraw(). Attacker deflates price after deposit, then withdraws at normal price for profit."
+
+  - id: "CA4"
+    type: "COMPUTATION"
+    lines: [70]
+    code: "amount = (shares * totalAssets) / totalSupply;"
+    security_function: "ROOT_CAUSE"
+    rationale: "Calculates withdrawal amount using manipulable totalAssets. Combined with deposit manipulation, enables arbitrage profit."
+
+  - id: "CA5"
+    type: "INPUT_VAL"
+    lines: [38]
+    code: 'require(amount > 0, "Zero amount");'
+    security_function: "BENIGN"
+    rationale: "Basic input validation. Correctly implemented."
+
+  - id: "CA6"
+    type: "CTRL_FLOW"
+    lines: [44, 45, 46]
+    code: "if (totalSupply == 0) { shares = amount; } else {"
+    security_function: "BENIGN"
+    rationale: "Initial supply handling. Correctly implemented."
+
+  - id: "CA7"
+    type: "STATE_MOD"
+    lines: [54]
+    code: "balanceOf[msg.sender] += shares;"
+    security_function: "BENIGN"
+    rationale: "Updates user balance. Correctly implemented."
+
+  - id: "CA8"
+    type: "STATE_MOD"
+    lines: [55]
+    code: "totalSupply += shares;"
+    security_function: "BENIGN"
+    rationale: "Updates total supply. Correctly implemented."
+
+  - id: "CA9"
+    type: "EXT_CALL"
+    lines: [58]
+    code: "_investInCurve(amount);"
+    security_function: "BENIGN"
+    rationale: "Internal call to invest funds. Correctly implemented."
+
+  - id: "CA10"
+    type: "EVENT_EMIT"
+    lines: [60]
+    code: "emit Deposit(msg.sender, amount, shares);"
+    security_function: "BENIGN"
+    rationale: "Event emission for logging."
+
+  - id: "CA11"
+    type: "INPUT_VAL"
+    lines: [65]
+    code: 'require(shares > 0, "Zero shares");'
+    security_function: "BENIGN"
+    rationale: "Basic input validation. Correctly implemented."
+
+  - id: "CA12"
+    type: "INPUT_VAL"
+    lines: [66]
+    code: 'require(balanceOf[msg.sender] >= shares, "Insufficient balance");'
+    security_function: "BENIGN"
+    rationale: "Balance check. Correctly implemented."
+
+  - id: "CA13"
+    type: "STATE_MOD"
+    lines: [72]
+    code: "balanceOf[msg.sender] -= shares;"
+    security_function: "BENIGN"
+    rationale: "Updates user balance. Correctly implemented."
+
+  - id: "CA14"
+    type: "STATE_MOD"
+    lines: [73]
+    code: "totalSupply -= shares;"
+    security_function: "BENIGN"
+    rationale: "Updates total supply. Correctly implemented."
+
+  - id: "CA15"
+    type: "EXT_CALL"
+    lines: [76]
+    code: "_withdrawFromCurve(amount);"
+    security_function: "BENIGN"
+    rationale: "Internal call to withdraw funds. Correctly implemented."
+
+  - id: "CA16"
+    type: "EVENT_EMIT"
+    lines: [81]
+    code: "emit Withdrawal(msg.sender, shares, amount);"
+    security_function: "BENIGN"
+    rationale: "Event emission for logging."
+
+  - id: "CA17"
+    type: "COMPUTATION"
+    lines: [90, 91, 94]
+    code: "vaultBalance + curveBalance"
+    security_function: "PREREQ"
+    rationale: "Computes total assets from spot values. Prerequisite because it provides the manipulable value used in ROOT_CAUSE calculations."
+
+  - id: "CA18"
+    type: "COMPUTATION"
+    lines: [98, 99]
+    code: "(getTotalAssets() * 1e18) / totalSupply"
+    security_function: "PREREQ"
+    rationale: "Price per share calculation using manipulable getTotalAssets(). Used indirectly in share calculations."
+
+  - id: "CA19"
+    type: "STATE_MOD"
+    lines: [107]
+    code: "investedBalance += amount;"
+    security_function: "BENIGN"
+    rationale: "Tracks invested amount. Correctly implemented."
+
+  - id: "CA20"
+    type: "INPUT_VAL"
+    lines: [120]
+    code: 'require(investedBalance >= amount, "Insufficient invested");'
+    security_function: "BENIGN"
+    rationale: "Balance check. Correctly implemented."
+
+  - id: "CA21"
+    type: "STATE_MOD"
+    lines: [121]
+    code: "investedBalance -= amount;"
+    security_function: "BENIGN"
+    rationale: "Updates invested balance. Correctly implemented."
+
+  # ============================================
+  # BATCHED UNRELATED CODE ACTS (for scoring)
+  # ============================================
+
+  - id: "CA_DIRECTIVES"
+    type: "DIRECTIVE"
+    lines: [1, 2]
+    security_function: "UNRELATED"
+    rationale: "License and pragma statements"
+
+  - id: "CA_COMMENTS"
+    type: "COMMENT"
+    lines: [26, 40, 41, 43, 47, 57, 68, 75, 78, 79, 86, 93, 102, 103, 104, 105, 109, 110, 111, 112, 115, 116, 117, 118, 123, 124, 125, 126]
+    security_function: "UNRELATED"
+    rationale: "Inline comments and NatSpec documentation"
+
+  - id: "CA_DECLARATIONS"
+    type: "DECLARATION"
+    lines: [4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 19, 20, 21, 23, 24, 27, 29, 30, 32, 33, 34, 35, 37, 64, 85, 97, 106, 119]
+    security_function: "UNRELATED"
+    rationale: "Interface, contract, mapping, function signature, and local variable declarations"
+
+  - id: "CA_SYNTAX"
+    type: "SYNTAX"
+    lines: [52, 61, 62, 82, 83, 95, 100, 113, 127, 128]
+    security_function: "UNRELATED"
+    rationale: "Closing braces and structural tokens"
+
+summary:
+  total_code_acts: 25
+  total_lines_covered: 97  # excludes 32 empty lines (3, 11, 18, 22, 25, 28, 31, 36, 39, 42, 48, 49, 53, 56, 59, 63, 67, 71, 74, 77, 80, 84, 87, 88, 89, 92, 96, 101, 108, 114, 122, 129)
+
+  by_security_function:
+    ROOT_CAUSE: 4      # CA1, CA2, CA3, CA4
+    PREREQ: 2          # CA17, CA18
+    BENIGN: 15         # CA5-CA16, CA19-CA21
+    UNRELATED: 4       # batched
+
+  by_code_act_type:
+    ORACLE: 2
+    COMPUTATION: 4
+    INPUT_VAL: 4
+    STATE_MOD: 5
+    EXT_CALL: 2
+    EVENT_EMIT: 2
+    CTRL_FLOW: 1
+    DIRECTIVE: 1
+    COMMENT: 1
+    DECLARATION: 1
+    SYNTAX: 1
+
+  root_causes:
+    - id: "CA1"
+      line: 50
+      type: "ORACLE"
+      description: "Spot price retrieval in deposit - manipulable"
+    - id: "CA2"
+      line: 51
+      type: "COMPUTATION"
+      description: "Share calculation using manipulable price"
+    - id: "CA3"
+      line: 69
+      type: "ORACLE"
+      description: "Spot price retrieval in withdraw - manipulable"
+    - id: "CA4"
+      line: 70
+      type: "COMPUTATION"
+      description: "Amount calculation using manipulable price"
+
+  prerequisites:
+    - id: "CA17"
+      lines: [90, 91, 94]
+      type: "COMPUTATION"
+      description: "getTotalAssets() returns manipulable spot value"
+    - id: "CA18"
+      lines: [98, 99]
+      type: "COMPUTATION"
+      description: "Price per share using manipulable total"
+
+  vulnerable_lines_mapping:
+    50: "CA1 - ROOT_CAUSE - spot price in deposit"
+    51: "CA2 - ROOT_CAUSE - share calculation"
+    69: "CA3 - ROOT_CAUSE - spot price in withdraw"
+    70: "CA4 - ROOT_CAUSE - amount calculation"
+
+  # For scoring: lookup line -> code_act -> security_function
+line_to_code_act:
+  # Directives (UNRELATED)
+  1: "CA_DIRECTIVES"
+  2: "CA_DIRECTIVES"
+  # Interface declarations (UNRELATED)
+  4: "CA_DECLARATIONS"
+  5: "CA_DECLARATIONS"
+  6: "CA_DECLARATIONS"
+  7: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
+  9: "CA_DECLARATIONS"
+  10: "CA_DECLARATIONS"
+  12: "CA_DECLARATIONS"
+  13: "CA_DECLARATIONS"
+  14: "CA_DECLARATIONS"
+  15: "CA_DECLARATIONS"
+  16: "CA_DECLARATIONS"
+  17: "CA_DECLARATIONS"
+  # Contract declarations (UNRELATED)
+  19: "CA_DECLARATIONS"
+  20: "CA_DECLARATIONS"
+  21: "CA_DECLARATIONS"
+  # 22 is empty
+  23: "CA_DECLARATIONS"
+  24: "CA_DECLARATIONS"
+  27: "CA_DECLARATIONS"
+  29: "CA_DECLARATIONS"
+  30: "CA_DECLARATIONS"
+  32: "CA_DECLARATIONS"
+  33: "CA_DECLARATIONS"
+  34: "CA_DECLARATIONS"
+  35: "CA_DECLARATIONS"
+  # Comments (UNRELATED)
+  26: "CA_COMMENTS"
+  40: "CA_COMMENTS"
+  41: "CA_COMMENTS"
+  43: "CA_COMMENTS"
+  47: "CA_COMMENTS"
+  57: "CA_COMMENTS"
+  75: "CA_COMMENTS"
+  78: "CA_COMMENTS"
+  79: "CA_COMMENTS"
+  86: "CA_COMMENTS"
+  93: "CA_COMMENTS"
+  102: "CA_COMMENTS"
+  103: "CA_COMMENTS"
+  104: "CA_COMMENTS"
+  105: "CA_COMMENTS"
+  109: "CA_COMMENTS"
+  110: "CA_COMMENTS"
+  111: "CA_COMMENTS"
+  112: "CA_COMMENTS"
+  115: "CA_COMMENTS"
+  116: "CA_COMMENTS"
+  117: "CA_COMMENTS"
+  118: "CA_COMMENTS"
+  123: "CA_COMMENTS"
+  124: "CA_COMMENTS"
+  125: "CA_COMMENTS"
+  126: "CA_COMMENTS"
+  # === SECURITY-RELEVANT CODE ACTS ===
+  # deposit() function
+  37: "CA_DECLARATIONS"
+  38: "CA5"         # zero check
+  44: "CA6"         # if totalSupply == 0
+  45: "CA6"
+  46: "CA6"
+  50: "CA1"         # ROOT_CAUSE - getTotalAssets
+  51: "CA2"         # ROOT_CAUSE - share calc
+  52: "CA_SYNTAX"
+  54: "CA7"         # update balance
+  55: "CA8"         # update supply
+  58: "CA9"         # invest call
+  60: "CA10"        # emit event
+  61: "CA_SYNTAX"
+  62: "CA_SYNTAX"
+  # withdraw() function
+  64: "CA_DECLARATIONS"
+  65: "CA11"        # zero check
+  66: "CA12"        # balance check
+  # 67 is empty
+  68: "CA_COMMENTS"  # comment
+  69: "CA3"         # ROOT_CAUSE - getTotalAssets
+  70: "CA4"         # ROOT_CAUSE - amount calc
+  72: "CA13"        # update balance
+  73: "CA14"        # update supply
+  76: "CA15"        # withdraw call
+  81: "CA16"        # emit event
+  82: "CA_SYNTAX"
+  83: "CA_SYNTAX"
+  # getTotalAssets() function
+  85: "CA_DECLARATIONS"
+  90: "CA17"        # PREREQ - vault balance
+  91: "CA17"        # PREREQ - curve balance
+  94: "CA17"        # PREREQ - return sum
+  95: "CA_SYNTAX"
+  # getPricePerFullShare() function
+  97: "CA_DECLARATIONS"
+  98: "CA18"        # PREREQ - if check
+  99: "CA18"        # PREREQ - return calc
+  100: "CA_SYNTAX"
+  # _investInCurve() function
+  106: "CA_DECLARATIONS"
+  107: "CA19"       # update invested
+  113: "CA_SYNTAX"
+  # _withdrawFromCurve() function
+  119: "CA_DECLARATIONS"
+  120: "CA20"       # require check
+  121: "CA21"       # update invested
+  # 122 is empty
+  127: "CA_SYNTAX"
+  128: "CA_SYNTAX"
+
+code_act_security_functions:
+  CA1: "ROOT_CAUSE"
+  CA2: "ROOT_CAUSE"
+  CA3: "ROOT_CAUSE"
+  CA4: "ROOT_CAUSE"
+  CA5: "BENIGN"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
+  CA9: "BENIGN"
+  CA10: "BENIGN"
+  CA11: "BENIGN"
+  CA12: "BENIGN"
+  CA13: "BENIGN"
+  CA14: "BENIGN"
+  CA15: "BENIGN"
+  CA16: "BENIGN"
+  CA17: "PREREQ"
+  CA18: "PREREQ"
+  CA19: "BENIGN"
+  CA20: "BENIGN"
+  CA21: "BENIGN"
+  CA_DIRECTIVES: "UNRELATED"
+  CA_COMMENTS: "UNRELATED"
+  CA_DECLARATIONS: "UNRELATED"
+  CA_SYNTAX: "UNRELATED"

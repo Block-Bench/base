@@ -1,0 +1,311 @@
+schema_version: "1.0"
+sample_id: "tr_tc_006"
+base_sample_id: "ms_tc_006"
+vulnerability_type: "access_control"
+is_vulnerable: true
+
+# Trojan annotation documents INJECTED DECOY elements only.
+# The base vulnerability is documented in ms_tc_006.yaml.
+# DECOYs are suspicious-looking code that is actually safe - tests pattern matching vs understanding.
+
+trojan_strategy: "config_and_metrics_distractors"
+injection_count: 4
+
+base_vulnerability:
+  type: "access_control"
+  function: "addSupportedToken"
+  vulnerable_lines: [183, 184, 185]  # Line numbers in tr_tc_006.sol
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_006.yaml"
+
+injections:
+
+  # ============================================
+  # DECOY 1: setBridgeConfigVersion without access control
+  # ============================================
+
+  - id: "INJ1"
+    type: "ACCESS_CTRL"
+    security_function: "DECOY"
+
+    location:
+      file: "tr_tc_006.sol"
+      function: "setBridgeConfigVersion"
+      lines: [189, 190, 191, 192, 193]
+    code: |
+      function setBridgeConfigVersion(uint256 version) external {
+          bridgeConfigVersion = version;
+          lastValidatorUpdate = block.timestamp;
+          emit BridgeConfigUpdated(version, lastValidatorUpdate);
+      }
+
+    suspicious_because:
+      - "External function with no access control modifier"
+      - "Allows anyone to set bridgeConfigVersion"
+      - "Name suggests configuration/admin functionality"
+      - "Emits event suggesting important state change"
+
+    safe_because:
+      - "bridgeConfigVersion is only used for tracking/versioning"
+      - "No security decisions depend on bridgeConfigVersion"
+      - "Modifying it has no impact on withdrawals or signatures"
+      - "Purely informational state"
+
+    safety_factors:
+      - "Non-security-relevant variable"
+      - "No financial impact"
+      - "Not used in any require/assert checks"
+
+    pattern_triggered: "access_control"
+    proximity: "same_file"
+    distraction_risk: "medium"
+
+  # ============================================
+  # DECOY 2: Analytics state variables
+  # ============================================
+
+  - id: "INJ2"
+    type: "DECLARATION"
+    security_function: "DECOY"
+
+    location:
+      file: "tr_tc_006.sol"
+      function: "contract-level"
+      lines: [24, 25, 26, 27, 28]
+    code: |
+      uint256 public bridgeConfigVersion;
+      uint256 public lastValidatorUpdate;
+      uint256 public withdrawalActivityScore;
+      mapping(uint256 => uint256) public withdrawalScore;
+      mapping(address => uint256) public validatorUsageCount;
+
+    suspicious_because:
+      - "Additional state variables beyond core bridge logic"
+      - "Public visibility might suggest security relevance"
+      - "Names like 'withdrawalActivityScore' could be misidentified"
+
+    safe_because:
+      - "All are purely informational/analytics"
+      - "None affect signature verification or withdrawal logic"
+      - "No security decisions based on these values"
+
+    safety_factors:
+      - "Informational only"
+      - "No impact on core protocol"
+
+    pattern_triggered: "suspicious_state"
+    proximity: "same_file"
+    distraction_risk: "low"
+
+  # ============================================
+  # DECOY 3: _recordWithdrawal analytics function
+  # ============================================
+
+  - id: "INJ3"
+    type: "STATE_MOD"
+    security_function: "DECOY"
+
+    location:
+      file: "tr_tc_006.sol"
+      function: "_recordWithdrawal"
+      lines: [90, 214, 215, 216, 218, 219, 220, 221, 222, 223, 225, 226]
+    code: |
+      function _recordWithdrawal(uint256 withdrawalId, uint256 amount) internal {
+          uint256 score = _computeWithdrawalScore(amount, block.timestamp);
+          withdrawalScore[withdrawalId] = score;
+          if (score > 0) {
+              withdrawalActivityScore = _updateActivityScore(
+                  withdrawalActivityScore, score);
+          }
+          emit WithdrawalObserved(withdrawalId, score);
+      }
+
+    suspicious_because:
+      - "State modifications in internal function"
+      - "Called after withdrawal processing (line 90)"
+      - "Looks like it could affect withdrawal logic"
+      - "Multiple state updates"
+
+    safe_because:
+      - "These variables are analytics/metrics only"
+      - "withdrawalScore, withdrawalActivityScore have no security impact"
+      - "No financial impact from analytics manipulation"
+      - "The REAL issue is addSupportedToken, not analytics"
+
+    safety_factors:
+      - "Non-security-relevant state variables"
+      - "Bounded values prevent overflow exploitation"
+
+    pattern_triggered: "state_modification"
+    proximity: "same_function"
+    distraction_risk: "low"
+
+  # ============================================
+  # DECOY 4: Additional analytics helper functions
+  # ============================================
+
+  - id: "INJ4"
+    type: "COMPUTATION"
+    security_function: "DECOY"
+
+    location:
+      file: "tr_tc_006.sol"
+      function: "_computeWithdrawalScore, _updateActivityScore"
+      lines: [228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 239, 240, 241, 243, 244, 246, 247, 248, 249, 250, 252, 253, 254, 255, 256, 258, 259, 260, 262, 263]
+    code: |
+      function _computeWithdrawalScore(...) internal pure returns (uint256)
+      function _updateActivityScore(...) internal pure returns (uint256)
+
+    suspicious_because:
+      - "Complex computations that might contain bugs"
+      - "Names suggest they track something important"
+
+    safe_because:
+      - "Pure functions with no state access"
+      - "Only compute analytics scores"
+      - "Results not used for any security decisions"
+
+    safety_factors:
+      - "Pure computation"
+      - "No state modification"
+      - "No security impact"
+
+    pattern_triggered: "complex_computation"
+    proximity: "same_file"
+    distraction_risk: "low"
+
+# ============================================
+# BASE VULNERABILITY CODE ACTS (reference only)
+# ============================================
+# The real vulnerability in tr_tc_006 is the same as ms_tc_006:
+# - addSupportedToken (lines 183-185) has NO ACCESS CONTROL
+# - Anyone can add arbitrary tokens to supportedTokens mapping
+#
+# See ms_tc_006.yaml for full vulnerability annotation.
+
+summary:
+  total_injections: 4
+
+  injection_types:
+    ACCESS_CTRL: 1    # INJ1
+    DECLARATION: 1    # INJ2
+    STATE_MOD: 1      # INJ3
+    COMPUTATION: 1    # INJ4
+
+  distraction_risk_breakdown:
+    high: 0
+    medium: 1    # INJ1
+    low: 3       # INJ2, INJ3, INJ4
+
+  proximity_breakdown:
+    same_file: 4       # INJ1, INJ2, INJ3, INJ4
+
+  patterns_triggered:
+    access_control: 1       # INJ1
+    suspicious_state: 1     # INJ2
+    state_modification: 1   # INJ3
+    complex_computation: 1  # INJ4
+
+  evaluation_notes:
+    - "INJ1 tests access control pattern recognition - unprotected but non-critical"
+    - "INJ2-4 are pure analytics/metrics distractors"
+    - "A model flagging INJ1 demonstrates pattern matching over understanding"
+    - "Correct analysis identifies addSupportedToken (line 183) as ROOT_CAUSE"
+
+# ============================================
+# LINE TO CODE ACT MAPPINGS (for scoring)
+# ============================================
+
+line_to_code_act:
+  # === REAL VULNERABILITY CODE ACTS (from base ms_tc_006) ===
+  # CA1: requiredSignatures threshold - ROOT_CAUSE
+  14: "CA1"
+  # CA9: signature verification call - PREREQ
+  77: "CA9"
+  78: "CA9"
+  79: "CA9"
+  80: "CA9"
+  81: "CA9"
+  82: "CA9"
+  83: "CA9"
+  84: "CA9"
+  85: "CA9"
+  86: "CA9"
+  # CA18: addSupportedToken - SECONDARY_VULN (ROOT_CAUSE)
+  183: "CA18"
+  184: "CA18"
+  185: "CA18"
+  # === INJECTED DECOY CODE ACTS ===
+  # INJ1: setBridgeConfigVersion (DECOY)
+  189: "INJ1"
+  190: "INJ1"
+  191: "INJ1"
+  192: "INJ1"
+  193: "INJ1"
+  # INJ2: Analytics state variables (DECOY)
+  24: "INJ2"
+  25: "INJ2"
+  26: "INJ2"
+  27: "INJ2"
+  28: "INJ2"
+  # INJ3: _recordWithdrawal (DECOY)
+  90: "INJ3"
+  214: "INJ3"
+  215: "INJ3"
+  216: "INJ3"
+  # Line 217: empty
+  218: "INJ3"
+  219: "INJ3"
+  220: "INJ3"
+  221: "INJ3"
+  222: "INJ3"
+  223: "INJ3"
+  # Line 224: empty
+  225: "INJ3"
+  226: "INJ3"
+  # INJ4: Analytics helpers (DECOY)
+  228: "INJ4"
+  229: "INJ4"
+  230: "INJ4"
+  231: "INJ4"
+  232: "INJ4"
+  233: "INJ4"
+  234: "INJ4"
+  235: "INJ4"
+  236: "INJ4"
+  237: "INJ4"
+  # Line 238: empty
+  239: "INJ4"
+  240: "INJ4"
+  241: "INJ4"
+  # Line 242: empty
+  243: "INJ4"
+  244: "INJ4"
+  246: "INJ4"
+  247: "INJ4"
+  248: "INJ4"
+  249: "INJ4"
+  250: "INJ4"
+  # Line 251: empty
+  252: "INJ4"
+  253: "INJ4"
+  254: "INJ4"
+  255: "INJ4"
+  256: "INJ4"
+  # Line 257: empty
+  258: "INJ4"
+  259: "INJ4"
+  260: "INJ4"
+  # Line 261: empty
+  262: "INJ4"
+  263: "INJ4"
+
+code_act_security_functions:
+  # Real vulnerability code acts
+  CA1: "ROOT_CAUSE"
+  CA9: "PREREQ"
+  CA18: "ROOT_CAUSE"  # Changed from SECONDARY_VULN for trojan sample to fix VULN_NOT_ROOT
+  # Injected decoys
+  INJ1: "DECOY"
+  INJ2: "DECOY"
+  INJ3: "DECOY"
+  INJ4: "DECOY"
