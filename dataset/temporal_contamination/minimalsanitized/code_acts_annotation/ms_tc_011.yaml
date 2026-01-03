@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_011"
 vulnerability_type: "reentrancy"
-vulnerable_lines: [68, 71]
+vulnerable_lines: [68]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -16,8 +16,8 @@ code_acts:
     type: "DECLARATION"
     lines: [19]
     code: "mapping(address => mapping(address => uint256)) public supplied;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - User balance mapping that is read before external call and updated after. The stale read enables repeated withdrawals."
+    security_function: "BENIGN"
+    rationale: "Balance mapping declaration. Storage existence is not the vulnerability - the issue is the ordering of external call vs state update."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -46,15 +46,15 @@ code_acts:
     type: "DECLARATION"
     lines: [57]
     code: "uint256 userBalance = supplied[msg.sender][asset];"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Reads user balance into local variable. This stale value persists during reentrancy, allowing multiple withdrawals."
+    security_function: "BENIGN"
+    rationale: "Caches user balance. This is standard implementation - the vulnerability is in the external call before state update, not in caching."
 
   - id: "CA6"
     type: "INPUT_VAL"
     lines: [58]
     code: 'require(userBalance > 0, "No balance");'
-    security_function: "PREREQ"
-    rationale: "PREREQ - Check passes on reentrant calls because userBalance is a stale local copy from line 57."
+    security_function: "BENIGN"
+    rationale: "Balance check. Correctly implemented - it's a consequence of the CEI violation, not the cause."
 
   - id: "CA7"
     type: "COMPUTATION"
@@ -71,8 +71,8 @@ code_acts:
     type: "INPUT_VAL"
     lines: [65]
     code: 'require(withdrawAmount <= userBalance, "Insufficient balance");'
-    security_function: "PREREQ"
-    rationale: "PREREQ - Balance check passes on reentrant calls due to stale userBalance."
+    security_function: "BENIGN"
+    rationale: "Balance check. Correctly implemented - it's a consequence of the CEI violation, not the cause."
 
   - id: "CA9"
     type: "EXT_CALL"
@@ -87,8 +87,8 @@ code_acts:
     code: |
       supplied[msg.sender][asset] -= withdrawAmount;
       totalSupplied[asset] -= withdrawAmount;
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - State updates AFTER external call. During reentrancy, these haven't executed yet, so attacker can withdraw multiple times."
+    security_function: "BENIGN"
+    rationale: "State updates that reduce balance. The operation is correct - it's just in the wrong order (after external call). The root cause is CA9."
 
   - id: "CA11"
     type: "CTRL_FLOW"
@@ -137,30 +137,16 @@ summary:
   total_lines_covered: 72  # excludes 15 empty lines
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA9, CA10
-    PREREQ: 4          # CA1, CA5, CA6, CA8
-    BENIGN: 6          # CA2, CA3, CA4, CA7, CA11, CA12
+    ROOT_CAUSE: 1      # CA9
+    PREREQ: 0
+    BENIGN: 11         # CA1-CA8, CA10-CA12
     UNRELATED: 4       # batched
 
   root_causes:
     - id: "CA9"
       line: 68
       type: "EXT_CALL"
-      description: "ERC-777 transfer triggers tokensToSend callback before state update"
-    - id: "CA10"
-      lines: [71, 72]
-      type: "STATE_MOD"
-      description: "State updates after external call enable reentrancy"
-
-  prerequisites:
-    - id: "CA1"
-      description: "User balance mapping read before call"
-    - id: "CA5"
-      description: "Stale balance cached in local variable"
-    - id: "CA6"
-      description: "Balance check uses stale value"
-    - id: "CA8"
-      description: "Insufficient balance check uses stale value"
+      description: "ERC-777 transfer triggers tokensToSend callback before state update (CEI violation)"
 
 line_to_code_act:
   # Directives (UNRELATED)
@@ -260,16 +246,16 @@ line_to_code_act:
   # Line 87: empty
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "PREREQ"
-  CA6: "PREREQ"
+  CA5: "BENIGN"
+  CA6: "BENIGN"
   CA7: "BENIGN"
-  CA8: "PREREQ"
+  CA8: "BENIGN"
   CA9: "ROOT_CAUSE"
-  CA10: "ROOT_CAUSE"
+  CA10: "BENIGN"
   CA11: "BENIGN"
   CA12: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"

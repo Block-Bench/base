@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_015"
 vulnerability_type: "logic_error"
-vulnerable_lines: [39]
+vulnerable_lines: [25]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -16,8 +16,8 @@ code_acts:
     type: "DECLARATION"
     lines: [11]
     code: "address public underlying; // Old TUSD address"
-    security_function: "PREREQ"
-    rationale: "PREREQ - The underlying variable stores OLD_TUSD address. This is checked in sweepToken but the contract actually uses NEW_TUSD for operations."
+    security_function: "BENIGN"
+    rationale: "Variable declaration. Storage existence is not a vulnerability - the bug is in how it's initialized."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -25,8 +25,8 @@ code_acts:
     code: |
       address public constant OLD_TUSD =
           0x8dd5fbCe2F6a956C3022bA3663759011Dd51e73E;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Old TUSD address constant. This is what underlying is set to, but the token is no longer used."
+    security_function: "BENIGN"
+    rationale: "Constant declaration. Constants are contextual data, not exploit prerequisites."
 
   - id: "CA3"
     type: "DECLARATION"
@@ -34,8 +34,8 @@ code_acts:
     code: |
       address public constant NEW_TUSD =
           0x0000000000085d4780B73119b644AE5ecd22b376;
-    security_function: "PREREQ"
-    rationale: "PREREQ - New TUSD address constant. This is the actual token used by the contract, but NOT protected by sweepToken."
+    security_function: "BENIGN"
+    rationale: "Constant declaration. Constants are contextual data, not exploit prerequisites."
 
   - id: "CA4"
     type: "INITIALIZATION"
@@ -52,8 +52,8 @@ code_acts:
     type: "EXT_CALL"
     lines: [32]
     code: "IERC20(NEW_TUSD).transfer(address(this), amount);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Uses NEW_TUSD for minting, proving that's the actual token. Note: This should be transferFrom."
+    security_function: "BENIGN"
+    rationale: "Mint token transfer. Contextual usage showing NEW_TUSD is the actual token, but this does not enable the exploit."
 
   - id: "CA6"
     type: "STATE_MOD"
@@ -68,8 +68,8 @@ code_acts:
     type: "INPUT_VAL"
     lines: [39]
     code: 'require(token != underlying, "Cannot sweep underlying token");'
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Checks against underlying (OLD_TUSD), but should check against NEW_TUSD. Attacker can sweep NEW_TUSD because it passes this check (NEW_TUSD != OLD_TUSD is true)."
+    security_function: "BENIGN"
+    rationale: "Sweep protection check. The check logic is correct - it's checking against the underlying variable. The bug is that underlying has the wrong value (set in constructor)."
 
   - id: "CA8"
     type: "EXT_CALL"
@@ -77,8 +77,8 @@ code_acts:
     code: |
       uint256 balance = IERC20(token).balanceOf(address(this));
       IERC20(token).transfer(msg.sender, balance);
-    security_function: "PREREQ"
-    rationale: "PREREQ - Transfers the swept token to caller. Since NEW_TUSD passes the check, all NEW_TUSD can be stolen."
+    security_function: "BENIGN"
+    rationale: "Sweep transfer execution. This is the exploit payoff action, not a prerequisite. Prerequisites must exist before exploitation; this is the effect."
 
   - id: "CA9"
     type: "INPUT_VAL"
@@ -100,8 +100,8 @@ code_acts:
     type: "EXT_CALL"
     lines: [55]
     code: "IERC20(NEW_TUSD).transfer(msg.sender, amount);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Uses NEW_TUSD for redemption, proving that's the actual token the contract should protect."
+    security_function: "BENIGN"
+    rationale: "Redeem token transfer. Redemption logic is orthogonal to the sweep exploit."
 
   # ============================================
   # BATCHED UNRELATED CODE ACTS (for scoring)
@@ -136,34 +136,16 @@ summary:
   total_lines_covered: 42  # excludes 11 empty lines
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA4, CA7
-    PREREQ: 6          # CA1, CA2, CA3, CA5, CA8, CA11
-    BENIGN: 3          # CA6, CA9, CA10
+    ROOT_CAUSE: 1      # CA4
+    PREREQ: 0
+    BENIGN: 10         # CA1, CA2, CA3, CA5, CA6, CA7, CA8, CA9, CA10, CA11
     UNRELATED: 4       # batched
 
   root_causes:
     - id: "CA4"
       lines: [23, 24, 25, 26]
       type: "INITIALIZATION"
-      description: "Sets underlying to OLD_TUSD instead of NEW_TUSD"
-    - id: "CA7"
-      line: 39
-      type: "INPUT_VAL"
-      description: "Checks against wrong token address (OLD_TUSD instead of NEW_TUSD)"
-
-  prerequisites:
-    - id: "CA1"
-      description: "underlying variable pointing to old token"
-    - id: "CA2"
-      description: "OLD_TUSD constant"
-    - id: "CA3"
-      description: "NEW_TUSD constant (the actual token)"
-    - id: "CA5"
-      description: "Mint uses NEW_TUSD"
-    - id: "CA8"
-      description: "Sweep transfers any passing token"
-    - id: "CA11"
-      description: "Redeem uses NEW_TUSD"
+      description: "Sets underlying to OLD_TUSD instead of NEW_TUSD - the single point of failure"
 
 line_to_code_act:
   # Directives (UNRELATED)
@@ -228,17 +210,17 @@ line_to_code_act:
   57: "CA_DECLARATIONS"
 
 code_act_security_functions:
-  CA1: "PREREQ"
-  CA2: "PREREQ"
-  CA3: "PREREQ"
+  CA1: "BENIGN"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
   CA4: "ROOT_CAUSE"
-  CA5: "PREREQ"
+  CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "ROOT_CAUSE"
-  CA8: "PREREQ"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
-  CA11: "PREREQ"
+  CA11: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

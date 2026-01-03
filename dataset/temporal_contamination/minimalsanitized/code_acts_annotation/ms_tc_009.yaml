@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_009"
 vulnerability_type: "arithmetic_error"
-vulnerable_lines: [128, 157, 159]
+vulnerable_lines: [157, 159]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -30,15 +30,15 @@ code_acts:
       uint160 public sqrtPriceX96;
       int24 public currentTick;
       uint128 public liquidity;
-    security_function: "PREREQ"
-    rationale: "PREREQ because these state variables store the pool state that becomes corrupted through precision loss. The vulnerability exploits incorrect liquidity tracking."
+    security_function: "BENIGN"
+    rationale: "State variable declarations. These are neutral storage - the vulnerability is in the arithmetic operations, not in having these variables."
 
   - id: "CA3"
     type: "DECLARATION"
     lines: [15]
     code: "mapping(int24 => int128) public liquidityNet;"
-    security_function: "PREREQ"
-    rationale: "PREREQ because liquidityNet values are manipulated to trigger overflow/underflow in _addLiquidity()."
+    security_function: "BENIGN"
+    rationale: "Mapping declaration. The existence of this storage is not the vulnerability - the issue is the unchecked arithmetic that uses its values."
 
   - id: "CA4"
     type: "DECLARATION"
@@ -132,8 +132,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [102]
     code: "while (amountSpecified != 0) {"
-    security_function: "PREREQ"
-    rationale: "PREREQ because the while loop allows multiple tick crossings, enabling precision error accumulation."
+    security_function: "BENIGN"
+    rationale: "Swap loop control. Correctly implemented - allows processing of swap amount."
 
   - id: "CA16"
     type: "COMPUTATION"
@@ -153,15 +153,15 @@ code_acts:
     type: "COMPUTATION"
     lines: [119]
     code: "int24 tickCrossed = _getTickAtSqrtRatio(sqrtPriceX96Next);"
-    security_function: "PREREQ"
-    rationale: "PREREQ because tick calculation determines when _addLiquidity is called with potentially exploitable values."
+    security_function: "BENIGN"
+    rationale: "Tick calculation. Correctly implemented."
 
   - id: "CA19"
     type: "CTRL_FLOW"
     lines: [120]
     code: "if (tickCrossed != tickNext) {"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this condition triggers the vulnerable _addLiquidity call during tick transitions."
+    security_function: "BENIGN"
+    rationale: "Tick crossing detection. Correctly implemented."
 
   - id: "CA20"
     type: "STATE_MOD"
@@ -174,15 +174,15 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [124, 125, 126]
     code: "if (zeroForOne) { liquidityNetAtTick = -liquidityNetAtTick; }"
-    security_function: "PREREQ"
-    rationale: "PREREQ because negation of signed int can contribute to edge cases in subsequent arithmetic."
+    security_function: "BENIGN"
+    rationale: "Direction-based sign adjustment. Correctly implemented."
 
   - id: "CA22"
     type: "EXT_CALL"
     lines: [128, 129, 130, 131]
     code: "liquidityNext = _addLiquidity(liquidityNext, liquidityNetAtTick);"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Calls _addLiquidity with values that can cause overflow/underflow. Attacker crafts liquidityNetAtTick values that exploit the unchecked arithmetic in _addLiquidity."
+    security_function: "BENIGN"
+    rationale: "Call site to _addLiquidity. The call itself is correct - the vulnerability is in the _addLiquidity function (CA29, CA30)."
 
   - id: "CA23"
     type: "STATE_MOD"
@@ -228,8 +228,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [156]
     code: "if (y < 0) {"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this branch determines which arithmetic operation is used."
+    security_function: "BENIGN"
+    rationale: "Branch selection in _addLiquidity. Correctly determines which arithmetic operation to use."
 
   - id: "CA29"
     type: "COMPUTATION"
@@ -307,16 +307,12 @@ summary:
   total_lines_covered: 179  # excludes empty lines
 
   by_security_function:
-    ROOT_CAUSE: 3      # CA22, CA29, CA30
-    PREREQ: 10         # CA2, CA3, CA9, CA15, CA18, CA19, CA20, CA21, CA25, CA28
-    BENIGN: 20         # CA1, CA4-CA8, CA10-CA14, CA16-CA17, CA23-CA24, CA26-CA27, CA31-CA33
+    ROOT_CAUSE: 2      # CA29, CA30
+    PREREQ: 3          # CA9, CA20, CA25
+    BENIGN: 28         # CA1-CA8, CA10-CA19, CA21-CA24, CA26-CA28, CA31-CA33
     UNRELATED: 5       # batched
 
   root_causes:
-    - id: "CA22"
-      line: 128
-      type: "EXT_CALL"
-      description: "Call to vulnerable _addLiquidity with crafted inputs"
     - id: "CA29"
       line: 157
       type: "COMPUTATION"
@@ -327,26 +323,12 @@ summary:
       description: "Unchecked addition can overflow"
 
   prerequisites:
-    - id: "CA2"
-      description: "Pool state variables become corrupted through precision loss"
-    - id: "CA3"
-      description: "liquidityNet values can be manipulated"
     - id: "CA9"
       description: "Sets up liquidityNet values for exploitation"
-    - id: "CA15"
-      description: "Loop enables multiple tick crossings"
-    - id: "CA18"
-      description: "Tick calculation determines _addLiquidity calls"
-    - id: "CA19"
-      description: "Triggers vulnerable code path"
     - id: "CA20"
       description: "Retrieves crafted liquidityNet value"
-    - id: "CA21"
-      description: "Negation contributes to edge cases"
     - id: "CA25"
       description: "Persists corrupted liquidity to storage"
-    - id: "CA28"
-      description: "Determines which vulnerable arithmetic is used"
 
 line_to_code_act:
     1: "CA_DIRECTIVES"
@@ -563,8 +545,8 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "BENIGN"
-  CA2: "PREREQ"
-  CA3: "PREREQ"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
@@ -576,20 +558,20 @@ code_act_security_functions:
   CA12: "BENIGN"
   CA13: "BENIGN"
   CA14: "BENIGN"
-  CA15: "PREREQ"
+  CA15: "BENIGN"
   CA16: "BENIGN"
   CA17: "BENIGN"
-  CA18: "PREREQ"
-  CA19: "PREREQ"
+  CA18: "BENIGN"
+  CA19: "BENIGN"
   CA20: "PREREQ"
-  CA21: "PREREQ"
-  CA22: "ROOT_CAUSE"
+  CA21: "BENIGN"
+  CA22: "BENIGN"
   CA23: "BENIGN"
   CA24: "BENIGN"
   CA25: "PREREQ"
   CA26: "BENIGN"
   CA27: "BENIGN"
-  CA28: "PREREQ"
+  CA28: "BENIGN"
   CA29: "ROOT_CAUSE"
   CA30: "ROOT_CAUSE"
   CA31: "BENIGN"

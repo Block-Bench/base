@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 
 contract Proxy {
-    address public owner = address(0xdeadbeef); // slot0
+    address public owner = address(0xdeadbeef);
     Delegate delegate;
 
     constructor(address _delegateAddress) public {
@@ -15,9 +15,8 @@ contract Proxy {
     }
 }
 
-
 contract Delegate {
-    address public owner; // slot0
+    address public owner;
 
     function execute() public {
         owner = msg.sender;

@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_022"
 vulnerability_type: "arithmetic_error"
-vulnerable_lines: [100]
+vulnerable_lines: [98, 99, 100, 101]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -28,8 +28,8 @@ code_acts:
     type: "DECLARATION"
     lines: [23]
     code: "uint256 public constant TOTAL_FEE = 16; // 0.16% fee"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Fee constant changed from Uniswap's 3 (0.3%) to 16 (0.16%), requiring scale change from 1000 to 10000."
+    security_function: "BENIGN"
+    rationale: "Fee constant declaration. Contextual - the fee value alone is not a prerequisite. The exploit depends on the interaction between the scale change (CA3) and incorrect K check (CA1)."
 
   - id: "CA3"
     type: "COMPUTATION"
@@ -221,21 +221,19 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA1
-    PREREQ: 2          # CA2, CA3
-    BENIGN: 15         # CA4-CA18
+    PREREQ: 1          # CA3
+    BENIGN: 16         # CA2, CA4-CA18
     UNRELATED: 4       # batched
 
   root_causes:
     - id: "CA1"
       lines: [98, 99, 100, 101, 102]
       type: "COMPUTATION"
-      description: "K validation uses 1000^2 instead of 10000^2, creating 100x mismatch"
+      description: "K validation uses 1000^2 instead of 10000^2 - invariant scale mismatch with fee calculation"
 
   prerequisites:
-    - id: "CA2"
-      description: "Fee constant changed to 0.16%, requiring scale change"
     - id: "CA3"
-      description: "Adjusted balances use 10000 scale, mismatched with K check"
+      description: "Adjusted balances use 10000 scale, mismatched with K check's 1000^2 scale"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -373,7 +371,7 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "PREREQ"
+  CA2: "BENIGN"
   CA3: "PREREQ"
   CA4: "BENIGN"
   CA5: "BENIGN"

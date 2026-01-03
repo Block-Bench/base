@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_012"
 vulnerability_type: "reentrancy"
-vulnerable_lines: [68, 71]
+vulnerable_lines: [68]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -16,22 +16,22 @@ code_acts:
     type: "DECLARATION"
     lines: [19]
     code: "mapping(address => uint256) public deposits;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - User deposit mapping read for collateral checks. Enables reentrancy impact calculation."
+    security_function: "BENIGN"
+    rationale: "Deposit mapping declaration. Storage existence is not the vulnerability."
 
   - id: "CA2"
     type: "DECLARATION"
     lines: [20]
     code: "mapping(address => uint256) public borrowed;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - User borrowed amount tracking. Updated before external call, read in health checks."
+    security_function: "BENIGN"
+    rationale: "Borrowed amount mapping declaration. Storage existence is not the vulnerability."
 
   - id: "CA3"
     type: "DECLARATION"
     lines: [21]
     code: "mapping(address => bool) public inMarket;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Market participation flag checked in isHealthy(). Can be manipulated via exitMarket during reentrancy."
+    security_function: "BENIGN"
+    rationale: "Market participation flag declaration. Storage existence is not the vulnerability."
 
   - id: "CA4"
     type: "STATE_MOD"
@@ -56,8 +56,8 @@ code_acts:
     type: "INPUT_VAL"
     lines: [51]
     code: "if (!inMarket[account]) return false;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Market check that can be bypassed. If attacker exits market during reentrancy, this returns false in subsequent health checks."
+    security_function: "BENIGN"
+    rationale: "Market check in isHealthy. This is validation logic whose ordering is violated, not a prerequisite."
 
   - id: "CA7"
     type: "COMPUTATION"
@@ -81,8 +81,8 @@ code_acts:
     type: "INPUT_VAL"
     lines: [62]
     code: 'require(isHealthy(msg.sender, amount), "Insufficient collateral");'
-    security_function: "PREREQ"
-    rationale: "PREREQ - Initial health check before borrow. Passes on first call but may behave differently during reentrancy."
+    security_function: "BENIGN"
+    rationale: "Initial health check. Correctly implemented validation."
 
   - id: "CA10"
     type: "STATE_MOD"
@@ -90,8 +90,8 @@ code_acts:
     code: |
       borrowed[msg.sender] += amount;
       totalBorrowed += amount;
-    security_function: "PREREQ"
-    rationale: "PREREQ - State updated BEFORE external call. During reentrancy, this is already updated which should prevent additional borrows, but the external call happens next."
+    security_function: "BENIGN"
+    rationale: "State update BEFORE external call. This is actually protective - it limits same-function reentrancy. The exploit relies on cross-function state manipulation (exitMarket)."
 
   - id: "CA11"
     type: "EXT_CALL"
@@ -106,22 +106,22 @@ code_acts:
     type: "INPUT_VAL"
     lines: [71]
     code: 'require(isHealthy(msg.sender, 0), "Health check failed");'
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Health check AFTER external call. This check can be manipulated via reentrancy - attacker can call exitMarket during the external call to change inMarket status."
+    security_function: "BENIGN"
+    rationale: "Post-call health check. This is a consequence of the CEI violation, not the root cause. The check itself is correct - the issue is that it's evaluated after state can be manipulated."
 
   - id: "CA13"
     type: "INPUT_VAL"
     lines: [75]
     code: 'require(borrowed[msg.sender] == 0, "Outstanding debt");'
-    security_function: "PREREQ"
-    rationale: "PREREQ - Debt check in exitMarket. Prevents exiting with debt, but this can be called after borrow state is updated and before final check."
+    security_function: "BENIGN"
+    rationale: "Debt check in exitMarket. This is an attacker-called function, not a prerequisite."
 
   - id: "CA14"
     type: "STATE_MOD"
     lines: [76]
     code: "inMarket[msg.sender] = false;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Sets inMarket to false. If called during reentrancy, subsequent isHealthy checks would return false at line 51."
+    security_function: "BENIGN"
+    rationale: "Sets inMarket to false. This is an attacker action during reentrancy, not a prerequisite."
 
   - id: "CA15"
     type: "INPUT_VAL"
@@ -181,34 +181,16 @@ summary:
   total_lines_covered: 72  # excludes 22 empty lines
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA11, CA12
-    PREREQ: 6          # CA1, CA2, CA3, CA6, CA9, CA10, CA13, CA14
-    BENIGN: 8          # CA4, CA5, CA7, CA8, CA15, CA16, CA17
+    ROOT_CAUSE: 1      # CA11
+    PREREQ: 0
+    BENIGN: 15         # CA1-CA10, CA12-CA17
     UNRELATED: 4       # batched
 
   root_causes:
     - id: "CA11"
       lines: [68, 69]
       type: "EXT_CALL"
-      description: "External call sending ETH before final health check"
-    - id: "CA12"
-      line: 71
-      type: "INPUT_VAL"
-      description: "Health check after external call can be manipulated"
-
-  prerequisites:
-    - id: "CA1"
-      description: "Deposit mapping for collateral"
-    - id: "CA2"
-      description: "Borrowed mapping tracking"
-    - id: "CA3"
-      description: "Market participation flag"
-    - id: "CA6"
-      description: "Market check in isHealthy"
-    - id: "CA10"
-      description: "State update before external call"
-    - id: "CA14"
-      description: "exitMarket state change"
+      description: "External call sending ETH enables cross-function reentrancy (attacker can call exitMarket)"
 
 line_to_code_act:
   # Directives (UNRELATED)
@@ -309,20 +291,20 @@ line_to_code_act:
   93: "CA_DECLARATIONS"
 
 code_act_security_functions:
-  CA1: "PREREQ"
-  CA2: "PREREQ"
-  CA3: "PREREQ"
+  CA1: "BENIGN"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
-  CA6: "PREREQ"
+  CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
-  CA9: "PREREQ"
-  CA10: "PREREQ"
+  CA9: "BENIGN"
+  CA10: "BENIGN"
   CA11: "ROOT_CAUSE"
-  CA12: "ROOT_CAUSE"
-  CA13: "PREREQ"
-  CA14: "PREREQ"
+  CA12: "BENIGN"
+  CA13: "BENIGN"
+  CA14: "BENIGN"
   CA15: "BENIGN"
   CA16: "BENIGN"
   CA17: "BENIGN"

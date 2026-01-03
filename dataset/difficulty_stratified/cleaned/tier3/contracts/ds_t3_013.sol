@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-// Base contract with common functionality
 contract BankManager {
     struct Bank {
         address bankAddress;
@@ -11,8 +10,14 @@ contract BankManager {
     Bank[] public banks;
 
     // Add multiple banks
-    function addBanks(address[] memory addresses, string[] memory names) public {
-        require(addresses.length == names.length, "Arrays must have the same length");
+    function addBanks(
+        address[] memory addresses,
+        string[] memory names
+    ) public {
+        require(
+            addresses.length == names.length,
+            "Arrays must have the same length"
+        );
 
         for (uint i = 0; i < addresses.length; i++) {
             banks.push(Bank(addresses[i], names[i]));

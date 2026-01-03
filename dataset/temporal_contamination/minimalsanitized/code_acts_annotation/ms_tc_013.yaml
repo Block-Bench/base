@@ -23,15 +23,15 @@ code_acts:
     type: "DECLARATION"
     lines: [31]
     code: "mapping(address => uint256) public earnedRewards;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Reward tracking that gets inflated due to the arithmetic error in mintFor."
+    security_function: "BENIGN"
+    rationale: "Reward tracking mapping. This is a sink that stores the exploit result, not a prerequisite."
 
   - id: "CA3"
     type: "DECLARATION"
     lines: [33]
     code: "uint256 public constant REWARD_RATE = 100;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Multiplier applied to the inflated balance, amplifying the impact."
+    security_function: "BENIGN"
+    rationale: "Reward rate constant. This amplifies impact but is not required for exploitability."
 
   - id: "CA4"
     type: "EXT_CALL"
@@ -58,15 +58,15 @@ code_acts:
     type: "COMPUTATION"
     lines: [76]
     code: "uint256 feeSum = _performanceFee + _withdrawalFee;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Fee calculation. The fees transferred in are meant to be the basis for rewards, but the actual reward uses total balance instead."
+    security_function: "BENIGN"
+    rationale: "Fee calculation. This is dead logic with respect to the exploit - feeSum is never used in reward calculation."
 
   - id: "CA8"
     type: "EXT_CALL"
     lines: [77]
     code: "lpToken.transferFrom(msg.sender, address(this), feeSum);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Fee transfer that adds to contract's LP balance. The transferred amount should be basis for reward, but is not used directly."
+    security_function: "BENIGN"
+    rationale: "Fee transfer. Incidental to exploit - attacker inflates balance via direct transfers, not this fee mechanism."
 
   - id: "CA9"
     type: "COMPUTATION"
@@ -82,8 +82,8 @@ code_acts:
     type: "STATE_MOD"
     lines: [85]
     code: "earnedRewards[to] += hunnyRewardAmount;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Assigns inflated reward amount to recipient. Enables attacker to claim massive rewards."
+    security_function: "BENIGN"
+    rationale: "Post-exploit assignment. Records the result of the faulty computation, not a prerequisite."
 
   - id: "CA11"
     type: "COMPUTATION"
@@ -92,8 +92,8 @@ code_acts:
       function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
           return lpAmount * REWARD_RATE;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Multiplies the already-inflated LP amount by REWARD_RATE (100x), further amplifying the exploit."
+    security_function: "BENIGN"
+    rationale: "Pure math multiplication. Amplifies impact but is not required for exploitability."
 
   - id: "CA12"
     type: "INPUT_VAL"
@@ -173,29 +173,15 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA9
-    PREREQ: 6          # CA2, CA3, CA7, CA8, CA10, CA11
-    BENIGN: 10         # CA1, CA4, CA5, CA6, CA12, CA13, CA14, CA15, CA16, CA17
+    PREREQ: 0
+    BENIGN: 16         # CA1-CA8, CA10-CA17
     UNRELATED: 4       # batched
 
   root_causes:
     - id: "CA9"
       lines: [80, 81, 82]
       type: "COMPUTATION"
-      description: "Uses total LP balance instead of fee amount for reward calculation"
-
-  prerequisites:
-    - id: "CA2"
-      description: "Reward mapping that receives inflated amount"
-    - id: "CA3"
-      description: "Reward rate multiplier amplifying exploit"
-    - id: "CA7"
-      description: "Fee calculation (correct but unused)"
-    - id: "CA8"
-      description: "Fee transfer adds to total balance"
-    - id: "CA10"
-      description: "Assigns inflated reward"
-    - id: "CA11"
-      description: "tokenToReward multiplies inflated amount"
+      description: "Uses total LP balance (balanceOf) instead of fee amount for reward calculation - balance manipulation vulnerability"
 
 line_to_code_act:
   # Directives (UNRELATED)
@@ -320,16 +306,16 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "BENIGN"
-  CA2: "PREREQ"
-  CA3: "PREREQ"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "PREREQ"
-  CA8: "PREREQ"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
   CA9: "ROOT_CAUSE"
-  CA10: "PREREQ"
-  CA11: "PREREQ"
+  CA10: "BENIGN"
+  CA11: "BENIGN"
   CA12: "BENIGN"
   CA13: "BENIGN"
   CA14: "BENIGN"

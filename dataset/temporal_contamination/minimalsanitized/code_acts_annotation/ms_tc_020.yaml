@@ -20,15 +20,15 @@ code_acts:
           uint256 lpTokenAmount;
           uint256 borrowed;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Position struct tracking LP tokens and borrowed amounts."
+    security_function: "BENIGN"
+    rationale: "Position struct declaration. Data container, not a prerequisite."
 
   - id: "CA2"
     type: "DECLARATION"
     lines: [31]
     code: "mapping(address => Position) public positions;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Position mapping storing user collateral and debt."
+    security_function: "BENIGN"
+    rationale: "Position mapping declaration. Data container, not a prerequisite."
 
   - id: "CA3"
     type: "DECLARATION"
@@ -61,15 +61,15 @@ code_acts:
       uint256 collateralValue = getLPTokenValue(
           positions[msg.sender].lpTokenAmount
       );
-    security_function: "PREREQ"
-    rationale: "PREREQ - Gets collateral value using manipulable getLPTokenValue function."
+    security_function: "BENIGN"
+    rationale: "Collateral value calculation. Consumes tainted value from manipulable reserves - downstream consequence, not prerequisite."
 
   - id: "CA7"
     type: "COMPUTATION"
     lines: [57]
     code: "uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Calculates max borrow based on manipulated collateral value."
+    security_function: "BENIGN"
+    rationale: "Max borrow calculation. Standard lending mechanics consuming already-tainted value."
 
   - id: "CA8"
     type: "INPUT_VAL"
@@ -79,8 +79,8 @@ code_acts:
           positions[msg.sender].borrowed + amount <= maxBorrow,
           "Insufficient collateral"
       );
-    security_function: "PREREQ"
-    rationale: "PREREQ - Borrow check uses maxBorrow which is based on manipulated collateral value."
+    security_function: "BENIGN"
+    rationale: "Borrow check. Standard validation consuming already-tainted maxBorrow value."
 
   - id: "CA9"
     type: "STATE_MOD"
@@ -121,8 +121,8 @@ code_acts:
     type: "EXT_CALL"
     lines: [74]
     code: "uint256 totalSupply = pair.totalSupply();"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Gets total supply for LP share calculation."
+    security_function: "BENIGN"
+    rationale: "Total supply access. Mechanical read - any LP pricing would need this."
 
   - id: "CA15"
     type: "COMPUTATION"
@@ -130,8 +130,8 @@ code_acts:
     code: |
       uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;
       uint256 amount1 = (uint256(reserve1) * lpAmount) / totalSupply;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Calculates share of reserves. Uses manipulated reserve values."
+    security_function: "BENIGN"
+    rationale: "Reserve share calculation. Part of the same valuation formula as ROOT_CAUSE - uses manipulated reserves."
 
   - id: "CA16"
     type: "COMPUTATION"
@@ -139,8 +139,8 @@ code_acts:
     code: |
       uint256 value0 = amount0;
       uint256 totalValue = amount0 + amount1;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Value calculation using manipulated amounts. Inflated reserves lead to inflated value."
+    security_function: "BENIGN"
+    rationale: "Value aggregation. Part of the same valuation formula as ROOT_CAUSE."
 
   - id: "CA17"
     type: "INPUT_VAL"
@@ -181,8 +181,8 @@ code_acts:
       uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;
       uint256 remainingValue = getLPTokenValue(remainingLP);
       uint256 maxBorrow = (remainingValue * 100) / COLLATERAL_RATIO;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Health check on withdrawal also uses manipulable getLPTokenValue."
+    security_function: "BENIGN"
+    rationale: "Withdrawal health check. Not used in the exploit path - attack completes at borrow time."
 
   - id: "CA22"
     type: "INPUT_VAL"
@@ -243,35 +243,15 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA13
-    PREREQ: 10         # CA1, CA2, CA6, CA7, CA8, CA14, CA15, CA16, CA21
-    BENIGN: 13         # CA3, CA4, CA5, CA9, CA10, CA11, CA12, CA17, CA18, CA19, CA20, CA22, CA23, CA24
+    PREREQ: 0
+    BENIGN: 23         # CA1-CA12, CA14-CA24
     UNRELATED: 4       # batched
 
   root_causes:
     - id: "CA13"
       line: 73
       type: "EXT_CALL"
-      description: "Uses manipulable spot reserves from Uniswap pair"
-
-  prerequisites:
-    - id: "CA1"
-      description: "Position struct"
-    - id: "CA2"
-      description: "Position mapping"
-    - id: "CA6"
-      description: "Collateral value from manipulable function"
-    - id: "CA7"
-      description: "Max borrow calculation"
-    - id: "CA8"
-      description: "Borrow check using manipulated value"
-    - id: "CA14"
-      description: "Total supply for LP calculation"
-    - id: "CA15"
-      description: "Reserve share calculation"
-    - id: "CA16"
-      description: "Value calculation using reserves"
-    - id: "CA21"
-      description: "Withdrawal health check uses manipulable function"
+      description: "Uses spot reserves from Uniswap pair as price oracle for LP token valuation - allows flash loan manipulation"
 
 line_to_code_act:
   # Directives (UNRELATED)
@@ -403,27 +383,27 @@ line_to_code_act:
   123: "CA_DECLARATIONS"
 
 code_act_security_functions:
-  CA1: "PREREQ"
-  CA2: "PREREQ"
+  CA1: "BENIGN"
+  CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
-  CA6: "PREREQ"
-  CA7: "PREREQ"
-  CA8: "PREREQ"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
   CA11: "BENIGN"
   CA12: "BENIGN"
   CA13: "ROOT_CAUSE"
-  CA14: "PREREQ"
-  CA15: "PREREQ"
-  CA16: "PREREQ"
+  CA14: "BENIGN"
+  CA15: "BENIGN"
+  CA16: "BENIGN"
   CA17: "BENIGN"
   CA18: "BENIGN"
   CA19: "BENIGN"
   CA20: "BENIGN"
-  CA21: "PREREQ"
+  CA21: "BENIGN"
   CA22: "BENIGN"
   CA23: "BENIGN"
   CA24: "BENIGN"

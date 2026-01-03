@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_008"
 vulnerability_type: "price_oracle_manipulation"
-vulnerable_lines: [70, 102]
+vulnerable_lines: [102]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -100,8 +100,8 @@ code_acts:
     type: "EXT_CALL"
     lines: [70, 71]
     code: "uint256 borrowValue = (oracle.getUnderlyingPrice(cToken) * amount) / 1e18;"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Uses spot price from oracle that can be manipulated via flash loan. Attacker drains Curve pool within single tx, inflating yUSD price. No TWAP, no manipulation resistance, no price sanity checks."
+    security_function: "PREREQ"
+    rationale: "PREREQ - Uses same manipulable oracle as CA20, but this calculates borrow value (not collateral). The primary exploit is via collateral inflation (CA20), this is secondary."
 
   - id: "CA14"
     type: "INPUT_VAL"
@@ -158,22 +158,22 @@ code_acts:
     type: "COMPUTATION"
     lines: [105]
     code: "uint256 value = (balance * price) / 1e18;"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this computation uses the manipulated price. Produces inflated collateral value."
+    security_function: "BENIGN"
+    rationale: "Arithmetic propagation of price. The computation itself is correct - it just processes the already-corrupted oracle price from CA20."
 
   - id: "CA22"
     type: "COMPUTATION"
     lines: [108]
     code: "uint256 power = (value * collateralFactors[cToken]) / 1e18;"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this applies collateral factor to already-inflated value."
+    security_function: "BENIGN"
+    rationale: "Applies collateral factor. Correctly implemented - processes already-corrupted value."
 
   - id: "CA23"
     type: "STATE_MOD"
     lines: [110]
     code: "totalPower += power;"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this accumulates inflated borrow power."
+    security_function: "BENIGN"
+    rationale: "Accumulates borrow power. Correctly implemented - processes already-corrupted value."
 
   - id: "CA24"
     type: "CTRL_FLOW"
@@ -274,17 +274,13 @@ summary:
   total_lines_covered: 113  # excludes empty lines
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA13, CA20
+    ROOT_CAUSE: 1      # CA20
     SECONDARY_VULN: 1  # CA31
-    PREREQ: 6          # CA1, CA11, CA14, CA21, CA22, CA23
-    BENIGN: 22         # CA2-CA10, CA12, CA15-CA19, CA24-CA30
+    PREREQ: 4          # CA1, CA11, CA13, CA14
+    BENIGN: 25         # CA2-CA10, CA12, CA15-CA19, CA21-CA30
     UNRELATED: 5       # batched
 
   root_causes:
-    - id: "CA13"
-      line: 70
-      type: "EXT_CALL"
-      description: "Oracle spot price in borrow() - no manipulation resistance"
     - id: "CA20"
       line: 102
       type: "EXT_CALL"
@@ -301,14 +297,10 @@ summary:
       description: "Oracle storage - stores manipulable price source"
     - id: "CA11"
       description: "calculateBorrowPower call uses manipulated prices"
+    - id: "CA13"
+      description: "Secondary oracle call in borrow() - same manipulable source"
     - id: "CA14"
       description: "Collateral check passes with inflated values"
-    - id: "CA21"
-      description: "Collateral value computation using inflated price"
-    - id: "CA22"
-      description: "Power calculation using inflated value"
-    - id: "CA23"
-      description: "Accumulates inflated borrow power"
 
 line_to_code_act:
     1: "CA_DIRECTIVES"
@@ -479,7 +471,7 @@ code_act_security_functions:
   CA10: "BENIGN"
   CA11: "PREREQ"
   CA12: "BENIGN"
-  CA13: "ROOT_CAUSE"
+  CA13: "PREREQ"
   CA14: "PREREQ"
   CA15: "BENIGN"
   CA16: "BENIGN"
@@ -487,9 +479,9 @@ code_act_security_functions:
   CA18: "BENIGN"
   CA19: "BENIGN"
   CA20: "ROOT_CAUSE"
-  CA21: "PREREQ"
-  CA22: "PREREQ"
-  CA23: "PREREQ"
+  CA21: "BENIGN"
+  CA22: "BENIGN"
+  CA23: "BENIGN"
   CA24: "BENIGN"
   CA25: "BENIGN"
   CA26: "BENIGN"

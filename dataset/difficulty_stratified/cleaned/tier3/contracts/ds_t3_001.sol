@@ -11,8 +11,8 @@ interface imp {
 }
 
 contract Proxy {
-
-    bytes32 internal _IMPLEMENTATION_SLOT = keccak256("proxy.implementation.slot");
+    bytes32 internal _IMPLEMENTATION_SLOT =
+        keccak256("proxy.implementation.slot");
 
     constructor(address implementation) {
         _setImplementation(address(0));
@@ -28,7 +28,6 @@ contract Proxy {
     }
 
     function _setImplementation(address newImplementation) private {
-        //require(Address.isContract(newImplementation), "ERC1967: new implementation is not a contract");
         StorageSlot
             .getAddressSlot(_IMPLEMENTATION_SLOT)
             .value = newImplementation;
@@ -40,7 +39,6 @@ contract Proxy {
 }
 
 contract Implementation is Ownable, Initializable {
-    // function initialize(address owner) external {    //test purpose
     function initialize(address owner) external initializer {
         _transferOwnership(owner);
     }

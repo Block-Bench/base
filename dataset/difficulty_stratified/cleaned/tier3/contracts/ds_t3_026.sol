@@ -1,30 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.4.24;
 
-contract PoCGame
-{
-
-    modifier onlyOwner()
-    {
+contract PoCGame {
+    modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
 
-   modifier isOpenToPublic()
-    {
+    modifier isOpenToPublic() {
         require(openToPublic);
         _;
     }
 
-    modifier onlyRealPeople()
-    {
-          require (msg.sender == tx.origin);
+    modifier onlyRealPeople() {
+        require(msg.sender == tx.origin);
         _;
     }
 
-    modifier  onlyPlayers()
-    {
-        require (wagers[msg.sender] > 0);
+    modifier onlyPlayers() {
+        require(wagers[msg.sender] > 0);
         _;
     }
 
@@ -45,51 +39,36 @@ contract PoCGame
     bool openToPublic;
     uint256 totalDonated;
 
-    constructor(address whaleAddress, uint256 wagerLimit)
-    onlyRealPeople()
-    public
-    {
+    constructor(
+        address whaleAddress,
+        uint256 wagerLimit
+    ) public onlyRealPeople() {
         openToPublic = false;
         owner = msg.sender;
         whale = whaleAddress;
         totalDonated = 0;
         betLimit = wagerLimit;
-
     }
 
-    function OpenToThePublic()
-    onlyOwner()
-    public
-    {
+    function OpenToThePublic() public onlyOwner {
         openToPublic = true;
     }
 
-    function AdjustBetAmounts(uint256 amount)
-    onlyOwner()
-    public
-    {
+    function AdjustBetAmounts(uint256 amount) public onlyOwner {
         betLimit = amount;
 
         emit BetLimitChanged(betLimit);
     }
 
-    function AdjustDifficulty(uint256 amount)
-    onlyOwner()
-    public
-    {
+    function AdjustDifficulty(uint256 amount) public onlyOwner {
         difficulty = amount;
 
         emit DifficultyChanged(difficulty);
     }
 
-    function() public payable { }
+    function() public payable {}
 
-    function wager()
-    isOpenToPublic()
-    onlyRealPeople()
-    payable
-    public
-    {
+    function wager() public payable isOpenToPublic onlyRealPeople {
         //You have to send exactly 0.01 ETH.
         require(msg.value == betLimit);
 
@@ -102,128 +81,83 @@ contract PoCGame
         emit Wager(msg.value, msg.sender);
     }
 
-    function play()
-    isOpenToPublic()
-    onlyRealPeople()
-    onlyPlayers()
-    public
-    {
+    function play() public isOpenToPublic onlyRealPeople onlyPlayers {
         uint256 blockNumber = timestamps[msg.sender];
-        if(blockNumber < block.number)
-        {
+        if (blockNumber < block.number) {
             timestamps[msg.sender] = 0;
             wagers[msg.sender] = 0;
 
-            uint256 winningNumber = uint256(keccak256(abi.encodePacked(blockhash(blockNumber),  msg.sender)))%difficulty +1;
+            uint256 winningNumber = (uint256(
+                keccak256(abi.encodePacked(blockhash(blockNumber), msg.sender))
+            ) % difficulty) + 1;
 
-            if(winningNumber == difficulty / 2)
-            {
+            if (winningNumber == difficulty / 2) {
                 payout(msg.sender);
-            }
-            else
-            {
+            } else {
                 //player loses
                 loseWager(betLimit / 2);
             }
-        }
-        else
-        {
+        } else {
             revert();
         }
     }
 
-    function donate()
-    isOpenToPublic()
-    public
-    payable
-    {
+    function donate() public payable isOpenToPublic {
         donateToWhale(msg.value);
     }
 
-    function payout(address winner)
-    internal
-    {
+    function payout(address winner) internal {
         uint256 ethToTransfer = address(this).balance / 2;
 
         winner.transfer(ethToTransfer);
         emit Win(ethToTransfer, winner);
     }
 
-    function donateToWhale(uint256 amount)
-    internal
-    {
+    function donateToWhale(uint256 amount) internal {
         whale.call.value(amount)(bytes4(keccak256("donate()")));
         totalDonated += amount;
         emit Donate(amount, whale, msg.sender);
     }
 
-    function loseWager(uint256 amount)
-    internal
-    {
+    function loseWager(uint256 amount) internal {
         whale.call.value(amount)(bytes4(keccak256("donate()")));
         totalDonated += amount;
         emit Lose(amount, msg.sender);
     }
 
-    function ethBalance()
-    public
-    view
-    returns (uint256)
-    {
+    function ethBalance() public view returns (uint256) {
         return address(this).balance;
     }
 
-    function currentDifficulty()
-    public
-    view
-    returns (uint256)
-    {
+    function currentDifficulty() public view returns (uint256) {
         return difficulty;
     }
 
-    function currentBetLimit()
-    public
-    view
-    returns (uint256)
-    {
+    function currentBetLimit() public view returns (uint256) {
         return betLimit;
     }
 
-    function hasPlayerWagered(address player)
-    public
-    view
-    returns (bool)
-    {
-        if(wagers[player] > 0)
-        {
+    function hasPlayerWagered(address player) public view returns (bool) {
+        if (wagers[player] > 0) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
-
     }
 
-    function winnersPot()
-    public
-    view
-    returns (uint256)
-    {
+    function winnersPot() public view returns (uint256) {
         return address(this).balance / 2;
     }
 
-    function transferAnyERC20Token(address tokenAddress, address tokenOwner, uint tokens)
-    public
-    onlyOwner()
-    returns (bool success)
-    {
+    function transferAnyERC20Token(
+        address tokenAddress,
+        address tokenOwner,
+        uint tokens
+    ) public onlyOwner returns (bool success) {
         return ERC20Interface(tokenAddress).transfer(tokenOwner, tokens);
     }
 }
 
-//Define ERC20Interface.transfer, so PoCWHALE can transfer tokens accidently sent to it.
-contract ERC20Interface
-{
+contract ERC20Interface {
     function transfer(address to, uint256 tokens) public returns (bool success);
 }

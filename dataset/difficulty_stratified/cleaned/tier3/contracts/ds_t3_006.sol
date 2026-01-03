@@ -7,9 +7,6 @@ contract SimpleBank {
     mapping(address => uint) private balances;
 
     function deposit(uint256 amount) public {
-
-        // (which is 255), then only the least significant 8 bits are stored in balance.
-
         uint8 balance = uint8(amount);
 
         // store the balance
@@ -28,7 +25,6 @@ contract SimpleBankB {
 
     function deposit(uint256 _amount) public {
         // Use the `toUint8()` function from `SafeCast` to safely downcast `amount`.
-        // If `amount` is greater than `type(uint8).max`, it will revert.
         // or keep the same uint256 with amount.
         uint8 amount = _amount.toUint8(); // or keep uint256
 
