@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_010"
 vulnerability_type: "reentrancy"
-vulnerable_lines: [31, 33]
+vulnerable_lines: [31]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -18,8 +18,8 @@ code_acts:
     type: "DECLARATION"
     lines: [5]
     code: "mapping(address => uint256) public credit;"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this stores user balances that are updated AFTER the external call, enabling the reentrancy attack."
+    security_function: "BENIGN"
+    rationale: "Balance mapping declaration. The existence of storage is not the vulnerability - almost every payable contract has such a mapping."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -80,8 +80,8 @@ code_acts:
     type: "STATE_MOD"
     lines: [33]
     code: "credit[msg.sender] = 0;"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - State update AFTER external call. Should be BEFORE the call to prevent reentrancy. This violates the checks-effects-interactions pattern. During recursive calls, this line hasn't executed yet, so oCredit still contains the original value."
+    security_function: "BENIGN"
+    rationale: "State update that zeros credit. The operation itself is correct - it's just in the wrong order (after the external call instead of before). The root cause is CA7 which makes the external call before this update."
 
   # --- getCredit function ---
 
@@ -119,24 +119,16 @@ summary:
   total_lines_covered: 39  # excludes empty lines
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA7, CA9
-    PREREQ: 1          # CA1
-    BENIGN: 7          # CA2-CA6, CA8, CA10
+    ROOT_CAUSE: 1      # CA7
+    PREREQ: 0
+    BENIGN: 9          # CA1-CA6, CA8-CA10
     UNRELATED: 3       # batched
 
   root_causes:
     - id: "CA7"
       line: 31
       type: "EXT_CALL"
-      description: "External call before state update - enables reentrancy"
-    - id: "CA9"
-      line: 33
-      type: "STATE_MOD"
-      description: "State update AFTER external call - CEI violation"
-
-  prerequisites:
-    - id: "CA1"
-      description: "credit mapping stores state that is updated too late"
+      description: "External call before state update - enables reentrancy (CEI violation)"
 
   attack_flow:
     - step: 1
@@ -199,7 +191,7 @@ line_to_code_act:
     # Line 44: empty
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
@@ -207,7 +199,7 @@ code_act_security_functions:
   CA6: "BENIGN"
   CA7: "ROOT_CAUSE"
   CA8: "BENIGN"
-  CA9: "ROOT_CAUSE"
+  CA9: "BENIGN"
   CA10: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"

@@ -47,8 +47,8 @@ code_acts:
     type: "EXT_CALL"
     lines: [39]
     code: "QBridgeHandler(handler).deposit(resourceID, msg.sender, data);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Forwards deposit to handler. The handler's deposit function has the actual vulnerability."
+    security_function: "BENIGN"
+    rationale: "Forwards deposit to handler. Correct bridge behavior - the vulnerability is inside the handler."
 
   - id: "CA6"
     type: "EVENT_EMIT"
@@ -61,22 +61,22 @@ code_acts:
     type: "DECLARATION"
     lines: [46]
     code: "mapping(bytes32 => address) public resourceIDToTokenContractAddress;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Mapping from resourceID to token address. If resourceID is not set, returns address(0)."
+    security_function: "BENIGN"
+    rationale: "Mapping declaration. The flaw is failure to validate lookup results, not the mapping's existence."
 
   - id: "CA8"
     type: "DECLARATION"
     lines: [47]
     code: "mapping(address => bool) public contractWhitelist;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Whitelist mapping that should be checked but isn't used in deposit."
+    security_function: "BENIGN"
+    rationale: "Unused whitelist mapping. Dead state cannot be a prerequisite."
 
   - id: "CA9"
     type: "CTRL_FLOW"
     lines: [57]
     code: "address tokenContract = resourceIDToTokenContractAddress[resourceID];"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Reads token address from mapping. Returns address(0) for unregistered resourceID."
+    security_function: "BENIGN"
+    rationale: "Mechanical mapping read. The vulnerability is the absence of validation after this read, not the read itself."
 
   - id: "CA10"
     type: "COMPUTATION"
@@ -92,7 +92,7 @@ code_acts:
     lines: [67]
     code: "IERC20(tokenContract).transferFrom(depositer, address(this), amount);"
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Calls transferFrom on tokenContract which could be address(0) if resourceID is not registered. EVM call to address(0) may not revert and returns success, but deposits are credited anyway via the Deposit event. Attacker can deposit without transferring any tokens."
+    rationale: "ROOT_CAUSE - Missing validation: tokenContract is used without checking != address(0). For unregistered resourceIDs, this calls address(0) which doesn't revert, allowing deposits without transferring tokens."
 
   - id: "CA12"
     type: "ACCESS_CTRL"
@@ -140,31 +140,21 @@ summary:
   by_security_function:
     ROOT_CAUSE: 1      # CA11
     SECONDARY_VULN: 1  # CA12
-    PREREQ: 5          # CA5, CA7, CA8, CA9
-    BENIGN: 5          # CA1, CA2, CA3, CA4, CA6, CA10
+    PREREQ: 0
+    BENIGN: 10         # CA1-CA10
     UNRELATED: 4       # batched
 
   root_causes:
     - id: "CA11"
       line: 67
       type: "EXT_CALL"
-      description: "transferFrom called on potentially address(0) without validation"
+      description: "Missing validation before external call - tokenContract used without checking != address(0)"
 
   secondary_vulns:
     - id: "CA12"
-      lines: [76, 77, 78, 79, 80]
+      lines: [76, 77, 80]
       type: "ACCESS_CTRL"
-      description: "setResource lacks access control"
-
-  prerequisites:
-    - id: "CA5"
-      description: "Deposit forwarded to handler"
-    - id: "CA7"
-      description: "resourceID to token mapping (returns 0 if unset)"
-    - id: "CA8"
-      description: "Unused whitelist mapping"
-    - id: "CA9"
-      description: "Token address read without validation"
+      description: "setResource lacks access control - independent misconfiguration risk"
 
 line_to_code_act:
   # Directives (UNRELATED)
@@ -258,11 +248,11 @@ code_act_security_functions:
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "PREREQ"
+  CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "PREREQ"
-  CA8: "PREREQ"
-  CA9: "PREREQ"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
+  CA9: "BENIGN"
   CA10: "BENIGN"
   CA11: "ROOT_CAUSE"
   CA12: "SECONDARY_VULN"

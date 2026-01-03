@@ -38,15 +38,15 @@ code_acts:
           require(msg.sender == owner, "Not owner");
           _;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ because this modifier checks msg.sender == owner, which passes when EthCrossChainManager calls it. The check is correct but enables the attack vector."
+    security_function: "BENIGN"
+    rationale: "Correctly implemented access control modifier. This is architectural context - the modifier works as designed. The vulnerability is in EthCrossChainManager's unrestricted execution, not in this guard."
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [33, 34, 35, 36, 37, 38, 39]
     code: "function putCurEpochConPubKeyBytes(...) external onlyOwner"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this function updates validator public keys. Protected by onlyOwner, but attackers can bypass this by routing through EthCrossChainManager."
+    security_function: "BENIGN"
+    rationale: "Function correctly protected by onlyOwner. This is the attack target (what gets exploited), not a prerequisite. The function itself is correctly implemented."
 
   - id: "CA5"
     type: "STATE_MOD"
@@ -96,8 +96,8 @@ code_acts:
     type: "COMPUTATION"
     lines: [81, 82, 83, 84, 85]
     code: "(address toContract, bytes memory method, bytes memory args) = _decodeTx(proof);"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this decodes the target contract and method from cross-chain proof. Returns unvalidated target that could be any contract."
+    security_function: "BENIGN"
+    rationale: "Function call to decode transaction. The call itself is correct - the issue is in _decodeTx (CA17) returning an unvalidated target."
 
   - id: "CA12"
     type: "EXT_CALL"
@@ -181,8 +181,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA12
-    PREREQ: 5          # CA3, CA4, CA7, CA11, CA17
-    BENIGN: 11         # CA1, CA2, CA5, CA6, CA8-CA10, CA13-CA16
+    PREREQ: 2          # CA7, CA17
+    BENIGN: 14         # CA1-CA6, CA8-CA11, CA13-CA16
     UNRELATED: 5       # batched
 
   root_causes:
@@ -192,16 +192,10 @@ summary:
       description: "Unrestricted external call to any decoded contract"
 
   prerequisites:
-    - id: "CA3"
-      description: "onlyOwner modifier passes for EthCrossChainManager"
-    - id: "CA4"
-      description: "putCurEpochConPubKeyBytes allows key update"
     - id: "CA7"
       description: "dataContract stores target address"
-    - id: "CA11"
-      description: "Decodes unvalidated target from proof"
     - id: "CA17"
-      description: "_decodeTx returns unvalidated target"
+      description: "_decodeTx returns unvalidated target without validation"
 
 line_to_code_act:
     1: "CA_DIRECTIVES"
@@ -349,15 +343,15 @@ line_to_code_act:
 code_act_security_functions:
   CA1: "BENIGN"
   CA2: "BENIGN"
-  CA3: "PREREQ"
-  CA4: "PREREQ"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "PREREQ"
   CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
-  CA11: "PREREQ"
+  CA11: "BENIGN"
   CA12: "ROOT_CAUSE"
   CA13: "BENIGN"
   CA14: "BENIGN"

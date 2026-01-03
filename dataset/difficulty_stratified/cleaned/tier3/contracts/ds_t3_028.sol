@@ -3,46 +3,66 @@ pragma solidity ^0.4.24;
 
 contract ERC20 {
     function totalSupply() constant returns (uint supply);
-    function balanceOf( address who ) constant returns (uint value);
-    function allowance( address owner, address spender ) constant returns (uint _allowance);
 
-    function transfer( address to, uint value) returns (bool ok);
-    function transferFrom( address from, address to, uint value) returns (bool ok);
-    function approve( address spender, uint value ) returns (bool ok);
+    function balanceOf(address who) constant returns (uint value);
 
-    event Transfer( address indexed from, address indexed to, uint value);
-    event Approval( address indexed owner, address indexed spender, uint value);
+    function allowance(
+        address owner,
+        address spender
+    ) constant returns (uint _allowance);
+
+    function transfer(address to, uint value) returns (bool ok);
+
+    function transferFrom(
+        address from,
+        address to,
+        uint value
+    ) returns (bool ok);
+
+    function approve(address spender, uint value) returns (bool ok);
+
+    event Transfer(address indexed from, address indexed to, uint value);
+    event Approval(address indexed owner, address indexed spender, uint value);
 }
+
 contract Ownable {
-  address public owner;
+    address public owner;
 
-  function Ownable() {
-    owner = msg.sender;
-  }
-
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
-
-  function transferOwnership(address newOwner) onlyOwner {
-    if (newOwner != address(0)) {
-      owner = newOwner;
+    function Ownable() {
+        owner = msg.sender;
     }
-  }
 
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    function transferOwnership(address newOwner) onlyOwner {
+        if (newOwner != address(0)) {
+            owner = newOwner;
+        }
+    }
 }
 
 /// @title Interface for contracts conforming to ERC-721: Non-Fungible Tokens
-/// @author Dieter Shirley <dete@axiomzen.co> (https://github.com/dete)
+/// @author Dieter Shirley <dete@axiomzen.co>
 contract ERC721 {
     // Required methods
     function totalSupply() public view returns (uint256 total);
+
     function balanceOf(address _owner) public view returns (uint256 balance);
+
     function ownerOf(uint256 _tokenId) external view returns (address owner);
+
     function approve(address _to, uint256 _tokenId) external;
+
     function transfer(address _to, uint256 _tokenId) external;
-    function transferFrom(address _from, address _to, uint256 _tokenId) external;
+
+    function transferFrom(
+        address _from,
+        address _to,
+        uint256 _tokenId
+    ) external;
 
     // Events
     event Transfer(address from, address to, uint256 tokenId);
@@ -54,8 +74,10 @@ contract ERC721 {
     // function tokensOfOwner(address _owner) external view returns (uint256[] tokenIds);
     // function tokenMetadata(uint256 _tokenId, string _preferredTransport) public view returns (string infoUrl);
 
-    // ERC-165 Compatibility (https://github.com/ethereum/EIPs/issues/165)
-    function supportsInterface(bytes4 _interfaceID) external view returns (bool);
+    // ERC-165 Compatibility
+    function supportsInterface(
+        bytes4 _interfaceID
+    ) external view returns (bool);
 }
 
 contract GeneScienceInterface {
@@ -66,21 +88,27 @@ contract GeneScienceInterface {
     /// @param genes1 genes of mom
     /// @param genes2 genes of sire
     /// @return the genes that are supposed to be passed down the child
-    function mixGenes(uint256[2] genes1, uint256[2] genes2,uint256 g1,uint256 g2, uint256 targetBlock) public returns (uint256[2]);
+    function mixGenes(
+        uint256[2] genes1,
+        uint256[2] genes2,
+        uint256 g1,
+        uint256 g2,
+        uint256 targetBlock
+    ) public returns (uint256[2]);
 
-    function getPureFromGene(uint256[2] gene) public view returns(uint256);
+    function getPureFromGene(uint256[2] gene) public view returns (uint256);
 
     /// @dev get sex from genes 0: female 1: male
-    function getSex(uint256[2] gene) public view returns(uint256);
+    function getSex(uint256[2] gene) public view returns (uint256);
 
     /// @dev get wizz type from gene
-    function getWizzType(uint256[2] gene) public view returns(uint256);
+    function getWizzType(uint256[2] gene) public view returns (uint256);
 
-    function clearWizzType(uint256[2] _gene) public returns(uint256[2]);
+    function clearWizzType(uint256[2] _gene) public returns (uint256[2]);
 }
 
 /// @title A facet of PandaCore that manages special access privileges.
-/// @author Axiom Zen (https://www.axiomzen.co)
+/// @author Axiom Zen
 /// @dev See the PandaCore contract documentation to understand how the various contract facets are arranged.
 contract PandaAccessControl {
     // This facet controls access control for CryptoPandas. There are four roles managed here:
@@ -100,7 +128,7 @@ contract PandaAccessControl {
     // convenience. The less we use an address, the less likely it is that we somehow compromise the
     // account.
 
-    /// @dev Emited when contract is upgraded - See README.md for updgrade plan
+    /// @dev Emited when contract is upgraded
     event ContractUpgrade(address newContract);
 
     // The addresses of the accounts (or contracts) that can execute actions within each roles.
@@ -132,8 +160,8 @@ contract PandaAccessControl {
     modifier onlyCLevel() {
         require(
             msg.sender == cooAddress ||
-            msg.sender == ceoAddress ||
-            msg.sender == cfoAddress
+                msg.sender == ceoAddress ||
+                msg.sender == cfoAddress
         );
         _;
     }
@@ -171,7 +199,7 @@ contract PandaAccessControl {
     }
 
     /// @dev Modifier to allow actions only when the contract IS paused
-    modifier whenPaused {
+    modifier whenPaused() {
         require(paused);
         _;
     }
@@ -184,17 +212,14 @@ contract PandaAccessControl {
     /// @dev Unpauses the smart contract. Can only be called by the CEO, since
     ///  one reason we may pause the contract is when CFO or COO accounts are
     ///  compromised.
-    /// @notice This is public rather than external so it can be called by
-    ///  derived contracts.
+
     function unpause() public onlyCEO whenPaused {
-        // can't unpause if contract was upgraded
         paused = false;
     }
 }
 
 /// @title Base contract for CryptoPandas. Holds all common structs, events and base variables.
-/// @author Axiom Zen (https://www.axiomzen.co)
-/// @dev See the PandaCore contract documentation to understand how the various contract facets are arranged.
+
 contract PandaBase is PandaAccessControl {
     /*** EVENTS ***/
 
@@ -204,7 +229,13 @@ contract PandaBase is PandaAccessControl {
     /// @dev The Birth event is fired whenever a new kitten comes into existence. This obviously
     ///  includes any time a cat is created through the giveBirth method, but it is also called
     ///  when a new gen0 cat is created.
-    event Birth(address owner, uint256 pandaId, uint256 matronId, uint256 sireId, uint256[2] genes);
+    event Birth(
+        address owner,
+        uint256 pandaId,
+        uint256 matronId,
+        uint256 sireId,
+        uint256[2] genes
+    );
 
     /// @dev Transfer event as defined in current draft of ERC721. Emitted every time a kitten
     ///  ownership is assigned, including births.
@@ -215,20 +246,17 @@ contract PandaBase is PandaAccessControl {
     /// @dev The main Panda struct. Every cat in CryptoPandas is represented by a copy
     ///  of this structure, so great care was taken to ensure that it fits neatly into
     ///  exactly two 256-bit words. Note that the order of the members in this structure
-    ///  Ref: http://solidity.readthedocs.io/en/develop/miscellaneous.html
+
     struct Panda {
         // The Panda's genetic code is packed into these 256-bits, the format is
-        // sooper-sekret! A cat's genes never change.
-        uint256[2] genes;
 
+        uint256[2] genes;
         // The timestamp from the block when this cat came into existence.
         uint64 birthTime;
-
         // The minimum timestamp after which this cat can engage in breeding
         // activities again. This same timestamp is used for the pregnancy
         // timer (for matrons) as well as the siring cooldown.
         uint64 cooldownEndBlock;
-
         // The ID of the parents of this panda, set to 0 for gen0 cats.
         // Note that using 32-bit unsigned integers limits us to a "mere"
         // 4 billion cats. This number might seem small until you realize
@@ -237,20 +265,17 @@ contract PandaBase is PandaAccessControl {
         // for several years (even as Ethereum learns to scale).
         uint32 matronId;
         uint32 sireId;
-
         // Set to the ID of the sire cat for matrons that are pregnant,
         // zero otherwise. A non-zero value here is how we know a cat
         // is pregnant. Used to retrieve the genetic material for the new
         // kitten when the birth transpires.
         uint32 siringWithId;
-
         // Set to the index in the cooldown array (see below) that represents
         // the current cooldown duration for this Panda. This starts at zero
         // for gen0 cats, and is initialized to floor(generation/2) for others.
         // Incremented by one for each successful breeding action, regardless
         // of whether this cat is acting as matron or sire.
         uint16 cooldownIndex;
-
         // The "generation number" of this cat. Cats minted by the CK contract
         // for sale are called "gen0" and have a generation number of 0. The
         // generation number of all other cats is the larger of the two generation
@@ -293,21 +318,21 @@ contract PandaBase is PandaAccessControl {
 
     /// @dev A mapping from cat IDs to the address that owns them. All cats have
     ///  some valid owner address, even gen0 cats are created with a non-zero owner.
-    mapping (uint256 => address) public pandaIndexToOwner;
+    mapping(uint256 => address) public pandaIndexToOwner;
 
     // @dev A mapping from owner address to count of tokens that address owns.
     //  Used internally inside balanceOf() to resolve ownership count.
-    mapping (address => uint256) ownershipTokenCount;
+    mapping(address => uint256) ownershipTokenCount;
 
     /// @dev A mapping from PandaIDs to an address that has been approved to call
     ///  transferFrom(). Each Panda can only have one approved address for transfer
     ///  at any time. A zero value means no approval is outstanding.
-    mapping (uint256 => address) public pandaIndexToApproved;
+    mapping(uint256 => address) public pandaIndexToApproved;
 
     /// @dev A mapping from PandaIDs to an address that has been approved to use
     ///  this Panda for siring via breedWith(). Each Panda can only have one approved
     ///  address for siring at any time. A zero value means no approval is outstanding.
-    mapping (uint256 => address) public sireAllowedToAddress;
+    mapping(uint256 => address) public sireAllowedToAddress;
 
     /// @dev The address of the ClockAuction contract that handles sales of Pandas. This
     ///  same contract handles both peer-to-peer sales as well as the gen0 sales which are
@@ -319,39 +344,40 @@ contract PandaBase is PandaAccessControl {
     ///  after a sales and siring auction are quite different.
     SiringClockAuction public siringAuction;
 
-    /// @dev The address of the sibling contract that is used to implement the sooper-sekret
     ///  genetic combination algorithm.
     GeneScienceInterface public geneScience;
 
     SaleClockAuctionERC20 public saleAuctionERC20;
 
     // wizz panda total
-    mapping (uint256 => uint256) public wizzPandaQuota;
-    mapping (uint256 => uint256) public wizzPandaCount;
+    mapping(uint256 => uint256) public wizzPandaQuota;
+    mapping(uint256 => uint256) public wizzPandaCount;
 
     /// wizz panda control
-    function getWizzPandaQuotaOf(uint256 _tp) view external returns(uint256) {
+    function getWizzPandaQuotaOf(uint256 _tp) external view returns (uint256) {
         return wizzPandaQuota[_tp];
     }
 
-    function getWizzPandaCountOf(uint256 _tp) view external returns(uint256) {
+    function getWizzPandaCountOf(uint256 _tp) external view returns (uint256) {
         return wizzPandaCount[_tp];
     }
 
-    function setTotalWizzPandaOf(uint256 _tp,uint256 _total) external onlyCLevel {
-        require (wizzPandaQuota[_tp]==0);
-        require (_total==uint256(uint32(_total)));
+    function setTotalWizzPandaOf(
+        uint256 _tp,
+        uint256 _total
+    ) external onlyCLevel {
+        require(wizzPandaQuota[_tp] == 0);
+        require(_total == uint256(uint32(_total)));
         wizzPandaQuota[_tp] = _total;
     }
 
-    function getWizzTypeOf(uint256 _id) view external returns(uint256) {
+    function getWizzTypeOf(uint256 _id) external view returns (uint256) {
         Panda memory _p = pandas[_id];
         return geneScience.getWizzType(_p.genes);
     }
 
     /// @dev Assigns ownership of a specific Panda to an address.
     function _transfer(address _from, address _to, uint256 _tokenId) internal {
-
         ownershipTokenCount[_to]++;
         // transfer ownership
         pandaIndexToOwner[_tokenId] = _to;
@@ -382,10 +408,7 @@ contract PandaBase is PandaAccessControl {
         uint256 _generation,
         uint256[2] _genes,
         address _owner
-    )
-        internal
-        returns (uint)
-    {
+    ) internal returns (uint) {
         // These requires are not strictly necessary, our calling code should make
         // sure that these conditions are never broken. However! _createPanda() is already
         // an expensive call (for storage), and it doesn't hurt to be especially careful
@@ -397,38 +420,38 @@ contract PandaBase is PandaAccessControl {
         // New panda starts with the same cooldown as parent gen/2
         uint16 cooldownIndex = 0;
         // when contract creation, geneScience ref is null
-        if (pandas.length>0){
+        if (pandas.length > 0) {
             uint16 pureDegree = uint16(geneScience.getPureFromGene(_genes));
-            if (pureDegree==0) {
+            if (pureDegree == 0) {
                 pureDegree = 1;
             }
-            cooldownIndex = 1000/pureDegree;
-            if (cooldownIndex%10 < 5){
-                cooldownIndex = cooldownIndex/10;
-            }else{
-                cooldownIndex = cooldownIndex/10 + 1;
+            cooldownIndex = 1000 / pureDegree;
+            if (cooldownIndex % 10 < 5) {
+                cooldownIndex = cooldownIndex / 10;
+            } else {
+                cooldownIndex = cooldownIndex / 10 + 1;
             }
             cooldownIndex = cooldownIndex - 1;
             if (cooldownIndex > 8) {
                 cooldownIndex = 8;
             }
             uint256 _tp = geneScience.getWizzType(_genes);
-            if (_tp>0 && wizzPandaQuota[_tp]<=wizzPandaCount[_tp]) {
+            if (_tp > 0 && wizzPandaQuota[_tp] <= wizzPandaCount[_tp]) {
                 _genes = geneScience.clearWizzType(_genes);
                 _tp = 0;
             }
             // gensis panda cooldownIndex should be 24 hours
-            if (_tp == 1){
+            if (_tp == 1) {
                 cooldownIndex = 5;
             }
 
             // increase wizz counter
-            if (_tp>0){
+            if (_tp > 0) {
                 wizzPandaCount[_tp] = wizzPandaCount[_tp] + 1;
             }
             // all gen0&gen1 except gensis
-            if (_generation <= 1 && _tp != 1){
-                require(gen0CreatedCount<GEN0_TOTAL_COUNT);
+            if (_generation <= 1 && _tp != 1) {
+                require(gen0CreatedCount < GEN0_TOTAL_COUNT);
                 gen0CreatedCount++;
             }
         }
@@ -471,11 +494,15 @@ contract PandaBase is PandaAccessControl {
         secondsPerBlock = secs;
     }
 }
+
 /// @title The external contract that is responsible for generating metadata for the pandas,
 ///  it has one function that will return the data as bytes.
 contract ERC721Metadata {
     /// @dev Given a token Id, returns a byte array that is supposed to be converted into string.
-    function getMetadata(uint256 _tokenId, string) public view returns (bytes32[4] buffer, uint256 count) {
+    function getMetadata(
+        uint256 _tokenId,
+        string
+    ) public view returns (bytes32[4] buffer, uint256 count) {
         if (_tokenId == 1) {
             buffer[0] = "Hello World! :D";
             count = 15;
@@ -498,35 +525,36 @@ contract ERC721Metadata {
 /// @dev Ref: https://github.com/ethereum/EIPs/issues/721
 ///  See the PandaCore contract documentation to understand how the various contract facets are arranged.
 contract PandaOwnership is PandaBase, ERC721 {
-
     /// @notice Name and symbol of the non fungible token, as defined in ERC721.
     string public constant name = "PandaEarth";
     string public constant symbol = "PE";
 
     bytes4 constant InterfaceSignature_ERC165 =
-        bytes4(keccak256('supportsInterface(bytes4)'));
+        bytes4(keccak256("supportsInterface(bytes4)"));
 
     bytes4 constant InterfaceSignature_ERC721 =
-        bytes4(keccak256('name()')) ^
-        bytes4(keccak256('symbol()')) ^
-        bytes4(keccak256('totalSupply()')) ^
-        bytes4(keccak256('balanceOf(address)')) ^
-        bytes4(keccak256('ownerOf(uint256)')) ^
-        bytes4(keccak256('approve(address,uint256)')) ^
-        bytes4(keccak256('transfer(address,uint256)')) ^
-        bytes4(keccak256('transferFrom(address,address,uint256)')) ^
-        bytes4(keccak256('tokensOfOwner(address)')) ^
-        bytes4(keccak256('tokenMetadata(uint256,string)'));
+        bytes4(keccak256("name()")) ^
+            bytes4(keccak256("symbol()")) ^
+            bytes4(keccak256("totalSupply()")) ^
+            bytes4(keccak256("balanceOf(address)")) ^
+            bytes4(keccak256("ownerOf(uint256)")) ^
+            bytes4(keccak256("approve(address,uint256)")) ^
+            bytes4(keccak256("transfer(address,uint256)")) ^
+            bytes4(keccak256("transferFrom(address,address,uint256)")) ^
+            bytes4(keccak256("tokensOfOwner(address)")) ^
+            bytes4(keccak256("tokenMetadata(uint256,string)"));
 
     /// @notice Introspection interface as per ERC-165 (https://github.com/ethereum/EIPs/issues/165).
     ///  Returns true for any standardized interfaces implemented by this contract. We implement
     ///  ERC-165 (obviously!) and ERC-721.
-    function supportsInterface(bytes4 _interfaceID) external view returns (bool)
-    {
+    function supportsInterface(
+        bytes4 _interfaceID
+    ) external view returns (bool) {
         // DEBUG ONLY
         //require((InterfaceSignature_ERC165 == 0x01ffc9a7) && (InterfaceSignature_ERC721 == 0x9a20483d));
 
-        return ((_interfaceID == InterfaceSignature_ERC165) || (_interfaceID == InterfaceSignature_ERC721));
+        return ((_interfaceID == InterfaceSignature_ERC165) ||
+            (_interfaceID == InterfaceSignature_ERC721));
     }
 
     // Internal utility functions: These functions all assume that their input arguments
@@ -536,14 +564,20 @@ contract PandaOwnership is PandaBase, ERC721 {
     /// @dev Checks if a given address is the current owner of a particular Panda.
     /// @param _claimant the address we are validating against.
     /// @param _tokenId kitten id, only valid when > 0
-    function _owns(address _claimant, uint256 _tokenId) internal view returns (bool) {
+    function _owns(
+        address _claimant,
+        uint256 _tokenId
+    ) internal view returns (bool) {
         return pandaIndexToOwner[_tokenId] == _claimant;
     }
 
     /// @dev Checks if a given address currently has transferApproval for a particular Panda.
     /// @param _claimant the address we are confirming kitten is approved for.
     /// @param _tokenId kitten id, only valid when > 0
-    function _approvedFor(address _claimant, uint256 _tokenId) internal view returns (bool) {
+    function _approvedFor(
+        address _claimant,
+        uint256 _tokenId
+    ) internal view returns (bool) {
         return pandaIndexToApproved[_tokenId] == _claimant;
     }
 
@@ -569,13 +603,7 @@ contract PandaOwnership is PandaBase, ERC721 {
     /// @param _to The address of the recipient, can be a user or contract.
     /// @param _tokenId The ID of the Panda to transfer.
     /// @dev Required for ERC-721 compliance.
-    function transfer(
-        address _to,
-        uint256 _tokenId
-    )
-        external
-        whenNotPaused
-    {
+    function transfer(address _to, uint256 _tokenId) external whenNotPaused {
         // Safety check to prevent against an unexpected 0x0 default.
         require(_to != address(0));
         // Disallow transfers to this contract to prevent accidental misuse.
@@ -601,13 +629,7 @@ contract PandaOwnership is PandaBase, ERC721 {
     ///  clear all approvals.
     /// @param _tokenId The ID of the Panda that can be transferred if this call succeeds.
     /// @dev Required for ERC-721 compliance.
-    function approve(
-        address _to,
-        uint256 _tokenId
-    )
-        external
-        whenNotPaused
-    {
+    function approve(address _to, uint256 _tokenId) external whenNotPaused {
         // Only an owner can grant transfer approval.
         require(_owns(msg.sender, _tokenId));
 
@@ -629,10 +651,7 @@ contract PandaOwnership is PandaBase, ERC721 {
         address _from,
         address _to,
         uint256 _tokenId
-    )
-        external
-        whenNotPaused
-    {
+    ) external whenNotPaused {
         // Safety check to prevent against an unexpected 0x0 default.
         require(_to != address(0));
         // Disallow transfers to this contract to prevent accidental misuse.
@@ -655,11 +674,7 @@ contract PandaOwnership is PandaBase, ERC721 {
 
     /// @notice Returns the address currently assigned ownership of a given Panda.
     /// @dev Required for ERC-721 compliance.
-    function ownerOf(uint256 _tokenId)
-        external
-        view
-        returns (address owner)
-    {
+    function ownerOf(uint256 _tokenId) external view returns (address owner) {
         owner = pandaIndexToOwner[_tokenId];
 
         require(owner != address(0));
@@ -671,7 +686,9 @@ contract PandaOwnership is PandaBase, ERC721 {
     ///  expensive (it walks the entire Panda array looking for cats belonging to owner),
     ///  but it also returns a dynamic array, which is only supported for web3 calls, and
     ///  not contract-to-contract calls.
-    function tokensOfOwner(address _owner) external view returns(uint256[] ownerTokens) {
+    function tokensOfOwner(
+        address _owner
+    ) external view returns (uint256[] ownerTokens) {
         uint256 tokenCount = balanceOf(_owner);
 
         if (tokenCount == 0) {
@@ -702,7 +719,7 @@ contract PandaOwnership is PandaBase, ERC721 {
     ///  Ref: https://github.com/Arachnid/solidity-stringutils/blob/2f6ca9accb48ae14c66f1437ec50ed19a0616f78/strings.sol
     function _memcpy(uint _dest, uint _src, uint _len) private view {
         // Copy word-length chunks while possible
-        for(; _len >= 32; _len -= 32) {
+        for (; _len >= 32; _len -= 32) {
             assembly {
                 mstore(_dest, mload(_src))
             }
@@ -722,7 +739,10 @@ contract PandaOwnership is PandaBase, ERC721 {
     /// @dev Adapted from toString(slice) by @arachnid (Nick Johnson <arachnid@notdot.net>)
     ///  This method is licenced under the Apache License.
     ///  Ref: https://github.com/Arachnid/solidity-stringutils/blob/2f6ca9accb48ae14c66f1437ec50ed19a0616f78/strings.sol
-    function _toString(bytes32[4] _rawBytes, uint256 _stringLength) private view returns (string) {
+    function _toString(
+        bytes32[4] _rawBytes,
+        uint256 _stringLength
+    ) private view returns (string) {
         var outputString = new string(_stringLength);
         uint256 outputPtr;
         uint256 bytesPtr;
@@ -736,19 +756,22 @@ contract PandaOwnership is PandaBase, ERC721 {
 
         return outputString;
     }
-
 }
 
 /// @title A facet of PandaCore that manages Panda siring, gestation, and birth.
 /// @author Axiom Zen (https://www.axiomzen.co)
 /// @dev See the PandaCore contract documentation to understand how the various contract facets are arranged.
 contract PandaBreeding is PandaOwnership {
-
     uint256 public constant GENSIS_TOTAL_COUNT = 100;
 
     /// @dev The Pregnant event is fired when two cats successfully breed and the pregnancy
     ///  timer begins for the matron.
-    event Pregnant(address owner, uint256 matronId, uint256 sireId, uint256 cooldownEndBlock);
+    event Pregnant(
+        address owner,
+        uint256 matronId,
+        uint256 sireId,
+        uint256 cooldownEndBlock
+    );
     /// @dev The Abortion event is fired when two cats breed failed.
     event Abortion(address owner, uint256 matronId, uint256 sireId);
 
@@ -777,23 +800,29 @@ contract PandaBreeding is PandaOwnership {
     /// @dev Checks that a given kitten is able to breed. Requires that the
     ///  current cooldown is finished (for sires) and also checks that there is
     ///  no pending pregnancy.
-    function _isReadyToBreed(Panda _kit) internal view returns(bool) {
+    function _isReadyToBreed(Panda _kit) internal view returns (bool) {
         // In addition to checking the cooldownEndBlock, we also need to check to see if
         // the cat has a pending birth; there can be some period of time between the end
         // of the pregnacy timer and the birth event.
-        return (_kit.siringWithId == 0) && (_kit.cooldownEndBlock <= uint64(block.number));
+        return
+            (_kit.siringWithId == 0) &&
+            (_kit.cooldownEndBlock <= uint64(block.number));
     }
 
     /// @dev Check if a sire has authorized breeding with this matron. True if both sire
     ///  and matron have the same owner, or if the sire has given siring permission to
     ///  the matron's owner (via approveSiring()).
-    function _isSiringPermitted(uint256 _sireId, uint256 _matronId) internal view returns(bool) {
+    function _isSiringPermitted(
+        uint256 _sireId,
+        uint256 _matronId
+    ) internal view returns (bool) {
         address matronOwner = pandaIndexToOwner[_matronId];
         address sireOwner = pandaIndexToOwner[_sireId];
 
         // Siring is okay if they have same owner, or if the matron's owner was given
         // permission to breed with this sire.
-        return (matronOwner == sireOwner || sireAllowedToAddress[_sireId] == matronOwner);
+        return (matronOwner == sireOwner ||
+            sireAllowedToAddress[_sireId] == matronOwner);
     }
 
     /// @dev Set the cooldownEndTime for the given Panda, based on its current cooldownIndex.
@@ -801,12 +830,17 @@ contract PandaBreeding is PandaOwnership {
     /// @param _kitten A reference to the Panda in storage which needs its timer started.
     function _triggerCooldown(Panda storage _kitten) internal {
         // Compute an estimation of the cooldown time in blocks (based on current cooldownIndex).
-        _kitten.cooldownEndBlock = uint64((cooldowns[_kitten.cooldownIndex] / secondsPerBlock) + block.number);
+        _kitten.cooldownEndBlock = uint64(
+            (cooldowns[_kitten.cooldownIndex] / secondsPerBlock) + block.number
+        );
 
         // Increment the breeding count, clamping it at 13, which is the length of the
         // cooldowns array. We could check the array size dynamically, but hard-coding
         // this as a constant saves gas. Yay, Solidity!
-        if (_kitten.cooldownIndex < 8 && geneScience.getWizzType(_kitten.genes) != 1) {
+        if (
+            _kitten.cooldownIndex < 8 &&
+            geneScience.getWizzType(_kitten.genes) != 1
+        ) {
             _kitten.cooldownIndex += 1;
         }
     }
@@ -815,9 +849,10 @@ contract PandaBreeding is PandaOwnership {
     /// @param _addr The address that will be able to sire with your Panda. Set to
     ///  address(0) to clear all siring approvals for this Panda.
     /// @param _sireId A Panda that you own that _addr will now be able to sire with.
-    function approveSiring(address _addr, uint256 _sireId)
-    external
-    whenNotPaused {
+    function approveSiring(
+        address _addr,
+        uint256 _sireId
+    ) external whenNotPaused {
         require(_owns(msg.sender, _sireId));
         sireAllowedToAddress[_sireId] = _addr;
     }
@@ -831,17 +866,16 @@ contract PandaBreeding is PandaOwnership {
 
     /// @dev Checks to see if a given Panda is pregnant and (if so) if the gestation
     ///  period has passed.
-    function _isReadyToGiveBirth(Panda _matron) private view returns(bool) {
-        return (_matron.siringWithId != 0) && (_matron.cooldownEndBlock <= uint64(block.number));
+    function _isReadyToGiveBirth(Panda _matron) private view returns (bool) {
+        return
+            (_matron.siringWithId != 0) &&
+            (_matron.cooldownEndBlock <= uint64(block.number));
     }
 
     /// @notice Checks that a given kitten is able to breed (i.e. it is not pregnant or
     ///  in the middle of a siring cooldown).
     /// @param _pandaId reference the id of the kitten, any user can inquire about it
-    function isReadyToBreed(uint256 _pandaId)
-    public
-    view
-    returns(bool) {
+    function isReadyToBreed(uint256 _pandaId) public view returns (bool) {
         require(_pandaId > 0);
         Panda storage kit = pandas[_pandaId];
         return _isReadyToBreed(kit);
@@ -849,10 +883,7 @@ contract PandaBreeding is PandaOwnership {
 
     /// @dev Checks whether a panda is currently pregnant.
     /// @param _pandaId reference the id of the kitten, any user can inquire about it
-    function isPregnant(uint256 _pandaId)
-    public
-    view
-    returns(bool) {
+    function isPregnant(uint256 _pandaId) public view returns (bool) {
         require(_pandaId > 0);
         // A panda is pregnant if and only if this field is set
         return pandas[_pandaId].siringWithId != 0;
@@ -869,10 +900,7 @@ contract PandaBreeding is PandaOwnership {
         uint256 _matronId,
         Panda storage _sire,
         uint256 _sireId
-    )
-    private
-    view
-    returns(bool) {
+    ) private view returns (bool) {
         // A Panda can't breed with itself!
         if (_matronId == _sireId) {
             return false;
@@ -893,15 +921,24 @@ contract PandaBreeding is PandaOwnership {
         }
 
         // Pandas can't breed with full or half siblings.
-        if (_sire.matronId == _matron.matronId || _sire.matronId == _matron.sireId) {
+        if (
+            _sire.matronId == _matron.matronId ||
+            _sire.matronId == _matron.sireId
+        ) {
             return false;
         }
-        if (_sire.sireId == _matron.matronId || _sire.sireId == _matron.sireId) {
+        if (
+            _sire.sireId == _matron.matronId || _sire.sireId == _matron.sireId
+        ) {
             return false;
         }
 
         // male should get breed with female
-        if (geneScience.getSex(_matron.genes) + geneScience.getSex(_sire.genes) != 1) {
+        if (
+            geneScience.getSex(_matron.genes) +
+                geneScience.getSex(_sire.genes) !=
+            1
+        ) {
             return false;
         }
 
@@ -911,10 +948,10 @@ contract PandaBreeding is PandaOwnership {
 
     /// @dev Internal check to see if a given sire and matron are a valid mating pair for
     ///  breeding via auction (i.e. skips ownership and siring approval checks).
-    function _canBreedWithViaAuction(uint256 _matronId, uint256 _sireId)
-    internal
-    view
-    returns(bool) {
+    function _canBreedWithViaAuction(
+        uint256 _matronId,
+        uint256 _sireId
+    ) internal view returns (bool) {
         Panda storage matron = pandas[_matronId];
         Panda storage sire = pandas[_sireId];
         return _isValidMatingPair(matron, _matronId, sire, _sireId);
@@ -926,19 +963,23 @@ contract PandaBreeding is PandaOwnership {
     ///  TODO: Shouldn't this check pregnancy and cooldowns?!?
     /// @param _matronId The ID of the proposed matron.
     /// @param _sireId The ID of the proposed sire.
-    function canBreedWith(uint256 _matronId, uint256 _sireId)
-    external
-    view
-    returns(bool) {
+    function canBreedWith(
+        uint256 _matronId,
+        uint256 _sireId
+    ) external view returns (bool) {
         require(_matronId > 0);
         require(_sireId > 0);
         Panda storage matron = pandas[_matronId];
         Panda storage sire = pandas[_sireId];
-        return _isValidMatingPair(matron, _matronId, sire, _sireId) &&
+        return
+            _isValidMatingPair(matron, _matronId, sire, _sireId) &&
             _isSiringPermitted(_sireId, _matronId);
     }
 
-    function _exchangeMatronSireId(uint256 _matronId, uint256 _sireId) internal returns(uint256, uint256) {
+    function _exchangeMatronSireId(
+        uint256 _matronId,
+        uint256 _sireId
+    ) internal returns (uint256, uint256) {
         if (geneScience.getSex(pandas[_matronId].genes) == 1) {
             return (_sireId, _matronId);
         } else {
@@ -948,7 +989,11 @@ contract PandaBreeding is PandaOwnership {
 
     /// @dev Internal utility function to initiate breeding, assumes that all breeding
     ///  requirements have been checked.
-    function _breedWith(uint256 _matronId, uint256 _sireId, address _owner) internal {
+    function _breedWith(
+        uint256 _matronId,
+        uint256 _sireId,
+        address _owner
+    ) internal {
         // make id point real gender
         (_matronId, _sireId) = _exchangeMatronSireId(_matronId, _sireId);
         // Grab a reference to the Pandas from storage.
@@ -973,7 +1018,12 @@ contract PandaBreeding is PandaOwnership {
         childOwner[_matronId] = _owner;
 
         // Emit the pregnancy event.
-        Pregnant(pandaIndexToOwner[_matronId], _matronId, _sireId, matron.cooldownEndBlock);
+        Pregnant(
+            pandaIndexToOwner[_matronId],
+            _matronId,
+            _sireId,
+            matron.cooldownEndBlock
+        );
     }
 
     /// @notice Breed a Panda you own (as matron) with a sire that you own, or for which you
@@ -981,10 +1031,10 @@ contract PandaBreeding is PandaOwnership {
     ///  fail entirely. Requires a pre-payment of the fee given out to the first caller of giveBirth()
     /// @param _matronId The ID of the Panda acting as matron (will end up pregnant if successful)
     /// @param _sireId The ID of the Panda acting as sire (will begin its siring cooldown if successful)
-    function breedWithAuto(uint256 _matronId, uint256 _sireId)
-    external
-    payable
-    whenNotPaused {
+    function breedWithAuto(
+        uint256 _matronId,
+        uint256 _sireId
+    ) external payable whenNotPaused {
         // Checks for payment.
         require(msg.value >= autoBirthFee);
 
@@ -1020,12 +1070,7 @@ contract PandaBreeding is PandaOwnership {
         require(_isReadyToBreed(sire));
 
         // Test that these cats are a valid mating pair.
-        require(_isValidMatingPair(
-            matron,
-            _matronId,
-            sire,
-            _sireId
-        ));
+        require(_isValidMatingPair(matron, _matronId, sire, _sireId));
 
         // All checks passed, panda gets pregnant!
         _breedWith(_matronId, _sireId, msg.sender);
@@ -1039,11 +1084,11 @@ contract PandaBreeding is PandaOwnership {
     ///  to the current owner of the matron. Upon successful completion, both the matron and the
 
     ///  are willing to pay the gas!), but the new kitten always goes to the mother's owner.
-    function giveBirth(uint256 _matronId, uint256[2] _childGenes, uint256[2] _factors)
-    external
-    whenNotPaused
-    onlyCLevel
-    returns(uint256) {
+    function giveBirth(
+        uint256 _matronId,
+        uint256[2] _childGenes,
+        uint256[2] _factors
+    ) external whenNotPaused onlyCLevel returns (uint256) {
         // Grab a reference to the matron in storage.
         Panda storage matron = pandas[_matronId];
 
@@ -1063,14 +1108,15 @@ contract PandaBreeding is PandaOwnership {
             parentGen = sire.generation;
         }
 
-        // Call the sooper-sekret gene mixing operation.
-        //uint256[2] memory childGenes = geneScience.mixGenes(matron.genes, sire.genes,matron.generation,sire.generation, matron.cooldownEndBlock - 1);
         uint256[2] memory childGenes = _childGenes;
 
         uint256 kittenId = 0;
 
         // birth failed
-        uint256 probability = (geneScience.getPureFromGene(matron.genes) + geneScience.getPureFromGene(sire.genes)) / 2 + _factors[0];
+        uint256 probability = (geneScience.getPureFromGene(matron.genes) +
+            geneScience.getPureFromGene(sire.genes)) /
+            2 +
+            _factors[0];
         if (probability >= (parentGen + 1) * _factors[1]) {
             probability = probability - (parentGen + 1) * _factors[1];
         } else {
@@ -1079,10 +1125,19 @@ contract PandaBreeding is PandaOwnership {
         if (parentGen == 0 && gen0CreatedCount == GEN0_TOTAL_COUNT) {
             probability = 0;
         }
-        if (uint256(keccak256(block.blockhash(block.number - 2), now)) % 100 < probability) {
+        if (
+            uint256(keccak256(block.blockhash(block.number - 2), now)) % 100 <
+            probability
+        ) {
             // Make the new kitten!
             address owner = childOwner[_matronId];
-            kittenId = _createPanda(_matronId, matron.siringWithId, parentGen + 1, childGenes, owner);
+            kittenId = _createPanda(
+                _matronId,
+                matron.siringWithId,
+                parentGen + 1,
+                childGenes,
+                owner
+            );
         } else {
             Abortion(pandaIndexToOwner[_matronId], _matronId, sireId);
         }
@@ -1112,7 +1167,6 @@ contract PandaBreeding is PandaOwnership {
 /// @dev Contains models, variables, and internal methods for the auction.
 /// @notice We omit a fallback function to prevent accidental sends to this contract.
 contract ClockAuctionBase {
-
     // Represents an auction on an NFT
     struct Auction {
         // Current owner of NFT
@@ -1138,16 +1192,28 @@ contract ClockAuctionBase {
     uint256 public ownerCut;
 
     // Map from token ID to their corresponding auction.
-    mapping (uint256 => Auction) tokenIdToAuction;
+    mapping(uint256 => Auction) tokenIdToAuction;
 
-    event AuctionCreated(uint256 tokenId, uint256 startingPrice, uint256 endingPrice, uint256 duration);
-    event AuctionSuccessful(uint256 tokenId, uint256 totalPrice, address winner);
+    event AuctionCreated(
+        uint256 tokenId,
+        uint256 startingPrice,
+        uint256 endingPrice,
+        uint256 duration
+    );
+    event AuctionSuccessful(
+        uint256 tokenId,
+        uint256 totalPrice,
+        address winner
+    );
     event AuctionCancelled(uint256 tokenId);
 
     /// @dev Returns true if the claimant owns the token.
     /// @param _claimant - Address claiming to own the token.
     /// @param _tokenId - ID of token whose ownership to verify.
-    function _owns(address _claimant, uint256 _tokenId) internal view returns (bool) {
+    function _owns(
+        address _claimant,
+        uint256 _tokenId
+    ) internal view returns (bool) {
         return (nonFungibleContract.ownerOf(_tokenId) == _claimant);
     }
 
@@ -1197,10 +1263,10 @@ contract ClockAuctionBase {
 
     /// @dev Computes the price and transfers winnings.
     /// Does NOT transfer ownership of token.
-    function _bid(uint256 _tokenId, uint256 _bidAmount)
-        internal
-        returns (uint256)
-    {
+    function _bid(
+        uint256 _tokenId,
+        uint256 _bidAmount
+    ) internal returns (uint256) {
         // Get a reference to the auction struct
         Auction storage auction = tokenIdToAuction[_tokenId];
 
@@ -1262,7 +1328,9 @@ contract ClockAuctionBase {
 
     /// @dev Returns true if the NFT is on auction.
     /// @param _auction - Auction to check.
-    function _isOnAuction(Auction storage _auction) internal view returns (bool) {
+    function _isOnAuction(
+        Auction storage _auction
+    ) internal view returns (bool) {
         return (_auction.startedAt > 0);
     }
 
@@ -1270,11 +1338,9 @@ contract ClockAuctionBase {
     ///  functions (this one, that computes the duration from the auction
     ///  structure, and the other that does the price computation) so we
     ///  can easily test that the price computation works correctly.
-    function _currentPrice(Auction storage _auction)
-        internal
-        view
-        returns (uint256)
-    {
+    function _currentPrice(
+        Auction storage _auction
+    ) internal view returns (uint256) {
         uint256 secondsPassed = 0;
 
         // A bit of insurance against negative values (or wraparound).
@@ -1284,12 +1350,13 @@ contract ClockAuctionBase {
             secondsPassed = now - _auction.startedAt;
         }
 
-        return _computeCurrentPrice(
-            _auction.startingPrice,
-            _auction.endingPrice,
-            _auction.duration,
-            secondsPassed
-        );
+        return
+            _computeCurrentPrice(
+                _auction.startingPrice,
+                _auction.endingPrice,
+                _auction.duration,
+                secondsPassed
+            );
     }
 
     /// @dev Computes the current price of an auction. Factored out
@@ -1301,11 +1368,7 @@ contract ClockAuctionBase {
         uint256 _endingPrice,
         uint256 _duration,
         uint256 _secondsPassed
-    )
-        internal
-        pure
-        returns (uint256)
-    {
+    ) internal pure returns (uint256) {
         // NOTE: We don't use SafeMath (or similar) in this function because
         //  all of our public functions carefully cap the maximum values for
         //  time (at 64-bits) and currency (at 128-bits). _duration is
@@ -1318,11 +1381,13 @@ contract ClockAuctionBase {
         } else {
             // Starting price can be higher than ending price (and often is!), so
             // this delta can be negative.
-            int256 totalPriceChange = int256(_endingPrice) - int256(_startingPrice);
+            int256 totalPriceChange = int256(_endingPrice) -
+                int256(_startingPrice);
 
             // 64-bits, and totalPriceChange will easily fit within 128-bits, their product
             // will always fit within 256-bits.
-            int256 currentPriceChange = totalPriceChange * int256(_secondsPassed) / int256(_duration);
+            int256 currentPriceChange = (totalPriceChange *
+                int256(_secondsPassed)) / int256(_duration);
 
             // currentPriceChange can be negative, but if so, will have a magnitude
             // less that _startingPrice. Thus, this result will always end up positive.
@@ -1340,44 +1405,42 @@ contract ClockAuctionBase {
         //  currency (at 128-bits), and ownerCut <= 10000 (see the require()
         //  statement in the ClockAuction constructor). The result of this
         //  function is always guaranteed to be <= _price.
-        return _price * ownerCut / 10000;
+        return (_price * ownerCut) / 10000;
     }
-
 }
 
 contract Pausable is Ownable {
-  event Pause();
-  event Unpause();
+    event Pause();
+    event Unpause();
 
-  bool public paused = false;
+    bool public paused = false;
 
-  modifier whenNotPaused() {
-    require(!paused);
-    _;
-  }
+    modifier whenNotPaused() {
+        require(!paused);
+        _;
+    }
 
-  modifier whenPaused {
-    require(paused);
-    _;
-  }
+    modifier whenPaused() {
+        require(paused);
+        _;
+    }
 
-  function pause() onlyOwner whenNotPaused returns (bool) {
-    paused = true;
-    Pause();
-    return true;
-  }
+    function pause() onlyOwner whenNotPaused returns (bool) {
+        paused = true;
+        Pause();
+        return true;
+    }
 
-  function unpause() onlyOwner whenPaused returns (bool) {
-    paused = false;
-    Unpause();
-    return true;
-  }
+    function unpause() onlyOwner whenPaused returns (bool) {
+        paused = false;
+        Unpause();
+        return true;
+    }
 }
 
 /// @title Clock auction for non-fungible tokens.
 /// @notice We omit a fallback function to prevent accidental sends to this contract.
 contract ClockAuction is Pausable, ClockAuctionBase {
-
     /// @dev The ERC-165 interface signature for ERC-721.
     ///  Ref: https://github.com/ethereum/EIPs/issues/165
     ///  Ref: https://github.com/ethereum/EIPs/issues/721
@@ -1405,10 +1468,7 @@ contract ClockAuction is Pausable, ClockAuctionBase {
     function withdrawBalance() external {
         address nftAddress = address(nonFungibleContract);
 
-        require(
-            msg.sender == owner ||
-            msg.sender == nftAddress
-        );
+        require(msg.sender == owner || msg.sender == nftAddress);
         // We are using this boolean method to make sure that even if one fails it will still work
         bool res = nftAddress.send(this.balance);
     }
@@ -1426,11 +1486,7 @@ contract ClockAuction is Pausable, ClockAuctionBase {
         uint256 _endingPrice,
         uint256 _duration,
         address _seller
-    )
-        external
-        whenNotPaused
-    {
-
+    ) external whenNotPaused {
         // to store them in the auction struct.
         require(_startingPrice == uint256(uint128(_startingPrice)));
         require(_endingPrice == uint256(uint128(_endingPrice)));
@@ -1452,11 +1508,7 @@ contract ClockAuction is Pausable, ClockAuctionBase {
     /// @dev Bids on an open auction, completing the auction and transferring
     ///  ownership of the NFT if enough Ether is supplied.
     /// @param _tokenId - ID of token to bid on.
-    function bid(uint256 _tokenId)
-        external
-        payable
-        whenNotPaused
-    {
+    function bid(uint256 _tokenId) external payable whenNotPaused {
         // _bid will throw if the bid or funds transfer fails
         _bid(_tokenId, msg.value);
         _transfer(msg.sender, _tokenId);
@@ -1467,9 +1519,7 @@ contract ClockAuction is Pausable, ClockAuctionBase {
     /// @notice This is a state-modifying function that can
     ///  be called while the contract is paused.
     /// @param _tokenId - ID of token on auction
-    function cancelAuction(uint256 _tokenId)
-        external
-    {
+    function cancelAuction(uint256 _tokenId) external {
         Auction storage auction = tokenIdToAuction[_tokenId];
         require(_isOnAuction(auction));
         address seller = auction.seller;
@@ -1481,11 +1531,9 @@ contract ClockAuction is Pausable, ClockAuctionBase {
     ///  Only the owner may do this, and NFTs are returned to
     ///  the seller. This should only be used in emergencies.
     /// @param _tokenId - ID of the NFT on auction to cancel.
-    function cancelAuctionWhenPaused(uint256 _tokenId)
-        whenPaused
-        onlyOwner
-        external
-    {
+    function cancelAuctionWhenPaused(
+        uint256 _tokenId
+    ) external whenPaused onlyOwner {
         Auction storage auction = tokenIdToAuction[_tokenId];
         require(_isOnAuction(auction));
         _cancelAuction(_tokenId, auction.seller);
@@ -1493,17 +1541,19 @@ contract ClockAuction is Pausable, ClockAuctionBase {
 
     /// @dev Returns auction info for an NFT on auction.
     /// @param _tokenId - ID of NFT on auction.
-    function getAuction(uint256 _tokenId)
+    function getAuction(
+        uint256 _tokenId
+    )
         external
         view
-        returns
-    (
-        address seller,
-        uint256 startingPrice,
-        uint256 endingPrice,
-        uint256 duration,
-        uint256 startedAt
-    ) {
+        returns (
+            address seller,
+            uint256 startingPrice,
+            uint256 endingPrice,
+            uint256 duration,
+            uint256 startedAt
+        )
+    {
         Auction storage auction = tokenIdToAuction[_tokenId];
         require(_isOnAuction(auction));
         return (
@@ -1517,29 +1567,25 @@ contract ClockAuction is Pausable, ClockAuctionBase {
 
     /// @dev Returns the current price of an auction.
     /// @param _tokenId - ID of the token price we are checking.
-    function getCurrentPrice(uint256 _tokenId)
-        external
-        view
-        returns (uint256)
-    {
+    function getCurrentPrice(uint256 _tokenId) external view returns (uint256) {
         Auction storage auction = tokenIdToAuction[_tokenId];
         require(_isOnAuction(auction));
         return _currentPrice(auction);
     }
-
 }
 
 /// @title Reverse auction modified for siring
 /// @notice We omit a fallback function to prevent accidental sends to this contract.
 contract SiringClockAuction is ClockAuction {
-
     // @dev Sanity check that allows us to ensure that we are pointing to the
     //  right auction in our setSiringAuctionAddress() call.
     bool public isSiringClockAuction = true;
 
     // Delegate constructor
-    function SiringClockAuction(address _nftAddr, uint256 _cut) public
-        ClockAuction(_nftAddr, _cut) {}
+    function SiringClockAuction(
+        address _nftAddr,
+        uint256 _cut
+    ) public ClockAuction(_nftAddr, _cut) {}
 
     /// @dev Creates and begins a new auction. Since this function is wrapped,
     /// require sender to be PandaCore contract.
@@ -1554,10 +1600,7 @@ contract SiringClockAuction is ClockAuction {
         uint256 _endingPrice,
         uint256 _duration,
         address _seller
-    )
-        external
-    {
-
+    ) external {
         // to store them in the auction struct.
         require(_startingPrice == uint256(uint128(_startingPrice)));
         require(_endingPrice == uint256(uint128(_endingPrice)));
@@ -1580,10 +1623,7 @@ contract SiringClockAuction is ClockAuction {
     /// is the PandaCore contract because all bid methods
     /// should be wrapped. Also returns the panda to the
     /// seller rather than the winner.
-    function bid(uint256 _tokenId)
-        external
-        payable
-    {
+    function bid(uint256 _tokenId) external payable {
         require(msg.sender == address(nonFungibleContract));
         address seller = tokenIdToAuction[_tokenId].seller;
         // _bid checks that token ID is valid and will throw if bid fails
@@ -1592,13 +1632,11 @@ contract SiringClockAuction is ClockAuction {
         // the offspring
         _transfer(seller, _tokenId);
     }
-
 }
 
 /// @title Clock auction modified for sale of pandas
 /// @notice We omit a fallback function to prevent accidental sends to this contract.
 contract SaleClockAuction is ClockAuction {
-
     // @dev Sanity check that allows us to ensure that we are pointing to the
     //  right auction in our setSaleAuctionAddress() call.
     bool public isSaleClockAuction = true;
@@ -1610,14 +1648,16 @@ contract SaleClockAuction is ClockAuction {
 
     uint256[] CommonPanda;
     uint256[] RarePanda;
-    uint256   CommonPandaIndex;
-    uint256   RarePandaIndex;
+    uint256 CommonPandaIndex;
+    uint256 RarePandaIndex;
 
     // Delegate constructor
-    function SaleClockAuction(address _nftAddr, uint256 _cut) public
-        ClockAuction(_nftAddr, _cut) {
-            CommonPandaIndex = 1;
-            RarePandaIndex   = 1;
+    function SaleClockAuction(
+        address _nftAddr,
+        uint256 _cut
+    ) public ClockAuction(_nftAddr, _cut) {
+        CommonPandaIndex = 1;
+        RarePandaIndex = 1;
     }
 
     /// @dev Creates and begins a new auction.
@@ -1632,10 +1672,7 @@ contract SaleClockAuction is ClockAuction {
         uint256 _endingPrice,
         uint256 _duration,
         address _seller
-    )
-        external
-    {
-
+    ) external {
         // to store them in the auction struct.
         require(_startingPrice == uint256(uint128(_startingPrice)));
         require(_endingPrice == uint256(uint128(_endingPrice)));
@@ -1660,10 +1697,7 @@ contract SaleClockAuction is ClockAuction {
         uint256 _endingPrice,
         uint256 _duration,
         address _seller
-    )
-        external
-    {
-
+    ) external {
         // to store them in the auction struct.
         require(_startingPrice == uint256(uint128(_startingPrice)));
         require(_endingPrice == uint256(uint128(_endingPrice)));
@@ -1684,10 +1718,7 @@ contract SaleClockAuction is ClockAuction {
 
     /// @dev Updates lastSalePrice if seller is the nft contract
     /// Otherwise, works the same as default bid method.
-    function bid(uint256 _tokenId)
-        external
-        payable
-    {
+    function bid(uint256 _tokenId) external payable {
         // _bid verifies token ID size
         uint64 isGen0 = tokenIdToAuction[_tokenId].isGen0;
         uint256 price = _bid(_tokenId, msg.value);
@@ -1701,38 +1732,39 @@ contract SaleClockAuction is ClockAuction {
         }
     }
 
-    function createPanda(uint256 _tokenId,uint256 _type)
-        external
-    {
+    function createPanda(uint256 _tokenId, uint256 _type) external {
         require(msg.sender == address(nonFungibleContract));
         if (_type == 0) {
             CommonPanda.push(_tokenId);
-        }else {
+        } else {
             RarePanda.push(_tokenId);
         }
     }
 
-    function surprisePanda()
-        external
-        payable
-    {
-        bytes32 bHash = keccak256(block.blockhash(block.number),block.blockhash(block.number-1));
+    function surprisePanda() external payable {
+        bytes32 bHash = keccak256(
+            block.blockhash(block.number),
+            block.blockhash(block.number - 1)
+        );
         uint256 PandaIndex;
         if (bHash[25] > 0xC8) {
             require(uint256(RarePanda.length) >= RarePandaIndex);
             PandaIndex = RarePandaIndex;
-            RarePandaIndex ++;
-
-        } else{
+            RarePandaIndex++;
+        } else {
             require(uint256(CommonPanda.length) >= CommonPandaIndex);
             PandaIndex = CommonPandaIndex;
-            CommonPandaIndex ++;
+            CommonPandaIndex++;
         }
-        _transfer(msg.sender,PandaIndex);
+        _transfer(msg.sender, PandaIndex);
     }
 
-    function packageCount() external view returns(uint256 common,uint256 surprise) {
-        common   = CommonPanda.length + 1 - CommonPandaIndex;
+    function packageCount()
+        external
+        view
+        returns (uint256 common, uint256 surprise)
+    {
+        common = CommonPanda.length + 1 - CommonPandaIndex;
         surprise = RarePanda.length + 1 - RarePandaIndex;
     }
 
@@ -1743,36 +1775,46 @@ contract SaleClockAuction is ClockAuction {
         }
         return sum / 5;
     }
-
 }
 
 /// @title Clock auction modified for sale of pandas
 /// @notice We omit a fallback function to prevent accidental sends to this contract.
 contract SaleClockAuctionERC20 is ClockAuction {
-
-    event AuctionERC20Created(uint256 tokenId, uint256 startingPrice, uint256 endingPrice, uint256 duration, address erc20Contract);
+    event AuctionERC20Created(
+        uint256 tokenId,
+        uint256 startingPrice,
+        uint256 endingPrice,
+        uint256 duration,
+        address erc20Contract
+    );
 
     // @dev Sanity check that allows us to ensure that we are pointing to the
     //  right auction in our setSaleAuctionAddress() call.
     bool public isSaleClockAuctionERC20 = true;
 
-    mapping (uint256 => address) public tokenIdToErc20Address;
+    mapping(uint256 => address) public tokenIdToErc20Address;
 
-    mapping (address => uint256) public erc20ContractsSwitcher;
+    mapping(address => uint256) public erc20ContractsSwitcher;
 
-    mapping (address => uint256) public balances;
+    mapping(address => uint256) public balances;
 
     // Delegate constructor
-    function SaleClockAuctionERC20(address _nftAddr, uint256 _cut) public
-        ClockAuction(_nftAddr, _cut) {}
+    function SaleClockAuctionERC20(
+        address _nftAddr,
+        uint256 _cut
+    ) public ClockAuction(_nftAddr, _cut) {}
 
-    function erc20ContractSwitch(address _erc20address, uint256 _onoff) external{
-        require (msg.sender == address(nonFungibleContract));
+    function erc20ContractSwitch(
+        address _erc20address,
+        uint256 _onoff
+    ) external {
+        require(msg.sender == address(nonFungibleContract));
 
-        require (_erc20address != address(0));
+        require(_erc20address != address(0));
 
         erc20ContractsSwitcher[_erc20address] = _onoff;
     }
+
     /// @dev Creates and begins a new auction.
     /// @param _tokenId - ID of token to auction, sender must be owner.
     /// @param _startingPrice - Price of item (in wei) at beginning of auction.
@@ -1786,10 +1828,7 @@ contract SaleClockAuctionERC20 is ClockAuction {
         uint256 _endingPrice,
         uint256 _duration,
         address _seller
-    )
-        external
-    {
-
+    ) external {
         // to store them in the auction struct.
         require(_startingPrice == uint256(uint128(_startingPrice)));
         require(_endingPrice == uint256(uint128(_endingPrice)));
@@ -1797,7 +1836,7 @@ contract SaleClockAuctionERC20 is ClockAuction {
 
         require(msg.sender == address(nonFungibleContract));
 
-        require (erc20ContractsSwitcher[_erc20Address] > 0);
+        require(erc20ContractsSwitcher[_erc20Address] > 0);
 
         _escrow(_seller, _tokenId);
         Auction memory auction = Auction(
@@ -1816,7 +1855,11 @@ contract SaleClockAuctionERC20 is ClockAuction {
     ///  AuctionCreated event.
     /// @param _tokenId The ID of the token to be put on auction.
     /// @param _auction Auction to add.
-    function _addAuctionERC20(uint256 _tokenId, Auction _auction, address _erc20address) internal {
+    function _addAuctionERC20(
+        uint256 _tokenId,
+        Auction _auction,
+        address _erc20address
+    ) internal {
         // Require that all auctions have a duration of
         // at least one minute. (Keeps our math from getting hairy!)
         require(_auction.duration >= 1 minutes);
@@ -1832,29 +1875,23 @@ contract SaleClockAuctionERC20 is ClockAuction {
         );
     }
 
-    function bid(uint256 _tokenId)
-        external
-        payable{
-            // do nothing
+    function bid(uint256 _tokenId) external payable {
+        // do nothing
     }
 
     /// @dev Updates lastSalePrice if seller is the nft contract
     /// Otherwise, works the same as default bid method.
-    function bidERC20(uint256 _tokenId,uint256 _amount)
-        external
-    {
+    function bidERC20(uint256 _tokenId, uint256 _amount) external {
         // _bid verifies token ID size
         address seller = tokenIdToAuction[_tokenId].seller;
         address _erc20address = tokenIdToErc20Address[_tokenId];
-        require (_erc20address != address(0));
-        uint256 price = _bidERC20(_erc20address,msg.sender,_tokenId, _amount);
+        require(_erc20address != address(0));
+        uint256 price = _bidERC20(_erc20address, msg.sender, _tokenId, _amount);
         _transfer(msg.sender, _tokenId);
         delete tokenIdToErc20Address[_tokenId];
     }
 
-    function cancelAuction(uint256 _tokenId)
-        external
-    {
+    function cancelAuction(uint256 _tokenId) external {
         Auction storage auction = tokenIdToAuction[_tokenId];
         require(_isOnAuction(auction));
         address seller = auction.seller;
@@ -1863,18 +1900,23 @@ contract SaleClockAuctionERC20 is ClockAuction {
         delete tokenIdToErc20Address[_tokenId];
     }
 
-    function withdrawERC20Balance(address _erc20Address, address _to) external returns(bool res)  {
-        require (balances[_erc20Address] > 0);
+    function withdrawERC20Balance(
+        address _erc20Address,
+        address _to
+    ) external returns (bool res) {
+        require(balances[_erc20Address] > 0);
         require(msg.sender == address(nonFungibleContract));
         ERC20(_erc20Address).transfer(_to, balances[_erc20Address]);
     }
 
     /// @dev Computes the price and transfers winnings.
     /// Does NOT transfer ownership of token.
-    function _bidERC20(address _erc20Address,address _buyerAddress, uint256 _tokenId, uint256 _bidAmount)
-        internal
-        returns (uint256)
-    {
+    function _bidERC20(
+        address _erc20Address,
+        address _buyerAddress,
+        uint256 _tokenId,
+        uint256 _bidAmount
+    ) internal returns (uint256) {
         // Get a reference to the auction struct
         Auction storage auction = tokenIdToAuction[_tokenId];
 
@@ -1884,7 +1926,10 @@ contract SaleClockAuctionERC20 is ClockAuction {
         // return an auction object that is all zeros.)
         require(_isOnAuction(auction));
 
-        require (_erc20Address != address(0) && _erc20Address == tokenIdToErc20Address[_tokenId]);
+        require(
+            _erc20Address != address(0) &&
+                _erc20Address == tokenIdToErc20Address[_tokenId]
+        );
 
         // Check that the bid is greater than or equal to the current price
         uint256 price = _currentPrice(auction);
@@ -1907,9 +1952,21 @@ contract SaleClockAuctionERC20 is ClockAuction {
 
             // Send Erc20 Token to seller should call Erc20 contract
             // Reference to contract
-            require(ERC20(_erc20Address).transferFrom(_buyerAddress,seller,sellerProceeds));
-            if (auctioneerCut > 0){
-                require(ERC20(_erc20Address).transferFrom(_buyerAddress,address(this),auctioneerCut));
+            require(
+                ERC20(_erc20Address).transferFrom(
+                    _buyerAddress,
+                    seller,
+                    sellerProceeds
+                )
+            );
+            if (auctioneerCut > 0) {
+                require(
+                    ERC20(_erc20Address).transferFrom(
+                        _buyerAddress,
+                        address(this),
+                        auctioneerCut
+                    )
+                );
                 balances[_erc20Address] += auctioneerCut;
             }
         }
@@ -1925,7 +1982,6 @@ contract SaleClockAuctionERC20 is ClockAuction {
 ///  This wrapper of ReverseAuction exists only so that users can create
 ///  auctions with only one transaction.
 contract PandaAuction is PandaBreeding {
-
     // @notice The auction contract variables are defined in PandaBase to allow
     //  us to refer to them in PandaOwnership to prevent accidental transfers.
     // `saleAuction` refers to the auction for gen0 and p2p sale of pandas.
@@ -1944,7 +2000,9 @@ contract PandaAuction is PandaBreeding {
     }
 
     function setSaleAuctionERC20Address(address _address) external onlyCEO {
-        SaleClockAuctionERC20 candidateContract = SaleClockAuctionERC20(_address);
+        SaleClockAuctionERC20 candidateContract = SaleClockAuctionERC20(
+            _address
+        );
 
         // NOTE: verify that a contract is what we expect - https://github.com/Lunyr/crowdsale-contracts/blob/cfadd15986c30521d8ba7d5b6f57b4fefcc7ac38/contracts/LunyrToken.sol#L117
         require(candidateContract.isSaleClockAuctionERC20());
@@ -1972,10 +2030,7 @@ contract PandaAuction is PandaBreeding {
         uint256 _startingPrice,
         uint256 _endingPrice,
         uint256 _duration
-    )
-        external
-        whenNotPaused
-    {
+    ) external whenNotPaused {
         // Auction contract checks input sizes
         // If panda is already on any auction, this will throw
         // because it will be owned by the auction contract.
@@ -2004,10 +2059,7 @@ contract PandaAuction is PandaBreeding {
         uint256 _startingPrice,
         uint256 _endingPrice,
         uint256 _duration
-    )
-        external
-        whenNotPaused
-    {
+    ) external whenNotPaused {
         // Auction contract checks input sizes
         // If panda is already on any auction, this will throw
         // because it will be owned by the auction contract.
@@ -2029,8 +2081,11 @@ contract PandaAuction is PandaBreeding {
         );
     }
 
-    function switchSaleAuctionERC20For(address _erc20address, uint256 _onoff) external onlyCOO{
-        saleAuctionERC20.erc20ContractSwitch(_erc20address,_onoff);
+    function switchSaleAuctionERC20For(
+        address _erc20address,
+        uint256 _onoff
+    ) external onlyCOO {
+        saleAuctionERC20.erc20ContractSwitch(_erc20address, _onoff);
     }
 
     /// @dev Put a panda up for auction to be sire.
@@ -2041,10 +2096,7 @@ contract PandaAuction is PandaBreeding {
         uint256 _startingPrice,
         uint256 _endingPrice,
         uint256 _duration
-    )
-        external
-        whenNotPaused
-    {
+    ) external whenNotPaused {
         // Auction contract checks input sizes
         // If panda is already on any auction, this will throw
         // because it will be owned by the auction contract.
@@ -2069,11 +2121,7 @@ contract PandaAuction is PandaBreeding {
     function bidOnSiringAuction(
         uint256 _sireId,
         uint256 _matronId
-    )
-        external
-        payable
-        whenNotPaused
-    {
+    ) external payable whenNotPaused {
         // Auction contract checks input sizes
         require(_owns(msg.sender, _matronId));
         require(isReadyToBreed(_matronId));
@@ -2096,15 +2144,17 @@ contract PandaAuction is PandaBreeding {
         siringAuction.withdrawBalance();
     }
 
-    function withdrawERC20Balance(address _erc20Address, address _to) external onlyCLevel {
+    function withdrawERC20Balance(
+        address _erc20Address,
+        address _to
+    ) external onlyCLevel {
         require(saleAuctionERC20 != address(0));
-        saleAuctionERC20.withdrawERC20Balance(_erc20Address,_to);
+        saleAuctionERC20.withdrawERC20Balance(_erc20Address, _to);
     }
 }
 
 /// @title all functions related to creating kittens
 contract PandaMinting is PandaAuction {
-
     // Limits the number of cats the contract owner can ever create.
     //uint256 public constant PROMO_CREATION_LIMIT = 5000;
     uint256 public constant GEN0_CREATION_LIMIT = 45000;
@@ -2120,7 +2170,11 @@ contract PandaMinting is PandaAuction {
     /// @dev we can create promo kittens, up to a limit. Only callable by COO
     /// @param _genes the encoded genes of the kitten to be created, any value is accepted
     /// @param _owner the future owner of the created kittens. Default to contract COO
-    function createWizzPanda(uint256[2] _genes, uint256 _generation, address _owner) external onlyCOO {
+    function createWizzPanda(
+        uint256[2] _genes,
+        uint256 _generation,
+        address _owner
+    ) external onlyCOO {
         address pandaOwner = _owner;
         if (pandaOwner == address(0)) {
             pandaOwner = cooAddress;
@@ -2132,15 +2186,14 @@ contract PandaMinting is PandaAuction {
     /// @dev create pandaWithGenes
     /// @param _genes panda genes
     /// @param _type  0 common 1 rare
-    function createPanda(uint256[2] _genes,uint256 _generation,uint256 _type)
-        external
-        payable
-        onlyCOO
-        whenNotPaused
-    {
+    function createPanda(
+        uint256[2] _genes,
+        uint256 _generation,
+        uint256 _type
+    ) external payable onlyCOO whenNotPaused {
         require(msg.value >= OPEN_PACKAGE_PRICE);
         uint256 kittenId = _createPanda(0, 0, _generation, _genes, saleAuction);
-        saleAuction.createPanda(kittenId,_type);
+        saleAuction.createPanda(kittenId, _type);
     }
 
     //function buyPandaERC20(address _erc20Address, address _buyerAddress, uint256 _pandaID, uint256 _amount)
@@ -2186,7 +2239,7 @@ contract PandaMinting is PandaAuction {
 
     /// @dev Computes the next gen0 auction starting price, given
     ///  the average of the past 5 prices + 50%.
-    function _computeNextGen0Price() internal view returns(uint256) {
+    function _computeNextGen0Price() internal view returns (uint256) {
         uint256 avePrice = saleAuction.averageGen0SalePrice();
 
         require(avePrice == uint256(uint128(avePrice)));
@@ -2206,7 +2259,6 @@ contract PandaMinting is PandaAuction {
 /// @author Axiom Zen (https://www.axiomzen.co)
 /// @dev The main CryptoPandas contract, keeps track of kittens so they don't wander around and get lost.
 contract PandaCore is PandaMinting {
-
     // This is the main CryptoPandas contract. In order to keep our code seperated into logical sections,
     // we've broken it up in two ways. First, we have several seperately-instantiated sibling contracts
     // that handle auctions and our super-top-secret genetic combination algorithm. The auctions are
@@ -2271,10 +2323,10 @@ contract PandaCore is PandaMinting {
         // make sure init() only run once
         require(pandas.length == 0);
         // start with the mythical kitten 0 - so we don't have generation-0 parent issues
-        uint256[2] memory _genes = [uint256(-1),uint256(-1)];
+        uint256[2] memory _genes = [uint256(-1), uint256(-1)];
 
         wizzPandaQuota[1] = 100;
-       _createPanda(0, 0, 0, _genes, address(0));
+        _createPanda(0, 0, 0, _genes, address(0));
     }
 
     /// @dev Used to mark the smart contract as upgraded, in case there is a serious
@@ -2295,27 +2347,30 @@ contract PandaCore is PandaMinting {
     function() external payable {
         require(
             msg.sender == address(saleAuction) ||
-            msg.sender == address(siringAuction)
+                msg.sender == address(siringAuction)
         );
     }
 
     /// @notice Returns all the relevant information about a specific panda.
     /// @param _id The ID of the panda of interest.
-    function getPanda(uint256 _id)
+    function getPanda(
+        uint256 _id
+    )
         external
         view
         returns (
-        bool isGestating,
-        bool isReady,
-        uint256 cooldownIndex,
-        uint256 nextActionAt,
-        uint256 siringWithId,
-        uint256 birthTime,
-        uint256 matronId,
-        uint256 sireId,
-        uint256 generation,
-        uint256[2] genes
-    ) {
+            bool isGestating,
+            bool isReady,
+            uint256 cooldownIndex,
+            uint256 nextActionAt,
+            uint256 siringWithId,
+            uint256 birthTime,
+            uint256 matronId,
+            uint256 sireId,
+            uint256 generation,
+            uint256[2] genes
+        )
+    {
         Panda storage kit = pandas[_id];
 
         // if this variable is 0 then it's not gestating

@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_018"
 vulnerability_type: "pool_manipulation"
-vulnerable_lines: [56, 101]
+vulnerable_lines: [101]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -21,15 +21,15 @@ code_acts:
           uint256 balance;
           uint256 weight; // stored as percentage (100 = 100%)
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Token struct includes mutable weight field that is recomputed based on balance."
+    security_function: "BENIGN"
+    rationale: "Token struct declaration. Data container, not a prerequisite."
 
   - id: "CA2"
     type: "DECLARATION"
     lines: [17]
     code: "mapping(address => Token) public tokens;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Token mapping storing weights that are manipulated by _updateWeights."
+    security_function: "BENIGN"
+    rationale: "Token mapping declaration. Data container, not a prerequisite."
 
   - id: "CA3"
     type: "DECLARATION"
@@ -71,15 +71,15 @@ code_acts:
     type: "STATE_MOD"
     lines: [43]
     code: "tokens[tokenIn].balance += amountIn;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Balance update affects subsequent weight calculation in _updateWeights."
+    security_function: "BENIGN"
+    rationale: "Balance update in swap. Correct behavior - the vulnerability is how balances are interpreted, not that they change."
 
   - id: "CA8"
     type: "COMPUTATION"
     lines: [46]
     code: "amountOut = calculateSwapAmount(tokenIn, tokenOut, amountIn);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Swap calculation uses current weights. If weights are manipulated, swap rates change."
+    security_function: "BENIGN"
+    rationale: "Swap amount calculation call. Uses weights, but the root cause is how weights are computed."
 
   - id: "CA9"
     type: "INPUT_VAL"
@@ -110,8 +110,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [56]
     code: "_updateWeights();"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Calls _updateWeights after every swap. This allows attacker to manipulate weights via large swaps, then exploit the changed weights in subsequent operations."
+    security_function: "BENIGN"
+    rationale: "Call site to _updateWeights. The vulnerability is the formula inside _updateWeights (CA15), not this call."
 
   - id: "CA13"
     type: "COMPUTATION"
@@ -127,8 +127,8 @@ code_acts:
           ...
           return numerator / denominator;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Swap calculation depends on weights. Manipulated weights lead to incorrect swap rates."
+    security_function: "BENIGN"
+    rationale: "Swap calculation function. Uses weights but the root cause is the weight computation, not how weights are consumed."
 
   - id: "CA14"
     type: "COMPUTATION"
@@ -142,8 +142,8 @@ code_acts:
               totalValue += tokens[token].balance;
           }
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - First loop calculates total value. Part of the weight recomputation mechanism."
+    security_function: "BENIGN"
+    rationale: "Total value calculation. Mechanical computation summing balances."
 
   - id: "CA15"
     type: "COMPUTATION"
@@ -184,15 +184,15 @@ code_acts:
     type: "STATE_MOD"
     lines: [118]
     code: "tokens[token].balance += amount;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Balance update in addLiquidity affects weight calculation."
+    security_function: "BENIGN"
+    rationale: "Balance update in addLiquidity. Normal behavior, not a prerequisite."
 
   - id: "CA20"
     type: "CTRL_FLOW"
     lines: [119]
     code: "_updateWeights();"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Weight update in addLiquidity. Another entry point for weight manipulation."
+    security_function: "BENIGN"
+    rationale: "Call site to _updateWeights in addLiquidity. Alternative entry point, not a prerequisite."
 
   # ============================================
   # BATCHED UNRELATED CODE ACTS (for scoring)
@@ -227,38 +227,16 @@ summary:
   total_lines_covered: 98  # excludes 23 empty lines
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA12, CA15
-    PREREQ: 9          # CA1, CA2, CA7, CA8, CA13, CA14, CA19, CA20
-    BENIGN: 9          # CA3, CA4, CA5, CA6, CA9, CA10, CA11, CA16, CA17, CA18
+    ROOT_CAUSE: 1      # CA15
+    PREREQ: 0
+    BENIGN: 19         # CA1-CA14, CA16-CA20
     UNRELATED: 4       # batched
 
   root_causes:
-    - id: "CA12"
-      line: 56
-      type: "CTRL_FLOW"
-      description: "_updateWeights called after swap enables manipulation"
     - id: "CA15"
-      lines: [97, 98, 100, 101, 102]
+      lines: [97, 98, 101, 102]
       type: "COMPUTATION"
-      description: "Weight recomputation based on manipulable balances"
-
-  prerequisites:
-    - id: "CA1"
-      description: "Token struct with mutable weight"
-    - id: "CA2"
-      description: "Token mapping with weights"
-    - id: "CA7"
-      description: "Balance update affects weight calculation"
-    - id: "CA8"
-      description: "Swap calculation uses weights"
-    - id: "CA13"
-      description: "calculateSwapAmount depends on weights"
-    - id: "CA14"
-      description: "First loop of weight calculation"
-    - id: "CA19"
-      description: "Balance update in addLiquidity"
-    - id: "CA20"
-      description: "_updateWeights in addLiquidity"
+      description: "Weight recomputation based on instantaneous manipulable balances - weight = balance/totalBalance formula"
 
 line_to_code_act:
   # Directives (UNRELATED)
@@ -387,26 +365,26 @@ line_to_code_act:
   121: "CA_DECLARATIONS"
 
 code_act_security_functions:
-  CA1: "PREREQ"
-  CA2: "PREREQ"
+  CA1: "BENIGN"
+  CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "PREREQ"
-  CA8: "PREREQ"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
   CA11: "BENIGN"
-  CA12: "ROOT_CAUSE"
-  CA13: "PREREQ"
-  CA14: "PREREQ"
+  CA12: "BENIGN"
+  CA13: "BENIGN"
+  CA14: "BENIGN"
   CA15: "ROOT_CAUSE"
   CA16: "BENIGN"
   CA17: "BENIGN"
   CA18: "BENIGN"
-  CA19: "PREREQ"
-  CA20: "PREREQ"
+  CA19: "BENIGN"
+  CA20: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

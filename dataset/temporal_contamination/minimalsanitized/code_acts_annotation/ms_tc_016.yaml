@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_016"
 vulnerability_type: "reentrancy"
-vulnerable_lines: [59, 80]
+vulnerable_lines: [80]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -16,8 +16,8 @@ code_acts:
     type: "DECLARATION"
     lines: [14]
     code: "mapping(address => uint256) public balances;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Balance mapping modified before external call in transfer. State change before callback enables reentrancy."
+    security_function: "BENIGN"
+    rationale: "Balance mapping declaration. Storage existence is not a vulnerability."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -52,8 +52,8 @@ code_acts:
     type: "INPUT_VAL"
     lines: [54]
     code: 'require(balances[msg.sender] >= amount, "Insufficient balance");'
-    security_function: "PREREQ"
-    rationale: "PREREQ - Balance check passes on first call. During reentrancy, if attacker hasn't spent balance yet, this may pass again."
+    security_function: "BENIGN"
+    rationale: "Balance check. This is neutral validation, not a prerequisite - it doesn't enable reentrancy."
 
   - id: "CA6"
     type: "STATE_MOD"
@@ -61,22 +61,22 @@ code_acts:
     code: |
       balances[msg.sender] -= amount;
       balances[to] += amount;
-    security_function: "PREREQ"
-    rationale: "PREREQ - State updated BEFORE external call. Classic checks-effects-interactions pattern is followed, but the callback happens in _notifyTransfer."
+    security_function: "BENIGN"
+    rationale: "State updates before external call. This is correct CEI usage - the bug is the callback after, not the state updates."
 
   - id: "CA7"
     type: "CTRL_FLOW"
     lines: [59]
     code: "_notifyTransfer(msg.sender, to, amount);"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Calls _notifyTransfer which triggers external callback. State has been updated but attacker can reenter through the callback."
+    security_function: "BENIGN"
+    rationale: "Call site to _notifyTransfer. The vulnerability is the external call inside _notifyTransfer (CA9), not this call site."
 
   - id: "CA8"
     type: "CTRL_FLOW"
     lines: [77]
     code: "if (_isContract(to)) {"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Checks if recipient is contract to trigger callback. Enables the attack vector."
+    security_function: "BENIGN"
+    rationale: "Branch selector for callback path. This is attack surface selection, not a prerequisite."
 
   - id: "CA9"
     type: "EXT_CALL"
@@ -144,8 +144,8 @@ code_acts:
           }
           return size > 0;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Contract check that determines if callback is triggered. Enables attack path."
+    security_function: "BENIGN"
+    rationale: "Contract detection helper. This is contextual logic that selects the callback path, not a prerequisite."
 
   - id: "CA16"
     type: "CTRL_FLOW"
@@ -190,32 +190,16 @@ summary:
   total_lines_covered: 108  # excludes 27 empty lines
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA7, CA9
-    PREREQ: 5          # CA1, CA5, CA6, CA8, CA15
-    BENIGN: 9          # CA2, CA3, CA4, CA10, CA11, CA12, CA13, CA14, CA16
+    ROOT_CAUSE: 1      # CA9
+    PREREQ: 0
+    BENIGN: 15         # CA1-CA8, CA10-CA16
     UNRELATED: 4       # batched
 
   root_causes:
-    - id: "CA7"
-      line: 59
-      type: "CTRL_FLOW"
-      description: "Calls _notifyTransfer after state update"
     - id: "CA9"
       lines: [80, 81]
       type: "EXT_CALL"
-      description: "External call triggers fallback enabling reentrancy"
-
-  prerequisites:
-    - id: "CA1"
-      description: "Balance mapping modified before call"
-    - id: "CA5"
-      description: "Balance check may pass on reentrant calls"
-    - id: "CA6"
-      description: "State modified before external call"
-    - id: "CA8"
-      description: "Contract check enabling callback"
-    - id: "CA15"
-      description: "isContract check for callback trigger"
+      description: "External call to recipient triggers fallback enabling reentrancy"
 
 line_to_code_act:
   # Directives (UNRELATED)
@@ -356,21 +340,21 @@ line_to_code_act:
   133: "CA_DECLARATIONS"
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "PREREQ"
-  CA6: "PREREQ"
-  CA7: "ROOT_CAUSE"
-  CA8: "PREREQ"
+  CA5: "BENIGN"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
   CA9: "ROOT_CAUSE"
   CA10: "BENIGN"
   CA11: "BENIGN"
   CA12: "BENIGN"
   CA13: "BENIGN"
   CA14: "BENIGN"
-  CA15: "PREREQ"
+  CA15: "BENIGN"
   CA16: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"

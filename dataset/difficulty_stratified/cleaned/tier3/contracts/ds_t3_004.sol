@@ -14,7 +14,7 @@ contract SimplePool {
 
     function getCurrentReward() public view returns (uint _reward) {
         // Get the time passed since the last interest accrual
-        uint _timeDelta = block.timestamp - lastAccrueInterestTime; //_timeDelta=1
+        uint _timeDelta = block.timestamp - lastAccrueInterestTime;
 
         // If the time passed is 0, return 0 reward
         if (_timeDelta == 0) return 0;
@@ -28,7 +28,7 @@ contract SimplePool {
         // 31536000 is the number of seconds in a year
         // 365 days * 1e18 = 31_536_000_000_000_000_000_000_000
         //_totalDebt * _timeDelta / 31_536_000_000_000_000_000_000_000
-        // 10_000_000_000 * 1 / 31_536_000_000_000_000_000_000_000 // -> 0
+
         _reward;
     }
 }

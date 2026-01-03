@@ -47,50 +47,6 @@ contract PermitToken {
     }
 }
 
-// contract Permit {
-//     IERC20 public token;
-
-//     constructor(IERC20 _token) {
-//         token = _token;
-//     }
-
-//     function deposit(uint256 amount) public {
-//         require(
-//             token.transferFrom(msg.sender, address(this), amount),
-//             "Transfer failed"
-//         );
-//     }
-
-//     function depositWithPermit(
-//         address target,
-//         uint256 amount,
-//         uint8 v,
-//         bytes32 r,
-//         bytes32 s
-//     ) public {
-//         (bool success, ) = address(token).call(
-//             abi.encodeWithSignature(
-//                 "permit(address,uint256,uint8,bytes32,bytes32)",
-//                 target,
-//                 amount,
-//                 v,
-//                 r,
-//                 s
-//             )
-//         );
-//         require(success, "Permit failed");
-
-//         require(
-//             token.transferFrom(target, address(this), amount),
-//             "Transfer failed"
-//         );
-//     }
-
-//     function withdraw(uint256 amount) public {
-//         require(token.transfer(msg.sender, amount), "Transfer failed");
-//     }
-// }
-
 contract WETH9 {
     string public name = "Wrapped Ether";
     string public symbol = "WETH";

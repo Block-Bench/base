@@ -16,8 +16,8 @@ code_acts:
     type: "DECLARATION"
     lines: [23]
     code: "address public governance;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Governance address used for access control in setStrategy but NOT in swapExactJarForJar."
+    security_function: "BENIGN"
+    rationale: "Governance variable declaration. Not a prerequisite - governance is unused in the vulnerable function."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -47,8 +47,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [40]
     code: "for (uint256 i = 0; i < _targets.length; i++) {"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Loop iterating over attacker-controlled targets array."
+    security_function: "BENIGN"
+    rationale: "Loop over targets array. This is an amplifier, not a prerequisite - a single unchecked call is already sufficient to exploit."
 
   - id: "CA6"
     type: "EXT_CALL"
@@ -143,15 +143,15 @@ summary:
   by_security_function:
     ROOT_CAUSE: 1      # CA6
     SECONDARY_VULN: 2  # CA10, CA11
-    PREREQ: 2          # CA1, CA5
-    BENIGN: 6          # CA2, CA3, CA4, CA7, CA8, CA9
+    PREREQ: 0
+    BENIGN: 8          # CA1-CA5, CA7, CA8, CA9
     UNRELATED: 4       # batched
 
   root_causes:
     - id: "CA6"
       lines: [41, 42]
       type: "EXT_CALL"
-      description: "Arbitrary external call without access control"
+      description: "Arbitrary external call with attacker-controlled target and calldata, without access control"
 
   secondary_vulns:
     - id: "CA10"
@@ -162,12 +162,6 @@ summary:
       lines: [83, 84]
       type: "EXT_CALL"
       description: "withdraw(token) lacks access control"
-
-  prerequisites:
-    - id: "CA1"
-      description: "Governance variable (unused in vulnerable function)"
-    - id: "CA5"
-      description: "Loop iterating over attacker-controlled targets"
 
 line_to_code_act:
   # Directives (UNRELATED)
@@ -264,11 +258,11 @@ line_to_code_act:
   86: "CA_DECLARATIONS"
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "PREREQ"
+  CA5: "BENIGN"
   CA6: "ROOT_CAUSE"
   CA7: "BENIGN"
   CA8: "BENIGN"
