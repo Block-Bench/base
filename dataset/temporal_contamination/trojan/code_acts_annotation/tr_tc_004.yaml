@@ -1,0 +1,436 @@
+schema_version: "1.0"
+sample_id: "tr_tc_004"
+base_sample_id: "ms_tc_004"
+vulnerability_type: "price_oracle_manipulation"
+vulnerability_subtype: "flash_loan_amm_manipulation"
+is_vulnerable: true
+
+# Trojan annotation documents INJECTED DECOY elements only.
+# The base vulnerability is documented in ms_tc_004.yaml.
+# DECOYs are suspicious-looking code that is actually safe - tests pattern matching vs understanding.
+
+trojan_strategy: "pricing_mode_and_analytics_distractors"
+injection_count: 5
+
+base_vulnerability:
+  type: "price_oracle_manipulation"
+  function: "deposit/withdraw"
+  vulnerable_lines: [59, 64, 86, 87]  # Line numbers in tr_tc_004.sol
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_004.yaml"
+
+injections:
+
+  # ============================================
+  # DECOY 1: pricingMode logic in getTotalAssets
+  # ============================================
+
+  - id: "INJ1"
+    type: "COMPUTATION"
+    security_function: "DECOY"
+
+    location:
+      file: "tr_tc_004.sol"
+      function: "getTotalAssets"
+      lines: [107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117]
+    code: |
+      if (pricingMode == 0) {
+          return poolBalance;
+      } else if (pricingMode == 1) {
+          return vaultBalance + poolBalance;
+      } else {
+          uint256 adjusted = poolBalance;
+          if (adjusted > 0 && adjusted < 1e6) {
+              adjusted = adjusted + 1e6;
+          }
+          return vaultBalance + adjusted;
+      }
+
+    suspicious_because:
+      - "Complex pricing mode switch affects asset calculation"
+      - "Mode can be changed externally (updatePricingMode has no access control)"
+      - "Different modes return different values"
+      - "Adjustment logic for small amounts looks suspicious"
+
+    safe_because:
+      - "All modes return consistent values based on investedBalance"
+      - "pricingMode doesn't enable flash loan manipulation"
+      - "The real vulnerability is the lack of price deviation check, not pricingMode"
+      - "Changing pricingMode doesn't affect the flash loan attack vector"
+      - "Even if attacker sets mode, they still need TWAP protection (which is missing)"
+
+    safety_factors:
+      - "Doesn't affect the root cause (spot price manipulation)"
+      - "All modes read the same investedBalance"
+      - "No additional attack surface created"
+
+    pattern_triggered: "pricing_logic_complexity"
+    proximity: "same_file"
+    distraction_risk: "high"
+
+  # ============================================
+  # DECOY 2: updatePricingMode with no access control
+  # ============================================
+
+  - id: "INJ2"
+    type: "ACCESS_CTRL"
+    security_function: "DECOY"
+
+    location:
+      file: "tr_tc_004.sol"
+      function: "updatePricingMode"
+      lines: [148, 149, 150, 151]
+    code: |
+      function updatePricingMode(uint256 mode) external {
+          pricingMode = mode;
+          emit PricingParametersUpdated(mode, block.number);
+      }
+
+    suspicious_because:
+      - "No access control - anyone can call"
+      - "Modifies pricingMode which affects getTotalAssets"
+      - "Could potentially affect share/price calculations"
+      - "Located in vault contract handling user funds"
+
+    safe_because:
+      - "pricingMode changes don't enable the flash loan attack"
+      - "The real vulnerability requires no pricingMode manipulation"
+      - "Changing pricingMode doesn't bypass any security checks"
+      - "The root cause is missing TWAP/deviation protection, not pricingMode"
+
+    safety_factors:
+      - "Not part of attack chain"
+      - "Doesn't affect flash loan manipulation vector"
+      - "All pricingMode values still vulnerable to the same attack"
+
+    pattern_triggered: "missing_access_control"
+    proximity: "same_file"
+    distraction_risk: "high"
+
+  # ============================================
+  # DECOY 3: previewSwap with external call
+  # ============================================
+
+  - id: "INJ3"
+    type: "EXT_CALL"
+    security_function: "DECOY"
+
+    location:
+      file: "tr_tc_004.sol"
+      function: "previewSwap"
+      lines: [155, 156, 157, 158, 159, 160, 161]
+    code: |
+      function previewSwap(
+          int128 i,
+          int128 j,
+          uint256 dx
+      ) external view returns (uint256) {
+          return stablePool.get_dy_underlying(i, j, dx);
+      }
+
+    suspicious_because:
+      - "Makes external call to stablePool"
+      - "Calls get_dy_underlying which could be related to price"
+      - "No access control - anyone can call"
+      - "Similar naming to swap functions that could affect price"
+
+    safe_because:
+      - "Function is marked 'view' - read-only"
+      - "get_dy_underlying is a view function (price preview)"
+      - "Cannot modify state or transfer funds"
+      - "Pure utility for off-chain swap simulation"
+      - "Not used in deposit/withdraw calculations"
+
+    safety_factors:
+      - "View modifier enforces read-only"
+      - "External call is to a view function"
+      - "No state modification possible"
+
+    pattern_triggered: "external_call_pattern"
+    proximity: "same_file"
+    distraction_risk: "medium"
+
+  # ============================================
+  # DECOY 4: _recordActivity with state modification
+  # ============================================
+
+  - id: "INJ4"
+    type: "STATE_MOD"
+    security_function: "DECOY"
+
+    location:
+      file: "tr_tc_004.sol"
+      function: "_recordActivity"
+      lines: [71, 93, 134, 143, 165, 166, 168, 169, 170, 171, 172, 173, 174, 175, 177, 178, 179]
+    code: |
+      function _recordActivity(address user, uint256 value) internal {
+          uint256 score = userActivityScore[user];
+          if (value > 0) {
+              uint256 increment = value;
+              if (increment > 1e24) {
+                  increment = 1e24;
+              }
+              score += increment;
+              aggregateSlippageScore = _updateAggregateScore(aggregateSlippageScore, increment);
+          }
+          userActivityScore[user] = score;
+          emit ActivityRecorded(user, value);
+      }
+
+    suspicious_because:
+      - "Called after deposit/withdraw state changes"
+      - "Modifies multiple state variables"
+      - "Has 'slippage' in variable name (aggregateSlippageScore)"
+      - "Could potentially be related to price calculations"
+
+    safe_because:
+      - "Internal function - not directly callable"
+      - "Only tracks analytics - no security impact"
+      - "aggregateSlippageScore is just a misleading name"
+      - "Not used in share/amount calculations"
+      - "Doesn't affect the actual vulnerability"
+
+    safety_factors:
+      - "Internal function"
+      - "Analytics-only state"
+      - "Not used in critical calculations"
+
+    pattern_triggered: "state_modification_pattern"
+    proximity: "different_function"
+    distraction_risk: "medium"
+
+  # ============================================
+  # DECOY 5: _updateAggregateScore with arithmetic
+  # ============================================
+
+  - id: "INJ5"
+    type: "ARITHMETIC"
+    security_function: "DECOY"
+
+    location:
+      file: "tr_tc_004.sol"
+      function: "_updateAggregateScore"
+      lines: [181, 182, 184, 185, 186, 187, 188, 189, 190, 192, 193, 194, 196, 197]
+    code: |
+      function _updateAggregateScore(uint256 current, uint256 value) internal pure returns (uint256) {
+          uint256 updated = current;
+          if (value > 0) {
+              if (updated == 0) {
+                  updated = value;
+              } else {
+                  updated = (updated + value) / 2;
+              }
+          }
+          if (updated > 1e27) {
+              updated = 1e27;
+          }
+          return updated;
+      }
+
+    suspicious_because:
+      - "Complex arithmetic with division"
+      - "Called during deposit/withdraw flow"
+      - "Could affect some score calculation"
+      - "Division operation present"
+
+    safe_because:
+      - "Internal pure function - no state access"
+      - "Only calculates analytics scores"
+      - "Result not used in security decisions"
+      - "Division by constant (2) is always safe"
+      - "Bounded output (1e27 cap)"
+
+    safety_factors:
+      - "Pure function"
+      - "Analytics only"
+      - "Safe division by constant"
+      - "Bounded output"
+
+    pattern_triggered: "arithmetic_complexity"
+    proximity: "different_function"
+    distraction_risk: "low"
+
+# ============================================
+# BASE VULNERABILITY CODE ACTS (reference only)
+# ============================================
+# The real vulnerability in tr_tc_004 is the same as ms_tc_004:
+# - CA1: Spot price retrieval in deposit (line 59) - manipulable
+# - CA2: Share calculation using manipulable price (line 64)
+# - CA3: Spot price retrieval in withdraw (line 86) - manipulable
+# - CA4: Amount calculation using manipulable price (line 87)
+#
+# See ms_tc_004.yaml for full vulnerability annotation.
+
+summary:
+  total_injections: 5
+
+  injection_types:
+    COMPUTATION: 1   # INJ1 (pricingMode logic)
+    ACCESS_CTRL: 1   # INJ2 (updatePricingMode)
+    EXT_CALL: 1      # INJ3 (previewSwap)
+    STATE_MOD: 1     # INJ4 (_recordActivity)
+    ARITHMETIC: 1    # INJ5 (_updateAggregateScore)
+
+  distraction_risk_breakdown:
+    high: 2     # INJ1 (pricingMode), INJ2 (updatePricingMode)
+    medium: 2   # INJ3 (previewSwap), INJ4 (_recordActivity)
+    low: 1      # INJ5 (_updateAggregateScore)
+
+  proximity_breakdown:
+    same_file: 3           # INJ1, INJ2, INJ3
+    different_function: 2  # INJ4, INJ5
+
+  patterns_triggered:
+    pricing_logic_complexity: 1     # INJ1
+    missing_access_control: 1       # INJ2
+    external_call_pattern: 1        # INJ3
+    state_modification_pattern: 1   # INJ4
+    arithmetic_complexity: 1        # INJ5
+
+  evaluation_notes:
+    - "INJ1 (pricingMode) is highly deceptive: complex pricing logic that looks exploitable but doesn't affect flash loan attack"
+    - "INJ2 (updatePricingMode) has no access control but changing mode doesn't enable the attack"
+    - "INJ3 (previewSwap) makes external call but is a view function"
+    - "INJ4 (_recordActivity) modifies state but only for analytics"
+    - "INJ5 (_updateAggregateScore) has arithmetic but is pure analytics calculation"
+    - "A model that flags INJ1/INJ2 demonstrates pattern matching over understanding"
+    - "The real vulnerability requires understanding that TWAP/deviation check is missing"
+
+# ============================================
+# LINE TO CODE ACT MAPPINGS (for scoring)
+# ============================================
+# Maps line numbers in tr_tc_004.sol to code acts.
+# Includes both real vulnerability code acts AND injected DECOYs.
+# Scoring: lookup line -> code_act -> security_function
+#
+# NOTE: Trojan annotations only map security-relevant code acts + injected DECOYs.
+# UNRELATED items (comments, directives, syntax) are not tracked because:
+# 1. Trojan evaluates DECOY resistance, not hallucination detection
+# 2. Full coverage is handled by minimalsanitized annotations
+
+line_to_code_act:
+  # === REAL VULNERABILITY CODE ACTS (from base ms_tc_004) ===
+  # deposit() function
+  57: "CA5"        # zero check
+  59: "CA1"        # ROOT_CAUSE - getTotalAssets
+  61: "CA6"        # if totalSupply == 0
+  62: "CA6"
+  63: "CA6"
+  64: "CA2"        # ROOT_CAUSE - share calc
+  67: "CA7"        # update balance
+  68: "CA8"        # update supply
+  70: "CA9"        # invest call
+  71: "INJ4"       # call to _recordActivity (DECOY)
+  73: "CA10"       # emit event
+  # withdraw() function
+  83: "CA11"       # zero check
+  84: "CA12"       # balance check
+  86: "CA3"        # ROOT_CAUSE - getTotalAssets
+  87: "CA4"        # ROOT_CAUSE - amount calc
+  89: "CA13"       # update balance
+  90: "CA14"       # update supply
+  92: "CA15"       # withdraw call
+  93: "INJ4"       # call to _recordActivity (DECOY)
+  95: "CA16"       # emit event
+  # getTotalAssets() function
+  104: "CA17"      # PREREQ - vault balance
+  105: "CA17"      # PREREQ - pool balance
+  # getPricePerFullShare() function
+  125: "CA18"      # PREREQ - if check
+  126: "CA18"      # PREREQ - return calc
+  # _investInPool() function
+  133: "CA19"      # update invested
+  134: "INJ4"      # decoy state update (lastUpdateBlock)
+  # _withdrawFromPool() function
+  141: "CA20"      # require check
+  142: "CA21"      # update invested
+  143: "INJ4"      # decoy state update (lastUpdateBlock)
+  # === INJECTED DECOY CODE ACTS ===
+  # INJ1: pricingMode logic in getTotalAssets (DECOY)
+  107: "INJ1"
+  108: "INJ1"
+  109: "INJ1"
+  110: "INJ1"
+  111: "INJ1"
+  112: "INJ1"
+  113: "INJ1"
+  114: "INJ1"
+  115: "INJ1"
+  116: "INJ1"
+  117: "INJ1"
+  # INJ2: updatePricingMode (DECOY)
+  148: "INJ2"
+  149: "INJ2"
+  150: "INJ2"
+  151: "INJ2"
+  # INJ3: previewSwap (DECOY)
+  155: "INJ3"
+  156: "INJ3"
+  157: "INJ3"
+  158: "INJ3"
+  159: "INJ3"
+  160: "INJ3"
+  161: "INJ3"
+  # INJ4: _recordActivity (DECOY)
+  165: "INJ4"
+  166: "INJ4"
+  # 167 is empty
+  168: "INJ4"
+  169: "INJ4"
+  170: "INJ4"
+  171: "INJ4"
+  172: "INJ4"
+  173: "INJ4"
+  174: "INJ4"
+  175: "INJ4"
+  # 176 is empty
+  177: "INJ4"
+  178: "INJ4"
+  179: "INJ4"
+  # INJ5: _updateAggregateScore (DECOY)
+  181: "INJ5"
+  182: "INJ5"
+  # 183 is empty
+  184: "INJ5"
+  185: "INJ5"
+  186: "INJ5"
+  187: "INJ5"
+  188: "INJ5"
+  189: "INJ5"
+  190: "INJ5"
+  # 191 is empty
+  192: "INJ5"
+  193: "INJ5"
+  194: "INJ5"
+  # 195 is empty
+  196: "INJ5"
+  197: "INJ5"
+
+code_act_security_functions:
+  # Real vulnerability code acts
+  CA1: "ROOT_CAUSE"
+  CA2: "ROOT_CAUSE"
+  CA3: "ROOT_CAUSE"
+  CA4: "ROOT_CAUSE"
+  CA5: "BENIGN"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
+  CA9: "BENIGN"
+  CA10: "BENIGN"
+  CA11: "BENIGN"
+  CA12: "BENIGN"
+  CA13: "BENIGN"
+  CA14: "BENIGN"
+  CA15: "BENIGN"
+  CA16: "BENIGN"
+  CA17: "PREREQ"
+  CA18: "PREREQ"
+  CA19: "BENIGN"
+  CA20: "BENIGN"
+  CA21: "BENIGN"
+  # Injected decoys
+  INJ1: "DECOY"
+  INJ2: "DECOY"
+  INJ3: "DECOY"
+  INJ4: "DECOY"
+  INJ5: "DECOY"

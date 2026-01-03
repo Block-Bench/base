@@ -15,11 +15,11 @@
   "vulnerable_contract": "GovernanceSystem",
   "vulnerable_function": "emergencyCommit",
   "vulnerable_lines": [
-    55,
     56,
+    57,
     101,
     102,
-    107
+    106
   ],
   "attack_scenario": "Attacker takes massive flash loan from Aave ($1B in stablecoins), swaps for Curve 3pool LP tokens, deposits into Beanstalk Silo gaining >66% voting power, creates malicious governance proposal to transfer all funds, votes with flash-loan-funded power, immediately executes via emergencyCommit(), drains protocol, repays flash loan with profit.",
   "root_cause": "Governance system allowed instant voting power from deposits with no time-weighting or holding period. The emergencyCommit() function enabled immediate execution of proposals that reached 66% approval, with no time delay for community review. This combination made flash loan governance attacks trivial to execute.",

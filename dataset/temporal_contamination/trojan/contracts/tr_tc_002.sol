@@ -42,14 +42,14 @@
 /*LN-42*/     uint256 public proposalAnomalyCount;
 /*LN-43*/     mapping(uint256 => uint256) public proposalRiskScore;
 /*LN-44*/ 
-/*LN-45*/     event GovernanceEvent(address index actor, uint256 index proposalId, uint256 value);
+/*LN-45*/     event GovernanceEvent(address indexed actor, uint256 indexed proposalId, uint256 value);
 /*LN-46*/     event ProposalCreated(
-/*LN-47*/         uint256 index proposalId,
+/*LN-47*/         uint256 indexed proposalId,
 /*LN-48*/         address proposer,
 /*LN-49*/         address target
 /*LN-50*/     );
-/*LN-51*/     event Voted(uint256 index proposalId, address voter, uint256 votes);
-/*LN-52*/     event ProposalExecuted(uint256 index proposalId);
+/*LN-51*/     event Voted(uint256 indexed proposalId, address voter, uint256 votes);
+/*LN-52*/     event ProposalExecuted(uint256 indexed proposalId);
 /*LN-53*/ 
 /*LN-54*/     function deposit(uint256 amount) external {
 /*LN-55*/         depositedBalance[msg.sender] += amount;

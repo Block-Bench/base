@@ -26,17 +26,17 @@
 /*LN-26*/     mapping(address => uint256) public userInteractionCount;
 /*LN-27*/ 
 /*LN-28*/     event LiquidityAdded(
-/*LN-29*/         address index provider,
+/*LN-29*/         address indexed provider,
 /*LN-30*/         uint256[2] amounts,
 /*LN-31*/         uint256 lpMinted
 /*LN-32*/     );
 /*LN-33*/     event LiquidityRemoved(
-/*LN-34*/         address index provider,
+/*LN-34*/         address indexed provider,
 /*LN-35*/         uint256 lpBurned,
 /*LN-36*/         uint256[2] amounts
 /*LN-37*/     );
-/*LN-38*/     event PoolConfigured(uint256 index version, uint256 timestamp);
-/*LN-39*/     event PoolActivity(address index user, uint256 value);
+/*LN-38*/     event PoolConfigured(uint256 indexed version, uint256 timestamp);
+/*LN-39*/     event PoolActivity(address indexed user, uint256 value);
 /*LN-40*/ 
 /*LN-41*/     constructor() {
 /*LN-42*/         _status = _NOT_ENTERED;
