@@ -1,0 +1,203 @@
+schema_version: "1.0"
+sample_id: "ms_tc_046"
+vulnerability_type: "access_control"
+vulnerable_lines: [34]
+
+code_acts:
+
+  - id: "CA1"
+    type: "EXT_CALL"
+    lines: [34, 35, 36, 37, 38, 40, 42, 43, 45, 46, 48, 49]
+    code: |
+      function withdraw(
+          address token,
+          address to,
+          uint256 amount
+      ) external onlyOwner {
+          if (token == address(0)) {
+              payable(to).transfer(amount);
+          } else {
+              IERC20(token).transfer(to, amount);
+          }
+          emit Withdrawal(token, to, amount);
+      }
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Withdrawal function protected only by single owner key. No multi-sig, no timelock, no limits. Compromised key allows immediate drainage of all hot wallet funds."
+
+  - id: "CA2"
+    type: "EXT_CALL"
+    lines: [53, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65]
+    code: "emergencyWithdraw function"
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Emergency withdrawal also protected only by single owner key. Same vulnerability as withdraw()."
+
+  - id: "CA3"
+    type: "STATE_MOD"
+    lines: [70, 71, 72]
+    code: |
+      function transferOwnership(address newOwner) external onlyOwner {
+          owner = newOwner;
+      }
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Ownership transfer with single key. Attacker can transfer ownership to themselves."
+
+  - id: "CA4"
+    type: "ACCESS_CTRL"
+    lines: [27, 28, 29, 30]
+    code: |
+      modifier onlyOwner() {
+          require(msg.sender == owner, "Not owner");
+          _;
+      }
+    security_function: "PREREQ"
+    rationale: "PREREQ - Single owner check modifier. The sole access control - no multi-sig or additional validation."
+
+  - id: "CA5"
+    type: "STATE_MOD"
+    lines: [21, 22, 23]
+    code: |
+      constructor() {
+          owner = msg.sender;
+      }
+    security_function: "BENIGN"
+    rationale: "Constructor setting initial owner."
+
+  - id: "CA6"
+    type: "CTRL_FLOW"
+    lines: [74, 75]
+    code: "receive() external payable {}"
+    security_function: "BENIGN"
+    rationale: "Receive function for ETH deposits."
+
+  - id: "CA_DIRECTIVES"
+    type: "DIRECTIVE"
+    lines: [1, 2]
+    security_function: "UNRELATED"
+    rationale: "License and pragma"
+
+  - id: "CA_COMMENTS"
+    type: "COMMENT"
+    lines: [10, 11, 25, 26, 32, 33, 41, 44, 51, 52, 67, 68, 69]
+    security_function: "UNRELATED"
+    rationale: "Comments and NatSpec"
+
+  - id: "CA_DECLARATIONS"
+    type: "DECLARATION"
+    lines: [4, 5, 7, 8, 12, 13, 17, 19]
+    security_function: "UNRELATED"
+    rationale: "Interface and contract declarations"
+
+summary:
+  total_code_acts: 9
+  total_lines_covered: 58
+
+  by_security_function:
+    ROOT_CAUSE: 3
+    PREREQ: 1
+    BENIGN: 2
+    UNRELATED: 3
+
+  root_causes:
+    - id: "CA1"
+      lines: [34, 35, 36, 37, 38, 40, 42, 43, 45, 46, 48, 49]
+      description: "Withdrawal with single-key protection"
+    - id: "CA2"
+      lines: [53, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65]
+      description: "Emergency withdrawal with single-key protection"
+    - id: "CA3"
+      lines: [70, 71, 72]
+      description: "Ownership transfer with single-key protection"
+
+  prerequisites:
+    - id: "CA4"
+      lines: [27, 28, 29, 30]
+      description: "Single owner modifier - no multi-sig"
+
+line_to_code_act:
+  1: "CA_DIRECTIVES"
+  2: "CA_DIRECTIVES"
+  # Line 3: empty
+  4: "CA_DECLARATIONS"
+  5: "CA_DECLARATIONS"
+  # Line 6: empty
+  7: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
+  # Line 9: empty
+  10: "CA_COMMENTS"
+  11: "CA_COMMENTS"
+  12: "CA_DECLARATIONS"
+  13: "CA_DECLARATIONS"
+  # Line 14: empty
+  # Line 15: empty
+  # Line 16: empty
+  17: "CA_DECLARATIONS"
+  # Line 18: empty
+  19: "CA_DECLARATIONS"
+  # Line 20: empty
+  21: "CA5"
+  22: "CA5"
+  23: "CA5"
+  # Line 24: empty
+  25: "CA_COMMENTS"
+  26: "CA_COMMENTS"
+  27: "CA4"
+  28: "CA4"
+  29: "CA4"
+  30: "CA4"
+  # Line 31: empty
+  32: "CA_COMMENTS"
+  33: "CA_COMMENTS"
+  34: "CA1"
+  35: "CA1"
+  36: "CA1"
+  37: "CA1"
+  38: "CA1"
+  # Line 39: empty
+  40: "CA1"
+  41: "CA_COMMENTS"
+  42: "CA1"
+  43: "CA1"
+  44: "CA_COMMENTS"
+  45: "CA1"
+  46: "CA1"
+  # Line 47: empty
+  48: "CA1"
+  49: "CA1"
+  # Line 50: empty
+  51: "CA_COMMENTS"
+  52: "CA_COMMENTS"
+  53: "CA2"
+  # Line 54: empty
+  55: "CA2"
+  56: "CA2"
+  57: "CA2"
+  58: "CA2"
+  59: "CA2"
+  60: "CA2"
+  61: "CA2"
+  62: "CA2"
+  # Line 63: empty
+  64: "CA2"
+  65: "CA2"
+  # Line 66: empty
+  67: "CA_COMMENTS"
+  68: "CA_COMMENTS"
+  69: "CA_COMMENTS"
+  70: "CA3"
+  71: "CA3"
+  72: "CA3"
+  # Line 73: empty
+  74: "CA6"
+  75: "CA6"
+  # Line 76: empty
+
+code_act_security_functions:
+  CA1: "ROOT_CAUSE"
+  CA2: "ROOT_CAUSE"
+  CA3: "ROOT_CAUSE"
+  CA4: "PREREQ"
+  CA5: "BENIGN"
+  CA6: "BENIGN"
+  CA_DIRECTIVES: "UNRELATED"
+  CA_COMMENTS: "UNRELATED"
+  CA_DECLARATIONS: "UNRELATED"
