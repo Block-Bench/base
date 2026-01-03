@@ -1,159 +1,214 @@
 1️⃣ Metadata ↔ Contract Consistency
-❌ Issue: vulnerable_lines under-specified
+❌ Issue: Metadata overstates external manipulability of totalDebt
 
-Metadata lists:
+Metadata repeatedly claims:
 
-"vulnerable_lines": [100]
+“totalDebt could be manipulated through external pool state changes”
+
+But in this contract:
+
+totalDebt += amount;
+totalDebt -= amount;
 
 
-But the root cause spans lines 98–101, not just 100:
-
-require(
-    balance0Adjusted * balance1Adjusted >=
-        uint256(_reserve0) * _reserve1 * (1000 ** 2),
-    "UraniumSwap: K"
-);
-
+totalDebt is purely internal state, only modified inside _borrow and repay.
 
 Why this matters
 
-Your annotation correctly marks lines [98–102] as ROOT_CAUSE.
+In real Alpha Homora, the bug involved external interest accrual / stale debt sync with Iron Bank.
 
-Metadata should reflect the full invariant check, not a single line.
+This minimal contract does not model that dependency, so metadata implies an attack surface that does not exist in-code.
 
 Fix
 
-Update metadata vulnerable_lines to [98, 99, 100, 101] (or a range).
+Update metadata to clarify:
+
+This is a sanitized / abstracted model of the exploit
+
+External manipulation is assumed, not explicitly represented
+
+❌ Issue: vulnerable_lines too narrow
+
+Metadata:
+
+"vulnerable_lines": [78]
+
+
+But the accounting invariant is bidirectional, involving:
+
+Borrow: line 78
+
+Repay: line 97
+
+View: line 119
+
+Liquidation: line 128
+
+Why this matters
+
+The exploit only works because all conversions use the same flawed ratio
+
+Single-line marking understates systemic nature
+
+Fix
+
+Either:
+
+Expand vulnerable_lines to [78, 97, 119, 128]
+
+Or:
+
+Keep 78 but explicitly mark others as derived invariant uses
 
 2️⃣ Code Act Correctness (Types + Security Functions)
-❌ Minor Classification Issue: CA2 security function
-- id: "CA2"
+❌ Issue: CA1 misclassified as PREREQ
+- id: "CA1"
   type: "DECLARATION"
   security_function: "PREREQ"
 
 
-Why this is slightly off
+Why this is wrong
 
-TOTAL_FEE = 16 is contextual, not a prerequisite by itself.
+The Position struct is not a prerequisite to exploitation
 
-The exploit exists only because of interaction between:
+debtShare being a field is neutral; the bug is in how it’s computed
 
-CA2 (fee scale change)
+Correct classification
 
-CA3 (balance adjustment)
+CA1 should be BENIGN or CONTEXT, not PREREQ
 
-CA1 (incorrect invariant)
-
-But CA2 alone is not a prerequisite to exploitation.
-
-Better classification
-
-Either:
-
-Downgrade CA2 → CONTEXT
-
-Or:
-
-Keep PREREQ but explicitly mark it as non-exploitable alone
-
-This is a taxonomy rigor issue, not a correctness bug.
-
-❌ Minor Overreach: CA12 duplication
-- id: "CA12"
-  lines: [34, 35]
+❌ Issue: CA7 over-classified as PREREQ
+- id: "CA7"
+  security_function: "PREREQ"
 
 
-These lines are already conceptually identical to CA8 (balance reads).
-They do not introduce new information for security scoring.
+Why this is wrong
 
-Impact
+Calling _borrow does not enable the exploit
 
-Slight inflation of BENIGN acts.
-
-Not wrong, but redundant.
+_borrow is where the exploit lives
 
 Fix
 
-Batch CA12 with CA8 or mark as UNRELATED.
+CA7 should be BENIGN control flow, not PREREQ
+
+❌ Issue: CA10 not actually prerequisite
+if (totalDebtShare == 0) { ... } else { ... }
+
+
+Why
+
+The exploit requires totalDebtShare != 0
+
+This branch is normal control logic, not a vulnerability enabler
+
+Fix
+
+Downgrade CA10 → BENIGN
+
+❌ Issue: CA16, CA21, CA23 misclassified as PREREQ
+
+These are downstream manifestations, not prerequisites.
+
+They do not enable the exploit, they only:
+
+Reveal
+
+Amplify
+
+Materialize damage
+
+Better taxonomy
+
+Introduce (or conceptually treat as):
+
+PROPAGATION
+
+IMPACT_PATH
+
+Right now, PREREQ is overloaded.
 
 3️⃣ Scoring / Taxonomy Rigor (What to Fix, What to Improve)
-❌ Root Cause Granularity (Main Issue)
+❌ Root Cause is underspecified
 
-Your ROOT_CAUSE is correct but underspecified in taxonomy semantics.
+You marked:
 
-Currently:
-
-ROOT_CAUSE: CA1
-PREREQ: CA2, CA3
+ROOT_CAUSE: CA11
 
 
-Problem
+But the real root cause is not arithmetic, it is:
 
-The exploit is not a single-line bug, but a scale inconsistency across multiple computations.
+Unsynchronized share-based accounting relying on mutable global totals
 
-CA3 is logically part of the root cause, not merely a prerequisite.
+What’s missing
 
-Better modeling (recommended)
+No annotation captures:
 
-Either:
+Lack of invariant enforcement
 
-Promote CA3 to ROOT_CAUSE_SUPPORT
+Absence of sanity bounds (e.g. share >= amount floor)
 
-Or:
-
-Split ROOT_CAUSE into:
-
-ROOT_CAUSE_PRIMARY → CA1
-
-ROOT_CAUSE_SECONDARY → CA3
-
-This improves fidelity to the real Uranium exploit, which was systemic, not local.
-
-❌ Missing Invariant Concept Tag
-
-Your taxonomy labels this as arithmetic_error, which is correct.
-
-However, the exploit is more precisely:
-
-Invariant scale mismatch
+No reconciliation with external debt source
 
 Improvement
 
-Add a secondary tag or subtype, e.g.:
+Either:
 
-vulnerability_subtype: invariant_scale_mismatch
+Add a conceptual ROOT_CAUSE_SUPPORT
+
+Or:
+
+Enrich CA11 rationale to reflect systemic accounting invariant failure, not just a formula
+
+❌ Vulnerability Type Slightly Too Generic
+
+Metadata:
+
+"vulnerability_type": "accounting_manipulation"
 
 
-This matters for:
+Correct but underspecified.
 
-Dataset retrieval
+More precise
 
-Model generalization
+share_price_manipulation
 
-Differentiating from overflow / rounding errors
+unsound_share_accounting
+
+This matters for dataset separability from:
+
+Rebase bugs
+
+Oracle accounting bugs
+
+Simple rounding errors
 
 ✅ What Has NO Issues
 
-Root cause identification: ✅ correct
+Line-to-code-act mapping: ✅ correct
 
-Code act ↔ contract line alignment: ✅ correct
+Faithfulness to real Alpha Homora exploit logic: ✅ conceptually accurate
 
-Faithfulness to real Uranium exploit mechanics: ✅ correct
+Identification of line 78 as the critical calculation: ✅ correct
 
-Security function assignments for CA1 and CA3: ✅ sound
+BENIGN vs UNRELATED batching: ✅ clean
 
-BENIGN vs UNRELATED separation: ✅ clean
+No false ROOT_CAUSE inflation: ✅ good restraint
 
 ✅ Final Verdict
 
 Issues found (summary):
 
-Metadata vulnerable_lines too narrow
+Metadata implies external manipulability not present in contract
 
-CA2 slightly misclassified as PREREQ
+vulnerable_lines underrepresent systemic invariant
 
-CA3 arguably part of ROOT_CAUSE, not just PREREQ
+CA1 incorrectly marked PREREQ
 
-Minor redundancy in CA12
+CA7 incorrectly marked PREREQ
 
-Missing invariant-specific subtype
+CA10 incorrectly marked PREREQ
+
+PREREQ category overloaded with propagation logic
+
+Root cause description too arithmetic-focused
