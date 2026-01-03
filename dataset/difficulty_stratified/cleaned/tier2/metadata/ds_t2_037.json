@@ -26,9 +26,7 @@
   "sanitized_from": "ds_130",
   "sanitized_id": "sn_ds_130",
   "identifier_mappings": {
-    "Unprotected": "OpenAccess"
+    "Unprotected": "Fiverr"
   },
-  "vulnerable_functions": [
-    "changeOwner"
-  ]
+  "vulnerable_functions": ["changeOwner"]
 }

@@ -2,7 +2,7 @@ schema_version: "1.0"
 sample_id: "ms_tc_003"
 vulnerability_type: "access_control"
 vulnerability_subtype: "unprotected_initialization_delegatecall"
-vulnerable_lines: [20, 62]
+vulnerable_lines: [20]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -24,8 +24,8 @@ code_acts:
     type: "FUND_XFER"
     lines: [62]
     code: "selfdestruct(_to);"
-    security_function: "ROOT_CAUSE"
-    rationale: "Executes selfdestruct which destroys the library contract and sends all funds to _to. When called on the shared library, this permanently freezes all 587+ proxy wallets that delegatecall to it."
+    security_function: "PREREQ"
+    rationale: "Executes selfdestruct which destroys the library contract. This is the destructive action enabled by the root cause (unprotected initWallet), not the root cause itself. The selfdestruct is correctly guarded by isOwner check - it's only exploitable because ownership can be hijacked via CA1."
 
   - id: "CA3"
     type: "STATE_MOD"
@@ -183,8 +183,8 @@ summary:
   total_lines_covered: 86  # excludes 27 empty lines (3, 9, 12, 15, 21, 22, 23, 24, 25, 26, 31, 37, 42, 46, 55, 58, 60, 61, 64, 71, 76, 83, 87, 94, 100, 110, 113)
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA1, CA2
-    PREREQ: 2          # CA3, CA4
+    ROOT_CAUSE: 1      # CA1
+    PREREQ: 3          # CA2, CA3, CA4
     INSUFF_GUARD: 1    # CA5
     BENIGN: 14         # CA6-CA19
     UNRELATED: 4       # batched
@@ -208,12 +208,12 @@ summary:
       line: 20
       type: "ACCESS_CTRL"
       description: "Unprotected initWallet - no require(!initialized) check"
+
+  prerequisites:
     - id: "CA2"
       line: 62
       type: "FUND_XFER"
-      description: "selfdestruct destroys shared library"
-
-  prerequisites:
+      description: "selfdestruct - destructive action enabled by root cause"
     - id: "CA3"
       line: 44
       type: "STATE_MOD"
@@ -231,7 +231,6 @@ summary:
 
   vulnerable_lines_mapping:
     20: "CA1 - ROOT_CAUSE - unprotected public function"
-    62: "CA2 - ROOT_CAUSE - selfdestruct"
 
   # For scoring: lookup line -> code_act -> security_function
 line_to_code_act:
@@ -337,7 +336,7 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "ROOT_CAUSE"
+  CA2: "PREREQ"
   CA3: "PREREQ"
   CA4: "PREREQ"
   CA5: "INSUFF_GUARD"
