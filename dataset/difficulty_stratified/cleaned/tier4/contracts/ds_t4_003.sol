@@ -1,31 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
-
-contract ContractTest is Test {
-    Logic LogicContract;
-    Proxy ProxyContract;
-
-    function testStorageCollision() public {
-        LogicContract = new Logic();
-        ProxyContract = new Proxy(address(LogicContract));
-
-        console.log(
-            "Current implementation contract address:",
-            ProxyContract.implementation()
-        );
-        ProxyContract.testcollision();
-        console.log(
-            "overwritten slot0 implementation contract address:",
-            ProxyContract.implementation()
-        );
-        console.log("operate completed");
-    }
-
-    receive() external payable {}
-}
-
 contract Proxy {
     address public implementation; //slot0
 

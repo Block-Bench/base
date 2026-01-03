@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/StorageSlot.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -9,25 +8,6 @@ import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
 interface imp {
     function initialize(address) external;
-}
-
-contract ContractTest is Test {
-    Proxy ProxyContract;
-    Implementation ImplementationContract;
-
-    function testChallenge() public {
-        ImplementationContract = new Implementation();
-        console.log(
-            "ImplementationContract addr",
-            address(ImplementationContract)
-        );
-        ProxyContract = new Proxy(address(ImplementationContract));
-
-        emit log_named_bytes32(
-            "Storage slot 0:",
-            vm.load(address(ProxyContract), bytes32(uint256(0)))
-        );
-    }
 }
 
 contract Proxy {

@@ -3,57 +3,6 @@ pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
 
-contract ContractTest is Test {
-    BankManagerA managerA;
-    BankManagerB managerB;
-
-    function setUp() public {
-        managerA = new BankManagerA();
-        managerB = new BankManagerB();
-
-        // Initialize both managers with the same 3 banks
-        address[] memory initialBanks = new address[](3);
-        string[] memory initialNames = new string[](3);
-
-        initialBanks[0] = address(0x1);
-        initialNames[0] = "ABC Bank";
-
-        initialBanks[1] = address(0x2);
-        initialNames[1] = "XYZ Bank";
-
-        initialBanks[2] = address(0x3);
-        initialNames[2] = "Global Bank";
-
-        managerA.addBanks(initialBanks, initialNames);
-        managerB.addBanks(initialBanks, initialNames);
-
-        // Verify initial state
-        emit log_string("Initial state of both bank managers:");
-        emit log_named_uint("Manager A bank count", managerA.getBankCount());
-        emit log_named_uint("Manager B bank count", managerB.getBankCount());
-    }
-
-    function testRemoveBanks() public {
-        // Try to remove all banks marked for removal
-        emit log_string("\nRemoving banks marked for removal");
-
-        // Mark all banks for removal
-        address[] memory banksToRemove = new address[](3);
-        banksToRemove[0] = address(0x1); // ABC Bank
-        banksToRemove[1] = address(0x2); // XYZ Bank
-        banksToRemove[2] = address(0x3); // Global Bank
-        console.log("------------Testing Manager A---------------");
-        managerA.removeBanksMethodA(banksToRemove);
-        emit log_named_uint("Manager A bank count after removal", managerA.getBankCount());
-        managerA.listBanks();
-
-        console.log("------------Testing Manager B---------------");
-        managerB.removeBanksMethodB(banksToRemove);
-        emit log_named_uint("Manager B bank count after removal", managerB.getBankCount());
-        managerB.listBanks();
-    }
-}
-
 // Base contract with common functionality
 contract BankManager {
     struct Bank {

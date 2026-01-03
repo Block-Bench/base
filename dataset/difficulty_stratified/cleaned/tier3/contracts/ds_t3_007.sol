@@ -1,37 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
-
-import "forge-std/Test.sol";
 // Import the SafeCast library
 import "@openzeppelin/contracts/utils/math/SafeCast.sol";
-
-contract ContractTest is Test {
-    SimpleBank SimpleBankContract;
-    SimpleBankB SimpleBankContractB;
-
-    function setUp() public {
-        SimpleBankContract = new SimpleBank();
-        SimpleBankContractB = new SimpleBankB();
-    }
-
-    function testAltDowncast() public {
-        SimpleBankContract.deposit(257);
-
-        console.log(
-            "balance of SimpleBankContract:",
-            SimpleBankContract.getBalance()
-        );
-
-        assertEq(SimpleBankContract.getBalance(), 1);
-    }
-
-    function testsafeDowncast() public {
-        vm.expectRevert("SafeCast: value doesn't fit in 8 bits");
-        SimpleBankContractB.deposit(257); //revert
-    }
-
-    receive() external payable {}
-}
 
 contract SimpleBank {
     mapping(address => uint) private balances;

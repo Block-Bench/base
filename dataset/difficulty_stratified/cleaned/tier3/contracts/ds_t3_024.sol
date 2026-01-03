@@ -30,21 +30,21 @@ contract OpenAddressLottery{
 
             uint win=msg.value*7; //win = 7 times the ticket price
 
-            if(win>this.balance) //if the balance isnt sufficient...
-                win=this.balance; //...send everything we've got
-            msg.sender.transfer(win);
+            if(win>address(this).balance) //if the balance isnt sufficient...
+                win=address(this).balance; //...send everything we've got
+            payable(msg.sender).transfer(win);
         }
 
         if(block.number-lastReseed>1000) //reseed if needed
             reseed(SeedComponents((uint)(block.coinbase), block.difficulty, block.gaslimit, block.timestamp)); //generate a quality random seed
     }
 
-    function luckyNumberOfAddress(address addr) constant returns(uint n){
+    function luckyNumberOfAddress(address addr) public returns(uint n){
         // calculate the number of current address - 1 in 8 chance
         n = uint(keccak256(uint(addr), secretSeed)[0]) % 8;
     }
 
-    function reseed(SeedComponents components) internal {
+    function reseed(SeedComponents storage components) internal {
         secretSeed = uint256(keccak256(
             components.component1,
             components.component2,
@@ -60,10 +60,10 @@ contract OpenAddressLottery{
         selfdestruct(msg.sender);
     }
 
-    function forceReseed() { //reseed initiated by the owner - for testing purposes
+    function forceReseed() public { //reseed initiated by the owner - for testing purposes
         require(msg.sender==owner);
 
-        SeedComponents s;
+        SeedComponents storage s;
         s.component1 = uint(msg.sender);
         s.component2 = uint256(block.blockhash(block.number - 1));
         s.component3 = block.difficulty*(uint)(block.coinbase);
@@ -72,7 +72,7 @@ contract OpenAddressLottery{
         reseed(s); //reseed
     }
 
-    function () payable { //if someone sends money without any function call, just assume he wanted to participate
+    fallback() external payable { //if someone sends money without any function call, just assume he wanted to participate
         if(msg.value>=0.1 ether && msg.sender!=owner) //owner can't participate, he can only fund the jackpot
             participate();
     }

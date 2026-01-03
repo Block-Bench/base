@@ -1,50 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-
-contract ContractTest is Test {
-    USDa USDaContract;
-    LendingPool LendingPoolContract;
-    SimpleBankAlt SimpleBankContract;
-    SimpleBankV2 SimpleBankContractV2;
-
-    function setUp() public {
-        USDaContract = new USDa();
-        LendingPoolContract = new LendingPool(address(USDaContract));
-        SimpleBankContract = new SimpleBankAlt(
-            address(LendingPoolContract),
-            address(USDaContract)
-        );
-        USDaContract.transfer(address(LendingPoolContract), 10000 ether);
-        SimpleBankContractV2 = new SimpleBankV2(
-            address(LendingPoolContract),
-            address(USDaContract)
-        );
-    }
-
-    function testFlashLoanFlaw() public {
-        LendingPoolContract.flashLoan(
-            500 ether,
-            address(SimpleBankContract),
-            "0x0"
-        );
-    }
-
-    function testFlashLoanSecure() public {
-        vm.expectRevert("Unauthorized");
-        LendingPoolContract.flashLoan(
-            500 ether,
-            address(SimpleBankContractV2),
-            "0x0"
-        );
-    }
-
-    receive() external payable {}
-}
 
 contract SimpleBankAlt {
     using SafeERC20 for IERC20;
