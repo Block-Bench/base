@@ -2,96 +2,113 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 /*
-Name: Incorrect use of payable.transfer()
+Name: Unauthorized NFT Transfer in custom ERC721 implementation.
 
 Description:
-After the implementation of EIP 1884 in the Istanbul hard fork, 
-the gas cost of the SLOAD operation was increased, 
-resulting in the breaking of some existing smart contracts.
+Custom transferFrom function in contract VulnerableERC721, 
+does not properly check if msg.sender is the current owner of the token or an approved address.
+As a result, any address can call the transferFrom function to transfer any token, 
+regardless of who the current owner is. 
+This allows unauthorized users to transfer tokens they do not own, leading to potential theft of assets.
 
-When transferring ETH to recipients, if Solidity's transfer() or send() method 
-is used, certain shortcomings arise, particularly when the recipient 
-is a smart contract. These shortcomings can make it impossible to 
-successfully transfer ETH to the smart contract recipient.
-
-Specifically, the transfer will inevitably fail when the smart contract:
-    1.does not implement a payable fallback function, or
-    2.implements a payable fallback function which would incur more than 2300 gas units, or
-    3.implements a payable fallback function incurring less than 2300 gas units but is called through a proxy that raises the call’s gas usage above 2300.
-
+ 
 Mitigation:  
-Using call with its returned boolean checked in combination with re-entrancy guard is highly recommended.
+To ensure that msg.sender is the current owner of the token or an approved address.
 
 REF:
-https://twitter.com/1nf0s3cpt/status/1678958093273829376
-https://consensys.net/diligence/blog/2019/09/stop-using-soliditys-transfer-now/
-https://github.com/code-423n4/2022-12-escher-findings/issues/99
+https://twitter.com/1nf0s3cpt/status/1679120390281412609
+https://blog.decurity.io/scanning-for-vulnerable-erc721-implementations-fe19200b91b5
+https://ventral.digital/posts/2022/8/18/sznsdaos-bountyboard-unauthorized-transferfrom-vulnerability
+https://github.com/pessimistic-io/slitherin/blob/master/docs/nft_approve_warning.md
 */
 
 contract ContractTest is Test {
-    SimpleBank SimpleBankContract;
-    FixedSimpleBank FixedSimpleBankContract;
+    VulnerableERC721 VulnerableERC721Contract;
+    FixedERC721 FixedERC721Contract;
+    address alice = vm.addr(1);
+    address bob = vm.addr(2);
 
     function setUp() public {
-        SimpleBankContract = new SimpleBank();
-        FixedSimpleBankContract = new FixedSimpleBank();
+        VulnerableERC721Contract = new VulnerableERC721();
+        VulnerableERC721Contract.safeMint(alice, 1);
+        FixedERC721Contract = new FixedERC721();
+        FixedERC721Contract.safeMint(alice, 1);
     }
 
-    function testTransferFail() public {
-        SimpleBankContract.deposit{value: 1 ether}();
-        assertEq(SimpleBankContract.getBalance(), 1 ether);
+    function testVulnerableERC721() public {
+        VulnerableERC721Contract.ownerOf(1);
+        vm.prank(bob);
+        VulnerableERC721Contract.transferFrom(address(alice), address(bob), 1);
+
+        console.log(VulnerableERC721Contract.ownerOf(1));
+    }
+
+    function testFixedERC721() public {
+        FixedERC721Contract.ownerOf(1);
+        vm.prank(bob);
         vm.expectRevert();
-        SimpleBankContract.withdraw(1 ether);
+        FixedERC721Contract.transferFrom(address(alice), address(bob), 1);
+        console.log(VulnerableERC721Contract.ownerOf(1));
     }
 
-    function testCall() public {
-        FixedSimpleBankContract.deposit{value: 1 ether}();
-        assertEq(FixedSimpleBankContract.getBalance(), 1 ether);
-        FixedSimpleBankContract.withdraw(1 ether);
-    }
+    receive() external payable {}
 
-    receive() external payable {
-        //just a example for out of gas
-        SimpleBankContract.deposit{value: 1 ether}();
-    }
-}
-
-contract SimpleBank {
-    mapping(address => uint) private balances;
-
-    function deposit() public payable {
-        balances[msg.sender] += msg.value;
-    }
-
-    function getBalance() public view returns (uint) {
-        return balances[msg.sender];
-    }
-
-    function withdraw(uint amount) public {
-        require(balances[msg.sender] >= amount);
-        balances[msg.sender] -= amount;
-        // the issue is here
-        payable(msg.sender).transfer(amount);
+    function onERC721Received(
+        address,
+        address,
+        uint256,
+        bytes memory
+    ) external pure returns (bytes4) {
+        return this.onERC721Received.selector;
     }
 }
 
-contract FixedSimpleBank {
-    mapping(address => uint) private balances;
+contract VulnerableERC721 is ERC721, Ownable {
+    constructor() ERC721("MyNFT", "MNFT") {}
 
-    function deposit() public payable {
-        balances[msg.sender] += msg.value;
+    //custom transferFrom function which missing NFT owner check.
+    function transferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public override {
+        // direct transfer
+        _transfer(from, to, tokenId);
     }
 
-    function getBalance() public view returns (uint) {
-        return balances[msg.sender];
+    function safeMint(address to, uint256 tokenId) public onlyOwner {
+        _safeMint(to, tokenId);
+    }
+}
+
+contract FixedERC721 is ERC721, Ownable {
+    constructor() ERC721("MyNFT", "MNFT") {}
+
+    //Mitigation: add token owner check
+    function transferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public override {
+        require(
+            _isApprovedOrOwner(_msgSender(), tokenId),
+            "ERC721: caller is not token owner or approved"
+        );
+
+        _transfer(from, to, tokenId);
     }
 
-    function withdraw(uint amount) public {
-        require(balances[msg.sender] >= amount);
-        balances[msg.sender] -= amount;
-        (bool success, ) = payable(msg.sender).call{value: amount}("");
-        require(success, " Transfer of ETH Failed");
+    function safeMint(address to, uint256 tokenId) public onlyOwner {
+        _safeMint(to, tokenId);
     }
+    /*
+    function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
+        address owner = ERC721.ownerOf(tokenId);
+        return (spender == owner || isApprovedForAll(owner, spender) || getApproved(tokenId) == spender);
+    }
+*/
 }

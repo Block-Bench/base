@@ -1,72 +1,34 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-interface IERC20 {
-    function totalSupply() external view returns (uint);
+contract SimplePool {
+    uint public totalDebt;
+    uint public lastAccrueInterestTime;
+    uint public loanTokenBalance;
 
-    function balanceOf(address account) external view returns (uint);
-
-    function transfer(address recipient, uint amount) external returns (bool);
-
-    function allowance(
-        address owner,
-        address spender
-    ) external view returns (uint);
-
-    function approve(address spender, uint amount) external returns (bool);
-
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint amount
-    ) external returns (bool);
-
-    event Transfer(address indexed from, address indexed to, uint value);
-    event Approval(address indexed owner, address indexed spender, uint value);
-}
-
-contract ERC20 is IERC20 {
-    uint public totalSupply;
-    mapping(address => uint) public balanceOf;
-    mapping(address => mapping(address => uint)) public allowance;
-    string public name = "Test example";
-    string public symbol = "Test";
-    uint8 public decimals = 18;
-
-    function transfer(address recipient, uint amount) external returns (bool) {
-        balanceOf[msg.sender] -= amount;
-        balanceOf[recipient] += amount;
-        emit Transfer(msg.sender, recipient, amount);
-        return true;
+    constructor() {
+        totalDebt = 10000e6; //debt token is USDC and has 6 digit decimals.
+        lastAccrueInterestTime = block.timestamp - 1;
+        loanTokenBalance = 500e18;
     }
 
-    function approve(address spender, uint amount) external returns (bool) {
-        allowance[msg.sender][spender] = amount;
-        emit Approval(msg.sender, spender, amount);
-        return true;
-    }
+    function getCurrentReward() public view returns (uint _reward) {
+        // Get the time passed since the last interest accrual
+        uint _timeDelta = block.timestamp - lastAccrueInterestTime; //_timeDelta=1
 
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint amount
-    ) external returns (bool) {
-        allowance[sender][msg.sender] -= amount;
-        balanceOf[sender] -= amount;
-        balanceOf[recipient] += amount;
-        emit Transfer(sender, recipient, amount);
-        return true;
-    }
+        // If the time passed is 0, return 0 reward
+        if (_timeDelta == 0) return 0;
 
-    function mint(uint amount) external {
-        balanceOf[msg.sender] += amount;
-        totalSupply += amount;
-        emit Transfer(address(0), msg.sender, amount);
-    }
+        // Calculate the supplied value
+        // uint _supplied = totalDebt + loanTokenBalance;
+        //console.log(_supplied);
+        // Calculate the reward
+        _reward = (totalDebt * _timeDelta) / (365 days * 1e18);
 
-    function burn(uint amount) external {
-        balanceOf[msg.sender] -= amount;
-        totalSupply -= amount;
-        emit Transfer(msg.sender, address(0), amount);
+        // 31536000 is the number of seconds in a year
+        // 365 days * 1e18 = 31_536_000_000_000_000_000_000_000
+        //_totalDebt * _timeDelta / 31_536_000_000_000_000_000_000_000
+        // 10_000_000_000 * 1 / 31_536_000_000_000_000_000_000_000 // -> 0
+        _reward;
     }
 }

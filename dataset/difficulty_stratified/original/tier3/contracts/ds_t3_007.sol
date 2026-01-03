@@ -2,88 +2,114 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
-// Import the SafeCast library
-import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
 /*
-Name: Unsafe downcasting
+Name: Struct Deletion Oversight
 
 Description:
-Downcasting from a larger integer type to a smaller one without checks can lead to unexpected behavior 
-if the value of the larger integer is outside the range of the smaller one.
+Incomplete struct deletion leaves residual data. 
+If you delete a struct containing a mapping, the mapping won't be deleted.
+
+The bug arises because Solidity's delete keyword does not reset the storage to its 
+initial state but rather performs a partial reset. 
+When delete  myStructs[structId] is called, 
+it only resets the id at mappingId to its default value 0, 
+but the other flags in the mapping remain unchanged. Therefore,
+if the struct is deleted without deleting the mapping inside, 
+the remaining flags will persist in storage.
 
 Mitigation:  
-Make sure consistent uint256, or use openzepplin safeCasting.
+To fix this bug, you should delete the mapping inside the struct before deleting the struct itself.
 
 REF:
-https://twitter.com/1nf0s3cpt/status/1673511868839886849
-https://github.com/code-423n4/2022-12-escher-findings/issues/369
-https://github.com/sherlock-audit/2022-10-union-finance-judging/issues/96
+https://twitter.com/1nf0s3cpt/status/1676836264245592065
+https://docs.soliditylang.org/en/develop/types.html
 */
 
 contract ContractTest is Test {
-    SimpleBank SimpleBankContract;
-    FixedSimpleBank FixedSimpleBankContract;
+    StructDeletionBug StructDeletionBugContract;
+    FixedStructDeletion FixedStructDeletionContract;
 
     function setUp() public {
-        SimpleBankContract = new SimpleBank();
-        FixedSimpleBankContract = new FixedSimpleBank();
+        StructDeletionBugContract = new StructDeletionBug();
+        FixedStructDeletionContract = new FixedStructDeletion();
     }
 
-    function testUnsafeDowncast() public {
-        SimpleBankContract.deposit(257); //overflowed
-
-        console.log(
-            "balance of SimpleBankContract:",
-            SimpleBankContract.getBalance()
-        );
-
-        // balance is 1, because of overflowed
-        assertEq(SimpleBankContract.getBalance(), 1);
+    function testStructDeletion() public {
+        StructDeletionBugContract.addStruct(10, 10);
+        StructDeletionBugContract.getStruct(10, 10);
+        StructDeletionBugContract.deleteStruct(10);
+        StructDeletionBugContract.getStruct(10, 10);
     }
 
-    function testsafeDowncast() public {
-        vm.expectRevert("SafeCast: value doesn't fit in 8 bits");
-        FixedSimpleBankContract.deposit(257); //revert
+    function testFixedStructDeletion() public {
+        FixedStructDeletionContract.addStruct(10, 10);
+        FixedStructDeletionContract.getStruct(10, 10);
+        FixedStructDeletionContract.deleteStruct(10);
+        FixedStructDeletionContract.getStruct(10, 10);
     }
 
     receive() external payable {}
 }
 
-contract SimpleBank {
-    mapping(address => uint) private balances;
-
-    function deposit(uint256 amount) public {
-        // Here's the unsafe downcast. If the `amount` is greater than type(uint8).max
-        // (which is 255), then only the least significant 8 bits are stored in balance.
-        // This could lead to unexpected results due to overflow.
-        uint8 balance = uint8(amount);
-
-        // store the balance
-        balances[msg.sender] = balance;
+contract StructDeletionBug {
+    struct MyStruct {
+        uint256 id;
+        mapping(uint256 => bool) flags;
     }
 
-    function getBalance() public view returns (uint) {
-        return balances[msg.sender];
+    mapping(uint256 => MyStruct) public myStructs;
+
+    function addStruct(uint256 structId, uint256 flagKeys) public {
+        MyStruct storage newStruct = myStructs[structId];
+        newStruct.id = structId;
+        newStruct.flags[flagKeys] = true;
+    }
+
+    function getStruct(
+        uint256 structId,
+        uint256 flagKeys
+    ) public view returns (uint256, bool) {
+        MyStruct storage myStruct = myStructs[structId];
+        bool keys = myStruct.flags[flagKeys];
+        return (myStruct.id, keys);
+    }
+
+    function deleteStruct(uint256 structId) public {
+        MyStruct storage myStruct = myStructs[structId];
+        delete myStructs[structId];
     }
 }
 
-contract FixedSimpleBank {
-    using SafeCast for uint256; // Use SafeCast for uint256
-
-    mapping(address => uint) private balances;
-
-    function deposit(uint256 _amount) public {
-        // Use the `toUint8()` function from `SafeCast` to safely downcast `amount`.
-        // If `amount` is greater than `type(uint8).max`, it will revert.
-        // or keep the same uint256 with amount.
-        uint8 amount = _amount.toUint8(); // or keep uint256
-
-        // Store the balance
-        balances[msg.sender] = amount;
+contract FixedStructDeletion {
+    struct MyStruct {
+        uint256 id;
+        mapping(uint256 => bool) flags;
     }
 
-    function getBalance() public view returns (uint) {
-        return balances[msg.sender];
+    mapping(uint256 => MyStruct) public myStructs;
+
+    function addStruct(uint256 structId, uint256 flagKeys) public {
+        MyStruct storage newStruct = myStructs[structId];
+        newStruct.id = structId;
+        newStruct.flags[flagKeys] = true;
+    }
+
+    function getStruct(
+        uint256 structId,
+        uint256 flagKeys
+    ) public view returns (uint256, bool) {
+        MyStruct storage myStruct = myStructs[structId];
+        bool keys = myStruct.flags[flagKeys];
+        return (myStruct.id, keys);
+    }
+
+    function deleteStruct(uint256 structId) public {
+        MyStruct storage myStruct = myStructs[structId];
+        // Check if all flags are deleted, then delete the mapping
+        for (uint256 i = 0; i < 15; i++) {
+            delete myStruct.flags[i];
+        }
+        delete myStructs[structId];
     }
 }
