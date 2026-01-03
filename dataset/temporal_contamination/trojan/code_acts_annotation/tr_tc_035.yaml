@@ -388,7 +388,7 @@ line_to_code_act:
   153: "INJ6"
   154: "INJ6"
   155: "INJ6"
-  156: "CA_COMMENTS"
+  # Line 156: empty
   157: "INJ6"
   158: "INJ6"
   159: "INJ6"
