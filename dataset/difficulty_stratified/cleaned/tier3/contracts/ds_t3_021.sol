@@ -1,69 +1,51 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.16;
 
-contract Private_Bank
-{
-    mapping (address => uint) public balances;
-
-    uint public MinDeposit = 1 ether;
-
-    Log TransferLog;
-
-    function Private_Bank(address _log)
-    {
-        TransferLog = Log(_log);
-    }
-
-    function Deposit()
-    public
-    payable
-    {
-        if(msg.value >= MinDeposit)
-        {
-            balances[msg.sender]+=msg.value;
-            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
-        }
-    }
-
-    function CashOut(uint _am)
-    {
-        if(_am<=balances[msg.sender])
-        {
-
-            if(msg.sender.call.value(_am)())
-            {
-                balances[msg.sender]-=_am;
-                TransferLog.AddMessage(msg.sender,_am,"CashOut");
-            }
-        }
-    }
-
-    function() public payable{}
-
+// https://github.com/ethereum/EIPs/issues/20
+contract ERC20 {
+    function totalSupply() constant returns (uint totalSupply);
+    function balanceOf(address _owner) constant returns (uint balance);
+    function transfer(address _to, uint _value) returns (bool success);
+    function transferFrom(address _from, address _to, uint _value) returns (bool success);
+    function approve(address _spender, uint _value) returns (bool success);
+    function allowance(address _owner, address _spender) constant returns (uint remaining);
+    event Transfer(address indexed _from, address indexed _to, uint _value);
+    event Approval(address indexed _owner, address indexed _spender, uint _value);
 }
 
-contract Log
-{
+contract TokenExchange{
+    address private owner;
+    uint public price;
+    ERC20 token;
 
-    struct Message
+    function TokenExchange(uint _price, ERC20 _token)
+        public
     {
-        address Sender;
-        string  Data;
-        uint Val;
-        uint  Time;
+        owner = msg.sender;
+        price = _price;
+        token = _token;
     }
 
-    Message[] public History;
-
-    Message LastMsg;
-
-    function AddMessage(address _adr,uint _val,string _data)
-    public
+    // If the owner sees someone calls buy
+    // he can call changePrice to set a new price
+    // If his transaction is mined first, he can
+    // receive more tokens than excepted by the new buyer
+    function buy(uint new_price) payable
+        public
     {
-        LastMsg.Sender = _adr;
-        LastMsg.Time = now;
-        LastMsg.Val = _val;
-        LastMsg.Data = _data;
-        History.push(LastMsg);
+        require(msg.value >= price);
+
+        // we assume that the TokenExchange contract
+        // has enough allowance
+        token.transferFrom(msg.sender, owner, price);
+
+        price = new_price;
+        owner = msg.sender;
     }
+
+    function changePrice(uint new_price){
+        require(msg.sender == owner);
+        price = new_price;
+    }
+
 }

