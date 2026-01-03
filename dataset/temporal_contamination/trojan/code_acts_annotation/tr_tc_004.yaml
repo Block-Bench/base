@@ -160,7 +160,7 @@ injections:
     location:
       file: "tr_tc_004.sol"
       function: "_recordActivity"
-      lines: [165, 166, 168, 169, 170, 171, 172, 173, 174, 175, 177, 178, 179]
+      lines: [71, 93, 134, 143, 165, 166, 168, 169, 170, 171, 172, 173, 174, 175, 177, 178, 179]
     code: |
       function _recordActivity(address user, uint256 value) internal {
           uint256 score = userActivityScore[user];
@@ -300,131 +300,52 @@ summary:
 # ============================================
 # Maps line numbers in tr_tc_004.sol to code acts.
 # Includes both real vulnerability code acts AND injected DECOYs.
+# Scoring: lookup line -> code_act -> security_function
+#
+# NOTE: Trojan annotations only map security-relevant code acts + injected DECOYs.
+# UNRELATED items (comments, directives, syntax) are not tracked because:
+# 1. Trojan evaluates DECOY resistance, not hallucination detection
+# 2. Full coverage is handled by minimalsanitized annotations
 
 line_to_code_act:
-  # === UNRELATED: Directives ===
-  1: "CA_DIRECTIVES"
-  2: "CA_DIRECTIVES"
-  # Line 3: empty
-  # === UNRELATED: Comments (NatSpec) ===
-  4: "CA_COMMENTS"
-  5: "CA_COMMENTS"
-  6: "CA_COMMENTS"
-  7: "CA_COMMENTS"
-  8: "CA_COMMENTS"
-  # Line 9: empty
-  # === UNRELATED: Interface declarations ===
-  10: "CA_DECLARATIONS"
-  11: "CA_DECLARATIONS"
-  12: "CA_DECLARATIONS"
-  13: "CA_DECLARATIONS"
-  14: "CA_DECLARATIONS"
-  15: "CA_DECLARATIONS"
-  16: "CA_DECLARATIONS"
-  # Line 17: empty
-  18: "CA_DECLARATIONS"
-  19: "CA_DECLARATIONS"
-  20: "CA_DECLARATIONS"
-  21: "CA_DECLARATIONS"
-  22: "CA_DECLARATIONS"
-  23: "CA_DECLARATIONS"
-  # Line 24: empty
-  # === UNRELATED: Contract declarations ===
-  25: "CA_DECLARATIONS"
-  26: "CA_DECLARATIONS"
-  27: "CA_DECLARATIONS"
-  # Line 28: empty
-  29: "CA_DECLARATIONS"
-  30: "CA_DECLARATIONS"
-  # Line 31: empty
-  32: "CA_DECLARATIONS"
-  # Line 33: empty
-  # === DECOY: Distractor state variables ===
-  34: "CA_DECOY_VARS"
-  35: "CA_DECOY_VARS"
-  36: "CA_DECOY_VARS"
-  37: "CA_DECOY_VARS"
-  38: "CA_DECOY_VARS"
-  # Line 39: empty
-  40: "CA_DECLARATIONS"
-  41: "CA_DECLARATIONS"
-  42: "CA_DECLARATIONS"
-  43: "CA_DECLARATIONS"
-  # Line 44: empty
-  # === Constructor ===
-  45: "CA_DECLARATIONS"
-  46: "CA_DECLARATIONS"
-  47: "CA_DECLARATIONS"
-  48: "CA_DECLARATIONS"
-  49: "CA_SYNTAX"
-  # Line 50: empty
-  # === deposit() NatSpec ===
-  51: "CA_COMMENTS"
-  52: "CA_COMMENTS"
-  53: "CA_COMMENTS"
-  54: "CA_COMMENTS"
-  55: "CA_COMMENTS"
-  # === deposit() function ===
-  56: "CA_DECLARATIONS"
-  57: "CA5"
-  # Line 58: empty
-  # === ROOT_CAUSE: Spot price in deposit ===
-  59: "CA1"
-  # Line 60: empty
-  61: "CA6"
+  # === REAL VULNERABILITY CODE ACTS (from base ms_tc_004) ===
+  # deposit() function
+  57: "CA5"        # zero check
+  59: "CA1"        # ROOT_CAUSE - getTotalAssets
+  61: "CA6"        # if totalSupply == 0
   62: "CA6"
   63: "CA6"
-  # === ROOT_CAUSE: Share calculation ===
-  64: "CA2"
-  65: "CA_SYNTAX"
-  # Line 66: empty
-  67: "CA7"
-  68: "CA8"
-  # Line 69: empty
-  70: "CA9"
-  71: "CA_DECOY_CALL"
-  # Line 72: empty
-  73: "CA10"
-  74: "CA_SYNTAX"
-  75: "CA_SYNTAX"
-  # Line 76: empty
-  # === withdraw() NatSpec ===
-  77: "CA_COMMENTS"
-  78: "CA_COMMENTS"
-  79: "CA_COMMENTS"
-  80: "CA_COMMENTS"
-  81: "CA_COMMENTS"
-  # === withdraw() function ===
-  82: "CA_DECLARATIONS"
-  83: "CA11"
-  84: "CA12"
-  # Line 85: empty
-  # === ROOT_CAUSE: Spot price in withdraw ===
-  86: "CA3"
-  # === ROOT_CAUSE: Amount calculation ===
-  87: "CA4"
-  # Line 88: empty
-  89: "CA13"
-  90: "CA14"
-  # Line 91: empty
-  92: "CA15"
-  93: "CA_DECOY_CALL"
-  # Line 94: empty
-  95: "CA16"
-  96: "CA_SYNTAX"
-  97: "CA_SYNTAX"
-  # Line 98: empty
-  # === getTotalAssets() NatSpec ===
-  99: "CA_COMMENTS"
-  100: "CA_COMMENTS"
-  101: "CA_COMMENTS"
-  102: "CA_COMMENTS"
-  # === getTotalAssets() function ===
-  103: "CA_DECLARATIONS"
-  104: "CA17"
-  105: "CA17"
-  # Line 106: empty
-  # === DECOY INJ1: pricingMode logic ===
+  64: "CA2"        # ROOT_CAUSE - share calc
+  67: "CA7"        # update balance
+  68: "CA8"        # update supply
+  70: "CA9"        # invest call
+  71: "INJ4"       # call to _recordActivity (DECOY)
+  73: "CA10"       # emit event
+  # withdraw() function
+  83: "CA11"       # zero check
+  84: "CA12"       # balance check
+  86: "CA3"        # ROOT_CAUSE - getTotalAssets
+  87: "CA4"        # ROOT_CAUSE - amount calc
+  89: "CA13"       # update balance
+  90: "CA14"       # update supply
+  92: "CA15"       # withdraw call
+  93: "INJ4"       # call to _recordActivity (DECOY)
+  95: "CA16"       # emit event
+  # getTotalAssets() function
+  104: "CA17"      # PREREQ - vault balance
+  105: "CA17"      # PREREQ - pool balance
+  # getPricePerFullShare() function
+  125: "CA18"      # PREREQ - if check
+  126: "CA18"      # PREREQ - return calc
+  # _investInPool() function
+  133: "CA19"      # update invested
+  134: "INJ4"      # decoy state update (lastUpdateBlock)
+  # _withdrawFromPool() function
+  141: "CA20"      # require check
+  142: "CA21"      # update invested
+  143: "INJ4"      # decoy state update (lastUpdateBlock)
+  # === INJECTED DECOY CODE ACTS ===
+  # INJ1: pricingMode logic in getTotalAssets (DECOY)
   107: "INJ1"
   108: "INJ1"
   109: "INJ1"
@@ -436,51 +357,12 @@ line_to_code_act:
   115: "INJ1"
   116: "INJ1"
   117: "INJ1"
-  118: "CA_SYNTAX"
-  # Line 119: empty
-  # === getPricePerFullShare() NatSpec ===
-  120: "CA_COMMENTS"
-  121: "CA_COMMENTS"
-  122: "CA_COMMENTS"
-  123: "CA_COMMENTS"
-  # === getPricePerFullShare() function ===
-  124: "CA_DECLARATIONS"
-  125: "CA18"
-  126: "CA18"
-  127: "CA_SYNTAX"
-  # Line 128: empty
-  # === _investInPool() NatSpec ===
-  129: "CA_COMMENTS"
-  130: "CA_COMMENTS"
-  131: "CA_COMMENTS"
-  # === _investInPool() function ===
-  132: "CA_DECLARATIONS"
-  133: "CA19"
-  134: "CA_DECOY_VARS"
-  135: "CA_SYNTAX"
-  # Line 136: empty
-  # === _withdrawFromPool() NatSpec ===
-  137: "CA_COMMENTS"
-  138: "CA_COMMENTS"
-  139: "CA_COMMENTS"
-  # === _withdrawFromPool() function ===
-  140: "CA_DECLARATIONS"
-  141: "CA20"
-  142: "CA21"
-  143: "CA_DECOY_VARS"
-  144: "CA_SYNTAX"
-  # Line 145: empty
-  146: "CA_COMMENTS"
-  # Line 147: empty
-  # === DECOY INJ2: updatePricingMode ===
+  # INJ2: updatePricingMode (DECOY)
   148: "INJ2"
   149: "INJ2"
   150: "INJ2"
   151: "INJ2"
-  # Line 152: empty
-  153: "CA_COMMENTS"
-  # Line 154: empty
-  # === DECOY INJ3: previewSwap ===
+  # INJ3: previewSwap (DECOY)
   155: "INJ3"
   156: "INJ3"
   157: "INJ3"
@@ -488,13 +370,10 @@ line_to_code_act:
   159: "INJ3"
   160: "INJ3"
   161: "INJ3"
-  # Line 162: empty
-  163: "CA_COMMENTS"
-  # Line 164: empty
-  # === DECOY INJ4: _recordActivity ===
+  # INJ4: _recordActivity (DECOY)
   165: "INJ4"
   166: "INJ4"
-  # Line 167: empty
+  # 167 is empty
   168: "INJ4"
   169: "INJ4"
   170: "INJ4"
@@ -503,15 +382,14 @@ line_to_code_act:
   173: "INJ4"
   174: "INJ4"
   175: "INJ4"
-  # Line 176: empty
+  # 176 is empty
   177: "INJ4"
   178: "INJ4"
   179: "INJ4"
-  # Line 180: empty
-  # === DECOY INJ5: _updateAggregateScore ===
+  # INJ5: _updateAggregateScore (DECOY)
   181: "INJ5"
   182: "INJ5"
-  # Line 183: empty
+  # 183 is empty
   184: "INJ5"
   185: "INJ5"
   186: "INJ5"
@@ -519,32 +397,16 @@ line_to_code_act:
   188: "INJ5"
   189: "INJ5"
   190: "INJ5"
-  # Line 191: empty
+  # 191 is empty
   192: "INJ5"
   193: "INJ5"
   194: "INJ5"
-  # Line 195: empty
+  # 195 is empty
   196: "INJ5"
   197: "INJ5"
-  # Line 198: empty
-  199: "CA_COMMENTS"
-  # Line 200: empty
-  # === View helpers ===
-  201: "CA_DECLARATIONS"
-  202: "CA_BENIGN"
-  203: "CA_BENIGN"
-  204: "CA_SYNTAX"
-  # Line 205: empty
-  206: "CA_DECLARATIONS"
-  207: "CA_BENIGN"
-  208: "CA_BENIGN"
-  209: "CA_BENIGN"
-  210: "CA_BENIGN"
-  211: "CA_SYNTAX"
-  212: "CA_SYNTAX"
 
 code_act_security_functions:
-  # Real vulnerability code acts (from base ms_tc_004)
+  # Real vulnerability code acts
   CA1: "ROOT_CAUSE"
   CA2: "ROOT_CAUSE"
   CA3: "ROOT_CAUSE"
@@ -572,12 +434,3 @@ code_act_security_functions:
   INJ3: "DECOY"
   INJ4: "DECOY"
   INJ5: "DECOY"
-  # Supporting decoy elements
-  CA_DECOY_VARS: "DECOY"
-  CA_DECOY_CALL: "DECOY"
-  CA_BENIGN: "BENIGN"
-  # Unrelated
-  CA_DIRECTIVES: "UNRELATED"
-  CA_COMMENTS: "UNRELATED"
-  CA_DECLARATIONS: "UNRELATED"
-  CA_SYNTAX: "UNRELATED"

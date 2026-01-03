@@ -172,25 +172,25 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [26, 40, 41, 43, 47, 57, 75, 78, 79, 86, 93, 102, 103, 104, 105, 109, 110, 111, 112, 115, 116, 117, 118, 123, 124, 125, 126]
+    lines: [26, 40, 41, 43, 47, 57, 68, 75, 78, 79, 86, 93, 102, 103, 104, 105, 109, 110, 111, 112, 115, 116, 117, 118, 123, 124, 125, 126]
     security_function: "UNRELATED"
     rationale: "Inline comments and NatSpec documentation"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 27, 29, 30, 32, 33, 34, 35, 37, 64, 85, 97, 106, 119]
+    lines: [4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 19, 20, 21, 23, 24, 27, 29, 30, 32, 33, 34, 35, 37, 64, 85, 97, 106, 119]
     security_function: "UNRELATED"
     rationale: "Interface, contract, mapping, function signature, and local variable declarations"
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
-    lines: [52, 61, 62, 82, 83, 95, 100, 113, 122, 127, 128]
+    lines: [52, 61, 62, 82, 83, 95, 100, 113, 127, 128]
     security_function: "UNRELATED"
     rationale: "Closing braces and structural tokens"
 
 summary:
   total_code_acts: 25
-  total_lines_covered: 117  # excludes 12 empty lines (3, 11, 18, 48, 49, 53, 63, 84, 87, 88, 89, 129)
+  total_lines_covered: 97  # excludes 32 empty lines (3, 11, 18, 22, 25, 28, 31, 36, 39, 42, 48, 49, 53, 56, 59, 63, 67, 71, 74, 77, 80, 84, 87, 88, 89, 92, 96, 101, 108, 114, 122, 129)
 
   by_security_function:
     ROOT_CAUSE: 4      # CA1, CA2, CA3, CA4
@@ -246,140 +246,142 @@ summary:
     70: "CA4 - ROOT_CAUSE - amount calculation"
 
   # For scoring: lookup line -> code_act -> security_function
-  line_to_code_act:
-    # Directives (UNRELATED)
-    1: "CA_DIRECTIVES"
-    2: "CA_DIRECTIVES"
-    # Interface declarations (UNRELATED)
-    4: "CA_DECLARATIONS"
-    5: "CA_DECLARATIONS"
-    6: "CA_DECLARATIONS"
-    7: "CA_DECLARATIONS"
-    8: "CA_DECLARATIONS"
-    9: "CA_DECLARATIONS"
-    10: "CA_DECLARATIONS"
-    12: "CA_DECLARATIONS"
-    13: "CA_DECLARATIONS"
-    14: "CA_DECLARATIONS"
-    15: "CA_DECLARATIONS"
-    16: "CA_DECLARATIONS"
-    17: "CA_DECLARATIONS"
-    # Contract declarations (UNRELATED)
-    19: "CA_DECLARATIONS"
-    20: "CA_DECLARATIONS"
-    21: "CA_DECLARATIONS"
-    22: "CA_DECLARATIONS"
-    23: "CA_DECLARATIONS"
-    24: "CA_DECLARATIONS"
-    27: "CA_DECLARATIONS"
-    29: "CA_DECLARATIONS"
-    30: "CA_DECLARATIONS"
-    32: "CA_DECLARATIONS"
-    33: "CA_DECLARATIONS"
-    34: "CA_DECLARATIONS"
-    35: "CA_DECLARATIONS"
-    # Comments (UNRELATED)
-    26: "CA_COMMENTS"
-    40: "CA_COMMENTS"
-    41: "CA_COMMENTS"
-    43: "CA_COMMENTS"
-    47: "CA_COMMENTS"
-    57: "CA_COMMENTS"
-    75: "CA_COMMENTS"
-    78: "CA_COMMENTS"
-    79: "CA_COMMENTS"
-    86: "CA_COMMENTS"
-    93: "CA_COMMENTS"
-    102: "CA_COMMENTS"
-    103: "CA_COMMENTS"
-    104: "CA_COMMENTS"
-    105: "CA_COMMENTS"
-    109: "CA_COMMENTS"
-    110: "CA_COMMENTS"
-    111: "CA_COMMENTS"
-    112: "CA_COMMENTS"
-    115: "CA_COMMENTS"
-    116: "CA_COMMENTS"
-    117: "CA_COMMENTS"
-    118: "CA_COMMENTS"
-    123: "CA_COMMENTS"
-    124: "CA_COMMENTS"
-    125: "CA_COMMENTS"
-    126: "CA_COMMENTS"
-    # === SECURITY-RELEVANT CODE ACTS ===
-    # deposit() function
-    37: "CA_DECLARATIONS"
-    38: "CA5"         # zero check
-    44: "CA6"         # if totalSupply == 0
-    45: "CA6"
-    46: "CA6"
-    50: "CA1"         # ROOT_CAUSE - getTotalAssets
-    51: "CA2"         # ROOT_CAUSE - share calc
-    52: "CA_SYNTAX"
-    54: "CA7"         # update balance
-    55: "CA8"         # update supply
-    58: "CA9"         # invest call
-    60: "CA10"        # emit event
-    61: "CA_SYNTAX"
-    62: "CA_SYNTAX"
-    # withdraw() function
-    64: "CA_DECLARATIONS"
-    65: "CA11"        # zero check
-    66: "CA12"        # balance check
-    69: "CA3"         # ROOT_CAUSE - getTotalAssets
-    70: "CA4"         # ROOT_CAUSE - amount calc
-    72: "CA13"        # update balance
-    73: "CA14"        # update supply
-    76: "CA15"        # withdraw call
-    81: "CA16"        # emit event
-    82: "CA_SYNTAX"
-    83: "CA_SYNTAX"
-    # getTotalAssets() function
-    85: "CA_DECLARATIONS"
-    90: "CA17"        # PREREQ - vault balance
-    91: "CA17"        # PREREQ - curve balance
-    94: "CA17"        # PREREQ - return sum
-    95: "CA_SYNTAX"
-    # getPricePerFullShare() function
-    97: "CA_DECLARATIONS"
-    98: "CA18"        # PREREQ - if check
-    99: "CA18"        # PREREQ - return calc
-    100: "CA_SYNTAX"
-    # _investInCurve() function
-    106: "CA_DECLARATIONS"
-    107: "CA19"       # update invested
-    113: "CA_SYNTAX"
-    # _withdrawFromCurve() function
-    119: "CA_DECLARATIONS"
-    120: "CA20"       # require check
-    121: "CA21"       # update invested
-    122: "CA_SYNTAX"
-    127: "CA_SYNTAX"
-    128: "CA_SYNTAX"
+line_to_code_act:
+  # Directives (UNRELATED)
+  1: "CA_DIRECTIVES"
+  2: "CA_DIRECTIVES"
+  # Interface declarations (UNRELATED)
+  4: "CA_DECLARATIONS"
+  5: "CA_DECLARATIONS"
+  6: "CA_DECLARATIONS"
+  7: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
+  9: "CA_DECLARATIONS"
+  10: "CA_DECLARATIONS"
+  12: "CA_DECLARATIONS"
+  13: "CA_DECLARATIONS"
+  14: "CA_DECLARATIONS"
+  15: "CA_DECLARATIONS"
+  16: "CA_DECLARATIONS"
+  17: "CA_DECLARATIONS"
+  # Contract declarations (UNRELATED)
+  19: "CA_DECLARATIONS"
+  20: "CA_DECLARATIONS"
+  21: "CA_DECLARATIONS"
+  # 22 is empty
+  23: "CA_DECLARATIONS"
+  24: "CA_DECLARATIONS"
+  27: "CA_DECLARATIONS"
+  29: "CA_DECLARATIONS"
+  30: "CA_DECLARATIONS"
+  32: "CA_DECLARATIONS"
+  33: "CA_DECLARATIONS"
+  34: "CA_DECLARATIONS"
+  35: "CA_DECLARATIONS"
+  # Comments (UNRELATED)
+  26: "CA_COMMENTS"
+  40: "CA_COMMENTS"
+  41: "CA_COMMENTS"
+  43: "CA_COMMENTS"
+  47: "CA_COMMENTS"
+  57: "CA_COMMENTS"
+  75: "CA_COMMENTS"
+  78: "CA_COMMENTS"
+  79: "CA_COMMENTS"
+  86: "CA_COMMENTS"
+  93: "CA_COMMENTS"
+  102: "CA_COMMENTS"
+  103: "CA_COMMENTS"
+  104: "CA_COMMENTS"
+  105: "CA_COMMENTS"
+  109: "CA_COMMENTS"
+  110: "CA_COMMENTS"
+  111: "CA_COMMENTS"
+  112: "CA_COMMENTS"
+  115: "CA_COMMENTS"
+  116: "CA_COMMENTS"
+  117: "CA_COMMENTS"
+  118: "CA_COMMENTS"
+  123: "CA_COMMENTS"
+  124: "CA_COMMENTS"
+  125: "CA_COMMENTS"
+  126: "CA_COMMENTS"
+  # === SECURITY-RELEVANT CODE ACTS ===
+  # deposit() function
+  37: "CA_DECLARATIONS"
+  38: "CA5"         # zero check
+  44: "CA6"         # if totalSupply == 0
+  45: "CA6"
+  46: "CA6"
+  50: "CA1"         # ROOT_CAUSE - getTotalAssets
+  51: "CA2"         # ROOT_CAUSE - share calc
+  52: "CA_SYNTAX"
+  54: "CA7"         # update balance
+  55: "CA8"         # update supply
+  58: "CA9"         # invest call
+  60: "CA10"        # emit event
+  61: "CA_SYNTAX"
+  62: "CA_SYNTAX"
+  # withdraw() function
+  64: "CA_DECLARATIONS"
+  65: "CA11"        # zero check
+  66: "CA12"        # balance check
+  # 67 is empty
+  68: "CA_COMMENTS"  # comment
+  69: "CA3"         # ROOT_CAUSE - getTotalAssets
+  70: "CA4"         # ROOT_CAUSE - amount calc
+  72: "CA13"        # update balance
+  73: "CA14"        # update supply
+  76: "CA15"        # withdraw call
+  81: "CA16"        # emit event
+  82: "CA_SYNTAX"
+  83: "CA_SYNTAX"
+  # getTotalAssets() function
+  85: "CA_DECLARATIONS"
+  90: "CA17"        # PREREQ - vault balance
+  91: "CA17"        # PREREQ - curve balance
+  94: "CA17"        # PREREQ - return sum
+  95: "CA_SYNTAX"
+  # getPricePerFullShare() function
+  97: "CA_DECLARATIONS"
+  98: "CA18"        # PREREQ - if check
+  99: "CA18"        # PREREQ - return calc
+  100: "CA_SYNTAX"
+  # _investInCurve() function
+  106: "CA_DECLARATIONS"
+  107: "CA19"       # update invested
+  113: "CA_SYNTAX"
+  # _withdrawFromCurve() function
+  119: "CA_DECLARATIONS"
+  120: "CA20"       # require check
+  121: "CA21"       # update invested
+  # 122 is empty
+  127: "CA_SYNTAX"
+  128: "CA_SYNTAX"
 
-  code_act_security_functions:
-    CA1: "ROOT_CAUSE"
-    CA2: "ROOT_CAUSE"
-    CA3: "ROOT_CAUSE"
-    CA4: "ROOT_CAUSE"
-    CA5: "BENIGN"
-    CA6: "BENIGN"
-    CA7: "BENIGN"
-    CA8: "BENIGN"
-    CA9: "BENIGN"
-    CA10: "BENIGN"
-    CA11: "BENIGN"
-    CA12: "BENIGN"
-    CA13: "BENIGN"
-    CA14: "BENIGN"
-    CA15: "BENIGN"
-    CA16: "BENIGN"
-    CA17: "PREREQ"
-    CA18: "PREREQ"
-    CA19: "BENIGN"
-    CA20: "BENIGN"
-    CA21: "BENIGN"
-    CA_DIRECTIVES: "UNRELATED"
-    CA_COMMENTS: "UNRELATED"
-    CA_DECLARATIONS: "UNRELATED"
-    CA_SYNTAX: "UNRELATED"
+code_act_security_functions:
+  CA1: "ROOT_CAUSE"
+  CA2: "ROOT_CAUSE"
+  CA3: "ROOT_CAUSE"
+  CA4: "ROOT_CAUSE"
+  CA5: "BENIGN"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
+  CA9: "BENIGN"
+  CA10: "BENIGN"
+  CA11: "BENIGN"
+  CA12: "BENIGN"
+  CA13: "BENIGN"
+  CA14: "BENIGN"
+  CA15: "BENIGN"
+  CA16: "BENIGN"
+  CA17: "PREREQ"
+  CA18: "PREREQ"
+  CA19: "BENIGN"
+  CA20: "BENIGN"
+  CA21: "BENIGN"
+  CA_DIRECTIVES: "UNRELATED"
+  CA_COMMENTS: "UNRELATED"
+  CA_DECLARATIONS: "UNRELATED"
+  CA_SYNTAX: "UNRELATED"

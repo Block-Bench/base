@@ -80,7 +80,7 @@
     ],
     "why_fix_works": "The minimal fix (price deviation check) makes flash loan price manipulation attacks impossible by rejecting transactions when the current price deviates more than 5% from the stored price. The stored price only updates after a minimum interval, preventing same-block manipulation.",
     "contracts_in_file": [
-      "IStablePool",
+      "ICurvePool",
       "YieldVault"
     ],
     "created_date": "2025-12-30T02:02:17.925097"

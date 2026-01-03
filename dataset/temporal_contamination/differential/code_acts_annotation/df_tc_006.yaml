@@ -1,0 +1,360 @@
+schema_version: "1.0"
+sample_id: "df_tc_006"
+base_sample_id: "ms_tc_006"
+vulnerability_type: "access_control"
+vulnerability_subtype: "centralization_key_compromise"
+is_vulnerable: false
+
+# Differential annotation tracks Security Function transitions from vulnerable to fixed version.
+# Note: The primary vulnerability (centralization) is an off-chain governance issue.
+# The fix addresses the on-chain secondary vulnerability (unprotected addSupportedToken).
+
+vulnerability_summary:
+  type: "access_control"
+  severity: "critical"
+  affected_functions: ["addSupportedToken"]
+  root_cause_summary: "In ms_tc_006, addSupportedToken() had no access control - anyone could add tokens. The 5/9 validator threshold was also a centralization risk."
+  fix_summary: "Added multi-sig signature verification to addSupportedToken(), requiring validator consensus to add new tokens."
+
+code_acts:
+
+  # ============================================
+  # TRANSITIONED CODE ACTS (ROOT_CAUSE -> stays as design issue)
+  # ============================================
+
+  - id: "CA1"
+    type: "DECLARATION"
+    description: "5/9 validator threshold"
+
+    vulnerable:
+      file: "ms_tc_006.sol"
+      function: "contract-level"
+      line: 9
+      code: "uint256 public requiredSignatures = 5; // Need 5 out of 9"
+      security_function: "ROOT_CAUSE"
+      rationale: "5/9 threshold with centralized control of validators enabled attack"
+
+    fixed:
+      file: "df_tc_006.sol"
+      function: "contract-level"
+      line: 14
+      code: "uint256 public requiredSignatures = 5;"
+      security_function: "BENIGN"
+      rationale: "Threshold unchanged, but the fix addresses the code-level secondary vulnerability. The centralization issue is an off-chain governance problem."
+
+    transition: "ROOT_CAUSE -> BENIGN"
+    transition_reason: "On-chain code is not the root cause - governance structure is. This sample focuses on the addSupportedToken fix."
+    note: "The real Ronin hack was due to key compromise, not a code bug. The differential focuses on the code-level fix."
+
+  # ============================================
+  # TRANSITIONED (SECONDARY_VULN -> BENIGN)
+  # ============================================
+
+  - id: "CA18"
+    type: "STATE_MOD"
+    description: "addSupportedToken function"
+
+    vulnerable:
+      file: "ms_tc_006.sol"
+      function: "addSupportedToken"
+      lines: [168, 169, 170]
+      code: "function addSupportedToken(address _token) external { supportedTokens[_token] = true; }"
+      security_function: "SECONDARY_VULN"
+      rationale: "Admin function with NO access control - anyone can add tokens"
+
+    fixed:
+      file: "df_tc_006.sol"
+      function: "addSupportedToken"
+      lines: [181, 193, 194]
+      code: "function addSupportedToken(address _token, bytes memory _signatures) external { require(!supportedTokens[_token]); require(_verifySignatures(...)); supportedTokens[_token] = true; }"
+      security_function: "BENIGN"
+      rationale: "Now requires multi-sig validator approval to add tokens"
+
+    transition: "SECONDARY_VULN -> BENIGN"
+    transition_reason: "Added multi-sig signature verification for admin function"
+
+  # ============================================
+  # NEW CODE ACTS (fix additions)
+  # ============================================
+
+  - id: "CA_FIX1"
+    type: "INPUT_VAL"
+    description: "Duplicate token check (NEW)"
+
+    fixed:
+      file: "df_tc_006.sol"
+      function: "addSupportedToken"
+      line: 182
+      code: 'require(!supportedTokens[_token], "Already supported");'
+      security_function: "BENIGN"
+      rationale: "NEW FIX: Prevents adding already-supported tokens"
+
+    transition: "NEW -> BENIGN"
+    transition_reason: "Added as part of improved addSupportedToken"
+
+  - id: "CA_FIX2"
+    type: "INPUT_VAL"
+    description: "Multi-sig verification for token addition (NEW)"
+
+    fixed:
+      file: "df_tc_006.sol"
+      function: "addSupportedToken"
+      lines: [183, 184, 185, 186, 187, 188, 189, 190, 191, 192]
+      code: "require(_verifySignatures(uint256(uint160(_token)), address(0), _token, 0, _signatures), 'Invalid signatures');"
+      security_function: "BENIGN"
+      rationale: "NEW FIX: Requires validator consensus to add new tokens"
+
+    transition: "NEW -> BENIGN"
+    transition_reason: "Added as primary fix for unprotected admin function"
+
+  # ============================================
+  # UNCHANGED CODE ACTS (BENIGN -> BENIGN)
+  # ============================================
+
+  - id: "CA2"
+    type: "DECLARATION"
+    description: "Validator storage"
+    vulnerable:
+      file: "ms_tc_006.sol"
+      lines: [6, 7]
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_006.sol"
+      lines: [11, 12, 15, 21]
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  - id: "CA4"
+    type: "DECLARATION"
+    description: "Processed withdrawals mapping"
+    vulnerable:
+      file: "ms_tc_006.sol"
+      line: 13
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_006.sol"
+      line: 18
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  - id: "CA6"
+    type: "INITIALIZATION"
+    description: "Constructor with validator setup"
+    vulnerable:
+      file: "ms_tc_006.sol"
+      lines: [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_006.sol"
+      lines: [30, 31, 32, 33, 34, 36, 37, 38, 39, 41, 42, 43, 45, 46]
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  - id: "CA7"
+    type: "INPUT_VAL"
+    description: "Replay protection check"
+    vulnerable:
+      file: "ms_tc_006.sol"
+      line: 51
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_006.sol"
+      lines: [64, 82]
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  - id: "CA8"
+    type: "INPUT_VAL"
+    description: "Token support check"
+    vulnerable:
+      file: "ms_tc_006.sol"
+      line: 54
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_006.sol"
+      line: 67
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  # ============================================
+  # TRANSITIONED (PREREQ -> BENIGN)
+  # ============================================
+
+  - id: "CA9"
+    type: "EXT_CALL"
+    description: "Signature verification call"
+
+    vulnerable:
+      file: "ms_tc_006.sol"
+      function: "withdrawERC20For"
+      lines: [57, 58, 59, 60, 61, 62, 63, 64, 65, 66]
+      security_function: "PREREQ"
+      rationale: "Correct verification, but useless with compromised keys"
+
+    fixed:
+      file: "df_tc_006.sol"
+      function: "withdrawERC20For"
+      lines: [70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
+      security_function: "BENIGN"
+      rationale: "With better governance, this verification is meaningful"
+
+    transition: "PREREQ -> BENIGN"
+    transition_reason: "Fix addresses code-level vulnerability; governance assumed improved"
+
+  - id: "CA12"
+    type: "INPUT_VAL"
+    description: "Signature count check"
+
+    vulnerable:
+      file: "ms_tc_006.sol"
+      lines: [85, 86, 87, 88]
+      security_function: "PREREQ"
+      rationale: "Enforces threshold that's meaningless with compromised keys"
+
+    fixed:
+      file: "df_tc_006.sol"
+      lines: [98, 100, 101]
+      security_function: "BENIGN"
+      rationale: "With proper key management, this check is effective"
+
+    transition: "PREREQ -> BENIGN"
+    transition_reason: "Governance improvements make threshold meaningful"
+
+  - id: "CA14"
+    type: "CTRL_FLOW"
+    description: "Validator verification loop"
+
+    vulnerable:
+      file: "ms_tc_006.sol"
+      lines: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114]
+      security_function: "PREREQ"
+      rationale: "Correct loop but verifies signatures from compromised keys"
+
+    fixed:
+      file: "df_tc_006.sol"
+      lines: [114, 115, 116, 118, 119, 121, 122, 123, 124, 126, 127]
+      security_function: "BENIGN"
+      rationale: "With proper key management, verification is effective"
+
+    transition: "PREREQ -> BENIGN"
+    transition_reason: "Governance improvements make verification meaningful"
+
+summary:
+  total_code_acts: 12
+
+  transitions:
+    ROOT_CAUSE_to_BENIGN: 1     # CA1 (threshold - governance issue)
+    SECONDARY_VULN_to_BENIGN: 1 # CA18 (addSupportedToken)
+    PREREQ_to_BENIGN: 3         # CA9, CA12, CA14
+    BENIGN_to_BENIGN: 5         # CA2, CA4, CA6, CA7, CA8
+    NEW_to_BENIGN: 2            # CA_FIX1, CA_FIX2
+
+  by_security_function_vulnerable:
+    ROOT_CAUSE: 1
+    SECONDARY_VULN: 1
+    PREREQ: 3
+    BENIGN: 5
+
+  by_security_function_fixed:
+    BENIGN: 12  # All become BENIGN after fix
+
+  fix_effectiveness:
+    documented_vuln_fixed: true
+    notes: "The code-level fix adds multi-sig to addSupportedToken. The original ROOT_CAUSE was a governance issue (centralized validator control) which cannot be fully fixed in code alone."
+
+  root_cause_fixes:
+    - id: "CA18"
+      fix_type: "multi_sig_admin"
+      description: "addSupportedToken now requires validator signatures"
+
+# ============================================
+# LINE TO CODE ACT MAPPINGS (for scoring)
+# ============================================
+
+line_to_code_act_fixed:
+  # State variables
+  11: "CA2"
+  12: "CA2"
+  14: "CA1"
+  15: "CA2"
+  18: "CA4"
+  21: "CA2"
+  # Constructor
+  30: "CA6"
+  31: "CA6"
+  32: "CA6"
+  33: "CA6"
+  34: "CA6"
+  # Line 35: empty
+  36: "CA6"
+  37: "CA6"
+  38: "CA6"
+  39: "CA6"
+  # Line 40: empty
+  41: "CA6"
+  42: "CA6"
+  43: "CA6"
+  # Line 44: empty
+  45: "CA6"
+  46: "CA6"
+  # withdrawERC20For
+  64: "CA7"
+  67: "CA8"
+  70: "CA9"
+  71: "CA9"
+  72: "CA9"
+  73: "CA9"
+  74: "CA9"
+  75: "CA9"
+  76: "CA9"
+  77: "CA9"
+  78: "CA9"
+  79: "CA9"
+  82: "CA7"
+  # _verifySignatures
+  98: "CA12"
+  100: "CA12"
+  101: "CA12"
+  114: "CA14"
+  115: "CA14"
+  116: "CA14"
+  # Line 117: empty
+  118: "CA14"
+  119: "CA14"
+  # Line 120: empty
+  121: "CA14"
+  122: "CA14"
+  123: "CA14"
+  124: "CA14"
+  # Line 125: empty
+  126: "CA14"
+  127: "CA14"
+  # addSupportedToken (FIXED)
+  181: "CA18"
+  182: "CA_FIX1"
+  183: "CA_FIX2"
+  184: "CA_FIX2"
+  185: "CA_FIX2"
+  186: "CA_FIX2"
+  187: "CA_FIX2"
+  188: "CA_FIX2"
+  189: "CA_FIX2"
+  190: "CA_FIX2"
+  191: "CA_FIX2"
+  192: "CA_FIX2"
+  193: "CA18"
+  194: "CA18"
+
+code_act_security_functions_fixed:
+  CA1: "BENIGN"
+  CA2: "BENIGN"
+  CA4: "BENIGN"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
+  CA9: "BENIGN"
+  CA12: "BENIGN"
+  CA14: "BENIGN"
+  CA18: "BENIGN"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"

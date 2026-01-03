@@ -348,6 +348,7 @@ summary:
 
 line_to_code_act_fixed:
   # initWallet() function
+  31: "CA1"        # function entry point (BENIGN)
   32: "CA_FIX1"    # initialization guard (NEW)
   33: "CA3"        # initialized=true (moved from line 44)
   37: "CA6"        # clear owner status

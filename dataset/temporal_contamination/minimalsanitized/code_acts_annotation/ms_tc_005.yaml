@@ -57,7 +57,7 @@ code_acts:
 
   - id: "CA7"
     type: "COMPUTATION"
-    lines: [40, 41, 42, 43, 44, 45, 46, 47]
+    lines: [40, 41, 42, 43, 45, 46, 47]
     code: "lpToMint calculation based on totalLPSupply and balances"
     security_function: "BENIGN"
     rationale: "LP token calculation. Correctly implemented."
@@ -71,8 +71,8 @@ code_acts:
 
   - id: "CA9"
     type: "CTRL_FLOW"
-    lines: [62, 63, 64, 65, 66]
-    code: "if (amounts[0] > 0) { _handleETHTransfer(amounts[0]); }"
+    lines: [62, 66]
+    code: "if (amounts[0] > 0) { ... }"
     security_function: "PREREQ"
     rationale: "Control flow that leads to the vulnerable external call. Enables the reentrancy path."
 
@@ -206,7 +206,7 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [5, 6, 8, 9, 39, 44, 56, 63, 64, 72, 73, 74, 75, 76, 83, 92, 96, 100, 110, 111, 112, 113, 114, 119, 120, 121, 122, 123, 124, 125, 137]
+    lines: [5, 6, 8, 9, 39, 44, 56, 63, 64, 72, 73, 74, 75, 76, 83, 92, 96, 100, 113, 119, 120, 121, 122, 123, 124, 125, 137]
     security_function: "UNRELATED"
     rationale: "Inline comments and NatSpec documentation"
 
@@ -218,13 +218,13 @@ code_acts:
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
-    lines: [15, 30, 69, 70, 107, 117, 152, 153, 154, 155, 158]
+    lines: [15, 69, 70, 107, 117, 152, 153, 154, 155, 158]
     security_function: "UNRELATED"
     rationale: "Closing braces and structural tokens"
 
 summary:
   total_code_acts: 29
-  total_lines_covered: 133  # excludes empty lines
+  total_lines_covered: 120  # excludes 39 empty lines
 
   by_security_function:
     ROOT_CAUSE: 2      # CA1, CA2
@@ -282,199 +282,194 @@ summary:
     115: "CA2 - ROOT_CAUSE - actual reentrancy trigger"
 
   # For scoring: lookup line -> code_act -> security_function
-  line_to_code_act:
-    # Directives (UNRELATED)
-    1: "CA_DIRECTIVES"
-    2: "CA_DIRECTIVES"
-    # Line 3: empty
-    # Contract declarations (UNRELATED)
-    4: "CA_DECLARATIONS"
-    5: "CA_COMMENTS"
-    6: "CA_COMMENTS"
-    # Line 7: empty
-    8: "CA_COMMENTS"
-    9: "CA_COMMENTS"
-    10: "CA_DECLARATIONS"
-    # Line 11: empty
-    # Reentrancy guard (INSUFF_GUARD)
-    12: "CA3"
-    13: "CA3"
-    14: "CA3"
-    15: "CA_SYNTAX"
-    # Events
-    16: "CA_DECLARATIONS"
-    17: "CA_DECLARATIONS"
-    18: "CA_DECLARATIONS"
-    19: "CA_DECLARATIONS"
-    20: "CA_DECLARATIONS"
-    21: "CA_DECLARATIONS"
-    22: "CA_DECLARATIONS"
-    23: "CA_DECLARATIONS"
-    24: "CA_DECLARATIONS"
-    25: "CA_DECLARATIONS"
-    # Line 26: empty
-    27: "CA_DECLARATIONS"
-    28: "CA_DECLARATIONS"
-    29: "CA_DECLARATIONS"
-    30: "CA_SYNTAX"
-    # add_liquidity function
-    31: "CA_DECLARATIONS"
-    32: "CA_DECLARATIONS"
-    33: "CA_DECLARATIONS"
-    34: "CA_DECLARATIONS"
-    # Lines 35, 36: empty
-    37: "CA6"
-    # Line 38: empty
-    39: "CA_COMMENTS"
-    40: "CA7"
-    41: "CA7"
-    42: "CA7"
-    43: "CA7"
-    44: "CA_COMMENTS"
-    45: "CA7"
-    46: "CA7"
-    47: "CA7"
-    # Line 48: empty
-    49: "CA8"
-    # Line 50: empty
-    # Lines 51, 52: empty
-    53: "CA4"
-    54: "CA4"
-    # Line 55: empty
-    56: "CA_COMMENTS"
-    57: "CA5"
-    58: "CA5"
-    # Line 59: empty
-    # Lines 60, 61: empty
-    62: "CA9"
-    63: "CA_COMMENTS"
-    64: "CA_COMMENTS"
-    65: "CA1"
-    66: "CA9"
-    # Line 67: empty
-    68: "CA10"
-    69: "CA_SYNTAX"
-    70: "CA_SYNTAX"
-    # Line 71: empty
-    # remove_liquidity NatSpec
-    72: "CA_COMMENTS"
-    73: "CA_COMMENTS"
-    74: "CA_COMMENTS"
-    75: "CA_COMMENTS"
-    76: "CA_COMMENTS"
-    77: "CA_DECLARATIONS"
-    78: "CA_DECLARATIONS"
-    79: "CA_DECLARATIONS"
-    80: "CA_DECLARATIONS"
-    81: "CA11"
-    # Line 82: empty
-    83: "CA_COMMENTS"
-    84: "CA12"
-    85: "CA12"
-    # Line 86: empty
-    87: "CA13"
-    88: "CA13"
-    89: "CA13"
-    90: "CA13"
-    # Line 91: empty
-    92: "CA_COMMENTS"
-    93: "CA14"
-    94: "CA14"
-    # Line 95: empty
-    96: "CA_COMMENTS"
-    97: "CA15"
-    98: "CA15"
-    # Line 99: empty
-    100: "CA_COMMENTS"
-    101: "CA16"
-    102: "CA16"
-    103: "CA16"
-    # Line 104: empty
-    105: "CA17"
-    106: "CA17"
-    107: "CA_SYNTAX"
-    # Line 108: empty
-    109: "CA_DECLARATIONS"
-    # Lines 110-114: comments
-    110: "CA_COMMENTS"
-    111: "CA_COMMENTS"
-    112: "CA_COMMENTS"
-    113: "CA_COMMENTS"
-    114: "CA_COMMENTS"
-    115: "CA2"
-    116: "CA18"
-    117: "CA_SYNTAX"
-    # Line 118: empty
-    # exchange() NatSpec
-    119: "CA_COMMENTS"
-    120: "CA_COMMENTS"
-    121: "CA_COMMENTS"
-    122: "CA_COMMENTS"
-    123: "CA_COMMENTS"
-    124: "CA_COMMENTS"
-    125: "CA_COMMENTS"
-    126: "CA_DECLARATIONS"
-    127: "CA_DECLARATIONS"
-    128: "CA_DECLARATIONS"
-    129: "CA_DECLARATIONS"
-    130: "CA_DECLARATIONS"
-    131: "CA_DECLARATIONS"
-    132: "CA19"
-    133: "CA19"
-    # Line 134: empty
-    135: "CA20"
-    # Line 136: empty
-    137: "CA_COMMENTS"
-    138: "CA21"
-    139: "CA22"
-    # Line 140: empty
-    141: "CA23"
-    142: "CA23"
-    143: "CA23"
-    144: "CA23"
-    # Line 145: empty
-    146: "CA24"
-    147: "CA24"
-    # Line 148: empty
-    149: "CA25"
-    150: "CA25"
-    151: "CA25"
-    # Line 152: empty
-    152: "CA_SYNTAX"
-    153: "CA_SYNTAX"
-    154: "CA_SYNTAX"
-    155: "CA_SYNTAX"
-    156: "CA_DECLARATIONS"
-    157: "CA_DECLARATIONS"
-    158: "CA_SYNTAX"
+line_to_code_act:
+  # Directives (UNRELATED)
+  1: "CA_DIRECTIVES"
+  2: "CA_DIRECTIVES"
+  # Line 3: empty
+  # Contract declarations (UNRELATED)
+  4: "CA_DECLARATIONS"
+  5: "CA_COMMENTS"
+  6: "CA_COMMENTS"
+  # Line 7: empty
+  8: "CA_COMMENTS"
+  9: "CA_COMMENTS"
+  10: "CA_DECLARATIONS"
+  # Line 11: empty
+  # Reentrancy guard (INSUFF_GUARD)
+  12: "CA3"
+  13: "CA3"
+  14: "CA3"
+  # Line 15: empty
+  # Events
+  16: "CA_DECLARATIONS"
+  17: "CA_DECLARATIONS"
+  18: "CA_DECLARATIONS"
+  19: "CA_DECLARATIONS"
+  20: "CA_DECLARATIONS"
+  21: "CA_DECLARATIONS"
+  22: "CA_DECLARATIONS"
+  23: "CA_DECLARATIONS"
+  24: "CA_DECLARATIONS"
+  25: "CA_DECLARATIONS"
+  # Line 26: empty
+  27: "CA_DECLARATIONS"
+  28: "CA_DECLARATIONS"
+  29: "CA_DECLARATIONS"
+  # Line 30: empty
+  # add_liquidity function
+  31: "CA_DECLARATIONS"
+  32: "CA_DECLARATIONS"
+  33: "CA_DECLARATIONS"
+  34: "CA_DECLARATIONS"
+  # Lines 35, 36: empty
+  37: "CA6"
+  # Line 38: empty
+  39: "CA_COMMENTS"
+  40: "CA7"
+  41: "CA7"
+  42: "CA7"
+  43: "CA7"
+  44: "CA_COMMENTS"
+  45: "CA7"
+  46: "CA7"
+  47: "CA7"
+  # Line 48: empty
+  49: "CA8"
+  # Line 50: empty
+  # Lines 51, 52: empty
+  53: "CA4"
+  54: "CA4"
+  # Line 55: empty
+  56: "CA_COMMENTS"
+  57: "CA5"
+  58: "CA5"
+  # Line 59: empty
+  # Lines 60, 61: empty
+  62: "CA9"
+  63: "CA_COMMENTS"
+  64: "CA_COMMENTS"
+  65: "CA1"
+  66: "CA9"
+  # Line 67: empty
+  68: "CA10"
+  69: "CA_SYNTAX"
+  70: "CA_SYNTAX"
+  # Line 71: empty
+  # remove_liquidity NatSpec
+  72: "CA_COMMENTS"
+  73: "CA_COMMENTS"
+  74: "CA_COMMENTS"
+  75: "CA_COMMENTS"
+  76: "CA_COMMENTS"
+  77: "CA_DECLARATIONS"
+  78: "CA_DECLARATIONS"
+  79: "CA_DECLARATIONS"
+  80: "CA_DECLARATIONS"
+  81: "CA11"
+  # Line 82: empty
+  83: "CA_COMMENTS"
+  84: "CA12"
+  85: "CA12"
+  # Line 86: empty
+  87: "CA13"
+  88: "CA13"
+  89: "CA13"
+  90: "CA13"
+  # Line 91: empty
+  92: "CA_COMMENTS"
+  93: "CA14"
+  94: "CA14"
+  # Line 95: empty
+  96: "CA_COMMENTS"
+  97: "CA15"
+  98: "CA15"
+  # Line 99: empty
+  100: "CA_COMMENTS"
+  101: "CA16"
+  102: "CA16"
+  103: "CA16"
+  # Line 104: empty
+  105: "CA17"
+  106: "CA17"
+  107: "CA_SYNTAX"
+  # Line 108: empty
+  109: "CA_DECLARATIONS"
+  # Lines 110, 111, 112, 114: empty
+  113: "CA_COMMENTS"
+  115: "CA2"
+  116: "CA18"
+  117: "CA_SYNTAX"
+  # Line 118: empty
+  # exchange() NatSpec
+  119: "CA_COMMENTS"
+  120: "CA_COMMENTS"
+  121: "CA_COMMENTS"
+  122: "CA_COMMENTS"
+  123: "CA_COMMENTS"
+  124: "CA_COMMENTS"
+  125: "CA_COMMENTS"
+  126: "CA_DECLARATIONS"
+  127: "CA_DECLARATIONS"
+  128: "CA_DECLARATIONS"
+  129: "CA_DECLARATIONS"
+  130: "CA_DECLARATIONS"
+  131: "CA_DECLARATIONS"
+  132: "CA19"
+  133: "CA19"
+  # Line 134: empty
+  135: "CA20"
+  # Line 136: empty
+  137: "CA_COMMENTS"
+  138: "CA21"
+  139: "CA22"
+  # Line 140: empty
+  141: "CA23"
+  142: "CA23"
+  143: "CA23"
+  144: "CA23"
+  # Line 145: empty
+  146: "CA24"
+  147: "CA24"
+  # Line 148: empty
+  149: "CA25"
+  150: "CA25"
+  151: "CA25"
+  # Line 152: empty
+  153: "CA_SYNTAX"
+  154: "CA_SYNTAX"
+  # Line 155: empty
+  156: "CA_DECLARATIONS"
+  157: "CA_DECLARATIONS"
+  158: "CA_SYNTAX"
 
-  code_act_security_functions:
-    CA1: "ROOT_CAUSE"
-    CA2: "ROOT_CAUSE"
-    CA3: "INSUFF_GUARD"
-    CA4: "PREREQ"
-    CA5: "PREREQ"
-    CA6: "BENIGN"
-    CA7: "BENIGN"
-    CA8: "BENIGN"
-    CA9: "PREREQ"
-    CA10: "BENIGN"
-    CA11: "BENIGN"
-    CA12: "BENIGN"
-    CA13: "BENIGN"
-    CA14: "BENIGN"
-    CA15: "BENIGN"
-    CA16: "BENIGN"
-    CA17: "BENIGN"
-    CA18: "BENIGN"
-    CA19: "BENIGN"
-    CA20: "BENIGN"
-    CA21: "BENIGN"
-    CA22: "BENIGN"
-    CA23: "BENIGN"
-    CA24: "BENIGN"
-    CA25: "BENIGN"
-    CA_DIRECTIVES: "UNRELATED"
-    CA_COMMENTS: "UNRELATED"
-    CA_DECLARATIONS: "UNRELATED"
-    CA_SYNTAX: "UNRELATED"
+code_act_security_functions:
+  CA1: "ROOT_CAUSE"
+  CA2: "ROOT_CAUSE"
+  CA3: "INSUFF_GUARD"
+  CA4: "PREREQ"
+  CA5: "PREREQ"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
+  CA9: "PREREQ"
+  CA10: "BENIGN"
+  CA11: "BENIGN"
+  CA12: "BENIGN"
+  CA13: "BENIGN"
+  CA14: "BENIGN"
+  CA15: "BENIGN"
+  CA16: "BENIGN"
+  CA17: "BENIGN"
+  CA18: "BENIGN"
+  CA19: "BENIGN"
+  CA20: "BENIGN"
+  CA21: "BENIGN"
+  CA22: "BENIGN"
+  CA23: "BENIGN"
+  CA24: "BENIGN"
+  CA25: "BENIGN"
+  CA_DIRECTIVES: "UNRELATED"
+  CA_COMMENTS: "UNRELATED"
+  CA_DECLARATIONS: "UNRELATED"
+  CA_SYNTAX: "UNRELATED"

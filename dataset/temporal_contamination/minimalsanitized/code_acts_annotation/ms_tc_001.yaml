@@ -152,7 +152,7 @@ code_acts:
 
 summary:
   total_code_acts: 18
-  total_lines_covered: 64  # excludes 23 empty lines (3, 11, 13, 15, 16, 19, 22, 25, 27, 31, 43, 49, 50, 51, 54, 57, 60, 64, 73, 74, 79, 82, 87)
+  total_lines_covered: 63  # excludes 24 empty lines (3, 11, 13, 15, 16, 19, 22, 25, 27, 31, 39, 43, 49, 50, 51, 54, 57, 60, 64, 73, 74, 79, 82, 87)
 
   by_security_function:
     ROOT_CAUSE: 3
@@ -218,109 +218,109 @@ summary:
   # For scoring: lookup line → code_act → security_function
   # This avoids marking closing braces as ROOT_CAUSE; the code act is the meaningful unit.
   # Scoring: if model references any line in a code act, lookup code act's security_function.
-  line_to_code_act:
-    # Directives (UNRELATED)
-    1: "CA_DIRECTIVES"
-    2: "CA_DIRECTIVES"
-    # Contract/enum declarations (UNRELATED)
-    4: "CA_DECLARATIONS"
-    6: "CA_DECLARATIONS"
-    7: "CA_DECLARATIONS"
-    8: "CA_DECLARATIONS"
-    9: "CA_DECLARATIONS"
-    10: "CA_DECLARATIONS"
-    # Comments (UNRELATED)
-    5: "CA_COMMENTS"
-    12: "CA_COMMENTS"
-    17: "CA_COMMENTS"
-    20: "CA_COMMENTS"
-    23: "CA_COMMENTS"
-    32: "CA_COMMENTS"
-    33: "CA_COMMENTS"
-    34: "CA_COMMENTS"
-    35: "CA_COMMENTS"
-    36: "CA_COMMENTS"
-    37: "CA_COMMENTS"
-    38: "CA_COMMENTS"
-    39: "CA_COMMENTS"
-    40: "CA_COMMENTS"
-    44: "CA_COMMENTS"
-    55: "CA_COMMENTS"
-    58: "CA_COMMENTS"
-    65: "CA_COMMENTS"
-    66: "CA_COMMENTS"
-    67: "CA_COMMENTS"
-    68: "CA_COMMENTS"
-    72: "CA_COMMENTS"
-    75: "CA_COMMENTS"
-    # Declarations (UNRELATED)
-    14: "CA_DECLARATIONS"
-    21: "CA_DECLARATIONS"
-    24: "CA_DECLARATIONS"
-    41: "CA_DECLARATIONS"
-    69: "CA_DECLARATIONS"
-    70: "CA_DECLARATIONS"
-    71: "CA_DECLARATIONS"
-    # Event definition (UNRELATED)
-    26: "CA_EVENT_DEFS"
-    # Syntax - closing braces (UNRELATED)
-    63: "CA_SYNTAX"
-    81: "CA_SYNTAX"
-    86: "CA_SYNTAX"
-    # === SECURITY-RELEVANT CODE ACTS ===
-    # CA1: acceptedRoot declaration (ROOT_CAUSE)
-    18: "CA1"
-    # CA2: Constructor (ROOT_CAUSE) - all lines map to same code act
-    28: "CA2"
-    29: "CA2"
-    30: "CA2"
-    # CA3: Hash computation (BENIGN)
-    42: "CA3"
-    # CA4: Replay protection (BENIGN)
-    45: "CA4"
-    46: "CA4"
-    47: "CA4"
-    48: "CA4"
-    # CA5: Root computation call (PREREQ)
-    52: "CA5"
-    # CA6: Root validation (ROOT_CAUSE)
-    53: "CA6"
-    # CA7: Mark processed (BENIGN)
-    56: "CA7"
-    # CA8: External call (PREREQ)
-    59: "CA8"
-    # CA9: Event emission (BENIGN)
-    61: "CA9"
-    # CA10: Return statement (BENIGN)
-    62: "CA10"
-    # CA11: Zero root conditional (PREREQ)
-    76: "CA11"
-    77: "CA11"
-    78: "CA11"
-    # CA12: Default keccak return (BENIGN)
-    80: "CA12"
-    # CA13: setAcceptedRoot (SECONDARY_VULN)
-    83: "CA13"
-    84: "CA13"
-    85: "CA13"
+line_to_code_act:
+  # Directives (UNRELATED)
+  1: "CA_DIRECTIVES"
+  2: "CA_DIRECTIVES"
+  # Contract/enum declarations (UNRELATED)
+  4: "CA_DECLARATIONS"
+  6: "CA_DECLARATIONS"
+  7: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
+  9: "CA_DECLARATIONS"
+  10: "CA_DECLARATIONS"
+  # Comments (UNRELATED)
+  5: "CA_COMMENTS"
+  12: "CA_COMMENTS"
+  17: "CA_COMMENTS"
+  20: "CA_COMMENTS"
+  23: "CA_COMMENTS"
+  32: "CA_COMMENTS"
+  33: "CA_COMMENTS"
+  34: "CA_COMMENTS"
+  35: "CA_COMMENTS"
+  36: "CA_COMMENTS"
+  37: "CA_COMMENTS"
+  38: "CA_COMMENTS"
+  # Line 39: empty
+  40: "CA_COMMENTS"
+  44: "CA_COMMENTS"
+  55: "CA_COMMENTS"
+  58: "CA_COMMENTS"
+  65: "CA_COMMENTS"
+  66: "CA_COMMENTS"
+  67: "CA_COMMENTS"
+  68: "CA_COMMENTS"
+  72: "CA_COMMENTS"
+  75: "CA_COMMENTS"
+  # Declarations (UNRELATED)
+  14: "CA_DECLARATIONS"
+  21: "CA_DECLARATIONS"
+  24: "CA_DECLARATIONS"
+  41: "CA_DECLARATIONS"
+  69: "CA_DECLARATIONS"
+  70: "CA_DECLARATIONS"
+  71: "CA_DECLARATIONS"
+  # Event definition (UNRELATED)
+  26: "CA_EVENT_DEFS"
+  # Syntax - closing braces (UNRELATED)
+  63: "CA_SYNTAX"
+  81: "CA_SYNTAX"
+  86: "CA_SYNTAX"
+  # === SECURITY-RELEVANT CODE ACTS ===
+  # CA1: acceptedRoot declaration (ROOT_CAUSE)
+  18: "CA1"
+  # CA2: Constructor (ROOT_CAUSE) - all lines map to same code act
+  28: "CA2"
+  29: "CA2"
+  30: "CA2"
+  # CA3: Hash computation (BENIGN)
+  42: "CA3"
+  # CA4: Replay protection (BENIGN)
+  45: "CA4"
+  46: "CA4"
+  47: "CA4"
+  48: "CA4"
+  # CA5: Root computation call (PREREQ)
+  52: "CA5"
+  # CA6: Root validation (ROOT_CAUSE)
+  53: "CA6"
+  # CA7: Mark processed (BENIGN)
+  56: "CA7"
+  # CA8: External call (PREREQ)
+  59: "CA8"
+  # CA9: Event emission (BENIGN)
+  61: "CA9"
+  # CA10: Return statement (BENIGN)
+  62: "CA10"
+  # CA11: Zero root conditional (PREREQ)
+  76: "CA11"
+  77: "CA11"
+  78: "CA11"
+  # CA12: Default keccak return (BENIGN)
+  80: "CA12"
+  # CA13: setAcceptedRoot (SECONDARY_VULN)
+  83: "CA13"
+  84: "CA13"
+  85: "CA13"
 
-  # Quick lookup: code_act_id → security_function
-  code_act_security_functions:
-    CA1: "ROOT_CAUSE"
-    CA2: "ROOT_CAUSE"
-    CA3: "BENIGN"
-    CA4: "BENIGN"
-    CA5: "PREREQ"
-    CA6: "ROOT_CAUSE"
-    CA7: "BENIGN"
-    CA8: "PREREQ"
-    CA9: "BENIGN"
-    CA10: "BENIGN"
-    CA11: "PREREQ"
-    CA12: "BENIGN"
-    CA13: "SECONDARY_VULN"
-    CA_DIRECTIVES: "UNRELATED"
-    CA_COMMENTS: "UNRELATED"
-    CA_DECLARATIONS: "UNRELATED"
-    CA_EVENT_DEFS: "UNRELATED"
-    CA_SYNTAX: "UNRELATED"
+# Quick lookup: code_act_id → security_function
+code_act_security_functions:
+  CA1: "ROOT_CAUSE"
+  CA2: "ROOT_CAUSE"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
+  CA5: "PREREQ"
+  CA6: "ROOT_CAUSE"
+  CA7: "BENIGN"
+  CA8: "PREREQ"
+  CA9: "BENIGN"
+  CA10: "BENIGN"
+  CA11: "PREREQ"
+  CA12: "BENIGN"
+  CA13: "SECONDARY_VULN"
+  CA_DIRECTIVES: "UNRELATED"
+  CA_COMMENTS: "UNRELATED"
+  CA_DECLARATIONS: "UNRELATED"
+  CA_EVENT_DEFS: "UNRELATED"
+  CA_SYNTAX: "UNRELATED"
