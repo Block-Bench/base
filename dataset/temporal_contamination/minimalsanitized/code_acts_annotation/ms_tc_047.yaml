@@ -26,8 +26,8 @@ code_acts:
           balanceOf[to] += amount;
           emit Transfer(address(0), to, amount);
       }
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Internal _mint has no supply cap check. Allows minting billions of tokens without limit."
+    security_function: "BENIGN"
+    rationale: "Internal _mint implementation. Not externally reachable - the vulnerability is exposed through CA1. Supply cap absence is consequence, not independent cause."
 
   - id: "CA3"
     type: "STATE_MOD"
@@ -36,8 +36,8 @@ code_acts:
       function setMinter(address newMinter) external onlyMinter {
           minter = newMinter;
       }
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - setMinter with single-key protection. Attacker can transfer minting privileges."
+    security_function: "BENIGN"
+    rationale: "Role rotation function. Post-compromise persistence path - not required for exploitation. Compromised key already satisfies onlyMinter."
 
   - id: "CA4"
     type: "ACCESS_CTRL"
@@ -47,8 +47,8 @@ code_acts:
           require(msg.sender == minter, "Not minter");
           _;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Single minter check. The only access control - no multi-sig."
+    security_function: "BENIGN"
+    rationale: "Correctly implemented modifier. The weakness is the architectural choice (single-key minting authority) captured in CA1, not the modifier itself."
 
   - id: "CA5"
     type: "STATE_MOD"
@@ -105,26 +105,15 @@ summary:
   total_lines_covered: 81
 
   by_security_function:
-    ROOT_CAUSE: 3
-    PREREQ: 1
-    BENIGN: 4
+    ROOT_CAUSE: 1
+    PREREQ: 0
+    BENIGN: 7
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
       lines: [45, 47, 48, 49]
       description: "mint() with single-key protection, no supply cap"
-    - id: "CA2"
-      lines: [54, 55, 57, 58, 60, 61]
-      description: "_mint with no supply cap enforcement"
-    - id: "CA3"
-      lines: [65, 66, 67]
-      description: "setMinter with single-key protection"
-
-  prerequisites:
-    - id: "CA4"
-      lines: [40, 41, 42, 43]
-      description: "Single minter modifier - no multi-sig"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -232,9 +221,9 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "ROOT_CAUSE"
-  CA3: "ROOT_CAUSE"
-  CA4: "PREREQ"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"

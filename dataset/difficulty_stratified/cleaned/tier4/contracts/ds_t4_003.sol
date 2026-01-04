@@ -2,13 +2,13 @@
 pragma solidity ^0.8.18;
 
 contract Proxy {
-    address public implementation; //slot0
+    address public implementation;
 
     constructor(address _implementation) {
         implementation = _implementation;
     }
 
-    function testcollision() public {
+    function spin() public {
         bool success;
         (success, ) = implementation.delegatecall(
             abi.encodeWithSignature("foo(address)", address(this))
@@ -17,7 +17,7 @@ contract Proxy {
 }
 
 contract Logic {
-    address public GuestAddress; //slot0
+    address public GuestAddress;
 
     constructor() {
         GuestAddress = address(0x0);

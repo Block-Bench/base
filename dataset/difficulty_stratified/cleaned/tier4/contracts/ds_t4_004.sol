@@ -4,7 +4,6 @@ pragma solidity ^0.8.18;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-
 contract USDa is ERC20, Ownable {
     constructor() ERC20("USDA", "USDA") {
         _mint(msg.sender, 10000 * 10 ** decimals());
@@ -35,7 +34,6 @@ contract SimplePool {
     }
 
     function getPrice() public view returns (uint256) {
-        //Incorrect price calculation over balanceOf
         uint256 USDaAmount = USDaToken.balanceOf(address(this));
         uint256 USDbAmount = USDbToken.balanceOf(address(this));
 

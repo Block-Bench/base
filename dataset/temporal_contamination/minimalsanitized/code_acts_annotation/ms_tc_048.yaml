@@ -23,8 +23,8 @@ code_acts:
           if (totalSupply == 0) {
               return 1e18;
           }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Exchange rate function with no sanity checks on rate changes or minimum liquidity requirements."
+    security_function: "BENIGN"
+    rationale: "Zero-supply branch. Part of same lifecycle invariant as CA1 - not an independent prerequisite. Bootstrap condition context."
 
   - id: "CA3"
     type: "COMPUTATION"
@@ -34,8 +34,8 @@ code_acts:
           uint256 exchangeRateMantissa = exchangeRate();
           return (balanceOf[account] * exchangeRateMantissa) / 1e18;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Uses manipulated exchange rate for collateral calculation. Inflated rate translates to inflated collateral value."
+    security_function: "BENIGN"
+    rationale: "Oracle consumer. Post-exploit propagation path that consumes already-manipulated exchange rate. Not a prerequisite."
 
   - id: "CA4"
     type: "STATE_MOD"
@@ -82,22 +82,14 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1
-    PREREQ: 2
-    BENIGN: 3
+    PREREQ: 0
+    BENIGN: 5
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
       lines: [44, 47, 49, 50]
       description: "Exchange rate uses balanceOf() including donations"
-
-  prerequisites:
-    - id: "CA2"
-      lines: [39, 40, 41, 42]
-      description: "Exchange rate function without sanity checks"
-    - id: "CA3"
-      lines: [97, 98, 99, 100, 103, 104]
-      description: "balanceOfUnderlying uses manipulated rate"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -209,8 +201,8 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "PREREQ"
-  CA3: "PREREQ"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"

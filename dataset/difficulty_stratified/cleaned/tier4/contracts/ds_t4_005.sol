@@ -3,8 +3,6 @@ pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 
-// https://blog.audius.co/article/audius-governance-takeover-post-mortem-7-23-22
-
 interface ILogic {
     function getguardianAddress() external returns (address);
 

@@ -39,22 +39,22 @@ code_acts:
           totalCollateral += collateral;
           totalDebt += debt;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - previewMultipleMarkets sums collateral from all markets. Allows mixing real and fake markets."
+    security_function: "BENIGN"
+    rationale: "Aggregation loop. Correct arithmetic that sums already-untrusted values. Even single malicious market would suffice."
 
   - id: "CA4"
     type: "COMPUTATION"
     lines: [47, 48, 49, 50, 51, 53, 54]
     code: "Health factor calculation"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Health factor uses manipulated collateral values."
+    security_function: "BENIGN"
+    rationale: "Health factor calculation. Post-taint arithmetic consuming already-manipulated values, not a prerequisite."
 
   - id: "CA5"
     type: "COMPUTATION"
     lines: [80, 81, 82, 83, 84, 86, 87, 88]
     code: "Overall health calculation"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Overall health uses sum of possibly fake collateral."
+    security_function: "BENIGN"
+    rationale: "Overall health calculation. Downstream derived metric from tainted data, not a prerequisite."
 
   - id: "CA6"
     type: "STATE_MOD"
@@ -110,8 +110,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 2
-    PREREQ: 3
-    BENIGN: 4
+    PREREQ: 0
+    BENIGN: 7
     UNRELATED: 3
 
   root_causes:
@@ -121,17 +121,6 @@ summary:
     - id: "CA2"
       lines: [115, 116, 117, 120, 122, 123]
       description: "borrow uses manipulated previewer data"
-
-  prerequisites:
-    - id: "CA3"
-      lines: [70, 71, 72, 73, 74, 76, 77, 78]
-      description: "previewMultipleMarkets sums from all markets"
-    - id: "CA4"
-      lines: [47, 48, 49, 50, 51, 53, 54]
-      description: "Health factor uses manipulated values"
-    - id: "CA5"
-      lines: [80, 81, 82, 83, 84, 86, 87, 88]
-      description: "Overall health from possibly fake data"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -277,9 +266,9 @@ line_to_code_act:
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
   CA2: "ROOT_CAUSE"
-  CA3: "PREREQ"
-  CA4: "PREREQ"
-  CA5: "PREREQ"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
+  CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
