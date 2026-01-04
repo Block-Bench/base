@@ -34,8 +34,8 @@
 /*LN-34*/         address to,
 /*LN-35*/         uint256 quantity
 /*LN-36*/     ) external override returns (bool) {
-/*LN-37*/         require(balanceOf[msg.requestor] >= quantity, "Insufficient balance");
-/*LN-38*/         balanceOf[msg.requestor] -= quantity;
+/*LN-37*/         require(balanceOf[msg.sender] >= quantity, "Insufficient balance");
+/*LN-38*/         balanceOf[msg.sender] -= quantity;
 /*LN-39*/         balanceOf[to] += quantity;
 /*LN-40*/         return true;
 /*LN-41*/     }
@@ -47,12 +47,12 @@
 /*LN-47*/     ) external override returns (bool) {
 /*LN-48*/         require(balanceOf[source] >= quantity, "Insufficient balance");
 /*LN-49*/         require(
-/*LN-50*/             allowance[source][msg.requestor] >= quantity,
+/*LN-50*/             allowance[source][msg.sender] >= quantity,
 /*LN-51*/             "Insufficient allowance"
 /*LN-52*/         );
 /*LN-53*/         balanceOf[source] -= quantity;
 /*LN-54*/         balanceOf[to] += quantity;
-/*LN-55*/         allowance[source][msg.requestor] -= quantity;
+/*LN-55*/         allowance[source][msg.sender] -= quantity;
 /*LN-56*/         return true;
 /*LN-57*/     }
 /*LN-58*/ 
@@ -60,7 +60,7 @@
 /*LN-60*/         address serviceProvider,
 /*LN-61*/         uint256 quantity
 /*LN-62*/     ) external override returns (bool) {
-/*LN-63*/         allowance[msg.requestor][serviceProvider] = quantity;
+/*LN-63*/         allowance[msg.sender][serviceProvider] = quantity;
 /*LN-64*/         return true;
 /*LN-65*/     }
 /*LN-66*/ }
@@ -82,46 +82,46 @@
 /*LN-82*/ 
 /*LN-83*/ 
 /*LN-84*/     function insertSecuritydeposit(uint256 quantity) external {
-/*LN-85*/         securitydepositCredential.transferFrom(msg.requestor, address(this), quantity);
-/*LN-86*/         securitydepositAccountcredits[msg.requestor] += quantity;
+/*LN-85*/         securitydepositCredential.transferFrom(msg.sender, address(this), quantity);
+/*LN-86*/         securitydepositAccountcredits[msg.sender] += quantity;
 /*LN-87*/     }
 /*LN-88*/ 
 /*LN-89*/ 
 /*LN-90*/     function requestAdvance(uint256 quantity) external {
 /*LN-91*/ 
-/*LN-92*/         uint256 ceilingRequestadvance = (securitydepositAccountcredits[msg.requestor] * BASIS_POINTS) /
+/*LN-92*/         uint256 ceilingRequestadvance = (securitydepositAccountcredits[msg.sender] * BASIS_POINTS) /
 /*LN-93*/             securitydeposit_factor;
 /*LN-94*/ 
 /*LN-95*/         require(
-/*LN-96*/             outstandingbalanceAccountcredits[msg.requestor] + quantity <= ceilingRequestadvance,
+/*LN-96*/             outstandingbalanceAccountcredits[msg.sender] + quantity <= ceilingRequestadvance,
 /*LN-97*/             "Insufficient collateral"
 /*LN-98*/         );
 /*LN-99*/ 
-/*LN-100*/         outstandingbalanceAccountcredits[msg.requestor] += quantity;
+/*LN-100*/         outstandingbalanceAccountcredits[msg.sender] += quantity;
 /*LN-101*/ 
-/*LN-102*/         shezUSD.transfer(msg.requestor, quantity);
+/*LN-102*/         shezUSD.transfer(msg.sender, quantity);
 /*LN-103*/     }
 /*LN-104*/ 
 /*LN-105*/     function settleBalance(uint256 quantity) external {
-/*LN-106*/         require(outstandingbalanceAccountcredits[msg.requestor] >= quantity, "Excessive repayment");
-/*LN-107*/         shezUSD.transferFrom(msg.requestor, address(this), quantity);
-/*LN-108*/         outstandingbalanceAccountcredits[msg.requestor] -= quantity;
+/*LN-106*/         require(outstandingbalanceAccountcredits[msg.sender] >= quantity, "Excessive repayment");
+/*LN-107*/         shezUSD.transferFrom(msg.sender, address(this), quantity);
+/*LN-108*/         outstandingbalanceAccountcredits[msg.sender] -= quantity;
 /*LN-109*/     }
 /*LN-110*/ 
 /*LN-111*/     function dischargefundsSecuritydeposit(uint256 quantity) external {
 /*LN-112*/         require(
-/*LN-113*/             securitydepositAccountcredits[msg.requestor] >= quantity,
+/*LN-113*/             securitydepositAccountcredits[msg.sender] >= quantity,
 /*LN-114*/             "Insufficient collateral"
 /*LN-115*/         );
-/*LN-116*/         uint256 remainingSecuritydeposit = securitydepositAccountcredits[msg.requestor] - quantity;
+/*LN-116*/         uint256 remainingSecuritydeposit = securitydepositAccountcredits[msg.sender] - quantity;
 /*LN-117*/         uint256 maximumOutstandingbalance = (remainingSecuritydeposit * BASIS_POINTS) /
 /*LN-118*/             securitydeposit_factor;
 /*LN-119*/         require(
-/*LN-120*/             outstandingbalanceAccountcredits[msg.requestor] <= maximumOutstandingbalance,
+/*LN-120*/             outstandingbalanceAccountcredits[msg.sender] <= maximumOutstandingbalance,
 /*LN-121*/             "Would be undercollateralized"
 /*LN-122*/         );
 /*LN-123*/ 
-/*LN-124*/         securitydepositAccountcredits[msg.requestor] -= quantity;
-/*LN-125*/         securitydepositCredential.transfer(msg.requestor, quantity);
+/*LN-124*/         securitydepositAccountcredits[msg.sender] -= quantity;
+/*LN-125*/         securitydepositCredential.transfer(msg.sender, quantity);
 /*LN-126*/     }
 /*LN-127*/ }

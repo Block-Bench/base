@@ -23,7 +23,7 @@
 /*LN-23*/     mapping(bytes32 => CarePosition) public positions;
 /*LN-24*/ 
 /*LN-25*/     event ExchangeCredentials(
-/*LN-26*/         address indexed requestor,
+/*LN-26*/         address indexed sender,
 /*LN-27*/         uint256 amount0In,
 /*LN-28*/         uint256 amount1In,
 /*LN-29*/         uint256 amount0Out,
@@ -48,7 +48,7 @@
 /*LN-48*/ 
 /*LN-49*/ 
 /*LN-50*/         bytes32 positionIdentifier = keccak256(
-/*LN-51*/             abi.encodePacked(msg.requestor, tickLower, tickUpper)
+/*LN-51*/             abi.encodePacked(msg.sender, tickLower, tickUpper)
 /*LN-52*/         );
 /*LN-53*/ 
 /*LN-54*/ 
@@ -74,7 +74,7 @@
 /*LN-74*/             int128(availableresourcesDelta)
 /*LN-75*/         );
 /*LN-76*/ 
-/*LN-77*/         emit AvailableresourcesAdded(msg.requestor, tickLower, tickUpper, availableresourcesDelta);
+/*LN-77*/         emit AvailableresourcesAdded(msg.sender, tickLower, tickUpper, availableresourcesDelta);
 /*LN-78*/     }
 /*LN-79*/ 
 /*LN-80*/     function exchangeCredentials(

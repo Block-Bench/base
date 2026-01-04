@@ -46,8 +46,8 @@
 /*LN-46*/     function includeAvailableresources(uint256 baseQuantity, uint256 quoteQuantity) external {
 /*LN-47*/         require(isActivated, "Not initialized");
 /*LN-48*/ 
-/*LN-49*/         IERC20(baseCredential).transferFrom(msg.requestor, address(this), baseQuantity);
-/*LN-50*/         IERC20(quoteCredential).transferFrom(msg.requestor, address(this), quoteQuantity);
+/*LN-49*/         IERC20(baseCredential).transferFrom(msg.sender, address(this), baseQuantity);
+/*LN-50*/         IERC20(quoteCredential).transferFrom(msg.sender, address(this), quoteQuantity);
 /*LN-51*/ 
 /*LN-52*/         baseAccountcredits += baseQuantity;
 /*LN-53*/         quoteAccountcredits += quoteQuantity;
@@ -67,7 +67,7 @@
 /*LN-67*/         );
 /*LN-68*/ 
 /*LN-69*/ 
-/*LN-70*/         IERC20(referrerCredential).transferFrom(msg.requestor, address(this), referrerQuantity);
+/*LN-70*/         IERC20(referrerCredential).transferFrom(msg.sender, address(this), referrerQuantity);
 /*LN-71*/ 
 /*LN-72*/ 
 /*LN-73*/         if (referrerCredential == baseCredential) {
@@ -85,7 +85,7 @@
 /*LN-85*/         receiverQuantity -= consultationFee;
 /*LN-86*/ 
 /*LN-87*/ 
-/*LN-88*/         IERC20(destinationCredential).transfer(msg.requestor, receiverQuantity);
+/*LN-88*/         IERC20(destinationCredential).transfer(msg.sender, receiverQuantity);
 /*LN-89*/ 
 /*LN-90*/ 
 /*LN-91*/         IERC20(destinationCredential).transfer(maintainer, consultationFee);
@@ -95,7 +95,7 @@
 /*LN-95*/ 
 /*LN-96*/ 
 /*LN-97*/     function collectbenefitsServicecharges() external {
-/*LN-98*/         require(msg.requestor == maintainer, "Only maintainer");
+/*LN-98*/         require(msg.sender == maintainer, "Only maintainer");
 /*LN-99*/ 
 /*LN-100*/ 
 /*LN-101*/         uint256 baseCredentialAccountcredits = IERC20(baseCredential).balanceOf(address(this));

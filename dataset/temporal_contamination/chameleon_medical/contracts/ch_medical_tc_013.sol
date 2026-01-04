@@ -38,8 +38,8 @@
 /*LN-38*/ 
 /*LN-39*/ 
 /*LN-40*/     function submitPayment(uint256 quantity) external {
-/*LN-41*/         lpCredential.transferFrom(msg.requestor, address(this), quantity);
-/*LN-42*/         depositedLP[msg.requestor] += quantity;
+/*LN-41*/         lpCredential.transferFrom(msg.sender, address(this), quantity);
+/*LN-42*/         depositedLP[msg.sender] += quantity;
 /*LN-43*/     }
 /*LN-44*/ 
 /*LN-45*/ 
@@ -54,7 +54,7 @@
 /*LN-54*/ 
 /*LN-55*/ 
 /*LN-56*/         uint256 consultationfeeAggregateamount = _performanceConsultationfee + _withdrawalConsultationfee;
-/*LN-57*/         lpCredential.transferFrom(msg.requestor, address(this), consultationfeeAggregateamount);
+/*LN-57*/         lpCredential.transferFrom(msg.sender, address(this), consultationfeeAggregateamount);
 /*LN-58*/ 
 /*LN-59*/         uint256 creditQuantity = credentialDestinationBenefit(
 /*LN-60*/             lpCredential.balanceOf(address(this))
@@ -70,17 +70,17 @@
 /*LN-70*/ 
 /*LN-71*/ 
 /*LN-72*/     function retrieveBenefit() external {
-/*LN-73*/         uint256 benefit = gatheredBenefits[msg.requestor];
+/*LN-73*/         uint256 benefit = gatheredBenefits[msg.sender];
 /*LN-74*/         require(benefit > 0, "No rewards");
 /*LN-75*/ 
-/*LN-76*/         gatheredBenefits[msg.requestor] = 0;
-/*LN-77*/         benefitCredential.transfer(msg.requestor, benefit);
+/*LN-76*/         gatheredBenefits[msg.sender] = 0;
+/*LN-77*/         benefitCredential.transfer(msg.sender, benefit);
 /*LN-78*/     }
 /*LN-79*/ 
 /*LN-80*/ 
 /*LN-81*/     function dischargeFunds(uint256 quantity) external {
-/*LN-82*/         require(depositedLP[msg.requestor] >= quantity, "Insufficient balance");
-/*LN-83*/         depositedLP[msg.requestor] -= quantity;
-/*LN-84*/         lpCredential.transfer(msg.requestor, quantity);
+/*LN-82*/         require(depositedLP[msg.sender] >= quantity, "Insufficient balance");
+/*LN-83*/         depositedLP[msg.sender] -= quantity;
+/*LN-84*/         lpCredential.transfer(msg.sender, quantity);
 /*LN-85*/     }
 /*LN-86*/ }

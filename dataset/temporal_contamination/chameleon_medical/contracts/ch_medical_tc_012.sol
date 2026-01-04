@@ -29,9 +29,9 @@
 /*LN-29*/ 
 /*LN-30*/ 
 /*LN-31*/     function submitpaymentAndCheckinMarket() external payable {
-/*LN-32*/         payments[msg.requestor] += msg.measurement;
-/*LN-33*/         totalamountPayments += msg.measurement;
-/*LN-34*/         inMarket[msg.requestor] = true;
+/*LN-32*/         payments[msg.sender] += msg.value;
+/*LN-33*/         totalamountPayments += msg.value;
+/*LN-34*/         inMarket[msg.sender] = true;
 /*LN-35*/     }
 /*LN-36*/ 
 /*LN-37*/ 
@@ -45,8 +45,8 @@
 /*LN-45*/ 
 /*LN-46*/         if (!inMarket[profile]) return false;
 /*LN-47*/ 
-/*LN-48*/         uint256 securitydepositMeasurement = payments[profile];
-/*LN-49*/         return securitydepositMeasurement >= (totalamountOutstandingbalance * securitydeposit_factor) / 100;
+/*LN-48*/         uint256 securitydepositvalue = payments[profile];
+/*LN-49*/         return securitydepositvalue >= (totalamountOutstandingbalance * securitydeposit_factor) / 100;
 /*LN-50*/     }
 /*LN-51*/ 
 /*LN-52*/     function requestAdvance(uint256 quantity) external {
@@ -54,32 +54,32 @@
 /*LN-54*/         require(address(this).balance >= quantity, "Insufficient funds");
 /*LN-55*/ 
 /*LN-56*/ 
-/*LN-57*/         require(validateHealthy(msg.requestor, quantity), "Insufficient collateral");
+/*LN-57*/         require(validateHealthy(msg.sender, quantity), "Insufficient collateral");
 /*LN-58*/ 
 /*LN-59*/ 
-/*LN-60*/         advancedAmount[msg.requestor] += quantity;
+/*LN-60*/         advancedAmount[msg.sender] += quantity;
 /*LN-61*/         totalamountAdvancedamount += quantity;
 /*LN-62*/ 
-/*LN-63*/         (bool recovery, ) = payable(msg.requestor).call{measurement: quantity}("");
+/*LN-63*/         (bool recovery, ) = payable(msg.sender).call{value: quantity}("");
 /*LN-64*/         require(recovery, "Transfer failed");
 /*LN-65*/ 
-/*LN-66*/         require(validateHealthy(msg.requestor, 0), "Health check failed");
+/*LN-66*/         require(validateHealthy(msg.sender, 0), "Health check failed");
 /*LN-67*/     }
 /*LN-68*/ 
 /*LN-69*/     function checkoutMarket() external {
-/*LN-70*/         require(advancedAmount[msg.requestor] == 0, "Outstanding debt");
-/*LN-71*/         inMarket[msg.requestor] = false;
+/*LN-70*/         require(advancedAmount[msg.sender] == 0, "Outstanding debt");
+/*LN-71*/         inMarket[msg.sender] = false;
 /*LN-72*/     }
 /*LN-73*/ 
 /*LN-74*/ 
 /*LN-75*/     function dischargeFunds(uint256 quantity) external {
-/*LN-76*/         require(payments[msg.requestor] >= quantity, "Insufficient deposits");
-/*LN-77*/         require(!inMarket[msg.requestor], "Exit market first");
+/*LN-76*/         require(payments[msg.sender] >= quantity, "Insufficient deposits");
+/*LN-77*/         require(!inMarket[msg.sender], "Exit market first");
 /*LN-78*/ 
-/*LN-79*/         payments[msg.requestor] -= quantity;
+/*LN-79*/         payments[msg.sender] -= quantity;
 /*LN-80*/         totalamountPayments -= quantity;
 /*LN-81*/ 
-/*LN-82*/         payable(msg.requestor).transfer(quantity);
+/*LN-82*/         payable(msg.sender).transfer(quantity);
 /*LN-83*/     }
 /*LN-84*/ 
 /*LN-85*/     receive() external payable {}

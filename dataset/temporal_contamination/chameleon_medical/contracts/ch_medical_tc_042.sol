@@ -79,7 +79,7 @@
 /*LN-79*/ 
 /*LN-80*/ 
 /*LN-81*/     function cancelCampaign(bytes16 campaignChartnumber) external {
-/*LN-82*/         require(campaigns[campaignChartnumber].coordinator == msg.requestor, "Not manager");
+/*LN-82*/         require(campaigns[campaignChartnumber].coordinator == msg.sender, "Not manager");
 /*LN-83*/         delete campaigns[campaignChartnumber];
 /*LN-84*/     }
 /*LN-85*/ }

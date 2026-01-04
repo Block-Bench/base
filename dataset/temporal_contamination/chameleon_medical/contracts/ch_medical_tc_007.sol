@@ -21,11 +21,11 @@
 /*LN-21*/     event PublicKeysUpdated(bytes currentKeys);
 /*LN-22*/ 
 /*LN-23*/     constructor() {
-/*LN-24*/         owner = msg.requestor;
+/*LN-24*/         owner = msg.sender;
 /*LN-25*/     }
 /*LN-26*/ 
 /*LN-27*/     modifier onlyOwner() {
-/*LN-28*/         require(msg.requestor == owner, "Not owner");
+/*LN-28*/         require(msg.sender == owner, "Not owner");
 /*LN-29*/         _;
 /*LN-30*/     }
 /*LN-31*/ 

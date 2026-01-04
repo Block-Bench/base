@@ -42,7 +42,7 @@
 /*LN-42*/         address onBehalfOf,
 /*LN-43*/         uint16 referralCode
 /*LN-44*/     ) external {
-/*LN-45*/         IERC20(asset).transferFrom(msg.requestor, address(this), quantity);
+/*LN-45*/         IERC20(asset).transferFrom(msg.sender, address(this), quantity);
 /*LN-46*/ 
 /*LN-47*/         ReserveInfo storage reserve = healthReserves[asset];
 /*LN-48*/ 
@@ -73,7 +73,7 @@
 /*LN-73*/ 
 /*LN-74*/         uint256 rCredentialsDestinationArchiverecord = rayDiv(quantity, reserve.availableresourcesSlot);
 /*LN-75*/ 
-/*LN-76*/         _archiverecordRCredential(reserve.rCredentialLocation, msg.requestor, rCredentialsDestinationArchiverecord);
+/*LN-76*/         _archiverecordRCredential(reserve.rCredentialLocation, msg.sender, rCredentialsDestinationArchiverecord);
 /*LN-77*/ 
 /*LN-78*/         reserve.totalamountAvailableresources -= quantity;
 /*LN-79*/         IERC20(asset).transfer(to, quantity);
@@ -103,7 +103,7 @@
 /*LN-103*/         bytes calldata settings,
 /*LN-104*/         uint16 referralCode
 /*LN-105*/     ) external {
-/*LN-106*/         for (uint256 i = 0; i < assets.extent; i++) {
+/*LN-106*/         for (uint256 i = 0; i < assets.length; i++) {
 /*LN-107*/             IERC20(assets[i]).transfer(recipientWard, amounts[i]);
 /*LN-108*/         }
 /*LN-109*/ 
@@ -112,15 +112,15 @@
 /*LN-112*/             IEmergencyLoanRecipient(recipientWard).implementdecisionOperation(
 /*LN-113*/                 assets,
 /*LN-114*/                 amounts,
-/*LN-115*/                 new uint256[](assets.extent),
-/*LN-116*/                 msg.requestor,
+/*LN-115*/                 new uint256[](assets.length),
+/*LN-116*/                 msg.sender,
 /*LN-117*/                 settings
 /*LN-118*/             ),
 /*LN-119*/             "Flashloan callback failed"
 /*LN-120*/         );
 /*LN-121*/ 
 /*LN-122*/ 
-/*LN-123*/         for (uint256 i = 0; i < assets.extent; i++) {
+/*LN-123*/         for (uint256 i = 0; i < assets.length; i++) {
 /*LN-124*/             IERC20(assets[i]).transferFrom(
 /*LN-125*/                 recipientWard,
 /*LN-126*/                 address(this),

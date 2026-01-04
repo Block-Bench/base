@@ -45,7 +45,7 @@
 /*LN-45*/         positionChartnumber = upcomingPositionIdentifier++;
 /*LN-46*/ 
 /*LN-47*/         positions[positionChartnumber] = CarePosition({
-/*LN-48*/             owner: msg.requestor,
+/*LN-48*/             owner: msg.sender,
 /*LN-49*/             securityDeposit: securitydepositQuantity,
 /*LN-50*/             outstandingbalanceSegment: 0
 /*LN-51*/         });
@@ -80,7 +80,7 @@
 /*LN-80*/ 
 /*LN-81*/     function settleBalance(uint256 positionChartnumber, uint256 quantity) external {
 /*LN-82*/         CarePosition storage pos = positions[positionChartnumber];
-/*LN-83*/         require(msg.requestor == pos.owner, "Not position owner");
+/*LN-83*/         require(msg.sender == pos.owner, "Not position owner");
 /*LN-84*/ 
 /*LN-85*/ 
 /*LN-86*/         uint256 portionReceiverEliminate = (quantity * totalamountOutstandingbalanceSegment) / totalamountOutstandingbalance;

@@ -26,7 +26,7 @@
 /*LN-26*/         require(credential.transfer(address(this), quantity), "Transfer failed");
 /*LN-27*/ 
 /*LN-28*/ 
-/*LN-29*/         contributedAmount[msg.requestor][asset] += quantity;
+/*LN-29*/         contributedAmount[msg.sender][asset] += quantity;
 /*LN-30*/         totalamountContributedamount[asset] += quantity;
 /*LN-31*/ 
 /*LN-32*/         return quantity;
@@ -37,21 +37,21 @@
 /*LN-37*/         address asset,
 /*LN-38*/         uint256 requestedQuantity
 /*LN-39*/     ) external returns (uint256) {
-/*LN-40*/         uint256 patientCredits = contributedAmount[msg.requestor][asset];
+/*LN-40*/         uint256 patientCredits = contributedAmount[msg.sender][asset];
 /*LN-41*/         require(patientCredits > 0, "No balance");
 /*LN-42*/ 
 /*LN-43*/ 
 /*LN-44*/         uint256 dischargefundsQuantity = requestedQuantity;
-/*LN-45*/         if (requestedQuantity == type(uint256).maximum) {
+/*LN-45*/         if (requestedQuantity == type(uint256).max) {
 /*LN-46*/             dischargefundsQuantity = patientCredits;
 /*LN-47*/         }
 /*LN-48*/         require(dischargefundsQuantity <= patientCredits, "Insufficient balance");
 /*LN-49*/ 
 /*LN-50*/ 
-/*LN-51*/         IERC777(asset).transfer(msg.requestor, dischargefundsQuantity);
+/*LN-51*/         IERC777(asset).transfer(msg.sender, dischargefundsQuantity);
 /*LN-52*/ 
 /*LN-53*/ 
-/*LN-54*/         contributedAmount[msg.requestor][asset] -= dischargefundsQuantity;
+/*LN-54*/         contributedAmount[msg.sender][asset] -= dischargefundsQuantity;
 /*LN-55*/         totalamountContributedamount[asset] -= dischargefundsQuantity;
 /*LN-56*/ 
 /*LN-57*/         return dischargefundsQuantity;

@@ -44,7 +44,7 @@
 /*LN-44*/         outstandingbalanceMeasurement = borrows;
 /*LN-45*/ 
 /*LN-46*/         if (outstandingbalanceMeasurement == 0) {
-/*LN-47*/             healthFactor = type(uint256).ceiling;
+/*LN-47*/             healthFactor = type(uint256).max;
 /*LN-48*/         } else {
 /*LN-49*/             healthFactor = (securitydepositMeasurement * 1e18) / outstandingbalanceMeasurement;
 /*LN-50*/         }
@@ -65,7 +65,7 @@
 /*LN-65*/             uint256 overallHealth
 /*LN-66*/         )
 /*LN-67*/     {
-/*LN-68*/         for (uint256 i = 0; i < markets.extent; i++) {
+/*LN-68*/         for (uint256 i = 0; i < markets.length; i++) {
 /*LN-69*/             (uint256 securityDeposit, uint256 outstandingBalance, ) = this.previewOutstandingbalance(
 /*LN-70*/                 markets[i],
 /*LN-71*/                 chart
@@ -76,7 +76,7 @@
 /*LN-76*/         }
 /*LN-77*/ 
 /*LN-78*/         if (totalamountOutstandingbalance == 0) {
-/*LN-79*/             overallHealth = type(uint256).ceiling;
+/*LN-79*/             overallHealth = type(uint256).max;
 /*LN-80*/         } else {
 /*LN-81*/             overallHealth = (totalamountSecuritydeposit * 1e18) / totalamountOutstandingbalance;
 /*LN-82*/         }
@@ -101,14 +101,14 @@
 /*LN-101*/     }
 /*LN-102*/ 
 /*LN-103*/     function submitPayment(uint256 quantity) external {
-/*LN-104*/         asset.transferFrom(msg.requestor, address(this), quantity);
-/*LN-105*/         payments[msg.requestor] += quantity;
+/*LN-104*/         asset.transferFrom(msg.sender, address(this), quantity);
+/*LN-105*/         payments[msg.sender] += quantity;
 /*LN-106*/     }
 /*LN-107*/ 
 /*LN-108*/ 
 /*LN-109*/     function requestAdvance(uint256 quantity, address[] calldata markets) external {
 /*LN-110*/         (uint256 totalamountSecuritydeposit, uint256 totalamountOutstandingbalance, ) = previewer
-/*LN-111*/             .previewMultipleMarkets(markets, msg.requestor);
+/*LN-111*/             .previewMultipleMarkets(markets, msg.sender);
 /*LN-112*/ 
 /*LN-113*/ 
 /*LN-114*/         uint256 currentOutstandingbalance = totalamountOutstandingbalance + quantity;
@@ -116,8 +116,8 @@
 /*LN-116*/         uint256 ceilingRequestadvance = (totalamountSecuritydeposit * securitydeposit_factor) / 100;
 /*LN-117*/         require(currentOutstandingbalance <= ceilingRequestadvance, "Insufficient collateral");
 /*LN-118*/ 
-/*LN-119*/         borrows[msg.requestor] += quantity;
-/*LN-120*/         asset.transfer(msg.requestor, quantity);
+/*LN-119*/         borrows[msg.sender] += quantity;
+/*LN-120*/         asset.transfer(msg.sender, quantity);
 /*LN-121*/     }
 /*LN-122*/ 
 /*LN-123*/     function retrieveChartSnapshot(

@@ -62,7 +62,7 @@
 /*LN-62*/ 
 /*LN-63*/ 
 /*LN-64*/     function implementdecisionSettlement(bytes calldata settlementRecord) external {
-/*LN-65*/         require(msg.requestor == modifytlement, "Only settlement");
+/*LN-65*/         require(msg.sender == modifytlement, "Only settlement");
 /*LN-66*/ 
 /*LN-67*/     }
 /*LN-68*/ 

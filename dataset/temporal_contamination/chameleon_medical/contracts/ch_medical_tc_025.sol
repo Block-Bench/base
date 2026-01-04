@@ -24,18 +24,18 @@
 /*LN-24*/     }
 /*LN-25*/ 
 /*LN-26*/     function requestAdvance(uint256 quantity) external {
-/*LN-27*/         profileBorrows[msg.requestor] += quantity;
+/*LN-27*/         profileBorrows[msg.sender] += quantity;
 /*LN-28*/         totalamountBorrows += quantity;
 /*LN-29*/ 
-/*LN-30*/         IERC20(underlying).transfer(msg.requestor, quantity);
+/*LN-30*/         IERC20(underlying).transfer(msg.sender, quantity);
 /*LN-31*/     }
 /*LN-32*/ 
 /*LN-33*/     function settlebalanceRequestadvance(uint256 quantity) external {
 /*LN-34*/ 
-/*LN-35*/         IERC20(underlying).transferFrom(msg.requestor, address(this), quantity);
+/*LN-35*/         IERC20(underlying).transferFrom(msg.sender, address(this), quantity);
 /*LN-36*/ 
 /*LN-37*/ 
-/*LN-38*/         profileBorrows[msg.requestor] -= quantity;
+/*LN-38*/         profileBorrows[msg.sender] -= quantity;
 /*LN-39*/         totalamountBorrows -= quantity;
 /*LN-40*/     }
 /*LN-41*/ }

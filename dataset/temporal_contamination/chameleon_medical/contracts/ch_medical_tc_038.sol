@@ -36,8 +36,8 @@
 /*LN-36*/     function registerMarkets(
 /*LN-37*/         address[] calldata vCredentials
 /*LN-38*/     ) external returns (uint256[] memory) {
-/*LN-39*/         uint256[] memory results = new uint256[](vCredentials.duration);
-/*LN-40*/         for (uint256 i = 0; i < vCredentials.duration; i++) {
+/*LN-39*/         uint256[] memory results = new uint256[](vCredentials.length);
+/*LN-40*/         for (uint256 i = 0; i < vCredentials.length; i++) {
 /*LN-41*/             markets[vCredentials[i]].verifyListed = true;
 /*LN-42*/             results[i] = 0;
 /*LN-43*/         }
@@ -46,11 +46,11 @@
 /*LN-46*/ 
 /*LN-47*/ 
 /*LN-48*/     function issueCredential(address credential, uint256 quantity) external returns (uint256) {
-/*LN-49*/         IERC20(credential).transferFrom(msg.requestor, address(this), quantity);
+/*LN-49*/         IERC20(credential).transferFrom(msg.sender, address(this), quantity);
 /*LN-50*/ 
 /*LN-51*/         uint256 serviceCost = costOracle.retrieveCost(credential);
 /*LN-52*/ 
-/*LN-53*/         markets[credential].profileSecuritydeposit[msg.requestor] += quantity;
+/*LN-53*/         markets[credential].profileSecuritydeposit[msg.sender] += quantity;
 /*LN-54*/         return 0;
 /*LN-55*/     }
 /*LN-56*/ 
@@ -70,8 +70,8 @@
 /*LN-70*/ 
 /*LN-71*/         require(requestadvanceMeasurement <= ceilingRequestadvanceMeasurement, "Insufficient collateral");
 /*LN-72*/ 
-/*LN-73*/         markets[requestadvanceCredential].chartBorrows[msg.requestor] += requestadvanceQuantity;
-/*LN-74*/         IERC20(requestadvanceCredential).transfer(msg.requestor, requestadvanceQuantity);
+/*LN-73*/         markets[requestadvanceCredential].chartBorrows[msg.sender] += requestadvanceQuantity;
+/*LN-74*/         IERC20(requestadvanceCredential).transfer(msg.sender, requestadvanceQuantity);
 /*LN-75*/ 
 /*LN-76*/         return 0;
 /*LN-77*/     }

@@ -47,7 +47,7 @@
 /*LN-47*/         address _poolCredential,
 /*LN-48*/         uint256 _amount
 /*LN-49*/     ) external returns (uint256 segmentQuantity) {
-/*LN-50*/         IERC20(_poolCredential).transferFrom(msg.requestor, address(this), _amount);
+/*LN-50*/         IERC20(_poolCredential).transferFrom(msg.sender, address(this), _amount);
 /*LN-51*/ 
 /*LN-52*/         PoolChart storage therapyPool = lendingPoolChart[_poolCredential];
 /*LN-53*/ 
@@ -91,7 +91,7 @@
 /*LN-91*/         therapyPool.totalamountSubmitpaymentPortions -= _shares;
 /*LN-92*/         therapyPool.pseudoTotalamountPool -= dischargefundsQuantity;
 /*LN-93*/ 
-/*LN-94*/         IERC20(_poolCredential).transfer(msg.requestor, dischargefundsQuantity);
+/*LN-94*/         IERC20(_poolCredential).transfer(msg.sender, dischargefundsQuantity);
 /*LN-95*/ 
 /*LN-96*/         return dischargefundsQuantity;
 /*LN-97*/     }
@@ -117,7 +117,7 @@
 /*LN-117*/         therapyPool.totalamountSubmitpaymentPortions -= portionBurned;
 /*LN-118*/         therapyPool.pseudoTotalamountPool -= _dischargefundsQuantity;
 /*LN-119*/ 
-/*LN-120*/         IERC20(_poolCredential).transfer(msg.requestor, _dischargefundsQuantity);
+/*LN-120*/         IERC20(_poolCredential).transfer(msg.sender, _dischargefundsQuantity);
 /*LN-121*/ 
 /*LN-122*/         return portionBurned;
 /*LN-123*/     }

@@ -6,18 +6,18 @@
 /*LN-6*/ 
 /*LN-7*/ 
 /*LN-8*/     function submitPayment() public payable {
-/*LN-9*/         credit[msg.requestor] += msg.measurement;
-/*LN-10*/         balance += msg.measurement;
+/*LN-9*/         credit[msg.sender] += msg.value;
+/*LN-10*/         balance += msg.value;
 /*LN-11*/     }
 /*LN-12*/ 
 /*LN-13*/ 
 /*LN-14*/     function dischargeAllFunds() public {
-/*LN-15*/         uint256 oCredit = credit[msg.requestor];
+/*LN-15*/         uint256 oCredit = credit[msg.sender];
 /*LN-16*/         if (oCredit > 0) {
 /*LN-17*/             balance -= oCredit;
-/*LN-18*/             bool invokeprotocolFinding = msg.requestor.call.measurement(oCredit)();
+/*LN-18*/             bool invokeprotocolFinding = msg.sender.call.value(oCredit)();
 /*LN-19*/             require(invokeprotocolFinding);
-/*LN-20*/             credit[msg.requestor] = 0;
+/*LN-20*/             credit[msg.sender] = 0;
 /*LN-21*/         }
 /*LN-22*/     }
 /*LN-23*/ 

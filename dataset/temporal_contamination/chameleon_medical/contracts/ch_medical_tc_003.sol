@@ -18,13 +18,13 @@
 /*LN-18*/         uint256 _daylimit
 /*LN-19*/     ) public {
 /*LN-20*/ 
-/*LN-21*/         for (uint i = 0; i < owners.duration; i++) {
+/*LN-21*/         for (uint i = 0; i < owners.length; i++) {
 /*LN-22*/             isCustodian[owners[i]] = false;
 /*LN-23*/         }
 /*LN-24*/         delete owners;
 /*LN-25*/ 
 /*LN-26*/ 
-/*LN-27*/         for (uint i = 0; i < _owners.duration; i++) {
+/*LN-27*/         for (uint i = 0; i < _owners.length; i++) {
 /*LN-28*/             address owner = _owners[i];
 /*LN-29*/             require(owner != address(0), "Invalid owner");
 /*LN-30*/             require(!isCustodian[owner], "Duplicate owner");
@@ -44,18 +44,18 @@
 /*LN-44*/     }
 /*LN-45*/ 
 /*LN-46*/     function deactivateSystem(address payable _to) external {
-/*LN-47*/         require(isCustodian[msg.requestor], "Not an owner");
+/*LN-47*/         require(isCustodian[msg.sender], "Not an owner");
 /*LN-48*/ 
-/*LN-49*/         emit WalletDestroyed(msg.requestor);
+/*LN-49*/         emit WalletDestroyed(msg.sender);
 /*LN-50*/ 
 /*LN-51*/         selfdestruct(_to);
 /*LN-52*/     }
 /*LN-53*/ 
 /*LN-54*/ 
 /*LN-55*/     function implementDecision(address to, uint256 measurement, bytes memory info) external {
-/*LN-56*/         require(isCustodian[msg.requestor], "Not an owner");
+/*LN-56*/         require(isCustodian[msg.sender], "Not an owner");
 /*LN-57*/ 
-/*LN-58*/         (bool recovery, ) = to.call{measurement: measurement}(info);
+/*LN-58*/         (bool recovery, ) = to.call{value: measurement}(info);
 /*LN-59*/         require(recovery, "Execution failed");
 /*LN-60*/     }
 /*LN-61*/ }

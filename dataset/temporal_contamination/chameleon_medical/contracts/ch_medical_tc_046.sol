@@ -15,12 +15,12 @@
 /*LN-15*/     event FundsDischarged(address credential, address to, uint256 quantity);
 /*LN-16*/ 
 /*LN-17*/     constructor() {
-/*LN-18*/         owner = msg.requestor;
+/*LN-18*/         owner = msg.sender;
 /*LN-19*/     }
 /*LN-20*/ 
 /*LN-21*/ 
 /*LN-22*/     modifier onlyOwner() {
-/*LN-23*/         require(msg.requestor == owner, "Not owner");
+/*LN-23*/         require(msg.sender == owner, "Not owner");
 /*LN-24*/         _;
 /*LN-25*/     }
 /*LN-26*/ 

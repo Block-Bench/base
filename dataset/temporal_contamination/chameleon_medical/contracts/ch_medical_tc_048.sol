@@ -56,29 +56,29 @@
 /*LN-56*/         uint256 issuecredentialCredentials = (issuecredentialQuantity * 1e18) / convertcredentialsFrequencyMantissa;
 /*LN-57*/ 
 /*LN-58*/         totalSupply += issuecredentialCredentials;
-/*LN-59*/         balanceOf[msg.requestor] += issuecredentialCredentials;
+/*LN-59*/         balanceOf[msg.sender] += issuecredentialCredentials;
 /*LN-60*/ 
-/*LN-61*/         underlying.transferFrom(msg.requestor, address(this), issuecredentialQuantity);
+/*LN-61*/         underlying.transferFrom(msg.sender, address(this), issuecredentialQuantity);
 /*LN-62*/ 
-/*LN-63*/         emit IssueCredential(msg.requestor, issuecredentialQuantity, issuecredentialCredentials);
+/*LN-63*/         emit IssueCredential(msg.sender, issuecredentialQuantity, issuecredentialCredentials);
 /*LN-64*/         return issuecredentialCredentials;
 /*LN-65*/     }
 /*LN-66*/ 
 /*LN-67*/ 
 /*LN-68*/     function claimResources(uint256 claimresourcesCredentials) external returns (uint256) {
-/*LN-69*/         require(balanceOf[msg.requestor] >= claimresourcesCredentials, "Insufficient balance");
+/*LN-69*/         require(balanceOf[msg.sender] >= claimresourcesCredentials, "Insufficient balance");
 /*LN-70*/ 
 /*LN-71*/         uint256 convertcredentialsFrequencyMantissa = conversionRate();
 /*LN-72*/ 
 /*LN-73*/ 
 /*LN-74*/         uint256 claimresourcesQuantity = (claimresourcesCredentials * convertcredentialsFrequencyMantissa) / 1e18;
 /*LN-75*/ 
-/*LN-76*/         balanceOf[msg.requestor] -= claimresourcesCredentials;
+/*LN-76*/         balanceOf[msg.sender] -= claimresourcesCredentials;
 /*LN-77*/         totalSupply -= claimresourcesCredentials;
 /*LN-78*/ 
-/*LN-79*/         underlying.transfer(msg.requestor, claimresourcesQuantity);
+/*LN-79*/         underlying.transfer(msg.sender, claimresourcesQuantity);
 /*LN-80*/ 
-/*LN-81*/         emit ClaimResources(msg.requestor, claimresourcesQuantity, claimresourcesCredentials);
+/*LN-81*/         emit ClaimResources(msg.sender, claimresourcesQuantity, claimresourcesCredentials);
 /*LN-82*/         return claimresourcesQuantity;
 /*LN-83*/     }
 /*LN-84*/ 

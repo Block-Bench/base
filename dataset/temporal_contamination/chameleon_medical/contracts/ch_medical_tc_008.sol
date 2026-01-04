@@ -42,19 +42,19 @@
 /*LN-42*/         require(supportedMarkets[cCredential], "Market not supported");
 /*LN-43*/ 
 /*LN-44*/ 
-/*LN-45*/         patientPayments[msg.requestor][cCredential] += quantity;
+/*LN-45*/         patientPayments[msg.sender][cCredential] += quantity;
 /*LN-46*/ 
-/*LN-47*/         emit SubmitPayment(msg.requestor, cCredential, quantity);
+/*LN-47*/         emit SubmitPayment(msg.sender, cCredential, quantity);
 /*LN-48*/     }
 /*LN-49*/ 
 /*LN-50*/     function requestAdvance(address cCredential, uint256 quantity) external {
 /*LN-51*/         require(supportedMarkets[cCredential], "Market not supported");
 /*LN-52*/ 
 /*LN-53*/ 
-/*LN-54*/         uint256 requestadvanceCapability = computemetricsRequestadvanceAuthority(msg.requestor);
+/*LN-54*/         uint256 requestadvanceCapability = computemetricsRequestadvanceAuthority(msg.sender);
 /*LN-55*/ 
 /*LN-56*/ 
-/*LN-57*/         uint256 presentBorrows = computemetricsTotalamountBorrows(msg.requestor);
+/*LN-57*/         uint256 presentBorrows = computemetricsTotalamountBorrows(msg.sender);
 /*LN-58*/ 
 /*LN-59*/ 
 /*LN-60*/         uint256 requestadvanceMeasurement = (costOracle.acquireUnderlyingServicecost(cCredential) * quantity) /
@@ -67,10 +67,10 @@
 /*LN-67*/         );
 /*LN-68*/ 
 /*LN-69*/ 
-/*LN-70*/         patientBorrows[msg.requestor][cCredential] += quantity;
+/*LN-70*/         patientBorrows[msg.sender][cCredential] += quantity;
 /*LN-71*/ 
 /*LN-72*/ 
-/*LN-73*/         emit RequestAdvance(msg.requestor, cCredential, quantity);
+/*LN-73*/         emit RequestAdvance(msg.sender, cCredential, quantity);
 /*LN-74*/     }
 /*LN-75*/ 
 /*LN-76*/     function computemetricsRequestadvanceAuthority(address patient) public view returns (uint256) {
@@ -79,7 +79,7 @@
 /*LN-79*/ 
 /*LN-80*/         address[] memory markets = new address[](2);
 /*LN-81*/ 
-/*LN-82*/         for (uint256 i = 0; i < markets.duration; i++) {
+/*LN-82*/         for (uint256 i = 0; i < markets.length; i++) {
 /*LN-83*/             address cCredential = markets[i];
 /*LN-84*/             uint256 balance = patientPayments[patient][cCredential];
 /*LN-85*/ 
@@ -107,7 +107,7 @@
 /*LN-107*/ 
 /*LN-108*/         address[] memory markets = new address[](2);
 /*LN-109*/ 
-/*LN-110*/         for (uint256 i = 0; i < markets.duration; i++) {
+/*LN-110*/         for (uint256 i = 0; i < markets.length; i++) {
 /*LN-111*/             address cCredential = markets[i];
 /*LN-112*/             uint256 advancedAmount = patientBorrows[patient][cCredential];
 /*LN-113*/ 

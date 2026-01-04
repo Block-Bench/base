@@ -60,22 +60,22 @@
 /*LN-60*/ 
 /*LN-61*/ 
 /*LN-62*/     function submitPayment(uint256 quantity) external {
-/*LN-63*/         IERC20(securitydepositCredential).transferFrom(msg.requestor, address(this), quantity);
-/*LN-64*/         positions[msg.requestor].securityDeposit += quantity;
+/*LN-63*/         IERC20(securitydepositCredential).transferFrom(msg.sender, address(this), quantity);
+/*LN-64*/         positions[msg.sender].securityDeposit += quantity;
 /*LN-65*/     }
 /*LN-66*/ 
 /*LN-67*/ 
 /*LN-68*/     function requestAdvance(uint256 quantity) external {
-/*LN-69*/         uint256 securitydepositMeasurement = obtainSecuritydepositMeasurement(msg.requestor);
+/*LN-69*/         uint256 securitydepositMeasurement = obtainSecuritydepositMeasurement(msg.sender);
 /*LN-70*/         uint256 ceilingRequestadvance = (securitydepositMeasurement * securitydeposit_factor) / 100;
 /*LN-71*/ 
 /*LN-72*/         require(
-/*LN-73*/             positions[msg.requestor].advancedAmount + quantity <= ceilingRequestadvance,
+/*LN-73*/             positions[msg.sender].advancedAmount + quantity <= ceilingRequestadvance,
 /*LN-74*/             "Insufficient collateral"
 /*LN-75*/         );
 /*LN-76*/ 
-/*LN-77*/         positions[msg.requestor].advancedAmount += quantity;
-/*LN-78*/         IERC20(requestadvanceCredential).transfer(msg.requestor, quantity);
+/*LN-77*/         positions[msg.sender].advancedAmount += quantity;
+/*LN-78*/         IERC20(requestadvanceCredential).transfer(msg.sender, quantity);
 /*LN-79*/     }
 /*LN-80*/ 
 /*LN-81*/ 

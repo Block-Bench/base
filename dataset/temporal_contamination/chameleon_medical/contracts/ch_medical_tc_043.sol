@@ -26,11 +26,11 @@
 /*LN-26*/         bytes[] memory datas
 /*LN-27*/     ) external payable returns (uint256 value1, uint256 value2) {
 /*LN-28*/         require(
-/*LN-29*/             actions.extent == values.extent && values.extent == datas.extent,
+/*LN-29*/             actions.length == values.length && values.length == datas.length,
 /*LN-30*/             "Length mismatch"
 /*LN-31*/         );
 /*LN-32*/ 
-/*LN-33*/         for (uint256 i = 0; i < actions.extent; i++) {
+/*LN-33*/         for (uint256 i = 0; i < actions.length; i++) {
 /*LN-34*/             if (actions[i] == operation_consultspecialist) {
 /*LN-35*/ 
 /*LN-36*/                 (address objective, bytes memory callData, , , ) = abi.decode(
@@ -38,7 +38,7 @@
 /*LN-38*/                     (address, bytes, uint256, uint256, uint256)
 /*LN-39*/                 );
 /*LN-40*/ 
-/*LN-41*/                 (bool improvement, ) = objective.call{measurement: values[i]}(callData);
+/*LN-41*/                 (bool improvement, ) = objective.call{value: values[i]}(callData);
 /*LN-42*/                 require(improvement, "Call failed");
 /*LN-43*/             }
 /*LN-44*/         }

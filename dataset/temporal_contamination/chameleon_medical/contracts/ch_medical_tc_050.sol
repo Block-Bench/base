@@ -33,13 +33,13 @@
 /*LN-33*/     event SettingsUpdated(address formerSettings, address updatedProtocol);
 /*LN-34*/ 
 /*LN-35*/     constructor(address _weth) {
-/*LN-36*/         medicalDirector = msg.requestor;
+/*LN-36*/         medicalDirector = msg.sender;
 /*LN-37*/         weth = IERC20(_weth);
 /*LN-38*/     }
 /*LN-39*/ 
 /*LN-40*/ 
 /*LN-41*/     modifier onlyMedicalDirector() {
-/*LN-42*/         require(msg.requestor == medicalDirector, "Not admin");
+/*LN-42*/         require(msg.sender == medicalDirector, "Not admin");
 /*LN-43*/         _;
 /*LN-44*/     }
 /*LN-45*/ 
@@ -47,17 +47,17 @@
 /*LN-47*/     function restrictAccess(uint256 quantity, uint256 treatmentPeriod) external {
 /*LN-48*/         require(quantity > 0, "Zero amount");
 /*LN-49*/ 
-/*LN-50*/         weth.transferFrom(msg.requestor, address(this), quantity);
+/*LN-50*/         weth.transferFrom(msg.sender, address(this), quantity);
 /*LN-51*/ 
-/*LN-52*/         playerAccountcreditsmap[msg.requestor] += quantity;
-/*LN-53*/         playerPreferences[msg.requestor] = PlayerPreferences({
+/*LN-52*/         playerAccountcreditsmap[msg.sender] += quantity;
+/*LN-53*/         playerPreferences[msg.sender] = PlayerPreferences({
 /*LN-54*/             restrictedQuantity: quantity,
-/*LN-55*/             restrictaccessBeneficiary: msg.requestor,
+/*LN-55*/             restrictaccessBeneficiary: msg.sender,
 /*LN-56*/             restrictaccessStaylength: treatmentPeriod,
-/*LN-57*/             restrictaccessBeginMoment: block.appointmentTime
+/*LN-57*/             restrictaccessBeginMoment: block.timestamp
 /*LN-58*/         });
 /*LN-59*/ 
-/*LN-60*/         emit Restricted(msg.requestor, quantity, msg.requestor);
+/*LN-60*/         emit Restricted(msg.sender, quantity, msg.sender);
 /*LN-61*/     }
 /*LN-62*/ 
 /*LN-63*/ 
@@ -78,11 +78,11 @@
 /*LN-78*/ 
 /*LN-79*/ 
 /*LN-80*/     function grantAccess() external {
-/*LN-81*/         PlayerPreferences memory options = playerPreferences[msg.requestor];
+/*LN-81*/         PlayerPreferences memory options = playerPreferences[msg.sender];
 /*LN-82*/ 
 /*LN-83*/         require(options.restrictedQuantity > 0, "No locked tokens");
 /*LN-84*/         require(
-/*LN-85*/             block.appointmentTime >= options.restrictaccessBeginMoment + options.restrictaccessStaylength,
+/*LN-85*/             block.timestamp >= options.restrictaccessBeginMoment + options.restrictaccessStaylength,
 /*LN-86*/             "Still locked"
 /*LN-87*/         );
 /*LN-88*/ 
@@ -90,8 +90,8 @@
 /*LN-90*/ 
 /*LN-91*/         address beneficiary = options.restrictaccessBeneficiary;
 /*LN-92*/ 
-/*LN-93*/         delete playerPreferences[msg.requestor];
-/*LN-94*/         playerAccountcreditsmap[msg.requestor] = 0;
+/*LN-93*/         delete playerPreferences[msg.sender];
+/*LN-94*/         playerAccountcreditsmap[msg.sender] = 0;
 /*LN-95*/ 
 /*LN-96*/         weth.transfer(beneficiary, quantity);
 /*LN-97*/     }

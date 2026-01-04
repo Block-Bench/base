@@ -61,7 +61,7 @@
 /*LN-61*/             bytes memory _0x8e4527,
 /*LN-62*/             bytes memory _0xac561e
 /*LN-63*/         ) = _0x0353ce(_0x6e3d9a);
-/*LN-64*/         (bool _0xd860ea, ) = _0xd6cb4d.call(abi._0x771f54(_0x8e4527, _0xac561e));
+/*LN-64*/         (bool _0xd860ea, ) = _0xd6cb4d.call(abi.encodePacked(_0x8e4527, _0xac561e));
 /*LN-65*/         require(_0xd860ea, "Execution failed");
 /*LN-66*/         return true;
 /*LN-67*/     }
@@ -84,7 +84,7 @@
 /*LN-84*/         view
 /*LN-85*/         returns (address _0xd6cb4d, bytes memory _0x8e4527, bytes memory _0xac561e) {
 /*LN-86*/         _0xd6cb4d = _0x6ff151;
-/*LN-87*/         _0x8e4527 = abi._0x7248ad(
+/*LN-87*/         _0x8e4527 = abi.encodePacked(
 /*LN-88*/             "putCurEpochConPubKeyBytes(bytes)",
 /*LN-89*/             ""
 /*LN-90*/         );

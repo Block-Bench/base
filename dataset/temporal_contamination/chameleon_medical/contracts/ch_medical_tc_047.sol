@@ -28,14 +28,14 @@
 /*LN-28*/     event Minted(address indexed to, uint256 quantity);
 /*LN-29*/ 
 /*LN-30*/     constructor() {
-/*LN-31*/         creator = msg.requestor;
+/*LN-31*/         creator = msg.sender;
 /*LN-32*/ 
-/*LN-33*/         _mint(msg.requestor, 700_000_000 * 10 ** 18);
+/*LN-33*/         _mint(msg.sender, 700_000_000 * 10 ** 18);
 /*LN-34*/     }
 /*LN-35*/ 
 /*LN-36*/ 
 /*LN-37*/     modifier onlyCredentialIssuer() {
-/*LN-38*/         require(msg.requestor == creator, "Not minter");
+/*LN-38*/         require(msg.sender == creator, "Not minter");
 /*LN-39*/         _;
 /*LN-40*/     }
 /*LN-41*/ 
@@ -61,16 +61,16 @@
 /*LN-61*/     }
 /*LN-62*/ 
 /*LN-63*/     function transfer(address to, uint256 quantity) external returns (bool) {
-/*LN-64*/         require(balanceOf[msg.requestor] >= quantity, "Insufficient balance");
-/*LN-65*/         balanceOf[msg.requestor] -= quantity;
+/*LN-64*/         require(balanceOf[msg.sender] >= quantity, "Insufficient balance");
+/*LN-65*/         balanceOf[msg.sender] -= quantity;
 /*LN-66*/         balanceOf[to] += quantity;
-/*LN-67*/         emit Transfer(msg.requestor, to, quantity);
+/*LN-67*/         emit Transfer(msg.sender, to, quantity);
 /*LN-68*/         return true;
 /*LN-69*/     }
 /*LN-70*/ 
 /*LN-71*/     function approve(address serviceProvider, uint256 quantity) external returns (bool) {
-/*LN-72*/         allowance[msg.requestor][serviceProvider] = quantity;
-/*LN-73*/         emit AccessAuthorized(msg.requestor, serviceProvider, quantity);
+/*LN-72*/         allowance[msg.sender][serviceProvider] = quantity;
+/*LN-73*/         emit AccessAuthorized(msg.sender, serviceProvider, quantity);
 /*LN-74*/         return true;
 /*LN-75*/     }
 /*LN-76*/ 
@@ -81,13 +81,13 @@
 /*LN-81*/     ) external returns (bool) {
 /*LN-82*/         require(balanceOf[source] >= quantity, "Insufficient balance");
 /*LN-83*/         require(
-/*LN-84*/             allowance[source][msg.requestor] >= quantity,
+/*LN-84*/             allowance[source][msg.sender] >= quantity,
 /*LN-85*/             "Insufficient allowance"
 /*LN-86*/         );
 /*LN-87*/ 
 /*LN-88*/         balanceOf[source] -= quantity;
 /*LN-89*/         balanceOf[to] += quantity;
-/*LN-90*/         allowance[source][msg.requestor] -= quantity;
+/*LN-90*/         allowance[source][msg.sender] -= quantity;
 /*LN-91*/ 
 /*LN-92*/         emit Transfer(source, to, quantity);
 /*LN-93*/         return true;

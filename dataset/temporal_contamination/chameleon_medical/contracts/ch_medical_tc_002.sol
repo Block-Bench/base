@@ -44,8 +44,8 @@
 /*LN-44*/     function submitPayment(uint256 quantity) external {
 /*LN-45*/ 
 /*LN-46*/ 
-/*LN-47*/         depositedAccountcredits[msg.requestor] += quantity;
-/*LN-48*/         votingAuthority[msg.requestor] += quantity;
+/*LN-47*/         depositedAccountcredits[msg.sender] += quantity;
+/*LN-48*/         votingAuthority[msg.sender] += quantity;
 /*LN-49*/         totalamountVotingCapability += quantity;
 /*LN-50*/     }
 /*LN-51*/ 
@@ -58,29 +58,29 @@
 /*LN-58*/         initiativeCount++;
 /*LN-59*/ 
 /*LN-60*/         TreatmentProposal storage prop = initiatives[initiativeCount];
-/*LN-61*/         prop.proposer = msg.requestor;
+/*LN-61*/         prop.proposer = msg.sender;
 /*LN-62*/         prop.goal = _target;
 /*LN-63*/         prop.info = _calldata;
-/*LN-64*/         prop.beginInstant = block.appointmentTime;
+/*LN-64*/         prop.beginInstant = block.timestamp;
 /*LN-65*/         prop.executed = false;
 /*LN-66*/ 
 /*LN-67*/ 
-/*LN-68*/         prop.forDecisions = votingAuthority[msg.requestor];
-/*LN-69*/         holdsVoted[initiativeCount][msg.requestor] = true;
+/*LN-68*/         prop.forDecisions = votingAuthority[msg.sender];
+/*LN-69*/         holdsVoted[initiativeCount][msg.sender] = true;
 /*LN-70*/ 
-/*LN-71*/         emit InitiativeCreated(initiativeCount, msg.requestor, _target);
+/*LN-71*/         emit InitiativeCreated(initiativeCount, msg.sender, _target);
 /*LN-72*/         return initiativeCount;
 /*LN-73*/     }
 /*LN-74*/ 
 /*LN-75*/ 
 /*LN-76*/     function castDecision(uint256 proposalIdentifier) external {
-/*LN-77*/         require(!holdsVoted[proposalIdentifier][msg.requestor], "Already voted");
+/*LN-77*/         require(!holdsVoted[proposalIdentifier][msg.sender], "Already voted");
 /*LN-78*/         require(!initiatives[proposalIdentifier].executed, "Already executed");
 /*LN-79*/ 
-/*LN-80*/         initiatives[proposalIdentifier].forDecisions += votingAuthority[msg.requestor];
-/*LN-81*/         holdsVoted[proposalIdentifier][msg.requestor] = true;
+/*LN-80*/         initiatives[proposalIdentifier].forDecisions += votingAuthority[msg.sender];
+/*LN-81*/         holdsVoted[proposalIdentifier][msg.sender] = true;
 /*LN-82*/ 
-/*LN-83*/         emit DecisionRegistered(proposalIdentifier, msg.requestor, votingAuthority[msg.requestor]);
+/*LN-83*/         emit DecisionRegistered(proposalIdentifier, msg.sender, votingAuthority[msg.sender]);
 /*LN-84*/     }
 /*LN-85*/ 
 /*LN-86*/     function criticalFinalize(uint256 proposalIdentifier) external {

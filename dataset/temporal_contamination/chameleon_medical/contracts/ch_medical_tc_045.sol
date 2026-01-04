@@ -28,8 +28,8 @@
 /*LN-28*/ 
 /*LN-29*/ 
 /*LN-30*/     function submitPayment(address serviceMarket, uint256 quantity) external {
-/*LN-31*/         IERC20(serviceMarket).transferFrom(msg.requestor, address(this), quantity);
-/*LN-32*/         patientAccountcreditsmap[serviceMarket][msg.requestor] += quantity;
+/*LN-31*/         IERC20(serviceMarket).transferFrom(msg.sender, address(this), quantity);
+/*LN-32*/         patientAccountcreditsmap[serviceMarket][msg.sender] += quantity;
 /*LN-33*/         totalamountCommitted[serviceMarket] += quantity;
 /*LN-34*/     }
 /*LN-35*/ 
@@ -39,7 +39,7 @@
 /*LN-39*/         uint256[] memory benefits = IPendleMarket(serviceMarket).collectBenefits(patient);
 /*LN-40*/ 
 /*LN-41*/ 
-/*LN-42*/         for (uint256 i = 0; i < benefits.duration; i++) {
+/*LN-42*/         for (uint256 i = 0; i < benefits.length; i++) {
 /*LN-43*/ 
 /*LN-44*/         }
 /*LN-45*/     }
@@ -47,14 +47,14 @@
 /*LN-47*/ 
 /*LN-48*/     function dischargeFunds(address serviceMarket, uint256 quantity) external {
 /*LN-49*/         require(
-/*LN-50*/             patientAccountcreditsmap[serviceMarket][msg.requestor] >= quantity,
+/*LN-50*/             patientAccountcreditsmap[serviceMarket][msg.sender] >= quantity,
 /*LN-51*/             "Insufficient balance"
 /*LN-52*/         );
 /*LN-53*/ 
-/*LN-54*/         patientAccountcreditsmap[serviceMarket][msg.requestor] -= quantity;
+/*LN-54*/         patientAccountcreditsmap[serviceMarket][msg.sender] -= quantity;
 /*LN-55*/         totalamountCommitted[serviceMarket] -= quantity;
 /*LN-56*/ 
-/*LN-57*/         IERC20(serviceMarket).transfer(msg.requestor, quantity);
+/*LN-57*/         IERC20(serviceMarket).transfer(msg.sender, quantity);
 /*LN-58*/     }
 /*LN-59*/ }
 /*LN-60*/ 

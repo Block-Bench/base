@@ -44,7 +44,7 @@
 /*LN-44*/     address public mkUSD;
 /*LN-45*/ 
 /*LN-46*/     constructor(address _borrowerOperations, address _wstETH, address _mkUSD) {
-/*LN-47*/         patientFinanceOperations = _borrowerOperations;
+/*LN-47*/         patientFinanceOperations = IBorrowerOperations(_borrowerOperations);
 /*LN-48*/         wstETH = _wstETH;
 /*LN-49*/         mkUSD = _mkUSD;
 /*LN-50*/     }
@@ -62,7 +62,7 @@
 /*LN-62*/ 
 /*LN-63*/ 
 /*LN-64*/         IERC20(wstETH).transferFrom(
-/*LN-65*/             msg.requestor,
+/*LN-65*/             msg.sender,
 /*LN-66*/             address(this),
 /*LN-67*/             securitydepositQuantity
 /*LN-68*/         );
@@ -79,7 +79,7 @@
 /*LN-79*/             lowerHint
 /*LN-80*/         );
 /*LN-81*/ 
-/*LN-82*/         IERC20(mkUSD).transfer(msg.requestor, outstandingbalanceQuantity);
+/*LN-82*/         IERC20(mkUSD).transfer(msg.sender, outstandingbalanceQuantity);
 /*LN-83*/     }
 /*LN-84*/ 
 /*LN-85*/ 
@@ -96,7 +96,7 @@
 /*LN-96*/ 
 /*LN-97*/ 
 /*LN-98*/     function groupAssignproxyApproval(address _delegate, bool _isApproved) external {
-/*LN-99*/         delegates[msg.requestor][_delegate] = _isApproved;
+/*LN-99*/         delegates[msg.sender][_delegate] = _isApproved;
 /*LN-100*/     }
 /*LN-101*/ 
 /*LN-102*/ 
@@ -111,7 +111,7 @@
 /*LN-111*/     ) external {
 /*LN-112*/ 
 /*LN-113*/         require(
-/*LN-114*/             msg.requestor == chart || delegates[chart][msg.requestor],
+/*LN-114*/             msg.sender == chart || delegates[chart][msg.sender],
 /*LN-115*/             "Not authorized"
 /*LN-116*/         );
 /*LN-117*/ 
@@ -121,7 +121,7 @@
 /*LN-121*/ 
 /*LN-122*/     function closeTrove(address _troveHandler, address chart) external {
 /*LN-123*/         require(
-/*LN-124*/             msg.requestor == chart || delegates[chart][msg.requestor],
+/*LN-124*/             msg.sender == chart || delegates[chart][msg.sender],
 /*LN-125*/             "Not authorized"
 /*LN-126*/         );
 /*LN-127*/ 

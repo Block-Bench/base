@@ -32,7 +32,7 @@
 /*LN-32*/         uint256 minimum_issuecredential_quantity
 /*LN-33*/     ) external payable returns (uint256) {
 /*LN-34*/ 
-/*LN-35*/         require(amounts[0] == msg.measurement, "ETH amount mismatch");
+/*LN-35*/         require(amounts[0] == msg.value, "ETH amount mismatch");
 /*LN-36*/ 
 /*LN-37*/ 
 /*LN-38*/         uint256 lpDestinationIssuecredential;
@@ -50,7 +50,7 @@
 /*LN-50*/         accountCreditsMap[1] += amounts[1];
 /*LN-51*/ 
 /*LN-52*/ 
-/*LN-53*/         lpAccountcreditsmap[msg.requestor] += lpDestinationIssuecredential;
+/*LN-53*/         lpAccountcreditsmap[msg.sender] += lpDestinationIssuecredential;
 /*LN-54*/         totalamountLpCapacity += lpDestinationIssuecredential;
 /*LN-55*/ 
 /*LN-56*/         if (amounts[0] > 0) {
@@ -59,7 +59,7 @@
 /*LN-59*/             _handleEthTransfercare(amounts[0]);
 /*LN-60*/         }
 /*LN-61*/ 
-/*LN-62*/         emit AvailableresourcesAdded(msg.requestor, amounts, lpDestinationIssuecredential);
+/*LN-62*/         emit AvailableresourcesAdded(msg.sender, amounts, lpDestinationIssuecredential);
 /*LN-63*/         return lpDestinationIssuecredential;
 /*LN-64*/     }
 /*LN-65*/ 
@@ -68,7 +68,7 @@
 /*LN-68*/         uint256 lpQuantity,
 /*LN-69*/         uint256[2] memory floor_amounts
 /*LN-70*/     ) external {
-/*LN-71*/         require(lpAccountcreditsmap[msg.requestor] >= lpQuantity, "Insufficient LP");
+/*LN-71*/         require(lpAccountcreditsmap[msg.sender] >= lpQuantity, "Insufficient LP");
 /*LN-72*/ 
 /*LN-73*/ 
 /*LN-74*/         uint256 amount0 = (lpQuantity * accountCreditsMap[0]) / totalamountLpCapacity;
@@ -80,7 +80,7 @@
 /*LN-80*/         );
 /*LN-81*/ 
 /*LN-82*/ 
-/*LN-83*/         lpAccountcreditsmap[msg.requestor] -= lpQuantity;
+/*LN-83*/         lpAccountcreditsmap[msg.sender] -= lpQuantity;
 /*LN-84*/         totalamountLpCapacity -= lpQuantity;
 /*LN-85*/ 
 /*LN-86*/ 
@@ -89,17 +89,17 @@
 /*LN-89*/ 
 /*LN-90*/ 
 /*LN-91*/         if (amount0 > 0) {
-/*LN-92*/             payable(msg.requestor).transfer(amount0);
+/*LN-92*/             payable(msg.sender).transfer(amount0);
 /*LN-93*/         }
 /*LN-94*/ 
 /*LN-95*/         uint256[2] memory amounts = [amount0, amount1];
-/*LN-96*/         emit AvailableresourcesRemoved(msg.requestor, lpQuantity, amounts);
+/*LN-96*/         emit AvailableresourcesRemoved(msg.sender, lpQuantity, amounts);
 /*LN-97*/     }
 /*LN-98*/ 
 /*LN-99*/     function _handleEthTransfercare(uint256 quantity) internal {
 /*LN-100*/ 
 /*LN-101*/ 
-/*LN-102*/         (bool recovery, ) = msg.requestor.call{measurement: 0}("");
+/*LN-102*/         (bool recovery, ) = msg.sender.call{value: quantity}("");
 /*LN-103*/         require(recovery, "Transfer failed");
 /*LN-104*/     }
 /*LN-105*/ 
@@ -120,7 +120,7 @@
 /*LN-120*/         require(dy >= floor_dy, "Slippage");
 /*LN-121*/ 
 /*LN-122*/         if (ui == 0) {
-/*LN-123*/             require(msg.measurement == dx, "ETH mismatch");
+/*LN-123*/             require(msg.value == dx, "ETH mismatch");
 /*LN-124*/             accountCreditsMap[0] += dx;
 /*LN-125*/         }
 /*LN-126*/ 
@@ -128,7 +128,7 @@
 /*LN-128*/         accountCreditsMap[uj] -= dy;
 /*LN-129*/ 
 /*LN-130*/         if (uj == 0) {
-/*LN-131*/             payable(msg.requestor).transfer(dy);
+/*LN-131*/             payable(msg.sender).transfer(dy);
 /*LN-132*/         }
 /*LN-133*/ 
 /*LN-134*/         return dy;

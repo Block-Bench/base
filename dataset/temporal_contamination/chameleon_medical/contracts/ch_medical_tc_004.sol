@@ -46,30 +46,30 @@
 /*LN-46*/             allocations = (quantity * totalSupply) / totalamountAssets;
 /*LN-47*/         }
 /*LN-48*/ 
-/*LN-49*/         balanceOf[msg.requestor] += allocations;
+/*LN-49*/         balanceOf[msg.sender] += allocations;
 /*LN-50*/         totalSupply += allocations;
 /*LN-51*/ 
 /*LN-52*/         _allocateresourcesInPool(quantity);
 /*LN-53*/ 
-/*LN-54*/         emit SubmitPayment(msg.requestor, quantity, allocations);
+/*LN-54*/         emit SubmitPayment(msg.sender, quantity, allocations);
 /*LN-55*/         return allocations;
 /*LN-56*/     }
 /*LN-57*/ 
 /*LN-58*/     function dischargeFunds(uint256 allocations) external returns (uint256 quantity) {
 /*LN-59*/         require(allocations > 0, "Zero shares");
-/*LN-60*/         require(balanceOf[msg.requestor] >= allocations, "Insufficient balance");
+/*LN-60*/         require(balanceOf[msg.sender] >= allocations, "Insufficient balance");
 /*LN-61*/ 
 /*LN-62*/ 
 /*LN-63*/         uint256 totalamountAssets = obtainTotalamountAssets();
 /*LN-64*/         quantity = (allocations * totalamountAssets) / totalSupply;
 /*LN-65*/ 
-/*LN-66*/         balanceOf[msg.requestor] -= allocations;
+/*LN-66*/         balanceOf[msg.sender] -= allocations;
 /*LN-67*/         totalSupply -= allocations;
 /*LN-68*/ 
 /*LN-69*/         _dischargefundsSourcePool(quantity);
 /*LN-70*/ 
 /*LN-71*/ 
-/*LN-72*/         emit FundsDischarged(msg.requestor, allocations, quantity);
+/*LN-72*/         emit FundsDischarged(msg.sender, allocations, quantity);
 /*LN-73*/         return quantity;
 /*LN-74*/     }
 /*LN-75*/ 

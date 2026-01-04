@@ -47,7 +47,7 @@
 /*LN-47*/ 
 /*LN-48*/ 
 /*LN-49*/     function submitPayment(uint256 quantity) external {
-/*LN-50*/         dai.transferFrom(msg.requestor, address(this), quantity);
+/*LN-50*/         dai.transferFrom(msg.sender, address(this), quantity);
 /*LN-51*/ 
 /*LN-52*/         uint256 segmentQuantity;
 /*LN-53*/         if (totalamountAllocations == 0) {
@@ -57,7 +57,7 @@
 /*LN-57*/             segmentQuantity = (quantity * totalamountAllocations) / totalamountPayments;
 /*LN-58*/         }
 /*LN-59*/ 
-/*LN-60*/         allocations[msg.requestor] += segmentQuantity;
+/*LN-60*/         allocations[msg.sender] += segmentQuantity;
 /*LN-61*/         totalamountAllocations += segmentQuantity;
 /*LN-62*/         totalamountPayments += quantity;
 /*LN-63*/     }
@@ -79,17 +79,17 @@
 /*LN-79*/ 
 /*LN-80*/ 
 /*LN-81*/     function dischargeAllFunds() external {
-/*LN-82*/         uint256 patientAllocations = allocations[msg.requestor];
+/*LN-82*/         uint256 patientAllocations = allocations[msg.sender];
 /*LN-83*/         require(patientAllocations > 0, "No shares");
 /*LN-84*/ 
 /*LN-85*/ 
 /*LN-86*/         uint256 dischargefundsQuantity = (patientAllocations * totalamountPayments) / totalamountAllocations;
 /*LN-87*/ 
-/*LN-88*/         allocations[msg.requestor] = 0;
+/*LN-88*/         allocations[msg.sender] = 0;
 /*LN-89*/         totalamountAllocations -= patientAllocations;
 /*LN-90*/         totalamountPayments -= dischargefundsQuantity;
 /*LN-91*/ 
-/*LN-92*/         dai.transfer(msg.requestor, dischargefundsQuantity);
+/*LN-92*/         dai.transfer(msg.sender, dischargefundsQuantity);
 /*LN-93*/     }
 /*LN-94*/ 
 /*LN-95*/ 

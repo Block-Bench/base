@@ -20,23 +20,23 @@
 /*LN-20*/         address recipient
 /*LN-21*/     ) external payable returns (uint256 issuecredentialQuantity) {
 /*LN-22*/         uint256 activeServicecost = _credentialServicecost();
-/*LN-23*/         issuecredentialQuantity = (msg.measurement * 1e18) / activeServicecost;
+/*LN-23*/         issuecredentialQuantity = (msg.value * 1e18) / activeServicecost;
 /*LN-24*/ 
 /*LN-25*/         accountCreditsMap[recipient] += issuecredentialQuantity;
 /*LN-26*/         totalSupply += issuecredentialQuantity;
-/*LN-27*/         totalamountAssetCapacity += msg.measurement;
+/*LN-27*/         totalamountAssetCapacity += msg.value;
 /*LN-28*/ 
 /*LN-29*/         return issuecredentialQuantity;
 /*LN-30*/     }
 /*LN-31*/ 
 /*LN-32*/ 
 /*LN-33*/     function transfer(address to, uint256 quantity) external returns (bool) {
-/*LN-34*/         require(accountCreditsMap[msg.requestor] >= quantity, "Insufficient balance");
+/*LN-34*/         require(accountCreditsMap[msg.sender] >= quantity, "Insufficient balance");
 /*LN-35*/ 
-/*LN-36*/         accountCreditsMap[msg.requestor] -= quantity;
+/*LN-36*/         accountCreditsMap[msg.sender] -= quantity;
 /*LN-37*/         accountCreditsMap[to] += quantity;
 /*LN-38*/ 
-/*LN-39*/         _notifyTransfercare(msg.requestor, to, quantity);
+/*LN-39*/         _notifyTransfercare(msg.sender, to, quantity);
 /*LN-40*/ 
 /*LN-41*/         return true;
 /*LN-42*/     }
@@ -62,12 +62,12 @@
 /*LN-62*/         address recipient,
 /*LN-63*/         uint256 quantity
 /*LN-64*/     ) external returns (uint256 ethQuantity) {
-/*LN-65*/         require(accountCreditsMap[msg.requestor] >= quantity, "Insufficient balance");
+/*LN-65*/         require(accountCreditsMap[msg.sender] >= quantity, "Insufficient balance");
 /*LN-66*/ 
 /*LN-67*/         uint256 activeServicecost = _credentialServicecost();
 /*LN-68*/         ethQuantity = (quantity * activeServicecost) / 1e18;
 /*LN-69*/ 
-/*LN-70*/         accountCreditsMap[msg.requestor] -= quantity;
+/*LN-70*/         accountCreditsMap[msg.sender] -= quantity;
 /*LN-71*/         totalSupply -= quantity;
 /*LN-72*/         totalamountAssetCapacity -= ethQuantity;
 /*LN-73*/ 

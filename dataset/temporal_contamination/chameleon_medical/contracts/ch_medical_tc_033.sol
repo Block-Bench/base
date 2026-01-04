@@ -32,7 +32,7 @@
 /*LN-32*/         (bool improvement, bytes memory finding) = methodLocation.call(pathwayChart);
 /*LN-33*/         require(improvement, "Route execution failed");
 /*LN-34*/ 
-/*LN-35*/         emit PathwayExecuted(pathwayCasenumber, msg.requestor, finding);
+/*LN-35*/         emit PathwayExecuted(pathwayCasenumber, msg.sender, finding);
 /*LN-36*/         return finding;
 /*LN-37*/     }
 /*LN-38*/ 
@@ -54,7 +54,7 @@
 /*LN-54*/         bytes calldata exchangecredentialsExtraInfo
 /*LN-55*/     ) external payable returns (uint256) {
 /*LN-56*/ 
-/*LN-57*/         if (exchangecredentialsExtraInfo.extent > 0) {
+/*LN-57*/         if (exchangecredentialsExtraInfo.length > 0) {
 /*LN-58*/ 
 /*LN-59*/             (bool improvement, ) = sourceCredential.call(exchangecredentialsExtraInfo);
 /*LN-60*/             require(improvement, "Swap failed");

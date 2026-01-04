@@ -31,7 +31,7 @@
 /*LN-31*/     address public medicalDirector;
 /*LN-32*/ 
 /*LN-33*/     constructor() {
-/*LN-34*/         medicalDirector = msg.requestor;
+/*LN-34*/         medicalDirector = msg.sender;
 /*LN-35*/     }
 /*LN-36*/ 
 /*LN-37*/     function createLoan() external returns (address) {
@@ -44,7 +44,7 @@
 /*LN-44*/         address updatedExecution
 /*LN-45*/     ) external {
 /*LN-46*/ 
-/*LN-47*/         require(msg.requestor == medicalDirector, "Not admin");
+/*LN-47*/         require(msg.sender == medicalDirector, "Not admin");
 /*LN-48*/ 
 /*LN-49*/ 
 /*LN-50*/     }
@@ -73,7 +73,7 @@
 /*LN-73*/ 
 /*LN-74*/ 
 /*LN-75*/         (bool recovery, ) = couple.call(
-/*LN-76*/             abi.encodeWithSignature("claimRewards(address)", msg.requestor)
+/*LN-76*/             abi.encodeWithSignature("claimRewards(address)", msg.sender)
 /*LN-77*/         );
 /*LN-78*/ 
 /*LN-79*/     }

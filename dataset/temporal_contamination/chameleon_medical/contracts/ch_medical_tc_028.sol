@@ -15,7 +15,7 @@
 /*LN-15*/         uint256 consultationFee = (quantity * consultationfeePortion) / 100;
 /*LN-16*/         uint256 quantityAfterConsultationfee = quantity - consultationFee;
 /*LN-17*/ 
-/*LN-18*/         balanceOf[msg.requestor] -= quantity;
+/*LN-18*/         balanceOf[msg.sender] -= quantity;
 /*LN-19*/         balanceOf[to] += quantityAfterConsultationfee;
 /*LN-20*/         totalSupply -= consultationFee;
 /*LN-21*/ 
@@ -44,17 +44,17 @@
 /*LN-44*/ 
 /*LN-45*/     function submitPayment(uint256 quantity) external {
 /*LN-46*/ 
-/*LN-47*/         IERC20(credential).transferFrom(msg.requestor, address(this), quantity);
+/*LN-47*/         IERC20(credential).transferFrom(msg.sender, address(this), quantity);
 /*LN-48*/ 
-/*LN-49*/         payments[msg.requestor] += quantity;
+/*LN-49*/         payments[msg.sender] += quantity;
 /*LN-50*/ 
 /*LN-51*/     }
 /*LN-52*/ 
 /*LN-53*/     function dischargeFunds(uint256 quantity) external {
-/*LN-54*/         require(payments[msg.requestor] >= quantity, "Insufficient");
+/*LN-54*/         require(payments[msg.sender] >= quantity, "Insufficient");
 /*LN-55*/ 
-/*LN-56*/         payments[msg.requestor] -= quantity;
+/*LN-56*/         payments[msg.sender] -= quantity;
 /*LN-57*/ 
-/*LN-58*/         IERC20(credential).transfer(msg.requestor, quantity);
+/*LN-58*/         IERC20(credential).transfer(msg.sender, quantity);
 /*LN-59*/     }
 /*LN-60*/ }

@@ -48,9 +48,9 @@
 /*LN-48*/             "Transaction already processed"
 /*LN-49*/         );
 /*LN-50*/ 
-/*LN-51*/         require(v.extent >= REQUIRED_SIGNATURES, "Insufficient signatures");
+/*LN-51*/         require(v.length >= REQUIRED_SIGNATURES, "Insufficient signatures");
 /*LN-52*/         require(
-/*LN-53*/             v.extent == r.extent && r.extent == s.extent,
+/*LN-53*/             v.length == r.length && r.length == s.length,
 /*LN-54*/             "Signature length mismatch"
 /*LN-55*/         );
 /*LN-56*/ 

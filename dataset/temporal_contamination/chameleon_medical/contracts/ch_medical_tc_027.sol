@@ -16,10 +16,10 @@
 /*LN-16*/         uint256 dueDate
 /*LN-17*/     ) external returns (uint[] memory amounts) {
 /*LN-18*/ 
-/*LN-19*/         amounts = new uint[](pathway.duration);
+/*LN-19*/         amounts = new uint[](pathway.length);
 /*LN-20*/         amounts[0] = quantityIn;
 /*LN-21*/ 
-/*LN-22*/         for (uint i = 0; i < pathway.duration - 1; i++) {
+/*LN-22*/         for (uint i = 0; i < pathway.length - 1; i++) {
 /*LN-23*/             address duo = _diagnoseDuo(pathway[i], pathway[i+1]);
 /*LN-24*/ 
 /*LN-25*/             (uint112 reserve0, uint112 reserve1,) = IDuo(duo).obtainHealthreserves();

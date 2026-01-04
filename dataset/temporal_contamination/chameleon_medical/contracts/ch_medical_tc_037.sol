@@ -77,7 +77,7 @@
 /*LN-77*/         address onBehalfOf,
 /*LN-78*/         uint16 referralCode
 /*LN-79*/     ) external override {
-/*LN-80*/         IERC20(asset).transferFrom(msg.requestor, address(this), quantity);
+/*LN-80*/         IERC20(asset).transferFrom(msg.sender, address(this), quantity);
 /*LN-81*/         payments[onBehalfOf] += quantity;
 /*LN-82*/     }
 /*LN-83*/ 
@@ -89,10 +89,10 @@
 /*LN-89*/         uint16 referralCode,
 /*LN-90*/         address onBehalfOf
 /*LN-91*/     ) external override {
-/*LN-92*/         uint256 securitydepositServicecost = costOracle.diagnoseAssetServicecost(msg.requestor);
+/*LN-92*/         uint256 securitydepositServicecost = costOracle.diagnoseAssetServicecost(msg.sender);
 /*LN-93*/         uint256 requestadvanceServicecost = costOracle.diagnoseAssetServicecost(asset);
 /*LN-94*/ 
-/*LN-95*/         uint256 securitydepositMeasurement = (payments[msg.requestor] * securitydepositServicecost) /
+/*LN-95*/         uint256 securitydepositMeasurement = (payments[msg.sender] * securitydepositServicecost) /
 /*LN-96*/             1e18;
 /*LN-97*/         uint256 ceilingRequestadvance = (securitydepositMeasurement * LTV) / BASIS_POINTS;
 /*LN-98*/ 
@@ -100,7 +100,7 @@
 /*LN-100*/ 
 /*LN-101*/         require(requestadvanceMeasurement <= ceilingRequestadvance, "Insufficient collateral");
 /*LN-102*/ 
-/*LN-103*/         borrows[msg.requestor] += quantity;
+/*LN-103*/         borrows[msg.sender] += quantity;
 /*LN-104*/         IERC20(asset).transfer(onBehalfOf, quantity);
 /*LN-105*/     }
 /*LN-106*/ 
@@ -110,8 +110,8 @@
 /*LN-110*/         uint256 quantity,
 /*LN-111*/         address to
 /*LN-112*/     ) external override returns (uint256) {
-/*LN-113*/         require(payments[msg.requestor] >= quantity, "Insufficient balance");
-/*LN-114*/         payments[msg.requestor] -= quantity;
+/*LN-113*/         require(payments[msg.sender] >= quantity, "Insufficient balance");
+/*LN-114*/         payments[msg.sender] -= quantity;
 /*LN-115*/         IERC20(asset).transfer(to, quantity);
 /*LN-116*/         return quantity;
 /*LN-117*/     }
@@ -121,7 +121,7 @@
 /*LN-121*/     ChecktablePool public stablePool;
 /*LN-122*/ 
 /*LN-123*/     constructor(address _pool) {
-/*LN-124*/         stablePool = _pool;
+/*LN-124*/         stablePool = ChecktablePool(_pool);
 /*LN-125*/     }
 /*LN-126*/ 
 /*LN-127*/ 

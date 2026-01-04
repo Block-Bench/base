@@ -31,10 +31,10 @@
 /*LN-31*/             portionsAdded = (quantity * totalamountAllocations * 1e18) / (treatmentPool * serviceCost);
 /*LN-32*/         }
 /*LN-33*/ 
-/*LN-34*/         allocations[msg.requestor] += portionsAdded;
+/*LN-34*/         allocations[msg.sender] += portionsAdded;
 /*LN-35*/         totalamountAllocations += portionsAdded;
 /*LN-36*/ 
-/*LN-37*/         IERC20(wantCredential).transferFrom(msg.requestor, address(this), quantity);
+/*LN-37*/         IERC20(wantCredential).transferFrom(msg.sender, address(this), quantity);
 /*LN-38*/         return portionsAdded;
 /*LN-39*/     }
 /*LN-40*/ 
@@ -44,9 +44,9 @@
 /*LN-44*/         uint256 serviceCost = IServicecostCostoracle(costOracle).retrieveCost(wantCredential);
 /*LN-45*/         uint256 quantity = (portionsQuantity * treatmentPool * serviceCost) / (totalamountAllocations * 1e18);
 /*LN-46*/ 
-/*LN-47*/         allocations[msg.requestor] -= portionsQuantity;
+/*LN-47*/         allocations[msg.sender] -= portionsQuantity;
 /*LN-48*/         totalamountAllocations -= portionsQuantity;
 /*LN-49*/ 
-/*LN-50*/         IERC20(wantCredential).transfer(msg.requestor, quantity);
+/*LN-50*/         IERC20(wantCredential).transfer(msg.sender, quantity);
 /*LN-51*/     }
 /*LN-52*/ }

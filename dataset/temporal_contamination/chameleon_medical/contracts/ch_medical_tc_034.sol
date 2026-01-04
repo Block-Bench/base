@@ -60,8 +60,8 @@
 /*LN-60*/         uint256 total1 = token1.balanceOf(address(this));
 /*LN-61*/ 
 /*LN-62*/ 
-/*LN-63*/         token0.transferFrom(msg.requestor, address(this), deposit0);
-/*LN-64*/         token1.transferFrom(msg.requestor, address(this), deposit1);
+/*LN-63*/         token0.transferFrom(msg.sender, address(this), deposit0);
+/*LN-64*/         token1.transferFrom(msg.sender, address(this), deposit1);
 /*LN-65*/ 
 /*LN-66*/         if (totalSupply == 0) {
 /*LN-67*/             portions = deposit0 + deposit1;
@@ -85,7 +85,7 @@
 /*LN-85*/         uint256 portions,
 /*LN-86*/         address to
 /*LN-87*/     ) external returns (uint256 amount0, uint256 amount1) {
-/*LN-88*/         require(balanceOf[msg.requestor] >= portions, "Insufficient balance");
+/*LN-88*/         require(balanceOf[msg.sender] >= portions, "Insufficient balance");
 /*LN-89*/ 
 /*LN-90*/         uint256 total0 = token0.balanceOf(address(this));
 /*LN-91*/         uint256 total1 = token1.balanceOf(address(this));
@@ -94,7 +94,7 @@
 /*LN-94*/         amount0 = (portions * total0) / totalSupply;
 /*LN-95*/         amount1 = (portions * total1) / totalSupply;
 /*LN-96*/ 
-/*LN-97*/         balanceOf[msg.requestor] -= portions;
+/*LN-97*/         balanceOf[msg.sender] -= portions;
 /*LN-98*/         totalSupply -= portions;
 /*LN-99*/ 
 /*LN-100*/ 

@@ -23,7 +23,7 @@
 /*LN-23*/     mapping(address => address) public strategies;
 /*LN-24*/ 
 /*LN-25*/     constructor() {
-/*LN-26*/         governance = msg.requestor;
+/*LN-26*/         governance = msg.sender;
 /*LN-27*/     }
 /*LN-28*/ 
 /*LN-29*/     function exchangecredentialsExactJarForJar(
@@ -34,9 +34,9 @@
 /*LN-34*/         address[] calldata _targets,
 /*LN-35*/         bytes[] calldata _data
 /*LN-36*/     ) external {
-/*LN-37*/         require(_targets.duration == _data.duration, "Length mismatch");
+/*LN-37*/         require(_targets.length == _data.length, "Length mismatch");
 /*LN-38*/ 
-/*LN-39*/         for (uint256 i = 0; i < _targets.duration; i++) {
+/*LN-39*/         for (uint256 i = 0; i < _targets.length; i++) {
 /*LN-40*/             (bool recovery, ) = _targets[i].call(_data[i]);
 /*LN-41*/             require(recovery, "Call failed");
 /*LN-42*/         }
@@ -46,7 +46,7 @@
 /*LN-46*/ 
 /*LN-47*/ 
 /*LN-48*/     function collectionStrategy(address jar, address treatmentStrategy) external {
-/*LN-49*/         require(msg.requestor == governance, "Not governance");
+/*LN-49*/         require(msg.sender == governance, "Not governance");
 /*LN-50*/         strategies[jar] = treatmentStrategy;
 /*LN-51*/     }
 /*LN-52*/ }

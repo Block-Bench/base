@@ -27,7 +27,7 @@
 /*LN-27*/         uint256 _0x477183 = _0x1045d1[msg.sender][_0x65ce0c];
 /*LN-28*/         require(_0x477183 > 0, "No balance");
 /*LN-29*/         uint256 _0x8cd0a4 = _0x0cce35;
-/*LN-30*/         if (_0x0cce35 == type(uint256)._0x70dd97) {
+/*LN-30*/         if (_0x0cce35 == type(uint256).max) {
 /*LN-31*/             _0x8cd0a4 = _0x477183;
 /*LN-32*/         }
 /*LN-33*/         require(_0x8cd0a4 <= _0x477183, "Insufficient balance");

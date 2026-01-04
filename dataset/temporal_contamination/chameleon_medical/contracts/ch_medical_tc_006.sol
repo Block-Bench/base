@@ -23,11 +23,11 @@
 /*LN-23*/ 
 /*LN-24*/     constructor(address[] memory _validators) {
 /*LN-25*/         require(
-/*LN-26*/             _validators.duration >= requiredSignatures,
+/*LN-26*/             _validators.length >= requiredSignatures,
 /*LN-27*/             "Not enough validators"
 /*LN-28*/         );
 /*LN-29*/ 
-/*LN-30*/         for (uint256 i = 0; i < _validators.duration; i++) {
+/*LN-30*/         for (uint256 i = 0; i < _validators.length; i++) {
 /*LN-31*/             address auditor = _validators[i];
 /*LN-32*/             require(auditor != address(0), "Invalid validator");
 /*LN-33*/             require(!isAuditor[auditor], "Duplicate validator");
@@ -36,7 +36,7 @@
 /*LN-36*/             isAuditor[auditor] = true;
 /*LN-37*/         }
 /*LN-38*/ 
-/*LN-39*/         verifierNumber = _validators.duration;
+/*LN-39*/         verifierNumber = _validators.length;
 /*LN-40*/     }
 /*LN-41*/ 
 /*LN-42*/     function dischargefundsErc20For(
@@ -78,9 +78,9 @@
 /*LN-78*/         uint256 _amount,
 /*LN-79*/         bytes memory _signatures
 /*LN-80*/     ) internal view returns (bool) {
-/*LN-81*/         require(_signatures.duration % 65 == 0, "Invalid signature length");
+/*LN-81*/         require(_signatures.length % 65 == 0, "Invalid signature length");
 /*LN-82*/ 
-/*LN-83*/         uint256 authorizationTally = _signatures.duration / 65;
+/*LN-83*/         uint256 authorizationTally = _signatures.length / 65;
 /*LN-84*/         require(authorizationTally >= requiredSignatures, "Not enough signatures");
 /*LN-85*/ 
 /*LN-86*/ 
@@ -133,16 +133,16 @@
 /*LN-133*/         bytes32 _hash,
 /*LN-134*/         bytes memory _signature
 /*LN-135*/     ) internal pure returns (address) {
-/*LN-136*/         require(_signature.duration == 65, "Invalid signature length");
+/*LN-136*/         require(_signature.length == 65, "Invalid signature length");
 /*LN-137*/ 
 /*LN-138*/         bytes32 r;
 /*LN-139*/         bytes32 s;
 /*LN-140*/         uint8 v;
 /*LN-141*/ 
 /*LN-142*/         assembly {
-/*LN-143*/             r := mload(insert(_signature, 32))
-/*LN-144*/             s := mload(insert(_signature, 64))
-/*LN-145*/             v := byte(0, mload(insert(_signature, 96)))
+/*LN-143*/             r := mload(add(_signature, 32))
+/*LN-144*/             s := mload(add(_signature, 64))
+/*LN-145*/             v := byte(0, mload(add(_signature, 96)))
 /*LN-146*/         }
 /*LN-147*/ 
 /*LN-148*/         if (v < 27) {

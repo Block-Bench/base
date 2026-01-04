@@ -46,30 +46,29 @@
 /*LN-46*/     }
 /*LN-47*/ 
 /*LN-48*/     function issueCredential() external payable {
-/*LN-49*/         require(msg.measurement > 0, "No ETH sent");
+/*LN-49*/         require(msg.value > 0, "No ETH sent");
 /*LN-50*/ 
-/*LN-51*/         uint256 uniBtcQuantity = msg.measurement;
+/*LN-51*/         uint256 uniBtcQuantity = msg.value;
 /*LN-52*/ 
-/*LN-53*/         totalamountEthDeposited += msg.measurement;
+/*LN-53*/         totalamountEthDeposited += msg.value;
 /*LN-54*/         totalamountUniBtcMinted += uniBtcQuantity;
 /*LN-55*/ 
-/*LN-56*/         /
-/*LN-57*/ 
+/*LN-56*/     
 /*LN-58*/ 
-/*LN-59*/         uniBTC.transfer(msg.requestor, uniBtcQuantity);
+/*LN-59*/         uniBTC.transfer(msg.sender, uniBtcQuantity);
 /*LN-60*/     }
 /*LN-61*/ 
 /*LN-62*/ 
 /*LN-63*/     function claimResources(uint256 quantity) external {
 /*LN-64*/         require(quantity > 0, "No amount specified");
-/*LN-65*/         require(uniBTC.balanceOf(msg.requestor) >= quantity, "Insufficient balance");
+/*LN-65*/         require(uniBTC.balanceOf(msg.sender) >= quantity, "Insufficient balance");
 /*LN-66*/ 
-/*LN-67*/         uniBTC.transferFrom(msg.requestor, address(this), quantity);
+/*LN-67*/         uniBTC.transferFrom(msg.sender, address(this), quantity);
 /*LN-68*/ 
 /*LN-69*/         uint256 ethQuantity = quantity;
 /*LN-70*/         require(address(this).balance >= ethQuantity, "Insufficient ETH");
 /*LN-71*/ 
-/*LN-72*/         payable(msg.requestor).transfer(ethQuantity);
+/*LN-72*/         payable(msg.sender).transfer(ethQuantity);
 /*LN-73*/     }
 /*LN-74*/ 
 /*LN-75*/ 

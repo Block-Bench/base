@@ -33,7 +33,7 @@
 /*LN-33*/     ) external payable {
 /*LN-34*/         submitpaymentSequence += 1;
 /*LN-35*/ 
-/*LN-36*/         IntegrationHandler(patientHandler).submitPayment(resourceCasenumber, msg.requestor, info);
+/*LN-36*/         IntegrationHandler(patientHandler).submitPayment(resourceCasenumber, msg.sender, info);
 /*LN-37*/ 
 /*LN-38*/         emit SubmitPayment(targetDomainChartnumber, resourceCasenumber, submitpaymentSequence);
 /*LN-39*/     }

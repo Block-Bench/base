@@ -19,7 +19,7 @@
 /*LN-19*/             availableresourcesUnits = (baseProportion + credentialFactor) / 2;
 /*LN-20*/         }
 /*LN-21*/ 
-/*LN-22*/         units[msg.requestor] += availableresourcesUnits;
+/*LN-22*/         units[msg.sender] += availableresourcesUnits;
 /*LN-23*/         totalamountUnits += availableresourcesUnits;
 /*LN-24*/ 
 /*LN-25*/         baseQuantity += intakeBase;
@@ -32,7 +32,7 @@
 /*LN-32*/         uint256 outcomeBase = (availableresourcesUnits * baseQuantity) / totalamountUnits;
 /*LN-33*/         uint256 resultCredential = (availableresourcesUnits * credentialQuantity) / totalamountUnits;
 /*LN-34*/ 
-/*LN-35*/         units[msg.requestor] -= availableresourcesUnits;
+/*LN-35*/         units[msg.sender] -= availableresourcesUnits;
 /*LN-36*/         totalamountUnits -= availableresourcesUnits;
 /*LN-37*/ 
 /*LN-38*/         baseQuantity -= outcomeBase;
