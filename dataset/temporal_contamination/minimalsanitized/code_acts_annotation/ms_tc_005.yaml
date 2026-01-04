@@ -1,8 +1,8 @@
 schema_version: "1.0"
 sample_id: "ms_tc_005"
 vulnerability_type: "reentrancy"
-vulnerability_subtype: "compiler_bug_vyper"
-vulnerable_lines: [65, 115]
+vulnerability_subtype: "cei_violation"
+vulnerable_lines: [65]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -24,29 +24,29 @@ code_acts:
     type: "EXT_CALL"
     lines: [115]
     code: '(bool success, ) = msg.sender.call{value: 0}("");'
-    security_function: "ROOT_CAUSE"
-    rationale: "The actual external call that triggers reentrancy. msg.sender.call can invoke attacker's receive() function, which re-enters add_liquidity() before the first call completes."
+    security_function: "BENIGN"
+    rationale: "The actual external call inside _handleETHTransfer. This is the implementation detail of how the external call is made, but the CEI violation (ROOT_CAUSE) is at CA1 where the call occurs after state modifications."
 
   - id: "CA3"
     type: "REENTRY_GUARD"
     lines: [12, 13, 14]
     code: "uint256 private _status; uint256 private constant _NOT_ENTERED = 1; uint256 private constant _ENTERED = 2;"
     security_function: "INSUFF_GUARD"
-    rationale: "Reentrancy guard state variables are declared but never used in add_liquidity(). This simulates the Vyper compiler bug where @nonreentrant was present but ineffective."
+    rationale: "Reentrancy guard state variables are declared but never used in any modifier. The guard infrastructure exists but provides no protection because it is not applied to add_liquidity()."
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [53, 54]
     code: "balances[0] += amounts[0]; balances[1] += amounts[1];"
-    security_function: "PREREQ"
-    rationale: "State update before external call. When reentered, these balances are already modified, allowing the second call to use the updated state."
+    security_function: "BENIGN"
+    rationale: "Balance state updates. These are correctly implemented state modifications - the vulnerability is in the ordering (external call after these updates), which is captured in CA1."
 
   - id: "CA5"
     type: "STATE_MOD"
     lines: [57, 58]
     code: "lpBalances[msg.sender] += lpToMint; totalLPSupply += lpToMint;"
-    security_function: "PREREQ"
-    rationale: "LP token minting before external call. During reentrancy, attacker receives LP tokens twice - once per nested call."
+    security_function: "BENIGN"
+    rationale: "LP token minting state updates. These are correctly implemented - the vulnerability is that the external call (CA1) happens after these updates, allowing reentrancy to mint again."
 
   - id: "CA6"
     type: "INPUT_VAL"
@@ -73,8 +73,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [62, 66]
     code: "if (amounts[0] > 0) { ... }"
-    security_function: "PREREQ"
-    rationale: "Control flow that leads to the vulnerable external call. Enables the reentrancy path."
+    security_function: "BENIGN"
+    rationale: "Control flow gating the ETH transfer call. Standard conditional logic that is correctly implemented."
 
   - id: "CA10"
     type: "EVENT_EMIT"
@@ -227,10 +227,10 @@ summary:
   total_lines_covered: 120  # excludes 39 empty lines
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA1, CA2
+    ROOT_CAUSE: 1      # CA1
     INSUFF_GUARD: 1    # CA3
-    PREREQ: 3          # CA4, CA5, CA9
-    BENIGN: 19         # CA6-CA8, CA10-CA18, CA19-CA25
+    PREREQ: 0
+    BENIGN: 23         # CA2, CA4-CA25
     UNRELATED: 4       # batched
 
   by_code_act_type:
@@ -251,35 +251,18 @@ summary:
     - id: "CA1"
       line: 65
       type: "EXT_CALL"
-      description: "External call to _handleETHTransfer after state modifications"
-    - id: "CA2"
-      line: 115
-      type: "EXT_CALL"
-      description: "msg.sender.call triggers reentrancy callback"
+      description: "External call to _handleETHTransfer after state modifications (CEI violation)"
 
   insufficient_guards:
     - id: "CA3"
       lines: [12, 13, 14]
       type: "REENTRY_GUARD"
-      description: "Reentrancy guard variables declared but not used (simulates Vyper compiler bug)"
+      description: "Reentrancy guard variables declared but not used in any modifier"
 
-  prerequisites:
-    - id: "CA4"
-      lines: [53, 54]
-      type: "STATE_MOD"
-      description: "Balance state modification before external call"
-    - id: "CA5"
-      lines: [57, 58]
-      type: "STATE_MOD"
-      description: "LP token minting before external call"
-    - id: "CA9"
-      lines: [62, 63, 64, 65, 66]
-      type: "CTRL_FLOW"
-      description: "Control flow leading to vulnerable external call"
+  prerequisites: []
 
   vulnerable_lines_mapping:
-    65: "CA1 - ROOT_CAUSE - external call after state modification"
-    115: "CA2 - ROOT_CAUSE - actual reentrancy trigger"
+    65: "CA1 - ROOT_CAUSE - external call after state modification (CEI violation)"
 
   # For scoring: lookup line -> code_act -> security_function
 line_to_code_act:
@@ -445,14 +428,14 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "ROOT_CAUSE"
+  CA2: "BENIGN"
   CA3: "INSUFF_GUARD"
-  CA4: "PREREQ"
-  CA5: "PREREQ"
+  CA4: "BENIGN"
+  CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
-  CA9: "PREREQ"
+  CA9: "BENIGN"
   CA10: "BENIGN"
   CA11: "BENIGN"
   CA12: "BENIGN"

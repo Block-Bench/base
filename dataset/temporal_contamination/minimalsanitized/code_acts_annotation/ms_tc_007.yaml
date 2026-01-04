@@ -68,8 +68,8 @@ code_acts:
     type: "DECLARATION"
     lines: [53]
     code: "address public dataContract;"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this stores EthCrossChainData address, which becomes the attack target via unrestricted execution."
+    security_function: "BENIGN"
+    rationale: "Storage declaration for EthCrossChainData address. This is architectural context - the vulnerability is in the unrestricted call (CA12), not in where the address is stored."
 
   - id: "CA8"
     type: "INITIALIZATION"
@@ -138,8 +138,8 @@ code_acts:
     type: "COMPUTATION"
     lines: [122, 123, 124, 125, 126, 127, 128, 133, 134, 135, 136, 137, 138]
     code: "function _decodeTx(...) internal view returns (...)"
-    security_function: "PREREQ"
-    rationale: "PREREQ because this decodes target contract from proof without validation. Returns dataContract which could be exploited."
+    security_function: "BENIGN"
+    rationale: "Decodes target contract from cross-chain proof. This is mechanical data extraction - the vulnerability is the lack of validation before calling the decoded target (CA12), not the decoding itself."
 
   # ============================================
   # UNRELATED CODE ACTS (batched)
@@ -181,8 +181,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA12
-    PREREQ: 2          # CA7, CA17
-    BENIGN: 14         # CA1-CA6, CA8-CA11, CA13-CA16
+    PREREQ: 0
+    BENIGN: 16         # CA1-CA11, CA13-CA17
     UNRELATED: 5       # batched
 
   root_causes:
@@ -191,11 +191,7 @@ summary:
       type: "EXT_CALL"
       description: "Unrestricted external call to any decoded contract"
 
-  prerequisites:
-    - id: "CA7"
-      description: "dataContract stores target address"
-    - id: "CA17"
-      description: "_decodeTx returns unvalidated target without validation"
+  prerequisites: []
 
 line_to_code_act:
     1: "CA_DIRECTIVES"
@@ -347,7 +343,7 @@ code_act_security_functions:
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "PREREQ"
+  CA7: "BENIGN"
   CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
@@ -357,7 +353,7 @@ code_act_security_functions:
   CA14: "BENIGN"
   CA15: "BENIGN"
   CA16: "BENIGN"
-  CA17: "PREREQ"
+  CA17: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"
