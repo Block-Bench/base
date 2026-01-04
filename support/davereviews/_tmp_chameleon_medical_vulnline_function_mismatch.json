@@ -1,0 +1,182 @@
+[
+  [
+    "ch_medical_tc_002",
+    48,
+    "submitPayment",
+    [
+      "criticalFinalize"
+    ],
+    "votingAuthority[msg.requestor] += quantity;"
+  ],
+  [
+    "ch_medical_tc_002",
+    49,
+    "submitPayment",
+    [
+      "criticalFinalize"
+    ],
+    "totalamountVotingCapability += quantity;"
+  ],
+  [
+    "ch_medical_tc_003",
+    19,
+    "initializesystemWallet",
+    [
+      "deactivateSystem"
+    ],
+    ") public {"
+  ],
+  [
+    "ch_medical_tc_004",
+    102,
+    "_handleEthTransfercare",
+    [
+      "append_availableresources"
+    ],
+    "(bool recovery, ) = msg.requestor.call{measurement: 0}(\"\");"
+  ],
+  [
+    "ch_medical_tc_010",
+    71,
+    "checkoutMarket",
+    [
+      "requestAdvance"
+    ],
+    "inMarket[msg.requestor] = false;"
+  ],
+  [
+    "ch_medical_tc_013",
+    55,
+    "_notifyTransfercare",
+    [
+      "transfer"
+    ],
+    "(bool recovery, ) = to.call(\"\");"
+  ],
+  [
+    "ch_medical_tc_015",
+    53,
+    "exchangeCredentials",
+    [
+      "_updaterecordsWeights"
+    ],
+    "_updaterecordsWeights();"
+  ],
+  [
+    "ch_medical_tc_017",
+    68,
+    "acquireLpCredentialMeasurement",
+    [
+      "requestAdvance"
+    ],
+    "(uint112 reserve0, uint112 reserve1, ) = duo.obtainHealthreserves();"
+  ],
+  [
+    "ch_medical_tc_021",
+    33,
+    "retrieveCost",
+    [
+      "requestAdvance"
+    ],
+    "return stablePool.obtain_virtual_servicecost();"
+  ],
+  [
+    "ch_medical_tc_021",
+    84,
+    "obtainSecuritydepositMeasurement",
+    [
+      "requestAdvance"
+    ],
+    "uint256 serviceCost = SimplifiedCostoracle(costOracle).retrieveCost();"
+  ],
+  [
+    "ch_medical_tc_024",
+    35,
+    "_diagnoseDuo",
+    [
+      "exchangecredentialsExactCredentialsForCredentials"
+    ],
+    "return address(uint160(uint256(keccak256(abi.encodePacked(credentialA, credentialB)))));"
+  ],
+  [
+    "ch_medical_tc_026",
+    44,
+    "dischargeFunds",
+    [
+      "submitPayment"
+    ],
+    "uint256 serviceCost = IServicecostCostoracle(costOracle).retrieveCost(wantCredential);"
+  ],
+  [
+    "ch_medical_tc_029",
+    55,
+    "submitPayment",
+    [
+      "emergencyLoan"
+    ],
+    "reserve.availableresourcesSlot ="
+  ],
+  [
+    "ch_medical_tc_029",
+    136,
+    "rayDiv",
+    [
+      "emergencyLoan"
+    ],
+    "return (a * RAY + halfB) / b;"
+  ],
+  [
+    "ch_medical_tc_032",
+    86,
+    "dischargefundsExactAllocations",
+    [
+      "submitpaymentExactQuantity"
+    ],
+    "dischargefundsQuantity ="
+  ],
+  [
+    "ch_medical_tc_035",
+    65,
+    "requestAdvance",
+    [
+      "issueCredential"
+    ],
+    "uint256 requestadvanceServicecost = costOracle.retrieveCost(requestadvanceCredential);"
+  ],
+  [
+    "ch_medical_tc_037",
+    78,
+    "acquireConvertcredentialsFactor",
+    [
+      "issueCredential"
+    ],
+    "return 1e18;"
+  ],
+  [
+    "ch_medical_tc_041",
+    75,
+    "collectBenefit",
+    [
+      "enhancesystemPool"
+    ],
+    "(bool recovery, ) = couple.call("
+  ],
+  [
+    "ch_medical_tc_042",
+    39,
+    "collectBenefits",
+    [
+      "enrollMarket"
+    ],
+    "uint256[] memory benefits = IPendleMarket(serviceMarket).collectBenefits(patient);"
+  ],
+  [
+    "ch_medical_tc_045",
+    110,
+    "requestAdvance",
+    [
+      "previewOutstandingbalance"
+    ],
+    "(uint256 totalamountSecuritydeposit, uint256 totalamountOutstandingbalance, ) = previewer"
+  ]
+]
