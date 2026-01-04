@@ -58,8 +58,8 @@ code_acts:
           debtBalance[msg.sender] += amount;
           shezUSD.transfer(msg.sender, amount);
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - borrow() accepts any deposited collateral including fraudulently minted tokens. Enables attacker to borrow real ShezUSD against worthless minted collateral."
+    security_function: "BENIGN"
+    rationale: "Standard borrow function. Impact realization path that consumes fraudulent collateral - vulnerability is the missing access control on mint() (CA1)."
 
   - id: "CA7"
     type: "STATE_MOD"
@@ -99,19 +99,14 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1
-    PREREQ: 1
-    BENIGN: 6
+    PREREQ: 0
+    BENIGN: 7
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
       lines: [27, 33, 34, 35]
       description: "mint() function lacks access control modifier"
-
-  prerequisites:
-    - id: "CA6"
-      lines: [98, 101, 102, 104, 105, 106, 107, 109, 111, 112]
-      description: "borrow() accepts minted collateral without origin validation"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -258,7 +253,7 @@ code_act_security_functions:
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
-  CA6: "PREREQ"
+  CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"

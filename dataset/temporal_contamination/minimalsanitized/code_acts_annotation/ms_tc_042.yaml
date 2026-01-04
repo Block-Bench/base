@@ -27,8 +27,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [63]
     code: "if (donation.amount > 0 && donation.tokenLocker != address(0))"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Condition check that enables the arbitrary call path. Trivially satisfied by attacker."
+    security_function: "BENIGN"
+    rationale: "Condition check. Trivially satisfied by attacker - not a meaningful prerequisite, just control flow gating."
 
   - id: "CA3"
     type: "INPUT_VAL"
@@ -86,19 +86,14 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1
-    PREREQ: 1
-    BENIGN: 4
+    PREREQ: 0
+    BENIGN: 5
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
       lines: [66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76]
       description: "Arbitrary external call to user-controlled tokenLocker address"
-
-  prerequisites:
-    - id: "CA2"
-      lines: [63]
-      description: "Condition enabling the arbitrary call path"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -194,7 +189,7 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "PREREQ"
+  CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"

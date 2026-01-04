@@ -36,8 +36,8 @@ code_acts:
           address pair,
           uint256[] calldata ids
       ) external override
-    security_function: "PREREQ"
-    rationale: "PREREQ - Function accepts user-controlled pair address used in vulnerable call."
+    security_function: "BENIGN"
+    rationale: "Function signature. Accepting user-controlled address is design choice - vulnerability is in CA2's arbitrary call without validation."
 
   - id: "CA4"
     type: "STATE_MOD"
@@ -91,8 +91,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 2
-    PREREQ: 1
-    BENIGN: 3
+    PREREQ: 0
+    BENIGN: 4
     UNRELATED: 3
 
   root_causes:
@@ -102,11 +102,6 @@ summary:
     - id: "CA2"
       lines: [82, 83, 84]
       description: "Arbitrary call to user-controlled pair address"
-
-  prerequisites:
-    - id: "CA3"
-      lines: [76, 77, 78, 79]
-      description: "claimReward accepts user-controlled pair"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -201,7 +196,7 @@ line_to_code_act:
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
   CA2: "ROOT_CAUSE"
-  CA3: "PREREQ"
+  CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"

@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_027"
 vulnerability_type: "input_validation"
-vulnerable_lines: [27, 37]
+vulnerable_lines: [35, 36, 37, 38]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -27,22 +27,22 @@ code_acts:
     code: |
       for (uint i = 0; i < path.length - 1; i++) {
           address pair = _getPair(path[i], path[i+1]);
-    security_function: "PREREQ"
-    rationale: "PREREQ - Loop calls _getPair which doesn't validate against factory. Sets up attack path."
+    security_function: "BENIGN"
+    rationale: "Loop structure calling _getPair. The call site is benign - the vulnerability is in _getPair itself (CA6)."
 
   - id: "CA3"
     type: "EXT_CALL"
     lines: [27]
     code: "(uint112 reserve0, uint112 reserve1,) = IPair(pair).getReserves();"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Gets reserves from pair address returned by _getPair. If pair is attacker's fake contract, reserves can be arbitrary values that manipulate swap prices."
+    security_function: "BENIGN"
+    rationale: "Gets reserves from pair address. This merely consumes data - the exploit exists because _getPair (CA6) doesn't validate against factory."
 
   - id: "CA4"
     type: "COMPUTATION"
     lines: [29]
     code: "amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Calculates output using potentially fake reserves. Attacker controls result."
+    security_function: "BENIGN"
+    rationale: "Amount calculation using reserves. Downstream computation that consumes potentially fake data."
 
   - id: "CA5"
     type: "CTRL_FLOW"
@@ -105,26 +105,18 @@ summary:
   total_lines_covered: 32
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA3, CA6
-    PREREQ: 2          # CA2, CA4
-    BENIGN: 3          # CA1, CA5, CA7
+    ROOT_CAUSE: 1      # CA6
+    PREREQ: 0
+    BENIGN: 6          # CA1-CA5, CA7
     UNRELATED: 4       # batched
 
   root_causes:
-    - id: "CA3"
-      line: 27
-      type: "EXT_CALL"
-      description: "Gets reserves from unvalidated pair address"
     - id: "CA6"
       lines: [35, 36, 37, 38]
       type: "COMPUTATION"
-      description: "_getPair doesn't validate against factory"
+      description: "_getPair doesn't validate against factory - computes pair address without verification"
 
-  prerequisites:
-    - id: "CA2"
-      description: "Loop calling _getPair"
-    - id: "CA4"
-      description: "Amount calculation with fake reserves"
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -174,9 +166,9 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "BENIGN"
-  CA2: "PREREQ"
-  CA3: "ROOT_CAUSE"
-  CA4: "PREREQ"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "ROOT_CAUSE"
   CA7: "BENIGN"

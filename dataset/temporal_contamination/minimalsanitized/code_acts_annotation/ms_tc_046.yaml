@@ -49,8 +49,8 @@ code_acts:
           require(msg.sender == owner, "Not owner");
           _;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Single owner check modifier. The sole access control - no multi-sig or additional validation."
+    security_function: "BENIGN"
+    rationale: "Standard onlyOwner modifier. Correctly implemented access control - the architectural weakness (single key) is the ROOT_CAUSE in CA1-CA3, not this modifier."
 
   - id: "CA5"
     type: "STATE_MOD"
@@ -93,8 +93,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 3
-    PREREQ: 1
-    BENIGN: 2
+    PREREQ: 0
+    BENIGN: 3
     UNRELATED: 3
 
   root_causes:
@@ -107,11 +107,6 @@ summary:
     - id: "CA3"
       lines: [70, 71, 72]
       description: "Ownership transfer with single-key protection"
-
-  prerequisites:
-    - id: "CA4"
-      lines: [27, 28, 29, 30]
-      description: "Single owner modifier - no multi-sig"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -195,7 +190,7 @@ code_act_security_functions:
   CA1: "ROOT_CAUSE"
   CA2: "ROOT_CAUSE"
   CA3: "ROOT_CAUSE"
-  CA4: "PREREQ"
+  CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"

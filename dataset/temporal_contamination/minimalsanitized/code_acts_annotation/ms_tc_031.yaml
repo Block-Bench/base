@@ -27,8 +27,8 @@ code_acts:
     code: |
       uint256 public constant REQUIRED_SIGNATURES = 5;
       uint256 public constant TOTAL_VALIDATORS = 7;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Multi-sig threshold (5-of-7) is relatively low. Combined with missing signature verification, compromising 5 keys bypasses all security."
+    security_function: "BENIGN"
+    rationale: "Threshold configuration. The exploit works regardless of threshold - even 7-of-7 would be exploitable since signer identity is never verified."
 
   - id: "CA3"
     type: "DECLARATION"
@@ -36,8 +36,8 @@ code_acts:
     code: |
       mapping(address => bool) public validators;
       address[] public validatorList;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Validator set defined but NEVER USED for signature verification. The validators mapping is populated but not checked against ecrecover results."
+    security_function: "BENIGN"
+    rationale: "Validator storage (unused). The fact that this is unused doesn't enable the exploit - it's CA1's failure to use ecrecover that's the issue."
 
   - id: "CA4"
     type: "INPUT_VAL"
@@ -126,8 +126,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1
-    PREREQ: 2
-    BENIGN: 7
+    PREREQ: 0
+    BENIGN: 9
     UNRELATED: 4
 
   root_causes:
@@ -136,11 +136,7 @@ summary:
       type: "INPUT_VAL"
       description: "Signature validation only checks count, not cryptographic validity via ecrecover"
 
-  prerequisites:
-    - id: "CA2"
-      description: "Low multi-sig threshold (5-of-7)"
-    - id: "CA3"
-      description: "Validator set defined but not used for verification"
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -229,8 +225,8 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "PREREQ"
-  CA3: "PREREQ"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"

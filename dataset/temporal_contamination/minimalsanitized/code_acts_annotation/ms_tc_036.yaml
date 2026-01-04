@@ -36,15 +36,15 @@ code_acts:
           msg.sender == account || delegates[account][msg.sender],
           "Not authorized"
       );
-    security_function: "PREREQ"
-    rationale: "PREREQ - Delegate check allows zap contract to act on behalf of victims who approved it. Necessary condition for the attack."
+    security_function: "BENIGN"
+    rationale: "Delegate check in BorrowerOperations. Standard authorization pattern - vulnerability is in how zap uses delegation, not the delegation system itself."
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [109]
     code: "delegates[msg.sender][_delegate] = _isApproved;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Victims set delegate approval for zap contract, enabling the attack."
+    security_function: "BENIGN"
+    rationale: "Delegate approval setter. Standard feature - users approving contracts is normal behavior, not a vulnerability prerequisite."
 
   - id: "CA5"
     type: "EXT_CALL"
@@ -107,8 +107,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 2
-    PREREQ: 2
-    BENIGN: 4
+    PREREQ: 0
+    BENIGN: 6
     UNRELATED: 3
 
   root_causes:
@@ -271,8 +271,8 @@ line_to_code_act:
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
   CA2: "ROOT_CAUSE"
-  CA3: "PREREQ"
-  CA4: "PREREQ"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"

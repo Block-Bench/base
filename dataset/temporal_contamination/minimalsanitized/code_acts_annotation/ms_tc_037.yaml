@@ -25,15 +25,15 @@ code_acts:
     code: |
       uint256 balance0 = curvePool.balances(0);
       uint256 balance1 = curvePool.balances(1);
-    security_function: "PREREQ"
-    rationale: "PREREQ - Reads manipulable spot balances used in price calculation."
+    security_function: "BENIGN"
+    rationale: "Balance reads within oracle. Implementation detail of CA2 - the vulnerability is the price formula, not the reads themselves."
 
   - id: "CA4"
     type: "EXT_CALL"
     lines: [98]
     code: "uint256 borrowPrice = oracle.getAssetPrice(asset);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Borrow price also from same oracle, part of calculation."
+    security_function: "BENIGN"
+    rationale: "Borrow price fetch. Not required for exploit - inflated collateral alone is sufficient to borrow max."
 
   - id: "CA5"
     type: "EXT_CALL"
@@ -56,8 +56,8 @@ code_acts:
       uint256 collateralValue = (deposits[msg.sender] * collateralPrice) / 1e18;
       uint256 maxBorrow = (collateralValue * LTV) / BASIS_POINTS;
       uint256 borrowValue = (amount * borrowPrice) / 1e18;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Borrow value calculations use manipulated prices."
+    security_function: "BENIGN"
+    rationale: "Borrow value calculations. Correct arithmetic that applies manipulated price - vulnerability is in the price source, not these computations."
 
   - id: "CA8"
     type: "INPUT_VAL"
@@ -132,8 +132,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 2
-    PREREQ: 3
-    BENIGN: 9
+    PREREQ: 0
+    BENIGN: 12
     UNRELATED: 3
 
   root_causes:
@@ -302,11 +302,11 @@ line_to_code_act:
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
   CA2: "ROOT_CAUSE"
-  CA3: "PREREQ"
-  CA4: "PREREQ"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "PREREQ"
+  CA7: "BENIGN"
   CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"

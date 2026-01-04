@@ -18,8 +18,8 @@ code_acts:
     code: |
       mapping(address => uint256) public accountBorrows;
       mapping(address => uint256) public accountTokens;
-    security_function: "PREREQ"
-    rationale: "PREREQ - State variables updated before external call. Reentrancy can exploit partial state."
+    security_function: "BENIGN"
+    rationale: "Storage mapping declarations. The existence of mappings doesn't enable reentrancy."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -46,8 +46,8 @@ code_acts:
     code: |
       accountBorrows[msg.sender] += amount;
       totalBorrows += amount;
-    security_function: "PREREQ"
-    rationale: "PREREQ - State updated BEFORE external call. These updates happen before the vulnerable transfer, but attacker can reenter and borrow again before completion."
+    security_function: "BENIGN"
+    rationale: "State updates before external call. This follows CEI pattern correctly - the vulnerability is missing reentrancy guard, not the order of operations."
 
   - id: "CA5"
     type: "EXT_CALL"
@@ -106,8 +106,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA5
-    PREREQ: 2          # CA1, CA4
-    BENIGN: 4          # CA2, CA3, CA6, CA7
+    PREREQ: 0
+    BENIGN: 6          # CA1-CA4, CA6, CA7
     UNRELATED: 4       # batched
 
   root_causes:
@@ -116,11 +116,7 @@ summary:
       type: "EXT_CALL"
       description: "Token transfer enables ERC667 reentrancy"
 
-  prerequisites:
-    - id: "CA1"
-      description: "State mappings for borrow accounting"
-    - id: "CA4"
-      description: "State updates before external call"
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -169,10 +165,10 @@ line_to_code_act:
   # Line 44: empty
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
-  CA4: "PREREQ"
+  CA4: "BENIGN"
   CA5: "ROOT_CAUSE"
   CA6: "BENIGN"
   CA7: "BENIGN"

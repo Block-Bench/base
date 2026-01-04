@@ -16,8 +16,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [101]
     code: "return 1e18;"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Hardcoded 1:1 exchange rate ignores actual ETH/BTC market prices. Should integrate price oracle for accurate conversion."
+    security_function: "BENIGN"
+    rationale: "Hardcoded rate in getExchangeRate(). Dead/unused logic - function is never called by mint() or redeem(). Vulnerability is in CA1's direct assignment."
 
   - id: "CA3"
     type: "INPUT_VAL"
@@ -39,8 +39,8 @@ code_acts:
     type: "EXT_CALL"
     lines: [72]
     code: "uniBTC.transfer(msg.sender, uniBTCAmount);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Transfers the incorrectly calculated uniBTC amount to user."
+    security_function: "BENIGN"
+    rationale: "Token transfer. Impact path that realizes the incorrectly calculated amount - vulnerability is in CA1."
 
   - id: "CA6"
     type: "INPUT_VAL"
@@ -62,8 +62,8 @@ code_acts:
     type: "COMPUTATION"
     lines: [86]
     code: "uint256 ethAmount = amount;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Redeem also uses 1:1 ratio, perpetuating the incorrect conversion."
+    security_function: "BENIGN"
+    rationale: "Redeem calculation. Mirror of same bug in CA1 but not required for profit - attacker uses external swap to exit."
 
   - id: "CA9"
     type: "INPUT_VAL"
@@ -102,18 +102,15 @@ summary:
   total_lines_covered: 66
 
   by_security_function:
-    ROOT_CAUSE: 2
-    PREREQ: 2
-    BENIGN: 6
+    ROOT_CAUSE: 1
+    PREREQ: 0
+    BENIGN: 9
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
       lines: [55]
       description: "Direct assignment of ETH amount as uniBTC amount"
-    - id: "CA2"
-      lines: [101]
-      description: "Hardcoded 1:1 exchange rate"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -225,13 +222,13 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "ROOT_CAUSE"
+  CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "PREREQ"
+  CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"
-  CA8: "PREREQ"
+  CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"

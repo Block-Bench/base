@@ -30,15 +30,15 @@ code_acts:
       address routeAddress = routes[routeId];
       require(routeAddress != address(0), "Invalid route");
       require(approvedRoutes[routeAddress], "Route not approved");
-    security_function: "PREREQ"
-    rationale: "PREREQ - Route validation exists but doesn't prevent calldata injection. Route is valid, just the data passed to it is malicious."
+    security_function: "BENIGN"
+    rationale: "Route validation. The route is legitimately approved - the vulnerability is data-level, not route-level."
 
   - id: "CA4"
     type: "CTRL_FLOW"
     lines: [69, 73]
     code: "if (swapExtraData.length > 0) { ... }"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Conditional allows arbitrary execution when swapExtraData is provided."
+    security_function: "BENIGN"
+    rationale: "Control flow condition. Standard branching logic, not a vulnerability enabler."
 
   - id: "CA5"
     type: "CTRL_FLOW"
@@ -95,8 +95,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 2
-    PREREQ: 2
-    BENIGN: 3
+    PREREQ: 0
+    BENIGN: 5
     UNRELATED: 4
 
   root_causes:
@@ -178,8 +178,8 @@ line_to_code_act:
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
   CA2: "ROOT_CAUSE"
-  CA3: "PREREQ"
-  CA4: "PREREQ"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"

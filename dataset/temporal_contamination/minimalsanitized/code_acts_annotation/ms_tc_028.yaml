@@ -19,8 +19,8 @@ code_acts:
       mapping(address => uint256) public balanceOf;
       uint256 public totalSupply;
       uint256 public feePercent = 10; // 10% burn on transfer
-    security_function: "PREREQ"
-    rationale: "PREREQ - DeflatToken has 10% transfer fee. Vault doesn't account for this."
+    security_function: "BENIGN"
+    rationale: "DeflatToken state declarations. The token works correctly - the vault's failure to account for fees is the issue."
 
   - id: "CA2"
     type: "COMPUTATION"
@@ -28,8 +28,8 @@ code_acts:
     code: |
       uint256 fee = (amount * feePercent) / 100;
       uint256 amountAfterFee = amount - fee;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Fee calculation deducts 10% from transfer amount."
+    security_function: "BENIGN"
+    rationale: "Fee calculation in DeflatToken. Correctly implemented - this is the token's expected behavior."
 
   - id: "CA3"
     type: "STATE_MOD"
@@ -38,8 +38,8 @@ code_acts:
       balanceOf[msg.sender] -= amount;
       balanceOf[to] += amountAfterFee;
       totalSupply -= fee; // Burn fee
-    security_function: "PREREQ"
-    rationale: "PREREQ - Recipient only receives amountAfterFee (90%), not full amount."
+    security_function: "BENIGN"
+    rationale: "Token transfer with fee deduction. Correctly implemented in DeflatToken."
 
   - id: "CA4"
     type: "CTRL_FLOW"
@@ -56,8 +56,8 @@ code_acts:
     code: |
       uint256 fee = (amount * feePercent) / 100;
       uint256 amountAfterFee = amount - fee;
-    security_function: "PREREQ"
-    rationale: "PREREQ - transferFrom also deducts fee."
+    security_function: "BENIGN"
+    rationale: "Fee calculation in transferFrom. Correctly implemented."
 
   - id: "CA6"
     type: "STATE_MOD"
@@ -66,8 +66,8 @@ code_acts:
       balanceOf[from] -= amount;
       balanceOf[to] += amountAfterFee;
       totalSupply -= fee;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Vault receives only 90% of transfer in transferFrom."
+    security_function: "BENIGN"
+    rationale: "TransferFrom state updates in DeflatToken. Correctly implemented."
 
   - id: "CA7"
     type: "DECLARATION"
@@ -75,8 +75,8 @@ code_acts:
     code: |
       address public token;
       mapping(address => uint256) public deposits;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Deposits mapping will store incorrect amounts."
+    security_function: "BENIGN"
+    rationale: "Vault storage declarations. The declarations themselves don't enable the exploit."
 
   - id: "CA8"
     type: "INITIALIZATION"
@@ -92,8 +92,8 @@ code_acts:
     type: "EXT_CALL"
     lines: [48]
     code: "IERC20(token).transferFrom(msg.sender, address(this), amount);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Transfer only delivers 90% of amount due to deflationary fee. Vault receives less than credited."
+    security_function: "BENIGN"
+    rationale: "Token transfer call. The call is correct - the bug is that CA10 doesn't verify actual received amount."
 
   - id: "CA10"
     type: "STATE_MOD"
@@ -157,8 +157,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA10
-    PREREQ: 7          # CA1, CA2, CA3, CA5, CA6, CA7, CA9
-    BENIGN: 5          # CA4, CA8, CA11, CA12, CA13
+    PREREQ: 0
+    BENIGN: 12         # CA1-CA9, CA11-CA13
     UNRELATED: 4       # batched
 
   root_causes:
@@ -167,21 +167,7 @@ summary:
       type: "STATE_MOD"
       description: "Credits full amount but vault received less due to fee"
 
-  prerequisites:
-    - id: "CA1"
-      description: "DeflatToken fee configuration"
-    - id: "CA2"
-      description: "Fee calculation in transfer"
-    - id: "CA3"
-      description: "Reduced amount delivered"
-    - id: "CA5"
-      description: "Fee in transferFrom"
-    - id: "CA6"
-      description: "Vault receives reduced amount"
-    - id: "CA7"
-      description: "Deposits mapping for accounting"
-    - id: "CA9"
-      description: "transferFrom delivers less than amount"
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -249,15 +235,15 @@ line_to_code_act:
   # Line 63: empty
 
 code_act_security_functions:
-  CA1: "PREREQ"
-  CA2: "PREREQ"
-  CA3: "PREREQ"
+  CA1: "BENIGN"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "PREREQ"
-  CA6: "PREREQ"
-  CA7: "PREREQ"
+  CA5: "BENIGN"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
   CA8: "BENIGN"
-  CA9: "PREREQ"
+  CA9: "BENIGN"
   CA10: "ROOT_CAUSE"
   CA11: "BENIGN"
   CA12: "BENIGN"

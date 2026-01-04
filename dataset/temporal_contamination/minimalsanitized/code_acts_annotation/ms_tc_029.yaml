@@ -19,8 +19,8 @@ code_acts:
       address public wantToken;
       address public oracle;
       uint256 public totalShares;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Oracle address used for manipulable price lookups."
+    security_function: "BENIGN"
+    rationale: "Storage declarations. The declarations themselves don't enable the exploit."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -70,8 +70,8 @@ code_acts:
     code: |
       sharesAdded = (amount * totalShares * 1e18) / (pool * price);
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Share calculation inversely proportional to price. Low price = more shares. Attacker profits from manipulating price down during deposit."
+    security_function: "BENIGN"
+    rationale: "Share calculation using price. Downstream computation that consumes the manipulated oracle price."
 
   - id: "CA8"
     type: "STATE_MOD"
@@ -110,8 +110,8 @@ code_acts:
     type: "COMPUTATION"
     lines: [46]
     code: "uint256 amount = (sharesAmount * pool * price) / (totalShares * 1e18);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Withdrawal amount directly proportional to price. High price = more tokens withdrawn."
+    security_function: "BENIGN"
+    rationale: "Withdrawal amount calculation. Downstream computation using manipulated price."
 
   - id: "CA13"
     type: "STATE_MOD"
@@ -165,8 +165,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 2      # CA6, CA11
-    PREREQ: 3          # CA1, CA7, CA12
-    BENIGN: 9          # CA2, CA3, CA4, CA5, CA8, CA9, CA10, CA13, CA14
+    PREREQ: 0
+    BENIGN: 12         # CA1-CA5, CA7-CA10, CA12-CA14
     UNRELATED: 4       # batched
 
   root_causes:
@@ -179,13 +179,7 @@ summary:
       type: "EXT_CALL"
       description: "Oracle price in withdraw is manipulable"
 
-  prerequisites:
-    - id: "CA1"
-      description: "Oracle address for price lookups"
-    - id: "CA7"
-      description: "Share calculation uses manipulated price"
-    - id: "CA12"
-      description: "Withdrawal uses manipulated price"
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -244,18 +238,18 @@ line_to_code_act:
   # Line 54: empty
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "ROOT_CAUSE"
-  CA7: "PREREQ"
+  CA7: "BENIGN"
   CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
   CA11: "ROOT_CAUSE"
-  CA12: "PREREQ"
+  CA12: "BENIGN"
   CA13: "BENIGN"
   CA14: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"

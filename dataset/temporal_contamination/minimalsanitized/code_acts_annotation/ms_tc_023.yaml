@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_023"
 vulnerability_type: "accounting_manipulation"
-vulnerable_lines: [78]
+vulnerable_lines: [78, 97, 119, 128]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -21,8 +21,8 @@ code_acts:
           uint256 collateral;
           uint256 debtShare;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Position struct with debtShare field. DebtShare is calculated using the vulnerable formula."
+    security_function: "BENIGN"
+    rationale: "Position struct declaration. The struct is neutral - it's how shares are computed (CA11) that is vulnerable, not the struct definition."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -77,8 +77,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [60]
     code: "_borrow(positionId, borrowAmount);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Calls _borrow which contains the vulnerable share calculation."
+    security_function: "BENIGN"
+    rationale: "Call to _borrow function. The call site is benign - the vulnerability is in _borrow itself (CA11), not the act of calling it."
 
   - id: "CA8"
     type: "CTRL_FLOW"
@@ -102,8 +102,8 @@ code_acts:
       if (totalDebtShare == 0) {
           share = amount;
       } else {
-    security_function: "PREREQ"
-    rationale: "PREREQ - First-borrow case and branching logic. Sets up the vulnerable calculation path."
+    security_function: "BENIGN"
+    rationale: "Standard branching logic for first-borrow vs subsequent-borrow. This is normal control flow, not a vulnerability enabler."
 
   - id: "CA11"
     type: "COMPUTATION"
@@ -121,8 +121,8 @@ code_acts:
       pos.debtShare += share;
       totalDebtShare += share;
       totalDebt += amount;
-    security_function: "PREREQ"
-    rationale: "PREREQ - State updates after share calculation. Incorrect share propagates to position and global totals."
+    security_function: "BENIGN"
+    rationale: "State updates after share calculation. These operations are correct - they propagate whatever share was computed."
 
   - id: "CA13"
     type: "EXT_CALL"
@@ -149,8 +149,8 @@ code_acts:
     type: "COMPUTATION"
     lines: [97]
     code: "uint256 shareToRemove = (amount * totalDebtShare) / totalDebt;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Share removal uses same formula. If initial shares were wrong, repayment calculation is also wrong."
+    security_function: "BENIGN"
+    rationale: "Share removal calculation in repay. Uses same formula as borrow - this is downstream impact, not an independent vulnerability."
 
   - id: "CA17"
     type: "INPUT_VAL"
@@ -187,8 +187,8 @@ code_acts:
     type: "COMPUTATION"
     lines: [119]
     code: "return (pos.debtShare * totalDebt) / totalDebtShare;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Debt calculation for view. Shows the inverse formula that converts shares back to debt amount."
+    security_function: "BENIGN"
+    rationale: "Debt calculation in view function. Uses inverse formula - downstream impact of incorrect shares, not the root cause."
 
   - id: "CA22"
     type: "CTRL_FLOW"
@@ -201,8 +201,8 @@ code_acts:
     type: "COMPUTATION"
     lines: [128]
     code: "uint256 debt = (pos.debtShare * totalDebt) / totalDebtShare;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Debt calculation in liquidate. Uses same formula as getPositionDebt."
+    security_function: "BENIGN"
+    rationale: "Debt calculation in liquidate. Uses same formula - downstream impact where incorrect shares cause wrong debt valuation."
 
   - id: "CA24"
     type: "INPUT_VAL"
@@ -254,8 +254,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA11
-    PREREQ: 8          # CA1, CA3, CA7, CA10, CA12, CA16, CA21, CA23
-    BENIGN: 16         # CA2, CA4, CA5, CA6, CA8, CA9, CA13, CA14, CA15, CA17, CA18, CA19, CA20, CA22, CA24, CA25
+    PREREQ: 1          # CA3
+    BENIGN: 23         # CA1, CA2, CA4-CA10, CA12-CA25
     UNRELATED: 4       # batched
 
   root_causes:
@@ -265,22 +265,8 @@ summary:
       description: "Share calculation depends on manipulable totalDebt"
 
   prerequisites:
-    - id: "CA1"
-      description: "Position struct with debtShare field"
     - id: "CA3"
-      description: "totalDebt/totalDebtShare state variables"
-    - id: "CA7"
-      description: "Calls to _borrow function"
-    - id: "CA10"
-      description: "Branching logic for share calculation"
-    - id: "CA12"
-      description: "State updates with incorrect share"
-    - id: "CA16"
-      description: "Repayment uses same formula"
-    - id: "CA21"
-      description: "View function debt calculation"
-    - id: "CA23"
-      description: "Liquidate debt calculation"
+      description: "totalDebt/totalDebtShare state variables used in the vulnerable share calculation"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -424,29 +410,29 @@ line_to_code_act:
   # Line 139: empty
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "PREREQ"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "PREREQ"
+  CA7: "BENIGN"
   CA8: "BENIGN"
   CA9: "BENIGN"
-  CA10: "PREREQ"
+  CA10: "BENIGN"
   CA11: "ROOT_CAUSE"
-  CA12: "PREREQ"
+  CA12: "BENIGN"
   CA13: "BENIGN"
   CA14: "BENIGN"
   CA15: "BENIGN"
-  CA16: "PREREQ"
+  CA16: "BENIGN"
   CA17: "BENIGN"
   CA18: "BENIGN"
   CA19: "BENIGN"
   CA20: "BENIGN"
-  CA21: "PREREQ"
+  CA21: "BENIGN"
   CA22: "BENIGN"
-  CA23: "PREREQ"
+  CA23: "BENIGN"
   CA24: "BENIGN"
   CA25: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"

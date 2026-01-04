@@ -16,8 +16,8 @@ code_acts:
     type: "DECLARATION"
     lines: [26]
     code: "ICurvePool public curvePool;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Reference to Curve pool whose virtual_price is manipulable."
+    security_function: "BENIGN"
+    rationale: "Storage variable for Curve pool reference. Correctly declared."
 
   - id: "CA2"
     type: "INITIALIZATION"
@@ -61,8 +61,8 @@ code_acts:
       address public collateralToken;
       address public borrowToken;
       address public oracle;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Oracle address used for price lookups. Points to manipulable SimplifiedOracle."
+    security_function: "BENIGN"
+    rationale: "Storage declarations for token and oracle addresses. Correctly defined."
 
   - id: "CA7"
     type: "DECLARATION"
@@ -105,15 +105,15 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [74]
     code: "uint256 collateralValue = getCollateralValue(msg.sender);"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Calls getCollateralValue which uses manipulable oracle price."
+    security_function: "BENIGN"
+    rationale: "Call to getCollateralValue. The call site is benign - the vulnerability is in the oracle (CA3, CA17)."
 
   - id: "CA12"
     type: "COMPUTATION"
     lines: [75]
     code: "uint256 maxBorrow = (collateralValue * COLLATERAL_FACTOR) / 100;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Max borrow based on inflated collateral value allows overborrowing."
+    security_function: "BENIGN"
+    rationale: "Max borrow calculation. This is downstream impact from the manipulated oracle value."
 
   - id: "CA13"
     type: "INPUT_VAL"
@@ -123,8 +123,8 @@ code_acts:
           positions[msg.sender].borrowed + amount <= maxBorrow,
           "Insufficient collateral"
       );
-    security_function: "PREREQ"
-    rationale: "PREREQ - Borrow limit check uses manipulated maxBorrow, allowing excess borrowing."
+    security_function: "BENIGN"
+    rationale: "Borrow limit validation. Correctly implemented - it's the oracle value that's wrong, not this check."
 
   - id: "CA14"
     type: "STATE_MOD"
@@ -158,8 +158,8 @@ code_acts:
     type: "COMPUTATION"
     lines: [93]
     code: "return (collateralAmount * price) / 1e18;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Collateral value calculation using manipulated price. Returns inflated value."
+    security_function: "BENIGN"
+    rationale: "Collateral value calculation. Correctly multiplies collateral by price - the price being wrong is the issue."
 
   # ============================================
   # BATCHED UNRELATED CODE ACTS (for scoring)
@@ -195,8 +195,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 2      # CA3, CA17
-    PREREQ: 6          # CA1, CA6, CA11, CA12, CA13, CA18
-    BENIGN: 10         # CA2, CA4, CA5, CA7, CA8, CA9, CA10, CA14, CA15, CA16
+    PREREQ: 0
+    BENIGN: 16         # CA1, CA2, CA4-CA16, CA18
     UNRELATED: 4       # batched
 
   root_causes:
@@ -209,19 +209,7 @@ summary:
       type: "EXT_CALL"
       description: "getCollateralValue uses manipulable oracle price"
 
-  prerequisites:
-    - id: "CA1"
-      description: "Curve pool reference for virtual_price"
-    - id: "CA6"
-      description: "Oracle address in lending contract"
-    - id: "CA11"
-      description: "Calls getCollateralValue with manipulated price"
-    - id: "CA12"
-      description: "maxBorrow based on inflated value"
-    - id: "CA13"
-      description: "Borrow check uses manipulated limit"
-    - id: "CA18"
-      description: "Value calculation with manipulated price"
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -322,24 +310,24 @@ line_to_code_act:
   # Line 96: empty
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "ROOT_CAUSE"
   CA4: "BENIGN"
   CA5: "BENIGN"
-  CA6: "PREREQ"
+  CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
-  CA11: "PREREQ"
-  CA12: "PREREQ"
-  CA13: "PREREQ"
+  CA11: "BENIGN"
+  CA12: "BENIGN"
+  CA13: "BENIGN"
   CA14: "BENIGN"
   CA15: "BENIGN"
   CA16: "BENIGN"
   CA17: "ROOT_CAUSE"
-  CA18: "PREREQ"
+  CA18: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"
