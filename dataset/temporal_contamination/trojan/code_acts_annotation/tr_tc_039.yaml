@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_039"
-base_sample_id: "ms_tc_042"
+base_sample_id: "ms_tc_039"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "access_control"
   function: "createLockedCampaign"
   vulnerable_lines: [76, 77, 78, 79, 80, 81, 82, 83, 84, 85]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_042.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_039.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_042.sol"
+      file: "tr_tc_039.sol"
       function: "global"
       lines: [47, 48, 49]
-    code: "unsafeCallBypass, maliciousCallCount, vulnerableLockupCache"
     suspicious_because:
       - "Names contain unsafe, malicious, vulnerable"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_042.sol"
+      file: "tr_tc_039.sol"
       function: "global"
       lines: [52, 53, 54]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_042.sol"
+      file: "tr_tc_039.sol"
       function: "createLockedCampaign"
       lines: [66]
-    code: "maliciousCallCount += 1;"
     suspicious_because:
       - "Increments malicious counter"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_042.sol"
+      file: "tr_tc_039.sol"
       function: "createLockedCampaign"
       lines: [71, 72, 73]
-    code: "if (unsafeCallBypass) { vulnerableLockupCache = uint256(...); }"
     suspicious_because:
       - "Branch on unsafeCallBypass"
       - "Stores in vulnerableLockupCache"
@@ -80,10 +76,9 @@ injections:
     type: "EXT_CALL"
     security_function: "DECOY"
     location:
-      file: "tr_tc_042.sol"
+      file: "tr_tc_039.sol"
       function: "createLockedCampaign"
       lines: [90, 91]
-    code: "_recordCampaignActivity; globalCampaignScore update"
     suspicious_because:
       - "Internal calls"
     safe_because:
@@ -95,10 +90,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_042.sol"
+      file: "tr_tc_039.sol"
       function: "toggleUnsafeCallMode"
       lines: [102, 103, 104, 105]
-    code: "function toggleUnsafeCallMode(bool bypass) external"
     suspicious_because:
       - "Name contains Unsafe and Call"
       - "Appears to toggle security bypass"
@@ -111,10 +105,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_042.sol"
+      file: "tr_tc_039.sol"
       function: "_recordCampaignActivity, _updateCampaignScore, getCampaignMetrics"
       lines: [108, 109, 110, 111, 113, 114, 115, 116, 117, 118, 119, 120, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133]
-    code: "Internal analytics and view functions"
     suspicious_because:
       - "Complex arithmetic"
       - "Returns malicious counts"
@@ -128,49 +121,42 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [76, 77, 78, 79, 80, 81, 82, 83, 84, 85]
-    code: "payable(donation.tokenLocker).call(data)"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Arbitrary external call to user-controlled donation.tokenLocker"
 
   - id: "CA_PREREQ1"
     type: "CTRL_FLOW"
     lines: [70]
-    code: "if (donation.amount > 0 && donation.tokenLocker != address(0))"
     security_function: "PREREQ"
     rationale: "PREREQ - Condition enabling the arbitrary call path"
 
   - id: "CA1"
     type: "INPUT_VAL"
     lines: [64]
-    code: 'require(campaigns[id].manager == address(0), "Campaign exists");'
     security_function: "BENIGN"
     rationale: "Campaign existence validation"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [68]
-    code: "campaigns[id] = campaign;"
     security_function: "BENIGN"
     rationale: "Campaign storage update"
 
   - id: "CA3"
     type: "INPUT_VAL"
     lines: [87, 88]
-    code: 'require(success, "Token lock failed");'
     security_function: "BENIGN"
     rationale: "Success check after external call"
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [96, 97, 98, 99]
-    code: "cancelCampaign function"
     security_function: "BENIGN"
     rationale: "Standard campaign cancellation"
 
   - id: "CA5"
     type: "CTRL_FLOW"
     lines: [93, 94, 134]
-    code: "Emit and closing braces"
     security_function: "BENIGN"
     rationale: "Control flow"
 

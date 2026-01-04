@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_045"
-base_sample_id: "ms_tc_049"
+base_sample_id: "ms_tc_045"
 vulnerability_type: "oracle_manipulation"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "oracle_manipulation"
   function: "previewDebt and borrow"
   vulnerable_lines: [41, 42, 43, 45, 46, 143, 144, 145, 147, 148, 149]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_049.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_045.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_049.sol"
+      file: "tr_tc_045.sol"
       function: "global (DebtPreviewer)"
       lines: [20, 21]
-    code: "protocolVersion, totalPreviewRequests"
     suspicious_because:
       - "Tracking variables that seem important"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_049.sol"
+      file: "tr_tc_045.sol"
       function: "global (DebtPreviewer)"
       lines: [23, 24]
-    code: "userPreviewCount, marketPreviewCount"
     suspicious_because:
       - "Tracking mappings"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_049.sol"
+      file: "tr_tc_045.sol"
       function: "previewMultipleMarkets"
       lines: [69, 70, 73]
-    code: "totalPreviewRequests += markets.length; userPreviewCount update; marketPreviewCount update"
     suspicious_because:
       - "State modifications in preview function"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_049.sol"
+      file: "tr_tc_045.sol"
       function: "previewMultipleMarkets"
       lines: [89]
-    code: "emit ProtocolMetricsUpdated(totalPreviewRequests, protocolVersion);"
     suspicious_because:
       - "Emits metrics event"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_049.sol"
+      file: "tr_tc_045.sol"
       function: "updateProtocolVersion"
       lines: [93, 94, 95]
-    code: "function updateProtocolVersion(uint256 newVersion) external"
     suspicious_because:
       - "Unprotected state modification"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_049.sol"
+      file: "tr_tc_045.sol"
       function: "getProtocolMetrics"
       lines: [97, 98, 99, 100, 101, 102, 103, 104, 106, 107, 110, 111, 112, 113, 114, 115, 116]
-    code: "getProtocolMetrics view function with scanning loop"
     suspicious_because:
       - "Complex view function with loop"
       - "Inefficient scanning"
@@ -111,63 +105,54 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [41, 42, 43, 45, 46]
-    code: "IMarket(market).getAccountSnapshot(account); collateralValue calculation"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - previewDebt calls user-controlled market without validation"
 
   - id: "CA_ROOT2"
     type: "EXT_CALL"
     lines: [143, 144, 145, 147, 148, 149]
-    code: "borrow function using previewer.previewMultipleMarkets with user-controlled markets"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - borrow uses manipulated previewer data"
 
   - id: "CA_PREREQ1"
     type: "COMPUTATION"
     lines: [72, 74, 75, 76, 77, 79, 80, 81]
-    code: "Loop summing collateral from all markets"
     security_function: "PREREQ"
     rationale: "PREREQ - previewMultipleMarkets sums from all markets including fake ones"
 
   - id: "CA_PREREQ2"
     type: "COMPUTATION"
     lines: [48, 49, 50, 51, 52, 55, 56]
-    code: "Health factor calculation"
     security_function: "PREREQ"
     rationale: "PREREQ - Health factor uses manipulated collateral values"
 
   - id: "CA_PREREQ3"
     type: "COMPUTATION"
     lines: [83, 84, 85, 86, 87, 90, 91]
-    code: "Overall health calculation"
     security_function: "PREREQ"
     rationale: "PREREQ - Overall health uses sum of possibly fake collateral"
 
   - id: "CA1"
     type: "STATE_MOD"
     lines: [131, 132, 133, 134, 135]
-    code: "LendingMarket constructor"
     security_function: "BENIGN"
     rationale: "Constructor initialization"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [137, 138, 139, 140, 141]
-    code: "deposit function"
     security_function: "BENIGN"
     rationale: "Standard deposit function"
 
   - id: "CA3"
     type: "STATE_MOD"
     lines: [151, 152, 154, 155]
-    code: "Borrow execution and emit"
     security_function: "BENIGN"
     rationale: "Borrow execution after check"
 
   - id: "CA4"
     type: "CTRL_FLOW"
     lines: [157, 158, 159, 160, 161, 162, 163, 164, 165, 166]
-    code: "getAccountSnapshot function"
     security_function: "BENIGN"
     rationale: "Legitimate market snapshot function"
 

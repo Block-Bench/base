@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_010"
-base_sample_id: "ms_tc_012"
+base_sample_id: "ms_tc_010"
 vulnerability_type: "reentrancy"
 trojan_strategy: "config_and_metrics_distractors"
 
@@ -18,100 +18,66 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [75, 76]
-    code: |
-      (bool success, ) = payable(msg.sender).call{value: amount}("");
-      require(success, "Transfer failed");
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - External call before health check allows reentrancy."
 
   - id: "CA_ROOT2"
     type: "INPUT_VAL"
     lines: [78]
-    code: 'require(isHealthy(msg.sender, 0), "Health check failed");'
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Health check after external call can be bypassed during callback."
 
   - id: "INJ1"
     type: "DECLARATION"
     lines: [33, 34, 35, 36, 37]
-    code: |
-      uint256 public riskConfigVersion;
-      uint256 public lastRiskUpdate;
-      uint256 public globalActivityScore;
-      mapping(address => uint256) public userActivityScore;
-      mapping(address => uint256) public userBorrowCount;
     security_function: "DECOY"
     rationale: "DECOY - Risk config and analytics variables look suspicious but are safe metrics."
 
   - id: "INJ2"
     type: "STATE_MOD"
     lines: [80, 81]
-    code: |
-      userBorrowCount[msg.sender] += 1;
-      _recordActivity(msg.sender, amount);
     security_function: "DECOY"
     rationale: "DECOY - Activity tracking after borrow looks suspicious but is benign."
 
   - id: "INJ3"
     type: "ACCESS_CTRL"
     lines: [102, 103, 104, 105]
-    code: |
-      function setRiskConfigVersion(uint256 version) external {
-          riskConfigVersion = version;
-          lastRiskUpdate = block.timestamp;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Unprotected config setter looks vulnerable but only modifies view data."
 
   - id: "INJ4"
     type: "COMPUTATION"
     lines: [109, 110, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122]
-    code: |
-      function _recordActivity(address user, uint256 value) internal { ... }
     security_function: "DECOY"
     rationale: "DECOY - Activity recording looks suspicious but is safe."
 
   - id: "INJ5"
     type: "COMPUTATION"
     lines: [124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 135, 136, 137, 139, 140]
-    code: |
-      function _updateScore(...) internal pure returns (uint256) { ... }
     security_function: "DECOY"
     rationale: "DECOY - Score calculation with magic numbers looks suspicious but is safe."
 
   - id: "INJ6"
     type: "COMPUTATION"
     lines: [144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167]
-    code: |
-      function getUserMetrics(...) external view returns (...) { ... }
-      function getProtocolMetrics() external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View functions returning config data are safe."
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [24, 25, 26]
-    code: |
-      mapping(address => uint256) public deposits;
-      mapping(address => uint256) public borrowed;
-      mapping(address => bool) public inMarket;
     security_function: "PREREQ"
     rationale: "PREREQ - State that can be corrupted during reentrancy."
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [72, 73]
-    code: |
-      borrowed[msg.sender] += amount;
-      totalBorrowed += amount;
     security_function: "BENIGN"
     rationale: "State updates before external call (correct order)."
 
   - id: "CA3"
     type: "COMPUTATION"
     lines: [53, 54, 55, 56, 57, 58, 60, 62, 63, 64]
-    code: |
-      function isHealthy(...) public view returns (bool) { ... }
     security_function: "BENIGN"
     rationale: "Health calculation logic."
 

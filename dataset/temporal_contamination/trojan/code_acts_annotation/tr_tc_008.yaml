@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_008"
-base_sample_id: "ms_tc_010"
+base_sample_id: "ms_tc_008"
 vulnerability_type: "reentrancy"
 is_vulnerable: true
 
@@ -15,7 +15,7 @@ base_vulnerability:
   type: "reentrancy"
   function: "withdrawAll"
   vulnerable_lines: [35, 38]  # Line numbers in tr_tc_010.sol
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_010.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_008.yaml"
 
 injections:
 
@@ -28,15 +28,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_010.sol"
+      file: "tr_tc_008.sol"
       function: "setConfigVersion"
       lines: [50, 51, 52, 53]
-    code: |
-      function setConfigVersion(uint256 version) external {
-          configVersion = version;
-          lastUpdateTimestamp = block.timestamp;
-      }
-
     suspicious_because:
       - "External function with no access control modifier"
       - "Allows anyone to set configVersion"
@@ -66,16 +60,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_010.sol"
+      file: "tr_tc_008.sol"
       function: "contract-level"
       lines: [13, 14, 15, 16, 17]
-    code: |
-      uint256 public configVersion;
-      uint256 public lastUpdateTimestamp;
-      uint256 public globalActivityScore;
-      mapping(address => uint256) public userActivityScore;
-      mapping(address => uint256) public userWithdrawalCount;
-
     suspicious_because:
       - "Additional state variables beyond core credit logic"
       - "Public visibility might suggest security relevance"
@@ -103,19 +90,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_010.sol"
+      file: "tr_tc_008.sol"
       function: "_recordActivity"
       lines: [25, 40, 41, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65]
-    code: |
-      function _recordActivity(address user, uint256 value) internal {
-          if (value > 0) {
-              uint256 incr = value;
-              if (incr > 1e24) { incr = 1e24; }
-              userActivityScore[user] = _updateScore(userActivityScore[user], incr);
-              globalActivityScore = _updateScore(globalActivityScore, incr);
-          }
-      }
-
     suspicious_because:
       - "State modifications in internal function"
       - "Called AFTER external call in withdrawAll (line 41)"
@@ -147,18 +124,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_010.sol"
+      file: "tr_tc_008.sol"
       function: "_updateScore"
       lines: [67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 82, 83]
-    code: |
-      function _updateScore(uint256 current, uint256 value) internal pure returns (uint256) {
-          uint256 updated;
-          if (current == 0) { updated = value; }
-          else { updated = (current * 9 + value) / 10; }
-          if (updated > 1e27) { updated = 1e27; }
-          return updated;
-      }
-
     suspicious_because:
       - "Complex computation that might contain bugs"
       - "Name suggests it tracks something important"

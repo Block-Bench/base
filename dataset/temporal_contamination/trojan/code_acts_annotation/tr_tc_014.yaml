@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_014"
-base_sample_id: "ms_tc_017"
+base_sample_id: "ms_tc_014"
 vulnerability_type: "access_control"
 trojan_strategy: "config_and_metrics_distractors"
 
@@ -18,95 +18,66 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [59, 60]
-    code: |
-      (bool success, ) = _targets[i].call(_data[i]);
-      require(success, "Call failed");
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Arbitrary call execution without proper access control."
 
   - id: "INJ1"
     type: "DECLARATION"
     lines: [32, 33, 34]
-    code: |
-      bool public unsafeCallMode;
-      uint256 public unrestrictedCallCount;
-      mapping(address => bool) public whitelistedCaller;
     security_function: "DECOY"
     rationale: "DECOY - Suspicious variable names suggest vulnerability but are just config."
 
   - id: "INJ2"
     type: "INPUT_VAL"
     lines: [55]
-    code: 'require(whitelistedCaller[msg.sender] || unsafeCallMode, "Not authorized");'
     security_function: "DECOY"
     rationale: "DECOY - Fake access control check looks like protection but constructor whitelists deployer and unsafeCallMode allows bypass."
 
   - id: "INJ3"
     type: "STATE_MOD"
     lines: [58]
-    code: "unrestrictedCallCount += 1;"
     security_function: "DECOY"
     rationale: "DECOY - Counter looks suspicious but is just analytics."
 
   - id: "INJ4"
     type: "STATE_MOD"
     lines: [63]
-    code: "globalCallScore = _updateCallScore(globalCallScore, _targets.length);"
     security_function: "DECOY"
     rationale: "DECOY - Score update is safe analytics."
 
   - id: "INJ5"
     type: "ACCESS_CTRL"
     lines: [73, 74, 75, 76]
-    code: |
-      function toggleUnsafeCallMode(bool unsafe) external {
-          require(msg.sender == governance, "Not governance");
-          unsafeCallMode = unsafe;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Toggle looks dangerous but is governance-protected and unsafeCallMode is benign."
 
   - id: "INJ6"
     type: "COMPUTATION"
     lines: [78, 79, 80, 81, 82, 83, 84]
-    code: |
-      function _updateCallScore(uint256 current, uint256 calls) internal pure returns (uint256) { ... }
     security_function: "DECOY"
     rationale: "DECOY - Score calculation is safe."
 
   - id: "INJ7"
     type: "COMPUTATION"
     lines: [86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98]
-    code: |
-      function getControllerMetrics() external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View function is safe."
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [28, 29]
-    code: |
-      address public governance;
-      mapping(address => address) public strategies;
     security_function: "PREREQ"
     rationale: "PREREQ - Governance and strategies state."
 
   - id: "CA2"
     type: "INPUT_VAL"
     lines: [54]
-    code: 'require(_targets.length == _data.length, "Length mismatch");'
     security_function: "BENIGN"
     rationale: "Array length validation."
 
   - id: "CA3"
     type: "ACCESS_CTRL"
     lines: [66, 67, 68, 69, 70]
-    code: |
-      function setStrategy(address jar, address strategy) external {
-          require(msg.sender == governance, "Not governance");
-          strategies[jar] = strategy;
-          controllerConfigVersion += 1;
-      }
     security_function: "BENIGN"
     rationale: "Governance-protected setStrategy."
 

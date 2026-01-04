@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_033"
-base_sample_id: "ms_tc_036"
+base_sample_id: "ms_tc_033"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "access_control"
   function: "openTroveAndMigrate"
   vulnerable_lines: [83, 84, 85, 86, 87, 88, 89, 90, 91, 93]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_036.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_033.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_036.sol"
+      file: "tr_tc_033.sol"
       function: "global"
       lines: [48, 49, 50, 51, 52, 53]
-    code: "Metrics tracking variables and mappings"
     suspicious_because:
       - "Adds state complexity"
       - "Names suggest tracking/monitoring"
@@ -36,10 +35,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_036.sol"
+      file: "tr_tc_033.sol"
       function: "global"
       lines: [55, 56, 57]
-    code: "MigrationCompleted, ActivityRecorded, ConfigUpdated events"
     suspicious_because:
       - "Adds logging complexity"
     safe_because:
@@ -51,10 +49,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_036.sol"
+      file: "tr_tc_033.sol"
       function: "openTroveAndMigrate"
       lines: [96, 97, 98, 99, 101]
-    code: "totalMigrations += 1; lastMigrationBlock = block.number; userMigrationCount[msg.sender] += 1; _recordActivity(...)"
     suspicious_because:
       - "State modification after key operations"
     safe_because:
@@ -66,10 +63,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_036.sol"
+      file: "tr_tc_033.sol"
       function: "emergencyConfigOverride"
       lines: [109, 110, 111, 112]
-    code: "function emergencyConfigOverride(uint256 newVersion) external { configVersion = newVersion; }"
     suspicious_because:
       - "Name contains 'emergency' and 'Override'"
       - "Appears to bypass access control"
@@ -83,10 +79,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_036.sol"
+      file: "tr_tc_033.sol"
       function: "_recordActivity and _updateScore"
       lines: [115, 116, 117, 118, 119, 121, 122, 124, 125, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 138, 139, 140, 142, 143]
-    code: "Activity scoring and update logic"
     suspicious_because:
       - "Complex arithmetic operations"
       - "Score manipulation"
@@ -100,10 +95,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_036.sol"
+      file: "tr_tc_033.sol"
       function: "getMigrationMetrics and getUserMetrics"
       lines: [146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 162, 163, 164, 165, 166, 167]
-    code: "View functions for metrics"
     suspicious_because:
       - "Adds code complexity"
     safe_because:
@@ -115,10 +109,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_036.sol"
+      file: "tr_tc_033.sol"
       function: "BorrowerOperations additions"
       lines: [175, 176, 177, 179, 180, 202, 203, 204, 206, 216, 217, 218, 221, 222, 223, 224, 225, 226, 227, 228, 230, 231, 232, 233, 234, 235]
-    code: "Extended BorrowerOperations with metrics and view helpers"
     suspicious_because:
       - "Adds state to BorrowerOperations"
     safe_because:
@@ -131,69 +124,48 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [83, 84, 85, 86, 87, 88, 89, 90, 91]
-    code: |
-      borrowerOperations.openTrove(
-          troveManager,
-          account,  // user-controlled
-          maxFeePercentage,
-          collateralAmount,
-          debtAmount,
-          upperHint,
-          lowerHint
-      );
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Passes user-controlled account parameter to openTrove. Attacker can open trove on victim's behalf."
 
   - id: "CA_ROOT2"
     type: "EXT_CALL"
     lines: [93]
-    code: "IERC20(mkUSD).transfer(msg.sender, debtAmount);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Minted debt tokens go to msg.sender (attacker) instead of account (victim). Combined with CA_ROOT1, victim gets debt, attacker gets tokens."
 
   - id: "CA_PREREQ1"
     type: "INPUT_VAL"
     lines: [196, 197, 198, 199]
-    code: |
-      require(
-          msg.sender == account || delegates[account][msg.sender],
-          "Not authorized"
-      );
     security_function: "PREREQ"
     rationale: "PREREQ - Delegate check allows zap contract to act on behalf of victims who approved it."
 
   - id: "CA_PREREQ2"
     type: "STATE_MOD"
     lines: [183]
-    code: "delegates[msg.sender][_delegate] = _isApproved;"
     security_function: "PREREQ"
     rationale: "PREREQ - Victims set delegate approval for zap contract, enabling the attack."
 
   - id: "CA1"
     type: "EXT_CALL"
     lines: [75, 76, 77, 78, 79]
-    code: "IERC20(wstETH).transferFrom(msg.sender, address(this), collateralAmount);"
     security_function: "BENIGN"
     rationale: "Token transfer from caller"
 
   - id: "CA2"
     type: "EXT_CALL"
     lines: [81]
-    code: "IERC20(wstETH).approve(address(borrowerOperations), collateralAmount);"
     security_function: "BENIGN"
     rationale: "Approve tokens for borrowerOperations"
 
   - id: "CA3"
     type: "EXT_CALL"
     lines: [105]
-    code: "borrowerOperations.closeTrove(troveManager, account);"
     security_function: "BENIGN"
     rationale: "Close trove call"
 
   - id: "CA4"
     type: "INPUT_VAL"
     lines: [210, 211, 212, 213]
-    code: "require(msg.sender == account || delegates[account][msg.sender], 'Not authorized');"
     security_function: "BENIGN"
     rationale: "Authorization check in closeTrove"
 

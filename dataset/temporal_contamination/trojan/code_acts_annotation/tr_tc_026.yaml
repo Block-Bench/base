@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_026"
-base_sample_id: "ms_tc_029"
+base_sample_id: "ms_tc_026"
 vulnerability_type: "price_oracle_manipulation"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "price_oracle_manipulation"
   function: "deposit"
   vulnerable_lines: [45, 51]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_029.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_026.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_029.sol"
+      file: "tr_tc_026.sol"
       function: "global"
       lines: [22]
-    code: "bool public unsafeOracleBypass;"
     suspicious_because:
       - "Name suggests oracle bypass"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_029.sol"
+      file: "tr_tc_026.sol"
       function: "global"
       lines: [23]
-    code: "uint256 public manipulatedPriceCount;"
     suspicious_because:
       - "Name mentions manipulation"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_029.sol"
+      file: "tr_tc_026.sol"
       function: "global"
       lines: [24]
-    code: "uint256 public vulnerableShareCache;"
     suspicious_because:
       - "Name contains vulnerable"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_029.sol"
+      file: "tr_tc_026.sol"
       function: "global"
       lines: [27, 28, 29]
-    code: "Analytics variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_029.sol"
+      file: "tr_tc_026.sol"
       function: "deposit"
       lines: [40, 47, 48, 49]
-    code: "manipulatedPriceCount += 1; if (unsafeOracleBypass)..."
     suspicious_because:
       - "Looks like tracking manipulated prices"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_029.sol"
+      file: "tr_tc_026.sol"
       function: "analytics functions"
       lines: [77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111]
-    code: "Analytics functions"
     suspicious_because:
       - "toggleUnsafeOracleMode"
     safe_because:
@@ -110,42 +104,36 @@ code_acts:
   - id: "CA_ROOT"
     type: "EXT_CALL"
     lines: [45, 51]
-    code: "price = IPriceOracle(oracle).getPrice(wantToken); sharesAdded = ..."
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Uses manipulatable spot price for share calculation"
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [15, 16, 17, 19]
-    code: "State variables"
     security_function: "BENIGN"
     rationale: "Vault state"
 
   - id: "CA2"
     type: "INITIALIZATION"
     lines: [31, 32, 33, 34, 35]
-    code: "constructor"
     security_function: "BENIGN"
     rationale: "Constructor"
 
   - id: "CA3"
     type: "CTRL_FLOW"
     lines: [37, 38, 42, 43, 44, 52, 54, 55, 57, 59, 60, 62, 63]
-    code: "deposit function body"
     security_function: "BENIGN"
     rationale: "Deposit function"
 
   - id: "CA4"
     type: "CTRL_FLOW"
     lines: [65, 66, 68, 69, 71, 72, 74, 75]
-    code: "withdraw function"
     security_function: "BENIGN"
     rationale: "Withdraw function"
 
   - id: "CA5"
     type: "CTRL_FLOW"
     lines: [112]
-    code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
 

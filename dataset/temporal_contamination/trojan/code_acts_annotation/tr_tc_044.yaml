@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_044"
-base_sample_id: "ms_tc_048"
+base_sample_id: "ms_tc_044"
 vulnerability_type: "oracle_manipulation"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "oracle_manipulation"
   function: "exchangeRate"
   vulnerable_lines: [47, 49, 51]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_048.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_044.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_048.sol"
+      file: "tr_tc_044.sol"
       function: "global"
       lines: [24, 25, 26]
-    code: "unsafeRateBypass, maliciousRateCount, vulnerableExchangeCache"
     suspicious_because:
       - "Names contain unsafe, malicious, vulnerable"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_048.sol"
+      file: "tr_tc_044.sol"
       function: "global"
       lines: [29, 30, 31]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_048.sol"
+      file: "tr_tc_044.sol"
       function: "mint"
       lines: [65]
-    code: "maliciousRateCount += 1;"
     suspicious_because:
       - "Increments malicious counter"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "EXT_CALL"
     security_function: "DECOY"
     location:
-      file: "tr_tc_048.sol"
+      file: "tr_tc_044.sol"
       function: "mint"
       lines: [76, 77]
-    code: "_recordRateActivity; globalRateScore update"
     suspicious_because:
       - "Internal calls"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_048.sol"
+      file: "tr_tc_044.sol"
       function: "toggleUnsafeRateMode"
       lines: [104, 105, 106, 107]
-    code: "function toggleUnsafeRateMode(bool bypass) external"
     suspicious_because:
       - "Name contains Unsafe and Rate"
       - "Appears to toggle security bypass"
@@ -95,10 +90,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_048.sol"
+      file: "tr_tc_044.sol"
       function: "_recordRateActivity, _updateRateScore, getMarketMetrics"
       lines: [109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133]
-    code: "Internal analytics and view functions"
     suspicious_because:
       - "Complex arithmetic"
       - "Returns malicious counts"
@@ -112,49 +106,42 @@ code_acts:
   - id: "CA_ROOT1"
     type: "COMPUTATION"
     lines: [47, 49, 51]
-    code: "cash = underlying.balanceOf(address(this)); totalUnderlying = cash + totalBorrows - totalReserves; rate = (totalUnderlying * 1e18) / totalSupply;"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Exchange rate uses balanceOf() including donations, manipulable"
 
   - id: "CA_PREREQ1"
     type: "CTRL_FLOW"
     lines: [42, 43, 44, 45]
-    code: "exchangeRate function header with no sanity checks"
     security_function: "PREREQ"
     rationale: "PREREQ - Exchange rate function without sanity checks"
 
   - id: "CA_PREREQ2"
     type: "COMPUTATION"
     lines: [99, 100, 101, 102]
-    code: "balanceOfUnderlying function"
     security_function: "PREREQ"
     rationale: "PREREQ - Uses manipulated exchange rate for collateral calculation"
 
   - id: "CA1"
     type: "STATE_MOD"
     lines: [37, 38, 39]
-    code: "constructor"
     security_function: "BENIGN"
     rationale: "Constructor setting underlying token"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [62, 63, 67, 69, 71, 72, 74, 79, 80, 81]
-    code: "mint function"
     security_function: "BENIGN"
     rationale: "Mint function for depositing underlying tokens"
 
   - id: "CA3"
     type: "STATE_MOD"
     lines: [83, 84, 86, 88, 90, 91, 93, 95, 96, 97]
-    code: "redeem function"
     security_function: "BENIGN"
     rationale: "Redeem function for withdrawing underlying tokens"
 
   - id: "CA4"
     type: "CTRL_FLOW"
     lines: [59, 60, 134]
-    code: "Return statements and closing braces"
     security_function: "BENIGN"
     rationale: "Control flow"
 

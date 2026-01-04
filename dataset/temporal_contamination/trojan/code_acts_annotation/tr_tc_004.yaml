@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_004"
-base_sample_id: "ms_tc_005"
+base_sample_id: "ms_tc_004"
 vulnerability_type: "reentrancy"
 is_vulnerable: true
 
@@ -15,7 +15,7 @@ base_vulnerability:
   type: "reentrancy"
   function: "add_liquidity"
   vulnerable_lines: [75, 124]  # Line numbers in tr_tc_005.sol
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_005.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_004.yaml"
 
 injections:
 
@@ -28,15 +28,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_005.sol"
+      file: "tr_tc_004.sol"
       function: "setConfigVersion"
       lines: [169, 170, 171, 172]
-    code: |
-      function setConfigVersion(uint256 version) external {
-          configVersion = version;
-          emit PoolConfigured(version, block.timestamp);
-      }
-
     suspicious_because:
       - "External function with no access control modifier"
       - "Allows anyone to set configVersion"
@@ -67,14 +61,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_005.sol"
+      file: "tr_tc_004.sol"
       function: "contract-level"
       lines: []  # Lines 18-20 are mapped to CA3 (INSUFF_GUARD) - part of base vulnerability
-    code: |
-      uint256 private _status;
-      uint256 private constant _NOT_ENTERED = 1;
-      uint256 private constant _ENTERED = 2;
-
     suspicious_because:
       - "Standard reentrancy guard pattern declared"
       - "Variables named like OpenZeppelin ReentrancyGuard"
@@ -103,17 +92,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_005.sol"
+      file: "tr_tc_004.sol"
       function: "_recordPoolActivity"
       lines: [79, 115, 162, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206]
-    code: |
-      function _recordPoolActivity(address user, uint256 value) internal {
-          userInteractionCount[user] += 1;
-          ... poolActivityScore += increment; ...
-          lastLiquidityBlock = block.number;
-          emit PoolActivity(user, value);
-      }
-
     suspicious_because:
       - "State modifications in internal function"
       - "Called AFTER external call in add_liquidity (line 79)"
@@ -144,15 +125,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_005.sol"
+      file: "tr_tc_004.sol"
       function: "contract-level"
       lines: [23, 24, 25, 26]
-    code: |
-      uint256 public poolActivityScore;
-      uint256 public lastLiquidityBlock;
-      uint256 public configVersion;
-      mapping(address => uint256) public userInteractionCount;
-
     suspicious_because:
       - "Additional state variables beyond core AMM logic"
       - "Public visibility might suggest security relevance"

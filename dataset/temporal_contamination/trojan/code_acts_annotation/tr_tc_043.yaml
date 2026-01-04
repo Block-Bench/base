@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_043"
-base_sample_id: "ms_tc_047"
+base_sample_id: "ms_tc_043"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "access_control"
   function: "mint, _mint, proposeMinter"
   vulnerable_lines: [47, 54, 55, 59, 61, 62, 64, 65, 67, 68, 71, 72, 73, 74, 75]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_047.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_043.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_047.sol"
+      file: "tr_tc_043.sol"
       function: "global"
       lines: [22, 23, 24]
-    code: "unsafeMintBypass, maliciousMintCount, vulnerableMintCache"
     suspicious_because:
       - "Names contain unsafe, malicious, vulnerable"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_047.sol"
+      file: "tr_tc_043.sol"
       function: "global"
       lines: [27, 28, 29]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_047.sol"
+      file: "tr_tc_043.sol"
       function: "mint"
       lines: [48]
-    code: "maliciousMintCount += 1;"
     suspicious_because:
       - "Increments malicious counter"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_047.sol"
+      file: "tr_tc_043.sol"
       function: "mint"
       lines: [50, 51, 52]
-    code: "if (unsafeMintBypass) { vulnerableMintCache = uint256(...); }"
     suspicious_because:
       - "Branch on unsafeMintBypass"
       - "Stores in vulnerableMintCache"
@@ -80,10 +76,9 @@ injections:
     type: "EXT_CALL"
     security_function: "DECOY"
     location:
-      file: "tr_tc_047.sol"
+      file: "tr_tc_043.sol"
       function: "mint"
       lines: [57, 58]
-    code: "_recordMintActivity; globalMintScore update"
     suspicious_because:
       - "Internal calls"
     safe_because:
@@ -95,10 +90,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_047.sol"
+      file: "tr_tc_043.sol"
       function: "toggleUnsafeMintMode"
       lines: [85, 86, 87, 88]
-    code: "function toggleUnsafeMintMode(bool bypass) external onlyMinter"
     suspicious_because:
       - "Name contains Unsafe and Mint"
       - "Appears to toggle security bypass"
@@ -112,10 +106,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_047.sol"
+      file: "tr_tc_043.sol"
       function: "_recordMintActivity, _updateMintScore, getTokenMetrics"
       lines: [124, 125, 126, 127, 129, 130, 131, 132, 133, 134, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151]
-    code: "Internal analytics and view functions"
     suspicious_because:
       - "Complex arithmetic"
       - "Returns malicious counts"
@@ -129,70 +122,60 @@ code_acts:
   - id: "CA_ROOT1"
     type: "STATE_MOD"
     lines: [47, 54, 55, 59]
-    code: "mint function with single minter protection"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - mint() protected only by single minter key, no supply cap"
 
   - id: "CA_ROOT2"
     type: "STATE_MOD"
     lines: [61, 62, 64, 65, 67, 68]
-    code: "_mint internal function"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - _mint has no supply cap check"
 
   - id: "CA_ROOT3"
     type: "STATE_MOD"
     lines: [71, 72, 73, 74, 75]
-    code: "proposeMinter function"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - proposeMinter with single-key protection"
 
   - id: "CA_PREREQ1"
     type: "ACCESS_CTRL"
     lines: [41, 42, 43, 44]
-    code: "modifier onlyMinter() { require(msg.sender == minter || unsafeMintBypass); }"
     security_function: "PREREQ"
     rationale: "PREREQ - Single minter check modifier with fake bypass"
 
   - id: "CA1"
     type: "STATE_MOD"
     lines: [36, 37, 38, 39]
-    code: "constructor"
     security_function: "BENIGN"
     rationale: "Constructor initializing minter and initial supply"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [77, 78, 79, 80, 81, 82]
-    code: "acceptMinterRole function"
     security_function: "BENIGN"
     rationale: "Standard two-step minter acceptance"
 
   - id: "CA3"
     type: "EXT_CALL"
     lines: [90, 91, 92, 93, 94, 95, 96]
-    code: "transfer function"
     security_function: "BENIGN"
     rationale: "Standard ERC20 transfer"
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [98, 99, 100, 101, 102]
-    code: "approve function"
     security_function: "BENIGN"
     rationale: "Standard ERC20 approve"
 
   - id: "CA5"
     type: "EXT_CALL"
     lines: [104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 115, 116, 117, 119, 120, 121]
-    code: "transferFrom function"
     security_function: "BENIGN"
     rationale: "Standard ERC20 transferFrom"
 
   - id: "CA6"
     type: "CTRL_FLOW"
     lines: [152]
-    code: "Closing brace"
     security_function: "BENIGN"
     rationale: "Control flow"
 

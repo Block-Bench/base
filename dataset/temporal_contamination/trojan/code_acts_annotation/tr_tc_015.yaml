@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_015"
-base_sample_id: "ms_tc_018"
+base_sample_id: "ms_tc_015"
 vulnerability_type: "pool_manipulation"
 trojan_strategy: "config_and_metrics_distractors"
 
@@ -18,111 +18,78 @@ code_acts:
   - id: "CA_ROOT1"
     type: "CTRL_FLOW"
     lines: [63]
-    code: "_updateWeights();"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Weight update called after every swap."
 
   - id: "CA_ROOT2"
     type: "STATE_MOD"
     lines: [101]
-    code: "tokens[token].weight = (tokens[token].balance * 100) / totalValue;"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Weight calculated from spot balances, manipulable via flash loan."
 
   - id: "INJ1"
     type: "DECLARATION"
     lines: [22, 23, 24]
-    code: |
-      bool public dynamicWeightBypass;
-      uint256 public unsafeWeightUpdateCount;
-      uint256 public vulnerableBalanceThreshold;
     security_function: "DECOY"
     rationale: "DECOY - Suspicious variable names look like vulnerabilities but are benign config."
 
   - id: "INJ2"
     type: "DECLARATION"
     lines: [27, 28, 29]
-    code: |
-      uint256 public poolConfigVersion;
-      uint256 public globalSwapScore;
-      mapping(address => uint256) public userSwapActivity;
     security_function: "DECOY"
     rationale: "DECOY - Analytics variables look suspicious but are safe metrics."
 
   - id: "INJ3"
     type: "STATE_MOD"
     lines: [62]
-    code: "unsafeWeightUpdateCount += 1;"
     security_function: "DECOY"
     rationale: "DECOY - Counter with suspicious name looks dangerous but is just analytics."
 
   - id: "INJ4"
     type: "STATE_MOD"
     lines: [65, 66]
-    code: |
-      _recordSwapActivity(msg.sender, amountIn + amountOut);
-      globalSwapScore = _updateSwapScore(globalSwapScore, amountIn);
     security_function: "DECOY"
     rationale: "DECOY - Activity tracking is safe."
 
   - id: "INJ5"
     type: "INPUT_VAL"
     lines: [90]
-    code: "if (dynamicWeightBypass) return;"
     security_function: "DECOY"
     rationale: "DECOY - Fake bypass looks dangerous but dynamicWeightBypass is always false."
 
   - id: "INJ6"
     type: "ACCESS_CTRL"
     lines: [117, 118, 119, 120]
-    code: |
-      function setDynamicWeightBypass(bool bypass) external {
-          dynamicWeightBypass = bypass;
-          poolConfigVersion += 1;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Unprotected toggle looks dangerous but bypass has no security impact."
 
   - id: "INJ7"
     type: "COMPUTATION"
     lines: [123, 124, 125, 126, 127, 128]
-    code: |
-      function _recordSwapActivity(address user, uint256 value) internal { ... }
     security_function: "DECOY"
     rationale: "DECOY - Activity recording is safe analytics."
 
   - id: "INJ8"
     type: "COMPUTATION"
     lines: [130, 131, 132, 133, 134, 135, 136, 137]
-    code: |
-      function _updateSwapScore(uint256 current, uint256 value) internal pure returns (uint256) { ... }
     security_function: "DECOY"
     rationale: "DECOY - Score calculation is safe."
 
   - id: "INJ9"
     type: "COMPUTATION"
     lines: [140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150]
-    code: |
-      function getPoolMetrics() external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View function is safe."
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [11, 12, 13, 14, 15, 17, 18, 19]
-    code: |
-      struct Token { address addr; uint256 balance; uint256 weight; }
-      mapping(address => Token) public tokens;
-      address[] public tokenList;
-      uint256 public totalWeight;
     security_function: "PREREQ"
     rationale: "PREREQ - Token state affected by weight manipulation."
 
   - id: "CA2"
     type: "COMPUTATION"
     lines: [71, 72, 73, 74, 75, 76, 77, 78, 80, 81, 82, 83, 84, 86, 87]
-    code: |
-      function calculateSwapAmount(...) public view returns (uint256) { ... }
     security_function: "BENIGN"
     rationale: "Swap amount calculation using weights."
 

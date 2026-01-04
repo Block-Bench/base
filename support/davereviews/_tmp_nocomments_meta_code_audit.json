@@ -1,0 +1,187 @@
+{
+  "summary": {
+    "README_CLAIMS_50_FILES": 1,
+    "README_SAYS_VULNERABLE_LINES_EMPTY_BUT_NOT": 1,
+    "META_IS_VULNERABLE_NOT_TRUE": 39
+  },
+  "issues": {
+    "README_TOTAL_FILES_MISMATCH": [],
+    "README_CLAIMS_50_FILES": [
+      "README mentions 50 files"
+    ],
+    "README_SAYS_VULNERABLE_LINES_EMPTY_BUT_NOT": [
+      "README claims vulnerable_lines empty"
+    ],
+    "INDEX_TOTAL_FILES_MISMATCH": [],
+    "MISSING_METADATA_OR_CONTRACT": [],
+    "META_SAMPLE_ID_MISMATCH": [],
+    "META_CONTRACT_FILE_MISMATCH": [],
+    "META_VARIANT_PARENT_MISSING": [],
+    "META_VARIANT_PARENT_NOT_IN_SANITIZED": [],
+    "META_VARIANT_TYPE_MISMATCH": [],
+    "META_IS_VULNERABLE_NOT_TRUE": [
+      [
+        "nc_tc_008",
+        null
+      ],
+      [
+        "nc_tc_009",
+        null
+      ],
+      [
+        "nc_tc_010",
+        null
+      ],
+      [
+        "nc_tc_011",
+        null
+      ],
+      [
+        "nc_tc_012",
+        null
+      ],
+      [
+        "nc_tc_013",
+        null
+      ],
+      [
+        "nc_tc_014",
+        null
+      ],
+      [
+        "nc_tc_015",
+        null
+      ],
+      [
+        "nc_tc_016",
+        null
+      ],
+      [
+        "nc_tc_017",
+        null
+      ],
+      [
+        "nc_tc_018",
+        null
+      ],
+      [
+        "nc_tc_019",
+        null
+      ],
+      [
+        "nc_tc_020",
+        null
+      ],
+      [
+        "nc_tc_021",
+        null
+      ],
+      [
+        "nc_tc_022",
+        null
+      ],
+      [
+        "nc_tc_023",
+        null
+      ],
+      [
+        "nc_tc_024",
+        null
+      ],
+      [
+        "nc_tc_025",
+        null
+      ],
+      [
+        "nc_tc_026",
+        null
+      ],
+      [
+        "nc_tc_027",
+        null
+      ],
+      [
+        "nc_tc_028",
+        null
+      ],
+      [
+        "nc_tc_029",
+        null
+      ],
+      [
+        "nc_tc_030",
+        null
+      ],
+      [
+        "nc_tc_031",
+        null
+      ],
+      [
+        "nc_tc_032",
+        null
+      ],
+      [
+        "nc_tc_033",
+        null
+      ],
+      [
+        "nc_tc_034",
+        null
+      ],
+      [
+        "nc_tc_035",
+        null
+      ],
+      [
+        "nc_tc_036",
+        null
+      ],
+      [
+        "nc_tc_037",
+        null
+      ],
+      [
+        "nc_tc_038",
+        null
+      ],
+      [
+        "nc_tc_039",
+        null
+      ],
+      [
+        "nc_tc_040",
+        null
+      ],
+      [
+        "nc_tc_041",
+        null
+      ],
+      [
+        "nc_tc_042",
+        null
+      ],
+      [
+        "nc_tc_043",
+        null
+      ],
+      [
+        "nc_tc_044",
+        null
+      ],
+      [
+        "nc_tc_045",
+        null
+      ],
+      [
+        "nc_tc_046",
+        null
+      ]
+    ],
+    "CONTRACT_MISSING_LN_MARKERS": [],
+    "CONTRACT_LN_MARKERS_NOT_SEQUENTIAL": [],
+    "VULNERABLE_CONTRACT_NOT_IN_CODE": [],
+    "VULNERABLE_FUNCTION_NOT_IN_CODE": [],
+    "VULNERABLE_LINES_EMPTY": [],
+    "VULNERABLE_LINES_NOT_IN_LN_MARKERS": []
+  }
+}

@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_041"
-base_sample_id: "ms_tc_044"
+base_sample_id: "ms_tc_041"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "access_control"
   function: "upgradePool and claimReward"
   vulnerable_lines: [55, 141, 142, 143]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_044.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_041.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_044.sol"
+      file: "tr_tc_041.sol"
       function: "global"
       lines: [29, 30, 31]
-    code: "unsafeUpgradeBypass, maliciousUpgradeCount, vulnerableProxyCache"
     suspicious_because:
       - "Names contain unsafe, malicious, vulnerable"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_044.sol"
+      file: "tr_tc_041.sol"
       function: "global"
       lines: [34, 35, 36]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_044.sol"
+      file: "tr_tc_041.sol"
       function: "upgradePool"
       lines: [57, 59, 60, 61, 64, 66, 67]
-    code: "maliciousUpgradeCount, unsafeBypass check, analytics calls"
     suspicious_because:
       - "Increments malicious counter"
       - "Bypass check in condition"
@@ -65,10 +62,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_044.sol"
+      file: "tr_tc_041.sol"
       function: "acceptPendingAdmin and toggleUnsafeUpgradeMode"
       lines: [73, 74, 75, 76, 77, 78, 81, 82, 83, 84, 85]
-    code: "acceptPendingAdmin and toggleUnsafeUpgradeMode functions"
     suspicious_because:
       - "Name contains Unsafe and Upgrade"
     safe_because:
@@ -81,10 +77,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_044.sol"
+      file: "tr_tc_041.sol"
       function: "_recordUpgradeActivity, _updateUpgradeScore, getFactoryMetrics"
       lines: [88, 89, 90, 92, 93, 94, 95, 96, 97, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114]
-    code: "Internal analytics and view functions"
     suspicious_because:
       - "Complex arithmetic"
       - "Returns malicious counts"
@@ -97,10 +92,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_044.sol"
+      file: "tr_tc_041.sol"
       function: "SmartLoan"
       lines: [122, 123]
-    code: "loanVersion, rewardClaimCount"
     suspicious_because:
       - "Additional state variables in loan"
     safe_because:
@@ -112,10 +106,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_044.sol"
+      file: "tr_tc_041.sol"
       function: "swapDebtParaSwap and claimReward"
       lines: [133, 140]
-    code: "loanVersion += 1; rewardClaimCount += 1;"
     suspicious_because:
       - "Counter increments"
     safe_because:
@@ -128,49 +121,42 @@ code_acts:
   - id: "CA_ROOT1"
     type: "ACCESS_CTRL"
     lines: [51, 52, 53, 54, 55, 63, 69, 70]
-    code: "upgradePool function with admin check"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - upgradePool protected only by single admin key, no timelock or multi-sig"
 
   - id: "CA_ROOT2"
     type: "EXT_CALL"
     lines: [141, 142, 143]
-    code: "pair.call(...) in claimReward"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Arbitrary call to user-controlled pair address"
 
   - id: "CA_PREREQ1"
     type: "DECLARATION"
     lines: [136, 137, 138, 139]
-    code: "function claimReward(address pair, ...)"
     security_function: "PREREQ"
     rationale: "PREREQ - Function accepts user-controlled pair address"
 
   - id: "CA1"
     type: "STATE_MOD"
     lines: [41, 42, 43]
-    code: "constructor"
     security_function: "BENIGN"
     rationale: "Constructor setting admin"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [45, 46, 47, 48]
-    code: "createLoan function"
     security_function: "BENIGN"
     rationale: "Standard loan creation"
 
   - id: "CA3"
     type: "CTRL_FLOW"
     lines: [125, 126, 127, 128, 129, 130, 131, 132, 134, 144, 145]
-    code: "swapDebtParaSwap function and closings"
     security_function: "BENIGN"
     rationale: "Loan functions"
 
   - id: "CA4"
     type: "CTRL_FLOW"
     lines: [115]
-    code: "Closing braces"
     security_function: "BENIGN"
     rationale: "Control flow"
 

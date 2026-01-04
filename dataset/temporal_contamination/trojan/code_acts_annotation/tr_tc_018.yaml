@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_018"
-base_sample_id: "ms_tc_021"
+base_sample_id: "ms_tc_018"
 vulnerability_type: "reinitialization"
 is_vulnerable: true
 
@@ -15,7 +15,7 @@ base_vulnerability:
   type: "reinitialization"
   function: "init"
   vulnerable_lines: [39, 40, 41, 42, 43, 44]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_021.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_018.yaml"
 
 injections:
 
@@ -27,10 +27,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_018.sol"
       function: "global"
       lines: [28]
-    code: "bool public unsafeReinitMode;"
     suspicious_because:
       - "Name suggests unsafe/dangerous operation"
       - "Combined with reinit suggests reinitialization bypass"
@@ -48,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_018.sol"
       function: "global"
       lines: [29]
-    code: "uint256 public reinitAttemptCount;"
     suspicious_because:
       - "Name suggests tracking reinitialization attempts"
       - "Might imply reinit is possible"
@@ -68,10 +66,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_018.sol"
       function: "global"
       lines: [30]
-    code: "address public emergencyMaintainerOverride;"
     suspicious_because:
       - "Name suggests emergency bypass of access control"
       - "Override suggests privilege escalation"
@@ -89,16 +86,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_018.sol"
       function: "init"
       lines: [47, 48, 49, 50, 51, 52]
-    code: |
-      if (isInitialized && !unsafeReinitMode) {
-          // Fake protection that can be bypassed
-          emergencyMaintainerOverride = _maintainer;
-          poolConfigVersion += 1;
-          return;
-      }
     suspicious_because:
       - "Looks like initialization protection"
       - "Contains comment about fake protection"
@@ -116,10 +106,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_018.sol"
       function: "init"
       lines: [45]
-    code: "reinitAttemptCount += 1; // Suspicious counter"
     suspicious_because:
       - "Tracking reinit attempts suggests vulnerability awareness"
       - "Comment explicitly calls it suspicious"
@@ -137,15 +126,9 @@ injections:
     type: "ACCESS_CTRL"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_018.sol"
       function: "toggleUnsafeReinitMode"
       lines: [128, 129, 130, 131, 132]
-    code: |
-      // Fake vulnerability: suspicious reinit toggle
-      function toggleUnsafeReinitMode(bool unsafe) external {
-          unsafeReinitMode = unsafe;
-          poolConfigVersion += 1;
-      }
     suspicious_because:
       - "Function name suggests enabling unsafe reinit"
       - "No access control on toggle"
@@ -164,13 +147,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_018.sol"
       function: "_recordLiquidityActivity, _updateFeeScore, getPoolMetrics"
       lines: [134, 135, 136, 137, 138, 139, 140, 142, 143, 144, 145, 146, 147, 148, 149, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162]
-    code: |
-      function _recordLiquidityActivity(address user, uint256 value) internal {...}
-      function _updateFeeScore(uint256 current, uint256 fee) internal pure returns (uint256) {...}
-      function getPoolMetrics() external view returns (...) {...}
     suspicious_because:
       - "Adds code complexity to distract from simple vulnerability"
       - "getPoolMetrics exposes reinitAttempts and reinitBypassActive"
@@ -185,215 +164,138 @@ code_acts:
   - id: "CA_ROOT"
     type: "CTRL_FLOW"
     lines: [39, 40, 41, 42, 43, 44]
-    code: |
-      function init(
-          address _maintainer,
-          address _baseToken,
-          address _quoteToken,
-          uint256 _lpFeeRate
-      ) external {
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - init function lacks require(!isInitialized) check"
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [17, 18, 19]
-    code: |
-      address public maintainer;
-      address public baseToken;
-      address public quoteToken;
     security_function: "BENIGN"
     rationale: "Pool configuration variables"
 
   - id: "CA2"
     type: "DECLARATION"
     lines: [21, 22, 23]
-    code: |
-      uint256 public lpFeeRate;
-      uint256 public baseBalance;
-      uint256 public quoteBalance;
     security_function: "BENIGN"
     rationale: "Pool state variables"
 
   - id: "CA3"
     type: "DECLARATION"
     lines: [25]
-    code: "bool public isInitialized;"
     security_function: "BENIGN"
     rationale: "Initialization flag (not properly checked)"
 
   - id: "CA4"
     type: "DECLARATION"
     lines: [33, 34, 35]
-    code: |
-      uint256 public poolConfigVersion;
-      uint256 public globalFeeScore;
-      mapping(address => uint256) public userLiquidityActivity;
     security_function: "BENIGN"
     rationale: "Analytics tracking variables"
 
   - id: "CA5"
     type: "STATE_MOD"
     lines: [54, 55, 56, 57]
-    code: |
-      maintainer = _maintainer;
-      baseToken = _baseToken;
-      quoteToken = _quoteToken;
-      lpFeeRate = _lpFeeRate;
     security_function: "BENIGN"
     rationale: "State assignments in init"
 
   - id: "CA6"
     type: "STATE_MOD"
     lines: [59]
-    code: "isInitialized = true;"
     security_function: "BENIGN"
     rationale: "Sets initialized flag"
 
   - id: "CA7"
     type: "CTRL_FLOW"
     lines: [61, 62]
-    code: |
-      emit Initialized(_maintainer, _baseToken, _quoteToken);
-      }
     security_function: "BENIGN"
     rationale: "Event emission and function close"
 
   - id: "CA8"
     type: "CTRL_FLOW"
     lines: [64, 65]
-    code: |
-      function addLiquidity(uint256 baseAmount, uint256 quoteAmount) external {
-          require(isInitialized, "Not initialized");
     security_function: "BENIGN"
     rationale: "addLiquidity function header"
 
   - id: "CA9"
     type: "EXT_CALL"
     lines: [67, 68]
-    code: |
-      IERC20(baseToken).transferFrom(msg.sender, address(this), baseAmount);
-      IERC20(quoteToken).transferFrom(msg.sender, address(this), quoteAmount);
     security_function: "BENIGN"
     rationale: "Token transfers in addLiquidity"
 
   - id: "CA10"
     type: "STATE_MOD"
     lines: [70, 71]
-    code: |
-      baseBalance += baseAmount;
-      quoteBalance += quoteAmount;
     security_function: "BENIGN"
     rationale: "Balance updates in addLiquidity"
 
   - id: "CA11"
     type: "EXT_CALL"
     lines: [73, 74]
-    code: |
-      _recordLiquidityActivity(msg.sender, baseAmount + quoteAmount);
-      }
     security_function: "BENIGN"
     rationale: "Analytics call and function close"
 
   - id: "CA12"
     type: "CTRL_FLOW"
     lines: [76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86]
-    code: |
-      function swap(...) external returns (uint256 toAmount) {
-          require(isInitialized, "Not initialized");
-          require((fromToken == baseToken && toToken == quoteToken) ||
-              (fromToken == quoteToken && toToken == baseToken), "Invalid token pair");
     security_function: "BENIGN"
     rationale: "Swap function header and validation"
 
   - id: "CA13"
     type: "EXT_CALL"
     lines: [88]
-    code: "IERC20(fromToken).transferFrom(msg.sender, address(this), fromAmount);"
     security_function: "BENIGN"
     rationale: "Token transfer in swap"
 
   - id: "CA14"
     type: "COMPUTATION"
     lines: [90, 91, 92, 93, 94, 95, 96, 97, 98]
-    code: |
-      if (fromToken == baseToken) {
-          toAmount = (quoteBalance * fromAmount) / (baseBalance + fromAmount);
-          baseBalance += fromAmount;
-          quoteBalance -= toAmount;
-      } else {
-          toAmount = (baseBalance * fromAmount) / (quoteBalance + fromAmount);
-          quoteBalance += fromAmount;
-          baseBalance -= toAmount;
-      }
     security_function: "BENIGN"
     rationale: "AMM swap calculation"
 
   - id: "CA15"
     type: "COMPUTATION"
     lines: [100, 101]
-    code: |
-      uint256 fee = (toAmount * lpFeeRate) / 10000;
-      toAmount -= fee;
     security_function: "BENIGN"
     rationale: "Fee calculation"
 
   - id: "CA16"
     type: "EXT_CALL"
     lines: [103, 104]
-    code: |
-      IERC20(toToken).transfer(msg.sender, toAmount);
-      IERC20(toToken).transfer(maintainer, fee);
     security_function: "BENIGN"
     rationale: "Token transfers in swap"
 
   - id: "CA17"
     type: "STATE_MOD"
     lines: [106]
-    code: "globalFeeScore = _updateFeeScore(globalFeeScore, fee);"
     security_function: "BENIGN"
     rationale: "Analytics update"
 
   - id: "CA18"
     type: "CTRL_FLOW"
     lines: [108, 109]
-    code: |
-      return toAmount;
-      }
     security_function: "BENIGN"
     rationale: "Return and function close"
 
   - id: "CA19"
     type: "ACCESS_CTRL"
     lines: [111, 112]
-    code: |
-      function claimFees() external {
-          require(msg.sender == maintainer, "Only maintainer");
     security_function: "BENIGN"
     rationale: "claimFees access control"
 
   - id: "CA20"
     type: "EXT_CALL"
     lines: [114, 115]
-    code: |
-      uint256 baseTokenBalance = IERC20(baseToken).balanceOf(address(this));
-      uint256 quoteTokenBalance = IERC20(quoteToken).balanceOf(address(this));
     security_function: "BENIGN"
     rationale: "Balance reads"
 
   - id: "CA21"
     type: "CTRL_FLOW"
     lines: [117, 118, 119, 120, 122, 123, 124, 125, 126]
-    code: |
-      if (baseTokenBalance > baseBalance) {...}
-      if (quoteTokenBalance > quoteBalance) {...}
     security_function: "BENIGN"
     rationale: "Fee claiming logic"
 
   - id: "CA22"
     type: "CTRL_FLOW"
     lines: [163]
-    code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
 

@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_011"
-base_sample_id: "ms_tc_013"
+base_sample_id: "ms_tc_011"
 vulnerability_type: "arithmetic_error"
 trojan_strategy: "config_and_metrics_distractors"
 
@@ -18,102 +18,66 @@ code_acts:
   - id: "CA_ROOT1"
     type: "COMPUTATION"
     lines: [73, 74, 75]
-    code: |
-      uint256 rewardAmount = tokenToReward(
-          lpToken.balanceOf(address(this))
-      );
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Uses balanceOf instead of feeSum, allowing reward inflation via donation."
 
   - id: "INJ1"
     type: "DECLARATION"
     lines: [41, 42, 43, 44, 45]
-    code: |
-      uint256 public minterConfigVersion;
-      uint256 public lastConfigUpdate;
-      uint256 public globalActivityScore;
-      mapping(address => uint256) public userActivityScore;
-      mapping(address => uint256) public userMintCount;
     security_function: "DECOY"
     rationale: "DECOY - Config and analytics variables look suspicious but are safe metrics."
 
   - id: "INJ2"
     type: "STATE_MOD"
     lines: [79, 80]
-    code: |
-      userMintCount[msg.sender] += 1;
-      _recordActivity(to, rewardAmount);
     security_function: "DECOY"
     rationale: "DECOY - Activity tracking after mint looks suspicious but is benign."
 
   - id: "INJ3"
     type: "ACCESS_CTRL"
     lines: [106, 107, 108, 109]
-    code: |
-      function setMinterConfigVersion(uint256 version) external {
-          minterConfigVersion = version;
-          lastConfigUpdate = block.timestamp;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Unprotected config setter looks vulnerable but only modifies view data."
 
   - id: "INJ4"
     type: "COMPUTATION"
     lines: [112, 113, 114, 115, 116, 117, 119, 120, 121, 122, 123, 124, 125]
-    code: |
-      function _recordActivity(address user, uint256 value) internal { ... }
     security_function: "DECOY"
     rationale: "DECOY - Activity recording looks suspicious but is safe."
 
   - id: "INJ5"
     type: "COMPUTATION"
     lines: [127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 138, 139, 140, 142, 143]
-    code: |
-      function _updateScore(...) internal pure returns (uint256) { ... }
     security_function: "DECOY"
     rationale: "DECOY - Score calculation with magic numbers looks suspicious but is safe."
 
   - id: "INJ6"
     type: "COMPUTATION"
     lines: [146, 147, 148, 149, 150, 151, 152, 153, 155, 156, 157, 158, 159, 160, 161, 162, 163]
-    code: |
-      function getUserMetrics(...) external view returns (...) { ... }
-      function getProtocolMetrics() external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View functions returning config data are safe."
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [35, 36]
-    code: |
-      mapping(address => uint256) public depositedLP;
-      mapping(address => uint256) public earnedRewards;
     security_function: "PREREQ"
     rationale: "PREREQ - State variables affected by the vulnerability."
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [70, 71]
-    code: |
-      uint256 feeSum = _performanceFee + _withdrawalFee;
-      lpToken.transferFrom(msg.sender, address(this), feeSum);
     security_function: "BENIGN"
     rationale: "Fee transfer (the correct amount to use)."
 
   - id: "CA3"
     type: "STATE_MOD"
     lines: [77]
-    code: "earnedRewards[to] += rewardAmount;"
     security_function: "BENIGN"
     rationale: "Reward assignment (uses inflated value)."
 
   - id: "CA4"
     type: "COMPUTATION"
     lines: [83, 84, 85]
-    code: |
-      function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
-          return lpAmount * REWARD_RATE;
-      }
     security_function: "BENIGN"
     rationale: "Reward rate calculation."
 

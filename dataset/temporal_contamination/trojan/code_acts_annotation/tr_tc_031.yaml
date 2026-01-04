@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_031"
-base_sample_id: "ms_tc_034"
+base_sample_id: "ms_tc_031"
 vulnerability_type: "price_manipulation"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "price_manipulation"
   function: "deposit"
   vulnerable_lines: [77]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_034.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_031.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_034.sol"
+      file: "tr_tc_031.sol"
       function: "global"
       lines: [45]
-    code: "bool public unsafePriceBypass;"
     suspicious_because:
       - "Name suggests price bypass"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_034.sol"
+      file: "tr_tc_031.sol"
       function: "global"
       lines: [46]
-    code: "uint256 public manipulatedDepositCount;"
     suspicious_because:
       - "Name mentions manipulated deposits"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_034.sol"
+      file: "tr_tc_031.sol"
       function: "global"
       lines: [47]
-    code: "uint256 public vulnerableShareCache;"
     suspicious_because:
       - "Name contains vulnerable"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_034.sol"
+      file: "tr_tc_031.sol"
       function: "global"
       lines: [50, 51, 52]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_034.sol"
+      file: "tr_tc_031.sol"
       function: "deposit"
       lines: [62, 73, 74, 75, 85, 86]
-    code: "manipulatedDepositCount += 1; if (unsafePriceBypass)..."
     suspicious_because:
       - "Looks like price manipulation tracking"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_034.sol"
+      file: "tr_tc_031.sol"
       function: "analytics functions"
       lines: [126, 127, 128, 129, 132, 133, 134, 135, 136, 137, 139, 140, 141, 142, 143, 144, 145, 146, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159]
-    code: "Analytics and metrics functions"
     suspicious_because:
       - "toggleUnsafePriceMode function"
     safe_because:
@@ -110,91 +104,78 @@ code_acts:
   - id: "CA_ROOT"
     type: "COMPUTATION"
     lines: [77]
-    code: "shares = (totalSupply * (deposit0 + deposit1)) / (total0 + total1);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Share calculation uses manipulable spot balances"
 
   - id: "CA_PREREQ1"
     type: "EXT_CALL"
     lines: [59, 60]
-    code: "Balance reads"
     security_function: "PREREQ"
     rationale: "PREREQ - Reads spot balances used in vulnerable share calculation"
 
   - id: "CA_PREREQ2"
     type: "COMPUTATION"
     lines: [100, 101]
-    code: "Withdrawal calculation"
     security_function: "PREREQ"
     rationale: "PREREQ - Withdrawal also uses spot balances"
 
   - id: "CA_PREREQ3"
     type: "CTRL_FLOW"
     lines: [112, 113, 115, 116, 117, 118, 119]
-    code: "Rebalance operations"
     security_function: "PREREQ"
     rationale: "PREREQ - Rebalancing can lock in bad state"
 
   - id: "CA1"
     type: "EXT_CALL"
     lines: [64, 65]
-    code: "Token transfers from depositor"
     security_function: "BENIGN"
     rationale: "Token transfers"
 
   - id: "CA2"
     type: "CTRL_FLOW"
     lines: [67, 68, 69, 70, 71, 78]
-    code: "Share calculation branches"
     security_function: "BENIGN"
     rationale: "Control flow"
 
   - id: "CA3"
     type: "STATE_MOD"
     lines: [80, 81]
-    code: "Share state updates"
     security_function: "BENIGN"
     rationale: "State updates for minted shares"
 
   - id: "CA4"
     type: "CTRL_FLOW"
     lines: [83, 88]
-    code: "Add liquidity and return"
     security_function: "BENIGN"
     rationale: "Add liquidity call"
 
   - id: "CA5"
     type: "INPUT_VAL"
     lines: [95]
-    code: "Balance check in withdraw"
     security_function: "BENIGN"
     rationale: "Balance check"
 
   - id: "CA6"
     type: "EXT_CALL"
     lines: [97, 98]
-    code: "Balance reads in withdraw"
     security_function: "BENIGN"
     rationale: "Balance reads"
 
   - id: "CA7"
     type: "STATE_MOD"
     lines: [103, 104]
-    code: "Share burn state updates"
     security_function: "BENIGN"
     rationale: "State updates"
 
   - id: "CA8"
     type: "EXT_CALL"
     lines: [106, 107, 109]
-    code: "Token transfers and return"
     security_function: "BENIGN"
     rationale: "Token transfers"
 
   - id: "CA9"
     type: "CTRL_FLOW"
     lines: [121, 123]
-    code: "Internal liquidity functions"
     security_function: "BENIGN"
     rationale: "Internal functions"
 

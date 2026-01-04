@@ -16,7 +16,7 @@ base_vulnerability:
   type: "access_control"
   function: "initWallet/kill"
   vulnerable_lines: [38, 78]  # Line numbers in tr_tc_003.sol (function signatures with no guards)
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_003.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_003.yaml"
 
 injections:
 
@@ -32,14 +32,6 @@ injections:
       file: "tr_tc_003.sol"
       function: "updateRequiredSignatures"
       lines: [98, 99, 100, 101, 102, 103]
-    code: |
-      function updateRequiredSignatures(uint256 newRequired) external {
-          required = newRequired;
-          configurationVersion += 1;
-          lastUpdateTimestamp = block.timestamp;
-          emit ConfigurationUpdated(configurationVersion, lastUpdateTimestamp);
-      }
-
     suspicious_because:
       - "No access control modifier - anyone can call"
       - "Modifies critical 'required' variable (signature threshold)"
@@ -73,12 +65,6 @@ injections:
       file: "tr_tc_003.sol"
       function: "previewExecution"
       lines: [105, 106, 107, 108]
-    code: |
-      function previewExecution(address to, uint256 value, bytes calldata data) external view returns (bool, bytes memory) {
-          (bool ok, bytes memory result) = to.staticcall(data);
-          return (ok, result);
-      }
-
     suspicious_because:
       - "Makes external call to arbitrary address with arbitrary data"
       - "Similar pattern to execute() which has a real external call"
@@ -112,25 +98,6 @@ injections:
       file: "tr_tc_003.sol"
       function: "_updateConfiguration"
       lines: [112, 113, 114, 115, 116, 117, 118, 119, 120, 122, 123, 124, 126, 127, 128, 130, 131]  # excludes empty lines 121, 125, 129
-    code: |
-      function _updateConfiguration(uint256 daylimit) internal {
-          uint256 localScore = walletActivityScore;
-          if (daylimit > 0) {
-              localScore = localScore + daylimit;
-          } else {
-              if (localScore > 0) {
-                  localScore = localScore / 2;
-              }
-          }
-          if (localScore > 1e24) {
-              localScore = 1e24;
-          }
-          walletActivityScore = localScore;
-          configurationVersion += 1;
-          lastUpdateTimestamp = block.timestamp;
-          emit ConfigurationUpdated(configurationVersion, lastUpdateTimestamp);
-      }
-
     suspicious_because:
       - "Complex nested conditionals and arithmetic"
       - "Division operation (localScore / 2)"
@@ -166,19 +133,6 @@ injections:
       file: "tr_tc_003.sol"
       function: "_recordActivity"
       lines: [133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143]
-    code: |
-      function _recordActivity(address actor, uint256 value) internal {
-          ownerActionCount[actor] += 1;
-          uint256 increment = value;
-          if (increment > 0) {
-              if (increment > 1 ether) {
-                  increment = increment / 2;
-              }
-              walletActivityScore += increment;
-          }
-          emit WalletActivity(actor, value);
-      }
-
     suspicious_because:
       - "Modifies state (ownerActionCount, walletActivityScore)"
       - "Called after external call in execute() - potential reentrancy pattern"

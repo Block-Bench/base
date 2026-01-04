@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_042"
-base_sample_id: "ms_tc_045"
+base_sample_id: "ms_tc_042"
 vulnerability_type: "reentrancy"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "reentrancy"
   function: "claimRewards and registerMarket"
   vulnerable_lines: [50, 119, 120, 121]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_045.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_042.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_045.sol"
+      file: "tr_tc_042.sol"
       function: "global"
       lines: [22, 23, 24]
-    code: "reentrancyGuardDisabled, maliciousClaimCount, vulnerableRewardCache"
     suspicious_because:
       - "Names suggest reentrancy issues"
       - "Contains malicious and vulnerable in names"
@@ -35,10 +34,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_045.sol"
+      file: "tr_tc_042.sol"
       function: "global"
       lines: [27, 28, 29]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -50,10 +48,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_045.sol"
+      file: "tr_tc_042.sol"
       function: "claimRewards"
       lines: [44]
-    code: "maliciousClaimCount += 1;"
     suspicious_because:
       - "Increments malicious counter"
     safe_because:
@@ -65,10 +62,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_045.sol"
+      file: "tr_tc_042.sol"
       function: "claimRewards"
       lines: [46, 47, 48]
-    code: "if (reentrancyGuardDisabled) { vulnerableRewardCache = uint256(...); }"
     suspicious_because:
       - "Branch on reentrancyGuardDisabled"
       - "Stores in vulnerableRewardCache"
@@ -81,10 +77,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_045.sol"
+      file: "tr_tc_042.sol"
       function: "claimRewards"
       lines: [53, 54, 55, 56, 57, 58, 59]
-    code: "Reward processing loop with vulnerableRewardCache update"
     suspicious_because:
       - "Complex arithmetic"
       - "Updates vulnerableRewardCache"
@@ -97,10 +92,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_045.sol"
+      file: "tr_tc_042.sol"
       function: "toggleReentrancyGuard"
       lines: [77, 78, 79, 80]
-    code: "function toggleReentrancyGuard(bool disabled) external"
     suspicious_because:
       - "Name suggests disabling reentrancy protection"
       - "Appears to toggle security bypass"
@@ -113,10 +107,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_045.sol"
+      file: "tr_tc_042.sol"
       function: "_recordStakingActivity, _updateStakingScore, getStakingMetrics"
       lines: [38, 39, 83, 84, 85, 86, 88, 89, 90, 91, 92, 93, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 108, 109, 110, 111, 112, 113]
-    code: "Internal analytics and view functions"
     suspicious_because:
       - "Complex arithmetic"
       - "Returns malicious counts"
@@ -130,42 +123,36 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [50]
-    code: "uint256[] memory rewards = IYieldMarket(market).claimRewards(user);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - External call to user-controlled market without reentrancy guard"
 
   - id: "CA_ROOT2"
     type: "STATE_MOD"
     lines: [119, 120, 121]
-    code: "function registerMarket(address market) external { registeredMarkets[market] = true; }"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Market registration without validation of market origin"
 
   - id: "CA_PREREQ1"
     type: "DECLARATION"
     lines: [43]
-    code: "function claimRewards(address market, address user) external {"
     security_function: "PREREQ"
     rationale: "PREREQ - claimRewards accepts user-controlled market address"
 
   - id: "CA1"
     type: "STATE_MOD"
     lines: [33, 34, 35, 36, 40]
-    code: "deposit function"
     security_function: "BENIGN"
     rationale: "Standard deposit function"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [64, 65, 66, 67, 68, 70, 71, 73, 74]
-    code: "withdraw function"
     security_function: "BENIGN"
     rationale: "Standard withdraw function"
 
   - id: "CA3"
     type: "CTRL_FLOW"
     lines: [61, 62, 114]
-    code: "Emit and closing braces"
     security_function: "BENIGN"
     rationale: "Control flow"
 

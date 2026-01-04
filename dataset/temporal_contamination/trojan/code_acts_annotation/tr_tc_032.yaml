@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_032"
-base_sample_id: "ms_tc_035"
+base_sample_id: "ms_tc_032"
 vulnerability_type: "arithmetic_error"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "arithmetic_error"
   function: "depositExactAmount and withdrawExactShares"
   vulnerable_lines: [62, 63, 64, 93, 94, 95]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_035.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_032.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
+      file: "tr_tc_032.sol"
       function: "global"
       lines: [32]
-    code: "bool public unsafeShareBypass;"
     suspicious_because:
       - "Name suggests share bypass"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
+      file: "tr_tc_032.sol"
       function: "global"
       lines: [33]
-    code: "uint256 public roundingErrorCount;"
     suspicious_because:
       - "Name mentions rounding errors"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
+      file: "tr_tc_032.sol"
       function: "global"
       lines: [34]
-    code: "uint256 public vulnerableShareCache;"
     suspicious_because:
       - "Name contains vulnerable"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
+      file: "tr_tc_032.sol"
       function: "global"
       lines: [37, 38, 39, 40]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
+      file: "tr_tc_032.sol"
       function: "depositExactAmount"
       lines: [52, 71, 72, 73, 75, 76]
-    code: "roundingErrorCount += 1; if (unsafeShareBypass)..."
     suspicious_because:
       - "Looks like rounding error tracking"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
+      file: "tr_tc_032.sol"
       function: "analytics functions"
       lines: [143, 144, 145, 146, 149, 150, 151, 152, 153, 154, 155, 157, 158, 159, 160, 161, 162, 163, 164, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177]
-    code: "Analytics and metrics functions"
     suspicious_because:
       - "toggleUnsafeShareMode function"
     safe_because:
@@ -110,90 +104,72 @@ code_acts:
   - id: "CA_ROOT1"
     type: "COMPUTATION"
     lines: [62, 63, 64]
-    code: |
-      shareAmount =
-          (_amount * pool.totalDepositShares) /
-          pool.pseudoTotalPool;
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Deposit share calculation with rounding vulnerability"
 
   - id: "CA_ROOT2"
     type: "COMPUTATION"
     lines: [93, 94, 95]
-    code: |
-      withdrawAmount =
-          (_shares * pool.pseudoTotalPool) /
-          pool.totalDepositShares;
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Withdrawal calculation with rounding vulnerability"
 
   - id: "CA_PREREQ"
     type: "COMPUTATION"
     lines: [113, 114, 115]
-    code: "shareBurned calculation"
     security_function: "PREREQ"
     rationale: "PREREQ - Additional vulnerable division pattern"
 
   - id: "CA1"
     type: "EXT_CALL"
     lines: [54]
-    code: "IERC20 transferFrom"
     security_function: "BENIGN"
     rationale: "Token transfer in deposit"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [56, 58, 59, 60, 61, 65, 68, 69]
-    code: "Pool and user state updates"
     security_function: "BENIGN"
     rationale: "State updates"
 
   - id: "CA3"
     type: "CTRL_FLOW"
     lines: [42, 43, 44, 45, 78, 103]
-    code: "Return statements"
     security_function: "BENIGN"
     rationale: "Return statements"
 
   - id: "CA4"
     type: "INPUT_VAL"
     lines: [86, 87, 88, 89]
-    code: "Share balance validation"
     security_function: "BENIGN"
     rationale: "Share balance check"
 
   - id: "CA5"
     type: "STATE_MOD"
     lines: [91, 97, 98, 99]
-    code: "Withdraw state updates"
     security_function: "BENIGN"
     rationale: "State updates in withdraw"
 
   - id: "CA6"
     type: "EXT_CALL"
     lines: [101, 126]
-    code: "Token transfers"
     security_function: "BENIGN"
     rationale: "Token transfers"
 
   - id: "CA7"
     type: "INPUT_VAL"
     lines: [117, 118, 119, 120]
-    code: "Withdraw validation"
     security_function: "BENIGN"
     rationale: "Balance validation"
 
   - id: "CA8"
     type: "STATE_MOD"
     lines: [111, 122, 123, 124, 128]
-    code: "withdrawExactAmount state"
     security_function: "BENIGN"
     rationale: "State updates"
 
   - id: "CA9"
     type: "CTRL_FLOW"
     lines: [131, 132, 133, 134, 135, 136, 138, 139, 140]
-    code: "View functions"
     security_function: "BENIGN"
     rationale: "View helper functions"
 

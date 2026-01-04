@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_024"
-base_sample_id: "ms_tc_027"
+base_sample_id: "ms_tc_024"
 vulnerability_type: "input_validation"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "input_validation"
   function: "_getPair"
   vulnerable_lines: [36, 53, 54, 55]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_027.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_024.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_027.sol"
+      file: "tr_tc_024.sol"
       function: "global"
       lines: [13]
-    code: "bool public unsafePairBypass;"
     suspicious_because:
       - "Name suggests pair bypass"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_027.sol"
+      file: "tr_tc_024.sol"
       function: "global"
       lines: [14]
-    code: "uint256 public fakePairCount;"
     suspicious_because:
       - "Name mentions fake pairs"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_027.sol"
+      file: "tr_tc_024.sol"
       function: "global"
       lines: [15]
-    code: "uint256 public manipulatedReserveCache;"
     suspicious_because:
       - "Name contains manipulated"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_027.sol"
+      file: "tr_tc_024.sol"
       function: "global"
       lines: [18, 19, 20]
-    code: "Analytics variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_027.sol"
+      file: "tr_tc_024.sol"
       function: "swapExactTokensForTokens"
       lines: [33, 38, 39, 40]
-    code: "fakePairCount += 1; if (unsafePairBypass)..."
     suspicious_because:
       - "Looks like tracking fake pairs"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_027.sol"
+      file: "tr_tc_024.sol"
       function: "analytics functions"
       lines: [61, 62, 63, 64, 65, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 80, 81, 82, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95]
-    code: "Analytics functions"
     suspicious_because:
       - "toggleUnsafePairMode"
     safe_because:
@@ -110,49 +104,42 @@ code_acts:
   - id: "CA_ROOT"
     type: "EXT_CALL"
     lines: [36, 53, 54, 55]
-    code: "_getPair returns address without factory validation"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - No factory validation allows fake pairs"
 
   - id: "CA1"
     type: "CTRL_FLOW"
     lines: [22, 23, 24, 25, 26, 27, 28]
-    code: "swapExactTokensForTokens function header"
     security_function: "BENIGN"
     rationale: "Function header"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [30, 31]
-    code: "amounts array init"
     security_function: "BENIGN"
     rationale: "Amounts initialization"
 
   - id: "CA3"
     type: "CTRL_FLOW"
     lines: [35, 42, 44, 45]
-    code: "Swap loop body"
     security_function: "BENIGN"
     rationale: "Swap loop"
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [47, 48, 50, 51]
-    code: "Record activity and return"
     security_function: "BENIGN"
     rationale: "Analytics and return"
 
   - id: "CA5"
     type: "COMPUTATION"
     lines: [57, 58, 59]
-    code: "_getAmountOut function"
     security_function: "BENIGN"
     rationale: "Amount calculation helper"
 
   - id: "CA6"
     type: "CTRL_FLOW"
     lines: [96]
-    code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
 

@@ -1,0 +1,187 @@
+{
+  "summary": {
+    "README_CLAIMS_50_FILES": 1,
+    "README_VULNERABLE_LINES_EMPTY_CLAIM": 1,
+    "META_IS_VULNERABLE_NOT_TRUE_OR_MISSING": 39
+  },
+  "issues": {
+    "README_CLAIMS_50_FILES": [
+      "README mentions 50 files"
+    ],
+    "README_VULNERABLE_LINES_EMPTY_CLAIM": [
+      "README claims vulnerable_lines empty"
+    ],
+    "INDEX_TOTAL_FILES_MISMATCH": [],
+    "INDEX_PREFIX_MISMATCH": [],
+    "MISSING_METADATA_OR_CONTRACT": [],
+    "META_SAMPLE_ID_MISMATCH": [],
+    "META_CONTRACT_FILE_MISMATCH": [],
+    "META_VARIANT_PARENT_NOT_IN_NOCOMMENTS": [],
+    "META_VARIANT_TYPE_MISMATCH": [],
+    "META_IS_VULNERABLE_NOT_TRUE_OR_MISSING": [
+      [
+        "ch_medical_tc_008",
+        null
+      ],
+      [
+        "ch_medical_tc_009",
+        null
+      ],
+      [
+        "ch_medical_tc_010",
+        null
+      ],
+      [
+        "ch_medical_tc_011",
+        null
+      ],
+      [
+        "ch_medical_tc_012",
+        null
+      ],
+      [
+        "ch_medical_tc_013",
+        null
+      ],
+      [
+        "ch_medical_tc_014",
+        null
+      ],
+      [
+        "ch_medical_tc_015",
+        null
+      ],
+      [
+        "ch_medical_tc_016",
+        null
+      ],
+      [
+        "ch_medical_tc_017",
+        null
+      ],
+      [
+        "ch_medical_tc_018",
+        null
+      ],
+      [
+        "ch_medical_tc_019",
+        null
+      ],
+      [
+        "ch_medical_tc_020",
+        null
+      ],
+      [
+        "ch_medical_tc_021",
+        null
+      ],
+      [
+        "ch_medical_tc_022",
+        null
+      ],
+      [
+        "ch_medical_tc_023",
+        null
+      ],
+      [
+        "ch_medical_tc_024",
+        null
+      ],
+      [
+        "ch_medical_tc_025",
+        null
+      ],
+      [
+        "ch_medical_tc_026",
+        null
+      ],
+      [
+        "ch_medical_tc_027",
+        null
+      ],
+      [
+        "ch_medical_tc_028",
+        null
+      ],
+      [
+        "ch_medical_tc_029",
+        null
+      ],
+      [
+        "ch_medical_tc_030",
+        null
+      ],
+      [
+        "ch_medical_tc_031",
+        null
+      ],
+      [
+        "ch_medical_tc_032",
+        null
+      ],
+      [
+        "ch_medical_tc_033",
+        null
+      ],
+      [
+        "ch_medical_tc_034",
+        null
+      ],
+      [
+        "ch_medical_tc_035",
+        null
+      ],
+      [
+        "ch_medical_tc_036",
+        null
+      ],
+      [
+        "ch_medical_tc_037",
+        null
+      ],
+      [
+        "ch_medical_tc_038",
+        null
+      ],
+      [
+        "ch_medical_tc_039",
+        null
+      ],
+      [
+        "ch_medical_tc_040",
+        null
+      ],
+      [
+        "ch_medical_tc_041",
+        null
+      ],
+      [
+        "ch_medical_tc_042",
+        null
+      ],
+      [
+        "ch_medical_tc_043",
+        null
+      ],
+      [
+        "ch_medical_tc_044",
+        null
+      ],
+      [
+        "ch_medical_tc_045",
+        null
+      ],
+      [
+        "ch_medical_tc_046",
+        null
+      ]
+    ],
+    "CONTRACT_MISSING_LN_MARKERS": [],
+    "CONTRACT_LN_MARKERS_NOT_SEQUENTIAL": [],
+    "VULNERABLE_CONTRACT_NOT_IN_CODE": [],
+    "VULNERABLE_FUNCTION_NOT_IN_CODE": [],
+    "VULNERABLE_LINES_EMPTY": [],
+    "VULNERABLE_LINES_NOT_IN_LN_MARKERS": [],
+    "VULNERABLE_LINES_POINT_TO_BLANK": []
+  }
+}

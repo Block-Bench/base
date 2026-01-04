@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_046"
-base_sample_id: "ms_tc_050"
+base_sample_id: "ms_tc_046"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "access_control"
   function: "setLockRecipient, emergencyUnlock, setConfigStorage, transferAdmin"
   vulnerable_lines: [67, 68, 69, 71, 72, 74, 75, 76, 77, 78, 79, 99, 100, 101, 102, 104, 105, 107, 108, 111, 112, 113, 114, 122, 123, 124]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_050.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_046.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_050.sol"
+      file: "tr_tc_046.sol"
       function: "global"
       lines: [28, 29, 30]
-    code: "protocolVersion, totalLockOperations, userLockActivity"
     suspicious_because:
       - "Tracking variables that seem important"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_050.sol"
+      file: "tr_tc_046.sol"
       function: "lock"
       lines: [50, 51, 64]
-    code: "totalLockOperations += 1; userLockActivity update; emit ProtocolMetricsUpdated"
     suspicious_because:
       - "State modifications in lock function"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_050.sol"
+      file: "tr_tc_046.sol"
       function: "updateProtocolVersion"
       lines: [126, 127, 128]
-    code: "function updateProtocolVersion(uint256 newVersion) external onlyAdmin"
     suspicious_because:
       - "Admin-only state modification"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_050.sol"
+      file: "tr_tc_046.sol"
       function: "getProtocolMetrics"
       lines: [130, 131, 132, 133, 134, 135, 136, 138, 139, 140, 141, 142]
-    code: "getProtocolMetrics view function with scanning loop"
     suspicious_because:
       - "Complex view function with loop"
       - "Inefficient scanning"
@@ -81,77 +77,66 @@ code_acts:
   - id: "CA_ROOT1"
     type: "STATE_MOD"
     lines: [74, 75, 76, 77, 78, 79]
-    code: "setLockRecipient function"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Admin can redirect ANY user's lock recipient without consent"
 
   - id: "CA_ROOT2"
     type: "EXT_CALL"
     lines: [99, 100, 101, 102, 104, 105, 107, 108]
-    code: "emergencyUnlock function"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - emergencyUnlock sends to manipulated lockRecipient"
 
   - id: "CA_ROOT3"
     type: "STATE_MOD"
     lines: [67, 68, 69, 71, 72]
-    code: "setConfigStorage function"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Admin can modify config storage without oversight"
 
   - id: "CA_ROOT4"
     type: "STATE_MOD"
     lines: [122, 123, 124]
-    code: "transferAdmin function"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Admin can transfer control to any address"
 
   - id: "CA_ROOT5"
     type: "STATE_MOD"
     lines: [111, 112, 113, 114]
-    code: "proposeAdminTransfer function"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Admin can propose transfer without oversight"
 
   - id: "CA_PREREQ1"
     type: "ACCESS_CTRL"
     lines: [42, 43, 44, 45]
-    code: "modifier onlyAdmin()"
     security_function: "PREREQ"
     rationale: "PREREQ - Single admin check with pendingAdmin included"
 
   - id: "CA1"
     type: "STATE_MOD"
     lines: [37, 38, 39, 40]
-    code: "constructor"
     security_function: "BENIGN"
     rationale: "Constructor initialization"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [47, 48, 53, 55, 56, 57, 58, 59, 60, 61, 63, 65]
-    code: "lock function"
     security_function: "BENIGN"
     rationale: "Standard lock function"
 
   - id: "CA3"
     type: "STATE_MOD"
     lines: [81, 82, 84, 85, 86, 87, 88, 90, 91, 93, 94, 96, 97]
-    code: "unlock function"
     security_function: "BENIGN"
     rationale: "Standard unlock function"
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [116, 117, 118, 119, 120]
-    code: "acceptAdminRole function"
     security_function: "BENIGN"
     rationale: "Standard two-step admin acceptance"
 
   - id: "CA5"
     type: "CTRL_FLOW"
     lines: [143]
-    code: "Closing brace"
     security_function: "BENIGN"
     rationale: "Control flow"
 

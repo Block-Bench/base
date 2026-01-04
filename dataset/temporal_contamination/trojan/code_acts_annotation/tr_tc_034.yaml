@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_034"
-base_sample_id: "ms_tc_037"
+base_sample_id: "ms_tc_034"
 vulnerability_type: "price_oracle_manipulation"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "price_oracle_manipulation"
   function: "borrow and getAssetPrice"
   vulnerable_lines: [76, 154]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_037.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_034.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_037.sol"
+      file: "tr_tc_034.sol"
       function: "global"
       lines: [36, 37, 38]
-    code: "unsafeOracleBypass, manipulatedPriceCount, vulnerableCollateralCache"
     suspicious_because:
       - "Names contain 'unsafe', 'manipulated', 'vulnerable'"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_037.sol"
+      file: "tr_tc_034.sol"
       function: "global"
       lines: [41, 42, 43]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_037.sol"
+      file: "tr_tc_034.sol"
       function: "deposit"
       lines: [56, 61, 62]
-    code: "manipulatedPriceCount += 1; _recordBorrowActivity; globalBorrowScore update"
     suspicious_because:
       - "Counter with 'manipulated' in name"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_037.sol"
+      file: "tr_tc_034.sol"
       function: "borrow"
       lines: [72, 73, 74]
-    code: "if (unsafeOracleBypass) { vulnerableCollateralCache = amount; }"
     suspicious_because:
       - "Branch on 'unsafeOracleBypass'"
       - "Assigns to 'vulnerableCollateralCache'"
@@ -80,10 +76,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_037.sol"
+      file: "tr_tc_034.sol"
       function: "toggleUnsafeOracleMode"
       lines: [101, 102, 103, 104]
-    code: "function toggleUnsafeOracleMode(bool bypass) external"
     suspicious_because:
       - "Name contains 'Unsafe' and 'Oracle'"
       - "Appears to toggle security bypass"
@@ -96,10 +91,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_037.sol"
+      file: "tr_tc_034.sol"
       function: "_recordBorrowActivity and _updateBorrowScore"
       lines: [107, 108, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121]
-    code: "Internal analytics functions"
     suspicious_because:
       - "Complex arithmetic"
     safe_because:
@@ -111,10 +105,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_037.sol"
+      file: "tr_tc_034.sol"
       function: "PoolOracle global"
       lines: [141, 142]
-    code: "unsafePoolBypass, poolManipulationCount"
     suspicious_because:
       - "Names suggest pool manipulation"
     safe_because:
@@ -127,105 +120,90 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [76]
-    code: "uint256 collateralPrice = oracle.getAssetPrice(msg.sender);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Fetches collateral price from manipulable Curve pool oracle"
 
   - id: "CA_ROOT2"
     type: "COMPUTATION"
     lines: [154]
-    code: "uint256 price = (balance1 * 1e18) / balance0;"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Price calculation uses spot balances from Curve pool that can be manipulated"
 
   - id: "CA_PREREQ1"
     type: "EXT_CALL"
     lines: [149, 150]
-    code: "stablePool.balances(0); stablePool.balances(1);"
     security_function: "PREREQ"
     rationale: "PREREQ - Reads manipulable spot balances"
 
   - id: "CA_PREREQ2"
     type: "EXT_CALL"
     lines: [77]
-    code: "uint256 borrowPrice = oracle.getAssetPrice(asset);"
     security_function: "PREREQ"
     rationale: "PREREQ - Borrow price from same oracle"
 
   - id: "CA_PREREQ3"
     type: "COMPUTATION"
     lines: [79, 80, 81]
-    code: "Borrow value calculations"
     security_function: "PREREQ"
     rationale: "PREREQ - Calculations using manipulated prices"
 
   - id: "CA1"
     type: "EXT_CALL"
     lines: [58]
-    code: "IERC20(asset).transferFrom(msg.sender, address(this), amount);"
     security_function: "BENIGN"
     rationale: "Token transfer in deposit"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [59]
-    code: "deposits[onBehalfOf] += amount;"
     security_function: "BENIGN"
     rationale: "Deposit state update"
 
   - id: "CA3"
     type: "INPUT_VAL"
     lines: [83]
-    code: 'require(borrowValue <= maxBorrow, "Insufficient collateral");'
     security_function: "BENIGN"
     rationale: "Collateral check"
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [85]
-    code: "borrows[msg.sender] += amount;"
     security_function: "BENIGN"
     rationale: "Borrow state update"
 
   - id: "CA5"
     type: "EXT_CALL"
     lines: [86]
-    code: "IERC20(asset).transfer(onBehalfOf, amount);"
     security_function: "BENIGN"
     rationale: "Token transfer to borrower"
 
   - id: "CA6"
     type: "INPUT_VAL"
     lines: [94]
-    code: 'require(deposits[msg.sender] >= amount, "Insufficient balance");'
     security_function: "BENIGN"
     rationale: "Withdrawal balance check"
 
   - id: "CA7"
     type: "STATE_MOD"
     lines: [95]
-    code: "deposits[msg.sender] -= amount;"
     security_function: "BENIGN"
     rationale: "Withdrawal state update"
 
   - id: "CA8"
     type: "EXT_CALL"
     lines: [96]
-    code: "IERC20(asset).transfer(to, amount);"
     security_function: "BENIGN"
     rationale: "Token transfer in withdrawal"
 
   - id: "CA9"
     type: "CTRL_FLOW"
     lines: [97, 156]
-    code: "Return statements"
     security_function: "BENIGN"
     rationale: "Return statements"
 
   - id: "CA10"
     type: "CTRL_FLOW"
     lines: [124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134]
-    code: "getPoolMetrics view function"
     security_function: "BENIGN"
     rationale: "View helper function"
 

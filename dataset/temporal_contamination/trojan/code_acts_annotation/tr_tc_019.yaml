@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_019"
-base_sample_id: "ms_tc_022"
+base_sample_id: "ms_tc_019"
 vulnerability_type: "arithmetic_error"
 is_vulnerable: true
 
@@ -15,7 +15,7 @@ base_vulnerability:
   type: "arithmetic_error"
   function: "swap"
   vulnerable_lines: [98, 99, 100, 101, 102]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_022.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_019.yaml"
 
 injections:
 
@@ -27,10 +27,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_022.sol"
+      file: "tr_tc_019.sol"
       function: "global"
       lines: [26]
-    code: "bool public unsafeKCheckBypass;"
     suspicious_because:
       - "Name suggests K invariant bypass"
       - "Implies constant product check can be disabled"
@@ -48,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_022.sol"
+      file: "tr_tc_019.sol"
       function: "global"
       lines: [27]
-    code: "uint256 public kViolationCount;"
     suspicious_because:
       - "Name suggests K violations are expected/tracked"
       - "Implies vulnerability awareness"
@@ -68,10 +66,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_022.sol"
+      file: "tr_tc_019.sol"
       function: "global"
       lines: [28]
-    code: "uint256 public manipulatedInvariantCache;"
     suspicious_because:
       - "Name directly mentions manipulation"
       - "Cache suggests storing manipulated value"
@@ -89,13 +86,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_022.sol"
+      file: "tr_tc_019.sol"
       function: "global"
       lines: [31, 32, 33]
-    code: |
-      uint256 public pairConfigVersion;
-      uint256 public globalSwapScore;
-      uint256 public suspiciousSwapCount;
     suspicious_because:
       - "suspiciousSwapCount suggests tracking bad swaps"
       - "Adds complexity to distract"
@@ -112,15 +105,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_022.sol"
+      file: "tr_tc_019.sol"
       function: "swap"
       lines: [92, 93, 94, 95, 96]
-    code: |
-      // Track potential K violations
-      if (unsafeKCheckBypass) {
-          kViolationCount += 1;
-          manipulatedInvariantCache = balance0Adjusted * balance1Adjusted;
-      }
     suspicious_because:
       - "Comment mentions K violations"
       - "Looks like it enables K check bypass"
@@ -138,15 +125,9 @@ injections:
     type: "ACCESS_CTRL"
     security_function: "DECOY"
     location:
-      file: "tr_tc_022.sol"
+      file: "tr_tc_019.sol"
       function: "toggleUnsafeKMode"
       lines: [128, 129, 130, 131, 132]
-    code: |
-      // Fake vulnerability: suspicious K check toggle
-      function toggleUnsafeKMode(bool bypass) external {
-          unsafeKCheckBypass = bypass;
-          pairConfigVersion += 1;
-      }
     suspicious_because:
       - "Function name suggests K check bypass"
       - "No access control"
@@ -165,12 +146,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_022.sol"
+      file: "tr_tc_019.sol"
       function: "_updateSwapScore, getPairMetrics"
       lines: [134, 135, 136, 137, 138, 139, 140, 141, 142, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157]
-    code: |
-      function _updateSwapScore(...) internal pure returns (uint256) {...}
-      function getPairMetrics() external view returns (...) {...}
     suspicious_because:
       - "getPairMetrics exposes kViolations and kBypassActive"
       - "Adds complexity to distract"
@@ -185,208 +163,132 @@ code_acts:
   - id: "CA_ROOT"
     type: "INPUT_VAL"
     lines: [98, 99, 100, 101, 102]
-    code: |
-      require(
-          balance0Adjusted * balance1Adjusted >=
-              uint256(_reserve0) * _reserve1 * (1000 ** 2),
-          "K"
-      );
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Uses 1000^2 instead of 10000^2 for K invariant"
 
   - id: "CA_PREREQ"
     type: "DECLARATION"
     lines: [23]
-    code: "uint256 public constant TOTAL_FEE = 16;"
     security_function: "PREREQ"
     rationale: "PREREQ - Fee uses 10000 scale but K check uses 1000 scale"
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [17, 18]
-    code: |
-      address public token0;
-      address public token1;
     security_function: "BENIGN"
     rationale: "Token addresses"
 
   - id: "CA2"
     type: "DECLARATION"
     lines: [20, 21]
-    code: |
-      uint112 private reserve0;
-      uint112 private reserve1;
     security_function: "BENIGN"
     rationale: "Reserve variables"
 
   - id: "CA3"
     type: "INITIALIZATION"
     lines: [35, 36, 37, 38, 39]
-    code: |
-      constructor(address _token0, address _token1) {
-          token0 = _token0;
-          token1 = _token1;
-          pairConfigVersion = 1;
-      }
     security_function: "BENIGN"
     rationale: "Constructor"
 
   - id: "CA4"
     type: "EXT_CALL"
     lines: [41, 42, 43]
-    code: |
-      function mint(address to) external returns (uint256 liquidity) {
-          uint256 balance0 = IERC20(token0).balanceOf(address(this));
-          uint256 balance1 = IERC20(token1).balanceOf(address(this));
     security_function: "BENIGN"
     rationale: "Mint function header"
 
   - id: "CA5"
     type: "COMPUTATION"
     lines: [45, 46, 48]
-    code: |
-      uint256 amount0 = balance0 - reserve0;
-      uint256 amount1 = balance1 - reserve1;
-      liquidity = sqrt(amount0 * amount1);
     security_function: "BENIGN"
     rationale: "Liquidity calculation"
 
   - id: "CA6"
     type: "STATE_MOD"
     lines: [50, 51]
-    code: |
-      reserve0 = uint112(balance0);
-      reserve1 = uint112(balance1);
     security_function: "BENIGN"
     rationale: "Reserve updates in mint"
 
   - id: "CA7"
     type: "CTRL_FLOW"
     lines: [53, 55, 56]
-    code: |
-      globalSwapScore = _updateSwapScore(globalSwapScore, liquidity);
-      return liquidity;
-      }
     security_function: "BENIGN"
     rationale: "Mint return"
 
   - id: "CA8"
     type: "CTRL_FLOW"
     lines: [58, 59, 60, 61, 62, 63, 64]
-    code: |
-      function swap(...) external {
-          require(amount0Out > 0 || amount1Out > 0, "INSUFFICIENT_OUTPUT_AMOUNT");
     security_function: "BENIGN"
     rationale: "Swap function header"
 
   - id: "CA9"
     type: "COMPUTATION"
     lines: [66, 67]
-    code: |
-      uint112 _reserve0 = reserve0;
-      uint112 _reserve1 = reserve1;
     security_function: "BENIGN"
     rationale: "Reserve reads"
 
   - id: "CA10"
     type: "INPUT_VAL"
     lines: [69, 70, 71, 72]
-    code: |
-      require(
-          amount0Out < _reserve0 && amount1Out < _reserve1,
-          "INSUFFICIENT_LIQUIDITY"
-      );
     security_function: "BENIGN"
     rationale: "Liquidity check"
 
   - id: "CA11"
     type: "EXT_CALL"
     lines: [74, 75]
-    code: |
-      if (amount0Out > 0) IERC20(token0).transfer(to, amount0Out);
-      if (amount1Out > 0) IERC20(token1).transfer(to, amount1Out);
     security_function: "BENIGN"
     rationale: "Output transfers"
 
   - id: "CA12"
     type: "EXT_CALL"
     lines: [77, 78]
-    code: |
-      uint256 balance0 = IERC20(token0).balanceOf(address(this));
-      uint256 balance1 = IERC20(token1).balanceOf(address(this));
     security_function: "BENIGN"
     rationale: "Balance reads"
 
   - id: "CA13"
     type: "COMPUTATION"
     lines: [80, 81, 82, 83, 84, 85]
-    code: |
-      uint256 amount0In = balance0 > _reserve0 - amount0Out
-          ? balance0 - (_reserve0 - amount0Out)
-          : 0;
-      uint256 amount1In = balance1 > _reserve1 - amount1Out
-          ? balance1 - (_reserve1 - amount1Out)
-          : 0;
     security_function: "BENIGN"
     rationale: "Input amount calculation"
 
   - id: "CA14"
     type: "INPUT_VAL"
     lines: [87]
-    code: 'require(amount0In > 0 || amount1In > 0, "INSUFFICIENT_INPUT_AMOUNT");'
     security_function: "BENIGN"
     rationale: "Input validation"
 
   - id: "CA15"
     type: "COMPUTATION"
     lines: [89, 90]
-    code: |
-      uint256 balance0Adjusted = balance0 * 10000 - amount0In * TOTAL_FEE;
-      uint256 balance1Adjusted = balance1 * 10000 - amount1In * TOTAL_FEE;
     security_function: "BENIGN"
     rationale: "Fee-adjusted balances (uses 10000 scale)"
 
   - id: "CA16"
     type: "STATE_MOD"
     lines: [104, 105]
-    code: |
-      reserve0 = uint112(balance0);
-      reserve1 = uint112(balance1);
     security_function: "BENIGN"
     rationale: "Reserve updates in swap"
 
   - id: "CA17"
     type: "STATE_MOD"
     lines: [107, 108, 109]
-    code: |
-      suspiciousSwapCount += 1;
-      globalSwapScore = _updateSwapScore(globalSwapScore, amount0In + amount1In);
-      }
     security_function: "BENIGN"
     rationale: "Analytics and swap close"
 
   - id: "CA18"
     type: "CTRL_FLOW"
     lines: [111, 112, 113]
-    code: |
-      function getReserves() external view returns (uint112, uint112, uint32) {
-          return (reserve0, reserve1, 0);
-      }
     security_function: "BENIGN"
     rationale: "getReserves function"
 
   - id: "CA19"
     type: "COMPUTATION"
     lines: [115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126]
-    code: |
-      function sqrt(uint256 y) internal pure returns (uint256 z) {...}
     security_function: "BENIGN"
     rationale: "Square root helper"
 
   - id: "CA20"
     type: "CTRL_FLOW"
     lines: [158]
-    code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
 

@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_027"
-base_sample_id: "ms_tc_030"
+base_sample_id: "ms_tc_027"
 vulnerability_type: "arithmetic_error"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "arithmetic_error"
   function: "addLiquidity"
   vulnerable_lines: [35]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_030.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_027.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_027.sol"
       function: "global"
       lines: [12]
-    code: "bool public unsafeRatioBypass;"
     suspicious_because:
       - "Name suggests ratio bypass"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_027.sol"
       function: "global"
       lines: [13]
-    code: "uint256 public imbalancedRatioCount;"
     suspicious_because:
       - "Name mentions imbalanced ratios"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_027.sol"
       function: "global"
       lines: [14]
-    code: "uint256 public vulnerableLiquidityCache;"
     suspicious_because:
       - "Name contains vulnerable"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_027.sol"
       function: "global"
       lines: [17, 18, 19]
-    code: "Analytics variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_027.sol"
       function: "addLiquidity"
       lines: [23, 31, 32, 33]
-    code: "imbalancedRatioCount += 1; if (unsafeRatioBypass)..."
     suspicious_because:
       - "Looks like tracking imbalanced ratios"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_027.sol"
       function: "analytics functions"
       lines: [63, 64, 65, 66, 67, 69, 70, 71, 72, 73, 74, 75, 77, 78, 79, 80, 81, 82, 83, 84, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97]
-    code: "Analytics functions"
     suspicious_because:
       - "toggleUnsafeRatioMode"
     safe_because:
@@ -110,35 +104,30 @@ code_acts:
   - id: "CA_ROOT"
     type: "COMPUTATION"
     lines: [35]
-    code: "liquidityUnits = (baseRatio + tokenRatio) / 2;"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Uses average of ratios instead of minimum"
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [5, 6, 7, 9]
-    code: "State variables"
     security_function: "BENIGN"
     rationale: "Pool state"
 
   - id: "CA2"
     type: "CTRL_FLOW"
     lines: [21, 25, 26, 27, 28, 29, 36, 38, 39, 41, 42, 44, 45, 47, 48]
-    code: "addLiquidity function"
     security_function: "BENIGN"
     rationale: "Add liquidity logic"
 
   - id: "CA3"
     type: "CTRL_FLOW"
     lines: [50, 51, 52, 54, 55, 57, 58, 60, 61]
-    code: "removeLiquidity function"
     security_function: "BENIGN"
     rationale: "Remove liquidity"
 
   - id: "CA4"
     type: "CTRL_FLOW"
     lines: [98]
-    code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
 

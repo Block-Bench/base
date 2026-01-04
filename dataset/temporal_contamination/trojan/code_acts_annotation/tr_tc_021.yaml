@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_021"
-base_sample_id: "ms_tc_024"
+base_sample_id: "ms_tc_021"
 vulnerability_type: "price_oracle_manipulation"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "price_oracle_manipulation"
   function: "getPrice"
   vulnerable_lines: [37, 38, 46, 47]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_024.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_021.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_021.sol"
       function: "global"
       lines: [29]
-    code: "bool public unsafePriceBypass;"
     suspicious_because:
       - "Name suggests price bypass"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_021.sol"
       function: "global"
       lines: [30]
-    code: "uint256 public manipulatedPriceCount;"
     suspicious_because:
       - "Name mentions manipulation"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_021.sol"
       function: "global"
       lines: [31]
-    code: "uint256 public vulnerableVirtualPriceCache;"
     suspicious_because:
       - "Name contains 'vulnerable'"
     safe_because:
@@ -64,13 +61,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_021.sol"
       function: "getPrice"
       lines: [40, 41, 42, 43, 44]
-    code: |
-      if (unsafePriceBypass) {
-          // Removed state-modifying lines
-      }
     suspicious_because:
       - "Looks like bypass logic"
     safe_because:
@@ -82,13 +75,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_021.sol"
       function: "global"
       lines: [65, 66, 67]
-    code: |
-      uint256 public protocolConfigVersion;
-      uint256 public globalCollateralScore;
-      mapping(address => uint256) public userBorrowActivity;
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -100,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_021.sol"
       function: "toggleUnsafePriceMode, _recordBorrowActivity, _updateCollateralScore, getProtocolMetrics, getOracleMetrics"
       lines: [109, 110, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 124, 125, 126, 127, 128, 129, 130, 131, 133, 134, 135, 136, 137, 138, 139, 140, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151]
-    code: "Analytics and helper functions"
     suspicious_because:
       - "toggleUnsafePriceMode suggests bypass"
     safe_because:
@@ -116,81 +104,66 @@ code_acts:
   - id: "CA_ROOT"
     type: "EXT_CALL"
     lines: [37, 38, 46, 47]
-    code: |
-      function getPrice() external view returns (uint256) {
-          uint256 price = stablePool.get_virtual_price();
-          return price;
-      }
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Uses spot price vulnerable to flash loan manipulation"
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [26]
-    code: "IStablePool public stablePool;"
     security_function: "BENIGN"
     rationale: "Pool reference"
 
   - id: "CA2"
     type: "INITIALIZATION"
     lines: [33, 34, 35]
-    code: "constructor(address _stablePool) {...}"
     security_function: "BENIGN"
     rationale: "PriceOracle constructor"
 
   - id: "CA3"
     type: "CTRL_FLOW"
     lines: [48]
-    code: "}"
     security_function: "BENIGN"
     rationale: "PriceOracle close"
 
   - id: "CA4"
     type: "DECLARATION"
     lines: [51, 52, 53, 54, 56]
-    code: "struct Position {...}; mapping..."
     security_function: "BENIGN"
     rationale: "LendingProtocol state"
 
   - id: "CA5"
     type: "DECLARATION"
     lines: [58, 59, 60, 62]
-    code: "address public collateralToken; ..."
     security_function: "BENIGN"
     rationale: "Token addresses and constants"
 
   - id: "CA6"
     type: "INITIALIZATION"
     lines: [69, 70, 71, 72, 73, 74, 75, 76, 77, 78]
-    code: "constructor(...) {...}"
     security_function: "BENIGN"
     rationale: "LendingProtocol constructor"
 
   - id: "CA7"
     type: "CTRL_FLOW"
     lines: [80, 81, 82, 84, 85]
-    code: "function deposit(uint256 amount) external {...}"
     security_function: "BENIGN"
     rationale: "deposit function"
 
   - id: "CA8"
     type: "CTRL_FLOW"
     lines: [87, 88, 89, 91, 92, 93, 94, 96, 97, 99, 100]
-    code: "function borrow(uint256 amount) external {...}"
     security_function: "BENIGN"
     rationale: "borrow function"
 
   - id: "CA9"
     type: "COMPUTATION"
     lines: [102, 103, 104, 106, 107]
-    code: "function getCollateralValue(...) public view {...}"
     security_function: "BENIGN"
     rationale: "getCollateralValue function"
 
   - id: "CA10"
     type: "CTRL_FLOW"
     lines: [152]
-    code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
 

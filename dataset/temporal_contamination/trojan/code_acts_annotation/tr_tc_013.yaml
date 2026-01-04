@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_013"
-base_sample_id: "ms_tc_016"
+base_sample_id: "ms_tc_013"
 vulnerability_type: "reentrancy"
 trojan_strategy: "config_and_metrics_distractors"
 
@@ -18,105 +18,78 @@ code_acts:
   - id: "CA_ROOT1"
     type: "CTRL_FLOW"
     lines: [57]
-    code: "_notifyTransfer(msg.sender, to, amount);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Calls notification function after state changes."
 
   - id: "CA_ROOT2"
     type: "EXT_CALL"
     lines: [73]
-    code: '(bool success, ) = to.call(abi.encodeWithSignature("onTokenTransfer(address,uint256)", from, amount));'
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - External call allows reentrancy callback."
 
   - id: "INJ1"
     type: "DECLARATION"
     lines: [25, 26, 27]
-    code: |
-      uint256 public unsafeTransferCounter;
-      bool public allowCallbackBypass;
-      uint256 public vulnerablePriceCache;
     security_function: "DECOY"
     rationale: "DECOY - Suspicious variable names look like vulnerabilities but are benign."
 
   - id: "INJ2"
     type: "STATE_MOD"
     lines: [55]
-    code: "unsafeTransferCounter += 1;"
     security_function: "DECOY"
     rationale: "DECOY - Counter looks suspicious but is just analytics."
 
   - id: "INJ3"
     type: "INPUT_VAL"
     lines: [71]
-    code: "if (_isContract(to) && !allowCallbackBypass) {"
     security_function: "DECOY"
     rationale: "DECOY - Fake bypass check looks vulnerable but is safe."
 
   - id: "INJ4"
     type: "STATE_MOD"
     lines: [72]
-    code: "vulnerablePriceCache = _tokenPrice();"
     security_function: "DECOY"
     rationale: "DECOY - Caching price looks suspicious but is just analytics storage."
 
   - id: "INJ5"
     type: "ACCESS_CTRL"
     lines: [116, 117, 118, 119]
-    code: |
-      function setCallbackBypass(bool bypass) external {
-          allowCallbackBypass = bypass;
-          tokenConfigVersion += 1;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Unprotected bypass toggle looks dangerous but is safe."
 
   - id: "INJ6"
     type: "COMPUTATION"
     lines: [122, 123, 124, 125, 126, 127]
-    code: |
-      function _recordTransferActivity(address user, uint256 amount) internal { ... }
     security_function: "DECOY"
     rationale: "DECOY - Activity recording is safe analytics."
 
   - id: "INJ7"
     type: "COMPUTATION"
     lines: [129, 130, 131, 132, 133, 134, 135, 136]
-    code: |
-      function _updateTransferScore(uint256 current, uint256 value) internal pure returns (uint256) { ... }
     security_function: "DECOY"
     rationale: "DECOY - Score calculation is safe."
 
   - id: "INJ8"
     type: "COMPUTATION"
     lines: [139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 153, 154, 155, 156]
-    code: |
-      function getTokenMetrics() external view returns (...) { ... }
-      function getUserMetrics(address user) external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View functions are safe."
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [19]
-    code: "mapping(address => uint256) public balances;"
     security_function: "PREREQ"
     rationale: "PREREQ - Balance state that can be corrupted during reentrancy."
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [52, 53]
-    code: |
-      balances[msg.sender] -= amount;
-      balances[to] += amount;
     security_function: "BENIGN"
     rationale: "Balance updates before external call (CEI violated by notification)."
 
   - id: "CA3"
     type: "COMPUTATION"
     lines: [96, 97, 98, 99, 100, 101]
-    code: |
-      function _tokenPrice() internal view returns (uint256) { ... }
     security_function: "BENIGN"
     rationale: "Price calculation logic."
 
