@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_045"
 vulnerability_type: "reentrancy"
-vulnerable_lines: [45, 77]
+vulnerable_lines: [45]
 
 code_acts:
 
@@ -19,8 +19,8 @@ code_acts:
       function registerMarket(address market) external {
           registeredMarkets[market] = true;
       }
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Market registration accepts any address without validation. No check that market is from official Pendle factory. Allows attacker to register malicious fake market."
+    security_function: "PREREQ"
+    rationale: "PREREQ - Market registration accepts any address without validation. This enables the attacker to register a malicious fake market, which is necessary to exploit the reentrancy in CA1. The direct vulnerability is the CEI violation (CA1), this is the enabling condition."
 
   - id: "CA3"
     type: "DECLARATION"
@@ -82,18 +82,20 @@ summary:
   total_lines_covered: 55
 
   by_security_function:
-    ROOT_CAUSE: 2
-    PREREQ: 0
-    BENIGN: 3
+    ROOT_CAUSE: 1      # CA1
+    PREREQ: 1          # CA2
+    BENIGN: 3          # CA3-CA5
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
       lines: [45]
-      description: "External call to user-controlled market without reentrancy guard"
+      description: "External call to user-controlled market without reentrancy guard (CEI violation)"
+
+  prerequisites:
     - id: "CA2"
       lines: [74, 77, 78]
-      description: "Market registration without validation of market origin"
+      description: "Market registration accepts any address - enables attacker to register malicious market"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -179,7 +181,7 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "ROOT_CAUSE"
+  CA2: "PREREQ"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"

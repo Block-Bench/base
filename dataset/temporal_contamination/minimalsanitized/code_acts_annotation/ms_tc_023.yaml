@@ -40,8 +40,8 @@ code_acts:
       address public cToken;
       uint256 public totalDebt;
       uint256 public totalDebtShare;
-    security_function: "PREREQ"
-    rationale: "PREREQ - totalDebt and totalDebtShare are used in share calculation. When totalDebt is manipulated externally, share calculation becomes incorrect."
+    security_function: "BENIGN"
+    rationale: "Storage variable declarations. These are architectural context - the vulnerability is in the share calculation logic (CA11) that uses these variables, not the declarations themselves."
 
   - id: "CA4"
     type: "INITIALIZATION"
@@ -254,8 +254,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA11
-    PREREQ: 1          # CA3
-    BENIGN: 23         # CA1, CA2, CA4-CA10, CA12-CA25
+    PREREQ: 0
+    BENIGN: 24         # CA1-CA10, CA12-CA25
     UNRELATED: 4       # batched
 
   root_causes:
@@ -264,9 +264,7 @@ summary:
       type: "COMPUTATION"
       description: "Share calculation depends on manipulable totalDebt"
 
-  prerequisites:
-    - id: "CA3"
-      description: "totalDebt/totalDebtShare state variables used in the vulnerable share calculation"
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -412,7 +410,7 @@ line_to_code_act:
 code_act_security_functions:
   CA1: "BENIGN"
   CA2: "BENIGN"
-  CA3: "PREREQ"
+  CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"

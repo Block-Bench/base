@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_044"
 vulnerability_type: "access_control"
-vulnerable_lines: [49, 82]
+vulnerable_lines: [82]
 
 code_acts:
 
@@ -15,8 +15,8 @@ code_acts:
       ) external {
           require(msg.sender == admin, "Not admin");
       }
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - upgradePool protected only by single admin key. No timelock, no multi-sig requirement. Compromised admin key allows immediate malicious upgrades."
+    security_function: "BENIGN"
+    rationale: "Admin-protected upgrade function. The access control is correctly implemented. Single admin vs multi-sig is an architectural/operational choice, not a code bug. The real vulnerability is CA2 (arbitrary call without input validation)."
 
   - id: "CA2"
     type: "EXT_CALL"
@@ -90,18 +90,17 @@ summary:
   total_lines_covered: 67
 
   by_security_function:
-    ROOT_CAUSE: 2
+    ROOT_CAUSE: 1      # CA2
     PREREQ: 0
-    BENIGN: 4
+    BENIGN: 5          # CA1, CA3-CA6
     UNRELATED: 3
 
   root_causes:
-    - id: "CA1"
-      lines: [43, 44, 45, 46, 49, 55, 56]
-      description: "upgradePool with single admin key, no timelock or multi-sig"
     - id: "CA2"
       lines: [82, 83, 84]
-      description: "Arbitrary call to user-controlled pair address"
+      description: "Arbitrary call to user-controlled pair address without validation"
+
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -194,7 +193,7 @@ line_to_code_act:
   # Line 88: empty
 
 code_act_security_functions:
-  CA1: "ROOT_CAUSE"
+  CA1: "BENIGN"
   CA2: "ROOT_CAUSE"
   CA3: "BENIGN"
   CA4: "BENIGN"
