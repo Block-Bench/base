@@ -104,7 +104,14 @@ This annotation correctly **locates the exploit sink**, but:
 * Introducing an explicit `ACCESS_CTRL` or `INPUT_VAL` ROOT_CAUSE would significantly improve causal fidelity
 
 
-Rebuttal's response
+
+
+
+
+
+
+
+REBUTTAL RESPONSE
 
 Short answer: **yes, you should trust this reviewer on ms_tc_042** — and here’s *why*, with a precise reconciliation between **your reviewer**, **my original review**, and the **final annotation state**.
 
