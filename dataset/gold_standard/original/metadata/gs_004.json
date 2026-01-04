@@ -12,7 +12,7 @@
   "is_vulnerable": true,
   "temporal_category": "post_cutoff",
   "description": "The gHYBR contract is just another veNFT position holder from the perspective of votingEscrow contract, while the gHYBR contract acts as a vault. And the deposit does not ensure that we mint at least one gHYBR share. This can lead to a condition where the first depositor attacks another user. Example: - Alice deposits dust shares, 1 share : 1 asset - Alice donates 1000e18 assets before Bob deposits, through deposit_for, and he increased the ratio by 1 shares : 1000e18 assets - Bob deposits 100e18 assets, the shares calculation goes 100e18 * 1 / 1000e18 and rounds down to 0 - Receives 0 shares - All bob\u2019s deposit is captured by Alice\u2019s shares - Bob deposits 100e18 assets and receives 0 shares - Alice has 1 share worth 1000e18 + 100e18(bob's) assets The entry points the attacker can use to perform this attack are: 1. The votingEscrow contract allows anyone to deposit assets for any position through its public deposit_for(uint _tokenId, uint _value) external nonreentrant function. 2. The receivePenaltyReward function in GovernanceHYBR contract lacks access control, which allows an attacker to donate to increase totalAssets. 3. Attacker can utilize multiSplit through withdraw, by first depositing 1000:1000 and withdrawing so that the leftover is 1:1 ratio dust. Impact: Alice captures all of Bob\u2019s deposits.",
-  "vulnerable_contract": "GovernanceHYBR",
+  "vulnerable_contract": "GrowthHYBR",
   "vulnerable_function": "deposit",
   "vulnerable_lines": [
     166,

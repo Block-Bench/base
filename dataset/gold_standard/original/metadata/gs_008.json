@@ -12,7 +12,7 @@
   "is_vulnerable": true,
   "temporal_category": "post_cutoff",
   "description": "`claimRewards()` uses `IVoter.poolVote(veTokenId)` incorrectly; `poolVote` is a mapping, not a function returning an array, causing a revert.",
-  "vulnerable_contract": "GovernanceHYBR",
+  "vulnerable_contract": "GrowthHYBR",
   "vulnerable_function": "claimRewards",
   "vulnerable_lines": [
     392,

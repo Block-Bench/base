@@ -13,7 +13,7 @@
   "temporal_category": "post_cutoff",
   "description": "When a session call with BEHAVIOR_REVERT_ON_ERROR fails, the transaction reverts but nonce is not consumed. The signature remains valid and can be replayed for partial calls. Session signatures are validated per-call using individual call hashes, enabling partial replay. Frontrunners can execute subsets of calls to grief or cause financial loss.",
   "vulnerable_contract": "Calls",
-  "vulnerable_function": "executeSessionCalls",
+  "vulnerable_function": "execute",
   "vulnerable_lines": [
     36,
     37,
