@@ -2,195 +2,182 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
 /*LN-4*/ /**
-/*LN-5*/  * @title Cross-Chain Bridge
-/*LN-6*/  * @notice Processes withdrawals from sidechain to mainnet using multi-sig validation
-/*LN-7*/  * @dev Validators sign withdrawal requests to authorize token transfers
+/*LN-5*/  * @title Lending Protocol
+/*LN-6*/  * @notice Decentralized lending and borrowing platform
+/*LN-7*/  * @dev Users can deposit collateral and borrow against it
 /*LN-8*/  */
-/*LN-9*/ contract CrossChainBridge {
-/*LN-10*/     // Validator addresses
-/*LN-11*/     address[] public validators;
-/*LN-12*/     mapping(address => bool) public isValidator;
+/*LN-9*/ 
+/*LN-10*/ interface IOracle {
+/*LN-11*/     function getUnderlyingPrice(address cToken) external view returns (uint256);
+/*LN-12*/ }
 /*LN-13*/ 
-/*LN-14*/     uint256 public requiredSignatures = 5;
-/*LN-15*/     uint256 public validatorCount;
+/*LN-14*/ interface ICToken {
+/*LN-15*/     function mint(uint256 mintAmount) external;
 /*LN-16*/ 
-/*LN-17*/     // Track processed withdrawals to prevent replay
-/*LN-18*/     mapping(uint256 => bool) public processedWithdrawals;
-/*LN-19*/ 
-/*LN-20*/     // Supported tokens
-/*LN-21*/     mapping(address => bool) public supportedTokens;
-/*LN-22*/ 
-/*LN-23*/     event WithdrawalProcessed(
-/*LN-24*/         uint256 indexed withdrawalId,
-/*LN-25*/         address indexed user,
-/*LN-26*/         address indexed token,
-/*LN-27*/         uint256 amount
-/*LN-28*/     );
-/*LN-29*/ 
-/*LN-30*/     constructor(address[] memory _validators) {
-/*LN-31*/         require(
-/*LN-32*/             _validators.length >= requiredSignatures,
-/*LN-33*/             "Not enough validators"
-/*LN-34*/         );
-/*LN-35*/ 
-/*LN-36*/         for (uint256 i = 0; i < _validators.length; i++) {
-/*LN-37*/             address validator = _validators[i];
-/*LN-38*/             require(validator != address(0), "Invalid validator");
-/*LN-39*/             require(!isValidator[validator], "Duplicate validator");
-/*LN-40*/ 
-/*LN-41*/             validators.push(validator);
-/*LN-42*/             isValidator[validator] = true;
-/*LN-43*/         }
-/*LN-44*/ 
-/*LN-45*/         validatorCount = _validators.length;
-/*LN-46*/     }
-/*LN-47*/ 
-/*LN-48*/     /**
-/*LN-49*/      * @notice Process a withdrawal request
-/*LN-50*/      * @param _withdrawalId Unique ID for this withdrawal
-/*LN-51*/      * @param _user Address to receive tokens
-/*LN-52*/      * @param _token Token contract address
-/*LN-53*/      * @param _amount Amount to withdraw
-/*LN-54*/      * @param _signatures Concatenated validator signatures
-/*LN-55*/      */
-/*LN-56*/     function withdrawERC20For(
-/*LN-57*/         uint256 _withdrawalId,
-/*LN-58*/         address _user,
-/*LN-59*/         address _token,
-/*LN-60*/         uint256 _amount,
-/*LN-61*/         bytes memory _signatures
-/*LN-62*/     ) external {
-/*LN-63*/         // Check if already processed
-/*LN-64*/         require(!processedWithdrawals[_withdrawalId], "Already processed");
+/*LN-17*/     function borrow(uint256 borrowAmount) external;
+/*LN-18*/ 
+/*LN-19*/     function redeem(uint256 redeemTokens) external;
+/*LN-20*/ 
+/*LN-21*/     function underlying() external view returns (address);
+/*LN-22*/ }
+/*LN-23*/ 
+/*LN-24*/ contract LendingProtocol {
+/*LN-25*/     // Oracle for getting asset prices
+/*LN-26*/     IOracle public oracle;
+/*LN-27*/ 
+/*LN-28*/     // Collateral factors
+/*LN-29*/     mapping(address => uint256) public collateralFactors;
+/*LN-30*/ 
+/*LN-31*/     // User deposits (cToken balances)
+/*LN-32*/     mapping(address => mapping(address => uint256)) public userDeposits;
+/*LN-33*/ 
+/*LN-34*/     // User borrows
+/*LN-35*/     mapping(address => mapping(address => uint256)) public userBorrows;
+/*LN-36*/ 
+/*LN-37*/     // Supported markets
+/*LN-38*/     mapping(address => bool) public supportedMarkets;
+/*LN-39*/ 
+/*LN-40*/     // Price deviation protection
+/*LN-41*/     mapping(address => uint256) public lastKnownPrice;
+/*LN-42*/     mapping(address => uint256) public lastPriceUpdate;
+/*LN-43*/     uint256 public constant MAX_PRICE_DEVIATION = 10; // 10%
+/*LN-44*/     uint256 public constant MIN_PRICE_UPDATE_INTERVAL = 1 hours;
+/*LN-45*/ 
+/*LN-46*/     event Deposit(address indexed user, address indexed cToken, uint256 amount);
+/*LN-47*/     event Borrow(address indexed user, address indexed cToken, uint256 amount);
+/*LN-48*/ 
+/*LN-49*/     constructor(address _oracle) {
+/*LN-50*/         oracle = IOracle(_oracle);
+/*LN-51*/     }
+/*LN-52*/ 
+/*LN-53*/     function _validatePrice(address cToken) internal view returns (uint256) {
+/*LN-54*/         uint256 currentPrice = oracle.getUnderlyingPrice(cToken);
+/*LN-55*/         uint256 lastPrice = lastKnownPrice[cToken];
+/*LN-56*/ 
+/*LN-57*/         if (lastPrice > 0 && block.timestamp < lastPriceUpdate[cToken] + MIN_PRICE_UPDATE_INTERVAL) {
+/*LN-58*/             uint256 maxAllowed = lastPrice * (100 + MAX_PRICE_DEVIATION) / 100;
+/*LN-59*/             uint256 minAllowed = lastPrice * (100 - MAX_PRICE_DEVIATION) / 100;
+/*LN-60*/             require(currentPrice >= minAllowed && currentPrice <= maxAllowed, "Price deviation too high");
+/*LN-61*/         }
+/*LN-62*/ 
+/*LN-63*/         return currentPrice;
+/*LN-64*/     }
 /*LN-65*/ 
-/*LN-66*/         // Check if token is supported
-/*LN-67*/         require(supportedTokens[_token], "Token not supported");
-/*LN-68*/ 
-/*LN-69*/         // Verify signatures
-/*LN-70*/         require(
-/*LN-71*/             _verifySignatures(
-/*LN-72*/                 _withdrawalId,
-/*LN-73*/                 _user,
-/*LN-74*/                 _token,
-/*LN-75*/                 _amount,
-/*LN-76*/                 _signatures
-/*LN-77*/             ),
-/*LN-78*/             "Invalid signatures"
-/*LN-79*/         );
-/*LN-80*/ 
-/*LN-81*/         // Mark as processed
-/*LN-82*/         processedWithdrawals[_withdrawalId] = true;
-/*LN-83*/ 
-/*LN-84*/         // Transfer tokens
-/*LN-85*/         emit WithdrawalProcessed(_withdrawalId, _user, _token, _amount);
-/*LN-86*/     }
+/*LN-66*/     /**
+/*LN-67*/      * @notice Mint cTokens by depositing underlying assets
+/*LN-68*/      * @param cToken The cToken to mint
+/*LN-69*/      * @param amount Amount of underlying to deposit
+/*LN-70*/      */
+/*LN-71*/     function mint(address cToken, uint256 amount) external {
+/*LN-72*/         require(supportedMarkets[cToken], "Market not supported");
+/*LN-73*/ 
+/*LN-74*/         // Mint cTokens to user
+/*LN-75*/         userDeposits[msg.sender][cToken] += amount;
+/*LN-76*/ 
+/*LN-77*/         emit Deposit(msg.sender, cToken, amount);
+/*LN-78*/     }
+/*LN-79*/ 
+/*LN-80*/     /**
+/*LN-81*/      * @notice Borrow assets against collateral
+/*LN-82*/      * @param cToken The cToken to borrow
+/*LN-83*/      * @param amount Amount to borrow
+/*LN-84*/      */
+/*LN-85*/     function borrow(address cToken, uint256 amount) external {
+/*LN-86*/         require(supportedMarkets[cToken], "Market not supported");
 /*LN-87*/ 
-/*LN-88*/     /**
-/*LN-89*/      * @notice Verify validator signatures
-/*LN-90*/      */
-/*LN-91*/     function _verifySignatures(
-/*LN-92*/         uint256 _withdrawalId,
-/*LN-93*/         address _user,
-/*LN-94*/         address _token,
-/*LN-95*/         uint256 _amount,
-/*LN-96*/         bytes memory _signatures
-/*LN-97*/     ) internal view returns (bool) {
-/*LN-98*/         require(_signatures.length % 65 == 0, "Invalid signature length");
-/*LN-99*/ 
-/*LN-100*/         uint256 signatureCount = _signatures.length / 65;
-/*LN-101*/         require(signatureCount >= requiredSignatures, "Not enough signatures");
-/*LN-102*/ 
-/*LN-103*/         // Reconstruct the message hash
-/*LN-104*/         bytes32 messageHash = keccak256(
-/*LN-105*/             abi.encodePacked(_withdrawalId, _user, _token, _amount)
-/*LN-106*/         );
-/*LN-107*/         bytes32 ethSignedMessageHash = keccak256(
-/*LN-108*/             abi.encodePacked("\x19Ethereum Signed Message:\n32", messageHash)
-/*LN-109*/         );
-/*LN-110*/ 
-/*LN-111*/         address[] memory signers = new address[](signatureCount);
-/*LN-112*/ 
-/*LN-113*/         // Extract and verify each signature
-/*LN-114*/         for (uint256 i = 0; i < signatureCount; i++) {
-/*LN-115*/             bytes memory signature = _extractSignature(_signatures, i);
-/*LN-116*/             address signer = _recoverSigner(ethSignedMessageHash, signature);
+/*LN-88*/         // Calculate user's borrowing power
+/*LN-89*/         uint256 borrowPower = calculateBorrowPower(msg.sender);
+/*LN-90*/ 
+/*LN-91*/         // Calculate current total borrows value
+/*LN-92*/         uint256 currentBorrows = calculateTotalBorrows(msg.sender);
+/*LN-93*/ 
+/*LN-94*/         // Get validated price (with deviation check)
+/*LN-95*/         uint256 price = _validatePrice(cToken);
+/*LN-96*/         uint256 borrowValue = (price * amount) / 1e18;
+/*LN-97*/ 
+/*LN-98*/         // Check if user has enough collateral
+/*LN-99*/         require(
+/*LN-100*/             currentBorrows + borrowValue <= borrowPower,
+/*LN-101*/             "Insufficient collateral"
+/*LN-102*/         );
+/*LN-103*/ 
+/*LN-104*/         // Update borrow balance
+/*LN-105*/         userBorrows[msg.sender][cToken] += amount;
+/*LN-106*/ 
+/*LN-107*/         emit Borrow(msg.sender, cToken, amount);
+/*LN-108*/     }
+/*LN-109*/ 
+/*LN-110*/     /**
+/*LN-111*/      * @notice Calculate user's total borrowing power
+/*LN-112*/      * @param user The user address
+/*LN-113*/      * @return Total borrowing power in USD
+/*LN-114*/      */
+/*LN-115*/     function calculateBorrowPower(address user) public view returns (uint256) {
+/*LN-116*/         uint256 totalPower = 0;
 /*LN-117*/ 
-/*LN-118*/             // Check if signer is a validator
-/*LN-119*/             require(isValidator[signer], "Invalid signer");
-/*LN-120*/ 
-/*LN-121*/             // Check for duplicate signers
-/*LN-122*/             for (uint256 j = 0; j < i; j++) {
-/*LN-123*/                 require(signers[j] != signer, "Duplicate signer");
-/*LN-124*/             }
-/*LN-125*/ 
-/*LN-126*/             signers[i] = signer;
-/*LN-127*/         }
-/*LN-128*/ 
-/*LN-129*/         // All checks passed
-/*LN-130*/         return true;
-/*LN-131*/     }
-/*LN-132*/ 
-/*LN-133*/     /**
-/*LN-134*/      * @notice Extract a single signature from concatenated signatures
-/*LN-135*/      */
-/*LN-136*/     function _extractSignature(
-/*LN-137*/         bytes memory _signatures,
-/*LN-138*/         uint256 _index
-/*LN-139*/     ) internal pure returns (bytes memory) {
-/*LN-140*/         bytes memory signature = new bytes(65);
-/*LN-141*/         uint256 offset = _index * 65;
-/*LN-142*/ 
-/*LN-143*/         for (uint256 i = 0; i < 65; i++) {
-/*LN-144*/             signature[i] = _signatures[offset + i];
-/*LN-145*/         }
-/*LN-146*/ 
-/*LN-147*/         return signature;
-/*LN-148*/     }
-/*LN-149*/ 
-/*LN-150*/     /**
-/*LN-151*/      * @notice Recover signer from signature
-/*LN-152*/      */
-/*LN-153*/     function _recoverSigner(
-/*LN-154*/         bytes32 _hash,
-/*LN-155*/         bytes memory _signature
-/*LN-156*/     ) internal pure returns (address) {
-/*LN-157*/         require(_signature.length == 65, "Invalid signature length");
-/*LN-158*/ 
-/*LN-159*/         bytes32 r;
-/*LN-160*/         bytes32 s;
-/*LN-161*/         uint8 v;
-/*LN-162*/ 
-/*LN-163*/         assembly {
-/*LN-164*/             r := mload(add(_signature, 32))
-/*LN-165*/             s := mload(add(_signature, 64))
-/*LN-166*/             v := byte(0, mload(add(_signature, 96)))
-/*LN-167*/         }
-/*LN-168*/ 
-/*LN-169*/         if (v < 27) {
-/*LN-170*/             v += 27;
-/*LN-171*/         }
-/*LN-172*/ 
-/*LN-173*/         require(v == 27 || v == 28, "Invalid signature v value");
+/*LN-118*/         address[] memory markets = new address[](2);
+/*LN-119*/ 
+/*LN-120*/         for (uint256 i = 0; i < markets.length; i++) {
+/*LN-121*/             address cToken = markets[i];
+/*LN-122*/             uint256 balance = userDeposits[user][cToken];
+/*LN-123*/ 
+/*LN-124*/             if (balance > 0) {
+/*LN-125*/                 // Get price from oracle
+/*LN-126*/                 uint256 price = oracle.getUnderlyingPrice(cToken);
+/*LN-127*/ 
+/*LN-128*/                 // Calculate value
+/*LN-129*/                 uint256 value = (balance * price) / 1e18;
+/*LN-130*/ 
+/*LN-131*/                 // Apply collateral factor
+/*LN-132*/                 uint256 power = (value * collateralFactors[cToken]) / 1e18;
+/*LN-133*/ 
+/*LN-134*/                 totalPower += power;
+/*LN-135*/             }
+/*LN-136*/         }
+/*LN-137*/ 
+/*LN-138*/         return totalPower;
+/*LN-139*/     }
+/*LN-140*/ 
+/*LN-141*/     /**
+/*LN-142*/      * @notice Calculate user's total borrow value
+/*LN-143*/      * @param user The user address
+/*LN-144*/      * @return Total borrow value in USD
+/*LN-145*/      */
+/*LN-146*/     function calculateTotalBorrows(address user) public view returns (uint256) {
+/*LN-147*/         uint256 totalBorrows = 0;
+/*LN-148*/ 
+/*LN-149*/         address[] memory markets = new address[](2);
+/*LN-150*/ 
+/*LN-151*/         for (uint256 i = 0; i < markets.length; i++) {
+/*LN-152*/             address cToken = markets[i];
+/*LN-153*/             uint256 borrowed = userBorrows[user][cToken];
+/*LN-154*/ 
+/*LN-155*/             if (borrowed > 0) {
+/*LN-156*/                 uint256 price = oracle.getUnderlyingPrice(cToken);
+/*LN-157*/                 uint256 value = (borrowed * price) / 1e18;
+/*LN-158*/                 totalBorrows += value;
+/*LN-159*/             }
+/*LN-160*/         }
+/*LN-161*/ 
+/*LN-162*/         return totalBorrows;
+/*LN-163*/     }
+/*LN-164*/ 
+/*LN-165*/     /**
+/*LN-166*/      * @notice Add a supported market
+/*LN-167*/      * @param cToken The cToken to add
+/*LN-168*/      * @param collateralFactor The collateral factor
+/*LN-169*/      */
+/*LN-170*/     function addMarket(address cToken, uint256 collateralFactor) external {
+/*LN-171*/         supportedMarkets[cToken] = true;
+/*LN-172*/         collateralFactors[cToken] = collateralFactor;
+/*LN-173*/     }
 /*LN-174*/ 
-/*LN-175*/         return ecrecover(_hash, v, r, s);
-/*LN-176*/     }
-/*LN-177*/ 
-/*LN-178*/     /**
-/*LN-179*/      * @notice Add supported token (admin function)
-/*LN-180*/      */
-/*LN-181*/     function addSupportedToken(address _token, bytes memory _signatures) external {
-/*LN-182*/         require(!supportedTokens[_token], "Already supported");
-/*LN-183*/         require(
-/*LN-184*/             _verifySignatures(
-/*LN-185*/                 uint256(uint160(_token)),
-/*LN-186*/                 address(0),
-/*LN-187*/                 _token,
-/*LN-188*/                 0,
-/*LN-189*/                 _signatures
-/*LN-190*/             ),
-/*LN-191*/             "Invalid signatures"
-/*LN-192*/         );
-/*LN-193*/         supportedTokens[_token] = true;
-/*LN-194*/     }
-/*LN-195*/ }
-/*LN-196*/ 
+/*LN-175*/     /**
+/*LN-176*/      * @notice Update cached price (admin function)
+/*LN-177*/      */
+/*LN-178*/     function updateCachedPrice(address cToken) external {
+/*LN-179*/         lastKnownPrice[cToken] = oracle.getUnderlyingPrice(cToken);
+/*LN-180*/         lastPriceUpdate[cToken] = block.timestamp;
+/*LN-181*/     }
+/*LN-182*/ }
+/*LN-183*/ 

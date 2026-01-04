@@ -1,22 +1,21 @@
 {
   "sample_id": "tr_tc_038",
-  "exploit_name": "Blueberry Protocol Oracle Manipulation",
+  "exploit_name": "Shezmu Protocol",
   "date": "",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "price_oracle_manipulation",
+  "vulnerability_type": "access_control",
   "vulnerability_subtype": "",
-  "severity": "high",
+  "severity": "critical",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Blueberry Protocol, a leveraged yield farming platform, was exploited for $1.4M through oracle price manipulation. Attackers used flashloans to manipulate low-liquidity DEX token prices (specifically OHM), then deposited the inflated collateral and borrowed maximum assets from lending pools.",
-  "vulnerable_contract": "LeveragedLending",
+  "description": "Shezmu, a CDP protocol, was exploited for $4.9M when attackers discovered the collateral token's mint() function had no access control. Anyone could mint unlimited collateral tokens, deposit them into the vault, and borrow real ShezUSD against worthless minted collateral.",
+  "vulnerable_contract": "CollateralToken",
   "vulnerable_function": "mint",
   "vulnerable_lines": [
-    56,
-    77
+    27
   ],
   "attack_scenario": "",
   "root_cause": "",
@@ -24,13 +23,12 @@
   "source_reference": "",
   "external_references": [],
   "tags": [
+    "cdp",
+    "access_control",
+    "mint_vulnerability",
+    "collateral",
     "lending",
-    "leveraged_yield",
-    "oracle_manipulation",
-    "flashloan",
-    "dex_manipulation",
-    "collateral_inflation",
-    "low_liquidity",
+    "authorization",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -43,8 +41,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_038.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_038.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_041.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_041.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -59,19 +57,20 @@
       "activity_variables": 0,
       "fake_functions": 3,
       "view_helpers": 1,
-      "suspicious_names": 23
+      "suspicious_names": 16
     },
     "contracts_renamed": [
-      "BlueberryLending",
-      "ManipulableOracle"
+      "ShezmuCollateralToken",
+      "ShezmuVault"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.676633",
+    "created_date": "2025-12-30T01:40:33.680559",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.980782",
+    "sanitization_date": "2026-01-02T02:10:10.030107",
     "code_renames": {
-      "BlueberryLending": "LeveragedLending"
+      "ShezmuCollateralToken": "CollateralToken",
+      "ShezmuVault": "CollateralVault"
     }
   }
 }

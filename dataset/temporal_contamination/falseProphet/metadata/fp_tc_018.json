@@ -1,36 +1,35 @@
 {
   "sample_id": "fp_tc_018",
-  "exploit_name": "Indexed Finance Pool Manipulation",
-  "date": "2021-10-14",
-  "amount_lost_usd": "16000000",
+  "exploit_name": "DODO Reinitialization",
+  "date": "2021-03-09",
+  "amount_lost_usd": "3800000",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "pool_manipulation",
+  "vulnerability_type": "reinitialization",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Attacker exploited Indexed Finance's pool weight recalculation mechanism. By using flash loans to massively drain liquidity of a single token, the attacker caused the pool's internal weight calculation to become extremely skewed. The vulnerability was that token weights were updated based on instantaneous balances after each swap, rather than using time-weighted averages or external oracles.",
-  "vulnerable_contract": "IndexPool",
-  "vulnerable_function": "_updateWeights",
+  "description": "DODO's liquidity pool contract had an init() function that could be called multiple times without proper access control or initialization guard. An attacker called init() again after deployment, setting themselves as the maintainer (fee recipient) and hijacking accumulated fees. The vulnerability allowed manipulation of critical pool parameters post-deployment.",
+  "vulnerable_contract": "LiquidityPool",
+  "vulnerable_function": "init",
   "vulnerable_lines": [
-    56,
-    101
+    37
   ],
-  "attack_scenario": "1) Flash loan large amounts of SUSHI, UNI, and other index tokens. 2) Execute massive swaps to drain almost all of a target token (DEFI5) from the pool. 3) Pool's _updateWeights() function recalculates weights based on the new unbalanced state. 4) Target token now has extremely low weight (~1%), making it undervalued. 5) Buy back the drained token at manipulated low prices. 6) Repay flash loans and profit from price discrepancy. Loss: $16M.",
-  "root_cause": "Token weights in index pools were recalculated based on instantaneous token balances after swaps. Flash loan attackers could temporarily drain liquidity of a single token, causing weight recalculation to heavily undervalue that token, then buy it back at manipulated prices.",
+  "attack_scenario": "1) Attacker identified DODO pool contracts without proper initialization locks. 2) Called init() with attacker-controlled parameters, setting maintainer address to attacker. 3) Since maintainer receives all swap fees, attacker could claim accumulated fees via claimFees(). 4) All future swap fees also redirected to attacker. 5) In some cases, could manipulate baseBalance/quoteBalance for profitable swaps. 6) Drained $3.8M from affected pools.",
+  "root_cause": "The init() function lacked proper initialization protection (missing `require(!isInitialized)` check). This allowed attackers to call the initialization function again after deployment, overwriting critical parameters like the maintainer address and hijacking fee collection rights.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "index_funds",
-    "weight_manipulation",
-    "pool_manipulation",
-    "flash_loan",
+    "amm",
+    "access_control",
+    "initialization",
+    "dodo",
     "decoy",
-    "oracle_free_pricing",
     "false_prophet",
+    "maintainer_hijack",
     "defi"
   ],
   "variant_type": "false_prophet",
@@ -55,57 +54,24 @@
     "false_prophet_enhancements": [
       {
         "location": "CONTRACT HEADER",
-        "description": "Professional AMM documentation:",
+        "description": "Professional DEX documentation:",
         "comments_added": [
-          "Added: \"Weighted index pool for multi-asset portfolio management\"",
-          "Added: \"Audited by Halborn Security (Q3 2021) - All findings resolved\"",
-          "Added: \"Implements dynamic weight rebalancing based on pool composition\"",
-          "Added: \"Constant product AMM formula with weight adjustments\""
-        ]
-      },
-      {
-        "location": "STATE VARIABLES",
-        "description": "Clear documentation:",
-        "comments_added": [
-          "Added: \"/// @dev Token configuration with balance and weight tracking\"",
-          "Added: \"/// @dev Token registry for pool composition\"",
-          "Added: \"/// @dev Ordered list of pool tokens\"",
-          "Added: \"/// @dev Sum of all token weights (normalized to 100)\""
-        ]
-      },
-      {
-        "location": "ADDTOKEN FUNCTION",
-        "description": "Professional NatSpec:",
-        "comments_added": [
-          "Added: \"Register a new token in the pool\"",
-          "Added: \"@dev Initializes token with zero balance and specified weight\""
-        ]
-      },
-      {
-        "location": "SWAP FUNCTION",
-        "description": "Critical false claims:",
-        "comments_added": [
-          "Added: \"@dev Executes atomic swap with automatic weight rebalancing\"",
-          "Added: \"@dev Updates internal balances before external transfers\""
-        ]
-      },
-      {
-        "location": "ADDLIQUIDITY FUNCTION",
-        "description": "Enhanced documentation:",
-        "comments_added": [
-          "Added: \"@dev Updates token balance and triggers weight rebalancing\""
+          "Added: \"Proactive Market Maker (PMM) liquidity pool\"",
+          "Added: \"Audited by PeckShield (Q2 2021) - All findings resolved\"",
+          "Added: \"Implements constant product AMM with maintainer fee collection\"",
+          "Added: \"Uses initializer pattern for proxy deployment compatibility\""
         ]
       }
     ],
     "manual_enhancements_count": 6,
-    "contract_type": "Weighted Index Pool / Multi-Asset AMM",
+    "contract_type": "AMM Pool with Maintainer Fee Collection",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.929714",
+    "created_date": "2025-12-30T21:14:14.932800",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T00:36:43.767943",
+    "sanitization_date": "2026-01-02T00:36:43.844081",
     "contract_renames": {
-      "IndexPool": "IndexPool"
+      "DODOPool": "LiquidityPool"
     }
   }
 }

@@ -1,36 +1,37 @@
 {
   "sample_id": "fp_tc_026",
-  "exploit_name": "Anyswap Permit Bypass",
-  "date": "2022-01-18",
-  "amount_lost_usd": "8000000",
-  "blockchain": "ethereum",
+  "exploit_name": "Belt Finance Strategy Exploit",
+  "date": "2021-05-30",
+  "amount_lost_usd": "6200000",
+  "blockchain": "binance_smart_chain",
   "language": "solidity",
-  "vulnerability_type": "signature_verification",
+  "vulnerability_type": "price_oracle_manipulation",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Anyswap bridge's anySwapOutUnderlyingWithPermit function had incomplete validation of EIP-2612 permit signatures. The function proceeded with token transfers even when permit validation failed, allowing attackers to bridge tokens without proper authorization.",
-  "vulnerable_contract": "CrossRouter",
-  "vulnerable_function": "permit",
+  "description": "Belt Finance vault strategies used manipulatable price oracles for calculating share values. Attackers flash-loaned to manipulate oracle prices, deposited when price was low (getting more shares), then withdrew after price recovered, extracting more value than deposited.",
+  "vulnerable_contract": "YieldStrategy",
+  "vulnerable_function": "deposit",
   "vulnerable_lines": [
-    26,
-    30
+    31,
+    45
   ],
-  "attack_scenario": "1) Attacker called anySwapOutUnderlyingWithPermit with victim's token address. 2) Passed invalid permit signature (v=0, r=0, s=0). 3) Permit validation failed silently. 4) Function continued executing anyway. 5) Tokens were burned/locked and bridged to destination chain. 6) Repeated to drain $8M worth of WETH and other tokens.",
-  "root_cause": "The permit validation used try-catch that swallowed failures without reverting. The function proceeded with token operations regardless of whether the permit succeeded, effectively bypassing authorization checks entirely.",
+  "attack_scenario": "1) Flash loan large amounts to manipulate price oracle down. 2) Deposit to vault when price is artificially low. 3) Share calculation: sharesAdded = (amount * totalShares) / (pool * price), so low price = more shares. 4) Release flash loan, price recovers. 5) Withdraw with inflated share count. 6) Withdrawal amount = (shares * pool * price) / totalShares, high price = more tokens. 7) Profit $6.2M from price manipulation cycle.",
+  "root_cause": "Vault share pricing relied on oracle that could be manipulated within single transaction. No TWAP or manipulation resistance. Share calculations used instantaneous price values vulnerable to flash loan attacks.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "cross_chain",
-    "bridge",
-    "eip2612",
-    "permit",
-    "signature",
+    "oracle",
+    "vault",
+    "strategy",
+    "flash_loan",
+    "share_price",
     "decoy",
-    "false_prophet"
+    "false_prophet",
+    "bsc"
   ],
   "variant_type": "false_prophet",
   "variant_parent_id": "tc_026",
@@ -54,32 +55,50 @@
     "false_prophet_enhancements": [
       {
         "location": "CONTRACT HEADER",
-        "description": "Professional bridge documentation:",
+        "description": "Professional yield vault documentation:",
         "comments_added": [
-          "Added: \"Cross-chain bridge router with permit support\"",
-          "Added: \"Audited by PeckShield (Q3 2021) - All findings resolved\"",
-          "Added: \"Implements EIP-2612 permit for gasless approvals\"",
-          "Added: \"Supports cross-chain token bridging via anySwap protocol\""
+          "Added: \"Yield strategy vault with oracle-based share pricing\"",
+          "Added: \"Audited by PeckShield (Q1 2021) - All findings resolved\"",
+          "Added: \"Implements share-based vault with fair entry/exit pricing\"",
+          "Added: \"Uses trusted oracle for accurate token valuation\""
         ]
       },
       {
-        "location": "ANYSWAPOUTUNDERLYINGWITHPERMIT FUNCTION",
-        "description": "Critical vulnerability obscured:",
+        "location": "STATE VARIABLES",
+        "description": "Clear documentation:",
         "comments_added": [
-          "Added: \"@dev Uses EIP-2612 permit for approval without separate tx\"",
-          "Added: \"@dev Gracefully handles tokens without permit support\""
+          "Added: \"/// @dev Target asset for this strategy\"",
+          "Added: \"/// @dev Price oracle for valuations\"",
+          "Added: \"/// @dev Total shares outstanding\"",
+          "Added: \"/// @dev User share balances\""
+        ]
+      },
+      {
+        "location": "DEPOSIT FUNCTION",
+        "description": "Professional NatSpec:",
+        "comments_added": [
+          "Added: \"Deposit tokens and receive shares\"",
+          "Added: \"@dev Calculates shares based on pool size and oracle price\""
+        ]
+      },
+      {
+        "location": "WITHDRAW FUNCTION",
+        "description": "Professional NatSpec:",
+        "comments_added": [
+          "Added: \"Withdraw tokens by burning shares\"",
+          "Added: \"@dev Calculates withdrawal based on pool size and oracle price\""
         ]
       }
     ],
-    "manual_enhancements_count": 3,
-    "contract_type": "Cross-Chain Bridge with Permit",
+    "manual_enhancements_count": 4,
+    "contract_type": "Yield Strategy Vault with Oracle Pricing",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.935915",
+    "created_date": "2025-12-30T21:14:14.938048",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T00:36:43.983914",
+    "sanitization_date": "2026-01-02T00:36:44.100345",
     "contract_renames": {
-      "AnyswapRouter": "CrossRouter"
+      "BeltStrategy": "YieldStrategy"
     }
   }
 }

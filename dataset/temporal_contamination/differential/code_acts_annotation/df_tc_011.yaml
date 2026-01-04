@@ -1,118 +1,100 @@
 schema_version: "1.0"
 sample_id: "df_tc_011"
-base_sample_id: "ms_tc_011"
-vulnerability_type: "reentrancy"
+base_sample_id: "ms_tc_013"
+vulnerability_type: "arithmetic_error"
 is_fixed: true
 
-# Differential annotation documents the FIX applied to the vulnerable version.
-# The base vulnerability is documented in ms_tc_011.yaml.
-
 fix_summary:
-  description: "Reordered to follow Checks-Effects-Interactions pattern. State updates now occur BEFORE the external call."
-  fix_type: "reorder"
-  vulnerable_pattern: "External call before state update"
-  fixed_pattern: "State update before external call"
+  description: "Changed reward calculation to use tracked totalDeposits instead of contract balance."
+  fix_type: "computation_change"
+  vulnerable_pattern: "Uses lpToken.balanceOf(address(this)) which is inflatable"
+  fixed_pattern: "Uses totalDeposits which is tracked internally"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_011.yaml"
-  # vulnerable_lines (reference only): [68, 71]
-  root_cause_description: "ERC-777 transfer triggers callback before state update at lines 71-72"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_013.yaml"
+  # vulnerable_lines (reference only): [81]
+  root_cause_description: "tokenToReward used total contract balance instead of fee amount"
 
 fixed_version:
-  fix_lines: [51, 52, 54]
-  fix_description: "State updates at lines 51-52 now happen BEFORE external call at line 54"
+  fix_lines: [38, 49, 64, 84]
+  fix_description: "Added totalDeposits tracking (line 38, 49, 84). mintFor now uses totalDeposits (line 64) instead of balanceOf."
 
 code_acts:
 
-  # ============================================
-  # FIXED CODE ACTS
-  # ============================================
-
   - id: "CA_FIX1"
-    type: "STATE_MOD"
-    lines: [51, 52]
-    code: |
-      supplied[msg.sender][asset] -= withdrawAmount;
-      totalSupplied[asset] -= withdrawAmount;
+    type: "DECLARATION"
+    lines: [38]
+    code: "uint256 public totalDeposits;"
     security_function: "FIX"
-    rationale: "FIX - State updates now occur BEFORE the external call. Even if attacker reenters, the balance is already decremented, preventing double-withdrawal."
+    rationale: "FIX - Added totalDeposits to track deposits separately from contract balance."
 
   - id: "CA_FIX2"
-    type: "EXT_CALL"
-    lines: [54]
-    code: "IERC777(asset).transfer(msg.sender, withdrawAmount);"
-    security_function: "BENIGN"
-    rationale: "External call now happens AFTER state update. Reentrancy is still possible but harmless since state reflects the withdrawal."
+    type: "STATE_MOD"
+    lines: [49]
+    code: "totalDeposits += amount;"
+    security_function: "FIX"
+    rationale: "FIX - Tracks deposits when user deposits LP tokens."
 
-  # ============================================
-  # OTHER SECURITY-RELEVANT CODE ACTS
-  # ============================================
+  - id: "CA_FIX3"
+    type: "COMPUTATION"
+    lines: [64]
+    code: "uint256 hunnyRewardAmount = tokenToReward(totalDeposits);"
+    security_function: "FIX"
+    rationale: "FIX - Uses totalDeposits instead of balanceOf. Cannot be inflated by attacker."
+
+  - id: "CA_FIX4"
+    type: "STATE_MOD"
+    lines: [84]
+    code: "totalDeposits -= amount;"
+    security_function: "FIX"
+    rationale: "FIX - Decrements totalDeposits on withdrawal."
 
   - id: "CA1"
     type: "DECLARATION"
-    lines: [24]
-    code: "mapping(address => mapping(address => uint256)) public supplied;"
+    lines: [35, 36]
+    code: |
+      mapping(address => uint256) public depositedLP;
+      mapping(address => uint256) public earnedRewards;
     security_function: "BENIGN"
-    rationale: "User balance mapping. Now correctly updated before external call."
+    rationale: "User tracking mappings."
 
   - id: "CA2"
-    type: "DECLARATION"
-    lines: [25]
-    code: "mapping(address => uint256) public totalSupplied;"
+    type: "EXT_CALL"
+    lines: [47]
+    code: "lpToken.transferFrom(msg.sender, address(this), amount);"
     security_function: "BENIGN"
-    rationale: "Total supply tracking. Updated before external call."
+    rationale: "LP token deposit transfer."
 
   - id: "CA3"
-    type: "EXT_CALL"
-    lines: [30]
-    code: 'require(token.transfer(address(this), amount), "Transfer failed");'
+    type: "STATE_MOD"
+    lines: [48]
+    code: "depositedLP[msg.sender] += amount;"
     security_function: "BENIGN"
-    rationale: "Transfer in supply() - tokens come FROM user."
+    rationale: "User deposit tracking."
 
   - id: "CA4"
-    type: "STATE_MOD"
-    lines: [32, 33]
-    code: |
-      supplied[msg.sender][asset] += amount;
-      totalSupplied[asset] += amount;
+    type: "INPUT_VAL"
+    lines: [59]
+    code: 'require(flip == address(lpToken), "Invalid token");'
     security_function: "BENIGN"
-    rationale: "State updates in supply(). Correctly implemented."
+    rationale: "Token validation."
 
   - id: "CA5"
-    type: "DECLARATION"
-    lines: [42]
-    code: "uint256 userBalance = supplied[msg.sender][asset];"
+    type: "STATE_MOD"
+    lines: [66]
+    code: "earnedRewards[to] += hunnyRewardAmount;"
     security_function: "BENIGN"
-    rationale: "Reads user balance. No longer a vulnerability since state is updated before call."
+    rationale: "Reward assignment. Now uses correct amount."
 
   - id: "CA6"
-    type: "INPUT_VAL"
-    lines: [43]
-    code: 'require(userBalance > 0, "No balance");'
-    security_function: "BENIGN"
-    rationale: "Balance check correctly implemented."
-
-  - id: "CA7"
     type: "COMPUTATION"
-    lines: [45, 46, 47, 48]
+    lines: [69, 70, 71]
     code: |
-      uint256 withdrawAmount = requestedAmount;
-      if (requestedAmount == type(uint256).max) {
-          withdrawAmount = userBalance;
+      function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
+          return lpAmount * REWARD_RATE;
       }
     security_function: "BENIGN"
-    rationale: "Withdrawal amount calculation."
-
-  - id: "CA8"
-    type: "INPUT_VAL"
-    lines: [49]
-    code: 'require(withdrawAmount <= userBalance, "Insufficient balance");'
-    security_function: "BENIGN"
-    rationale: "Balance check correctly implemented."
-
-  # ============================================
-  # BATCHED UNRELATED CODE ACTS
-  # ============================================
+    rationale: "Reward multiplier. Now receives correct input."
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -128,110 +110,114 @@ code_acts:
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 23, 27, 28, 35, 38, 39, 40, 41, 55, 57, 59, 60, 61, 62, 63, 64, 65]
+    lines: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 39, 41, 42, 43, 44, 46, 52, 53, 54, 55, 56, 57, 58, 61, 62, 73, 74, 75, 77, 78, 81, 82, 83, 85, 86, 87]
     security_function: "UNRELATED"
     rationale: "Interface, contract, and function signature declarations"
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
-    lines: [14, 22, 36]
+    lines: [20, 50, 67, 79]
     security_function: "UNRELATED"
     rationale: "Closing braces"
 
 summary:
-  total_code_acts: 12
+  total_code_acts: 14
 
   fix_applied:
-    type: "reorder"
-    description: "CEI pattern: state updates before external call"
-    lines_changed: [51, 52, 54]
+    type: "computation_change"
+    description: "Use internally tracked totalDeposits instead of balanceOf"
+    lines_changed: [38, 49, 64, 84]
 
   by_security_function_fixed:
-    FIX: 1           # CA_FIX1
-    BENIGN: 7        # CA_FIX2, CA1-CA8
-    UNRELATED: 4     # batched
+    FIX: 4
+    BENIGN: 6
+    UNRELATED: 4
 
 line_to_code_act_fixed:
-  # Directives
   1: "CA_DIRECTIVES"
   2: "CA_DIRECTIVES"
-  # Line 3: empty
-  # Comments
   4: "CA_COMMENTS"
   5: "CA_COMMENTS"
   6: "CA_COMMENTS"
   7: "CA_COMMENTS"
-  # Line 8: empty
-  # Declarations
   9: "CA_DECLARATIONS"
   10: "CA_DECLARATIONS"
   # Line 11: empty
   12: "CA_DECLARATIONS"
   13: "CA_DECLARATIONS"
-  # Line 14: empty
+  14: "CA_DECLARATIONS"
   15: "CA_DECLARATIONS"
   16: "CA_DECLARATIONS"
-  17: "CA_DECLARATIONS"
+  # Line 17: empty
   18: "CA_DECLARATIONS"
   19: "CA_DECLARATIONS"
-  20: "CA_DECLARATIONS"
+  # Line 20: empty
   21: "CA_DECLARATIONS"
-  # Line 22: empty
+  22: "CA_DECLARATIONS"
   23: "CA_DECLARATIONS"
-  24: "CA1"
-  25: "CA2"
-  # Line 26: empty
+  24: "CA_DECLARATIONS"
+  25: "CA_DECLARATIONS"
+  26: "CA_DECLARATIONS"
   27: "CA_DECLARATIONS"
   28: "CA_DECLARATIONS"
-  # Line 29: empty
-  30: "CA3"
-  # Line 31: empty
-  32: "CA4"
-  33: "CA4"
-  # Line 34: empty
-  35: "CA_DECLARATIONS"
-  36: "CA_SYNTAX"
-  # Line 37: empty
-  38: "CA_DECLARATIONS"
+  29: "CA_DECLARATIONS"
+  31: "CA_DECLARATIONS"
+  32: "CA_DECLARATIONS"
+  33: "CA_DECLARATIONS"
+  35: "CA1"
+  36: "CA1"
+  38: "CA_FIX1"
   39: "CA_DECLARATIONS"
-  40: "CA_DECLARATIONS"
   41: "CA_DECLARATIONS"
-  42: "CA5"
-  43: "CA6"
-  # Line 44: empty
-  45: "CA7"
-  46: "CA7"
-  47: "CA7"
-  48: "CA7"
-  49: "CA8"
-  # Line 50: empty
-  51: "CA_FIX1"
-  52: "CA_FIX1"
-  # Line 53: empty
-  54: "CA_FIX2"
-  # Line 55: empty
-  # Line 56: empty
+  42: "CA_DECLARATIONS"
+  43: "CA_DECLARATIONS"
+  44: "CA_DECLARATIONS"
+  46: "CA_DECLARATIONS"
+  47: "CA2"
+  48: "CA3"
+  49: "CA_FIX2"
+  50: "CA_SYNTAX"
+  52: "CA_DECLARATIONS"
+  53: "CA_DECLARATIONS"
+  54: "CA_DECLARATIONS"
+  55: "CA_DECLARATIONS"
+  56: "CA_DECLARATIONS"
   57: "CA_DECLARATIONS"
-  # Line 58: empty
-  59: "CA_DECLARATIONS"
-  60: "CA_DECLARATIONS"
+  58: "CA_DECLARATIONS"
+  59: "CA4"
   61: "CA_DECLARATIONS"
   62: "CA_DECLARATIONS"
-  63: "CA_DECLARATIONS"
-  64: "CA_DECLARATIONS"
-  65: "CA_DECLARATIONS"
+  64: "CA_FIX3"
+  66: "CA5"
+  67: "CA_SYNTAX"
+  69: "CA6"
+  70: "CA6"
+  71: "CA6"
+  73: "CA_DECLARATIONS"
+  74: "CA_DECLARATIONS"
+  75: "CA_DECLARATIONS"
+  77: "CA_DECLARATIONS"
+  78: "CA_DECLARATIONS"
+  79: "CA_SYNTAX"
+  81: "CA_DECLARATIONS"
+  82: "CA_DECLARATIONS"
+  83: "CA_DECLARATIONS"
+  84: "CA_FIX4"
+  85: "CA_DECLARATIONS"
+  86: "CA_DECLARATIONS"
+  87: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
   CA_FIX1: "FIX"
-  CA_FIX2: "BENIGN"
+  CA_FIX2: "FIX"
+  CA_FIX3: "FIX"
+  CA_FIX4: "FIX"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "BENIGN"
-  CA8: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

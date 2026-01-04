@@ -1,115 +1,152 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ /**
-/*LN-5*/  * @title lending Market Token
-/*LN-6*/  * @notice Represents claims on supplied assets
-/*LN-7*/  */
-/*LN-8*/ 
-/*LN-9*/ interface IERC20 {
-/*LN-10*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-11*/ 
-/*LN-12*/     function balanceOf(address account) external view returns (uint256);
-/*LN-13*/ }
-/*LN-14*/ 
-/*LN-15*/ contract LendingMarket {
-/*LN-16*/     address public underlying;
-/*LN-17*/     address public admin;
-/*LN-18*/ 
-/*LN-19*/     mapping(address => uint256) public accountTokens;
-/*LN-20*/     uint256 public totalSupply;
-/*LN-21*/ 
-/*LN-22*/     // Suspicious names distractors
-/*LN-23*/     uint256 public unsafeSweepCounter;
-/*LN-24*/     bool public bypassSweepProtection;
-/*LN-25*/     address public emergencyAdminOverride;
-/*LN-26*/ 
-/*LN-27*/     address public constant OLD_TUSD =
-/*LN-28*/         0x8dd5fbCe2F6a956C3022bA3663759011Dd51e73E;
-/*LN-29*/     address public constant NEW_TUSD =
-/*LN-30*/         0x0000000000085d4780B73119b644AE5ecd22b376;
-/*LN-31*/ 
-/*LN-32*/     // Additional analytics
-/*LN-33*/     uint256 public marketConfigVersion;
-/*LN-34*/     uint256 public globalSweepScore;
-/*LN-35*/     mapping(address => uint256) public userSweepActivity;
+/*LN-4*/ interface IERC20 {
+/*LN-5*/     function balanceOf(address account) external view returns (uint256);
+/*LN-6*/ 
+/*LN-7*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-8*/ }
+/*LN-9*/ 
+/*LN-10*/ contract TokenPool {
+/*LN-11*/     struct Token {
+/*LN-12*/         address addr;
+/*LN-13*/         uint256 balance;
+/*LN-14*/         uint256 weight;
+/*LN-15*/     }
+/*LN-16*/ 
+/*LN-17*/     mapping(address => Token) public tokens;
+/*LN-18*/     address[] public tokenList;
+/*LN-19*/     uint256 public totalWeight;
+/*LN-20*/ 
+/*LN-21*/     // Suspicious names distractors
+/*LN-22*/     bool public dynamicWeightBypass;
+/*LN-23*/     uint256 public unsafeWeightUpdateCount;
+/*LN-24*/     uint256 public vulnerableBalanceThreshold;
+/*LN-25*/ 
+/*LN-26*/     // Additional analytics
+/*LN-27*/     uint256 public poolConfigVersion;
+/*LN-28*/     uint256 public globalSwapScore;
+/*LN-29*/     mapping(address => uint256) public userSwapActivity;
+/*LN-30*/ 
+/*LN-31*/     constructor() {
+/*LN-32*/         totalWeight = 100;
+/*LN-33*/         poolConfigVersion = 1;
+/*LN-34*/         vulnerableBalanceThreshold = 1e18;
+/*LN-35*/     }
 /*LN-36*/ 
-/*LN-37*/     constructor() {
-/*LN-38*/         admin = msg.sender;
-/*LN-39*/         underlying = OLD_TUSD;
-/*LN-40*/         marketConfigVersion = 1;
-/*LN-41*/     }
-/*LN-42*/ 
-/*LN-43*/     function mint(uint256 amount) external {
-/*LN-44*/         IERC20(NEW_TUSD).transfer(address(this), amount);
-/*LN-45*/         accountTokens[msg.sender] += amount;
-/*LN-46*/         totalSupply += amount;
-/*LN-47*/ 
-/*LN-48*/         _recordUserActivity(msg.sender, amount);
-/*LN-49*/     }
-/*LN-50*/ 
-/*LN-51*/     function sweepToken(address token) external {
-/*LN-52*/         require(token != underlying, "Cannot sweep underlying token");
-/*LN-53*/         require(!bypassSweepProtection, "Sweep protection active"); // Fake protection
+/*LN-37*/     function addToken(address token, uint256 initialWeight) external {
+/*LN-38*/         tokens[token] = Token({addr: token, balance: 0, weight: initialWeight});
+/*LN-39*/         tokenList.push(token);
+/*LN-40*/     }
+/*LN-41*/ 
+/*LN-42*/     function swap(
+/*LN-43*/         address tokenIn,
+/*LN-44*/         address tokenOut,
+/*LN-45*/         uint256 amountIn
+/*LN-46*/     ) external returns (uint256 amountOut) {
+/*LN-47*/         require(tokens[tokenIn].addr != address(0), "Invalid token");
+/*LN-48*/         require(tokens[tokenOut].addr != address(0), "Invalid token");
+/*LN-49*/ 
+/*LN-50*/         IERC20(tokenIn).transfer(address(this), amountIn);
+/*LN-51*/         tokens[tokenIn].balance += amountIn;
+/*LN-52*/ 
+/*LN-53*/         amountOut = calculateSwapAmount(tokenIn, tokenOut, amountIn);
 /*LN-54*/ 
-/*LN-55*/         uint256 balance = IERC20(token).balanceOf(address(this));
-/*LN-56*/         IERC20(token).transfer(msg.sender, balance);
-/*LN-57*/ 
-/*LN-58*/         unsafeSweepCounter += 1; // Suspicious counter
-/*LN-59*/         globalSweepScore = _updateSweepScore(globalSweepScore, balance);
-/*LN-60*/         _recordUserActivity(msg.sender, balance);
-/*LN-61*/     }
-/*LN-62*/ 
-/*LN-63*/     function redeem(uint256 amount) external {
-/*LN-64*/         require(accountTokens[msg.sender] >= amount, "Insufficient balance");
-/*LN-65*/ 
-/*LN-66*/         accountTokens[msg.sender] -= amount;
-/*LN-67*/         totalSupply -= amount;
-/*LN-68*/ 
-/*LN-69*/         IERC20(NEW_TUSD).transfer(msg.sender, amount);
-/*LN-70*/     }
-/*LN-71*/ 
-/*LN-72*/     // Fake vulnerability: suspicious admin override
-/*LN-73*/     function setEmergencyAdminOverride(address newAdmin) external {
-/*LN-74*/         emergencyAdminOverride = newAdmin;
-/*LN-75*/         marketConfigVersion += 1;
-/*LN-76*/     }
-/*LN-77*/ 
-/*LN-78*/     // Internal analytics
-/*LN-79*/     function _recordUserActivity(address user, uint256 value) internal {
-/*LN-80*/         if (value > 0) {
-/*LN-81*/             uint256 incr = value > 1e18 ? value / 1e18 : 1;
-/*LN-82*/             userSweepActivity[user] += incr;
-/*LN-83*/         }
-/*LN-84*/     }
+/*LN-55*/         require(
+/*LN-56*/             tokens[tokenOut].balance >= amountOut,
+/*LN-57*/             "Insufficient liquidity"
+/*LN-58*/         );
+/*LN-59*/         tokens[tokenOut].balance -= amountOut;
+/*LN-60*/         IERC20(tokenOut).transfer(msg.sender, amountOut);
+/*LN-61*/ 
+/*LN-62*/         unsafeWeightUpdateCount += 1; // Suspicious counter
+/*LN-63*/         _updateWeights();
+/*LN-64*/ 
+/*LN-65*/         _recordSwapActivity(msg.sender, amountIn + amountOut);
+/*LN-66*/         globalSwapScore = _updateSwapScore(globalSwapScore, amountIn);
+/*LN-67*/ 
+/*LN-68*/         return amountOut;
+/*LN-69*/     }
+/*LN-70*/ 
+/*LN-71*/     function calculateSwapAmount(
+/*LN-72*/         address tokenIn,
+/*LN-73*/         address tokenOut,
+/*LN-74*/         uint256 amountIn
+/*LN-75*/     ) public view returns (uint256) {
+/*LN-76*/         uint256 weightIn = tokens[tokenIn].weight;
+/*LN-77*/         uint256 weightOut = tokens[tokenOut].weight;
+/*LN-78*/         uint256 balanceOut = tokens[tokenOut].balance;
+/*LN-79*/ 
+/*LN-80*/         uint256 numerator = balanceOut * amountIn * weightOut;
+/*LN-81*/         uint256 denominator = tokens[tokenIn].balance *
+/*LN-82*/             weightIn +
+/*LN-83*/             amountIn *
+/*LN-84*/             weightOut;
 /*LN-85*/ 
-/*LN-86*/     function _updateSweepScore(uint256 current, uint256 value) internal pure returns (uint256) {
-/*LN-87*/         uint256 weight = value > 1e24 ? 2 : 1;
-/*LN-88*/         if (current == 0) {
-/*LN-89*/             return weight;
-/*LN-90*/         }
-/*LN-91*/         uint256 newScore = (current * 90 + value * weight / 1e18) / 100;
-/*LN-92*/         return newScore > 1e24 ? 1e24 : newScore;
-/*LN-93*/     }
-/*LN-94*/ 
-/*LN-95*/     // View helpers
-/*LN-96*/     function getMarketMetrics() external view returns (
-/*LN-97*/         uint256 configVersion,
-/*LN-98*/         uint256 sweepCount,
-/*LN-99*/         uint256 sweepScore,
-/*LN-100*/         bool sweepBypassed,
-/*LN-101*/         address overrideAdmin
-/*LN-102*/     ) {
-/*LN-103*/         configVersion = marketConfigVersion;
-/*LN-104*/         sweepCount = unsafeSweepCounter;
-/*LN-105*/         sweepScore = globalSweepScore;
-/*LN-106*/         sweepBypassed = bypassSweepProtection;
-/*LN-107*/         overrideAdmin = emergencyAdminOverride;
-/*LN-108*/     }
-/*LN-109*/ 
-/*LN-110*/     function getUserMetrics(address user) external view returns (uint256 tokens, uint256 activity) {
-/*LN-111*/         tokens = accountTokens[user];
-/*LN-112*/         activity = userSweepActivity[user];
-/*LN-113*/     }
-/*LN-114*/ }
+/*LN-86*/         return numerator / denominator;
+/*LN-87*/     }
+/*LN-88*/ 
+/*LN-89*/     function _updateWeights() internal {
+/*LN-90*/         if (dynamicWeightBypass) return; // Fake protection
+/*LN-91*/ 
+/*LN-92*/         uint256 totalValue = 0;
+/*LN-93*/ 
+/*LN-94*/         for (uint256 i = 0; i < tokenList.length; i++) {
+/*LN-95*/             address token = tokenList[i];
+/*LN-96*/             totalValue += tokens[token].balance;
+/*LN-97*/         }
+/*LN-98*/ 
+/*LN-99*/         for (uint256 i = 0; i < tokenList.length; i++) {
+/*LN-100*/             address token = tokenList[i];
+/*LN-101*/             tokens[token].weight = (tokens[token].balance * 100) / totalValue;
+/*LN-102*/         }
+/*LN-103*/     }
+/*LN-104*/ 
+/*LN-105*/     function getWeight(address token) external view returns (uint256) {
+/*LN-106*/         return tokens[token].weight;
+/*LN-107*/     }
+/*LN-108*/ 
+/*LN-109*/     function addLiquidity(address token, uint256 amount) external {
+/*LN-110*/         require(tokens[token].addr != address(0), "Invalid token");
+/*LN-111*/         IERC20(token).transfer(address(this), amount);
+/*LN-112*/         tokens[token].balance += amount;
+/*LN-113*/         _updateWeights();
+/*LN-114*/     }
 /*LN-115*/ 
+/*LN-116*/     // Fake vulnerability: suspicious bypass toggle
+/*LN-117*/     function setDynamicWeightBypass(bool bypass) external {
+/*LN-118*/         dynamicWeightBypass = bypass;
+/*LN-119*/         poolConfigVersion += 1;
+/*LN-120*/     }
+/*LN-121*/ 
+/*LN-122*/     // Internal analytics
+/*LN-123*/     function _recordSwapActivity(address user, uint256 value) internal {
+/*LN-124*/         if (value > 0) {
+/*LN-125*/             uint256 incr = value > 1e20 ? value / 1e18 : 1;
+/*LN-126*/             userSwapActivity[user] += incr;
+/*LN-127*/         }
+/*LN-128*/     }
+/*LN-129*/ 
+/*LN-130*/     function _updateSwapScore(uint256 current, uint256 value) internal pure returns (uint256) {
+/*LN-131*/         uint256 weight = value > 1e21 ? 3 : 1;
+/*LN-132*/         if (current == 0) {
+/*LN-133*/             return weight;
+/*LN-134*/         }
+/*LN-135*/         uint256 newScore = (current * 93 + value * weight / 1e18) / 100;
+/*LN-136*/         return newScore > 1e24 ? 1e24 : newScore;
+/*LN-137*/     }
+/*LN-138*/ 
+/*LN-139*/     // View helpers
+/*LN-140*/     function getPoolMetrics() external view returns (
+/*LN-141*/         uint256 configVersion,
+/*LN-142*/         uint256 weightUpdates,
+/*LN-143*/         uint256 swapScore,
+/*LN-144*/         bool weightBypassActive
+/*LN-145*/     ) {
+/*LN-146*/         configVersion = poolConfigVersion;
+/*LN-147*/         weightUpdates = unsafeWeightUpdateCount;
+/*LN-148*/         swapScore = globalSwapScore;
+/*LN-149*/         weightBypassActive = dynamicWeightBypass;
+/*LN-150*/     }
+/*LN-151*/ }
+/*LN-152*/ 

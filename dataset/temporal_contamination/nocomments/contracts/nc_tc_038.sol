@@ -14,90 +14,114 @@
 /*LN-14*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ interface IPriceOracle {
-/*LN-18*/     function getPrice(address token) external view returns (uint256);
-/*LN-19*/ }
-/*LN-20*/ 
-/*LN-21*/ contract LeveragedLending {
-/*LN-22*/     struct Market {
-/*LN-23*/         bool isListed;
-/*LN-24*/         uint256 collateralFactor;
-/*LN-25*/         mapping(address => uint256) accountCollateral;
-/*LN-26*/         mapping(address => uint256) accountBorrows;
-/*LN-27*/     }
+/*LN-17*/ contract CollateralToken is IERC20 {
+/*LN-18*/     string public name = "Shezmu Collateral Token";
+/*LN-19*/     string public symbol = "SCT";
+/*LN-20*/     uint8 public decimals = 18;
+/*LN-21*/ 
+/*LN-22*/     mapping(address => uint256) public balanceOf;
+/*LN-23*/     mapping(address => mapping(address => uint256)) public allowance;
+/*LN-24*/     uint256 public totalSupply;
+/*LN-25*/ 
+/*LN-26*/     function mint(address to, uint256 amount) external {
+/*LN-27*/ 
 /*LN-28*/ 
-/*LN-29*/     mapping(address => Market) public markets;
-/*LN-30*/     IPriceOracle public oracle;
-/*LN-31*/ 
-/*LN-32*/     uint256 public constant COLLATERAL_FACTOR = 75;
-/*LN-33*/     uint256 public constant BASIS_POINTS = 100;
-/*LN-34*/ 
-/*LN-35*/ 
-/*LN-36*/     function enterMarkets(
-/*LN-37*/         address[] calldata vTokens
-/*LN-38*/     ) external returns (uint256[] memory) {
-/*LN-39*/         uint256[] memory results = new uint256[](vTokens.length);
-/*LN-40*/         for (uint256 i = 0; i < vTokens.length; i++) {
-/*LN-41*/             markets[vTokens[i]].isListed = true;
-/*LN-42*/             results[i] = 0;
-/*LN-43*/         }
-/*LN-44*/         return results;
-/*LN-45*/     }
-/*LN-46*/ 
-/*LN-47*/ 
-/*LN-48*/     function mint(address token, uint256 amount) external returns (uint256) {
-/*LN-49*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
-/*LN-50*/ 
-/*LN-51*/         uint256 price = oracle.getPrice(token);
-/*LN-52*/ 
-/*LN-53*/         markets[token].accountCollateral[msg.sender] += amount;
-/*LN-54*/         return 0;
-/*LN-55*/     }
-/*LN-56*/ 
-/*LN-57*/ 
-/*LN-58*/     function borrow(
-/*LN-59*/         address borrowToken,
-/*LN-60*/         uint256 borrowAmount
-/*LN-61*/     ) external returns (uint256) {
-/*LN-62*/         uint256 totalCollateralValue = 0;
-/*LN-63*/ 
-/*LN-64*/ 
-/*LN-65*/         uint256 borrowPrice = oracle.getPrice(borrowToken);
-/*LN-66*/         uint256 borrowValue = (borrowAmount * borrowPrice) / 1e18;
+/*LN-29*/         balanceOf[to] += amount;
+/*LN-30*/         totalSupply += amount;
+/*LN-31*/     }
+/*LN-32*/ 
+/*LN-33*/     function transfer(
+/*LN-34*/         address to,
+/*LN-35*/         uint256 amount
+/*LN-36*/     ) external override returns (bool) {
+/*LN-37*/         require(balanceOf[msg.sender] >= amount, "Insufficient balance");
+/*LN-38*/         balanceOf[msg.sender] -= amount;
+/*LN-39*/         balanceOf[to] += amount;
+/*LN-40*/         return true;
+/*LN-41*/     }
+/*LN-42*/ 
+/*LN-43*/     function transferFrom(
+/*LN-44*/         address from,
+/*LN-45*/         address to,
+/*LN-46*/         uint256 amount
+/*LN-47*/     ) external override returns (bool) {
+/*LN-48*/         require(balanceOf[from] >= amount, "Insufficient balance");
+/*LN-49*/         require(
+/*LN-50*/             allowance[from][msg.sender] >= amount,
+/*LN-51*/             "Insufficient allowance"
+/*LN-52*/         );
+/*LN-53*/         balanceOf[from] -= amount;
+/*LN-54*/         balanceOf[to] += amount;
+/*LN-55*/         allowance[from][msg.sender] -= amount;
+/*LN-56*/         return true;
+/*LN-57*/     }
+/*LN-58*/ 
+/*LN-59*/     function approve(
+/*LN-60*/         address spender,
+/*LN-61*/         uint256 amount
+/*LN-62*/     ) external override returns (bool) {
+/*LN-63*/         allowance[msg.sender][spender] = amount;
+/*LN-64*/         return true;
+/*LN-65*/     }
+/*LN-66*/ }
 /*LN-67*/ 
-/*LN-68*/         uint256 maxBorrowValue = (totalCollateralValue * COLLATERAL_FACTOR) /
-/*LN-69*/             BASIS_POINTS;
-/*LN-70*/ 
-/*LN-71*/         require(borrowValue <= maxBorrowValue, "Insufficient collateral");
-/*LN-72*/ 
-/*LN-73*/         markets[borrowToken].accountBorrows[msg.sender] += borrowAmount;
-/*LN-74*/         IERC20(borrowToken).transfer(msg.sender, borrowAmount);
-/*LN-75*/ 
-/*LN-76*/         return 0;
-/*LN-77*/     }
-/*LN-78*/ 
-/*LN-79*/ 
-/*LN-80*/     function liquidate(
-/*LN-81*/         address borrower,
-/*LN-82*/         address repayToken,
-/*LN-83*/         uint256 repayAmount,
-/*LN-84*/         address collateralToken
-/*LN-85*/     ) external {
-/*LN-86*/ 
-/*LN-87*/ 
-/*LN-88*/     }
-/*LN-89*/ }
-/*LN-90*/ 
-/*LN-91*/ contract TestOracle is IPriceOracle {
-/*LN-92*/     mapping(address => uint256) public prices;
-/*LN-93*/ 
+/*LN-68*/ contract CollateralVault {
+/*LN-69*/     IERC20 public collateralToken;
+/*LN-70*/     IERC20 public shezUSD;
+/*LN-71*/ 
+/*LN-72*/     mapping(address => uint256) public collateralBalance;
+/*LN-73*/     mapping(address => uint256) public debtBalance;
+/*LN-74*/ 
+/*LN-75*/     uint256 public constant COLLATERAL_RATIO = 150;
+/*LN-76*/     uint256 public constant BASIS_POINTS = 100;
+/*LN-77*/ 
+/*LN-78*/     constructor(address _collateralToken, address _shezUSD) {
+/*LN-79*/         collateralToken = IERC20(_collateralToken);
+/*LN-80*/         shezUSD = IERC20(_shezUSD);
+/*LN-81*/     }
+/*LN-82*/ 
+/*LN-83*/ 
+/*LN-84*/     function addCollateral(uint256 amount) external {
+/*LN-85*/         collateralToken.transferFrom(msg.sender, address(this), amount);
+/*LN-86*/         collateralBalance[msg.sender] += amount;
+/*LN-87*/     }
+/*LN-88*/ 
+/*LN-89*/ 
+/*LN-90*/     function borrow(uint256 amount) external {
+/*LN-91*/ 
+/*LN-92*/         uint256 maxBorrow = (collateralBalance[msg.sender] * BASIS_POINTS) /
+/*LN-93*/             COLLATERAL_RATIO;
 /*LN-94*/ 
-/*LN-95*/     function getPrice(address token) external view override returns (uint256) {
-/*LN-96*/ 
-/*LN-97*/         return prices[token];
-/*LN-98*/     }
+/*LN-95*/         require(
+/*LN-96*/             debtBalance[msg.sender] + amount <= maxBorrow,
+/*LN-97*/             "Insufficient collateral"
+/*LN-98*/         );
 /*LN-99*/ 
-/*LN-100*/     function setPrice(address token, uint256 price) external {
-/*LN-101*/         prices[token] = price;
-/*LN-102*/     }
-/*LN-103*/ }
+/*LN-100*/         debtBalance[msg.sender] += amount;
+/*LN-101*/ 
+/*LN-102*/         shezUSD.transfer(msg.sender, amount);
+/*LN-103*/     }
+/*LN-104*/ 
+/*LN-105*/     function repay(uint256 amount) external {
+/*LN-106*/         require(debtBalance[msg.sender] >= amount, "Excessive repayment");
+/*LN-107*/         shezUSD.transferFrom(msg.sender, address(this), amount);
+/*LN-108*/         debtBalance[msg.sender] -= amount;
+/*LN-109*/     }
+/*LN-110*/ 
+/*LN-111*/     function withdrawCollateral(uint256 amount) external {
+/*LN-112*/         require(
+/*LN-113*/             collateralBalance[msg.sender] >= amount,
+/*LN-114*/             "Insufficient collateral"
+/*LN-115*/         );
+/*LN-116*/         uint256 remainingCollateral = collateralBalance[msg.sender] - amount;
+/*LN-117*/         uint256 maxDebt = (remainingCollateral * BASIS_POINTS) /
+/*LN-118*/             COLLATERAL_RATIO;
+/*LN-119*/         require(
+/*LN-120*/             debtBalance[msg.sender] <= maxDebt,
+/*LN-121*/             "Would be undercollateralized"
+/*LN-122*/         );
+/*LN-123*/ 
+/*LN-124*/         collateralBalance[msg.sender] -= amount;
+/*LN-125*/         collateralToken.transfer(msg.sender, amount);
+/*LN-126*/     }
+/*LN-127*/ }

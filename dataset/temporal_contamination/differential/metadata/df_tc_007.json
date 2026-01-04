@@ -1,42 +1,44 @@
 {
   "sample_id": "df_tc_007",
-  "exploit_name": "Poly Network",
-  "date": "2021-08-10",
-  "amount_lost_usd": "611000000",
+  "exploit_name": "KyberSwap Elastic",
+  "date": "2023-11-22",
+  "amount_lost_usd": "47000000",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "access_control",
-  "vulnerability_subtype": "unrestricted_target_execution",
+  "vulnerability_type": "arithmetic_error",
+  "vulnerability_subtype": "precision_loss_liquidity_calculation",
   "severity": "critical",
   "difficulty_tier": 4,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "CrossChainData",
-  "vulnerable_function": "verifyHeaderAndExecuteTx",
+  "vulnerable_contract": "ConcentratedLiquidityPool",
+  "vulnerable_function": "swap, _addLiquidity",
   "vulnerable_lines": [],
-  "attack_scenario": "Attacker creates valid cross-chain transaction on Poly Network sidechain with target set to EthCrossChainData (the privileged data contract), not a user contract. Transaction calls putCurEpochConPubKeyBytes() to change validator public keys. EthCrossChainManager verifies header signatures and Merkle proof (both valid), then executes transaction by calling EthCrossChainData. Since msg.sender is EthCrossChainManager, the onlyOwner check passes. Attacker's keys become validator keys, allowing them to forge any cross-chain transaction and drain bridge.",
-  "root_cause": "EthCrossChainManager validated cross-chain transactions (headers, proofs) but didn't restrict which contracts could be targeted for execution. It allowed calling EthCrossChainData, which trusted EthCrossChainManager as owner. This created an access control bypass where anyone could call privileged functions on EthCrossChainData by routing through EthCrossChainManager with a valid cross-chain transaction.",
-  "fix_description": "Implement whitelist of allowed target contracts, explicitly excluding privileged contracts like EthCrossChainData. Use blacklist to forbid critical system contracts as targets. Separate privilege levels for cross-chain execution. Replace msg.sender-based authorization with more granular access controls. Add multi-sig requirements for critical operations like validator key updates. Implement emergency pause mechanisms. Add rate limiting and anomaly detection for cross-chain transactions.",
-  "source_reference": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2021-08/PolyNetwork_exp.sol",
+  "attack_scenario": "Attacker takes flash loan of large token amounts. Creates strategic liquidity positions at specific ticks designed to cause calculation errors. Executes swaps that trigger multiple tick transitions. During tick crossings, liquidityNet values are retrieved and added to current liquidity using _addLiquidity(). This function lacks overflow/underflow protection, allowing manipulated inputs to cause arithmetic errors. Rounding errors accumulate across multiple tick crossings. Attacker exploits incorrect liquidity state to extract more tokens than entitled. Repeats across multiple pools and chains. Repays flash loans with $47M profit.",
+  "root_cause": "Concentrated liquidity AMM requires precise tracking of liquidity at each price tick. When swaps cross ticks, the contract updates active liquidity by adding/subtracting liquidityNet values. The _addLiquidity() function performed unchecked arithmetic operations that could overflow or underflow with carefully crafted inputs. Precision loss in fixed-point arithmetic accumulated across multiple tick transitions. No invariant checks validated liquidity state before/after operations. Complex mathematical operations in concentrated liquidity created exploitable edge cases.",
+  "fix_description": "Add overflow/underflow checks to all liquidity arithmetic operations. Use Solidity 0.8+ checked arithmetic or SafeMath library. Implement more precise rounding in liquidity delta calculations. Add invariant checks before and after tick crossings to validate liquidity state. Implement bounds checking on liquidity values. Add comprehensive unit tests for edge cases in tick math. Implement emergency pause mechanism for detecting anomalous pool states. Consider formal verification of critical mathematical operations.",
+  "source_reference": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2023-11/KyberSwap_exp.eth.1.sol",
   "external_references": [
-    "https://rekt.news/polynetwork-rekt/",
-    "https://research.kudelskisecurity.com/2021/08/12/the-poly-network-hack-explained/",
-    "https://blog.chainalysis.com/reports/poly-network-hack-august-2021/"
+    "https://twitter.com/BlockSecTeam/status/1727560157888942331",
+    "https://blocksec.com/blog/yet-another-tragedy-of-precision-loss-an-in-depth-analysis-of-the-kyber-swap-incident-1",
+    "https://blog.solidityscan.com/kyberswap-hack-analysis-25e25f2e4a7b"
   ],
   "tags": [
-    "cross_chain",
-    "access_control",
-    "privilege_escalation",
-    "proxy_bypass",
+    "concentrated_liquidity",
+    "amm",
+    "precision_loss",
+    "overflow",
+    "tick_manipulation",
+    "flash_loan",
+    "multi_chain",
     "historical",
-    "mega_hack",
     "differential",
     "fixed"
   ],
   "variant_type": "differential",
   "variant_parent_id": "tc_007",
-  "notes": "One of the largest crypto hacks ever ($611M). Uniquely, the attacker returned most funds, suggesting white hat intentions or demonstrating vulnerability for recognition. Attacker communicated via embedded transaction messages. Classic access control bypass via proxy pattern. Demonstrates importance of restricting execution targets in proxy/manager contracts. Affected multiple chains (Ethereum, BSC, Polygon).",
+  "notes": "One of the most technically sophisticated DeFi hacks. Required deep understanding of concentrated liquidity mechanics, fixed-point arithmetic, and tick transition edge cases. Affected multiple chains simultaneously (Ethereum, Polygon, BSC, Arbitrum, Optimism). Attacker left on-chain message attempting to negotiate for control of KyberSwap in exchange for returning funds. Team rejected demand, most funds not recovered. Demonstrates complexity and risk in concentrated liquidity AMM implementations.",
   "contract_file": "contracts/df_tc_007.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
@@ -44,35 +46,34 @@
     "type": "differential",
     "strategy": "minimal_fix",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_007.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_007.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_009.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_009.json",
     "pair_metadata": "/Users/poamen/projects/grace/blockbench/base/data/manual_strategies/differential/metadata/df_pair_tc_007.json",
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "Minimal fix with 6 lines changed. Added: mapping(address => bool) public allowedTargets;; allowedTargets[_dataContract] = false;; require(allowedTargets[toContract], \"Target not allowed\");",
+    "fix_description": "Minimal fix with 5 lines changed. Added: require(x >= uint128(-y), \"Underflow\");; require(x + uint128(y) >= x, \"Overflow\");; uint256(amountRemaining > 0 ? amountRemaining : -amountRemaining) / 2;",
     "exact_changes": [
       {
         "location": "Added line",
-        "version_a": "mapping(address => bool) public allowedTargets;",
+        "version_a": "require(x >= uint128(-y), \"Underflow\");",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "allowedTargets[_dataContract] = false;",
+        "version_a": "require(x + uint128(y) >= x, \"Overflow\");",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "require(allowedTargets[toContract], \"Target not allowed\");",
+        "version_a": "uint256(amountRemaining > 0 ? amountRemaining : -amountRemaining) / 2;",
         "version_b": "// Not present in vulnerable version"
       }
     ],
-    "why_fix_works": "Implement whitelist of allowed target contracts, explicitly excluding privileged contracts like EthCrossChainData. Use blacklist to forbid critical system contracts as targets. Separate privilege levels for cross-chain execution. Replace msg.sender-based authorization with more granular access contr",
+    "why_fix_works": "Add overflow/underflow checks to all liquidity arithmetic operations. Use Solidity 0.8+ checked arithmetic or SafeMath library. Implement more precise rounding in liquidity delta calculations. Add invariant checks before and after tick crossings to validate liquidity state. Implement bounds checking",
     "contracts_in_file": [
-      "CrossChainData",
-      "CrossChainManager"
+      "ConcentratedLiquidityPool"
     ],
-    "created_date": "2025-12-30T02:02:17.927251"
+    "created_date": "2025-12-30T02:02:17.928777"
   }
 }

@@ -1,45 +1,39 @@
 {
   "sample_id": "tr_tc_008",
-  "exploit_name": "Cream Finance",
-  "date": "2021-10-27",
-  "amount_lost_usd": "130000000",
+  "exploit_name": "The DAO",
+  "date": "2016-06-17",
+  "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "price_oracle_manipulation",
-  "vulnerability_subtype": "flash_loan_oracle_manipulation",
-  "severity": "critical",
-  "difficulty_tier": 4,
+  "vulnerability_type": "reentrancy",
+  "vulnerability_subtype": "",
+  "severity": "",
+  "difficulty_tier": 0,
   "is_vulnerable": true,
-  "temporal_category": "pre_cutoff",
-  "description": "Cream Finance lending protocol exploited via complex flash loan attack manipulating yUSD token price. Attacker used $500M DAI flash loan to mint crYUSD collateral, then 524K ETH flash loan for crETH collateral. By borrowing yUSD and withdrawing it from Curve pool, attacker inflated remaining yUSD price in oracle. The inflated crYUSD collateral value ($1.5B vs $500M) allowed borrowing massive amounts to drain protocol for $130M profit.",
-  "vulnerable_contract": "LendingProtocol",
-  "vulnerable_function": "borrow, calculateBorrowPower",
+  "temporal_category": "",
+  "description": "Classic reentrancy attack that drained 3.6M ETH from The DAO. The withdrawAll function sent ETH before updating balances, allowing attackers to recursively call the function and drain funds.",
+  "vulnerable_contract": "CreditSystem",
+  "vulnerable_function": "withdrawAll",
   "vulnerable_lines": [
-    70,
-    102
+    31,
+    33
   ],
-  "attack_scenario": "Attacker flash loans $500M DAI from MakerDAO, converts to yUSD, deposits to Cream for crYUSD collateral. Flash loans 524K ETH from Aave, deposits for crETH collateral. Borrows yUSD multiple times against ETH collateral. Withdraws yUSD from Curve to underlying tokens, reducing yUSD supply in pool. Reduced supply makes remaining yUSD appear more valuable. Oracle reports inflated yUSD price. Attacker's crYUSD collateral now valued at $1.5B (was $500M). Borrows massive amounts against inflated collateral value. Repays flash loans with $130M profit.",
-  "root_cause": "Cream used price oracles that derived token prices from AMM pools (Curve) without manipulation resistance. yUSD price was calculated from its underlying assets in Curve pool. Attacker could manipulate this by draining the Curve pool within a single transaction. The protocol used spot prices instead of TWAPs, had no flash loan attack detection, and listed low-liquidity tokens vulnerable to price manipulation.",
-  "fix_description": "Use Time-Weighted Average Price (TWAP) oracles instead of spot prices. Integrate Chainlink or other manipulation-resistant oracle networks. Never use LP token prices directly from AMM pools without safeguards. Implement price sanity checks and circuit breakers for rapid price changes. Add per-market borrow caps. Use gradual price updates with rate limiting. Aggregate multiple oracle sources and use median values. Add flash loan attack detection. Avoid listing low-liquidity tokens. Implement deposit/borrow delays.",
-  "source_reference": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2021-10/Cream_2_exp.sol",
-  "external_references": [
-    "https://medium.com/immunefi/hack-analysis-cream-finance-oct-2021-fc222d913fc5",
-    "https://rekt.news/cream-rekt-2/",
-    "https://twitter.com/peckshield/status/1453364046904786950"
-  ],
+  "attack_scenario": "Attacker deposited ETH, then called withdrawAll from a malicious contract with a fallback function that re-entered withdrawAll, draining funds before balance was updated.",
+  "root_cause": "External call to msg.sender before updating internal state (credit balance). Violation of checks-effects-interactions pattern.",
+  "fix_description": "Move credit[msg.sender] = 0 before the external call, or use ReentrancyGuard modifier. Follow checks-effects-interactions pattern.",
+  "source_reference": "",
+  "external_references": [],
   "tags": [
-    "flash_loan",
-    "oracle_manipulation",
-    "lending",
-    "compound_fork",
-    "curve",
-    "price_manipulation",
+    "reentrancy",
+    "classic",
     "historical",
+    "checks-effects-interactions",
+    "external-call",
     "trojan"
   ],
   "variant_type": "trojan",
   "variant_parent_id": "tc_008",
-  "notes": "Complex multi-flash-loan attack demonstrating sophisticated oracle manipulation. Cream was a Compound fork particularly vulnerable due to listing many low-liquidity tokens. This was one of multiple hacks Cream suffered. Attack required deep understanding of Curve mechanics, Cream's oracle system, and flash loan coordination across multiple protocols (MakerDAO + Aave). Demonstrates that lending protocols cannot safely use AMM spot prices for collateral valuation.",
+  "notes": "",
   "contract_file": "contracts/tr_tc_008.sol",
   "subset": "annotated",
   "original_subset": "temporal_contamination",
@@ -47,8 +41,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_008.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_008.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_010.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_010.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -58,21 +52,22 @@
       "Renamed contracts to generic names"
     ],
     "distractors": {
-      "config_variables": 0,
-      "score_variables": 23,
+      "config_variables": 3,
+      "score_variables": 24,
       "activity_variables": 0,
       "fake_functions": 1,
       "view_helpers": 2,
       "suspicious_names": 0
     },
     "contracts_renamed": [
-      "LendingProtocol"
+      "CreditSystem",
+      "and"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.649964",
+    "created_date": "2025-12-30T01:40:33.651628",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.624552",
+    "sanitization_date": "2026-01-02T02:10:09.646760",
     "code_renames": {}
   }
 }

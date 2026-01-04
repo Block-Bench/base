@@ -1,31 +1,31 @@
 {
   "sample_id": "df_tc_025",
-  "exploit_name": "Hundred Finance Reentrancy",
-  "date": "2022-03-15",
-  "amount_lost_usd": "6000000",
-  "blockchain": "gnosis",
+  "exploit_name": "BVaults SafeMoon Drain",
+  "date": "2021-05-30",
+  "amount_lost_usd": "8500000",
+  "blockchain": "binance_smart_chain",
   "language": "solidity",
-  "vulnerability_type": "reentrancy",
+  "vulnerability_type": "accounting_error",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
-  "description": "Fixed version with nonReentrant modifier on borrow function",
-  "vulnerable_contract": "LendingMarket",
-  "vulnerable_function": "borrow",
+  "description": "Fixed version with minimal changes to address the vulnerability",
+  "vulnerable_contract": "TokenVault",
+  "vulnerable_function": "deposit",
   "vulnerable_lines": [],
-  "attack_scenario": "1) Flash loan ERC667 tokens. 2) Call borrow() to initiate loan. 3) During token transfer, ERC667 hook calls back to attacker contract. 4) Attacker re-enters borrow() before first borrow state update completes. 5) Multiple borrows executed with same collateral. 6) Drained $6M from multiple markets on Gnosis chain.",
-  "root_cause": "The borrow() function has no reentrancy protection. When underlying token is ERC667 (with transfer hooks), attacker can re-enter borrow() during the transfer and execute multiple borrows before state is fully updated.",
+  "attack_scenario": "1) Deflationary token charges 10% fee on transfers. 2) Attacker deposits 100 tokens. 3) Vault receives only 90 tokens (10% burned as fee). 4) Vault credits attacker's account with full 100 tokens. 5) Attacker withdraws 100 tokens. 6) Vault sends 100 but only had 90 plus other users' funds. 7) Repeated deposits/withdrawals to drain $8.5M.",
+  "root_cause": "Vault assumed tokens received equal amount transferred. Didn't check actual balance increase before/after transfer. Deflationary tokens with transfer fees caused accounting mismatch between credited amounts and actual holdings.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "reentrancy",
-    "erc667",
-    "compound_fork",
-    "token_hooks",
-    "gnosis",
+    "deflationary_token",
+    "transfer_fee",
+    "vault",
+    "bsc",
+    "accounting",
     "differential",
     "fixed"
   ],
@@ -39,34 +39,39 @@
     "type": "differential",
     "strategy": "minimal_fix",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_025.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_025.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_028.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_028.json",
     "pair_metadata": "/Users/poamen/projects/grace/blockbench/base/data/manual_strategies/differential/metadata/df_pair_tc_025.json",
     "script": "manual",
     "is_fixed_version": true,
-    "fix_type": "reentrancy_guard",
-    "fix_description": "Added _locked state variable, nonReentrant modifier, and applied nonReentrant to borrow() function to prevent reentrant calls.",
+    "fix_type": "minimal_fix",
+    "fix_description": "Minimal fix with 5 lines changed. Added: uint256 balBefore = IERC20(token).balanceOf(address(this));; uint256 balAfter = IERC20(token).balanceOf(address(this));; uint256 received = balAfter - balBefore;",
     "exact_changes": [
       {
-        "location": "state variable (line 23)",
-        "version_a": "bool private _locked;",
-        "version_b": "// No reentrancy lock"
+        "location": "Added line",
+        "version_a": "uint256 balBefore = IERC20(token).balanceOf(address(this));",
+        "version_b": "// Not present in vulnerable version"
       },
       {
-        "location": "modifier (lines 25-30)",
-        "version_a": "modifier nonReentrant() { require(!_locked, \"Reentrant call\"); _locked = true; _; _locked = false; }",
-        "version_b": "// No modifier"
+        "location": "Added line",
+        "version_a": "uint256 balAfter = IERC20(token).balanceOf(address(this));",
+        "version_b": "// Not present in vulnerable version"
       },
       {
-        "location": "borrow function (line 36)",
-        "version_a": "function borrow(uint256 amount) external nonReentrant {",
-        "version_b": "function borrow(uint256 amount) external {"
+        "location": "Added line",
+        "version_a": "uint256 received = balAfter - balBefore;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "deposits[msg.sender] += received;",
+        "version_b": "// Not present in vulnerable version"
       }
     ],
-    "why_fix_works": "Reentrancy guard prevents multiple executions of borrow() within a single transaction, blocking ERC667 callback attacks that exploit transfer hooks.",
+    "why_fix_works": "",
     "contracts_in_file": [
-      "LendingMarket"
+      "TokenVault"
     ],
-    "created_date": "2025-12-30T02:02:17.938142"
+    "created_date": "2025-12-30T02:02:17.939915"
   }
 }

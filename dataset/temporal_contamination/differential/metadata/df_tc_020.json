@@ -1,33 +1,32 @@
 {
   "sample_id": "df_tc_020",
-  "exploit_name": "Warp Finance LP Token Price Manipulation",
-  "date": "2020-12-17",
-  "amount_lost_usd": "7700000",
+  "exploit_name": "Alpha Homora Credit Account Manipulation",
+  "date": "2021-02-13",
+  "amount_lost_usd": "37000000",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "price_oracle_manipulation",
+  "vulnerability_type": "accounting_manipulation",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
-  "description": "Fixed version with price deviation check to prevent flash loan LP manipulation",
-  "vulnerable_contract": "LendingVault",
-  "vulnerable_function": "getLPTokenValue, borrow",
+  "description": "Fixed version with minimum share floor to prevent debt share manipulation",
+  "vulnerable_contract": "LeveragedVault",
+  "vulnerable_function": "_borrow",
   "vulnerable_lines": [],
-  "attack_scenario": "1) Flash loan 5M DAI. 2) Swap DAI -> ETH in Uniswap pool, heavily imbalancing reserves (6M DAI, 100 ETH). 3) LP token value calculation uses manipulated reserves, showing inflated value. 4) Deposit LP tokens as collateral in Warp Finance. 5) Borrow maximum stablecoins based on inflated collateral valuation (2-3x more than true value). 6) Swap back to rebalance pool. 7) Repay flash loan. 8) Keep overborrowed funds. Loss: $7.7M.",
-  "root_cause": "LP token value calculated from instantaneous pool reserves without protection against flash loan manipulation. Attacker can inflate LP value within a single transaction.",
+  "attack_scenario": "1) Attacker opened leveraged position and borrowed initial funds from Iron Bank. 2) Used flash loans to manipulate sUSD/USDC pool reserves. 3) Pool manipulation caused totalDebt calculations to become stale/incorrect. 4) Opened second position with manipulated totalDebt value. 5) Debt share calculation: (borrowAmount * totalDebtShare) / inflatedTotalDebt resulted in fewer shares than deserved. 6) When converting back, attacker's debt appeared much smaller than actual borrowed amount. 7) Repaid calculated debt and withdrew collateral, keeping difference. 8) Repeated to drain $37M.",
+  "root_cause": "Debt share calculation (amount * totalDebtShare / totalDebt) can be manipulated when totalDebt is artificially inflated. Attacker receives fewer shares than deserved, making their debt appear smaller than actual borrowed amount.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
+    "leverage",
+    "iron_bank",
+    "cream_finance",
+    "debt_accounting",
+    "share_calculation",
     "flash_loan",
-    "lp_tokens",
-    "uniswap",
-    "price_manipulation",
-    "oracle",
-    "collateral_valuation",
-    "defi_lending",
     "differential",
     "fixed"
   ],
@@ -41,34 +40,29 @@
     "type": "differential",
     "strategy": "minimal_fix",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_020.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_020.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_023.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_023.json",
     "pair_metadata": "/Users/poamen/projects/grace/blockbench/base/data/manual_strategies/differential/metadata/df_pair_tc_020.json",
     "script": "manual",
     "is_fixed_version": true,
-    "fix_type": "price_deviation_protection",
-    "fix_description": "Added lastLPValue and lastUpdateBlock state variables, MAX_DEVIATION constant (10%), _checkPriceDeviation() function that rejects transactions when LP value deviates too much from stored value.",
+    "fix_type": "minimum_share_floor",
+    "fix_description": "Added MINIMUM_SHARE constant (1000) and require checks in _borrow() to ensure calculated shares meet minimum threshold, preventing manipulation of share-to-debt ratio.",
     "exact_changes": [
       {
-        "location": "state variables (lines 37-39)",
-        "version_a": "uint256 public lastLPValue;\nuint256 public lastUpdateBlock;\nuint256 constant MAX_DEVIATION = 10;",
-        "version_b": "// No price tracking"
+        "location": "constant (line 35)",
+        "version_a": "uint256 public constant MINIMUM_SHARE = 1000;",
+        "version_b": "// No minimum share constant"
       },
       {
-        "location": "borrow function (line 49)",
-        "version_a": "_checkPriceDeviation();",
-        "version_b": "// No price check"
-      },
-      {
-        "location": "_checkPriceDeviation function (lines 62-75)",
-        "version_a": "require(currentValue >= minAllowed && currentValue <= maxAllowed, \"Price deviation too high\");",
-        "version_b": "// Function does not exist"
+        "location": "_borrow function (lines 63-66)",
+        "version_a": "if (totalDebtShare == 0) {\n    share = amount;\n    require(share >= MINIMUM_SHARE, \"Initial share too small\");\n} else {\n    share = (amount * totalDebtShare) / totalDebt;\n    require(share >= MINIMUM_SHARE, \"Share too small\");\n}",
+        "version_b": "if (totalDebtShare == 0) {\n    share = amount;\n} else {\n    share = (amount * totalDebtShare) / totalDebt;\n}"
       }
     ],
-    "why_fix_works": "The price deviation check prevents flash loan attacks by rejecting transactions when LP value changes too rapidly, making same-block manipulation unprofitable.",
+    "why_fix_works": "Minimum share floor prevents manipulation attacks where inflated totalDebt causes tiny share allocations. If share calculation results in less than MINIMUM_SHARE, the transaction reverts.",
     "contracts_in_file": [
-      "LendingVault"
+      "LeveragedVault"
     ],
-    "created_date": "2025-12-30T02:02:17.935161"
+    "created_date": "2025-12-30T02:02:17.936890"
   }
 }

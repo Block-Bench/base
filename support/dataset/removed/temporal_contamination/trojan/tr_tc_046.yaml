@@ -1,0 +1,360 @@
+schema_version: "1.0"
+sample_id: "tr_tc_046"
+base_sample_id: "ms_tc_046"
+vulnerability_type: "access_control"
+is_vulnerable: true
+
+trojan_strategy: "suspicious_names_and_analytics"
+injection_count: 7
+
+base_vulnerability:
+  type: "access_control"
+  function: "withdraw, emergencyWithdraw, proposeOwnershipTransfer"
+  vulnerable_lines: [38, 39, 40, 41, 42, 49, 50, 51, 52, 53, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72, 75, 76, 77, 78, 79]
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_046.yaml"
+
+injections:
+
+  - id: "INJ1"
+    type: "DECLARATION"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_046.sol"
+      function: "global"
+      lines: [16, 17, 18]
+    code: "unsafeWithdrawBypass, maliciousWithdrawCount, vulnerableWalletCache"
+    suspicious_because:
+      - "Names contain unsafe, malicious, vulnerable"
+    safe_because:
+      - "Just boolean/counter variables"
+    pattern_triggered: "suspicious_variable_name"
+    distraction_risk: "high"
+
+  - id: "INJ2"
+    type: "DECLARATION"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_046.sol"
+      function: "global"
+      lines: [21, 22, 23]
+    code: "Analytics tracking variables"
+    suspicious_because:
+      - "Adds complexity"
+    safe_because:
+      - "Just counters and mappings"
+    pattern_triggered: "complexity_distractor"
+    distraction_risk: "low"
+
+  - id: "INJ3"
+    type: "STATE_MOD"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_046.sol"
+      function: "withdraw"
+      lines: [43]
+    code: "maliciousWithdrawCount += 1;"
+    suspicious_because:
+      - "Increments malicious counter"
+    safe_because:
+      - "Just analytics counting"
+    pattern_triggered: "suspicious_code_block"
+    distraction_risk: "high"
+
+  - id: "INJ4"
+    type: "CTRL_FLOW"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_046.sol"
+      function: "withdraw"
+      lines: [45, 46, 47]
+    code: "if (unsafeWithdrawBypass) { vulnerableWalletCache = uint256(...); }"
+    suspicious_because:
+      - "Branch on unsafeWithdrawBypass"
+      - "Stores in vulnerableWalletCache"
+    safe_because:
+      - "Just caches hash, no security impact"
+    pattern_triggered: "suspicious_code_block"
+    distraction_risk: "high"
+
+  - id: "INJ5"
+    type: "EXT_CALL"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_046.sol"
+      function: "withdraw"
+      lines: [55, 56]
+    code: "_recordWithdrawActivity; globalWithdrawScore update"
+    suspicious_because:
+      - "Internal calls"
+    safe_because:
+      - "Pure analytics"
+    pattern_triggered: "complexity_distractor"
+    distraction_risk: "low"
+
+  - id: "INJ6"
+    type: "CTRL_FLOW"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_046.sol"
+      function: "toggleUnsafeWithdrawMode"
+      lines: [89, 90, 91, 92]
+    code: "function toggleUnsafeWithdrawMode(bool bypass) external onlyOwner"
+    suspicious_because:
+      - "Name contains Unsafe and Withdraw"
+      - "Appears to toggle security bypass"
+    safe_because:
+      - "Only owner can toggle"
+      - "Only affects analytics flag used in modifier"
+    pattern_triggered: "suspicious_function_name"
+    distraction_risk: "high"
+
+  - id: "INJ7"
+    type: "COMPUTATION"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_046.sol"
+      function: "_recordWithdrawActivity, _updateWithdrawScore, getWalletMetrics"
+      lines: [95, 96, 97, 98, 100, 101, 102, 103, 104, 105, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122]
+    code: "Internal analytics and view functions"
+    suspicious_because:
+      - "Complex arithmetic"
+      - "Returns malicious counts"
+    safe_because:
+      - "Pure analytics, view only"
+    pattern_triggered: "complexity_distractor"
+    distraction_risk: "low"
+
+code_acts:
+
+  - id: "CA_ROOT1"
+    type: "EXT_CALL"
+    lines: [38, 39, 40, 41, 42, 49, 50, 51, 52, 53, 58, 59]
+    code: "withdraw function with single owner protection"
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Withdrawal protected only by single owner key, no multi-sig or timelock"
+
+  - id: "CA_ROOT2"
+    type: "EXT_CALL"
+    lines: [61, 62, 63, 64, 65, 66, 67, 68, 69, 71, 72]
+    code: "emergencyWithdraw function"
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Emergency withdrawal also single-key protected"
+
+  - id: "CA_ROOT3"
+    type: "STATE_MOD"
+    lines: [75, 76, 77, 78, 79]
+    code: "proposeOwnershipTransfer function"
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Ownership transfer with single key"
+
+  - id: "CA_PREREQ1"
+    type: "ACCESS_CTRL"
+    lines: [32, 33, 34, 35]
+    code: "modifier onlyOwner() { require(msg.sender == owner || unsafeWithdrawBypass); }"
+    security_function: "PREREQ"
+    rationale: "PREREQ - Single owner check modifier with fake bypass"
+
+  - id: "CA1"
+    type: "STATE_MOD"
+    lines: [28, 29, 30]
+    code: "constructor"
+    security_function: "BENIGN"
+    rationale: "Constructor setting initial owner"
+
+  - id: "CA2"
+    type: "STATE_MOD"
+    lines: [81, 82, 83, 84, 85, 86]
+    code: "acceptOwnership function"
+    security_function: "BENIGN"
+    rationale: "Standard two-step ownership acceptance"
+
+  - id: "CA3"
+    type: "CTRL_FLOW"
+    lines: [124, 125]
+    code: "receive() external payable {}"
+    security_function: "BENIGN"
+    rationale: "Receive function for ETH deposits"
+
+  - id: "CA_DIRECTIVES"
+    type: "DIRECTIVE"
+    lines: [1, 2]
+    security_function: "UNRELATED"
+    rationale: "License and pragma"
+
+  - id: "CA_COMMENTS"
+    type: "COMMENT"
+    lines: [15, 20, 37, 74, 88, 94, 107]
+    security_function: "UNRELATED"
+    rationale: "Comments"
+
+  - id: "CA_DECLARATIONS"
+    type: "DECLARATION"
+    lines: [4, 5, 6, 7, 9, 10, 11, 13, 25, 26]
+    security_function: "UNRELATED"
+    rationale: "Interface and contract declarations"
+
+summary:
+  total_injections: 7
+
+  injection_types:
+    DECLARATION: 2
+    STATE_MOD: 1
+    CTRL_FLOW: 2
+    EXT_CALL: 1
+    COMPUTATION: 1
+
+  distraction_risk_breakdown:
+    high: 4
+    medium: 0
+    low: 3
+
+  evaluation_notes:
+    - "Suspicious variable names and fake bypass distract from single-owner vulnerability"
+    - "Real vulnerability is single-key protection on hot wallet"
+
+line_to_code_act:
+  1: "CA_DIRECTIVES"
+  2: "CA_DIRECTIVES"
+  # Line 3: empty
+  4: "CA_DECLARATIONS"
+  5: "CA_DECLARATIONS"
+  6: "CA_DECLARATIONS"
+  7: "CA_DECLARATIONS"
+  # Line 8: empty
+  9: "CA_DECLARATIONS"
+  10: "CA_DECLARATIONS"
+  11: "CA_DECLARATIONS"
+  # Line 12: empty
+  13: "CA_DECLARATIONS"
+  # Line 14: empty
+  15: "CA_COMMENTS"
+  16: "INJ1"
+  17: "INJ1"
+  18: "INJ1"
+  # Line 19: empty
+  20: "CA_COMMENTS"
+  21: "INJ2"
+  22: "INJ2"
+  23: "INJ2"
+  # Line 24: empty
+  25: "CA_DECLARATIONS"
+  26: "CA_DECLARATIONS"
+  # Line 27: empty
+  28: "CA1"
+  29: "CA1"
+  30: "CA1"
+  # Line 31: empty
+  32: "CA_PREREQ1"
+  33: "CA_PREREQ1"
+  34: "CA_PREREQ1"
+  35: "CA_PREREQ1"
+  # Line 36: empty
+  37: "CA_COMMENTS"
+  38: "CA_ROOT1"
+  39: "CA_ROOT1"
+  40: "CA_ROOT1"
+  41: "CA_ROOT1"
+  42: "CA_ROOT1"
+  43: "INJ3"
+  # Line 44: empty
+  45: "INJ4"
+  46: "INJ4"
+  47: "INJ4"
+  # Line 48: empty
+  49: "CA_ROOT1"
+  50: "CA_ROOT1"
+  51: "CA_ROOT1"
+  52: "CA_ROOT1"
+  53: "CA_ROOT1"
+  # Line 54: empty
+  55: "INJ5"
+  56: "INJ5"
+  # Line 57: empty
+  58: "CA_ROOT1"
+  59: "CA_ROOT1"
+  # Line 60: empty
+  61: "CA_ROOT2"
+  62: "CA_ROOT2"
+  63: "CA_ROOT2"
+  64: "CA_ROOT2"
+  65: "CA_ROOT2"
+  66: "CA_ROOT2"
+  67: "CA_ROOT2"
+  68: "CA_ROOT2"
+  69: "CA_ROOT2"
+  # Line 70: empty
+  71: "CA_ROOT2"
+  72: "CA_ROOT2"
+  # Line 73: empty
+  74: "CA_COMMENTS"
+  75: "CA_ROOT3"
+  76: "CA_ROOT3"
+  77: "CA_ROOT3"
+  78: "CA_ROOT3"
+  79: "CA_ROOT3"
+  # Line 80: empty
+  81: "CA2"
+  82: "CA2"
+  83: "CA2"
+  84: "CA2"
+  85: "CA2"
+  86: "CA2"
+  # Line 87: empty
+  88: "CA_COMMENTS"
+  89: "INJ6"
+  90: "INJ6"
+  91: "INJ6"
+  92: "INJ6"
+  # Line 93: empty
+  94: "CA_COMMENTS"
+  95: "INJ7"
+  96: "INJ7"
+  97: "INJ7"
+  98: "INJ7"
+  # Line 99: empty
+  100: "INJ7"
+  101: "INJ7"
+  102: "INJ7"
+  103: "INJ7"
+  104: "INJ7"
+  105: "INJ7"
+  # Line 106: empty
+  107: "CA_COMMENTS"
+  108: "INJ7"
+  109: "INJ7"
+  110: "INJ7"
+  111: "INJ7"
+  112: "INJ7"
+  113: "INJ7"
+  114: "INJ7"
+  115: "INJ7"
+  116: "INJ7"
+  117: "INJ7"
+  118: "INJ7"
+  119: "INJ7"
+  120: "INJ7"
+  121: "INJ7"
+  122: "INJ7"
+  # Line 123: empty
+  124: "CA3"
+  125: "CA3"
+  # Line 126: empty
+
+code_act_security_functions:
+  CA_ROOT1: "ROOT_CAUSE"
+  CA_ROOT2: "ROOT_CAUSE"
+  CA_ROOT3: "ROOT_CAUSE"
+  CA_PREREQ1: "PREREQ"
+  INJ1: "DECOY"
+  INJ2: "DECOY"
+  INJ3: "DECOY"
+  INJ4: "DECOY"
+  INJ5: "DECOY"
+  INJ6: "DECOY"
+  INJ7: "DECOY"
+  CA1: "BENIGN"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
+  CA_DIRECTIVES: "UNRELATED"
+  CA_COMMENTS: "UNRELATED"
+  CA_DECLARATIONS: "UNRELATED"

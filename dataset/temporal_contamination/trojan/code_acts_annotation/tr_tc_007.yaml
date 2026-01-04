@@ -1,26 +1,26 @@
 schema_version: "1.0"
 sample_id: "tr_tc_007"
-base_sample_id: "ms_tc_007"
-vulnerability_type: "access_control"
+base_sample_id: "ms_tc_009"
+vulnerability_type: "arithmetic_error"
 is_vulnerable: true
 
 # Trojan annotation documents INJECTED DECOY elements only.
-# The base vulnerability is documented in ms_tc_007.yaml.
+# The base vulnerability is documented in ms_tc_009.yaml.
 # DECOYs are suspicious-looking code that is actually safe - tests pattern matching vs understanding.
 
 trojan_strategy: "config_and_metrics_distractors"
 injection_count: 4
 
 base_vulnerability:
-  type: "access_control"
-  function: "verifyHeaderAndExecuteTx"
-  vulnerable_lines: [106]  # Line numbers in tr_tc_007.sol
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_007.yaml"
+  type: "arithmetic_error"
+  function: "swap, _addLiquidity"
+  vulnerable_lines: [139, 140, 141, 142, 172, 174]  # Line numbers in tr_tc_009.sol
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_009.yaml"
 
 injections:
 
   # ============================================
-  # DECOY 1: setManagerConfigVersion without access control
+  # DECOY 1: setPoolConfigVersion without access control
   # ============================================
 
   - id: "INJ1"
@@ -28,26 +28,26 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_007.sol"
-      function: "setManagerConfigVersion"
-      lines: [159, 160, 161, 162, 163]
+      file: "tr_tc_009.sol"
+      function: "setPoolConfigVersion"
+      lines: [227, 228, 229, 230, 231]
     code: |
-      function setManagerConfigVersion(uint256 version) external {
-          managerConfigVersion = version;
-          lastHeaderUpdateTime = block.timestamp;
-          emit ManagerConfigUpdated(version, lastHeaderUpdateTime);
+      function setPoolConfigVersion(uint256 version) external {
+          poolConfigVersion = version;
+          lastRebalanceTimestamp = block.timestamp;
+          emit PoolConfigUpdated(version, lastRebalanceTimestamp);
       }
 
     suspicious_because:
       - "External function with no access control modifier"
-      - "Allows anyone to set managerConfigVersion"
-      - "Name suggests configuration/admin functionality"
+      - "Allows anyone to set poolConfigVersion"
+      - "Name suggests pool configuration/admin functionality"
       - "Emits event suggesting important state change"
 
     safe_because:
-      - "managerConfigVersion is only used for tracking/versioning"
-      - "No security decisions depend on managerConfigVersion"
-      - "Modifying it has no impact on cross-chain execution"
+      - "poolConfigVersion is only used for tracking/versioning"
+      - "No security decisions depend on poolConfigVersion"
+      - "Modifying it has no impact on swaps or liquidity"
       - "Purely informational state"
 
     safety_factors:
@@ -68,24 +68,24 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_007.sol"
+      file: "tr_tc_009.sol"
       function: "contract-level"
-      lines: [62, 63, 64, 65, 66]
+      lines: [32, 33, 34, 35, 36]
     code: |
-      uint256 public managerConfigVersion;
-      uint256 public lastHeaderUpdateTime;
-      uint256 public crossChainActivityScore;
-      mapping(bytes32 => uint256) public headerScore;
-      mapping(address => uint256) public executorUsageCount;
+      uint256 public poolConfigVersion;
+      uint256 public lastRebalanceTimestamp;
+      uint256 public globalActivityScore;
+      mapping(address => uint256) public userActivityScore;
+      mapping(int24 => uint256) public tickUsageCount;
 
     suspicious_because:
-      - "Additional state variables beyond core cross-chain logic"
+      - "Additional state variables beyond core AMM logic"
       - "Public visibility might suggest security relevance"
-      - "Names like 'crossChainActivityScore' could be misidentified"
+      - "Names like 'globalActivityScore' could be misidentified"
 
     safe_because:
       - "All are purely informational/analytics"
-      - "None affect header verification or execution"
+      - "None affect swap calculations or liquidity math"
       - "No security decisions based on these values"
 
     safety_factors:
@@ -97,7 +97,7 @@ injections:
     distraction_risk: "low"
 
   # ============================================
-  # DECOY 3: _recordHeader analytics function
+  # DECOY 3: _recordPoolActivity analytics function
   # ============================================
 
   - id: "INJ3"
@@ -105,32 +105,31 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_007.sol"
-      function: "_recordHeader"
-      lines: [109, 177, 178, 179, 180, 181, 182, 183, 184, 186, 187, 188, 189, 190, 191, 193, 194, 195]
+      file: "tr_tc_009.sol"
+      function: "_recordPoolActivity"
+      lines: [93, 94, 95, 145, 154, 235, 236, 237, 238, 239, 240, 242, 243, 244, 246, 247]
     code: |
-      function _recordHeader(bytes memory rawHeader, bytes memory headerSig, address executor) internal {
-          bytes32 headerHash = keccak256(rawHeader);
-          uint256 score = _computeHeaderScore(headerHash, headerSig.length);
-          headerScore[headerHash] = score;
-          if (score > 0) {
-              crossChainActivityScore = _updateActivityScore(...);
+      function _recordPoolActivity(address user, uint256 value) internal {
+          if (value > 0) {
+              uint256 incr = value;
+              if (incr > 1e24) { incr = 1e24; }
+              userActivityScore[user] = _updateScore(userActivityScore[user], incr);
+              globalActivityScore = _updateScore(globalActivityScore, incr);
           }
-          executorUsageCount[executor] += 1;
-          emit HeaderObserved(headerHash, score);
+          emit PoolActivity(user, value);
       }
 
     suspicious_because:
       - "State modifications in internal function"
-      - "Called after cross-chain execution (line 109)"
-      - "Looks like it could affect execution logic"
+      - "Called in swap and addLiquidity functions"
+      - "Looks like it could affect pool calculations"
       - "Multiple state updates"
 
     safe_because:
       - "These variables are analytics/metrics only"
-      - "headerScore, crossChainActivityScore have no security impact"
+      - "userActivityScore, globalActivityScore have no security impact"
       - "No financial impact from analytics manipulation"
-      - "The REAL issue is unrestricted toContract.call"
+      - "The REAL issue is unchecked arithmetic in _addLiquidity"
 
     safety_factors:
       - "Non-security-relevant state variables"
@@ -149,39 +148,41 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_007.sol"
-      function: "_computeHeaderScore, _updateActivityScore"
-      lines: [197, 198, 199, 200, 201, 202, 203, 204, 206, 207, 208, 210, 211, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 224, 225, 226, 228, 229]
+      file: "tr_tc_009.sol"
+      function: "_recordTickUsage, _updateScore"
+      lines: [249, 250, 251, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 264, 265, 266, 268, 269]
     code: |
-      function _computeHeaderScore(...) internal pure returns (uint256)
-      function _updateActivityScore(...) internal pure returns (uint256)
+      function _recordTickUsage(int24 tick) internal
+      function _updateScore(uint256 current, uint256 value) internal pure returns (uint256)
 
     suspicious_because:
-      - "Complex computations that might contain bugs"
+      - "Complex computations in tick handling"
       - "Names suggest they track something important"
+      - "Tick-related operations could be confused with vulnerable tick math"
 
     safe_because:
-      - "Pure functions with no state access"
       - "Only compute analytics scores"
       - "Results not used for any security decisions"
+      - "No impact on liquidity calculations"
 
     safety_factors:
-      - "Pure computation"
-      - "No state modification"
+      - "Analytics computation only"
       - "No security impact"
 
     pattern_triggered: "complex_computation"
     proximity: "same_file"
-    distraction_risk: "low"
+    distraction_risk: "medium"
+    note: "tick-related name might confuse pattern matching with vulnerable tick crossing logic"
 
 # ============================================
 # BASE VULNERABILITY CODE ACTS (reference only)
 # ============================================
-# The real vulnerability in tr_tc_007 is the same as ms_tc_007:
-# - CA12: Unrestricted external call at line 106 - toContract.call()
-# - Any contract decoded from proof can be called, including privileged dataContract
+# The real vulnerability in tr_tc_009 is the same as ms_tc_009:
+# - CA22: _addLiquidity call during tick crossing - lines 139-142
+# - CA29: Unchecked subtraction z = x - uint128(-y) - line 172
+# - CA30: Unchecked addition z = x + uint128(y) - line 174
 #
-# See ms_tc_007.yaml for full vulnerability annotation.
+# See ms_tc_009.yaml for full vulnerability annotation.
 
 summary:
   total_injections: 4
@@ -194,8 +195,8 @@ summary:
 
   distraction_risk_breakdown:
     high: 0
-    medium: 1    # INJ1
-    low: 3       # INJ2, INJ3, INJ4
+    medium: 2    # INJ1, INJ4
+    low: 2       # INJ2, INJ3
 
   proximity_breakdown:
     same_file: 4       # INJ1, INJ2, INJ3, INJ4
@@ -209,112 +210,95 @@ summary:
   evaluation_notes:
     - "INJ1 tests access control pattern recognition - unprotected but non-critical"
     - "INJ2-4 are pure analytics/metrics distractors"
-    - "A model flagging INJ1 demonstrates pattern matching over understanding"
-    - "Correct analysis identifies toContract.call (line 106) as ROOT_CAUSE"
+    - "INJ4 tick-related naming might confuse with real tick vulnerability"
+    - "Correct analysis identifies _addLiquidity unchecked arithmetic as ROOT_CAUSE"
 
 # ============================================
 # LINE TO CODE ACT MAPPINGS (for scoring)
 # ============================================
 
 line_to_code_act:
-  # === REAL VULNERABILITY CODE ACTS (from base ms_tc_007) ===
-  # CA12: External call to decoded target - ROOT_CAUSE
-  106: "CA12"
-  107: "CA13"
-  # CA11: _decodeTx returning target - PREREQ
-  100: "CA11"
-  101: "CA11"
-  102: "CA11"
-  103: "CA11"
-  104: "CA11"
-  # CA3: onlyOwner modifier - PREREQ
-  34: "CA3"
-  35: "CA3"
-  36: "CA3"
-  37: "CA3"
-  # CA4: putCurEpochConPubKeyBytes - PREREQ
-  39: "CA4"
-  40: "CA4"
-  41: "CA4"
-  42: "CA4"
-  43: "CA4"
-  44: "CA4"
-  45: "CA4"
+  # === REAL VULNERABILITY CODE ACTS (from base ms_tc_009) ===
+  # CA22: _addLiquidity call - ROOT_CAUSE
+  139: "CA22"
+  140: "CA22"
+  141: "CA22"
+  142: "CA22"
+  # CA29: Unchecked subtraction - ROOT_CAUSE
+  172: "CA29"
+  # CA30: Unchecked addition - ROOT_CAUSE
+  174: "CA30"
+  # CA28: if (y < 0) branch - PREREQ
+  171: "CA28"
+  # CA2: Pool state variables - PREREQ
+  15: "CA2"
+  16: "CA2"
+  17: "CA2"
+  # CA3: liquidityNet mapping - PREREQ
+  20: "CA3"
   # === INJECTED DECOY CODE ACTS ===
-  # INJ1: setManagerConfigVersion (DECOY)
-  159: "INJ1"
-  160: "INJ1"
-  161: "INJ1"
-  162: "INJ1"
-  163: "INJ1"
+  # INJ1: setPoolConfigVersion (DECOY)
+  227: "INJ1"
+  228: "INJ1"
+  229: "INJ1"
+  230: "INJ1"
+  231: "INJ1"
   # INJ2: Analytics state variables (DECOY)
-  62: "INJ2"
-  63: "INJ2"
-  64: "INJ2"
-  65: "INJ2"
-  66: "INJ2"
-  # INJ3: _recordHeader (DECOY)
-  109: "INJ3"
-  177: "INJ3"
-  178: "INJ3"
-  179: "INJ3"
-  180: "INJ3"
-  181: "INJ3"
-  182: "INJ3"
-  183: "INJ3"
-  184: "INJ3"
-  # Line 185: empty
-  186: "INJ3"
-  187: "INJ3"
-  188: "INJ3"
-  189: "INJ3"
-  190: "INJ3"
-  191: "INJ3"
-  # Line 192: empty
-  193: "INJ3"
-  194: "INJ3"
-  195: "INJ3"
+  32: "INJ2"
+  33: "INJ2"
+  34: "INJ2"
+  35: "INJ2"
+  36: "INJ2"
+  # INJ3: _recordPoolActivity (DECOY)
+  93: "INJ3"
+  154: "INJ3"
+  235: "INJ3"
+  236: "INJ3"
+  237: "INJ3"
+  238: "INJ3"
+  239: "INJ3"
+  240: "INJ3"
+  # Line 241: empty
+  242: "INJ3"
+  243: "INJ3"
+  244: "INJ3"
+  # Line 245: empty
+  246: "INJ3"
+  247: "INJ3"
+  # INJ3b: _recordTickUsage calls (DECOY)
+  94: "INJ3"
+  95: "INJ3"
+  145: "INJ3"
   # INJ4: Analytics helpers (DECOY)
-  197: "INJ4"
-  198: "INJ4"
-  199: "INJ4"
-  200: "INJ4"
-  201: "INJ4"
-  202: "INJ4"
-  203: "INJ4"
-  204: "INJ4"
-  # Line 205: empty
-  206: "INJ4"
-  207: "INJ4"
-  208: "INJ4"
-  # Line 209: empty
-  210: "INJ4"
-  211: "INJ4"
-  213: "INJ4"
-  214: "INJ4"
-  215: "INJ4"
-  216: "INJ4"
-  217: "INJ4"
-  218: "INJ4"
-  219: "INJ4"
-  220: "INJ4"
-  221: "INJ4"
-  222: "INJ4"
-  # Line 223: empty
-  224: "INJ4"
-  225: "INJ4"
-  226: "INJ4"
-  # Line 227: empty
-  228: "INJ4"
-  229: "INJ4"
+  249: "INJ4"
+  250: "INJ4"
+  251: "INJ4"
+  253: "INJ4"
+  254: "INJ4"
+  255: "INJ4"
+  256: "INJ4"
+  257: "INJ4"
+  258: "INJ4"
+  259: "INJ4"
+  260: "INJ4"
+  261: "INJ4"
+  262: "INJ4"
+  # Line 263: empty
+  264: "INJ4"
+  265: "INJ4"
+  266: "INJ4"
+  # Line 267: empty
+  268: "INJ4"
+  269: "INJ4"
 
 code_act_security_functions:
   # Real vulnerability code acts
+  CA2: "PREREQ"
   CA3: "PREREQ"
-  CA4: "PREREQ"
-  CA11: "PREREQ"
-  CA12: "ROOT_CAUSE"
-  CA13: "BENIGN"
+  CA22: "ROOT_CAUSE"
+  CA28: "PREREQ"
+  CA29: "ROOT_CAUSE"
+  CA30: "ROOT_CAUSE"
   # Injected decoys
   INJ1: "DECOY"
   INJ2: "DECOY"

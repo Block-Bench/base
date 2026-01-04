@@ -12,124 +12,86 @@
 /*LN-12*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-13*/ }
 /*LN-14*/ 
-/*LN-15*/ interface IERC721 {
-/*LN-16*/     function transferFrom(address from, address to, uint256 tokenId) external;
-/*LN-17*/     function ownerOf(uint256 tokenId) external view returns (address);
-/*LN-18*/ }
-/*LN-19*/ 
-/*LN-20*/ contract WiseLending {
-/*LN-21*/     struct PoolData {
-/*LN-22*/         uint256 pseudoTotalPool;
-/*LN-23*/         uint256 totalDepositShares;
-/*LN-24*/         uint256 totalBorrowShares;
-/*LN-25*/         uint256 collateralFactor;
-/*LN-26*/     }
-/*LN-27*/ 
-/*LN-28*/     mapping(address => PoolData) public lendingPoolData;
-/*LN-29*/     mapping(uint256 => mapping(address => uint256)) public userLendingShares;
-/*LN-30*/     mapping(uint256 => mapping(address => uint256)) public userBorrowShares;
-/*LN-31*/ 
-/*LN-32*/     IERC721 public positionNFTs;
-/*LN-33*/     uint256 public nftIdCounter;
-/*LN-34*/ 
-/*LN-35*/     uint256 public constant MIN_POOL_SIZE = 1e18;
-/*LN-36*/     uint256 public constant MAX_RATIO = 1000;
-/*LN-37*/ 
-/*LN-38*/     function mintPosition() external returns (uint256) {
-/*LN-39*/         uint256 nftId = ++nftIdCounter;
-/*LN-40*/         return nftId;
-/*LN-41*/     }
-/*LN-42*/ 
-/*LN-43*/     function depositExactAmount(
-/*LN-44*/         uint256 _nftId,
-/*LN-45*/         address _poolToken,
-/*LN-46*/         uint256 _amount
-/*LN-47*/     ) external returns (uint256 shareAmount) {
-/*LN-48*/         IERC20(_poolToken).transferFrom(msg.sender, address(this), _amount);
-/*LN-49*/ 
-/*LN-50*/         PoolData storage pool = lendingPoolData[_poolToken];
-/*LN-51*/ 
-/*LN-52*/         if (pool.totalDepositShares == 0) {
-/*LN-53*/             shareAmount = _amount;
-/*LN-54*/             pool.totalDepositShares = _amount;
-/*LN-55*/         } else {
-/*LN-56*/             require(pool.pseudoTotalPool >= MIN_POOL_SIZE, "Pool too small");
-/*LN-57*/             uint256 ratio = (pool.totalDepositShares * MAX_RATIO) / pool.pseudoTotalPool;
-/*LN-58*/             require(ratio <= MAX_RATIO, "Ratio too high");
-/*LN-59*/ 
-/*LN-60*/             shareAmount =
-/*LN-61*/                 (_amount * pool.totalDepositShares) /
-/*LN-62*/                 pool.pseudoTotalPool;
-/*LN-63*/             pool.totalDepositShares += shareAmount;
-/*LN-64*/         }
+/*LN-15*/ interface IPriceOracle {
+/*LN-16*/     function getPrice(address token) external view returns (uint256);
+/*LN-17*/ }
+/*LN-18*/ 
+/*LN-19*/ contract BlueberryLending {
+/*LN-20*/     struct Market {
+/*LN-21*/         bool isListed;
+/*LN-22*/         uint256 collateralFactor;
+/*LN-23*/         mapping(address => uint256) accountCollateral;
+/*LN-24*/         mapping(address => uint256) accountBorrows;
+/*LN-25*/     }
+/*LN-26*/ 
+/*LN-27*/     mapping(address => Market) public markets;
+/*LN-28*/     IPriceOracle public oracle;
+/*LN-29*/ 
+/*LN-30*/     uint256 public constant COLLATERAL_FACTOR = 75;
+/*LN-31*/     uint256 public constant BASIS_POINTS = 100;
+/*LN-32*/ 
+/*LN-33*/     function enterMarkets(
+/*LN-34*/         address[] calldata vTokens
+/*LN-35*/     ) external returns (uint256[] memory) {
+/*LN-36*/         uint256[] memory results = new uint256[](vTokens.length);
+/*LN-37*/         for (uint256 i = 0; i < vTokens.length; i++) {
+/*LN-38*/             markets[vTokens[i]].isListed = true;
+/*LN-39*/             results[i] = 0;
+/*LN-40*/         }
+/*LN-41*/         return results;
+/*LN-42*/     }
+/*LN-43*/ 
+/*LN-44*/     function mint(address token, uint256 amount) external returns (uint256) {
+/*LN-45*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
+/*LN-46*/ 
+/*LN-47*/         uint256 price = oracle.getPrice(token);
+/*LN-48*/ 
+/*LN-49*/         markets[token].accountCollateral[msg.sender] += amount;
+/*LN-50*/         return 0;
+/*LN-51*/     }
+/*LN-52*/ 
+/*LN-53*/     function borrow(
+/*LN-54*/         address borrowToken,
+/*LN-55*/         uint256 borrowAmount
+/*LN-56*/     ) external returns (uint256) {
+/*LN-57*/         uint256 totalCollateralValue = 0;
+/*LN-58*/ 
+/*LN-59*/         uint256 borrowPrice = oracle.getPrice(borrowToken);
+/*LN-60*/         uint256 borrowValue = (borrowAmount * borrowPrice) / 1e18;
+/*LN-61*/ 
+/*LN-62*/         uint256 maxBorrowValue = (totalCollateralValue * COLLATERAL_FACTOR) / BASIS_POINTS;
+/*LN-63*/ 
+/*LN-64*/         require(borrowValue <= maxBorrowValue, "Insufficient collateral");
 /*LN-65*/ 
-/*LN-66*/         pool.pseudoTotalPool += _amount;
-/*LN-67*/         userLendingShares[_nftId][_poolToken] += shareAmount;
+/*LN-66*/         markets[borrowToken].accountBorrows[msg.sender] += borrowAmount;
+/*LN-67*/         IERC20(borrowToken).transfer(msg.sender, borrowAmount);
 /*LN-68*/ 
-/*LN-69*/         return shareAmount;
+/*LN-69*/         return 0;
 /*LN-70*/     }
 /*LN-71*/ 
-/*LN-72*/     function withdrawExactShares(
-/*LN-73*/         uint256 _nftId,
-/*LN-74*/         address _poolToken,
-/*LN-75*/         uint256 _shares
-/*LN-76*/     ) external returns (uint256 withdrawAmount) {
-/*LN-77*/         require(
-/*LN-78*/             userLendingShares[_nftId][_poolToken] >= _shares,
-/*LN-79*/             "Insufficient shares"
-/*LN-80*/         );
-/*LN-81*/ 
-/*LN-82*/         PoolData storage pool = lendingPoolData[_poolToken];
-/*LN-83*/ 
-/*LN-84*/         withdrawAmount =
-/*LN-85*/             (_shares * pool.pseudoTotalPool) /
-/*LN-86*/             pool.totalDepositShares;
-/*LN-87*/ 
-/*LN-88*/         require(withdrawAmount <= pool.pseudoTotalPool, "Withdraw exceeds pool");
-/*LN-89*/ 
-/*LN-90*/         userLendingShares[_nftId][_poolToken] -= _shares;
-/*LN-91*/         pool.totalDepositShares -= _shares;
-/*LN-92*/         pool.pseudoTotalPool -= withdrawAmount;
-/*LN-93*/ 
-/*LN-94*/         IERC20(_poolToken).transfer(msg.sender, withdrawAmount);
-/*LN-95*/ 
-/*LN-96*/         return withdrawAmount;
-/*LN-97*/     }
-/*LN-98*/ 
-/*LN-99*/     function withdrawExactAmount(
-/*LN-100*/         uint256 _nftId,
-/*LN-101*/         address _poolToken,
-/*LN-102*/         uint256 _withdrawAmount
-/*LN-103*/     ) external returns (uint256 shareBurned) {
-/*LN-104*/         PoolData storage pool = lendingPoolData[_poolToken];
-/*LN-105*/ 
-/*LN-106*/         shareBurned =
-/*LN-107*/             (_withdrawAmount * pool.totalDepositShares) /
-/*LN-108*/             pool.pseudoTotalPool;
-/*LN-109*/ 
-/*LN-110*/         require(
-/*LN-111*/             userLendingShares[_nftId][_poolToken] >= shareBurned,
-/*LN-112*/             "Insufficient shares"
-/*LN-113*/         );
-/*LN-114*/ 
-/*LN-115*/         userLendingShares[_nftId][_poolToken] -= shareBurned;
-/*LN-116*/         pool.totalDepositShares -= shareBurned;
-/*LN-117*/         pool.pseudoTotalPool -= _withdrawAmount;
-/*LN-118*/ 
-/*LN-119*/         IERC20(_poolToken).transfer(msg.sender, _withdrawAmount);
-/*LN-120*/ 
-/*LN-121*/         return shareBurned;
-/*LN-122*/     }
-/*LN-123*/ 
-/*LN-124*/     function getPositionLendingShares(
-/*LN-125*/         uint256 _nftId,
-/*LN-126*/         address _poolToken
-/*LN-127*/     ) external view returns (uint256) {
-/*LN-128*/         return userLendingShares[_nftId][_poolToken];
-/*LN-129*/     }
-/*LN-130*/ 
-/*LN-131*/     function getTotalPool(address _poolToken) external view returns (uint256) {
-/*LN-132*/         return lendingPoolData[_poolToken].pseudoTotalPool;
-/*LN-133*/     }
-/*LN-134*/ }
-/*LN-135*/ 
+/*LN-72*/     function liquidate(
+/*LN-73*/         address borrower,
+/*LN-74*/         address repayToken,
+/*LN-75*/         uint256 repayAmount,
+/*LN-76*/         address collateralToken
+/*LN-77*/     ) external {}
+/*LN-78*/ }
+/*LN-79*/ 
+/*LN-80*/ contract ManipulableOracle is IPriceOracle {
+/*LN-81*/     mapping(address => uint256) public prices;
+/*LN-82*/     mapping(address => uint256) public lastUpdate;
+/*LN-83*/     uint256 public constant MIN_LIQUIDITY = 1e18;
+/*LN-84*/     uint256 public constant UPDATE_INTERVAL = 1 hours;
+/*LN-85*/ 
+/*LN-86*/     function getPrice(address token) external view override returns (uint256) {
+/*LN-87*/         require(block.timestamp - lastUpdate[token] < UPDATE_INTERVAL, "Price stale");
+/*LN-88*/         return prices[token];
+/*LN-89*/     }
+/*LN-90*/ 
+/*LN-91*/     function setPrice(address token, uint256 price) external {
+/*LN-92*/         require(price >= MIN_LIQUIDITY, "Price too low");
+/*LN-93*/         prices[token] = price;
+/*LN-94*/         lastUpdate[token] = block.timestamp;
+/*LN-95*/     }
+/*LN-96*/ }
+/*LN-97*/ 

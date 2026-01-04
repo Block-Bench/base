@@ -1,23 +1,21 @@
 {
   "sample_id": "tr_tc_039",
-  "exploit_name": "CoW Protocol Callback Exploit",
+  "exploit_name": "Hedgey Finance",
   "date": "",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
   "vulnerability_type": "access_control",
   "vulnerability_subtype": "",
-  "severity": "high",
+  "severity": "critical",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "CoW Protocol's solver contract was exploited for $166K when an attacker directly called the uniswapV3SwapCallback function with crafted parameters. The callback lacked msg.sender validation, allowing anyone to invoke it and extract funds without performing a legitimate swap.",
-  "vulnerable_contract": "BatchSolver",
-  "vulnerable_function": "uniswapV3SwapCallback",
+  "description": "Hedgey Finance, a token vesting platform, was exploited for $44.7M when attackers provided a malicious tokenLocker address in createLockedCampaign(). The contract made an arbitrary external call to this address, allowing attackers to steal tokens from any user who had approved Hedgey.",
+  "vulnerable_contract": "TokenClaimCampaigns",
+  "vulnerable_function": "createLockedCampaign",
   "vulnerable_lines": [
-    39,
-    65,
-    67
+    66
   ],
   "attack_scenario": "",
   "root_cause": "",
@@ -25,13 +23,12 @@
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "dex",
-    "solver",
-    "callback_vulnerability",
-    "access_control",
-    "uniswap_v3",
-    "direct_call",
-    "validation_bypass",
+    "vesting",
+    "token_locker",
+    "arbitrary_call",
+    "approval_exploit",
+    "donation",
+    "user_input_validation",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -44,8 +41,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_039.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_039.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_042.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_042.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -55,25 +52,23 @@
       "Renamed contracts to generic names"
     ],
     "distractors": {
-      "config_variables": 1,
-      "score_variables": 2,
-      "suspicious_names": 3,
-      "fake_functions": 1,
-      "view_helpers": 1
+      "config_variables": 2,
+      "score_variables": 15,
+      "activity_variables": 0,
+      "fake_functions": 3,
+      "view_helpers": 1,
+      "suspicious_names": 21
     },
     "contracts_renamed": [
-      "BlueberryLending",
-      "ManipulableOracle"
+      "HedgeyClaimCampaigns"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.678339",
+    "created_date": "2025-12-30T01:40:33.681251",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.995448",
+    "sanitization_date": "2026-01-02T02:10:10.044838",
     "code_renames": {
-      "CowSolver": "BatchSolver"
-    },
-    "fixed_duplicate": true,
-    "fix_date": "2026-01-02T02:26:10.129320"
+      "HedgeyClaimCampaigns": "TokenClaimCampaigns"
+    }
   }
 }

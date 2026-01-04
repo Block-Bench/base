@@ -1,31 +1,30 @@
 {
   "sample_id": "df_tc_011",
-  "exploit_name": "Lendf.Me",
-  "date": "2020-04-19",
+  "exploit_name": "PancakeHunny (PancakeBunny)",
+  "date": "2021-05-20",
   "amount_lost_usd": "",
-  "blockchain": "ethereum",
+  "blockchain": "bsc",
   "language": "solidity",
-  "vulnerability_type": "reentrancy",
+  "vulnerability_type": "arithmetic_error",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "",
   "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "LendingPool",
-  "vulnerable_function": "withdraw",
+  "vulnerable_contract": "RewardMinter",
+  "vulnerable_function": "mintFor",
   "vulnerable_lines": [],
-  "attack_scenario": "Attacker supplied ERC-777 tokens (imBTC), then called withdraw. During token transfer, ERC-777 triggered attacker's tokensToSend hook, which re-entered withdraw before balance update.",
-  "root_cause": "Token transfer before state update, combined with ERC-777 tokensToSend hook that allows reentrancy. Same checks-effects-interactions violation but with token hooks instead of fallback.",
-  "fix_description": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth.",
+  "attack_scenario": "Attacker flash loaned large amount of LP tokens, sent them directly to minter contract, called getReward which triggered mintFor. Function calculated rewards based on inflated balance, minting excessive HUNNY tokens.",
+  "root_cause": "Using balanceOf(address(this)) for reward calculation instead of tracking actual deposits. Attacker sent tokens directly to contract before calling mintFor, inflating the balance used for reward calculation.",
+  "fix_description": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "reentrancy",
-    "erc777",
-    "token-hooks",
-    "checks-effects-interactions",
-    "lending",
+    "balance-manipulation",
+    "flash-loan",
+    "reward-calculation",
+    "balanceof-exploit",
     "differential",
     "fixed"
   ],
@@ -39,24 +38,39 @@
     "type": "differential",
     "strategy": "minimal_fix",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_011.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_011.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_013.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_013.json",
     "pair_metadata": "/Users/poamen/projects/grace/blockbench/base/data/manual_strategies/differential/metadata/df_pair_tc_011.json",
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "Minimal fix with 4 lines changed. Added: IERC777(asset).transfer(msg.sender, withdrawAmount);",
+    "fix_description": "Minimal fix with 7 lines changed. Added: uint256 public totalDeposits;; totalDeposits += amount;; uint256 hunnyRewardAmount = tokenToReward(totalDeposits);",
     "exact_changes": [
       {
         "location": "Added line",
-        "version_a": "IERC777(asset).transfer(msg.sender, withdrawAmount);",
+        "version_a": "uint256 public totalDeposits;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "totalDeposits += amount;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 hunnyRewardAmount = tokenToReward(totalDeposits);",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "totalDeposits -= amount;",
         "version_b": "// Not present in vulnerable version"
       }
     ],
-    "why_fix_works": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth.",
+    "why_fix_works": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
     "contracts_in_file": [
-      "LendingPool"
+      "RewardMinter"
     ],
-    "created_date": "2025-12-30T02:02:17.929984"
+    "created_date": "2025-12-30T02:02:17.931153"
   }
 }

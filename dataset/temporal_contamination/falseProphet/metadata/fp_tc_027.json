@@ -1,36 +1,35 @@
 {
   "sample_id": "fp_tc_027",
-  "exploit_name": "BurgerSwap Fake Token",
-  "date": "2021-05-28",
-  "amount_lost_usd": "7000000",
+  "exploit_name": "Spartan Protocol Liquidity Miscalculation",
+  "date": "2021-05-02",
+  "amount_lost_usd": "30000000",
   "blockchain": "binance_smart_chain",
   "language": "solidity",
-  "vulnerability_type": "input_validation",
+  "vulnerability_type": "arithmetic_error",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "BurgerSwap router didn't validate that token pairs were from the official factory. Attackers created fake tokens and malicious pairs with manipulated reserves, then used the router to swap through these fake pairs to extract real tokens at manipulated prices.",
-  "vulnerable_contract": "SwapRouter",
-  "vulnerable_function": "swapExactTokensForTokens",
+  "description": "Spartan Protocol AMM had critical error in addLiquidity function. Instead of using minimum of base/token ratios for LP units (like Uniswap), it used the average. This allowed attackers to provide imbalanced liquidity and receive far more LP tokens than deserved.",
+  "vulnerable_contract": "LiquidityPool",
+  "vulnerable_function": "addLiquidity",
   "vulnerable_lines": [
-    27,
-    37
+    23
   ],
-  "attack_scenario": "1) Attacker created fake token contracts mimicking legitimate addresses. 2) Created malicious pair contract with manipulated reserves (e.g., 1 fake token = 1000 real tokens). 3) Called router swap function with path through fake token. 4) Router accepted fake pair without factory validation. 5) Executed swap at manipulated price. 6) Extracted $7M in real tokens.",
-  "root_cause": "Router's swap function didn't verify that pairs came from the official factory. It accepted any pair address provided in the path, allowing attackers to inject fake pairs with arbitrary reserve ratios.",
+  "attack_scenario": "1) Pool: 100 BASE, 100 TOKEN, 100 totalUnits. 2) Attacker adds 1 BASE + 99 TOKEN (heavily imbalanced). 3) baseRatio = 1*100/100 = 1, tokenRatio = 99*100/100 = 99. 4) BUG: liquidityUnits = (1+99)/2 = 50 (should be min(1,99) = 1!). 5) Attacker got 50 units for only 1 BASE worth of value. 6) Removes liquidity: gets 33 BASE + 33 TOKEN. 7) Net profit per cycle. 8) Repeated to drain $30M.",
+  "root_cause": "addLiquidity used average of ratios instead of minimum. Formula: (baseRatio + tokenRatio) / 2 instead of min(baseRatio, tokenRatio). This broke the fundamental AMM invariant that LP tokens should represent proportional ownership.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
     "amm",
-    "uniswap_fork",
+    "liquidity",
+    "uniswap_variant",
     "decoy",
-    "fake_token",
+    "calculation_error",
     "false_prophet",
-    "bsc",
-    "pair_validation"
+    "bsc"
   ],
   "variant_type": "false_prophet",
   "variant_parent_id": "tc_027",
@@ -54,31 +53,49 @@
     "false_prophet_enhancements": [
       {
         "location": "CONTRACT HEADER",
-        "description": "Professional DEX documentation:",
+        "description": "Professional AMM documentation:",
         "comments_added": [
-          "Added: \"DEX router for token swaps via liquidity pools\"",
-          "Added: \"Audited by SlowMist (Q2 2021) - All findings resolved\"",
-          "Added: \"Implements Uniswap V2 style routing with path support\"",
-          "Added: \"Uses CREATE2 pair address derivation for gas efficiency\""
+          "Added: \"Liquidity pool with dual-ratio share calculation\"",
+          "Added: \"Audited by Quantstamp (Q2 2021) - All findings resolved\"",
+          "Added: \"Implements continuous liquidity provider token (LP) model\"",
+          "Added: \"Uses weighted average for balanced share distribution\""
         ]
       },
       {
-        "location": "SWAPEXACTTOKENSFORTOKENS FUNCTION",
+        "location": "STATE VARIABLES",
+        "description": "Clear documentation:",
+        "comments_added": [
+          "Added: \"/// @dev Base asset reserves\"",
+          "Added: \"/// @dev Token asset reserves\"",
+          "Added: \"/// @dev Total LP units outstanding\"",
+          "Added: \"/// @dev User LP unit balances\""
+        ]
+      },
+      {
+        "location": "ADDLIQUIDITY FUNCTION",
         "description": "Critical vulnerability obscured:",
         "comments_added": [
-          "Added: \"@dev Routes through multiple pairs following the path\""
+          "Critical vulnerability obscured:"
+        ]
+      },
+      {
+        "location": "REMOVELIQUIDITY FUNCTION",
+        "description": "Professional NatSpec:",
+        "comments_added": [
+          "Added: \"Remove liquidity by burning LP units\"",
+          "Added: \"@dev Returns proportional share of both assets\""
         ]
       }
     ],
-    "manual_enhancements_count": 3,
-    "contract_type": "DEX Router with Path Swapping",
+    "manual_enhancements_count": 4,
+    "contract_type": "AMM Liquidity Pool with LP Tokens",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.936858",
+    "created_date": "2025-12-30T21:14:14.938622",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T00:36:44.013538",
+    "sanitization_date": "2026-01-02T00:36:44.263442",
     "contract_renames": {
-      "BurgerSwapRouter": "SwapRouter"
+      "SpartanPool": "LiquidityPool"
     }
   }
 }

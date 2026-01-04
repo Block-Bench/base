@@ -1,21 +1,22 @@
 {
   "sample_id": "fp_tc_042",
-  "exploit_name": "Hedgey Finance",
+  "exploit_name": "Penpie",
   "date": "",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "access_control",
+  "vulnerability_type": "reentrancy",
   "vulnerability_subtype": "",
   "severity": "critical",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Hedgey Finance, a token vesting platform, was exploited for $44.7M when attackers provided a malicious tokenLocker address in createLockedCampaign(). The contract made an arbitrary external call to this address, allowing attackers to steal tokens from any user who had approved Hedgey.",
-  "vulnerable_contract": "TokenClaimCampaigns",
-  "vulnerable_function": "createLockedCampaign",
+  "description": "Penpie, a Pendle yield optimizer, was exploited for $27M when attackers registered a fake Pendle market and exploited reentrancy in reward claiming. The fake market's claimRewards() callback reentered Penpie to manipulate balances, allowing withdrawal of real assets far exceeding deposits.",
+  "vulnerable_contract": "VeTokenStaking",
+  "vulnerable_function": "registerMarket",
   "vulnerable_lines": [
-    66
+    45,
+    77
   ],
   "attack_scenario": "",
   "root_cause": "",
@@ -23,14 +24,14 @@
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "user_input_validation",
-    "vesting",
-    "approval_exploit",
-    "decoy",
-    "token_locker",
-    "donation",
+    "yield_optimization",
     "false_prophet",
-    "arbitrary_call"
+    "pendle",
+    "reentrancy",
+    "decoy",
+    "reward_manipulation",
+    "cei_violation",
+    "fake_market"
   ],
   "variant_type": "false_prophet",
   "variant_parent_id": "tc_042",
@@ -56,11 +57,12 @@
     "contract_type": "",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.946611",
+    "created_date": "2025-12-30T21:14:14.947965",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T00:36:44.647302",
+    "sanitization_date": "2026-01-02T00:36:44.681471",
     "contract_renames": {
-      "HedgeyClaimCampaigns": "TokenClaimCampaigns"
+      "PendleMarketRegister": "YieldMarketRegister",
+      "PenpieStaking": "VeTokenStaking"
     }
   }
 }

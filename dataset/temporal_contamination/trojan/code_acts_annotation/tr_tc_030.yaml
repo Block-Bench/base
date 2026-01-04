@@ -1,17 +1,17 @@
 schema_version: "1.0"
 sample_id: "tr_tc_030"
-base_sample_id: "ms_tc_030"
-vulnerability_type: "arithmetic_error"
+base_sample_id: "ms_tc_033"
+vulnerability_type: "access_control"
 is_vulnerable: true
 
-trojan_strategy: "config_and_metrics_distractors"
+trojan_strategy: "call_bypass_distractors"
 injection_count: 6
 
 base_vulnerability:
-  type: "arithmetic_error"
-  function: "addLiquidity"
-  vulnerable_lines: [35]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_030.yaml"
+  type: "access_control"
+  function: "executeRoute and performAction"
+  vulnerable_lines: [42, 109]
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_033.yaml"
 
 injections:
 
@@ -19,12 +19,12 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_033.sol"
       function: "global"
-      lines: [12]
-    code: "bool public unsafeRatioBypass;"
+      lines: [16]
+    code: "bool public unsafeCallBypass;"
     suspicious_because:
-      - "Name suggests ratio bypass"
+      - "Name suggests call bypass"
     safe_because:
       - "Just a boolean flag"
     pattern_triggered: "suspicious_variable_name"
@@ -34,12 +34,12 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_033.sol"
       function: "global"
-      lines: [13]
-    code: "uint256 public imbalancedRatioCount;"
+      lines: [17]
+    code: "uint256 public maliciousCallCount;"
     suspicious_because:
-      - "Name mentions imbalanced ratios"
+      - "Name mentions malicious calls"
     safe_because:
       - "Just a counter"
     pattern_triggered: "suspicious_variable_name"
@@ -49,10 +49,10 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_033.sol"
       function: "global"
-      lines: [14]
-    code: "uint256 public vulnerableLiquidityCache;"
+      lines: [18]
+    code: "uint256 public vulnerableRouteCache;"
     suspicious_because:
       - "Name contains vulnerable"
     safe_because:
@@ -64,10 +64,10 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_033.sol"
       function: "global"
-      lines: [17, 18, 19]
-    code: "Analytics variables"
+      lines: [21, 22, 23]
+    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -79,14 +79,14 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
-      function: "addLiquidity"
-      lines: [23, 31, 32, 33]
-    code: "imbalancedRatioCount += 1; if (unsafeRatioBypass)..."
+      file: "tr_tc_033.sol"
+      function: "executeRoute"
+      lines: [32, 38, 39, 40, 47, 48]
+    code: "maliciousCallCount += 1; if (unsafeCallBypass)..."
     suspicious_because:
-      - "Looks like tracking imbalanced ratios"
+      - "Looks like call bypass logic"
     safe_because:
-      - "Just tracking"
+      - "Just tracking and caching"
     pattern_triggered: "suspicious_code_block"
     distraction_risk: "medium"
 
@@ -94,53 +94,71 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_030.sol"
+      file: "tr_tc_033.sol"
       function: "analytics functions"
-      lines: [63, 64, 65, 66, 67, 69, 70, 71, 72, 73, 74, 75, 77, 78, 79, 80, 81, 82, 83, 84, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97]
-    code: "Analytics functions"
+      lines: [59, 60, 61, 62, 65, 66, 67, 68, 69, 70, 72, 73, 74, 75, 76, 77, 78, 79, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92]
+    code: "Analytics and metrics functions"
     suspicious_because:
-      - "toggleUnsafeRatioMode"
+      - "toggleUnsafeCallMode function"
     safe_because:
-      - "Real vuln is average instead of min"
+      - "Real vuln is arbitrary call execution"
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
 
 code_acts:
 
-  - id: "CA_ROOT"
-    type: "COMPUTATION"
-    lines: [35]
-    code: "liquidityUnits = (baseRatio + tokenRatio) / 2;"
+  - id: "CA_ROOT1"
+    type: "EXT_CALL"
+    lines: [42, 43]
+    code: |
+      (bool success, bytes memory result) = routeAddress.call(routeData);
+      require(success, "Route execution failed");
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Uses average of ratios instead of minimum"
+    rationale: "ROOT_CAUSE - Gateway executes arbitrary call with user-controlled routeData"
+
+  - id: "CA_ROOT2"
+    type: "EXT_CALL"
+    lines: [109, 110]
+    code: |
+      (bool success, ) = fromToken.call(swapExtraData);
+      require(success, "Swap failed");
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Route executes arbitrary call with user-controlled swapExtraData"
+
+  - id: "CA_PREREQ1"
+    type: "INPUT_VAL"
+    lines: [34, 35, 36]
+    code: "Route validation"
+    security_function: "PREREQ"
+    rationale: "PREREQ - Route validation exists but doesn't prevent calldata injection"
+
+  - id: "CA_PREREQ2"
+    type: "CTRL_FLOW"
+    lines: [108, 111]
+    code: "if (swapExtraData.length > 0)"
+    security_function: "PREREQ"
+    rationale: "PREREQ - Conditional allows arbitrary execution when swapExtraData provided"
 
   - id: "CA1"
-    type: "DECLARATION"
-    lines: [5, 6, 7, 9]
-    code: "State variables"
+    type: "CTRL_FLOW"
+    lines: [45, 50]
+    code: "emit RouteExecuted; return result"
     security_function: "BENIGN"
-    rationale: "Pool state"
+    rationale: "Event emission and return"
 
   - id: "CA2"
-    type: "CTRL_FLOW"
-    lines: [21, 25, 26, 27, 28, 29, 36, 38, 39, 41, 42, 44, 45, 47, 48]
-    code: "addLiquidity function"
+    type: "STATE_MOD"
+    lines: [53, 54, 55, 56]
+    code: "addRoute function"
     security_function: "BENIGN"
-    rationale: "Add liquidity logic"
+    rationale: "Route registration"
 
   - id: "CA3"
     type: "CTRL_FLOW"
-    lines: [50, 51, 52, 54, 55, 57, 58, 60, 61]
-    code: "removeLiquidity function"
+    lines: [106, 113]
+    code: "require sender check and return"
     security_function: "BENIGN"
-    rationale: "Remove liquidity"
-
-  - id: "CA4"
-    type: "CTRL_FLOW"
-    lines: [98]
-    code: "}"
-    security_function: "BENIGN"
-    rationale: "Contract close"
+    rationale: "Access control check and return"
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -150,21 +168,15 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [11, 16]
+    lines: [15, 20, 58, 64, 81]
     security_function: "UNRELATED"
     rationale: "Comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4]
+    lines: [4, 5, 6, 7, 8, 9, 11, 12, 13, 25, 27, 28, 29, 30, 51, 93, 95, 96, 98, 99, 100, 101, 102, 103, 104, 105, 114, 115]
     security_function: "UNRELATED"
-    rationale: "Contract declaration"
-
-  - id: "CA_SYNTAX"
-    type: "SYNTAX"
-    lines: []
-    security_function: "UNRELATED"
-    rationale: "Braces included in code_acts"
+    rationale: "Interface, contract, event, and function declarations"
 
 summary:
   total_injections: 6
@@ -180,74 +192,95 @@ summary:
     low: 2
 
   evaluation_notes:
-    - "Primary decoy uses ratio-related suspicious names"
-    - "Real vulnerability is average instead of min for LP calculation"
+    - "Primary decoy uses call-related suspicious names"
+    - "Real vulnerability is arbitrary call execution with user data"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
   2: "CA_DIRECTIVES"
+  # Line 3: empty
   4: "CA_DECLARATIONS"
-  5: "CA1"
-  6: "CA1"
-  7: "CA1"
-  9: "CA1"
-  11: "CA_COMMENTS"
-  12: "INJ1"
-  13: "INJ2"
-  14: "INJ3"
-  16: "CA_COMMENTS"
-  17: "INJ4"
-  18: "INJ4"
-  19: "INJ4"
-  21: "CA2"
-  23: "INJ5"
-  25: "CA2"
-  26: "CA2"
-  27: "CA2"
-  28: "CA2"
-  29: "CA2"
-  31: "INJ5"
+  5: "CA_DECLARATIONS"
+  6: "CA_DECLARATIONS"
+  7: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
+  9: "CA_DECLARATIONS"
+  # Line 10: empty
+  11: "CA_DECLARATIONS"
+  12: "CA_DECLARATIONS"
+  13: "CA_DECLARATIONS"
+  # Line 14: empty
+  15: "CA_COMMENTS"
+  16: "INJ1"
+  17: "INJ2"
+  18: "INJ3"
+  # Line 19: empty
+  20: "CA_COMMENTS"
+  21: "INJ4"
+  22: "INJ4"
+  23: "INJ4"
+  # Line 24: empty
+  25: "CA_DECLARATIONS"
+  # Line 26: empty
+  27: "CA_DECLARATIONS"
+  28: "CA_DECLARATIONS"
+  29: "CA_DECLARATIONS"
+  30: "CA_DECLARATIONS"
+  # Line 31: empty
   32: "INJ5"
-  33: "INJ5"
-  35: "CA_ROOT"
-  36: "CA2"
-  38: "CA2"
-  39: "CA2"
-  41: "CA2"
-  42: "CA2"
-  44: "CA2"
-  45: "CA2"
-  47: "CA2"
-  48: "CA2"
-  50: "CA3"
-  51: "CA3"
-  52: "CA3"
-  54: "CA3"
-  55: "CA3"
-  57: "CA3"
-  58: "CA3"
-  60: "CA3"
-  61: "CA3"
-  63: "INJ6"
-  64: "INJ6"
+  # Line 33: empty
+  34: "CA_PREREQ1"
+  35: "CA_PREREQ1"
+  36: "CA_PREREQ1"
+  # Line 37: empty
+  38: "INJ5"
+  39: "INJ5"
+  40: "INJ5"
+  # Line 41: empty
+  42: "CA_ROOT1"
+  43: "CA_ROOT1"
+  # Line 44: empty
+  45: "CA1"
+  # Line 46: empty
+  47: "INJ5"
+  48: "INJ5"
+  # Line 49: empty
+  50: "CA1"
+  51: "CA_DECLARATIONS"
+  # Line 52: empty
+  53: "CA2"
+  54: "CA2"
+  55: "CA2"
+  56: "CA2"
+  # Line 57: empty
+  58: "CA_COMMENTS"
+  59: "INJ6"
+  60: "INJ6"
+  61: "INJ6"
+  62: "INJ6"
+  # Line 63: empty
+  64: "CA_COMMENTS"
   65: "INJ6"
   66: "INJ6"
   67: "INJ6"
+  68: "INJ6"
   69: "INJ6"
   70: "INJ6"
-  71: "INJ6"
+  # Line 71: empty
   72: "INJ6"
   73: "INJ6"
   74: "INJ6"
   75: "INJ6"
+  76: "INJ6"
   77: "INJ6"
   78: "INJ6"
   79: "INJ6"
-  80: "INJ6"
-  81: "INJ6"
+  # Line 80: empty
+  81: "CA_COMMENTS"
   82: "INJ6"
   83: "INJ6"
   84: "INJ6"
+  85: "INJ6"
   86: "INJ6"
   87: "INJ6"
   88: "INJ6"
@@ -255,15 +288,36 @@ line_to_code_act:
   90: "INJ6"
   91: "INJ6"
   92: "INJ6"
-  93: "INJ6"
-  94: "INJ6"
-  95: "INJ6"
-  96: "INJ6"
-  97: "INJ6"
-  98: "CA4"
+  93: "CA_DECLARATIONS"
+  # Line 94: empty
+  95: "CA_DECLARATIONS"
+  96: "CA_DECLARATIONS"
+  # Line 97: empty
+  98: "CA_DECLARATIONS"
+  99: "CA_DECLARATIONS"
+  100: "CA_DECLARATIONS"
+  101: "CA_DECLARATIONS"
+  102: "CA_DECLARATIONS"
+  103: "CA_DECLARATIONS"
+  104: "CA_DECLARATIONS"
+  105: "CA_DECLARATIONS"
+  106: "CA3"
+  # Line 107: empty
+  108: "CA_PREREQ2"
+  109: "CA_ROOT2"
+  110: "CA_ROOT2"
+  111: "CA_PREREQ2"
+  # Line 112: empty
+  113: "CA3"
+  114: "CA_DECLARATIONS"
+  115: "CA_DECLARATIONS"
+  # Line 116: empty
 
 code_act_security_functions:
-  CA_ROOT: "ROOT_CAUSE"
+  CA_ROOT1: "ROOT_CAUSE"
+  CA_ROOT2: "ROOT_CAUSE"
+  CA_PREREQ1: "PREREQ"
+  CA_PREREQ2: "PREREQ"
   INJ1: "DECOY"
   INJ2: "DECOY"
   INJ3: "DECOY"
@@ -273,8 +327,6 @@ code_act_security_functions:
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
-  CA4: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"
-  CA_SYNTAX: "UNRELATED"

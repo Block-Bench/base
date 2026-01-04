@@ -2,164 +2,159 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
 /*LN-4*/ /**
-/*LN-5*/  * @title Reward Minter Contract
-/*LN-6*/  * @notice Manages LP token deposits and reward minting
+/*LN-5*/  * @title Loan Token Contract
+/*LN-6*/  * @notice Represents interest-bearing tokens for supplied assets
 /*LN-7*/  */
 /*LN-8*/ 
 /*LN-9*/ interface IERC20 {
 /*LN-10*/     function transfer(address to, uint256 amount) external returns (bool);
 /*LN-11*/ 
-/*LN-12*/     function transferFrom(
-/*LN-13*/         address from,
-/*LN-14*/         address to,
-/*LN-15*/         uint256 amount
-/*LN-16*/     ) external returns (bool);
-/*LN-17*/ 
-/*LN-18*/     function balanceOf(address account) external view returns (uint256);
-/*LN-19*/ }
-/*LN-20*/ 
-/*LN-21*/ interface IPancakeRouter {
-/*LN-22*/     function swapExactTokensForTokens(
-/*LN-23*/         uint amountIn,
-/*LN-24*/         uint amountOut,
-/*LN-25*/         address[] calldata path,
-/*LN-26*/         address to,
-/*LN-27*/         uint deadline
-/*LN-28*/     ) external returns (uint[] memory amounts);
-/*LN-29*/ }
-/*LN-30*/ 
-/*LN-31*/ contract RewardMinter {
-/*LN-32*/     IERC20 public lpToken;
-/*LN-33*/     IERC20 public rewardToken;
-/*LN-34*/ 
-/*LN-35*/     mapping(address => uint256) public depositedLP;
-/*LN-36*/     mapping(address => uint256) public earnedRewards;
-/*LN-37*/ 
-/*LN-38*/     uint256 public constant REWARD_RATE = 100;
+/*LN-12*/     function balanceOf(address account) external view returns (uint256);
+/*LN-13*/ }
+/*LN-14*/ 
+/*LN-15*/ contract LoanToken {
+/*LN-16*/     string public name = "iETH";
+/*LN-17*/     string public symbol = "iETH";
+/*LN-18*/ 
+/*LN-19*/     mapping(address => uint256) public balances;
+/*LN-20*/     uint256 public totalSupply;
+/*LN-21*/     uint256 public totalAssetBorrow;
+/*LN-22*/     uint256 public totalAssetSupply;
+/*LN-23*/ 
+/*LN-24*/     // Suspicious names distractors
+/*LN-25*/     uint256 public unsafeTransferCounter;
+/*LN-26*/     bool public allowCallbackBypass;
+/*LN-27*/     uint256 public vulnerablePriceCache;
+/*LN-28*/ 
+/*LN-29*/     // Additional analytics
+/*LN-30*/     uint256 public tokenConfigVersion;
+/*LN-31*/     uint256 public globalTransferScore;
+/*LN-32*/     mapping(address => uint256) public userTransferActivity;
+/*LN-33*/ 
+/*LN-34*/     function mintWithEther(
+/*LN-35*/         address receiver
+/*LN-36*/     ) external payable returns (uint256 mintAmount) {
+/*LN-37*/         uint256 currentPrice = _tokenPrice();
+/*LN-38*/         mintAmount = (msg.value * 1e18) / currentPrice;
 /*LN-39*/ 
-/*LN-40*/     // Additional configuration and analytics
-/*LN-41*/     uint256 public minterConfigVersion;
-/*LN-42*/     uint256 public lastConfigUpdate;
-/*LN-43*/     uint256 public globalActivityScore;
-/*LN-44*/     mapping(address => uint256) public userActivityScore;
-/*LN-45*/     mapping(address => uint256) public userMintCount;
-/*LN-46*/ 
-/*LN-47*/     constructor(address _lpToken, address _rewardToken) {
-/*LN-48*/         lpToken = IERC20(_lpToken);
-/*LN-49*/         rewardToken = IERC20(_rewardToken);
-/*LN-50*/         minterConfigVersion = 1;
-/*LN-51*/         lastConfigUpdate = block.timestamp;
-/*LN-52*/     }
-/*LN-53*/ 
-/*LN-54*/     function deposit(uint256 amount) external {
-/*LN-55*/         lpToken.transferFrom(msg.sender, address(this), amount);
-/*LN-56*/         depositedLP[msg.sender] += amount;
-/*LN-57*/ 
-/*LN-58*/         _recordActivity(msg.sender, amount);
-/*LN-59*/     }
-/*LN-60*/ 
-/*LN-61*/     function mintFor(
-/*LN-62*/         address flip,
-/*LN-63*/         uint256 _withdrawalFee,
-/*LN-64*/         uint256 _performanceFee,
-/*LN-65*/         address to,
-/*LN-66*/         uint256
-/*LN-67*/     ) external {
-/*LN-68*/         require(flip == address(lpToken), "Invalid token");
-/*LN-69*/ 
-/*LN-70*/         uint256 feeSum = _performanceFee + _withdrawalFee;
-/*LN-71*/         lpToken.transferFrom(msg.sender, address(this), feeSum);
-/*LN-72*/ 
-/*LN-73*/         uint256 rewardAmount = tokenToReward(
-/*LN-74*/             lpToken.balanceOf(address(this))
-/*LN-75*/         );
-/*LN-76*/ 
-/*LN-77*/         earnedRewards[to] += rewardAmount;
-/*LN-78*/ 
-/*LN-79*/         userMintCount[msg.sender] += 1;
-/*LN-80*/         _recordActivity(to, rewardAmount);
-/*LN-81*/     }
-/*LN-82*/ 
-/*LN-83*/     function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
-/*LN-84*/         return lpAmount * REWARD_RATE;
-/*LN-85*/     }
+/*LN-40*/         balances[receiver] += mintAmount;
+/*LN-41*/         totalSupply += mintAmount;
+/*LN-42*/         totalAssetSupply += msg.value;
+/*LN-43*/ 
+/*LN-44*/         _recordTransferActivity(receiver, mintAmount);
+/*LN-45*/ 
+/*LN-46*/         return mintAmount;
+/*LN-47*/     }
+/*LN-48*/ 
+/*LN-49*/     function transfer(address to, uint256 amount) external returns (bool) {
+/*LN-50*/         require(balances[msg.sender] >= amount, "Insufficient balance");
+/*LN-51*/ 
+/*LN-52*/         balances[msg.sender] -= amount;
+/*LN-53*/         balances[to] += amount;
+/*LN-54*/ 
+/*LN-55*/         unsafeTransferCounter += 1; // Suspicious counter
+/*LN-56*/ 
+/*LN-57*/         _notifyTransfer(msg.sender, to, amount);
+/*LN-58*/ 
+/*LN-59*/         globalTransferScore = _updateTransferScore(globalTransferScore, amount);
+/*LN-60*/         _recordTransferActivity(msg.sender, amount);
+/*LN-61*/         _recordTransferActivity(to, amount);
+/*LN-62*/ 
+/*LN-63*/         return true;
+/*LN-64*/     }
+/*LN-65*/ 
+/*LN-66*/     function _notifyTransfer(
+/*LN-67*/         address from,
+/*LN-68*/         address to,
+/*LN-69*/         uint256 amount
+/*LN-70*/     ) internal {
+/*LN-71*/         if (_isContract(to) && !allowCallbackBypass) { // Fake protection
+/*LN-72*/             vulnerablePriceCache = _tokenPrice(); // Suspicious cache
+/*LN-73*/             (bool success, ) = to.call(abi.encodeWithSignature("onTokenTransfer(address,uint256)", from, amount));
+/*LN-74*/             success;
+/*LN-75*/         }
+/*LN-76*/     }
+/*LN-77*/ 
+/*LN-78*/     function burnToEther(
+/*LN-79*/         address receiver,
+/*LN-80*/         uint256 amount
+/*LN-81*/     ) external returns (uint256 ethAmount) {
+/*LN-82*/         require(balances[msg.sender] >= amount, "Insufficient balance");
+/*LN-83*/ 
+/*LN-84*/         uint256 currentPrice = _tokenPrice();
+/*LN-85*/         ethAmount = (amount * currentPrice) / 1e18;
 /*LN-86*/ 
-/*LN-87*/     function getReward() external {
-/*LN-88*/         uint256 reward = earnedRewards[msg.sender];
-/*LN-89*/         require(reward > 0, "No rewards");
+/*LN-87*/         balances[msg.sender] -= amount;
+/*LN-88*/         totalSupply -= amount;
+/*LN-89*/         totalAssetSupply -= ethAmount;
 /*LN-90*/ 
-/*LN-91*/         earnedRewards[msg.sender] = 0;
-/*LN-92*/         rewardToken.transfer(msg.sender, reward);
-/*LN-93*/ 
-/*LN-94*/         _recordActivity(msg.sender, reward);
-/*LN-95*/     }
-/*LN-96*/ 
-/*LN-97*/     function withdraw(uint256 amount) external {
-/*LN-98*/         require(depositedLP[msg.sender] >= amount, "Insufficient balance");
-/*LN-99*/         depositedLP[msg.sender] -= amount;
-/*LN-100*/         lpToken.transfer(msg.sender, amount);
-/*LN-101*/ 
-/*LN-102*/         _recordActivity(msg.sender, amount);
-/*LN-103*/     }
-/*LN-104*/ 
-/*LN-105*/     // Configuration-like helper
-/*LN-106*/     function setMinterConfigVersion(uint256 version) external {
-/*LN-107*/         minterConfigVersion = version;
-/*LN-108*/         lastConfigUpdate = block.timestamp;
+/*LN-91*/         payable(receiver).transfer(ethAmount);
+/*LN-92*/ 
+/*LN-93*/         return ethAmount;
+/*LN-94*/     }
+/*LN-95*/ 
+/*LN-96*/     function _tokenPrice() internal view returns (uint256) {
+/*LN-97*/         if (totalSupply == 0) {
+/*LN-98*/             return 1e18;
+/*LN-99*/         }
+/*LN-100*/         return (totalAssetSupply * 1e18) / totalSupply;
+/*LN-101*/     }
+/*LN-102*/ 
+/*LN-103*/     function _isContract(address account) internal view returns (bool) {
+/*LN-104*/         uint256 size;
+/*LN-105*/         assembly {
+/*LN-106*/             size := extcodesize(account)
+/*LN-107*/         }
+/*LN-108*/         return size > 0;
 /*LN-109*/     }
 /*LN-110*/ 
-/*LN-111*/     // Internal analytics
-/*LN-112*/     function _recordActivity(address user, uint256 value) internal {
-/*LN-113*/         if (value > 0) {
-/*LN-114*/             uint256 incr = value;
-/*LN-115*/             if (incr > 1e24) {
-/*LN-116*/                 incr = 1e24;
-/*LN-117*/             }
-/*LN-118*/ 
-/*LN-119*/             userActivityScore[user] = _updateScore(
-/*LN-120*/                 userActivityScore[user],
-/*LN-121*/                 incr
-/*LN-122*/             );
-/*LN-123*/             globalActivityScore = _updateScore(globalActivityScore, incr);
-/*LN-124*/         }
-/*LN-125*/     }
-/*LN-126*/ 
-/*LN-127*/     function _updateScore(
-/*LN-128*/         uint256 current,
-/*LN-129*/         uint256 value
-/*LN-130*/     ) internal pure returns (uint256) {
-/*LN-131*/         uint256 updated;
-/*LN-132*/         if (current == 0) {
-/*LN-133*/             updated = value;
-/*LN-134*/         } else {
-/*LN-135*/             updated = (current * 9 + value) / 10;
-/*LN-136*/         }
+/*LN-111*/     function balanceOf(address account) external view returns (uint256) {
+/*LN-112*/         return balances[account];
+/*LN-113*/     }
+/*LN-114*/ 
+/*LN-115*/     // Fake vulnerability: suspicious bypass toggle
+/*LN-116*/     function setCallbackBypass(bool bypass) external {
+/*LN-117*/         allowCallbackBypass = bypass;
+/*LN-118*/         tokenConfigVersion += 1;
+/*LN-119*/     }
+/*LN-120*/ 
+/*LN-121*/     // Internal analytics
+/*LN-122*/     function _recordTransferActivity(address user, uint256 amount) internal {
+/*LN-123*/         if (amount > 0) {
+/*LN-124*/             uint256 incr = amount > 1e18 ? amount / 1e18 : 1;
+/*LN-125*/             userTransferActivity[user] += incr;
+/*LN-126*/         }
+/*LN-127*/     }
+/*LN-128*/ 
+/*LN-129*/     function _updateTransferScore(uint256 current, uint256 value) internal pure returns (uint256) {
+/*LN-130*/         uint256 weight = value > 1e20 ? 3 : 1;
+/*LN-131*/         if (current == 0) {
+/*LN-132*/             return weight;
+/*LN-133*/         }
+/*LN-134*/         uint256 newScore = (current * 92 + value * weight / 1e18) / 100;
+/*LN-135*/         return newScore > 1e24 ? 1e24 : newScore;
+/*LN-136*/     }
 /*LN-137*/ 
-/*LN-138*/         if (updated > 1e27) {
-/*LN-139*/             updated = 1e27;
-/*LN-140*/         }
-/*LN-141*/ 
-/*LN-142*/         return updated;
-/*LN-143*/     }
-/*LN-144*/ 
-/*LN-145*/     // View helpers
-/*LN-146*/     function getUserMetrics(
-/*LN-147*/         address user
-/*LN-148*/     ) external view returns (uint256 deposited, uint256 rewards, uint256 activity, uint256 mints) {
-/*LN-149*/         deposited = depositedLP[user];
-/*LN-150*/         rewards = earnedRewards[user];
-/*LN-151*/         activity = userActivityScore[user];
-/*LN-152*/         mints = userMintCount[user];
-/*LN-153*/     }
-/*LN-154*/ 
-/*LN-155*/     function getProtocolMetrics()
-/*LN-156*/         external
-/*LN-157*/         view
-/*LN-158*/         returns (uint256 configVersion, uint256 lastUpdate, uint256 globalActivity)
-/*LN-159*/     {
-/*LN-160*/         configVersion = minterConfigVersion;
-/*LN-161*/         lastUpdate = lastConfigUpdate;
-/*LN-162*/         globalActivity = globalActivityScore;
-/*LN-163*/     }
-/*LN-164*/ }
-/*LN-165*/ 
+/*LN-138*/     // View helpers
+/*LN-139*/     function getTokenMetrics() external view returns (
+/*LN-140*/         uint256 configVersion,
+/*LN-141*/         uint256 transferCount,
+/*LN-142*/         uint256 transferScore,
+/*LN-143*/         bool callbacksBypassed,
+/*LN-144*/         uint256 priceCache
+/*LN-145*/     ) {
+/*LN-146*/         configVersion = tokenConfigVersion;
+/*LN-147*/         transferCount = unsafeTransferCounter;
+/*LN-148*/         transferScore = globalTransferScore;
+/*LN-149*/         callbacksBypassed = allowCallbackBypass;
+/*LN-150*/         priceCache = vulnerablePriceCache;
+/*LN-151*/     }
+/*LN-152*/ 
+/*LN-153*/     function getUserMetrics(address user) external view returns (uint256 balance, uint256 activity) {
+/*LN-154*/         balance = balances[user];
+/*LN-155*/         activity = userTransferActivity[user];
+/*LN-156*/     }
+/*LN-157*/ 
+/*LN-158*/     receive() external payable {}
+/*LN-159*/ }
+/*LN-160*/ 

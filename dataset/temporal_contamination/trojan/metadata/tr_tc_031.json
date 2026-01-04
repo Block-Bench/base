@@ -1,21 +1,21 @@
 {
   "sample_id": "tr_tc_031",
-  "exploit_name": "Orbit Chain Bridge Exploit",
+  "exploit_name": "Gamma Strategies Hypervisor",
   "date": "",
   "amount_lost_usd": "",
-  "blockchain": "ethereum",
+  "blockchain": "arbitrum",
   "language": "solidity",
-  "vulnerability_type": "bridge_security",
+  "vulnerability_type": "price_manipulation",
   "vulnerability_subtype": "",
-  "severity": "critical",
+  "severity": "high",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Orbit Chain bridge suffered an $81M exploit when attackers compromised validator private keys and used them to forge signatures authorizing fraudulent cross-chain withdrawals. The bridge's multi-sig system (5-of-7) was bypassed through key compromise rather than smart contract vulnerabilities.",
-  "vulnerable_contract": "CrossBridge",
-  "vulnerable_function": "withdraw",
+  "description": "Gamma Strategies managed liquidity positions on Uniswap V3/Algebra pools. Attackers used flashloans to manipulate pool prices, then exploited the vault's deposit/withdrawal and rebalancing mechanisms during price manipulation to extract $6.1M.",
+  "vulnerable_contract": "LiquidityHypervisor",
+  "vulnerable_function": "deposit",
   "vulnerable_lines": [
-    55
+    77
   ],
   "attack_scenario": "",
   "root_cause": "",
@@ -23,11 +23,14 @@
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "multi-sig",
-    "key_compromise",
-    "signature_validation",
-    "cross_chain",
-    "validator_security",
+    "defi",
+    "dex",
+    "price_manipulation",
+    "flashloan",
+    "liquidity_vault",
+    "slippage",
+    "uniswap_v3",
+    "sandwich_attack",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -40,8 +43,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_031.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_031.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_034.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_034.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -56,18 +59,18 @@
       "activity_variables": 0,
       "fake_functions": 3,
       "view_helpers": 1,
-      "suspicious_names": 16
+      "suspicious_names": 21
     },
     "contracts_renamed": [
-      "OrbitBridge"
+      "GammaHypervisor"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.668707",
+    "created_date": "2025-12-30T01:40:33.670963",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.857429",
+    "sanitization_date": "2026-01-02T02:10:09.886533",
     "code_renames": {
-      "OrbitBridge": "CrossBridge"
+      "GammaHypervisor": "LiquidityHypervisor"
     }
   }
 }

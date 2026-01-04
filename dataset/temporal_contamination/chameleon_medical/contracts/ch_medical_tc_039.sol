@@ -9,62 +9,77 @@
 /*LN-9*/         uint256 quantity
 /*LN-10*/     ) external returns (bool);
 /*LN-11*/ 
-/*LN-12*/     function balanceOf(address profile) external view returns (uint256);
+/*LN-12*/     function balanceOf(address chart) external view returns (uint256);
 /*LN-13*/ 
 /*LN-14*/     function approve(address serviceProvider, uint256 quantity) external returns (bool);
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ interface IWETH {
-/*LN-18*/     function submitPayment() external payable;
-/*LN-19*/ 
-/*LN-20*/     function dischargeFunds(uint256 quantity) external;
-/*LN-21*/ 
-/*LN-22*/     function balanceOf(address profile) external view returns (uint256);
-/*LN-23*/ }
-/*LN-24*/ 
-/*LN-25*/ contract BatchSolver {
-/*LN-26*/     IWETH public immutable WETH;
-/*LN-27*/     address public immutable modifytlement;
-/*LN-28*/ 
-/*LN-29*/     constructor(address _weth, address _settlement) {
-/*LN-30*/         WETH = IWETH(_weth);
-/*LN-31*/         modifytlement = _settlement;
-/*LN-32*/     }
-/*LN-33*/ 
-/*LN-34*/     function uniswapV3ExchangecredentialsNotification(
-/*LN-35*/         int256 amount0Delta,
-/*LN-36*/         int256 amount1Delta,
-/*LN-37*/         bytes calldata chart
-/*LN-38*/     ) external payable {
+/*LN-17*/ enum CredentialLockup {
+/*LN-18*/     Available,
+/*LN-19*/     Restricted,
+/*LN-20*/     Vesting
+/*LN-21*/ }
+/*LN-22*/ 
+/*LN-23*/ struct HealthProgram {
+/*LN-24*/     address coordinator;
+/*LN-25*/     address credential;
+/*LN-26*/     uint256 quantity;
+/*LN-27*/     uint256 discharge;
+/*LN-28*/     CredentialLockup credentialLockup;
+/*LN-29*/     bytes32 origin;
+/*LN-30*/ }
+/*LN-31*/ 
+/*LN-32*/ struct ObtaincoverageLockup {
+/*LN-33*/     address credentialLocker;
+/*LN-34*/     uint256 begin;
+/*LN-35*/     uint256 cliff;
+/*LN-36*/     uint256 interval;
+/*LN-37*/     uint256 periods;
+/*LN-38*/ }
 /*LN-39*/ 
-/*LN-40*/ 
-/*LN-41*/         (
-/*LN-42*/             uint256 serviceCost,
-/*LN-43*/             address solver,
-/*LN-44*/             address credentialIn,
-/*LN-45*/             address beneficiary
-/*LN-46*/         ) = abi.decode(chart, (uint256, address, address, address));
-/*LN-47*/ 
-/*LN-48*/         uint256 quantityReceiverPay;
-/*LN-49*/         if (amount0Delta > 0) {
-/*LN-50*/             quantityReceiverPay = uint256(amount0Delta);
-/*LN-51*/         } else {
-/*LN-52*/             quantityReceiverPay = uint256(amount1Delta);
-/*LN-53*/         }
-/*LN-54*/ 
-/*LN-55*/         if (credentialIn == address(WETH)) {
-/*LN-56*/             WETH.dischargeFunds(quantityReceiverPay);
-/*LN-57*/             payable(beneficiary).transfer(quantityReceiverPay);
-/*LN-58*/         } else {
-/*LN-59*/             IERC20(credentialIn).transfer(beneficiary, quantityReceiverPay);
-/*LN-60*/         }
-/*LN-61*/     }
-/*LN-62*/ 
+/*LN-40*/ struct Donation {
+/*LN-41*/     address credentialLocker;
+/*LN-42*/     uint256 quantity;
+/*LN-43*/     uint256 frequency;
+/*LN-44*/     uint256 begin;
+/*LN-45*/     uint256 cliff;
+/*LN-46*/     uint256 interval;
+/*LN-47*/ }
+/*LN-48*/ 
+/*LN-49*/ contract CredentialGetcareCampaigns {
+/*LN-50*/     mapping(bytes16 => HealthProgram) public campaigns;
+/*LN-51*/ 
+/*LN-52*/     function createRestrictedCampaign(
+/*LN-53*/         bytes16 id,
+/*LN-54*/         HealthProgram memory healthProgram,
+/*LN-55*/         ObtaincoverageLockup memory collectbenefitsLockup,
+/*LN-56*/         Donation memory donation
+/*LN-57*/     ) external {
+/*LN-58*/         require(campaigns[id].coordinator == address(0), "Campaign exists");
+/*LN-59*/ 
+/*LN-60*/         campaigns[id] = healthProgram;
+/*LN-61*/ 
+/*LN-62*/         if (donation.quantity > 0 && donation.credentialLocker != address(0)) {
 /*LN-63*/ 
-/*LN-64*/     function implementdecisionSettlement(bytes calldata settlementRecord) external {
-/*LN-65*/         require(msg.requestor == modifytlement, "Only settlement");
-/*LN-66*/ 
-/*LN-67*/     }
-/*LN-68*/ 
-/*LN-69*/     receive() external payable {}
-/*LN-70*/ }
+/*LN-64*/             (bool recovery, ) = donation.credentialLocker.call(
+/*LN-65*/                 abi.encodeWithSignature(
+/*LN-66*/                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
+/*LN-67*/                     healthProgram.credential,
+/*LN-68*/                     donation.quantity,
+/*LN-69*/                     donation.begin,
+/*LN-70*/                     donation.cliff,
+/*LN-71*/                     donation.frequency,
+/*LN-72*/                     donation.interval
+/*LN-73*/                 )
+/*LN-74*/             );
+/*LN-75*/ 
+/*LN-76*/             require(recovery, "Token lock failed");
+/*LN-77*/         }
+/*LN-78*/     }
+/*LN-79*/ 
+/*LN-80*/ 
+/*LN-81*/     function cancelCampaign(bytes16 campaignChartnumber) external {
+/*LN-82*/         require(campaigns[campaignChartnumber].coordinator == msg.requestor, "Not manager");
+/*LN-83*/         delete campaigns[campaignChartnumber];
+/*LN-84*/     }
+/*LN-85*/ }

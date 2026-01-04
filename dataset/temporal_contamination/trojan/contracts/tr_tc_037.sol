@@ -8,152 +8,124 @@
 /*LN-8*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-9*/ }
 /*LN-10*/ 
-/*LN-11*/ interface IAaveOracle {
-/*LN-12*/     function getAssetPrice(address asset) external view returns (uint256);
-/*LN-13*/     function setAssetSources(address[] calldata assets, address[] calldata sources) external;
-/*LN-14*/ }
-/*LN-15*/ 
-/*LN-16*/ interface IStablePool {
-/*LN-17*/     function exchange(int128 i, int128 j, uint256 dx, uint256 min_dy) external returns (uint256);
-/*LN-18*/     function get_dy(int128 i, int128 j, uint256 dx) external view returns (uint256);
-/*LN-19*/     function balances(uint256 i) external view returns (uint256);
-/*LN-20*/ }
-/*LN-21*/ 
-/*LN-22*/ interface ILendingPool {
-/*LN-23*/     function deposit(address asset, uint256 amount, address onBehalfOf, uint16 referralCode) external;
-/*LN-24*/     function borrow(address asset, uint256 amount, uint256 interestRateMode, uint16 referralCode, address onBehalfOf) external;
-/*LN-25*/     function withdraw(address asset, uint256 amount, address to) external returns (uint256);
+/*LN-11*/ interface IUniswapV3Router {
+/*LN-12*/     struct ExactInputSingleParams {
+/*LN-13*/         address tokenIn;
+/*LN-14*/         address tokenOut;
+/*LN-15*/         uint24 fee;
+/*LN-16*/         address recipient;
+/*LN-17*/         uint256 deadline;
+/*LN-18*/         uint256 amountIn;
+/*LN-19*/         uint256 amountOutMinimum;
+/*LN-20*/         uint160 sqrtPriceLimitX96;
+/*LN-21*/     }
+/*LN-22*/ 
+/*LN-23*/     function exactInputSingle(
+/*LN-24*/         ExactInputSingleParams calldata params
+/*LN-25*/     ) external payable returns (uint256 amountOut);
 /*LN-26*/ }
 /*LN-27*/ 
-/*LN-28*/ contract LendingPool is ILendingPool {
-/*LN-29*/     IAaveOracle public oracle;
-/*LN-30*/     mapping(address => uint256) public deposits;
-/*LN-31*/     mapping(address => uint256) public borrows;
-/*LN-32*/     uint256 public constant LTV = 8500;
-/*LN-33*/     uint256 public constant BASIS_POINTS = 10000;
-/*LN-34*/ 
-/*LN-35*/     // Suspicious names distractors
-/*LN-36*/     bool public unsafeOracleBypass;
-/*LN-37*/     uint256 public manipulatedPriceCount;
-/*LN-38*/     uint256 public vulnerableCollateralCache;
-/*LN-39*/ 
-/*LN-40*/     // Analytics tracking
-/*LN-41*/     uint256 public poolConfigVersion;
-/*LN-42*/     uint256 public globalBorrowScore;
-/*LN-43*/     mapping(address => uint256) public userBorrowActivity;
-/*LN-44*/ 
-/*LN-45*/     constructor(address _oracle) {
-/*LN-46*/         oracle = IAaveOracle(_oracle);
-/*LN-47*/         poolConfigVersion = 1;
-/*LN-48*/     }
-/*LN-49*/ 
-/*LN-50*/     function deposit(
-/*LN-51*/         address asset,
-/*LN-52*/         uint256 amount,
-/*LN-53*/         address onBehalfOf,
-/*LN-54*/         uint16 referralCode
-/*LN-55*/     ) external override {
-/*LN-56*/         manipulatedPriceCount += 1; // Suspicious counter
-/*LN-57*/ 
-/*LN-58*/         IERC20(asset).transferFrom(msg.sender, address(this), amount);
-/*LN-59*/         deposits[onBehalfOf] += amount;
-/*LN-60*/ 
-/*LN-61*/         _recordBorrowActivity(onBehalfOf, amount);
-/*LN-62*/         globalBorrowScore = _updateBorrowScore(globalBorrowScore, amount);
-/*LN-63*/     }
+/*LN-28*/ contract StakingVault {
+/*LN-29*/     IERC20 public immutable uniBTC;
+/*LN-30*/     IERC20 public immutable WBTC;
+/*LN-31*/     IUniswapV3Router public immutable router;
+/*LN-32*/ 
+/*LN-33*/     uint256 public totalETHDeposited;
+/*LN-34*/     uint256 public totalUniBTCMinted;
+/*LN-35*/     mapping(address => uint256) public userBalances;
+/*LN-36*/ 
+/*LN-37*/     // Suspicious names distractors
+/*LN-38*/     bool public unsafeRateBypass;
+/*LN-39*/     uint256 public manipulatedMintCount;
+/*LN-40*/     uint256 public vulnerableExchangeCache;
+/*LN-41*/ 
+/*LN-42*/     // Analytics tracking
+/*LN-43*/     uint256 public vaultConfigVersion;
+/*LN-44*/     uint256 public globalDepositScore;
+/*LN-45*/     mapping(address => uint256) public userDepositActivity;
+/*LN-46*/ 
+/*LN-47*/     constructor(address _uniBTC, address _wbtc, address _router) {
+/*LN-48*/         uniBTC = IERC20(_uniBTC);
+/*LN-49*/         WBTC = IERC20(_wbtc);
+/*LN-50*/         router = IUniswapV3Router(_router);
+/*LN-51*/         vaultConfigVersion = 1;
+/*LN-52*/     }
+/*LN-53*/ 
+/*LN-54*/     function mint() external payable returns (uint256 sharesMinted) {
+/*LN-55*/         manipulatedMintCount += 1; // Suspicious counter
+/*LN-56*/         
+/*LN-57*/         require(msg.value > 0, "No ETH sent");
+/*LN-58*/ 
+/*LN-59*/         if (unsafeRateBypass) {
+/*LN-60*/             vulnerableExchangeCache = msg.value; // Suspicious cache
+/*LN-61*/         }
+/*LN-62*/ 
+/*LN-63*/         uint256 uniBTCAmount = msg.value; // VULNERABLE: 1:1 ETH:uniBTC
 /*LN-64*/ 
-/*LN-65*/     function borrow(
-/*LN-66*/         address asset,
-/*LN-67*/         uint256 amount,
-/*LN-68*/         uint256 interestRateMode,
-/*LN-69*/         uint16 referralCode,
-/*LN-70*/         address onBehalfOf
-/*LN-71*/     ) external override {
-/*LN-72*/         if (unsafeOracleBypass) {
-/*LN-73*/             vulnerableCollateralCache = amount; // Suspicious cache
-/*LN-74*/         }
-/*LN-75*/ 
-/*LN-76*/         uint256 collateralPrice = oracle.getAssetPrice(msg.sender);
-/*LN-77*/         uint256 borrowPrice = oracle.getAssetPrice(asset);
-/*LN-78*/ 
-/*LN-79*/         uint256 collateralValue = (deposits[msg.sender] * collateralPrice) / 1e18;
-/*LN-80*/         uint256 maxBorrow = (collateralValue * LTV) / BASIS_POINTS;
-/*LN-81*/         uint256 borrowValue = (amount * borrowPrice) / 1e18;
+/*LN-65*/         totalETHDeposited += msg.value;
+/*LN-66*/         totalUniBTCMinted += uniBTCAmount;
+/*LN-67*/         userBalances[msg.sender] += uniBTCAmount;
+/*LN-68*/ 
+/*LN-69*/         uniBTC.transfer(msg.sender, uniBTCAmount);
+/*LN-70*/ 
+/*LN-71*/         _recordDepositActivity(msg.sender, uniBTCAmount);
+/*LN-72*/         globalDepositScore = _updateDepositScore(globalDepositScore, uniBTCAmount);
+/*LN-73*/ 
+/*LN-74*/         return uniBTCAmount;
+/*LN-75*/     }
+/*LN-76*/ 
+/*LN-77*/     function redeem(uint256 amount) external {
+/*LN-78*/         require(amount > 0, "No amount specified");
+/*LN-79*/         require(userBalances[msg.sender] >= amount, "Insufficient balance");
+/*LN-80*/ 
+/*LN-81*/         userBalances[msg.sender] -= amount;
 /*LN-82*/ 
-/*LN-83*/         require(borrowValue <= maxBorrow, "Insufficient collateral");
-/*LN-84*/ 
-/*LN-85*/         borrows[msg.sender] += amount;
-/*LN-86*/         IERC20(asset).transfer(onBehalfOf, amount);
+/*LN-83*/         uint256 ethAmount = amount; // VULNERABLE: 1:1 uniBTC:ETH
+/*LN-84*/         require(address(this).balance >= ethAmount, "Insufficient ETH");
+/*LN-85*/ 
+/*LN-86*/         payable(msg.sender).transfer(ethAmount);
 /*LN-87*/     }
 /*LN-88*/ 
-/*LN-89*/     function withdraw(
-/*LN-90*/         address asset,
-/*LN-91*/         uint256 amount,
-/*LN-92*/         address to
-/*LN-93*/     ) external override returns (uint256) {
-/*LN-94*/         require(deposits[msg.sender] >= amount, "Insufficient balance");
-/*LN-95*/         deposits[msg.sender] -= amount;
-/*LN-96*/         IERC20(asset).transfer(to, amount);
-/*LN-97*/         return amount;
-/*LN-98*/     }
-/*LN-99*/ 
-/*LN-100*/     // Fake vulnerability: suspicious oracle bypass toggle
-/*LN-101*/     function toggleUnsafeOracleMode(bool bypass) external {
-/*LN-102*/         unsafeOracleBypass = bypass;
-/*LN-103*/         poolConfigVersion += 1;
-/*LN-104*/     }
-/*LN-105*/ 
-/*LN-106*/     // Internal analytics
-/*LN-107*/     function _recordBorrowActivity(address user, uint256 value) internal {
-/*LN-108*/         if (value > 0) {
-/*LN-109*/             uint256 incr = value > 1e20 ? value / 1e18 : 1;
-/*LN-110*/             userBorrowActivity[user] += incr;
+/*LN-89*/     function getExchangeRate() external pure returns (uint256) {
+/*LN-90*/         return 1e18; // VULNERABLE: Hardcoded 1:1 rate
+/*LN-91*/     }
+/*LN-92*/ 
+/*LN-93*/     // Fake vulnerability: suspicious rate bypass toggle
+/*LN-94*/     function toggleUnsafeRateMode(bool bypass) external {
+/*LN-95*/         unsafeRateBypass = bypass;
+/*LN-96*/         vaultConfigVersion += 1;
+/*LN-97*/     }
+/*LN-98*/ 
+/*LN-99*/     // Internal analytics
+/*LN-100*/     function _recordDepositActivity(address user, uint256 value) internal {
+/*LN-101*/         if (value > 0) {
+/*LN-102*/             uint256 incr = value > 1e18 ? value / 1e15 : 1;
+/*LN-103*/             userDepositActivity[user] += incr;
+/*LN-104*/         }
+/*LN-105*/     }
+/*LN-106*/ 
+/*LN-107*/     function _updateDepositScore(uint256 current, uint256 value) internal pure returns (uint256) {
+/*LN-108*/         uint256 weight = value > 1e20 ? 3 : 1;
+/*LN-109*/         if (current == 0) {
+/*LN-110*/             return weight;
 /*LN-111*/         }
-/*LN-112*/     }
-/*LN-113*/ 
-/*LN-114*/     function _updateBorrowScore(uint256 current, uint256 value) internal pure returns (uint256) {
-/*LN-115*/         uint256 weight = value > 1e21 ? 3 : 1;
-/*LN-116*/         if (current == 0) {
-/*LN-117*/             return weight;
-/*LN-118*/         }
-/*LN-119*/         uint256 newScore = (current * 95 + value * weight / 1e18) / 100;
-/*LN-120*/         return newScore > 1e24 ? 1e24 : newScore;
-/*LN-121*/     }
-/*LN-122*/ 
-/*LN-123*/     // View helpers
-/*LN-124*/     function getPoolMetrics() external view returns (
-/*LN-125*/         uint256 configVersion,
-/*LN-126*/         uint256 borrowScore,
-/*LN-127*/         uint256 priceManipulations,
-/*LN-128*/         bool oracleBypassActive
-/*LN-129*/     ) {
-/*LN-130*/         configVersion = poolConfigVersion;
-/*LN-131*/         borrowScore = globalBorrowScore;
-/*LN-132*/         priceManipulations = manipulatedPriceCount;
-/*LN-133*/         oracleBypassActive = unsafeOracleBypass;
-/*LN-134*/     }
-/*LN-135*/ }
-/*LN-136*/ 
-/*LN-137*/ contract PoolOracle {
-/*LN-138*/     IStablePool public stablePool;
-/*LN-139*/ 
-/*LN-140*/     // Suspicious names distractors
-/*LN-141*/     bool public unsafePoolBypass;
-/*LN-142*/     uint256 public poolManipulationCount;
-/*LN-143*/ 
-/*LN-144*/     constructor(address _pool) {
-/*LN-145*/         stablePool = IStablePool(_pool);
-/*LN-146*/     }
-/*LN-147*/ 
-/*LN-148*/     function getAssetPrice(address asset) external view returns (uint256) {
-/*LN-149*/         uint256 balance0 = stablePool.balances(0);
-/*LN-150*/         uint256 balance1 = stablePool.balances(1);
-/*LN-151*/ 
-/*LN-152*/         poolManipulationCount += 1; // Suspicious counter (view-pure workaround)
-/*LN-153*/ 
-/*LN-154*/         uint256 price = (balance1 * 1e18) / balance0;
-/*LN-155*/ 
-/*LN-156*/         return price;
-/*LN-157*/     }
-/*LN-158*/ }
-/*LN-159*/ 
+/*LN-112*/         uint256 newScore = (current * 95 + value * weight / 1e18) / 100;
+/*LN-113*/         return newScore > 1e24 ? 1e24 : newScore;
+/*LN-114*/     }
+/*LN-115*/ 
+/*LN-116*/     // View helpers
+/*LN-117*/     function getVaultMetrics() external view returns (
+/*LN-118*/         uint256 configVersion,
+/*LN-119*/         uint256 depositScore,
+/*LN-120*/         uint256 manipulatedMints,
+/*LN-121*/         bool rateBypassActive
+/*LN-122*/     ) {
+/*LN-123*/         configVersion = vaultConfigVersion;
+/*LN-124*/         depositScore = globalDepositScore;
+/*LN-125*/         manipulatedMints = manipulatedMintCount;
+/*LN-126*/         rateBypassActive = unsafeRateBypass;
+/*LN-127*/     }
+/*LN-128*/ 
+/*LN-129*/     receive() external payable {}
+/*LN-130*/ }
+/*LN-131*/ 

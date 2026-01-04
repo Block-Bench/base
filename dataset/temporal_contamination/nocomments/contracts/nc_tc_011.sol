@@ -1,67 +1,86 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ interface IERC777 {
+/*LN-3*/ interface IERC20 {
 /*LN-4*/     function transfer(address to, uint256 amount) external returns (bool);
 /*LN-5*/ 
-/*LN-6*/     function balanceOf(address account) external view returns (uint256);
-/*LN-7*/ }
-/*LN-8*/ 
-/*LN-9*/ interface IERC1820Registry {
-/*LN-10*/     function setInterfaceImplementer(
-/*LN-11*/         address account,
-/*LN-12*/         bytes32 interfaceHash,
-/*LN-13*/         address implementer
-/*LN-14*/     ) external;
-/*LN-15*/ }
-/*LN-16*/ 
-/*LN-17*/ contract LendingPool {
-/*LN-18*/     mapping(address => mapping(address => uint256)) public supplied;
-/*LN-19*/     mapping(address => uint256) public totalSupplied;
-/*LN-20*/ 
-/*LN-21*/ 
-/*LN-22*/     function supply(address asset, uint256 amount) external returns (uint256) {
-/*LN-23*/         IERC777 token = IERC777(asset);
+/*LN-6*/     function transferFrom(
+/*LN-7*/         address from,
+/*LN-8*/         address to,
+/*LN-9*/         uint256 amount
+/*LN-10*/     ) external returns (bool);
+/*LN-11*/ 
+/*LN-12*/     function balanceOf(address account) external view returns (uint256);
+/*LN-13*/ }
+/*LN-14*/ 
+/*LN-15*/ interface IPancakeRouter {
+/*LN-16*/     function swapExactTokensForTokens(
+/*LN-17*/         uint amountIn,
+/*LN-18*/         uint amountOut,
+/*LN-19*/         address[] calldata path,
+/*LN-20*/         address to,
+/*LN-21*/         uint deadline
+/*LN-22*/     ) external returns (uint[] memory amounts);
+/*LN-23*/ }
 /*LN-24*/ 
-/*LN-25*/ 
-/*LN-26*/         require(token.transfer(address(this), amount), "Transfer failed");
-/*LN-27*/ 
+/*LN-25*/ contract RewardMinter {
+/*LN-26*/     IERC20 public lpToken;
+/*LN-27*/     IERC20 public rewardToken;
 /*LN-28*/ 
-/*LN-29*/         supplied[msg.sender][asset] += amount;
-/*LN-30*/         totalSupplied[asset] += amount;
+/*LN-29*/     mapping(address => uint256) public depositedLP;
+/*LN-30*/     mapping(address => uint256) public earnedRewards;
 /*LN-31*/ 
-/*LN-32*/         return amount;
-/*LN-33*/     }
-/*LN-34*/ 
-/*LN-35*/ 
-/*LN-36*/     function withdraw(
-/*LN-37*/         address asset,
-/*LN-38*/         uint256 requestedAmount
-/*LN-39*/     ) external returns (uint256) {
-/*LN-40*/         uint256 userBalance = supplied[msg.sender][asset];
-/*LN-41*/         require(userBalance > 0, "No balance");
-/*LN-42*/ 
-/*LN-43*/ 
-/*LN-44*/         uint256 withdrawAmount = requestedAmount;
-/*LN-45*/         if (requestedAmount == type(uint256).max) {
-/*LN-46*/             withdrawAmount = userBalance;
-/*LN-47*/         }
-/*LN-48*/         require(withdrawAmount <= userBalance, "Insufficient balance");
-/*LN-49*/ 
-/*LN-50*/ 
-/*LN-51*/         IERC777(asset).transfer(msg.sender, withdrawAmount);
-/*LN-52*/ 
-/*LN-53*/ 
-/*LN-54*/         supplied[msg.sender][asset] -= withdrawAmount;
-/*LN-55*/         totalSupplied[asset] -= withdrawAmount;
-/*LN-56*/ 
-/*LN-57*/         return withdrawAmount;
-/*LN-58*/     }
-/*LN-59*/ 
-/*LN-60*/ 
-/*LN-61*/     function getSupplied(
-/*LN-62*/         address user,
-/*LN-63*/         address asset
-/*LN-64*/     ) external view returns (uint256) {
-/*LN-65*/         return supplied[user][asset];
-/*LN-66*/     }
-/*LN-67*/ }
+/*LN-32*/     uint256 public constant REWARD_RATE = 100;
+/*LN-33*/ 
+/*LN-34*/     constructor(address _lpToken, address _rewardToken) {
+/*LN-35*/         lpToken = IERC20(_lpToken);
+/*LN-36*/         rewardToken = IERC20(_rewardToken);
+/*LN-37*/     }
+/*LN-38*/ 
+/*LN-39*/ 
+/*LN-40*/     function deposit(uint256 amount) external {
+/*LN-41*/         lpToken.transferFrom(msg.sender, address(this), amount);
+/*LN-42*/         depositedLP[msg.sender] += amount;
+/*LN-43*/     }
+/*LN-44*/ 
+/*LN-45*/ 
+/*LN-46*/     function mintFor(
+/*LN-47*/         address flip,
+/*LN-48*/         uint256 _withdrawalFee,
+/*LN-49*/         uint256 _performanceFee,
+/*LN-50*/         address to,
+/*LN-51*/         uint256
+/*LN-52*/     ) external {
+/*LN-53*/         require(flip == address(lpToken), "Invalid token");
+/*LN-54*/ 
+/*LN-55*/ 
+/*LN-56*/         uint256 feeSum = _performanceFee + _withdrawalFee;
+/*LN-57*/         lpToken.transferFrom(msg.sender, address(this), feeSum);
+/*LN-58*/ 
+/*LN-59*/         uint256 rewardAmount = tokenToReward(
+/*LN-60*/             lpToken.balanceOf(address(this))
+/*LN-61*/         );
+/*LN-62*/ 
+/*LN-63*/         earnedRewards[to] += rewardAmount;
+/*LN-64*/     }
+/*LN-65*/ 
+/*LN-66*/ 
+/*LN-67*/     function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
+/*LN-68*/         return lpAmount * REWARD_RATE;
+/*LN-69*/     }
+/*LN-70*/ 
+/*LN-71*/ 
+/*LN-72*/     function getReward() external {
+/*LN-73*/         uint256 reward = earnedRewards[msg.sender];
+/*LN-74*/         require(reward > 0, "No rewards");
+/*LN-75*/ 
+/*LN-76*/         earnedRewards[msg.sender] = 0;
+/*LN-77*/         rewardToken.transfer(msg.sender, reward);
+/*LN-78*/     }
+/*LN-79*/ 
+/*LN-80*/ 
+/*LN-81*/     function withdraw(uint256 amount) external {
+/*LN-82*/         require(depositedLP[msg.sender] >= amount, "Insufficient balance");
+/*LN-83*/         depositedLP[msg.sender] -= amount;
+/*LN-84*/         lpToken.transfer(msg.sender, amount);
+/*LN-85*/     }
+/*LN-86*/ }

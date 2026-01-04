@@ -15,123 +15,139 @@
 /*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-16*/ }
 /*LN-17*/ 
-/*LN-18*/ interface IUniswapV3Pool {
-/*LN-19*/     function swap(
-/*LN-20*/         address recipient,
-/*LN-21*/         bool zeroForOne,
-/*LN-22*/         int256 amountSpecified,
-/*LN-23*/         uint160 sqrtPriceLimitX96,
-/*LN-24*/         bytes calldata data
-/*LN-25*/     ) external returns (int256 amount0, int256 amount1);
+/*LN-18*/ interface IAaveOracle {
+/*LN-19*/     function getAssetPrice(address asset) external view returns (uint256);
+/*LN-20*/ 
+/*LN-21*/     function setAssetSources(
+/*LN-22*/         address[] calldata assets,
+/*LN-23*/         address[] calldata sources
+/*LN-24*/     ) external;
+/*LN-25*/ }
 /*LN-26*/ 
-/*LN-27*/     function flash(
-/*LN-28*/         address recipient,
-/*LN-29*/         uint256 amount0,
-/*LN-30*/         uint256 amount1,
-/*LN-31*/         bytes calldata data
-/*LN-32*/     ) external;
-/*LN-33*/ }
+/*LN-27*/ interface ICurvePool {
+/*LN-28*/     function exchange(
+/*LN-29*/         int128 i,
+/*LN-30*/         int128 j,
+/*LN-31*/         uint256 dx,
+/*LN-32*/         uint256 min_dy
+/*LN-33*/     ) external returns (uint256);
 /*LN-34*/ 
-/*LN-35*/ contract GammaHypervisor {
-/*LN-36*/     IERC20 public token0;
-/*LN-37*/     IERC20 public token1;
-/*LN-38*/     IUniswapV3Pool public pool;
-/*LN-39*/ 
-/*LN-40*/     uint256 public totalSupply;
-/*LN-41*/     mapping(address => uint256) public balanceOf;
-/*LN-42*/ 
-/*LN-43*/     struct Position {
-/*LN-44*/         uint128 liquidity;
-/*LN-45*/         int24 tickLower;
-/*LN-46*/         int24 tickUpper;
-/*LN-47*/     }
-/*LN-48*/ 
-/*LN-49*/     Position public basePosition;
-/*LN-50*/     Position public limitPosition;
+/*LN-35*/     function get_dy(
+/*LN-36*/         int128 i,
+/*LN-37*/         int128 j,
+/*LN-38*/         uint256 dx
+/*LN-39*/     ) external view returns (uint256);
+/*LN-40*/ 
+/*LN-41*/     function balances(uint256 i) external view returns (uint256);
+/*LN-42*/ }
+/*LN-43*/ 
+/*LN-44*/ interface ILendingPool {
+/*LN-45*/     function deposit(
+/*LN-46*/         address asset,
+/*LN-47*/         uint256 amount,
+/*LN-48*/         address onBehalfOf,
+/*LN-49*/         uint16 referralCode
+/*LN-50*/     ) external;
 /*LN-51*/ 
-/*LN-52*/     /**
-/*LN-53*/      * @notice Deposit tokens and receive vault shares
-/*LN-54*/      */
-/*LN-55*/     function deposit(
-/*LN-56*/         uint256 deposit0,
-/*LN-57*/         uint256 deposit1,
-/*LN-58*/         address to
-/*LN-59*/     ) external returns (uint256 shares) {
-/*LN-60*/         
-/*LN-61*/ 
-/*LN-62*/         // Get current pool reserves (simplified)
-/*LN-63*/         uint256 total0 = token0.balanceOf(address(this));
-/*LN-64*/         uint256 total1 = token1.balanceOf(address(this));
-/*LN-65*/ 
-/*LN-66*/         // Transfer tokens from user
-/*LN-67*/         token0.transferFrom(msg.sender, address(this), deposit0);
-/*LN-68*/         token1.transferFrom(msg.sender, address(this), deposit1);
-/*LN-69*/ 
-/*LN-70*/         if (totalSupply == 0) {
-/*LN-71*/             shares = deposit0 + deposit1;
-/*LN-72*/         } else {
-/*LN-73*/             // Calculate shares based on current value
-/*LN-74*/             uint256 amount0Current = total0 + deposit0;
-/*LN-75*/             uint256 amount1Current = total1 + deposit1;
-/*LN-76*/ 
-/*LN-77*/             shares = (totalSupply * (deposit0 + deposit1)) / (total0 + total1);
-/*LN-78*/         }
-/*LN-79*/ 
-/*LN-80*/         
-/*LN-81*/ 
-/*LN-82*/         balanceOf[to] += shares;
-/*LN-83*/         totalSupply += shares;
-/*LN-84*/ 
-/*LN-85*/         // Add liquidity to pool positions (simplified)
-/*LN-86*/         _addLiquidity(deposit0, deposit1);
-/*LN-87*/     }
-/*LN-88*/ 
-/*LN-89*/     /**
-/*LN-90*/      * @notice Withdraw tokens by burning shares
-/*LN-91*/      */
-/*LN-92*/     function withdraw(
-/*LN-93*/         uint256 shares,
-/*LN-94*/         address to
-/*LN-95*/     ) external returns (uint256 amount0, uint256 amount1) {
-/*LN-96*/         require(balanceOf[msg.sender] >= shares, "Insufficient balance");
-/*LN-97*/ 
-/*LN-98*/         uint256 total0 = token0.balanceOf(address(this));
-/*LN-99*/         uint256 total1 = token1.balanceOf(address(this));
-/*LN-100*/ 
-/*LN-101*/         // Calculate withdrawal amounts proportional to shares
-/*LN-102*/         amount0 = (shares * total0) / totalSupply;
-/*LN-103*/         amount1 = (shares * total1) / totalSupply;
-/*LN-104*/ 
-/*LN-105*/         balanceOf[msg.sender] -= shares;
-/*LN-106*/         totalSupply -= shares;
-/*LN-107*/ 
-/*LN-108*/         // Transfer tokens to user
-/*LN-109*/         token0.transfer(to, amount0);
-/*LN-110*/         token1.transfer(to, amount1);
-/*LN-111*/     }
-/*LN-112*/ 
-/*LN-113*/     /**
-/*LN-114*/      * @notice Rebalance liquidity positions
-/*LN-115*/      */
-/*LN-116*/     function rebalance() external {
-/*LN-117*/ 
-/*LN-118*/         _removeLiquidity(basePosition.liquidity);
-/*LN-119*/ 
-/*LN-120*/         // Recalculate position ranges based on current price
-/*LN-121*/         
-/*LN-122*/ 
-/*LN-123*/         _addLiquidity(
-/*LN-124*/             token0.balanceOf(address(this)),
-/*LN-125*/             token1.balanceOf(address(this))
-/*LN-126*/         );
+/*LN-52*/     function borrow(
+/*LN-53*/         address asset,
+/*LN-54*/         uint256 amount,
+/*LN-55*/         uint256 interestRateMode,
+/*LN-56*/         uint16 referralCode,
+/*LN-57*/         address onBehalfOf
+/*LN-58*/     ) external;
+/*LN-59*/ 
+/*LN-60*/     function withdraw(
+/*LN-61*/         address asset,
+/*LN-62*/         uint256 amount,
+/*LN-63*/         address to
+/*LN-64*/     ) external returns (uint256);
+/*LN-65*/ }
+/*LN-66*/ 
+/*LN-67*/ contract UwuLendingPool is ILendingPool {
+/*LN-68*/     IAaveOracle public oracle;
+/*LN-69*/     mapping(address => uint256) public deposits;
+/*LN-70*/     mapping(address => uint256) public borrows;
+/*LN-71*/     uint256 public constant LTV = 8500;
+/*LN-72*/     uint256 public constant BASIS_POINTS = 10000;
+/*LN-73*/ 
+/*LN-74*/     /**
+/*LN-75*/      * @notice Deposit collateral into pool
+/*LN-76*/      */
+/*LN-77*/     function deposit(
+/*LN-78*/         address asset,
+/*LN-79*/         uint256 amount,
+/*LN-80*/         address onBehalfOf,
+/*LN-81*/         uint16 referralCode
+/*LN-82*/     ) external override {
+/*LN-83*/         IERC20(asset).transferFrom(msg.sender, address(this), amount);
+/*LN-84*/         deposits[onBehalfOf] += amount;
+/*LN-85*/     }
+/*LN-86*/ 
+/*LN-87*/     /**
+/*LN-88*/      * @notice Borrow assets from pool
+/*LN-89*/      */
+/*LN-90*/     function borrow(
+/*LN-91*/         address asset,
+/*LN-92*/         uint256 amount,
+/*LN-93*/         uint256 interestRateMode,
+/*LN-94*/         uint16 referralCode,
+/*LN-95*/         address onBehalfOf
+/*LN-96*/     ) external override {
+/*LN-97*/         uint256 collateralPrice = oracle.getAssetPrice(msg.sender);
+/*LN-98*/         uint256 borrowPrice = oracle.getAssetPrice(asset);
+/*LN-99*/ 
+/*LN-100*/         
+/*LN-101*/         
+/*LN-102*/ 
+/*LN-103*/         uint256 collateralValue = (deposits[msg.sender] * collateralPrice) /
+/*LN-104*/             1e18;
+/*LN-105*/         uint256 maxBorrow = (collateralValue * LTV) / BASIS_POINTS;
+/*LN-106*/ 
+/*LN-107*/         uint256 borrowValue = (amount * borrowPrice) / 1e18;
+/*LN-108*/ 
+/*LN-109*/         require(borrowValue <= maxBorrow, "Insufficient collateral");
+/*LN-110*/ 
+/*LN-111*/         borrows[msg.sender] += amount;
+/*LN-112*/         IERC20(asset).transfer(onBehalfOf, amount);
+/*LN-113*/     }
+/*LN-114*/ 
+/*LN-115*/     /**
+/*LN-116*/      * @notice Withdraw collateral
+/*LN-117*/      */
+/*LN-118*/     function withdraw(
+/*LN-119*/         address asset,
+/*LN-120*/         uint256 amount,
+/*LN-121*/         address to
+/*LN-122*/     ) external override returns (uint256) {
+/*LN-123*/         require(deposits[msg.sender] >= amount, "Insufficient balance");
+/*LN-124*/         deposits[msg.sender] -= amount;
+/*LN-125*/         IERC20(asset).transfer(to, amount);
+/*LN-126*/         return amount;
 /*LN-127*/     }
-/*LN-128*/ 
-/*LN-129*/     function _addLiquidity(uint256 amount0, uint256 amount1) internal {
-/*LN-130*/         // Simplified liquidity addition
-/*LN-131*/     }
+/*LN-128*/ }
+/*LN-129*/ 
+/*LN-130*/ contract CurveOracle {
+/*LN-131*/     ICurvePool public curvePool;
 /*LN-132*/ 
-/*LN-133*/     function _removeLiquidity(uint128 liquidity) internal {
-/*LN-134*/         // Simplified liquidity removal
+/*LN-133*/     constructor(address _pool) {
+/*LN-134*/         curvePool = _pool;
 /*LN-135*/     }
-/*LN-136*/ }
-/*LN-137*/ 
+/*LN-136*/ 
+/*LN-137*/     /**
+/*LN-138*/      * @notice Get asset price from Curve pool
+/*LN-139*/      */
+/*LN-140*/     function getAssetPrice(address asset) external view returns (uint256) {
+/*LN-141*/        
+/*LN-142*/         
+/*LN-143*/ 
+/*LN-144*/         uint256 balance0 = curvePool.balances(0);
+/*LN-145*/         uint256 balance1 = curvePool.balances(1);
+/*LN-146*/ 
+/*LN-147*/         
+/*LN-148*/         uint256 price = (balance1 * 1e18) / balance0;
+/*LN-149*/ 
+/*LN-150*/         return price;
+/*LN-151*/     }
+/*LN-152*/ }
+/*LN-153*/ 

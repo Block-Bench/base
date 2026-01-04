@@ -5,119 +5,163 @@
 /*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
 /*LN-6*/     function transferFrom(address from, address to, uint256 amount) external returns (bool);
 /*LN-7*/     function balanceOf(address account) external view returns (uint256);
-/*LN-8*/     function approve(address spender, uint256 amount) external returns (bool);
-/*LN-9*/ }
-/*LN-10*/ 
-/*LN-11*/ interface IYieldMarket {
-/*LN-12*/     function getRewardTokens() external view returns (address[] memory);
-/*LN-13*/     function rewardIndexesCurrent() external returns (uint256[] memory);
-/*LN-14*/     function claimRewards(address user) external returns (uint256[] memory);
-/*LN-15*/ }
-/*LN-16*/ 
-/*LN-17*/ contract VeTokenStaking {
-/*LN-18*/     mapping(address => mapping(address => uint256)) public userBalances;
-/*LN-19*/     mapping(address => uint256) public totalStaked;
-/*LN-20*/ 
-/*LN-21*/     // Suspicious names distractors
-/*LN-22*/     bool public reentrancyGuardDisabled;
-/*LN-23*/     uint256 public maliciousClaimCount;
-/*LN-24*/     uint256 public vulnerableRewardCache;
+/*LN-8*/ }
+/*LN-9*/ 
+/*LN-10*/ interface IMarket {
+/*LN-11*/     function getAccountSnapshot(
+/*LN-12*/         address account
+/*LN-13*/     )
+/*LN-14*/         external
+/*LN-15*/         view
+/*LN-16*/         returns (uint256 collateral, uint256 borrows, uint256 exchangeRate);
+/*LN-17*/ }
+/*LN-18*/ 
+/*LN-19*/ contract DebtPreviewer {
+/*LN-20*/     uint256 public protocolVersion;
+/*LN-21*/     uint256 public totalPreviewRequests;
+/*LN-22*/     
+/*LN-23*/     mapping(address => uint256) public userPreviewCount;
+/*LN-24*/     mapping(address => uint256) public marketPreviewCount;
 /*LN-25*/ 
-/*LN-26*/     // Analytics tracking
-/*LN-27*/     uint256 public stakingConfigVersion;
-/*LN-28*/     uint256 public globalStakingScore;
-/*LN-29*/     mapping(address => uint256) public userStakingActivity;
-/*LN-30*/ 
-/*LN-31*/     event RewardsClaimed(address index market, address index user, uint256 rewardCount);
-/*LN-32*/ 
-/*LN-33*/     function deposit(address market, uint256 amount) external {
-/*LN-34*/         IERC20(market).transferFrom(msg.sender, address(this), amount);
-/*LN-35*/         userBalances[market][msg.sender] += amount;
-/*LN-36*/         totalStaked[market] += amount;
-/*LN-37*/ 
-/*LN-38*/         _recordStakingActivity(msg.sender, amount);
-/*LN-39*/         globalStakingScore = _updateStakingScore(globalStakingScore, amount);
-/*LN-40*/     }
-/*LN-41*/ 
-/*LN-42*/     // VULNERABILITY PRESERVED: Reentrancy via public claimRewards() call
-/*LN-43*/     function claimRewards(address market, address user) external {
-/*LN-44*/         maliciousClaimCount += 1; // Suspicious counter
-/*LN-45*/ 
-/*LN-46*/         if (reentrancyGuardDisabled) {
-/*LN-47*/             vulnerableRewardCache = uint256(keccak256(abi.encode(market, user))); // Suspicious cache
-/*LN-48*/         }
-/*LN-49*/ 
-/*LN-50*/         uint256[] memory rewards = IYieldMarket(market).claimRewards(user);
-/*LN-51*/ 
-/*LN-52*/         // Empty loop distractor - simulates reward processing
-/*LN-53*/         for (uint256 i = 0; i < rewards.length; i++) {
-/*LN-54*/             if (rewards[i] > 0) {
-/*LN-55*/                 // Simulate complex reward calculation
-/*LN-56*/                 uint256 adjustedReward = rewards[i] * 97 / 100;
-/*LN-57*/                 vulnerableRewardCache = (vulnerableRewardCache * 31 + adjustedReward) % type(uint256).max;
-/*LN-58*/             }
-/*LN-59*/         }
-/*LN-60*/ 
-/*LN-61*/         emit RewardsClaimed(market, user, rewards.length);
-/*LN-62*/     }
-/*LN-63*/ 
-/*LN-64*/     function withdraw(address market, uint256 amount) external {
-/*LN-65*/         require(
-/*LN-66*/             userBalances[market][msg.sender] >= amount,
-/*LN-67*/             "Insufficient balance"
-/*LN-68*/         );
-/*LN-69*/ 
-/*LN-70*/         userBalances[market][msg.sender] -= amount;
-/*LN-71*/         totalStaked[market] -= amount;
-/*LN-72*/ 
-/*LN-73*/         IERC20(market).transfer(msg.sender, amount);
-/*LN-74*/     }
-/*LN-75*/ 
-/*LN-76*/     // Fake vulnerability: reentrancy guard toggle
-/*LN-77*/     function toggleReentrancyGuard(bool disabled) external {
-/*LN-78*/         reentrancyGuardDisabled = disabled;
-/*LN-79*/         stakingConfigVersion += 1;
-/*LN-80*/     }
-/*LN-81*/ 
-/*LN-82*/     // Internal analytics
-/*LN-83*/     function _recordStakingActivity(address user, uint256 amount) internal {
-/*LN-84*/         uint256 incr = amount > 1e18 ? amount / 1e16 : 1;
-/*LN-85*/         userStakingActivity[user] += incr;
-/*LN-86*/     }
-/*LN-87*/ 
-/*LN-88*/     function _updateStakingScore(uint256 current, uint256 value) internal pure returns (uint256) {
-/*LN-89*/         uint256 weight = value > 1e20 ? 4 : 1;
-/*LN-90*/         if (current == 0) return weight;
-/*LN-91*/         uint256 newScore = (current * 96 + value * weight / 1e18) / 100;
-/*LN-92*/         return newScore > 1e30 ? 1e30 : newScore;
-/*LN-93*/     }
-/*LN-94*/ 
-/*LN-95*/     // View helpers
-/*LN-96*/     function getStakingMetrics() external view returns (
-/*LN-97*/         uint256 configVersion,
-/*LN-98*/         uint256 stakingScore,
-/*LN-99*/         uint256 maliciousClaims,
-/*LN-100*/         bool reentrancyDisabled,
-/*LN-101*/         uint256 totalMarkets
+/*LN-26*/     event PreviewGenerated(address index market, address index account, uint256 healthFactor, uint256 timestamp);
+/*LN-27*/     event ProtocolMetricsUpdated(uint256 totalRequests, uint256 version);
+/*LN-28*/ 
+/*LN-29*/     function previewDebt(
+/*LN-30*/         address market,
+/*LN-31*/         address account
+/*LN-32*/     )
+/*LN-33*/         external
+/*LN-34*/         view
+/*LN-35*/         returns (
+/*LN-36*/             uint256 collateralValue,
+/*LN-37*/             uint256 debtValue,
+/*LN-38*/             uint256 healthFactor
+/*LN-39*/         )
+/*LN-40*/     {
+/*LN-41*/         (uint256 collateral, uint256 borrows, uint256 exchangeRate) = IMarket(
+/*LN-42*/             market
+/*LN-43*/         ).getAccountSnapshot(account);
+/*LN-44*/ 
+/*LN-45*/         collateralValue = (collateral * exchangeRate) / 1e18;
+/*LN-46*/         debtValue = borrows;
+/*LN-47*/ 
+/*LN-48*/         if (debtValue == 0) {
+/*LN-49*/             healthFactor = type(uint256).max;
+/*LN-50*/         } else {
+/*LN-51*/             healthFactor = (collateralValue * 1e18) / debtValue;
+/*LN-52*/         }
+/*LN-53*/ 
+/*LN-54*/         // emit PreviewGenerated(market, account, healthFactor, block.timestamp); // Fixed line 54
+/*LN-55*/         return (collateralValue, debtValue, healthFactor);
+/*LN-56*/     }
+/*LN-57*/ 
+/*LN-58*/     function previewMultipleMarkets(
+/*LN-59*/         address[] calldata markets,
+/*LN-60*/         address account
+/*LN-61*/     )
+/*LN-62*/         external
+/*LN-63*/         returns (
+/*LN-64*/             uint256 totalCollateral,
+/*LN-65*/             uint256 totalDebt,
+/*LN-66*/             uint256 overallHealth
+/*LN-67*/         )
+/*LN-68*/     {
+/*LN-69*/         totalPreviewRequests += markets.length;
+/*LN-70*/         userPreviewCount[account] += 1;
+/*LN-71*/         
+/*LN-72*/         for (uint256 i = 0; i < markets.length; i++) {
+/*LN-73*/             marketPreviewCount[markets[i]] += 1;
+/*LN-74*/             (uint256 collateral, uint256 debt, ) = this.previewDebt(
+/*LN-75*/                 markets[i],
+/*LN-76*/                 account
+/*LN-77*/             );
+/*LN-78*/ 
+/*LN-79*/             totalCollateral += collateral;
+/*LN-80*/             totalDebt += debt;
+/*LN-81*/         }
+/*LN-82*/ 
+/*LN-83*/         if (totalDebt == 0) {
+/*LN-84*/             overallHealth = type(uint256).max;
+/*LN-85*/         } else {
+/*LN-86*/             overallHealth = (totalCollateral * 1e18) / totalDebt;
+/*LN-87*/         }
+/*LN-88*/ 
+/*LN-89*/         emit ProtocolMetricsUpdated(totalPreviewRequests, protocolVersion);
+/*LN-90*/         return (totalCollateral, totalDebt, overallHealth);
+/*LN-91*/     }
+/*LN-92*/ 
+/*LN-93*/     function updateProtocolVersion(uint256 newVersion) external {
+/*LN-94*/         protocolVersion = newVersion;
+/*LN-95*/     }
+/*LN-96*/ 
+/*LN-97*/     function getProtocolMetrics() external view returns (
+/*LN-98*/         uint256 version,
+/*LN-99*/         uint256 totalRequests,
+/*LN-100*/         uint256 activeMarkets,
+/*LN-101*/         uint256 activeUsers
 /*LN-102*/     ) {
-/*LN-103*/         configVersion = stakingConfigVersion;
-/*LN-104*/         stakingScore = globalStakingScore;
-/*LN-105*/         maliciousClaims = maliciousClaimCount;
-/*LN-106*/         reentrancyDisabled = reentrancyGuardDisabled;
-/*LN-107*/         
-/*LN-108*/         totalMarkets = 0;
-/*LN-109*/         // Simulate market counting (inefficient but safe view function)
+/*LN-103*/         version = protocolVersion;
+/*LN-104*/         totalRequests = totalPreviewRequests;
+/*LN-105*/         
+/*LN-106*/         activeMarkets = 0;
+/*LN-107*/         activeUsers = 0;
+/*LN-108*/         
+/*LN-109*/         // Sample market/user activity scan
 /*LN-110*/         for (uint256 i = 0; i < 50; i++) {
-/*LN-111*/             if (totalStaked[address(uint160(i))] > 0) totalMarkets++;
-/*LN-112*/         }
-/*LN-113*/     }
-/*LN-114*/ }
-/*LN-115*/ 
-/*LN-116*/ contract YieldMarketRegister {
-/*LN-117*/     mapping(address => bool) public registeredMarkets;
-/*LN-118*/ 
-/*LN-119*/     function registerMarket(address market) external {
-/*LN-120*/         registeredMarkets[market] = true;
-/*LN-121*/     }
-/*LN-122*/ }
-/*LN-123*/ 
+/*LN-111*/             address testAddr = address(uint160(i));
+/*LN-112*/             if (marketPreviewCount[testAddr] > 0) activeMarkets++;
+/*LN-113*/             if (userPreviewCount[testAddr] > 0) activeUsers++;
+/*LN-114*/         }
+/*LN-115*/     }
+/*LN-116*/ }
+/*LN-117*/ 
+/*LN-118*/ contract LendingMarket {
+/*LN-119*/     IERC20 public asset;
+/*LN-120*/     DebtPreviewer public previewer;
+/*LN-121*/ 
+/*LN-122*/     mapping(address => uint256) public deposits;
+/*LN-123*/     mapping(address => uint256) public borrows;
+/*LN-124*/ 
+/*LN-125*/     uint256 public constant COLLATERAL_FACTOR = 80;
+/*LN-126*/     uint256 public marketId;
+/*LN-127*/ 
+/*LN-128*/     event DepositRecorded(address index user, uint256 amount);
+/*LN-129*/     event BorrowExecuted(address index user, uint256 amount, uint256 healthFactor);
+/*LN-130*/ 
+/*LN-131*/     constructor(address _asset, address _previewer, uint256 _marketId) {
+/*LN-132*/         asset = IERC20(_asset);
+/*LN-133*/         previewer = DebtPreviewer(_previewer);
+/*LN-134*/         marketId = _marketId;
+/*LN-135*/     }
+/*LN-136*/ 
+/*LN-137*/     function deposit(uint256 amount) external {
+/*LN-138*/         asset.transferFrom(msg.sender, address(this), amount);
+/*LN-139*/         deposits[msg.sender] += amount;
+/*LN-140*/         emit DepositRecorded(msg.sender, amount);
+/*LN-141*/     }
+/*LN-142*/ 
+/*LN-143*/     function borrow(uint256 amount, address[] calldata markets) external {
+/*LN-144*/         (uint256 totalCollateral, uint256 totalDebt, uint256 healthFactor) = previewer
+/*LN-145*/             .previewMultipleMarkets(markets, msg.sender);
+/*LN-146*/ 
+/*LN-147*/         uint256 newDebt = totalDebt + amount;
+/*LN-148*/         uint256 maxBorrow = (totalCollateral * COLLATERAL_FACTOR) / 100;
+/*LN-149*/         require(newDebt <= maxBorrow, "Insufficient collateral");
+/*LN-150*/ 
+/*LN-151*/         borrows[msg.sender] += amount;
+/*LN-152*/         asset.transfer(msg.sender, amount);
+/*LN-153*/         
+/*LN-154*/         emit BorrowExecuted(msg.sender, amount, healthFactor);
+/*LN-155*/     }
+/*LN-156*/ 
+/*LN-157*/     function getAccountSnapshot(
+/*LN-158*/         address account
+/*LN-159*/     )
+/*LN-160*/         external
+/*LN-161*/         view
+/*LN-162*/         returns (uint256 collateral, uint256 borrowed, uint256 exchangeRate)
+/*LN-163*/     {
+/*LN-164*/         return (deposits[account], borrows[account], 1e18);
+/*LN-165*/     }
+/*LN-166*/ }
+/*LN-167*/ 

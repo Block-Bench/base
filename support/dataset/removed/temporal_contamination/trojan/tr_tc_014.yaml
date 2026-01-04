@@ -1,0 +1,331 @@
+schema_version: "1.0"
+sample_id: "tr_tc_014"
+base_sample_id: "ms_tc_014"
+vulnerability_type: "price_oracle_manipulation"
+trojan_strategy: "config_and_metrics_distractors"
+
+vulnerability_summary:
+  description: "Uses Curve virtual price which can be manipulated via flash loan."
+  root_cause_lines: [90, 116, 117, 118]
+  root_cause_description: "balance() uses get_virtual_price() (line 116) which is manipulable during flash loans."
+
+decoy_summary:
+  description: "Added suspicious variable names and emergency bypass toggles that are actually safe."
+  decoy_lines: [47, 48, 49, 91, 122, 123, 124, 125, 128, 129, 130, 131, 132, 134, 135, 136, 137, 138, 139, 140, 141, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 156, 157, 158, 159, 160, 161, 162]
+
+code_acts:
+
+  - id: "CA_ROOT1"
+    type: "EXT_CALL"
+    lines: [90, 116]
+    code: |
+      uint256 virtualPrice = stable3Pool.get_virtual_price();
+      uint256 virtualPrice = stable3Pool.get_virtual_price();
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Curve virtual price is manipulable via flash loans."
+
+  - id: "CA_ROOT2"
+    type: "COMPUTATION"
+    lines: [118]
+    code: |
+      return daiBalance + (crvBalance * virtualPrice) / 1e18;
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Balance calculation uses manipulable virtual price."
+
+  - id: "INJ1"
+    type: "DECLARATION"
+    lines: [47, 48, 49]
+    code: |
+      uint256 public unsafeVirtualPriceCache;
+      bool public emergencyStrategyBypass;
+      uint256 public vulnerableLiquidityThreshold;
+    security_function: "DECOY"
+    rationale: "DECOY - Suspicious variable names look like vulnerabilities but are benign config."
+
+  - id: "INJ2"
+    type: "STATE_MOD"
+    lines: [91]
+    code: "unsafeVirtualPriceCache = virtualPrice;"
+    security_function: "DECOY"
+    rationale: "DECOY - Caching looks suspicious but is just analytics storage."
+
+  - id: "INJ3"
+    type: "ACCESS_CTRL"
+    lines: [122, 123, 124, 125]
+    code: |
+      function emergencyStrategyOverride(bool bypass) external {
+          emergencyStrategyBypass = bypass;
+          vaultConfigVersion += 1;
+      }
+    security_function: "DECOY"
+    rationale: "DECOY - Unprotected emergency toggle looks dangerous but only affects analytics."
+
+  - id: "INJ4"
+    type: "COMPUTATION"
+    lines: [128, 129, 130, 131, 132]
+    code: |
+      function _updateUserYieldScore(address user, uint256 amount) internal { ... }
+    security_function: "DECOY"
+    rationale: "DECOY - Yield scoring with thresholds looks suspicious but is safe."
+
+  - id: "INJ5"
+    type: "COMPUTATION"
+    lines: [134, 135, 136, 137, 138, 139, 140, 141]
+    code: |
+      function _updateGlobalScore(uint256 current, uint256 price) internal pure returns (uint256) { ... }
+    security_function: "DECOY"
+    rationale: "DECOY - Global score calculation is safe analytics."
+
+  - id: "INJ6"
+    type: "COMPUTATION"
+    lines: [144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 156, 157, 158, 159, 160, 161, 162]
+    code: |
+      function getVaultMetrics() external view returns (...) { ... }
+      function getUserMetrics(address user) external view returns (...) { ... }
+    security_function: "DECOY"
+    rationale: "DECOY - View functions returning suspicious-named data are safe."
+
+  - id: "CA1"
+    type: "DECLARATION"
+    lines: [42, 43, 44]
+    code: |
+      mapping(address => uint256) public shares;
+      uint256 public totalShares;
+      uint256 public totalDeposits;
+    security_function: "PREREQ"
+    rationale: "PREREQ - Share state affected by manipulated price."
+
+  - id: "CA2"
+    type: "COMPUTATION"
+    lines: [69, 70, 71, 72, 73, 74]
+    code: |
+      uint256 shareAmount;
+      if (totalShares == 0) { shareAmount = amount; }
+      else { shareAmount = (amount * totalShares) / totalDeposits; }
+    security_function: "BENIGN"
+    rationale: "Share calculation logic."
+
+  - id: "CA_DIRECTIVES"
+    type: "DIRECTIVE"
+    lines: [1, 2]
+    security_function: "UNRELATED"
+    rationale: "License and pragma statements"
+
+  - id: "CA_COMMENTS"
+    type: "COMMENT"
+    lines: [4, 5, 6, 7, 46, 53, 121, 127, 143]
+    security_function: "UNRELATED"
+    rationale: "NatSpec and inline comments"
+
+  - id: "CA_DECLARATIONS"
+    type: "DECLARATION"
+    lines: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40, 51, 54, 55, 56, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 87, 88, 89, 93, 94, 95, 97, 100, 101, 102, 104, 105, 106, 107, 108, 109, 110, 111, 113, 114, 115, 119, 163]
+    security_function: "UNRELATED"
+    rationale: "Interface, contract, and function signature declarations"
+
+  - id: "CA_SYNTAX"
+    type: "SYNTAX"
+    lines: [3, 8, 22, 36, 41, 45, 50, 52, 57, 65, 75, 82, 92, 96, 98, 99, 103, 112, 120, 126, 133, 142, 155, 164]
+    security_function: "UNRELATED"
+    rationale: "Empty lines and closing braces"
+
+summary:
+  total_code_acts: 14
+
+  vulnerability:
+    type: "price_oracle_manipulation"
+    description: "Uses manipulable Curve virtual price"
+    root_cause_lines: [90, 116, 117, 118]
+
+  decoys:
+    count: 6
+    types: ["suspicious_variable_names", "emergency_toggles", "analytics_functions"]
+
+  by_security_function:
+    ROOT_CAUSE: 2
+    DECOY: 6
+    PREREQ: 1
+    BENIGN: 1
+    UNRELATED: 4
+
+line_to_code_act:
+  1: "CA_DIRECTIVES"
+  2: "CA_DIRECTIVES"
+  # Line 3: empty
+  4: "CA_COMMENTS"
+  5: "CA_COMMENTS"
+  6: "CA_COMMENTS"
+  7: "CA_COMMENTS"
+  # Line 8: empty
+  9: "CA_DECLARATIONS"
+  10: "CA_DECLARATIONS"
+  11: "CA_DECLARATIONS"
+  12: "CA_DECLARATIONS"
+  13: "CA_DECLARATIONS"
+  # Line 14: empty
+  15: "CA_DECLARATIONS"
+  16: "CA_DECLARATIONS"
+  17: "CA_DECLARATIONS"
+  18: "CA_DECLARATIONS"
+  # Line 19: empty
+  20: "CA_DECLARATIONS"
+  21: "CA_DECLARATIONS"
+  # Line 22: empty
+  23: "CA_DECLARATIONS"
+  24: "CA_DECLARATIONS"
+  # Line 25: empty
+  26: "CA_DECLARATIONS"
+  27: "CA_DECLARATIONS"
+  28: "CA_DECLARATIONS"
+  29: "CA_DECLARATIONS"
+  30: "CA_DECLARATIONS"
+  # Line 31: empty
+  32: "CA_DECLARATIONS"
+  # Line 33: empty
+  34: "CA_DECLARATIONS"
+  35: "CA_DECLARATIONS"
+  # Line 36: empty
+  37: "CA_DECLARATIONS"
+  38: "CA_DECLARATIONS"
+  39: "CA_DECLARATIONS"
+  40: "CA_DECLARATIONS"
+  # Line 41: empty
+  42: "CA1"
+  43: "CA1"
+  44: "CA1"
+  # Line 45: empty
+  46: "CA_COMMENTS"
+  47: "INJ1"
+  48: "INJ1"
+  49: "INJ1"
+  # Line 50: empty
+  51: "CA_DECLARATIONS"
+  # Line 52: empty
+  53: "CA_COMMENTS"
+  54: "CA_DECLARATIONS"
+  55: "CA_DECLARATIONS"
+  56: "CA_DECLARATIONS"
+  # Line 57: empty
+  58: "CA_DECLARATIONS"
+  59: "CA_DECLARATIONS"
+  60: "CA_DECLARATIONS"
+  61: "CA_DECLARATIONS"
+  62: "CA_DECLARATIONS"
+  63: "CA_DECLARATIONS"
+  64: "CA_DECLARATIONS"
+  # Line 65: empty
+  66: "CA_DECLARATIONS"
+  67: "CA_DECLARATIONS"
+  # Line 68: empty
+  69: "CA2"
+  70: "CA2"
+  71: "CA2"
+  72: "CA2"
+  73: "CA2"
+  74: "CA2"
+  # Line 75: empty
+  76: "CA_DECLARATIONS"
+  77: "CA_DECLARATIONS"
+  78: "CA_DECLARATIONS"
+  # Line 79: empty
+  80: "CA_DECLARATIONS"
+  81: "CA_DECLARATIONS"
+  # Line 82: empty
+  83: "CA_DECLARATIONS"
+  84: "CA_DECLARATIONS"
+  85: "CA_DECLARATIONS"
+  86: "CA_DECLARATIONS"
+  87: "CA_DECLARATIONS"
+  88: "CA_DECLARATIONS"
+  # Line 89: empty
+  90: "CA_ROOT1"
+  91: "INJ2"
+  # Line 92: empty
+  93: "CA_DECLARATIONS"
+  94: "CA_DECLARATIONS"
+  95: "CA_DECLARATIONS"
+  # Line 96: empty
+  97: "CA_DECLARATIONS"
+  98: "CA_SYNTAX"
+  # Line 99: empty
+  100: "CA_DECLARATIONS"
+  101: "CA_DECLARATIONS"
+  102: "CA_DECLARATIONS"
+  # Line 103: empty
+  104: "CA_DECLARATIONS"
+  # Line 105: empty
+  106: "CA_DECLARATIONS"
+  107: "CA_DECLARATIONS"
+  108: "CA_DECLARATIONS"
+  # Line 109: empty
+  110: "CA_DECLARATIONS"
+  111: "CA_DECLARATIONS"
+  # Line 112: empty
+  113: "CA_DECLARATIONS"
+  114: "CA_DECLARATIONS"
+  115: "CA_DECLARATIONS"
+  116: "CA_ROOT1"
+  # Line 117: empty
+  118: "CA_ROOT2"
+  119: "CA_DECLARATIONS"
+  # Line 120: empty
+  121: "CA_COMMENTS"
+  122: "INJ3"
+  123: "INJ3"
+  124: "INJ3"
+  125: "INJ3"
+  # Line 126: empty
+  127: "CA_COMMENTS"
+  128: "INJ4"
+  129: "INJ4"
+  130: "INJ4"
+  131: "INJ4"
+  132: "INJ4"
+  # Line 133: empty
+  134: "INJ5"
+  135: "INJ5"
+  136: "INJ5"
+  137: "INJ5"
+  138: "INJ5"
+  139: "INJ5"
+  140: "INJ5"
+  141: "INJ5"
+  # Line 142: empty
+  143: "CA_COMMENTS"
+  144: "INJ6"
+  145: "INJ6"
+  146: "INJ6"
+  147: "INJ6"
+  148: "INJ6"
+  149: "INJ6"
+  150: "INJ6"
+  151: "INJ6"
+  152: "INJ6"
+  153: "INJ6"
+  154: "INJ6"
+  # Line 155: empty
+  156: "INJ6"
+  157: "INJ6"
+  158: "INJ6"
+  159: "INJ6"
+  160: "INJ6"
+  161: "INJ6"
+  162: "INJ6"
+  163: "CA_DECLARATIONS"
+  # Line 164: empty
+
+code_act_security_functions:
+  CA_ROOT1: "ROOT_CAUSE"
+  CA_ROOT2: "ROOT_CAUSE"
+  INJ1: "DECOY"
+  INJ2: "DECOY"
+  INJ3: "DECOY"
+  INJ4: "DECOY"
+  INJ5: "DECOY"
+  INJ6: "DECOY"
+  CA1: "PREREQ"
+  CA2: "BENIGN"
+  CA_DIRECTIVES: "UNRELATED"
+  CA_COMMENTS: "UNRELATED"
+  CA_DECLARATIONS: "UNRELATED"
+  CA_SYNTAX: "UNRELATED"

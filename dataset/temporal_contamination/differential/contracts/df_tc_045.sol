@@ -3,93 +3,142 @@
 /*LN-3*/ 
 /*LN-4*/ interface IERC20 {
 /*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-6*/ 
-/*LN-7*/     function transferFrom(
-/*LN-8*/         address from,
-/*LN-9*/         address to,
-/*LN-10*/         uint256 amount
-/*LN-11*/     ) external returns (bool);
-/*LN-12*/ 
-/*LN-13*/     function balanceOf(address account) external view returns (uint256);
-/*LN-14*/ 
-/*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
-/*LN-16*/ }
-/*LN-17*/ 
-/*LN-18*/ interface IPendleMarket {
-/*LN-19*/     function getRewardTokens() external view returns (address[] memory);
-/*LN-20*/ 
-/*LN-21*/     function rewardIndexesCurrent() external returns (uint256[] memory);
+/*LN-6*/     function transferFrom(
+/*LN-7*/         address from,
+/*LN-8*/         address to,
+/*LN-9*/         uint256 amount
+/*LN-10*/     ) external returns (bool);
+/*LN-11*/     function balanceOf(address account) external view returns (uint256);
+/*LN-12*/ }
+/*LN-13*/ 
+/*LN-14*/ interface IMarket {
+/*LN-15*/     function getAccountSnapshot(
+/*LN-16*/         address account
+/*LN-17*/     )
+/*LN-18*/         external
+/*LN-19*/         view
+/*LN-20*/         returns (uint256 collateral, uint256 borrows, uint256 exchangeRate);
+/*LN-21*/ }
 /*LN-22*/ 
-/*LN-23*/     function claimRewards(address user) external returns (uint256[] memory);
-/*LN-24*/ }
-/*LN-25*/ 
-/*LN-26*/ contract PenpieStaking {
-/*LN-27*/     mapping(address => mapping(address => uint256)) public userBalances;
-/*LN-28*/     mapping(address => uint256) public totalStaked;
-/*LN-29*/     mapping(address => bool) public registeredMarkets;
-/*LN-30*/     address public admin;
-/*LN-31*/ 
-/*LN-32*/     bool private _locked;
-/*LN-33*/ 
-/*LN-34*/     constructor() {
-/*LN-35*/         admin = msg.sender;
-/*LN-36*/     }
-/*LN-37*/ 
-/*LN-38*/     modifier nonReentrant() {
-/*LN-39*/         require(!_locked, "Reentrant call");
-/*LN-40*/         _locked = true;
-/*LN-41*/         _;
-/*LN-42*/         _locked = false;
-/*LN-43*/     }
-/*LN-44*/ 
-/*LN-45*/     modifier onlyAdmin() {
-/*LN-46*/         require(msg.sender == admin, "Not admin");
-/*LN-47*/         _;
-/*LN-48*/     }
-/*LN-49*/ 
-/*LN-50*/     function registerMarket(address market) external onlyAdmin {
-/*LN-51*/         registeredMarkets[market] = true;
-/*LN-52*/     }
-/*LN-53*/ 
-/*LN-54*/     function deposit(address market, uint256 amount) external nonReentrant {
-/*LN-55*/         require(registeredMarkets[market], "Market not registered");
-/*LN-56*/         IERC20(market).transferFrom(msg.sender, address(this), amount);
-/*LN-57*/         userBalances[market][msg.sender] += amount;
-/*LN-58*/         totalStaked[market] += amount;
-/*LN-59*/     }
-/*LN-60*/ 
-/*LN-61*/     function claimRewards(address market, address user) external nonReentrant {
-/*LN-62*/         require(registeredMarkets[market], "Market not registered");
-/*LN-63*/         uint256[] memory rewards = IPendleMarket(market).claimRewards(user);
-/*LN-64*/ 
-/*LN-65*/         for (uint256 i = 0; i < rewards.length; i++) {}
-/*LN-66*/     }
-/*LN-67*/ 
-/*LN-68*/     function withdraw(address market, uint256 amount) external nonReentrant {
-/*LN-69*/         require(registeredMarkets[market], "Market not registered");
-/*LN-70*/         require(
-/*LN-71*/             userBalances[market][msg.sender] >= amount,
-/*LN-72*/             "Insufficient balance"
-/*LN-73*/         );
-/*LN-74*/ 
-/*LN-75*/         userBalances[market][msg.sender] -= amount;
-/*LN-76*/         totalStaked[market] -= amount;
-/*LN-77*/ 
-/*LN-78*/         IERC20(market).transfer(msg.sender, amount);
-/*LN-79*/     }
-/*LN-80*/ }
-/*LN-81*/ 
-/*LN-82*/ contract PendleMarketRegister {
-/*LN-83*/     mapping(address => bool) public registeredMarkets;
-/*LN-84*/     address public admin;
-/*LN-85*/ 
-/*LN-86*/     constructor() {
-/*LN-87*/         admin = msg.sender;
-/*LN-88*/     }
-/*LN-89*/ 
-/*LN-90*/     function registerMarket(address market) external {
-/*LN-91*/         require(msg.sender == admin, "Not admin");
-/*LN-92*/         registeredMarkets[market] = true;
-/*LN-93*/     }
-/*LN-94*/ }
-/*LN-95*/ 
+/*LN-23*/ contract DebtPreviewer {
+/*LN-24*/     mapping(address => bool) public approvedMarkets;
+/*LN-25*/     address public admin;
+/*LN-26*/ 
+/*LN-27*/     constructor() {
+/*LN-28*/         admin = msg.sender;
+/*LN-29*/     }
+/*LN-30*/ 
+/*LN-31*/     modifier onlyAdmin() {
+/*LN-32*/         require(msg.sender == admin, "Not admin");
+/*LN-33*/         _;
+/*LN-34*/     }
+/*LN-35*/ 
+/*LN-36*/     function addApprovedMarket(address market) external onlyAdmin {
+/*LN-37*/         approvedMarkets[market] = true;
+/*LN-38*/     }
+/*LN-39*/ 
+/*LN-40*/     function previewDebt(
+/*LN-41*/         address market,
+/*LN-42*/         address account
+/*LN-43*/     )
+/*LN-44*/         external
+/*LN-45*/         view
+/*LN-46*/         returns (
+/*LN-47*/             uint256 collateralValue,
+/*LN-48*/             uint256 debtValue,
+/*LN-49*/             uint256 healthFactor
+/*LN-50*/         )
+/*LN-51*/     {
+/*LN-52*/         require(approvedMarkets[market], "Market not approved");
+/*LN-53*/         (uint256 collateral, uint256 borrows, uint256 exchangeRate) = IMarket(
+/*LN-54*/             market
+/*LN-55*/         ).getAccountSnapshot(account);
+/*LN-56*/ 
+/*LN-57*/         collateralValue = (collateral * exchangeRate) / 1e18;
+/*LN-58*/         debtValue = borrows;
+/*LN-59*/ 
+/*LN-60*/         if (debtValue == 0) {
+/*LN-61*/             healthFactor = type(uint256).max;
+/*LN-62*/         } else {
+/*LN-63*/             healthFactor = (collateralValue * 1e18) / debtValue;
+/*LN-64*/         }
+/*LN-65*/ 
+/*LN-66*/         return (collateralValue, debtValue, healthFactor);
+/*LN-67*/     }
+/*LN-68*/ 
+/*LN-69*/     function previewMultipleMarkets(
+/*LN-70*/         address[] calldata markets,
+/*LN-71*/         address account
+/*LN-72*/     )
+/*LN-73*/         external
+/*LN-74*/         view
+/*LN-75*/         returns (
+/*LN-76*/             uint256 totalCollateral,
+/*LN-77*/             uint256 totalDebt,
+/*LN-78*/             uint256 overallHealth
+/*LN-79*/         )
+/*LN-80*/     {
+/*LN-81*/         for (uint256 i = 0; i < markets.length; i++) {
+/*LN-82*/             require(approvedMarkets[markets[i]], "Market not approved");
+/*LN-83*/             (uint256 collateral, uint256 debt, ) = this.previewDebt(
+/*LN-84*/                 markets[i],
+/*LN-85*/                 account
+/*LN-86*/             );
+/*LN-87*/ 
+/*LN-88*/             totalCollateral += collateral;
+/*LN-89*/             totalDebt += debt;
+/*LN-90*/         }
+/*LN-91*/ 
+/*LN-92*/         if (totalDebt == 0) {
+/*LN-93*/             overallHealth = type(uint256).max;
+/*LN-94*/         } else {
+/*LN-95*/             overallHealth = (totalCollateral * 1e18) / totalDebt;
+/*LN-96*/         }
+/*LN-97*/ 
+/*LN-98*/         return (totalCollateral, totalDebt, overallHealth);
+/*LN-99*/     }
+/*LN-100*/ }
+/*LN-101*/ 
+/*LN-102*/ contract ExactlyMarket {
+/*LN-103*/     IERC20 public asset;
+/*LN-104*/     DebtPreviewer public previewer;
+/*LN-105*/ 
+/*LN-106*/     mapping(address => uint256) public deposits;
+/*LN-107*/     mapping(address => uint256) public borrows;
+/*LN-108*/ 
+/*LN-109*/     uint256 public constant COLLATERAL_FACTOR = 80;
+/*LN-110*/ 
+/*LN-111*/     constructor(address _asset, address _previewer) {
+/*LN-112*/         asset = IERC20(_asset);
+/*LN-113*/         previewer = DebtPreviewer(_previewer);
+/*LN-114*/     }
+/*LN-115*/ 
+/*LN-116*/     function deposit(uint256 amount) external {
+/*LN-117*/         asset.transferFrom(msg.sender, address(this), amount);
+/*LN-118*/         deposits[msg.sender] += amount;
+/*LN-119*/     }
+/*LN-120*/ 
+/*LN-121*/     function borrow(uint256 amount, address[] calldata markets) external {
+/*LN-122*/         (uint256 totalCollateral, uint256 totalDebt, ) = previewer
+/*LN-123*/             .previewMultipleMarkets(markets, msg.sender);
+/*LN-124*/ 
+/*LN-125*/         uint256 newDebt = totalDebt + amount;
+/*LN-126*/ 
+/*LN-127*/         uint256 maxBorrow = (totalCollateral * COLLATERAL_FACTOR) / 100;
+/*LN-128*/         require(newDebt <= maxBorrow, "Insufficient collateral");
+/*LN-129*/ 
+/*LN-130*/         borrows[msg.sender] += amount;
+/*LN-131*/         asset.transfer(msg.sender, amount);
+/*LN-132*/     }
+/*LN-133*/ 
+/*LN-134*/     function getAccountSnapshot(
+/*LN-135*/         address account
+/*LN-136*/     )
+/*LN-137*/         external
+/*LN-138*/         view
+/*LN-139*/         returns (uint256 collateral, uint256 borrowed, uint256 exchangeRate)
+/*LN-140*/     {
+/*LN-141*/         return (deposits[account], borrows[account], 1e18);
+/*LN-142*/     }
+/*LN-143*/ }
+/*LN-144*/ 

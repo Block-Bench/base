@@ -1,176 +1,102 @@
 schema_version: "1.0"
 sample_id: "df_tc_024"
-base_sample_id: "ms_tc_024"
-vulnerability_type: "price_oracle_manipulation"
+base_sample_id: "ms_tc_027"
+vulnerability_type: "input_validation"
 is_fixed: true
 
 fix_summary:
-  description: "Added TWAP oracle instead of direct get_virtual_price()"
-  fix_type: "twap_oracle"
-  vulnerable_pattern: "Direct spot price from manipulable pool"
-  fixed_pattern: "TWAP price resistant to flash loan manipulation"
+  description: "Added factory validation for pair addresses"
+  fix_type: "factory_validation"
+  vulnerable_pattern: "No validation of pair addresses"
+  fixed_pattern: "Pairs validated via factory.getPair()"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_024.yaml"
-  root_cause_description: "Oracle returned manipulable spot price"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_027.yaml"
+  root_cause_description: "Router accepted unvalidated pair addresses"
 
 fixed_version:
-  fix_lines: [28, 29, 36, 37, 38, 40, 41, 42, 43, 44, 46, 47, 48, 95]
-  fix_description: "Added TWAP state, updatePrice(), and getPrice() returns twapPrice"
+  fix_lines: [10, 11, 12, 15, 17, 18, 19, 33, 34]
+  fix_description: "Added IFactory interface, factory reference, getPair validation"
 
 code_acts:
 
   - id: "CA_FIX1"
     type: "DECLARATION"
-    lines: [28, 29]
-    code: |
-      uint256 public twapPrice;
-      uint256 public lastUpdateTime;
+    lines: [15]
+    code: "IFactory public factory;"
     security_function: "FIX"
-    rationale: "FIX - TWAP state variables"
+    rationale: "FIX - Factory reference for pair validation"
 
   - id: "CA_FIX2"
     type: "INITIALIZATION"
-    lines: [31, 32, 33, 34]
+    lines: [17, 18, 19]
     code: |
-      constructor(address _curvePool) {
-          curvePool = ICurvePool(_curvePool);
-          lastUpdateTime = block.timestamp;
+      constructor(address _factory) {
+          factory = IFactory(_factory);
       }
     security_function: "FIX"
-    rationale: "FIX - Constructor initializes lastUpdateTime"
+    rationale: "FIX - Constructor sets factory for validation"
 
   - id: "CA_FIX3"
-    type: "COMPUTATION"
-    lines: [36, 37, 38, 40, 41, 42, 43, 44]
+    type: "INPUT_VAL"
+    lines: [33, 34]
     code: |
-      function updatePrice() external {
-          uint256 spotPrice = curvePool.get_virtual_price();
-          uint256 timeElapsed = block.timestamp - lastUpdateTime;
-          if (timeElapsed > 0) {
-              twapPrice = (twapPrice * lastUpdateTime + spotPrice * timeElapsed) / block.timestamp;
-              lastUpdateTime = block.timestamp;
-          }
-      }
+      address pair = factory.getPair(path[i], path[i+1]);
+      require(pair != address(0), "Pair does not exist");
     security_function: "FIX"
-    rationale: "FIX - TWAP calculation resistant to flash loan manipulation"
-
-  - id: "CA_FIX4"
-    type: "CTRL_FLOW"
-    lines: [46, 47, 48, 49]
-    code: |
-      function getPrice() external view returns (uint256) {
-          return twapPrice;
-      }
-      }
-    security_function: "FIX"
-    rationale: "FIX - Returns TWAP instead of spot price"
+    rationale: "FIX - Validates pair exists in factory"
 
   - id: "CA1"
-    type: "DECLARATION"
-    lines: [26]
-    code: "ICurvePool public curvePool;"
+    type: "CTRL_FLOW"
+    lines: [29, 30]
+    code: |
+      amounts = new uint[](path.length);
+      amounts[0] = amountIn;
     security_function: "BENIGN"
-    rationale: "Curve pool reference"
+    rationale: "Amount array initialization"
 
   - id: "CA2"
-    type: "DECLARATION"
-    lines: [52, 53, 54, 55]
-    code: |
-      struct Position {
-          uint256 collateral;
-          uint256 borrowed;
-      }
+    type: "CTRL_FLOW"
+    lines: [32]
+    code: "for (uint i = 0; i < path.length - 1; i++) {"
     security_function: "BENIGN"
-    rationale: "Position struct"
+    rationale: "Loop over path"
 
   - id: "CA3"
-    type: "DECLARATION"
-    lines: [57]
-    code: "mapping(address => Position) public positions;"
+    type: "EXT_CALL"
+    lines: [36]
+    code: "(uint112 reserve0, uint112 reserve1,) = IPair(pair).getReserves();"
     security_function: "BENIGN"
-    rationale: "Positions mapping"
+    rationale: "Get reserves from validated pair"
 
   - id: "CA4"
-    type: "DECLARATION"
-    lines: [59, 60, 61]
+    type: "COMPUTATION"
+    lines: [38, 39]
     code: |
-      address public collateralToken;
-      address public borrowToken;
-      address public oracle;
+      amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);
+      }
     security_function: "BENIGN"
-    rationale: "Token and oracle addresses"
+    rationale: "Amount calculation"
 
   - id: "CA5"
-    type: "DECLARATION"
-    lines: [63]
-    code: "uint256 public constant COLLATERAL_FACTOR = 80;"
+    type: "CTRL_FLOW"
+    lines: [41, 42]
+    code: |
+      return amounts;
+      }
     security_function: "BENIGN"
-    rationale: "Collateral factor"
+    rationale: "Return statement"
 
   - id: "CA6"
-    type: "INITIALIZATION"
-    lines: [65, 66, 67, 68, 69, 70, 71, 72, 73]
-    code: |
-      constructor(...) {
-          collateralToken = _collateralToken;
-          borrowToken = _borrowToken;
-          oracle = _oracle;
-      }
-    security_function: "BENIGN"
-    rationale: "LendingProtocol constructor"
-
-  - id: "CA7"
-    type: "EXT_CALL"
-    lines: [76, 77, 78]
-    code: |
-      IERC20(collateralToken).transferFrom(msg.sender, address(this), amount);
-      positions[msg.sender].collateral += amount;
-      }
-    security_function: "BENIGN"
-    rationale: "Deposit function"
-
-  - id: "CA8"
     type: "COMPUTATION"
-    lines: [81, 82]
+    lines: [44, 45, 46, 47]
     code: |
-      uint256 collateralValue = getCollateralValue(msg.sender);
-      uint256 maxBorrow = (collateralValue * COLLATERAL_FACTOR) / 100;
-    security_function: "BENIGN"
-    rationale: "Borrow limit calculation"
-
-  - id: "CA9"
-    type: "INPUT_VAL"
-    lines: [84, 85, 86, 87]
-    code: |
-      require(
-          positions[msg.sender].borrowed + amount <= maxBorrow,
-          "Insufficient collateral"
-      );
-    security_function: "BENIGN"
-    rationale: "Borrow limit check"
-
-  - id: "CA10"
-    type: "STATE_MOD"
-    lines: [89, 90, 91]
-    code: |
-      positions[msg.sender].borrowed += amount;
-      IERC20(borrowToken).transfer(msg.sender, amount);
-      }
-    security_function: "BENIGN"
-    rationale: "Borrow state update and transfer"
-
-  - id: "CA11"
-    type: "COMPUTATION"
-    lines: [94, 95, 97, 98, 99]
-    code: |
-      uint256 collateralAmount = positions[user].collateral;
-      uint256 price = PriceOracle(oracle).getPrice();
-      return (collateralAmount * price) / 1e18;
+      function _getAmountOut(...) internal pure returns (uint256) {
+          return (amountIn * uint256(reserveOut)) / uint256(reserveIn);
       }
       }
     security_function: "BENIGN"
-    rationale: "Collateral value calculation using TWAP oracle"
+    rationale: "Amount out calculation"
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -186,7 +112,7 @@ code_acts:
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 7, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 21, 22, 23, 25, 51, 75, 80, 93]
+    lines: [4, 5, 6, 7, 8, 10, 11, 12, 14, 21, 22, 23, 24, 25, 26, 27]
     security_function: "UNRELATED"
     rationale: "Interface and function declarations"
 
@@ -197,16 +123,16 @@ code_acts:
     rationale: "Braces included in code_acts"
 
 summary:
-  total_code_acts_fixed: 18
+  total_code_acts_fixed: 13
 
   fix_applied:
-    type: "twap_oracle"
-    description: "Added TWAP instead of spot price"
-    lines_changed: [28, 29, 31, 32, 33, 34, 36, 37, 38, 40, 41, 42, 43, 44, 46, 47, 48, 49]
+    type: "factory_validation"
+    description: "Added factory.getPair() validation"
+    lines_changed: [10, 11, 12, 15, 17, 18, 19, 33, 34]
 
   by_security_function_fixed:
-    FIX: 4
-    BENIGN: 10
+    FIX: 3
+    BENIGN: 6
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -214,96 +140,49 @@ line_to_code_act_fixed:
   2: "CA_DIRECTIVES"
   4: "CA_DECLARATIONS"
   5: "CA_DECLARATIONS"
+  6: "CA_DECLARATIONS"
   7: "CA_DECLARATIONS"
-  9: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
   10: "CA_DECLARATIONS"
   11: "CA_DECLARATIONS"
   12: "CA_DECLARATIONS"
-  13: "CA_DECLARATIONS"
   14: "CA_DECLARATIONS"
-  16: "CA_DECLARATIONS"
-  17: "CA_DECLARATIONS"
-  19: "CA_DECLARATIONS"
-  20: "CA_DECLARATIONS"
+  15: "CA_FIX1"
+  17: "CA_FIX2"
+  18: "CA_FIX2"
+  19: "CA_FIX2"
   21: "CA_DECLARATIONS"
   22: "CA_DECLARATIONS"
   23: "CA_DECLARATIONS"
+  24: "CA_DECLARATIONS"
   25: "CA_DECLARATIONS"
-  26: "CA1"
-  28: "CA_FIX1"
-  29: "CA_FIX1"
-  31: "CA_FIX2"
-  32: "CA_FIX2"
-  33: "CA_FIX2"
-  34: "CA_FIX2"
-  36: "CA_FIX3"
-  37: "CA_FIX3"
-  38: "CA_FIX3"
-  40: "CA_FIX3"
-  41: "CA_FIX3"
-  42: "CA_FIX3"
-  43: "CA_FIX3"
-  44: "CA_FIX3"
-  46: "CA_FIX4"
-  47: "CA_FIX4"
-  48: "CA_FIX4"
-  49: "CA_FIX4"
-  51: "CA_DECLARATIONS"
-  52: "CA2"
-  53: "CA2"
-  54: "CA2"
-  55: "CA2"
-  57: "CA3"
-  59: "CA4"
-  60: "CA4"
-  61: "CA4"
-  63: "CA5"
-  65: "CA6"
-  66: "CA6"
-  67: "CA6"
-  68: "CA6"
-  69: "CA6"
-  70: "CA6"
-  71: "CA6"
-  72: "CA6"
-  73: "CA6"
-  75: "CA_DECLARATIONS"
-  76: "CA7"
-  77: "CA7"
-  78: "CA7"
-  80: "CA_DECLARATIONS"
-  81: "CA8"
-  82: "CA8"
-  84: "CA9"
-  85: "CA9"
-  86: "CA9"
-  87: "CA9"
-  89: "CA10"
-  90: "CA10"
-  91: "CA10"
-  93: "CA_DECLARATIONS"
-  94: "CA11"
-  95: "CA11"
-  97: "CA11"
-  98: "CA11"
-  99: "CA11"
+  26: "CA_DECLARATIONS"
+  27: "CA_DECLARATIONS"
+  29: "CA1"
+  30: "CA1"
+  32: "CA2"
+  33: "CA_FIX3"
+  34: "CA_FIX3"
+  36: "CA3"
+  38: "CA4"
+  39: "CA4"
+  41: "CA5"
+  42: "CA5"
+  44: "CA6"
+  45: "CA6"
+  46: "CA6"
+  47: "CA6"
 
 code_act_security_functions_fixed:
   CA_FIX1: "FIX"
   CA_FIX2: "FIX"
   CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "BENIGN"
-  CA8: "BENIGN"
-  CA9: "BENIGN"
-  CA10: "BENIGN"
-  CA11: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

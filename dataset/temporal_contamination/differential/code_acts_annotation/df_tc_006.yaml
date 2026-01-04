@@ -1,271 +1,298 @@
 schema_version: "1.0"
 sample_id: "df_tc_006"
-base_sample_id: "ms_tc_006"
-vulnerability_type: "access_control"
-vulnerability_subtype: "centralization_key_compromise"
+base_sample_id: "ms_tc_008"
+vulnerability_type: "price_oracle_manipulation"
+vulnerability_subtype: "flash_loan_oracle_manipulation"
 is_vulnerable: false
 
 # Differential annotation tracks Security Function transitions from vulnerable to fixed version.
-# Note: The primary vulnerability (centralization) is an off-chain governance issue.
-# The fix addresses the on-chain secondary vulnerability (unprotected addSupportedToken).
 
 vulnerability_summary:
-  type: "access_control"
+  type: "price_oracle_manipulation"
   severity: "critical"
-  affected_functions: ["addSupportedToken"]
-  root_cause_summary: "In ms_tc_006, addSupportedToken() had no access control - anyone could add tokens. The 5/9 validator threshold was also a centralization risk."
-  fix_summary: "Added multi-sig signature verification to addSupportedToken(), requiring validator consensus to add new tokens."
+  affected_functions: ["borrow", "calculateBorrowPower"]
+  root_cause_summary: "In ms_tc_008, oracle.getUnderlyingPrice() was called directly without manipulation resistance. Attacker could flash loan to manipulate AMM pool prices and inflate collateral value."
+  fix_summary: "Added price deviation protection: cached prices, MAX_PRICE_DEVIATION constant, _validatePrice() function that rejects prices deviating >10% from cached price."
 
 code_acts:
 
   # ============================================
-  # TRANSITIONED CODE ACTS (ROOT_CAUSE -> stays as design issue)
+  # TRANSITIONED CODE ACTS (ROOT_CAUSE -> BENIGN)
   # ============================================
 
-  - id: "CA1"
-    type: "DECLARATION"
-    description: "5/9 validator threshold"
+  - id: "CA13"
+    type: "EXT_CALL"
+    description: "Oracle price call in borrow()"
 
     vulnerable:
-      file: "ms_tc_006.sol"
-      function: "contract-level"
-      line: 9
-      code: "uint256 public requiredSignatures = 5; // Need 5 out of 9"
+      file: "ms_tc_008.sol"
+      function: "borrow"
+      lines: [70, 71]
+      code: "uint256 borrowValue = (oracle.getUnderlyingPrice(cToken) * amount) / 1e18;"
       security_function: "ROOT_CAUSE"
-      rationale: "5/9 threshold with centralized control of validators enabled attack"
+      rationale: "Direct spot price from manipulable oracle"
 
     fixed:
-      file: "df_tc_006.sol"
-      function: "contract-level"
-      line: 14
-      code: "uint256 public requiredSignatures = 5;"
+      file: "df_tc_008.sol"
+      function: "borrow"
+      lines: [95, 96]
+      code: "uint256 price = _validatePrice(cToken); uint256 borrowValue = (price * amount) / 1e18;"
       security_function: "BENIGN"
-      rationale: "Threshold unchanged, but the fix addresses the code-level secondary vulnerability. The centralization issue is an off-chain governance problem."
+      rationale: "Now uses _validatePrice() which checks deviation from cached price"
 
     transition: "ROOT_CAUSE -> BENIGN"
-    transition_reason: "On-chain code is not the root cause - governance structure is. This sample focuses on the addSupportedToken fix."
-    note: "The real Ronin hack was due to key compromise, not a code bug. The differential focuses on the code-level fix."
+    transition_reason: "Price validation prevents flash loan manipulation"
 
-  # ============================================
-  # TRANSITIONED (SECONDARY_VULN -> BENIGN)
-  # ============================================
-
-  - id: "CA18"
-    type: "STATE_MOD"
-    description: "addSupportedToken function"
+  - id: "CA20"
+    type: "EXT_CALL"
+    description: "Oracle price call in calculateBorrowPower()"
 
     vulnerable:
-      file: "ms_tc_006.sol"
-      function: "addSupportedToken"
-      lines: [168, 169, 170]
-      code: "function addSupportedToken(address _token) external { supportedTokens[_token] = true; }"
-      security_function: "SECONDARY_VULN"
-      rationale: "Admin function with NO access control - anyone can add tokens"
+      file: "ms_tc_008.sol"
+      function: "calculateBorrowPower"
+      line: 102
+      code: "uint256 price = oracle.getUnderlyingPrice(cToken);"
+      security_function: "ROOT_CAUSE"
+      rationale: "Oracle returns manipulated spot price, inflating collateral value"
 
     fixed:
-      file: "df_tc_006.sol"
-      function: "addSupportedToken"
-      lines: [181, 193, 194]
-      code: "function addSupportedToken(address _token, bytes memory _signatures) external { require(!supportedTokens[_token]); require(_verifySignatures(...)); supportedTokens[_token] = true; }"
+      file: "df_tc_008.sol"
+      function: "calculateBorrowPower"
+      line: 126
+      code: "uint256 price = oracle.getUnderlyingPrice(cToken);"
       security_function: "BENIGN"
-      rationale: "Now requires multi-sig validator approval to add tokens"
+      rationale: "calculateBorrowPower is a view function; actual borrowing uses validated prices"
 
-    transition: "SECONDARY_VULN -> BENIGN"
-    transition_reason: "Added multi-sig signature verification for admin function"
+    transition: "ROOT_CAUSE -> BENIGN"
+    transition_reason: "Borrow path uses validated prices; view function doesn't authorize borrowing"
+    note: "Ideally this should also use validated price, but vulnerability is blocked at borrow() level"
 
   # ============================================
   # NEW CODE ACTS (fix additions)
   # ============================================
 
   - id: "CA_FIX1"
-    type: "INPUT_VAL"
-    description: "Duplicate token check (NEW)"
+    type: "DECLARATION"
+    description: "Price tracking state variables (NEW)"
 
     fixed:
-      file: "df_tc_006.sol"
-      function: "addSupportedToken"
-      line: 182
-      code: 'require(!supportedTokens[_token], "Already supported");'
+      file: "df_tc_008.sol"
+      function: "contract-level"
+      lines: [41, 42, 43, 44]
+      code: |
+        mapping(address => uint256) public lastKnownPrice;
+        mapping(address => uint256) public lastPriceUpdate;
+        uint256 public constant MAX_PRICE_DEVIATION = 10;
+        uint256 public constant MIN_PRICE_UPDATE_INTERVAL = 1 hours;
       security_function: "BENIGN"
-      rationale: "NEW FIX: Prevents adding already-supported tokens"
+      rationale: "NEW FIX: State variables for price deviation protection"
 
     transition: "NEW -> BENIGN"
-    transition_reason: "Added as part of improved addSupportedToken"
+    transition_reason: "Added as foundation for price validation"
 
   - id: "CA_FIX2"
     type: "INPUT_VAL"
-    description: "Multi-sig verification for token addition (NEW)"
+    description: "_validatePrice() function (NEW)"
 
     fixed:
-      file: "df_tc_006.sol"
-      function: "addSupportedToken"
-      lines: [183, 184, 185, 186, 187, 188, 189, 190, 191, 192]
-      code: "require(_verifySignatures(uint256(uint160(_token)), address(0), _token, 0, _signatures), 'Invalid signatures');"
+      file: "df_tc_008.sol"
+      function: "_validatePrice"
+      lines: [53, 54, 55, 57, 58, 59, 60, 61, 63, 64]
+      code: |
+        function _validatePrice(address cToken) internal view returns (uint256) {
+          uint256 currentPrice = oracle.getUnderlyingPrice(cToken);
+          ... require(currentPrice >= minAllowed && currentPrice <= maxAllowed, "Price deviation too high");
+          return currentPrice;
+        }
       security_function: "BENIGN"
-      rationale: "NEW FIX: Requires validator consensus to add new tokens"
+      rationale: "NEW FIX: Rejects prices deviating >10% from cached price within update interval"
 
     transition: "NEW -> BENIGN"
-    transition_reason: "Added as primary fix for unprotected admin function"
+    transition_reason: "Primary fix that prevents flash loan manipulation"
 
-  # ============================================
-  # UNCHANGED CODE ACTS (BENIGN -> BENIGN)
-  # ============================================
+  - id: "CA_FIX3"
+    type: "STATE_MOD"
+    description: "updateCachedPrice() admin function (NEW)"
 
-  - id: "CA2"
-    type: "DECLARATION"
-    description: "Validator storage"
-    vulnerable:
-      file: "ms_tc_006.sol"
-      lines: [6, 7]
-      security_function: "BENIGN"
     fixed:
-      file: "df_tc_006.sol"
-      lines: [11, 12, 15, 21]
+      file: "df_tc_008.sol"
+      function: "updateCachedPrice"
+      lines: [178, 179, 180, 181]
+      code: |
+        function updateCachedPrice(address cToken) external {
+          lastKnownPrice[cToken] = oracle.getUnderlyingPrice(cToken);
+          lastPriceUpdate[cToken] = block.timestamp;
+        }
       security_function: "BENIGN"
-    transition: "BENIGN -> BENIGN"
+      rationale: "NEW FIX: Admin function to update cached prices"
 
-  - id: "CA4"
-    type: "DECLARATION"
-    description: "Processed withdrawals mapping"
-    vulnerable:
-      file: "ms_tc_006.sol"
-      line: 13
-      security_function: "BENIGN"
-    fixed:
-      file: "df_tc_006.sol"
-      line: 18
-      security_function: "BENIGN"
-    transition: "BENIGN -> BENIGN"
-
-  - id: "CA6"
-    type: "INITIALIZATION"
-    description: "Constructor with validator setup"
-    vulnerable:
-      file: "ms_tc_006.sol"
-      lines: [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
-      security_function: "BENIGN"
-    fixed:
-      file: "df_tc_006.sol"
-      lines: [30, 31, 32, 33, 34, 36, 37, 38, 39, 41, 42, 43, 45, 46]
-      security_function: "BENIGN"
-    transition: "BENIGN -> BENIGN"
-
-  - id: "CA7"
-    type: "INPUT_VAL"
-    description: "Replay protection check"
-    vulnerable:
-      file: "ms_tc_006.sol"
-      line: 51
-      security_function: "BENIGN"
-    fixed:
-      file: "df_tc_006.sol"
-      lines: [64, 82]
-      security_function: "BENIGN"
-    transition: "BENIGN -> BENIGN"
-
-  - id: "CA8"
-    type: "INPUT_VAL"
-    description: "Token support check"
-    vulnerable:
-      file: "ms_tc_006.sol"
-      line: 54
-      security_function: "BENIGN"
-    fixed:
-      file: "df_tc_006.sol"
-      line: 67
-      security_function: "BENIGN"
-    transition: "BENIGN -> BENIGN"
+    transition: "NEW -> BENIGN"
+    transition_reason: "Added to maintain price cache"
 
   # ============================================
   # TRANSITIONED (PREREQ -> BENIGN)
   # ============================================
 
-  - id: "CA9"
-    type: "EXT_CALL"
-    description: "Signature verification call"
+  - id: "CA1"
+    type: "DECLARATION"
+    description: "Oracle storage"
 
     vulnerable:
-      file: "ms_tc_006.sol"
-      function: "withdrawERC20For"
-      lines: [57, 58, 59, 60, 61, 62, 63, 64, 65, 66]
+      file: "ms_tc_008.sol"
+      line: 20
       security_function: "PREREQ"
-      rationale: "Correct verification, but useless with compromised keys"
+      rationale: "Stores manipulable oracle reference"
 
     fixed:
-      file: "df_tc_006.sol"
-      function: "withdrawERC20For"
-      lines: [70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
+      file: "df_tc_008.sol"
+      lines: [26, 29, 32, 35, 38]
       security_function: "BENIGN"
-      rationale: "With better governance, this verification is meaningful"
+      rationale: "Oracle still used but prices are validated"
 
     transition: "PREREQ -> BENIGN"
-    transition_reason: "Fix addresses code-level vulnerability; governance assumed improved"
+    transition_reason: "Validation protects against manipulation"
 
-  - id: "CA12"
-    type: "INPUT_VAL"
-    description: "Signature count check"
+  - id: "CA11"
+    type: "COMPUTATION"
+    description: "calculateBorrowPower call"
 
     vulnerable:
-      file: "ms_tc_006.sol"
-      lines: [85, 86, 87, 88]
+      file: "ms_tc_008.sol"
+      line: 64
       security_function: "PREREQ"
-      rationale: "Enforces threshold that's meaningless with compromised keys"
+      rationale: "Returns inflated borrow power from manipulated prices"
 
     fixed:
-      file: "df_tc_006.sol"
-      lines: [98, 100, 101]
+      file: "df_tc_008.sol"
+      lines: [89, 92]
       security_function: "BENIGN"
-      rationale: "With proper key management, this check is effective"
+      rationale: "Still reads manipulable prices but borrowing is blocked"
 
     transition: "PREREQ -> BENIGN"
-    transition_reason: "Governance improvements make threshold meaningful"
+    transition_reason: "Borrow function uses validated prices"
 
   - id: "CA14"
-    type: "CTRL_FLOW"
-    description: "Validator verification loop"
+    type: "INPUT_VAL"
+    description: "Collateral check"
 
     vulnerable:
-      file: "ms_tc_006.sol"
-      lines: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114]
+      file: "ms_tc_008.sol"
+      lines: [74, 75, 76, 77]
       security_function: "PREREQ"
-      rationale: "Correct loop but verifies signatures from compromised keys"
+      rationale: "Check passes because borrowPower is inflated"
 
     fixed:
-      file: "df_tc_006.sol"
-      lines: [114, 115, 116, 118, 119, 121, 122, 123, 124, 126, 127]
+      file: "df_tc_008.sol"
+      lines: [99, 100, 101, 102]
       security_function: "BENIGN"
-      rationale: "With proper key management, verification is effective"
+      rationale: "Check uses validated borrow value"
 
     transition: "PREREQ -> BENIGN"
-    transition_reason: "Governance improvements make verification meaningful"
+    transition_reason: "Validated prices make check meaningful"
+
+  # ============================================
+  # TRANSITIONED (SECONDARY_VULN -> still present but not annotated)
+  # ============================================
+  # Note: addMarket() still has no access control, but this is a separate issue
+  # The primary vulnerability (oracle manipulation) is fixed
+
+  # ============================================
+  # UNCHANGED CODE ACTS (BENIGN -> BENIGN)
+  # ============================================
+
+  - id: "CA6"
+    type: "INITIALIZATION"
+    description: "Constructor"
+    vulnerable:
+      file: "ms_tc_008.sol"
+      lines: [37, 38, 39]
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_008.sol"
+      lines: [49, 50, 51]
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  - id: "CA7"
+    type: "INPUT_VAL"
+    description: "Market support check in mint"
+    vulnerable:
+      file: "ms_tc_008.sol"
+      line: 48
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_008.sol"
+      line: 72
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  - id: "CA8"
+    type: "STATE_MOD"
+    description: "User deposit update"
+    vulnerable:
+      file: "ms_tc_008.sol"
+      line: 55
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_008.sol"
+      line: 75
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  - id: "CA10"
+    type: "INPUT_VAL"
+    description: "Market support check in borrow"
+    vulnerable:
+      file: "ms_tc_008.sol"
+      line: 61
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_008.sol"
+      line: 86
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  - id: "CA15"
+    type: "STATE_MOD"
+    description: "Borrow balance update"
+    vulnerable:
+      file: "ms_tc_008.sol"
+      line: 80
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_008.sol"
+      line: 105
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
 
 summary:
-  total_code_acts: 12
+  total_code_acts: 13
 
   transitions:
-    ROOT_CAUSE_to_BENIGN: 1     # CA1 (threshold - governance issue)
-    SECONDARY_VULN_to_BENIGN: 1 # CA18 (addSupportedToken)
-    PREREQ_to_BENIGN: 3         # CA9, CA12, CA14
-    BENIGN_to_BENIGN: 5         # CA2, CA4, CA6, CA7, CA8
-    NEW_to_BENIGN: 2            # CA_FIX1, CA_FIX2
+    ROOT_CAUSE_to_BENIGN: 2   # CA13, CA20
+    PREREQ_to_BENIGN: 3       # CA1, CA11, CA14
+    BENIGN_to_BENIGN: 5       # CA6, CA7, CA8, CA10, CA15
+    NEW_to_BENIGN: 3          # CA_FIX1, CA_FIX2, CA_FIX3
 
   by_security_function_vulnerable:
-    ROOT_CAUSE: 1
-    SECONDARY_VULN: 1
+    ROOT_CAUSE: 2
     PREREQ: 3
     BENIGN: 5
 
   by_security_function_fixed:
-    BENIGN: 12  # All become BENIGN after fix
+    BENIGN: 13  # All become BENIGN after fix
 
   fix_effectiveness:
     documented_vuln_fixed: true
-    notes: "The code-level fix adds multi-sig to addSupportedToken. The original ROOT_CAUSE was a governance issue (centralized validator control) which cannot be fully fixed in code alone."
+    notes: "Price deviation protection rejects manipulated prices (>10% deviation within 1 hour), making flash loan oracle attacks unprofitable."
 
   root_cause_fixes:
-    - id: "CA18"
-      fix_type: "multi_sig_admin"
-      description: "addSupportedToken now requires validator signatures"
+    - id: "CA13"
+      fix_type: "price_validation"
+      description: "borrow() now uses _validatePrice() instead of direct oracle call"
+    - id: "CA20"
+      fix_type: "indirect_protection"
+      description: "While still uses direct oracle, borrowing is protected"
 
 # ============================================
 # LINE TO CODE ACT MAPPINGS (for scoring)
@@ -273,88 +300,66 @@ summary:
 
 line_to_code_act_fixed:
   # State variables
-  11: "CA2"
-  12: "CA2"
-  14: "CA1"
-  15: "CA2"
-  18: "CA4"
-  21: "CA2"
+  26: "CA1"
+  29: "CA1"
+  32: "CA1"
+  35: "CA1"
+  38: "CA1"
+  # Price tracking (NEW)
+  41: "CA_FIX1"
+  42: "CA_FIX1"
+  43: "CA_FIX1"
+  44: "CA_FIX1"
   # Constructor
-  30: "CA6"
-  31: "CA6"
-  32: "CA6"
-  33: "CA6"
-  34: "CA6"
-  # Line 35: empty
-  36: "CA6"
-  37: "CA6"
-  38: "CA6"
-  39: "CA6"
-  # Line 40: empty
-  41: "CA6"
-  42: "CA6"
-  43: "CA6"
-  # Line 44: empty
-  45: "CA6"
-  46: "CA6"
-  # withdrawERC20For
-  64: "CA7"
-  67: "CA8"
-  70: "CA9"
-  71: "CA9"
-  72: "CA9"
-  73: "CA9"
-  74: "CA9"
-  75: "CA9"
-  76: "CA9"
-  77: "CA9"
-  78: "CA9"
-  79: "CA9"
-  82: "CA7"
-  # _verifySignatures
-  98: "CA12"
-  100: "CA12"
-  101: "CA12"
-  114: "CA14"
-  115: "CA14"
-  116: "CA14"
-  # Line 117: empty
-  118: "CA14"
-  119: "CA14"
-  # Line 120: empty
-  121: "CA14"
-  122: "CA14"
-  123: "CA14"
-  124: "CA14"
-  # Line 125: empty
-  126: "CA14"
-  127: "CA14"
-  # addSupportedToken (FIXED)
-  181: "CA18"
-  182: "CA_FIX1"
-  183: "CA_FIX2"
-  184: "CA_FIX2"
-  185: "CA_FIX2"
-  186: "CA_FIX2"
-  187: "CA_FIX2"
-  188: "CA_FIX2"
-  189: "CA_FIX2"
-  190: "CA_FIX2"
-  191: "CA_FIX2"
-  192: "CA_FIX2"
-  193: "CA18"
-  194: "CA18"
+  49: "CA6"
+  50: "CA6"
+  51: "CA6"
+  # _validatePrice (NEW)
+  53: "CA_FIX2"
+  54: "CA_FIX2"
+  55: "CA_FIX2"
+  # Line 56: empty
+  57: "CA_FIX2"
+  58: "CA_FIX2"
+  59: "CA_FIX2"
+  60: "CA_FIX2"
+  61: "CA_FIX2"
+  # Line 62: empty
+  63: "CA_FIX2"
+  64: "CA_FIX2"
+  # mint
+  72: "CA7"
+  75: "CA8"
+  # borrow
+  86: "CA10"
+  89: "CA11"
+  92: "CA11"
+  95: "CA13"
+  96: "CA13"
+  99: "CA14"
+  100: "CA14"
+  101: "CA14"
+  102: "CA14"
+  105: "CA15"
+  # calculateBorrowPower
+  126: "CA20"
+  # updateCachedPrice (NEW)
+  178: "CA_FIX3"
+  179: "CA_FIX3"
+  180: "CA_FIX3"
+  181: "CA_FIX3"
 
 code_act_security_functions_fixed:
   CA1: "BENIGN"
-  CA2: "BENIGN"
-  CA4: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
-  CA9: "BENIGN"
-  CA12: "BENIGN"
+  CA10: "BENIGN"
+  CA11: "BENIGN"
+  CA13: "BENIGN"
   CA14: "BENIGN"
-  CA18: "BENIGN"
+  CA15: "BENIGN"
+  CA20: "BENIGN"
   CA_FIX1: "BENIGN"
   CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"

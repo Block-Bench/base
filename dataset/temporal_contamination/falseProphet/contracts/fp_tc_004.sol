@@ -2,190 +2,209 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/
 
-/*LN-4*/ interface IStablePool {
-/*LN-5*/     function exchange_underlying(
-/*LN-6*/         int128 i,
-/*LN-7*/         int128 j,
-/*LN-8*/         uint256 dx,
-/*LN-9*/         uint256 min_dy
-/*LN-10*/     ) external returns (uint256);
+/**
+ * @title StablePool
+ * @author stable Finance
+ * @notice StableSwap pool for ETH/pETH pair
+ * @dev Audited by ChainSecurity (Q2 2023) - Production deployment
+ * @dev Implements proven StableSwap invariant from stable V1
+ * @dev State management follows established pool patterns
+ * @custom:security-contact security@stable.fi
+ */
+/*LN-4*/ contract StablePool {
+/*LN-5*/     // Token balances in the pool
+/*LN-6*/     mapping(uint256 => uint256) public balances; // 0 = ETH, 1 = pETH
+/*LN-7*/
+
+/*LN-8*/     // LP token
+/*LN-9*/     mapping(address => uint256) public lpBalances;
+/*LN-10*/     uint256 public totalLPSupply;
 /*LN-11*/
 
-/*LN-12*/     function get_dy_underlying(
-/*LN-13*/         int128 i,
-/*LN-14*/         int128 j,
-/*LN-15*/         uint256 dx
-/*LN-16*/     ) external view returns (uint256);
-/*LN-17*/ }
-/*LN-18*/
+    /// @dev Operational state tracking for pool functions
+/*LN-12*/     uint256 private _status;
+/*LN-13*/     uint256 private constant _NOT_ENTERED = 1;
+/*LN-14*/     uint256 private constant _ENTERED = 2;
+/*LN-15*/
 
-/**
- * @title YieldVault
- * @author yield Finance
- * @notice Yield-optimizing vault with automated strategy deployment
- * @dev Audited by PeckShield (September 2020) - Production deployment
- * @dev Integrates with battle-tested stable Finance pools
- * @dev Asset accounting based on real-time pool state
- * @custom:security-contact security@yield.finance
- */
-/*LN-19*/ contract YieldVault {
-/*LN-20*/     address public underlyingToken; // e.g., USDC
-/*LN-21*/     IStablePool public curvePool;
-/*LN-22*/
+/*LN-16*/     event LiquidityAdded(
+/*LN-17*/         address index provider,
+/*LN-18*/         uint256[2] amounts,
+/*LN-19*/         uint256 lpMinted
+/*LN-20*/     );
+/*LN-21*/     event LiquidityRemoved(
+/*LN-22*/         address index provider,
+/*LN-23*/         uint256 lpBurned,
+/*LN-24*/         uint256[2] amounts
+/*LN-25*/     );
+/*LN-26*/
 
-/*LN-23*/     uint256 public totalSupply; // Total fUSDC shares
-/*LN-24*/     mapping(address => uint256) public balanceOf;
-/*LN-25*/
+/*LN-27*/     constructor() {
+/*LN-28*/         _status = _NOT_ENTERED;
+/*LN-29*/     }
+/*LN-30*/
 
-    /// @dev Precise tracking of deployed capital
-/*LN-26*/     // This tracks assets that are "working" in external protocols
-/*LN-27*/     uint256 public investedBalance;
-/*LN-28*/
-
-/*LN-29*/     event Deposit(address index user, uint256 amount, uint256 shares);
-/*LN-30*/     event Withdrawal(address index user, uint256 shares, uint256 amount);
-/*LN-31*/
-
-/*LN-32*/     constructor(address _token, address _curvePool) {
-/*LN-33*/         underlyingToken = _token;
-/*LN-34*/         curvePool = IStablePool(_curvePool);
-/*LN-35*/     }
+    /**
+     * @notice Add liquidity to the pool
+     * @dev LP token minting proportional to pool contribution
+     * @dev State updates complete before token operations
+     * @param amounts Array of token amounts [ETH, pETH]
+     * @param min_mint_amount Minimum LP tokens to receive
+     * @return LP tokens minted
+     */
+/*LN-31*/     function add_liquidity(
+/*LN-32*/         uint256[2] memory amounts,
+/*LN-33*/         uint256 min_mint_amount
+/*LN-34*/     ) external payable returns (uint256) {
 /*LN-36*/
 
-    /**
-     * @notice Deposit underlying tokens to receive vault shares
-     * @dev Share calculation uses current asset valuation
-     * @dev Funds automatically deployed to yield strategy
-     * @param amount Amount of underlying tokens to deposit
-     * @return shares Number of vault shares minted
-     */
-/*LN-37*/     function deposit(uint256 amount) external returns (uint256 shares) {
-/*LN-38*/         require(amount > 0, "Zero amount");
-/*LN-39*/
+/*LN-37*/         require(amounts[0] == msg.value, "ETH amount mismatch");
+/*LN-38*/
 
-/*LN-40*/         // Transfer tokens from user
-/*LN-41*/         // IERC20(underlyingToken).transferFrom(msg.sender, address(this), amount);
-/*LN-42*/
+/*LN-39*/         // Calculate LP tokens to mint
+/*LN-40*/         uint256 lpToMint;
+/*LN-41*/         if (totalLPSupply == 0) {
+/*LN-42*/             lpToMint = amounts[0] + amounts[1];
+/*LN-43*/         } else {
+/*LN-44*/             // Simplified: real formula is more complex
+/*LN-45*/             uint256 totalValue = balances[0] + balances[1];
+/*LN-46*/             lpToMint = ((amounts[0] + amounts[1]) * totalLPSupply) / totalValue;
+/*LN-47*/         }
+/*LN-48*/
 
-/*LN-43*/         // Calculate shares based on current price
-/*LN-44*/         if (totalSupply == 0) {
-/*LN-45*/             shares = amount;
-/*LN-46*/         } else {
-/*LN-47*/             // shares = amount * totalSupply / totalAssets()
-            // Fair share calculation based on pool state
-/*LN-50*/             uint256 totalAssets = getTotalAssets();
-/*LN-51*/             shares = (amount * totalSupply) / totalAssets;
-/*LN-52*/         }
-/*LN-53*/
+/*LN-49*/         require(lpToMint >= min_mint_amount, "Slippage");
+/*LN-50*/
 
-/*LN-54*/         balanceOf[msg.sender] += shares;
-/*LN-55*/         totalSupply += shares;
-/*LN-56*/
+        // Pool state synchronized
+/*LN-53*/         balances[0] += amounts[0];
+/*LN-54*/         balances[1] += amounts[1];
+/*LN-55*/
 
-/*LN-57*/         // Strategy: Deploy funds to stable for yield
-/*LN-58*/         _investInCurve(amount);
+/*LN-56*/         // Mint LP tokens
+/*LN-57*/         lpBalances[msg.sender] += lpToMint;
+/*LN-58*/         totalLPSupply += lpToMint;
 /*LN-59*/
 
-/*LN-60*/         emit Deposit(msg.sender, amount, shares);
-/*LN-61*/         return shares;
-/*LN-62*/     }
-/*LN-63*/
-
-    /**
-     * @notice Withdraw underlying tokens by burning vault shares
-     * @dev Redemption value calculated from current asset base
-     * @dev Funds withdrawn from strategy as needed
-     * @param shares Number of vault shares to burn
-     * @return amount Amount of underlying tokens returned
-     */
-/*LN-64*/     function withdraw(uint256 shares) external returns (uint256 amount) {
-/*LN-65*/         require(shares > 0, "Zero shares");
-/*LN-66*/         require(balanceOf[msg.sender] >= shares, "Insufficient balance");
+        // Process deposit amounts
+/*LN-62*/         if (amounts[0] > 0) {
+/*LN-63*/             // Simulate pool's internal operations that involve ETH transfer
+/*LN-64*/             // In reality, stable pools update internal state during this
+            // Internal pool rebalancing
+/*LN-65*/             _handleETHTransfer(amounts[0]);
+/*LN-66*/         }
 /*LN-67*/
 
-/*LN-68*/         // Calculate amount based on current price
-        // Pro-rata share of total assets
-/*LN-69*/         uint256 totalAssets = getTotalAssets();
-/*LN-70*/         amount = (shares * totalAssets) / totalSupply;
+/*LN-68*/         emit LiquidityAdded(msg.sender, amounts, lpToMint);
+/*LN-69*/         return lpToMint;
+/*LN-70*/     }
 /*LN-71*/
 
-/*LN-72*/         balanceOf[msg.sender] -= shares;
-/*LN-73*/         totalSupply -= shares;
-/*LN-74*/
+/*LN-72*/     /**
+/*LN-73*/      * @notice Remove liquidity from the pool
+/*LN-74*/      * @param lpAmount Amount of LP tokens to burn
+/*LN-75*/      * @param min_amounts Minimum amounts to receive [ETH, pETH]
+/*LN-76*/      */
+/*LN-77*/     function remove_liquidity(
+/*LN-78*/         uint256 lpAmount,
+/*LN-79*/         uint256[2] memory min_amounts
+/*LN-80*/     ) external {
+/*LN-81*/         require(lpBalances[msg.sender] >= lpAmount, "Insufficient LP");
+/*LN-82*/
 
-/*LN-75*/         // Withdraw from stable strategy if needed
-/*LN-76*/         _withdrawFromCurve(amount);
-/*LN-77*/
+/*LN-83*/         // Calculate amounts to return
+        // Pro-rata calculation based on pool share
+/*LN-84*/         uint256 amount0 = (lpAmount * balances[0]) / totalLPSupply;
+/*LN-85*/         uint256 amount1 = (lpAmount * balances[1]) / totalLPSupply;
+/*LN-86*/
 
-/*LN-78*/         // Transfer tokens to user
-        // Validated transfer to user
-/*LN-79*/         // IERC20(underlyingToken).transfer(msg.sender, amount);
-/*LN-80*/
+/*LN-87*/         require(
+/*LN-88*/             amount0 >= min_amounts[0] && amount1 >= min_amounts[1],
+/*LN-89*/             "Slippage"
+/*LN-90*/         );
+/*LN-91*/
 
-/*LN-81*/         emit Withdrawal(msg.sender, shares, amount);
-/*LN-82*/         return amount;
-/*LN-83*/     }
-/*LN-84*/
+/*LN-92*/         // Burn LP tokens
+/*LN-93*/         lpBalances[msg.sender] -= lpAmount;
+/*LN-94*/         totalLPSupply -= lpAmount;
+/*LN-95*/
 
-    /**
-     * @notice Calculate total assets under management
-     * @dev Combines idle funds with deployed capital in stable
-     * @dev Values derived from trusted stable pool state
-     * @return Total value of assets in underlying token terms
-     */
-/*LN-85*/     function getTotalAssets() public view returns (uint256) {
-/*LN-86*/         // Assets in vault + assets in stable
-/*LN-87*/         // Combine vault balance with deployed capital
-/*LN-89*/
+/*LN-96*/         // Update balances
+/*LN-97*/         balances[0] -= amount0;
+/*LN-98*/         balances[1] -= amount1;
+/*LN-99*/
 
-/*LN-90*/         uint256 vaultBalance = 0; // IERC20(underlyingToken).balanceOf(address(this));
-/*LN-91*/         uint256 curveBalance = investedBalance;
-/*LN-92*/
+/*LN-100*/         // Transfer tokens
+/*LN-101*/         if (amount0 > 0) {
+            // Validated ETH transfer
+/*LN-102*/             payable(msg.sender).transfer(amount0);
+/*LN-103*/         }
+/*LN-104*/
 
-/*LN-93*/         // the stable pool's exchange rates
-/*LN-94*/         return vaultBalance + curveBalance;
-/*LN-95*/     }
-/*LN-96*/
-
-    /**
-     * @notice Get current price per share
-     * @dev Standard ERC4626-style share pricing
-     * @return Price in underlying tokens (18 decimals)
-     */
-/*LN-97*/     function getPricePerFullShare() public view returns (uint256) {
-/*LN-98*/         if (totalSupply == 0) return 1e18;
-/*LN-99*/         return (getTotalAssets() * 1e18) / totalSupply;
-/*LN-100*/     }
-/*LN-101*/
-
-/*LN-102*/     /**
-/*LN-103*/      * @notice Internal function to invest in stable
-/*LN-104*/      * @dev Simplified - in reality, yield used stable pools for yield
-/*LN-105*/      */
-/*LN-106*/     function _investInCurve(uint256 amount) internal {
-/*LN-107*/         investedBalance += amount;
+/*LN-105*/         uint256[2] memory amounts = [amount0, amount1];
+/*LN-106*/         emit LiquidityRemoved(msg.sender, lpAmount, amounts);
+/*LN-107*/     }
 /*LN-108*/
 
-/*LN-109*/         // In reality, this would:
-/*LN-110*/         // 1. Add liquidity to stable pool
-/*LN-111*/         // 2. Stake LP tokens
-/*LN-112*/         // 3. Track the invested amount
-/*LN-113*/     }
-/*LN-114*/
+    /**
+     * @notice Internal ETH handling for pool operations
+     * @dev Called during liquidity operations
+     */
+/*LN-109*/     function _handleETHTransfer(uint256 amount) internal {
+/*LN-112*/
 
-/*LN-115*/     /**
-/*LN-116*/      * @notice Internal function to withdraw from stable
-/*LN-117*/      * @dev Simplified - in reality, would unstake and remove liquidity
-/*LN-118*/      */
-/*LN-119*/     function _withdrawFromCurve(uint256 amount) internal {
-/*LN-120*/         require(investedBalance >= amount, "Insufficient invested");
-/*LN-121*/         investedBalance -= amount;
-/*LN-122*/
+/*LN-114*/         // In reality, this involved complex pool rebalancing
+        // Operational callback for pool state
+/*LN-115*/         (bool success, ) = msg.sender.call{value: 0}("");
+/*LN-116*/         require(success, "Transfer failed");
+/*LN-117*/     }
+/*LN-118*/
 
-/*LN-123*/         // In reality, this would:
-/*LN-124*/         // 1. Unstake LP tokens
-/*LN-125*/         // 2. Remove liquidity from stable
-/*LN-126*/         // 3. Get underlying tokens back
-/*LN-127*/     }
-/*LN-128*/ }
-/*LN-129*/
+/*LN-119*/     /**
+/*LN-120*/      * @notice Exchange tokens (simplified)
+/*LN-121*/      * @param i Index of input token
+/*LN-122*/      * @param j Index of output token
+/*LN-123*/      * @param dx Input amount
+/*LN-124*/      * @param min_dy Minimum output amount
+/*LN-125*/      */
+/*LN-126*/     function exchange(
+/*LN-127*/         int128 i,
+/*LN-128*/         int128 j,
+/*LN-129*/         uint256 dx,
+/*LN-130*/         uint256 min_dy
+/*LN-131*/     ) external payable returns (uint256) {
+/*LN-132*/         uint256 ui = uint256(int256(i));
+/*LN-133*/         uint256 uj = uint256(int256(j));
+/*LN-134*/
+
+/*LN-135*/         require(ui < 2 && uj < 2 && ui != uj, "Invalid indices");
+/*LN-136*/
+
+/*LN-137*/         // Simplified exchange logic
+        // StableSwap invariant calculation
+/*LN-138*/         uint256 dy = (dx * balances[uj]) / (balances[ui] + dx);
+/*LN-139*/         require(dy >= min_dy, "Slippage");
+/*LN-140*/
+
+/*LN-141*/         if (ui == 0) {
+/*LN-142*/             require(msg.value == dx, "ETH mismatch");
+/*LN-143*/             balances[0] += dx;
+/*LN-144*/         }
+/*LN-145*/
+
+/*LN-146*/         balances[ui] += dx;
+/*LN-147*/         balances[uj] -= dy;
+/*LN-148*/
+
+/*LN-149*/         if (uj == 0) {
+/*LN-150*/             payable(msg.sender).transfer(dy);
+/*LN-151*/         }
+/*LN-152*/
+
+/*LN-153*/         return dy;
+/*LN-154*/     }
+/*LN-155*/
+
+/*LN-156*/     receive() external payable {
+/*LN-157*/     }
+/*LN-158*/ }
+/*LN-159*/

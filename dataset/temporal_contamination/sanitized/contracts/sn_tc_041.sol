@@ -15,120 +15,71 @@
 /*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-16*/ }
 /*LN-17*/ 
-/*LN-18*/ contract CollateralToken is IERC20 {
-/*LN-19*/     string public name = "Shezmu Collateral Token";
-/*LN-20*/     string public symbol = "SCT";
-/*LN-21*/     uint8 public decimals = 18;
-/*LN-22*/ 
-/*LN-23*/     mapping(address => uint256) public balanceOf;
-/*LN-24*/     mapping(address => mapping(address => uint256)) public allowance;
-/*LN-25*/     uint256 public totalSupply;
-/*LN-26*/ 
-/*LN-27*/     function mint(address to, uint256 amount) external {
-/*LN-28*/ 
-/*LN-29*/         // Can mint type(uint128).max worth of tokens
+/*LN-18*/ interface ISmartLoan {
+/*LN-19*/     function swapDebtParaSwap(
+/*LN-20*/         bytes32 _fromAsset,
+/*LN-21*/         bytes32 _toAsset,
+/*LN-22*/         uint256 _repayAmount,
+/*LN-23*/         uint256 _borrowAmount,
+/*LN-24*/         bytes4 selector,
+/*LN-25*/         bytes memory data
+/*LN-26*/     ) external;
+/*LN-27*/ 
+/*LN-28*/     function claimReward(address pair, uint256[] calldata ids) external;
+/*LN-29*/ }
 /*LN-30*/ 
-/*LN-31*/         balanceOf[to] += amount;
-/*LN-32*/         totalSupply += amount;
-/*LN-33*/     }
-/*LN-34*/ 
-/*LN-35*/     function transfer(
-/*LN-36*/         address to,
-/*LN-37*/         uint256 amount
-/*LN-38*/     ) external override returns (bool) {
-/*LN-39*/         require(balanceOf[msg.sender] >= amount, "Insufficient balance");
-/*LN-40*/         balanceOf[msg.sender] -= amount;
-/*LN-41*/         balanceOf[to] += amount;
-/*LN-42*/         return true;
-/*LN-43*/     }
-/*LN-44*/ 
-/*LN-45*/     function transferFrom(
-/*LN-46*/         address from,
-/*LN-47*/         address to,
-/*LN-48*/         uint256 amount
-/*LN-49*/     ) external override returns (bool) {
-/*LN-50*/         require(balanceOf[from] >= amount, "Insufficient balance");
-/*LN-51*/         require(
-/*LN-52*/             allowance[from][msg.sender] >= amount,
-/*LN-53*/             "Insufficient allowance"
-/*LN-54*/         );
-/*LN-55*/         balanceOf[from] -= amount;
-/*LN-56*/         balanceOf[to] += amount;
-/*LN-57*/         allowance[from][msg.sender] -= amount;
-/*LN-58*/         return true;
-/*LN-59*/     }
-/*LN-60*/ 
-/*LN-61*/     function approve(
-/*LN-62*/         address spender,
-/*LN-63*/         uint256 amount
-/*LN-64*/     ) external override returns (bool) {
-/*LN-65*/         allowance[msg.sender][spender] = amount;
-/*LN-66*/         return true;
-/*LN-67*/     }
-/*LN-68*/ }
+/*LN-31*/ contract SmartLoansFactory {
+/*LN-32*/     address public admin;
+/*LN-33*/ 
+/*LN-34*/     constructor() {
+/*LN-35*/         admin = msg.sender;
+/*LN-36*/     }
+/*LN-37*/ 
+/*LN-38*/     function createLoan() external returns (address) {
+/*LN-39*/         SmartLoan loan = new SmartLoan();
+/*LN-40*/         return address(loan);
+/*LN-41*/     }
+/*LN-42*/ 
+/*LN-43*/     function upgradePool(
+/*LN-44*/         address poolProxy,
+/*LN-45*/         address newImplementation
+/*LN-46*/     ) external {
+/*LN-47*/ 
+/*LN-48*/         require(msg.sender == admin, "Not admin");
+/*LN-49*/ 
+/*LN-50*/         // Upgrade the proxy to point to new implementation
+/*LN-51*/         // (Simplified - actual upgrade uses proxy pattern)
+/*LN-52*/     }
+/*LN-53*/ }
+/*LN-54*/ 
+/*LN-55*/ contract SmartLoan is ISmartLoan {
+/*LN-56*/     mapping(bytes32 => uint256) public deposits;
+/*LN-57*/     mapping(bytes32 => uint256) public debts;
+/*LN-58*/ 
+/*LN-59*/     function swapDebtParaSwap(
+/*LN-60*/         bytes32 _fromAsset,
+/*LN-61*/         bytes32 _toAsset,
+/*LN-62*/         uint256 _repayAmount,
+/*LN-63*/         uint256 _borrowAmount,
+/*LN-64*/         bytes4 selector,
+/*LN-65*/         bytes memory data
+/*LN-66*/     ) external override {
+/*LN-67*/         // Simplified swap logic
+/*LN-68*/     }
 /*LN-69*/ 
-/*LN-70*/ contract CollateralVault {
-/*LN-71*/     IERC20 public collateralToken;
-/*LN-72*/     IERC20 public shezUSD;
-/*LN-73*/ 
-/*LN-74*/     mapping(address => uint256) public collateralBalance;
-/*LN-75*/     mapping(address => uint256) public debtBalance;
-/*LN-76*/ 
-/*LN-77*/     uint256 public constant COLLATERAL_RATIO = 150;
-/*LN-78*/     uint256 public constant BASIS_POINTS = 100;
-/*LN-79*/ 
-/*LN-80*/     constructor(address _collateralToken, address _shezUSD) {
-/*LN-81*/         collateralToken = IERC20(_collateralToken);
-/*LN-82*/         shezUSD = IERC20(_shezUSD);
+/*LN-70*/     /**
+/*LN-71*/      * @notice Claim rewards from staking pairs
+/*LN-72*/      */
+/*LN-73*/     function claimReward(
+/*LN-74*/         address pair,
+/*LN-75*/         uint256[] calldata ids
+/*LN-76*/     ) external override {
+/*LN-77*/ 
+/*LN-78*/         // Call to pair contract to claim rewards
+/*LN-79*/         (bool success, ) = pair.call(
+/*LN-80*/             abi.encodeWithSignature("claimRewards(address)", msg.sender)
+/*LN-81*/         );
+/*LN-82*/ 
 /*LN-83*/     }
-/*LN-84*/ 
-/*LN-85*/     /**
-/*LN-86*/      * @notice Add collateral to vault
-/*LN-87*/      */
-/*LN-88*/     function addCollateral(uint256 amount) external {
-/*LN-89*/         collateralToken.transferFrom(msg.sender, address(this), amount);
-/*LN-90*/         collateralBalance[msg.sender] += amount;
-/*LN-91*/     }
-/*LN-92*/ 
-/*LN-93*/     /**
-/*LN-94*/      * @notice Borrow ShezUSD against collateral
-/*LN-95*/      */
-/*LN-96*/     function borrow(uint256 amount) external {
-/*LN-97*/ 
-/*LN-98*/         uint256 maxBorrow = (collateralBalance[msg.sender] * BASIS_POINTS) /
-/*LN-99*/             COLLATERAL_RATIO;
-/*LN-100*/ 
-/*LN-101*/         require(
-/*LN-102*/             debtBalance[msg.sender] + amount <= maxBorrow,
-/*LN-103*/             "Insufficient collateral"
-/*LN-104*/         );
-/*LN-105*/ 
-/*LN-106*/         debtBalance[msg.sender] += amount;
-/*LN-107*/ 
-/*LN-108*/         shezUSD.transfer(msg.sender, amount);
-/*LN-109*/     }
-/*LN-110*/ 
-/*LN-111*/     function repay(uint256 amount) external {
-/*LN-112*/         require(debtBalance[msg.sender] >= amount, "Excessive repayment");
-/*LN-113*/         shezUSD.transferFrom(msg.sender, address(this), amount);
-/*LN-114*/         debtBalance[msg.sender] -= amount;
-/*LN-115*/     }
-/*LN-116*/ 
-/*LN-117*/     function withdrawCollateral(uint256 amount) external {
-/*LN-118*/         require(
-/*LN-119*/             collateralBalance[msg.sender] >= amount,
-/*LN-120*/             "Insufficient collateral"
-/*LN-121*/         );
-/*LN-122*/         uint256 remainingCollateral = collateralBalance[msg.sender] - amount;
-/*LN-123*/         uint256 maxDebt = (remainingCollateral * BASIS_POINTS) /
-/*LN-124*/             COLLATERAL_RATIO;
-/*LN-125*/         require(
-/*LN-126*/             debtBalance[msg.sender] <= maxDebt,
-/*LN-127*/             "Would be undercollateralized"
-/*LN-128*/         );
-/*LN-129*/ 
-/*LN-130*/         collateralBalance[msg.sender] -= amount;
-/*LN-131*/         collateralToken.transfer(msg.sender, amount);
-/*LN-132*/     }
-/*LN-133*/ }
-/*LN-134*/ 
+/*LN-84*/ }
+/*LN-85*/ 

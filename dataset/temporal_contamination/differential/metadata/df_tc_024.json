@@ -1,33 +1,31 @@
 {
   "sample_id": "df_tc_024",
-  "exploit_name": "Inverse Finance Oracle Manipulation",
-  "date": "2022-04-02",
-  "amount_lost_usd": "15600000",
-  "blockchain": "ethereum",
+  "exploit_name": "BurgerSwap Fake Token",
+  "date": "2021-05-28",
+  "amount_lost_usd": "7000000",
+  "blockchain": "binance_smart_chain",
   "language": "solidity",
-  "vulnerability_type": "price_oracle_manipulation",
+  "vulnerability_type": "input_validation",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
-  "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "PriceOracle",
-  "vulnerable_function": "borrow",
+  "description": "Fixed version with factory validation for pair addresses",
+  "vulnerable_contract": "SwapRouter",
+  "vulnerable_function": "swapExactTokensForTokens",
   "vulnerable_lines": [],
-  "attack_scenario": "1) Flash loan 2700 WBTC from Aave. 2) Add 2677.5 WBTC + 22,500 USDT to Curve 3crypto pool. 3) Massive liquidity addition inflates Curve virtual_price from $1.00 to ~$1.50. 4) Deposit yvCrv3Crypto tokens as collateral. 5) Oracle reads inflated price, valuing collateral 50% higher than true worth. 6) Borrow maximum DOLA based on inflated collateral value (80% of $1.50 = $1.20 per token vs should be $0.80). 7) Remove liquidity from Curve, price normalizes. 8) Repay flash loan, keep overborrowed $15.6M DOLA.",
-  "root_cause": "The price oracle for Yearn Curve 3crypto LP tokens relied on Curve's get_virtual_price() which reflects current pool state. Flash loan attackers added massive liquidity in one transaction, inflating virtual_price. The oracle had no time-weighted averaging or manipulation resistance, so it reported the inflated price, allowing massive overborrowing.",
+  "attack_scenario": "1) Attacker created fake token contracts mimicking legitimate addresses. 2) Created malicious pair contract with manipulated reserves (e.g., 1 fake token = 1000 real tokens). 3) Called router swap function with path through fake token. 4) Router accepted fake pair without factory validation. 5) Executed swap at manipulated price. 6) Extracted $7M in real tokens.",
+  "root_cause": "Router accepts any pair address without validating it came from the official factory. Attacker can inject fake pairs with manipulated reserves.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "oracle",
-    "curve",
-    "flash_loan",
-    "lp_tokens",
-    "price_manipulation",
-    "yearn",
-    "lending",
+    "amm",
+    "fake_token",
+    "bsc",
+    "pair_validation",
+    "uniswap_fork",
     "differential",
     "fixed"
   ],
@@ -41,45 +39,34 @@
     "type": "differential",
     "strategy": "minimal_fix",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_024.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_024.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_027.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_027.json",
     "pair_metadata": "/Users/poamen/projects/grace/blockbench/base/data/manual_strategies/differential/metadata/df_pair_tc_024.json",
     "script": "manual",
     "is_fixed_version": true,
-    "fix_type": "minimal_fix",
-    "fix_description": "Minimal fix with 16 lines changed. Added: uint256 public twapPrice;; uint256 public lastUpdateTime;; lastUpdateTime = block.timestamp;",
+    "fix_type": "factory_validation",
+    "fix_description": "Added IFactory interface, factory state variable, constructor to set factory, and validation that pair address matches factory.getPair() result.",
     "exact_changes": [
       {
-        "location": "Added line",
-        "version_a": "uint256 public twapPrice;",
-        "version_b": "// Not present in vulnerable version"
+        "location": "interface (lines 10-12)",
+        "version_a": "interface IFactory { function getPair(...) external view returns (address); }",
+        "version_b": "// No factory interface"
       },
       {
-        "location": "Added line",
-        "version_a": "uint256 public lastUpdateTime;",
-        "version_b": "// Not present in vulnerable version"
+        "location": "state variable (line 15)",
+        "version_a": "IFactory public factory;",
+        "version_b": "// No factory reference"
       },
       {
-        "location": "Added line",
-        "version_a": "lastUpdateTime = block.timestamp;",
-        "version_b": "// Not present in vulnerable version"
-      },
-      {
-        "location": "Added line",
-        "version_a": "function updatePrice() external {",
-        "version_b": "// Not present in vulnerable version"
-      },
-      {
-        "location": "Added line",
-        "version_a": "uint256 spotPrice = curvePool.get_virtual_price();",
-        "version_b": "// Not present in vulnerable version"
+        "location": "swap function (lines 31-32)",
+        "version_a": "address pair = factory.getPair(path[i], path[i+1]);\nrequire(pair != address(0), \"Pair does not exist\");",
+        "version_b": "address pair = _getPair(path[i], path[i+1]);"
       }
     ],
-    "why_fix_works": "",
+    "why_fix_works": "Factory validation ensures only legitimate pairs from the official factory can be used, preventing fake pair injection attacks.",
     "contracts_in_file": [
-      "PriceOracle",
-      "LendingProtocol"
+      "SwapRouter"
     ],
-    "created_date": "2025-12-30T02:02:17.937445"
+    "created_date": "2025-12-30T02:02:17.939394"
   }
 }

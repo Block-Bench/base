@@ -14,67 +14,35 @@
 /*LN-14*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ interface IUniswapV3Router {
-/*LN-18*/     struct ExactInputSingleParams {
-/*LN-19*/         address tokenIn;
-/*LN-20*/         address tokenOut;
-/*LN-21*/         uint24 fee;
-/*LN-22*/         address recipient;
-/*LN-23*/         uint256 deadline;
-/*LN-24*/         uint256 amountIn;
-/*LN-25*/         uint256 amountOutMinimum;
-/*LN-26*/         uint160 sqrtPriceLimitX96;
-/*LN-27*/     }
-/*LN-28*/ 
-/*LN-29*/     function exactInputSingle(
-/*LN-30*/         ExactInputSingleParams calldata params
-/*LN-31*/     ) external payable returns (uint256 amountOut);
-/*LN-32*/ }
-/*LN-33*/ 
-/*LN-34*/ contract StakingVault {
-/*LN-35*/     IERC20 public immutable uniBTC;
-/*LN-36*/     IERC20 public immutable WBTC;
-/*LN-37*/     IUniswapV3Router public immutable router;
-/*LN-38*/ 
-/*LN-39*/     uint256 public totalETHDeposited;
-/*LN-40*/     uint256 public totalUniBTCMinted;
-/*LN-41*/ 
-/*LN-42*/     constructor(address _uniBTC, address _wbtc, address _router) {
-/*LN-43*/         uniBTC = IERC20(_uniBTC);
-/*LN-44*/         WBTC = IERC20(_wbtc);
-/*LN-45*/         router = IUniswapV3Router(_router);
-/*LN-46*/     }
-/*LN-47*/ 
-/*LN-48*/     function mint() external payable {
-/*LN-49*/         require(msg.value > 0, "No ETH sent");
-/*LN-50*/ 
-/*LN-51*/         uint256 uniBTCAmount = msg.value;
-/*LN-52*/ 
-/*LN-53*/         totalETHDeposited += msg.value;
-/*LN-54*/         totalUniBTCMinted += uniBTCAmount;
-/*LN-55*/ 
-/*LN-56*/ 
-/*LN-57*/         uniBTC.transfer(msg.sender, uniBTCAmount);
-/*LN-58*/     }
-/*LN-59*/ 
-/*LN-60*/ 
-/*LN-61*/     function redeem(uint256 amount) external {
-/*LN-62*/         require(amount > 0, "No amount specified");
-/*LN-63*/         require(uniBTC.balanceOf(msg.sender) >= amount, "Insufficient balance");
-/*LN-64*/ 
-/*LN-65*/         uniBTC.transferFrom(msg.sender, address(this), amount);
-/*LN-66*/ 
-/*LN-67*/         uint256 ethAmount = amount;
-/*LN-68*/         require(address(this).balance >= ethAmount, "Insufficient ETH");
-/*LN-69*/ 
-/*LN-70*/         payable(msg.sender).transfer(ethAmount);
-/*LN-71*/     }
-/*LN-72*/ 
-/*LN-73*/ 
-/*LN-74*/     function getExchangeRate() external pure returns (uint256) {
-/*LN-75*/ 
-/*LN-76*/         return 1e18;
-/*LN-77*/     }
-/*LN-78*/ 
-/*LN-79*/     receive() external payable {}
-/*LN-80*/ }
+/*LN-17*/ contract CDPChamber {
+/*LN-18*/     uint8 public constant OPERATION_CALL = 30;
+/*LN-19*/     uint8 public constant OPERATION_DELEGATECALL = 31;
+/*LN-20*/ 
+/*LN-21*/     mapping(address => bool) public vaultOwners;
+/*LN-22*/ 
+/*LN-23*/     function performOperations(
+/*LN-24*/         uint8[] memory actions,
+/*LN-25*/         uint256[] memory values,
+/*LN-26*/         bytes[] memory datas
+/*LN-27*/     ) external payable returns (uint256 value1, uint256 value2) {
+/*LN-28*/         require(
+/*LN-29*/             actions.length == values.length && values.length == datas.length,
+/*LN-30*/             "Length mismatch"
+/*LN-31*/         );
+/*LN-32*/ 
+/*LN-33*/         for (uint256 i = 0; i < actions.length; i++) {
+/*LN-34*/             if (actions[i] == OPERATION_CALL) {
+/*LN-35*/ 
+/*LN-36*/                 (address target, bytes memory callData, , , ) = abi.decode(
+/*LN-37*/                     datas[i],
+/*LN-38*/                     (address, bytes, uint256, uint256, uint256)
+/*LN-39*/                 );
+/*LN-40*/ 
+/*LN-41*/                 (bool success, ) = target.call{value: values[i]}(callData);
+/*LN-42*/                 require(success, "Call failed");
+/*LN-43*/             }
+/*LN-44*/         }
+/*LN-45*/ 
+/*LN-46*/         return (0, 0);
+/*LN-47*/     }
+/*LN-48*/ }

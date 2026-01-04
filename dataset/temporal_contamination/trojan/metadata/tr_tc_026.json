@@ -1,33 +1,35 @@
 {
   "sample_id": "tr_tc_026",
-  "exploit_name": "Anyswap Permit Bypass",
-  "date": "2022-01-18",
-  "amount_lost_usd": "8000000",
-  "blockchain": "ethereum",
+  "exploit_name": "Belt Finance Strategy Exploit",
+  "date": "2021-05-30",
+  "amount_lost_usd": "6200000",
+  "blockchain": "binance_smart_chain",
   "language": "solidity",
-  "vulnerability_type": "signature_verification",
+  "vulnerability_type": "price_oracle_manipulation",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Anyswap bridge's anySwapOutUnderlyingWithPermit function had incomplete validation of EIP-2612 permit signatures. The function proceeded with token transfers even when permit validation failed, allowing attackers to bridge tokens without proper authorization.",
-  "vulnerable_contract": "BridgeRouter",
-  "vulnerable_function": "permit",
+  "description": "Belt Finance vault strategies used manipulatable price oracles for calculating share values. Attackers flash-loaned to manipulate oracle prices, deposited when price was low (getting more shares), then withdrew after price recovered, extracting more value than deposited.",
+  "vulnerable_contract": "VaultStrategy",
+  "vulnerable_function": "deposit",
   "vulnerable_lines": [
-    26,
-    30
+    31,
+    45
   ],
-  "attack_scenario": "1) Attacker called anySwapOutUnderlyingWithPermit with victim's token address. 2) Passed invalid permit signature (v=0, r=0, s=0). 3) Permit validation failed silently. 4) Function continued executing anyway. 5) Tokens were burned/locked and bridged to destination chain. 6) Repeated to drain $8M worth of WETH and other tokens.",
-  "root_cause": "The permit validation used try-catch that swallowed failures without reverting. The function proceeded with token operations regardless of whether the permit succeeded, effectively bypassing authorization checks entirely.",
+  "attack_scenario": "1) Flash loan large amounts to manipulate price oracle down. 2) Deposit to vault when price is artificially low. 3) Share calculation: sharesAdded = (amount * totalShares) / (pool * price), so low price = more shares. 4) Release flash loan, price recovers. 5) Withdraw with inflated share count. 6) Withdrawal amount = (shares * pool * price) / totalShares, high price = more tokens. 7) Profit $6.2M from price manipulation cycle.",
+  "root_cause": "Vault share pricing relied on oracle that could be manipulated within single transaction. No TWAP or manipulation resistance. Share calculations used instantaneous price values vulnerable to flash loan attacks.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "permit",
-    "signature",
-    "eip2612",
-    "cross_chain",
+    "vault",
+    "strategy",
+    "oracle",
+    "flash_loan",
+    "bsc",
+    "share_price",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -40,8 +42,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_026.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_026.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_029.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_029.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -56,16 +58,16 @@
       "activity_variables": 0,
       "fake_functions": 3,
       "view_helpers": 1,
-      "suspicious_names": 14
+      "suspicious_names": 19
     },
     "contracts_renamed": [
-      "BridgeRouter"
+      "VaultStrategy"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.665228",
+    "created_date": "2025-12-30T01:40:33.667461",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.813310",
+    "sanitization_date": "2026-01-02T02:10:09.842174",
     "code_renames": {}
   }
 }

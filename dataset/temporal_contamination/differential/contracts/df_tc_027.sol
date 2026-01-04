@@ -1,48 +1,44 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ interface IPair {
-/*LN-5*/     function token0() external view returns (address);
-/*LN-6*/     function token1() external view returns (address);
-/*LN-7*/     function getReserves() external view returns (uint112, uint112, uint32);
-/*LN-8*/ }
-/*LN-9*/ 
-/*LN-10*/ interface IFactory {
-/*LN-11*/     function getPair(address tokenA, address tokenB) external view returns (address);
-/*LN-12*/ }
-/*LN-13*/ 
-/*LN-14*/ contract SwapRouter {
-/*LN-15*/     IFactory public factory;
-/*LN-16*/ 
-/*LN-17*/     constructor(address _factory) {
-/*LN-18*/         factory = IFactory(_factory);
-/*LN-19*/     }
-/*LN-20*/ 
-/*LN-21*/     function swapExactTokensForTokens(
-/*LN-22*/         uint256 amountIn,
-/*LN-23*/         uint256 amountOutMin,
-/*LN-24*/         address[] calldata path,
-/*LN-25*/         address to,
-/*LN-26*/         uint256 deadline
-/*LN-27*/     ) external returns (uint[] memory amounts) {
-/*LN-28*/ 
-/*LN-29*/         amounts = new uint[](path.length);
-/*LN-30*/         amounts[0] = amountIn;
-/*LN-31*/ 
-/*LN-32*/         for (uint i = 0; i < path.length - 1; i++) {
-/*LN-33*/             address pair = factory.getPair(path[i], path[i+1]);
-/*LN-34*/             require(pair != address(0), "Pair does not exist");
-/*LN-35*/ 
-/*LN-36*/             (uint112 reserve0, uint112 reserve1,) = IPair(pair).getReserves();
-/*LN-37*/ 
-/*LN-38*/             amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);
-/*LN-39*/         }
-/*LN-40*/ 
-/*LN-41*/         return amounts;
+/*LN-4*/ contract LiquidityPool {
+/*LN-5*/     uint256 public baseAmount;
+/*LN-6*/     uint256 public tokenAmount;
+/*LN-7*/     uint256 public totalUnits;
+/*LN-8*/     
+/*LN-9*/     mapping(address => uint256) public units;
+/*LN-10*/     
+/*LN-11*/     function addLiquidity(uint256 inputBase, uint256 inputToken) external returns (uint256 liquidityUnits) {
+/*LN-12*/         
+/*LN-13*/         if (totalUnits == 0) {
+/*LN-14*/             liquidityUnits = inputBase;
+/*LN-15*/         } else {
+/*LN-16*/             uint256 baseRatio = (inputBase * totalUnits) / baseAmount;
+/*LN-17*/             uint256 tokenRatio = (inputToken * totalUnits) / tokenAmount;
+/*LN-18*/             
+/*LN-19*/             liquidityUnits = baseRatio < tokenRatio ? baseRatio : tokenRatio;
+/*LN-20*/         }
+/*LN-21*/         
+/*LN-22*/         units[msg.sender] += liquidityUnits;
+/*LN-23*/         totalUnits += liquidityUnits;
+/*LN-24*/         
+/*LN-25*/         baseAmount += inputBase;
+/*LN-26*/         tokenAmount += inputToken;
+/*LN-27*/         
+/*LN-28*/         return liquidityUnits;
+/*LN-29*/     }
+/*LN-30*/     
+/*LN-31*/     function removeLiquidity(uint256 liquidityUnits) external returns (uint256, uint256) {
+/*LN-32*/         uint256 outputBase = (liquidityUnits * baseAmount) / totalUnits;
+/*LN-33*/         uint256 outputToken = (liquidityUnits * tokenAmount) / totalUnits;
+/*LN-34*/         
+/*LN-35*/         units[msg.sender] -= liquidityUnits;
+/*LN-36*/         totalUnits -= liquidityUnits;
+/*LN-37*/         
+/*LN-38*/         baseAmount -= outputBase;
+/*LN-39*/         tokenAmount -= outputToken;
+/*LN-40*/         
+/*LN-41*/         return (outputBase, outputToken);
 /*LN-42*/     }
-/*LN-43*/ 
-/*LN-44*/     function _getAmountOut(uint256 amountIn, uint112 reserveIn, uint112 reserveOut) internal pure returns (uint256) {
-/*LN-45*/         return (amountIn * uint256(reserveOut)) / uint256(reserveIn);
-/*LN-46*/     }
-/*LN-47*/ }
-/*LN-48*/ 
+/*LN-43*/ }
+/*LN-44*/ 

@@ -14,72 +14,55 @@
 /*LN-14*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ enum TokenLockup {
-/*LN-18*/     Unlocked,
-/*LN-19*/     Locked,
-/*LN-20*/     Vesting
-/*LN-21*/ }
-/*LN-22*/ 
-/*LN-23*/ struct Campaign {
-/*LN-24*/     address manager;
-/*LN-25*/     address token;
-/*LN-26*/     uint256 amount;
-/*LN-27*/     uint256 end;
-/*LN-28*/     TokenLockup tokenLockup;
-/*LN-29*/     bytes32 root;
-/*LN-30*/ }
-/*LN-31*/ 
-/*LN-32*/ struct ClaimLockup {
-/*LN-33*/     address tokenLocker;
-/*LN-34*/     uint256 start;
-/*LN-35*/     uint256 cliff;
-/*LN-36*/     uint256 period;
-/*LN-37*/     uint256 periods;
-/*LN-38*/ }
-/*LN-39*/ 
-/*LN-40*/ struct Donation {
-/*LN-41*/     address tokenLocker;
-/*LN-42*/     uint256 amount;
-/*LN-43*/     uint256 rate;
-/*LN-44*/     uint256 start;
-/*LN-45*/     uint256 cliff;
-/*LN-46*/     uint256 period;
-/*LN-47*/ }
-/*LN-48*/ 
-/*LN-49*/ contract TokenClaimCampaigns {
-/*LN-50*/     mapping(bytes16 => Campaign) public campaigns;
-/*LN-51*/ 
-/*LN-52*/     function createLockedCampaign(
-/*LN-53*/         bytes16 id,
-/*LN-54*/         Campaign memory campaign,
-/*LN-55*/         ClaimLockup memory claimLockup,
-/*LN-56*/         Donation memory donation
-/*LN-57*/     ) external {
-/*LN-58*/         require(campaigns[id].manager == address(0), "Campaign exists");
-/*LN-59*/ 
-/*LN-60*/         campaigns[id] = campaign;
-/*LN-61*/ 
-/*LN-62*/         if (donation.amount > 0 && donation.tokenLocker != address(0)) {
+/*LN-17*/ interface IPendleMarket {
+/*LN-18*/     function getRewardTokens() external view returns (address[] memory);
+/*LN-19*/ 
+/*LN-20*/     function rewardIndexesCurrent() external returns (uint256[] memory);
+/*LN-21*/ 
+/*LN-22*/     function claimRewards(address user) external returns (uint256[] memory);
+/*LN-23*/ }
+/*LN-24*/ 
+/*LN-25*/ contract VeTokenStaking {
+/*LN-26*/     mapping(address => mapping(address => uint256)) public userBalances;
+/*LN-27*/     mapping(address => uint256) public totalStaked;
+/*LN-28*/ 
+/*LN-29*/ 
+/*LN-30*/     function deposit(address market, uint256 amount) external {
+/*LN-31*/         IERC20(market).transferFrom(msg.sender, address(this), amount);
+/*LN-32*/         userBalances[market][msg.sender] += amount;
+/*LN-33*/         totalStaked[market] += amount;
+/*LN-34*/     }
+/*LN-35*/ 
+/*LN-36*/     function claimRewards(address market, address user) external {
+/*LN-37*/ 
+/*LN-38*/ 
+/*LN-39*/         uint256[] memory rewards = IPendleMarket(market).claimRewards(user);
+/*LN-40*/ 
+/*LN-41*/ 
+/*LN-42*/         for (uint256 i = 0; i < rewards.length; i++) {
+/*LN-43*/ 
+/*LN-44*/         }
+/*LN-45*/     }
+/*LN-46*/ 
+/*LN-47*/ 
+/*LN-48*/     function withdraw(address market, uint256 amount) external {
+/*LN-49*/         require(
+/*LN-50*/             userBalances[market][msg.sender] >= amount,
+/*LN-51*/             "Insufficient balance"
+/*LN-52*/         );
+/*LN-53*/ 
+/*LN-54*/         userBalances[market][msg.sender] -= amount;
+/*LN-55*/         totalStaked[market] -= amount;
+/*LN-56*/ 
+/*LN-57*/         IERC20(market).transfer(msg.sender, amount);
+/*LN-58*/     }
+/*LN-59*/ }
+/*LN-60*/ 
+/*LN-61*/ contract YieldMarketRegister {
+/*LN-62*/     mapping(address => bool) public registeredMarkets;
 /*LN-63*/ 
-/*LN-64*/             (bool success, ) = donation.tokenLocker.call(
-/*LN-65*/                 abi.encodeWithSignature(
-/*LN-66*/                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
-/*LN-67*/                     campaign.token,
-/*LN-68*/                     donation.amount,
-/*LN-69*/                     donation.start,
-/*LN-70*/                     donation.cliff,
-/*LN-71*/                     donation.rate,
-/*LN-72*/                     donation.period
-/*LN-73*/                 )
-/*LN-74*/             );
-/*LN-75*/ 
-/*LN-76*/             require(success, "Token lock failed");
-/*LN-77*/         }
-/*LN-78*/     }
-/*LN-79*/ 
-/*LN-80*/ 
-/*LN-81*/     function cancelCampaign(bytes16 campaignId) external {
-/*LN-82*/         require(campaigns[campaignId].manager == msg.sender, "Not manager");
-/*LN-83*/         delete campaigns[campaignId];
-/*LN-84*/     }
-/*LN-85*/ }
+/*LN-64*/     function registerMarket(address market) external {
+/*LN-65*/ 
+/*LN-66*/         registeredMarkets[market] = true;
+/*LN-67*/     }
+/*LN-68*/ }

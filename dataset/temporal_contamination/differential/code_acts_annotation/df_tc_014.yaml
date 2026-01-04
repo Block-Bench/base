@@ -1,109 +1,100 @@
 schema_version: "1.0"
 sample_id: "df_tc_014"
-base_sample_id: "ms_tc_014"
-vulnerability_type: "price_oracle_manipulation"
+base_sample_id: "ms_tc_017"
+vulnerability_type: "access_control"
 is_fixed: true
 
 fix_summary:
-  description: "Implemented TWAP (Time-Weighted Average Price) instead of spot price."
-  fix_type: "oracle_hardening"
-  vulnerable_pattern: "Uses spot virtual price from Curve"
-  fixed_pattern: "Uses TWAP calculated over time"
+  description: "Added validTargets whitelist and access control to Strategy functions."
+  fix_type: "access_control"
+  vulnerable_pattern: "Arbitrary call execution and unprotected Strategy functions"
+  fixed_pattern: "Target whitelist and controller-only access"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_014.yaml"
-  # vulnerable_lines (reference only): [75, 109]
-  root_cause_description: "get_virtual_price() is manipulable within a transaction"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_017.yaml"
+  # vulnerable_lines (reference only): [41]
+  root_cause_description: "swapExactJarForJar allows arbitrary calls, Strategy functions lack access control"
 
 fixed_version:
-  fix_lines: [48, 49, 80, 81, 82, 83, 84, 85, 108]
-  fix_description: "Added twapPrice (line 48) and lastUpdateTime (line 49). earn() calculates TWAP (lines 80-85). balance() uses twapPrice (line 108)."
+  fix_lines: [30, 47, 58, 59, 60, 61, 74, 80]
+  fix_description: "Added validTargets mapping (line 30). Check before call (line 47). addValidTarget governance function (lines 58-61). Strategy access control (lines 74, 80)."
 
 code_acts:
 
   - id: "CA_FIX1"
     type: "DECLARATION"
-    lines: [48, 49]
-    code: |
-      uint256 public twapPrice;
-      uint256 public lastUpdateTime;
+    lines: [30]
+    code: "mapping(address => bool) public validTargets;"
     security_function: "FIX"
-    rationale: "FIX - TWAP state variables to track time-weighted price."
+    rationale: "FIX - Whitelist mapping for allowed call targets."
 
   - id: "CA_FIX2"
-    type: "COMPUTATION"
-    lines: [80, 81, 82, 83, 84, 85]
-    code: |
-      uint256 spotPrice = curve3Pool.get_virtual_price();
-      uint256 timeElapsed = block.timestamp - lastUpdateTime;
-      if (timeElapsed > 0) {
-          twapPrice = (twapPrice * lastUpdateTime + spotPrice * timeElapsed) / block.timestamp;
-          lastUpdateTime = block.timestamp;
-      }
+    type: "INPUT_VAL"
+    lines: [47]
+    code: 'require(validTargets[_targets[i]], "Target not allowed");'
     security_function: "FIX"
-    rationale: "FIX - TWAP calculation smooths price over time, preventing flash loan manipulation."
+    rationale: "FIX - Validates target is in whitelist before executing call."
 
   - id: "CA_FIX3"
-    type: "COMPUTATION"
-    lines: [105, 106, 107, 108, 109]
+    type: "ACCESS_CTRL"
+    lines: [58, 59, 60, 61]
     code: |
-      function balance() public view returns (uint256) {
-          return
-              dai.balanceOf(address(this)) +
-              (crv3.balanceOf(address(this)) * twapPrice) / 1e18;
+      function addValidTarget(address target) external {
+          require(msg.sender == governance, "Not governance");
+          validTargets[target] = true;
       }
     security_function: "FIX"
-    rationale: "FIX - Uses twapPrice instead of spot price for valuation."
+    rationale: "FIX - Governance-only function to add valid targets."
+
+  - id: "CA_FIX4"
+    type: "ACCESS_CTRL"
+    lines: [74]
+    code: 'require(msg.sender == controller, "Not controller");'
+    security_function: "FIX"
+    rationale: "FIX - Access control on withdrawAll in Strategy."
+
+  - id: "CA_FIX5"
+    type: "ACCESS_CTRL"
+    lines: [80]
+    code: 'require(msg.sender == controller, "Not controller");'
+    security_function: "FIX"
+    rationale: "FIX - Access control on withdraw in Strategy."
 
   - id: "CA1"
     type: "DECLARATION"
-    lines: [42, 43, 44]
+    lines: [28, 29]
     code: |
-      mapping(address => uint256) public shares;
-      uint256 public totalShares;
-      uint256 public totalDeposits;
+      address public governance;
+      mapping(address => address) public strategies;
     security_function: "BENIGN"
-    rationale: "Share tracking declarations."
+    rationale: "Controller state variables."
 
   - id: "CA2"
-    type: "EXT_CALL"
-    lines: [59]
-    code: "dai.transferFrom(msg.sender, address(this), amount);"
+    type: "INPUT_VAL"
+    lines: [44]
+    code: 'require(_targets.length == _data.length, "Length mismatch");'
     security_function: "BENIGN"
-    rationale: "DAI deposit transfer."
+    rationale: "Array length validation."
 
   - id: "CA3"
-    type: "COMPUTATION"
-    lines: [61, 62, 63, 64, 65, 66]
+    type: "EXT_CALL"
+    lines: [48, 49]
     code: |
-      uint256 shareAmount;
-      if (totalShares == 0) {
-          shareAmount = amount;
-      } else {
-          shareAmount = (amount * totalShares) / totalDeposits;
-      }
+      (bool success, ) = _targets[i].call(_data[i]);
+      require(success, "Call failed");
     security_function: "BENIGN"
-    rationale: "Share calculation."
+    rationale: "External call. Now protected by whitelist."
 
   - id: "CA4"
-    type: "STATE_MOD"
-    lines: [68, 69, 70]
+    type: "ACCESS_CTRL"
+    lines: [53, 54, 55, 56]
     code: |
-      shares[msg.sender] += shareAmount;
-      totalShares += shareAmount;
-      totalDeposits += amount;
+      function setStrategy(address jar, address strategy) external {
+          require(msg.sender == governance, "Not governance");
+          strategies[jar] = strategy;
+      }
     security_function: "BENIGN"
-    rationale: "Deposit state updates."
-
-  - id: "CA5"
-    type: "EXT_CALL"
-    lines: [87, 88, 89]
-    code: |
-      dai.approve(address(curve3Pool), vaultBalance);
-      uint256[3] memory amounts = [vaultBalance, 0, 0];
-      curve3Pool.add_liquidity(amounts, 0);
-    security_function: "BENIGN"
-    rationale: "Curve liquidity addition."
+    rationale: "Governance-protected setStrategy."
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -119,13 +110,13 @@ code_acts:
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40, 46, 51, 52, 53, 54, 55, 56, 58, 73, 74, 75, 76, 77, 78, 92, 93, 94, 96, 98, 99, 100, 102, 103, 110]
+    lines: [9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 27, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 46, 50, 51, 62, 64, 65, 66, 68, 69, 70, 71, 73, 75, 76, 77, 79, 81, 82, 83, 84]
     security_function: "UNRELATED"
     rationale: "Interface, contract, and function signature declarations"
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
-    lines: [22, 36, 71, 90]
+    lines: [14, 20, 26, 57]
     security_function: "UNRELATED"
     rationale: "Closing braces"
 
@@ -133,13 +124,13 @@ summary:
   total_code_acts: 13
 
   fix_applied:
-    type: "oracle_hardening"
-    description: "TWAP instead of spot price"
-    lines_changed: [48, 49, 80, 81, 82, 83, 84, 85, 108]
+    type: "access_control"
+    description: "Target whitelist and controller access control"
+    lines_changed: [30, 47, 58, 59, 60, 61, 74, 80]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 5
+    FIX: 5
+    BENIGN: 4
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -151,101 +142,83 @@ line_to_code_act_fixed:
   7: "CA_COMMENTS"
   9: "CA_DECLARATIONS"
   10: "CA_DECLARATIONS"
-  11: "CA_DECLARATIONS"
+  # Line 11: empty
   12: "CA_DECLARATIONS"
   13: "CA_DECLARATIONS"
   # Line 14: empty
   15: "CA_DECLARATIONS"
   16: "CA_DECLARATIONS"
-  17: "CA_DECLARATIONS"
+  # Line 17: empty
   18: "CA_DECLARATIONS"
-  # Line 19: empty
-  20: "CA_DECLARATIONS"
+  19: "CA_DECLARATIONS"
+  # Line 20: empty
   21: "CA_DECLARATIONS"
-  # Line 22: empty
-  23: "CA_DECLARATIONS"
+  22: "CA_DECLARATIONS"
+  # Line 23: empty
   24: "CA_DECLARATIONS"
-  # Line 25: empty
-  26: "CA_DECLARATIONS"
+  25: "CA_DECLARATIONS"
+  # Line 26: empty
   27: "CA_DECLARATIONS"
-  28: "CA_DECLARATIONS"
-  29: "CA_DECLARATIONS"
-  30: "CA_DECLARATIONS"
-  # Line 31: empty
+  28: "CA1"
+  29: "CA1"
+  30: "CA_FIX1"
   32: "CA_DECLARATIONS"
-  # Line 33: empty
+  33: "CA_DECLARATIONS"
   34: "CA_DECLARATIONS"
-  35: "CA_DECLARATIONS"
-  # Line 36: empty
+  36: "CA_DECLARATIONS"
   37: "CA_DECLARATIONS"
   38: "CA_DECLARATIONS"
   39: "CA_DECLARATIONS"
   40: "CA_DECLARATIONS"
-  42: "CA1"
-  43: "CA1"
-  44: "CA1"
+  41: "CA_DECLARATIONS"
+  42: "CA_DECLARATIONS"
+  43: "CA_DECLARATIONS"
+  44: "CA2"
   46: "CA_DECLARATIONS"
-  48: "CA_FIX1"
-  49: "CA_FIX1"
+  47: "CA_FIX2"
+  48: "CA3"
+  49: "CA3"
+  50: "CA_DECLARATIONS"
   51: "CA_DECLARATIONS"
-  52: "CA_DECLARATIONS"
-  53: "CA_DECLARATIONS"
-  54: "CA_DECLARATIONS"
-  55: "CA_DECLARATIONS"
-  56: "CA_DECLARATIONS"
-  58: "CA_DECLARATIONS"
-  59: "CA2"
-  61: "CA3"
-  62: "CA3"
-  63: "CA3"
-  64: "CA3"
-  65: "CA3"
-  66: "CA3"
-  68: "CA4"
-  69: "CA4"
-  70: "CA4"
-  71: "CA_SYNTAX"
+  53: "CA4"
+  54: "CA4"
+  55: "CA4"
+  56: "CA4"
+  # Line 57: empty
+  58: "CA_FIX3"
+  59: "CA_FIX3"
+  60: "CA_FIX3"
+  61: "CA_FIX3"
+  62: "CA_DECLARATIONS"
+  64: "CA_DECLARATIONS"
+  65: "CA_DECLARATIONS"
+  66: "CA_DECLARATIONS"
+  68: "CA_DECLARATIONS"
+  69: "CA_DECLARATIONS"
+  70: "CA_DECLARATIONS"
+  71: "CA_DECLARATIONS"
   73: "CA_DECLARATIONS"
-  74: "CA_DECLARATIONS"
+  74: "CA_FIX4"
   75: "CA_DECLARATIONS"
   76: "CA_DECLARATIONS"
   77: "CA_DECLARATIONS"
-  78: "CA_DECLARATIONS"
-  80: "CA_FIX2"
-  81: "CA_FIX2"
-  82: "CA_FIX2"
-  83: "CA_FIX2"
-  84: "CA_FIX2"
-  85: "CA_FIX2"
-  87: "CA5"
-  88: "CA5"
-  89: "CA5"
-  90: "CA_SYNTAX"
-  92: "CA_DECLARATIONS"
-  93: "CA_DECLARATIONS"
-  94: "CA_DECLARATIONS"
-  96: "CA_DECLARATIONS"
-  98: "CA_DECLARATIONS"
-  99: "CA_DECLARATIONS"
-  100: "CA_DECLARATIONS"
-  102: "CA_DECLARATIONS"
-  103: "CA_DECLARATIONS"
-  105: "CA_FIX3"
-  106: "CA_FIX3"
-  107: "CA_FIX3"
-  108: "CA_FIX3"
-  109: "CA_FIX3"
-  110: "CA_DECLARATIONS"
+  79: "CA_DECLARATIONS"
+  80: "CA_FIX5"
+  81: "CA_DECLARATIONS"
+  82: "CA_DECLARATIONS"
+  83: "CA_DECLARATIONS"
+  84: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
   CA_FIX1: "FIX"
   CA_FIX2: "FIX"
   CA_FIX3: "FIX"
+  CA_FIX4: "FIX"
+  CA_FIX5: "FIX"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

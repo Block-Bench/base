@@ -1,35 +1,33 @@
 {
   "sample_id": "tr_tc_012",
-  "exploit_name": "Rari Capital Fuse",
-  "date": "2022-05-08",
+  "exploit_name": "Compound cTUSD",
+  "date": "2022-03-15",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "reentrancy",
+  "vulnerability_type": "logic_error",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "",
-  "description": "Cross-function reentrancy attack. The borrow function sent ETH before final health check, allowing attacker to call exitMarket during callback and bypass collateral requirements.",
-  "vulnerable_contract": "LendingProtocol",
-  "vulnerable_function": "borrow",
+  "description": "Token sweep function allowed sweeping upgraded TUSD token. The sweepToken function only checked against old TUSD address, not accounting for token upgrade to new address.",
+  "vulnerable_contract": "LendingMarket",
+  "vulnerable_function": "sweepToken",
   "vulnerable_lines": [
-    68,
-    71,
-    76
+    39
   ],
-  "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
-  "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
-  "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
+  "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
+  "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
+  "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "reentrancy",
-    "cross-function",
-    "oracle-manipulation",
-    "lending",
-    "health-check",
+    "logic-error",
+    "token-upgrade",
+    "sweep-function",
+    "address-mismatch",
+    "compound",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -42,8 +40,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_012.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_012.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_015.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_015.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -53,21 +51,23 @@
       "Renamed contracts to generic names"
     ],
     "distractors": {
-      "config_variables": 0,
-      "score_variables": 23,
+      "config_variables": 2,
+      "score_variables": 17,
       "activity_variables": 0,
-      "fake_functions": 1,
+      "fake_functions": 2,
       "view_helpers": 2,
-      "suspicious_names": 0
+      "suspicious_names": 8
     },
     "contracts_renamed": [
-      "LendingProtocol"
+      "CompoundMarket"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.653025",
+    "created_date": "2025-12-30T01:40:33.655812",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.674832",
-    "code_renames": {}
+    "sanitization_date": "2026-01-02T02:10:09.700710",
+    "code_renames": {
+      "CompoundMarket": "LendingMarket"
+    }
   }
 }

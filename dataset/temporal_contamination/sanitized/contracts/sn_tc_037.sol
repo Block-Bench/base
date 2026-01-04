@@ -15,133 +15,73 @@
 /*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-16*/ }
 /*LN-17*/ 
-/*LN-18*/ interface IAaveOracle {
-/*LN-19*/     function getAssetPrice(address asset) external view returns (uint256);
-/*LN-20*/ 
-/*LN-21*/     function setAssetSources(
-/*LN-22*/         address[] calldata assets,
-/*LN-23*/         address[] calldata sources
-/*LN-24*/     ) external;
-/*LN-25*/ }
-/*LN-26*/ 
-/*LN-27*/ interface IStablePool {
-/*LN-28*/     function exchange(
-/*LN-29*/         int128 i,
-/*LN-30*/         int128 j,
-/*LN-31*/         uint256 dx,
-/*LN-32*/         uint256 min_dy
-/*LN-33*/     ) external returns (uint256);
+/*LN-18*/ interface IUniswapV3Router {
+/*LN-19*/     struct ExactInputSingleParams {
+/*LN-20*/         address tokenIn;
+/*LN-21*/         address tokenOut;
+/*LN-22*/         uint24 fee;
+/*LN-23*/         address recipient;
+/*LN-24*/         uint256 deadline;
+/*LN-25*/         uint256 amountIn;
+/*LN-26*/         uint256 amountOutMinimum;
+/*LN-27*/         uint160 sqrtPriceLimitX96;
+/*LN-28*/     }
+/*LN-29*/ 
+/*LN-30*/     function exactInputSingle(
+/*LN-31*/         ExactInputSingleParams calldata params
+/*LN-32*/     ) external payable returns (uint256 amountOut);
+/*LN-33*/ }
 /*LN-34*/ 
-/*LN-35*/     function get_dy(
-/*LN-36*/         int128 i,
-/*LN-37*/         int128 j,
-/*LN-38*/         uint256 dx
-/*LN-39*/     ) external view returns (uint256);
-/*LN-40*/ 
-/*LN-41*/     function balances(uint256 i) external view returns (uint256);
-/*LN-42*/ }
-/*LN-43*/ 
-/*LN-44*/ interface ILendingPool {
-/*LN-45*/     function deposit(
-/*LN-46*/         address asset,
-/*LN-47*/         uint256 amount,
-/*LN-48*/         address onBehalfOf,
-/*LN-49*/         uint16 referralCode
-/*LN-50*/     ) external;
+/*LN-35*/ contract StakingVault {
+/*LN-36*/     IERC20 public immutable uniBTC;
+/*LN-37*/     IERC20 public immutable WBTC;
+/*LN-38*/     IUniswapV3Router public immutable router;
+/*LN-39*/ 
+/*LN-40*/     uint256 public totalETHDeposited;
+/*LN-41*/     uint256 public totalUniBTCMinted;
+/*LN-42*/ 
+/*LN-43*/     constructor(address _uniBTC, address _wbtc, address _router) {
+/*LN-44*/         uniBTC = IERC20(_uniBTC);
+/*LN-45*/         WBTC = IERC20(_wbtc);
+/*LN-46*/         router = IUniswapV3Router(_router);
+/*LN-47*/     }
+/*LN-48*/ 
+/*LN-49*/     function mint() external payable {
+/*LN-50*/         require(msg.value > 0, "No ETH sent");
 /*LN-51*/ 
-/*LN-52*/     function borrow(
-/*LN-53*/         address asset,
-/*LN-54*/         uint256 amount,
-/*LN-55*/         uint256 interestRateMode,
-/*LN-56*/         uint16 referralCode,
-/*LN-57*/         address onBehalfOf
-/*LN-58*/     ) external;
-/*LN-59*/ 
-/*LN-60*/     function withdraw(
-/*LN-61*/         address asset,
-/*LN-62*/         uint256 amount,
-/*LN-63*/         address to
-/*LN-64*/     ) external returns (uint256);
-/*LN-65*/ }
-/*LN-66*/ 
-/*LN-67*/ contract LendingPool is ILendingPool {
-/*LN-68*/     IAaveOracle public oracle;
-/*LN-69*/     mapping(address => uint256) public deposits;
-/*LN-70*/     mapping(address => uint256) public borrows;
-/*LN-71*/     uint256 public constant LTV = 8500;
-/*LN-72*/     uint256 public constant BASIS_POINTS = 10000;
-/*LN-73*/ 
-/*LN-74*/     /**
-/*LN-75*/      * @notice Deposit collateral into pool
-/*LN-76*/      */
-/*LN-77*/     function deposit(
-/*LN-78*/         address asset,
-/*LN-79*/         uint256 amount,
-/*LN-80*/         address onBehalfOf,
-/*LN-81*/         uint16 referralCode
-/*LN-82*/     ) external override {
-/*LN-83*/         IERC20(asset).transferFrom(msg.sender, address(this), amount);
-/*LN-84*/         deposits[onBehalfOf] += amount;
-/*LN-85*/     }
-/*LN-86*/ 
-/*LN-87*/     /**
-/*LN-88*/      * @notice Borrow assets from pool
-/*LN-89*/      */
-/*LN-90*/     function borrow(
-/*LN-91*/         address asset,
-/*LN-92*/         uint256 amount,
-/*LN-93*/         uint256 interestRateMode,
-/*LN-94*/         uint16 referralCode,
-/*LN-95*/         address onBehalfOf
-/*LN-96*/     ) external override {
-/*LN-97*/         uint256 collateralPrice = oracle.getAssetPrice(msg.sender);
-/*LN-98*/         uint256 borrowPrice = oracle.getAssetPrice(asset);
-/*LN-99*/ 
-/*LN-100*/         uint256 collateralValue = (deposits[msg.sender] * collateralPrice) /
-/*LN-101*/             1e18;
-/*LN-102*/         uint256 maxBorrow = (collateralValue * LTV) / BASIS_POINTS;
-/*LN-103*/ 
-/*LN-104*/         uint256 borrowValue = (amount * borrowPrice) / 1e18;
-/*LN-105*/ 
-/*LN-106*/         require(borrowValue <= maxBorrow, "Insufficient collateral");
-/*LN-107*/ 
-/*LN-108*/         borrows[msg.sender] += amount;
-/*LN-109*/         IERC20(asset).transfer(onBehalfOf, amount);
-/*LN-110*/     }
-/*LN-111*/ 
-/*LN-112*/     /**
-/*LN-113*/      * @notice Withdraw collateral
-/*LN-114*/      */
-/*LN-115*/     function withdraw(
-/*LN-116*/         address asset,
-/*LN-117*/         uint256 amount,
-/*LN-118*/         address to
-/*LN-119*/     ) external override returns (uint256) {
-/*LN-120*/         require(deposits[msg.sender] >= amount, "Insufficient balance");
-/*LN-121*/         deposits[msg.sender] -= amount;
-/*LN-122*/         IERC20(asset).transfer(to, amount);
-/*LN-123*/         return amount;
-/*LN-124*/     }
-/*LN-125*/ }
-/*LN-126*/ 
-/*LN-127*/ contract PoolOracle {
-/*LN-128*/     IStablePool public stablePool;
-/*LN-129*/ 
-/*LN-130*/     constructor(address _pool) {
-/*LN-131*/         stablePool = _pool;
-/*LN-132*/     }
-/*LN-133*/ 
-/*LN-134*/     /**
-/*LN-135*/ 
-/*LN-136*/      */
-/*LN-137*/     function getAssetPrice(address asset) external view returns (uint256) {
-/*LN-138*/ 
-/*LN-139*/         uint256 balance0 = stablePool.balances(0);
-/*LN-140*/         uint256 balance1 = stablePool.balances(1);
-/*LN-141*/ 
-/*LN-142*/         uint256 price = (balance1 * 1e18) / balance0;
-/*LN-143*/ 
-/*LN-144*/         return price;
-/*LN-145*/     }
-/*LN-146*/ }
-/*LN-147*/ 
+/*LN-52*/         uint256 uniBTCAmount = msg.value;
+/*LN-53*/ 
+/*LN-54*/         totalETHDeposited += msg.value;
+/*LN-55*/         totalUniBTCMinted += uniBTCAmount;
+/*LN-56*/ 
+/*LN-57*/         // Transfer uniBTC to user
+/*LN-58*/         uniBTC.transfer(msg.sender, uniBTCAmount);
+/*LN-59*/     }
+/*LN-60*/ 
+/*LN-61*/     /**
+/*LN-62*/      * @notice Redeem ETH by burning uniBTC
+/*LN-63*/      */
+/*LN-64*/     function redeem(uint256 amount) external {
+/*LN-65*/         require(amount > 0, "No amount specified");
+/*LN-66*/         require(uniBTC.balanceOf(msg.sender) >= amount, "Insufficient balance");
+/*LN-67*/ 
+/*LN-68*/         uniBTC.transferFrom(msg.sender, address(this), amount);
+/*LN-69*/ 
+/*LN-70*/         uint256 ethAmount = amount;
+/*LN-71*/         require(address(this).balance >= ethAmount, "Insufficient ETH");
+/*LN-72*/ 
+/*LN-73*/         payable(msg.sender).transfer(ethAmount);
+/*LN-74*/     }
+/*LN-75*/ 
+/*LN-76*/     /**
+/*LN-77*/      * @notice Get current exchange rate
+/*LN-78*/      * @dev Should return ETH per uniBTC, but returns 1:1
+/*LN-79*/      */
+/*LN-80*/     function getExchangeRate() external pure returns (uint256) {
+/*LN-81*/ 
+/*LN-82*/         return 1e18;
+/*LN-83*/     }
+/*LN-84*/ 
+/*LN-85*/     receive() external payable {}
+/*LN-86*/ }
+/*LN-87*/ 

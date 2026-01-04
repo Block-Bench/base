@@ -1,32 +1,34 @@
 {
   "sample_id": "tr_tc_013",
-  "exploit_name": "PancakeHunny (PancakeBunny)",
-  "date": "2021-05-20",
+  "exploit_name": "bZx Protocol",
+  "date": "2020-09-14",
   "amount_lost_usd": "",
-  "blockchain": "bsc",
+  "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "arithmetic_error",
+  "vulnerability_type": "reentrancy",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "",
-  "description": "Balance calculation exploit using balanceOf. The mintFor function calculated rewards based on contract's total balance, allowing attacker to inflate rewards by sending tokens directly before minting.",
-  "vulnerable_contract": "RewardMinter",
-  "vulnerable_function": "mintFor",
+  "description": "Transfer callback manipulation allowing state inconsistency. The transfer function updated balances then called _notifyTransfer which triggered callbacks, allowing repeated transfers with stale state calculations.",
+  "vulnerable_contract": "LoanToken",
+  "vulnerable_function": "transfer",
   "vulnerable_lines": [
-    81
+    59,
+    80
   ],
-  "attack_scenario": "Attacker flash loaned large amount of LP tokens, sent them directly to minter contract, called getReward which triggered mintFor. Function calculated rewards based on inflated balance, minting excessive HUNNY tokens.",
-  "root_cause": "Using balanceOf(address(this)) for reward calculation instead of tracking actual deposits. Attacker sent tokens directly to contract before calling mintFor, inflating the balance used for reward calculation.",
-  "fix_description": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
+  "attack_scenario": "Attacker minted tokens, then transferred to self 4 times in loop. Each transfer triggered callback with inconsistent state. After iterations, token balance inflated. Burned inflated tokens back to ETH for profit.",
+  "root_cause": "Token transfer function called external contract during state update. Callback occurred after balance updates but before finalization, creating state inconsistency exploitable through repeated self-transfers.",
+  "fix_description": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "balance-manipulation",
-    "flash-loan",
-    "reward-calculation",
-    "balanceof-exploit",
+    "reentrancy",
+    "callback-manipulation",
+    "token-transfer",
+    "state-inconsistency",
+    "bzx",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -39,8 +41,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_013.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_013.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_016.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_016.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -51,22 +53,20 @@
     ],
     "distractors": {
       "config_variables": 2,
-      "score_variables": 26,
+      "score_variables": 18,
       "activity_variables": 0,
-      "fake_functions": 1,
+      "fake_functions": 2,
       "view_helpers": 2,
-      "suspicious_names": 0
+      "suspicious_names": 16
     },
     "contracts_renamed": [
-      "RewardMinter"
+      "LoanToken"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.654093",
+    "created_date": "2025-12-30T01:40:33.656450",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.685284",
-    "code_renames": {
-      "hunnyRewardAmount": "rewardAmount"
-    }
+    "sanitization_date": "2026-01-02T02:10:09.709729",
+    "code_renames": {}
   }
 }

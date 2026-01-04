@@ -3,96 +3,93 @@
 /*LN-3*/ 
 /*LN-4*/ interface IERC20 {
 /*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-6*/     function transferFrom(
-/*LN-7*/         address from,
-/*LN-8*/         address to,
-/*LN-9*/         uint256 amount
-/*LN-10*/     ) external returns (bool);
-/*LN-11*/     function balanceOf(address account) external view returns (uint256);
-/*LN-12*/     function approve(address spender, uint256 amount) external returns (bool);
-/*LN-13*/ }
+/*LN-6*/ 
+/*LN-7*/     function transferFrom(
+/*LN-8*/         address from,
+/*LN-9*/         address to,
+/*LN-10*/         uint256 amount
+/*LN-11*/     ) external returns (bool);
+/*LN-12*/ 
+/*LN-13*/     function balanceOf(address account) external view returns (uint256);
 /*LN-14*/ 
-/*LN-15*/ enum TokenLockup {
-/*LN-16*/     Unlocked,
-/*LN-17*/     Locked,
-/*LN-18*/     Vesting
-/*LN-19*/ }
+/*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
+/*LN-16*/ }
+/*LN-17*/ 
+/*LN-18*/ interface IPendleMarket {
+/*LN-19*/     function getRewardTokens() external view returns (address[] memory);
 /*LN-20*/ 
-/*LN-21*/ struct Campaign {
-/*LN-22*/     address manager;
-/*LN-23*/     address token;
-/*LN-24*/     uint256 amount;
-/*LN-25*/     uint256 end;
-/*LN-26*/     TokenLockup tokenLockup;
-/*LN-27*/     bytes32 root;
-/*LN-28*/ }
-/*LN-29*/ 
-/*LN-30*/ struct ClaimLockup {
-/*LN-31*/     address tokenLocker;
-/*LN-32*/     uint256 start;
-/*LN-33*/     uint256 cliff;
-/*LN-34*/     uint256 period;
-/*LN-35*/     uint256 periods;
-/*LN-36*/ }
+/*LN-21*/     function rewardIndexesCurrent() external returns (uint256[] memory);
+/*LN-22*/ 
+/*LN-23*/     function claimRewards(address user) external returns (uint256[] memory);
+/*LN-24*/ }
+/*LN-25*/ 
+/*LN-26*/ contract PenpieStaking {
+/*LN-27*/     mapping(address => mapping(address => uint256)) public userBalances;
+/*LN-28*/     mapping(address => uint256) public totalStaked;
+/*LN-29*/     mapping(address => bool) public registeredMarkets;
+/*LN-30*/     address public admin;
+/*LN-31*/ 
+/*LN-32*/     bool private _locked;
+/*LN-33*/ 
+/*LN-34*/     constructor() {
+/*LN-35*/         admin = msg.sender;
+/*LN-36*/     }
 /*LN-37*/ 
-/*LN-38*/ struct Donation {
-/*LN-39*/     address tokenLocker;
-/*LN-40*/     uint256 amount;
-/*LN-41*/     uint256 rate;
-/*LN-42*/     uint256 start;
-/*LN-43*/     uint256 cliff;
-/*LN-44*/     uint256 period;
-/*LN-45*/ }
-/*LN-46*/ 
-/*LN-47*/ contract TokenClaimCampaigns {
-/*LN-48*/     mapping(bytes16 => Campaign) public campaigns;
-/*LN-49*/     mapping(address => bool) public approvedTokenLockers;
-/*LN-50*/     address public admin;
-/*LN-51*/ 
-/*LN-52*/     constructor() {
-/*LN-53*/         admin = msg.sender;
-/*LN-54*/     }
-/*LN-55*/ 
-/*LN-56*/     modifier onlyAdmin() {
-/*LN-57*/         require(msg.sender == admin, "Not admin");
-/*LN-58*/         _;
+/*LN-38*/     modifier nonReentrant() {
+/*LN-39*/         require(!_locked, "Reentrant call");
+/*LN-40*/         _locked = true;
+/*LN-41*/         _;
+/*LN-42*/         _locked = false;
+/*LN-43*/     }
+/*LN-44*/ 
+/*LN-45*/     modifier onlyAdmin() {
+/*LN-46*/         require(msg.sender == admin, "Not admin");
+/*LN-47*/         _;
+/*LN-48*/     }
+/*LN-49*/ 
+/*LN-50*/     function registerMarket(address market) external onlyAdmin {
+/*LN-51*/         registeredMarkets[market] = true;
+/*LN-52*/     }
+/*LN-53*/ 
+/*LN-54*/     function deposit(address market, uint256 amount) external nonReentrant {
+/*LN-55*/         require(registeredMarkets[market], "Market not registered");
+/*LN-56*/         IERC20(market).transferFrom(msg.sender, address(this), amount);
+/*LN-57*/         userBalances[market][msg.sender] += amount;
+/*LN-58*/         totalStaked[market] += amount;
 /*LN-59*/     }
 /*LN-60*/ 
-/*LN-61*/     function addApprovedTokenLocker(address locker) external onlyAdmin {
-/*LN-62*/         approvedTokenLockers[locker] = true;
-/*LN-63*/     }
+/*LN-61*/     function claimRewards(address market, address user) external nonReentrant {
+/*LN-62*/         require(registeredMarkets[market], "Market not registered");
+/*LN-63*/         uint256[] memory rewards = IPendleMarket(market).claimRewards(user);
 /*LN-64*/ 
-/*LN-65*/     function createLockedCampaign(
-/*LN-66*/         bytes16 id,
-/*LN-67*/         Campaign memory campaign,
-/*LN-68*/         ClaimLockup memory claimLockup,
-/*LN-69*/         Donation memory donation
-/*LN-70*/     ) external {
-/*LN-71*/         require(campaigns[id].manager == address(0), "Campaign exists");
-/*LN-72*/         require(approvedTokenLockers[donation.tokenLocker], "TokenLocker not approved");
-/*LN-73*/ 
-/*LN-74*/         campaigns[id] = campaign;
-/*LN-75*/ 
-/*LN-76*/         if (donation.amount > 0 && donation.tokenLocker != address(0)) {
-/*LN-77*/             (bool success, ) = donation.tokenLocker.call(
-/*LN-78*/                 abi.encodeWithSignature(
-/*LN-79*/                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
-/*LN-80*/                     campaign.token,
-/*LN-81*/                     donation.amount,
-/*LN-82*/                     donation.start,
-/*LN-83*/                     donation.cliff,
-/*LN-84*/                     donation.rate,
-/*LN-85*/                     donation.period
-/*LN-86*/                 )
-/*LN-87*/             );
-/*LN-88*/ 
-/*LN-89*/             require(success, "Token lock failed");
-/*LN-90*/         }
-/*LN-91*/     }
-/*LN-92*/ 
-/*LN-93*/     function cancelCampaign(bytes16 campaignId) external {
-/*LN-94*/         require(campaigns[campaignId].manager == msg.sender, "Not manager");
-/*LN-95*/         delete campaigns[campaignId];
-/*LN-96*/     }
-/*LN-97*/ }
-/*LN-98*/ 
+/*LN-65*/         for (uint256 i = 0; i < rewards.length; i++) {}
+/*LN-66*/     }
+/*LN-67*/ 
+/*LN-68*/     function withdraw(address market, uint256 amount) external nonReentrant {
+/*LN-69*/         require(registeredMarkets[market], "Market not registered");
+/*LN-70*/         require(
+/*LN-71*/             userBalances[market][msg.sender] >= amount,
+/*LN-72*/             "Insufficient balance"
+/*LN-73*/         );
+/*LN-74*/ 
+/*LN-75*/         userBalances[market][msg.sender] -= amount;
+/*LN-76*/         totalStaked[market] -= amount;
+/*LN-77*/ 
+/*LN-78*/         IERC20(market).transfer(msg.sender, amount);
+/*LN-79*/     }
+/*LN-80*/ }
+/*LN-81*/ 
+/*LN-82*/ contract PendleMarketRegister {
+/*LN-83*/     mapping(address => bool) public registeredMarkets;
+/*LN-84*/     address public admin;
+/*LN-85*/ 
+/*LN-86*/     constructor() {
+/*LN-87*/         admin = msg.sender;
+/*LN-88*/     }
+/*LN-89*/ 
+/*LN-90*/     function registerMarket(address market) external {
+/*LN-91*/         require(msg.sender == admin, "Not admin");
+/*LN-92*/         registeredMarkets[market] = true;
+/*LN-93*/     }
+/*LN-94*/ }
+/*LN-95*/ 

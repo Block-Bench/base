@@ -9,7 +9,7 @@
   ],
   "strategy": "decoy/false_prophet",
   "source": "minimalsanitized",
-  "total_files": 50,
+  "total_files": 46,
   "prefix": "fp_tc_",
   "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
   "false_prophet_patterns": {

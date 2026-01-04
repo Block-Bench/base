@@ -1,398 +1,195 @@
 schema_version: "1.0"
 sample_id: "tr_tc_021"
-base_sample_id: "ms_tc_021"
-vulnerability_type: "reinitialization"
+base_sample_id: "ms_tc_024"
+vulnerability_type: "price_oracle_manipulation"
 is_vulnerable: true
 
-# Trojan annotation documents INJECTED DECOY elements only.
-# The base vulnerability is documented in ms_tc_021.yaml.
-# DECOYs are suspicious-looking code that is actually safe.
-
 trojan_strategy: "config_and_metrics_distractors"
-injection_count: 7
+injection_count: 6
 
 base_vulnerability:
-  type: "reinitialization"
-  function: "init"
-  vulnerable_lines: [39, 40, 41, 42, 43, 44]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_021.yaml"
+  type: "price_oracle_manipulation"
+  function: "getPrice"
+  vulnerable_lines: [37, 38, 46, 47]
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_024.yaml"
 
 injections:
-
-  # ============================================
-  # DECOY 1: Suspicious reinit mode variable
-  # ============================================
 
   - id: "INJ1"
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_024.sol"
       function: "global"
-      lines: [28]
-    code: "bool public unsafeReinitMode;"
+      lines: [29]
+    code: "bool public unsafePriceBypass;"
     suspicious_because:
-      - "Name suggests unsafe/dangerous operation"
-      - "Combined with reinit suggests reinitialization bypass"
+      - "Name suggests price bypass"
     safe_because:
-      - "Just a boolean flag, no direct exploit"
-      - "Requires separate function call to enable"
+      - "Just a boolean flag, real vuln is spot price usage"
     pattern_triggered: "suspicious_variable_name"
     distraction_risk: "high"
-
-  # ============================================
-  # DECOY 2: Reinit attempt counter
-  # ============================================
 
   - id: "INJ2"
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_024.sol"
       function: "global"
-      lines: [29]
-    code: "uint256 public reinitAttemptCount;"
+      lines: [30]
+    code: "uint256 public manipulatedPriceCount;"
     suspicious_because:
-      - "Name suggests tracking reinitialization attempts"
-      - "Might imply reinit is possible"
+      - "Name mentions manipulation"
     safe_because:
-      - "Just a counter with no security impact"
+      - "Just a counter"
     pattern_triggered: "suspicious_variable_name"
-    distraction_risk: "medium"
-
-  # ============================================
-  # DECOY 3: Emergency maintainer override
-  # ============================================
+    distraction_risk: "high"
 
   - id: "INJ3"
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
+      file: "tr_tc_024.sol"
       function: "global"
-      lines: [30]
-    code: "address public emergencyMaintainerOverride;"
+      lines: [31]
+    code: "uint256 public vulnerableVirtualPriceCache;"
     suspicious_because:
-      - "Name suggests emergency bypass of access control"
-      - "Override suggests privilege escalation"
+      - "Name contains 'vulnerable'"
     safe_because:
-      - "Variable is set but never used for access control"
-      - "Does not grant any actual permissions"
+      - "Not used in pricing logic"
     pattern_triggered: "suspicious_variable_name"
     distraction_risk: "high"
-
-  # ============================================
-  # DECOY 4: Fake protection block
-  # ============================================
 
   - id: "INJ4"
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
-      function: "init"
-      lines: [47, 48, 49, 50, 51, 52]
+      file: "tr_tc_024.sol"
+      function: "getPrice"
+      lines: [40, 41, 42, 43, 44]
     code: |
-      if (isInitialized && !unsafeReinitMode) {
-          // Fake protection that can be bypassed
-          emergencyMaintainerOverride = _maintainer;
-          poolConfigVersion += 1;
-          return;
+      if (unsafePriceBypass) {
+          // Removed state-modifying lines
       }
     suspicious_because:
-      - "Looks like initialization protection"
-      - "Contains comment about fake protection"
+      - "Looks like bypass logic"
     safe_because:
-      - "Real vulnerability is lack of require(!isInitialized)"
-      - "This is a distraction from the actual root cause"
-    pattern_triggered: "fake_protection_pattern"
-    distraction_risk: "high"
-
-  # ============================================
-  # DECOY 5: Reinit counter increment
-  # ============================================
-
-  - id: "INJ5"
-    type: "STATE_MOD"
-    security_function: "DECOY"
-    location:
-      file: "tr_tc_021.sol"
-      function: "init"
-      lines: [45]
-    code: "reinitAttemptCount += 1; // Suspicious counter"
-    suspicious_because:
-      - "Tracking reinit attempts suggests vulnerability awareness"
-      - "Comment explicitly calls it suspicious"
-    safe_because:
-      - "Just incrementing a counter"
-      - "Does not prevent or enable reinit"
-    pattern_triggered: "suspicious_counter"
+      - "Empty block, doesn't affect pricing"
+    pattern_triggered: "fake_vulnerability_code"
     distraction_risk: "medium"
 
-  # ============================================
-  # DECOY 6: Toggle unsafe reinit mode function
-  # ============================================
-
-  - id: "INJ6"
-    type: "ACCESS_CTRL"
+  - id: "INJ5"
+    type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
-      function: "toggleUnsafeReinitMode"
-      lines: [128, 129, 130, 131, 132]
+      file: "tr_tc_024.sol"
+      function: "global"
+      lines: [65, 66, 67]
     code: |
-      // Fake vulnerability: suspicious reinit toggle
-      function toggleUnsafeReinitMode(bool unsafe) external {
-          unsafeReinitMode = unsafe;
-          poolConfigVersion += 1;
-      }
+      uint256 public protocolConfigVersion;
+      uint256 public globalCollateralScore;
+      mapping(address => uint256) public userBorrowActivity;
     suspicious_because:
-      - "Function name suggests enabling unsafe reinit"
-      - "No access control on toggle"
-      - "Comment calls it fake vulnerability"
+      - "Adds complexity"
     safe_because:
-      - "Real vulnerability exists regardless of this toggle"
-      - "Init function missing proper require check is the actual issue"
-    pattern_triggered: "suspicious_function_name"
-    distraction_risk: "high"
+      - "Pure tracking variables"
+    pattern_triggered: "complexity_distractor"
+    distraction_risk: "low"
 
-  # ============================================
-  # DECOY 7: Analytics functions
-  # ============================================
-
-  - id: "INJ7"
+  - id: "INJ6"
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_021.sol"
-      function: "_recordLiquidityActivity, _updateFeeScore, getPoolMetrics"
-      lines: [134, 135, 136, 137, 138, 139, 140, 142, 143, 144, 145, 146, 147, 148, 149, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162]
-    code: |
-      function _recordLiquidityActivity(address user, uint256 value) internal {...}
-      function _updateFeeScore(uint256 current, uint256 fee) internal pure returns (uint256) {...}
-      function getPoolMetrics() external view returns (...) {...}
+      file: "tr_tc_024.sol"
+      function: "toggleUnsafePriceMode, _recordBorrowActivity, _updateCollateralScore, getProtocolMetrics, getOracleMetrics"
+      lines: [109, 110, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 124, 125, 126, 127, 128, 129, 130, 131, 133, 134, 135, 136, 137, 138, 139, 140, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151]
+    code: "Analytics and helper functions"
     suspicious_because:
-      - "Adds code complexity to distract from simple vulnerability"
-      - "getPoolMetrics exposes reinitAttempts and reinitBypassActive"
+      - "toggleUnsafePriceMode suggests bypass"
     safe_because:
-      - "Pure analytics/view functions"
-      - "No state modification affecting security"
+      - "Real vulnerability is spot price usage"
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
 
 code_acts:
 
   - id: "CA_ROOT"
-    type: "CTRL_FLOW"
-    lines: [39, 40, 41, 42, 43, 44]
+    type: "EXT_CALL"
+    lines: [37, 38, 46, 47]
     code: |
-      function init(
-          address _maintainer,
-          address _baseToken,
-          address _quoteToken,
-          uint256 _lpFeeRate
-      ) external {
+      function getPrice() external view returns (uint256) {
+          uint256 price = stablePool.get_virtual_price();
+          return price;
+      }
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - init function lacks require(!isInitialized) check"
+    rationale: "ROOT_CAUSE - Uses spot price vulnerable to flash loan manipulation"
 
   - id: "CA1"
     type: "DECLARATION"
-    lines: [17, 18, 19]
-    code: |
-      address public maintainer;
-      address public baseToken;
-      address public quoteToken;
+    lines: [26]
+    code: "IStablePool public stablePool;"
     security_function: "BENIGN"
-    rationale: "Pool configuration variables"
+    rationale: "Pool reference"
 
   - id: "CA2"
-    type: "DECLARATION"
-    lines: [21, 22, 23]
-    code: |
-      uint256 public lpFeeRate;
-      uint256 public baseBalance;
-      uint256 public quoteBalance;
+    type: "INITIALIZATION"
+    lines: [33, 34, 35]
+    code: "constructor(address _stablePool) {...}"
     security_function: "BENIGN"
-    rationale: "Pool state variables"
+    rationale: "PriceOracle constructor"
 
   - id: "CA3"
-    type: "DECLARATION"
-    lines: [25]
-    code: "bool public isInitialized;"
+    type: "CTRL_FLOW"
+    lines: [48]
+    code: "}"
     security_function: "BENIGN"
-    rationale: "Initialization flag (not properly checked)"
+    rationale: "PriceOracle close"
 
   - id: "CA4"
     type: "DECLARATION"
-    lines: [33, 34, 35]
-    code: |
-      uint256 public poolConfigVersion;
-      uint256 public globalFeeScore;
-      mapping(address => uint256) public userLiquidityActivity;
+    lines: [51, 52, 53, 54, 56]
+    code: "struct Position {...}; mapping..."
     security_function: "BENIGN"
-    rationale: "Analytics tracking variables"
+    rationale: "LendingProtocol state"
 
   - id: "CA5"
-    type: "STATE_MOD"
-    lines: [54, 55, 56, 57]
-    code: |
-      maintainer = _maintainer;
-      baseToken = _baseToken;
-      quoteToken = _quoteToken;
-      lpFeeRate = _lpFeeRate;
+    type: "DECLARATION"
+    lines: [58, 59, 60, 62]
+    code: "address public collateralToken; ..."
     security_function: "BENIGN"
-    rationale: "State assignments in init"
+    rationale: "Token addresses and constants"
 
   - id: "CA6"
-    type: "STATE_MOD"
-    lines: [59]
-    code: "isInitialized = true;"
+    type: "INITIALIZATION"
+    lines: [69, 70, 71, 72, 73, 74, 75, 76, 77, 78]
+    code: "constructor(...) {...}"
     security_function: "BENIGN"
-    rationale: "Sets initialized flag"
+    rationale: "LendingProtocol constructor"
 
   - id: "CA7"
     type: "CTRL_FLOW"
-    lines: [61, 62]
-    code: |
-      emit Initialized(_maintainer, _baseToken, _quoteToken);
-      }
+    lines: [80, 81, 82, 84, 85]
+    code: "function deposit(uint256 amount) external {...}"
     security_function: "BENIGN"
-    rationale: "Event emission and function close"
+    rationale: "deposit function"
 
   - id: "CA8"
     type: "CTRL_FLOW"
-    lines: [64, 65]
-    code: |
-      function addLiquidity(uint256 baseAmount, uint256 quoteAmount) external {
-          require(isInitialized, "Not initialized");
+    lines: [87, 88, 89, 91, 92, 93, 94, 96, 97, 99, 100]
+    code: "function borrow(uint256 amount) external {...}"
     security_function: "BENIGN"
-    rationale: "addLiquidity function header"
+    rationale: "borrow function"
 
   - id: "CA9"
-    type: "EXT_CALL"
-    lines: [67, 68]
-    code: |
-      IERC20(baseToken).transferFrom(msg.sender, address(this), baseAmount);
-      IERC20(quoteToken).transferFrom(msg.sender, address(this), quoteAmount);
+    type: "COMPUTATION"
+    lines: [102, 103, 104, 106, 107]
+    code: "function getCollateralValue(...) public view {...}"
     security_function: "BENIGN"
-    rationale: "Token transfers in addLiquidity"
+    rationale: "getCollateralValue function"
 
   - id: "CA10"
-    type: "STATE_MOD"
-    lines: [70, 71]
-    code: |
-      baseBalance += baseAmount;
-      quoteBalance += quoteAmount;
-    security_function: "BENIGN"
-    rationale: "Balance updates in addLiquidity"
-
-  - id: "CA11"
-    type: "EXT_CALL"
-    lines: [73, 74]
-    code: |
-      _recordLiquidityActivity(msg.sender, baseAmount + quoteAmount);
-      }
-    security_function: "BENIGN"
-    rationale: "Analytics call and function close"
-
-  - id: "CA12"
     type: "CTRL_FLOW"
-    lines: [76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86]
-    code: |
-      function swap(...) external returns (uint256 toAmount) {
-          require(isInitialized, "Not initialized");
-          require((fromToken == baseToken && toToken == quoteToken) ||
-              (fromToken == quoteToken && toToken == baseToken), "Invalid token pair");
-    security_function: "BENIGN"
-    rationale: "Swap function header and validation"
-
-  - id: "CA13"
-    type: "EXT_CALL"
-    lines: [88]
-    code: "IERC20(fromToken).transferFrom(msg.sender, address(this), fromAmount);"
-    security_function: "BENIGN"
-    rationale: "Token transfer in swap"
-
-  - id: "CA14"
-    type: "COMPUTATION"
-    lines: [90, 91, 92, 93, 94, 95, 96, 97, 98]
-    code: |
-      if (fromToken == baseToken) {
-          toAmount = (quoteBalance * fromAmount) / (baseBalance + fromAmount);
-          baseBalance += fromAmount;
-          quoteBalance -= toAmount;
-      } else {
-          toAmount = (baseBalance * fromAmount) / (quoteBalance + fromAmount);
-          quoteBalance += fromAmount;
-          baseBalance -= toAmount;
-      }
-    security_function: "BENIGN"
-    rationale: "AMM swap calculation"
-
-  - id: "CA15"
-    type: "COMPUTATION"
-    lines: [100, 101]
-    code: |
-      uint256 fee = (toAmount * lpFeeRate) / 10000;
-      toAmount -= fee;
-    security_function: "BENIGN"
-    rationale: "Fee calculation"
-
-  - id: "CA16"
-    type: "EXT_CALL"
-    lines: [103, 104]
-    code: |
-      IERC20(toToken).transfer(msg.sender, toAmount);
-      IERC20(toToken).transfer(maintainer, fee);
-    security_function: "BENIGN"
-    rationale: "Token transfers in swap"
-
-  - id: "CA17"
-    type: "STATE_MOD"
-    lines: [106]
-    code: "globalFeeScore = _updateFeeScore(globalFeeScore, fee);"
-    security_function: "BENIGN"
-    rationale: "Analytics update"
-
-  - id: "CA18"
-    type: "CTRL_FLOW"
-    lines: [108, 109]
-    code: |
-      return toAmount;
-      }
-    security_function: "BENIGN"
-    rationale: "Return and function close"
-
-  - id: "CA19"
-    type: "ACCESS_CTRL"
-    lines: [111, 112]
-    code: |
-      function claimFees() external {
-          require(msg.sender == maintainer, "Only maintainer");
-    security_function: "BENIGN"
-    rationale: "claimFees access control"
-
-  - id: "CA20"
-    type: "EXT_CALL"
-    lines: [114, 115]
-    code: |
-      uint256 baseTokenBalance = IERC20(baseToken).balanceOf(address(this));
-      uint256 quoteTokenBalance = IERC20(quoteToken).balanceOf(address(this));
-    security_function: "BENIGN"
-    rationale: "Balance reads"
-
-  - id: "CA21"
-    type: "CTRL_FLOW"
-    lines: [117, 118, 119, 120, 122, 123, 124, 125, 126]
-    code: |
-      if (baseTokenBalance > baseBalance) {...}
-      if (quoteTokenBalance > quoteBalance) {...}
-    security_function: "BENIGN"
-    rationale: "Fee claiming logic"
-
-  - id: "CA22"
-    type: "CTRL_FLOW"
-    lines: [163]
+    lines: [152]
     code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
@@ -405,15 +202,15 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [27, 32]
+    lines: [28, 64]
     security_function: "UNRELATED"
     rationale: "Comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 7, 9, 10, 11, 12, 13, 14, 16, 37]
+    lines: [4, 5, 7, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 21, 22, 23, 25, 50]
     security_function: "UNRELATED"
-    rationale: "Interface and event declarations"
+    rationale: "Interface and contract declarations"
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
@@ -422,26 +219,22 @@ code_acts:
     rationale: "Braces included in code_acts"
 
 summary:
-  total_injections: 7
+  total_injections: 6
 
   injection_types:
-    ACCESS_CTRL: 1
-    DECLARATION: 3
-    STATE_MOD: 1
-    COMPUTATION: 1
+    ACCESS_CTRL: 0
+    DECLARATION: 4
     CTRL_FLOW: 1
+    COMPUTATION: 1
 
   distraction_risk_breakdown:
-    high: 4
-    medium: 2
-    low: 1
+    high: 3
+    medium: 1
+    low: 2
 
   evaluation_notes:
-    - "Primary decoy strategy uses suspicious variable names (unsafeReinitMode, reinitAttemptCount)"
-    - "Fake protection block at lines 47-52 looks like security check but is bypassable"
-    - "toggleUnsafeReinitMode function is obvious distractor with comment calling it fake"
-    - "Real vulnerability is simple: init() lacks require(!isInitialized)"
-    - "Analytics functions add complexity to distract from simple bug"
+    - "Primary decoys use price-related suspicious names"
+    - "Real vulnerability is spot price from get_virtual_price()"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -456,124 +249,116 @@ line_to_code_act:
   13: "CA_DECLARATIONS"
   14: "CA_DECLARATIONS"
   16: "CA_DECLARATIONS"
-  17: "CA1"
-  18: "CA1"
-  19: "CA1"
-  21: "CA2"
-  22: "CA2"
-  23: "CA2"
-  25: "CA3"
-  27: "CA_COMMENTS"
-  28: "INJ1"
-  29: "INJ2"
-  30: "INJ3"
-  32: "CA_COMMENTS"
-  33: "CA4"
-  34: "CA4"
-  35: "CA4"
-  37: "CA_DECLARATIONS"
-  39: "CA_ROOT"
-  40: "CA_ROOT"
-  41: "CA_ROOT"
-  42: "CA_ROOT"
-  43: "CA_ROOT"
-  44: "CA_ROOT"
-  45: "INJ5"
-  47: "INJ4"
-  48: "INJ4"
-  49: "INJ4"
-  50: "INJ4"
-  51: "INJ4"
-  52: "INJ4"
-  54: "CA5"
-  55: "CA5"
-  56: "CA5"
-  57: "CA5"
-  59: "CA6"
-  61: "CA7"
-  62: "CA7"
-  64: "CA8"
-  65: "CA8"
-  67: "CA9"
-  68: "CA9"
-  70: "CA10"
-  71: "CA10"
-  73: "CA11"
-  74: "CA11"
-  76: "CA12"
-  77: "CA12"
-  78: "CA12"
-  79: "CA12"
-  80: "CA12"
-  81: "CA12"
-  82: "CA12"
-  83: "CA12"
-  84: "CA12"
-  85: "CA12"
-  86: "CA12"
-  88: "CA13"
-  90: "CA14"
-  91: "CA14"
-  92: "CA14"
-  93: "CA14"
-  94: "CA14"
-  95: "CA14"
-  96: "CA14"
-  97: "CA14"
-  98: "CA14"
-  100: "CA15"
-  101: "CA15"
-  103: "CA16"
-  104: "CA16"
-  106: "CA17"
-  108: "CA18"
-  109: "CA18"
-  111: "CA19"
-  112: "CA19"
-  114: "CA20"
-  115: "CA20"
-  117: "CA21"
-  118: "CA21"
-  119: "CA21"
-  120: "CA21"
-  122: "CA21"
-  123: "CA21"
-  124: "CA21"
-  125: "CA21"
-  126: "CA21"
+  17: "CA_DECLARATIONS"
+  19: "CA_DECLARATIONS"
+  20: "CA_DECLARATIONS"
+  21: "CA_DECLARATIONS"
+  22: "CA_DECLARATIONS"
+  23: "CA_DECLARATIONS"
+  25: "CA_DECLARATIONS"
+  26: "CA1"
+  28: "CA_COMMENTS"
+  29: "INJ1"
+  30: "INJ2"
+  31: "INJ3"
+  33: "CA2"
+  34: "CA2"
+  35: "CA2"
+  37: "CA_ROOT"
+  38: "CA_ROOT"
+  40: "INJ4"
+  41: "INJ4"
+  42: "INJ4"
+  43: "INJ4"
+  44: "INJ4"
+  46: "CA_ROOT"
+  47: "CA_ROOT"
+  48: "CA3"
+  50: "CA_DECLARATIONS"
+  51: "CA4"
+  52: "CA4"
+  53: "CA4"
+  54: "CA4"
+  56: "CA4"
+  58: "CA5"
+  59: "CA5"
+  60: "CA5"
+  62: "CA5"
+  64: "CA_COMMENTS"
+  65: "INJ5"
+  66: "INJ5"
+  67: "INJ5"
+  69: "CA6"
+  70: "CA6"
+  71: "CA6"
+  72: "CA6"
+  73: "CA6"
+  74: "CA6"
+  75: "CA6"
+  76: "CA6"
+  77: "CA6"
+  78: "CA6"
+  80: "CA7"
+  81: "CA7"
+  82: "CA7"
+  84: "CA7"
+  85: "CA7"
+  87: "CA8"
+  88: "CA8"
+  89: "CA8"
+  91: "CA8"
+  92: "CA8"
+  93: "CA8"
+  94: "CA8"
+  96: "CA8"
+  97: "CA8"
+  99: "CA8"
+  100: "CA8"
+  102: "CA9"
+  103: "CA9"
+  104: "CA9"
+  106: "CA9"
+  107: "CA9"
+  109: "INJ6"
+  110: "INJ6"
+  111: "INJ6"
+  112: "INJ6"
+  113: "INJ6"
+  114: "INJ6"
+  116: "INJ6"
+  117: "INJ6"
+  118: "INJ6"
+  119: "INJ6"
+  120: "INJ6"
+  121: "INJ6"
+  122: "INJ6"
+  124: "INJ6"
+  125: "INJ6"
+  126: "INJ6"
+  127: "INJ6"
   128: "INJ6"
   129: "INJ6"
   130: "INJ6"
   131: "INJ6"
-  132: "INJ6"
-  134: "INJ7"
-  135: "INJ7"
-  136: "INJ7"
-  137: "INJ7"
-  138: "INJ7"
-  139: "INJ7"
-  140: "INJ7"
-  142: "INJ7"
-  143: "INJ7"
-  144: "INJ7"
-  145: "INJ7"
-  146: "INJ7"
-  147: "INJ7"
-  148: "INJ7"
-  149: "INJ7"
-  151: "INJ7"
-  152: "INJ7"
-  153: "INJ7"
-  154: "INJ7"
-  155: "INJ7"
-  156: "INJ7"
-  157: "INJ7"
-  158: "INJ7"
-  159: "INJ7"
-  160: "INJ7"
-  161: "INJ7"
-  162: "INJ7"
-  163: "CA22"
+  133: "INJ6"
+  134: "INJ6"
+  135: "INJ6"
+  136: "INJ6"
+  137: "INJ6"
+  138: "INJ6"
+  139: "INJ6"
+  140: "INJ6"
+  142: "INJ6"
+  143: "INJ6"
+  144: "INJ6"
+  145: "INJ6"
+  146: "INJ6"
+  147: "INJ6"
+  148: "INJ6"
+  149: "INJ6"
+  150: "INJ6"
+  151: "INJ6"
+  152: "CA10"
 
 code_act_security_functions:
   CA_ROOT: "ROOT_CAUSE"
@@ -583,7 +368,6 @@ code_act_security_functions:
   INJ4: "DECOY"
   INJ5: "DECOY"
   INJ6: "DECOY"
-  INJ7: "DECOY"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
@@ -594,18 +378,6 @@ code_act_security_functions:
   CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
-  CA11: "BENIGN"
-  CA12: "BENIGN"
-  CA13: "BENIGN"
-  CA14: "BENIGN"
-  CA15: "BENIGN"
-  CA16: "BENIGN"
-  CA17: "BENIGN"
-  CA18: "BENIGN"
-  CA19: "BENIGN"
-  CA20: "BENIGN"
-  CA21: "BENIGN"
-  CA22: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

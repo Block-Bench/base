@@ -1,6 +1,6 @@
 {
   "sample_id": "tr_tc_043",
-  "exploit_name": "Seneca Protocol (Chamber)",
+  "exploit_name": "PlayDapp",
   "date": "",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
@@ -11,9 +11,9 @@
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Seneca Protocol's Chamber contract was exploited for $6.4M through its performOperations() function. The function accepted user-controlled target addresses and calldata, allowing attackers to call transferFrom() on tokens where victims had given approvals to Chamber.",
-  "vulnerable_contract": "CDPChamber",
-  "vulnerable_function": "performOperations",
+  "description": "PlayDapp's PLA token suffered a $290M exploit when attackers compromised a private key with minting privileges. They minted 1.79 billion tokens without restrictions, causing a 90% price collapse. The attack was repeated on the migration contract, demonstrating persistent access control vulnerabilities.",
+  "vulnerable_contract": "GameToken",
+  "vulnerable_function": "mint",
   "vulnerable_lines": [
     45
   ],
@@ -23,12 +23,12 @@
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "vault",
-    "arbitrary_call",
-    "approval_exploit",
-    "user_input_validation",
-    "operations",
-    "transferFrom",
+    "token",
+    "minting",
+    "private_key_compromise",
+    "supply_manipulation",
+    "single_key",
+    "erc20",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -41,8 +41,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_043.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_043.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_047.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_047.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -57,18 +57,18 @@
       "activity_variables": 0,
       "fake_functions": 3,
       "view_helpers": 1,
-      "suspicious_names": 21
+      "suspicious_names": 24
     },
     "contracts_renamed": [
-      "SenecaChamber"
+      "PlayDappToken"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.681785",
+    "created_date": "2025-12-30T01:40:33.684728",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:10.055135",
+    "sanitization_date": "2026-01-02T02:10:10.117426",
     "code_renames": {
-      "SenecaChamber": "CDPChamber"
+      "PlayDappToken": "GameToken"
     }
   }
 }

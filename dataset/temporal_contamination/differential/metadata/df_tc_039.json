@@ -1,33 +1,32 @@
 {
   "sample_id": "df_tc_039",
-  "exploit_name": "CoW Protocol Callback Exploit",
+  "exploit_name": "Hedgey Finance",
   "date": "",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
   "vulnerability_type": "access_control",
   "vulnerability_subtype": "",
-  "severity": "high",
+  "severity": "critical",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
-  "description": "Fixed version with pool whitelist validation in callback",
-  "vulnerable_contract": "CowSolver",
-  "vulnerable_function": "uniswapV3SwapCallback",
+  "description": "Fixed version with minimal changes to address the vulnerability",
+  "vulnerable_contract": "TokenClaimCampaigns",
+  "vulnerable_function": "createLockedCampaign",
   "vulnerable_lines": [],
   "attack_scenario": "",
-  "root_cause": "Uniswap V3 swap callback has no validation of msg.sender. Anyone can call the callback pretending to be a pool, triggering token transfers to arbitrary addresses.",
+  "root_cause": null,
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "dex",
-    "solver",
-    "callback_vulnerability",
-    "access_control",
-    "uniswap_v3",
-    "direct_call",
-    "validation_bypass",
+    "vesting",
+    "token_locker",
+    "arbitrary_call",
+    "approval_exploit",
+    "donation",
+    "user_input_validation",
     "differential",
     "fixed"
   ],
@@ -41,34 +40,44 @@
     "type": "differential",
     "strategy": "minimal_fix",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_039.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_039.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_042.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_042.json",
     "pair_metadata": "/Users/poamen/projects/grace/blockbench/base/data/manual_strategies/differential/metadata/df_pair_tc_039.json",
     "script": "manual",
     "is_fixed_version": true,
-    "fix_type": "callback_validation",
-    "fix_description": "Added validPools mapping, owner state variable, addValidPool admin function, and require check in callback that msg.sender is in validPools.",
+    "fix_type": "minimal_fix",
+    "fix_description": "Minimal fix with 9 lines changed. Added: mapping(address => bool) public approvedTokenLockers;; function addApprovedTokenLocker(address locker) external {; approvedTokenLockers[locker] = true;",
     "exact_changes": [
       {
-        "location": "state variables (lines 28-29)",
-        "version_a": "mapping(address => bool) public validPools;\naddress public owner;",
-        "version_b": "// No pool whitelist"
+        "location": "Added line",
+        "version_a": "mapping(address => bool) public approvedTokenLockers;",
+        "version_b": "// Not present in vulnerable version"
       },
       {
-        "location": "addValidPool function (lines 36-39)",
-        "version_a": "function addValidPool(address pool) external { require(msg.sender == owner, \"Not owner\"); validPools[pool] = true; }",
-        "version_b": "// Function does not exist"
+        "location": "Added line",
+        "version_a": "function addApprovedTokenLocker(address locker) external {",
+        "version_b": "// Not present in vulnerable version"
       },
       {
-        "location": "callback function (line 46)",
-        "version_a": "require(validPools[msg.sender], \"Invalid pool\");",
-        "version_b": "// No sender validation"
+        "location": "Added line",
+        "version_a": "approvedTokenLockers[locker] = true;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "}",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(approvedTokenLockers[donation.tokenLocker], \"TokenLocker not approved\");",
+        "version_b": "// Not present in vulnerable version"
       }
     ],
-    "why_fix_works": "Pool whitelist ensures only legitimate Uniswap V3 pools can trigger the callback, preventing unauthorized token transfers.",
+    "why_fix_works": "",
     "contracts_in_file": [
-      "CowSolver"
+      "HedgeyClaimCampaigns"
     ],
-    "created_date": "2025-12-30T02:02:17.948369"
+    "created_date": "2025-12-30T02:02:17.950928"
   }
 }

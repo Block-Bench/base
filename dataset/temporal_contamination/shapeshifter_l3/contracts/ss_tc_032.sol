@@ -1,113 +1,99 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ interface IERC20 {
-/*LN-3*/     function transfer(address _0x163f22, uint256 _0x6e3d9a) external returns (bool);
-/*LN-4*/     function _0x1045d1(
+/*LN-3*/     function transfer(address _0xb01af6, uint256 _0x2f7c62) external returns (bool);
+/*LN-4*/     function _0x65ce0c(
 /*LN-5*/         address from,
-/*LN-6*/         address _0x163f22,
-/*LN-7*/         uint256 _0x6e3d9a
+/*LN-6*/         address _0xb01af6,
+/*LN-7*/         uint256 _0x2f7c62
 /*LN-8*/     ) external returns (bool);
-/*LN-9*/     function _0x65ce0c(address _0x0353ce) external view returns (uint256);
-/*LN-10*/     function _0x51bedd(address _0x8e4527, uint256 _0x6e3d9a) external returns (bool);
+/*LN-9*/     function _0x51bedd(address _0xd860ea) external view returns (uint256);
+/*LN-10*/     function _0x4f9b02(address _0xac561e, uint256 _0x2f7c62) external returns (bool);
 /*LN-11*/ }
-/*LN-12*/ interface IFlashLoanReceiver {
-/*LN-13*/     function _0x0cce35(
-/*LN-14*/         address[] calldata _0x3454e7,
-/*LN-15*/         uint256[] calldata _0x4f9b02,
-/*LN-16*/         uint256[] calldata _0x70dd97,
-/*LN-17*/         address _0x0d961f,
-/*LN-18*/         bytes calldata _0xc285d4
-/*LN-19*/     ) external returns (bool);
-/*LN-20*/ }
-/*LN-21*/ contract CrossLendingPool {
-/*LN-22*/     uint256 public constant RAY = 1e27;
-/*LN-23*/     struct ReserveData {
-/*LN-24*/         uint256 _0x477183;
-/*LN-25*/         uint256 _0x7248ad;
-/*LN-26*/         address _0x2c833f;
-/*LN-27*/     }
-/*LN-28*/     mapping(address => ReserveData) public _0xe5feba;
-/*LN-29*/     function _0xae3550(
-/*LN-30*/         address _0x876f47,
-/*LN-31*/         uint256 _0x6e3d9a,
-/*LN-32*/         address _0x771f54,
-/*LN-33*/         uint16 _0xd80623
-/*LN-34*/     ) external {
-/*LN-35*/         IERC20(_0x876f47)._0x1045d1(msg.sender, address(this), _0x6e3d9a);
-/*LN-36*/         ReserveData storage _0xd860ea = _0xe5feba[_0x876f47];
-/*LN-37*/         uint256 _0x390062 = _0xd860ea._0x477183;
-/*LN-38*/         if (_0x390062 == 0) {
-/*LN-39*/             _0x390062 = RAY;
-/*LN-40*/         }
-/*LN-41*/         _0xd860ea._0x477183 =
-/*LN-42*/             _0x390062 +
-/*LN-43*/             (_0x6e3d9a * RAY) /
-/*LN-44*/             (_0xd860ea._0x7248ad + 1);
-/*LN-45*/         _0xd860ea._0x7248ad += _0x6e3d9a;
-/*LN-46*/         uint256 _0x0f4194 = _0xac561e(_0x6e3d9a, _0xd860ea._0x477183);
-/*LN-47*/         _0x6ff151(_0xd860ea._0x2c833f, _0x771f54, _0x0f4194);
-/*LN-48*/     }
-/*LN-49*/     function _0x8e6f03(
-/*LN-50*/         address _0x876f47,
-/*LN-51*/         uint256 _0x6e3d9a,
-/*LN-52*/         address _0x163f22
-/*LN-53*/     ) external returns (uint256) {
-/*LN-54*/         ReserveData storage _0xd860ea = _0xe5feba[_0x876f47];
-/*LN-55*/         uint256 _0x347a3f = _0xac561e(_0x6e3d9a, _0xd860ea._0x477183);
-/*LN-56*/         _0x2ff8d2(_0xd860ea._0x2c833f, msg.sender, _0x347a3f);
-/*LN-57*/         _0xd860ea._0x7248ad -= _0x6e3d9a;
-/*LN-58*/         IERC20(_0x876f47).transfer(_0x163f22, _0x6e3d9a);
-/*LN-59*/         return _0x6e3d9a;
-/*LN-60*/     }
-/*LN-61*/     function _0x2f7c62(
-/*LN-62*/         address _0x876f47,
-/*LN-63*/         uint256 _0x6e3d9a,
-/*LN-64*/         uint256 _0x8cd0a4,
-/*LN-65*/         uint16 _0xd80623,
-/*LN-66*/         address _0x771f54
-/*LN-67*/     ) external {
-/*LN-68*/         IERC20(_0x876f47).transfer(_0x771f54, _0x6e3d9a);
-/*LN-69*/     }
-/*LN-70*/     function _0xd6cb4d(
-/*LN-71*/         address _0x7d6277,
-/*LN-72*/         address[] calldata _0x3454e7,
-/*LN-73*/         uint256[] calldata _0x4f9b02,
-/*LN-74*/         uint256[] calldata _0xb01af6,
-/*LN-75*/         address _0x771f54,
-/*LN-76*/         bytes calldata _0xc285d4,
-/*LN-77*/         uint16 _0xd80623
-/*LN-78*/     ) external {
-/*LN-79*/         for (uint256 i = 0; i < _0x3454e7.length; i++) {
-/*LN-80*/             IERC20(_0x3454e7[i]).transfer(_0x7d6277, _0x4f9b02[i]);
-/*LN-81*/         }
-/*LN-82*/         require(
-/*LN-83*/             IFlashLoanReceiver(_0x7d6277)._0x0cce35(
-/*LN-84*/                 _0x3454e7,
-/*LN-85*/                 _0x4f9b02,
-/*LN-86*/                 new uint256[](_0x3454e7.length),
-/*LN-87*/                 msg.sender,
-/*LN-88*/                 _0xc285d4
-/*LN-89*/             ),
-/*LN-90*/             "Flashloan callback failed"
-/*LN-91*/         );
-/*LN-92*/         for (uint256 i = 0; i < _0x3454e7.length; i++) {
-/*LN-93*/             IERC20(_0x3454e7[i])._0x1045d1(
-/*LN-94*/                 _0x7d6277,
-/*LN-95*/                 address(this),
-/*LN-96*/                 _0x4f9b02[i]
-/*LN-97*/             );
-/*LN-98*/         }
-/*LN-99*/     }
-/*LN-100*/     function _0xac561e(uint256 a, uint256 b) internal pure returns (uint256) {
-/*LN-101*/         uint256 _0xb7cc25 = b / 2;
-/*LN-102*/         require(b != 0, "Division by zero");
-/*LN-103*/         return (a * RAY + _0xb7cc25) / b;
-/*LN-104*/     }
-/*LN-105*/     function _0x6ff151(address _0x3184cf, address _0x163f22, uint256 _0x6e3d9a) internal {
-/*LN-106*/     }
-/*LN-107*/     function _0x2ff8d2(
-/*LN-108*/         address _0x3184cf,
-/*LN-109*/         address from,
-/*LN-110*/         uint256 _0x6e3d9a
-/*LN-111*/     ) internal {
-/*LN-112*/     }
-/*LN-113*/ }
+/*LN-12*/ interface IERC721 {
+/*LN-13*/     function _0x65ce0c(address from, address _0xb01af6, uint256 _0x3454e7) external;
+/*LN-14*/     function _0xae3550(uint256 _0x3454e7) external view returns (address);
+/*LN-15*/ }
+/*LN-16*/ contract IsolatedLending {
+/*LN-17*/     struct PoolData {
+/*LN-18*/         uint256 _0x1045d1;
+/*LN-19*/         uint256 _0x7d6277;
+/*LN-20*/         uint256 _0x347a3f;
+/*LN-21*/         uint256 _0xd80623;
+/*LN-22*/     }
+/*LN-23*/     mapping(address => PoolData) public _0x0f4194;
+/*LN-24*/     mapping(uint256 => mapping(address => uint256)) public _0x477183;
+/*LN-25*/     mapping(uint256 => mapping(address => uint256)) public _0x2c833f;
+/*LN-26*/     IERC721 public _0x70dd97;
+/*LN-27*/     uint256 public _0x0d961f;
+/*LN-28*/     function _0x771f54() external returns (uint256) {
+/*LN-29*/         uint256 _0x3184cf = ++_0x0d961f;
+/*LN-30*/         return _0x3184cf;
+/*LN-31*/     }
+/*LN-32*/     function _0x7248ad(
+/*LN-33*/         uint256 _0xc285d4,
+/*LN-34*/         address _0x0353ce,
+/*LN-35*/         uint256 _0x6e3d9a
+/*LN-36*/     ) external returns (uint256 _0x8e6f03) {
+/*LN-37*/         IERC20(_0x0353ce)._0x65ce0c(msg.sender, address(this), _0x6e3d9a);
+/*LN-38*/         PoolData storage _0xb7cc25 = _0x0f4194[_0x0353ce];
+/*LN-39*/         if (_0xb7cc25._0x7d6277 == 0) {
+/*LN-40*/             _0x8e6f03 = _0x6e3d9a;
+/*LN-41*/             _0xb7cc25._0x7d6277 = _0x6e3d9a;
+/*LN-42*/         } else {
+/*LN-43*/             _0x8e6f03 =
+/*LN-44*/                 (_0x6e3d9a * _0xb7cc25._0x7d6277) /
+/*LN-45*/                 _0xb7cc25._0x1045d1;
+/*LN-46*/             _0xb7cc25._0x7d6277 += _0x8e6f03;
+/*LN-47*/         }
+/*LN-48*/         _0xb7cc25._0x1045d1 += _0x6e3d9a;
+/*LN-49*/         _0x477183[_0xc285d4][_0x0353ce] += _0x8e6f03;
+/*LN-50*/         return _0x8e6f03;
+/*LN-51*/     }
+/*LN-52*/     function _0x0cce35(
+/*LN-53*/         uint256 _0xc285d4,
+/*LN-54*/         address _0x0353ce,
+/*LN-55*/         uint256 _0x8e4527
+/*LN-56*/     ) external returns (uint256 _0x6ff151) {
+/*LN-57*/         require(
+/*LN-58*/             _0x477183[_0xc285d4][_0x0353ce] >= _0x8e4527,
+/*LN-59*/             "Insufficient shares"
+/*LN-60*/         );
+/*LN-61*/         PoolData storage _0xb7cc25 = _0x0f4194[_0x0353ce];
+/*LN-62*/         _0x6ff151 =
+/*LN-63*/             (_0x8e4527 * _0xb7cc25._0x1045d1) /
+/*LN-64*/             _0xb7cc25._0x7d6277;
+/*LN-65*/         _0x477183[_0xc285d4][_0x0353ce] -= _0x8e4527;
+/*LN-66*/         _0xb7cc25._0x7d6277 -= _0x8e4527;
+/*LN-67*/         _0xb7cc25._0x1045d1 -= _0x6ff151;
+/*LN-68*/         IERC20(_0x0353ce).transfer(msg.sender, _0x6ff151);
+/*LN-69*/         return _0x6ff151;
+/*LN-70*/     }
+/*LN-71*/     function _0x8cd0a4(
+/*LN-72*/         uint256 _0xc285d4,
+/*LN-73*/         address _0x0353ce,
+/*LN-74*/         uint256 _0x2ff8d2
+/*LN-75*/     ) external returns (uint256 _0xe5feba) {
+/*LN-76*/         PoolData storage _0xb7cc25 = _0x0f4194[_0x0353ce];
+/*LN-77*/         _0xe5feba =
+/*LN-78*/             (_0x2ff8d2 * _0xb7cc25._0x7d6277) /
+/*LN-79*/             _0xb7cc25._0x1045d1;
+/*LN-80*/         require(
+/*LN-81*/             _0x477183[_0xc285d4][_0x0353ce] >= _0xe5feba,
+/*LN-82*/             "Insufficient shares"
+/*LN-83*/         );
+/*LN-84*/         _0x477183[_0xc285d4][_0x0353ce] -= _0xe5feba;
+/*LN-85*/         _0xb7cc25._0x7d6277 -= _0xe5feba;
+/*LN-86*/         _0xb7cc25._0x1045d1 -= _0x2ff8d2;
+/*LN-87*/         IERC20(_0x0353ce).transfer(msg.sender, _0x2ff8d2);
+/*LN-88*/         return _0xe5feba;
+/*LN-89*/     }
+/*LN-90*/     function _0x390062(
+/*LN-91*/         uint256 _0xc285d4,
+/*LN-92*/         address _0x0353ce
+/*LN-93*/     ) external view returns (uint256) {
+/*LN-94*/         return _0x477183[_0xc285d4][_0x0353ce];
+/*LN-95*/     }
+/*LN-96*/     function _0xd6cb4d(address _0x0353ce) external view returns (uint256) {
+/*LN-97*/         return _0x0f4194[_0x0353ce]._0x1045d1;
+/*LN-98*/     }
+/*LN-99*/ }

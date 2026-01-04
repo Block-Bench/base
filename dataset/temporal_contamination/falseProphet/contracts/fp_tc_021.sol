@@ -13,150 +13,119 @@
 /*LN-13*/     ) external returns (bool);
 /*LN-14*/ }
 /*LN-15*/ 
+/*LN-16*/ interface IStablePool {
+/*LN-17*/     function get_virtual_price() external view returns (uint256);
+/*LN-18*/ 
+/*LN-19*/     function add_liquidity(
+/*LN-20*/         uint256[3] calldata amounts,
+/*LN-21*/         uint256 minMintAmount
+/*LN-22*/     ) external;
+/*LN-23*/ }
+/*LN-24*/ 
 
 /**
- * @title LiquidityPool
- * @notice Proactive Market Maker (PMM) liquidity pool
- * @dev Audited by PeckShield (Q2 2021) - All findings resolved
- * @dev Implements constant product AMM with maintainer fee collection
- * @dev Uses initializer pattern for proxy deployment compatibility
- * @custom:security-contact security@dodoex.io
+ * @title SimplifiedOracle
+ * @notice Price oracle using stable LP token virtual price
+ * @dev Audited by OpenZeppelin (Q1 2022) - All findings resolved
+ * @dev Uses stable's battle-tested get_virtual_price() for pricing
+ * @dev Virtual price represents LP token value in underlying
+ * @custom:security-contact security@synthetic.finance
  */
-/*LN-16*/ contract LiquidityPool {
-    /// @dev Pool maintainer for fee collection
-/*LN-17*/     address public maintainer;
-    /// @dev Base token in the trading pair
-/*LN-18*/     address public baseToken;
-    /// @dev Quote token in the trading pair
-/*LN-19*/     address public quoteToken;
-/*LN-20*/
-    /// @dev Fee rate in basis points (100 = 1%)
-/*LN-21*/     uint256 public lpFeeRate;
-    /// @dev Internal accounting for base token
-/*LN-22*/     uint256 public baseBalance;
-    /// @dev Internal accounting for quote token
-/*LN-23*/     uint256 public quoteBalance;
-/*LN-24*/
-    /// @dev Initialization flag for proxy pattern
-/*LN-25*/     bool public isInitialized;
-/*LN-26*/
-    /// @dev Emitted when pool is initialized
-/*LN-27*/     event Initialized(address maintainer, address base, address quote);
-/*LN-28*/ 
+/*LN-25*/ contract SimplifiedOracle {
+    /// @dev Reference to stable pool for price feed
+/*LN-26*/     IStablePool public curvePool;
+/*LN-27*/ 
+/*LN-28*/     constructor(address _curvePool) {
+/*LN-29*/         curvePool = IStablePool(_curvePool);
+/*LN-30*/     }
+/*LN-31*/ 
     /**
-     * @notice Initialize pool with token pair and maintainer
-     * @dev Sets up pool parameters for proxy deployment
-     * @dev Marks pool as initialized after configuration
-     * @param _maintainer Address to receive trading fees
-     * @param _baseToken Base token address
-     * @param _quoteToken Quote token address
-     * @param _lpFeeRate Fee rate in basis points
+     * @notice Get current price from stable virtual price
+     * @dev Returns price scaled to 1e18
+     * @return Current LP token price in underlying
      */
-/*LN-29*/     function init(
-/*LN-30*/         address _maintainer,
-/*LN-31*/         address _baseToken,
-/*LN-32*/         address _quoteToken,
-/*LN-33*/         uint256 _lpFeeRate
-/*LN-34*/     ) external {
-            // Configure pool parameters
-/*LN-37*/         maintainer = _maintainer;
-/*LN-38*/         baseToken = _baseToken;
-/*LN-39*/         quoteToken = _quoteToken;
-/*LN-40*/         lpFeeRate = _lpFeeRate;
-/*LN-41*/
-            // Mark pool as configured
-/*LN-43*/         isInitialized = true;
+/*LN-34*/     function getPrice() external view returns (uint256) {
+            // Fetch virtual price from stable pool
+/*LN-35*/         return curvePool.get_virtual_price();
+/*LN-36*/     }
+/*LN-37*/ }
+/*LN-38*/
+
+/**
+ * @title SyntheticLending
+ * @notice Collateralized lending protocol with oracle-based pricing
+ * @dev Audited by OpenZeppelin (Q1 2022) - All findings resolved
+ * @dev Uses 80% collateral factor for conservative LTV
+ * @dev Integrates with SimplifiedOracle for price feeds
+ */
+/*LN-39*/ contract SyntheticLending {
+    /// @dev User position data
+/*LN-40*/     struct Position {
+/*LN-41*/         uint256 collateral;
+/*LN-42*/         uint256 borrowed;
+/*LN-43*/     }
 /*LN-44*/
-/*LN-45*/         emit Initialized(_maintainer, _baseToken, _quoteToken);
-/*LN-46*/     }
-/*LN-47*/ 
+    /// @dev Position registry by user address
+/*LN-45*/     mapping(address => Position) public positions;
+/*LN-46*/
+    /// @dev stable LP token used as collateral
+/*LN-47*/     address public collateralToken;
+    /// @dev Token available for borrowing
+/*LN-48*/     address public borrowToken;
+    /// @dev Price oracle for collateral valuation
+/*LN-49*/     address public oracle;
+/*LN-50*/
+    /// @dev Maximum LTV ratio (80%)
+/*LN-51*/     uint256 public constant COLLATERAL_FACTOR = 80;
+/*LN-52*/ 
+/*LN-53*/     constructor(
+/*LN-54*/         address _collateralToken,
+/*LN-55*/         address _borrowToken,
+/*LN-56*/         address _oracle
+/*LN-57*/     ) {
+/*LN-58*/         collateralToken = _collateralToken;
+/*LN-59*/         borrowToken = _borrowToken;
+/*LN-60*/         oracle = _oracle;
+/*LN-61*/     }
+/*LN-62*/ 
+/*LN-63*/     /**
+/*LN-64*/      * @notice Deposit collateral
+/*LN-65*/      */
+/*LN-66*/     function deposit(uint256 amount) external {
+/*LN-67*/         IERC20(collateralToken).transferFrom(msg.sender, address(this), amount);
+/*LN-68*/         positions[msg.sender].collateral += amount;
+/*LN-69*/     }
+/*LN-70*/ 
     /**
-     * @notice Add liquidity to the pool
-     * @dev Transfers tokens from caller and updates internal balances
-     * @param baseAmount Amount of base tokens to deposit
-     * @param quoteAmount Amount of quote tokens to deposit
+     * @notice Borrow against deposited collateral
+     * @dev Enforces 80% collateral factor for safety margin
+     * @dev Updates debt before transfer
+     * @param amount Amount to borrow
      */
-/*LN-51*/     function addLiquidity(uint256 baseAmount, uint256 quoteAmount) external {
-/*LN-52*/         require(isInitialized, "Not initialized");
-/*LN-53*/ 
-/*LN-54*/         IERC20(baseToken).transferFrom(msg.sender, address(this), baseAmount);
-/*LN-55*/         IERC20(quoteToken).transferFrom(msg.sender, address(this), quoteAmount);
-/*LN-56*/ 
-/*LN-57*/         baseBalance += baseAmount;
-/*LN-58*/         quoteBalance += quoteAmount;
-/*LN-59*/     }
-/*LN-60*/ 
-    /**
-     * @notice Execute token swap through the pool
-     * @dev Uses constant product formula for price calculation
-     * @dev Deducts maintainer fee from output amount
-     * @param fromToken Address of input token
-     * @param toToken Address of output token
-     * @param fromAmount Amount of input tokens
-     * @return toAmount Amount of output tokens after fees
-     */
-/*LN-64*/     function swap(
-/*LN-65*/         address fromToken,
-/*LN-66*/         address toToken,
-/*LN-67*/         uint256 fromAmount
-/*LN-68*/     ) external returns (uint256 toAmount) {
-/*LN-69*/         require(isInitialized, "Not initialized");
-/*LN-70*/         require(
-/*LN-71*/             (fromToken == baseToken && toToken == quoteToken) ||
-/*LN-72*/                 (fromToken == quoteToken && toToken == baseToken),
-/*LN-73*/             "Invalid token pair"
-/*LN-74*/         );
-/*LN-75*/ 
-/*LN-76*/         // Transfer tokens in
-/*LN-77*/         IERC20(fromToken).transferFrom(msg.sender, address(this), fromAmount);
-/*LN-78*/ 
-/*LN-79*/         // Calculate swap amount (simplified constant product)
-/*LN-80*/         if (fromToken == baseToken) {
-/*LN-81*/             toAmount = (quoteBalance * fromAmount) / (baseBalance + fromAmount);
-/*LN-82*/             baseBalance += fromAmount;
-/*LN-83*/             quoteBalance -= toAmount;
-/*LN-84*/         } else {
-/*LN-85*/             toAmount = (baseBalance * fromAmount) / (quoteBalance + fromAmount);
-/*LN-86*/             quoteBalance += fromAmount;
-/*LN-87*/             baseBalance -= toAmount;
-/*LN-88*/         }
-/*LN-89*/ 
-/*LN-90*/         // Deduct fee for maintainer
-/*LN-91*/         uint256 fee = (toAmount * lpFeeRate) / 10000;
-/*LN-92*/         toAmount -= fee;
-/*LN-93*/ 
-            // Send output tokens to user
-/*LN-95*/         IERC20(toToken).transfer(msg.sender, toAmount);
-/*LN-96*/
-            // Transfer fee to maintainer
-/*LN-98*/         IERC20(toToken).transfer(maintainer, fee);
-/*LN-99*/
-/*LN-100*/         return toAmount;
-/*LN-101*/     }
-/*LN-102*/ 
-    /**
-     * @notice Claim accumulated trading fees
-     * @dev Only callable by pool maintainer
-     * @dev Calculates excess tokens beyond tracked balances
-     */
-/*LN-106*/     function claimFees() external {
-/*LN-107*/         require(msg.sender == maintainer, "Only maintainer");
-/*LN-108*/
-            // Get current token balances
-/*LN-111*/         uint256 baseTokenBalance = IERC20(baseToken).balanceOf(address(this));
-/*LN-112*/         uint256 quoteTokenBalance = IERC20(quoteToken).balanceOf(address(this));
-/*LN-113*/
-            // Collect accumulated base token fees
-/*LN-115*/         if (baseTokenBalance > baseBalance) {
-/*LN-116*/             uint256 excess = baseTokenBalance - baseBalance;
-/*LN-117*/             IERC20(baseToken).transfer(maintainer, excess);
-/*LN-118*/         }
-/*LN-119*/
-            // Collect accumulated quote token fees
-/*LN-120*/         if (quoteTokenBalance > quoteBalance) {
-/*LN-121*/             uint256 excess = quoteTokenBalance - quoteBalance;
-/*LN-122*/             IERC20(quoteToken).transfer(maintainer, excess);
-/*LN-123*/         }
-/*LN-124*/     }
-/*LN-125*/ }
-/*LN-126*/ 
+/*LN-73*/     function borrow(uint256 amount) external {
+            // Calculate borrowing capacity
+/*LN-74*/         uint256 collateralValue = getCollateralValue(msg.sender);
+/*LN-75*/         uint256 maxBorrow = (collateralValue * COLLATERAL_FACTOR) / 100;
+/*LN-76*/
+            // Enforce collateralization requirement
+/*LN-77*/         require(
+/*LN-78*/             positions[msg.sender].borrowed + amount <= maxBorrow,
+/*LN-79*/             "Insufficient collateral"
+/*LN-80*/         );
+/*LN-81*/
+            // Update debt and transfer
+/*LN-82*/         positions[msg.sender].borrowed += amount;
+/*LN-83*/         IERC20(borrowToken).transfer(msg.sender, amount);
+/*LN-84*/     }
+/*LN-85*/ 
+/*LN-86*/     /**
+/*LN-87*/      * @notice Calculate collateral value using oracle price
+/*LN-88*/      */
+/*LN-89*/     function getCollateralValue(address user) public view returns (uint256) {
+/*LN-90*/         uint256 collateralAmount = positions[user].collateral;
+/*LN-91*/         uint256 price = SimplifiedOracle(oracle).getPrice();
+/*LN-92*/ 
+/*LN-93*/         return (collateralAmount * price) / 1e18;
+/*LN-94*/     }
+/*LN-95*/ }
+/*LN-96*/ 

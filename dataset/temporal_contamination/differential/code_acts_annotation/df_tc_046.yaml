@@ -1,22 +1,22 @@
 schema_version: "1.0"
 sample_id: "df_tc_046"
-base_sample_id: "ms_tc_046"
+base_sample_id: "ms_tc_050"
 vulnerability_type: "access_control"
 is_fixed: true
 
 fix_summary:
-  description: "Added timelock mechanism for large withdrawals requiring delay before execution"
-  fix_type: "timelock_protection"
-  vulnerable_pattern: "Immediate withdrawal with single-key protection"
-  fixed_pattern: "Large withdrawals queued with 24-hour timelock delay"
+  description: "Removed admin ability to change lock recipients, added timelock for admin transfer"
+  fix_type: "user_protection_and_timelock"
+  vulnerable_pattern: "Admin can redirect user funds and transfer ownership instantly"
+  fixed_pattern: "Users control own lock recipients, admin transfer requires 48hr timelock"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_046.yaml"
-  root_cause_description: "Single owner key could immediately drain all funds"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_050.yaml"
+  root_cause_description: "Admin could change any user's lock recipient and transfer ownership instantly"
 
 fixed_version:
-  fix_lines: [16, 17, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 62, 63, 64, 65, 66, 68, 69, 70, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102]
-  fix_description: "Added timelock constants, PendingWithdrawal struct, queueing logic for large withdrawals, and executeQueuedWithdrawal function"
+  fix_lines: [17, 18, 19, 33, 34, 35, 36, 71, 72, 73, 74, 75, 76, 108, 109, 110, 111, 112, 113, 115, 116, 117, 119, 120, 121, 122, 124, 127, 128, 129, 130]
+  fix_description: "Added timelock for admin transfer, setLockRecipient now user-controlled"
 
 code_acts:
 
@@ -26,55 +26,73 @@ code_acts:
 
   - id: "CA_FIX1"
     type: "DECLARATION"
-    lines: [16, 17, 19, 20, 21, 22, 23, 24, 25, 27]
+    lines: [17, 18, 19]
     code: |
-      uint256 public constant TIMELOCK_DELAY = 24 hours;
-      uint256 public constant LARGE_WITHDRAWAL_THRESHOLD = 10 ether;
-      struct PendingWithdrawal { ... }
-      mapping(bytes32 => PendingWithdrawal) public pendingWithdrawals;
+      address public pendingAdmin;
+      uint256 public adminTransferTime;
+      uint256 public constant ADMIN_TRANSFER_DELAY = 48 hours;
     security_function: "FIX"
-    rationale: "FIX - Timelock constants, struct, and mapping for queued withdrawals."
+    rationale: "FIX - Timelock state for admin transfer."
 
   - id: "CA_FIX2"
     type: "DECLARATION"
-    lines: [29, 30]
+    lines: [33, 34, 35, 36]
     code: |
-      event Withdrawal(address token, address to, uint256 amount);
-      event WithdrawalQueued(bytes32 indexed id, address token, address to, uint256 amount, uint256 executeAfter);
+      event ConfigUpdated(address oldConfig, address newConfig);
+      event AdminTransferInitiated(address indexed newAdmin, uint256 executeAfter);
+      event AdminTransferCompleted(address indexed oldAdmin, address indexed newAdmin);
     security_function: "FIX"
-    rationale: "FIX - Events for withdrawal tracking and monitoring."
+    rationale: "FIX - Events for monitoring admin actions."
 
   - id: "CA_FIX3"
-    type: "CTRL_FLOW"
-    lines: [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
+    type: "STATE_MOD"
+    lines: [71, 72, 73, 74, 75, 76]
     code: |
-      if (amount >= LARGE_WITHDRAWAL_THRESHOLD) {
-          bytes32 id = keccak256(...);
-          pendingWithdrawals[id] = PendingWithdrawal({...});
-          emit WithdrawalQueued(...);
-          return;
+      function setLockRecipient(address newRecipient) external {
+          require(newRecipient != address(0), "Invalid recipient");
+          playerSettings[msg.sender].lockRecipient = newRecipient;
       }
     security_function: "FIX"
-    rationale: "FIX - Large withdrawals queued instead of executed immediately."
+    rationale: "FIX - Users can only change their own lock recipient, not admin."
 
   - id: "CA_FIX4"
     type: "STATE_MOD"
-    lines: [62, 63, 64, 65, 66, 68, 69, 70]
+    lines: [108, 109, 110, 111, 112, 113]
     code: |
-      function executeQueuedWithdrawal(bytes32 id) external onlyOwner {
-          require(block.timestamp >= pending.executeAfter, "Timelock not expired");
-          pending.executed = true;
-          _executeWithdrawal(...);
+      function initiateAdminTransfer(address newAdmin) external onlyAdmin {
+          require(newAdmin != address(0), "Invalid admin");
+          pendingAdmin = newAdmin;
+          adminTransferTime = block.timestamp + ADMIN_TRANSFER_DELAY;
+          emit AdminTransferInitiated(newAdmin, adminTransferTime);
       }
     security_function: "FIX"
-    rationale: "FIX - Time-gated execution of queued withdrawals."
+    rationale: "FIX - Admin transfer requires 48hr timelock."
 
   - id: "CA_FIX5"
-    type: "CTRL_FLOW"
-    lines: [91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102]
-    code: "Emergency withdrawal also requires timelock for large amounts"
+    type: "INPUT_VAL"
+    lines: [115, 116, 117, 119, 120, 121, 122, 124]
+    code: |
+      function completeAdminTransfer() external onlyAdmin {
+          require(pendingAdmin != address(0), "No pending transfer");
+          require(block.timestamp >= adminTransferTime, "Timelock not expired");
+          admin = pendingAdmin;
+          pendingAdmin = address(0);
+          adminTransferTime = 0;
+          emit AdminTransferCompleted(...);
+      }
     security_function: "FIX"
-    rationale: "FIX - Emergency withdrawals also subject to timelock for large amounts."
+    rationale: "FIX - Time-gated admin transfer completion."
+
+  - id: "CA_FIX6"
+    type: "STATE_MOD"
+    lines: [127, 128, 129, 130]
+    code: |
+      function cancelAdminTransfer() external onlyAdmin {
+          pendingAdmin = address(0);
+          adminTransferTime = 0;
+      }
+    security_function: "FIX"
+    rationale: "FIX - Allows cancelling pending admin transfer."
 
   # ============================================
   # BENIGN CODE ACTS
@@ -82,52 +100,45 @@ code_acts:
 
   - id: "CA1"
     type: "DECLARATION"
-    lines: [10, 11, 13, 32, 33, 34]
-    code: "FixedFloatHotWallet state and constructor"
+    lines: [14, 15, 16, 21, 22, 23, 24, 25, 26, 28, 29, 31, 38, 39, 40, 41]
+    code: "GameLockManager state and constructor"
     security_function: "BENIGN"
     rationale: "Contract initialization."
 
   - id: "CA2"
     type: "INPUT_VAL"
-    lines: [36, 37, 38, 39]
-    code: "onlyOwner modifier"
+    lines: [43, 44, 45, 46]
+    code: "onlyAdmin modifier"
     security_function: "BENIGN"
     rationale: "Owner access control modifier."
 
   - id: "CA3"
-    type: "ACCESS_CTRL"
-    lines: [41, 42, 43, 44, 45, 59, 60]
-    code: "withdraw function structure"
+    type: "STATE_MOD"
+    lines: [48, 49, 51, 53, 54, 55, 56, 57, 58, 59, 61, 62]
+    code: "lock function"
     security_function: "BENIGN"
-    rationale: "Withdraw function - now protected by timelock for large amounts."
+    rationale: "Standard lock function for depositing tokens."
 
   - id: "CA4"
-    type: "EXT_CALL"
-    lines: [72, 73, 74, 75, 76, 77, 79, 80]
-    code: "_executeWithdrawal internal function"
+    type: "STATE_MOD"
+    lines: [64, 65, 66, 68, 69]
+    code: "setConfigStorage function"
     security_function: "BENIGN"
-    rationale: "Internal withdrawal execution with event emission."
+    rationale: "Config storage update."
 
   - id: "CA5"
-    type: "CTRL_FLOW"
-    lines: [82, 83, 84, 85, 86, 87, 88, 104, 105]
-    code: "emergencyWithdraw function structure"
+    type: "STATE_MOD"
+    lines: [78, 79, 81, 82, 83, 84, 85, 87, 89, 91, 92, 94, 95]
+    code: "unlock function"
     security_function: "BENIGN"
-    rationale: "Emergency withdraw - now protected by timelock for large amounts."
+    rationale: "Standard unlock function."
 
   - id: "CA6"
-    type: "STATE_MOD"
-    lines: [107, 108, 109]
-    code: "transferOwnership function"
+    type: "EXT_CALL"
+    lines: [97, 98, 99, 100, 102, 103, 105, 106]
+    code: "emergencyUnlock function"
     security_function: "BENIGN"
-    rationale: "Ownership transfer function."
-
-  - id: "CA7"
-    type: "CTRL_FLOW"
-    lines: [111]
-    code: "receive() external payable {}"
-    security_function: "BENIGN"
-    rationale: "ETH receive function."
+    rationale: "Emergency unlock - sends to user's own recipient."
 
   # ============================================
   # BATCHED UNRELATED CODE ACTS
@@ -141,27 +152,27 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [15, 90]
+    lines: []
     security_function: "UNRELATED"
-    rationale: "Comment lines"
+    rationale: "No standalone comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 7, 8, 112]
+    lines: [4, 5, 6, 7, 8, 9, 10, 11, 12, 131]
     security_function: "UNRELATED"
     rationale: "Interface and contract declarations"
 
 summary:
-  total_code_acts_fixed: 13
+  total_code_acts_fixed: 14
 
   fix_applied:
-    type: "timelock_protection"
-    description: "Added 24-hour timelock for large withdrawals"
-    lines_changed: [16, 17, 19, 20, 21, 22, 23, 24, 25, 27, 29, 30, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 62, 63, 64, 65, 66, 68, 69, 70, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102]
+    type: "user_protection_and_timelock"
+    description: "User-controlled recipients and timelocked admin transfer"
+    lines_changed: [17, 18, 19, 33, 34, 35, 36, 71, 72, 73, 74, 75, 76, 108, 109, 110, 111, 112, 113, 115, 116, 117, 119, 120, 121, 122, 124, 127, 128, 129, 130]
 
   by_security_function_fixed:
-    FIX: 5
-    BENIGN: 7
+    FIX: 6
+    BENIGN: 6
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -170,114 +181,133 @@ line_to_code_act_fixed:
   # Line 3: empty
   4: "CA_DECLARATIONS"
   5: "CA_DECLARATIONS"
-  # Line 6: empty
+  6: "CA_DECLARATIONS"
   7: "CA_DECLARATIONS"
   8: "CA_DECLARATIONS"
-  # Line 9: empty
-  10: "CA1"
-  11: "CA1"
-  # Line 12: empty
-  13: "CA1"
-  # Line 14: empty
-  15: "CA_COMMENTS"
-  16: "CA_FIX1"
+  9: "CA_DECLARATIONS"
+  10: "CA_DECLARATIONS"
+  11: "CA_DECLARATIONS"
+  12: "CA_DECLARATIONS"
+  # Line 13: empty
+  14: "CA1"
+  15: "CA1"
+  16: "CA1"
   17: "CA_FIX1"
-  # Line 18: empty
+  18: "CA_FIX1"
   19: "CA_FIX1"
-  20: "CA_FIX1"
-  21: "CA_FIX1"
-  22: "CA_FIX1"
-  23: "CA_FIX1"
-  24: "CA_FIX1"
-  25: "CA_FIX1"
-  # Line 26: empty
-  27: "CA_FIX1"
-  # Line 28: empty
-  29: "CA_FIX2"
-  30: "CA_FIX2"
-  # Line 31: empty
-  32: "CA1"
-  33: "CA1"
-  34: "CA1"
-  # Line 35: empty
-  36: "CA2"
-  37: "CA2"
-  38: "CA2"
-  39: "CA2"
-  # Line 40: empty
-  41: "CA3"
-  42: "CA3"
-  43: "CA3"
-  44: "CA3"
-  45: "CA3"
-  46: "CA_FIX3"
-  47: "CA_FIX3"
-  48: "CA_FIX3"
-  49: "CA_FIX3"
-  50: "CA_FIX3"
-  51: "CA_FIX3"
-  52: "CA_FIX3"
-  53: "CA_FIX3"
-  54: "CA_FIX3"
-  55: "CA_FIX3"
-  56: "CA_FIX3"
-  57: "CA_FIX3"
-  # Line 58: empty
+  # Line 20: empty
+  21: "CA1"
+  22: "CA1"
+  23: "CA1"
+  24: "CA1"
+  25: "CA1"
+  26: "CA1"
+  # Line 27: empty
+  28: "CA1"
+  29: "CA1"
+  # Line 30: empty
+  31: "CA1"
+  # Line 32: empty
+  33: "CA_FIX2"
+  34: "CA_FIX2"
+  35: "CA_FIX2"
+  36: "CA_FIX2"
+  # Line 37: empty
+  38: "CA1"
+  39: "CA1"
+  40: "CA1"
+  41: "CA1"
+  # Line 42: empty
+  43: "CA2"
+  44: "CA2"
+  45: "CA2"
+  46: "CA2"
+  # Line 47: empty
+  48: "CA3"
+  49: "CA3"
+  # Line 50: empty
+  51: "CA3"
+  # Line 52: empty
+  53: "CA3"
+  54: "CA3"
+  55: "CA3"
+  56: "CA3"
+  57: "CA3"
+  58: "CA3"
   59: "CA3"
-  60: "CA3"
-  # Line 61: empty
-  62: "CA_FIX4"
-  63: "CA_FIX4"
-  64: "CA_FIX4"
-  65: "CA_FIX4"
-  66: "CA_FIX4"
+  # Line 60: empty
+  61: "CA3"
+  62: "CA3"
+  # Line 63: empty
+  64: "CA4"
+  65: "CA4"
+  66: "CA4"
   # Line 67: empty
-  68: "CA_FIX4"
-  69: "CA_FIX4"
-  70: "CA_FIX4"
-  # Line 71: empty
-  72: "CA4"
-  73: "CA4"
-  74: "CA4"
-  75: "CA4"
-  76: "CA4"
-  77: "CA4"
-  # Line 78: empty
-  79: "CA4"
-  80: "CA4"
-  # Line 81: empty
+  68: "CA4"
+  69: "CA4"
+  # Line 70: empty
+  71: "CA_FIX3"
+  72: "CA_FIX3"
+  73: "CA_FIX3"
+  74: "CA_FIX3"
+  75: "CA_FIX3"
+  76: "CA_FIX3"
+  # Line 77: empty
+  78: "CA5"
+  79: "CA5"
+  # Line 80: empty
+  81: "CA5"
   82: "CA5"
   83: "CA5"
   84: "CA5"
   85: "CA5"
-  86: "CA5"
+  # Line 86: empty
   87: "CA5"
-  88: "CA5"
-  # Line 89: empty
-  90: "CA_COMMENTS"
-  91: "CA_FIX5"
-  92: "CA_FIX5"
-  93: "CA_FIX5"
-  94: "CA_FIX5"
-  95: "CA_FIX5"
-  96: "CA_FIX5"
-  97: "CA_FIX5"
-  98: "CA_FIX5"
-  99: "CA_FIX5"
-  100: "CA_FIX5"
-  101: "CA_FIX5"
-  102: "CA_FIX5"
-  # Line 103: empty
-  104: "CA5"
-  105: "CA5"
-  # Line 106: empty
-  107: "CA6"
-  108: "CA6"
-  109: "CA6"
-  # Line 110: empty
-  111: "CA7"
-  112: "CA_DECLARATIONS"
-  # Line 113: empty
+  # Line 88: empty
+  89: "CA5"
+  # Line 90: empty
+  91: "CA5"
+  92: "CA5"
+  # Line 93: empty
+  94: "CA5"
+  95: "CA5"
+  # Line 96: empty
+  97: "CA6"
+  98: "CA6"
+  99: "CA6"
+  100: "CA6"
+  # Line 101: empty
+  102: "CA6"
+  103: "CA6"
+  # Line 104: empty
+  105: "CA6"
+  106: "CA6"
+  # Line 107: empty
+  108: "CA_FIX4"
+  109: "CA_FIX4"
+  110: "CA_FIX4"
+  111: "CA_FIX4"
+  112: "CA_FIX4"
+  113: "CA_FIX4"
+  # Line 114: empty
+  115: "CA_FIX5"
+  116: "CA_FIX5"
+  117: "CA_FIX5"
+  # Line 118: empty
+  119: "CA_FIX5"
+  120: "CA_FIX5"
+  121: "CA_FIX5"
+  122: "CA_FIX5"
+  # Line 123: empty
+  124: "CA_FIX5"
+  125: "CA_FIX5"
+  # Line 126: empty
+  127: "CA_FIX6"
+  128: "CA_FIX6"
+  129: "CA_FIX6"
+  130: "CA_FIX6"
+  131: "CA_DECLARATIONS"
+  # Line 132: empty
 
 code_act_security_functions_fixed:
   CA_FIX1: "FIX"
@@ -285,13 +315,13 @@ code_act_security_functions_fixed:
   CA_FIX3: "FIX"
   CA_FIX4: "FIX"
   CA_FIX5: "FIX"
+  CA_FIX6: "FIX"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

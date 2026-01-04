@@ -1,124 +1,127 @@
 schema_version: "1.0"
 sample_id: "tr_tc_016"
-base_sample_id: "ms_tc_016"
-vulnerability_type: "reentrancy"
+base_sample_id: "ms_tc_019"
+vulnerability_type: "validation_bypass"
 trojan_strategy: "config_and_metrics_distractors"
 
 vulnerability_summary:
-  description: "External callback in _notifyTransfer allows reentrancy during transfer."
-  root_cause_lines: [57, 73]
-  root_cause_description: "_notifyTransfer (line 57) triggers external call (line 73) after state changes."
+  description: "No validation that resourceID maps to valid token, allowing transferFrom on address(0)."
+  root_cause_lines: [93]
+  root_cause_description: "transferFrom called on tokenContract which may be address(0) if resourceID not set."
 
 decoy_summary:
-  description: "Added suspicious variable names, fake callback bypass, and price cache as distractors."
-  decoy_lines: [25, 26, 27, 55, 71, 72, 116, 117, 118, 119, 122, 123, 124, 125, 126, 127, 129, 130, 131, 132, 133, 134, 135, 136, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 153, 154, 155, 156]
+  description: "Added suspicious bypass toggle, zero address tracking, and analytics as distractors."
+  decoy_lines: [71, 72, 73, 76, 77, 89, 90, 91, 95, 96, 97, 103, 104, 109, 110, 111, 112, 115, 116, 117, 118, 119, 120, 121, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133]
 
 code_acts:
 
   - id: "CA_ROOT1"
-    type: "CTRL_FLOW"
-    lines: [57]
-    code: "_notifyTransfer(msg.sender, to, amount);"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Calls notification function after state changes."
-
-  - id: "CA_ROOT2"
     type: "EXT_CALL"
-    lines: [73]
-    code: '(bool success, ) = to.call(abi.encodeWithSignature("onTokenTransfer(address,uint256)", from, amount));'
+    lines: [93]
+    code: "IERC20(tokenContract).transferFrom(depositer, address(this), amount);"
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - External call allows reentrancy callback."
+    rationale: "ROOT_CAUSE - transferFrom called on tokenContract which may be address(0)."
 
   - id: "INJ1"
     type: "DECLARATION"
-    lines: [25, 26, 27]
+    lines: [71, 72, 73]
     code: |
-      uint256 public unsafeTransferCounter;
-      bool public allowCallbackBypass;
-      uint256 public vulnerablePriceCache;
+      bool public unsafeZeroCheckBypass;
+      uint256 public zeroAddressAttemptCount;
+      address public emergencyTokenOverride;
     security_function: "DECOY"
     rationale: "DECOY - Suspicious variable names look like vulnerabilities but are benign."
 
   - id: "INJ2"
-    type: "STATE_MOD"
-    lines: [55]
-    code: "unsafeTransferCounter += 1;"
+    type: "DECLARATION"
+    lines: [76, 77]
+    code: |
+      uint256 public handlerConfigVersion;
+      uint256 public suspiciousResourceCount;
     security_function: "DECOY"
-    rationale: "DECOY - Counter looks suspicious but is just analytics."
+    rationale: "DECOY - Analytics variables with suspicious names."
 
   - id: "INJ3"
-    type: "INPUT_VAL"
-    lines: [71]
-    code: "if (_isContract(to) && !allowCallbackBypass) {"
-    security_function: "DECOY"
-    rationale: "DECOY - Fake bypass check looks vulnerable but is safe."
-
-  - id: "INJ4"
-    type: "STATE_MOD"
-    lines: [72]
-    code: "vulnerablePriceCache = _tokenPrice();"
-    security_function: "DECOY"
-    rationale: "DECOY - Caching price looks suspicious but is just analytics storage."
-
-  - id: "INJ5"
-    type: "ACCESS_CTRL"
-    lines: [116, 117, 118, 119]
+    type: "CTRL_FLOW"
+    lines: [89, 90, 91]
     code: |
-      function setCallbackBypass(bool bypass) external {
-          allowCallbackBypass = bypass;
-          tokenConfigVersion += 1;
+      if (tokenContract == address(0)) {
+          zeroAddressAttemptCount += 1;
       }
     security_function: "DECOY"
-    rationale: "DECOY - Unprotected bypass toggle looks dangerous but is safe."
+    rationale: "DECOY - Zero address check looks protective but doesn't prevent the vulnerability."
+
+  - id: "INJ4"
+    type: "CTRL_FLOW"
+    lines: [95, 96, 97]
+    code: |
+      if (unsafeZeroCheckBypass) {
+          suspiciousResourceCount += 1;
+      }
+    security_function: "DECOY"
+    rationale: "DECOY - Bypass check looks dangerous but just updates counter."
+
+  - id: "INJ5"
+    type: "CTRL_FLOW"
+    lines: [103, 104]
+    code: |
+      if (tokenAddress == address(0) && unsafeZeroCheckBypass) {
+          emergencyTokenOverride = tokenAddress;
+      }
+    security_function: "DECOY"
+    rationale: "DECOY - Emergency override looks dangerous but emergencyTokenOverride is unused."
 
   - id: "INJ6"
-    type: "COMPUTATION"
-    lines: [122, 123, 124, 125, 126, 127]
+    type: "ACCESS_CTRL"
+    lines: [109, 110, 111, 112]
     code: |
-      function _recordTransferActivity(address user, uint256 amount) internal { ... }
+      function toggleZeroCheckBypass(bool bypass) external {
+          unsafeZeroCheckBypass = bypass;
+          handlerConfigVersion += 1;
+      }
     security_function: "DECOY"
-    rationale: "DECOY - Activity recording is safe analytics."
+    rationale: "DECOY - Unprotected toggle looks dangerous but bypass only affects analytics."
 
   - id: "INJ7"
     type: "COMPUTATION"
-    lines: [129, 130, 131, 132, 133, 134, 135, 136]
+    lines: [115, 116, 117, 118, 119, 120, 121]
     code: |
-      function _updateTransferScore(uint256 current, uint256 value) internal pure returns (uint256) { ... }
+      function getBridgeMetrics() external view returns (...) { ... }
     security_function: "DECOY"
-    rationale: "DECOY - Score calculation is safe."
+    rationale: "DECOY - View function is safe."
 
   - id: "INJ8"
     type: "COMPUTATION"
-    lines: [139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 153, 154, 155, 156]
+    lines: [123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133]
     code: |
-      function getTokenMetrics() external view returns (...) { ... }
-      function getUserMetrics(address user) external view returns (...) { ... }
+      function getHandlerMetrics() external view returns (...) { ... }
     security_function: "DECOY"
-    rationale: "DECOY - View functions are safe."
+    rationale: "DECOY - View function is safe."
 
   - id: "CA1"
     type: "DECLARATION"
-    lines: [19]
-    code: "mapping(address => uint256) public balances;"
+    lines: [67, 68]
+    code: |
+      mapping(bytes32 => address) public resourceIDToTokenContractAddress;
+      mapping(address => bool) public contractWhitelist;
     security_function: "PREREQ"
-    rationale: "PREREQ - Balance state that can be corrupted during reentrancy."
+    rationale: "PREREQ - Resource mapping that may not be initialized."
 
   - id: "CA2"
     type: "STATE_MOD"
-    lines: [52, 53]
-    code: |
-      balances[msg.sender] -= amount;
-      balances[to] += amount;
+    lines: [84]
+    code: "address tokenContract = resourceIDToTokenContractAddress[resourceID];"
     security_function: "BENIGN"
-    rationale: "Balance updates before external call (CEI violated by notification)."
+    rationale: "Token address lookup (may return address(0))."
 
   - id: "CA3"
     type: "COMPUTATION"
-    lines: [96, 97, 98, 99, 100, 101]
+    lines: [86, 87]
     code: |
-      function _tokenPrice() internal view returns (uint256) { ... }
+      uint256 amount;
+      (amount) = abi.decode(data, (uint256));
     security_function: "BENIGN"
-    rationale: "Price calculation logic."
+    rationale: "Amount decoding."
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -128,36 +131,36 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [4, 5, 6, 7, 24, 29, 115, 121, 138]
+    lines: [25, 70, 75, 108, 114]
     security_function: "UNRELATED"
-    rationale: "NatSpec and inline comments"
+    rationale: "Inline comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [9, 10, 11, 12, 13, 15, 16, 17, 20, 21, 22, 30, 31, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 49, 50, 59, 60, 61, 62, 63, 64, 66, 67, 68, 69, 70, 74, 75, 76, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 103, 104, 105, 106, 107, 108, 109, 111, 112, 113, 157, 158, 159]
+    lines: [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 18, 19, 20, 21, 23, 24, 26, 27, 28, 30, 31, 32, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 79, 80, 81, 82, 83, 88, 92, 98, 100, 101, 102, 105, 106, 134]
     security_function: "UNRELATED"
     rationale: "Interface, contract, and function signature declarations"
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
-    lines: [3, 8, 14, 18, 23, 28, 33, 48, 51, 54, 56, 58, 65, 77, 95, 102, 110, 114, 120, 128, 137, 152, 160]
+    lines: [3, 13, 16, 22, 29, 33, 34, 49, 55, 65, 69, 74, 78, 85, 94, 99, 107, 113, 122, 135]
     security_function: "UNRELATED"
     rationale: "Empty lines and closing braces"
 
 summary:
-  total_code_acts: 17
+  total_code_acts: 16
 
   vulnerability:
-    type: "reentrancy"
-    description: "External callback in _notifyTransfer"
-    root_cause_lines: [57, 73]
+    type: "validation_bypass"
+    description: "No validation that resourceID maps to valid token"
+    root_cause_lines: [93]
 
   decoys:
     count: 8
-    types: ["suspicious_variable_names", "fake_bypass", "price_cache"]
+    types: ["suspicious_variable_names", "fake_zero_check", "analytics"]
 
   by_security_function:
-    ROOT_CAUSE: 2
+    ROOT_CAUSE: 1
     DECOY: 8
     PREREQ: 1
     BENIGN: 2
@@ -167,166 +170,141 @@ line_to_code_act:
   1: "CA_DIRECTIVES"
   2: "CA_DIRECTIVES"
   # Line 3: empty
-  4: "CA_COMMENTS"
-  5: "CA_COMMENTS"
-  6: "CA_COMMENTS"
-  7: "CA_COMMENTS"
-  # Line 8: empty
+  4: "CA_DECLARATIONS"
+  5: "CA_DECLARATIONS"
+  6: "CA_DECLARATIONS"
+  7: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
   9: "CA_DECLARATIONS"
-  10: "CA_DECLARATIONS"
-  # Line 11: empty
+  # Line 10: empty
+  11: "CA_DECLARATIONS"
   12: "CA_DECLARATIONS"
-  13: "CA_DECLARATIONS"
-  # Line 14: empty
+  # Line 13: empty
+  14: "CA_DECLARATIONS"
   15: "CA_DECLARATIONS"
-  16: "CA_DECLARATIONS"
+  # Line 16: empty
   17: "CA_DECLARATIONS"
-  # Line 18: empty
-  19: "CA1"
+  18: "CA_DECLARATIONS"
+  19: "CA_DECLARATIONS"
   20: "CA_DECLARATIONS"
   21: "CA_DECLARATIONS"
-  22: "CA_DECLARATIONS"
-  # Line 23: empty
-  24: "CA_COMMENTS"
-  25: "INJ1"
-  26: "INJ1"
-  27: "INJ1"
-  # Line 28: empty
-  29: "CA_COMMENTS"
+  # Line 22: empty
+  23: "CA_DECLARATIONS"
+  # Line 24: empty
+  25: "CA_COMMENTS"
+  26: "CA_DECLARATIONS"
+  27: "CA_DECLARATIONS"
+  28: "CA_DECLARATIONS"
+  # Line 29: empty
   30: "CA_DECLARATIONS"
   31: "CA_DECLARATIONS"
-  # Line 33: empty
-  34: "CA_DECLARATIONS"
+  32: "CA_DECLARATIONS"
+  33: "CA_SYNTAX"
+  # Line 34: empty
   35: "CA_DECLARATIONS"
   36: "CA_DECLARATIONS"
   37: "CA_DECLARATIONS"
   38: "CA_DECLARATIONS"
-  # Line 39: empty
+  39: "CA_DECLARATIONS"
   40: "CA_DECLARATIONS"
-  41: "CA_DECLARATIONS"
+  # Line 41: empty
   42: "CA_DECLARATIONS"
   # Line 43: empty
   44: "CA_DECLARATIONS"
   # Line 45: empty
   46: "CA_DECLARATIONS"
   47: "CA_DECLARATIONS"
-  # Line 48: empty
-  49: "CA_DECLARATIONS"
+  48: "CA_DECLARATIONS"
+  # Line 49: empty
   50: "CA_DECLARATIONS"
-  # Line 51: empty
-  52: "CA2"
-  53: "CA2"
-  # Line 54: empty
-  55: "INJ2"
-  # Line 56: empty
-  57: "CA_ROOT1"
-  # Line 58: empty
+  51: "CA_DECLARATIONS"
+  52: "CA_DECLARATIONS"
+  53: "CA_DECLARATIONS"
+  54: "CA_DECLARATIONS"
+  # Line 55: empty
+  56: "CA_DECLARATIONS"
+  57: "CA_DECLARATIONS"
+  58: "CA_DECLARATIONS"
   59: "CA_DECLARATIONS"
   60: "CA_DECLARATIONS"
   61: "CA_DECLARATIONS"
-  # Line 62: empty
+  62: "CA_DECLARATIONS"
   63: "CA_DECLARATIONS"
   64: "CA_DECLARATIONS"
   # Line 65: empty
   66: "CA_DECLARATIONS"
-  67: "CA_DECLARATIONS"
-  68: "CA_DECLARATIONS"
-  69: "CA_DECLARATIONS"
-  70: "CA_DECLARATIONS"
-  71: "INJ3"
-  72: "INJ4"
-  73: "CA_ROOT2"
-  74: "CA_DECLARATIONS"
-  75: "CA_DECLARATIONS"
-  76: "CA_DECLARATIONS"
-  # Line 77: empty
-  78: "CA_DECLARATIONS"
+  67: "CA1"
+  68: "CA1"
+  # Line 69: empty
+  70: "CA_COMMENTS"
+  71: "INJ1"
+  72: "INJ1"
+  73: "INJ1"
+  # Line 74: empty
+  75: "CA_COMMENTS"
+  76: "INJ2"
+  77: "INJ2"
+  # Line 78: empty
   79: "CA_DECLARATIONS"
   80: "CA_DECLARATIONS"
   81: "CA_DECLARATIONS"
   82: "CA_DECLARATIONS"
-  # Line 83: empty
-  84: "CA_DECLARATIONS"
-  85: "CA_DECLARATIONS"
-  # Line 86: empty
-  87: "CA_DECLARATIONS"
-  88: "CA_DECLARATIONS"
-  89: "CA_DECLARATIONS"
-  # Line 90: empty
-  91: "CA_DECLARATIONS"
+  83: "CA_DECLARATIONS"
+  84: "CA2"
+  # Line 85: empty
+  86: "CA3"
+  87: "CA3"
+  # Line 88: empty
+  89: "INJ3"
+  90: "INJ3"
+  91: "INJ3"
   # Line 92: empty
-  93: "CA_DECLARATIONS"
-  94: "CA_DECLARATIONS"
-  # Line 95: empty
-  96: "CA3"
-  97: "CA3"
-  98: "CA3"
-  99: "CA3"
-  100: "CA3"
-  101: "CA3"
+  93: "CA_ROOT1"
+  # Line 94: empty
+  95: "INJ4"
+  96: "INJ4"
+  97: "INJ4"
+  98: "CA_DECLARATIONS"
+  # Line 99: empty
+  100: "CA_DECLARATIONS"
+  101: "CA_DECLARATIONS"
   # Line 102: empty
-  103: "CA_DECLARATIONS"
-  104: "CA_DECLARATIONS"
+  103: "INJ5"
+  104: "INJ5"
   105: "CA_DECLARATIONS"
   106: "CA_DECLARATIONS"
-  107: "CA_DECLARATIONS"
-  108: "CA_DECLARATIONS"
-  109: "CA_DECLARATIONS"
-  # Line 110: empty
-  111: "CA_DECLARATIONS"
-  112: "CA_DECLARATIONS"
-  113: "CA_DECLARATIONS"
-  # Line 114: empty
-  115: "CA_COMMENTS"
-  116: "INJ5"
-  117: "INJ5"
-  118: "INJ5"
-  119: "INJ5"
-  # Line 120: empty
-  121: "CA_COMMENTS"
-  122: "INJ6"
-  123: "INJ6"
-  124: "INJ6"
-  125: "INJ6"
-  126: "INJ6"
-  127: "INJ6"
-  # Line 128: empty
-  129: "INJ7"
-  130: "INJ7"
-  131: "INJ7"
-  132: "INJ7"
-  133: "INJ7"
-  134: "INJ7"
-  135: "INJ7"
-  136: "INJ7"
-  # Line 137: empty
-  138: "CA_COMMENTS"
-  139: "INJ8"
-  140: "INJ8"
-  141: "INJ8"
-  142: "INJ8"
-  143: "INJ8"
-  144: "INJ8"
-  145: "INJ8"
-  146: "INJ8"
-  147: "INJ8"
-  148: "INJ8"
-  149: "INJ8"
-  150: "INJ8"
-  151: "INJ8"
-  # Line 152: empty
-  153: "INJ8"
-  154: "INJ8"
-  155: "INJ8"
-  156: "INJ8"
-  # Line 157: empty
-  158: "CA_DECLARATIONS"
-  159: "CA_DECLARATIONS"
-  # Line 160: empty
+  # Line 107: empty
+  108: "CA_COMMENTS"
+  109: "INJ6"
+  110: "INJ6"
+  111: "INJ6"
+  112: "INJ6"
+  # Line 113: empty
+  114: "CA_COMMENTS"
+  115: "INJ7"
+  116: "INJ7"
+  117: "INJ7"
+  118: "INJ7"
+  119: "INJ7"
+  120: "INJ7"
+  121: "INJ7"
+  # Line 122: empty
+  123: "INJ8"
+  124: "INJ8"
+  125: "INJ8"
+  126: "INJ8"
+  127: "INJ8"
+  128: "INJ8"
+  129: "INJ8"
+  130: "INJ8"
+  131: "INJ8"
+  132: "INJ8"
+  133: "INJ8"
+  134: "CA_DECLARATIONS"
+  # Line 135: empty
 
 code_act_security_functions:
   CA_ROOT1: "ROOT_CAUSE"
-  CA_ROOT2: "ROOT_CAUSE"
   INJ1: "DECOY"
   INJ2: "DECOY"
   INJ3: "DECOY"

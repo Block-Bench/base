@@ -1,85 +1,126 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ /**
-/*LN-5*/  * @title Vault Controller Contract
-/*LN-6*/  * @notice Manages vault strategies and token swaps
-/*LN-7*/  */
-/*LN-8*/ 
-/*LN-9*/ interface IERC20 {
-/*LN-10*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-11*/ 
-/*LN-12*/     function balanceOf(address account) external view returns (uint256);
-/*LN-13*/ }
-/*LN-14*/ 
-/*LN-15*/ interface IJar {
-/*LN-16*/     function token() external view returns (address);
+/*LN-4*/ interface IUniswapV2Pair {
+/*LN-5*/     function getReserves()
+/*LN-6*/         external
+/*LN-7*/         view
+/*LN-8*/         returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast);
+/*LN-9*/ 
+/*LN-10*/     function totalSupply() external view returns (uint256);
+/*LN-11*/ }
+/*LN-12*/ 
+/*LN-13*/ interface IERC20 {
+/*LN-14*/     function balanceOf(address account) external view returns (uint256);
+/*LN-15*/ 
+/*LN-16*/     function transfer(address to, uint256 amount) external returns (bool);
 /*LN-17*/ 
-/*LN-18*/     function withdraw(uint256 amount) external;
-/*LN-19*/ }
-/*LN-20*/ 
-/*LN-21*/ interface IStrategy {
-/*LN-22*/     function withdrawAll() external;
-/*LN-23*/ 
-/*LN-24*/     function withdraw(address token) external;
-/*LN-25*/ }
-/*LN-26*/ 
-/*LN-27*/ contract VaultController {
-/*LN-28*/     address public governance;
-/*LN-29*/     mapping(address => address) public strategies;
-/*LN-30*/     mapping(address => bool) public validTargets;
-/*LN-31*/ 
-/*LN-32*/     constructor() {
-/*LN-33*/         governance = msg.sender;
-/*LN-34*/     }
-/*LN-35*/ 
-/*LN-36*/     function swapExactJarForJar(
-/*LN-37*/         address _fromJar,
-/*LN-38*/         address _toJar,
-/*LN-39*/         uint256 _fromJarAmount,
-/*LN-40*/         uint256 _toJarMinAmount,
-/*LN-41*/         address[] calldata _targets,
-/*LN-42*/         bytes[] calldata _data
-/*LN-43*/     ) external {
-/*LN-44*/         require(_targets.length == _data.length, "Length mismatch");
-/*LN-45*/ 
-/*LN-46*/         for (uint256 i = 0; i < _targets.length; i++) {
-/*LN-47*/             require(validTargets[_targets[i]], "Target not allowed");
-/*LN-48*/             (bool success, ) = _targets[i].call(_data[i]);
-/*LN-49*/             require(success, "Call failed");
-/*LN-50*/         }
-/*LN-51*/     }
-/*LN-52*/ 
-/*LN-53*/     function setStrategy(address jar, address strategy) external {
-/*LN-54*/         require(msg.sender == governance, "Not governance");
-/*LN-55*/         strategies[jar] = strategy;
-/*LN-56*/     }
-/*LN-57*/ 
-/*LN-58*/     function addValidTarget(address target) external {
-/*LN-59*/         require(msg.sender == governance, "Not governance");
-/*LN-60*/         validTargets[target] = true;
-/*LN-61*/     }
-/*LN-62*/ }
+/*LN-18*/     function transferFrom(
+/*LN-19*/         address from,
+/*LN-20*/         address to,
+/*LN-21*/         uint256 amount
+/*LN-22*/     ) external returns (bool);
+/*LN-23*/ }
+/*LN-24*/ 
+/*LN-25*/ contract LendingVault {
+/*LN-26*/     struct Position {
+/*LN-27*/         uint256 lpTokenAmount;
+/*LN-28*/         uint256 borrowed;
+/*LN-29*/     }
+/*LN-30*/ 
+/*LN-31*/     mapping(address => Position) public positions;
+/*LN-32*/ 
+/*LN-33*/     address public lpToken;
+/*LN-34*/     address public stablecoin;
+/*LN-35*/     uint256 public constant COLLATERAL_RATIO = 150;
+/*LN-36*/ 
+/*LN-37*/     // Price protection
+/*LN-38*/     uint256 public lastLPValue;
+/*LN-39*/     uint256 public lastUpdateBlock;
+/*LN-40*/     uint256 constant MAX_DEVIATION = 10; // 10% max deviation
+/*LN-41*/ 
+/*LN-42*/     constructor(address _lpToken, address _stablecoin) {
+/*LN-43*/         lpToken = _lpToken;
+/*LN-44*/         stablecoin = _stablecoin;
+/*LN-45*/     }
+/*LN-46*/ 
+/*LN-47*/     function deposit(uint256 amount) external {
+/*LN-48*/         IERC20(lpToken).transferFrom(msg.sender, address(this), amount);
+/*LN-49*/         positions[msg.sender].lpTokenAmount += amount;
+/*LN-50*/     }
+/*LN-51*/ 
+/*LN-52*/     function borrow(uint256 amount) external {
+/*LN-53*/         _checkPriceDeviation();
+/*LN-54*/         uint256 collateralValue = getLPTokenValue(
+/*LN-55*/             positions[msg.sender].lpTokenAmount
+/*LN-56*/         );
+/*LN-57*/         uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;
+/*LN-58*/ 
+/*LN-59*/         require(
+/*LN-60*/             positions[msg.sender].borrowed + amount <= maxBorrow,
+/*LN-61*/             "Insufficient collateral"
+/*LN-62*/         );
 /*LN-63*/ 
-/*LN-64*/ contract Strategy {
-/*LN-65*/     address public controller;
-/*LN-66*/     address public want;
+/*LN-64*/         positions[msg.sender].borrowed += amount;
+/*LN-65*/         IERC20(stablecoin).transfer(msg.sender, amount);
+/*LN-66*/     }
 /*LN-67*/ 
-/*LN-68*/     constructor(address _controller, address _want) {
-/*LN-69*/         controller = _controller;
-/*LN-70*/         want = _want;
-/*LN-71*/     }
-/*LN-72*/ 
-/*LN-73*/     function withdrawAll() external {
-/*LN-74*/         require(msg.sender == controller, "Not controller");
-/*LN-75*/         uint256 balance = IERC20(want).balanceOf(address(this));
-/*LN-76*/         IERC20(want).transfer(controller, balance);
-/*LN-77*/     }
-/*LN-78*/ 
-/*LN-79*/     function withdraw(address token) external {
-/*LN-80*/         require(msg.sender == controller, "Not controller");
-/*LN-81*/         uint256 balance = IERC20(token).balanceOf(address(this));
-/*LN-82*/         IERC20(token).transfer(controller, balance);
-/*LN-83*/     }
-/*LN-84*/ }
-/*LN-85*/ 
+/*LN-68*/     function _checkPriceDeviation() internal {
+/*LN-69*/         if (lastUpdateBlock == 0) {
+/*LN-70*/             lastLPValue = getLPTokenValue(1e18);
+/*LN-71*/             lastUpdateBlock = block.number;
+/*LN-72*/             return;
+/*LN-73*/         }
+/*LN-74*/         uint256 currentValue = getLPTokenValue(1e18);
+/*LN-75*/         uint256 maxAllowed = lastLPValue * (100 + MAX_DEVIATION) / 100;
+/*LN-76*/         uint256 minAllowed = lastLPValue * (100 - MAX_DEVIATION) / 100;
+/*LN-77*/         require(currentValue >= minAllowed && currentValue <= maxAllowed, "Price deviation too high");
+/*LN-78*/         if (block.number > lastUpdateBlock + 100) {
+/*LN-79*/             lastLPValue = currentValue;
+/*LN-80*/             lastUpdateBlock = block.number;
+/*LN-81*/         }
+/*LN-82*/     }
+/*LN-83*/ 
+/*LN-84*/     function getLPTokenValue(uint256 lpAmount) public view returns (uint256) {
+/*LN-85*/         if (lpAmount == 0) return 0;
+/*LN-86*/ 
+/*LN-87*/         IUniswapV2Pair pair = IUniswapV2Pair(lpToken);
+/*LN-88*/ 
+/*LN-89*/         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
+/*LN-90*/         uint256 totalSupply = pair.totalSupply();
+/*LN-91*/ 
+/*LN-92*/         uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;
+/*LN-93*/         uint256 amount1 = (uint256(reserve1) * lpAmount) / totalSupply;
+/*LN-94*/ 
+/*LN-95*/         uint256 totalValue = amount0 + amount1;
+/*LN-96*/ 
+/*LN-97*/         return totalValue;
+/*LN-98*/     }
+/*LN-99*/ 
+/*LN-100*/     function repay(uint256 amount) external {
+/*LN-101*/         require(positions[msg.sender].borrowed >= amount, "Repay exceeds debt");
+/*LN-102*/ 
+/*LN-103*/         IERC20(stablecoin).transferFrom(msg.sender, address(this), amount);
+/*LN-104*/         positions[msg.sender].borrowed -= amount;
+/*LN-105*/     }
+/*LN-106*/ 
+/*LN-107*/     function withdraw(uint256 amount) external {
+/*LN-108*/         require(
+/*LN-109*/             positions[msg.sender].lpTokenAmount >= amount,
+/*LN-110*/             "Insufficient balance"
+/*LN-111*/         );
+/*LN-112*/ 
+/*LN-113*/         uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;
+/*LN-114*/         uint256 remainingValue = getLPTokenValue(remainingLP);
+/*LN-115*/         uint256 maxBorrow = (remainingValue * 100) / COLLATERAL_RATIO;
+/*LN-116*/ 
+/*LN-117*/         require(
+/*LN-118*/             positions[msg.sender].borrowed <= maxBorrow,
+/*LN-119*/             "Withdrawal would liquidate position"
+/*LN-120*/         );
+/*LN-121*/ 
+/*LN-122*/         positions[msg.sender].lpTokenAmount -= amount;
+/*LN-123*/         IERC20(lpToken).transfer(msg.sender, amount);
+/*LN-124*/     }
+/*LN-125*/ }
+/*LN-126*/ 

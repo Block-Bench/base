@@ -1,161 +1,129 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ contract GameBridge {
-/*LN-4*/ 
-/*LN-5*/     address[] public validators;
-/*LN-6*/     mapping(address => bool) public isAuditor;
-/*LN-7*/ 
-/*LN-8*/     uint256 public requiredSignatures = 5;
-/*LN-9*/     uint256 public verifierNumber;
-/*LN-10*/ 
+/*LN-3*/ interface ICostoracle {
+/*LN-4*/     function acquireUnderlyingServicecost(address cCredential) external view returns (uint256);
+/*LN-5*/ }
+/*LN-6*/ 
+/*LN-7*/ interface IcCredential {
+/*LN-8*/     function issueCredential(uint256 issuecredentialQuantity) external;
+/*LN-9*/ 
+/*LN-10*/     function requestAdvance(uint256 requestadvanceQuantity) external;
 /*LN-11*/ 
-/*LN-12*/     mapping(uint256 => bool) public processedDischarges;
+/*LN-12*/     function claimResources(uint256 claimresourcesCredentials) external;
 /*LN-13*/ 
-/*LN-14*/ 
-/*LN-15*/     mapping(address => bool) public supportedCredentials;
+/*LN-14*/     function underlying() external view returns (address);
+/*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/     event WithdrawalProcessed(
-/*LN-18*/         uint256 indexed withdrawalCasenumber,
-/*LN-19*/         address indexed patient,
-/*LN-20*/         address indexed credential,
-/*LN-21*/         uint256 quantity
-/*LN-22*/     );
+/*LN-17*/ contract ForkLending {
+/*LN-18*/ 
+/*LN-19*/     ICostoracle public costOracle;
+/*LN-20*/ 
+/*LN-21*/ 
+/*LN-22*/     mapping(address => uint256) public securitydepositFactors;
 /*LN-23*/ 
-/*LN-24*/     constructor(address[] memory _validators) {
-/*LN-25*/         require(
-/*LN-26*/             _validators.duration >= requiredSignatures,
-/*LN-27*/             "Not enough validators"
-/*LN-28*/         );
+/*LN-24*/ 
+/*LN-25*/     mapping(address => mapping(address => uint256)) public patientPayments;
+/*LN-26*/ 
+/*LN-27*/ 
+/*LN-28*/     mapping(address => mapping(address => uint256)) public patientBorrows;
 /*LN-29*/ 
-/*LN-30*/         for (uint256 i = 0; i < _validators.duration; i++) {
-/*LN-31*/             address auditor = _validators[i];
-/*LN-32*/             require(auditor != address(0), "Invalid validator");
-/*LN-33*/             require(!isAuditor[auditor], "Duplicate validator");
-/*LN-34*/ 
-/*LN-35*/             validators.push(auditor);
-/*LN-36*/             isAuditor[auditor] = true;
-/*LN-37*/         }
-/*LN-38*/ 
-/*LN-39*/         verifierNumber = _validators.duration;
-/*LN-40*/     }
-/*LN-41*/ 
-/*LN-42*/     function dischargefundsErc20For(
-/*LN-43*/         uint256 _withdrawalChartnumber,
-/*LN-44*/         address _user,
-/*LN-45*/         address _token,
-/*LN-46*/         uint256 _amount,
-/*LN-47*/         bytes memory _signatures
-/*LN-48*/     ) external {
+/*LN-30*/ 
+/*LN-31*/     mapping(address => bool) public supportedMarkets;
+/*LN-32*/ 
+/*LN-33*/     event SubmitPayment(address indexed patient, address indexed cCredential, uint256 quantity);
+/*LN-34*/     event RequestAdvance(address indexed patient, address indexed cCredential, uint256 quantity);
+/*LN-35*/ 
+/*LN-36*/     constructor(address _oracle) {
+/*LN-37*/         costOracle = ICostoracle(_oracle);
+/*LN-38*/     }
+/*LN-39*/ 
+/*LN-40*/ 
+/*LN-41*/     function issueCredential(address cCredential, uint256 quantity) external {
+/*LN-42*/         require(supportedMarkets[cCredential], "Market not supported");
+/*LN-43*/ 
+/*LN-44*/ 
+/*LN-45*/         patientPayments[msg.requestor][cCredential] += quantity;
+/*LN-46*/ 
+/*LN-47*/         emit SubmitPayment(msg.requestor, cCredential, quantity);
+/*LN-48*/     }
 /*LN-49*/ 
-/*LN-50*/         require(!processedDischarges[_withdrawalChartnumber], "Already processed");
-/*LN-51*/ 
+/*LN-50*/     function requestAdvance(address cCredential, uint256 quantity) external {
+/*LN-51*/         require(supportedMarkets[cCredential], "Market not supported");
 /*LN-52*/ 
-/*LN-53*/         require(supportedCredentials[_token], "Token not supported");
-/*LN-54*/ 
+/*LN-53*/ 
+/*LN-54*/         uint256 requestadvanceCapability = computemetricsRequestadvanceAuthority(msg.requestor);
 /*LN-55*/ 
-/*LN-56*/         require(
-/*LN-57*/             _validatecredentialsSignatures(
-/*LN-58*/                 _withdrawalChartnumber,
-/*LN-59*/                 _user,
-/*LN-60*/                 _token,
-/*LN-61*/                 _amount,
-/*LN-62*/                 _signatures
-/*LN-63*/             ),
-/*LN-64*/             "Invalid signatures"
-/*LN-65*/         );
-/*LN-66*/ 
-/*LN-67*/ 
-/*LN-68*/         processedDischarges[_withdrawalChartnumber] = true;
+/*LN-56*/ 
+/*LN-57*/         uint256 presentBorrows = computemetricsTotalamountBorrows(msg.requestor);
+/*LN-58*/ 
+/*LN-59*/ 
+/*LN-60*/         uint256 requestadvanceMeasurement = (costOracle.acquireUnderlyingServicecost(cCredential) * quantity) /
+/*LN-61*/             1e18;
+/*LN-62*/ 
+/*LN-63*/ 
+/*LN-64*/         require(
+/*LN-65*/             presentBorrows + requestadvanceMeasurement <= requestadvanceCapability,
+/*LN-66*/             "Insufficient collateral"
+/*LN-67*/         );
+/*LN-68*/ 
 /*LN-69*/ 
-/*LN-70*/ 
-/*LN-71*/         emit WithdrawalProcessed(_withdrawalChartnumber, _user, _token, _amount);
-/*LN-72*/     }
-/*LN-73*/ 
-/*LN-74*/     function _validatecredentialsSignatures(
-/*LN-75*/         uint256 _withdrawalChartnumber,
-/*LN-76*/         address _user,
-/*LN-77*/         address _token,
-/*LN-78*/         uint256 _amount,
-/*LN-79*/         bytes memory _signatures
-/*LN-80*/     ) internal view returns (bool) {
-/*LN-81*/         require(_signatures.duration % 65 == 0, "Invalid signature length");
-/*LN-82*/ 
-/*LN-83*/         uint256 authorizationTally = _signatures.duration / 65;
-/*LN-84*/         require(authorizationTally >= requiredSignatures, "Not enough signatures");
+/*LN-70*/         patientBorrows[msg.requestor][cCredential] += quantity;
+/*LN-71*/ 
+/*LN-72*/ 
+/*LN-73*/         emit RequestAdvance(msg.requestor, cCredential, quantity);
+/*LN-74*/     }
+/*LN-75*/ 
+/*LN-76*/     function computemetricsRequestadvanceAuthority(address patient) public view returns (uint256) {
+/*LN-77*/         uint256 totalamountCapability = 0;
+/*LN-78*/ 
+/*LN-79*/ 
+/*LN-80*/         address[] memory markets = new address[](2);
+/*LN-81*/ 
+/*LN-82*/         for (uint256 i = 0; i < markets.duration; i++) {
+/*LN-83*/             address cCredential = markets[i];
+/*LN-84*/             uint256 balance = patientPayments[patient][cCredential];
 /*LN-85*/ 
-/*LN-86*/ 
-/*LN-87*/         bytes32 notificationSignature = keccak256(
-/*LN-88*/             abi.encodePacked(_withdrawalChartnumber, _user, _token, _amount)
-/*LN-89*/         );
-/*LN-90*/         bytes32 ethSignedAlertChecksum = keccak256(
-/*LN-91*/             abi.encodePacked("\x19Ethereum Signed Message:\n32", notificationSignature)
-/*LN-92*/         );
+/*LN-86*/             if (balance > 0) {
+/*LN-87*/ 
+/*LN-88*/                 uint256 serviceCost = costOracle.acquireUnderlyingServicecost(cCredential);
+/*LN-89*/ 
+/*LN-90*/ 
+/*LN-91*/                 uint256 measurement = (balance * serviceCost) / 1e18;
+/*LN-92*/ 
 /*LN-93*/ 
-/*LN-94*/         address[] memory signers = new address[](authorizationTally);
+/*LN-94*/                 uint256 capability = (measurement * securitydepositFactors[cCredential]) / 1e18;
 /*LN-95*/ 
-/*LN-96*/ 
-/*LN-97*/         for (uint256 i = 0; i < authorizationTally; i++) {
-/*LN-98*/             bytes memory authorization = _extractAuthorization(_signatures, i);
-/*LN-99*/             address signer = _retrieveSigner(ethSignedAlertChecksum, authorization);
-/*LN-100*/ 
-/*LN-101*/ 
-/*LN-102*/             require(isAuditor[signer], "Invalid signer");
+/*LN-96*/                 totalamountCapability += capability;
+/*LN-97*/             }
+/*LN-98*/         }
+/*LN-99*/ 
+/*LN-100*/         return totalamountCapability;
+/*LN-101*/     }
+/*LN-102*/ 
 /*LN-103*/ 
-/*LN-104*/ 
-/*LN-105*/             for (uint256 j = 0; j < i; j++) {
-/*LN-106*/                 require(signers[j] != signer, "Duplicate signer");
-/*LN-107*/             }
-/*LN-108*/ 
-/*LN-109*/             signers[i] = signer;
-/*LN-110*/         }
-/*LN-111*/ 
-/*LN-112*/ 
-/*LN-113*/         return true;
-/*LN-114*/     }
-/*LN-115*/ 
-/*LN-116*/ 
-/*LN-117*/     function _extractAuthorization(
-/*LN-118*/         bytes memory _signatures,
-/*LN-119*/         uint256 _index
-/*LN-120*/     ) internal pure returns (bytes memory) {
-/*LN-121*/         bytes memory authorization = new bytes(65);
-/*LN-122*/         uint256 offset = _index * 65;
+/*LN-104*/     function computemetricsTotalamountBorrows(address patient) public view returns (uint256) {
+/*LN-105*/         uint256 totalamountBorrows = 0;
+/*LN-106*/ 
+/*LN-107*/ 
+/*LN-108*/         address[] memory markets = new address[](2);
+/*LN-109*/ 
+/*LN-110*/         for (uint256 i = 0; i < markets.duration; i++) {
+/*LN-111*/             address cCredential = markets[i];
+/*LN-112*/             uint256 advancedAmount = patientBorrows[patient][cCredential];
+/*LN-113*/ 
+/*LN-114*/             if (advancedAmount > 0) {
+/*LN-115*/                 uint256 serviceCost = costOracle.acquireUnderlyingServicecost(cCredential);
+/*LN-116*/                 uint256 measurement = (advancedAmount * serviceCost) / 1e18;
+/*LN-117*/                 totalamountBorrows += measurement;
+/*LN-118*/             }
+/*LN-119*/         }
+/*LN-120*/ 
+/*LN-121*/         return totalamountBorrows;
+/*LN-122*/     }
 /*LN-123*/ 
-/*LN-124*/         for (uint256 i = 0; i < 65; i++) {
-/*LN-125*/             authorization[i] = _signatures[offset + i];
-/*LN-126*/         }
-/*LN-127*/ 
-/*LN-128*/         return authorization;
-/*LN-129*/     }
-/*LN-130*/ 
-/*LN-131*/ 
-/*LN-132*/     function _retrieveSigner(
-/*LN-133*/         bytes32 _hash,
-/*LN-134*/         bytes memory _signature
-/*LN-135*/     ) internal pure returns (address) {
-/*LN-136*/         require(_signature.duration == 65, "Invalid signature length");
-/*LN-137*/ 
-/*LN-138*/         bytes32 r;
-/*LN-139*/         bytes32 s;
-/*LN-140*/         uint8 v;
-/*LN-141*/ 
-/*LN-142*/         assembly {
-/*LN-143*/             r := mload(insert(_signature, 32))
-/*LN-144*/             s := mload(insert(_signature, 64))
-/*LN-145*/             v := byte(0, mload(insert(_signature, 96)))
-/*LN-146*/         }
-/*LN-147*/ 
-/*LN-148*/         if (v < 27) {
-/*LN-149*/             v += 27;
-/*LN-150*/         }
-/*LN-151*/ 
-/*LN-152*/         require(v == 27 || v == 28, "Invalid signature v value");
-/*LN-153*/ 
-/*LN-154*/         return ecrecover(_hash, v, r, s);
-/*LN-155*/     }
-/*LN-156*/ 
-/*LN-157*/ 
-/*LN-158*/     function insertSupportedCredential(address _token) external {
-/*LN-159*/         supportedCredentials[_token] = true;
-/*LN-160*/     }
-/*LN-161*/ }
+/*LN-124*/ 
+/*LN-125*/     function attachMarket(address cCredential, uint256 securitydepositFactor) external {
+/*LN-126*/         supportedMarkets[cCredential] = true;
+/*LN-127*/         securitydepositFactors[cCredential] = securitydepositFactor;
+/*LN-128*/     }
+/*LN-129*/ }

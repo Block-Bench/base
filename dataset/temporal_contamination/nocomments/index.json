@@ -7,7 +7,7 @@
     "Clean up excessive blank lines",
     "Add fresh sequential line markers"
   ],
-  "total_files": 50,
+  "total_files": 46,
   "prefix": "nc_tc_",
   "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized",
   "source_contracts": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/sanitized/contracts",

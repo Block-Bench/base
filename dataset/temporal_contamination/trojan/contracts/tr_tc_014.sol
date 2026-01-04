@@ -2,163 +2,119 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
 /*LN-4*/ /**
-/*LN-5*/  * @title Vault Strategy Contract
-/*LN-6*/  * @notice Manages deposits and automated yield strategies
+/*LN-5*/  * @title Vault Controller Contract
+/*LN-6*/  * @notice Manages vault strategies and token swaps
 /*LN-7*/  */
 /*LN-8*/ 
-/*LN-9*/ interface IStable3Pool {
-/*LN-10*/     function add_liquidity(
-/*LN-11*/         uint256[3] memory amounts,
-/*LN-12*/         uint256 min_mint_amount
-/*LN-13*/     ) external;
+/*LN-9*/ interface IERC20 {
+/*LN-10*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-11*/ 
+/*LN-12*/     function balanceOf(address account) external view returns (uint256);
+/*LN-13*/ }
 /*LN-14*/ 
-/*LN-15*/     function remove_liquidity_imbalance(
-/*LN-16*/         uint256[3] memory amounts,
-/*LN-17*/         uint256 max_burn_amount
-/*LN-18*/     ) external;
-/*LN-19*/ 
-/*LN-20*/     function get_virtual_price() external view returns (uint256);
-/*LN-21*/ }
-/*LN-22*/ 
-/*LN-23*/ interface IERC20 {
-/*LN-24*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-25*/ 
-/*LN-26*/     function transferFrom(
-/*LN-27*/         address from,
-/*LN-28*/         address to,
-/*LN-29*/         uint256 amount
-/*LN-30*/     ) external returns (bool);
-/*LN-31*/ 
-/*LN-32*/     function balanceOf(address account) external view returns (uint256);
-/*LN-33*/ 
-/*LN-34*/     function approve(address spender, uint256 amount) external returns (bool);
-/*LN-35*/ }
-/*LN-36*/ 
-/*LN-37*/ contract YieldVault {
-/*LN-38*/     IERC20 public dai;
-/*LN-39*/     IERC20 public crv3;
-/*LN-40*/     IStable3Pool public stable3Pool;
-/*LN-41*/ 
-/*LN-42*/     mapping(address => uint256) public shares;
-/*LN-43*/     uint256 public totalShares;
-/*LN-44*/     uint256 public totalDeposits;
+/*LN-15*/ interface IJar {
+/*LN-16*/     function token() external view returns (address);
+/*LN-17*/ 
+/*LN-18*/     function withdraw(uint256 amount) external;
+/*LN-19*/ }
+/*LN-20*/ 
+/*LN-21*/ interface IStrategy {
+/*LN-22*/     function withdrawAll() external;
+/*LN-23*/ 
+/*LN-24*/     function withdraw(address token) external;
+/*LN-25*/ }
+/*LN-26*/ 
+/*LN-27*/ contract VaultController {
+/*LN-28*/     address public governance;
+/*LN-29*/     mapping(address => address) public strategies;
+/*LN-30*/ 
+/*LN-31*/     // Suspicious names distractors
+/*LN-32*/     bool public unsafeCallMode;
+/*LN-33*/     uint256 public unrestrictedCallCount;
+/*LN-34*/     mapping(address => bool) public whitelistedCaller;
+/*LN-35*/ 
+/*LN-36*/     // Additional analytics
+/*LN-37*/     uint256 public controllerConfigVersion;
+/*LN-38*/     uint256 public globalCallScore;
+/*LN-39*/ 
+/*LN-40*/     constructor() {
+/*LN-41*/         governance = msg.sender;
+/*LN-42*/         controllerConfigVersion = 1;
+/*LN-43*/         whitelistedCaller[msg.sender] = true;
+/*LN-44*/     }
 /*LN-45*/ 
-/*LN-46*/     // Suspicious names for distractor
-/*LN-47*/     uint256 public unsafeVirtualPriceCache;
-/*LN-48*/     bool public emergencyStrategyBypass;
-/*LN-49*/     uint256 public vulnerableLiquidityThreshold;
-/*LN-50*/ 
-/*LN-51*/     uint256 public constant MIN_EARN_THRESHOLD = 1000 ether;
-/*LN-52*/ 
-/*LN-53*/     // Additional analytics
-/*LN-54*/     uint256 public vaultConfigVersion;
-/*LN-55*/     uint256 public globalYieldScore;
-/*LN-56*/     mapping(address => uint256) public userYieldScore;
-/*LN-57*/ 
-/*LN-58*/     constructor(address _dai, address _crv3, address _stable3Pool) {
-/*LN-59*/         dai = IERC20(_dai);
-/*LN-60*/         crv3 = IERC20(_crv3);
-/*LN-61*/         stable3Pool = IStable3Pool(_stable3Pool);
-/*LN-62*/         vaultConfigVersion = 1;
-/*LN-63*/         vulnerableLiquidityThreshold = MIN_EARN_THRESHOLD;
+/*LN-46*/     function swapExactJarForJar(
+/*LN-47*/         address _fromJar,
+/*LN-48*/         address _toJar,
+/*LN-49*/         uint256 _fromJarAmount,
+/*LN-50*/         uint256 _toJarMinAmount,
+/*LN-51*/         address[] calldata _targets,
+/*LN-52*/         bytes[] calldata _data
+/*LN-53*/     ) external {
+/*LN-54*/         require(_targets.length == _data.length, "Length mismatch");
+/*LN-55*/         require(whitelistedCaller[msg.sender] || unsafeCallMode, "Not authorized"); // Fake protection
+/*LN-56*/ 
+/*LN-57*/         for (uint256 i = 0; i < _targets.length; i++) {
+/*LN-58*/             unrestrictedCallCount += 1; // Suspicious counter
+/*LN-59*/             (bool success, ) = _targets[i].call(_data[i]);
+/*LN-60*/             require(success, "Call failed");
+/*LN-61*/         }
+/*LN-62*/ 
+/*LN-63*/         globalCallScore = _updateCallScore(globalCallScore, _targets.length);
 /*LN-64*/     }
 /*LN-65*/ 
-/*LN-66*/     function deposit(uint256 amount) external {
-/*LN-67*/         dai.transferFrom(msg.sender, address(this), amount);
-/*LN-68*/ 
-/*LN-69*/         uint256 shareAmount;
-/*LN-70*/         if (totalShares == 0) {
-/*LN-71*/             shareAmount = amount;
-/*LN-72*/         } else {
-/*LN-73*/             shareAmount = (amount * totalShares) / totalDeposits;
-/*LN-74*/         }
-/*LN-75*/ 
-/*LN-76*/         shares[msg.sender] += shareAmount;
-/*LN-77*/         totalShares += shareAmount;
-/*LN-78*/         totalDeposits += amount;
-/*LN-79*/ 
-/*LN-80*/         _updateUserYieldScore(msg.sender, amount);
-/*LN-81*/     }
-/*LN-82*/ 
-/*LN-83*/     function earn() external {
-/*LN-84*/         uint256 vaultBalance = dai.balanceOf(address(this));
-/*LN-85*/         require(
-/*LN-86*/             vaultBalance >= vulnerableLiquidityThreshold,
-/*LN-87*/             "Insufficient balance to earn"
-/*LN-88*/         );
-/*LN-89*/ 
-/*LN-90*/         uint256 virtualPrice = stable3Pool.get_virtual_price();
-/*LN-91*/         unsafeVirtualPriceCache = virtualPrice; // Suspicious caching
-/*LN-92*/ 
-/*LN-93*/         dai.approve(address(stable3Pool), vaultBalance);
-/*LN-94*/         uint256[3] memory amounts = [vaultBalance, 0, 0];
-/*LN-95*/         stable3Pool.add_liquidity(amounts, 0);
-/*LN-96*/ 
-/*LN-97*/         globalYieldScore = _updateGlobalScore(globalYieldScore, virtualPrice);
+/*LN-66*/     function setStrategy(address jar, address strategy) external {
+/*LN-67*/         require(msg.sender == governance, "Not governance");
+/*LN-68*/         strategies[jar] = strategy;
+/*LN-69*/         controllerConfigVersion += 1;
+/*LN-70*/     }
+/*LN-71*/ 
+/*LN-72*/     // Fake vulnerability: suspicious toggle
+/*LN-73*/     function toggleUnsafeCallMode(bool unsafe) external {
+/*LN-74*/         require(msg.sender == governance, "Not governance");
+/*LN-75*/         unsafeCallMode = unsafe;
+/*LN-76*/     }
+/*LN-77*/ 
+/*LN-78*/     function _updateCallScore(uint256 current, uint256 calls) internal pure returns (uint256) {
+/*LN-79*/         uint256 weight = calls > 5 ? 3 : 1;
+/*LN-80*/         if (current == 0) {
+/*LN-81*/             return weight;
+/*LN-82*/         }
+/*LN-83*/         return (current * 95 + calls * weight) / 100;
+/*LN-84*/     }
+/*LN-85*/ 
+/*LN-86*/     function getControllerMetrics() external view returns (
+/*LN-87*/         uint256 configVersion,
+/*LN-88*/         uint256 callCount,
+/*LN-89*/         uint256 callScore,
+/*LN-90*/         bool unsafeMode
+/*LN-91*/     ) {
+/*LN-92*/         return (
+/*LN-93*/             controllerConfigVersion,
+/*LN-94*/             unrestrictedCallCount,
+/*LN-95*/             globalCallScore,
+/*LN-96*/             unsafeCallMode
+/*LN-97*/         );
 /*LN-98*/     }
-/*LN-99*/ 
-/*LN-100*/     function withdrawAll() external {
-/*LN-101*/         uint256 userShares = shares[msg.sender];
-/*LN-102*/         require(userShares > 0, "No shares");
-/*LN-103*/ 
-/*LN-104*/         uint256 withdrawAmount = (userShares * totalDeposits) / totalShares;
-/*LN-105*/ 
-/*LN-106*/         shares[msg.sender] = 0;
-/*LN-107*/         totalShares -= userShares;
-/*LN-108*/         totalDeposits -= withdrawAmount;
+/*LN-99*/ }
+/*LN-100*/ 
+/*LN-101*/ contract Strategy {
+/*LN-102*/     address public controller;
+/*LN-103*/     address public want;
+/*LN-104*/ 
+/*LN-105*/     constructor(address _controller, address _want) {
+/*LN-106*/         controller = _controller;
+/*LN-107*/         want = _want;
+/*LN-108*/     }
 /*LN-109*/ 
-/*LN-110*/         dai.transfer(msg.sender, withdrawAmount);
-/*LN-111*/     }
-/*LN-112*/ 
-/*LN-113*/     function balance() public view returns (uint256) {
-/*LN-114*/         uint256 daiBalance = dai.balanceOf(address(this));
-/*LN-115*/         uint256 crvBalance = crv3.balanceOf(address(this));
-/*LN-116*/         uint256 virtualPrice = stable3Pool.get_virtual_price();
-/*LN-117*/         
-/*LN-118*/         return daiBalance + (crvBalance * virtualPrice) / 1e18;
-/*LN-119*/     }
+/*LN-110*/     function withdrawAll() external {
+/*LN-111*/         uint256 balance = IERC20(want).balanceOf(address(this));
+/*LN-112*/         IERC20(want).transfer(controller, balance);
+/*LN-113*/     }
+/*LN-114*/ 
+/*LN-115*/     function withdraw(address token) external {
+/*LN-116*/         uint256 balance = IERC20(token).balanceOf(address(this));
+/*LN-117*/         IERC20(token).transfer(controller, balance);
+/*LN-118*/     }
+/*LN-119*/ }
 /*LN-120*/ 
-/*LN-121*/     // Fake vulnerability: suspicious emergency function
-/*LN-122*/     function emergencyStrategyOverride(bool bypass) external {
-/*LN-123*/         emergencyStrategyBypass = bypass;
-/*LN-124*/         vaultConfigVersion += 1;
-/*LN-125*/     }
-/*LN-126*/ 
-/*LN-127*/     // Complex safe code: yield scoring helpers
-/*LN-128*/     function _updateUserYieldScore(address user, uint256 amount) internal {
-/*LN-129*/         uint256 score = userYieldScore[user];
-/*LN-130*/         uint256 increment = amount > 1e18 ? amount / 1e18 : 1;
-/*LN-131*/         userYieldScore[user] = score + increment;
-/*LN-132*/     }
-/*LN-133*/ 
-/*LN-134*/     function _updateGlobalScore(uint256 current, uint256 price) internal pure returns (uint256) {
-/*LN-135*/         uint256 weight = price > 1e18 ? 2 : 1;
-/*LN-136*/         if (current == 0) {
-/*LN-137*/             return weight;
-/*LN-138*/         }
-/*LN-139*/         uint256 newScore = (current * 95 + price * weight) / 100;
-/*LN-140*/         return newScore > 1e24 ? 1e24 : newScore;
-/*LN-141*/     }
-/*LN-142*/ 
-/*LN-143*/     // View helpers
-/*LN-144*/     function getVaultMetrics() external view returns (
-/*LN-145*/         uint256 configVersion,
-/*LN-146*/         uint256 globalScore,
-/*LN-147*/         uint256 cachedPrice,
-/*LN-148*/         bool bypassActive
-/*LN-149*/     ) {
-/*LN-150*/         configVersion = vaultConfigVersion;
-/*LN-151*/         globalScore = globalYieldScore;
-/*LN-152*/         cachedPrice = unsafeVirtualPriceCache;
-/*LN-153*/         bypassActive = emergencyStrategyBypass;
-/*LN-154*/     }
-/*LN-155*/ 
-/*LN-156*/     function getUserMetrics(address user) external view returns (
-/*LN-157*/         uint256 userShares,
-/*LN-158*/         uint256 userScore
-/*LN-159*/     ) {
-/*LN-160*/         userShares = shares[user];
-/*LN-161*/         userScore = userYieldScore[user];
-/*LN-162*/     }
-/*LN-163*/ }
-/*LN-164*/ 

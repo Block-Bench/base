@@ -1,35 +1,36 @@
 {
   "sample_id": "tr_tc_029",
-  "exploit_name": "Belt Finance Strategy Exploit",
-  "date": "2021-05-30",
-  "amount_lost_usd": "6200000",
-  "blockchain": "binance_smart_chain",
+  "exploit_name": "Radiant Capital Rounding Exploit",
+  "date": "",
+  "amount_lost_usd": "",
+  "blockchain": "arbitrum",
   "language": "solidity",
-  "vulnerability_type": "price_oracle_manipulation",
+  "vulnerability_type": "arithmetic_manipulation",
   "vulnerability_subtype": "",
-  "severity": "",
+  "severity": "high",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Belt Finance vault strategies used manipulatable price oracles for calculating share values. Attackers flash-loaned to manipulate oracle prices, deposited when price was low (getting more shares), then withdrew after price recovered, extracting more value than deposited.",
-  "vulnerable_contract": "VaultStrategy",
-  "vulnerable_function": "deposit",
+  "description": "Radiant Capital (Aave V2 fork on Arbitrum) was exploited for $4.5M through manipulation of the liquidityIndex via repeated flashloan cycles. The attacker executed 151 nested flashloans to inflate the liquidityIndex to extreme values, causing rounding errors in the rayDiv function that allowed extracting more funds than deposited.",
+  "vulnerable_contract": "CrossLendingPool",
+  "vulnerable_function": "flashLoan",
   "vulnerable_lines": [
-    31,
-    45
+    59,
+    151
   ],
-  "attack_scenario": "1) Flash loan large amounts to manipulate price oracle down. 2) Deposit to vault when price is artificially low. 3) Share calculation: sharesAdded = (amount * totalShares) / (pool * price), so low price = more shares. 4) Release flash loan, price recovers. 5) Withdraw with inflated share count. 6) Withdrawal amount = (shares * pool * price) / totalShares, high price = more tokens. 7) Profit $6.2M from price manipulation cycle.",
-  "root_cause": "Vault share pricing relied on oracle that could be manipulated within single transaction. No TWAP or manipulation resistance. Share calculations used instantaneous price values vulnerable to flash loan attacks.",
+  "attack_scenario": "",
+  "root_cause": "",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "vault",
-    "strategy",
-    "oracle",
-    "flash_loan",
-    "bsc",
-    "share_price",
+    "lending",
+    "flashloan",
+    "rounding_error",
+    "time_manipulation",
+    "aave_fork",
+    "liquidity_index",
+    "fixed_point_arithmetic",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -42,8 +43,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_029.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_029.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_032.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_032.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -58,16 +59,18 @@
       "activity_variables": 0,
       "fake_functions": 3,
       "view_helpers": 1,
-      "suspicious_names": 19
+      "suspicious_names": 14
     },
     "contracts_renamed": [
-      "VaultStrategy"
+      "RadiantLendingPool"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.667461",
+    "created_date": "2025-12-30T01:40:33.669405",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.842174",
-    "code_renames": {}
+    "sanitization_date": "2026-01-02T02:10:09.870350",
+    "code_renames": {
+      "RadiantLendingPool": "CrossLendingPool"
+    }
   }
 }

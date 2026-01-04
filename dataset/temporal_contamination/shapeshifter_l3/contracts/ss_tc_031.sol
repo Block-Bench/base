@@ -1,52 +1,85 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ interface IERC20 {
-/*LN-3*/     function transfer(address _0xe5feba, uint256 _0x771f54) external returns (bool);
-/*LN-4*/     function _0x2c833f(address _0x6ff151) external view returns (uint256);
-/*LN-5*/ }
-/*LN-6*/ contract CrossBridge {
-/*LN-7*/     mapping(bytes32 => bool) public _0x390062;
-/*LN-8*/     uint256 public constant REQUIRED_SIGNATURES = 5;
-/*LN-9*/     uint256 public constant TOTAL_VALIDATORS = 7;
-/*LN-10*/     mapping(address => bool) public _0x7248ad;
-/*LN-11*/     address[] public _0x0cce35;
-/*LN-12*/     event WithdrawalProcessed(
-/*LN-13*/         bytes32 _0x0d961f,
-/*LN-14*/         address _0xd6cb4d,
-/*LN-15*/         address _0x347a3f,
-/*LN-16*/         uint256 _0x771f54
-/*LN-17*/     );
-/*LN-18*/     constructor() {
-/*LN-19*/         _0x0cce35 = new address[](TOTAL_VALIDATORS);
-/*LN-20*/     }
-/*LN-21*/     function _0x2ff8d2(
-/*LN-22*/         address _0x7d6277,
-/*LN-23*/         string memory _0xd80623,
-/*LN-24*/         bytes memory _0x1045d1,
-/*LN-25*/         address _0x65ce0c,
-/*LN-26*/         address _0xd6cb4d,
-/*LN-27*/         bytes32[] memory _0x0f4194,
-/*LN-28*/         uint256[] memory _0x70dd97,
-/*LN-29*/         bytes memory data,
-/*LN-30*/         uint8[] memory v,
-/*LN-31*/         bytes32[] memory r,
-/*LN-32*/         bytes32[] memory s
-/*LN-33*/     ) external {
-/*LN-34*/         bytes32 _0x0d961f = _0x0f4194[1];
-/*LN-35*/         require(
-/*LN-36*/             !_0x390062[_0x0d961f],
-/*LN-37*/             "Transaction already processed"
-/*LN-38*/         );
-/*LN-39*/         require(v.length >= REQUIRED_SIGNATURES, "Insufficient signatures");
-/*LN-40*/         require(
-/*LN-41*/             v.length == r.length && r.length == s.length,
-/*LN-42*/             "Signature length mismatch"
-/*LN-43*/         );
-/*LN-44*/         uint256 _0x771f54 = _0x70dd97[0];
-/*LN-45*/         _0x390062[_0x0d961f] = true;
-/*LN-46*/         IERC20(_0xd6cb4d).transfer(_0x65ce0c, _0x771f54);
-/*LN-47*/         emit WithdrawalProcessed(_0x0d961f, _0xd6cb4d, _0x65ce0c, _0x771f54);
-/*LN-48*/     }
-/*LN-49*/     function _0x8cd0a4(address _0x477183) external {
-/*LN-50*/         _0x7248ad[_0x477183] = true;
-/*LN-51*/     }
-/*LN-52*/ }
+/*LN-3*/     function transfer(address _0x163f22, uint256 _0x6e3d9a) external returns (bool);
+/*LN-4*/     function _0x2c833f(
+/*LN-5*/         address from,
+/*LN-6*/         address _0x163f22,
+/*LN-7*/         uint256 _0x6e3d9a
+/*LN-8*/     ) external returns (bool);
+/*LN-9*/     function _0x0d961f(address _0x51bedd) external view returns (uint256);
+/*LN-10*/     function _0xd860ea(address _0x4f9b02, uint256 _0x6e3d9a) external returns (bool);
+/*LN-11*/ }
+/*LN-12*/ interface IUniswapV3Pool {
+/*LN-13*/     function _0xb01af6(
+/*LN-14*/         address _0x6ff151,
+/*LN-15*/         bool _0x0f4194,
+/*LN-16*/         int256 _0x8cd0a4,
+/*LN-17*/         uint160 _0x390062,
+/*LN-18*/         bytes calldata data
+/*LN-19*/     ) external returns (int256 _0x0353ce, int256 _0xae3550);
+/*LN-20*/     function _0xb7cc25(
+/*LN-21*/         address _0x6ff151,
+/*LN-22*/         uint256 _0x0353ce,
+/*LN-23*/         uint256 _0xae3550,
+/*LN-24*/         bytes calldata data
+/*LN-25*/     ) external;
+/*LN-26*/ }
+/*LN-27*/ contract LiquidityHypervisor {
+/*LN-28*/     IERC20 public _0x2f7c62;
+/*LN-29*/     IERC20 public _0xac561e;
+/*LN-30*/     IUniswapV3Pool public _0x876f47;
+/*LN-31*/     uint256 public _0x1045d1;
+/*LN-32*/     mapping(address => uint256) public _0x0d961f;
+/*LN-33*/     struct Position {
+/*LN-34*/         uint128 _0xd6cb4d;
+/*LN-35*/         int24 _0x65ce0c;
+/*LN-36*/         int24 _0x771f54;
+/*LN-37*/     }
+/*LN-38*/     Position public _0xd80623;
+/*LN-39*/     Position public _0x477183;
+/*LN-40*/     function _0x8e4527(
+/*LN-41*/         uint256 _0x70dd97,
+/*LN-42*/         uint256 _0xe5feba,
+/*LN-43*/         address _0x163f22
+/*LN-44*/     ) external returns (uint256 _0x3454e7) {
+/*LN-45*/         uint256 _0x3184cf = _0x2f7c62._0x0d961f(address(this));
+/*LN-46*/         uint256 _0xc285d4 = _0xac561e._0x0d961f(address(this));
+/*LN-47*/         _0x2f7c62._0x2c833f(msg.sender, address(this), _0x70dd97);
+/*LN-48*/         _0xac561e._0x2c833f(msg.sender, address(this), _0xe5feba);
+/*LN-49*/         if (_0x1045d1 == 0) {
+/*LN-50*/             _0x3454e7 = _0x70dd97 + _0xe5feba;
+/*LN-51*/         } else {
+/*LN-52*/             uint256 _0x7248ad = _0x3184cf + _0x70dd97;
+/*LN-53*/             uint256 _0x7d6277 = _0xc285d4 + _0xe5feba;
+/*LN-54*/             _0x3454e7 = (_0x1045d1 * (_0x70dd97 + _0xe5feba)) / (_0x3184cf + _0xc285d4);
+/*LN-55*/         }
+/*LN-56*/         _0x0d961f[_0x163f22] += _0x3454e7;
+/*LN-57*/         _0x1045d1 += _0x3454e7;
+/*LN-58*/         _0x347a3f(_0x70dd97, _0xe5feba);
+/*LN-59*/     }
+/*LN-60*/     function _0x8e6f03(
+/*LN-61*/         uint256 _0x3454e7,
+/*LN-62*/         address _0x163f22
+/*LN-63*/     ) external returns (uint256 _0x0353ce, uint256 _0xae3550) {
+/*LN-64*/         require(_0x0d961f[msg.sender] >= _0x3454e7, "Insufficient balance");
+/*LN-65*/         uint256 _0x3184cf = _0x2f7c62._0x0d961f(address(this));
+/*LN-66*/         uint256 _0xc285d4 = _0xac561e._0x0d961f(address(this));
+/*LN-67*/         _0x0353ce = (_0x3454e7 * _0x3184cf) / _0x1045d1;
+/*LN-68*/         _0xae3550 = (_0x3454e7 * _0xc285d4) / _0x1045d1;
+/*LN-69*/         _0x0d961f[msg.sender] -= _0x3454e7;
+/*LN-70*/         _0x1045d1 -= _0x3454e7;
+/*LN-71*/         _0x2f7c62.transfer(_0x163f22, _0x0353ce);
+/*LN-72*/         _0xac561e.transfer(_0x163f22, _0xae3550);
+/*LN-73*/     }
+/*LN-74*/     function _0x2ff8d2() external {
+/*LN-75*/         _0x0cce35(_0xd80623._0xd6cb4d);
+/*LN-76*/         _0x347a3f(
+/*LN-77*/             _0x2f7c62._0x0d961f(address(this)),
+/*LN-78*/             _0xac561e._0x0d961f(address(this))
+/*LN-79*/         );
+/*LN-80*/     }
+/*LN-81*/     function _0x347a3f(uint256 _0x0353ce, uint256 _0xae3550) internal {
+/*LN-82*/     }
+/*LN-83*/     function _0x0cce35(uint128 _0xd6cb4d) internal {
+/*LN-84*/     }
+/*LN-85*/ }

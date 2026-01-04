@@ -15,63 +15,130 @@
 /*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-16*/ }
 /*LN-17*/ 
-/*LN-18*/ contract BridgeGateway {
-/*LN-19*/     mapping(uint32 => address) public routes;
-/*LN-20*/     mapping(address => bool) public approvedRoutes;
-/*LN-21*/ 
-/*LN-22*/     event RouteExecuted(uint32 routeId, address user, bytes result);
-/*LN-23*/ 
-/*LN-24*/     /**
-/*LN-25*/      * @notice Execute a cross-chain bridge route
-/*LN-26*/      * @param routeId The ID of the route to execute
-/*LN-27*/      * @param routeData Arbitrary calldata passed to route
-/*LN-28*/      */
-/*LN-29*/     function executeRoute(
-/*LN-30*/         uint32 routeId,
-/*LN-31*/         bytes calldata routeData
-/*LN-32*/     ) external payable returns (bytes memory) {
-/*LN-33*/         address routeAddress = routes[routeId];
-/*LN-34*/         require(routeAddress != address(0), "Invalid route");
-/*LN-35*/         require(approvedRoutes[routeAddress], "Route not approved");
-/*LN-36*/ 
-/*LN-37*/         (bool success, bytes memory result) = routeAddress.call(routeData);
-/*LN-38*/         require(success, "Route execution failed");
-/*LN-39*/ 
-/*LN-40*/         emit RouteExecuted(routeId, msg.sender, result);
-/*LN-41*/         return result;
-/*LN-42*/     }
-/*LN-43*/ 
-/*LN-44*/     /**
-/*LN-45*/      * @notice Add a new route
-/*LN-46*/      */
-/*LN-47*/     function addRoute(uint32 routeId, address routeAddress) external {
-/*LN-48*/         routes[routeId] = routeAddress;
-/*LN-49*/         approvedRoutes[routeAddress] = true;
-/*LN-50*/     }
-/*LN-51*/ }
+/*LN-18*/ interface IBorrowerOperations {
+/*LN-19*/     function setDelegateApproval(address _delegate, bool _isApproved) external;
+/*LN-20*/ 
+/*LN-21*/     function openTrove(
+/*LN-22*/         address troveManager,
+/*LN-23*/         address account,
+/*LN-24*/         uint256 _maxFeePercentage,
+/*LN-25*/         uint256 _collateralAmount,
+/*LN-26*/         uint256 _debtAmount,
+/*LN-27*/         address _upperHint,
+/*LN-28*/         address _lowerHint
+/*LN-29*/     ) external;
+/*LN-30*/ 
+/*LN-31*/     function closeTrove(address troveManager, address account) external;
+/*LN-32*/ }
+/*LN-33*/ 
+/*LN-34*/ interface ITroveManager {
+/*LN-35*/     function getTroveCollAndDebt(
+/*LN-36*/         address _borrower
+/*LN-37*/     ) external view returns (uint256 coll, uint256 debt);
+/*LN-38*/ 
+/*LN-39*/     function liquidate(address _borrower) external;
+/*LN-40*/ }
+/*LN-41*/ 
+/*LN-42*/ contract MigrateTroveZap {
+/*LN-43*/     IBorrowerOperations public borrowerOperations;
+/*LN-44*/     address public wstETH;
+/*LN-45*/     address public mkUSD;
+/*LN-46*/ 
+/*LN-47*/     constructor(address _borrowerOperations, address _wstETH, address _mkUSD) {
+/*LN-48*/         borrowerOperations = _borrowerOperations;
+/*LN-49*/         wstETH = _wstETH;
+/*LN-50*/         mkUSD = _mkUSD;
+/*LN-51*/     }
 /*LN-52*/ 
-/*LN-53*/ contract Route {
-/*LN-54*/     /**
-/*LN-55*/      * @notice Perform bridge action with swap
-/*LN-56*/      * @param swapExtraData Additional data for swap operation
-/*LN-57*/      */
-/*LN-58*/     function performAction(
-/*LN-59*/         address fromToken,
-/*LN-60*/         address toToken,
-/*LN-61*/         uint256 amount,
-/*LN-62*/         address receiverAddress,
-/*LN-63*/         bytes32 metadata,
-/*LN-64*/         bytes calldata swapExtraData
-/*LN-65*/     ) external payable returns (uint256) {
-/*LN-66*/ 
-/*LN-67*/         if (swapExtraData.length > 0) {
-/*LN-68*/             // Execute swap/bridge operation
-/*LN-69*/             (bool success, ) = fromToken.call(swapExtraData);
-/*LN-70*/             require(success, "Swap failed");
-/*LN-71*/         }
+/*LN-53*/     /**
+/*LN-54*/      * @notice Migrate trove from one system to another
+/*LN-55*/      */
+/*LN-56*/     function openTroveAndMigrate(
+/*LN-57*/         address troveManager,
+/*LN-58*/         address account,
+/*LN-59*/         uint256 maxFeePercentage,
+/*LN-60*/         uint256 collateralAmount,
+/*LN-61*/         uint256 debtAmount,
+/*LN-62*/         address upperHint,
+/*LN-63*/         address lowerHint
+/*LN-64*/     ) external {
+/*LN-65*/ 
+/*LN-66*/         // Transfer collateral from msg.sender
+/*LN-67*/         IERC20(wstETH).transferFrom(
+/*LN-68*/             msg.sender,
+/*LN-69*/             address(this),
+/*LN-70*/             collateralAmount
+/*LN-71*/         );
 /*LN-72*/ 
-/*LN-73*/         // Normal bridge logic would continue here
-/*LN-74*/         return amount;
-/*LN-75*/     }
-/*LN-76*/ }
-/*LN-77*/ 
+/*LN-73*/         IERC20(wstETH).approve(address(borrowerOperations), collateralAmount);
+/*LN-74*/ 
+/*LN-75*/         borrowerOperations.openTrove(
+/*LN-76*/             troveManager,
+/*LN-77*/             account,
+/*LN-78*/             maxFeePercentage,
+/*LN-79*/             collateralAmount,
+/*LN-80*/             debtAmount,
+/*LN-81*/             upperHint,
+/*LN-82*/             lowerHint
+/*LN-83*/         );
+/*LN-84*/ 
+/*LN-85*/         IERC20(mkUSD).transfer(msg.sender, debtAmount);
+/*LN-86*/     }
+/*LN-87*/ 
+/*LN-88*/     /**
+/*LN-89*/      * @notice Close a trove for an account
+/*LN-90*/      */
+/*LN-91*/     function closeTroveFor(address troveManager, address account) external {
+/*LN-92*/         // And extract the collateral
+/*LN-93*/ 
+/*LN-94*/         borrowerOperations.closeTrove(troveManager, account);
+/*LN-95*/     }
+/*LN-96*/ }
+/*LN-97*/ 
+/*LN-98*/ contract BorrowerOperations {
+/*LN-99*/     mapping(address => mapping(address => bool)) public delegates;
+/*LN-100*/     ITroveManager public troveManager;
+/*LN-101*/ 
+/*LN-102*/     /**
+/*LN-103*/      * @notice Set delegate approval
+/*LN-104*/      * @dev Users can approve contracts to act on their behalf
+/*LN-105*/      */
+/*LN-106*/     function setDelegateApproval(address _delegate, bool _isApproved) external {
+/*LN-107*/         delegates[msg.sender][_delegate] = _isApproved;
+/*LN-108*/     }
+/*LN-109*/ 
+/*LN-110*/     /**
+/*LN-111*/      * @notice Open a new trove
+/*LN-112*/      */
+/*LN-113*/     function openTrove(
+/*LN-114*/         address _troveManager,
+/*LN-115*/         address account,
+/*LN-116*/         uint256 _maxFeePercentage,
+/*LN-117*/         uint256 _collateralAmount,
+/*LN-118*/         uint256 _debtAmount,
+/*LN-119*/         address _upperHint,
+/*LN-120*/         address _lowerHint
+/*LN-121*/     ) external {
+/*LN-122*/ 
+/*LN-123*/         require(
+/*LN-124*/             msg.sender == account || delegates[account][msg.sender],
+/*LN-125*/             "Not authorized"
+/*LN-126*/         );
+/*LN-127*/ 
+/*LN-128*/         // Open trove logic (simplified)
+/*LN-129*/         // Creates debt position for 'account' with provided collateral
+/*LN-130*/     }
+/*LN-131*/ 
+/*LN-132*/     /**
+/*LN-133*/      * @notice Close a trove
+/*LN-134*/      */
+/*LN-135*/     function closeTrove(address _troveManager, address account) external {
+/*LN-136*/         require(
+/*LN-137*/             msg.sender == account || delegates[account][msg.sender],
+/*LN-138*/             "Not authorized"
+/*LN-139*/         );
+/*LN-140*/ 
+/*LN-141*/         // Close trove logic (simplified)
+/*LN-142*/     }
+/*LN-143*/ }
+/*LN-144*/ 
