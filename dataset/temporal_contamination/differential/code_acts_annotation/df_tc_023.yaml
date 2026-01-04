@@ -52,10 +52,10 @@ code_acts:
 
   - id: "CA4"
     type: "CTRL_FLOW"
-    lines: [29, 31, 32]
+    lines: [29, 30, 31]
     code: |
-      function _bridgeOut(...) internal {
-      }
+      function _bridgeOut(address from, address token, address to, uint256 amount, uint256 toChainID) internal {
+          // Bridge logic
       }
     security_function: "BENIGN"
     rationale: "Internal bridge function"

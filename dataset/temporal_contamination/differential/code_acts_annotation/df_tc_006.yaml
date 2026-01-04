@@ -100,9 +100,14 @@ code_acts:
       lines: [53, 54, 55, 57, 58, 59, 60, 61, 63, 64]
       code: |
         function _validatePrice(address cToken) internal view returns (uint256) {
-          uint256 currentPrice = oracle.getUnderlyingPrice(cToken);
-          ... require(currentPrice >= minAllowed && currentPrice <= maxAllowed, "Price deviation too high");
-          return currentPrice;
+            uint256 currentPrice = oracle.getUnderlyingPrice(cToken);
+            uint256 lastPrice = lastKnownPrice[cToken];
+            if (lastPrice > 0 && block.timestamp < lastPriceUpdate[cToken] + MIN_PRICE_UPDATE_INTERVAL) {
+                uint256 maxAllowed = lastPrice * (100 + MAX_PRICE_DEVIATION) / 100;
+                uint256 minAllowed = lastPrice * (100 - MAX_PRICE_DEVIATION) / 100;
+                require(currentPrice >= minAllowed && currentPrice <= maxAllowed, "Price deviation too high");
+            }
+            return currentPrice;
         }
       security_function: "BENIGN"
       rationale: "NEW FIX: Rejects prices deviating >10% from cached price within update interval"

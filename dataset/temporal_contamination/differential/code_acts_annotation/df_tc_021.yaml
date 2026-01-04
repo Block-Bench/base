@@ -112,7 +112,7 @@ code_acts:
     type: "INITIALIZATION"
     lines: [65, 66, 67, 68, 69, 70, 71, 72, 73]
     code: |
-      constructor(...) {
+      constructor(address _collateralToken, address _borrowToken, address _oracle) {
           collateralToken = _collateralToken;
           borrowToken = _borrowToken;
           oracle = _oracle;

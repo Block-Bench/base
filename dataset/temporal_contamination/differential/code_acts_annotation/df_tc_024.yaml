@@ -89,11 +89,10 @@ code_acts:
 
   - id: "CA6"
     type: "COMPUTATION"
-    lines: [44, 45, 46, 47]
+    lines: [44, 45, 46]
     code: |
-      function _getAmountOut(...) internal pure returns (uint256) {
+      function _getAmountOut(uint256 amountIn, uint112 reserveIn, uint112 reserveOut) internal pure returns (uint256) {
           return (amountIn * uint256(reserveOut)) / uint256(reserveIn);
-      }
       }
     security_function: "BENIGN"
     rationale: "Amount out calculation"

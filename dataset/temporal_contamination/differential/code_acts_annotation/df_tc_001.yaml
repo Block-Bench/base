@@ -38,7 +38,7 @@ code_acts:
       line: 18
       code: "bytes32 public acceptedRoot;"
       security_function: "BENIGN"
-      rationale: "Same declaration, but now properly initialized in constructor at line 27"
+      rationale: "Same declaration, but now properly initialized in constructor at line 33"
 
     transition: "ROOT_CAUSE -> BENIGN"
     transition_reason: "Declaration itself unchanged, but constructor now initializes the variable"
@@ -61,14 +61,15 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "constructor"
-      lines: [25, 26, 27, 28]
+      lines: [31, 32, 33, 34, 35]
       code: |
         constructor(address _bridgeRouter) {
             bridgeRouter = _bridgeRouter;
             acceptedRoot = keccak256("initial_root");
+            owner = msg.sender;
         }
       security_function: "BENIGN"
-      rationale: "Constructor now initializes acceptedRoot to a non-zero hash value"
+      rationale: "Constructor now initializes acceptedRoot to a non-zero hash value and sets owner"
 
     transition: "ROOT_CAUSE -> BENIGN"
     transition_reason: "Added acceptedRoot = keccak256('initial_root') initialization"
@@ -88,7 +89,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "process"
-      line: 44
+      line: 51
       code: 'require(root == acceptedRoot, "Invalid root");'
       security_function: "BENIGN"
       rationale: "Check now works correctly because acceptedRoot is non-zero"
@@ -149,7 +150,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "process"
-      line: 36
+      line: 43
       code: "bytes32 messageHash = keccak256(_message);"
       security_function: "BENIGN"
       rationale: "Unchanged, still correct"
@@ -175,7 +176,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "process"
-      lines: [38, 39, 40, 41]
+      lines: [45, 46, 47, 48]
       code: |
         require(
             messages[messageHash] != MessageStatus.Processed,
@@ -201,7 +202,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "process"
-      line: 46
+      line: 53
       code: "messages[messageHash] = MessageStatus.Processed;"
       security_function: "BENIGN"
       rationale: "Unchanged, still correct CEI pattern"
@@ -223,7 +224,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "process"
-      line: 48
+      line: 55
       code: "(bool routerSuccess, ) = bridgeRouter.call(_message);"
       security_function: "BENIGN"
       rationale: "With proper root validation, this call is no longer exploitable"
@@ -246,7 +247,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "process"
-      line: 50
+      line: 57
       code: "emit MessageProcessed(messageHash, routerSuccess);"
       security_function: "BENIGN"
       rationale: "Unchanged"
@@ -268,7 +269,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "process"
-      line: 51
+      line: 58
       code: "return routerSuccess;"
       security_function: "BENIGN"
       rationale: "Unchanged"
@@ -294,7 +295,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "process"
-      line: 43
+      line: 50
       code: "bytes32 root = _messageRoot(_message);"
       security_function: "BENIGN"
       rationale: "Still returns bytes32(0) for crafted messages, but acceptedRoot is non-zero so exploit fails"
@@ -320,7 +321,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "_messageRoot"
-      lines: [61, 62, 63]
+      lines: [68, 69, 70]
       code: |
         if (_message.length > 32 && uint256(bytes32(_message)) == 0) {
             return bytes32(0);
@@ -346,7 +347,7 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "_messageRoot"
-      line: 65
+      line: 72
       code: "return keccak256(_message);"
       security_function: "BENIGN"
       rationale: "Unchanged"
@@ -402,25 +403,26 @@ summary:
 line_to_code_act_fixed:
   # Security-relevant code acts in df_tc_001.sol
   18: "CA1"      # acceptedRoot declaration
-  25: "CA2"      # constructor
-  26: "CA2"
-  27: "CA2"
-  28: "CA2"
-  36: "CA3"      # messageHash computation
-  38: "CA4"      # replay protection
-  39: "CA4"
-  40: "CA4"
-  41: "CA4"
-  43: "CA5"      # root computation call
-  44: "CA6"      # root validation
-  46: "CA7"      # mark processed
-  48: "CA8"      # external call
-  50: "CA9"      # event emission
-  51: "CA10"     # return
-  61: "CA11"     # zero root conditional
-  62: "CA11"
-  63: "CA11"
-  65: "CA12"     # default keccak return
+  31: "CA2"      # constructor
+  32: "CA2"
+  33: "CA2"
+  34: "CA2"
+  35: "CA2"
+  43: "CA3"      # messageHash computation
+  45: "CA4"      # replay protection
+  46: "CA4"
+  47: "CA4"
+  48: "CA4"
+  50: "CA5"      # root computation call
+  51: "CA6"      # root validation
+  53: "CA7"      # mark processed
+  55: "CA8"      # external call
+  57: "CA9"      # event emission
+  58: "CA10"     # return
+  68: "CA11"     # zero root conditional
+  69: "CA11"
+  70: "CA11"
+  72: "CA12"     # default keccak return
   78: "CA13"     # setAcceptedRoot (with onlyOwner)
   79: "CA13"
   80: "CA13"

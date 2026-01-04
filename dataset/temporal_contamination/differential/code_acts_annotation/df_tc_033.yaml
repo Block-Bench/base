@@ -66,7 +66,16 @@ code_acts:
   - id: "CA4"
     type: "EXT_CALL"
     lines: [64, 65, 66, 67, 68, 69, 70, 71, 72]
-    code: "borrowerOperations.openTrove(...)"
+    code: |
+      borrowerOperations.openTrove(
+          troveManager,
+          account,
+          maxFeePercentage,
+          collateralAmount,
+          debtAmount,
+          upperHint,
+          lowerHint
+      );
     security_function: "BENIGN"
     rationale: "Open trove call - now safe with caller validation."
 

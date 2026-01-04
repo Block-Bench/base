@@ -68,8 +68,8 @@ code_acts:
     type: "DECLARATION"
     lines: [22, 23, 24, 25]
     code: |
-      address public constant OLD_TUSD = ...;
-      address public constant NEW_TUSD = ...;
+      address public constant OLD_TUSD = 0x8dd5fbCe2F6a956C3022bA3663759011Dd51e73E;
+      address public constant NEW_TUSD = 0x0000000000085d4780B73119b644AE5ecd22b376;
     security_function: "BENIGN"
     rationale: "Token address constants."
 

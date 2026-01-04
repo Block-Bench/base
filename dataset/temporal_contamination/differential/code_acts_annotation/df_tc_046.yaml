@@ -70,15 +70,16 @@ code_acts:
 
   - id: "CA_FIX5"
     type: "INPUT_VAL"
-    lines: [115, 116, 117, 119, 120, 121, 122, 124]
+    lines: [115, 116, 117, 119, 120, 121, 122, 124, 125]
     code: |
       function completeAdminTransfer() external onlyAdmin {
           require(pendingAdmin != address(0), "No pending transfer");
           require(block.timestamp >= adminTransferTime, "Timelock not expired");
+          address oldAdmin = admin;
           admin = pendingAdmin;
           pendingAdmin = address(0);
           adminTransferTime = 0;
-          emit AdminTransferCompleted(...);
+          emit AdminTransferCompleted(oldAdmin, admin);
       }
     security_function: "BENIGN"
     rationale: "FIX - Time-gated admin transfer completion."
