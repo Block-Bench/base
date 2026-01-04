@@ -1,0 +1,346 @@
+[
+  {
+    "df": "df_tc_004",
+    "tc": "tc_004",
+    "base_sample_id": "ms_tc_005",
+    "expected_ms_ids": [
+      "ms_tc_004"
+    ]
+  },
+  {
+    "df": "df_tc_005",
+    "tc": "tc_005",
+    "base_sample_id": "ms_tc_007",
+    "expected_ms_ids": [
+      "ms_tc_005"
+    ]
+  },
+  {
+    "df": "df_tc_006",
+    "tc": "tc_006",
+    "base_sample_id": "ms_tc_008",
+    "expected_ms_ids": [
+      "ms_tc_006"
+    ]
+  },
+  {
+    "df": "df_tc_007",
+    "tc": "tc_007",
+    "base_sample_id": "ms_tc_009",
+    "expected_ms_ids": [
+      "ms_tc_007"
+    ]
+  },
+  {
+    "df": "df_tc_008",
+    "tc": "tc_008",
+    "base_sample_id": "ms_tc_010",
+    "expected_ms_ids": [
+      "ms_tc_008"
+    ]
+  },
+  {
+    "df": "df_tc_009",
+    "tc": "tc_009",
+    "base_sample_id": "ms_tc_011",
+    "expected_ms_ids": [
+      "ms_tc_009"
+    ]
+  },
+  {
+    "df": "df_tc_010",
+    "tc": "tc_010",
+    "base_sample_id": "ms_tc_012",
+    "expected_ms_ids": [
+      "ms_tc_010"
+    ]
+  },
+  {
+    "df": "df_tc_011",
+    "tc": "tc_011",
+    "base_sample_id": "ms_tc_013",
+    "expected_ms_ids": [
+      "ms_tc_011"
+    ]
+  },
+  {
+    "df": "df_tc_012",
+    "tc": "tc_012",
+    "base_sample_id": "ms_tc_015",
+    "expected_ms_ids": [
+      "ms_tc_012"
+    ]
+  },
+  {
+    "df": "df_tc_013",
+    "tc": "tc_013",
+    "base_sample_id": "ms_tc_016",
+    "expected_ms_ids": [
+      "ms_tc_013"
+    ]
+  },
+  {
+    "df": "df_tc_014",
+    "tc": "tc_014",
+    "base_sample_id": "ms_tc_017",
+    "expected_ms_ids": [
+      "ms_tc_014"
+    ]
+  },
+  {
+    "df": "df_tc_015",
+    "tc": "tc_015",
+    "base_sample_id": "ms_tc_018",
+    "expected_ms_ids": [
+      "ms_tc_015"
+    ]
+  },
+  {
+    "df": "df_tc_016",
+    "tc": "tc_016",
+    "base_sample_id": "ms_tc_019",
+    "expected_ms_ids": [
+      "ms_tc_016"
+    ]
+  },
+  {
+    "df": "df_tc_017",
+    "tc": "tc_017",
+    "base_sample_id": "ms_tc_020",
+    "expected_ms_ids": [
+      "ms_tc_017"
+    ]
+  },
+  {
+    "df": "df_tc_018",
+    "tc": "tc_018",
+    "base_sample_id": "ms_tc_021",
+    "expected_ms_ids": [
+      "ms_tc_018"
+    ]
+  },
+  {
+    "df": "df_tc_019",
+    "tc": "tc_019",
+    "base_sample_id": "ms_tc_022",
+    "expected_ms_ids": [
+      "ms_tc_019"
+    ]
+  },
+  {
+    "df": "df_tc_020",
+    "tc": "tc_020",
+    "base_sample_id": "ms_tc_023",
+    "expected_ms_ids": [
+      "ms_tc_020"
+    ]
+  },
+  {
+    "df": "df_tc_021",
+    "tc": "tc_021",
+    "base_sample_id": "ms_tc_024",
+    "expected_ms_ids": [
+      "ms_tc_021"
+    ]
+  },
+  {
+    "df": "df_tc_022",
+    "tc": "tc_022",
+    "base_sample_id": "ms_tc_025",
+    "expected_ms_ids": [
+      "ms_tc_022"
+    ]
+  },
+  {
+    "df": "df_tc_023",
+    "tc": "tc_023",
+    "base_sample_id": "ms_tc_026",
+    "expected_ms_ids": [
+      "ms_tc_023"
+    ]
+  },
+  {
+    "df": "df_tc_024",
+    "tc": "tc_024",
+    "base_sample_id": "ms_tc_027",
+    "expected_ms_ids": [
+      "ms_tc_024"
+    ]
+  },
+  {
+    "df": "df_tc_025",
+    "tc": "tc_025",
+    "base_sample_id": "ms_tc_028",
+    "expected_ms_ids": [
+      "ms_tc_025"
+    ]
+  },
+  {
+    "df": "df_tc_026",
+    "tc": "tc_026",
+    "base_sample_id": "ms_tc_029",
+    "expected_ms_ids": [
+      "ms_tc_026"
+    ]
+  },
+  {
+    "df": "df_tc_027",
+    "tc": "tc_027",
+    "base_sample_id": "ms_tc_030",
+    "expected_ms_ids": [
+      "ms_tc_027"
+    ]
+  },
+  {
+    "df": "df_tc_028",
+    "tc": "tc_028",
+    "base_sample_id": "ms_tc_031",
+    "expected_ms_ids": [
+      "ms_tc_028"
+    ]
+  },
+  {
+    "df": "df_tc_029",
+    "tc": "tc_029",
+    "base_sample_id": "ms_tc_032",
+    "expected_ms_ids": [
+      "ms_tc_029"
+    ]
+  },
+  {
+    "df": "df_tc_030",
+    "tc": "tc_030",
+    "base_sample_id": "ms_tc_033",
+    "expected_ms_ids": [
+      "ms_tc_030"
+    ]
+  },
+  {
+    "df": "df_tc_031",
+    "tc": "tc_031",
+    "base_sample_id": "ms_tc_034",
+    "expected_ms_ids": [
+      "ms_tc_031"
+    ]
+  },
+  {
+    "df": "df_tc_032",
+    "tc": "tc_032",
+    "base_sample_id": "ms_tc_035",
+    "expected_ms_ids": [
+      "ms_tc_032"
+    ]
+  },
+  {
+    "df": "df_tc_033",
+    "tc": "tc_033",
+    "base_sample_id": "ms_tc_036",
+    "expected_ms_ids": [
+      "ms_tc_033"
+    ]
+  },
+  {
+    "df": "df_tc_034",
+    "tc": "tc_034",
+    "base_sample_id": "ms_tc_037",
+    "expected_ms_ids": [
+      "ms_tc_034"
+    ]
+  },
+  {
+    "df": "df_tc_035",
+    "tc": "tc_035",
+    "base_sample_id": "ms_tc_038",
+    "expected_ms_ids": [
+      "ms_tc_035"
+    ]
+  },
+  {
+    "df": "df_tc_036",
+    "tc": "tc_036",
+    "base_sample_id": "ms_tc_039",
+    "expected_ms_ids": [
+      "ms_tc_036"
+    ]
+  },
+  {
+    "df": "df_tc_037",
+    "tc": "tc_037",
+    "base_sample_id": "ms_tc_040",
+    "expected_ms_ids": [
+      "ms_tc_037"
+    ]
+  },
+  {
+    "df": "df_tc_038",
+    "tc": "tc_038",
+    "base_sample_id": "ms_tc_041",
+    "expected_ms_ids": [
+      "ms_tc_038"
+    ]
+  },
+  {
+    "df": "df_tc_039",
+    "tc": "tc_039",
+    "base_sample_id": "ms_tc_042",
+    "expected_ms_ids": [
+      "ms_tc_039"
+    ]
+  },
+  {
+    "df": "df_tc_040",
+    "tc": "tc_040",
+    "base_sample_id": "ms_tc_043",
+    "expected_ms_ids": [
+      "ms_tc_040"
+    ]
+  },
+  {
+    "df": "df_tc_041",
+    "tc": "tc_041",
+    "base_sample_id": "ms_tc_044",
+    "expected_ms_ids": [
+      "ms_tc_041"
+    ]
+  },
+  {
+    "df": "df_tc_042",
+    "tc": "tc_042",
+    "base_sample_id": "ms_tc_045",
+    "expected_ms_ids": [
+      "ms_tc_042"
+    ]
+  },
+  {
+    "df": "df_tc_043",
+    "tc": "tc_043",
+    "base_sample_id": "ms_tc_047",
+    "expected_ms_ids": [
+      "ms_tc_043"
+    ]
+  },
+  {
+    "df": "df_tc_044",
+    "tc": "tc_044",
+    "base_sample_id": "ms_tc_048",
+    "expected_ms_ids": [
+      "ms_tc_044"
+    ]
+  },
+  {
+    "df": "df_tc_045",
+    "tc": "tc_045",
+    "base_sample_id": "ms_tc_049",
+    "expected_ms_ids": [
+      "ms_tc_045"
+    ]
+  },
+  {
+    "df": "df_tc_046",
+    "tc": "tc_046",
+    "base_sample_id": "ms_tc_050",
+    "expected_ms_ids": [
+      "ms_tc_046"
+    ]
+  }
+]
