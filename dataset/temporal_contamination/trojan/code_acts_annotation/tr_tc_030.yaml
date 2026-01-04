@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_030"
-base_sample_id: "ms_tc_033"
+base_sample_id: "ms_tc_030"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "access_control"
   function: "executeRoute and performAction"
   vulnerable_lines: [42, 109]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_033.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_030.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_033.sol"
+      file: "tr_tc_030.sol"
       function: "global"
       lines: [16]
-    code: "bool public unsafeCallBypass;"
     suspicious_because:
       - "Name suggests call bypass"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_033.sol"
+      file: "tr_tc_030.sol"
       function: "global"
       lines: [17]
-    code: "uint256 public maliciousCallCount;"
     suspicious_because:
       - "Name mentions malicious calls"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_033.sol"
+      file: "tr_tc_030.sol"
       function: "global"
       lines: [18]
-    code: "uint256 public vulnerableRouteCache;"
     suspicious_because:
       - "Name contains vulnerable"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_033.sol"
+      file: "tr_tc_030.sol"
       function: "global"
       lines: [21, 22, 23]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_033.sol"
+      file: "tr_tc_030.sol"
       function: "executeRoute"
       lines: [32, 38, 39, 40, 47, 48]
-    code: "maliciousCallCount += 1; if (unsafeCallBypass)..."
     suspicious_because:
       - "Looks like call bypass logic"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_033.sol"
+      file: "tr_tc_030.sol"
       function: "analytics functions"
       lines: [59, 60, 61, 62, 65, 66, 67, 68, 69, 70, 72, 73, 74, 75, 76, 77, 78, 79, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92]
-    code: "Analytics and metrics functions"
     suspicious_because:
       - "toggleUnsafeCallMode function"
     safe_because:
@@ -110,53 +104,42 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [42, 43]
-    code: |
-      (bool success, bytes memory result) = routeAddress.call(routeData);
-      require(success, "Route execution failed");
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Gateway executes arbitrary call with user-controlled routeData"
 
   - id: "CA_ROOT2"
     type: "EXT_CALL"
     lines: [109, 110]
-    code: |
-      (bool success, ) = fromToken.call(swapExtraData);
-      require(success, "Swap failed");
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Route executes arbitrary call with user-controlled swapExtraData"
 
   - id: "CA_PREREQ1"
     type: "INPUT_VAL"
     lines: [34, 35, 36]
-    code: "Route validation"
     security_function: "PREREQ"
     rationale: "PREREQ - Route validation exists but doesn't prevent calldata injection"
 
   - id: "CA_PREREQ2"
     type: "CTRL_FLOW"
     lines: [108, 111]
-    code: "if (swapExtraData.length > 0)"
     security_function: "PREREQ"
     rationale: "PREREQ - Conditional allows arbitrary execution when swapExtraData provided"
 
   - id: "CA1"
     type: "CTRL_FLOW"
     lines: [45, 50]
-    code: "emit RouteExecuted; return result"
     security_function: "BENIGN"
     rationale: "Event emission and return"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [53, 54, 55, 56]
-    code: "addRoute function"
     security_function: "BENIGN"
     rationale: "Route registration"
 
   - id: "CA3"
     type: "CTRL_FLOW"
     lines: [106, 113]
-    code: "require sender check and return"
     security_function: "BENIGN"
     rationale: "Access control check and return"
 

@@ -15,7 +15,7 @@ base_vulnerability:
   type: "improper_initialization"
   function: "process"
   vulnerable_lines: [19, 56]  # Line numbers in tr_tc_001.sol
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_001.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_001.yaml"
 
 injections:
 
@@ -31,12 +31,6 @@ injections:
       file: "tr_tc_001.sol"
       function: "emergencyOverride"
       lines: [103, 104, 105, 106]
-    code: |
-      function emergencyOverride(bytes32 newRoot) external {
-          // Looks dangerous but just updates config version
-          configVersion += 1;
-      }
-
     suspicious_because:
       - "Function named 'emergencyOverride' suggests dangerous admin capability"
       - "Accepts bytes32 newRoot parameter suggesting root modification"
@@ -70,12 +64,6 @@ injections:
       file: "tr_tc_001.sol"
       function: "process"
       lines: [65, 66, 67, 68]
-    code: |
-      messageTimestamp[messageHash] = block.timestamp;
-      totalMessagesProcessed += 1;
-      lastProcessedBlock = block.number;
-      _recordThroughput(msg.sender, _message.length);
-
     suspicious_because:
       - "Multiple state modifications AFTER external call at line 62"
       - "Classic reentrancy pattern: EXT_CALL then STATE_MOD"
@@ -110,12 +98,6 @@ injections:
       file: "tr_tc_001.sol"
       function: "setConfigVersion"
       lines: [97, 98, 99, 100]
-    code: |
-      function setConfigVersion(uint256 version) external {
-          configVersion = version;
-          emit ConfigUpdated(version, block.timestamp);
-      }
-
     suspicious_because:
       - "External function with no access control"
       - "Allows anyone to set configVersion"
@@ -149,14 +131,6 @@ injections:
       file: "tr_tc_001.sol"
       function: "_updateScore"
       lines: [129, 130, 131, 132, 133, 134]
-    code: |
-      uint256 updated;
-      if (current == 0) {
-          updated = value;
-      } else {
-          updated = (current * 9 + value) / 10;
-      }
-
     suspicious_because:
       - "Arithmetic operations in internal function"
       - "Multiplication could theoretically overflow (current * 9)"

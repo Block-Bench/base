@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_006"
-base_sample_id: "ms_tc_008"
+base_sample_id: "ms_tc_006"
 vulnerability_type: "price_oracle_manipulation"
 is_vulnerable: true
 
@@ -15,7 +15,7 @@ base_vulnerability:
   type: "price_oracle_manipulation"
   function: "borrow, calculateBorrowPower"
   vulnerable_lines: [84, 85, 114]  # Line numbers in tr_tc_008.sol
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_008.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_006.yaml"
 
 injections:
 
@@ -28,16 +28,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_008.sol"
+      file: "tr_tc_006.sol"
       function: "setRiskConfigVersion"
       lines: [163, 164, 165, 166, 167]
-    code: |
-      function setRiskConfigVersion(uint256 version) external {
-          riskConfigVersion = version;
-          lastRiskUpdate = block.timestamp;
-          emit RiskConfigUpdated(version, lastRiskUpdate);
-      }
-
     suspicious_because:
       - "External function with no access control modifier"
       - "Allows anyone to set riskConfigVersion"
@@ -68,16 +61,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_008.sol"
+      file: "tr_tc_006.sol"
       function: "contract-level"
       lines: [41, 42, 43, 44, 45]
-    code: |
-      uint256 public riskConfigVersion;
-      uint256 public lastRiskUpdate;
-      uint256 public protocolRiskScore;
-      mapping(address => uint256) public userRiskScore;
-      mapping(address => uint256) public userActivityCount;
-
     suspicious_because:
       - "Additional state variables beyond core lending logic"
       - "Public visibility might suggest security relevance"
@@ -105,23 +91,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_008.sol"
+      file: "tr_tc_006.sol"
       function: "_recordUserActivity"
       lines: [68, 94, 171, 172, 174, 175, 176, 177, 178, 180, 181, 182, 184, 185, 187, 188]
-    code: |
-      function _recordUserActivity(address user, uint256 value) internal {
-          userActivityCount[user] += 1;
-          if (value > 0) {
-              uint256 increment = value;
-              if (increment > 1e24) { increment = 1e24; }
-              uint256 current = userRiskScore[user];
-              uint256 updated = _updateScore(current, increment);
-              userRiskScore[user] = updated;
-              protocolRiskScore = _updateScore(protocolRiskScore, increment);
-          }
-          emit UserActivity(user, value);
-      }
-
     suspicious_because:
       - "State modifications in internal function"
       - "Called after borrow and mint operations"
@@ -151,13 +123,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_008.sol"
+      file: "tr_tc_006.sol"
       function: "_updateRiskConfig, _updateScore"
       lines: [158, 190, 191, 192, 193, 194, 196, 197, 198, 200, 201, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 214, 215, 216, 218, 219]
-    code: |
-      function _updateRiskConfig(uint256 collateralFactor) internal
-      function _updateScore(uint256 current, uint256 value) internal pure returns (uint256)
-
     suspicious_because:
       - "Complex computations that might contain bugs"
       - "Names suggest they track something important"

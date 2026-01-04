@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_040"
-base_sample_id: "ms_tc_043"
+base_sample_id: "ms_tc_040"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "access_control"
   function: "performOperations"
   vulnerable_lines: [53, 54]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_043.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_040.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_043.sol"
+      file: "tr_tc_040.sol"
       function: "global"
       lines: [18, 19, 20]
-    code: "unsafeOperationBypass, maliciousOperationCount, vulnerableCallCache"
     suspicious_because:
       - "Names contain unsafe, malicious, vulnerable"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_043.sol"
+      file: "tr_tc_040.sol"
       function: "global"
       lines: [23, 24, 25]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_043.sol"
+      file: "tr_tc_040.sol"
       function: "performOperations"
       lines: [39]
-    code: "maliciousOperationCount += actions.length;"
     suspicious_because:
       - "Increments malicious counter"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_043.sol"
+      file: "tr_tc_040.sol"
       function: "performOperations"
       lines: [48, 49, 50]
-    code: "if (unsafeOperationBypass) { vulnerableCallCache = uint256(...); }"
     suspicious_because:
       - "Branch on unsafeOperationBypass"
       - "Stores in vulnerableCallCache"
@@ -80,10 +76,9 @@ injections:
     type: "EXT_CALL"
     security_function: "DECOY"
     location:
-      file: "tr_tc_043.sol"
+      file: "tr_tc_040.sol"
       function: "performOperations"
       lines: [60, 61]
-    code: "_recordOperationActivity; globalOperationScore update"
     suspicious_because:
       - "Internal calls"
     safe_because:
@@ -95,10 +90,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_043.sol"
+      file: "tr_tc_040.sol"
       function: "toggleUnsafeOperationMode and addVaultOwner"
       lines: [67, 68, 69, 70, 73, 74, 75]
-    code: "toggleUnsafeOperationMode and addVaultOwner functions"
     suspicious_because:
       - "Name contains Unsafe and Operation"
       - "Appears to toggle security bypass"
@@ -111,10 +105,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_043.sol"
+      file: "tr_tc_040.sol"
       function: "_recordOperationActivity, _updateOperationScore, getChamberMetrics"
       lines: [78, 79, 80, 81, 83, 84, 85, 86, 87, 88, 89, 90, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 105, 107, 108, 109, 110, 111]
-    code: "Internal analytics and view functions"
     suspicious_because:
       - "Complex arithmetic"
       - "Returns malicious counts"
@@ -128,28 +121,24 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [53, 54]
-    code: "target.call{value: values[i]}(callData); require(success)"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Arbitrary external call to user-controlled target with user-controlled callData"
 
   - id: "CA_PREREQ1"
     type: "COMPUTATION"
     lines: [42, 43, 44, 45, 46]
-    code: "abi.decode extracts target and callData"
     security_function: "PREREQ"
     rationale: "PREREQ - Decodes user-controlled target and callData without validation"
 
   - id: "CA1"
     type: "INPUT_VAL"
     lines: [34, 35, 36, 37]
-    code: 'require(actions.length == values.length...)'
     security_function: "BENIGN"
     rationale: "Input array length validation"
 
   - id: "CA2"
     type: "CTRL_FLOW"
     lines: [41, 56, 57, 58, 63, 64, 112]
-    code: "Loop iteration and returns"
     security_function: "BENIGN"
     rationale: "Control flow"
 

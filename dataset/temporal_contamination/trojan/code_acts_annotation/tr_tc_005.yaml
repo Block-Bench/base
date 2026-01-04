@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_005"
-base_sample_id: "ms_tc_007"
+base_sample_id: "ms_tc_005"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -15,7 +15,7 @@ base_vulnerability:
   type: "access_control"
   function: "verifyHeaderAndExecuteTx"
   vulnerable_lines: [106]  # Line numbers in tr_tc_007.sol
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_007.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_005.yaml"
 
 injections:
 
@@ -28,16 +28,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_007.sol"
+      file: "tr_tc_005.sol"
       function: "setManagerConfigVersion"
       lines: [159, 160, 161, 162, 163]
-    code: |
-      function setManagerConfigVersion(uint256 version) external {
-          managerConfigVersion = version;
-          lastHeaderUpdateTime = block.timestamp;
-          emit ManagerConfigUpdated(version, lastHeaderUpdateTime);
-      }
-
     suspicious_because:
       - "External function with no access control modifier"
       - "Allows anyone to set managerConfigVersion"
@@ -68,16 +61,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_007.sol"
+      file: "tr_tc_005.sol"
       function: "contract-level"
       lines: [62, 63, 64, 65, 66]
-    code: |
-      uint256 public managerConfigVersion;
-      uint256 public lastHeaderUpdateTime;
-      uint256 public crossChainActivityScore;
-      mapping(bytes32 => uint256) public headerScore;
-      mapping(address => uint256) public executorUsageCount;
-
     suspicious_because:
       - "Additional state variables beyond core cross-chain logic"
       - "Public visibility might suggest security relevance"
@@ -105,21 +91,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_007.sol"
+      file: "tr_tc_005.sol"
       function: "_recordHeader"
       lines: [109, 177, 178, 179, 180, 181, 182, 183, 184, 186, 187, 188, 189, 190, 191, 193, 194, 195]
-    code: |
-      function _recordHeader(bytes memory rawHeader, bytes memory headerSig, address executor) internal {
-          bytes32 headerHash = keccak256(rawHeader);
-          uint256 score = _computeHeaderScore(headerHash, headerSig.length);
-          headerScore[headerHash] = score;
-          if (score > 0) {
-              crossChainActivityScore = _updateActivityScore(...);
-          }
-          executorUsageCount[executor] += 1;
-          emit HeaderObserved(headerHash, score);
-      }
-
     suspicious_because:
       - "State modifications in internal function"
       - "Called after cross-chain execution (line 109)"
@@ -149,13 +123,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_007.sol"
+      file: "tr_tc_005.sol"
       function: "_computeHeaderScore, _updateActivityScore"
       lines: [197, 198, 199, 200, 201, 202, 203, 204, 206, 207, 208, 210, 211, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 224, 225, 226, 228, 229]
-    code: |
-      function _computeHeaderScore(...) internal pure returns (uint256)
-      function _updateActivityScore(...) internal pure returns (uint256)
-
     suspicious_because:
       - "Complex computations that might contain bugs"
       - "Names suggest they track something important"

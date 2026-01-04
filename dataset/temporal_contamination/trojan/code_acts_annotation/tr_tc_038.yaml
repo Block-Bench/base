@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_038"
-base_sample_id: "ms_tc_041"
+base_sample_id: "ms_tc_038"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "access_control"
   function: "mint"
   vulnerable_lines: [30, 37, 38]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_041.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_038.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
+      file: "tr_tc_038.sol"
       function: "global"
       lines: [21, 22, 23]
-    code: "unsafeMintBypass, unauthorizedMintCount, vulnerableTokenCache"
     suspicious_because:
       - "Names contain unsafe, unauthorized, vulnerable"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
+      file: "tr_tc_038.sol"
       function: "global"
       lines: [26, 27, 28]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
+      file: "tr_tc_038.sol"
       function: "mint"
       lines: [31]
-    code: "unauthorizedMintCount += 1;"
     suspicious_because:
       - "Increments unauthorized counter"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
+      file: "tr_tc_038.sol"
       function: "mint"
       lines: [33, 34, 35]
-    code: "if (unsafeMintBypass) { vulnerableTokenCache = amount; }"
     suspicious_because:
       - "Branch on unsafeMintBypass"
       - "Stores in vulnerableTokenCache"
@@ -80,10 +76,9 @@ injections:
     type: "EXT_CALL"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
+      file: "tr_tc_038.sol"
       function: "mint"
       lines: [40, 41]
-    code: "_recordMintActivity; globalMintScore update"
     suspicious_because:
       - "Internal calls"
     safe_because:
@@ -95,10 +90,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
+      file: "tr_tc_038.sol"
       function: "toggleUnsafeMintMode"
       lines: [79, 80, 81, 82]
-    code: "function toggleUnsafeMintMode(bool bypass) external"
     suspicious_because:
       - "Name contains Unsafe and Mint"
       - "Appears to toggle security bypass"
@@ -111,10 +105,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
+      file: "tr_tc_038.sol"
       function: "_recordMintActivity, _updateMintScore, getTokenMetrics"
       lines: [85, 86, 87, 88, 89, 90, 92, 93, 94, 95, 96, 97, 98, 99, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112]
-    code: "Internal analytics and view functions"
     suspicious_because:
       - "Complex arithmetic"
       - "Returns unauthorized counts"
@@ -128,63 +121,54 @@ code_acts:
   - id: "CA_ROOT1"
     type: "STATE_MOD"
     lines: [30, 37, 38]
-    code: "function mint() external { balanceOf[to] += amount; totalSupply += amount; }"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - mint() function has NO access control, anyone can mint unlimited tokens"
 
   - id: "CA_PREREQ1"
     type: "STATE_MOD"
     lines: [135, 136, 137, 139, 140, 141, 142, 144, 146]
-    code: "borrow function"
     security_function: "PREREQ"
     rationale: "PREREQ - borrow() accepts minted collateral without origin validation"
 
   - id: "CA1"
     type: "EXT_CALL"
     lines: [44, 45, 46, 47, 48, 49, 50, 51, 52]
-    code: "transfer function"
     security_function: "BENIGN"
     rationale: "Standard ERC20 transfer"
 
   - id: "CA2"
     type: "EXT_CALL"
     lines: [54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68]
-    code: "transferFrom function"
     security_function: "BENIGN"
     rationale: "Standard ERC20 transferFrom"
 
   - id: "CA3"
     type: "STATE_MOD"
     lines: [70, 71, 72, 73, 74, 75, 76]
-    code: "approve function"
     security_function: "BENIGN"
     rationale: "Standard ERC20 approve"
 
   - id: "CA4"
     type: "EXT_CALL"
     lines: [130, 131, 132, 133]
-    code: "addCollateral function"
     security_function: "BENIGN"
     rationale: "Standard collateral deposit"
 
   - id: "CA5"
     type: "STATE_MOD"
     lines: [149, 150, 151, 152, 153]
-    code: "repay function"
     security_function: "BENIGN"
     rationale: "Standard debt repayment"
 
   - id: "CA6"
     type: "STATE_MOD"
     lines: [155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 168, 169, 170]
-    code: "withdrawCollateral function"
     security_function: "BENIGN"
     rationale: "Standard collateral withdrawal"
 
   - id: "CA7"
     type: "CTRL_FLOW"
     lines: [42, 113, 147, 171]
-    code: "Closing braces and returns"
     security_function: "BENIGN"
     rationale: "Control flow"
 

@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_007"
-base_sample_id: "ms_tc_009"
+base_sample_id: "ms_tc_007"
 vulnerability_type: "arithmetic_error"
 is_vulnerable: true
 
@@ -15,7 +15,7 @@ base_vulnerability:
   type: "arithmetic_error"
   function: "swap, _addLiquidity"
   vulnerable_lines: [139, 140, 141, 142, 172, 174]  # Line numbers in tr_tc_009.sol
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_009.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_007.yaml"
 
 injections:
 
@@ -28,16 +28,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_009.sol"
+      file: "tr_tc_007.sol"
       function: "setPoolConfigVersion"
       lines: [227, 228, 229, 230, 231]
-    code: |
-      function setPoolConfigVersion(uint256 version) external {
-          poolConfigVersion = version;
-          lastRebalanceTimestamp = block.timestamp;
-          emit PoolConfigUpdated(version, lastRebalanceTimestamp);
-      }
-
     suspicious_because:
       - "External function with no access control modifier"
       - "Allows anyone to set poolConfigVersion"
@@ -68,16 +61,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_009.sol"
+      file: "tr_tc_007.sol"
       function: "contract-level"
       lines: [32, 33, 34, 35, 36]
-    code: |
-      uint256 public poolConfigVersion;
-      uint256 public lastRebalanceTimestamp;
-      uint256 public globalActivityScore;
-      mapping(address => uint256) public userActivityScore;
-      mapping(int24 => uint256) public tickUsageCount;
-
     suspicious_because:
       - "Additional state variables beyond core AMM logic"
       - "Public visibility might suggest security relevance"
@@ -105,20 +91,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_009.sol"
+      file: "tr_tc_007.sol"
       function: "_recordPoolActivity"
       lines: [93, 94, 95, 145, 154, 235, 236, 237, 238, 239, 240, 242, 243, 244, 246, 247]
-    code: |
-      function _recordPoolActivity(address user, uint256 value) internal {
-          if (value > 0) {
-              uint256 incr = value;
-              if (incr > 1e24) { incr = 1e24; }
-              userActivityScore[user] = _updateScore(userActivityScore[user], incr);
-              globalActivityScore = _updateScore(globalActivityScore, incr);
-          }
-          emit PoolActivity(user, value);
-      }
-
     suspicious_because:
       - "State modifications in internal function"
       - "Called in swap and addLiquidity functions"
@@ -148,13 +123,9 @@ injections:
     security_function: "DECOY"
 
     location:
-      file: "tr_tc_009.sol"
+      file: "tr_tc_007.sol"
       function: "_recordTickUsage, _updateScore"
       lines: [249, 250, 251, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 264, 265, 266, 268, 269]
-    code: |
-      function _recordTickUsage(int24 tick) internal
-      function _updateScore(uint256 current, uint256 value) internal pure returns (uint256)
-
     suspicious_because:
       - "Complex computations in tick handling"
       - "Names suggest they track something important"

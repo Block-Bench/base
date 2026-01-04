@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_028"
-base_sample_id: "ms_tc_031"
+base_sample_id: "ms_tc_028"
 vulnerability_type: "bridge_security"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "bridge_security"
   function: "withdraw"
   vulnerable_lines: [61, 62, 63, 64, 65]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_031.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_028.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_031.sol"
+      file: "tr_tc_028.sol"
       function: "global"
       lines: [18]
-    code: "bool public unsafeSignatureBypass;"
     suspicious_because:
       - "Name suggests signature bypass"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_031.sol"
+      file: "tr_tc_028.sol"
       function: "global"
       lines: [19]
-    code: "uint256 public invalidSigCount;"
     suspicious_because:
       - "Name mentions invalid signatures"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_031.sol"
+      file: "tr_tc_028.sol"
       function: "global"
       lines: [20]
-    code: "uint256 public vulnerableWithdrawalCache;"
     suspicious_because:
       - "Name contains vulnerable"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_031.sol"
+      file: "tr_tc_028.sol"
       function: "global"
       lines: [23, 24, 25]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_031.sol"
+      file: "tr_tc_028.sol"
       function: "withdraw"
       lines: [59, 67, 68, 69]
-    code: "invalidSigCount += 1; if (unsafeSignatureBypass)..."
     suspicious_because:
       - "Looks like signature bypass logic"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_031.sol"
+      file: "tr_tc_028.sol"
       function: "analytics functions"
       lines: [36, 79, 80, 89, 90, 91, 92, 95, 96, 97, 98, 99, 100, 102, 103, 104, 105, 106, 107, 108, 109, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122]
-    code: "Analytics and metrics functions"
     suspicious_because:
       - "toggleUnsafeSignatureMode function"
     safe_because:
@@ -110,75 +104,60 @@ code_acts:
   - id: "CA_ROOT"
     type: "INPUT_VAL"
     lines: [61, 62, 63, 64, 65]
-    code: |
-      require(v.length >= REQUIRED_SIGNATURES, "Insufficient signatures");
-      require(
-          v.length == r.length && r.length == s.length,
-          "Signature length mismatch"
-      );
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Only validates signature count, not cryptographic validity via ecrecover"
 
   - id: "CA_PREREQ1"
     type: "DECLARATION"
     lines: [11, 12]
-    code: "REQUIRED_SIGNATURES and TOTAL_VALIDATORS"
     security_function: "PREREQ"
     rationale: "PREREQ - Multi-sig threshold (5-of-7)"
 
   - id: "CA_PREREQ2"
     type: "DECLARATION"
     lines: [14, 15]
-    code: "validators mapping and validatorList"
     security_function: "PREREQ"
     rationale: "PREREQ - Validator set defined but never used for verification"
 
   - id: "CA1"
     type: "INPUT_VAL"
     lines: [54, 55, 56, 57]
-    code: "require(!processedTransactions[txHash])"
     security_function: "BENIGN"
     rationale: "Replay protection check"
 
   - id: "CA2"
     type: "COMPUTATION"
     lines: [52]
-    code: "bytes32 txHash = bytes32s[1];"
     security_function: "BENIGN"
     rationale: "Extract transaction hash"
 
   - id: "CA3"
     type: "COMPUTATION"
     lines: [71]
-    code: "uint256 amount = uints[0];"
     security_function: "BENIGN"
     rationale: "Extract amount from input"
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [73]
-    code: "processedTransactions[txHash] = true;"
     security_function: "BENIGN"
     rationale: "Mark transaction as processed"
 
   - id: "CA5"
     type: "EXT_CALL"
     lines: [75]
-    code: "IERC20(token).transfer(toAddr, amount);"
     security_function: "BENIGN"
     rationale: "Token transfer to recipient"
 
   - id: "CA6"
     type: "CTRL_FLOW"
     lines: [77]
-    code: "emit WithdrawalProcessed(txHash, token, toAddr, amount);"
     security_function: "BENIGN"
     rationale: "Event emission"
 
   - id: "CA7"
     type: "STATE_MOD"
     lines: [83, 84, 85, 86]
-    code: "addValidator function"
     security_function: "BENIGN"
     rationale: "Validator addition"
 

@@ -16,7 +16,7 @@ base_vulnerability:
   type: "governance_attack"
   function: "emergencyCommit"
   vulnerable_lines: [56, 57, 101, 102, 106]  # Line numbers in tr_tc_002.sol
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_002.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_002.yaml"
 
 injections:
 
@@ -32,11 +32,6 @@ injections:
       file: "tr_tc_002.sol"
       function: "setEmergencyOverride"
       lines: [115, 116, 117]
-    code: |
-      function setEmergencyOverride(uint256 newThreshold) external {
-          deprecatedEmergencyThreshold = newThreshold;
-      }
-
     suspicious_because:
       - "Function named 'setEmergencyOverride' suggests critical governance modification"
       - "Accepts threshold parameter suggesting it changes the 66% EMERGENCY_THRESHOLD"
@@ -70,12 +65,6 @@ injections:
       file: "tr_tc_002.sol"
       function: "simulateExecution"
       lines: [120, 121, 122, 123]
-    code: |
-      function simulateExecution(address target, bytes calldata data) external view returns (bool, bytes memory) {
-          (bool ok, bytes memory result) = target.staticcall(data);
-          return (ok, result);
-      }
-
     suspicious_because:
       - "Function makes external call to arbitrary target with arbitrary data"
       - "Located in governance contract with real external call vulnerability"
@@ -109,7 +98,6 @@ injections:
       file: "tr_tc_002.sol"
       function: "emergencyCommit"
       lines: [111]
-    code: "_logGovernanceEvent(proposalId, votePercentage);"
 
     suspicious_because:
       - "Internal function call AFTER external call at line 106"
@@ -144,20 +132,6 @@ injections:
       file: "tr_tc_002.sol"
       function: "_computeScore"
       lines: [146, 147, 149, 150, 151, 152, 153, 155, 156, 157, 159, 160]  # excludes empty lines 148, 154, 158
-    code: |
-      function _computeScore(uint256 participation, uint256 age) internal pure returns (uint256) {
-          uint256 adjusted = participation;
-          if (age < 1 hours && participation > 500) {
-              adjusted = participation + 200;
-          } else if (age > 2 days && participation < 200) {
-              adjusted = participation / 2;
-          }
-          if (adjusted > 1000) {
-              adjusted = 1000;
-          }
-          return adjusted;
-      }
-
     suspicious_because:
       - "Complex arithmetic operations with multiple conditions"
       - "Division operation (participation / 2) without explicit zero check"

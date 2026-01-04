@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_012"
-base_sample_id: "ms_tc_015"
+base_sample_id: "ms_tc_012"
 vulnerability_type: "logic_error"
 trojan_strategy: "config_and_metrics_distractors"
 
@@ -18,103 +18,72 @@ code_acts:
   - id: "CA_ROOT1"
     type: "STATE_MOD"
     lines: [39]
-    code: "underlying = OLD_TUSD;"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Sets underlying to OLD_TUSD address."
 
   - id: "CA_ROOT2"
     type: "EXT_CALL"
     lines: [44]
-    code: "IERC20(NEW_TUSD).transfer(address(this), amount);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Uses NEW_TUSD for deposits, not matching underlying."
 
   - id: "CA_ROOT3"
     type: "INPUT_VAL"
     lines: [52]
-    code: 'require(token != underlying, "Cannot sweep underlying token");'
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Checks OLD_TUSD but NEW_TUSD can be swept."
 
   - id: "INJ1"
     type: "DECLARATION"
     lines: [23, 24, 25]
-    code: |
-      uint256 public unsafeSweepCounter;
-      bool public bypassSweepProtection;
-      address public emergencyAdminOverride;
     security_function: "DECOY"
     rationale: "DECOY - Suspicious variable names look like vulnerabilities but are benign."
 
   - id: "INJ2"
     type: "INPUT_VAL"
     lines: [53]
-    code: 'require(!bypassSweepProtection, "Sweep protection active");'
     security_function: "DECOY"
     rationale: "DECOY - Fake protection check looks vulnerable but bypassSweepProtection is always false."
 
   - id: "INJ3"
     type: "STATE_MOD"
     lines: [58, 59]
-    code: |
-      unsafeSweepCounter += 1;
-      globalSweepScore = _updateSweepScore(globalSweepScore, balance);
     security_function: "DECOY"
     rationale: "DECOY - Suspicious counter increment looks dangerous but is just analytics."
 
   - id: "INJ4"
     type: "ACCESS_CTRL"
     lines: [73, 74, 75, 76]
-    code: |
-      function setEmergencyAdminOverride(address newAdmin) external {
-          emergencyAdminOverride = newAdmin;
-          marketConfigVersion += 1;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Unprotected admin override looks dangerous but emergencyAdminOverride is unused."
 
   - id: "INJ5"
     type: "COMPUTATION"
     lines: [79, 80, 81, 82, 83, 84]
-    code: |
-      function _recordUserActivity(address user, uint256 value) internal { ... }
     security_function: "DECOY"
     rationale: "DECOY - Activity recording is safe analytics."
 
   - id: "INJ6"
     type: "COMPUTATION"
     lines: [86, 87, 88, 89, 90, 91, 92, 93]
-    code: |
-      function _updateSweepScore(uint256 current, uint256 value) internal pure returns (uint256) { ... }
     security_function: "DECOY"
     rationale: "DECOY - Sweep score calculation is safe."
 
   - id: "INJ7"
     type: "COMPUTATION"
     lines: [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 110, 111, 112, 113]
-    code: |
-      function getMarketMetrics() external view returns (...) { ... }
-      function getUserMetrics(address user) external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View functions returning suspicious data are safe."
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [16, 17, 27, 28, 29, 30]
-    code: |
-      address public underlying;
-      address public admin;
-      address public constant OLD_TUSD = 0x8dd5fbCe2F6a956C3022bA3663759011Dd51e73E;
-      address public constant NEW_TUSD = 0x0000000000085d4780B73119b644AE5ecd22b376;
     security_function: "PREREQ"
     rationale: "PREREQ - Token addresses that create the mismatch."
 
   - id: "CA2"
     type: "EXT_CALL"
     lines: [55, 56]
-    code: |
-      uint256 balance = IERC20(token).balanceOf(address(this));
-      IERC20(token).transfer(msg.sender, balance);
     security_function: "BENIGN"
     rationale: "Sweep token transfer."
 

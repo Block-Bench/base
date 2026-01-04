@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_016"
-base_sample_id: "ms_tc_019"
+base_sample_id: "ms_tc_016"
 vulnerability_type: "validation_bypass"
 trojan_strategy: "config_and_metrics_distractors"
 
@@ -18,108 +18,72 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [93]
-    code: "IERC20(tokenContract).transferFrom(depositer, address(this), amount);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - transferFrom called on tokenContract which may be address(0)."
 
   - id: "INJ1"
     type: "DECLARATION"
     lines: [71, 72, 73]
-    code: |
-      bool public unsafeZeroCheckBypass;
-      uint256 public zeroAddressAttemptCount;
-      address public emergencyTokenOverride;
     security_function: "DECOY"
     rationale: "DECOY - Suspicious variable names look like vulnerabilities but are benign."
 
   - id: "INJ2"
     type: "DECLARATION"
     lines: [76, 77]
-    code: |
-      uint256 public handlerConfigVersion;
-      uint256 public suspiciousResourceCount;
     security_function: "DECOY"
     rationale: "DECOY - Analytics variables with suspicious names."
 
   - id: "INJ3"
     type: "CTRL_FLOW"
     lines: [89, 90, 91]
-    code: |
-      if (tokenContract == address(0)) {
-          zeroAddressAttemptCount += 1;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Zero address check looks protective but doesn't prevent the vulnerability."
 
   - id: "INJ4"
     type: "CTRL_FLOW"
     lines: [95, 96, 97]
-    code: |
-      if (unsafeZeroCheckBypass) {
-          suspiciousResourceCount += 1;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Bypass check looks dangerous but just updates counter."
 
   - id: "INJ5"
     type: "CTRL_FLOW"
     lines: [103, 104]
-    code: |
-      if (tokenAddress == address(0) && unsafeZeroCheckBypass) {
-          emergencyTokenOverride = tokenAddress;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Emergency override looks dangerous but emergencyTokenOverride is unused."
 
   - id: "INJ6"
     type: "ACCESS_CTRL"
     lines: [109, 110, 111, 112]
-    code: |
-      function toggleZeroCheckBypass(bool bypass) external {
-          unsafeZeroCheckBypass = bypass;
-          handlerConfigVersion += 1;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Unprotected toggle looks dangerous but bypass only affects analytics."
 
   - id: "INJ7"
     type: "COMPUTATION"
     lines: [115, 116, 117, 118, 119, 120, 121]
-    code: |
-      function getBridgeMetrics() external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View function is safe."
 
   - id: "INJ8"
     type: "COMPUTATION"
     lines: [123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133]
-    code: |
-      function getHandlerMetrics() external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View function is safe."
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [67, 68]
-    code: |
-      mapping(bytes32 => address) public resourceIDToTokenContractAddress;
-      mapping(address => bool) public contractWhitelist;
     security_function: "PREREQ"
     rationale: "PREREQ - Resource mapping that may not be initialized."
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [84]
-    code: "address tokenContract = resourceIDToTokenContractAddress[resourceID];"
     security_function: "BENIGN"
     rationale: "Token address lookup (may return address(0))."
 
   - id: "CA3"
     type: "COMPUTATION"
     lines: [86, 87]
-    code: |
-      uint256 amount;
-      (amount) = abi.decode(data, (uint256));
     security_function: "BENIGN"
     rationale: "Amount decoding."
 

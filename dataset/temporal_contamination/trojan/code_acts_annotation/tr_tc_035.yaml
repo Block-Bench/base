@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_035"
-base_sample_id: "ms_tc_038"
+base_sample_id: "ms_tc_035"
 vulnerability_type: "price_oracle_manipulation"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "price_oracle_manipulation"
   function: "mint and borrow"
   vulnerable_lines: [55, 71]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_038.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_035.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_038.sol"
+      file: "tr_tc_035.sol"
       function: "global"
       lines: [30, 31, 32]
-    code: "unsafeOracleBypass, manipulatedPriceCount, vulnerableCollateralCache"
     suspicious_because:
       - "Names contain unsafe, manipulated, vulnerable"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_038.sol"
+      file: "tr_tc_035.sol"
       function: "global"
       lines: [35, 36, 37]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_038.sol"
+      file: "tr_tc_035.sol"
       function: "enterMarkets"
       lines: [43]
-    code: "manipulatedPriceCount += 1;"
     suspicious_because:
       - "Increments manipulated counter"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_038.sol"
+      file: "tr_tc_035.sol"
       function: "mint"
       lines: [57, 58, 59]
-    code: "if (unsafeOracleBypass) { vulnerableCollateralCache = price; }"
     suspicious_because:
       - "Branch on unsafeOracleBypass"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_038.sol"
+      file: "tr_tc_035.sol"
       function: "toggleUnsafeOracleMode and analytics"
       lines: [81, 82, 95, 96, 97, 98, 101, 102, 103, 104, 105, 106, 108, 109, 110, 111, 112, 113, 114, 115]
-    code: "Toggle function and internal analytics"
     suspicious_because:
       - "toggleUnsafeOracleMode function name"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_038.sol"
+      file: "tr_tc_035.sol"
       function: "ManipulableOracle"
       lines: [135, 136, 143, 144, 145]
-    code: "unsafePriceBypass, priceOverrideCount and usage"
     suspicious_because:
       - "Suspicious variable names in oracle"
     safe_because:
@@ -110,84 +104,72 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [55]
-    code: "uint256 price = oracle.getPrice(token);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Fetches price from manipulable oracle in mint"
 
   - id: "CA_ROOT2"
     type: "EXT_CALL"
     lines: [71]
-    code: "uint256 borrowPrice = oracle.getPrice(borrowToken);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Fetches price from manipulable oracle in borrow"
 
   - id: "CA_PREREQ1"
     type: "COMPUTATION"
     lines: [72, 74]
-    code: "Borrow value calculations"
     security_function: "PREREQ"
     rationale: "PREREQ - Calculations using manipulated prices"
 
   - id: "CA_PREREQ2"
     type: "STATE_MOD"
     lines: [146]
-    code: "prices[token] = price;"
     security_function: "PREREQ"
     rationale: "PREREQ - Price setter allows manipulation"
 
   - id: "CA1"
     type: "EXT_CALL"
     lines: [53]
-    code: "IERC20 transferFrom"
     security_function: "BENIGN"
     rationale: "Token transfer"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [61]
-    code: "accountCollateral update"
     security_function: "BENIGN"
     rationale: "Collateral state update"
 
   - id: "CA3"
     type: "INPUT_VAL"
     lines: [76]
-    code: "require(borrowValue <= maxBorrowValue)"
     security_function: "BENIGN"
     rationale: "Collateral check"
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [78]
-    code: "accountBorrows update"
     security_function: "BENIGN"
     rationale: "Borrow state update"
 
   - id: "CA5"
     type: "EXT_CALL"
     lines: [79]
-    code: "IERC20 transfer"
     security_function: "BENIGN"
     rationale: "Token transfer to borrower"
 
   - id: "CA6"
     type: "STATE_MOD"
     lines: [46, 47]
-    code: "Market listing"
     security_function: "BENIGN"
     rationale: "Market state updates"
 
   - id: "CA7"
     type: "CTRL_FLOW"
     lines: [45, 49, 62, 84, 139]
-    code: "Loops and returns"
     security_function: "BENIGN"
     rationale: "Control flow"
 
   - id: "CA8"
     type: "CTRL_FLOW"
     lines: [118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128]
-    code: "getLendingMetrics view function"
     security_function: "BENIGN"
     rationale: "View helper"
 

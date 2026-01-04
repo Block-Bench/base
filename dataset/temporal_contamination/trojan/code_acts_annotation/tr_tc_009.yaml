@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_009"
-base_sample_id: "ms_tc_011"
+base_sample_id: "ms_tc_009"
 vulnerability_type: "reentrancy"
 trojan_strategy: "config_and_metrics_distractors"
 
@@ -18,107 +18,60 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [60]
-    code: "IERC777(asset).transfer(msg.sender, withdrawAmount);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - ERC-777 transfer triggers tokensReceived callback before state updates."
 
   - id: "CA_ROOT2"
     type: "STATE_MOD"
     lines: [62, 63]
-    code: |
-      supplied[msg.sender][asset] -= withdrawAmount;
-      totalSupplied[asset] -= withdrawAmount;
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - State updates after external call, enabling reentrancy."
 
   - id: "INJ1"
     type: "DECLARATION"
     lines: [28, 29, 30, 31, 32]
-    code: |
-      uint256 public poolConfigVersion;
-      uint256 public lastConfigUpdate;
-      uint256 public globalActivityScore;
-      mapping(address => uint256) public userActivityScore;
-      mapping(address => uint256) public userWithdrawCount;
     security_function: "DECOY"
     rationale: "DECOY - Config and analytics state variables look suspicious but are safe metrics."
 
   - id: "INJ2"
     type: "STATE_MOD"
     lines: [65, 66]
-    code: |
-      userWithdrawCount[msg.sender] += 1;
-      _recordActivity(msg.sender, withdrawAmount);
     security_function: "DECOY"
     rationale: "DECOY - Activity tracking after state update looks like vulnerability but is benign."
 
   - id: "INJ3"
     type: "ACCESS_CTRL"
     lines: [79, 80, 81, 82]
-    code: |
-      function setPoolConfigVersion(uint256 version) external {
-          poolConfigVersion = version;
-          lastConfigUpdate = block.timestamp;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Unprotected config setter looks vulnerable but only modifies view data."
 
   - id: "INJ4"
     type: "COMPUTATION"
     lines: [85, 86, 87, 88, 89, 90, 92, 93, 94, 95, 96, 97, 98]
-    code: |
-      function _recordActivity(address user, uint256 value) internal {
-          if (value > 0) {
-              uint256 incr = value;
-              if (incr > 1e24) { incr = 1e24; }
-              userActivityScore[user] = _updateScore(userActivityScore[user], incr);
-              globalActivityScore = _updateScore(globalActivityScore, incr);
-          }
-      }
     security_function: "DECOY"
     rationale: "DECOY - Complex scoring logic looks suspicious but only updates analytics."
 
   - id: "INJ5"
     type: "COMPUTATION"
     lines: [100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 111, 112, 113, 115, 116]
-    code: |
-      function _updateScore(uint256 current, uint256 value) internal pure returns (uint256) {
-          uint256 updated;
-          if (current == 0) { updated = value; }
-          else { updated = (current * 9 + value) / 10; }
-          if (updated > 1e27) { updated = 1e27; }
-          return updated;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Score calculation with magic numbers looks suspicious but is safe arithmetic."
 
   - id: "INJ6"
     type: "COMPUTATION"
     lines: [119, 120, 121, 122, 123, 124, 125, 126, 128, 129, 130, 131, 132, 133, 134, 135, 136]
-    code: |
-      function getUserMetrics(...) external view returns (...) { ... }
-      function getPoolMetrics() external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View functions returning config data look like information disclosure but are safe."
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [24, 25]
-    code: |
-      mapping(address => mapping(address => uint256)) public supplied;
-      mapping(address => uint256) public totalSupplied;
     security_function: "PREREQ"
     rationale: "PREREQ - State variables that get corrupted during reentrancy."
 
   - id: "CA2"
     type: "INPUT_VAL"
     lines: [51, 52, 54, 55, 56, 57, 58]
-    code: |
-      uint256 userBalance = supplied[msg.sender][asset];
-      require(userBalance > 0, "No balance");
-      uint256 withdrawAmount = requestedAmount;
-      if (requestedAmount == type(uint256).max) { withdrawAmount = userBalance; }
-      require(withdrawAmount <= userBalance, "Insufficient balance");
     security_function: "BENIGN"
     rationale: "Validation before withdraw."
 

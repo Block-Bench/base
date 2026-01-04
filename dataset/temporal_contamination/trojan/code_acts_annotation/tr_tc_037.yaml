@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_037"
-base_sample_id: "ms_tc_040"
+base_sample_id: "ms_tc_037"
 vulnerability_type: "logic_error"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "logic_error"
   function: "mint and getExchangeRate"
   vulnerable_lines: [63, 90]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_040.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_037.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_040.sol"
+      file: "tr_tc_037.sol"
       function: "global"
       lines: [38, 39, 40]
-    code: "unsafeRateBypass, manipulatedMintCount, vulnerableExchangeCache"
     suspicious_because:
       - "Names contain unsafe, manipulated, vulnerable"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_040.sol"
+      file: "tr_tc_037.sol"
       function: "global"
       lines: [43, 44, 45]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_040.sol"
+      file: "tr_tc_037.sol"
       function: "constructor and mint"
       lines: [51, 55]
-    code: "vaultConfigVersion = 1; manipulatedMintCount += 1;"
     suspicious_because:
       - "Increments manipulation counter"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_040.sol"
+      file: "tr_tc_037.sol"
       function: "mint"
       lines: [59, 60, 61]
-    code: "if (unsafeRateBypass) { vulnerableExchangeCache = msg.value; }"
     suspicious_because:
       - "Branch on unsafeRateBypass"
       - "Stores in vulnerableExchangeCache"
@@ -80,10 +76,9 @@ injections:
     type: "EXT_CALL"
     security_function: "DECOY"
     location:
-      file: "tr_tc_040.sol"
+      file: "tr_tc_037.sol"
       function: "mint"
       lines: [71, 72]
-    code: "_recordDepositActivity; globalDepositScore update"
     suspicious_because:
       - "Internal calls"
     safe_because:
@@ -95,10 +90,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_040.sol"
+      file: "tr_tc_037.sol"
       function: "toggleUnsafeRateMode"
       lines: [94, 95, 96, 97]
-    code: "function toggleUnsafeRateMode(bool bypass) external"
     suspicious_because:
       - "Name contains Unsafe and Rate"
       - "Appears to toggle security bypass"
@@ -111,10 +105,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_040.sol"
+      file: "tr_tc_037.sol"
       function: "_recordDepositActivity, _updateDepositScore, getVaultMetrics"
       lines: [100, 101, 102, 103, 104, 105, 107, 108, 109, 110, 111, 112, 113, 114, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
-    code: "Internal analytics and view functions"
     suspicious_because:
       - "Complex arithmetic"
       - "Returns manipulated counts"
@@ -128,77 +121,66 @@ code_acts:
   - id: "CA_ROOT1"
     type: "COMPUTATION"
     lines: [63]
-    code: "uint256 uniBTCAmount = msg.value;"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Assigns uniBTC equal to ETH without conversion, wrong 1:1 ratio"
 
   - id: "CA_ROOT2"
     type: "CTRL_FLOW"
     lines: [90]
-    code: "return 1e18;"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Hardcoded 1:1 exchange rate ignores actual ETH/BTC prices"
 
   - id: "CA_PREREQ1"
     type: "EXT_CALL"
     lines: [69]
-    code: "uniBTC.transfer(msg.sender, uniBTCAmount);"
     security_function: "PREREQ"
     rationale: "PREREQ - Transfers incorrectly calculated uniBTC amount"
 
   - id: "CA_PREREQ2"
     type: "COMPUTATION"
     lines: [83]
-    code: "uint256 ethAmount = amount;"
     security_function: "PREREQ"
     rationale: "PREREQ - Redeem also uses 1:1 ratio"
 
   - id: "CA1"
     type: "INPUT_VAL"
     lines: [57]
-    code: 'require(msg.value > 0, "No ETH sent");'
     security_function: "BENIGN"
     rationale: "Basic input validation"
 
   - id: "CA2"
     type: "STATE_MOD"
     lines: [65, 66, 67]
-    code: "totalETHDeposited, totalUniBTCMinted, userBalances updates"
     security_function: "BENIGN"
     rationale: "State tracking updates"
 
   - id: "CA3"
     type: "INPUT_VAL"
     lines: [78, 79]
-    code: "require checks in redeem"
     security_function: "BENIGN"
     rationale: "Redeem input validation"
 
   - id: "CA4"
     type: "STATE_MOD"
     lines: [81]
-    code: "userBalances[msg.sender] -= amount;"
     security_function: "BENIGN"
     rationale: "Balance decrement"
 
   - id: "CA5"
     type: "INPUT_VAL"
     lines: [84]
-    code: 'require(address(this).balance >= ethAmount, "Insufficient ETH");'
     security_function: "BENIGN"
     rationale: "ETH balance check"
 
   - id: "CA6"
     type: "EXT_CALL"
     lines: [86]
-    code: "payable(msg.sender).transfer(ethAmount);"
     security_function: "BENIGN"
     rationale: "ETH transfer"
 
   - id: "CA7"
     type: "CTRL_FLOW"
     lines: [74, 75, 87, 91, 129]
-    code: "Return statements and receive"
     security_function: "BENIGN"
     rationale: "Control flow"
 

@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_036"
-base_sample_id: "ms_tc_039"
+base_sample_id: "ms_tc_036"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "access_control"
   function: "uniswapV3SwapCallback"
   vulnerable_lines: [46, 72, 73, 75]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_039.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_036.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
+      file: "tr_tc_036.sol"
       function: "global"
       lines: [31, 32, 33]
-    code: "unsafeCallbackBypass, callbackManipulationCount, vulnerableSwapCache"
     suspicious_because:
       - "Names contain unsafe, manipulation, vulnerable"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
+      file: "tr_tc_036.sol"
       function: "global"
       lines: [36, 37, 38]
-    code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
+      file: "tr_tc_036.sol"
       function: "constructor and callback"
       lines: [43, 51]
-    code: "solverConfigVersion = 1; callbackManipulationCount += 1;"
     suspicious_because:
       - "Increments manipulation counter"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "EXT_CALL"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
+      file: "tr_tc_036.sol"
       function: "uniswapV3SwapCallback"
       lines: [68, 69]
-    code: "_recordSwapActivity(recipient, amountToPay); globalSwapScore update"
     suspicious_because:
       - "Internal calls in callback"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
+      file: "tr_tc_036.sol"
       function: "toggleUnsafeCallbackMode"
       lines: [85, 86, 87, 88]
-    code: "function toggleUnsafeCallbackMode(bool bypass) external"
     suspicious_because:
       - "Name contains Unsafe and Callback"
       - "Appears to toggle security bypass"
@@ -95,10 +90,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
+      file: "tr_tc_036.sol"
       function: "_recordSwapActivity and _updateSwapScore"
       lines: [91, 92, 93, 94, 95, 96, 98, 99, 100, 101, 102]
-    code: "Internal analytics functions"
     suspicious_because:
       - "Complex arithmetic in internal functions"
     safe_because:
@@ -110,10 +104,9 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
+      file: "tr_tc_036.sol"
       function: "getSwapMetrics"
       lines: [105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117]
-    code: "View function returning metrics including manipulationCount"
     suspicious_because:
       - "Returns manipulation count"
       - "Returns bypassEnabled status"
@@ -127,56 +120,48 @@ code_acts:
   - id: "CA_ROOT1"
     type: "DECLARATION"
     lines: [46, 47, 48, 49, 50]
-    code: "function uniswapV3SwapCallback(...) external payable {"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Callback lacks msg.sender validation, anyone can call with crafted data"
 
   - id: "CA_ROOT2"
     type: "EXT_CALL"
     lines: [72, 73]
-    code: "WETH.withdraw(amountToPay); payable(recipient).transfer(amountToPay);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Withdraws WETH and sends ETH to attacker-controlled recipient"
 
   - id: "CA_ROOT3"
     type: "EXT_CALL"
     lines: [75]
-    code: "IERC20(tokenIn).transfer(recipient, amountToPay);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Transfers tokens to attacker-controlled recipient"
 
   - id: "CA_PREREQ1"
     type: "COMPUTATION"
     lines: [54, 55, 56, 57, 58, 59]
-    code: "abi.decode callback data"
     security_function: "PREREQ"
     rationale: "PREREQ - Decodes attacker-controlled callback data"
 
   - id: "CA1"
     type: "CTRL_FLOW"
     lines: [62, 63, 64, 65, 66, 71, 74, 76, 77]
-    code: "Conditional logic for payment"
     security_function: "BENIGN"
     rationale: "Control flow for determining amount and token type"
 
   - id: "CA2"
     type: "INPUT_VAL"
     lines: [80]
-    code: 'require(msg.sender == settlement, "Only settlement");'
     security_function: "BENIGN"
     rationale: "Access control on executeSettlement"
 
   - id: "CA3"
     type: "STATE_MOD"
     lines: [81]
-    code: "solverConfigVersion += 1;"
     security_function: "BENIGN"
     rationale: "Version increment in executeSettlement"
 
   - id: "CA4"
     type: "CTRL_FLOW"
     lines: [119]
-    code: "receive() external payable {}"
     security_function: "BENIGN"
     rationale: "Receive function for ETH"
 

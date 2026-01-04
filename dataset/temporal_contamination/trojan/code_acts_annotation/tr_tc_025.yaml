@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_025"
-base_sample_id: "ms_tc_028"
+base_sample_id: "ms_tc_025"
 vulnerability_type: "accounting_error"
 is_vulnerable: true
 
@@ -11,7 +11,7 @@ base_vulnerability:
   type: "accounting_error"
   function: "deposit"
   vulnerable_lines: [39]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_028.yaml"
+  reference: "../../minimalsanitized/code_acts_annotation/ms_tc_025.yaml"
 
 injections:
 
@@ -19,10 +19,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_028.sol"
+      file: "tr_tc_025.sol"
       function: "global"
       lines: [15]
-    code: "bool public unsafeFeeBypass;"
     suspicious_because:
       - "Name suggests fee bypass"
     safe_because:
@@ -34,10 +33,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_028.sol"
+      file: "tr_tc_025.sol"
       function: "global"
       lines: [16]
-    code: "uint256 public feeMismatchCount;"
     suspicious_because:
       - "Name mentions fee mismatch"
     safe_because:
@@ -49,10 +47,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_028.sol"
+      file: "tr_tc_025.sol"
       function: "global"
       lines: [17]
-    code: "uint256 public vulnerableDepositCache;"
     suspicious_because:
       - "Name contains vulnerable"
     safe_because:
@@ -64,10 +61,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_028.sol"
+      file: "tr_tc_025.sol"
       function: "global"
       lines: [20, 21, 22]
-    code: "Analytics variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
@@ -79,10 +75,9 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_028.sol"
+      file: "tr_tc_025.sol"
       function: "deposit"
       lines: [37, 41]
-    code: "feeMismatchCount += ...; vulnerableDepositCache = amount;"
     suspicious_because:
       - "Looks like tracking fee mismatches"
     safe_because:
@@ -94,10 +89,9 @@ injections:
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_028.sol"
+      file: "tr_tc_025.sol"
       function: "analytics functions"
       lines: [55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 69, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89]
-    code: "Analytics functions"
     suspicious_because:
       - "toggleUnsafeFeeMode"
     safe_because:
@@ -110,42 +104,36 @@ code_acts:
   - id: "CA_ROOT"
     type: "STATE_MOD"
     lines: [39]
-    code: "deposits[msg.sender] += amount;"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Credits full amount instead of actualReceived"
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [11, 12]
-    code: "State variables"
     security_function: "BENIGN"
     rationale: "Token and deposits"
 
   - id: "CA2"
     type: "INITIALIZATION"
     lines: [24, 25, 26, 27]
-    code: "constructor"
     security_function: "BENIGN"
     rationale: "Constructor"
 
   - id: "CA3"
     type: "CTRL_FLOW"
     lines: [29, 30, 32, 34, 35, 43, 44, 45]
-    code: "deposit function body"
     security_function: "BENIGN"
     rationale: "Deposit function"
 
   - id: "CA4"
     type: "CTRL_FLOW"
     lines: [47, 48, 50, 52, 53]
-    code: "withdraw function"
     security_function: "BENIGN"
     rationale: "Withdraw function"
 
   - id: "CA5"
     type: "CTRL_FLOW"
     lines: [90]
-    code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
 

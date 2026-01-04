@@ -30,7 +30,7 @@ The following distractor types are used across the contracts:
 
 ## Statistics
 
-- **Total files**: 50
+- **Total files**: 46
 - **Total distractor elements**: 1,717
 - **Distractor breakdown**:
   - Score/metric variables: 831
@@ -49,7 +49,7 @@ The following distractor types are used across the contracts:
 
 All distractor code has been audited to confirm:
 - No new vulnerabilities introduced
-- No external calls in distractor code
+- No state-changing external calls in distractor code (read-only staticcall may be present)
 - No reentrancy vectors
 - No token transfer paths
 - No access control bypasses

@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_017"
-base_sample_id: "ms_tc_020"
+base_sample_id: "ms_tc_017"
 vulnerability_type: "price_oracle_manipulation"
 trojan_strategy: "config_and_metrics_distractors"
 
@@ -18,107 +18,72 @@ code_acts:
   - id: "CA_ROOT1"
     type: "EXT_CALL"
     lines: [84]
-    code: "(uint112 reserve0, uint112 reserve1, ) = pair.getReserves();"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Uniswap reserves are manipulable via flash loan."
 
   - id: "INJ1"
     type: "DECLARATION"
     lines: [38, 39, 40]
-    code: |
-      bool public unsafeReserveBypass;
-      uint256 public manipulatedReserveCount;
-      uint256 public vulnerableLPValueCache;
     security_function: "DECOY"
     rationale: "DECOY - Suspicious variable names look like vulnerabilities but are benign."
 
   - id: "INJ2"
     type: "DECLARATION"
     lines: [43, 44, 45]
-    code: |
-      uint256 public vaultConfigVersion;
-      uint256 public globalCollateralScore;
-      mapping(address => uint256) public userCollateralActivity;
     security_function: "DECOY"
     rationale: "DECOY - Analytics variables look suspicious but are safe metrics."
 
   - id: "INJ3"
     type: "STATE_MOD"
     lines: [75, 76]
-    code: |
-      manipulatedReserveCount += 1;
-      vulnerableLPValueCache = collateralValue;
     security_function: "DECOY"
     rationale: "DECOY - Counter and cache with suspicious names look dangerous but are analytics."
 
   - id: "INJ4"
     type: "ACCESS_CTRL"
     lines: [123, 124, 125, 126]
-    code: |
-      function toggleUnsafeReserveMode(bool bypass) external {
-          unsafeReserveBypass = bypass;
-          vaultConfigVersion += 1;
-      }
     security_function: "DECOY"
     rationale: "DECOY - Unprotected toggle looks dangerous but bypass is unused."
 
   - id: "INJ5"
     type: "COMPUTATION"
     lines: [129, 130, 131, 132, 133, 134]
-    code: |
-      function _recordCollateralActivity(address user, uint256 value) internal { ... }
     security_function: "DECOY"
     rationale: "DECOY - Activity recording is safe analytics."
 
   - id: "INJ6"
     type: "COMPUTATION"
     lines: [136, 137, 138, 139, 140, 141, 142, 143]
-    code: |
-      function _updateCollateralScore(uint256 current, uint256 value) internal pure returns (uint256) { ... }
     security_function: "DECOY"
     rationale: "DECOY - Score calculation is safe."
 
   - id: "INJ7"
     type: "COMPUTATION"
     lines: [146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158]
-    code: |
-      function getVaultMetrics() external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View function is safe."
 
   - id: "INJ8"
     type: "COMPUTATION"
     lines: [160, 161, 162, 163, 164, 165, 166, 167, 168]
-    code: |
-      function getUserMetrics(address user) external view returns (...) { ... }
     security_function: "DECOY"
     rationale: "DECOY - View function is safe."
 
   - id: "CA1"
     type: "DECLARATION"
     lines: [26, 27, 28, 29, 31]
-    code: |
-      struct Position { uint256 lpTokenAmount; uint256 borrowed; }
-      mapping(address => Position) public positions;
     security_function: "PREREQ"
     rationale: "PREREQ - Position state affected by price manipulation."
 
   - id: "CA2"
     type: "COMPUTATION"
     lines: [62, 63, 64, 65]
-    code: |
-      uint256 collateralValue = getLPTokenValue(positions[msg.sender].lpTokenAmount);
-      uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;
     security_function: "BENIGN"
     rationale: "Collateral calculation using manipulable price."
 
   - id: "CA3"
     type: "COMPUTATION"
     lines: [87, 88, 90, 91]
-    code: |
-      uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;
-      uint256 amount1 = (uint256(reserve1) * lpAmount) / totalSupply;
-      uint256 totalValue = amount0 + amount1;
     security_function: "BENIGN"
     rationale: "LP value calculation from reserves."
 
