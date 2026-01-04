@@ -19,8 +19,8 @@ code_acts:
       uint256 public baseAmount;
       uint256 public tokenAmount;
       uint256 public totalUnits;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Pool state variables used in LP calculation. Used in ratio computations."
+    security_function: "BENIGN"
+    rationale: "Pool state declarations. Correctly defined - the bug is in how they're used in CA5."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -45,8 +45,8 @@ code_acts:
     code: |
       uint256 baseRatio = (inputBase * totalUnits) / baseAmount;
       uint256 tokenRatio = (inputToken * totalUnits) / tokenAmount;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Calculates ratio of each input relative to pool. These ratios should be equal for proportional deposits."
+    security_function: "BENIGN"
+    rationale: "Ratio calculations. These are inputs to CA5 and are correctly computed."
 
   - id: "CA5"
     type: "COMPUTATION"
@@ -90,8 +90,8 @@ code_acts:
     code: |
       uint256 outputBase = (liquidityUnits * baseAmount) / totalUnits;
       uint256 outputToken = (liquidityUnits * tokenAmount) / totalUnits;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Proportional withdrawal calculation. Attacker's inflated units get proportional share of pool."
+    security_function: "BENIGN"
+    rationale: "Proportional withdrawal calculation. Correctly implemented - this is where inflated units are realized."
 
   - id: "CA10"
     type: "STATE_MOD"
@@ -154,8 +154,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA5
-    PREREQ: 3          # CA1, CA4, CA9
-    BENIGN: 8          # CA2, CA3, CA6, CA7, CA8, CA10, CA11, CA12
+    PREREQ: 0
+    BENIGN: 11         # CA1-CA4, CA6-CA12
     UNRELATED: 4       # batched
 
   root_causes:
@@ -164,13 +164,7 @@ summary:
       type: "COMPUTATION"
       description: "Uses average instead of minimum for LP calculation"
 
-  prerequisites:
-    - id: "CA1"
-      description: "Pool state variables"
-    - id: "CA4"
-      description: "Ratio calculations"
-    - id: "CA9"
-      description: "Proportional withdrawal"
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -223,15 +217,15 @@ line_to_code_act:
   # Line 48: empty
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
-  CA4: "PREREQ"
+  CA4: "BENIGN"
   CA5: "ROOT_CAUSE"
   CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
-  CA9: "PREREQ"
+  CA9: "BENIGN"
   CA10: "BENIGN"
   CA11: "BENIGN"
   CA12: "BENIGN"

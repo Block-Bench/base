@@ -18,8 +18,8 @@ code_acts:
     code: |
       uint256 total0 = token0.balanceOf(address(this));
       uint256 total1 = token1.balanceOf(address(this));
-    security_function: "PREREQ"
-    rationale: "PREREQ - Reads spot balances used in vulnerable share calculation. These values can be manipulated before deposit."
+    security_function: "BENIGN"
+    rationale: "Spot balance reads. These feed into CA1 - the vulnerability is using these for pricing (CA1), not the reads themselves."
 
   - id: "CA3"
     type: "EXT_CALL"
@@ -73,8 +73,8 @@ code_acts:
     code: |
       amount0 = (shares * total0) / totalSupply;
       amount1 = (shares * total1) / totalSupply;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Withdrawal calculation also uses spot balances, allowing attacker to withdraw at corrected price with inflated shares."
+    security_function: "BENIGN"
+    rationale: "Withdrawal calculation. Downstream value realization using inflated shares."
 
   - id: "CA10"
     type: "STATE_MOD"
@@ -98,8 +98,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [118, 123, 124, 125, 126]
     code: "Rebalance operations"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Rebalancing can be triggered during price manipulation to lock in bad state."
+    security_function: "BENIGN"
+    rationale: "Rebalance function. Amplifier that isn't required for exploitation."
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -125,8 +125,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1
-    PREREQ: 3
-    BENIGN: 8
+    PREREQ: 0
+    BENIGN: 11
     UNRELATED: 3
 
   root_causes:
@@ -275,17 +275,17 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "PREREQ"
+  CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
-  CA9: "PREREQ"
+  CA9: "BENIGN"
   CA10: "BENIGN"
   CA11: "BENIGN"
-  CA12: "PREREQ"
+  CA12: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

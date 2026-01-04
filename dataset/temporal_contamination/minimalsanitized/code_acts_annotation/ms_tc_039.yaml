@@ -23,15 +23,15 @@ code_acts:
     code: |
       WETH.withdraw(amountToPay);
       payable(recipient).transfer(amountToPay);
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Withdraws WETH and sends ETH to attacker-controlled recipient address from callback data. Direct call allows theft."
+    security_function: "BENIGN"
+    rationale: "WETH withdrawal and ETH transfer. Impact sink that realizes the exploit - vulnerability is the missing caller validation (CA1)."
 
   - id: "CA3"
     type: "EXT_CALL"
     lines: [67]
     code: "IERC20(tokenIn).transfer(recipient, amountToPay);"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Transfers tokens to attacker-controlled recipient. Same vulnerability as CA2 for non-WETH tokens."
+    security_function: "BENIGN"
+    rationale: "Token transfer. Impact sink that realizes the exploit - vulnerability is the missing caller validation (CA1)."
 
   - id: "CA4"
     type: "COMPUTATION"
@@ -43,8 +43,8 @@ code_acts:
           address tokenIn,
           address recipient
       ) = abi.decode(data, (uint256, address, address, address));
-    security_function: "PREREQ"
-    rationale: "PREREQ - Decodes attacker-controlled callback data, trusting user-provided addresses."
+    security_function: "BENIGN"
+    rationale: "Calldata decoding. Only exploitable because CA1 allows unauthorized callers - the decode itself isn't the vulnerability."
 
   - id: "CA5"
     type: "CTRL_FLOW"
@@ -83,21 +83,15 @@ summary:
   total_lines_covered: 59
 
   by_security_function:
-    ROOT_CAUSE: 3
-    PREREQ: 1
-    BENIGN: 2
+    ROOT_CAUSE: 1
+    PREREQ: 0
+    BENIGN: 5
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
       lines: [35, 36, 37, 38, 39]
       description: "Callback function lacks msg.sender validation"
-    - id: "CA2"
-      lines: [64, 65]
-      description: "WETH withdrawal to attacker-controlled recipient"
-    - id: "CA3"
-      lines: [67]
-      description: "Token transfer to attacker-controlled recipient"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -185,9 +179,9 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "ROOT_CAUSE"
-  CA3: "ROOT_CAUSE"
-  CA4: "PREREQ"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"

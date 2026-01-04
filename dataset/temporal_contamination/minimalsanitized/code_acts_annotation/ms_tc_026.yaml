@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_026"
 vulnerability_type: "signature_verification"
-vulnerable_lines: [26, 30]
+vulnerable_lines: [26, 27]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -16,8 +16,8 @@ code_acts:
     type: "INPUT_VAL"
     lines: [24]
     code: "if (v != 0 || r != bytes32(0) || s != bytes32(0)) {"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Checks if signature parameters are non-zero. If all zeros, skips permit. But even when non-zero, permit failure is swallowed."
+    security_function: "BENIGN"
+    rationale: "Conditional check for non-zero signature params. This check itself is fine - the issue is CA2 swallowing permit failures."
 
   - id: "CA2"
     type: "EXT_CALL"
@@ -32,8 +32,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [30]
     code: "_anySwapOut(from, token, to, amount, toChainID);"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Calls _anySwapOut regardless of whether permit succeeded. Attacker can swap tokens from any address by providing invalid signature (caught and ignored)."
+    security_function: "BENIGN"
+    rationale: "Call to internal swap function. This is the downstream consequence of CA2's failure - the vulnerability is already triggered by the swallowed permit."
 
   - id: "CA4"
     type: "CTRL_FLOW"
@@ -78,24 +78,18 @@ summary:
   total_lines_covered: 26
 
   by_security_function:
-    ROOT_CAUSE: 2      # CA2, CA3
-    PREREQ: 1          # CA1
-    BENIGN: 1          # CA4
+    ROOT_CAUSE: 1      # CA2
+    PREREQ: 0
+    BENIGN: 3          # CA1, CA3, CA4
     UNRELATED: 4       # batched
 
   root_causes:
     - id: "CA2"
       lines: [26, 27]
       type: "EXT_CALL"
-      description: "try-catch swallows permit failures"
-    - id: "CA3"
-      line: 30
-      type: "CTRL_FLOW"
-      description: "Proceeds with swap without verified authorization"
+      description: "try-catch swallows permit failures silently"
 
-  prerequisites:
-    - id: "CA1"
-      description: "Signature check before permit"
+  prerequisites: []
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -137,9 +131,9 @@ line_to_code_act:
   # Line 37: empty
 
 code_act_security_functions:
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "ROOT_CAUSE"
-  CA3: "ROOT_CAUSE"
+  CA3: "BENIGN"
   CA4: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"

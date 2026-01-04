@@ -71,8 +71,8 @@ code_acts:
       shareBurned =
           (_withdrawAmount * pool.totalDepositShares) /
           pool.pseudoTotalPool;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Additional withdrawal calculation using same vulnerable pattern."
+    security_function: "BENIGN"
+    rationale: "Third expression of rounding vulnerability. Downstream calculation that consumes already-corrupted share values."
 
   - id: "CA9"
     type: "INPUT_VAL"
@@ -126,8 +126,8 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 2
-    PREREQ: 1
-    BENIGN: 9
+    PREREQ: 0
+    BENIGN: 10
     UNRELATED: 3
 
   root_causes:
@@ -306,7 +306,7 @@ code_act_security_functions:
   CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"
-  CA8: "PREREQ"
+  CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
   CA11: "BENIGN"

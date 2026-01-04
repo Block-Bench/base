@@ -23,8 +23,8 @@ code_acts:
               datas[i],
               (address, bytes, uint256, uint256, uint256)
           );
-    security_function: "PREREQ"
-    rationale: "PREREQ - Condition check and decode that extracts user-controlled target and callData. No validation of decoded addresses or function selectors."
+    security_function: "BENIGN"
+    rationale: "Condition check and decode. The decode itself isn't the vulnerability - it's the lack of validation on decoded values before CA1's call."
 
   - id: "CA3"
     type: "INPUT_VAL"
@@ -68,19 +68,14 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1
-    PREREQ: 1
-    BENIGN: 2
+    PREREQ: 0
+    BENIGN: 3
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
       lines: [45, 46]
       description: "Arbitrary external call to user-controlled target with user-controlled callData"
-
-  prerequisites:
-    - id: "CA2"
-      lines: [35, 37, 38, 39, 40]
-      description: "Decoding user-controlled target and callData without validation"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -139,7 +134,7 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "PREREQ"
+  CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"

@@ -39,8 +39,8 @@ code_acts:
     code: |
       uint256 borrowValue = (borrowAmount * borrowPrice) / 1e18;
       uint256 maxBorrowValue = (totalCollateralValue * COLLATERAL_FACTOR) / BASIS_POINTS;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Borrow calculations using manipulated prices."
+    security_function: "BENIGN"
+    rationale: "Borrow calculations. Correct arithmetic that applies manipulated price - vulnerability is in the oracle, not these computations."
 
   - id: "CA6"
     type: "INPUT_VAL"
@@ -83,8 +83,8 @@ code_acts:
     type: "STATE_MOD"
     lines: [119]
     code: "prices[token] = price;"
-    security_function: "PREREQ"
-    rationale: "PREREQ - Price setter in test oracle (simplified version of manipulable oracle)."
+    security_function: "UNRELATED"
+    rationale: "Price setter in test oracle. Test scaffolding that simulates price updates, not part of vulnerability pattern."
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -110,9 +110,9 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 2
-    PREREQ: 2
-    BENIGN: 7
-    UNRELATED: 3
+    PREREQ: 0
+    BENIGN: 8
+    UNRELATED: 4
 
   root_causes:
     - id: "CA1"
@@ -251,13 +251,13 @@ code_act_security_functions:
   CA2: "ROOT_CAUSE"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "PREREQ"
+  CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
-  CA11: "PREREQ"
+  CA11: "UNRELATED"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"
