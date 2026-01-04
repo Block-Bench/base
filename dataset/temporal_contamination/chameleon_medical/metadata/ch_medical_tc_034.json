@@ -7,6 +7,7 @@
   "vulnerability_type": "price_oracle_manipulation",
   "sub_category": "curve_pool_manipulation",
   "severity": "critical",
+  "is_vulnerable": true,
   "tags": [
     "aave_fork",
     "oracle_manipulation",

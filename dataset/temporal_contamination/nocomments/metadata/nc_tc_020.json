@@ -50,5 +50,6 @@
     "created_date": "2025-12-31T20:00:38.851575"
   },
   "vulnerable_function": "_borrow",
-  "sanitized_from": "ms_tc_020"
+  "sanitized_from": "ms_tc_020",
+  "is_vulnerable": true
 }

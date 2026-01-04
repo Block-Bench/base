@@ -4,7 +4,7 @@ This directory contains temporal contamination contracts transformed with **L3 S
 
 ## Contents
 
-- `contracts/` - 50 Solidity contracts (ss_tc_001.sol - ss_tc_050.sol)
+- `contracts/` - 46 Solidity contracts (ss_tc_001.sol - ss_tc_046.sol)
 - `metadata/` - Corresponding JSON metadata files
 - `index.json` - Dataset index with transformation details
 
@@ -75,7 +75,7 @@ The following are NOT obfuscated:
 
 ## Statistics
 
-- **Total Samples**: 50
+- **Total Samples**: 46
 - **Average Identifiers Renamed**: 24.7 per contract
 - **Obfuscation Intensity**: Medium
 
@@ -95,7 +95,7 @@ Each metadata file includes:
 - `variant_parent_id`: Reference to nocomments (e.g., "nc_tc_001")
 - `transformation`: Full details including rename_map
 - `vulnerable_function`: Updated to reflect renamed function name
-- `vulnerable_lines`: Empty (line numbers invalid after transformation)
+- `vulnerable_lines`: Line numbers of vulnerable code
 
 ## Transformation Chain
 

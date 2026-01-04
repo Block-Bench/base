@@ -55,7 +55,7 @@
 /*LN-55*/     ) internal pure returns (bytes32) {
 /*LN-56*/ 
 /*LN-57*/ 
-/*LN-58*/         if (_message.duration > 32 && uint256(bytes32(_message)) == 0) {
+/*LN-58*/         if (_message.length > 32 && uint256(bytes32(_message)) == 0) {
 /*LN-59*/             return bytes32(0);
 /*LN-60*/         }
 /*LN-61*/ 

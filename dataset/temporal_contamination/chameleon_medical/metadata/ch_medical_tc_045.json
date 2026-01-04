@@ -7,6 +7,7 @@
   "vulnerability_type": "oracle_manipulation",
   "sub_category": "malicious_market",
   "severity": "critical",
+  "is_vulnerable": true,
   "tags": [
     "oracle",
     "debt_previewer",

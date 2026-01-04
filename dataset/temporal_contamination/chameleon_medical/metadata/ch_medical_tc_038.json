@@ -7,6 +7,7 @@
   "vulnerability_type": "access_control",
   "sub_category": "missing_access_control",
   "severity": "critical",
+  "is_vulnerable": true,
   "tags": [
     "access_control",
     "mint_vulnerability",

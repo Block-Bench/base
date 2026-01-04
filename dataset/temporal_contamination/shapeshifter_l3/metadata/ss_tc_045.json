@@ -131,5 +131,6 @@
   },
   "vulnerable_contract": "DebtPreviewer",
   "vulnerable_function": "_0xd80623",
-  "sanitized_from": "ms_tc_045"
+  "sanitized_from": "ms_tc_045",
+  "is_vulnerable": true
 }

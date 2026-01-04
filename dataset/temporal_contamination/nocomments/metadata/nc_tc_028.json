@@ -78,5 +78,6 @@
   },
   "vulnerable_contract": "CrossBridge",
   "vulnerable_function": "withdraw",
-  "sanitized_from": "ms_tc_028"
+  "sanitized_from": "ms_tc_028",
+  "is_vulnerable": true
 }

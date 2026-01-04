@@ -134,5 +134,6 @@
   },
   "vulnerable_contract": "StakingVault",
   "vulnerable_function": "_0xac561e",
-  "sanitized_from": "ms_tc_037"
+  "sanitized_from": "ms_tc_037",
+  "is_vulnerable": true
 }

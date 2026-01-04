@@ -139,5 +139,6 @@
   },
   "vulnerable_contract": "MigrateTroveZap",
   "vulnerable_function": "_0x390062",
-  "sanitized_from": "ms_tc_033"
+  "sanitized_from": "ms_tc_033",
+  "is_vulnerable": true
 }

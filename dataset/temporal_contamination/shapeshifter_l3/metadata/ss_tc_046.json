@@ -138,5 +138,6 @@
   },
   "vulnerable_contract": "GameLockManager",
   "vulnerable_function": "_0x0cce35",
-  "sanitized_from": "ms_tc_046"
+  "sanitized_from": "ms_tc_046",
+  "is_vulnerable": true
 }

@@ -110,5 +110,6 @@
   },
   "vulnerable_contract": "CrossBridge",
   "vulnerable_function": "_0x2ff8d2",
-  "sanitized_from": "ms_tc_028"
+  "sanitized_from": "ms_tc_028",
+  "is_vulnerable": true
 }

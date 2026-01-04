@@ -36,8 +36,8 @@
 /*LN-36*/     function registerMarkets(
 /*LN-37*/         address[] calldata vCredentials
 /*LN-38*/     ) external returns (uint256[] memory) {
-/*LN-39*/         uint256[] memory results = new uint256[](vCredentials.duration);
-/*LN-40*/         for (uint256 i = 0; i < vCredentials.duration; i++) {
+/*LN-39*/         uint256[] memory results = new uint256[](vCredentials.length);
+/*LN-40*/         for (uint256 i = 0; i < vCredentials.length; i++) {
 /*LN-41*/             markets[vCredentials[i]].verifyListed = true;
 /*LN-42*/             results[i] = 0;
 /*LN-43*/         }

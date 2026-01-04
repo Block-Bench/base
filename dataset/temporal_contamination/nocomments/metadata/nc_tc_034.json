@@ -91,5 +91,6 @@
   },
   "vulnerable_contract": "LendingPool",
   "vulnerable_function": "deposit",
-  "sanitized_from": "ms_tc_034"
+  "sanitized_from": "ms_tc_034",
+  "is_vulnerable": true
 }

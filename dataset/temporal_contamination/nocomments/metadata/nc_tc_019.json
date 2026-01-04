@@ -50,5 +50,6 @@
     "created_date": "2025-12-31T20:00:38.851001"
   },
   "vulnerable_function": "swap",
-  "sanitized_from": "ms_tc_019"
+  "sanitized_from": "ms_tc_019",
+  "is_vulnerable": true
 }

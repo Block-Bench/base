@@ -88,5 +88,6 @@
   },
   "vulnerable_contract": "BatchSolver",
   "vulnerable_function": "uniswapV3SwapCallback",
-  "sanitized_from": "ms_tc_036"
+  "sanitized_from": "ms_tc_036",
+  "is_vulnerable": true
 }

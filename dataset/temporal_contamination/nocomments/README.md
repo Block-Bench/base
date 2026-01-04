@@ -4,7 +4,7 @@ This directory contains temporal contamination contracts with **all comments rem
 
 ## Contents
 
-- `contracts/` - 50 Solidity contracts (nc_tc_001.sol - nc_tc_050.sol)
+- `contracts/` - 46 Solidity contracts (nc_tc_001.sol - nc_tc_046.sol)
 - `metadata/` - Corresponding JSON metadata files
 - `index.json` - Dataset index with transformation details
 
@@ -60,7 +60,7 @@ Each metadata file includes:
 - `variant_type`: "nocomments"
 - `variant_parent_id`: Reference to sanitized (e.g., "sn_tc_001")
 - `transformation`: Details including comments_removed count
-- `vulnerable_lines`: Empty (requires manual annotation)
+- `vulnerable_lines`: Line numbers of vulnerable code
 
 ## Transformation Chain
 

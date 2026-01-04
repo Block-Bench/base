@@ -137,5 +137,6 @@
   },
   "vulnerable_contract": "LiquidityHypervisor",
   "vulnerable_function": "_0x8e4527",
-  "sanitized_from": "ms_tc_031"
+  "sanitized_from": "ms_tc_031",
+  "is_vulnerable": true
 }

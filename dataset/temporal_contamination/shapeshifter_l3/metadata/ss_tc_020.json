@@ -93,5 +93,6 @@
     "created_date": "2025-12-31T19:59:41.190961"
   },
   "vulnerable_function": "_0xe5feba",
-  "sanitized_from": "ms_tc_020"
+  "sanitized_from": "ms_tc_020",
+  "is_vulnerable": true
 }

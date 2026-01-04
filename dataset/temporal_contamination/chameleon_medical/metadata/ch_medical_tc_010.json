@@ -9,6 +9,7 @@
   "attack_type": "cross_function_reentrancy",
   "difficulty": 4,
   "impact": "critical",
+  "is_vulnerable": true,
   "description": "Cross-function reentrancy attack. The borrow function sent ETH before final health check, allowing attacker to call exitMarket during callback and bypass collateral requirements.",
   "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
   "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",

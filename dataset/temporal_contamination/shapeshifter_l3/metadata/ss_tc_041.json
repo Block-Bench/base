@@ -128,5 +128,6 @@
   },
   "vulnerable_contract": "SmartLoansFactory",
   "vulnerable_function": "_0x2c833f",
-  "sanitized_from": "ms_tc_041"
+  "sanitized_from": "ms_tc_041",
+  "is_vulnerable": true
 }

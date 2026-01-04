@@ -7,6 +7,7 @@
   "vulnerability_type": "arithmetic_error",
   "sub_category": "rounding_manipulation",
   "severity": "high",
+  "is_vulnerable": true,
   "tags": [
     "rounding_error",
     "share_manipulation",

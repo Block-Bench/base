@@ -7,6 +7,7 @@
   "vulnerability_type": "oracle_manipulation",
   "sub_category": "donation_attack",
   "severity": "critical",
+  "is_vulnerable": true,
   "tags": [
     "lending_fork",
     "oracle_manipulation",

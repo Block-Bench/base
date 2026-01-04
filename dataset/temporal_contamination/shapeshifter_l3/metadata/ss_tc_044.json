@@ -125,5 +125,6 @@
   },
   "vulnerable_contract": "CompMarket",
   "vulnerable_function": "_0x477183",
-  "sanitized_from": "ms_tc_044"
+  "sanitized_from": "ms_tc_044",
+  "is_vulnerable": true
 }
