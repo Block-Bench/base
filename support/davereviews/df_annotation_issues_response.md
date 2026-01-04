@@ -1,6 +1,6 @@
 # Response to Dave's DF Annotation Issues
 
-**Date:** 2025-01-04
+**Date:** 2025-01-04 (Updated)
 **Reviewer:** Dave
 **Responder:** Automated Review
 
@@ -76,9 +76,76 @@ by_security_function_fixed:
 
 ---
 
+### 4. df_tc_001.yaml: SECONDARY_VULN in fixed version
+
+**Status:** FIXED
+
+**Observation:** CA13 (`setAcceptedRoot` function) had `security_function: "SECONDARY_VULN"` in the fixed version due to missing access control.
+
+**Action:**
+1. Updated `df_tc_001.sol` to add access control:
+   - Added `address public owner` state variable
+   - Added `onlyOwner` modifier
+   - Set `owner = msg.sender` in constructor
+   - Applied `onlyOwner` to `setAcceptedRoot` function
+
+2. Updated `df_tc_001.yaml` annotation:
+   - Changed CA13 fixed security_function from `SECONDARY_VULN` to `BENIGN`
+   - Updated transition from `SECONDARY_VULN -> SECONDARY_VULN` to `SECONDARY_VULN -> BENIGN`
+   - Updated summary to show `secondary_vuln_fixed: true`
+
+**Before (contract):**
+```solidity
+function setAcceptedRoot(bytes32 _newRoot) external {
+    require(_newRoot != bytes32(0), "Root cannot be zero");
+    acceptedRoot = _newRoot;
+}
+```
+
+**After (contract):**
+```solidity
+function setAcceptedRoot(bytes32 _newRoot) external onlyOwner {
+    require(_newRoot != bytes32(0), "Root cannot be zero");
+    acceptedRoot = _newRoot;
+}
+```
+
+---
+
+### 5. DF metadata `transformation.source_*` pointers are renumbering-inconsistent (43/46)
+
+**Status:** FIXED
+
+**Observation:** After renumbering, the `transformation.source_contract` and `transformation.source_metadata` fields still pointed to OLD file numbers.
+
+**Example (before fix):**
+```json
+// df_tc_004.json
+"variant_parent_id": "tc_004",
+"source_contract": ".../tc_005.sol",  // WRONG
+"source_metadata": ".../tc_005.json"  // WRONG
+
+// df_tc_046.json
+"variant_parent_id": "tc_046",
+"source_contract": ".../tc_050.sol",  // WRONG
+"source_metadata": ".../tc_050.json"  // WRONG
+```
+
+**Action:** Updated all 43 affected metadata files to have consistent pointers matching the sample number.
+
+**Example (after fix):**
+```json
+// df_tc_004.json
+"variant_parent_id": "tc_004",
+"source_contract": ".../tc_004.sol",  // CORRECT
+"source_metadata": ".../tc_004.json"  // CORRECT
+```
+
+---
+
 ## Issues Acknowledged (By Design)
 
-### 4. Schema inconsistency: Two annotation styles exist
+### 6. Schema inconsistency: Two annotation styles exist
 
 **Status:** DOCUMENTED (By Design)
 
@@ -95,21 +162,6 @@ Future annotations should prefer Style 1 for better differential analysis suppor
 
 ---
 
-### 5. df_tc_001.yaml: SECONDARY_VULN in fixed version
-
-**Status:** INTENTIONAL (No Change)
-
-**Observation:** CA13 has `security_function: "SECONDARY_VULN"` in the fixed version.
-
-**Response:** This is intentional documentation of a **partial fix**:
-- The main vulnerability (uninitialized root) was FIXED
-- A secondary issue (missing access control on `setConfirmAt`) was NOT fixed
-- The annotation correctly shows: `transition: "SECONDARY_VULN -> SECONDARY_VULN"`
-
-This is valuable information - it documents that while the primary exploit was patched, a residual weakness remains.
-
----
-
 ## Changes Summary
 
 | Issue | Action | Files Affected |
@@ -117,12 +169,16 @@ This is valuable information - it documents that while the primary exploit was p
 | README old references | Fixed | 1 (README.md) |
 | sample_id mismatch | Fixed | 39 YAML files |
 | FIX → BENIGN | Fixed | 38 YAML files |
+| SECONDARY_VULN in df_tc_001 | Fixed | 1 contract + 1 YAML |
+| Metadata source pointers | Fixed | 43 JSON files |
 | Schema inconsistency | Documented | README.md updated |
-| SECONDARY_VULN in fixed | No change | Intentional |
 
 ---
 
 ## Updated Files
 
 1. `dataset/temporal_contamination/differential/README.md` - Updated sample references and added Code Acts Annotation section
-2. `dataset/temporal_contamination/differential/code_acts_annotation/df_tc_*.yaml` - Fixed sample_id (39 files) and FIX→BENIGN (38 files)
+2. `dataset/temporal_contamination/differential/code_acts_annotation/df_tc_*.yaml` - Fixed sample_id (39 files), FIX→BENIGN (38 files), summary sections (38 files)
+3. `dataset/temporal_contamination/differential/contracts/df_tc_001.sol` - Added onlyOwner access control
+4. `dataset/temporal_contamination/differential/code_acts_annotation/df_tc_001.yaml` - Updated CA13 to BENIGN
+5. `dataset/temporal_contamination/differential/metadata/df_tc_*.json` - Fixed source pointers (43 files)

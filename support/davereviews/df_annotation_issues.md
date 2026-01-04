@@ -1,65 +1,38 @@
 ## DF code-act annotation issues (temporal_contamination/differential)
 
+### Meta-audit note (how to resolve disagreements)
+
+When metadata, annotations, and code disagree:
+- **Contract code (`contracts/df_tc_XXX.sol`)** is treated as the source of truth for *line bounds* and *verbatim code snippets*.
+- **Dataset intent** for DF is that `df_tc_XXX` is a *fixed* version (`is_vulnerable: false`). If an annotation still flags a vulnerability in fixed, either the contract must be fixed further or the dataset definition/metadata must change (partial-fix samples).
+
 ### Dataset-level
 
-- **README references non-existent samples**:
-  - `dataset/temporal_contamination/differential/README.md` mentions `df_tc_048` and `df_tc_050` under “Key Fixes Applied”, but the dataset only contains `df_tc_001`–`df_tc_046` (46 triplets across `contracts/`, `metadata/`, and `code_acts_annotation/`).
+- **DF metadata `transformation.source_*` pointers are renumbering-inconsistent (43/46)**:
+  - **Observed**: for `df_tc_004`–`df_tc_046`, the metadata fields:
+    - `transformation.source_contract` points to `.../tc_YYY.sol` where **YYY ≠ XXX**
+    - `transformation.source_metadata` points to `.../tc_YYY.json` where **YYY ≠ XXX**
+  - **Examples**:
+    - `df_tc_004` has `variant_parent_id: tc_004`, but `source_contract: .../tc_005.sol` and `source_metadata: .../tc_005.json`
+    - `df_tc_046` has `variant_parent_id: tc_046`, but `source_contract: .../tc_050.sol` and `source_metadata: .../tc_050.json`
+  - **Impact**: breaks traceability and any tooling that relies on these pointers to load the paired original; it also makes it ambiguous whether `variant_parent_id` or `source_*` is authoritative.
+  - **Correctness call**:
+    - If DF numbering is authoritative (i.e., `variant_parent_id: tc_XXX` is correct), then **metadata pointers are wrong** and must be renumbered.
+    - If `source_*` pointers are authoritative, then **`variant_parent_id` (and likely DF numbering) is wrong** (larger dataset integrity issue).
 
 ---
 
 ### Systematic issues (critical)
 
-- **Annotation YAML internal `sample_id` mismatches filename (39/46)**:
-  - **Impact**: any join/validation/scoring logic that trusts `sample_id` (instead of filename) will associate annotations to the wrong contract/metadata.
-  - **Mismatches (filename → YAML `sample_id`)**:
-    - `df_tc_005` → `df_tc_004`
-    - `df_tc_007` → `df_tc_005`
-    - `df_tc_008` → `df_tc_006`
-    - `df_tc_009` → `df_tc_007`
-    - `df_tc_010` → `df_tc_008`
-    - `df_tc_011` → `df_tc_009`
-    - `df_tc_012` → `df_tc_010`
-    - `df_tc_013` → `df_tc_011`
-    - `df_tc_015` → `df_tc_012`
-    - `df_tc_016` → `df_tc_013`
-    - `df_tc_017` → `df_tc_014`
-    - `df_tc_018` → `df_tc_015`
-    - `df_tc_019` → `df_tc_016`
-    - `df_tc_020` → `df_tc_017`
-    - `df_tc_021` → `df_tc_018`
-    - `df_tc_022` → `df_tc_019`
-    - `df_tc_023` → `df_tc_020`
-    - `df_tc_024` → `df_tc_021`
-    - `df_tc_025` → `df_tc_022`
-    - `df_tc_026` → `df_tc_023`
-    - `df_tc_027` → `df_tc_024`
-    - `df_tc_028` → `df_tc_025`
-    - `df_tc_029` → `df_tc_026`
-    - `df_tc_030` → `df_tc_027`
-    - `df_tc_031` → `df_tc_028`
-    - `df_tc_032` → `df_tc_029`
-    - `df_tc_033` → `df_tc_030`
-    - `df_tc_034` → `df_tc_031`
-    - `df_tc_035` → `df_tc_032`
-    - `df_tc_036` → `df_tc_033`
-    - `df_tc_037` → `df_tc_034`
-    - `df_tc_038` → `df_tc_035`
-    - `df_tc_039` → `df_tc_036`
-    - `df_tc_040` → `df_tc_037`
-    - `df_tc_041` → `df_tc_038`
-    - `df_tc_042` → `df_tc_039`
-    - `df_tc_043` → `df_tc_040`
-    - `df_tc_044` → `df_tc_041`
-    - `df_tc_045` → `df_tc_042`
-
-- **DF annotation schema is inconsistent with the “transition” format (44/46)**:
-  - **Expected** (as used in `df_tc_001.yaml`): each `code_acts[]` entry contains both `vulnerable:{...}` and `fixed:{...}` sections, supporting explicit security-function transitions.
-  - **Observed**: 44 files include one-version “fixed-only” code acts (e.g., `CA_FIX*`) that do not have `vulnerable:` sections, so transitions cannot be validated/scored consistently.
-  - **Also observed**: 38 files use top-level `is_fixed` instead of `is_vulnerable`, despite `schema_version: "1.0"`.
-
-- **Non-taxonomy Security Function value `FIX` used (38/46)**:
-  - **Impact**: breaks any scorer/validator expecting taxonomy Security Functions only (`ROOT_CAUSE`, `PREREQ`, `INSUFF_GUARD`, `DECOY`, `BENIGN`, `SECONDARY_VULN`, `UNRELATED`).
-  - **Where**: `df_tc_009.yaml`–`df_tc_046.yaml` (121 occurrences).
+- **DF annotation schema is inconsistent with the differential spec in `support/codeact.md`**:
+  - The annotation guide’s differential format is a paired vulnerable/fixed schema with explicit transitions.
+  - The dataset currently contains two incompatible schemas:
+    - `df_tc_001`–`df_tc_008`: paired `vulnerable:`/`fixed:` sections
+    - `df_tc_009`–`df_tc_046`: “fixed-only” schema with top-level `is_fixed` and `CA_FIX*` entries lacking `vulnerable:` sections
+  - **Impact**: any validator/scorer built from the guide’s “differential” schema cannot uniformly parse/score the dataset, and transition-based metrics are not computable for 38 samples.
+  - **Correctness call**:
+    - If the evaluator expects paired transitions, then **fixed-only annotations are wrong/incompatible** as a dataset format.
+    - If fixed-only is intended, the schema should be formally versioned/declared and the evaluator updated accordingly (to avoid silent scoring failures).
 
 ---
 
@@ -68,7 +41,13 @@
 ### df_tc_001.yaml
 
 - **Fixed-version annotations still mark a real vulnerability**:
-  - `code_act_security_functions_fixed` includes `SECONDARY_VULN` (`CA13`).
-  - This makes the “fixed” sample still vulnerable per the annotation, contradicting `is_vulnerable: false` and the differential-variant expectation that `df_tc_XXX` is non-vulnerable.
+  - The fixed-side security function for `CA13` remains `SECONDARY_VULN`.
+  - This makes the “fixed” sample still vulnerable per the annotation, contradicting `is_vulnerable: false` and the differential-variant expectation that `df_tc_XXX` should be non-vulnerable.
+
+---
+
+### Audit artifacts (for reproduction)
+
+- Raw machine output: `support/davereviews/_tmp_df_meta_ann_consistency.json`
 
 

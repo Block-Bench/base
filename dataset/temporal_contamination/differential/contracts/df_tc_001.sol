@@ -19,13 +19,20 @@
 /*LN-19*/ 
 /*LN-20*/     address public bridgeRouter;
 /*LN-21*/     mapping(uint32 => uint32) public nonces;
-/*LN-22*/ 
-/*LN-23*/     event MessageProcessed(bytes32 indexed messageHash, bool success);
-/*LN-24*/ 
-/*LN-25*/     constructor(address _bridgeRouter) {
-/*LN-26*/         bridgeRouter = _bridgeRouter;
-/*LN-27*/         acceptedRoot = keccak256("initial_root");
-/*LN-28*/     }
+/*LN-22*/     address public owner;
+/*LN-23*/
+/*LN-24*/     event MessageProcessed(bytes32 indexed messageHash, bool success);
+/*LN-25*/
+/*LN-26*/     modifier onlyOwner() {
+/*LN-27*/         require(msg.sender == owner, "Not owner");
+/*LN-28*/         _;
+/*LN-29*/     }
+/*LN-30*/
+/*LN-31*/     constructor(address _bridgeRouter) {
+/*LN-32*/         bridgeRouter = _bridgeRouter;
+/*LN-33*/         acceptedRoot = keccak256("initial_root");
+/*LN-34*/         owner = msg.sender;
+/*LN-35*/     }
 /*LN-29*/ 
 /*LN-30*/     /**
 /*LN-31*/      * @notice Process a cross-chain message
@@ -68,8 +75,8 @@
 /*LN-68*/     /**
 /*LN-69*/      * @notice Set the accepted root (admin function)
 /*LN-70*/      */
-/*LN-71*/     function setAcceptedRoot(bytes32 _newRoot) external {
-/*LN-72*/         require(_newRoot != bytes32(0), "Root cannot be zero");
-/*LN-73*/         acceptedRoot = _newRoot;
-/*LN-74*/     }
+/*LN-78*/     function setAcceptedRoot(bytes32 _newRoot) external onlyOwner {
+/*LN-79*/         require(_newRoot != bytes32(0), "Root cannot be zero");
+/*LN-80*/         acceptedRoot = _newRoot;
+/*LN-81*/     }
 /*LN-75*/ }

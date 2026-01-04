@@ -118,17 +118,17 @@ code_acts:
     fixed:
       file: "df_tc_001.sol"
       function: "setAcceptedRoot"
-      lines: [71, 72, 73, 74]
+      lines: [78, 79, 80, 81]
       code: |
-        function setAcceptedRoot(bytes32 _newRoot) external {
+        function setAcceptedRoot(bytes32 _newRoot) external onlyOwner {
             require(_newRoot != bytes32(0), "Root cannot be zero");
             acceptedRoot = _newRoot;
         }
-      security_function: "SECONDARY_VULN"
-      rationale: "Added zero check (line 72), but still missing access control (onlyOwner). Partial fix only."
+      security_function: "BENIGN"
+      rationale: "Added onlyOwner access control and zero check. Function is now fully protected."
 
-    transition: "SECONDARY_VULN -> SECONDARY_VULN"
-    transition_reason: "Zero check added, but missing access control remains a vulnerability"
+    transition: "SECONDARY_VULN -> BENIGN"
+    transition_reason: "Added onlyOwner modifier and zero check - secondary vulnerability fully fixed"
 
   # ============================================
   # UNCHANGED CODE ACTS (BENIGN -> BENIGN)
@@ -358,7 +358,7 @@ summary:
 
   transitions:
     ROOT_CAUSE_to_BENIGN: 3  # CA1, CA2, CA6
-    SECONDARY_VULN_to_SECONDARY_VULN: 1  # CA13 (partial fix)
+    SECONDARY_VULN_to_BENIGN: 1  # CA13 (fully fixed with onlyOwner)
     PREREQ_to_BENIGN: 3  # CA5, CA8, CA11
     BENIGN_to_BENIGN: 6  # CA3, CA4, CA7, CA9, CA10, CA12
 
@@ -369,13 +369,12 @@ summary:
     BENIGN: 6
 
   by_security_function_fixed:
-    SECONDARY_VULN: 1  # CA13 still vulnerable (missing access control)
-    BENIGN: 12  # CA1-CA12 all become BENIGN
+    BENIGN: 13  # All code acts are now BENIGN in fixed version
 
   fix_effectiveness:
     documented_vuln_fixed: true
-    secondary_vuln_fixed: false
-    notes: "Primary vulnerability (improper_initialization) is fixed. Secondary vulnerability (missing access control on setAcceptedRoot) remains partially unfixed."
+    secondary_vuln_fixed: true
+    notes: "Primary vulnerability (improper_initialization) is fixed. Secondary vulnerability (missing access control on setAcceptedRoot) is now also fixed with onlyOwner modifier."
 
   root_cause_fixes:
     - id: "CA1"
@@ -422,10 +421,10 @@ line_to_code_act_fixed:
   62: "CA11"
   63: "CA11"
   65: "CA12"     # default keccak return
-  71: "CA13"     # setAcceptedRoot
-  72: "CA13"
-  73: "CA13"
-  74: "CA13"
+  78: "CA13"     # setAcceptedRoot (with onlyOwner)
+  79: "CA13"
+  80: "CA13"
+  81: "CA13"
 
 code_act_security_functions_fixed:
   CA1: "BENIGN"
@@ -440,4 +439,4 @@ code_act_security_functions_fixed:
   CA10: "BENIGN"
   CA11: "BENIGN"
   CA12: "BENIGN"
-  CA13: "SECONDARY_VULN"  # still missing access control
+  CA13: "BENIGN"  # now has onlyOwner access control
