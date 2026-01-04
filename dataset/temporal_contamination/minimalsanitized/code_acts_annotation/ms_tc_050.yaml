@@ -30,8 +30,8 @@ code_acts:
           playerBalances[player] = 0;
           weth.transfer(recipient, amount);
       }
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - emergencyUnlock sends funds to lockRecipient. After setLockRecipient attack, this sends user funds to attacker."
+    security_function: "BENIGN"
+    rationale: "Impact execution path. Post-compromise function that transfers using already-manipulated recipient. Without CA1, this is benign."
 
   - id: "CA3"
     type: "STATE_MOD"
@@ -42,8 +42,8 @@ code_acts:
           configStorage = _configStorage;
           emit ConfigUpdated(oldConfig, _configStorage);
       }
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Admin can modify config storage without oversight."
+    security_function: "BENIGN"
+    rationale: "Config storage setter. Latent admin capability not exercised in the actual attack - attacker used setLockRecipient (CA1) directly."
 
   - id: "CA4"
     type: "STATE_MOD"
@@ -52,8 +52,8 @@ code_acts:
       function transferAdmin(address newAdmin) external onlyAdmin {
           admin = newAdmin;
       }
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Admin can transfer control to any address."
+    security_function: "BENIGN"
+    rationale: "Admin transfer function. Latent capability not required for exploitation - rogue developer already had admin access."
 
   - id: "CA5"
     type: "ACCESS_CTRL"
@@ -63,8 +63,8 @@ code_acts:
           require(msg.sender == admin, "Not admin");
           _;
       }
-    security_function: "PREREQ"
-    rationale: "PREREQ - Single admin check with no multi-sig or timelock."
+    security_function: "BENIGN"
+    rationale: "Correctly implemented modifier. The weakness is the governance design (single admin over user funds) captured in CA1, not the modifier itself."
 
   - id: "CA6"
     type: "STATE_MOD"
@@ -110,29 +110,15 @@ summary:
   total_lines_covered: 98
 
   by_security_function:
-    ROOT_CAUSE: 4
-    PREREQ: 1
-    BENIGN: 3
+    ROOT_CAUSE: 1
+    PREREQ: 0
+    BENIGN: 7
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
       lines: [77, 78, 79, 80, 82, 83]
-      description: "setLockRecipient allows admin to redirect user funds"
-    - id: "CA2"
-      lines: [109, 110, 111, 112, 114, 115, 118, 119]
-      description: "emergencyUnlock sends to manipulated recipient"
-    - id: "CA3"
-      lines: [70, 71, 72, 74, 75]
-      description: "setConfigStorage with single admin"
-    - id: "CA4"
-      lines: [123, 124, 125]
-      description: "transferAdmin with single admin"
-
-  prerequisites:
-    - id: "CA5"
-      lines: [44, 45, 46, 47]
-      description: "Single admin modifier - no multi-sig"
+      description: "setLockRecipient allows admin to redirect user funds without consent"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -265,10 +251,10 @@ line_to_code_act:
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "ROOT_CAUSE"
-  CA3: "ROOT_CAUSE"
-  CA4: "ROOT_CAUSE"
-  CA5: "PREREQ"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
+  CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"

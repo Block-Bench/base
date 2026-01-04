@@ -43,8 +43,6 @@ contract NBA {
         require(batchNumber == _batchNumber, "!batch");
         // address from = msg.sender;
         require(verify(info), "Unauthorised access secret"); // check whitelist
-
-        //_mintCards(number_of_items_requested, from);
     }
 
     function verify(vData memory info) public view returns (bool) {
@@ -58,11 +56,9 @@ contract NBA {
             info.max_mint,
             info.mint_free
         );
-        // console.log("data-->");
-        // console.logBytes(cat);
+
         bytes32 hash = keccak256(cat);
-        // console.log("hash ->");
-        //    console.logBytes32(hash);
+
         require(info.signature.length == 65, "Invalid signature length");
         bytes32 sigR;
         bytes32 sigS;

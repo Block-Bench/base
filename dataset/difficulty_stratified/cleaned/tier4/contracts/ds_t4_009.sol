@@ -31,11 +31,6 @@ contract SimpleBankAlt {
         address _initiator,
         bytes calldata data
     ) external {
-        /* Perform your desired logic here
-        Open opsition, close opsition, drain funds, etc.
-        _closetrade(...) or _opentrade(...)
-        */
-
         // transfer all borrowed assets back to the lending pool
         IERC20(USDa).safeTransfer(address(lendingPool), amounts);
     }

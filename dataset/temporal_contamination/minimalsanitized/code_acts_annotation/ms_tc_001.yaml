@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_001"
 vulnerability_type: "improper_initialization"
-vulnerable_lines: [18, 53]
+vulnerable_lines: [53]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -16,8 +16,8 @@ code_acts:
     type: "DECLARATION"
     lines: [18]
     code: "bytes32 public acceptedRoot;"
-    security_function: "ROOT_CAUSE"
-    rationale: "Critical state variable declared without initialization. In Solidity, bytes32 defaults to 0x00...00. This uninitialized state is the primary root cause of the Nomad Bridge vulnerability. Attackers could craft messages with zero roots that matched this default value, bypassing message validation entirely."
+    security_function: "BENIGN"
+    rationale: "State variable declaration. In Solidity, bytes32 defaults to 0x00...00. This is an enabling condition - the zero default value is harmless if proper validation rejects zero roots. The vulnerability is in the validation logic (CA6), not in Solidity's default initialization behavior."
 
   - id: "CA2"
     type: "INITIALIZATION"
@@ -26,8 +26,8 @@ code_acts:
       constructor(address _bridgeRouter) {
           bridgeRouter = _bridgeRouter;
       }
-    security_function: "ROOT_CAUSE"
-    rationale: "Constructor initializes bridgeRouter but critically omits initialization of acceptedRoot. This is where acceptedRoot should have been set to a valid non-zero merkle root. The absence of initialization directly enables the exploit."
+    security_function: "BENIGN"
+    rationale: "Constructor initializes bridgeRouter. While acceptedRoot could have been initialized here as a defensive measure, this is a missed mitigation opportunity, not the vulnerability itself. The root cause is the validation logic accepting zero roots (CA6)."
 
   - id: "CA3"
     type: "COMPUTATION"
@@ -51,8 +51,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [52]
     code: "bytes32 root = _messageRoot(_message);"
-    security_function: "PREREQ"
-    rationale: "Calls internal function to compute message root. Prerequisite because _messageRoot() can return bytes32(0) for crafted messages, which then matches uninitialized acceptedRoot."
+    security_function: "BENIGN"
+    rationale: "Calls internal function to compute message root. This is standard control flow - the vulnerability is not in calling this function but in the validation that accepts zero roots."
 
   - id: "CA6"
     type: "INPUT_VAL"
@@ -72,8 +72,8 @@ code_acts:
     type: "EXT_CALL"
     lines: [59]
     code: "(bool routerSuccess, ) = bridgeRouter.call(_message);"
-    security_function: "PREREQ"
-    rationale: "External call that forwards message to bridgeRouter for token transfer. This is where funds are stolen. PREREQ because the call itself is correct, but enables financial impact of the exploit."
+    security_function: "BENIGN"
+    rationale: "External call that forwards message to bridgeRouter. This is the impact execution path where funds are transferred, but the exploit has already succeeded at CA6. The call itself is correctly implemented."
 
   - id: "CA9"
     type: "EVENT_EMIT"
@@ -96,8 +96,8 @@ code_acts:
       if (_message.length > 32 && uint256(bytes32(_message)) == 0) {
           return bytes32(0);
       }
-    security_function: "PREREQ"
-    rationale: "Conditional in _messageRoot that returns bytes32(0) for messages starting with 32 zero bytes. PREREQ because this provides mechanism for attackers to craft messages with predictable zero roots."
+    security_function: "BENIGN"
+    rationale: "Conditional in _messageRoot that returns bytes32(0) for messages starting with 32 zero bytes. While this enables crafting messages with zero roots, the vulnerability is in the validation accepting zero - proper validation would reject zero roots regardless of how they were computed."
 
   - id: "CA12"
     type: "CTRL_FLOW"
@@ -155,10 +155,10 @@ summary:
   total_lines_covered: 63  # excludes 24 empty lines (3, 11, 13, 15, 16, 19, 22, 25, 27, 31, 39, 43, 49, 50, 51, 54, 57, 60, 64, 73, 74, 79, 82, 87)
 
   by_security_function:
-    ROOT_CAUSE: 3
+    ROOT_CAUSE: 1
     SECONDARY_VULN: 1
-    PREREQ: 3
-    BENIGN: 6
+    PREREQ: 0
+    BENIGN: 11
     UNRELATED: 5  # batched
 
   by_code_act_type:
@@ -177,18 +177,10 @@ summary:
     SYNTAX: 1
 
   root_causes:
-    - id: "CA1"
-      line: 18
-      type: "DECLARATION"
-      description: "Uninitialized acceptedRoot declaration"
-    - id: "CA2"
-      lines: [28, 29, 30]
-      type: "INITIALIZATION"
-      description: "Constructor missing acceptedRoot initialization"
     - id: "CA6"
       line: 53
       type: "INPUT_VAL"
-      description: "Validation check passes when both values are zero"
+      description: "Validation check accepts zero roots - passes when both root and acceptedRoot are zero"
 
   secondary_vulns:
     - id: "CA13"
@@ -197,23 +189,10 @@ summary:
       description: "Missing access control on setAcceptedRoot"
       vuln_type: "access_control"
 
-  prerequisites:
-    - id: "CA5"
-      line: 52
-      type: "CTRL_FLOW"
-      description: "Root computation call"
-    - id: "CA8"
-      line: 59
-      type: "EXT_CALL"
-      description: "External call to bridge router"
-    - id: "CA11"
-      lines: [76, 77, 78]
-      type: "CTRL_FLOW"
-      description: "Conditional enabling zero root creation"
+  prerequisites: []
 
   vulnerable_lines_mapping:
-    18: "CA1 - ROOT_CAUSE - acceptedRoot declaration without initialization"
-    53: "CA6 - ROOT_CAUSE - validation check that passes incorrectly"
+    53: "CA6 - ROOT_CAUSE - validation check accepts zero roots"
 
   # For scoring: lookup line → code_act → security_function
   # This avoids marking closing braces as ROOT_CAUSE; the code act is the meaningful unit.
@@ -268,9 +247,9 @@ line_to_code_act:
   81: "CA_SYNTAX"
   86: "CA_SYNTAX"
   # === SECURITY-RELEVANT CODE ACTS ===
-  # CA1: acceptedRoot declaration (ROOT_CAUSE)
+  # CA1: acceptedRoot declaration (BENIGN - enabling condition)
   18: "CA1"
-  # CA2: Constructor (ROOT_CAUSE) - all lines map to same code act
+  # CA2: Constructor (BENIGN - missed mitigation)
   28: "CA2"
   29: "CA2"
   30: "CA2"
@@ -281,19 +260,19 @@ line_to_code_act:
   46: "CA4"
   47: "CA4"
   48: "CA4"
-  # CA5: Root computation call (PREREQ)
+  # CA5: Root computation call (BENIGN)
   52: "CA5"
   # CA6: Root validation (ROOT_CAUSE)
   53: "CA6"
   # CA7: Mark processed (BENIGN)
   56: "CA7"
-  # CA8: External call (PREREQ)
+  # CA8: External call (BENIGN - impact path)
   59: "CA8"
   # CA9: Event emission (BENIGN)
   61: "CA9"
   # CA10: Return statement (BENIGN)
   62: "CA10"
-  # CA11: Zero root conditional (PREREQ)
+  # CA11: Zero root conditional (BENIGN)
   76: "CA11"
   77: "CA11"
   78: "CA11"
@@ -306,17 +285,17 @@ line_to_code_act:
 
 # Quick lookup: code_act_id → security_function
 code_act_security_functions:
-  CA1: "ROOT_CAUSE"
-  CA2: "ROOT_CAUSE"
+  CA1: "BENIGN"
+  CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "PREREQ"
+  CA5: "BENIGN"
   CA6: "ROOT_CAUSE"
   CA7: "BENIGN"
-  CA8: "PREREQ"
+  CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"
-  CA11: "PREREQ"
+  CA11: "BENIGN"
   CA12: "BENIGN"
   CA13: "SECONDARY_VULN"
   CA_DIRECTIVES: "UNRELATED"

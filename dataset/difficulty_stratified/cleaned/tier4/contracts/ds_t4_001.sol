@@ -7,6 +7,7 @@ contract MyERC777 is ERC777 {
     constructor(
         uint256 initialSupply
     ) ERC777("Gold", "GLD", new address[](0)) {}
+
     function mint(
         address account,
         uint256 amount,
@@ -40,7 +41,6 @@ contract SimpleBank {
     }
 
     function claim(address account, uint256 amount) public returns (bool) {
-        // Check if total claims for the address would exceed max mints per address.
         require(
             _mints[account] + amount <= maxMintsPerAddress,
             "Exceeds max mints per address"
@@ -60,5 +60,6 @@ contract SimpleBank {
         bytes calldata data,
         bytes calldata operatorData
     ) external {}
+
     receive() external payable {}
 }
