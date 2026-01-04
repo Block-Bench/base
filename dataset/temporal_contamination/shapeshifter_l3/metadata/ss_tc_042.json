@@ -124,5 +124,6 @@
   },
   "vulnerable_contract": "VeTokenStaking",
   "vulnerable_function": "_0x7d6277",
-  "sanitized_from": "ms_tc_042"
+  "sanitized_from": "ms_tc_042",
+  "is_vulnerable": true
 }

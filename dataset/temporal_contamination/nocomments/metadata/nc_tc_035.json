@@ -90,5 +90,6 @@
   },
   "vulnerable_contract": "LeveragedLending",
   "vulnerable_function": "mint",
-  "sanitized_from": "ms_tc_035"
+  "sanitized_from": "ms_tc_035",
+  "is_vulnerable": true
 }

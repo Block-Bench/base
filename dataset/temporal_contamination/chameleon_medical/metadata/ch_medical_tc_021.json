@@ -81,5 +81,6 @@
     "created_date": "2025-12-31T19:50:53.790803"
   },
   "vulnerable_function": "requestAdvance",
-  "sanitized_from": "ms_tc_021"
+  "sanitized_from": "ms_tc_021",
+  "is_vulnerable": true
 }

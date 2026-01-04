@@ -4,7 +4,7 @@ This directory contains temporal contamination contracts transformed with the **
 
 ## Contents
 
-- `contracts/` - 50 Solidity contracts (ch_medical_tc_001.sol - ch_medical_tc_050.sol)
+- `contracts/` - 46 Solidity contracts (ch_medical_tc_001.sol - ch_medical_tc_046.sol)
 - `metadata/` - Corresponding JSON metadata files
 - `index.json` - Dataset index with transformation details
 
@@ -59,7 +59,7 @@ Each metadata file includes:
 - `variant_parent_id`: Reference to nocomments (e.g., "nc_tc_001")
 - `transformation`: Full details including rename_map and coverage
 - `vulnerable_function`: Updated to reflect renamed function name
-- `vulnerable_lines`: Empty (requires manual annotation)
+- `vulnerable_lines`: Line numbers of vulnerable code
 
 ## Transformation Chain
 

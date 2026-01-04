@@ -122,5 +122,6 @@
   },
   "vulnerable_contract": "BridgeGateway",
   "vulnerable_function": "_0x7248ad",
-  "sanitized_from": "ms_tc_030"
+  "sanitized_from": "ms_tc_030",
+  "is_vulnerable": true
 }

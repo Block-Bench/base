@@ -135,5 +135,6 @@
   },
   "vulnerable_contract": "IsolatedLending",
   "vulnerable_function": "_0x7248ad",
-  "sanitized_from": "ms_tc_032"
+  "sanitized_from": "ms_tc_032",
+  "is_vulnerable": true
 }

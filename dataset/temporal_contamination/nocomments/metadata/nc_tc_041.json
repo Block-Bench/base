@@ -89,5 +89,6 @@
   },
   "vulnerable_contract": "SmartLoansFactory",
   "vulnerable_function": "upgradePool",
-  "sanitized_from": "ms_tc_041"
+  "sanitized_from": "ms_tc_041",
+  "is_vulnerable": true
 }

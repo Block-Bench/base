@@ -140,5 +140,6 @@
   },
   "vulnerable_contract": "LendingPool",
   "vulnerable_function": "_0xd860ea",
-  "sanitized_from": "ms_tc_034"
+  "sanitized_from": "ms_tc_034",
+  "is_vulnerable": true
 }

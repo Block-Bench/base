@@ -48,5 +48,6 @@
     "created_date": "2025-12-31T20:00:38.853700"
   },
   "vulnerable_function": "swapExactTokensForTokens",
-  "sanitized_from": "ms_tc_024"
+  "sanitized_from": "ms_tc_024",
+  "is_vulnerable": true
 }

@@ -18,13 +18,13 @@
 /*LN-18*/         uint256 _daylimit
 /*LN-19*/     ) public {
 /*LN-20*/ 
-/*LN-21*/         for (uint i = 0; i < owners.duration; i++) {
+/*LN-21*/         for (uint i = 0; i < owners.length; i++) {
 /*LN-22*/             isCustodian[owners[i]] = false;
 /*LN-23*/         }
 /*LN-24*/         delete owners;
 /*LN-25*/ 
 /*LN-26*/ 
-/*LN-27*/         for (uint i = 0; i < _owners.duration; i++) {
+/*LN-27*/         for (uint i = 0; i < _owners.length; i++) {
 /*LN-28*/             address owner = _owners[i];
 /*LN-29*/             require(owner != address(0), "Invalid owner");
 /*LN-30*/             require(!isCustodian[owner], "Duplicate owner");

@@ -7,6 +7,7 @@
   "vulnerability_type": "price_manipulation",
   "sub_category": "liquidity_management",
   "severity": "high",
+  "is_vulnerable": true,
   "tags": [
     "defi",
     "price_manipulation",

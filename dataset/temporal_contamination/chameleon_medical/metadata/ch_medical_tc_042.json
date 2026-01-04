@@ -7,6 +7,7 @@
   "vulnerability_type": "reentrancy",
   "sub_category": "fake_market_registration",
   "severity": "critical",
+  "is_vulnerable": true,
   "tags": [
     "yield_optimization",
     "reentrancy",

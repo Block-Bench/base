@@ -117,5 +117,6 @@
   },
   "vulnerable_contract": "CDPChamber",
   "vulnerable_function": "_0x390062",
-  "sanitized_from": "ms_tc_040"
+  "sanitized_from": "ms_tc_040",
+  "is_vulnerable": true
 }

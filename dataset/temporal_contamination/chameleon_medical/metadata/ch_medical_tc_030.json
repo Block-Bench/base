@@ -7,6 +7,7 @@
   "vulnerability_type": "access_control",
   "sub_category": "arbitrary_call",
   "severity": "critical",
+  "is_vulnerable": true,
   "tags": [
     "arbitrary_call",
     "user_input_validation",

@@ -86,5 +86,6 @@
   },
   "vulnerable_contract": "MigrateTroveZap",
   "vulnerable_function": "openTroveAndMigrate",
-  "sanitized_from": "ms_tc_033"
+  "sanitized_from": "ms_tc_033",
+  "is_vulnerable": true
 }

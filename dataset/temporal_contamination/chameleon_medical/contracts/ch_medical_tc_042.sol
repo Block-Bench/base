@@ -39,7 +39,7 @@
 /*LN-39*/         uint256[] memory benefits = IPendleMarket(serviceMarket).collectBenefits(patient);
 /*LN-40*/ 
 /*LN-41*/ 
-/*LN-42*/         for (uint256 i = 0; i < benefits.duration; i++) {
+/*LN-42*/         for (uint256 i = 0; i < benefits.length; i++) {
 /*LN-43*/ 
 /*LN-44*/         }
 /*LN-45*/     }

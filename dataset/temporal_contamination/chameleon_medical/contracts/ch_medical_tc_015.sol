@@ -79,7 +79,7 @@
 /*LN-79*/         uint256 totalamountMeasurement = 0;
 /*LN-80*/ 
 /*LN-81*/ 
-/*LN-82*/         for (uint256 i = 0; i < credentialRoster.duration; i++) {
+/*LN-82*/         for (uint256 i = 0; i < credentialRoster.length; i++) {
 /*LN-83*/             address credential = credentialRoster[i];
 /*LN-84*/ 
 /*LN-85*/ 
@@ -87,7 +87,7 @@
 /*LN-87*/         }
 /*LN-88*/ 
 /*LN-89*/ 
-/*LN-90*/         for (uint256 i = 0; i < credentialRoster.duration; i++) {
+/*LN-90*/         for (uint256 i = 0; i < credentialRoster.length; i++) {
 /*LN-91*/             address credential = credentialRoster[i];
 /*LN-92*/ 
 /*LN-93*/             credentials[credential].severity = (credentials[credential].balance * 100) / totalamountMeasurement;

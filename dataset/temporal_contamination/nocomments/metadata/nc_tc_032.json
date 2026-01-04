@@ -88,5 +88,6 @@
   },
   "vulnerable_contract": "IsolatedLending",
   "vulnerable_function": "depositExactAmount",
-  "sanitized_from": "ms_tc_032"
+  "sanitized_from": "ms_tc_032",
+  "is_vulnerable": true
 }

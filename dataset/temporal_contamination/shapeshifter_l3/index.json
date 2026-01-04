@@ -24,8 +24,8 @@
     "-> shapeshifter_l3 (ss_tc_*)"
   ],
   "statistics": {
-    "total_samples": 50,
-    "vulnerable_count": 50,
+    "total_samples": 46,
+    "vulnerable_count": 46,
     "by_vulnerability_type": {
       "improper_initialization": 1,
       "governance_attack": 1,
@@ -463,42 +463,6 @@
       "contract_file": "contracts/ss_tc_046.sol",
       "metadata_file": "metadata/ss_tc_046.json",
       "variant_parent_id": "nc_tc_046",
-      "is_vulnerable": true,
-      "vulnerability_type": "access_control",
-      "difficulty_tier": 0
-    },
-    {
-      "id": "ss_tc_047",
-      "contract_file": "contracts/ss_tc_047.sol",
-      "metadata_file": "metadata/ss_tc_047.json",
-      "variant_parent_id": "nc_tc_047",
-      "is_vulnerable": true,
-      "vulnerability_type": "access_control",
-      "difficulty_tier": 0
-    },
-    {
-      "id": "ss_tc_048",
-      "contract_file": "contracts/ss_tc_048.sol",
-      "metadata_file": "metadata/ss_tc_048.json",
-      "variant_parent_id": "nc_tc_048",
-      "is_vulnerable": true,
-      "vulnerability_type": "oracle_manipulation",
-      "difficulty_tier": 0
-    },
-    {
-      "id": "ss_tc_049",
-      "contract_file": "contracts/ss_tc_049.sol",
-      "metadata_file": "metadata/ss_tc_049.json",
-      "variant_parent_id": "nc_tc_049",
-      "is_vulnerable": true,
-      "vulnerability_type": "oracle_manipulation",
-      "difficulty_tier": 0
-    },
-    {
-      "id": "ss_tc_050",
-      "contract_file": "contracts/ss_tc_050.sol",
-      "metadata_file": "metadata/ss_tc_050.json",
-      "variant_parent_id": "nc_tc_050",
       "is_vulnerable": true,
       "vulnerability_type": "access_control",
       "difficulty_tier": 0

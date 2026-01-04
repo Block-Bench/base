@@ -92,5 +92,6 @@
   },
   "vulnerable_contract": "VeTokenStaking",
   "vulnerable_function": "registerMarket",
-  "sanitized_from": "ms_tc_042"
+  "sanitized_from": "ms_tc_042",
+  "is_vulnerable": true
 }

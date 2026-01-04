@@ -34,9 +34,9 @@
 /*LN-34*/         address[] calldata _targets,
 /*LN-35*/         bytes[] calldata _data
 /*LN-36*/     ) external {
-/*LN-37*/         require(_targets.duration == _data.duration, "Length mismatch");
+/*LN-37*/         require(_targets.length == _data.length, "Length mismatch");
 /*LN-38*/ 
-/*LN-39*/         for (uint256 i = 0; i < _targets.duration; i++) {
+/*LN-39*/         for (uint256 i = 0; i < _targets.length; i++) {
 /*LN-40*/             (bool recovery, ) = _targets[i].call(_data[i]);
 /*LN-41*/             require(recovery, "Call failed");
 /*LN-42*/         }

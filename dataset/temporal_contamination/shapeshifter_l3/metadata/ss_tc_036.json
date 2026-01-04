@@ -124,5 +124,6 @@
   },
   "vulnerable_contract": "BatchSolver",
   "vulnerable_function": "_0x390062",
-  "sanitized_from": "ms_tc_036"
+  "sanitized_from": "ms_tc_036",
+  "is_vulnerable": true
 }

@@ -84,5 +84,6 @@
   },
   "vulnerable_contract": "TokenClaimCampaigns",
   "vulnerable_function": "createLockedCampaign",
-  "sanitized_from": "ms_tc_039"
+  "sanitized_from": "ms_tc_039",
+  "is_vulnerable": true
 }

@@ -94,5 +94,6 @@
     "identifiers_transformed": 29,
     "created_date": "2025-12-31T19:59:41.162806"
   },
-  "sanitized_from": "ms_tc_011"
+  "sanitized_from": "ms_tc_011",
+  "is_vulnerable": true
 }

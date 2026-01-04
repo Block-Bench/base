@@ -51,5 +51,6 @@
     "created_date": "2025-12-31T20:00:38.848706"
   },
   "vulnerable_function": "_updateWeights",
-  "sanitized_from": "ms_tc_015"
+  "sanitized_from": "ms_tc_015",
+  "is_vulnerable": true
 }

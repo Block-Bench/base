@@ -118,5 +118,6 @@
   },
   "vulnerable_contract": "GameToken",
   "vulnerable_function": "_0xd6cb4d",
-  "sanitized_from": "ms_tc_043"
+  "sanitized_from": "ms_tc_043",
+  "is_vulnerable": true
 }

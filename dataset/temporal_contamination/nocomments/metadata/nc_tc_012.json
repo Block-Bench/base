@@ -50,5 +50,6 @@
     "comments_removed": 4,
     "created_date": "2025-12-31T20:00:38.846542"
   },
-  "sanitized_from": "ms_tc_012"
+  "sanitized_from": "ms_tc_012",
+  "is_vulnerable": true
 }

@@ -7,6 +7,7 @@
   "vulnerability_type": "price_oracle_manipulation",
   "sub_category": "dex_price_manipulation",
   "severity": "high",
+  "is_vulnerable": true,
   "tags": [
     "leveraged_yield",
     "oracle_manipulation",
