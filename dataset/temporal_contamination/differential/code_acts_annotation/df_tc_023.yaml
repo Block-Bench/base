@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_023"
-base_sample_id: "ms_tc_026"
+sample_id: "df_tc_020"
+base_sample_id: "ms_tc_023"
 vulnerability_type: "signature_verification"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Direct permit call reverts on failure"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_026.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_023.yaml"
   root_cause_description: "try-catch swallowed permit failures silently"
 
 fixed_version:

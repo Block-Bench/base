@@ -123,6 +123,6 @@
     "created_date": "2025-12-31T19:50:53.809205"
   },
   "vulnerable_contract": "MedicalCreditPool",
-  "vulnerable_function": "submitPayment",
+  "vulnerable_function": "requestAdvance, diagnoseAssetServicecost",
   "sanitized_from": "ms_tc_034"
 }

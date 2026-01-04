@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_015"
-base_sample_id: "ms_tc_018"
+sample_id: "df_tc_012"
+base_sample_id: "ms_tc_015"
 vulnerability_type: "pool_manipulation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Time-gated weight updates with TWAP averaging"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_018.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_015.yaml"
   # vulnerable_lines (reference only): [56, 101]
   root_cause_description: "_updateWeights after swap allows weight manipulation"
 

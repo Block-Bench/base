@@ -58,6 +58,6 @@
     "identifiers_total": 32,
     "created_date": "2025-12-31T19:50:53.792524"
   },
-  "vulnerable_function": "permit",
+  "vulnerable_function": "crossOutUnderlyingWithPermit",
   "sanitized_from": "ms_tc_023"
 }

@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_033"
-base_sample_id: "ms_tc_036"
+sample_id: "df_tc_030"
+base_sample_id: "ms_tc_033"
 vulnerability_type: "access_control"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Requires account == msg.sender, preventing impersonation"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_036.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_033.yaml"
   root_cause_description: "User-controlled account parameter allowed creating debt obligations on other users"
 
 fixed_version:

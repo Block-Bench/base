@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_020"
-base_sample_id: "ms_tc_023"
+sample_id: "df_tc_017"
+base_sample_id: "ms_tc_020"
 vulnerability_type: "accounting_manipulation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Minimum share floor prevents manipulation"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_023.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_020.yaml"
   root_cause_description: "Debt share calculation manipulable via inflated totalDebt"
 
 fixed_version:

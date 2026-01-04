@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_035"
-base_sample_id: "ms_tc_038"
+sample_id: "df_tc_032"
+base_sample_id: "ms_tc_035"
 vulnerability_type: "price_oracle_manipulation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Price must be recent and above minimum liquidity threshold"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_038.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_035.yaml"
   root_cause_description: "Oracle prices fetched from manipulable low-liquidity sources"
 
 fixed_version:

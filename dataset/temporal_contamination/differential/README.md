@@ -69,7 +69,7 @@ differential/df_tc_001.sol  (fixed)
 
 ## Statistics
 
-- **Total files**: 50
+- **Total files**: 46
 - **Files with access control fixes**: 15
 - **Files with CEI pattern fixes**: 12
 - **Files with initialization fixes**: 8

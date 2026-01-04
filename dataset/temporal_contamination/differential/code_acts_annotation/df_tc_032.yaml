@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_032"
-base_sample_id: "ms_tc_035"
+sample_id: "df_tc_029"
+base_sample_id: "ms_tc_032"
 vulnerability_type: "arithmetic_error"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Minimum pool size and ratio bounds prevent extreme rounding scenarios"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_035.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_032.yaml"
   root_cause_description: "Share calculation vulnerable to rounding manipulation at small pool values"
 
 fixed_version:

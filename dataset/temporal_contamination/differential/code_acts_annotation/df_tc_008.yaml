@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_008"
-base_sample_id: "ms_tc_010"
+sample_id: "df_tc_006"
+base_sample_id: "ms_tc_008"
 vulnerability_type: "reentrancy"
 is_vulnerable: false
 
@@ -10,7 +10,7 @@ vulnerability_summary:
   type: "reentrancy"
   severity: "critical"
   affected_functions: ["withdrawAll"]
-  root_cause_summary: "In ms_tc_010, external call (msg.sender.call) was made BEFORE zeroing credit[msg.sender], allowing reentrancy attack."
+  root_cause_summary: "In ms_tc_008, external call (msg.sender.call) was made BEFORE zeroing credit[msg.sender], allowing reentrancy attack."
   fix_summary: "Moved credit[msg.sender] = 0 BEFORE the external call, following checks-effects-interactions pattern."
 
 code_acts:
@@ -24,7 +24,7 @@ code_acts:
     description: "External ETH transfer"
 
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       function: "withdrawAll"
       line: 31
       code: "bool callResult = msg.sender.call.value(oCredit)();"
@@ -32,7 +32,7 @@ code_acts:
       rationale: "External call BEFORE state update - enables reentrancy"
 
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       function: "withdrawAll"
       line: 22
       code: '(bool callResult, ) = msg.sender.call{value: oCredit}("");'
@@ -47,7 +47,7 @@ code_acts:
     description: "Credit zeroing"
 
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       function: "withdrawAll"
       line: 33
       code: "credit[msg.sender] = 0;"
@@ -55,7 +55,7 @@ code_acts:
       rationale: "State update AFTER external call - CEI violation"
 
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       function: "withdrawAll"
       line: 20
       code: "credit[msg.sender] = 0;"
@@ -74,13 +74,13 @@ code_acts:
     description: "Credit mapping"
 
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       line: 5
       security_function: "PREREQ"
       rationale: "Updated too late, enabling attack"
 
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       line: 9
       security_function: "BENIGN"
       rationale: "Now updated in correct order"
@@ -96,11 +96,11 @@ code_acts:
     type: "DECLARATION"
     description: "Balance variable"
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       line: 6
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       line: 10
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -109,11 +109,11 @@ code_acts:
     type: "STATE_MOD"
     description: "Deposit function"
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       lines: [12, 13]
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       lines: [13, 14]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -122,11 +122,11 @@ code_acts:
     type: "DECLARATION"
     description: "oCredit local variable"
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       line: 28
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       line: 18
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -135,11 +135,11 @@ code_acts:
     type: "CTRL_FLOW"
     description: "if (oCredit > 0) check"
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       line: 29
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       line: 19
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -148,11 +148,11 @@ code_acts:
     type: "STATE_MOD"
     description: "Balance decrement"
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       line: 30
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       line: 21
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -161,11 +161,11 @@ code_acts:
     type: "INPUT_VAL"
     description: "Call result check"
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       line: 32
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       line: 23
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -174,11 +174,11 @@ code_acts:
     type: "CTRL_FLOW"
     description: "getCredit view function"
     vulnerable:
-      file: "ms_tc_010.sol"
+      file: "ms_tc_008.sol"
       lines: [40, 41, 42]
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_010.sol"
+      file: "df_tc_008.sol"
       lines: [27, 28, 29]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"

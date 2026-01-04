@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_011"
-base_sample_id: "ms_tc_013"
+sample_id: "df_tc_009"
+base_sample_id: "ms_tc_011"
 vulnerability_type: "arithmetic_error"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Uses totalDeposits which is tracked internally"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_013.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_011.yaml"
   # vulnerable_lines (reference only): [81]
   root_cause_description: "tokenToReward used total contract balance instead of fee amount"
 

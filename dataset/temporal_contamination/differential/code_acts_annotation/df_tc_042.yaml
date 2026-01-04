@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_042"
-base_sample_id: "ms_tc_045"
+sample_id: "df_tc_039"
+base_sample_id: "ms_tc_042"
 vulnerability_type: "reentrancy"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "nonReentrant modifier protects state changes, admin-only market registration"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_045.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_042.yaml"
   root_cause_description: "External calls to user-controlled markets without reentrancy guard or validation"
 
 fixed_version:

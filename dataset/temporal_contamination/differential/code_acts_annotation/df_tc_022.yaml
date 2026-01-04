@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_022"
-base_sample_id: "ms_tc_025"
+sample_id: "df_tc_019"
+base_sample_id: "ms_tc_022"
 vulnerability_type: "reentrancy"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "nonReentrant prevents recursive calls"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_025.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_022.yaml"
   root_cause_description: "No reentrancy protection allowed ERC667 callback attacks"
 
 fixed_version:

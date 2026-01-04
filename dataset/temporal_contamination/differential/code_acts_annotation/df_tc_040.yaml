@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_040"
-base_sample_id: "ms_tc_043"
+sample_id: "df_tc_037"
+base_sample_id: "ms_tc_040"
 vulnerability_type: "access_control"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Target and selector must be in admin-approved whitelists"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_043.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_040.yaml"
   root_cause_description: "No validation of target address or function selector before external call"
 
 fixed_version:

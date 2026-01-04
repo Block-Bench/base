@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_028"
-base_sample_id: "ms_tc_031"
+sample_id: "df_tc_025"
+base_sample_id: "ms_tc_028"
 vulnerability_type: "bridge_security"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Uses ecrecover to recover signer addresses and validates against validators mapping"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_031.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_028.yaml"
   root_cause_description: "Signature validation only checked count, not cryptographic validity via ecrecover"
 
 fixed_version:

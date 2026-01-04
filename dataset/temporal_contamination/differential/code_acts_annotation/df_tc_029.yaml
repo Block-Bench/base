@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_029"
-base_sample_id: "ms_tc_032"
+sample_id: "df_tc_026"
+base_sample_id: "ms_tc_029"
 vulnerability_type: "arithmetic_manipulation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "rayDiv checks result against max/2 threshold before returning"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_032.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_029.yaml"
   root_cause_description: "Rounding errors in rayDiv at extreme liquidityIndex values inflated through nested flashloans"
 
 fixed_version:

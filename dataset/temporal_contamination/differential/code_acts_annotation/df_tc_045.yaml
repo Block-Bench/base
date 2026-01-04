@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_045"
-base_sample_id: "ms_tc_049"
+sample_id: "df_tc_042"
+base_sample_id: "ms_tc_045"
 vulnerability_type: "oracle_manipulation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Only admin-approved markets can be queried"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_049.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_045.yaml"
   root_cause_description: "User could pass malicious market addresses to inflate collateral values"
 
 fixed_version:

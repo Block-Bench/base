@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_038"
-base_sample_id: "ms_tc_041"
+sample_id: "df_tc_035"
+base_sample_id: "ms_tc_038"
 vulnerability_type: "access_control"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "mint() restricted to owner via onlyOwner modifier"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_041.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_038.yaml"
   root_cause_description: "mint() function lacked access control allowing unauthorized minting"
 
 fixed_version:

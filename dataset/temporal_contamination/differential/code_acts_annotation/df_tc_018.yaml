@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_018"
-base_sample_id: "ms_tc_021"
+sample_id: "df_tc_015"
+base_sample_id: "ms_tc_018"
 vulnerability_type: "reinitialization"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "init() guarded by isInitialized flag"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_021.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_018.yaml"
   root_cause_description: "Missing initialization check allowed attackers to reinitialize pool"
 
 fixed_version:

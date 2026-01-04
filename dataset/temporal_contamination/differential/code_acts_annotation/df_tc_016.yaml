@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_016"
-base_sample_id: "ms_tc_019"
+sample_id: "df_tc_013"
+base_sample_id: "ms_tc_016"
 vulnerability_type: "validation_bypass"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Require tokenContract != address(0)"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_019.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_016.yaml"
   # vulnerable_lines (reference only): [67]
   root_cause_description: "transferFrom called on address(0) if resourceID unset"
 

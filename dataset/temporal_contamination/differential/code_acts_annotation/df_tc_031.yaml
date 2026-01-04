@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_031"
-base_sample_id: "ms_tc_034"
+sample_id: "df_tc_028"
+base_sample_id: "ms_tc_031"
 vulnerability_type: "price_manipulation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Price deviation check validates balance changes before share calculation"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_034.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_031.yaml"
   root_cause_description: "Share calculation used manipulable spot balances allowing flashloan price manipulation"
 
 fixed_version:

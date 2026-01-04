@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "df_tc_006"
-base_sample_id: "ms_tc_008"
+base_sample_id: "ms_tc_006"
 vulnerability_type: "price_oracle_manipulation"
 vulnerability_subtype: "flash_loan_oracle_manipulation"
 is_vulnerable: false
@@ -11,7 +11,7 @@ vulnerability_summary:
   type: "price_oracle_manipulation"
   severity: "critical"
   affected_functions: ["borrow", "calculateBorrowPower"]
-  root_cause_summary: "In ms_tc_008, oracle.getUnderlyingPrice() was called directly without manipulation resistance. Attacker could flash loan to manipulate AMM pool prices and inflate collateral value."
+  root_cause_summary: "In ms_tc_006, oracle.getUnderlyingPrice() was called directly without manipulation resistance. Attacker could flash loan to manipulate AMM pool prices and inflate collateral value."
   fix_summary: "Added price deviation protection: cached prices, MAX_PRICE_DEVIATION constant, _validatePrice() function that rejects prices deviating >10% from cached price."
 
 code_acts:
@@ -25,7 +25,7 @@ code_acts:
     description: "Oracle price call in borrow()"
 
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       function: "borrow"
       lines: [70, 71]
       code: "uint256 borrowValue = (oracle.getUnderlyingPrice(cToken) * amount) / 1e18;"
@@ -33,7 +33,7 @@ code_acts:
       rationale: "Direct spot price from manipulable oracle"
 
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       function: "borrow"
       lines: [95, 96]
       code: "uint256 price = _validatePrice(cToken); uint256 borrowValue = (price * amount) / 1e18;"
@@ -48,7 +48,7 @@ code_acts:
     description: "Oracle price call in calculateBorrowPower()"
 
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       function: "calculateBorrowPower"
       line: 102
       code: "uint256 price = oracle.getUnderlyingPrice(cToken);"
@@ -56,7 +56,7 @@ code_acts:
       rationale: "Oracle returns manipulated spot price, inflating collateral value"
 
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       function: "calculateBorrowPower"
       line: 126
       code: "uint256 price = oracle.getUnderlyingPrice(cToken);"
@@ -76,7 +76,7 @@ code_acts:
     description: "Price tracking state variables (NEW)"
 
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       function: "contract-level"
       lines: [41, 42, 43, 44]
       code: |
@@ -95,7 +95,7 @@ code_acts:
     description: "_validatePrice() function (NEW)"
 
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       function: "_validatePrice"
       lines: [53, 54, 55, 57, 58, 59, 60, 61, 63, 64]
       code: |
@@ -115,7 +115,7 @@ code_acts:
     description: "updateCachedPrice() admin function (NEW)"
 
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       function: "updateCachedPrice"
       lines: [178, 179, 180, 181]
       code: |
@@ -138,13 +138,13 @@ code_acts:
     description: "Oracle storage"
 
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       line: 20
       security_function: "PREREQ"
       rationale: "Stores manipulable oracle reference"
 
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       lines: [26, 29, 32, 35, 38]
       security_function: "BENIGN"
       rationale: "Oracle still used but prices are validated"
@@ -157,13 +157,13 @@ code_acts:
     description: "calculateBorrowPower call"
 
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       line: 64
       security_function: "PREREQ"
       rationale: "Returns inflated borrow power from manipulated prices"
 
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       lines: [89, 92]
       security_function: "BENIGN"
       rationale: "Still reads manipulable prices but borrowing is blocked"
@@ -176,13 +176,13 @@ code_acts:
     description: "Collateral check"
 
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       lines: [74, 75, 76, 77]
       security_function: "PREREQ"
       rationale: "Check passes because borrowPower is inflated"
 
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       lines: [99, 100, 101, 102]
       security_function: "BENIGN"
       rationale: "Check uses validated borrow value"
@@ -204,11 +204,11 @@ code_acts:
     type: "INITIALIZATION"
     description: "Constructor"
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       lines: [37, 38, 39]
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       lines: [49, 50, 51]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -217,11 +217,11 @@ code_acts:
     type: "INPUT_VAL"
     description: "Market support check in mint"
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       line: 48
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       line: 72
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -230,11 +230,11 @@ code_acts:
     type: "STATE_MOD"
     description: "User deposit update"
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       line: 55
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       line: 75
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -243,11 +243,11 @@ code_acts:
     type: "INPUT_VAL"
     description: "Market support check in borrow"
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       line: 61
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       line: 86
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -256,11 +256,11 @@ code_acts:
     type: "STATE_MOD"
     description: "Borrow balance update"
     vulnerable:
-      file: "ms_tc_008.sol"
+      file: "ms_tc_006.sol"
       line: 80
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_008.sol"
+      file: "df_tc_006.sol"
       line: 105
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"

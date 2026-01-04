@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_005"
-base_sample_id: "ms_tc_007"
+sample_id: "df_tc_004"
+base_sample_id: "ms_tc_005"
 vulnerability_type: "access_control"
 vulnerability_subtype: "unrestricted_target_execution"
 is_vulnerable: false
@@ -11,7 +11,7 @@ vulnerability_summary:
   type: "access_control"
   severity: "critical"
   affected_functions: ["verifyHeaderAndExecuteTx"]
-  root_cause_summary: "In ms_tc_007, verifyHeaderAndExecuteTx() made unrestricted external calls to any contract decoded from cross-chain proof. Attacker could target EthCrossChainData to change validator keys."
+  root_cause_summary: "In ms_tc_005, verifyHeaderAndExecuteTx() made unrestricted external calls to any contract decoded from cross-chain proof. Attacker could target EthCrossChainData to change validator keys."
   fix_summary: "Added allowedTargets whitelist mapping and require check before external call. Explicitly sets dataContract as NOT allowed in constructor."
 
 code_acts:
@@ -25,7 +25,7 @@ code_acts:
     description: "External call to decoded target"
 
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       function: "verifyHeaderAndExecuteTx"
       line: 91
       code: "(bool success, ) = toContract.call(abi.encodePacked(method, args));"
@@ -33,7 +33,7 @@ code_acts:
       rationale: "Unrestricted external call to ANY contract decoded from cross-chain transaction"
 
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       function: "verifyHeaderAndExecuteTx"
       line: 112
       code: "(bool success, ) = toContract.call(abi.encodePacked(method, args));"
@@ -52,7 +52,7 @@ code_acts:
     description: "allowedTargets mapping (NEW)"
 
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       function: "contract-level"
       line: 67
       code: "mapping(address => bool) public allowedTargets;"
@@ -67,7 +67,7 @@ code_acts:
     description: "Set dataContract as not allowed (NEW)"
 
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       function: "constructor"
       line: 77
       code: "allowedTargets[_dataContract] = false;"
@@ -82,7 +82,7 @@ code_acts:
     description: "Target whitelist check (NEW)"
 
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       function: "verifyHeaderAndExecuteTx"
       line: 109
       code: 'require(allowedTargets[toContract], "Target not allowed");'
@@ -101,13 +101,13 @@ code_acts:
     description: "onlyOwner modifier"
 
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       lines: [28, 29, 30, 31]
       security_function: "PREREQ"
       rationale: "Passes when CrossChainManager calls - enables attack"
 
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       lines: [34, 35, 36, 37]
       security_function: "BENIGN"
       rationale: "No longer exploitable - external calls are restricted"
@@ -120,13 +120,13 @@ code_acts:
     description: "putCurEpochConPubKeyBytes function"
 
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       lines: [33, 34, 35, 36, 37, 38, 39]
       security_function: "PREREQ"
       rationale: "Can be called through CrossChainManager to change keys"
 
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       lines: [42, 43, 44, 45, 46, 47, 48]
       security_function: "BENIGN"
       rationale: "No longer reachable through attack path"
@@ -139,13 +139,13 @@ code_acts:
     description: "dataContract storage"
 
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       line: 53
       security_function: "PREREQ"
       rationale: "Stores the attack target address"
 
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       line: 65
       security_function: "BENIGN"
       rationale: "Still stores address but calls to it are blocked"
@@ -158,13 +158,13 @@ code_acts:
     description: "_decodeTx returning target"
 
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       lines: [122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139]
       security_function: "PREREQ"
       rationale: "Decodes unvalidated target from proof"
 
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       lines: [102, 103, 104, 105, 106, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154]
       security_function: "BENIGN"
       rationale: "Output is now validated by whitelist before use"
@@ -180,11 +180,11 @@ code_acts:
     type: "DECLARATION"
     description: "State variables in CrossChainData"
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       lines: [15, 16]
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       lines: [21, 22]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -193,11 +193,11 @@ code_acts:
     type: "INITIALIZATION"
     description: "Constructor setting owner"
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       lines: [24, 25, 26]
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       lines: [30, 31, 32]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -206,11 +206,11 @@ code_acts:
     type: "INITIALIZATION"
     description: "CrossChainManager constructor"
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       lines: [61, 62, 63]
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       lines: [75, 76, 78]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -219,11 +219,11 @@ code_acts:
     type: "INPUT_VAL"
     description: "Header verification"
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       line: 74
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       line: 96
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -232,11 +232,11 @@ code_acts:
     type: "INPUT_VAL"
     description: "Proof verification"
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       line: 78
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       line: 99
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -245,11 +245,11 @@ code_acts:
     type: "INPUT_VAL"
     description: "Execution success check"
     vulnerable:
-      file: "ms_tc_007.sol"
+      file: "ms_tc_005.sol"
       line: 92
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_007.sol"
+      file: "df_tc_005.sol"
       line: 113
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"

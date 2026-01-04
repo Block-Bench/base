@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_039"
-base_sample_id: "ms_tc_042"
+sample_id: "df_tc_036"
+base_sample_id: "ms_tc_039"
 vulnerability_type: "access_control"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "TokenLocker must be in admin-approved whitelist"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_042.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_039.yaml"
   root_cause_description: "External call to user-controlled tokenLocker allowed phishing via malicious contract"
 
 fixed_version:

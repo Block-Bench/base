@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_007"
-base_sample_id: "ms_tc_009"
+sample_id: "df_tc_005"
+base_sample_id: "ms_tc_007"
 vulnerability_type: "arithmetic_error"
 vulnerability_subtype: "precision_loss_liquidity_calculation"
 is_vulnerable: false
@@ -11,7 +11,7 @@ vulnerability_summary:
   type: "arithmetic_error"
   severity: "critical"
   affected_functions: ["swap", "_addLiquidity"]
-  root_cause_summary: "In ms_tc_009, _addLiquidity() performed unchecked arithmetic that could overflow/underflow. Attacker crafted inputs to cause arithmetic errors during tick transitions."
+  root_cause_summary: "In ms_tc_007, _addLiquidity() performed unchecked arithmetic that could overflow/underflow. Attacker crafted inputs to cause arithmetic errors during tick transitions."
   fix_summary: "Added explicit overflow/underflow require checks in _addLiquidity() before arithmetic operations."
 
 code_acts:
@@ -25,7 +25,7 @@ code_acts:
     description: "_addLiquidity call during tick crossing"
 
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       function: "swap"
       lines: [128, 129, 130, 131]
       code: "liquidityNext = _addLiquidity(liquidityNext, liquidityNetAtTick);"
@@ -33,7 +33,7 @@ code_acts:
       rationale: "Calls vulnerable _addLiquidity with crafted inputs"
 
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       function: "swap"
       lines: [136, 137, 138, 139]
       code: "liquidityNext = _addLiquidity(liquidityNext, liquidityNetAtTick);"
@@ -48,7 +48,7 @@ code_acts:
     description: "Subtraction in _addLiquidity (y < 0 case)"
 
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       function: "_addLiquidity"
       line: 157
       code: "z = x - uint128(-y);"
@@ -56,7 +56,7 @@ code_acts:
       rationale: "Unchecked subtraction can underflow"
 
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       function: "_addLiquidity"
       line: 169
       code: "z = x - uint128(-y);"
@@ -71,7 +71,7 @@ code_acts:
     description: "Addition in _addLiquidity (y >= 0 case)"
 
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       function: "_addLiquidity"
       line: 159
       code: "z = x + uint128(y);"
@@ -79,7 +79,7 @@ code_acts:
       rationale: "Unchecked addition can overflow"
 
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       function: "_addLiquidity"
       line: 172
       code: "z = x + uint128(y);"
@@ -98,7 +98,7 @@ code_acts:
     description: "Underflow check (NEW)"
 
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       function: "_addLiquidity"
       line: 168
       code: 'require(x >= uint128(-y), "Underflow");'
@@ -113,7 +113,7 @@ code_acts:
     description: "Overflow check (NEW)"
 
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       function: "_addLiquidity"
       line: 171
       code: 'require(x + uint128(y) >= x, "Overflow");'
@@ -132,13 +132,13 @@ code_acts:
     description: "Pool state variables"
 
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       lines: [10, 11, 12]
       security_function: "PREREQ"
       rationale: "State becomes corrupted through precision loss"
 
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       lines: [15, 16, 17]
       security_function: "BENIGN"
       rationale: "State protected by arithmetic checks"
@@ -151,13 +151,13 @@ code_acts:
     description: "liquidityNet mapping"
 
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       line: 15
       security_function: "PREREQ"
       rationale: "Values can be manipulated to trigger errors"
 
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       line: 20
       security_function: "BENIGN"
       rationale: "Values validated before use"
@@ -170,13 +170,13 @@ code_acts:
     description: "State persistence after swap"
 
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       lines: [145, 146, 147]
       security_function: "PREREQ"
       rationale: "Persists corrupted liquidity value"
 
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       lines: [153, 154, 155]
       security_function: "BENIGN"
       rationale: "Liquidity value is now validated"
@@ -189,13 +189,13 @@ code_acts:
     description: "if (y < 0) branch"
 
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       line: 156
       security_function: "PREREQ"
       rationale: "Determines which arithmetic path is used"
 
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       line: 167
       security_function: "BENIGN"
       rationale: "Both paths now have checks"
@@ -211,11 +211,11 @@ code_acts:
     type: "INPUT_VAL"
     description: "Tick validation in addLiquidity"
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       lines: [54, 55]
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       lines: [57, 58]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -224,11 +224,11 @@ code_acts:
     type: "INPUT_VAL"
     description: "Zero amount check in swap"
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       line: 93
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       line: 102
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
@@ -237,11 +237,11 @@ code_acts:
     type: "DECLARATION"
     description: "_addLiquidity function signature"
     vulnerable:
-      file: "ms_tc_009.sol"
+      file: "ms_tc_007.sol"
       lines: [152, 153, 154, 155]
       security_function: "BENIGN"
     fixed:
-      file: "df_tc_009.sol"
+      file: "df_tc_007.sol"
       lines: [163, 164, 165, 166]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"

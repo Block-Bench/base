@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_019"
-base_sample_id: "ms_tc_022"
+sample_id: "df_tc_016"
+base_sample_id: "ms_tc_019"
 vulnerability_type: "arithmetic_error"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Both use FEE_SCALE (10000) consistently"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_022.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_019.yaml"
   root_cause_description: "Scale mismatch between fee calculation (10000) and K invariant (1000^2)"
 
 fixed_version:

@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_012"
-base_sample_id: "ms_tc_015"
+sample_id: "df_tc_010"
+base_sample_id: "ms_tc_012"
 vulnerability_type: "logic_error"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Uses validUnderlying mapping containing both tokens"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_015.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_012.yaml"
   # vulnerable_lines (reference only): [39]
   root_cause_description: "sweepToken checked against underlying (OLD_TUSD) but contract uses NEW_TUSD"
 

@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_010"
-base_sample_id: "ms_tc_012"
+sample_id: "df_tc_008"
+base_sample_id: "ms_tc_010"
 vulnerability_type: "reentrancy"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Health check before external call"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_012.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_010.yaml"
   # vulnerable_lines (reference only): [68, 71]
   root_cause_description: "ETH transfer before final health check allowed reentrancy manipulation"
 

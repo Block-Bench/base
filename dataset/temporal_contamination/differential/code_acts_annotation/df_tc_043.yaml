@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_043"
-base_sample_id: "ms_tc_047"
+sample_id: "df_tc_040"
+base_sample_id: "ms_tc_043"
 vulnerability_type: "access_control"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Multiple authorized minters with MAX_SUPPLY cap"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_047.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_043.yaml"
   root_cause_description: "Single minter key could mint unlimited tokens with no cap"
 
 fixed_version:

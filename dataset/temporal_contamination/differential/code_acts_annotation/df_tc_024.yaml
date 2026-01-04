@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_024"
-base_sample_id: "ms_tc_027"
+sample_id: "df_tc_021"
+base_sample_id: "ms_tc_024"
 vulnerability_type: "input_validation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Pairs validated via factory.getPair()"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_027.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_024.yaml"
   root_cause_description: "Router accepted unvalidated pair addresses"
 
 fixed_version:

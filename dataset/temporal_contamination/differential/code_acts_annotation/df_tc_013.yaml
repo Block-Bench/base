@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_013"
-base_sample_id: "ms_tc_016"
+sample_id: "df_tc_011"
+base_sample_id: "ms_tc_013"
 vulnerability_type: "reentrancy"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "nonReentrant modifier prevents reentrant calls"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_016.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_013.yaml"
   # vulnerable_lines (reference only): [59, 80]
   root_cause_description: "_notifyTransfer triggers callback allowing reentrancy"
 

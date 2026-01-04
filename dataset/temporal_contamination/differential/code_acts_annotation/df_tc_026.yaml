@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_026"
-base_sample_id: "ms_tc_029"
+sample_id: "df_tc_023"
+base_sample_id: "ms_tc_026"
 vulnerability_type: "price_oracle_manipulation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "TWAP price resistant to flash loan manipulation"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_029.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_026.yaml"
   root_cause_description: "Oracle returned manipulable spot price"
 
 fixed_version:

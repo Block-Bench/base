@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_017"
-base_sample_id: "ms_tc_020"
+sample_id: "df_tc_014"
+base_sample_id: "ms_tc_017"
 vulnerability_type: "price_oracle_manipulation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Deviation check against stored price, limits manipulation"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_020.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_017.yaml"
   # vulnerable_lines (reference only): [73]
   root_cause_description: "pair.getReserves() is manipulable via flash loan"
 

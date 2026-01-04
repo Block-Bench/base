@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "df_tc_046"
-base_sample_id: "ms_tc_050"
+base_sample_id: "ms_tc_046"
 vulnerability_type: "access_control"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Users control own lock recipients, admin transfer requires 48hr timelock"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_050.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_046.yaml"
   root_cause_description: "Admin could change any user's lock recipient and transfer ownership instantly"
 
 fixed_version:

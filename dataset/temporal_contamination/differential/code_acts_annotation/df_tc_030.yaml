@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_030"
-base_sample_id: "ms_tc_033"
+sample_id: "df_tc_027"
+base_sample_id: "ms_tc_030"
 vulnerability_type: "access_control"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Route validates function selector against whitelist before execution"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_033.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_030.yaml"
   root_cause_description: "Route executed arbitrary calldata allowing transferFrom injection to drain tokens"
 
 fixed_version:

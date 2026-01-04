@@ -1,11 +1,11 @@
 schema_version: "1.0"
-sample_id: "df_tc_009"
-base_sample_id: "ms_tc_011"
+sample_id: "df_tc_007"
+base_sample_id: "ms_tc_009"
 vulnerability_type: "reentrancy"
 is_fixed: true
 
 # Differential annotation documents the FIX applied to the vulnerable version.
-# The base vulnerability is documented in ms_tc_011.yaml.
+# The base vulnerability is documented in ms_tc_009.yaml.
 
 fix_summary:
   description: "Reordered to follow Checks-Effects-Interactions pattern. State updates now occur BEFORE the external call."
@@ -14,7 +14,7 @@ fix_summary:
   fixed_pattern: "State update before external call"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_011.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_009.yaml"
   # vulnerable_lines (reference only): [68, 71]
   root_cause_description: "ERC-777 transfer triggers callback before state update at lines 71-72"
 

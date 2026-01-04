@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_044"
-base_sample_id: "ms_tc_048"
+sample_id: "df_tc_041"
+base_sample_id: "ms_tc_044"
 vulnerability_type: "oracle_manipulation"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Uses tracked underlying with virtual reserves for manipulation resistance"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_048.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_044.yaml"
   root_cause_description: "Exchange rate could be manipulated by donating tokens to empty pool"
 
 fixed_version:

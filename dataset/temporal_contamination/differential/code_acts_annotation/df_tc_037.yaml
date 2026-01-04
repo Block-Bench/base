@@ -1,6 +1,6 @@
 schema_version: "1.0"
-sample_id: "df_tc_037"
-base_sample_id: "ms_tc_040"
+sample_id: "df_tc_034"
+base_sample_id: "ms_tc_037"
 vulnerability_type: "logic_error"
 is_fixed: true
 
@@ -11,7 +11,7 @@ fix_summary:
   fixed_pattern: "Uses external price oracle for accurate conversion"
 
 vulnerable_version:
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_040.yaml"
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_037.yaml"
   root_cause_description: "Direct 1:1 assignment of ETH to BTC amount without price conversion"
 
 fixed_version:
