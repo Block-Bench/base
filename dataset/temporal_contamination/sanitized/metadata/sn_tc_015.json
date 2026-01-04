@@ -15,7 +15,7 @@
   "vulnerable_contract": "CToken",
   "vulnerable_function": "sweepToken",
   "vulnerable_lines": [
-    39
+    38
   ],
   "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
   "tags": [

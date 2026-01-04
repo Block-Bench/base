@@ -16,7 +16,7 @@
   "vulnerable_function": "transfer",
   "vulnerable_lines": [
     59,
-    80
+    78
   ],
   "fix_description": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
   "tags": [

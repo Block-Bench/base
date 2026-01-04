@@ -17,8 +17,7 @@
   "vulnerable_contract": "SyntheticLending",
   "root_cause": "The price oracle for Yearn Curve 3crypto LP tokens relied on Curve's get_virtual_price() which reflects current pool state. Flash loan attackers added massive liquidity in one transaction, inflating virtual_price. The oracle had no time-weighted averaging or manipulation resistance, so it reported the inflated price, allowing massive overborrowing.",
   "vulnerable_lines": [
-    35,
-    91
+    31
   ],
   "fix": "Implement time-weighted average price (TWAP) oracles. Use exponential moving averages (EMA) for price feeds. Add minimum delays between price updates. Use multiple independent oracle sources (e.g., Chainlink + Curve). Implement manipulation-resistant LP token pricing formulas that account for potential imbalances.",
   "references": [

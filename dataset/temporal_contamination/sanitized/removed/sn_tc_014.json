@@ -16,7 +16,7 @@
   "vulnerable_function": "earn",
   "vulnerable_lines": [
     75,
-    109
+    106
   ],
   "fix_description": "Use TWAP oracle instead of spot price. Implement slippage protection on Curve operations. Add sanity checks comparing spot price to time-weighted average. Limit strategy execution frequency.",
   "tags": [

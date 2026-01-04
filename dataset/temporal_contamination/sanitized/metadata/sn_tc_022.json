@@ -19,7 +19,7 @@
   "vulnerable_contract": "SwapPair",
   "root_cause": "When changing the fee from 0.3% to 0.16%, developers updated the fee calculation to use denominator 10000 instead of 1000. However, the constant product invariant check still used the old 1000 scale (reserve0 * reserve1 * 1000^2) instead of the new scale (reserve0 * reserve1 * 10000^2). This created a 100x mismatch allowing K to inflate after swaps.",
   "vulnerable_lines": [
-    100
+    95
   ],
   "fix": "Update the constant product check to use consistent scaling: require(balance0Adjusted * balance1Adjusted >= uint256(_reserve0) * _reserve1 * (10000 ** 2), 'K'). The magic number must match the scale used in balance adjustments. Better: use a constant for the scale factor to prevent such mismatches.",
   "references": [

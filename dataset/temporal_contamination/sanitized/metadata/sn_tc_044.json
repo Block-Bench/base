@@ -19,7 +19,6 @@
   "cutoff_date": "2024-11",
   "description": "DeltaPrime suffered a $4.75M exploit when attackers compromised an admin private key with upgrade privileges. They upgraded a pool contract to inject malicious code, then exploited the backdoored contract to drain funds through fake pair contracts and balance manipulation.",
   "vulnerable_lines": [
-    49,
     82
   ],
   "vulnerability_details": {

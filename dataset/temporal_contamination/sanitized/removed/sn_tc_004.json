@@ -15,10 +15,8 @@
   "vulnerable_contract": "YieldVault",
   "vulnerable_function": "deposit, withdraw",
   "vulnerable_lines": [
-    50,
-    51,
-    69,
-    70
+    60,
+    108
   ],
   "attack_scenario": "Attacker takes $50M USDC + $17M USDT flash loans from Uniswap. Swaps USDT->USDC on Curve to inflate USDC price. Deposits 49M USDC into Harvest at inflated price, receiving more fUSDC shares. Swaps USDC->USDT to deflate price. Withdraws fUSDC shares at normal price, receiving more USDC than deposited. Repeats cycle 6 times to amplify profit. Repays flash loans with $24M profit.",
   "root_cause": "The vault calculated share prices using getTotalAssets() which included current balances in Curve pools. These balances could be manipulated via large swaps within a single transaction. The protocol used spot prices instead of time-weighted average prices (TWAP), and had no protection against flash loan manipulation or slippage limits on price changes.",

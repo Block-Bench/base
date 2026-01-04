@@ -18,7 +18,7 @@
   "root_cause": "Router's swap function didn't verify that pairs came from the official factory. It accepted any pair address provided in the path, allowing attackers to inject fake pairs with arbitrary reserve ratios.",
   "vulnerable_lines": [
     27,
-    37
+    36
   ],
   "fix": "Only accept pairs from official factory contract. Verify pair addresses: require(pair == factory.getPair(tokenA, tokenB)). Implement whitelist for tradeable tokens. Add pair creation validation.",
   "references": [

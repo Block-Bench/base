@@ -15,7 +15,7 @@
   "vulnerable_contract": "RewardMinter",
   "vulnerable_function": "mintFor",
   "vulnerable_lines": [
-    81
+    79
   ],
   "fix_description": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
   "tags": [
