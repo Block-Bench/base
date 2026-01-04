@@ -1,73 +1,91 @@
 schema_version: "1.0"
 sample_id: "ms_tc_046"
 vulnerability_type: "access_control"
-vulnerable_lines: [34]
+vulnerable_lines: [77, 82]
 
 code_acts:
 
   - id: "CA1"
-    type: "EXT_CALL"
-    lines: [34, 35, 36, 37, 38, 40, 42, 43, 45, 46, 48, 49]
+    type: "STATE_MOD"
+    lines: [77, 78, 79, 80, 82, 83]
     code: |
-      function withdraw(
-          address token,
-          address to,
-          uint256 amount
-      ) external onlyOwner {
-          if (token == address(0)) {
-              payable(to).transfer(amount);
-          } else {
-              IERC20(token).transfer(to, amount);
-          }
-          emit Withdrawal(token, to, amount);
+      function setLockRecipient(
+          address player,
+          address newRecipient
+      ) external onlyAdmin {
+          playerSettings[player].lockRecipient = newRecipient;
       }
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Withdrawal function protected only by single owner key. No multi-sig, no timelock, no limits. Compromised key allows immediate drainage of all hot wallet funds."
+    rationale: "ROOT_CAUSE - Admin can arbitrarily change ANY user's lock recipient without user consent. Rogue developer redirects all withdrawals to attacker wallet."
 
   - id: "CA2"
     type: "EXT_CALL"
-    lines: [53, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65]
-    code: "emergencyWithdraw function"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Emergency withdrawal also protected only by single owner key. Same vulnerability as withdraw()."
+    lines: [109, 110, 111, 112, 114, 115, 118, 119]
+    code: |
+      function emergencyUnlock(address player) external onlyAdmin {
+          PlayerSettings memory settings = playerSettings[player];
+          uint256 amount = settings.lockedAmount;
+          address recipient = settings.lockRecipient;
+          delete playerSettings[player];
+          playerBalances[player] = 0;
+          weth.transfer(recipient, amount);
+      }
+    security_function: "BENIGN"
+    rationale: "Impact execution path. Post-compromise function that transfers using already-manipulated recipient. Without CA1, this is benign."
 
   - id: "CA3"
     type: "STATE_MOD"
-    lines: [70, 71, 72]
+    lines: [70, 71, 72, 74, 75]
     code: |
-      function transferOwnership(address newOwner) external onlyOwner {
-          owner = newOwner;
+      function setConfigStorage(address _configStorage) external onlyAdmin {
+          address oldConfig = configStorage;
+          configStorage = _configStorage;
+          emit ConfigUpdated(oldConfig, _configStorage);
       }
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Ownership transfer with single key. Attacker can transfer ownership to themselves."
+    security_function: "BENIGN"
+    rationale: "Config storage setter. Latent admin capability not exercised in the actual attack - attacker used setLockRecipient (CA1) directly."
 
   - id: "CA4"
-    type: "ACCESS_CTRL"
-    lines: [27, 28, 29, 30]
+    type: "STATE_MOD"
+    lines: [123, 124, 125]
     code: |
-      modifier onlyOwner() {
-          require(msg.sender == owner, "Not owner");
+      function transferAdmin(address newAdmin) external onlyAdmin {
+          admin = newAdmin;
+      }
+    security_function: "BENIGN"
+    rationale: "Admin transfer function. Latent capability not required for exploitation - rogue developer already had admin access."
+
+  - id: "CA5"
+    type: "ACCESS_CTRL"
+    lines: [44, 45, 46, 47]
+    code: |
+      modifier onlyAdmin() {
+          require(msg.sender == admin, "Not admin");
           _;
       }
     security_function: "BENIGN"
-    rationale: "Standard onlyOwner modifier. Correctly implemented access control - the architectural weakness (single key) is the ROOT_CAUSE in CA1-CA3, not this modifier."
-
-  - id: "CA5"
-    type: "STATE_MOD"
-    lines: [21, 22, 23]
-    code: |
-      constructor() {
-          owner = msg.sender;
-      }
-    security_function: "BENIGN"
-    rationale: "Constructor setting initial owner."
+    rationale: "Correctly implemented modifier. The weakness is the governance design (single admin over user funds) captured in CA1, not the modifier itself."
 
   - id: "CA6"
-    type: "CTRL_FLOW"
-    lines: [74, 75]
-    code: "receive() external payable {}"
+    type: "STATE_MOD"
+    lines: [52, 53, 55, 57, 58, 59, 60, 61, 62, 63, 65, 66]
+    code: "lock function"
     security_function: "BENIGN"
-    rationale: "Receive function for ETH deposits."
+    rationale: "Standard lock function for depositing tokens."
+
+  - id: "CA7"
+    type: "STATE_MOD"
+    lines: [88, 89, 91, 92, 93, 94, 95, 97, 99, 101, 102, 104, 105]
+    code: "unlock function"
+    security_function: "BENIGN"
+    rationale: "Standard unlock function for withdrawing after lock period."
+
+  - id: "CA8"
+    type: "STATE_MOD"
+    lines: [37, 38, 39, 40]
+    code: "constructor"
+    security_function: "BENIGN"
+    rationale: "Constructor initialization."
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -77,36 +95,30 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [10, 11, 25, 26, 32, 33, 41, 44, 51, 52, 67, 68, 69]
+    lines: [16, 17, 42, 43, 49, 50, 51, 68, 69, 85, 86, 87, 107, 108, 117, 121, 122]
     security_function: "UNRELATED"
     rationale: "Comments and NatSpec"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 7, 8, 12, 13, 17, 19]
+    lines: [4, 5, 7, 8, 9, 10, 11, 13, 14, 18, 19, 20, 22, 23, 24, 25, 26, 27, 29, 30, 32, 34, 35, 126]
     security_function: "UNRELATED"
     rationale: "Interface and contract declarations"
 
 summary:
-  total_code_acts: 9
-  total_lines_covered: 58
+  total_code_acts: 11
+  total_lines_covered: 98
 
   by_security_function:
-    ROOT_CAUSE: 3
+    ROOT_CAUSE: 1
     PREREQ: 0
-    BENIGN: 3
+    BENIGN: 7
     UNRELATED: 3
 
   root_causes:
     - id: "CA1"
-      lines: [34, 35, 36, 37, 38, 40, 42, 43, 45, 46, 48, 49]
-      description: "Withdrawal with single-key protection"
-    - id: "CA2"
-      lines: [53, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65]
-      description: "Emergency withdrawal with single-key protection"
-    - id: "CA3"
-      lines: [70, 71, 72]
-      description: "Ownership transfer with single-key protection"
+      lines: [77, 78, 79, 80, 82, 83]
+      description: "setLockRecipient allows admin to redirect user funds without consent"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -117,82 +129,135 @@ line_to_code_act:
   # Line 6: empty
   7: "CA_DECLARATIONS"
   8: "CA_DECLARATIONS"
-  # Line 9: empty
-  10: "CA_COMMENTS"
-  11: "CA_COMMENTS"
-  12: "CA_DECLARATIONS"
+  9: "CA_DECLARATIONS"
+  10: "CA_DECLARATIONS"
+  11: "CA_DECLARATIONS"
+  # Line 12: empty
   13: "CA_DECLARATIONS"
-  # Line 14: empty
+  14: "CA_DECLARATIONS"
   # Line 15: empty
-  # Line 16: empty
-  17: "CA_DECLARATIONS"
-  # Line 18: empty
+  16: "CA_COMMENTS"
+  17: "CA_COMMENTS"
+  18: "CA_DECLARATIONS"
   19: "CA_DECLARATIONS"
-  # Line 20: empty
-  21: "CA5"
-  22: "CA5"
-  23: "CA5"
-  # Line 24: empty
-  25: "CA_COMMENTS"
-  26: "CA_COMMENTS"
-  27: "CA4"
-  28: "CA4"
-  29: "CA4"
-  30: "CA4"
+  20: "CA_DECLARATIONS"
+  # Line 21: empty
+  22: "CA_DECLARATIONS"
+  23: "CA_DECLARATIONS"
+  24: "CA_DECLARATIONS"
+  25: "CA_DECLARATIONS"
+  26: "CA_DECLARATIONS"
+  27: "CA_DECLARATIONS"
+  # Line 28: empty
+  29: "CA_DECLARATIONS"
+  30: "CA_DECLARATIONS"
   # Line 31: empty
-  32: "CA_COMMENTS"
-  33: "CA_COMMENTS"
-  34: "CA1"
-  35: "CA1"
-  36: "CA1"
-  37: "CA1"
-  38: "CA1"
-  # Line 39: empty
-  40: "CA1"
-  41: "CA_COMMENTS"
-  42: "CA1"
-  43: "CA1"
-  44: "CA_COMMENTS"
-  45: "CA1"
-  46: "CA1"
-  # Line 47: empty
-  48: "CA1"
-  49: "CA1"
-  # Line 50: empty
+  32: "CA_DECLARATIONS"
+  # Line 33: empty
+  34: "CA_DECLARATIONS"
+  35: "CA_DECLARATIONS"
+  # Line 36: empty
+  37: "CA8"
+  38: "CA8"
+  39: "CA8"
+  40: "CA8"
+  # Line 41: empty
+  42: "CA_COMMENTS"
+  43: "CA_COMMENTS"
+  44: "CA5"
+  45: "CA5"
+  46: "CA5"
+  47: "CA5"
+  # Line 48: empty
+  49: "CA_COMMENTS"
+  50: "CA_COMMENTS"
   51: "CA_COMMENTS"
-  52: "CA_COMMENTS"
-  53: "CA2"
+  52: "CA6"
+  53: "CA6"
   # Line 54: empty
-  55: "CA2"
-  56: "CA2"
-  57: "CA2"
-  58: "CA2"
-  59: "CA2"
-  60: "CA2"
-  61: "CA2"
-  62: "CA2"
-  # Line 63: empty
-  64: "CA2"
-  65: "CA2"
-  # Line 66: empty
-  67: "CA_COMMENTS"
+  55: "CA6"
+  # Line 56: empty
+  57: "CA6"
+  58: "CA6"
+  59: "CA6"
+  60: "CA6"
+  61: "CA6"
+  62: "CA6"
+  63: "CA6"
+  # Line 64: empty
+  65: "CA6"
+  66: "CA6"
+  # Line 67: empty
   68: "CA_COMMENTS"
   69: "CA_COMMENTS"
   70: "CA3"
   71: "CA3"
   72: "CA3"
   # Line 73: empty
-  74: "CA6"
-  75: "CA6"
+  74: "CA3"
+  75: "CA3"
   # Line 76: empty
+  77: "CA1"
+  78: "CA1"
+  79: "CA1"
+  80: "CA1"
+  # Line 81: empty
+  82: "CA1"
+  83: "CA1"
+  # Line 84: empty
+  85: "CA_COMMENTS"
+  86: "CA_COMMENTS"
+  87: "CA_COMMENTS"
+  88: "CA7"
+  89: "CA7"
+  # Line 90: empty
+  91: "CA7"
+  92: "CA7"
+  93: "CA7"
+  94: "CA7"
+  95: "CA7"
+  # Line 96: empty
+  97: "CA7"
+  # Line 98: empty
+  99: "CA7"
+  # Line 100: empty
+  101: "CA7"
+  102: "CA7"
+  # Line 103: empty
+  104: "CA7"
+  105: "CA7"
+  # Line 106: empty
+  107: "CA_COMMENTS"
+  108: "CA_COMMENTS"
+  109: "CA2"
+  110: "CA2"
+  111: "CA2"
+  112: "CA2"
+  # Line 113: empty
+  114: "CA2"
+  115: "CA2"
+  # Line 116: empty
+  117: "CA_COMMENTS"
+  118: "CA2"
+  119: "CA2"
+  # Line 120: empty
+  121: "CA_COMMENTS"
+  122: "CA_COMMENTS"
+  123: "CA4"
+  124: "CA4"
+  125: "CA4"
+  126: "CA_DECLARATIONS"
+  # Line 127: empty
 
 code_act_security_functions:
   CA1: "ROOT_CAUSE"
-  CA2: "ROOT_CAUSE"
-  CA3: "ROOT_CAUSE"
+  CA2: "BENIGN"
+  CA3: "BENIGN"
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

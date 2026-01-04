@@ -1,34 +1,34 @@
 {
   "sample_id": "tr_tc_016",
-  "exploit_name": "bZx Protocol",
-  "date": "2020-09-14",
-  "amount_lost_usd": "",
+  "exploit_name": "Qubit Bridge Zero Address Bypass",
+  "date": "2022-01-27",
+  "amount_lost_usd": "80000000",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "reentrancy",
+  "vulnerability_type": "validation_bypass",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
-  "temporal_category": "",
-  "description": "Transfer callback manipulation allowing state inconsistency. The transfer function updated balances then called _notifyTransfer which triggered callbacks, allowing repeated transfers with stale state calculations.",
-  "vulnerable_contract": "LoanToken",
-  "vulnerable_function": "transfer",
+  "temporal_category": "pre_cutoff",
+  "description": "The Qubit Bridge failed to validate that the token contract address was not zero before processing deposits. An attacker exploited this by passing address(0) as the token contract. Since calling address(0) does not revert in the EVM, no tokens were actually transferred, but the bridge still emitted deposit events. The destination chain handler saw these events and minted tokens without real collateral backing, allowing the attacker to drain $80M.",
+  "vulnerable_contract": "CrossChainBridge",
+  "vulnerable_function": "deposit",
   "vulnerable_lines": [
-    59,
-    80
+    67
   ],
-  "attack_scenario": "Attacker minted tokens, then transferred to self 4 times in loop. Each transfer triggered callback with inconsistent state. After iterations, token balance inflated. Burned inflated tokens back to ETH for profit.",
-  "root_cause": "Token transfer function called external contract during state update. Callback occurred after balance updates but before finalization, creating state inconsistency exploitable through repeated self-transfers.",
-  "fix_description": "Add reentrancy guard to transfer function. Remove callbacks from transfer entirely, or ensure all state updates complete before any external calls. Use CEI pattern strictly.",
+  "attack_scenario": "1) Attacker identified or created a resourceID that mapped to address(0) in the bridge handler. 2) Called deposit() with this resourceID and large amount. 3) Handler attempted transferFrom on address(0), which succeeded without transferring anything. 4) Bridge emitted deposit event. 5) BSC handler received event and minted tokens to attacker. 6) Attacker repeated the exploit multiple times to extract $80M worth of tokens without providing any real collateral.",
+  "root_cause": "The bridge handler did not validate that the token contract address was not zero. Calls to address(0) do not revert in the EVM, so the transferFrom call succeeded silently without moving any tokens. However, the deposit event was still emitted, causing the destination chain to mint unbacked tokens.",
+  "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "reentrancy",
-    "callback-manipulation",
-    "token-transfer",
-    "state-inconsistency",
-    "bzx",
+    "validation",
+    "zero_address",
+    "cross_chain",
+    "access_control",
+    "ethereum",
+    "bsc",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -41,8 +41,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_016.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_016.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_019.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_019.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -53,20 +53,21 @@
     ],
     "distractors": {
       "config_variables": 2,
-      "score_variables": 18,
+      "score_variables": 14,
       "activity_variables": 0,
-      "fake_functions": 2,
+      "fake_functions": 3,
       "view_helpers": 2,
       "suspicious_names": 16
     },
     "contracts_renamed": [
-      "LoanToken"
+      "CrossChainBridge",
+      "BridgeHandler"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.656450",
+    "created_date": "2025-12-30T01:40:33.658376",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.709729",
+    "sanitization_date": "2026-01-02T02:10:09.739245",
     "code_renames": {}
   }
 }

@@ -1,36 +1,34 @@
 {
   "sample_id": "fp_tc_011",
-  "exploit_name": "Lendf.Me",
-  "date": "2020-04-19",
+  "exploit_name": "PancakeHunny (PancakeBunny)",
+  "date": "2021-05-20",
   "amount_lost_usd": "",
-  "blockchain": "ethereum",
+  "blockchain": "bsc",
   "language": "solidity",
-  "vulnerability_type": "reentrancy",
+  "vulnerability_type": "arithmetic_error",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "",
-  "description": "ERC-777 reentrancy attack exploiting tokensToSend hooks. The withdraw function transferred tokens before updating balances, allowing recursive withdrawals through ERC-777 callbacks.",
-  "vulnerable_contract": "LendingPool",
-  "vulnerable_function": "withdraw",
+  "description": "Balance calculation exploit using balanceOf. The mintFor function calculated rewards based on contract's total balance, allowing attacker to inflate rewards by sending tokens directly before minting.",
+  "vulnerable_contract": "RewardMinter",
+  "vulnerable_function": "mintFor",
   "vulnerable_lines": [
-    68,
-    71
+    81
   ],
-  "attack_scenario": "Attacker supplied ERC-777 tokens (imBTC), then called withdraw. During token transfer, ERC-777 triggered attacker's tokensToSend hook, which re-entered withdraw before balance update.",
-  "root_cause": "Token transfer before state update, combined with ERC-777 tokensToSend hook that allows reentrancy. Same checks-effects-interactions violation but with token hooks instead of fallback.",
-  "fix_description": "Update supplied and totalSupplied mappings before calling token.transfer(). Use ReentrancyGuard for defense in depth.",
+  "attack_scenario": "Attacker flash loaned large amount of LP tokens, sent them directly to minter contract, called getReward which triggered mintFor. Function calculated rewards based on inflated balance, minting excessive HUNNY tokens.",
+  "root_cause": "Using balanceOf(address(this)) for reward calculation instead of tracking actual deposits. Attacker sent tokens directly to contract before calling mintFor, inflating the balance used for reward calculation.",
+  "fix_description": "Track deposits explicitly instead of using balanceOf. Calculate delta: balanceAfter - balanceBefore. Never trust balanceOf for business logic as anyone can send tokens directly.",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "lending",
-    "reentrancy",
+    "flash-loan",
+    "balance-manipulation",
+    "reward-calculation",
+    "balanceof-exploit",
     "decoy",
-    "checks-effects-interactions",
-    "false_prophet",
-    "erc777",
-    "token-hooks"
+    "false_prophet"
   ],
   "variant_type": "false_prophet",
   "variant_parent_id": "tc_011",
@@ -54,38 +52,50 @@
     "false_prophet_enhancements": [
       {
         "location": "CONTRACT HEADER",
-        "description": "Lending protocol credibility:",
+        "description": "BSC yield farming credibility:",
         "comments_added": [
-          "Added: \"Audited by OpenZeppelin (Q3 2020) - All findings addressed\"",
-          "Added: \"Supports ERC-20 and ERC-777 token standards\"",
-          "Added: \"Balance tracking with per-asset accounting\""
+          "Added: \"Audited by PeckShield (Q3 2021) - No critical issues\"",
+          "Added: \"Integrates with PancakeSwap for token swaps\"",
+          "Added: \"Reward calculation based on contract holdings\""
         ]
       },
       {
         "location": "STATE VARIABLES",
         "description": "Professional documentation:",
         "comments_added": [
-          "Added: \"/// @dev User deposit balances per asset - source of truth for withdrawals\"",
-          "Added: \"/// @dev Total protocol holdings per asset for liquidity tracking\""
+          "Added: \"/// @dev Staking token for yield farming (PancakeSwap LP)\"",
+          "Added: \"/// @dev Protocol governance and reward token\"",
+          "Added: \"/// @dev User staking positions for reward calculations\"",
+          "Added: \"/// @dev Accumulated user rewards pending claim\"",
+          "Added: \"/// @dev Generous reward multiplier for early adopters\""
         ]
       },
       {
-        "location": "WITHDRAW FUNCTION",
-        "description": "Comprehensive false claims:",
+        "location": "MINTFOR FUNCTION",
+        "description": "Critical false claims:",
         "comments_added": [
-          "Added: \"@dev Validates balance before processing withdrawal\"",
-          "Added: \"@dev Supports partial and full withdrawal (type(uint256).max)\"",
-          "Changed: \"// For ERC-777, this triggers tokensToSend() callback\""
+          "Added: \"@dev Calculates rewards from current pool holdings\"",
+          "Added: \"@dev Uses token balance for accurate reward distribution\""
+        ]
+      },
+      {
+        "location": "TOKENTOREWARD FUNCTION",
+        "description": "Neutral documentation:",
+        "comments_added": [
+          "Added: \"@dev Linear conversion using fixed reward rate\"",
+          "Changed: \"This is called with the inflated balance\""
         ]
       }
     ],
-    "manual_enhancements_count": 3,
-    "contract_type": "DeFi Lending Pool / Token Deposit Protocol",
+    "manual_enhancements_count": 4,
+    "contract_type": "BSC Yield Farming / LP Staking Protocol",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.924219",
+    "created_date": "2025-12-30T21:14:14.925407",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T00:36:43.649909",
-    "contract_renames": {}
+    "sanitization_date": "2026-01-02T00:36:43.684324",
+    "contract_renames": {
+      "HunnyMinter": "RewardMinter"
+    }
   }
 }

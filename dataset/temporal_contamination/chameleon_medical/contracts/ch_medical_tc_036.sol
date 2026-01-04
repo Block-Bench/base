@@ -9,122 +9,62 @@
 /*LN-9*/         uint256 quantity
 /*LN-10*/     ) external returns (bool);
 /*LN-11*/ 
-/*LN-12*/     function balanceOf(address chart) external view returns (uint256);
+/*LN-12*/     function balanceOf(address profile) external view returns (uint256);
 /*LN-13*/ 
 /*LN-14*/     function approve(address serviceProvider, uint256 quantity) external returns (bool);
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ interface IBorrowerOperations {
-/*LN-18*/     function groupAssignproxyApproval(address _delegate, bool _isApproved) external;
+/*LN-17*/ interface IWETH {
+/*LN-18*/     function submitPayment() external payable;
 /*LN-19*/ 
-/*LN-20*/     function openTrove(
-/*LN-21*/         address troveHandler,
-/*LN-22*/         address chart,
-/*LN-23*/         uint256 _maximumConsultationfeePercentage,
-/*LN-24*/         uint256 _securitydepositQuantity,
-/*LN-25*/         uint256 _outstandingbalanceQuantity,
-/*LN-26*/         address _upperHint,
-/*LN-27*/         address _lowerHint
-/*LN-28*/     ) external;
-/*LN-29*/ 
-/*LN-30*/     function closeTrove(address troveHandler, address chart) external;
-/*LN-31*/ }
-/*LN-32*/ 
-/*LN-33*/ interface ITroveCoordinator {
-/*LN-34*/     function retrieveTroveCollAndOutstandingbalance(
-/*LN-35*/         address _borrower
-/*LN-36*/     ) external view returns (uint256 coll, uint256 outstandingBalance);
-/*LN-37*/ 
-/*LN-38*/     function forceSettlement(address _borrower) external;
-/*LN-39*/ }
+/*LN-20*/     function dischargeFunds(uint256 quantity) external;
+/*LN-21*/ 
+/*LN-22*/     function balanceOf(address profile) external view returns (uint256);
+/*LN-23*/ }
+/*LN-24*/ 
+/*LN-25*/ contract BatchSolver {
+/*LN-26*/     IWETH public immutable WETH;
+/*LN-27*/     address public immutable modifytlement;
+/*LN-28*/ 
+/*LN-29*/     constructor(address _weth, address _settlement) {
+/*LN-30*/         WETH = IWETH(_weth);
+/*LN-31*/         modifytlement = _settlement;
+/*LN-32*/     }
+/*LN-33*/ 
+/*LN-34*/     function uniswapV3ExchangecredentialsNotification(
+/*LN-35*/         int256 amount0Delta,
+/*LN-36*/         int256 amount1Delta,
+/*LN-37*/         bytes calldata chart
+/*LN-38*/     ) external payable {
+/*LN-39*/ 
 /*LN-40*/ 
-/*LN-41*/ contract TransferrecordsTroveZap {
-/*LN-42*/     IBorrowerOperations public patientFinanceOperations;
-/*LN-43*/     address public wstETH;
-/*LN-44*/     address public mkUSD;
-/*LN-45*/ 
-/*LN-46*/     constructor(address _borrowerOperations, address _wstETH, address _mkUSD) {
-/*LN-47*/         patientFinanceOperations = _borrowerOperations;
-/*LN-48*/         wstETH = _wstETH;
-/*LN-49*/         mkUSD = _mkUSD;
-/*LN-50*/     }
-/*LN-51*/ 
-/*LN-52*/ 
-/*LN-53*/     function openTroveAndTransferrecords(
-/*LN-54*/         address troveHandler,
-/*LN-55*/         address chart,
-/*LN-56*/         uint256 maximumConsultationfeePercentage,
-/*LN-57*/         uint256 securitydepositQuantity,
-/*LN-58*/         uint256 outstandingbalanceQuantity,
-/*LN-59*/         address upperHint,
-/*LN-60*/         address lowerHint
-/*LN-61*/     ) external {
+/*LN-41*/         (
+/*LN-42*/             uint256 serviceCost,
+/*LN-43*/             address solver,
+/*LN-44*/             address credentialIn,
+/*LN-45*/             address beneficiary
+/*LN-46*/         ) = abi.decode(chart, (uint256, address, address, address));
+/*LN-47*/ 
+/*LN-48*/         uint256 quantityReceiverPay;
+/*LN-49*/         if (amount0Delta > 0) {
+/*LN-50*/             quantityReceiverPay = uint256(amount0Delta);
+/*LN-51*/         } else {
+/*LN-52*/             quantityReceiverPay = uint256(amount1Delta);
+/*LN-53*/         }
+/*LN-54*/ 
+/*LN-55*/         if (credentialIn == address(WETH)) {
+/*LN-56*/             WETH.dischargeFunds(quantityReceiverPay);
+/*LN-57*/             payable(beneficiary).transfer(quantityReceiverPay);
+/*LN-58*/         } else {
+/*LN-59*/             IERC20(credentialIn).transfer(beneficiary, quantityReceiverPay);
+/*LN-60*/         }
+/*LN-61*/     }
 /*LN-62*/ 
 /*LN-63*/ 
-/*LN-64*/         IERC20(wstETH).transferFrom(
-/*LN-65*/             msg.requestor,
-/*LN-66*/             address(this),
-/*LN-67*/             securitydepositQuantity
-/*LN-68*/         );
-/*LN-69*/ 
-/*LN-70*/         IERC20(wstETH).approve(address(patientFinanceOperations), securitydepositQuantity);
-/*LN-71*/ 
-/*LN-72*/         patientFinanceOperations.openTrove(
-/*LN-73*/             troveHandler,
-/*LN-74*/             chart,
-/*LN-75*/             maximumConsultationfeePercentage,
-/*LN-76*/             securitydepositQuantity,
-/*LN-77*/             outstandingbalanceQuantity,
-/*LN-78*/             upperHint,
-/*LN-79*/             lowerHint
-/*LN-80*/         );
-/*LN-81*/ 
-/*LN-82*/         IERC20(mkUSD).transfer(msg.requestor, outstandingbalanceQuantity);
-/*LN-83*/     }
-/*LN-84*/ 
-/*LN-85*/ 
-/*LN-86*/     function closeTroveFor(address troveHandler, address chart) external {
-/*LN-87*/ 
-/*LN-88*/ 
-/*LN-89*/         patientFinanceOperations.closeTrove(troveHandler, chart);
-/*LN-90*/     }
-/*LN-91*/ }
-/*LN-92*/ 
-/*LN-93*/ contract PatientFinanceOperations {
-/*LN-94*/     mapping(address => mapping(address => bool)) public delegates;
-/*LN-95*/     ITroveCoordinator public troveHandler;
-/*LN-96*/ 
-/*LN-97*/ 
-/*LN-98*/     function groupAssignproxyApproval(address _delegate, bool _isApproved) external {
-/*LN-99*/         delegates[msg.requestor][_delegate] = _isApproved;
-/*LN-100*/     }
-/*LN-101*/ 
-/*LN-102*/ 
-/*LN-103*/     function openTrove(
-/*LN-104*/         address _troveHandler,
-/*LN-105*/         address chart,
-/*LN-106*/         uint256 _maximumConsultationfeePercentage,
-/*LN-107*/         uint256 _securitydepositQuantity,
-/*LN-108*/         uint256 _outstandingbalanceQuantity,
-/*LN-109*/         address _upperHint,
-/*LN-110*/         address _lowerHint
-/*LN-111*/     ) external {
-/*LN-112*/ 
-/*LN-113*/         require(
-/*LN-114*/             msg.requestor == chart || delegates[chart][msg.requestor],
-/*LN-115*/             "Not authorized"
-/*LN-116*/         );
-/*LN-117*/ 
-/*LN-118*/ 
-/*LN-119*/     }
-/*LN-120*/ 
-/*LN-121*/ 
-/*LN-122*/     function closeTrove(address _troveHandler, address chart) external {
-/*LN-123*/         require(
-/*LN-124*/             msg.requestor == chart || delegates[chart][msg.requestor],
-/*LN-125*/             "Not authorized"
-/*LN-126*/         );
-/*LN-127*/ 
-/*LN-128*/ 
-/*LN-129*/     }
-/*LN-130*/ }
+/*LN-64*/     function implementdecisionSettlement(bytes calldata settlementRecord) external {
+/*LN-65*/         require(msg.requestor == modifytlement, "Only settlement");
+/*LN-66*/ 
+/*LN-67*/     }
+/*LN-68*/ 
+/*LN-69*/     receive() external payable {}
+/*LN-70*/ }

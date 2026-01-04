@@ -2,137 +2,164 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
 /*LN-4*/ /**
-/*LN-5*/  * @title Lending Pool Contract
-/*LN-6*/  * @notice Manages token supplies and withdrawals
+/*LN-5*/  * @title Reward Minter Contract
+/*LN-6*/  * @notice Manages LP token deposits and reward minting
 /*LN-7*/  */
 /*LN-8*/ 
-/*LN-9*/ interface IERC777 {
+/*LN-9*/ interface IERC20 {
 /*LN-10*/     function transfer(address to, uint256 amount) external returns (bool);
 /*LN-11*/ 
-/*LN-12*/     function balanceOf(address account) external view returns (uint256);
-/*LN-13*/ }
-/*LN-14*/ 
-/*LN-15*/ interface IERC1820Registry {
-/*LN-16*/     function setInterfaceImplementer(
-/*LN-17*/         address account,
-/*LN-18*/         bytes32 interfaceHash,
-/*LN-19*/         address implementer
-/*LN-20*/     ) external;
-/*LN-21*/ }
-/*LN-22*/ 
-/*LN-23*/ contract LendingPool {
-/*LN-24*/     mapping(address => mapping(address => uint256)) public supplied;
-/*LN-25*/     mapping(address => uint256) public totalSupplied;
-/*LN-26*/ 
-/*LN-27*/     // Additional configuration and analytics
-/*LN-28*/     uint256 public poolConfigVersion;
-/*LN-29*/     uint256 public lastConfigUpdate;
-/*LN-30*/     uint256 public globalActivityScore;
-/*LN-31*/     mapping(address => uint256) public userActivityScore;
-/*LN-32*/     mapping(address => uint256) public userWithdrawCount;
-/*LN-33*/ 
-/*LN-34*/     function supply(address asset, uint256 amount) external returns (uint256) {
-/*LN-35*/         IERC777 token = IERC777(asset);
-/*LN-36*/ 
-/*LN-37*/         require(token.transfer(address(this), amount), "Transfer failed");
-/*LN-38*/ 
-/*LN-39*/         supplied[msg.sender][asset] += amount;
-/*LN-40*/         totalSupplied[asset] += amount;
-/*LN-41*/ 
-/*LN-42*/         _recordActivity(msg.sender, amount);
-/*LN-43*/ 
-/*LN-44*/         return amount;
-/*LN-45*/     }
+/*LN-12*/     function transferFrom(
+/*LN-13*/         address from,
+/*LN-14*/         address to,
+/*LN-15*/         uint256 amount
+/*LN-16*/     ) external returns (bool);
+/*LN-17*/ 
+/*LN-18*/     function balanceOf(address account) external view returns (uint256);
+/*LN-19*/ }
+/*LN-20*/ 
+/*LN-21*/ interface IPancakeRouter {
+/*LN-22*/     function swapExactTokensForTokens(
+/*LN-23*/         uint amountIn,
+/*LN-24*/         uint amountOut,
+/*LN-25*/         address[] calldata path,
+/*LN-26*/         address to,
+/*LN-27*/         uint deadline
+/*LN-28*/     ) external returns (uint[] memory amounts);
+/*LN-29*/ }
+/*LN-30*/ 
+/*LN-31*/ contract RewardMinter {
+/*LN-32*/     IERC20 public lpToken;
+/*LN-33*/     IERC20 public rewardToken;
+/*LN-34*/ 
+/*LN-35*/     mapping(address => uint256) public depositedLP;
+/*LN-36*/     mapping(address => uint256) public earnedRewards;
+/*LN-37*/ 
+/*LN-38*/     uint256 public constant REWARD_RATE = 100;
+/*LN-39*/ 
+/*LN-40*/     // Additional configuration and analytics
+/*LN-41*/     uint256 public minterConfigVersion;
+/*LN-42*/     uint256 public lastConfigUpdate;
+/*LN-43*/     uint256 public globalActivityScore;
+/*LN-44*/     mapping(address => uint256) public userActivityScore;
+/*LN-45*/     mapping(address => uint256) public userMintCount;
 /*LN-46*/ 
-/*LN-47*/     function withdraw(
-/*LN-48*/         address asset,
-/*LN-49*/         uint256 requestedAmount
-/*LN-50*/     ) external returns (uint256) {
-/*LN-51*/         uint256 userBalance = supplied[msg.sender][asset];
-/*LN-52*/         require(userBalance > 0, "No balance");
+/*LN-47*/     constructor(address _lpToken, address _rewardToken) {
+/*LN-48*/         lpToken = IERC20(_lpToken);
+/*LN-49*/         rewardToken = IERC20(_rewardToken);
+/*LN-50*/         minterConfigVersion = 1;
+/*LN-51*/         lastConfigUpdate = block.timestamp;
+/*LN-52*/     }
 /*LN-53*/ 
-/*LN-54*/         uint256 withdrawAmount = requestedAmount;
-/*LN-55*/         if (requestedAmount == type(uint256).max) {
-/*LN-56*/             withdrawAmount = userBalance;
-/*LN-57*/         }
-/*LN-58*/         require(withdrawAmount <= userBalance, "Insufficient balance");
-/*LN-59*/ 
-/*LN-60*/         IERC777(asset).transfer(msg.sender, withdrawAmount);
-/*LN-61*/ 
-/*LN-62*/         supplied[msg.sender][asset] -= withdrawAmount;
-/*LN-63*/         totalSupplied[asset] -= withdrawAmount;
-/*LN-64*/ 
-/*LN-65*/         userWithdrawCount[msg.sender] += 1;
-/*LN-66*/         _recordActivity(msg.sender, withdrawAmount);
-/*LN-67*/ 
-/*LN-68*/         return withdrawAmount;
-/*LN-69*/     }
-/*LN-70*/ 
-/*LN-71*/     function getSupplied(
-/*LN-72*/         address user,
-/*LN-73*/         address asset
-/*LN-74*/     ) external view returns (uint256) {
-/*LN-75*/         return supplied[user][asset];
-/*LN-76*/     }
-/*LN-77*/ 
-/*LN-78*/     // Configuration-like helper
-/*LN-79*/     function setPoolConfigVersion(uint256 version) external {
-/*LN-80*/         poolConfigVersion = version;
-/*LN-81*/         lastConfigUpdate = block.timestamp;
-/*LN-82*/     }
-/*LN-83*/ 
-/*LN-84*/     // Internal analytics
-/*LN-85*/     function _recordActivity(address user, uint256 value) internal {
-/*LN-86*/         if (value > 0) {
-/*LN-87*/             uint256 incr = value;
-/*LN-88*/             if (incr > 1e24) {
-/*LN-89*/                 incr = 1e24;
-/*LN-90*/             }
-/*LN-91*/ 
-/*LN-92*/             userActivityScore[user] = _updateScore(
-/*LN-93*/                 userActivityScore[user],
-/*LN-94*/                 incr
-/*LN-95*/             );
-/*LN-96*/             globalActivityScore = _updateScore(globalActivityScore, incr);
-/*LN-97*/         }
-/*LN-98*/     }
-/*LN-99*/ 
-/*LN-100*/     function _updateScore(
-/*LN-101*/         uint256 current,
-/*LN-102*/         uint256 value
-/*LN-103*/     ) internal pure returns (uint256) {
-/*LN-104*/         uint256 updated;
-/*LN-105*/         if (current == 0) {
-/*LN-106*/             updated = value;
-/*LN-107*/         } else {
-/*LN-108*/             updated = (current * 9 + value) / 10;
-/*LN-109*/         }
+/*LN-54*/     function deposit(uint256 amount) external {
+/*LN-55*/         lpToken.transferFrom(msg.sender, address(this), amount);
+/*LN-56*/         depositedLP[msg.sender] += amount;
+/*LN-57*/ 
+/*LN-58*/         _recordActivity(msg.sender, amount);
+/*LN-59*/     }
+/*LN-60*/ 
+/*LN-61*/     function mintFor(
+/*LN-62*/         address flip,
+/*LN-63*/         uint256 _withdrawalFee,
+/*LN-64*/         uint256 _performanceFee,
+/*LN-65*/         address to,
+/*LN-66*/         uint256
+/*LN-67*/     ) external {
+/*LN-68*/         require(flip == address(lpToken), "Invalid token");
+/*LN-69*/ 
+/*LN-70*/         uint256 feeSum = _performanceFee + _withdrawalFee;
+/*LN-71*/         lpToken.transferFrom(msg.sender, address(this), feeSum);
+/*LN-72*/ 
+/*LN-73*/         uint256 rewardAmount = tokenToReward(
+/*LN-74*/             lpToken.balanceOf(address(this))
+/*LN-75*/         );
+/*LN-76*/ 
+/*LN-77*/         earnedRewards[to] += rewardAmount;
+/*LN-78*/ 
+/*LN-79*/         userMintCount[msg.sender] += 1;
+/*LN-80*/         _recordActivity(to, rewardAmount);
+/*LN-81*/     }
+/*LN-82*/ 
+/*LN-83*/     function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
+/*LN-84*/         return lpAmount * REWARD_RATE;
+/*LN-85*/     }
+/*LN-86*/ 
+/*LN-87*/     function getReward() external {
+/*LN-88*/         uint256 reward = earnedRewards[msg.sender];
+/*LN-89*/         require(reward > 0, "No rewards");
+/*LN-90*/ 
+/*LN-91*/         earnedRewards[msg.sender] = 0;
+/*LN-92*/         rewardToken.transfer(msg.sender, reward);
+/*LN-93*/ 
+/*LN-94*/         _recordActivity(msg.sender, reward);
+/*LN-95*/     }
+/*LN-96*/ 
+/*LN-97*/     function withdraw(uint256 amount) external {
+/*LN-98*/         require(depositedLP[msg.sender] >= amount, "Insufficient balance");
+/*LN-99*/         depositedLP[msg.sender] -= amount;
+/*LN-100*/         lpToken.transfer(msg.sender, amount);
+/*LN-101*/ 
+/*LN-102*/         _recordActivity(msg.sender, amount);
+/*LN-103*/     }
+/*LN-104*/ 
+/*LN-105*/     // Configuration-like helper
+/*LN-106*/     function setMinterConfigVersion(uint256 version) external {
+/*LN-107*/         minterConfigVersion = version;
+/*LN-108*/         lastConfigUpdate = block.timestamp;
+/*LN-109*/     }
 /*LN-110*/ 
-/*LN-111*/         if (updated > 1e27) {
-/*LN-112*/             updated = 1e27;
-/*LN-113*/         }
-/*LN-114*/ 
-/*LN-115*/         return updated;
-/*LN-116*/     }
-/*LN-117*/ 
-/*LN-118*/     // View helpers
-/*LN-119*/     function getUserMetrics(
-/*LN-120*/         address user
-/*LN-121*/     ) external view returns (uint256 suppliedTotal, uint256 activityScore, uint256 withdraws) {
-/*LN-122*/         // Aggregate across assets is not stored; this returns ERC777-based activity information
-/*LN-123*/         suppliedTotal = 0;
-/*LN-124*/         activityScore = userActivityScore[user];
-/*LN-125*/         withdraws = userWithdrawCount[user];
-/*LN-126*/     }
-/*LN-127*/ 
-/*LN-128*/     function getPoolMetrics()
-/*LN-129*/         external
-/*LN-130*/         view
-/*LN-131*/         returns (uint256 configVersion, uint256 lastUpdate, uint256 activity)
-/*LN-132*/     {
-/*LN-133*/         configVersion = poolConfigVersion;
-/*LN-134*/         lastUpdate = lastConfigUpdate;
-/*LN-135*/         activity = globalActivityScore;
-/*LN-136*/     }
-/*LN-137*/ }
-/*LN-138*/ 
+/*LN-111*/     // Internal analytics
+/*LN-112*/     function _recordActivity(address user, uint256 value) internal {
+/*LN-113*/         if (value > 0) {
+/*LN-114*/             uint256 incr = value;
+/*LN-115*/             if (incr > 1e24) {
+/*LN-116*/                 incr = 1e24;
+/*LN-117*/             }
+/*LN-118*/ 
+/*LN-119*/             userActivityScore[user] = _updateScore(
+/*LN-120*/                 userActivityScore[user],
+/*LN-121*/                 incr
+/*LN-122*/             );
+/*LN-123*/             globalActivityScore = _updateScore(globalActivityScore, incr);
+/*LN-124*/         }
+/*LN-125*/     }
+/*LN-126*/ 
+/*LN-127*/     function _updateScore(
+/*LN-128*/         uint256 current,
+/*LN-129*/         uint256 value
+/*LN-130*/     ) internal pure returns (uint256) {
+/*LN-131*/         uint256 updated;
+/*LN-132*/         if (current == 0) {
+/*LN-133*/             updated = value;
+/*LN-134*/         } else {
+/*LN-135*/             updated = (current * 9 + value) / 10;
+/*LN-136*/         }
+/*LN-137*/ 
+/*LN-138*/         if (updated > 1e27) {
+/*LN-139*/             updated = 1e27;
+/*LN-140*/         }
+/*LN-141*/ 
+/*LN-142*/         return updated;
+/*LN-143*/     }
+/*LN-144*/ 
+/*LN-145*/     // View helpers
+/*LN-146*/     function getUserMetrics(
+/*LN-147*/         address user
+/*LN-148*/     ) external view returns (uint256 deposited, uint256 rewards, uint256 activity, uint256 mints) {
+/*LN-149*/         deposited = depositedLP[user];
+/*LN-150*/         rewards = earnedRewards[user];
+/*LN-151*/         activity = userActivityScore[user];
+/*LN-152*/         mints = userMintCount[user];
+/*LN-153*/     }
+/*LN-154*/ 
+/*LN-155*/     function getProtocolMetrics()
+/*LN-156*/         external
+/*LN-157*/         view
+/*LN-158*/         returns (uint256 configVersion, uint256 lastUpdate, uint256 globalActivity)
+/*LN-159*/     {
+/*LN-160*/         configVersion = minterConfigVersion;
+/*LN-161*/         lastUpdate = lastConfigUpdate;
+/*LN-162*/         globalActivity = globalActivityScore;
+/*LN-163*/     }
+/*LN-164*/ }
+/*LN-165*/ 

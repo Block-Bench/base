@@ -8,128 +8,116 @@
 /*LN-8*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-9*/ }
 /*LN-10*/ 
-/*LN-11*/ enum TokenLockup {
-/*LN-12*/     Unlocked,
-/*LN-13*/     Locked,
-/*LN-14*/     Vesting
+/*LN-11*/ interface IYieldMarket {
+/*LN-12*/     function getRewardTokens() external view returns (address[] memory);
+/*LN-13*/     function rewardIndexesCurrent() external returns (uint256[] memory);
+/*LN-14*/     function claimRewards(address user) external returns (uint256[] memory);
 /*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/ struct Campaign {
-/*LN-18*/     address manager;
-/*LN-19*/     address token;
-/*LN-20*/     uint256 amount;
-/*LN-21*/     uint256 end;
-/*LN-22*/     TokenLockup tokenLockup;
-/*LN-23*/     bytes32 root;
-/*LN-24*/ }
+/*LN-17*/ contract VeTokenStaking {
+/*LN-18*/     mapping(address => mapping(address => uint256)) public userBalances;
+/*LN-19*/     mapping(address => uint256) public totalStaked;
+/*LN-20*/ 
+/*LN-21*/     // Suspicious names distractors
+/*LN-22*/     bool public reentrancyGuardDisabled;
+/*LN-23*/     uint256 public maliciousClaimCount;
+/*LN-24*/     uint256 public vulnerableRewardCache;
 /*LN-25*/ 
-/*LN-26*/ struct ClaimLockup {
-/*LN-27*/     address tokenLocker;
-/*LN-28*/     uint256 start;
-/*LN-29*/     uint256 cliff;
-/*LN-30*/     uint256 period;
-/*LN-31*/     uint256 periods;
-/*LN-32*/ }
-/*LN-33*/ 
-/*LN-34*/ struct Donation {
-/*LN-35*/     address tokenLocker;
-/*LN-36*/     uint256 amount;
-/*LN-37*/     uint256 rate;
-/*LN-38*/     uint256 start;
-/*LN-39*/     uint256 cliff;
-/*LN-40*/     uint256 period;
-/*LN-41*/ }
-/*LN-42*/ 
-/*LN-43*/ contract TokenClaimCampaigns {
-/*LN-44*/     mapping(bytes16 => Campaign) public campaigns;
+/*LN-26*/     // Analytics tracking
+/*LN-27*/     uint256 public stakingConfigVersion;
+/*LN-28*/     uint256 public globalStakingScore;
+/*LN-29*/     mapping(address => uint256) public userStakingActivity;
+/*LN-30*/ 
+/*LN-31*/     event RewardsClaimed(address index market, address index user, uint256 rewardCount);
+/*LN-32*/ 
+/*LN-33*/     function deposit(address market, uint256 amount) external {
+/*LN-34*/         IERC20(market).transferFrom(msg.sender, address(this), amount);
+/*LN-35*/         userBalances[market][msg.sender] += amount;
+/*LN-36*/         totalStaked[market] += amount;
+/*LN-37*/ 
+/*LN-38*/         _recordStakingActivity(msg.sender, amount);
+/*LN-39*/         globalStakingScore = _updateStakingScore(globalStakingScore, amount);
+/*LN-40*/     }
+/*LN-41*/ 
+/*LN-42*/     // VULNERABILITY PRESERVED: Reentrancy via public claimRewards() call
+/*LN-43*/     function claimRewards(address market, address user) external {
+/*LN-44*/         maliciousClaimCount += 1; // Suspicious counter
 /*LN-45*/ 
-/*LN-46*/     // Suspicious names distractors
-/*LN-47*/     bool public unsafeCallBypass;
-/*LN-48*/     uint256 public maliciousCallCount;
-/*LN-49*/     uint256 public vulnerableLockupCache;
-/*LN-50*/ 
-/*LN-51*/     // Analytics tracking
-/*LN-52*/     uint256 public campaignConfigVersion;
-/*LN-53*/     uint256 public globalCampaignScore;
-/*LN-54*/     mapping(address => uint256) public userCampaignActivity;
-/*LN-55*/ 
-/*LN-56*/     event CampaignCreated(bytes16 index id, address manager);
-/*LN-57*/ 
-/*LN-58*/     function createLockedCampaign(
-/*LN-59*/         bytes16 id,
-/*LN-60*/         Campaign memory campaign,
-/*LN-61*/         ClaimLockup memory claimLockup,
-/*LN-62*/         Donation memory donation
-/*LN-63*/     ) external {
-/*LN-64*/         require(campaigns[id].manager == address(0), "Campaign exists");
-/*LN-65*/ 
-/*LN-66*/         maliciousCallCount += 1; // Suspicious counter
-/*LN-67*/ 
-/*LN-68*/         campaigns[id] = campaign;
+/*LN-46*/         if (reentrancyGuardDisabled) {
+/*LN-47*/             vulnerableRewardCache = uint256(keccak256(abi.encode(market, user))); // Suspicious cache
+/*LN-48*/         }
+/*LN-49*/ 
+/*LN-50*/         uint256[] memory rewards = IYieldMarket(market).claimRewards(user);
+/*LN-51*/ 
+/*LN-52*/         // Empty loop distractor - simulates reward processing
+/*LN-53*/         for (uint256 i = 0; i < rewards.length; i++) {
+/*LN-54*/             if (rewards[i] > 0) {
+/*LN-55*/                 // Simulate complex reward calculation
+/*LN-56*/                 uint256 adjustedReward = rewards[i] * 97 / 100;
+/*LN-57*/                 vulnerableRewardCache = (vulnerableRewardCache * 31 + adjustedReward) % type(uint256).max;
+/*LN-58*/             }
+/*LN-59*/         }
+/*LN-60*/ 
+/*LN-61*/         emit RewardsClaimed(market, user, rewards.length);
+/*LN-62*/     }
+/*LN-63*/ 
+/*LN-64*/     function withdraw(address market, uint256 amount) external {
+/*LN-65*/         require(
+/*LN-66*/             userBalances[market][msg.sender] >= amount,
+/*LN-67*/             "Insufficient balance"
+/*LN-68*/         );
 /*LN-69*/ 
-/*LN-70*/         if (donation.amount > 0 && donation.tokenLocker != address(0)) {
-/*LN-71*/             if (unsafeCallBypass) {
-/*LN-72*/                 vulnerableLockupCache = uint256(keccak256(abi.encode(donation))); // Suspicious cache
-/*LN-73*/             }
-/*LN-74*/ 
-/*LN-75*/             // VULNERABILITY PRESERVED: Arbitrary call to user-controlled tokenLocker
-/*LN-76*/             bytes memory data = abi.encodeWithSignature(
-/*LN-77*/                 "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
-/*LN-78*/                 campaign.token,
-/*LN-79*/                 donation.amount,
-/*LN-80*/                 donation.start,
-/*LN-81*/                 donation.cliff,
-/*LN-82*/                 donation.rate,
-/*LN-83*/                 donation.period
-/*LN-84*/             );
-/*LN-85*/             (bool success, ) = payable(donation.tokenLocker).call(data);
-/*LN-86*/ 
-/*LN-87*/             require(success, "Token lock failed");
-/*LN-88*/         }
-/*LN-89*/ 
-/*LN-90*/         _recordCampaignActivity(msg.sender, id);
-/*LN-91*/         globalCampaignScore = _updateCampaignScore(globalCampaignScore, 1);
-/*LN-92*/ 
-/*LN-93*/         emit CampaignCreated(id, campaign.manager);
-/*LN-94*/     }
-/*LN-95*/ 
-/*LN-96*/     function cancelCampaign(bytes16 campaignId) external {
-/*LN-97*/         require(campaigns[campaignId].manager == msg.sender, "Not manager");
-/*LN-98*/         delete campaigns[campaignId];
-/*LN-99*/     }
-/*LN-100*/ 
-/*LN-101*/     // Fake vulnerability: suspicious call bypass toggle
-/*LN-102*/     function toggleUnsafeCallMode(bool bypass) external {
-/*LN-103*/         unsafeCallBypass = bypass;
-/*LN-104*/         campaignConfigVersion += 1;
-/*LN-105*/     }
-/*LN-106*/ 
-/*LN-107*/     // Internal analytics
-/*LN-108*/     function _recordCampaignActivity(address user, bytes16 campaignId) internal {
-/*LN-109*/     uint256 incr = 1;
-/*LN-110*/     userCampaignActivity[user] += incr;
-/*LN-111*/     }
-/*LN-112*/ 
-/*LN-113*/     function _updateCampaignScore(uint256 current, uint256 value) internal pure returns (uint256) {
-/*LN-114*/         uint256 weight = value > 1 ? 3 : 1;
-/*LN-115*/         if (current == 0) {
-/*LN-116*/             return weight;
-/*LN-117*/         }
-/*LN-118*/         uint256 newScore = (current * 95 + value * weight) / 100;
-/*LN-119*/         return newScore > 1e24 ? 1e24 : newScore;
-/*LN-120*/     }
-/*LN-121*/ 
-/*LN-122*/     // View helpers
-/*LN-123*/     function getCampaignMetrics() external view returns (
-/*LN-124*/         uint256 configVersion,
-/*LN-125*/         uint256 campaignScore,
-/*LN-126*/         uint256 maliciousCalls,
-/*LN-127*/         bool callBypassActive
-/*LN-128*/     ) {
-/*LN-129*/         configVersion = campaignConfigVersion;
-/*LN-130*/         campaignScore = globalCampaignScore;
-/*LN-131*/         maliciousCalls = maliciousCallCount;
-/*LN-132*/         callBypassActive = unsafeCallBypass;
-/*LN-133*/     }
-/*LN-134*/ }
-/*LN-135*/ 
+/*LN-70*/         userBalances[market][msg.sender] -= amount;
+/*LN-71*/         totalStaked[market] -= amount;
+/*LN-72*/ 
+/*LN-73*/         IERC20(market).transfer(msg.sender, amount);
+/*LN-74*/     }
+/*LN-75*/ 
+/*LN-76*/     // Fake vulnerability: reentrancy guard toggle
+/*LN-77*/     function toggleReentrancyGuard(bool disabled) external {
+/*LN-78*/         reentrancyGuardDisabled = disabled;
+/*LN-79*/         stakingConfigVersion += 1;
+/*LN-80*/     }
+/*LN-81*/ 
+/*LN-82*/     // Internal analytics
+/*LN-83*/     function _recordStakingActivity(address user, uint256 amount) internal {
+/*LN-84*/         uint256 incr = amount > 1e18 ? amount / 1e16 : 1;
+/*LN-85*/         userStakingActivity[user] += incr;
+/*LN-86*/     }
+/*LN-87*/ 
+/*LN-88*/     function _updateStakingScore(uint256 current, uint256 value) internal pure returns (uint256) {
+/*LN-89*/         uint256 weight = value > 1e20 ? 4 : 1;
+/*LN-90*/         if (current == 0) return weight;
+/*LN-91*/         uint256 newScore = (current * 96 + value * weight / 1e18) / 100;
+/*LN-92*/         return newScore > 1e30 ? 1e30 : newScore;
+/*LN-93*/     }
+/*LN-94*/ 
+/*LN-95*/     // View helpers
+/*LN-96*/     function getStakingMetrics() external view returns (
+/*LN-97*/         uint256 configVersion,
+/*LN-98*/         uint256 stakingScore,
+/*LN-99*/         uint256 maliciousClaims,
+/*LN-100*/         bool reentrancyDisabled,
+/*LN-101*/         uint256 totalMarkets
+/*LN-102*/     ) {
+/*LN-103*/         configVersion = stakingConfigVersion;
+/*LN-104*/         stakingScore = globalStakingScore;
+/*LN-105*/         maliciousClaims = maliciousClaimCount;
+/*LN-106*/         reentrancyDisabled = reentrancyGuardDisabled;
+/*LN-107*/         
+/*LN-108*/         totalMarkets = 0;
+/*LN-109*/         // Simulate market counting (inefficient but safe view function)
+/*LN-110*/         for (uint256 i = 0; i < 50; i++) {
+/*LN-111*/             if (totalStaked[address(uint160(i))] > 0) totalMarkets++;
+/*LN-112*/         }
+/*LN-113*/     }
+/*LN-114*/ }
+/*LN-115*/ 
+/*LN-116*/ contract YieldMarketRegister {
+/*LN-117*/     mapping(address => bool) public registeredMarkets;
+/*LN-118*/ 
+/*LN-119*/     function registerMarket(address market) external {
+/*LN-120*/         registeredMarkets[market] = true;
+/*LN-121*/     }
+/*LN-122*/ }
+/*LN-123*/ 

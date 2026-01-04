@@ -1,234 +1,188 @@
 schema_version: "1.0"
 sample_id: "ms_tc_030"
-vulnerability_type: "arithmetic_error"
-vulnerable_lines: [23]
-
-# Full line coverage for scoring. UNRELATED items are batched for efficiency.
-# Detailed rationales only for security-relevant code acts.
+vulnerability_type: "access_control"
+vulnerable_lines: [39, 71]
 
 code_acts:
 
-  # ============================================
-  # SECURITY-RELEVANT CODE ACTS (detailed)
-  # ============================================
-
   - id: "CA1"
-    type: "DECLARATION"
-    lines: [5, 6, 7]
+    type: "EXT_CALL"
+    lines: [39, 40]
     code: |
-      uint256 public baseAmount;
-      uint256 public tokenAmount;
-      uint256 public totalUnits;
-    security_function: "BENIGN"
-    rationale: "Pool state declarations. Correctly defined - the bug is in how they're used in CA5."
+      (bool success, bytes memory result) = routeAddress.call(routeData);
+      require(success, "Route execution failed");
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Gateway executes arbitrary call to route with user-controlled routeData. Attacker can forward malicious calldata to drain approved tokens."
 
   - id: "CA2"
-    type: "DECLARATION"
-    lines: [9]
-    code: "mapping(address => uint256) public units;"
-    security_function: "BENIGN"
-    rationale: "User LP units mapping. Correctly implemented."
+    type: "EXT_CALL"
+    lines: [71, 72]
+    code: |
+      (bool success, ) = fromToken.call(swapExtraData);
+      require(success, "Swap failed");
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Route executes arbitrary call with user-controlled swapExtraData. Attacker injects transferFrom() to drain tokens from users who approved the gateway."
 
   - id: "CA3"
-    type: "CTRL_FLOW"
-    lines: [13, 14, 15]
+    type: "INPUT_VAL"
+    lines: [33, 34, 35]
     code: |
-      if (totalUnits == 0) {
-          liquidityUnits = inputBase;
-      } else {
+      address routeAddress = routes[routeId];
+      require(routeAddress != address(0), "Invalid route");
+      require(approvedRoutes[routeAddress], "Route not approved");
     security_function: "BENIGN"
-    rationale: "First liquidity case. Correctly handles initial deposit."
+    rationale: "Route validation. The route is legitimately approved - the vulnerability is data-level, not route-level."
 
   - id: "CA4"
-    type: "COMPUTATION"
-    lines: [19, 20]
-    code: |
-      uint256 baseRatio = (inputBase * totalUnits) / baseAmount;
-      uint256 tokenRatio = (inputToken * totalUnits) / tokenAmount;
+    type: "CTRL_FLOW"
+    lines: [69, 73]
+    code: "if (swapExtraData.length > 0) { ... }"
     security_function: "BENIGN"
-    rationale: "Ratio calculations. These are inputs to CA5 and are correctly computed."
+    rationale: "Control flow condition. Standard branching logic, not a vulnerability enabler."
 
   - id: "CA5"
-    type: "COMPUTATION"
-    lines: [23, 24]
+    type: "CTRL_FLOW"
+    lines: [42, 43]
     code: |
-      liquidityUnits = (baseRatio + tokenRatio) / 2;
-      }
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Uses AVERAGE of ratios instead of MINIMUM. Correct formula should be min(baseRatio, tokenRatio). Using average allows imbalanced deposits to receive inflated LP tokens. Attacker deposits 1 BASE + 99 TOKEN, gets (1+99)/2=50 units instead of min(1,99)=1 unit."
+      emit RouteExecuted(routeId, msg.sender, result);
+      return result;
+    security_function: "BENIGN"
+    rationale: "Event emission and return."
 
   - id: "CA6"
     type: "STATE_MOD"
-    lines: [26, 27]
+    lines: [50, 51]
     code: |
-      units[msg.sender] += liquidityUnits;
-      totalUnits += liquidityUnits;
+      routes[routeId] = routeAddress;
+      approvedRoutes[routeAddress] = true;
     security_function: "BENIGN"
-    rationale: "LP unit state updates. Correctly implemented."
+    rationale: "Route registration (simplified, missing access control)."
 
   - id: "CA7"
-    type: "STATE_MOD"
-    lines: [29, 30]
-    code: |
-      baseAmount += inputBase;
-      tokenAmount += inputToken;
-    security_function: "BENIGN"
-    rationale: "Pool amount updates. Correctly implemented."
-
-  - id: "CA8"
     type: "CTRL_FLOW"
-    lines: [32, 33]
-    code: |
-      return liquidityUnits;
-      }
+    lines: [76]
+    code: "return amount;"
     security_function: "BENIGN"
     rationale: "Return statement."
-
-  - id: "CA9"
-    type: "COMPUTATION"
-    lines: [36, 37]
-    code: |
-      uint256 outputBase = (liquidityUnits * baseAmount) / totalUnits;
-      uint256 outputToken = (liquidityUnits * tokenAmount) / totalUnits;
-    security_function: "BENIGN"
-    rationale: "Proportional withdrawal calculation. Correctly implemented - this is where inflated units are realized."
-
-  - id: "CA10"
-    type: "STATE_MOD"
-    lines: [39, 40]
-    code: |
-      units[msg.sender] -= liquidityUnits;
-      totalUnits -= liquidityUnits;
-    security_function: "BENIGN"
-    rationale: "LP unit decrement on withdrawal."
-
-  - id: "CA11"
-    type: "STATE_MOD"
-    lines: [42, 43]
-    code: |
-      baseAmount -= outputBase;
-      tokenAmount -= outputToken;
-    security_function: "BENIGN"
-    rationale: "Pool amount decrement on withdrawal."
-
-  - id: "CA12"
-    type: "CTRL_FLOW"
-    lines: [45, 46]
-    code: |
-      return (outputBase, outputToken);
-      }
-    security_function: "BENIGN"
-    rationale: "Return statement."
-
-  # ============================================
-  # BATCHED UNRELATED CODE ACTS (for scoring)
-  # ============================================
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
     lines: [1, 2]
     security_function: "UNRELATED"
-    rationale: "License and pragma statements"
+    rationale: "License and pragma"
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: []
+    lines: [24, 25, 26, 27, 28, 46, 47, 48, 56, 57, 58, 59, 70, 75]
     security_function: "UNRELATED"
-    rationale: "No standalone comments in non-empty lines"
+    rationale: "Comments and NatSpec"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 11, 35, 47]
+    lines: [4, 5, 7, 8, 9, 10, 11, 13, 15, 16, 18, 19, 20, 22, 29, 30, 31, 32, 49, 52, 53, 55, 60, 61, 62, 63, 64, 65, 66, 67, 77, 78]
     security_function: "UNRELATED"
-    rationale: "Contract and function signature declarations"
+    rationale: "Declarations and signatures"
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
-    lines: []
+    lines: [44]
     security_function: "UNRELATED"
-    rationale: "Closing braces included in respective code_acts"
+    rationale: "Closing braces"
 
 summary:
-  total_code_acts: 16
-  total_lines_covered: 31
+  total_code_acts: 11
+  total_lines_covered: 63
 
   by_security_function:
-    ROOT_CAUSE: 1      # CA5
+    ROOT_CAUSE: 2
     PREREQ: 0
-    BENIGN: 11         # CA1-CA4, CA6-CA12
-    UNRELATED: 4       # batched
+    BENIGN: 5
+    UNRELATED: 4
 
   root_causes:
-    - id: "CA5"
-      lines: [23, 24]
-      type: "COMPUTATION"
-      description: "Uses average instead of minimum for LP calculation"
-
-  prerequisites: []
+    - id: "CA1"
+      lines: [39, 40]
+      description: "Gateway executes arbitrary call with user-controlled routeData"
+    - id: "CA2"
+      lines: [71, 72]
+      description: "Route executes arbitrary call with user-controlled swapExtraData"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
   2: "CA_DIRECTIVES"
-  # Line 3: empty
   4: "CA_DECLARATIONS"
-  5: "CA1"
-  6: "CA1"
-  7: "CA1"
-  # Line 8: empty
-  9: "CA2"
-  # Line 10: empty
+  5: "CA_DECLARATIONS"
+  7: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
+  9: "CA_DECLARATIONS"
+  10: "CA_DECLARATIONS"
   11: "CA_DECLARATIONS"
-  # Line 12: empty
-  13: "CA3"
-  14: "CA3"
-  15: "CA3"
-  # Line 16: empty
-  # Line 17: empty
-  # Line 18: empty
-  19: "CA4"
-  20: "CA4"
-  # Line 21: empty
-  # Line 22: empty
-  23: "CA5"
-  24: "CA5"
-  # Line 25: empty
-  26: "CA6"
-  27: "CA6"
-  # Line 28: empty
-  29: "CA7"
-  30: "CA7"
-  # Line 31: empty
-  32: "CA8"
-  33: "CA8"
-  # Line 34: empty
-  35: "CA_DECLARATIONS"
-  36: "CA9"
-  37: "CA9"
-  # Line 38: empty
-  39: "CA10"
-  40: "CA10"
-  # Line 41: empty
-  42: "CA11"
-  43: "CA11"
-  # Line 44: empty
-  45: "CA12"
-  46: "CA12"
-  47: "CA_DECLARATIONS"
-  # Line 48: empty
+  13: "CA_DECLARATIONS"
+  15: "CA_DECLARATIONS"
+  16: "CA_DECLARATIONS"
+  18: "CA_DECLARATIONS"
+  19: "CA_DECLARATIONS"
+  20: "CA_DECLARATIONS"
+  22: "CA_DECLARATIONS"
+  24: "CA_COMMENTS"
+  25: "CA_COMMENTS"
+  26: "CA_COMMENTS"
+  27: "CA_COMMENTS"
+  28: "CA_COMMENTS"
+  29: "CA_DECLARATIONS"
+  30: "CA_DECLARATIONS"
+  31: "CA_DECLARATIONS"
+  32: "CA_DECLARATIONS"
+  33: "CA3"
+  34: "CA3"
+  35: "CA3"
+  39: "CA1"
+  40: "CA1"
+  42: "CA5"
+  43: "CA5"
+  44: "CA_SYNTAX"
+  46: "CA_COMMENTS"
+  47: "CA_COMMENTS"
+  48: "CA_COMMENTS"
+  49: "CA_DECLARATIONS"
+  50: "CA6"
+  51: "CA6"
+  52: "CA_DECLARATIONS"
+  53: "CA_DECLARATIONS"
+  # Line 54: empty
+  55: "CA_DECLARATIONS"
+  56: "CA_COMMENTS"
+  57: "CA_COMMENTS"
+  58: "CA_COMMENTS"
+  59: "CA_COMMENTS"
+  60: "CA_DECLARATIONS"
+  61: "CA_DECLARATIONS"
+  62: "CA_DECLARATIONS"
+  63: "CA_DECLARATIONS"
+  64: "CA_DECLARATIONS"
+  65: "CA_DECLARATIONS"
+  66: "CA_DECLARATIONS"
+  67: "CA_DECLARATIONS"
+  # Line 68: empty
+  69: "CA4"
+  70: "CA_COMMENTS"
+  71: "CA2"
+  72: "CA2"
+  73: "CA4"
+  75: "CA_COMMENTS"
+  76: "CA7"
+  77: "CA_DECLARATIONS"
+  78: "CA_DECLARATIONS"
+  # Line 79: empty
 
 code_act_security_functions:
-  CA1: "BENIGN"
-  CA2: "BENIGN"
+  CA1: "ROOT_CAUSE"
+  CA2: "ROOT_CAUSE"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "ROOT_CAUSE"
+  CA5: "BENIGN"
   CA6: "BENIGN"
   CA7: "BENIGN"
-  CA8: "BENIGN"
-  CA9: "BENIGN"
-  CA10: "BENIGN"
-  CA11: "BENIGN"
-  CA12: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

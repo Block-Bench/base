@@ -1,32 +1,32 @@
 {
   "sample_id": "df_tc_045",
-  "exploit_name": "Penpie",
+  "exploit_name": "Exactly Protocol",
   "date": "",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "reentrancy",
+  "vulnerability_type": "oracle_manipulation",
   "vulnerability_subtype": "",
   "severity": "critical",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
-  "description": "Fixed version with reentrancy guard and market registration validation",
-  "vulnerable_contract": "PenpieStaking",
-  "vulnerable_function": "claimRewards, deposit, withdraw",
+  "description": "Fixed version with minimal changes to address the vulnerability",
+  "vulnerable_contract": "DebtPreviewer",
+  "vulnerable_function": "previewDebt",
   "vulnerable_lines": [],
   "attack_scenario": "",
-  "root_cause": "Functions accept any market address without validation and make external calls without reentrancy protection. Attacker can deploy fake market that reenters during claimRewards call.",
+  "root_cause": null,
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "yield_optimization",
-    "reentrancy",
-    "pendle",
+    "lending",
+    "oracle",
+    "debt_previewer",
     "fake_market",
-    "reward_manipulation",
-    "cei_violation",
+    "user_input_validation",
+    "collateral",
     "differential",
     "fixed"
   ],
@@ -45,30 +45,40 @@
     "pair_metadata": "/Users/poamen/projects/grace/blockbench/base/data/manual_strategies/differential/metadata/df_pair_tc_045.json",
     "script": "manual",
     "is_fixed_version": true,
-    "fix_type": "reentrancy_guard_and_market_validation",
-    "fix_description": "Added registeredMarkets mapping, _locked bool for reentrancy guard, nonReentrant modifier applied to all functions, require check that market is registered before operations.",
+    "fix_type": "minimal_fix",
+    "fix_description": "Minimal fix with 10 lines changed. Added: mapping(address => bool) public approvedMarkets;; function addApprovedMarket(address market) external {; approvedMarkets[market] = true;",
     "exact_changes": [
       {
-        "location": "state variables (lines 26-28)",
-        "version_a": "mapping(address => bool) public registeredMarkets;\nbool private _locked;",
-        "version_b": "// No market registry or reentrancy lock"
+        "location": "Added line",
+        "version_a": "mapping(address => bool) public approvedMarkets;",
+        "version_b": "// Not present in vulnerable version"
       },
       {
-        "location": "nonReentrant modifier (lines 30-35)",
-        "version_a": "modifier nonReentrant() { require(!_locked, \"Reentrant call\"); _locked = true; _; _locked = false; }",
-        "version_b": "// No reentrancy modifier"
+        "location": "Added line",
+        "version_a": "function addApprovedMarket(address market) external {",
+        "version_b": "// Not present in vulnerable version"
       },
       {
-        "location": "deposit function (lines 42-43)",
-        "version_a": "function deposit(...) external nonReentrant { require(registeredMarkets[market], \"Market not registered\"); ... }",
-        "version_b": "function deposit(...) external { ... }"
+        "location": "Added line",
+        "version_a": "approvedMarkets[market] = true;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "}",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(approvedMarkets[market], \"Market not approved\");",
+        "version_b": "// Not present in vulnerable version"
       }
     ],
-    "why_fix_works": "Reentrancy guard prevents recursive calls during external interactions, and market registration ensures only legitimate Pendle markets can be used.",
+    "why_fix_works": "",
     "contracts_in_file": [
-      "PenpieStaking",
-      "PendleMarketRegister"
+      "DebtPreviewer",
+      "ExactlyMarket"
     ],
-    "created_date": "2025-12-30T02:02:17.952520"
+    "created_date": "2025-12-30T02:02:17.954815"
   }
 }

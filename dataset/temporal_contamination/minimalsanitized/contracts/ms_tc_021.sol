@@ -13,114 +13,84 @@
 /*LN-13*/     ) external returns (bool);
 /*LN-14*/ }
 /*LN-15*/ 
-/*LN-16*/ contract DODOPool {
-/*LN-17*/     address public maintainer;
-/*LN-18*/     address public baseToken;
-/*LN-19*/     address public quoteToken;
-/*LN-20*/ 
-/*LN-21*/     uint256 public lpFeeRate;
-/*LN-22*/     uint256 public baseBalance;
-/*LN-23*/     uint256 public quoteBalance;
+/*LN-16*/ interface ICurvePool {
+/*LN-17*/     function get_virtual_price() external view returns (uint256);
+/*LN-18*/ 
+/*LN-19*/     function add_liquidity(
+/*LN-20*/         uint256[3] calldata amounts,
+/*LN-21*/         uint256 minMintAmount
+/*LN-22*/     ) external;
+/*LN-23*/ }
 /*LN-24*/ 
-/*LN-25*/     bool public isInitialized;
-/*LN-26*/ 
-/*LN-27*/     event Initialized(address maintainer, address base, address quote);
-/*LN-28*/ 
-/*LN-29*/     function init(
-/*LN-30*/         address _maintainer,
-/*LN-31*/         address _baseToken,
-/*LN-32*/         address _quoteToken,
-/*LN-33*/         uint256 _lpFeeRate
-/*LN-34*/     ) external {
-/*LN-35*/         
-/*LN-36*/ 
-/*LN-37*/         maintainer = _maintainer;
-/*LN-38*/         baseToken = _baseToken;
-/*LN-39*/         quoteToken = _quoteToken;
-/*LN-40*/         lpFeeRate = _lpFeeRate;
-/*LN-41*/ 
-/*LN-42*/         
-/*LN-43*/         isInitialized = true;
+/*LN-25*/ contract SimplifiedOracle {
+/*LN-26*/     ICurvePool public curvePool;
+/*LN-27*/ 
+/*LN-28*/     constructor(address _curvePool) {
+/*LN-29*/         curvePool = ICurvePool(_curvePool);
+/*LN-30*/     }
+/*LN-31*/ 
+/*LN-32*/     /**
+/*LN-33*/      */
+/*LN-34*/     function getPrice() external view returns (uint256) {
+/*LN-35*/         return curvePool.get_virtual_price();
+/*LN-36*/     }
+/*LN-37*/ }
+/*LN-38*/ 
+/*LN-39*/ contract InverseLending {
+/*LN-40*/     struct Position {
+/*LN-41*/         uint256 collateral;
+/*LN-42*/         uint256 borrowed;
+/*LN-43*/     }
 /*LN-44*/ 
-/*LN-45*/         emit Initialized(_maintainer, _baseToken, _quoteToken);
-/*LN-46*/     }
-/*LN-47*/ 
-/*LN-48*/     /**
-/*LN-49*/      * @notice Add liquidity to pool
-/*LN-50*/      */
-/*LN-51*/     function addLiquidity(uint256 baseAmount, uint256 quoteAmount) external {
-/*LN-52*/         require(isInitialized, "Not initialized");
-/*LN-53*/ 
-/*LN-54*/         IERC20(baseToken).transferFrom(msg.sender, address(this), baseAmount);
-/*LN-55*/         IERC20(quoteToken).transferFrom(msg.sender, address(this), quoteAmount);
-/*LN-56*/ 
-/*LN-57*/         baseBalance += baseAmount;
-/*LN-58*/         quoteBalance += quoteAmount;
-/*LN-59*/     }
-/*LN-60*/ 
-/*LN-61*/     /**
-/*LN-62*/      * @notice Swap tokens
-/*LN-63*/      */
-/*LN-64*/     function swap(
-/*LN-65*/         address fromToken,
-/*LN-66*/         address toToken,
-/*LN-67*/         uint256 fromAmount
-/*LN-68*/     ) external returns (uint256 toAmount) {
-/*LN-69*/         require(isInitialized, "Not initialized");
-/*LN-70*/         require(
-/*LN-71*/             (fromToken == baseToken && toToken == quoteToken) ||
-/*LN-72*/                 (fromToken == quoteToken && toToken == baseToken),
-/*LN-73*/             "Invalid token pair"
-/*LN-74*/         );
-/*LN-75*/ 
-/*LN-76*/         // Transfer tokens in
-/*LN-77*/         IERC20(fromToken).transferFrom(msg.sender, address(this), fromAmount);
-/*LN-78*/ 
-/*LN-79*/         // Calculate swap amount (simplified constant product)
-/*LN-80*/         if (fromToken == baseToken) {
-/*LN-81*/             toAmount = (quoteBalance * fromAmount) / (baseBalance + fromAmount);
-/*LN-82*/             baseBalance += fromAmount;
-/*LN-83*/             quoteBalance -= toAmount;
-/*LN-84*/         } else {
-/*LN-85*/             toAmount = (baseBalance * fromAmount) / (quoteBalance + fromAmount);
-/*LN-86*/             quoteBalance += fromAmount;
-/*LN-87*/             baseBalance -= toAmount;
-/*LN-88*/         }
-/*LN-89*/ 
-/*LN-90*/         // Deduct fee for maintainer
-/*LN-91*/         uint256 fee = (toAmount * lpFeeRate) / 10000;
-/*LN-92*/         toAmount -= fee;
-/*LN-93*/ 
-/*LN-94*/         // Transfer tokens out
-/*LN-95*/         IERC20(toToken).transfer(msg.sender, toAmount);
+/*LN-45*/     mapping(address => Position) public positions;
+/*LN-46*/ 
+/*LN-47*/     address public collateralToken;
+/*LN-48*/     address public borrowToken;
+/*LN-49*/     address public oracle;
+/*LN-50*/ 
+/*LN-51*/     uint256 public constant COLLATERAL_FACTOR = 80;
+/*LN-52*/ 
+/*LN-53*/     constructor(
+/*LN-54*/         address _collateralToken,
+/*LN-55*/         address _borrowToken,
+/*LN-56*/         address _oracle
+/*LN-57*/     ) {
+/*LN-58*/         collateralToken = _collateralToken;
+/*LN-59*/         borrowToken = _borrowToken;
+/*LN-60*/         oracle = _oracle;
+/*LN-61*/     }
+/*LN-62*/ 
+/*LN-63*/     /**
+/*LN-64*/      * @notice Deposit collateral
+/*LN-65*/      */
+/*LN-66*/     function deposit(uint256 amount) external {
+/*LN-67*/         IERC20(collateralToken).transferFrom(msg.sender, address(this), amount);
+/*LN-68*/         positions[msg.sender].collateral += amount;
+/*LN-69*/     }
+/*LN-70*/ 
+/*LN-71*/     /**
+/*LN-72*/      */
+/*LN-73*/     function borrow(uint256 amount) external {
+/*LN-74*/         uint256 collateralValue = getCollateralValue(msg.sender);
+/*LN-75*/         uint256 maxBorrow = (collateralValue * COLLATERAL_FACTOR) / 100;
+/*LN-76*/ 
+/*LN-77*/         require(
+/*LN-78*/             positions[msg.sender].borrowed + amount <= maxBorrow,
+/*LN-79*/             "Insufficient collateral"
+/*LN-80*/         );
+/*LN-81*/ 
+/*LN-82*/         positions[msg.sender].borrowed += amount;
+/*LN-83*/         IERC20(borrowToken).transfer(msg.sender, amount);
+/*LN-84*/     }
+/*LN-85*/ 
+/*LN-86*/     /**
+/*LN-87*/      * @notice Calculate collateral value using oracle price
+/*LN-88*/      */
+/*LN-89*/     function getCollateralValue(address user) public view returns (uint256) {
+/*LN-90*/         uint256 collateralAmount = positions[user].collateral;
+/*LN-91*/         uint256 price = SimplifiedOracle(oracle).getPrice();
+/*LN-92*/ 
+/*LN-93*/         return (collateralAmount * price) / 1e18;
+/*LN-94*/     }
+/*LN-95*/ }
 /*LN-96*/ 
-/*LN-97*/         // they can claim all fees
-/*LN-98*/         IERC20(toToken).transfer(maintainer, fee);
-/*LN-99*/ 
-/*LN-100*/         return toAmount;
-/*LN-101*/     }
-/*LN-102*/ 
-/*LN-103*/     /**
-/*LN-104*/      * @notice Claim accumulated fees (simplified)
-/*LN-105*/      */
-/*LN-106*/     function claimFees() external {
-/*LN-107*/         require(msg.sender == maintainer, "Only maintainer");
-/*LN-108*/ 
-/*LN-109*/         // In the real DODO contract, there was accumulated fee tracking
-/*LN-110*/         // then claim all accumulated fees
-/*LN-111*/         uint256 baseTokenBalance = IERC20(baseToken).balanceOf(address(this));
-/*LN-112*/         uint256 quoteTokenBalance = IERC20(quoteToken).balanceOf(address(this));
-/*LN-113*/ 
-/*LN-114*/         // Transfer excess (fees) to maintainer
-/*LN-115*/         if (baseTokenBalance > baseBalance) {
-/*LN-116*/             uint256 excess = baseTokenBalance - baseBalance;
-/*LN-117*/             IERC20(baseToken).transfer(maintainer, excess);
-/*LN-118*/         }
-/*LN-119*/ 
-/*LN-120*/         if (quoteTokenBalance > quoteBalance) {
-/*LN-121*/             uint256 excess = quoteTokenBalance - quoteBalance;
-/*LN-122*/             IERC20(quoteToken).transfer(maintainer, excess);
-/*LN-123*/         }
-/*LN-124*/     }
-/*LN-125*/ }
-/*LN-126*/ 

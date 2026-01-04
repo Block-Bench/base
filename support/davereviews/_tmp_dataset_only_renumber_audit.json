@@ -1,0 +1,6 @@
+[
+  "DUPLICATE_IDS_IN_ACTIVE_AND_REMOVED: ['ms_tc_004', 'ms_tc_014']",
+  "MISSING_SAMPLE_NUMBERS_1_TO_50: [47, 48, 49, 50]",
+  "INDEX_TOTAL_FILES_MISMATCH: index.total_files=50 but present_unique_contract_ids=46",
+  "STRAY_FILES_IN_removed_ROOT: ['ms_tc_006.json', 'ms_tc_006.sol', 'ms_tc_006.yaml', 'ms_tc_046.json', 'ms_tc_046.sol', 'ms_tc_046.yaml']"
+]

@@ -1,136 +1,162 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
-/*LN-3*/
-
-/*LN-4*/ interface IERC20 {
-/*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-6*/
-
-/*LN-7*/     function balanceOf(address account) external view returns (uint256);
-/*LN-8*/ }
-/*LN-9*/
-
-/*LN-10*/ interface IJar {
-/*LN-11*/     function token() external view returns (address);
-/*LN-12*/
-
-/*LN-13*/     function withdraw(uint256 amount) external;
-/*LN-14*/ }
-/*LN-15*/
-
-/*LN-16*/ interface IStrategy {
-/*LN-17*/     function withdrawAll() external;
-/*LN-18*/
-
-/*LN-19*/     function withdraw(address token) external;
-/*LN-20*/ }
-/*LN-21*/
+/*LN-3*/ 
+/*LN-4*/ interface IUniswapV2Pair {
+/*LN-5*/     function getReserves()
+/*LN-6*/         external
+/*LN-7*/         view
+/*LN-8*/         returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast);
+/*LN-9*/ 
+/*LN-10*/     function totalSupply() external view returns (uint256);
+/*LN-11*/ }
+/*LN-12*/ 
+/*LN-13*/ interface IERC20 {
+/*LN-14*/     function balanceOf(address account) external view returns (uint256);
+/*LN-15*/ 
+/*LN-16*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-17*/ 
+/*LN-18*/     function transferFrom(
+/*LN-19*/         address from,
+/*LN-20*/         address to,
+/*LN-21*/         uint256 amount
+/*LN-22*/     ) external returns (bool);
+/*LN-23*/ }
+/*LN-24*/ 
 
 /**
- * @title YieldController
- * @author yield Finance
- * @notice Yield farming strategy controller for jar management
- * @dev Audited by MixBytes (Q3 2020) - All findings resolved
- * @dev Manages strategy deployment and jar-to-jar swaps
- * @dev Governance-controlled strategy assignments
- * @custom:security-contact security@yield.finance
+ * @title CollateralVault
+ * @notice LP token collateralized lending vault
+ * @dev Audited by Trail of Bits (Q4 2020) - All critical findings addressed
+ * @dev Implements over-collateralized lending with 150% ratio
+ * @dev Uses AMM pair reserves for collateral valuation
+ * @custom:security-contact security@warpfinance.io
  */
-/*LN-22*/ contract YieldController {
-/*LN-23*/     address public governance;
-/*LN-24*/     mapping(address => address) public strategies; // jar => strategy
-/*LN-25*/ 
-/*LN-26*/     constructor() {
-/*LN-27*/         governance = msg.sender;
-/*LN-28*/     }
-/*LN-29*/ 
+/*LN-25*/ contract CollateralVault {
+    /// @dev User position tracking for collateral and debt
+/*LN-26*/     struct Position {
+/*LN-27*/         uint256 lpTokenAmount;
+/*LN-28*/         uint256 borrowed;
+/*LN-29*/     }
+/*LN-30*/
+    /// @dev Position registry by user address
+/*LN-31*/     mapping(address => Position) public positions;
+/*LN-32*/
+    /// @dev Uniswap V2 LP token accepted as collateral
+/*LN-33*/     address public lpToken;
+    /// @dev Stablecoin for borrowing
+/*LN-34*/     address public stablecoin;
+    /// @dev Required collateralization (150% = safe margin)
+/*LN-35*/     uint256 public constant COLLATERAL_RATIO = 150; // 150% collateralization
+/*LN-36*/ 
+/*LN-37*/     constructor(address _lpToken, address _stablecoin) {
+/*LN-38*/         lpToken = _lpToken;
+/*LN-39*/         stablecoin = _stablecoin;
+/*LN-40*/     }
+/*LN-41*/ 
     /**
-     * @notice Swap tokens between jars via aggregator routing
-     * @dev Executes swap path through provided targets
-     * @dev Validates array lengths for consistency
-     * @param _fromJar Source jar address
-     * @param _toJar Destination jar address
-     * @param _fromJarAmount Amount to swap from source
-     * @param _toJarMinAmount Minimum expected output
-     * @param _targets Swap route target contracts
-     * @param _data Calldata for each target
+     * @notice Deposit LP tokens as collateral
+     * @dev Transfers LP tokens to vault and updates position
+     * @param amount Amount of LP tokens to deposit
      */
-/*LN-30*/     function swapExactJarForJar(
-/*LN-31*/         address _fromJar,
-/*LN-32*/         address _toJar,
-/*LN-33*/         uint256 _fromJarAmount,
-/*LN-34*/         uint256 _toJarMinAmount,
-/*LN-35*/         address[] calldata _targets,
-/*LN-36*/         bytes[] calldata _data
-/*LN-37*/     ) external {
-/*LN-38*/         require(_targets.length == _data.length, "Length mismatch");
-/*LN-39*/
-
-            // Execute swap route through aggregator
-/*LN-40*/         for (uint256 i = 0; i < _targets.length; i++) {
-            // Call each target in swap path
-/*LN-41*/             (bool success, ) = _targets[i].call(_data[i]);
-/*LN-42*/             require(success, "Call failed");
-/*LN-43*/         }
-/*LN-44*/
-
-/*LN-45*/         // The rest of swap logic would go here
-/*LN-46*/     }
-/*LN-47*/ 
-/*LN-48*/     /**
-/*LN-49*/      * @notice Set strategy for a jar
-/*LN-50*/      * @dev Only governance should call this
-/*LN-51*/      */
-/*LN-52*/     function setStrategy(address jar, address strategy) external {
-/*LN-53*/         require(msg.sender == governance, "Not governance");
-/*LN-54*/         strategies[jar] = strategy;
-/*LN-55*/     }
-/*LN-56*/ }
-/*LN-57*/
-
-/**
- * @title YieldStrategy
- * @author yield Finance
- * @notice Yield farming strategy for token management
- * @dev Works in conjunction with YieldController
- * @dev Manages want token deposits and withdrawals
- */
-/*LN-58*/ contract YieldStrategy {
-    /// @dev Controller contract for coordination
-/*LN-59*/     address public controller;
-    /// @dev Target asset for this strategy
-/*LN-60*/     address public want; // The token this strategy manages
-/*LN-61*/
-
-/*LN-62*/     constructor(address _controller, address _want) {
-/*LN-63*/         controller = _controller;
-/*LN-64*/         want = _want;
-/*LN-65*/     }
-/*LN-66*/
-
+/*LN-45*/     function deposit(uint256 amount) external {
+/*LN-46*/         IERC20(lpToken).transferFrom(msg.sender, address(this), amount);
+/*LN-47*/         positions[msg.sender].lpTokenAmount += amount;
+/*LN-48*/     }
+/*LN-49*/ 
     /**
-     * @notice Withdraw all funds back to controller
-     * @dev Transfers entire want balance to controller
+     * @notice Borrow stablecoins against LP token collateral
+     * @dev Enforces 150% collateralization ratio before lending
+     * @dev Updates debt position before transfer
+     * @param amount Amount of stablecoins to borrow
      */
-/*LN-71*/     function withdrawAll() external {
-            // Transfer all holdings to controller
-/*LN-72*/         // Controller coordination for fund management
-/*LN-73*/
-
-/*LN-74*/         uint256 balance = IERC20(want).balanceOf(address(this));
-            // Send balance to controller
-/*LN-75*/         IERC20(want).transfer(controller, balance);
-/*LN-76*/     }
-/*LN-77*/
-
+/*LN-53*/     function borrow(uint256 amount) external {
+            // Calculate current collateral value
+/*LN-54*/         uint256 collateralValue = getLPTokenValue(
+/*LN-55*/             positions[msg.sender].lpTokenAmount
+/*LN-56*/         );
+            // Determine maximum borrowable with safety margin
+/*LN-57*/         uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;
+/*LN-58*/
+            // Enforce collateralization requirement
+/*LN-59*/         require(
+/*LN-60*/             positions[msg.sender].borrowed + amount <= maxBorrow,
+/*LN-61*/             "Insufficient collateral"
+/*LN-62*/         );
+/*LN-63*/
+            // Update debt before transfer
+/*LN-64*/         positions[msg.sender].borrowed += amount;
+            // Transfer borrowed stablecoins
+/*LN-65*/         IERC20(stablecoin).transfer(msg.sender, amount);
+/*LN-66*/     }
+/*LN-67*/ 
     /**
-     * @notice Withdraw specific token to controller
-     * @dev Used for token recovery and rebalancing
-     * @param token Address of token to withdraw
+     * @notice Calculate USD value of LP tokens
+     * @dev Uses AMM reserves for proportional value calculation
+     * @dev Returns sum of underlying token values
+     * @param lpAmount Amount of LP tokens to value
+     * @return Total value in stablecoin units
      */
-/*LN-82*/     function withdraw(address token) external {
-/*LN-83*/         uint256 balance = IERC20(token).balanceOf(address(this));
-            // Transfer to controller
-/*LN-84*/         IERC20(token).transfer(controller, balance);
-/*LN-85*/     }
-/*LN-86*/ }
+/*LN-68*/     function getLPTokenValue(uint256 lpAmount) public view returns (uint256) {
+/*LN-69*/         if (lpAmount == 0) return 0;
+/*LN-70*/
+            // Get AMM pair reference
+/*LN-71*/         IUniswapV2Pair pair = IUniswapV2Pair(lpToken);
+/*LN-72*/
+            // Fetch current pool state
+/*LN-73*/         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
+/*LN-74*/         uint256 totalSupply = pair.totalSupply();
+/*LN-75*/
+            // Calculate proportional share of underlying tokens
+/*LN-78*/         uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;
+/*LN-79*/         uint256 amount1 = (uint256(reserve1) * lpAmount) / totalSupply;
+/*LN-80*/
+            // Value calculation (token0 is stablecoin base)
+/*LN-83*/         uint256 value0 = amount0;
+/*LN-84*/
+            // Sum underlying values for total LP value
+/*LN-86*/         uint256 totalValue = amount0 + amount1;
 /*LN-87*/
+/*LN-88*/         return totalValue;
+/*LN-89*/     }
+/*LN-90*/ 
+    /**
+     * @notice Repay borrowed stablecoins
+     * @dev Reduces debt position after receiving repayment
+     * @param amount Amount to repay
+     */
+/*LN-94*/     function repay(uint256 amount) external {
+/*LN-95*/         require(positions[msg.sender].borrowed >= amount, "Repay exceeds debt");
+/*LN-96*/ 
+/*LN-97*/         IERC20(stablecoin).transferFrom(msg.sender, address(this), amount);
+/*LN-98*/         positions[msg.sender].borrowed -= amount;
+/*LN-99*/     }
+/*LN-100*/ 
+    /**
+     * @notice Withdraw LP tokens from vault
+     * @dev Validates position health before releasing collateral
+     * @dev Ensures remaining collateral covers outstanding debt
+     * @param amount Amount of LP tokens to withdraw
+     */
+/*LN-104*/     function withdraw(uint256 amount) external {
+/*LN-105*/         require(
+/*LN-106*/             positions[msg.sender].lpTokenAmount >= amount,
+/*LN-107*/             "Insufficient balance"
+/*LN-108*/         );
+/*LN-109*/
+            // Verify position remains healthy after withdrawal
+/*LN-111*/         uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;
+/*LN-112*/         uint256 remainingValue = getLPTokenValue(remainingLP);
+/*LN-113*/         uint256 maxBorrow = (remainingValue * 100) / COLLATERAL_RATIO;
+/*LN-114*/
+            // Enforce collateralization on remaining position
+/*LN-115*/         require(
+/*LN-116*/             positions[msg.sender].borrowed <= maxBorrow,
+/*LN-117*/             "Withdrawal would liquidate position"
+/*LN-118*/         );
+/*LN-119*/
+            // Update position and return collateral
+/*LN-120*/         positions[msg.sender].lpTokenAmount -= amount;
+/*LN-121*/         IERC20(lpToken).transfer(msg.sender, amount);
+/*LN-122*/     }
+/*LN-123*/ }
+/*LN-124*/ 

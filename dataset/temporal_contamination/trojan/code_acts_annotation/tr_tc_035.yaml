@@ -1,17 +1,17 @@
 schema_version: "1.0"
 sample_id: "tr_tc_035"
-base_sample_id: "ms_tc_035"
-vulnerability_type: "arithmetic_error"
+base_sample_id: "ms_tc_038"
+vulnerability_type: "price_oracle_manipulation"
 is_vulnerable: true
 
-trojan_strategy: "share_bypass_distractors"
+trojan_strategy: "suspicious_names_and_analytics"
 injection_count: 6
 
 base_vulnerability:
-  type: "arithmetic_error"
-  function: "depositExactAmount and withdrawExactShares"
-  vulnerable_lines: [62, 63, 64, 93, 94, 95]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_035.yaml"
+  type: "price_oracle_manipulation"
+  function: "mint and borrow"
+  vulnerable_lines: [55, 71]
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_038.yaml"
 
 injections:
 
@@ -19,14 +19,14 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
+      file: "tr_tc_038.sol"
       function: "global"
-      lines: [32]
-    code: "bool public unsafeShareBypass;"
+      lines: [30, 31, 32]
+    code: "unsafeOracleBypass, manipulatedPriceCount, vulnerableCollateralCache"
     suspicious_because:
-      - "Name suggests share bypass"
+      - "Names contain unsafe, manipulated, vulnerable"
     safe_because:
-      - "Just a boolean flag"
+      - "Just variables not used in security logic"
     pattern_triggered: "suspicious_variable_name"
     distraction_risk: "high"
 
@@ -34,168 +34,162 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
+      file: "tr_tc_038.sol"
       function: "global"
-      lines: [33]
-    code: "uint256 public roundingErrorCount;"
-    suspicious_because:
-      - "Name mentions rounding errors"
-    safe_because:
-      - "Just a counter"
-    pattern_triggered: "suspicious_variable_name"
-    distraction_risk: "high"
-
-  - id: "INJ3"
-    type: "DECLARATION"
-    security_function: "DECOY"
-    location:
-      file: "tr_tc_035.sol"
-      function: "global"
-      lines: [34]
-    code: "uint256 public vulnerableShareCache;"
-    suspicious_because:
-      - "Name contains vulnerable"
-    safe_because:
-      - "Not used in security logic"
-    pattern_triggered: "suspicious_variable_name"
-    distraction_risk: "high"
-
-  - id: "INJ4"
-    type: "DECLARATION"
-    security_function: "DECOY"
-    location:
-      file: "tr_tc_035.sol"
-      function: "global"
-      lines: [37, 38, 39, 40]
+      lines: [35, 36, 37]
     code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
-      - "Pure tracking"
+      - "Just counters"
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
 
-  - id: "INJ5"
+  - id: "INJ3"
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
-      function: "depositExactAmount"
-      lines: [52, 71, 72, 73, 75, 76]
-    code: "roundingErrorCount += 1; if (unsafeShareBypass)..."
+      file: "tr_tc_038.sol"
+      function: "enterMarkets"
+      lines: [43]
+    code: "manipulatedPriceCount += 1;"
     suspicious_because:
-      - "Looks like rounding error tracking"
+      - "Increments manipulated counter"
     safe_because:
-      - "Just tracking and caching"
+      - "Just a counter"
     pattern_triggered: "suspicious_code_block"
     distraction_risk: "medium"
 
-  - id: "INJ6"
-    type: "COMPUTATION"
+  - id: "INJ4"
+    type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_035.sol"
-      function: "analytics functions"
-      lines: [143, 144, 145, 146, 149, 150, 151, 152, 153, 154, 155, 157, 158, 159, 160, 161, 162, 163, 164, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177]
-    code: "Analytics and metrics functions"
+      file: "tr_tc_038.sol"
+      function: "mint"
+      lines: [57, 58, 59]
+    code: "if (unsafeOracleBypass) { vulnerableCollateralCache = price; }"
     suspicious_because:
-      - "toggleUnsafeShareMode function"
+      - "Branch on unsafeOracleBypass"
     safe_because:
-      - "Real vuln is share calculation rounding"
-    pattern_triggered: "complexity_distractor"
-    distraction_risk: "low"
+      - "Just caches price, no security impact"
+    pattern_triggered: "suspicious_code_block"
+    distraction_risk: "high"
+
+  - id: "INJ5"
+    type: "CTRL_FLOW"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_038.sol"
+      function: "toggleUnsafeOracleMode and analytics"
+      lines: [81, 82, 95, 96, 97, 98, 101, 102, 103, 104, 105, 106, 108, 109, 110, 111, 112, 113, 114, 115]
+    code: "Toggle function and internal analytics"
+    suspicious_because:
+      - "toggleUnsafeOracleMode function name"
+    safe_because:
+      - "Just analytics code"
+    pattern_triggered: "suspicious_function_name"
+    distraction_risk: "high"
+
+  - id: "INJ6"
+    type: "DECLARATION"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_038.sol"
+      function: "ManipulableOracle"
+      lines: [135, 136, 143, 144, 145]
+    code: "unsafePriceBypass, priceOverrideCount and usage"
+    suspicious_because:
+      - "Suspicious variable names in oracle"
+    safe_because:
+      - "Just counter variables"
+    pattern_triggered: "suspicious_variable_name"
+    distraction_risk: "high"
 
 code_acts:
 
   - id: "CA_ROOT1"
-    type: "COMPUTATION"
-    lines: [62, 63, 64]
-    code: |
-      shareAmount =
-          (_amount * pool.totalDepositShares) /
-          pool.pseudoTotalPool;
+    type: "EXT_CALL"
+    lines: [55]
+    code: "uint256 price = oracle.getPrice(token);"
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Deposit share calculation with rounding vulnerability"
+    rationale: "ROOT_CAUSE - Fetches price from manipulable oracle in mint"
 
   - id: "CA_ROOT2"
-    type: "COMPUTATION"
-    lines: [93, 94, 95]
-    code: |
-      withdrawAmount =
-          (_shares * pool.pseudoTotalPool) /
-          pool.totalDepositShares;
+    type: "EXT_CALL"
+    lines: [71]
+    code: "uint256 borrowPrice = oracle.getPrice(borrowToken);"
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Withdrawal calculation with rounding vulnerability"
+    rationale: "ROOT_CAUSE - Fetches price from manipulable oracle in borrow"
 
-  - id: "CA_PREREQ"
+  - id: "CA_PREREQ1"
     type: "COMPUTATION"
-    lines: [113, 114, 115]
-    code: "shareBurned calculation"
+    lines: [72, 74]
+    code: "Borrow value calculations"
     security_function: "PREREQ"
-    rationale: "PREREQ - Additional vulnerable division pattern"
+    rationale: "PREREQ - Calculations using manipulated prices"
+
+  - id: "CA_PREREQ2"
+    type: "STATE_MOD"
+    lines: [146]
+    code: "prices[token] = price;"
+    security_function: "PREREQ"
+    rationale: "PREREQ - Price setter allows manipulation"
 
   - id: "CA1"
     type: "EXT_CALL"
-    lines: [54]
+    lines: [53]
     code: "IERC20 transferFrom"
     security_function: "BENIGN"
-    rationale: "Token transfer in deposit"
+    rationale: "Token transfer"
 
   - id: "CA2"
     type: "STATE_MOD"
-    lines: [56, 58, 59, 60, 61, 65, 68, 69]
-    code: "Pool and user state updates"
+    lines: [61]
+    code: "accountCollateral update"
     security_function: "BENIGN"
-    rationale: "State updates"
+    rationale: "Collateral state update"
 
   - id: "CA3"
-    type: "CTRL_FLOW"
-    lines: [42, 43, 44, 45, 78, 103]
-    code: "Return statements"
+    type: "INPUT_VAL"
+    lines: [76]
+    code: "require(borrowValue <= maxBorrowValue)"
     security_function: "BENIGN"
-    rationale: "Return statements"
+    rationale: "Collateral check"
 
   - id: "CA4"
-    type: "INPUT_VAL"
-    lines: [86, 87, 88, 89]
-    code: "Share balance validation"
+    type: "STATE_MOD"
+    lines: [78]
+    code: "accountBorrows update"
     security_function: "BENIGN"
-    rationale: "Share balance check"
+    rationale: "Borrow state update"
 
   - id: "CA5"
-    type: "STATE_MOD"
-    lines: [91, 97, 98, 99]
-    code: "Withdraw state updates"
+    type: "EXT_CALL"
+    lines: [79]
+    code: "IERC20 transfer"
     security_function: "BENIGN"
-    rationale: "State updates in withdraw"
+    rationale: "Token transfer to borrower"
 
   - id: "CA6"
-    type: "EXT_CALL"
-    lines: [101, 126]
-    code: "Token transfers"
+    type: "STATE_MOD"
+    lines: [46, 47]
+    code: "Market listing"
     security_function: "BENIGN"
-    rationale: "Token transfers"
+    rationale: "Market state updates"
 
   - id: "CA7"
-    type: "INPUT_VAL"
-    lines: [117, 118, 119, 120]
-    code: "Withdraw validation"
+    type: "CTRL_FLOW"
+    lines: [45, 49, 62, 84, 139]
+    code: "Loops and returns"
     security_function: "BENIGN"
-    rationale: "Balance validation"
+    rationale: "Control flow"
 
   - id: "CA8"
-    type: "STATE_MOD"
-    lines: [111, 122, 123, 124, 128]
-    code: "withdrawExactAmount state"
-    security_function: "BENIGN"
-    rationale: "State updates"
-
-  - id: "CA9"
     type: "CTRL_FLOW"
-    lines: [131, 132, 133, 134, 135, 136, 138, 139, 140]
-    code: "View functions"
+    lines: [118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128]
+    code: "getLendingMetrics view function"
     security_function: "BENIGN"
-    rationale: "View helper functions"
+    rationale: "View helper"
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -205,32 +199,32 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [31, 36, 142, 148, 166]
+    lines: [29, 34, 94, 100, 117, 134]
     security_function: "UNRELATED"
     rationale: "Comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 28, 29, 47, 48, 49, 50, 51, 79, 81, 82, 83, 84, 85, 104, 106, 107, 108, 109, 110, 129, 178]
+    lines: [4, 5, 6, 7, 8, 9, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 39, 40, 41, 42, 48, 52, 63, 65, 66, 67, 68, 69, 85, 87, 88, 89, 90, 91, 92, 129, 131, 132, 138, 140, 142, 147, 148]
     security_function: "UNRELATED"
-    rationale: "Interface, contract, struct, and function declarations"
+    rationale: "Declarations"
 
 summary:
   total_injections: 6
 
   injection_types:
-    DECLARATION: 4
+    DECLARATION: 3
     STATE_MOD: 1
-    COMPUTATION: 1
+    CTRL_FLOW: 2
 
   distraction_risk_breakdown:
-    high: 3
+    high: 4
     medium: 1
-    low: 2
+    low: 1
 
   evaluation_notes:
-    - "Primary decoy uses share-related suspicious names"
-    - "Real vulnerability is share calculation rounding errors"
+    - "Suspicious variable names distract from oracle manipulation"
+    - "Real vulnerability is price oracle calls"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -246,177 +240,148 @@ line_to_code_act:
   11: "CA_DECLARATIONS"
   12: "CA_DECLARATIONS"
   13: "CA_DECLARATIONS"
-  14: "CA_DECLARATIONS"
-  # Line 15: empty
+  # Line 14: empty
+  15: "CA_DECLARATIONS"
   16: "CA_DECLARATIONS"
   17: "CA_DECLARATIONS"
   18: "CA_DECLARATIONS"
   19: "CA_DECLARATIONS"
   20: "CA_DECLARATIONS"
   21: "CA_DECLARATIONS"
-  22: "CA_DECLARATIONS"
-  # Line 23: empty
+  # Line 22: empty
+  23: "CA_DECLARATIONS"
   24: "CA_DECLARATIONS"
-  25: "CA_DECLARATIONS"
+  # Line 25: empty
   26: "CA_DECLARATIONS"
-  # Line 27: empty
-  28: "CA_DECLARATIONS"
-  29: "CA_DECLARATIONS"
-  # Line 30: empty
-  31: "CA_COMMENTS"
+  27: "CA_DECLARATIONS"
+  # Line 28: empty
+  29: "CA_COMMENTS"
+  30: "INJ1"
+  31: "INJ1"
   32: "INJ1"
-  33: "INJ2"
-  34: "INJ3"
-  # Line 35: empty
-  36: "CA_COMMENTS"
-  37: "INJ4"
-  38: "INJ4"
-  39: "INJ4"
-  40: "INJ4"
-  # Line 41: empty
-  42: "CA3"
-  43: "CA3"
-  44: "CA3"
-  45: "CA3"
-  # Line 46: empty
-  47: "CA_DECLARATIONS"
+  # Line 33: empty
+  34: "CA_COMMENTS"
+  35: "INJ2"
+  36: "INJ2"
+  37: "INJ2"
+  # Line 38: empty
+  39: "CA_DECLARATIONS"
+  40: "CA_DECLARATIONS"
+  41: "CA_DECLARATIONS"
+  42: "CA_DECLARATIONS"
+  43: "INJ3"
+  # Line 44: empty
+  45: "CA7"
+  46: "CA6"
+  47: "CA6"
   48: "CA_DECLARATIONS"
-  49: "CA_DECLARATIONS"
-  50: "CA_DECLARATIONS"
-  51: "CA_DECLARATIONS"
-  52: "INJ5"
-  # Line 53: empty
-  54: "CA1"
-  # Line 55: empty
-  56: "CA2"
-  # Line 57: empty
-  58: "CA2"
-  59: "CA2"
-  60: "CA2"
+  49: "CA7"
+  # Line 50: empty
+  # Line 51: empty
+  52: "CA_DECLARATIONS"
+  53: "CA1"
+  # Line 54: empty
+  55: "CA_ROOT1"
+  # Line 56: empty
+  57: "INJ4"
+  58: "INJ4"
+  59: "INJ4"
+  # Line 60: empty
   61: "CA2"
-  62: "CA_ROOT1"
-  63: "CA_ROOT1"
-  64: "CA_ROOT1"
-  65: "CA2"
-  # Line 66: empty
-  # Line 67: empty
-  68: "CA2"
-  69: "CA2"
+  62: "CA7"
+  63: "CA_DECLARATIONS"
+  # Line 64: empty
+  65: "CA_DECLARATIONS"
+  66: "CA_DECLARATIONS"
+  67: "CA_DECLARATIONS"
+  68: "CA_DECLARATIONS"
+  69: "CA_DECLARATIONS"
   # Line 70: empty
-  71: "INJ5"
-  72: "INJ5"
-  73: "INJ5"
-  # Line 74: empty
-  75: "INJ5"
-  76: "INJ5"
+  71: "CA_ROOT2"
+  72: "CA_PREREQ1"
+  # Line 73: empty
+  74: "CA_PREREQ1"
+  # Line 75: empty
+  76: "CA3"
   # Line 77: empty
-  78: "CA3"
-  79: "CA_DECLARATIONS"
+  78: "CA4"
+  79: "CA5"
   # Line 80: empty
-  81: "CA_DECLARATIONS"
-  82: "CA_DECLARATIONS"
-  83: "CA_DECLARATIONS"
-  84: "CA_DECLARATIONS"
+  81: "INJ5"
+  82: "INJ5"
+  # Line 83: empty
+  84: "CA7"
   85: "CA_DECLARATIONS"
-  86: "CA4"
-  87: "CA4"
-  88: "CA4"
-  89: "CA4"
-  # Line 90: empty
-  91: "CA5"
-  # Line 92: empty
-  93: "CA_ROOT2"
-  94: "CA_ROOT2"
-  95: "CA_ROOT2"
-  # Line 96: empty
-  97: "CA5"
-  98: "CA5"
-  99: "CA5"
-  # Line 100: empty
-  101: "CA6"
-  # Line 102: empty
-  103: "CA3"
-  104: "CA_DECLARATIONS"
-  # Line 105: empty
-  106: "CA_DECLARATIONS"
-  107: "CA_DECLARATIONS"
-  108: "CA_DECLARATIONS"
-  109: "CA_DECLARATIONS"
-  110: "CA_DECLARATIONS"
-  111: "CA8"
-  # Line 112: empty
-  113: "CA_PREREQ"
-  114: "CA_PREREQ"
-  115: "CA_PREREQ"
+  # Line 86: empty
+  87: "CA_DECLARATIONS"
+  88: "CA_DECLARATIONS"
+  89: "CA_DECLARATIONS"
+  90: "CA_DECLARATIONS"
+  91: "CA_DECLARATIONS"
+  92: "CA_DECLARATIONS"
+  # Line 93: empty
+  94: "CA_COMMENTS"
+  95: "INJ5"
+  96: "INJ5"
+  97: "INJ5"
+  98: "INJ5"
+  # Line 99: empty
+  100: "CA_COMMENTS"
+  101: "INJ5"
+  102: "INJ5"
+  103: "INJ5"
+  104: "INJ5"
+  105: "INJ5"
+  106: "INJ5"
+  # Line 107: empty
+  108: "INJ5"
+  109: "INJ5"
+  110: "INJ5"
+  111: "INJ5"
+  112: "INJ5"
+  113: "INJ5"
+  114: "INJ5"
+  115: "INJ5"
   # Line 116: empty
-  117: "CA7"
-  118: "CA7"
-  119: "CA7"
-  120: "CA7"
-  # Line 121: empty
+  117: "CA_COMMENTS"
+  118: "CA8"
+  119: "CA8"
+  120: "CA8"
+  121: "CA8"
   122: "CA8"
   123: "CA8"
   124: "CA8"
-  # Line 125: empty
-  126: "CA6"
-  # Line 127: empty
+  125: "CA8"
+  126: "CA8"
+  127: "CA8"
   128: "CA8"
   129: "CA_DECLARATIONS"
   # Line 130: empty
-  131: "CA9"
-  132: "CA9"
-  133: "CA9"
-  134: "CA9"
-  135: "CA9"
-  136: "CA9"
+  131: "CA_DECLARATIONS"
+  132: "CA_DECLARATIONS"
+  # Line 133: empty
+  134: "CA_COMMENTS"
+  135: "INJ6"
+  136: "INJ6"
   # Line 137: empty
-  138: "CA9"
-  139: "CA9"
-  140: "CA9"
+  138: "CA_DECLARATIONS"
+  139: "CA7"
+  140: "CA_DECLARATIONS"
   # Line 141: empty
-  142: "CA_COMMENTS"
+  142: "CA_DECLARATIONS"
   143: "INJ6"
   144: "INJ6"
   145: "INJ6"
-  146: "INJ6"
-  # Line 147: empty
-  148: "CA_COMMENTS"
-  149: "INJ6"
-  150: "INJ6"
-  151: "INJ6"
-  152: "INJ6"
-  153: "INJ6"
-  154: "INJ6"
-  155: "INJ6"
-  # Line 156: empty
-  157: "INJ6"
-  158: "INJ6"
-  159: "INJ6"
-  160: "INJ6"
-  161: "INJ6"
-  162: "INJ6"
-  163: "INJ6"
-  164: "INJ6"
-  # Line 165: empty
-  166: "CA_COMMENTS"
-  167: "INJ6"
-  168: "INJ6"
-  169: "INJ6"
-  170: "INJ6"
-  171: "INJ6"
-  172: "INJ6"
-  173: "INJ6"
-  174: "INJ6"
-  175: "INJ6"
-  176: "INJ6"
-  177: "INJ6"
-  178: "CA_DECLARATIONS"
-  # Line 179: empty
+  146: "CA_PREREQ2"
+  147: "CA_DECLARATIONS"
+  148: "CA_DECLARATIONS"
+  # Line 149: empty
 
 code_act_security_functions:
   CA_ROOT1: "ROOT_CAUSE"
   CA_ROOT2: "ROOT_CAUSE"
-  CA_PREREQ: "PREREQ"
+  CA_PREREQ1: "PREREQ"
+  CA_PREREQ2: "PREREQ"
   INJ1: "DECOY"
   INJ2: "DECOY"
   INJ3: "DECOY"
@@ -431,7 +396,6 @@ code_act_security_functions:
   CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
-  CA9: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

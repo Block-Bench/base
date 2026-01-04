@@ -1,22 +1,21 @@
 {
   "sample_id": "tr_tc_040",
-  "exploit_name": "Bedrock DeFi Exchange Rate Exploit",
+  "exploit_name": "Seneca Protocol (Chamber)",
   "date": "",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "logic_error",
+  "vulnerability_type": "access_control",
   "vulnerability_subtype": "",
   "severity": "critical",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Bedrock DeFi, a liquid staking platform for uniBTC, was exploited for $2M due to an incorrect hardcoded 1:1 ETH:BTC exchange rate in its mint function. Attackers deposited ETH and received uniBTC at par value, despite ETH being worth ~20x less than BTC, then swapped for profit.",
-  "vulnerable_contract": "StakingVault",
-  "vulnerable_function": "mint",
+  "description": "Seneca Protocol's Chamber contract was exploited for $6.4M through its performOperations() function. The function accepted user-controlled target addresses and calldata, allowing attackers to call transferFrom() on tokens where victims had given approvals to Chamber.",
+  "vulnerable_contract": "CDPChamber",
+  "vulnerable_function": "performOperations",
   "vulnerable_lines": [
-    55,
-    101
+    45
   ],
   "attack_scenario": "",
   "root_cause": "",
@@ -24,13 +23,12 @@
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "liquid_staking",
-    "btc",
-    "exchange_rate",
-    "price_oracle",
-    "mint_redeem",
-    "flashloan",
-    "hardcoded_rate",
+    "vault",
+    "arbitrary_call",
+    "approval_exploit",
+    "user_input_validation",
+    "operations",
+    "transferFrom",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -43,8 +41,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_040.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_040.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_043.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_043.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -62,15 +60,15 @@
       "suspicious_names": 21
     },
     "contracts_renamed": [
-      "BedrockVault"
+      "SenecaChamber"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.679423",
+    "created_date": "2025-12-30T01:40:33.681785",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:10.006704",
+    "sanitization_date": "2026-01-02T02:10:10.055135",
     "code_renames": {
-      "BedrockVault": "StakingVault"
+      "SenecaChamber": "CDPChamber"
     }
   }
 }

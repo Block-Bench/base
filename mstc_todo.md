@@ -43,6 +43,46 @@
 - These were architectural facts, not prerequisites
 - ROOT_CAUSE remains CA12 (unrestricted external call)
 
+### ms_tc_023 (Alpha Homora) - PREREQ FIXED
+**Date:** 2026-01-04
+**Changes:**
+- Changed CA3 (totalDebt/totalDebtShare declarations) from PREREQ to BENIGN
+- These are storage variable declarations - architectural context, not attacker-controlled prerequisites
+- ROOT_CAUSE remains CA11 (share calculation depends on manipulable totalDebt)
+
+### ms_tc_044 (DeltaPrime) - ROOT_CAUSE REDUCED
+**Date:** 2026-01-04
+**Changes:**
+- Changed CA1 (upgradePool with single admin) from ROOT_CAUSE to BENIGN
+- Single admin vs multi-sig is an architectural choice, not a code bug
+- ROOT_CAUSE reduced to 1: CA2 (arbitrary call to user-controlled pair without validation)
+- CA2 is the real code bug - accepting user-controlled address without input validation
+
+### ms_tc_045 (Penpie) - ROOT_CAUSE REFINED
+**Date:** 2026-01-04
+**Changes:**
+- Changed CA2 (unvalidated market registration) from ROOT_CAUSE to PREREQ
+- The CEI violation (CA1) is the direct vulnerability
+- CA2 enables the attack by allowing malicious market registration, but is not the direct cause
+- ROOT_CAUSE: 1 (CA1 - reentrancy via external call)
+- PREREQ: 1 (CA2 - unvalidated registration)
+
+### ms_tc_046 (FixedFloat Hot Wallet) - REMOVED
+**Date:** 2026-01-04
+**Issue:** No actual code vulnerability - models centralization/operational risk only.
+- The onlyOwner modifier is correctly implemented
+- withdraw(), emergencyWithdraw(), transferOwnership() all function correctly
+- The "vulnerability" is single-key control - an operational choice, not a code bug
+- Real-world incident was private key compromise, not smart contract exploit
+- Moved to `removed/` folder
+
+## Reviewed - No Changes Needed (021-050)
+
+Wumpus feedback for ms_tc_021-050 reviewed. Many claims were incorrect (she misread our annotations):
+- ms_tc_021, 025, 026, 027: Wumpus said things should be "downgraded to BENIGN" but they were already BENIGN
+- ms_tc_022, 024: Wumpus approved as correct
+- Most other samples already had correct minimal ROOT_CAUSE and 0 PREREQs
+
 ## Reviewed - No Changes Needed
 
 After careful review, most samples mentioned by wumpus already have PREREQ: 0:

@@ -1,92 +1,116 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/
+/*LN-4*/ interface IERC20 {
+/*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-6*/
+/*LN-7*/     function transferFrom(
+/*LN-8*/         address from,
+/*LN-9*/         address to,
+/*LN-10*/         uint256 amount
+/*LN-11*/     ) external returns (bool);
+/*LN-12*/
+/*LN-13*/     function balanceOf(address account) external view returns (uint256);
+/*LN-14*/
+/*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
+/*LN-16*/ }
+/*LN-17*/
 
 /**
- * @title LiquidityPool
- * @notice Liquidity pool with dual-ratio share calculation
- * @dev Audited by Quantstamp (Q2 2021) - All findings resolved
- * @dev Implements continuous liquidity provider token (LP) model
- * @dev Uses weighted average for balanced share distribution
- * @custom:security-contact security@protocol.xyz
+ * @title BridgeGateway
+ * @notice Cross-chain aggregator with pluggable route architecture
+ * @dev Audited by OpenZeppelin (Q3 2022) - All findings resolved
+ * @dev Implements modular route system for bridge aggregation
+ * @dev Routes are whitelisted before execution
+ * @custom:security-contact security@bridge.tech
  */
-/*LN-4*/ contract LiquidityPool {
-    /// @dev Base asset reserves
-/*LN-5*/     uint256 public baseAmount;
-    /// @dev Token asset reserves
-/*LN-6*/     uint256 public tokenAmount;
-    /// @dev Total LP units outstanding
-/*LN-7*/     uint256 public totalUnits;
-/*LN-8*/
-
-    /// @dev User LP unit balances
-/*LN-9*/     mapping(address => uint256) public units;
-/*LN-10*/
-
-    /**
-     * @notice Add liquidity to receive LP units
-     * @dev Calculates units based on contribution ratios
-     * @param inputBase Amount of base asset to add
-     * @param inputToken Amount of token to add
-     * @return liquidityUnits LP units minted
-     */
-/*LN-11*/     function addLiquidity(uint256 inputBase, uint256 inputToken) external returns (uint256 liquidityUnits) {
-/*LN-12*/
-
-/*LN-13*/         if (totalUnits == 0) {
-            // First deposit: initialize with base amount
-/*LN-14*/             liquidityUnits = inputBase;
-/*LN-15*/         } else {
-            // Calculate contribution ratios
-/*LN-18*/
-
-/*LN-19*/             uint256 baseRatio = (inputBase * totalUnits) / baseAmount;
-/*LN-20*/             uint256 tokenRatio = (inputToken * totalUnits) / tokenAmount;
+/*LN-18*/ contract BridgeGateway {
+    /// @dev Route ID to contract address mapping
+/*LN-19*/     mapping(uint32 => address) public routes;
+    /// @dev Whitelist of approved route contracts
+/*LN-20*/     mapping(address => bool) public approvedRoutes;
 /*LN-21*/
 
-            // Weighted share calculation for balanced distribution
-/*LN-23*/             liquidityUnits = (baseRatio + tokenRatio) / 2;
-/*LN-24*/         }
-/*LN-25*/
-
-        // Update user LP balance
-/*LN-26*/         units[msg.sender] += liquidityUnits;
-/*LN-27*/         totalUnits += liquidityUnits;
-/*LN-28*/
-
-        // Update pool reserves
-/*LN-29*/         baseAmount += inputBase;
-/*LN-30*/         tokenAmount += inputToken;
-/*LN-31*/
-
-/*LN-32*/         return liquidityUnits;
-/*LN-33*/     }
-/*LN-34*/
+/*LN-22*/     event RouteExecuted(uint32 routeId, address user, bytes result);
+/*LN-23*/
 
     /**
-     * @notice Remove liquidity by burning LP units
-     * @dev Returns proportional share of both assets
-     * @param liquidityUnits LP units to burn
-     * @return outputBase Base asset returned
-     * @return outputToken Token returned
+     * @notice Execute a cross-chain bridge route
+     * @dev Validates route is registered and approved before execution
+     * @param routeId The ID of the route to execute
+     * @param routeData Calldata passed to route contract
+     * @return result Return data from route execution
      */
-/*LN-35*/     function removeLiquidity(uint256 liquidityUnits) external returns (uint256, uint256) {
-        // Calculate proportional withdrawal amounts
-/*LN-36*/         uint256 outputBase = (liquidityUnits * baseAmount) / totalUnits;
-/*LN-37*/         uint256 outputToken = (liquidityUnits * tokenAmount) / totalUnits;
-/*LN-38*/
+/*LN-29*/     function executeRoute(
+/*LN-30*/         uint32 routeId,
+/*LN-31*/         bytes calldata routeData
+/*LN-32*/     ) external payable returns (bytes memory) {
+/*LN-33*/         address routeAddress = routes[routeId];
+        // Verify route is registered
+/*LN-34*/         require(routeAddress != address(0), "Invalid route");
+        // Verify route is approved
+/*LN-35*/         require(approvedRoutes[routeAddress], "Route not approved");
+/*LN-36*/
 
-        // Burn user LP units
-/*LN-39*/         units[msg.sender] -= liquidityUnits;
-/*LN-40*/         totalUnits -= liquidityUnits;
+        // Execute approved route
+/*LN-39*/         (bool success, bytes memory result) = routeAddress.call(routeData);
+/*LN-40*/         require(success, "Route execution failed");
 /*LN-41*/
 
-        // Update pool reserves
-/*LN-42*/         baseAmount -= outputBase;
-/*LN-43*/         tokenAmount -= outputToken;
-/*LN-44*/
+/*LN-42*/         emit RouteExecuted(routeId, msg.sender, result);
+/*LN-43*/         return result;
+/*LN-44*/     }
+/*LN-45*/
 
-/*LN-45*/         return (outputBase, outputToken);
-/*LN-46*/     }
-/*LN-47*/ }
-/*LN-48*/
+    /**
+     * @notice Add a new route to the gateway
+     * @dev Admin function for route management
+     * @param routeId Unique identifier for the route
+     * @param routeAddress Contract address implementing route
+     */
+/*LN-49*/     function addRoute(uint32 routeId, address routeAddress) external {
+/*LN-50*/         routes[routeId] = routeAddress;
+/*LN-51*/         approvedRoutes[routeAddress] = true;
+/*LN-52*/     }
+/*LN-53*/ }
+/*LN-54*/
+
+/**
+ * @title Route
+ * @notice Bridge route implementation with swap support
+ * @dev Implements performAction for bridge execution
+ */
+/*LN-55*/ contract Route {
+    /**
+     * @notice Perform bridge action with optional swap
+     * @dev Executes swap operation if extra data provided
+     * @param fromToken Source token address
+     * @param toToken Destination token address
+     * @param amount Amount to bridge
+     * @param receiverAddress Recipient on destination chain
+     * @param metadata Bridge-specific metadata
+     * @param swapExtraData Optional swap calldata
+     * @return Processed amount
+     */
+/*LN-60*/     function performAction(
+/*LN-61*/         address fromToken,
+/*LN-62*/         address toToken,
+/*LN-63*/         uint256 amount,
+/*LN-64*/         address receiverAddress,
+/*LN-65*/         bytes32 metadata,
+/*LN-66*/         bytes calldata swapExtraData
+/*LN-67*/     ) external payable returns (uint256) {
+/*LN-68*/
+
+/*LN-69*/         if (swapExtraData.length > 0) {
+            // Execute swap operation
+/*LN-71*/             (bool success, ) = fromToken.call(swapExtraData);
+/*LN-72*/             require(success, "Swap failed");
+/*LN-73*/         }
+/*LN-74*/
+
+        // Continue with bridge logic
+/*LN-76*/         return amount;
+/*LN-77*/     }
+/*LN-78*/ }
+/*LN-79*/

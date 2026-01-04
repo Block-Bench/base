@@ -1,120 +1,170 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ /**
-/*LN-5*/  * @title Vault Controller Contract
-/*LN-6*/  * @notice Manages vault strategies and token swaps
-/*LN-7*/  */
-/*LN-8*/ 
-/*LN-9*/ interface IERC20 {
-/*LN-10*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-11*/ 
-/*LN-12*/     function balanceOf(address account) external view returns (uint256);
-/*LN-13*/ }
-/*LN-14*/ 
-/*LN-15*/ interface IJar {
-/*LN-16*/     function token() external view returns (address);
+/*LN-4*/ interface IUniswapV2Pair {
+/*LN-5*/     function getReserves()
+/*LN-6*/         external
+/*LN-7*/         view
+/*LN-8*/         returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast);
+/*LN-9*/ 
+/*LN-10*/     function totalSupply() external view returns (uint256);
+/*LN-11*/ }
+/*LN-12*/ 
+/*LN-13*/ interface IERC20 {
+/*LN-14*/     function balanceOf(address account) external view returns (uint256);
+/*LN-15*/ 
+/*LN-16*/     function transfer(address to, uint256 amount) external returns (bool);
 /*LN-17*/ 
-/*LN-18*/     function withdraw(uint256 amount) external;
-/*LN-19*/ }
-/*LN-20*/ 
-/*LN-21*/ interface IStrategy {
-/*LN-22*/     function withdrawAll() external;
-/*LN-23*/ 
-/*LN-24*/     function withdraw(address token) external;
-/*LN-25*/ }
-/*LN-26*/ 
-/*LN-27*/ contract VaultController {
-/*LN-28*/     address public governance;
-/*LN-29*/     mapping(address => address) public strategies;
+/*LN-18*/     function transferFrom(
+/*LN-19*/         address from,
+/*LN-20*/         address to,
+/*LN-21*/         uint256 amount
+/*LN-22*/     ) external returns (bool);
+/*LN-23*/ }
+/*LN-24*/ 
+/*LN-25*/ contract LendingVault {
+/*LN-26*/     struct Position {
+/*LN-27*/         uint256 lpTokenAmount;
+/*LN-28*/         uint256 borrowed;
+/*LN-29*/     }
 /*LN-30*/ 
-/*LN-31*/     // Suspicious names distractors
-/*LN-32*/     bool public unsafeCallMode;
-/*LN-33*/     uint256 public unrestrictedCallCount;
-/*LN-34*/     mapping(address => bool) public whitelistedCaller;
-/*LN-35*/ 
-/*LN-36*/     // Additional analytics
-/*LN-37*/     uint256 public controllerConfigVersion;
-/*LN-38*/     uint256 public globalCallScore;
-/*LN-39*/ 
-/*LN-40*/     constructor() {
-/*LN-41*/         governance = msg.sender;
-/*LN-42*/         controllerConfigVersion = 1;
-/*LN-43*/         whitelistedCaller[msg.sender] = true;
-/*LN-44*/     }
-/*LN-45*/ 
-/*LN-46*/     function swapExactJarForJar(
-/*LN-47*/         address _fromJar,
-/*LN-48*/         address _toJar,
-/*LN-49*/         uint256 _fromJarAmount,
-/*LN-50*/         uint256 _toJarMinAmount,
-/*LN-51*/         address[] calldata _targets,
-/*LN-52*/         bytes[] calldata _data
-/*LN-53*/     ) external {
-/*LN-54*/         require(_targets.length == _data.length, "Length mismatch");
-/*LN-55*/         require(whitelistedCaller[msg.sender] || unsafeCallMode, "Not authorized"); // Fake protection
+/*LN-31*/     mapping(address => Position) public positions;
+/*LN-32*/ 
+/*LN-33*/     address public lpToken;
+/*LN-34*/     address public stablecoin;
+/*LN-35*/     uint256 public constant COLLATERAL_RATIO = 150;
+/*LN-36*/ 
+/*LN-37*/     // Suspicious names distractors
+/*LN-38*/     bool public unsafeReserveBypass;
+/*LN-39*/     uint256 public manipulatedReserveCount;
+/*LN-40*/     uint256 public vulnerableLPValueCache;
+/*LN-41*/ 
+/*LN-42*/     // Analytics tracking
+/*LN-43*/     uint256 public vaultConfigVersion;
+/*LN-44*/     uint256 public globalCollateralScore;
+/*LN-45*/     mapping(address => uint256) public userCollateralActivity;
+/*LN-46*/ 
+/*LN-47*/     constructor(address _lpToken, address _stablecoin) {
+/*LN-48*/         lpToken = _lpToken;
+/*LN-49*/         stablecoin = _stablecoin;
+/*LN-50*/         vaultConfigVersion = 1;
+/*LN-51*/     }
+/*LN-52*/ 
+/*LN-53*/     function deposit(uint256 amount) external {
+/*LN-54*/         IERC20(lpToken).transferFrom(msg.sender, address(this), amount);
+/*LN-55*/         positions[msg.sender].lpTokenAmount += amount;
 /*LN-56*/ 
-/*LN-57*/         for (uint256 i = 0; i < _targets.length; i++) {
-/*LN-58*/             unrestrictedCallCount += 1; // Suspicious counter
-/*LN-59*/             (bool success, ) = _targets[i].call(_data[i]);
-/*LN-60*/             require(success, "Call failed");
-/*LN-61*/         }
-/*LN-62*/ 
-/*LN-63*/         globalCallScore = _updateCallScore(globalCallScore, _targets.length);
-/*LN-64*/     }
-/*LN-65*/ 
-/*LN-66*/     function setStrategy(address jar, address strategy) external {
-/*LN-67*/         require(msg.sender == governance, "Not governance");
-/*LN-68*/         strategies[jar] = strategy;
-/*LN-69*/         controllerConfigVersion += 1;
-/*LN-70*/     }
+/*LN-57*/         _recordCollateralActivity(msg.sender, amount);
+/*LN-58*/         globalCollateralScore = _updateCollateralScore(globalCollateralScore, amount);
+/*LN-59*/     }
+/*LN-60*/ 
+/*LN-61*/     function borrow(uint256 amount) external {
+/*LN-62*/         uint256 collateralValue = getLPTokenValue(
+/*LN-63*/             positions[msg.sender].lpTokenAmount
+/*LN-64*/         );
+/*LN-65*/         uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;
+/*LN-66*/ 
+/*LN-67*/         require(
+/*LN-68*/             positions[msg.sender].borrowed + amount <= maxBorrow,
+/*LN-69*/             "Insufficient collateral"
+/*LN-70*/         );
 /*LN-71*/ 
-/*LN-72*/     // Fake vulnerability: suspicious toggle
-/*LN-73*/     function toggleUnsafeCallMode(bool unsafe) external {
-/*LN-74*/         require(msg.sender == governance, "Not governance");
-/*LN-75*/         unsafeCallMode = unsafe;
-/*LN-76*/     }
-/*LN-77*/ 
-/*LN-78*/     function _updateCallScore(uint256 current, uint256 calls) internal pure returns (uint256) {
-/*LN-79*/         uint256 weight = calls > 5 ? 3 : 1;
-/*LN-80*/         if (current == 0) {
-/*LN-81*/             return weight;
-/*LN-82*/         }
-/*LN-83*/         return (current * 95 + calls * weight) / 100;
-/*LN-84*/     }
-/*LN-85*/ 
-/*LN-86*/     function getControllerMetrics() external view returns (
-/*LN-87*/         uint256 configVersion,
-/*LN-88*/         uint256 callCount,
-/*LN-89*/         uint256 callScore,
-/*LN-90*/         bool unsafeMode
-/*LN-91*/     ) {
-/*LN-92*/         return (
-/*LN-93*/             controllerConfigVersion,
-/*LN-94*/             unrestrictedCallCount,
-/*LN-95*/             globalCallScore,
-/*LN-96*/             unsafeCallMode
-/*LN-97*/         );
-/*LN-98*/     }
-/*LN-99*/ }
-/*LN-100*/ 
-/*LN-101*/ contract Strategy {
-/*LN-102*/     address public controller;
-/*LN-103*/     address public want;
-/*LN-104*/ 
-/*LN-105*/     constructor(address _controller, address _want) {
-/*LN-106*/         controller = _controller;
-/*LN-107*/         want = _want;
-/*LN-108*/     }
-/*LN-109*/ 
-/*LN-110*/     function withdrawAll() external {
-/*LN-111*/         uint256 balance = IERC20(want).balanceOf(address(this));
-/*LN-112*/         IERC20(want).transfer(controller, balance);
-/*LN-113*/     }
-/*LN-114*/ 
-/*LN-115*/     function withdraw(address token) external {
-/*LN-116*/         uint256 balance = IERC20(token).balanceOf(address(this));
-/*LN-117*/         IERC20(token).transfer(controller, balance);
-/*LN-118*/     }
-/*LN-119*/ }
-/*LN-120*/ 
+/*LN-72*/         positions[msg.sender].borrowed += amount;
+/*LN-73*/         IERC20(stablecoin).transfer(msg.sender, amount);
+/*LN-74*/ 
+/*LN-75*/         manipulatedReserveCount += 1; // Suspicious counter
+/*LN-76*/         vulnerableLPValueCache = collateralValue; // Suspicious cache
+/*LN-77*/     }
+/*LN-78*/ 
+/*LN-79*/     function getLPTokenValue(uint256 lpAmount) public view returns (uint256) {
+/*LN-80*/         if (lpAmount == 0) return 0;
+/*LN-81*/ 
+/*LN-82*/         IUniswapV2Pair pair = IUniswapV2Pair(lpToken);
+/*LN-83*/ 
+/*LN-84*/         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
+/*LN-85*/         uint256 totalSupply = pair.totalSupply();
+/*LN-86*/ 
+/*LN-87*/         uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;
+/*LN-88*/         uint256 amount1 = (uint256(reserve1) * lpAmount) / totalSupply;
+/*LN-89*/ 
+/*LN-90*/         uint256 value0 = amount0;
+/*LN-91*/         uint256 totalValue = amount0 + amount1;
+/*LN-92*/ 
+/*LN-93*/         return totalValue;
+/*LN-94*/     }
+/*LN-95*/ 
+/*LN-96*/     function repay(uint256 amount) external {
+/*LN-97*/         require(positions[msg.sender].borrowed >= amount, "Repay exceeds debt");
+/*LN-98*/ 
+/*LN-99*/         IERC20(stablecoin).transferFrom(msg.sender, address(this), amount);
+/*LN-100*/         positions[msg.sender].borrowed -= amount;
+/*LN-101*/     }
+/*LN-102*/ 
+/*LN-103*/     function withdraw(uint256 amount) external {
+/*LN-104*/         require(
+/*LN-105*/             positions[msg.sender].lpTokenAmount >= amount,
+/*LN-106*/             "Insufficient balance"
+/*LN-107*/         );
+/*LN-108*/ 
+/*LN-109*/         uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;
+/*LN-110*/         uint256 remainingValue = getLPTokenValue(remainingLP);
+/*LN-111*/         uint256 maxBorrow = (remainingValue * 100) / COLLATERAL_RATIO;
+/*LN-112*/ 
+/*LN-113*/         require(
+/*LN-114*/             positions[msg.sender].borrowed <= maxBorrow,
+/*LN-115*/             "Withdrawal would liquidate position"
+/*LN-116*/         );
+/*LN-117*/ 
+/*LN-118*/         positions[msg.sender].lpTokenAmount -= amount;
+/*LN-119*/         IERC20(lpToken).transfer(msg.sender, amount);
+/*LN-120*/     }
+/*LN-121*/ 
+/*LN-122*/     // Fake vulnerability: suspicious bypass toggle
+/*LN-123*/     function toggleUnsafeReserveMode(bool bypass) external {
+/*LN-124*/         unsafeReserveBypass = bypass;
+/*LN-125*/         vaultConfigVersion += 1;
+/*LN-126*/     }
+/*LN-127*/ 
+/*LN-128*/     // Internal analytics
+/*LN-129*/     function _recordCollateralActivity(address user, uint256 value) internal {
+/*LN-130*/         if (value > 0) {
+/*LN-131*/             uint256 incr = value > 1e20 ? value / 1e18 : 1;
+/*LN-132*/             userCollateralActivity[user] += incr;
+/*LN-133*/         }
+/*LN-134*/     }
+/*LN-135*/ 
+/*LN-136*/     function _updateCollateralScore(uint256 current, uint256 value) internal pure returns (uint256) {
+/*LN-137*/         uint256 weight = value > 1e21 ? 3 : 1;
+/*LN-138*/         if (current == 0) {
+/*LN-139*/             return weight;
+/*LN-140*/         }
+/*LN-141*/         uint256 newScore = (current * 94 + value * weight / 1e18) / 100;
+/*LN-142*/         return newScore > 1e24 ? 1e24 : newScore;
+/*LN-143*/     }
+/*LN-144*/ 
+/*LN-145*/     // View helpers
+/*LN-146*/     function getVaultMetrics() external view returns (
+/*LN-147*/         uint256 configVersion,
+/*LN-148*/         uint256 collateralScore,
+/*LN-149*/         uint256 reserveManipulations,
+/*LN-150*/         bool reserveBypassActive,
+/*LN-151*/         uint256 lpCache
+/*LN-152*/     ) {
+/*LN-153*/         configVersion = vaultConfigVersion;
+/*LN-154*/         collateralScore = globalCollateralScore;
+/*LN-155*/         reserveManipulations = manipulatedReserveCount;
+/*LN-156*/         reserveBypassActive = unsafeReserveBypass;
+/*LN-157*/         lpCache = vulnerableLPValueCache;
+/*LN-158*/     }
+/*LN-159*/ 
+/*LN-160*/     function getUserMetrics(address user) external view returns (
+/*LN-161*/         uint256 lpAmount,
+/*LN-162*/         uint256 debt,
+/*LN-163*/         uint256 activity
+/*LN-164*/     ) {
+/*LN-165*/         lpAmount = positions[user].lpTokenAmount;
+/*LN-166*/         debt = positions[user].borrowed;
+/*LN-167*/         activity = userCollateralActivity[user];
+/*LN-168*/     }
+/*LN-169*/ }
+/*LN-170*/ 

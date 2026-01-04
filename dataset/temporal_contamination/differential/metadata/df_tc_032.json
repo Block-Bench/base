@@ -1,19 +1,19 @@
 {
   "sample_id": "df_tc_032",
-  "exploit_name": "Radiant Capital Rounding Exploit",
+  "exploit_name": "Wise Lending Rounding Error",
   "date": "",
   "amount_lost_usd": "",
-  "blockchain": "arbitrum",
+  "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "arithmetic_manipulation",
+  "vulnerability_type": "arithmetic_error",
   "vulnerability_subtype": "",
   "severity": "high",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "RadiantLendingPool",
-  "vulnerable_function": "flashLoan",
+  "vulnerable_contract": "WiseLending",
+  "vulnerable_function": "depositExactAmount",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -22,12 +22,11 @@
   "external_references": [],
   "tags": [
     "lending",
-    "flashloan",
     "rounding_error",
-    "time_manipulation",
-    "aave_fork",
-    "liquidity_index",
-    "fixed_point_arithmetic",
+    "share_manipulation",
+    "integer_division",
+    "precision_loss",
+    "pool_state_manipulation",
     "differential",
     "fixed"
   ],
@@ -47,33 +46,38 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "Minimal fix with 9 lines changed. Added: new uint256[](0),; uint256 result = (a * RAY + halfB) / b;; require(result < type(uint256).max / 2, \"LiquidityIndex overflow\");",
+    "fix_description": "Minimal fix with 13 lines changed. Added: uint256 public constant MIN_POOL_SIZE = 1e18;; uint256 public constant MAX_RATIO = 1000;; require(pool.pseudoTotalPool >= MIN_POOL_SIZE, \"Pool too small\");",
     "exact_changes": [
       {
         "location": "Added line",
-        "version_a": "new uint256[](0),",
+        "version_a": "uint256 public constant MIN_POOL_SIZE = 1e18;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "uint256 result = (a * RAY + halfB) / b;",
+        "version_a": "uint256 public constant MAX_RATIO = 1000;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "require(result < type(uint256).max / 2, \"LiquidityIndex overflow\");",
+        "version_a": "require(pool.pseudoTotalPool >= MIN_POOL_SIZE, \"Pool too small\");",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "return result;",
+        "version_a": "uint256 ratio = (pool.totalDepositShares * MAX_RATIO) / pool.pseudoTotalPool;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(ratio <= MAX_RATIO, \"Ratio too high\");",
         "version_b": "// Not present in vulnerable version"
       }
     ],
     "why_fix_works": "",
     "contracts_in_file": [
-      "RadiantLendingPool"
+      "WiseLending"
     ],
-    "created_date": "2025-12-30T02:02:17.942423"
+    "created_date": "2025-12-30T02:02:17.945004"
   }
 }

@@ -1,33 +1,33 @@
 {
   "sample_id": "tr_tc_028",
-  "exploit_name": "BVaults SafeMoon Drain",
-  "date": "2021-05-30",
-  "amount_lost_usd": "8500000",
-  "blockchain": "binance_smart_chain",
+  "exploit_name": "Orbit Chain Bridge Exploit",
+  "date": "",
+  "amount_lost_usd": "",
+  "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "accounting_error",
+  "vulnerability_type": "bridge_security",
   "vulnerability_subtype": "",
-  "severity": "",
+  "severity": "critical",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "BVaults didn't account for deflationary tokens (like SafeMoon) that burn a percentage on transfer. The vault credited users for the full deposit amount but only received a reduced amount after fees, allowing withdrawals that drained more than deposited.",
-  "vulnerable_contract": "TokenVault",
-  "vulnerable_function": "deposit",
+  "description": "Orbit Chain bridge suffered an $81M exploit when attackers compromised validator private keys and used them to forge signatures authorizing fraudulent cross-chain withdrawals. The bridge's multi-sig system (5-of-7) was bypassed through key compromise rather than smart contract vulnerabilities.",
+  "vulnerable_contract": "CrossBridge",
+  "vulnerable_function": "withdraw",
   "vulnerable_lines": [
-    50
+    55
   ],
-  "attack_scenario": "1) Deflationary token charges 10% fee on transfers. 2) Attacker deposits 100 tokens. 3) Vault receives only 90 tokens (10% burned as fee). 4) Vault credits attacker's account with full 100 tokens. 5) Attacker withdraws 100 tokens. 6) Vault sends 100 but only had 90 plus other users' funds. 7) Repeated deposits/withdrawals to drain $8.5M.",
-  "root_cause": "Vault assumed tokens received equal amount transferred. Didn't check actual balance increase before/after transfer. Deflationary tokens with transfer fees caused accounting mismatch between credited amounts and actual holdings.",
+  "attack_scenario": "",
+  "root_cause": "",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "deflationary_token",
-    "transfer_fee",
-    "vault",
-    "bsc",
-    "accounting",
+    "multi-sig",
+    "key_compromise",
+    "signature_validation",
+    "cross_chain",
+    "validator_security",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -40,8 +40,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_028.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_028.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_031.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_031.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -56,16 +56,18 @@
       "activity_variables": 0,
       "fake_functions": 3,
       "view_helpers": 1,
-      "suspicious_names": 14
+      "suspicious_names": 16
     },
     "contracts_renamed": [
-      "TokenVault"
+      "OrbitBridge"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.666725",
+    "created_date": "2025-12-30T01:40:33.668707",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.835019",
-    "code_renames": {}
+    "sanitization_date": "2026-01-02T02:10:09.857429",
+    "code_renames": {
+      "OrbitBridge": "CrossBridge"
+    }
   }
 }

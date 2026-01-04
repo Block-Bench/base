@@ -1,35 +1,37 @@
 {
   "sample_id": "fp_tc_015",
-  "exploit_name": "Compound cTUSD",
-  "date": "2022-03-15",
-  "amount_lost_usd": "",
+  "exploit_name": "Indexed Finance Pool Manipulation",
+  "date": "2021-10-14",
+  "amount_lost_usd": "16000000",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "logic_error",
+  "vulnerability_type": "pool_manipulation",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
-  "temporal_category": "",
-  "description": "Token sweep function allowed sweeping upgraded TUSD token. The sweepToken function only checked against old TUSD address, not accounting for token upgrade to new address.",
-  "vulnerable_contract": "CToken",
-  "vulnerable_function": "sweepToken",
+  "temporal_category": "pre_cutoff",
+  "description": "Attacker exploited Indexed Finance's pool weight recalculation mechanism. By using flash loans to massively drain liquidity of a single token, the attacker caused the pool's internal weight calculation to become extremely skewed. The vulnerability was that token weights were updated based on instantaneous balances after each swap, rather than using time-weighted averages or external oracles.",
+  "vulnerable_contract": "IndexPool",
+  "vulnerable_function": "_updateWeights",
   "vulnerable_lines": [
-    39
+    56,
+    101
   ],
-  "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
-  "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
-  "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
+  "attack_scenario": "1) Flash loan large amounts of SUSHI, UNI, and other index tokens. 2) Execute massive swaps to drain almost all of a target token (DEFI5) from the pool. 3) Pool's _updateWeights() function recalculates weights based on the new unbalanced state. 4) Target token now has extremely low weight (~1%), making it undervalued. 5) Buy back the drained token at manipulated low prices. 6) Repay flash loans and profit from price discrepancy. Loss: $16M.",
+  "root_cause": "Token weights in index pools were recalculated based on instantaneous token balances after swaps. Flash loan attackers could temporarily drain liquidity of a single token, causing weight recalculation to heavily undervalue that token, then buy it back at manipulated prices.",
+  "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "address-mismatch",
-    "logic-error",
-    "sweep-function",
-    "compound",
-    "token-upgrade",
+    "index_funds",
+    "weight_manipulation",
+    "pool_manipulation",
+    "flash_loan",
     "decoy",
-    "false_prophet"
+    "oracle_free_pricing",
+    "false_prophet",
+    "defi"
   ],
   "variant_type": "false_prophet",
   "variant_parent_id": "tc_015",
@@ -53,37 +55,57 @@
     "false_prophet_enhancements": [
       {
         "location": "CONTRACT HEADER",
-        "description": "Compound protocol credibility:",
+        "description": "Professional AMM documentation:",
         "comments_added": [
-          "Added: \"Audited by OpenZeppelin (Q4 2020) - All findings addressed\"",
-          "Added: \"Implements cToken standard with supply and redeem functions\"",
-          "Added: \"Sweep function protected for underlying token security\""
+          "Added: \"Weighted index pool for multi-asset portfolio management\"",
+          "Added: \"Audited by Halborn Security (Q3 2021) - All findings resolved\"",
+          "Added: \"Implements dynamic weight rebalancing based on pool composition\"",
+          "Added: \"Constant product AMM formula with weight adjustments\""
         ]
       },
       {
         "location": "STATE VARIABLES",
-        "description": "Professional documentation:",
+        "description": "Clear documentation:",
         "comments_added": [
-          "Added: \"/// @dev Protected underlying asset for this market\"",
-          "Changed: \"// Old TUSD address\" -> \"// Token address for sweep protection\"",
-          "Added: \"/// @dev Protocol administrator\"",
-          "Added: \"/// @dev User cToken balances\"",
-          "Added: \"/// @dev Token addresses for TUSD integration\"",
-          "Changed: \"// The actual TUSD token was upgraded...\"",
-          "Added: \"/// @dev Current TUSD token address\"",
-          "Changed: \"// Contract references old TUSD address\""
+          "Added: \"/// @dev Token configuration with balance and weight tracking\"",
+          "Added: \"/// @dev Token registry for pool composition\"",
+          "Added: \"/// @dev Ordered list of pool tokens\"",
+          "Added: \"/// @dev Sum of all token weights (normalized to 100)\""
+        ]
+      },
+      {
+        "location": "ADDTOKEN FUNCTION",
+        "description": "Professional NatSpec:",
+        "comments_added": [
+          "Added: \"Register a new token in the pool\"",
+          "Added: \"@dev Initializes token with zero balance and specified weight\""
+        ]
+      },
+      {
+        "location": "SWAP FUNCTION",
+        "description": "Critical false claims:",
+        "comments_added": [
+          "Added: \"@dev Executes atomic swap with automatic weight rebalancing\"",
+          "Added: \"@dev Updates internal balances before external transfers\""
+        ]
+      },
+      {
+        "location": "ADDLIQUIDITY FUNCTION",
+        "description": "Enhanced documentation:",
+        "comments_added": [
+          "Added: \"@dev Updates token balance and triggers weight rebalancing\""
         ]
       }
     ],
-    "manual_enhancements_count": 3,
-    "contract_type": "Compound cToken / Lending Market",
+    "manual_enhancements_count": 6,
+    "contract_type": "Weighted Index Pool / Multi-Asset AMM",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.926673",
+    "created_date": "2025-12-30T21:14:14.929714",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T00:36:43.716296",
+    "sanitization_date": "2026-01-02T00:36:43.767943",
     "contract_renames": {
-      "CompoundCToken": "CToken"
+      "IndexPool": "IndexPool"
     }
   }
 }

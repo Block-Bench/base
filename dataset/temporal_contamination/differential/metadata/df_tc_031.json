@@ -1,31 +1,34 @@
 {
   "sample_id": "df_tc_031",
-  "exploit_name": "Orbit Chain Bridge Exploit",
+  "exploit_name": "Gamma Strategies Hypervisor",
   "date": "",
   "amount_lost_usd": "",
-  "blockchain": "ethereum",
+  "blockchain": "arbitrum",
   "language": "solidity",
-  "vulnerability_type": "bridge_security",
+  "vulnerability_type": "price_manipulation",
   "vulnerability_subtype": "",
-  "severity": "critical",
+  "severity": "high",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
-  "description": "Fixed version with proper signature verification using ecrecover",
-  "vulnerable_contract": "OrbitBridge",
-  "vulnerable_function": "withdraw",
+  "description": "Fixed version with price deviation check to prevent flash loan share manipulation",
+  "vulnerable_contract": "GammaHypervisor",
+  "vulnerable_function": "deposit, withdraw",
   "vulnerable_lines": [],
   "attack_scenario": "",
-  "root_cause": "The withdraw function accepts signatures but does not verify them. It only checks the signature count without validating that signatures are from registered validators using ecrecover.",
+  "root_cause": "Share calculation based on current token balances without protection against flash loan manipulation. Attacker can manipulate total values to mint excess shares or withdraw more than deposited.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "multi-sig",
-    "key_compromise",
-    "signature_validation",
-    "cross_chain",
-    "validator_security",
+    "defi",
+    "dex",
+    "price_manipulation",
+    "flashloan",
+    "liquidity_vault",
+    "slippage",
+    "uniswap_v3",
+    "sandwich_attack",
     "differential",
     "fixed"
   ],
@@ -44,19 +47,29 @@
     "pair_metadata": "/Users/poamen/projects/grace/blockbench/base/data/manual_strategies/differential/metadata/df_pair_tc_031.json",
     "script": "manual",
     "is_fixed_version": true,
-    "fix_type": "signature_verification",
-    "fix_description": "Added proper signature verification using ecrecover to recover signer addresses, then validates each signer is in the validators mapping, counts valid signatures, and requires the count meets REQUIRED_SIGNATURES threshold.",
+    "fix_type": "price_deviation_protection",
+    "fix_description": "Added lastTotalValue and lastUpdateBlock state variables, MAX_DEVIATION constant (5%), _checkPriceDeviation() function called in deposit and withdraw to reject rapid value changes.",
     "exact_changes": [
       {
-        "location": "withdraw function (lines 49-60)",
-        "version_a": "bytes32 messageHash = keccak256(...);\nbytes32 ethSignedMessageHash = keccak256(...);\nfor (uint i = 0; i < v.length; i++) {\n  address signer = ecrecover(ethSignedMessageHash, v[i], r[i], s[i]);\n  if (validators[signer]) { validSignatures++; }\n}\nrequire(validSignatures >= REQUIRED_SIGNATURES, ...);",
-        "version_b": "// No signature verification logic"
+        "location": "state variables (lines 48-50)",
+        "version_a": "uint256 public lastTotalValue;\nuint256 public lastUpdateBlock;\nuint256 constant MAX_DEVIATION = 5;",
+        "version_b": "// No price tracking"
+      },
+      {
+        "location": "deposit function (line 59)",
+        "version_a": "_checkPriceDeviation(total0, total1);",
+        "version_b": "// No price check"
+      },
+      {
+        "location": "_checkPriceDeviation function (lines 77-90)",
+        "version_a": "require(currentValue >= minAllowed && currentValue <= maxAllowed, \"Price deviation\");",
+        "version_b": "// Function does not exist"
       }
     ],
-    "why_fix_works": "Proper signature verification ensures only transactions approved by registered validators can be processed, preventing unauthorized withdrawals.",
+    "why_fix_works": "The price deviation check prevents flash loan attacks by rejecting transactions when underlying values change more than 5% from stored baseline.",
     "contracts_in_file": [
-      "OrbitBridge"
+      "GammaHypervisor"
     ],
-    "created_date": "2025-12-30T02:02:17.941777"
+    "created_date": "2025-12-30T02:02:17.944226"
   }
 }

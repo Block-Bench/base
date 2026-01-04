@@ -2,145 +2,135 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/
 
-/*LN-4*/ interface IStable3Pool {
-/*LN-5*/     function add_liquidity(
-/*LN-6*/         uint256[3] memory amounts,
-/*LN-7*/         uint256 min_mint_amount
-/*LN-8*/     ) external;
+/*LN-4*/ interface IERC20 {
+/*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-6*/
+
+/*LN-7*/     function balanceOf(address account) external view returns (uint256);
+/*LN-8*/ }
 /*LN-9*/
 
-/*LN-10*/     function remove_liquidity_imbalance(
-/*LN-11*/         uint256[3] memory amounts,
-/*LN-12*/         uint256 max_burn_amount
-/*LN-13*/     ) external;
-/*LN-14*/
+/*LN-10*/ interface IJar {
+/*LN-11*/     function token() external view returns (address);
+/*LN-12*/
 
-/*LN-15*/     function get_virtual_price() external view returns (uint256);
-/*LN-16*/ }
-/*LN-17*/
+/*LN-13*/     function withdraw(uint256 amount) external;
+/*LN-14*/ }
+/*LN-15*/
 
-/*LN-18*/ interface IERC20 {
-/*LN-19*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-20*/
+/*LN-16*/ interface IStrategy {
+/*LN-17*/     function withdrawAll() external;
+/*LN-18*/
 
-/*LN-21*/     function transferFrom(
-/*LN-22*/         address from,
-/*LN-23*/         address to,
-/*LN-24*/         uint256 amount
-/*LN-25*/     ) external returns (bool);
-/*LN-26*/
-
-/*LN-27*/     function balanceOf(address account) external view returns (uint256);
-/*LN-28*/
-
-/*LN-29*/     function approve(address spender, uint256 amount) external returns (bool);
-/*LN-30*/ }
-/*LN-31*/
+/*LN-19*/     function withdraw(address token) external;
+/*LN-20*/ }
+/*LN-21*/
 
 /**
- * @title YieldVault
+ * @title YieldController
  * @author yield Finance
- * @notice Yield-bearing vault with automated stable strategy
- * @dev Audited by Trail of Bits (Q2 2021) - All findings addressed
- * @dev Integrates with stable 3pool for yield optimization
- * @dev Share-based accounting for fair value distribution
+ * @notice Yield farming strategy controller for jar management
+ * @dev Audited by MixBytes (Q3 2020) - All findings resolved
+ * @dev Manages strategy deployment and jar-to-jar swaps
+ * @dev Governance-controlled strategy assignments
  * @custom:security-contact security@yield.finance
  */
-/*LN-32*/ contract YieldVault {
-    /// @dev Underlying stable asset for vault deposits
-/*LN-33*/     IERC20 public dai;
-    /// @dev stable LP token representing pool position
-/*LN-34*/     IERC20 public crv3; // stable 3pool LP token
-    /// @dev stable pool for yield strategy execution
-/*LN-35*/     IStable3Pool public curve3Pool;
-/*LN-36*/
-
-    /// @dev User vault shares for proportional withdrawals
-/*LN-37*/     mapping(address => uint256) public shares;
-/*LN-38*/     uint256 public totalShares;
-/*LN-39*/     uint256 public totalDeposits;
-/*LN-40*/ 
-/*LN-41*/     uint256 public constant MIN_EARN_THRESHOLD = 1000 ether;
-/*LN-42*/ 
-/*LN-43*/     constructor(address _dai, address _crv3, address _curve3Pool) {
-/*LN-44*/         dai = IERC20(_dai);
-/*LN-45*/         crv3 = IERC20(_crv3);
-/*LN-46*/         curve3Pool = IStable3Pool(_curve3Pool);
-/*LN-47*/     }
-/*LN-48*/ 
-/*LN-49*/     /**
-/*LN-50*/      * @notice Deposit DAI into the vault
-/*LN-51*/      */
-/*LN-52*/     function deposit(uint256 amount) external {
-/*LN-53*/         dai.transferFrom(msg.sender, address(this), amount);
-/*LN-54*/ 
-/*LN-55*/         uint256 shareAmount;
-/*LN-56*/         if (totalShares == 0) {
-/*LN-57*/             shareAmount = amount;
-/*LN-58*/         } else {
-/*LN-59*/             // Calculate shares based on current vault value
-/*LN-60*/             shareAmount = (amount * totalShares) / totalDeposits;
-/*LN-61*/         }
-/*LN-62*/ 
-/*LN-63*/         shares[msg.sender] += shareAmount;
-/*LN-64*/         totalShares += shareAmount;
-/*LN-65*/         totalDeposits += amount;
-/*LN-66*/     }
-/*LN-67*/ 
+/*LN-22*/ contract YieldController {
+/*LN-23*/     address public governance;
+/*LN-24*/     mapping(address => address) public strategies; // jar => strategy
+/*LN-25*/ 
+/*LN-26*/     constructor() {
+/*LN-27*/         governance = msg.sender;
+/*LN-28*/     }
+/*LN-29*/ 
     /**
-     * @notice Deploy idle vault funds to stable for yield generation
-     * @dev Adds liquidity to stable 3pool for LP token rewards
-     * @dev Uses virtual_price for accurate value tracking
+     * @notice Swap tokens between jars via aggregator routing
+     * @dev Executes swap path through provided targets
+     * @dev Validates array lengths for consistency
+     * @param _fromJar Source jar address
+     * @param _toJar Destination jar address
+     * @param _fromJarAmount Amount to swap from source
+     * @param _toJarMinAmount Minimum expected output
+     * @param _targets Swap route target contracts
+     * @param _data Calldata for each target
      */
-/*LN-68*/     function earn() external {
-/*LN-69*/         uint256 vaultBalance = dai.balanceOf(address(this));
-/*LN-70*/         require(
-/*LN-71*/             vaultBalance >= MIN_EARN_THRESHOLD,
-/*LN-72*/             "Insufficient balance to earn"
-/*LN-73*/         );
-/*LN-74*/
+/*LN-30*/     function swapExactJarForJar(
+/*LN-31*/         address _fromJar,
+/*LN-32*/         address _toJar,
+/*LN-33*/         uint256 _fromJarAmount,
+/*LN-34*/         uint256 _toJarMinAmount,
+/*LN-35*/         address[] calldata _targets,
+/*LN-36*/         bytes[] calldata _data
+/*LN-37*/     ) external {
+/*LN-38*/         require(_targets.length == _data.length, "Length mismatch");
+/*LN-39*/
 
-            // Get current pool pricing for value calculation
-/*LN-75*/         uint256 virtualPrice = curve3Pool.get_virtual_price();
-/*LN-76*/
+            // Execute swap route through aggregator
+/*LN-40*/         for (uint256 i = 0; i < _targets.length; i++) {
+            // Call each target in swap path
+/*LN-41*/             (bool success, ) = _targets[i].call(_data[i]);
+/*LN-42*/             require(success, "Call failed");
+/*LN-43*/         }
+/*LN-44*/
 
-/*LN-77*/         // Add all DAI to stable pool
-/*LN-78*/         dai.approve(address(curve3Pool), vaultBalance);
-/*LN-79*/         uint256[3] memory amounts = [vaultBalance, 0, 0]; // Only DAI
-            // Deposit to stable for yield accrual
-/*LN-80*/         curve3Pool.add_liquidity(amounts, 0);
-/*LN-81*/
+/*LN-45*/         // The rest of swap logic would go here
+/*LN-46*/     }
+/*LN-47*/ 
+/*LN-48*/     /**
+/*LN-49*/      * @notice Set strategy for a jar
+/*LN-50*/      * @dev Only governance should call this
+/*LN-51*/      */
+/*LN-52*/     function setStrategy(address jar, address strategy) external {
+/*LN-53*/         require(msg.sender == governance, "Not governance");
+/*LN-54*/         strategies[jar] = strategy;
+/*LN-55*/     }
+/*LN-56*/ }
+/*LN-57*/
 
-            // Vault value now tracked via LP position
-/*LN-82*/         // Virtual price reflects underlying pool value
-/*LN-83*/         // LP tokens represent proportional pool ownership
-/*LN-84*/     }
-/*LN-85*/ 
-/*LN-86*/     /**
-/*LN-87*/      * @notice Withdraw shares from vault
-/*LN-88*/      */
-/*LN-89*/     function withdrawAll() external {
-/*LN-90*/         uint256 userShares = shares[msg.sender];
-/*LN-91*/         require(userShares > 0, "No shares");
-/*LN-92*/ 
-/*LN-93*/         // Calculate withdrawal amount based on current total value
-/*LN-94*/         uint256 withdrawAmount = (userShares * totalDeposits) / totalShares;
-/*LN-95*/ 
-/*LN-96*/         shares[msg.sender] = 0;
-/*LN-97*/         totalShares -= userShares;
-/*LN-98*/         totalDeposits -= withdrawAmount;
-/*LN-99*/ 
-/*LN-100*/         dai.transfer(msg.sender, withdrawAmount);
-/*LN-101*/     }
-/*LN-102*/ 
-/*LN-103*/     /**
-/*LN-104*/      * @notice Get vault's total value including stable position
-/*LN-105*/      */
-/*LN-106*/     function balance() public view returns (uint256) {
-/*LN-107*/         return
-/*LN-108*/             dai.balanceOf(address(this)) +
-/*LN-109*/             (crv3.balanceOf(address(this)) * curve3Pool.get_virtual_price()) /
-/*LN-110*/             1e18;
-/*LN-111*/     }
-/*LN-112*/ }
-/*LN-113*/ 
+/**
+ * @title YieldStrategy
+ * @author yield Finance
+ * @notice Yield farming strategy for token management
+ * @dev Works in conjunction with YieldController
+ * @dev Manages want token deposits and withdrawals
+ */
+/*LN-58*/ contract YieldStrategy {
+    /// @dev Controller contract for coordination
+/*LN-59*/     address public controller;
+    /// @dev Target asset for this strategy
+/*LN-60*/     address public want; // The token this strategy manages
+/*LN-61*/
+
+/*LN-62*/     constructor(address _controller, address _want) {
+/*LN-63*/         controller = _controller;
+/*LN-64*/         want = _want;
+/*LN-65*/     }
+/*LN-66*/
+
+    /**
+     * @notice Withdraw all funds back to controller
+     * @dev Transfers entire want balance to controller
+     */
+/*LN-71*/     function withdrawAll() external {
+            // Transfer all holdings to controller
+/*LN-72*/         // Controller coordination for fund management
+/*LN-73*/
+
+/*LN-74*/         uint256 balance = IERC20(want).balanceOf(address(this));
+            // Send balance to controller
+/*LN-75*/         IERC20(want).transfer(controller, balance);
+/*LN-76*/     }
+/*LN-77*/
+
+    /**
+     * @notice Withdraw specific token to controller
+     * @dev Used for token recovery and rebalancing
+     * @param token Address of token to withdraw
+     */
+/*LN-82*/     function withdraw(address token) external {
+/*LN-83*/         uint256 balance = IERC20(token).balanceOf(address(this));
+            // Transfer to controller
+/*LN-84*/         IERC20(token).transfer(controller, balance);
+/*LN-85*/     }
+/*LN-86*/ }
+/*LN-87*/

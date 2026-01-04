@@ -1,0 +1,60 @@
+{
+  "sample_id": "ms_tc_006",
+  "exploit_name": "Ronin Bridge",
+  "date": "2022-03-23",
+  "amount_lost_usd": "625000000",
+  "blockchain": "ethereum",
+  "language": "solidity",
+  "vulnerability_type": "access_control",
+  "vulnerability_subtype": "missing_access_control",
+  "severity": "critical",
+  "difficulty_tier": 4,
+  "is_vulnerable": true,
+  "temporal_category": "pre_cutoff",
+  "description": "Bridge contract with missing access control on admin function. The addSupportedToken function allows anyone to add arbitrary tokens to the whitelist, bypassing intended governance controls. Note: The original Ronin hack was an off-chain key compromise, but this sample focuses on an actual code vulnerability (missing access control).",
+  "vulnerable_contract": "RoninBridge",
+  "vulnerable_function": "addSupportedToken",
+  "vulnerable_lines": [168, 169, 170],
+  "attack_scenario": "Attacker calls addSupportedToken with an arbitrary token address. Since there is no access control modifier (no onlyOwner, onlyAdmin, etc.), the function succeeds and adds the token to supportedTokens mapping. Attacker can now use this token in withdrawal operations that check supportedTokens[_token].",
+  "root_cause": "The addSupportedToken function has no access control. It should be restricted to admin/owner but is callable by anyone. This allows unauthorized modification of the token whitelist.",
+  "fix_description": "Add access control modifier to addSupportedToken function. Implement onlyOwner, onlyAdmin, or role-based access control (e.g., OpenZeppelin AccessControl) to restrict who can modify the token whitelist.",
+  "source_reference": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2022-03/Ronin_exp.sol",
+  "external_references": [
+    "https://roninblockchain.substack.com/p/community-alert-ronin-validators",
+    "https://www.coindesk.com/tech/2022/03/29/axie-infinitys-ronin-network-suffers-625m-exploit/",
+    "https://rekt.news/ronin-rekt/"
+  ],
+  "tags": [
+    "bridge",
+    "multi_sig",
+    "key_compromise",
+    "centralization",
+    "access_control",
+    "infrastructure",
+    "historical",
+    "mega_hack",
+    "lazarus_group"
+  ],
+  "variant_type": "minimalsanitized",
+  "variant_parent_id": "tc_006",
+  "notes": "This sample refocuses on an actual code vulnerability (missing access control on addSupportedToken) rather than the original Ronin exploit which was an off-chain key compromise. The bridge contract's signature verification is correctly implemented, but the admin function lacks access control. This is a common vulnerability pattern (CWE-284).",
+  "contract_file": "contracts/ms_tc_006.sol",
+  "subset": "annotated",
+  "original_subset": "temporal_contamination",
+  "transformation": {
+    "type": "minimal_sanitization",
+    "source_dir": "dataset/temporal_contamination/original",
+    "source_contract": "dataset/temporal_contamination/original/contracts/tc_006.sol",
+    "source_metadata": "dataset/temporal_contamination/original/metadata/tc_006.json",
+    "script": "strategies/sanitize/minimal_sanitize.py",
+    "changes": [
+      "Renamed contract: VulnerableRoninBridge -> RoninBridge",
+      "Removed 4 vulnerability comment block(s)",
+      "Removed 2 vulnerability hint line(s)"
+    ],
+    "contract_renames": {
+      "VulnerableRoninBridge": "RoninBridge"
+    },
+    "created_date": "2025-12-29T22:32:44.510295"
+  }
+}

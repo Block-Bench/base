@@ -1,22 +1,22 @@
 {
   "sample_id": "fp_tc_045",
-  "exploit_name": "Penpie",
+  "exploit_name": "Exactly Protocol",
   "date": "",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "reentrancy",
+  "vulnerability_type": "oracle_manipulation",
   "vulnerability_subtype": "",
   "severity": "critical",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Penpie, a Pendle yield optimizer, was exploited for $27M when attackers registered a fake Pendle market and exploited reentrancy in reward claiming. The fake market's claimRewards() callback reentered Penpie to manipulate balances, allowing withdrawal of real assets far exceeding deposits.",
-  "vulnerable_contract": "VeTokenStaking",
-  "vulnerable_function": "registerMarket",
+  "description": "Exactly Protocol lost $12M when attackers exploited the DebtPreviewer helper contract. By providing a malicious market address in the debt calculation, they manipulated their perceived collateral value, allowing over-borrowing far exceeding actual collateral.",
+  "vulnerable_contract": "DebtPreviewer",
+  "vulnerable_function": "previewDebt",
   "vulnerable_lines": [
-    45,
-    77
+    40,
+    116
   ],
   "attack_scenario": "",
   "root_cause": "",
@@ -24,13 +24,13 @@
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "yield_optimization",
-    "false_prophet",
-    "pendle",
-    "reentrancy",
+    "user_input_validation",
+    "debt_previewer",
+    "oracle",
+    "lending",
     "decoy",
-    "reward_manipulation",
-    "cei_violation",
+    "false_prophet",
+    "collateral",
     "fake_market"
   ],
   "variant_type": "false_prophet",
@@ -57,12 +57,11 @@
     "contract_type": "",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.947965",
+    "created_date": "2025-12-30T21:14:14.949587",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T00:36:44.681471",
+    "sanitization_date": "2026-01-02T00:36:44.751599",
     "contract_renames": {
-      "PendleMarketRegister": "YieldMarketRegister",
-      "PenpieStaking": "VeTokenStaking"
+      "ExactlyMarket": "LendingMarket"
     }
   }
 }

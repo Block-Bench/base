@@ -1,0 +1,335 @@
+{
+  "ms_tc_007": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['EXT_CALL'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "(bool success, ) = toContract.call(abi.encodePacked(method, args));",
+        "id": "CA12",
+        "type": "EXT_CALL"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_009": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=arithmetic_error: root_types=['COMPUTATION', 'COMPUTATION'] expected_one_of=['ARITHMETIC', 'INPUT_VAL']"
+    ],
+    "root_acts": [
+      {
+        "code": "z = x - uint128(-y);",
+        "id": "CA29",
+        "type": "COMPUTATION"
+      },
+      {
+        "code": "z = x + uint128(y);",
+        "id": "CA30",
+        "type": "COMPUTATION"
+      }
+    ],
+    "vulnerability_type": "arithmetic_error"
+  },
+  "ms_tc_013": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=arithmetic_error: root_types=['COMPUTATION'] expected_one_of=['ARITHMETIC', 'INPUT_VAL']"
+    ],
+    "root_acts": [
+      {
+        "code": "uint256 hunnyRewardAmount = tokenToReward(\n    lpToken.balanceOf(address(this))\n",
+        "id": "CA9",
+        "type": "COMPUTATION"
+      }
+    ],
+    "vulnerability_type": "arithmetic_error"
+  },
+  "ms_tc_015": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=logic_error: root_types=['INITIALIZATION'] expected_one_of=['CTRL_FLOW', 'INPUT_VAL', 'STATE_MOD']"
+    ],
+    "root_acts": [
+      {
+        "code": "constructor() {\n    admin = msg.sender;\n    underlying = OLD_TUSD;\n}",
+        "id": "CA4",
+        "type": "INITIALIZATION"
+      }
+    ],
+    "vulnerability_type": "logic_error"
+  },
+  "ms_tc_017": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['EXT_CALL'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "(bool success, ) = _targets[i].call(_data[i]);\nrequire(success, \"Call failed\");",
+        "id": "CA6",
+        "type": "EXT_CALL"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_018": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=pool_manipulation: root_types=['COMPUTATION'] expected_one_of=['ARITHMETIC', 'CTRL_FLOW', 'ORACLE', 'STATE_MOD']"
+    ],
+    "root_acts": [
+      {
+        "code": "for (uint256 i = 0; i < tokenList.length; i++) {\n    address token = tokenList[i",
+        "id": "CA15",
+        "type": "COMPUTATION"
+      }
+    ],
+    "vulnerability_type": "pool_manipulation"
+  },
+  "ms_tc_019": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=validation_bypass: root_types=['EXT_CALL'] expected_one_of=['CTRL_FLOW', 'INPUT_VAL']"
+    ],
+    "root_acts": [
+      {
+        "code": "IERC20(tokenContract).transferFrom(depositer, address(this), amount);",
+        "id": "CA11",
+        "type": "EXT_CALL"
+      }
+    ],
+    "vulnerability_type": "validation_bypass"
+  },
+  "ms_tc_021": {
+    "flags": [
+      "ROOT_CAUSE_DECLARATION_OUTSIDE_INIT: CA1 vtype=reinitialization"
+    ],
+    "root_acts": [
+      {
+        "code": "function init(\n    address _maintainer,\n    address _baseToken,\n    address _quo",
+        "id": "CA1",
+        "type": "DECLARATION"
+      }
+    ],
+    "vulnerability_type": "reinitialization"
+  },
+  "ms_tc_022": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=arithmetic_error: root_types=['COMPUTATION'] expected_one_of=['ARITHMETIC', 'INPUT_VAL']"
+    ],
+    "root_acts": [
+      {
+        "code": "require(\n    balance0Adjusted * balance1Adjusted >=\n        uint256(_reserve0) *",
+        "id": "CA1",
+        "type": "COMPUTATION"
+      }
+    ],
+    "vulnerability_type": "arithmetic_error"
+  },
+  "ms_tc_023": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=accounting_manipulation: root_types=['COMPUTATION'] expected_one_of=['ARITHMETIC', 'INPUT_VAL', 'STATE_MOD']"
+    ],
+    "root_acts": [
+      {
+        "code": "share = (amount * totalDebtShare) / totalDebt;\n}",
+        "id": "CA11",
+        "type": "COMPUTATION"
+      }
+    ],
+    "vulnerability_type": "accounting_manipulation"
+  },
+  "ms_tc_026": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=signature_verification: root_types=['EXT_CALL'] expected_one_of=['INPUT_VAL', 'SIGNATURE']"
+    ],
+    "root_acts": [
+      {
+        "code": "try IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s) {",
+        "id": "CA2",
+        "type": "EXT_CALL"
+      }
+    ],
+    "vulnerability_type": "signature_verification"
+  },
+  "ms_tc_030": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=arithmetic_error: root_types=['COMPUTATION'] expected_one_of=['ARITHMETIC', 'INPUT_VAL']"
+    ],
+    "root_acts": [
+      {
+        "code": "liquidityUnits = (baseRatio + tokenRatio) / 2;\n}",
+        "id": "CA5",
+        "type": "COMPUTATION"
+      }
+    ],
+    "vulnerability_type": "arithmetic_error"
+  },
+  "ms_tc_033": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['EXT_CALL', 'EXT_CALL'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "(bool success, bytes memory result) = routeAddress.call(routeData);\nrequire(succ",
+        "id": "CA1",
+        "type": "EXT_CALL"
+      },
+      {
+        "code": "(bool success, ) = fromToken.call(swapExtraData);\nrequire(success, \"Swap failed\"",
+        "id": "CA2",
+        "type": "EXT_CALL"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_035": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=arithmetic_error: root_types=['COMPUTATION', 'COMPUTATION'] expected_one_of=['ARITHMETIC', 'INPUT_VAL']"
+    ],
+    "root_acts": [
+      {
+        "code": "shareAmount =\n    (_amount * pool.totalDepositShares) /\n    pool.pseudoTotalPool",
+        "id": "CA1",
+        "type": "COMPUTATION"
+      },
+      {
+        "code": "withdrawAmount =\n    (_shares * pool.pseudoTotalPool) /\n    pool.totalDepositSha",
+        "id": "CA2",
+        "type": "COMPUTATION"
+      }
+    ],
+    "vulnerability_type": "arithmetic_error"
+  },
+  "ms_tc_036": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['EXT_CALL', 'EXT_CALL'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "borrowerOperations.openTrove(\n    troveManager,\n    account,  // <-- user-contro",
+        "id": "CA1",
+        "type": "EXT_CALL"
+      },
+      {
+        "code": "IERC20(mkUSD).transfer(msg.sender, debtAmount);",
+        "id": "CA2",
+        "type": "EXT_CALL"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_039": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['DECLARATION'] expected_one_of=['ACCESS_CTRL']",
+      "ROOT_CAUSE_DECLARATION_OUTSIDE_INIT: CA1 vtype=access_control"
+    ],
+    "root_acts": [
+      {
+        "code": "function uniswapV3SwapCallback(\n    int256 amount0Delta,\n    int256 amount1Delta",
+        "id": "CA1",
+        "type": "DECLARATION"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_040": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=logic_error: root_types=['COMPUTATION'] expected_one_of=['CTRL_FLOW', 'INPUT_VAL', 'STATE_MOD']"
+    ],
+    "root_acts": [
+      {
+        "code": "uint256 uniBTCAmount = msg.value;",
+        "id": "CA1",
+        "type": "COMPUTATION"
+      }
+    ],
+    "vulnerability_type": "logic_error"
+  },
+  "ms_tc_041": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['STATE_MOD'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "function mint(address to, uint256 amount) external {\n    balanceOf[to] += amount",
+        "id": "CA1",
+        "type": "STATE_MOD"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_042": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['EXT_CALL'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "(bool success, ) = donation.tokenLocker.call(\n    abi.encodeWithSignature(\n     ",
+        "id": "CA1",
+        "type": "EXT_CALL"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_043": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['EXT_CALL'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "(bool success, ) = target.call{value: values[i]}(callData);\nrequire(success, \"Ca",
+        "id": "CA1",
+        "type": "EXT_CALL"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_044": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['EXT_CALL'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "(bool success, ) = pair.call(\n    abi.encodeWithSignature(\"claimRewards(address)",
+        "id": "CA2",
+        "type": "EXT_CALL"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_047": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['STATE_MOD'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "function mint(address to, uint256 amount) external onlyMinter {\n    _mint(to, am",
+        "id": "CA1",
+        "type": "STATE_MOD"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  },
+  "ms_tc_048": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=oracle_manipulation: root_types=['COMPUTATION'] expected_one_of=['ARITHMETIC', 'CTRL_FLOW', 'EXT_CALL', 'ORACLE']"
+    ],
+    "root_acts": [
+      {
+        "code": "uint256 cash = underlying.balanceOf(address(this));\nuint256 totalUnderlying = ca",
+        "id": "CA1",
+        "type": "COMPUTATION"
+      }
+    ],
+    "vulnerability_type": "oracle_manipulation"
+  },
+  "ms_tc_050": {
+    "flags": [
+      "ROOT_CAUSE_TYPES_UNEXPECTED for vtype=access_control: root_types=['STATE_MOD'] expected_one_of=['ACCESS_CTRL']"
+    ],
+    "root_acts": [
+      {
+        "code": "function setLockRecipient(\n    address player,\n    address newRecipient\n) extern",
+        "id": "CA1",
+        "type": "STATE_MOD"
+      }
+    ],
+    "vulnerability_type": "access_control"
+  }
+}

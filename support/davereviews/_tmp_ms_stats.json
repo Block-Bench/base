@@ -1,0 +1,559 @@
+{
+  "ms_tc_001": {
+    "counts": {
+      "BENIGN": 11,
+      "ROOT_CAUSE": 1,
+      "SECONDARY_VULN": 1,
+      "UNRELATED": 5
+    },
+    "vulnerability_type": "improper_initialization",
+    "vulnerable_lines": [
+      53
+    ]
+  },
+  "ms_tc_002": {
+    "counts": {
+      "BENIGN": 10,
+      "PREREQ": 6,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 6
+    },
+    "vulnerability_type": "governance_attack",
+    "vulnerable_lines": [
+      55,
+      102
+    ]
+  },
+  "ms_tc_003": {
+    "counts": {
+      "BENIGN": 14,
+      "INSUFF_GUARD": 1,
+      "PREREQ": 3,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      20
+    ]
+  },
+  "ms_tc_005": {
+    "counts": {
+      "BENIGN": 23,
+      "INSUFF_GUARD": 1,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "reentrancy",
+    "vulnerable_lines": [
+      65
+    ]
+  },
+  "ms_tc_006": {
+    "counts": {
+      "BENIGN": 17,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 5
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      168,
+      169,
+      170
+    ]
+  },
+  "ms_tc_007": {
+    "counts": {
+      "BENIGN": 16,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 5
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      91
+    ]
+  },
+  "ms_tc_008": {
+    "counts": {
+      "BENIGN": 25,
+      "PREREQ": 4,
+      "ROOT_CAUSE": 1,
+      "SECONDARY_VULN": 1,
+      "UNRELATED": 5
+    },
+    "vulnerability_type": "price_oracle_manipulation",
+    "vulnerable_lines": [
+      102
+    ]
+  },
+  "ms_tc_009": {
+    "counts": {
+      "BENIGN": 28,
+      "PREREQ": 3,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 5
+    },
+    "vulnerability_type": "arithmetic_error",
+    "vulnerable_lines": [
+      157,
+      159
+    ]
+  },
+  "ms_tc_010": {
+    "counts": {
+      "BENIGN": 9,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "reentrancy",
+    "vulnerable_lines": [
+      31
+    ]
+  },
+  "ms_tc_011": {
+    "counts": {
+      "BENIGN": 11,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "reentrancy",
+    "vulnerable_lines": [
+      68
+    ]
+  },
+  "ms_tc_012": {
+    "counts": {
+      "BENIGN": 16,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "reentrancy",
+    "vulnerable_lines": [
+      68
+    ]
+  },
+  "ms_tc_013": {
+    "counts": {
+      "BENIGN": 16,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "arithmetic_error",
+    "vulnerable_lines": [
+      81
+    ]
+  },
+  "ms_tc_015": {
+    "counts": {
+      "BENIGN": 10,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "logic_error",
+    "vulnerable_lines": [
+      25
+    ]
+  },
+  "ms_tc_016": {
+    "counts": {
+      "BENIGN": 15,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "reentrancy",
+    "vulnerable_lines": [
+      80
+    ]
+  },
+  "ms_tc_017": {
+    "counts": {
+      "BENIGN": 8,
+      "ROOT_CAUSE": 1,
+      "SECONDARY_VULN": 2,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      41
+    ]
+  },
+  "ms_tc_018": {
+    "counts": {
+      "BENIGN": 19,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "pool_manipulation",
+    "vulnerable_lines": [
+      101
+    ]
+  },
+  "ms_tc_019": {
+    "counts": {
+      "BENIGN": 10,
+      "ROOT_CAUSE": 1,
+      "SECONDARY_VULN": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "validation_bypass",
+    "vulnerable_lines": [
+      67
+    ]
+  },
+  "ms_tc_020": {
+    "counts": {
+      "BENIGN": 23,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "price_oracle_manipulation",
+    "vulnerable_lines": [
+      73
+    ]
+  },
+  "ms_tc_021": {
+    "counts": {
+      "BENIGN": 15,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "reinitialization",
+    "vulnerable_lines": [
+      37
+    ]
+  },
+  "ms_tc_022": {
+    "counts": {
+      "BENIGN": 16,
+      "PREREQ": 1,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "arithmetic_error",
+    "vulnerable_lines": [
+      98,
+      99,
+      100,
+      101
+    ]
+  },
+  "ms_tc_023": {
+    "counts": {
+      "BENIGN": 24,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "accounting_manipulation",
+    "vulnerable_lines": [
+      78,
+      97,
+      119,
+      128
+    ]
+  },
+  "ms_tc_024": {
+    "counts": {
+      "BENIGN": 16,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "price_oracle_manipulation",
+    "vulnerable_lines": [
+      35,
+      91
+    ]
+  },
+  "ms_tc_025": {
+    "counts": {
+      "BENIGN": 6,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "reentrancy",
+    "vulnerable_lines": [
+      32
+    ]
+  },
+  "ms_tc_026": {
+    "counts": {
+      "BENIGN": 3,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "signature_verification",
+    "vulnerable_lines": [
+      26,
+      27
+    ]
+  },
+  "ms_tc_027": {
+    "counts": {
+      "BENIGN": 6,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "input_validation",
+    "vulnerable_lines": [
+      35,
+      36,
+      37,
+      38
+    ]
+  },
+  "ms_tc_028": {
+    "counts": {
+      "BENIGN": 12,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "accounting_error",
+    "vulnerable_lines": [
+      50
+    ]
+  },
+  "ms_tc_029": {
+    "counts": {
+      "BENIGN": 12,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "price_oracle_manipulation",
+    "vulnerable_lines": [
+      31,
+      45
+    ]
+  },
+  "ms_tc_030": {
+    "counts": {
+      "BENIGN": 11,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "arithmetic_error",
+    "vulnerable_lines": [
+      23
+    ]
+  },
+  "ms_tc_031": {
+    "counts": {
+      "BENIGN": 9,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "bridge_security",
+    "vulnerable_lines": [
+      55
+    ]
+  },
+  "ms_tc_032": {
+    "counts": {
+      "BENIGN": 8,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "arithmetic_manipulation",
+    "vulnerable_lines": [
+      59,
+      151
+    ]
+  },
+  "ms_tc_033": {
+    "counts": {
+      "BENIGN": 5,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      39,
+      71
+    ]
+  },
+  "ms_tc_034": {
+    "counts": {
+      "BENIGN": 11,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "price_manipulation",
+    "vulnerable_lines": [
+      77
+    ]
+  },
+  "ms_tc_035": {
+    "counts": {
+      "BENIGN": 10,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "arithmetic_error",
+    "vulnerable_lines": [
+      68,
+      100
+    ]
+  },
+  "ms_tc_036": {
+    "counts": {
+      "BENIGN": 6,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      79,
+      87
+    ]
+  },
+  "ms_tc_037": {
+    "counts": {
+      "BENIGN": 12,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "price_oracle_manipulation",
+    "vulnerable_lines": [
+      97,
+      148
+    ]
+  },
+  "ms_tc_038": {
+    "counts": {
+      "BENIGN": 8,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 4
+    },
+    "vulnerability_type": "price_oracle_manipulation",
+    "vulnerable_lines": [
+      56,
+      77
+    ]
+  },
+  "ms_tc_039": {
+    "counts": {
+      "BENIGN": 5,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      39,
+      65,
+      67
+    ]
+  },
+  "ms_tc_040": {
+    "counts": {
+      "BENIGN": 9,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "logic_error",
+    "vulnerable_lines": [
+      55,
+      101
+    ]
+  },
+  "ms_tc_041": {
+    "counts": {
+      "BENIGN": 7,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      27
+    ]
+  },
+  "ms_tc_042": {
+    "counts": {
+      "BENIGN": 5,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      66
+    ]
+  },
+  "ms_tc_043": {
+    "counts": {
+      "BENIGN": 3,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      45
+    ]
+  },
+  "ms_tc_044": {
+    "counts": {
+      "BENIGN": 5,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      82
+    ]
+  },
+  "ms_tc_045": {
+    "counts": {
+      "BENIGN": 3,
+      "PREREQ": 1,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "reentrancy",
+    "vulnerable_lines": [
+      45
+    ]
+  },
+  "ms_tc_047": {
+    "counts": {
+      "BENIGN": 7,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      45
+    ]
+  },
+  "ms_tc_048": {
+    "counts": {
+      "BENIGN": 5,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "oracle_manipulation",
+    "vulnerable_lines": [
+      44,
+      49
+    ]
+  },
+  "ms_tc_049": {
+    "counts": {
+      "BENIGN": 7,
+      "ROOT_CAUSE": 2,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "oracle_manipulation",
+    "vulnerable_lines": [
+      40,
+      116
+    ]
+  },
+  "ms_tc_050": {
+    "counts": {
+      "BENIGN": 7,
+      "ROOT_CAUSE": 1,
+      "UNRELATED": 3
+    },
+    "vulnerability_type": "access_control",
+    "vulnerable_lines": [
+      77,
+      82
+    ]
+  }
+}

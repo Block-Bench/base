@@ -6,7 +6,7 @@
     "Preserve protocol names (Nomad, Beanstalk, etc.)",
     "Preserve normal comments, code structure, and logic"
   ],
-  "total_files": 50,
+  "total_files": 46,
   "prefix": "ms_tc_",
   "source_dir": "dataset/temporal_contamination/original",
   "source_contracts": "dataset/temporal_contamination/original/contracts",

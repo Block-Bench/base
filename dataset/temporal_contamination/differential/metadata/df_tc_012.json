@@ -1,31 +1,31 @@
 {
   "sample_id": "df_tc_012",
-  "exploit_name": "Rari Capital Fuse",
-  "date": "2022-05-08",
+  "exploit_name": "Compound cTUSD",
+  "date": "2022-03-15",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "reentrancy",
+  "vulnerability_type": "logic_error",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "",
   "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "LendingProtocol",
-  "vulnerable_function": "borrow",
+  "vulnerable_contract": "CompoundMarket",
+  "vulnerable_function": "sweepToken",
   "vulnerable_lines": [],
-  "attack_scenario": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
-  "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
-  "fix_description": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
+  "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
+  "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
+  "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "reentrancy",
-    "cross-function",
-    "oracle-manipulation",
-    "lending",
-    "health-check",
+    "logic-error",
+    "token-upgrade",
+    "sweep-function",
+    "address-mismatch",
+    "compound",
     "differential",
     "fixed"
   ],
@@ -45,18 +45,38 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "Minimal fix with 4 lines changed. Added: require(isHealthy(msg.sender, 0), \"Health check failed\");",
+    "fix_description": "Minimal fix with 9 lines changed. Added: mapping(address => bool) public validUnderlying;; underlying = NEW_TUSD;; validUnderlying[OLD_TUSD] = true;",
     "exact_changes": [
       {
         "location": "Added line",
-        "version_a": "require(isHealthy(msg.sender, 0), \"Health check failed\");",
+        "version_a": "mapping(address => bool) public validUnderlying;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "underlying = NEW_TUSD;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "validUnderlying[OLD_TUSD] = true;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "validUnderlying[NEW_TUSD] = true;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "require(validUnderlying[NEW_TUSD], \"Invalid underlying\");",
         "version_b": "// Not present in vulnerable version"
       }
     ],
-    "why_fix_works": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection.",
+    "why_fix_works": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
     "contracts_in_file": [
-      "LendingProtocol"
+      "CompoundMarket"
     ],
-    "created_date": "2025-12-30T02:02:17.930612"
+    "created_date": "2025-12-30T02:02:17.932174"
   }
 }

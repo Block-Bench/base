@@ -1,6 +1,6 @@
 {
   "sample_id": "df_tc_043",
-  "exploit_name": "Seneca Protocol (Chamber)",
+  "exploit_name": "PlayDapp",
   "date": "",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
@@ -12,8 +12,8 @@
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "SenecaChamber",
-  "vulnerable_function": "performOperations",
+  "vulnerable_contract": "PlayDappToken",
+  "vulnerable_function": "mint",
   "vulnerable_lines": [],
   "attack_scenario": "",
   "root_cause": null,
@@ -21,12 +21,12 @@
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "vault",
-    "arbitrary_call",
-    "approval_exploit",
-    "user_input_validation",
-    "operations",
-    "transferFrom",
+    "token",
+    "minting",
+    "private_key_compromise",
+    "supply_manipulation",
+    "single_key",
+    "erc20",
     "differential",
     "fixed"
   ],
@@ -46,38 +46,38 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "Minimal fix with 17 lines changed. Added: mapping(address => bool) public allowedTargets;; mapping(bytes4 => bool) public allowedSelectors;; function addAllowedTarget(address target) external {",
+    "fix_description": "Minimal fix with 15 lines changed. Added: uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18;; mapping(address => bool) public authorizedMinters;; uint256 public constant MIN_SIGNERS = 2;",
     "exact_changes": [
       {
         "location": "Added line",
-        "version_a": "mapping(address => bool) public allowedTargets;",
+        "version_a": "uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "mapping(bytes4 => bool) public allowedSelectors;",
+        "version_a": "mapping(address => bool) public authorizedMinters;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "function addAllowedTarget(address target) external {",
+        "version_a": "uint256 public constant MIN_SIGNERS = 2;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "allowedTargets[target] = true;",
+        "version_a": "address[] public minters;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "}",
+        "version_a": "constructor(address[] memory _minters) {",
         "version_b": "// Not present in vulnerable version"
       }
     ],
     "why_fix_works": "",
     "contracts_in_file": [
-      "SenecaChamber"
+      "PlayDappToken"
     ],
-    "created_date": "2025-12-30T02:02:17.951446"
+    "created_date": "2025-12-30T02:02:17.953691"
   }
 }

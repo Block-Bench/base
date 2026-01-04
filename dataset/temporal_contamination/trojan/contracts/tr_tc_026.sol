@@ -1,87 +1,113 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ interface IERC20Permit {
-/*LN-5*/     function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external;
-/*LN-6*/ }
-/*LN-7*/ 
-/*LN-8*/ contract BridgeRouter {
-/*LN-9*/     
-/*LN-10*/     // Suspicious names distractors
-/*LN-11*/     bool public unsafePermitBypass;
-/*LN-12*/     uint256 public failedPermitCount;
-/*LN-13*/     uint256 public suspiciousSignatureCache;
-/*LN-14*/ 
-/*LN-15*/     // Analytics tracking
-/*LN-16*/     uint256 public routerConfigVersion;
-/*LN-17*/     uint256 public globalBridgeScore;
-/*LN-18*/     mapping(address => uint256) public userBridgeActivity;
-/*LN-19*/ 
-/*LN-20*/     function bridgeOutWithPermit(
-/*LN-21*/         address from,
-/*LN-22*/         address token,
-/*LN-23*/         address to,
-/*LN-24*/         uint256 amount,
-/*LN-25*/         uint256 deadline,
-/*LN-26*/         uint8 v,
-/*LN-27*/         bytes32 r,
-/*LN-28*/         bytes32 s,
-/*LN-29*/         uint256 toChainID
-/*LN-30*/     ) external {
-/*LN-31*/         
-/*LN-32*/         failedPermitCount += 1; // Suspicious counter
-/*LN-33*/         
-/*LN-34*/         if (v != 0 || r != bytes32(0) || s != bytes32(0)) {
-/*LN-35*/             if (unsafePermitBypass) {
-/*LN-36*/                 suspiciousSignatureCache = uint256(r); // Suspicious cache
-/*LN-37*/             }
-/*LN-38*/             try IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s) {} catch {}
-/*LN-39*/         }
-/*LN-40*/         
-/*LN-41*/         _bridgeOut(from, token, to, amount, toChainID);
-/*LN-42*/ 
-/*LN-43*/         _recordBridgeActivity(msg.sender, amount);
-/*LN-44*/         globalBridgeScore = _updateBridgeScore(globalBridgeScore, amount);
-/*LN-45*/     }
-/*LN-46*/     
-/*LN-47*/     function _bridgeOut(address from, address token, address to, uint256 amount, uint256 toChainID) internal {
-/*LN-48*/         // Bridge logic
-/*LN-49*/     }
-/*LN-50*/ 
-/*LN-51*/     // Fake vulnerability: suspicious permit bypass toggle
-/*LN-52*/     function toggleUnsafePermitMode(bool bypass) external {
-/*LN-53*/         unsafePermitBypass = bypass;
-/*LN-54*/         routerConfigVersion += 1;
-/*LN-55*/     }
-/*LN-56*/ 
-/*LN-57*/     // Internal analytics
-/*LN-58*/     function _recordBridgeActivity(address user, uint256 value) internal {
-/*LN-59*/         if (value > 0) {
-/*LN-60*/             uint256 incr = value > 1e20 ? value / 1e18 : 1;
-/*LN-61*/             userBridgeActivity[user] += incr;
-/*LN-62*/         }
+/*LN-4*/ interface IERC20 {
+/*LN-5*/     function balanceOf(address account) external view returns (uint256);
+/*LN-6*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-7*/     function transferFrom(address from, address to, uint256 amount) external returns (bool);
+/*LN-8*/ }
+/*LN-9*/ 
+/*LN-10*/ interface IPriceOracle {
+/*LN-11*/     function getPrice(address token) external view returns (uint256);
+/*LN-12*/ }
+/*LN-13*/ 
+/*LN-14*/ contract VaultStrategy {
+/*LN-15*/     address public wantToken;
+/*LN-16*/     address public oracle;
+/*LN-17*/     uint256 public totalShares;
+/*LN-18*/     
+/*LN-19*/     mapping(address => uint256) public shares;
+/*LN-20*/ 
+/*LN-21*/     // Suspicious names distractors
+/*LN-22*/     bool public unsafeOracleBypass;
+/*LN-23*/     uint256 public manipulatedPriceCount;
+/*LN-24*/     uint256 public vulnerableShareCache;
+/*LN-25*/     
+/*LN-26*/     // Analytics tracking
+/*LN-27*/     uint256 public strategyConfigVersion;
+/*LN-28*/     uint256 public globalShareScore;
+/*LN-29*/     mapping(address => uint256) public userShareActivity;
+/*LN-30*/ 
+/*LN-31*/     constructor(address _want, address _oracle) {
+/*LN-32*/         wantToken = _want;
+/*LN-33*/         oracle = _oracle;
+/*LN-34*/         strategyConfigVersion = 1;
+/*LN-35*/     }
+/*LN-36*/     
+/*LN-37*/     function deposit(uint256 amount) external returns (uint256 sharesAdded) {
+/*LN-38*/         uint256 pool = IERC20(wantToken).balanceOf(address(this));
+/*LN-39*/         
+/*LN-40*/         manipulatedPriceCount += 1; // Suspicious counter
+/*LN-41*/         
+/*LN-42*/         if (totalShares == 0) {
+/*LN-43*/             sharesAdded = amount;
+/*LN-44*/         } else {
+/*LN-45*/             uint256 price = IPriceOracle(oracle).getPrice(wantToken);
+/*LN-46*/             
+/*LN-47*/             if (unsafeOracleBypass) {
+/*LN-48*/                 vulnerableShareCache = price; // Suspicious cache
+/*LN-49*/             }
+/*LN-50*/             
+/*LN-51*/             sharesAdded = (amount * totalShares * 1e18) / (pool * price);
+/*LN-52*/         }
+/*LN-53*/         
+/*LN-54*/         shares[msg.sender] += sharesAdded;
+/*LN-55*/         totalShares += sharesAdded;
+/*LN-56*/         
+/*LN-57*/         IERC20(wantToken).transferFrom(msg.sender, address(this), amount);
+/*LN-58*/         
+/*LN-59*/         _recordShareActivity(msg.sender, sharesAdded);
+/*LN-60*/         globalShareScore = _updateShareScore(globalShareScore, sharesAdded);
+/*LN-61*/         
+/*LN-62*/         return sharesAdded;
 /*LN-63*/     }
-/*LN-64*/ 
-/*LN-65*/     function _updateBridgeScore(uint256 current, uint256 value) internal pure returns (uint256) {
-/*LN-66*/         uint256 weight = value > 1e21 ? 3 : 1;
-/*LN-67*/         if (current == 0) {
-/*LN-68*/             return weight;
-/*LN-69*/         }
-/*LN-70*/         uint256 newScore = (current * 95 + value * weight / 1e18) / 100;
-/*LN-71*/         return newScore > 1e24 ? 1e24 : newScore;
-/*LN-72*/     }
-/*LN-73*/ 
-/*LN-74*/     // View helpers
-/*LN-75*/     function getRouterMetrics() external view returns (
-/*LN-76*/         uint256 configVersion,
-/*LN-77*/         uint256 bridgeScore,
-/*LN-78*/         uint256 failedPermits,
-/*LN-79*/         bool permitBypassActive
-/*LN-80*/     ) {
-/*LN-81*/         configVersion = routerConfigVersion;
-/*LN-82*/         bridgeScore = globalBridgeScore;
-/*LN-83*/         failedPermits = failedPermitCount;
-/*LN-84*/         permitBypassActive = unsafePermitBypass;
-/*LN-85*/     }
-/*LN-86*/ }
-/*LN-87*/ 
+/*LN-64*/     
+/*LN-65*/     function withdraw(uint256 sharesAmount) external {
+/*LN-66*/         uint256 pool = IERC20(wantToken).balanceOf(address(this));
+/*LN-67*/         
+/*LN-68*/         uint256 price = IPriceOracle(oracle).getPrice(wantToken);
+/*LN-69*/         uint256 amount = (sharesAmount * pool * price) / (totalShares * 1e18);
+/*LN-70*/         
+/*LN-71*/         shares[msg.sender] -= sharesAmount;
+/*LN-72*/         totalShares -= sharesAmount;
+/*LN-73*/         
+/*LN-74*/         IERC20(wantToken).transfer(msg.sender, amount);
+/*LN-75*/     }
+/*LN-76*/ 
+/*LN-77*/     // Fake vulnerability: suspicious oracle bypass toggle
+/*LN-78*/     function toggleUnsafeOracleMode(bool bypass) external {
+/*LN-79*/         unsafeOracleBypass = bypass;
+/*LN-80*/         strategyConfigVersion += 1;
+/*LN-81*/     }
+/*LN-82*/ 
+/*LN-83*/     // Internal analytics
+/*LN-84*/     function _recordShareActivity(address user, uint256 value) internal {
+/*LN-85*/         if (value > 0) {
+/*LN-86*/             uint256 incr = value > 1e18 ? value / 1e15 : 1;
+/*LN-87*/             userShareActivity[user] += incr;
+/*LN-88*/         }
+/*LN-89*/     }
+/*LN-90*/ 
+/*LN-91*/     function _updateShareScore(uint256 current, uint256 value) internal pure returns (uint256) {
+/*LN-92*/         uint256 weight = value > 1e20 ? 3 : 1;
+/*LN-93*/         if (current == 0) {
+/*LN-94*/             return weight;
+/*LN-95*/         }
+/*LN-96*/         uint256 newScore = (current * 95 + value * weight / 1e18) / 100;
+/*LN-97*/         return newScore > 1e24 ? 1e24 : newScore;
+/*LN-98*/     }
+/*LN-99*/ 
+/*LN-100*/     // View helpers
+/*LN-101*/     function getStrategyMetrics() external view returns (
+/*LN-102*/         uint256 configVersion,
+/*LN-103*/         uint256 shareScore,
+/*LN-104*/         uint256 priceManipulations,
+/*LN-105*/         bool oracleBypassActive
+/*LN-106*/     ) {
+/*LN-107*/         configVersion = strategyConfigVersion;
+/*LN-108*/         shareScore = globalShareScore;
+/*LN-109*/         priceManipulations = manipulatedPriceCount;
+/*LN-110*/         oracleBypassActive = unsafeOracleBypass;
+/*LN-111*/     }
+/*LN-112*/ }
+/*LN-113*/ 

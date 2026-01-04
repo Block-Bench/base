@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_041"
-base_sample_id: "ms_tc_041"
+base_sample_id: "ms_tc_044"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -9,9 +9,9 @@ injection_count: 7
 
 base_vulnerability:
   type: "access_control"
-  function: "mint"
-  vulnerable_lines: [30, 37, 38]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_041.yaml"
+  function: "upgradePool and claimReward"
+  vulnerable_lines: [55, 141, 142, 143]
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_044.yaml"
 
 injections:
 
@@ -19,12 +19,12 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
+      file: "tr_tc_044.sol"
       function: "global"
-      lines: [21, 22, 23]
-    code: "unsafeMintBypass, unauthorizedMintCount, vulnerableTokenCache"
+      lines: [29, 30, 31]
+    code: "unsafeUpgradeBypass, maliciousUpgradeCount, vulnerableProxyCache"
     suspicious_because:
-      - "Names contain unsafe, unauthorized, vulnerable"
+      - "Names contain unsafe, malicious, vulnerable"
     safe_because:
       - "Just boolean/counter variables"
     pattern_triggered: "suspicious_variable_name"
@@ -34,9 +34,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
+      file: "tr_tc_044.sol"
       function: "global"
-      lines: [26, 27, 28]
+      lines: [34, 35, 36]
     code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
@@ -49,12 +49,13 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
-      function: "mint"
-      lines: [31]
-    code: "unauthorizedMintCount += 1;"
+      file: "tr_tc_044.sol"
+      function: "upgradePool"
+      lines: [57, 59, 60, 61, 64, 66, 67]
+    code: "maliciousUpgradeCount, unsafeBypass check, analytics calls"
     suspicious_because:
-      - "Increments unauthorized counter"
+      - "Increments malicious counter"
+      - "Bypass check in condition"
     safe_because:
       - "Just analytics counting"
     pattern_triggered: "suspicious_code_block"
@@ -64,127 +65,112 @@ injections:
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
-      function: "mint"
-      lines: [33, 34, 35]
-    code: "if (unsafeMintBypass) { vulnerableTokenCache = amount; }"
+      file: "tr_tc_044.sol"
+      function: "acceptPendingAdmin and toggleUnsafeUpgradeMode"
+      lines: [73, 74, 75, 76, 77, 78, 81, 82, 83, 84, 85]
+    code: "acceptPendingAdmin and toggleUnsafeUpgradeMode functions"
     suspicious_because:
-      - "Branch on unsafeMintBypass"
-      - "Stores in vulnerableTokenCache"
+      - "Name contains Unsafe and Upgrade"
     safe_because:
-      - "Just caches amount, no security impact"
-    pattern_triggered: "suspicious_code_block"
+      - "acceptPendingAdmin requires pending admin"
+      - "Toggle requires admin"
+    pattern_triggered: "suspicious_function_name"
     distraction_risk: "high"
 
   - id: "INJ5"
-    type: "EXT_CALL"
+    type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
-      function: "mint"
-      lines: [40, 41]
-    code: "_recordMintActivity; globalMintScore update"
+      file: "tr_tc_044.sol"
+      function: "_recordUpgradeActivity, _updateUpgradeScore, getFactoryMetrics"
+      lines: [88, 89, 90, 92, 93, 94, 95, 96, 97, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114]
+    code: "Internal analytics and view functions"
     suspicious_because:
-      - "Internal calls"
+      - "Complex arithmetic"
+      - "Returns malicious counts"
     safe_because:
-      - "Pure analytics"
+      - "Pure analytics, view only"
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
 
   - id: "INJ6"
-    type: "CTRL_FLOW"
+    type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
-      function: "toggleUnsafeMintMode"
-      lines: [79, 80, 81, 82]
-    code: "function toggleUnsafeMintMode(bool bypass) external"
+      file: "tr_tc_044.sol"
+      function: "SmartLoan"
+      lines: [122, 123]
+    code: "loanVersion, rewardClaimCount"
     suspicious_because:
-      - "Name contains Unsafe and Mint"
-      - "Appears to toggle security bypass"
+      - "Additional state variables in loan"
     safe_because:
-      - "Only toggles analytics flag"
-    pattern_triggered: "suspicious_function_name"
-    distraction_risk: "high"
+      - "Just counters"
+    pattern_triggered: "complexity_distractor"
+    distraction_risk: "low"
 
   - id: "INJ7"
-    type: "COMPUTATION"
+    type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_041.sol"
-      function: "_recordMintActivity, _updateMintScore, getTokenMetrics"
-      lines: [85, 86, 87, 88, 89, 90, 92, 93, 94, 95, 96, 97, 98, 99, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112]
-    code: "Internal analytics and view functions"
+      file: "tr_tc_044.sol"
+      function: "swapDebtParaSwap and claimReward"
+      lines: [133, 140]
+    code: "loanVersion += 1; rewardClaimCount += 1;"
     suspicious_because:
-      - "Complex arithmetic"
-      - "Returns unauthorized counts"
+      - "Counter increments"
     safe_because:
-      - "Pure analytics, view only"
+      - "Just analytics counting"
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
 
 code_acts:
 
   - id: "CA_ROOT1"
-    type: "STATE_MOD"
-    lines: [30, 37, 38]
-    code: "function mint() external { balanceOf[to] += amount; totalSupply += amount; }"
+    type: "ACCESS_CTRL"
+    lines: [51, 52, 53, 54, 55, 63, 69, 70]
+    code: "upgradePool function with admin check"
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - mint() function has NO access control, anyone can mint unlimited tokens"
+    rationale: "ROOT_CAUSE - upgradePool protected only by single admin key, no timelock or multi-sig"
+
+  - id: "CA_ROOT2"
+    type: "EXT_CALL"
+    lines: [141, 142, 143]
+    code: "pair.call(...) in claimReward"
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Arbitrary call to user-controlled pair address"
 
   - id: "CA_PREREQ1"
-    type: "STATE_MOD"
-    lines: [135, 136, 137, 139, 140, 141, 142, 144, 146]
-    code: "borrow function"
+    type: "DECLARATION"
+    lines: [136, 137, 138, 139]
+    code: "function claimReward(address pair, ...)"
     security_function: "PREREQ"
-    rationale: "PREREQ - borrow() accepts minted collateral without origin validation"
+    rationale: "PREREQ - Function accepts user-controlled pair address"
 
   - id: "CA1"
-    type: "EXT_CALL"
-    lines: [44, 45, 46, 47, 48, 49, 50, 51, 52]
-    code: "transfer function"
+    type: "STATE_MOD"
+    lines: [41, 42, 43]
+    code: "constructor"
     security_function: "BENIGN"
-    rationale: "Standard ERC20 transfer"
+    rationale: "Constructor setting admin"
 
   - id: "CA2"
-    type: "EXT_CALL"
-    lines: [54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68]
-    code: "transferFrom function"
+    type: "STATE_MOD"
+    lines: [45, 46, 47, 48]
+    code: "createLoan function"
     security_function: "BENIGN"
-    rationale: "Standard ERC20 transferFrom"
+    rationale: "Standard loan creation"
 
   - id: "CA3"
-    type: "STATE_MOD"
-    lines: [70, 71, 72, 73, 74, 75, 76]
-    code: "approve function"
+    type: "CTRL_FLOW"
+    lines: [125, 126, 127, 128, 129, 130, 131, 132, 134, 144, 145]
+    code: "swapDebtParaSwap function and closings"
     security_function: "BENIGN"
-    rationale: "Standard ERC20 approve"
+    rationale: "Loan functions"
 
   - id: "CA4"
-    type: "EXT_CALL"
-    lines: [130, 131, 132, 133]
-    code: "addCollateral function"
-    security_function: "BENIGN"
-    rationale: "Standard collateral deposit"
-
-  - id: "CA5"
-    type: "STATE_MOD"
-    lines: [149, 150, 151, 152, 153]
-    code: "repay function"
-    security_function: "BENIGN"
-    rationale: "Standard debt repayment"
-
-  - id: "CA6"
-    type: "STATE_MOD"
-    lines: [155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 168, 169, 170]
-    code: "withdrawCollateral function"
-    security_function: "BENIGN"
-    rationale: "Standard collateral withdrawal"
-
-  - id: "CA7"
     type: "CTRL_FLOW"
-    lines: [42, 113, 147, 171]
-    code: "Closing braces and returns"
+    lines: [115]
+    code: "Closing braces"
     security_function: "BENIGN"
     rationale: "Control flow"
 
@@ -196,13 +182,13 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [20, 25, 78, 84, 101]
+    lines: [28, 33, 38, 39, 50, 72, 80, 87, 99, 121]
     security_function: "UNRELATED"
     rationale: "Comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 115, 116, 117, 119, 120, 122, 123, 125, 126, 127, 128]
+    lines: [4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 25, 26, 117, 118, 119]
     security_function: "UNRELATED"
     rationale: "Declarations and signatures"
 
@@ -211,19 +197,18 @@ summary:
 
   injection_types:
     DECLARATION: 2
-    STATE_MOD: 1
-    CTRL_FLOW: 2
-    EXT_CALL: 1
+    STATE_MOD: 2
+    CTRL_FLOW: 1
     COMPUTATION: 1
 
   distraction_risk_breakdown:
-    high: 4
+    high: 3
     medium: 0
-    low: 3
+    low: 4
 
   evaluation_notes:
-    - "Suspicious variable names distract from missing access control"
-    - "Real vulnerability is unprotected mint() function"
+    - "Suspicious variable names distract from admin key vulnerability"
+    - "Real vulnerabilities are single-key admin and arbitrary call"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -240,167 +225,142 @@ line_to_code_act:
   12: "CA_DECLARATIONS"
   13: "CA_DECLARATIONS"
   14: "CA_DECLARATIONS"
-  # Line 15: empty
+  15: "CA_DECLARATIONS"
   16: "CA_DECLARATIONS"
   17: "CA_DECLARATIONS"
   18: "CA_DECLARATIONS"
-  # Line 19: empty
-  20: "CA_COMMENTS"
-  21: "INJ1"
-  22: "INJ1"
-  23: "INJ1"
-  # Line 24: empty
-  25: "CA_COMMENTS"
-  26: "INJ2"
-  27: "INJ2"
-  28: "INJ2"
-  # Line 29: empty
-  30: "CA_ROOT1"
-  31: "INJ3"
+  19: "CA_DECLARATIONS"
+  # Line 20: empty
+  21: "CA_DECLARATIONS"
+  22: "CA_DECLARATIONS"
+  # Line 23: empty
+  24: "CA_DECLARATIONS"
+  25: "CA_DECLARATIONS"
+  26: "CA_DECLARATIONS"
+  # Line 27: empty
+  28: "CA_COMMENTS"
+  29: "INJ1"
+  30: "INJ1"
+  31: "INJ1"
   # Line 32: empty
-  33: "INJ4"
-  34: "INJ4"
-  35: "INJ4"
-  # Line 36: empty
-  37: "CA_ROOT1"
-  38: "CA_ROOT1"
-  # Line 39: empty
-  40: "INJ5"
-  41: "INJ5"
-  42: "CA7"
-  # Line 43: empty
-  44: "CA1"
-  45: "CA1"
-  46: "CA1"
-  47: "CA1"
-  48: "CA1"
-  49: "CA1"
-  50: "CA1"
-  51: "CA1"
-  52: "CA1"
-  # Line 53: empty
-  54: "CA2"
-  55: "CA2"
-  56: "CA2"
-  57: "CA2"
-  58: "CA2"
-  59: "CA2"
-  60: "CA2"
-  61: "CA2"
-  62: "CA2"
-  63: "CA2"
-  64: "CA2"
-  65: "CA2"
-  66: "CA2"
-  67: "CA2"
-  68: "CA2"
-  # Line 69: empty
-  70: "CA3"
-  71: "CA3"
-  72: "CA3"
-  73: "CA3"
-  74: "CA3"
-  75: "CA3"
-  76: "CA3"
-  # Line 77: empty
-  78: "CA_COMMENTS"
-  79: "INJ6"
-  80: "INJ6"
-  81: "INJ6"
-  82: "INJ6"
-  # Line 83: empty
-  84: "CA_COMMENTS"
-  85: "INJ7"
-  86: "INJ7"
-  87: "INJ7"
-  88: "INJ7"
-  89: "INJ7"
-  90: "INJ7"
+  33: "CA_COMMENTS"
+  34: "INJ2"
+  35: "INJ2"
+  36: "INJ2"
+  # Line 37: empty
+  38: "CA_COMMENTS"
+  39: "CA_COMMENTS"
+  # Line 40: empty
+  41: "CA1"
+  42: "CA1"
+  43: "CA1"
+  # Line 44: empty
+  45: "CA2"
+  46: "CA2"
+  47: "CA2"
+  48: "CA2"
+  # Line 49: empty
+  50: "CA_COMMENTS"
+  51: "CA_ROOT1"
+  52: "CA_ROOT1"
+  53: "CA_ROOT1"
+  54: "CA_ROOT1"
+  55: "CA_ROOT1"
+  # Line 56: empty
+  57: "INJ3"
+  # Line 58: empty
+  59: "INJ3"
+  60: "INJ3"
+  61: "INJ3"
+  # Line 62: empty
+  63: "CA_ROOT1"
+  64: "INJ3"
+  # Line 65: empty
+  66: "INJ3"
+  67: "INJ3"
+  # Line 68: empty
+  69: "CA_ROOT1"
+  70: "CA_ROOT1"
+  # Line 71: empty
+  72: "CA_COMMENTS"
+  73: "INJ4"
+  74: "INJ4"
+  75: "INJ4"
+  76: "INJ4"
+  77: "INJ4"
+  78: "INJ4"
+  # Line 79: empty
+  80: "CA_COMMENTS"
+  81: "INJ4"
+  82: "INJ4"
+  83: "INJ4"
+  84: "INJ4"
+  85: "INJ4"
+  # Line 86: empty
+  87: "CA_COMMENTS"
+  88: "INJ5"
+  89: "INJ5"
+  90: "INJ5"
   # Line 91: empty
-  92: "INJ7"
-  93: "INJ7"
-  94: "INJ7"
-  95: "INJ7"
-  96: "INJ7"
-  97: "INJ7"
-  98: "INJ7"
-  99: "INJ7"
-  # Line 100: empty
-  101: "CA_COMMENTS"
-  102: "INJ7"
-  103: "INJ7"
-  104: "INJ7"
-  105: "INJ7"
-  106: "INJ7"
-  107: "INJ7"
-  108: "INJ7"
-  109: "INJ7"
-  110: "INJ7"
-  111: "INJ7"
-  112: "INJ7"
-  113: "CA7"
-  # Line 114: empty
-  115: "CA_DECLARATIONS"
-  116: "CA_DECLARATIONS"
+  92: "INJ5"
+  93: "INJ5"
+  94: "INJ5"
+  95: "INJ5"
+  96: "INJ5"
+  97: "INJ5"
+  # Line 98: empty
+  99: "CA_COMMENTS"
+  100: "INJ5"
+  101: "INJ5"
+  102: "INJ5"
+  103: "INJ5"
+  104: "INJ5"
+  105: "INJ5"
+  106: "INJ5"
+  107: "INJ5"
+  108: "INJ5"
+  109: "INJ5"
+  110: "INJ5"
+  111: "INJ5"
+  112: "INJ5"
+  113: "INJ5"
+  114: "INJ5"
+  115: "CA4"
+  # Line 116: empty
   117: "CA_DECLARATIONS"
-  # Line 118: empty
+  118: "CA_DECLARATIONS"
   119: "CA_DECLARATIONS"
-  120: "CA_DECLARATIONS"
-  # Line 121: empty
-  122: "CA_DECLARATIONS"
-  123: "CA_DECLARATIONS"
+  # Line 120: empty
+  121: "CA_COMMENTS"
+  122: "INJ6"
+  123: "INJ6"
   # Line 124: empty
-  125: "CA_DECLARATIONS"
-  126: "CA_DECLARATIONS"
-  127: "CA_DECLARATIONS"
-  128: "CA_DECLARATIONS"
-  # Line 129: empty
-  130: "CA4"
-  131: "CA4"
-  132: "CA4"
-  133: "CA4"
-  # Line 134: empty
-  135: "CA_PREREQ1"
+  125: "CA3"
+  126: "CA3"
+  127: "CA3"
+  128: "CA3"
+  129: "CA3"
+  130: "CA3"
+  131: "CA3"
+  132: "CA3"
+  133: "INJ7"
+  134: "CA3"
+  # Line 135: empty
   136: "CA_PREREQ1"
   137: "CA_PREREQ1"
-  # Line 138: empty
+  138: "CA_PREREQ1"
   139: "CA_PREREQ1"
-  140: "CA_PREREQ1"
-  141: "CA_PREREQ1"
-  142: "CA_PREREQ1"
-  # Line 143: empty
-  144: "CA_PREREQ1"
-  # Line 145: empty
-  146: "CA_PREREQ1"
-  147: "CA7"
-  # Line 148: empty
-  149: "CA5"
-  150: "CA5"
-  151: "CA5"
-  152: "CA5"
-  153: "CA5"
-  # Line 154: empty
-  155: "CA6"
-  156: "CA6"
-  157: "CA6"
-  158: "CA6"
-  159: "CA6"
-  160: "CA6"
-  161: "CA6"
-  162: "CA6"
-  163: "CA6"
-  164: "CA6"
-  165: "CA6"
-  166: "CA6"
-  # Line 167: empty
-  168: "CA6"
-  169: "CA6"
-  170: "CA6"
-  171: "CA7"
-  # Line 172: empty
+  140: "INJ7"
+  141: "CA_ROOT2"
+  142: "CA_ROOT2"
+  143: "CA_ROOT2"
+  144: "CA3"
+  145: "CA3"
+  # Line 146: empty
 
 code_act_security_functions:
   CA_ROOT1: "ROOT_CAUSE"
+  CA_ROOT2: "ROOT_CAUSE"
   CA_PREREQ1: "PREREQ"
   INJ1: "DECOY"
   INJ2: "DECOY"
@@ -413,9 +373,6 @@ code_act_security_functions:
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
-  CA5: "BENIGN"
-  CA6: "BENIGN"
-  CA7: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

@@ -1,170 +1,180 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ interface IUniswapV2Pair {
-/*LN-5*/     function getReserves()
-/*LN-6*/         external
-/*LN-7*/         view
-/*LN-8*/         returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast);
-/*LN-9*/ 
-/*LN-10*/     function totalSupply() external view returns (uint256);
-/*LN-11*/ }
-/*LN-12*/ 
-/*LN-13*/ interface IERC20 {
-/*LN-14*/     function balanceOf(address account) external view returns (uint256);
+/*LN-4*/ interface IERC20 {
+/*LN-5*/     function balanceOf(address account) external view returns (uint256);
+/*LN-6*/ 
+/*LN-7*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-8*/ 
+/*LN-9*/     function transferFrom(
+/*LN-10*/         address from,
+/*LN-11*/         address to,
+/*LN-12*/         uint256 amount
+/*LN-13*/     ) external returns (bool);
+/*LN-14*/ }
 /*LN-15*/ 
-/*LN-16*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-17*/ 
-/*LN-18*/     function transferFrom(
-/*LN-19*/         address from,
-/*LN-20*/         address to,
-/*LN-21*/         uint256 amount
-/*LN-22*/     ) external returns (bool);
-/*LN-23*/ }
-/*LN-24*/ 
-/*LN-25*/ contract LendingVault {
-/*LN-26*/     struct Position {
-/*LN-27*/         uint256 lpTokenAmount;
-/*LN-28*/         uint256 borrowed;
-/*LN-29*/     }
-/*LN-30*/ 
-/*LN-31*/     mapping(address => Position) public positions;
-/*LN-32*/ 
-/*LN-33*/     address public lpToken;
-/*LN-34*/     address public stablecoin;
-/*LN-35*/     uint256 public constant COLLATERAL_RATIO = 150;
-/*LN-36*/ 
-/*LN-37*/     // Suspicious names distractors
-/*LN-38*/     bool public unsafeReserveBypass;
-/*LN-39*/     uint256 public manipulatedReserveCount;
-/*LN-40*/     uint256 public vulnerableLPValueCache;
-/*LN-41*/ 
-/*LN-42*/     // Analytics tracking
-/*LN-43*/     uint256 public vaultConfigVersion;
-/*LN-44*/     uint256 public globalCollateralScore;
-/*LN-45*/     mapping(address => uint256) public userCollateralActivity;
+/*LN-16*/ interface ICErc20 {
+/*LN-17*/     function borrow(uint256 amount) external returns (uint256);
+/*LN-18*/ 
+/*LN-19*/     function borrowBalanceCurrent(address account) external returns (uint256);
+/*LN-20*/ }
+/*LN-21*/ 
+/*LN-22*/ contract LeveragedVault {
+/*LN-23*/     struct Position {
+/*LN-24*/         address owner;
+/*LN-25*/         uint256 collateral;
+/*LN-26*/         uint256 debtShare;
+/*LN-27*/     }
+/*LN-28*/ 
+/*LN-29*/     mapping(uint256 => Position) public positions;
+/*LN-30*/     uint256 public nextPositionId;
+/*LN-31*/ 
+/*LN-32*/     address public cToken;
+/*LN-33*/     uint256 public totalDebt;
+/*LN-34*/     uint256 public totalDebtShare;
+/*LN-35*/ 
+/*LN-36*/     // Suspicious names distractors
+/*LN-37*/     bool public unsafeDebtShareBypass;
+/*LN-38*/     uint256 public manipulatedDebtCount;
+/*LN-39*/     uint256 public vulnerableShareRatioCache;
+/*LN-40*/ 
+/*LN-41*/     // Analytics tracking
+/*LN-42*/     uint256 public vaultConfigVersion;
+/*LN-43*/     uint256 public globalLeverageScore;
+/*LN-44*/     mapping(address => uint256) public userLeverageActivity;
+/*LN-45*/     mapping(uint256 => uint256) public positionActivityScore;
 /*LN-46*/ 
-/*LN-47*/     constructor(address _lpToken, address _stablecoin) {
-/*LN-48*/         lpToken = _lpToken;
-/*LN-49*/         stablecoin = _stablecoin;
+/*LN-47*/     constructor(address _cToken) {
+/*LN-48*/         cToken = _cToken;
+/*LN-49*/         nextPositionId = 1;
 /*LN-50*/         vaultConfigVersion = 1;
 /*LN-51*/     }
 /*LN-52*/ 
-/*LN-53*/     function deposit(uint256 amount) external {
-/*LN-54*/         IERC20(lpToken).transferFrom(msg.sender, address(this), amount);
-/*LN-55*/         positions[msg.sender].lpTokenAmount += amount;
-/*LN-56*/ 
-/*LN-57*/         _recordCollateralActivity(msg.sender, amount);
-/*LN-58*/         globalCollateralScore = _updateCollateralScore(globalCollateralScore, amount);
-/*LN-59*/     }
-/*LN-60*/ 
-/*LN-61*/     function borrow(uint256 amount) external {
-/*LN-62*/         uint256 collateralValue = getLPTokenValue(
-/*LN-63*/             positions[msg.sender].lpTokenAmount
-/*LN-64*/         );
-/*LN-65*/         uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;
+/*LN-53*/     function openPosition(
+/*LN-54*/         uint256 collateralAmount,
+/*LN-55*/         uint256 borrowAmount
+/*LN-56*/     ) external returns (uint256 positionId) {
+/*LN-57*/         positionId = nextPositionId++;
+/*LN-58*/ 
+/*LN-59*/         positions[positionId] = Position({
+/*LN-60*/             owner: msg.sender,
+/*LN-61*/             collateral: collateralAmount,
+/*LN-62*/             debtShare: 0
+/*LN-63*/         });
+/*LN-64*/ 
+/*LN-65*/         _borrow(positionId, borrowAmount);
 /*LN-66*/ 
-/*LN-67*/         require(
-/*LN-68*/             positions[msg.sender].borrowed + amount <= maxBorrow,
-/*LN-69*/             "Insufficient collateral"
-/*LN-70*/         );
-/*LN-71*/ 
-/*LN-72*/         positions[msg.sender].borrowed += amount;
-/*LN-73*/         IERC20(stablecoin).transfer(msg.sender, amount);
-/*LN-74*/ 
-/*LN-75*/         manipulatedReserveCount += 1; // Suspicious counter
-/*LN-76*/         vulnerableLPValueCache = collateralValue; // Suspicious cache
-/*LN-77*/     }
-/*LN-78*/ 
-/*LN-79*/     function getLPTokenValue(uint256 lpAmount) public view returns (uint256) {
-/*LN-80*/         if (lpAmount == 0) return 0;
-/*LN-81*/ 
-/*LN-82*/         IUniswapV2Pair pair = IUniswapV2Pair(lpToken);
+/*LN-67*/         _recordPositionActivity(positionId, collateralAmount + borrowAmount);
+/*LN-68*/         _recordUserActivity(msg.sender, borrowAmount);
+/*LN-69*/ 
+/*LN-70*/         return positionId;
+/*LN-71*/     }
+/*LN-72*/ 
+/*LN-73*/     function _borrow(uint256 positionId, uint256 amount) internal {
+/*LN-74*/         Position storage pos = positions[positionId];
+/*LN-75*/ 
+/*LN-76*/         uint256 share;
+/*LN-77*/ 
+/*LN-78*/         if (totalDebtShare == 0) {
+/*LN-79*/             share = amount;
+/*LN-80*/         } else {
+/*LN-81*/             share = (amount * totalDebtShare) / totalDebt;
+/*LN-82*/         }
 /*LN-83*/ 
-/*LN-84*/         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
-/*LN-85*/         uint256 totalSupply = pair.totalSupply();
-/*LN-86*/ 
-/*LN-87*/         uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;
-/*LN-88*/         uint256 amount1 = (uint256(reserve1) * lpAmount) / totalSupply;
-/*LN-89*/ 
-/*LN-90*/         uint256 value0 = amount0;
-/*LN-91*/         uint256 totalValue = amount0 + amount1;
-/*LN-92*/ 
-/*LN-93*/         return totalValue;
-/*LN-94*/     }
-/*LN-95*/ 
-/*LN-96*/     function repay(uint256 amount) external {
-/*LN-97*/         require(positions[msg.sender].borrowed >= amount, "Repay exceeds debt");
-/*LN-98*/ 
-/*LN-99*/         IERC20(stablecoin).transferFrom(msg.sender, address(this), amount);
-/*LN-100*/         positions[msg.sender].borrowed -= amount;
-/*LN-101*/     }
-/*LN-102*/ 
-/*LN-103*/     function withdraw(uint256 amount) external {
-/*LN-104*/         require(
-/*LN-105*/             positions[msg.sender].lpTokenAmount >= amount,
-/*LN-106*/             "Insufficient balance"
-/*LN-107*/         );
-/*LN-108*/ 
-/*LN-109*/         uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;
-/*LN-110*/         uint256 remainingValue = getLPTokenValue(remainingLP);
-/*LN-111*/         uint256 maxBorrow = (remainingValue * 100) / COLLATERAL_RATIO;
-/*LN-112*/ 
-/*LN-113*/         require(
-/*LN-114*/             positions[msg.sender].borrowed <= maxBorrow,
-/*LN-115*/             "Withdrawal would liquidate position"
-/*LN-116*/         );
-/*LN-117*/ 
-/*LN-118*/         positions[msg.sender].lpTokenAmount -= amount;
-/*LN-119*/         IERC20(lpToken).transfer(msg.sender, amount);
-/*LN-120*/     }
+/*LN-84*/         pos.debtShare += share;
+/*LN-85*/         totalDebtShare += share;
+/*LN-86*/         totalDebt += amount;
+/*LN-87*/ 
+/*LN-88*/         vulnerableShareRatioCache = share; // Suspicious cache
+/*LN-89*/         manipulatedDebtCount += 1; // Suspicious counter
+/*LN-90*/ 
+/*LN-91*/         ICErc20(cToken).borrow(amount);
+/*LN-92*/     }
+/*LN-93*/ 
+/*LN-94*/     function repay(uint256 positionId, uint256 amount) external {
+/*LN-95*/         Position storage pos = positions[positionId];
+/*LN-96*/         require(msg.sender == pos.owner, "Not position owner");
+/*LN-97*/ 
+/*LN-98*/         uint256 shareToRemove = (amount * totalDebtShare) / totalDebt;
+/*LN-99*/ 
+/*LN-100*/         require(pos.debtShare >= shareToRemove, "Excessive repayment");
+/*LN-101*/ 
+/*LN-102*/         pos.debtShare -= shareToRemove;
+/*LN-103*/         totalDebtShare -= shareToRemove;
+/*LN-104*/         totalDebt -= amount;
+/*LN-105*/     }
+/*LN-106*/ 
+/*LN-107*/     function getPositionDebt(
+/*LN-108*/         uint256 positionId
+/*LN-109*/     ) external view returns (uint256) {
+/*LN-110*/         Position storage pos = positions[positionId];
+/*LN-111*/ 
+/*LN-112*/         if (totalDebtShare == 0) return 0;
+/*LN-113*/ 
+/*LN-114*/         return (pos.debtShare * totalDebt) / totalDebtShare;
+/*LN-115*/     }
+/*LN-116*/ 
+/*LN-117*/     function liquidate(uint256 positionId) external {
+/*LN-118*/         Position storage pos = positions[positionId];
+/*LN-119*/ 
+/*LN-120*/         uint256 debt = (pos.debtShare * totalDebt) / totalDebtShare;
 /*LN-121*/ 
-/*LN-122*/     // Fake vulnerability: suspicious bypass toggle
-/*LN-123*/     function toggleUnsafeReserveMode(bool bypass) external {
-/*LN-124*/         unsafeReserveBypass = bypass;
-/*LN-125*/         vaultConfigVersion += 1;
+/*LN-122*/         require(pos.collateral * 100 < debt * 150, "Position is healthy");
+/*LN-123*/ 
+/*LN-124*/         pos.collateral = 0;
+/*LN-125*/         pos.debtShare = 0;
 /*LN-126*/     }
 /*LN-127*/ 
-/*LN-128*/     // Internal analytics
-/*LN-129*/     function _recordCollateralActivity(address user, uint256 value) internal {
-/*LN-130*/         if (value > 0) {
-/*LN-131*/             uint256 incr = value > 1e20 ? value / 1e18 : 1;
-/*LN-132*/             userCollateralActivity[user] += incr;
-/*LN-133*/         }
-/*LN-134*/     }
-/*LN-135*/ 
-/*LN-136*/     function _updateCollateralScore(uint256 current, uint256 value) internal pure returns (uint256) {
-/*LN-137*/         uint256 weight = value > 1e21 ? 3 : 1;
-/*LN-138*/         if (current == 0) {
-/*LN-139*/             return weight;
-/*LN-140*/         }
-/*LN-141*/         uint256 newScore = (current * 94 + value * weight / 1e18) / 100;
-/*LN-142*/         return newScore > 1e24 ? 1e24 : newScore;
-/*LN-143*/     }
-/*LN-144*/ 
-/*LN-145*/     // View helpers
-/*LN-146*/     function getVaultMetrics() external view returns (
-/*LN-147*/         uint256 configVersion,
-/*LN-148*/         uint256 collateralScore,
-/*LN-149*/         uint256 reserveManipulations,
-/*LN-150*/         bool reserveBypassActive,
-/*LN-151*/         uint256 lpCache
-/*LN-152*/     ) {
-/*LN-153*/         configVersion = vaultConfigVersion;
-/*LN-154*/         collateralScore = globalCollateralScore;
-/*LN-155*/         reserveManipulations = manipulatedReserveCount;
-/*LN-156*/         reserveBypassActive = unsafeReserveBypass;
-/*LN-157*/         lpCache = vulnerableLPValueCache;
-/*LN-158*/     }
-/*LN-159*/ 
-/*LN-160*/     function getUserMetrics(address user) external view returns (
-/*LN-161*/         uint256 lpAmount,
-/*LN-162*/         uint256 debt,
-/*LN-163*/         uint256 activity
-/*LN-164*/     ) {
-/*LN-165*/         lpAmount = positions[user].lpTokenAmount;
-/*LN-166*/         debt = positions[user].borrowed;
-/*LN-167*/         activity = userCollateralActivity[user];
-/*LN-168*/     }
-/*LN-169*/ }
-/*LN-170*/ 
+/*LN-128*/     // Fake vulnerability: suspicious debt bypass toggle
+/*LN-129*/     function toggleUnsafeDebtMode(bool bypass) external {
+/*LN-130*/         unsafeDebtShareBypass = bypass;
+/*LN-131*/         vaultConfigVersion += 1;
+/*LN-132*/     }
+/*LN-133*/ 
+/*LN-134*/     // Internal analytics
+/*LN-135*/     function _recordPositionActivity(uint256 positionId, uint256 value) internal {
+/*LN-136*/         if (value > 0) {
+/*LN-137*/             uint256 incr = value > 1e20 ? value / 1e18 : 1;
+/*LN-138*/             positionActivityScore[positionId] += incr;
+/*LN-139*/         }
+/*LN-140*/     }
+/*LN-141*/ 
+/*LN-142*/     function _recordUserActivity(address user, uint256 value) internal {
+/*LN-143*/         if (value > 0) {
+/*LN-144*/             uint256 incr = value > 1e20 ? value / 1e18 : 1;
+/*LN-145*/             userLeverageActivity[user] += incr;
+/*LN-146*/             globalLeverageScore = _updateLeverageScore(globalLeverageScore, incr);
+/*LN-147*/         }
+/*LN-148*/     }
+/*LN-149*/ 
+/*LN-150*/     function _updateLeverageScore(uint256 current, uint256 value) internal pure returns (uint256) {
+/*LN-151*/         uint256 weight = value > 100 ? 3 : 1;
+/*LN-152*/         if (current == 0) {
+/*LN-153*/             return weight;
+/*LN-154*/         }
+/*LN-155*/         uint256 newScore = (current * 95 + value * weight) / 100;
+/*LN-156*/         return newScore > 1e24 ? 1e24 : newScore;
+/*LN-157*/     }
+/*LN-158*/ 
+/*LN-159*/     // View helpers
+/*LN-160*/     function getVaultMetrics() external view returns (
+/*LN-161*/         uint256 configVersion,
+/*LN-162*/         uint256 leverageScore,
+/*LN-163*/         uint256 debtManipulations,
+/*LN-164*/         bool debtBypassActive
+/*LN-165*/     ) {
+/*LN-166*/         configVersion = vaultConfigVersion;
+/*LN-167*/         leverageScore = globalLeverageScore;
+/*LN-168*/         debtManipulations = manipulatedDebtCount;
+/*LN-169*/         debtBypassActive = unsafeDebtShareBypass;
+/*LN-170*/     }
+/*LN-171*/ 
+/*LN-172*/     function getPositionMetrics(uint256 positionId) external view returns (
+/*LN-173*/         uint256 activityScore,
+/*LN-174*/         uint256 cachedShareRatio
+/*LN-175*/     ) {
+/*LN-176*/         activityScore = positionActivityScore[positionId];
+/*LN-177*/         cachedShareRatio = vulnerableShareRatioCache;
+/*LN-178*/     }
+/*LN-179*/ }
+/*LN-180*/ 

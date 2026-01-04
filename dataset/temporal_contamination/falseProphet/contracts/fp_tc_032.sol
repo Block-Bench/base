@@ -15,215 +15,203 @@
 /*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-16*/ }
 /*LN-17*/
-/*LN-18*/ interface IFlashLoanReceiver {
-/*LN-19*/     function executeOperation(
-/*LN-20*/         address[] calldata assets,
-/*LN-21*/         uint256[] calldata amounts,
-/*LN-22*/         uint256[] calldata premiums,
-/*LN-23*/         address initiator,
-/*LN-24*/         bytes calldata params
-/*LN-25*/     ) external returns (bool);
-/*LN-26*/ }
-/*LN-27*/
+/*LN-18*/ interface IERC721 {
+/*LN-19*/     function transferFrom(address from, address to, uint256 tokenId) external;
+/*LN-20*/
+/*LN-21*/     function ownerOf(uint256 tokenId) external view returns (address);
+/*LN-22*/ }
+/*LN-23*/
 
 /**
- * @title CrossLendingPool
- * @notice Aave-compatible lending pool with flash loan support
- * @dev Audited by Trail of Bits (Q1 2023) - All findings resolved
- * @dev Implements ray mathematics for precise interest accrual
- * @dev Supports deposit, withdraw, borrow, and flash loans
- * @custom:security-contact security@crosslending.capital
+ * @title IsolatedLending
+ * @notice NFT-based lending protocol with position tracking
+ * @dev Audited by Sherlock (Q4 2023) - All findings resolved
+ * @dev Implements share-based lending with NFT position management
+ * @dev Supports multiple pool tokens per position
+ * @custom:security-contact security@isolated.lending
  */
-/*LN-28*/ contract CrossLendingPool {
-    /// @dev Ray unit (1e27) for high-precision calculations
-/*LN-29*/     uint256 public constant RAY = 1e27;
-/*LN-30*/
+/*LN-24*/ contract IsolatedLending {
+/*LN-25*/     struct PoolData {
+        /// @dev Virtual pool balance for share calculation
+/*LN-26*/         uint256 pseudoTotalPool;
+        /// @dev Total deposit shares outstanding
+/*LN-27*/         uint256 totalDepositShares;
+        /// @dev Total borrow shares outstanding
+/*LN-28*/         uint256 totalBorrowShares;
+        /// @dev Collateral factor for this pool
+/*LN-29*/         uint256 collateralFactor;
+/*LN-30*/     }
+/*LN-31*/
 
-/*LN-31*/     struct ReserveData {
-        /// @dev Current liquidity index for interest accrual
-/*LN-32*/         uint256 liquidityIndex;
-        /// @dev Total liquidity in reserve
-/*LN-33*/         uint256 totalLiquidity;
-        /// @dev Interest-bearing token address
-/*LN-34*/         address rTokenAddress;
-/*LN-35*/     }
-/*LN-36*/
+    /// @dev Pool data per token
+/*LN-32*/     mapping(address => PoolData) public lendingPoolData;
+    /// @dev User lending shares per position NFT
+/*LN-33*/     mapping(uint256 => mapping(address => uint256)) public userLendingShares;
+    /// @dev User borrow shares per position NFT
+/*LN-34*/     mapping(uint256 => mapping(address => uint256)) public userBorrowShares;
+/*LN-35*/
 
-    /// @dev Reserve data per asset
-/*LN-37*/     mapping(address => ReserveData) public reserves;
+    /// @dev Position NFT contract
+/*LN-36*/     IERC721 public positionNFTs;
+    /// @dev Position ID counter
+/*LN-37*/     uint256 public nftIdCounter;
 /*LN-38*/
 
     /**
-     * @notice Deposit tokens into lending pool
-     * @dev Mints proportional rTokens to depositor
-     * @param asset Token address to deposit
-     * @param amount Amount to deposit
-     * @param onBehalfOf Address to receive rTokens
-     * @param referralCode Optional referral code
+     * @notice Mint position NFT
+     * @return NFT ID for the new position
      */
-/*LN-42*/     function deposit(
-/*LN-43*/         address asset,
-/*LN-44*/         uint256 amount,
-/*LN-45*/         address onBehalfOf,
-/*LN-46*/         uint16 referralCode
-/*LN-47*/     ) external {
-/*LN-48*/         IERC20(asset).transferFrom(msg.sender, address(this), amount);
-/*LN-49*/
-
-/*LN-50*/         ReserveData storage reserve = reserves[asset];
-/*LN-51*/
-
-        // Update liquidity index for interest accrual
-/*LN-53*/         uint256 currentLiquidityIndex = reserve.liquidityIndex;
-/*LN-54*/         if (currentLiquidityIndex == 0) {
-/*LN-55*/             currentLiquidityIndex = RAY;
-/*LN-56*/         }
-/*LN-57*/
-
-        // Accrue interest to index
-/*LN-59*/         reserve.liquidityIndex =
-/*LN-60*/             currentLiquidityIndex +
-/*LN-61*/             (amount * RAY) /
-/*LN-62*/             (reserve.totalLiquidity + 1);
-/*LN-63*/         reserve.totalLiquidity += amount;
-/*LN-64*/
-
-        // Mint rTokens proportional to deposit
-/*LN-66*/         uint256 rTokenAmount = rayDiv(amount, reserve.liquidityIndex);
-/*LN-67*/         _mintRToken(reserve.rTokenAddress, onBehalfOf, rTokenAmount);
-/*LN-68*/     }
-/*LN-69*/
+/*LN-42*/     function mintPosition() external returns (uint256) {
+/*LN-43*/         uint256 nftId = ++nftIdCounter;
+/*LN-44*/         return nftId;
+/*LN-45*/     }
+/*LN-46*/
 
     /**
-     * @notice Withdraw tokens from lending pool
-     * @dev Burns rTokens and returns underlying
-     * @param asset Token address to withdraw
-     * @param amount Amount to withdraw
-     * @param to Recipient address
-     * @return Amount withdrawn
+     * @notice Deposit exact amount of tokens
+     * @dev Calculates shares based on pool state
+     * @param _nftId Position NFT ID
+     * @param _poolToken Token to deposit
+     * @param _amount Amount to deposit
+     * @return shareAmount Shares received
      */
-/*LN-73*/     function withdraw(
-/*LN-74*/         address asset,
-/*LN-75*/         uint256 amount,
-/*LN-76*/         address to
-/*LN-77*/     ) external returns (uint256) {
-/*LN-78*/         ReserveData storage reserve = reserves[asset];
+/*LN-50*/     function depositExactAmount(
+/*LN-51*/         uint256 _nftId,
+/*LN-52*/         address _poolToken,
+/*LN-53*/         uint256 _amount
+/*LN-54*/     ) external returns (uint256 shareAmount) {
+/*LN-55*/         IERC20(_poolToken).transferFrom(msg.sender, address(this), _amount);
+/*LN-56*/
+
+/*LN-57*/         PoolData storage pool = lendingPoolData[_poolToken];
+/*LN-58*/
+
+/*LN-60*/
+
+/*LN-61*/         if (pool.totalDepositShares == 0) {
+            // First deposit initializes shares
+/*LN-62*/             shareAmount = _amount;
+/*LN-63*/             pool.totalDepositShares = _amount;
+/*LN-64*/         } else {
+            // Calculate proportional shares
+/*LN-68*/             shareAmount =
+/*LN-69*/                 (_amount * pool.totalDepositShares) /
+/*LN-70*/                 pool.pseudoTotalPool;
+/*LN-71*/             pool.totalDepositShares += shareAmount;
+/*LN-72*/         }
+/*LN-73*/
+
+/*LN-74*/         pool.pseudoTotalPool += _amount;
+/*LN-75*/         userLendingShares[_nftId][_poolToken] += shareAmount;
+/*LN-76*/
+
+/*LN-77*/         return shareAmount;
+/*LN-78*/     }
 /*LN-79*/
 
-        // Calculate rTokens to burn based on current index
-/*LN-82*/         uint256 rTokensToBurn = rayDiv(amount, reserve.liquidityIndex);
-/*LN-83*/
+    /**
+     * @notice Withdraw exact shares amount
+     * @dev Burns shares and returns proportional tokens
+     * @param _nftId Position NFT ID
+     * @param _poolToken Token to withdraw
+     * @param _shares Shares to burn
+     * @return withdrawAmount Tokens received
+     */
+/*LN-83*/     function withdrawExactShares(
+/*LN-84*/         uint256 _nftId,
+/*LN-85*/         address _poolToken,
+/*LN-86*/         uint256 _shares
+/*LN-87*/     ) external returns (uint256 withdrawAmount) {
+/*LN-88*/         require(
+/*LN-89*/             userLendingShares[_nftId][_poolToken] >= _shares,
+/*LN-90*/             "Insufficient shares"
+/*LN-91*/         );
+/*LN-92*/
 
-/*LN-84*/         _burnRToken(reserve.rTokenAddress, msg.sender, rTokensToBurn);
-/*LN-85*/
+/*LN-93*/         PoolData storage pool = lendingPoolData[_poolToken];
+/*LN-94*/
 
-/*LN-86*/         reserve.totalLiquidity -= amount;
-        // Transfer underlying to recipient
-/*LN-87*/         IERC20(asset).transfer(to, amount);
-/*LN-88*/
+        // Calculate proportional withdrawal
+/*LN-100*/         withdrawAmount =
+/*LN-101*/             (_shares * pool.pseudoTotalPool) /
+/*LN-102*/             pool.totalDepositShares;
+/*LN-103*/
 
-/*LN-89*/         return amount;
-/*LN-90*/     }
-/*LN-91*/
+/*LN-104*/         userLendingShares[_nftId][_poolToken] -= _shares;
+/*LN-105*/         pool.totalDepositShares -= _shares;
+/*LN-106*/         pool.pseudoTotalPool -= withdrawAmount;
+/*LN-107*/
+
+        // Transfer tokens to user
+/*LN-108*/         IERC20(_poolToken).transfer(msg.sender, withdrawAmount);
+/*LN-109*/
+
+/*LN-110*/         return withdrawAmount;
+/*LN-111*/     }
+/*LN-112*/
 
     /**
-     * @notice Borrow tokens from pool with collateral
-     * @dev Requires sufficient collateral position
-     * @param asset Token to borrow
-     * @param amount Amount to borrow
-     * @param interestRateMode Stable or variable rate
-     * @param referralCode Optional referral code
-     * @param onBehalfOf Address receiving borrowed tokens
+     * @notice Withdraw exact amount of tokens
+     * @dev Calculates and burns required shares
+     * @param _nftId Position NFT ID
+     * @param _poolToken Token to withdraw
+     * @param _withdrawAmount Amount to withdraw
+     * @return shareBurned Shares burned
      */
-/*LN-95*/     function borrow(
-/*LN-96*/         address asset,
-/*LN-97*/         uint256 amount,
-/*LN-98*/         uint256 interestRateMode,
-/*LN-99*/         uint16 referralCode,
-/*LN-100*/         address onBehalfOf
-/*LN-101*/     ) external {
-        // Execute borrow transfer
-/*LN-103*/         IERC20(asset).transfer(onBehalfOf, amount);
-/*LN-104*/     }
-/*LN-105*/
+/*LN-116*/     function withdrawExactAmount(
+/*LN-117*/         uint256 _nftId,
+/*LN-118*/         address _poolToken,
+/*LN-119*/         uint256 _withdrawAmount
+/*LN-120*/     ) external returns (uint256 shareBurned) {
+/*LN-121*/         PoolData storage pool = lendingPoolData[_poolToken];
+/*LN-122*/
 
-    /**
-     * @notice Execute flash loan
-     * @dev Provides uncollateralized loans within single transaction
-     * @param receiverAddress Contract to receive flash loan
-     * @param assets Array of token addresses
-     * @param amounts Array of amounts to borrow
-     * @param modes Repayment modes per asset
-     * @param onBehalfOf Address for debt tracking
-     * @param params Arbitrary data for callback
-     * @param referralCode Optional referral code
-     */
-/*LN-109*/     function flashLoan(
-/*LN-110*/         address receiverAddress,
-/*LN-111*/         address[] calldata assets,
-/*LN-112*/         uint256[] calldata amounts,
-/*LN-113*/         uint256[] calldata modes,
-/*LN-114*/         address onBehalfOf,
-/*LN-115*/         bytes calldata params,
-/*LN-116*/         uint16 referralCode
-/*LN-117*/     ) external {
-        // Transfer flash loan amounts
-/*LN-118*/         for (uint256 i = 0; i < assets.length; i++) {
-/*LN-119*/             IERC20(assets[i]).transfer(receiverAddress, amounts[i]);
-/*LN-120*/         }
-/*LN-121*/
+        // Calculate shares to burn
+/*LN-123*/         shareBurned =
+/*LN-124*/             (_withdrawAmount * pool.totalDepositShares) /
+/*LN-125*/             pool.pseudoTotalPool;
+/*LN-126*/
 
-        // Execute receiver callback
-/*LN-123*/         require(
-/*LN-124*/             IFlashLoanReceiver(receiverAddress).executeOperation(
-/*LN-125*/                 assets,
-/*LN-126*/                 amounts,
-/*LN-127*/                 new uint256[](assets.length),
-/*LN-128*/                 msg.sender,
-/*LN-129*/                 params
-/*LN-130*/             ),
-/*LN-131*/             "Flashloan callback failed"
-/*LN-132*/         );
-/*LN-133*/
+/*LN-127*/         require(
+/*LN-128*/             userLendingShares[_nftId][_poolToken] >= shareBurned,
+/*LN-129*/             "Insufficient shares"
+/*LN-130*/         );
+/*LN-131*/
 
+/*LN-132*/         userLendingShares[_nftId][_poolToken] -= shareBurned;
+/*LN-133*/         pool.totalDepositShares -= shareBurned;
+/*LN-134*/         pool.pseudoTotalPool -= _withdrawAmount;
 /*LN-135*/
 
-        // Collect repayment
-/*LN-136*/         for (uint256 i = 0; i < assets.length; i++) {
-/*LN-137*/             IERC20(assets[i]).transferFrom(
-/*LN-138*/                 receiverAddress,
-/*LN-139*/                 address(this),
-/*LN-140*/                 amounts[i]
-/*LN-141*/             );
-/*LN-142*/         }
-/*LN-143*/     }
-/*LN-144*/
+        // Transfer tokens to user
+/*LN-136*/         IERC20(_poolToken).transfer(msg.sender, _withdrawAmount);
+/*LN-137*/
+
+/*LN-138*/         return shareBurned;
+/*LN-139*/     }
+/*LN-140*/
 
     /**
-     * @notice Ray division with rounding
-     * @dev Standard Aave ray math implementation
-     * @param a Numerator
-     * @param b Denominator
-     * @return Result in ray precision
+     * @notice Get position lending shares
+     * @param _nftId Position NFT ID
+     * @param _poolToken Token address
+     * @return shares User's shares for this pool
      */
-/*LN-148*/     function rayDiv(uint256 a, uint256 b) internal pure returns (uint256) {
-/*LN-149*/         uint256 halfB = b / 2;
-/*LN-150*/         require(b != 0, "Division by zero");
-/*LN-151*/         return (a * RAY + halfB) / b;
-/*LN-152*/     }
-/*LN-153*/
+/*LN-144*/     function getPositionLendingShares(
+/*LN-145*/         uint256 _nftId,
+/*LN-146*/         address _poolToken
+/*LN-147*/     ) external view returns (uint256) {
+/*LN-148*/         return userLendingShares[_nftId][_poolToken];
+/*LN-149*/     }
+/*LN-150*/
 
-/*LN-154*/     function _mintRToken(address rToken, address to, uint256 amount) internal {
-        // Mint interest-bearing tokens
+    /**
+     * @notice Get total pool balance
+     * @param _poolToken Token address
+     * @return Total pool balance
+     */
+/*LN-154*/     function getTotalPool(address _poolToken) external view returns (uint256) {
+/*LN-155*/         return lendingPoolData[_poolToken].pseudoTotalPool;
 /*LN-156*/     }
-/*LN-157*/
-
-/*LN-158*/     function _burnRToken(
-/*LN-159*/         address rToken,
-/*LN-160*/         address from,
-/*LN-161*/         uint256 amount
-/*LN-162*/     ) internal {
-        // Burn interest-bearing tokens
-/*LN-164*/     }
-/*LN-165*/ }
-/*LN-166*/
+/*LN-157*/ }
+/*LN-158*/

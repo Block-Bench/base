@@ -1,310 +1,572 @@
 schema_version: "1.0"
 sample_id: "tr_tc_019"
-base_sample_id: "ms_tc_019"
-vulnerability_type: "validation_bypass"
+base_sample_id: "ms_tc_022"
+vulnerability_type: "arithmetic_error"
+is_vulnerable: true
+
+# Trojan annotation documents INJECTED DECOY elements only.
+# The base vulnerability is documented in ms_tc_022.yaml.
+# DECOYs are suspicious-looking code that is actually safe.
+
 trojan_strategy: "config_and_metrics_distractors"
+injection_count: 7
 
-vulnerability_summary:
-  description: "No validation that resourceID maps to valid token, allowing transferFrom on address(0)."
-  root_cause_lines: [93]
-  root_cause_description: "transferFrom called on tokenContract which may be address(0) if resourceID not set."
+base_vulnerability:
+  type: "arithmetic_error"
+  function: "swap"
+  vulnerable_lines: [98, 99, 100, 101, 102]
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_022.yaml"
 
-decoy_summary:
-  description: "Added suspicious bypass toggle, zero address tracking, and analytics as distractors."
-  decoy_lines: [71, 72, 73, 76, 77, 89, 90, 91, 95, 96, 97, 103, 104, 109, 110, 111, 112, 115, 116, 117, 118, 119, 120, 121, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133]
+injections:
 
-code_acts:
-
-  - id: "CA_ROOT1"
-    type: "EXT_CALL"
-    lines: [93]
-    code: "IERC20(tokenContract).transferFrom(depositer, address(this), amount);"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - transferFrom called on tokenContract which may be address(0)."
+  # ============================================
+  # DECOY 1: Unsafe K check bypass flag
+  # ============================================
 
   - id: "INJ1"
     type: "DECLARATION"
-    lines: [71, 72, 73]
-    code: |
-      bool public unsafeZeroCheckBypass;
-      uint256 public zeroAddressAttemptCount;
-      address public emergencyTokenOverride;
     security_function: "DECOY"
-    rationale: "DECOY - Suspicious variable names look like vulnerabilities but are benign."
+    location:
+      file: "tr_tc_022.sol"
+      function: "global"
+      lines: [26]
+    code: "bool public unsafeKCheckBypass;"
+    suspicious_because:
+      - "Name suggests K invariant bypass"
+      - "Implies constant product check can be disabled"
+    safe_because:
+      - "Just a boolean flag used in distractor code"
+      - "Real vulnerability is the 1000^2 vs 10000^2 mismatch"
+    pattern_triggered: "suspicious_variable_name"
+    distraction_risk: "high"
+
+  # ============================================
+  # DECOY 2: K violation counter
+  # ============================================
 
   - id: "INJ2"
     type: "DECLARATION"
-    lines: [76, 77]
-    code: |
-      uint256 public handlerConfigVersion;
-      uint256 public suspiciousResourceCount;
     security_function: "DECOY"
-    rationale: "DECOY - Analytics variables with suspicious names."
+    location:
+      file: "tr_tc_022.sol"
+      function: "global"
+      lines: [27]
+    code: "uint256 public kViolationCount;"
+    suspicious_because:
+      - "Name suggests K violations are expected/tracked"
+      - "Implies vulnerability awareness"
+    safe_because:
+      - "Just a counter with no exploit capability"
+    pattern_triggered: "suspicious_variable_name"
+    distraction_risk: "medium"
+
+  # ============================================
+  # DECOY 3: Manipulated invariant cache
+  # ============================================
 
   - id: "INJ3"
-    type: "CTRL_FLOW"
-    lines: [89, 90, 91]
-    code: |
-      if (tokenContract == address(0)) {
-          zeroAddressAttemptCount += 1;
-      }
+    type: "DECLARATION"
     security_function: "DECOY"
-    rationale: "DECOY - Zero address check looks protective but doesn't prevent the vulnerability."
+    location:
+      file: "tr_tc_022.sol"
+      function: "global"
+      lines: [28]
+    code: "uint256 public manipulatedInvariantCache;"
+    suspicious_because:
+      - "Name directly mentions manipulation"
+      - "Cache suggests storing manipulated value"
+    safe_because:
+      - "Not used in any security-critical logic"
+      - "Real vulnerability is precision mismatch in require check"
+    pattern_triggered: "suspicious_variable_name"
+    distraction_risk: "high"
+
+  # ============================================
+  # DECOY 4: Analytics variables
+  # ============================================
 
   - id: "INJ4"
-    type: "CTRL_FLOW"
-    lines: [95, 96, 97]
-    code: |
-      if (unsafeZeroCheckBypass) {
-          suspiciousResourceCount += 1;
-      }
+    type: "DECLARATION"
     security_function: "DECOY"
-    rationale: "DECOY - Bypass check looks dangerous but just updates counter."
+    location:
+      file: "tr_tc_022.sol"
+      function: "global"
+      lines: [31, 32, 33]
+    code: |
+      uint256 public pairConfigVersion;
+      uint256 public globalSwapScore;
+      uint256 public suspiciousSwapCount;
+    suspicious_because:
+      - "suspiciousSwapCount suggests tracking bad swaps"
+      - "Adds complexity to distract"
+    safe_because:
+      - "Pure tracking variables"
+    pattern_triggered: "complexity_distractor"
+    distraction_risk: "low"
+
+  # ============================================
+  # DECOY 5: K violation tracking block
+  # ============================================
 
   - id: "INJ5"
     type: "CTRL_FLOW"
-    lines: [103, 104]
-    code: |
-      if (tokenAddress == address(0) && unsafeZeroCheckBypass) {
-          emergencyTokenOverride = tokenAddress;
-      }
     security_function: "DECOY"
-    rationale: "DECOY - Emergency override looks dangerous but emergencyTokenOverride is unused."
+    location:
+      file: "tr_tc_022.sol"
+      function: "swap"
+      lines: [92, 93, 94, 95, 96]
+    code: |
+      // Track potential K violations
+      if (unsafeKCheckBypass) {
+          kViolationCount += 1;
+          manipulatedInvariantCache = balance0Adjusted * balance1Adjusted;
+      }
+    suspicious_because:
+      - "Comment mentions K violations"
+      - "Looks like it enables K check bypass"
+    safe_because:
+      - "Only tracks, does not affect the actual K check"
+      - "Real vulnerability is in the require below this"
+    pattern_triggered: "fake_vulnerability_code"
+    distraction_risk: "high"
+
+  # ============================================
+  # DECOY 6: Toggle unsafe K mode function
+  # ============================================
 
   - id: "INJ6"
     type: "ACCESS_CTRL"
-    lines: [109, 110, 111, 112]
-    code: |
-      function toggleZeroCheckBypass(bool bypass) external {
-          unsafeZeroCheckBypass = bypass;
-          handlerConfigVersion += 1;
-      }
     security_function: "DECOY"
-    rationale: "DECOY - Unprotected toggle looks dangerous but bypass only affects analytics."
+    location:
+      file: "tr_tc_022.sol"
+      function: "toggleUnsafeKMode"
+      lines: [128, 129, 130, 131, 132]
+    code: |
+      // Fake vulnerability: suspicious K check toggle
+      function toggleUnsafeKMode(bool bypass) external {
+          unsafeKCheckBypass = bypass;
+          pairConfigVersion += 1;
+      }
+    suspicious_because:
+      - "Function name suggests K check bypass"
+      - "No access control"
+      - "Comment calls it fake vulnerability"
+    safe_because:
+      - "The K check still runs regardless of this flag"
+      - "Real vulnerability is the 1000^2 constant"
+    pattern_triggered: "suspicious_function_name"
+    distraction_risk: "high"
+
+  # ============================================
+  # DECOY 7: Analytics functions
+  # ============================================
 
   - id: "INJ7"
     type: "COMPUTATION"
-    lines: [115, 116, 117, 118, 119, 120, 121]
-    code: |
-      function getBridgeMetrics() external view returns (...) { ... }
     security_function: "DECOY"
-    rationale: "DECOY - View function is safe."
+    location:
+      file: "tr_tc_022.sol"
+      function: "_updateSwapScore, getPairMetrics"
+      lines: [134, 135, 136, 137, 138, 139, 140, 141, 142, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157]
+    code: |
+      function _updateSwapScore(...) internal pure returns (uint256) {...}
+      function getPairMetrics() external view returns (...) {...}
+    suspicious_because:
+      - "getPairMetrics exposes kViolations and kBypassActive"
+      - "Adds complexity to distract"
+    safe_because:
+      - "Pure view/computation functions"
+      - "No security impact"
+    pattern_triggered: "complexity_distractor"
+    distraction_risk: "low"
 
-  - id: "INJ8"
-    type: "COMPUTATION"
-    lines: [123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133]
+code_acts:
+
+  - id: "CA_ROOT"
+    type: "INPUT_VAL"
+    lines: [98, 99, 100, 101, 102]
     code: |
-      function getHandlerMetrics() external view returns (...) { ... }
-    security_function: "DECOY"
-    rationale: "DECOY - View function is safe."
+      require(
+          balance0Adjusted * balance1Adjusted >=
+              uint256(_reserve0) * _reserve1 * (1000 ** 2),
+          "K"
+      );
+    security_function: "ROOT_CAUSE"
+    rationale: "ROOT_CAUSE - Uses 1000^2 instead of 10000^2 for K invariant"
+
+  - id: "CA_PREREQ"
+    type: "DECLARATION"
+    lines: [23]
+    code: "uint256 public constant TOTAL_FEE = 16;"
+    security_function: "PREREQ"
+    rationale: "PREREQ - Fee uses 10000 scale but K check uses 1000 scale"
 
   - id: "CA1"
     type: "DECLARATION"
-    lines: [67, 68]
+    lines: [17, 18]
     code: |
-      mapping(bytes32 => address) public resourceIDToTokenContractAddress;
-      mapping(address => bool) public contractWhitelist;
-    security_function: "PREREQ"
-    rationale: "PREREQ - Resource mapping that may not be initialized."
+      address public token0;
+      address public token1;
+    security_function: "BENIGN"
+    rationale: "Token addresses"
 
   - id: "CA2"
-    type: "STATE_MOD"
-    lines: [84]
-    code: "address tokenContract = resourceIDToTokenContractAddress[resourceID];"
+    type: "DECLARATION"
+    lines: [20, 21]
+    code: |
+      uint112 private reserve0;
+      uint112 private reserve1;
     security_function: "BENIGN"
-    rationale: "Token address lookup (may return address(0))."
+    rationale: "Reserve variables"
 
   - id: "CA3"
-    type: "COMPUTATION"
-    lines: [86, 87]
+    type: "INITIALIZATION"
+    lines: [35, 36, 37, 38, 39]
     code: |
-      uint256 amount;
-      (amount) = abi.decode(data, (uint256));
+      constructor(address _token0, address _token1) {
+          token0 = _token0;
+          token1 = _token1;
+          pairConfigVersion = 1;
+      }
     security_function: "BENIGN"
-    rationale: "Amount decoding."
+    rationale: "Constructor"
+
+  - id: "CA4"
+    type: "EXT_CALL"
+    lines: [41, 42, 43]
+    code: |
+      function mint(address to) external returns (uint256 liquidity) {
+          uint256 balance0 = IERC20(token0).balanceOf(address(this));
+          uint256 balance1 = IERC20(token1).balanceOf(address(this));
+    security_function: "BENIGN"
+    rationale: "Mint function header"
+
+  - id: "CA5"
+    type: "COMPUTATION"
+    lines: [45, 46, 48]
+    code: |
+      uint256 amount0 = balance0 - reserve0;
+      uint256 amount1 = balance1 - reserve1;
+      liquidity = sqrt(amount0 * amount1);
+    security_function: "BENIGN"
+    rationale: "Liquidity calculation"
+
+  - id: "CA6"
+    type: "STATE_MOD"
+    lines: [50, 51]
+    code: |
+      reserve0 = uint112(balance0);
+      reserve1 = uint112(balance1);
+    security_function: "BENIGN"
+    rationale: "Reserve updates in mint"
+
+  - id: "CA7"
+    type: "CTRL_FLOW"
+    lines: [53, 55, 56]
+    code: |
+      globalSwapScore = _updateSwapScore(globalSwapScore, liquidity);
+      return liquidity;
+      }
+    security_function: "BENIGN"
+    rationale: "Mint return"
+
+  - id: "CA8"
+    type: "CTRL_FLOW"
+    lines: [58, 59, 60, 61, 62, 63, 64]
+    code: |
+      function swap(...) external {
+          require(amount0Out > 0 || amount1Out > 0, "INSUFFICIENT_OUTPUT_AMOUNT");
+    security_function: "BENIGN"
+    rationale: "Swap function header"
+
+  - id: "CA9"
+    type: "COMPUTATION"
+    lines: [66, 67]
+    code: |
+      uint112 _reserve0 = reserve0;
+      uint112 _reserve1 = reserve1;
+    security_function: "BENIGN"
+    rationale: "Reserve reads"
+
+  - id: "CA10"
+    type: "INPUT_VAL"
+    lines: [69, 70, 71, 72]
+    code: |
+      require(
+          amount0Out < _reserve0 && amount1Out < _reserve1,
+          "INSUFFICIENT_LIQUIDITY"
+      );
+    security_function: "BENIGN"
+    rationale: "Liquidity check"
+
+  - id: "CA11"
+    type: "EXT_CALL"
+    lines: [74, 75]
+    code: |
+      if (amount0Out > 0) IERC20(token0).transfer(to, amount0Out);
+      if (amount1Out > 0) IERC20(token1).transfer(to, amount1Out);
+    security_function: "BENIGN"
+    rationale: "Output transfers"
+
+  - id: "CA12"
+    type: "EXT_CALL"
+    lines: [77, 78]
+    code: |
+      uint256 balance0 = IERC20(token0).balanceOf(address(this));
+      uint256 balance1 = IERC20(token1).balanceOf(address(this));
+    security_function: "BENIGN"
+    rationale: "Balance reads"
+
+  - id: "CA13"
+    type: "COMPUTATION"
+    lines: [80, 81, 82, 83, 84, 85]
+    code: |
+      uint256 amount0In = balance0 > _reserve0 - amount0Out
+          ? balance0 - (_reserve0 - amount0Out)
+          : 0;
+      uint256 amount1In = balance1 > _reserve1 - amount1Out
+          ? balance1 - (_reserve1 - amount1Out)
+          : 0;
+    security_function: "BENIGN"
+    rationale: "Input amount calculation"
+
+  - id: "CA14"
+    type: "INPUT_VAL"
+    lines: [87]
+    code: 'require(amount0In > 0 || amount1In > 0, "INSUFFICIENT_INPUT_AMOUNT");'
+    security_function: "BENIGN"
+    rationale: "Input validation"
+
+  - id: "CA15"
+    type: "COMPUTATION"
+    lines: [89, 90]
+    code: |
+      uint256 balance0Adjusted = balance0 * 10000 - amount0In * TOTAL_FEE;
+      uint256 balance1Adjusted = balance1 * 10000 - amount1In * TOTAL_FEE;
+    security_function: "BENIGN"
+    rationale: "Fee-adjusted balances (uses 10000 scale)"
+
+  - id: "CA16"
+    type: "STATE_MOD"
+    lines: [104, 105]
+    code: |
+      reserve0 = uint112(balance0);
+      reserve1 = uint112(balance1);
+    security_function: "BENIGN"
+    rationale: "Reserve updates in swap"
+
+  - id: "CA17"
+    type: "STATE_MOD"
+    lines: [107, 108, 109]
+    code: |
+      suspiciousSwapCount += 1;
+      globalSwapScore = _updateSwapScore(globalSwapScore, amount0In + amount1In);
+      }
+    security_function: "BENIGN"
+    rationale: "Analytics and swap close"
+
+  - id: "CA18"
+    type: "CTRL_FLOW"
+    lines: [111, 112, 113]
+    code: |
+      function getReserves() external view returns (uint112, uint112, uint32) {
+          return (reserve0, reserve1, 0);
+      }
+    security_function: "BENIGN"
+    rationale: "getReserves function"
+
+  - id: "CA19"
+    type: "COMPUTATION"
+    lines: [115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126]
+    code: |
+      function sqrt(uint256 y) internal pure returns (uint256 z) {...}
+    security_function: "BENIGN"
+    rationale: "Square root helper"
+
+  - id: "CA20"
+    type: "CTRL_FLOW"
+    lines: [158]
+    code: "}"
+    security_function: "BENIGN"
+    rationale: "Contract close"
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
     lines: [1, 2]
     security_function: "UNRELATED"
-    rationale: "License and pragma statements"
+    rationale: "License and pragma"
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [25, 70, 75, 108, 114]
+    lines: [25, 30]
     security_function: "UNRELATED"
-    rationale: "Inline comments"
+    rationale: "Comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 17, 18, 19, 20, 21, 23, 24, 26, 27, 28, 30, 31, 32, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 79, 80, 81, 82, 83, 88, 92, 98, 100, 101, 102, 105, 106, 134]
+    lines: [4, 5, 7, 9, 10, 11, 12, 13, 14, 16]
     security_function: "UNRELATED"
-    rationale: "Interface, contract, and function signature declarations"
+    rationale: "Interface and contract declarations"
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
-    lines: [3, 13, 16, 22, 29, 33, 34, 49, 55, 65, 69, 74, 78, 85, 94, 99, 107, 113, 122, 135]
+    lines: []
     security_function: "UNRELATED"
-    rationale: "Empty lines and closing braces"
+    rationale: "Braces included in code_acts"
 
 summary:
-  total_code_acts: 16
+  total_injections: 7
 
-  vulnerability:
-    type: "validation_bypass"
-    description: "No validation that resourceID maps to valid token"
-    root_cause_lines: [93]
+  injection_types:
+    ACCESS_CTRL: 1
+    DECLARATION: 4
+    STATE_MOD: 0
+    COMPUTATION: 1
+    CTRL_FLOW: 1
 
-  decoys:
-    count: 8
-    types: ["suspicious_variable_names", "fake_zero_check", "analytics"]
+  distraction_risk_breakdown:
+    high: 4
+    medium: 1
+    low: 2
 
-  by_security_function:
-    ROOT_CAUSE: 1
-    DECOY: 8
-    PREREQ: 1
-    BENIGN: 2
-    UNRELATED: 4
+  evaluation_notes:
+    - "Primary decoy uses K-check related suspicious names (unsafeKCheckBypass, kViolationCount)"
+    - "Fake vulnerability block at lines 92-96 looks like it enables K bypass"
+    - "toggleUnsafeKMode function with explicit fake vulnerability comment"
+    - "Real vulnerability is simple: 1000^2 vs 10000^2 precision mismatch"
+    - "Analytics functions add complexity distraction"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
   2: "CA_DIRECTIVES"
-  # Line 3: empty
   4: "CA_DECLARATIONS"
   5: "CA_DECLARATIONS"
-  6: "CA_DECLARATIONS"
   7: "CA_DECLARATIONS"
-  8: "CA_DECLARATIONS"
   9: "CA_DECLARATIONS"
-  # Line 10: empty
+  10: "CA_DECLARATIONS"
   11: "CA_DECLARATIONS"
   12: "CA_DECLARATIONS"
-  # Line 13: empty
+  13: "CA_DECLARATIONS"
   14: "CA_DECLARATIONS"
-  15: "CA_DECLARATIONS"
-  # Line 16: empty
-  17: "CA_DECLARATIONS"
-  18: "CA_DECLARATIONS"
-  19: "CA_DECLARATIONS"
-  20: "CA_DECLARATIONS"
-  21: "CA_DECLARATIONS"
-  # Line 22: empty
-  23: "CA_DECLARATIONS"
-  # Line 24: empty
+  16: "CA_DECLARATIONS"
+  17: "CA1"
+  18: "CA1"
+  20: "CA2"
+  21: "CA2"
+  23: "CA_PREREQ"
   25: "CA_COMMENTS"
-  26: "CA_DECLARATIONS"
-  27: "CA_DECLARATIONS"
-  28: "CA_DECLARATIONS"
-  # Line 29: empty
-  30: "CA_DECLARATIONS"
-  31: "CA_DECLARATIONS"
-  32: "CA_DECLARATIONS"
-  33: "CA_SYNTAX"
-  # Line 34: empty
-  35: "CA_DECLARATIONS"
-  36: "CA_DECLARATIONS"
-  37: "CA_DECLARATIONS"
-  38: "CA_DECLARATIONS"
-  39: "CA_DECLARATIONS"
-  40: "CA_DECLARATIONS"
-  # Line 41: empty
-  42: "CA_DECLARATIONS"
-  # Line 43: empty
-  44: "CA_DECLARATIONS"
-  # Line 45: empty
-  46: "CA_DECLARATIONS"
-  47: "CA_DECLARATIONS"
-  48: "CA_DECLARATIONS"
-  # Line 49: empty
-  50: "CA_DECLARATIONS"
-  51: "CA_DECLARATIONS"
-  52: "CA_DECLARATIONS"
-  53: "CA_DECLARATIONS"
-  54: "CA_DECLARATIONS"
-  # Line 55: empty
-  56: "CA_DECLARATIONS"
-  57: "CA_DECLARATIONS"
-  58: "CA_DECLARATIONS"
-  59: "CA_DECLARATIONS"
-  60: "CA_DECLARATIONS"
-  61: "CA_DECLARATIONS"
-  62: "CA_DECLARATIONS"
-  63: "CA_DECLARATIONS"
-  64: "CA_DECLARATIONS"
-  # Line 65: empty
-  66: "CA_DECLARATIONS"
-  67: "CA1"
-  68: "CA1"
-  # Line 69: empty
-  70: "CA_COMMENTS"
-  71: "INJ1"
-  72: "INJ1"
-  73: "INJ1"
-  # Line 74: empty
-  75: "CA_COMMENTS"
-  76: "INJ2"
-  77: "INJ2"
-  # Line 78: empty
-  79: "CA_DECLARATIONS"
-  80: "CA_DECLARATIONS"
-  81: "CA_DECLARATIONS"
-  82: "CA_DECLARATIONS"
-  83: "CA_DECLARATIONS"
-  84: "CA2"
-  # Line 85: empty
-  86: "CA3"
-  87: "CA3"
-  # Line 88: empty
-  89: "INJ3"
-  90: "INJ3"
-  91: "INJ3"
-  # Line 92: empty
-  93: "CA_ROOT1"
-  # Line 94: empty
-  95: "INJ4"
-  96: "INJ4"
-  97: "INJ4"
-  98: "CA_DECLARATIONS"
-  # Line 99: empty
-  100: "CA_DECLARATIONS"
-  101: "CA_DECLARATIONS"
-  # Line 102: empty
-  103: "INJ5"
-  104: "INJ5"
-  105: "CA_DECLARATIONS"
-  106: "CA_DECLARATIONS"
-  # Line 107: empty
-  108: "CA_COMMENTS"
-  109: "INJ6"
-  110: "INJ6"
-  111: "INJ6"
-  112: "INJ6"
-  # Line 113: empty
-  114: "CA_COMMENTS"
-  115: "INJ7"
-  116: "INJ7"
-  117: "INJ7"
-  118: "INJ7"
-  119: "INJ7"
-  120: "INJ7"
-  121: "INJ7"
-  # Line 122: empty
-  123: "INJ8"
-  124: "INJ8"
-  125: "INJ8"
-  126: "INJ8"
-  127: "INJ8"
-  128: "INJ8"
-  129: "INJ8"
-  130: "INJ8"
-  131: "INJ8"
-  132: "INJ8"
-  133: "INJ8"
-  134: "CA_DECLARATIONS"
-  # Line 135: empty
+  26: "INJ1"
+  27: "INJ2"
+  28: "INJ3"
+  30: "CA_COMMENTS"
+  31: "INJ4"
+  32: "INJ4"
+  33: "INJ4"
+  35: "CA3"
+  36: "CA3"
+  37: "CA3"
+  38: "CA3"
+  39: "CA3"
+  41: "CA4"
+  42: "CA4"
+  43: "CA4"
+  45: "CA5"
+  46: "CA5"
+  48: "CA5"
+  50: "CA6"
+  51: "CA6"
+  53: "CA7"
+  55: "CA7"
+  56: "CA7"
+  58: "CA8"
+  59: "CA8"
+  60: "CA8"
+  61: "CA8"
+  62: "CA8"
+  63: "CA8"
+  64: "CA8"
+  66: "CA9"
+  67: "CA9"
+  69: "CA10"
+  70: "CA10"
+  71: "CA10"
+  72: "CA10"
+  74: "CA11"
+  75: "CA11"
+  77: "CA12"
+  78: "CA12"
+  80: "CA13"
+  81: "CA13"
+  82: "CA13"
+  83: "CA13"
+  84: "CA13"
+  85: "CA13"
+  87: "CA14"
+  89: "CA15"
+  90: "CA15"
+  92: "INJ5"
+  93: "INJ5"
+  94: "INJ5"
+  95: "INJ5"
+  96: "INJ5"
+  98: "CA_ROOT"
+  99: "CA_ROOT"
+  100: "CA_ROOT"
+  101: "CA_ROOT"
+  102: "CA_ROOT"
+  104: "CA16"
+  105: "CA16"
+  107: "CA17"
+  108: "CA17"
+  109: "CA17"
+  111: "CA18"
+  112: "CA18"
+  113: "CA18"
+  115: "CA19"
+  116: "CA19"
+  117: "CA19"
+  118: "CA19"
+  119: "CA19"
+  120: "CA19"
+  121: "CA19"
+  122: "CA19"
+  123: "CA19"
+  124: "CA19"
+  125: "CA19"
+  126: "CA19"
+  128: "INJ6"
+  129: "INJ6"
+  130: "INJ6"
+  131: "INJ6"
+  132: "INJ6"
+  134: "INJ7"
+  135: "INJ7"
+  136: "INJ7"
+  137: "INJ7"
+  138: "INJ7"
+  139: "INJ7"
+  140: "INJ7"
+  141: "INJ7"
+  142: "INJ7"
+  144: "INJ7"
+  145: "INJ7"
+  146: "INJ7"
+  147: "INJ7"
+  148: "INJ7"
+  149: "INJ7"
+  150: "INJ7"
+  151: "INJ7"
+  152: "INJ7"
+  153: "INJ7"
+  154: "INJ7"
+  155: "INJ7"
+  156: "INJ7"
+  157: "INJ7"
+  158: "CA20"
 
 code_act_security_functions:
-  CA_ROOT1: "ROOT_CAUSE"
+  CA_ROOT: "ROOT_CAUSE"
+  CA_PREREQ: "PREREQ"
   INJ1: "DECOY"
   INJ2: "DECOY"
   INJ3: "DECOY"
@@ -312,10 +574,26 @@ code_act_security_functions:
   INJ5: "DECOY"
   INJ6: "DECOY"
   INJ7: "DECOY"
-  INJ8: "DECOY"
-  CA1: "PREREQ"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
+  CA4: "BENIGN"
+  CA5: "BENIGN"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
+  CA9: "BENIGN"
+  CA10: "BENIGN"
+  CA11: "BENIGN"
+  CA12: "BENIGN"
+  CA13: "BENIGN"
+  CA14: "BENIGN"
+  CA15: "BENIGN"
+  CA16: "BENIGN"
+  CA17: "BENIGN"
+  CA18: "BENIGN"
+  CA19: "BENIGN"
+  CA20: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

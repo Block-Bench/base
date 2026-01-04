@@ -1,31 +1,32 @@
 {
   "sample_id": "df_tc_015",
-  "exploit_name": "Compound cTUSD",
-  "date": "2022-03-15",
-  "amount_lost_usd": "",
+  "exploit_name": "Indexed Finance Pool Manipulation",
+  "date": "2021-10-14",
+  "amount_lost_usd": "16000000",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "logic_error",
+  "vulnerability_type": "pool_manipulation",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": false,
-  "temporal_category": "",
+  "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "CompoundMarket",
-  "vulnerable_function": "sweepToken",
+  "vulnerable_contract": "TokenPool",
+  "vulnerable_function": "updateWeights",
   "vulnerable_lines": [],
-  "attack_scenario": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
-  "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
-  "fix_description": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
+  "attack_scenario": "1) Flash loan large amounts of SUSHI, UNI, and other index tokens. 2) Execute massive swaps to drain almost all of a target token (DEFI5) from the pool. 3) Pool's _updateWeights() function recalculates weights based on the new unbalanced state. 4) Target token now has extremely low weight (~1%), making it undervalued. 5) Buy back the drained token at manipulated low prices. 6) Repay flash loans and profit from price discrepancy. Loss: $16M.",
+  "root_cause": "Token weights in index pools were recalculated based on instantaneous token balances after swaps. Flash loan attackers could temporarily drain liquidity of a single token, causing weight recalculation to heavily undervalue that token, then buy it back at manipulated prices.",
+  "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "logic-error",
-    "token-upgrade",
-    "sweep-function",
-    "address-mismatch",
-    "compound",
+    "flash_loan",
+    "pool_manipulation",
+    "weight_manipulation",
+    "defi",
+    "index_funds",
+    "oracle_free_pricing",
     "differential",
     "fixed"
   ],
@@ -45,38 +46,38 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "Minimal fix with 9 lines changed. Added: mapping(address => bool) public validUnderlying;; underlying = NEW_TUSD;; validUnderlying[OLD_TUSD] = true;",
+    "fix_description": "Minimal fix with 19 lines changed. Added: mapping(address => uint256) public lastBalance;; mapping(address => uint256) public lastUpdate;; uint256 public constant WEIGHT_UPDATE_INTERVAL = 1 hours;",
     "exact_changes": [
       {
         "location": "Added line",
-        "version_a": "mapping(address => bool) public validUnderlying;",
+        "version_a": "mapping(address => uint256) public lastBalance;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "underlying = NEW_TUSD;",
+        "version_a": "mapping(address => uint256) public lastUpdate;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "validUnderlying[OLD_TUSD] = true;",
+        "version_a": "uint256 public constant WEIGHT_UPDATE_INTERVAL = 1 hours;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "validUnderlying[NEW_TUSD] = true;",
+        "version_a": "lastBalance[token] = 0;",
         "version_b": "// Not present in vulnerable version"
       },
       {
         "location": "Added line",
-        "version_a": "require(validUnderlying[NEW_TUSD], \"Invalid underlying\");",
+        "version_a": "lastUpdate[token] = block.timestamp;",
         "version_b": "// Not present in vulnerable version"
       }
     ],
-    "why_fix_works": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades.",
+    "why_fix_works": "",
     "contracts_in_file": [
-      "CompoundMarket"
+      "TokenPool"
     ],
-    "created_date": "2025-12-30T02:02:17.932174"
+    "created_date": "2025-12-30T02:02:17.933899"
   }
 }

@@ -1,63 +1,57 @@
 schema_version: "1.0"
 sample_id: "tr_tc_011"
-base_sample_id: "ms_tc_011"
-vulnerability_type: "reentrancy"
+base_sample_id: "ms_tc_013"
+vulnerability_type: "arithmetic_error"
 trojan_strategy: "config_and_metrics_distractors"
 
 vulnerability_summary:
-  description: "ERC-777 token transfer triggers callback before state update, allowing reentrancy."
-  root_cause_lines: [60, 62, 63]
-  root_cause_description: "IERC777 transfer (line 60) calls tokensReceived hook before state updates (lines 62-63)."
+  description: "Uses balanceOf instead of tracked deposit amount, allowing reward inflation via donation."
+  root_cause_lines: [73, 74, 75]
+  root_cause_description: "tokenToReward uses lpToken.balanceOf(address(this)) instead of feeSum, inflating rewards."
 
 decoy_summary:
-  description: "Added config versioning, activity scoring, and view helpers that look suspicious but are safe."
-  decoy_lines: [28, 29, 30, 31, 32, 65, 66, 79, 80, 81, 82, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 119, 120, 121, 122, 123, 124, 125, 126, 128, 129, 130, 131, 132, 133, 134, 135, 136]
+  description: "Added minter config versioning, activity scoring, and view helpers as distractors."
+  decoy_lines: [41, 42, 43, 44, 45, 79, 80, 106, 107, 108, 109, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 146, 147, 148, 149, 150, 151, 152, 153, 155, 156, 157, 158, 159, 160, 161, 162, 163]
 
 code_acts:
 
   - id: "CA_ROOT1"
-    type: "EXT_CALL"
-    lines: [60]
-    code: "IERC777(asset).transfer(msg.sender, withdrawAmount);"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - ERC-777 transfer triggers tokensReceived callback before state updates."
-
-  - id: "CA_ROOT2"
-    type: "STATE_MOD"
-    lines: [62, 63]
+    type: "COMPUTATION"
+    lines: [73, 74, 75]
     code: |
-      supplied[msg.sender][asset] -= withdrawAmount;
-      totalSupplied[asset] -= withdrawAmount;
+      uint256 rewardAmount = tokenToReward(
+          lpToken.balanceOf(address(this))
+      );
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - State updates after external call, enabling reentrancy."
+    rationale: "ROOT_CAUSE - Uses balanceOf instead of feeSum, allowing reward inflation via donation."
 
   - id: "INJ1"
     type: "DECLARATION"
-    lines: [28, 29, 30, 31, 32]
+    lines: [41, 42, 43, 44, 45]
     code: |
-      uint256 public poolConfigVersion;
+      uint256 public minterConfigVersion;
       uint256 public lastConfigUpdate;
       uint256 public globalActivityScore;
       mapping(address => uint256) public userActivityScore;
-      mapping(address => uint256) public userWithdrawCount;
+      mapping(address => uint256) public userMintCount;
     security_function: "DECOY"
-    rationale: "DECOY - Config and analytics state variables look suspicious but are safe metrics."
+    rationale: "DECOY - Config and analytics variables look suspicious but are safe metrics."
 
   - id: "INJ2"
     type: "STATE_MOD"
-    lines: [65, 66]
+    lines: [79, 80]
     code: |
-      userWithdrawCount[msg.sender] += 1;
-      _recordActivity(msg.sender, withdrawAmount);
+      userMintCount[msg.sender] += 1;
+      _recordActivity(to, rewardAmount);
     security_function: "DECOY"
-    rationale: "DECOY - Activity tracking after state update looks like vulnerability but is benign."
+    rationale: "DECOY - Activity tracking after mint looks suspicious but is benign."
 
   - id: "INJ3"
     type: "ACCESS_CTRL"
-    lines: [79, 80, 81, 82]
+    lines: [106, 107, 108, 109]
     code: |
-      function setPoolConfigVersion(uint256 version) external {
-          poolConfigVersion = version;
+      function setMinterConfigVersion(uint256 version) external {
+          minterConfigVersion = version;
           lastConfigUpdate = block.timestamp;
       }
     security_function: "DECOY"
@@ -65,62 +59,63 @@ code_acts:
 
   - id: "INJ4"
     type: "COMPUTATION"
-    lines: [85, 86, 87, 88, 89, 90, 92, 93, 94, 95, 96, 97, 98]
+    lines: [112, 113, 114, 115, 116, 117, 119, 120, 121, 122, 123, 124, 125]
     code: |
-      function _recordActivity(address user, uint256 value) internal {
-          if (value > 0) {
-              uint256 incr = value;
-              if (incr > 1e24) { incr = 1e24; }
-              userActivityScore[user] = _updateScore(userActivityScore[user], incr);
-              globalActivityScore = _updateScore(globalActivityScore, incr);
-          }
-      }
+      function _recordActivity(address user, uint256 value) internal { ... }
     security_function: "DECOY"
-    rationale: "DECOY - Complex scoring logic looks suspicious but only updates analytics."
+    rationale: "DECOY - Activity recording looks suspicious but is safe."
 
   - id: "INJ5"
     type: "COMPUTATION"
-    lines: [100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 111, 112, 113, 115, 116]
+    lines: [127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 138, 139, 140, 142, 143]
     code: |
-      function _updateScore(uint256 current, uint256 value) internal pure returns (uint256) {
-          uint256 updated;
-          if (current == 0) { updated = value; }
-          else { updated = (current * 9 + value) / 10; }
-          if (updated > 1e27) { updated = 1e27; }
-          return updated;
-      }
+      function _updateScore(...) internal pure returns (uint256) { ... }
     security_function: "DECOY"
-    rationale: "DECOY - Score calculation with magic numbers looks suspicious but is safe arithmetic."
+    rationale: "DECOY - Score calculation with magic numbers looks suspicious but is safe."
 
   - id: "INJ6"
     type: "COMPUTATION"
-    lines: [119, 120, 121, 122, 123, 124, 125, 126, 128, 129, 130, 131, 132, 133, 134, 135, 136]
+    lines: [146, 147, 148, 149, 150, 151, 152, 153, 155, 156, 157, 158, 159, 160, 161, 162, 163]
     code: |
       function getUserMetrics(...) external view returns (...) { ... }
-      function getPoolMetrics() external view returns (...) { ... }
+      function getProtocolMetrics() external view returns (...) { ... }
     security_function: "DECOY"
-    rationale: "DECOY - View functions returning config data look like information disclosure but are safe."
+    rationale: "DECOY - View functions returning config data are safe."
 
   - id: "CA1"
     type: "DECLARATION"
-    lines: [24, 25]
+    lines: [35, 36]
     code: |
-      mapping(address => mapping(address => uint256)) public supplied;
-      mapping(address => uint256) public totalSupplied;
+      mapping(address => uint256) public depositedLP;
+      mapping(address => uint256) public earnedRewards;
     security_function: "PREREQ"
-    rationale: "PREREQ - State variables that get corrupted during reentrancy."
+    rationale: "PREREQ - State variables affected by the vulnerability."
 
   - id: "CA2"
-    type: "INPUT_VAL"
-    lines: [51, 52, 54, 55, 56, 57, 58]
+    type: "STATE_MOD"
+    lines: [70, 71]
     code: |
-      uint256 userBalance = supplied[msg.sender][asset];
-      require(userBalance > 0, "No balance");
-      uint256 withdrawAmount = requestedAmount;
-      if (requestedAmount == type(uint256).max) { withdrawAmount = userBalance; }
-      require(withdrawAmount <= userBalance, "Insufficient balance");
+      uint256 feeSum = _performanceFee + _withdrawalFee;
+      lpToken.transferFrom(msg.sender, address(this), feeSum);
     security_function: "BENIGN"
-    rationale: "Validation before withdraw."
+    rationale: "Fee transfer (the correct amount to use)."
+
+  - id: "CA3"
+    type: "STATE_MOD"
+    lines: [77]
+    code: "earnedRewards[to] += rewardAmount;"
+    security_function: "BENIGN"
+    rationale: "Reward assignment (uses inflated value)."
+
+  - id: "CA4"
+    type: "COMPUTATION"
+    lines: [83, 84, 85]
+    code: |
+      function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
+          return lpAmount * REWARD_RATE;
+      }
+    security_function: "BENIGN"
+    rationale: "Reward rate calculation."
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -130,19 +125,19 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [4, 5, 6, 7, 27, 78, 84, 118]
+    lines: [4, 5, 6, 7, 40, 105, 111, 145]
     security_function: "UNRELATED"
     rationale: "NatSpec and inline comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 23, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 47, 48, 49, 50, 68, 71, 72, 73, 74, 75, 76, 137]
+    lines: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 38, 47, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 81, 87, 88, 89, 90, 91, 92, 93, 94, 97, 98, 99, 100, 101, 102, 103, 164]
     security_function: "UNRELATED"
     rationale: "Interface, contract, and function signature declarations"
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
-    lines: [3, 8, 14, 22, 26, 33, 46, 69, 77, 83, 99, 117, 127, 138]
+    lines: [3, 8, 20, 30, 34, 37, 39, 46, 53, 60, 82, 86, 95, 96, 104, 110, 126, 144, 154, 165]
     security_function: "UNRELATED"
     rationale: "Empty lines and closing braces"
 
@@ -150,20 +145,19 @@ summary:
   total_code_acts: 15
 
   vulnerability:
-    type: "reentrancy"
-    description: "ERC-777 callback before state update"
-    root_cause_lines: [60, 62, 63]
+    type: "arithmetic_error"
+    description: "Uses balanceOf instead of tracked deposit amount"
+    root_cause_lines: [73, 74, 75]
 
   decoys:
     count: 6
     types: ["config_variables", "analytics_functions", "view_helpers"]
-    total_decoy_lines: 59
 
   by_security_function:
-    ROOT_CAUSE: 2
+    ROOT_CAUSE: 1
     DECOY: 6
     PREREQ: 1
-    BENIGN: 1
+    BENIGN: 3
     UNRELATED: 4
 
 line_to_code_act:
@@ -180,129 +174,157 @@ line_to_code_act:
   # Line 11: empty
   12: "CA_DECLARATIONS"
   13: "CA_DECLARATIONS"
-  # Line 14: empty
+  14: "CA_DECLARATIONS"
   15: "CA_DECLARATIONS"
   16: "CA_DECLARATIONS"
-  17: "CA_DECLARATIONS"
+  # Line 17: empty
   18: "CA_DECLARATIONS"
   19: "CA_DECLARATIONS"
-  20: "CA_DECLARATIONS"
+  # Line 20: empty
   21: "CA_DECLARATIONS"
-  # Line 22: empty
+  22: "CA_DECLARATIONS"
   23: "CA_DECLARATIONS"
-  24: "CA1"
-  25: "CA1"
-  # Line 26: empty
-  27: "CA_COMMENTS"
-  28: "INJ1"
-  29: "INJ1"
-  30: "INJ1"
-  31: "INJ1"
-  32: "INJ1"
-  # Line 33: empty
-  34: "CA_DECLARATIONS"
-  35: "CA_DECLARATIONS"
-  # Line 36: empty
-  37: "CA_DECLARATIONS"
-  # Line 38: empty
-  39: "CA_DECLARATIONS"
-  40: "CA_DECLARATIONS"
-  # Line 41: empty
-  42: "CA_DECLARATIONS"
-  # Line 43: empty
-  44: "CA_DECLARATIONS"
-  45: "CA_DECLARATIONS"
+  24: "CA_DECLARATIONS"
+  25: "CA_DECLARATIONS"
+  26: "CA_DECLARATIONS"
+  27: "CA_DECLARATIONS"
+  28: "CA_DECLARATIONS"
+  29: "CA_DECLARATIONS"
+  # Line 30: empty
+  31: "CA_DECLARATIONS"
+  32: "CA_DECLARATIONS"
+  33: "CA_DECLARATIONS"
+  # Line 34: empty
+  35: "CA1"
+  36: "CA1"
+  # Line 37: empty
+  38: "CA_DECLARATIONS"
+  # Line 39: empty
+  40: "CA_COMMENTS"
+  41: "INJ1"
+  42: "INJ1"
+  43: "INJ1"
+  44: "INJ1"
+  45: "INJ1"
   # Line 46: empty
   47: "CA_DECLARATIONS"
   48: "CA_DECLARATIONS"
   49: "CA_DECLARATIONS"
   50: "CA_DECLARATIONS"
-  51: "CA2"
-  52: "CA2"
-  54: "CA2"
-  55: "CA2"
-  56: "CA2"
-  57: "CA2"
-  58: "CA2"
-  60: "CA_ROOT1"
-  62: "CA_ROOT2"
-  63: "CA_ROOT2"
-  65: "INJ2"
-  66: "INJ2"
+  51: "CA_DECLARATIONS"
+  52: "CA_DECLARATIONS"
+  # Line 53: empty
+  54: "CA_DECLARATIONS"
+  55: "CA_DECLARATIONS"
+  56: "CA_DECLARATIONS"
+  # Line 57: empty
+  58: "CA_DECLARATIONS"
+  59: "CA_DECLARATIONS"
+  # Line 60: empty
+  61: "CA_DECLARATIONS"
+  62: "CA_DECLARATIONS"
+  63: "CA_DECLARATIONS"
+  64: "CA_DECLARATIONS"
+  65: "CA_DECLARATIONS"
+  66: "CA_DECLARATIONS"
+  67: "CA_DECLARATIONS"
   68: "CA_DECLARATIONS"
-  69: "CA_SYNTAX"
-  71: "CA_DECLARATIONS"
-  72: "CA_DECLARATIONS"
-  73: "CA_DECLARATIONS"
-  74: "CA_DECLARATIONS"
-  75: "CA_DECLARATIONS"
-  76: "CA_DECLARATIONS"
-  # Line 77: empty
-  78: "CA_COMMENTS"
-  79: "INJ3"
-  80: "INJ3"
-  81: "INJ3"
-  82: "INJ3"
-  # Line 83: empty
-  84: "CA_COMMENTS"
-  85: "INJ4"
-  86: "INJ4"
-  87: "INJ4"
-  88: "INJ4"
-  89: "INJ4"
-  90: "INJ4"
-  # Line 91: empty
-  92: "INJ4"
-  93: "INJ4"
-  94: "INJ4"
-  95: "INJ4"
-  96: "INJ4"
-  97: "INJ4"
-  98: "INJ4"
-  # Line 99: empty
-  100: "INJ5"
-  101: "INJ5"
-  102: "INJ5"
-  103: "INJ5"
-  104: "INJ5"
-  105: "INJ5"
-  106: "INJ5"
-  107: "INJ5"
-  108: "INJ5"
-  109: "INJ5"
+  70: "CA2"
+  71: "CA2"
+  73: "CA_ROOT1"
+  74: "CA_ROOT1"
+  75: "CA_ROOT1"
+  77: "CA3"
+  79: "INJ2"
+  80: "INJ2"
+  81: "CA_DECLARATIONS"
+  # Line 82: empty
+  83: "CA4"
+  84: "CA4"
+  85: "CA4"
+  # Line 86: empty
+  87: "CA_DECLARATIONS"
+  88: "CA_DECLARATIONS"
+  89: "CA_DECLARATIONS"
+  # Line 90: empty
+  91: "CA_DECLARATIONS"
+  92: "CA_DECLARATIONS"
+  # Line 93: empty
+  94: "CA_DECLARATIONS"
+  95: "CA_SYNTAX"
+  # Line 96: empty
+  97: "CA_DECLARATIONS"
+  98: "CA_DECLARATIONS"
+  99: "CA_DECLARATIONS"
+  100: "CA_DECLARATIONS"
+  # Line 101: empty
+  102: "CA_DECLARATIONS"
+  103: "CA_DECLARATIONS"
+  # Line 104: empty
+  105: "CA_COMMENTS"
+  106: "INJ3"
+  107: "INJ3"
+  108: "INJ3"
+  109: "INJ3"
   # Line 110: empty
-  111: "INJ5"
-  112: "INJ5"
-  113: "INJ5"
-  # Line 114: empty
-  115: "INJ5"
-  116: "INJ5"
-  # Line 117: empty
-  118: "CA_COMMENTS"
-  119: "INJ6"
-  120: "INJ6"
-  121: "INJ6"
-  122: "INJ6"
-  123: "INJ6"
-  124: "INJ6"
-  125: "INJ6"
-  126: "INJ6"
-  # Line 127: empty
-  128: "INJ6"
-  129: "INJ6"
-  130: "INJ6"
-  131: "INJ6"
-  132: "INJ6"
-  133: "INJ6"
-  134: "INJ6"
-  135: "INJ6"
-  136: "INJ6"
-  137: "CA_DECLARATIONS"
-  # Line 138: empty
+  111: "CA_COMMENTS"
+  112: "INJ4"
+  113: "INJ4"
+  114: "INJ4"
+  115: "INJ4"
+  116: "INJ4"
+  117: "INJ4"
+  # Line 118: empty
+  119: "INJ4"
+  120: "INJ4"
+  121: "INJ4"
+  122: "INJ4"
+  123: "INJ4"
+  124: "INJ4"
+  125: "INJ4"
+  # Line 126: empty
+  127: "INJ5"
+  128: "INJ5"
+  129: "INJ5"
+  130: "INJ5"
+  131: "INJ5"
+  132: "INJ5"
+  133: "INJ5"
+  134: "INJ5"
+  135: "INJ5"
+  136: "INJ5"
+  # Line 137: empty
+  138: "INJ5"
+  139: "INJ5"
+  140: "INJ5"
+  # Line 141: empty
+  142: "INJ5"
+  143: "INJ5"
+  # Line 144: empty
+  145: "CA_COMMENTS"
+  146: "INJ6"
+  147: "INJ6"
+  148: "INJ6"
+  149: "INJ6"
+  150: "INJ6"
+  151: "INJ6"
+  152: "INJ6"
+  153: "INJ6"
+  # Line 154: empty
+  155: "INJ6"
+  156: "INJ6"
+  157: "INJ6"
+  158: "INJ6"
+  159: "INJ6"
+  160: "INJ6"
+  161: "INJ6"
+  162: "INJ6"
+  163: "INJ6"
+  164: "CA_DECLARATIONS"
+  # Line 165: empty
 
 code_act_security_functions:
   CA_ROOT1: "ROOT_CAUSE"
-  CA_ROOT2: "ROOT_CAUSE"
   INJ1: "DECOY"
   INJ2: "DECOY"
   INJ3: "DECOY"
@@ -311,6 +333,8 @@ code_act_security_functions:
   INJ6: "DECOY"
   CA1: "PREREQ"
   CA2: "BENIGN"
+  CA3: "BENIGN"
+  CA4: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

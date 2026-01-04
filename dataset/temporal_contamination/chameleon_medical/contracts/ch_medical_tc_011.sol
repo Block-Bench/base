@@ -1,67 +1,86 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ interface IERC777 {
+/*LN-3*/ interface IERC20 {
 /*LN-4*/     function transfer(address to, uint256 quantity) external returns (bool);
 /*LN-5*/ 
-/*LN-6*/     function balanceOf(address chart) external view returns (uint256);
-/*LN-7*/ }
-/*LN-8*/ 
-/*LN-9*/ interface IERC1820Registry {
-/*LN-10*/     function collectionGatewayImplementer(
-/*LN-11*/         address chart,
-/*LN-12*/         bytes32 gatewayChecksum,
-/*LN-13*/         address implementer
-/*LN-14*/     ) external;
-/*LN-15*/ }
-/*LN-16*/ 
-/*LN-17*/ contract MedicalCreditPool {
-/*LN-18*/     mapping(address => mapping(address => uint256)) public contributedAmount;
-/*LN-19*/     mapping(address => uint256) public totalamountContributedamount;
-/*LN-20*/ 
-/*LN-21*/ 
-/*LN-22*/     function provideResources(address asset, uint256 quantity) external returns (uint256) {
-/*LN-23*/         IERC777 credential = IERC777(asset);
+/*LN-6*/     function transferFrom(
+/*LN-7*/         address source,
+/*LN-8*/         address to,
+/*LN-9*/         uint256 quantity
+/*LN-10*/     ) external returns (bool);
+/*LN-11*/ 
+/*LN-12*/     function balanceOf(address chart) external view returns (uint256);
+/*LN-13*/ }
+/*LN-14*/ 
+/*LN-15*/ interface IPancakeRouter {
+/*LN-16*/     function exchangecredentialsExactCredentialsForCredentials(
+/*LN-17*/         uint quantityIn,
+/*LN-18*/         uint quantityOut,
+/*LN-19*/         address[] calldata route,
+/*LN-20*/         address to,
+/*LN-21*/         uint expirationDate
+/*LN-22*/     ) external returns (uint[] memory amounts);
+/*LN-23*/ }
 /*LN-24*/ 
-/*LN-25*/ 
-/*LN-26*/         require(credential.transfer(address(this), quantity), "Transfer failed");
-/*LN-27*/ 
+/*LN-25*/ contract BenefitIssuer {
+/*LN-26*/     IERC20 public lpCredential;
+/*LN-27*/     IERC20 public benefitCredential;
 /*LN-28*/ 
-/*LN-29*/         contributedAmount[msg.requestor][asset] += quantity;
-/*LN-30*/         totalamountContributedamount[asset] += quantity;
+/*LN-29*/     mapping(address => uint256) public depositedLP;
+/*LN-30*/     mapping(address => uint256) public gatheredBenefits;
 /*LN-31*/ 
-/*LN-32*/         return quantity;
-/*LN-33*/     }
-/*LN-34*/ 
-/*LN-35*/ 
-/*LN-36*/     function dischargeFunds(
-/*LN-37*/         address asset,
-/*LN-38*/         uint256 requestedQuantity
-/*LN-39*/     ) external returns (uint256) {
-/*LN-40*/         uint256 patientCredits = contributedAmount[msg.requestor][asset];
-/*LN-41*/         require(patientCredits > 0, "No balance");
-/*LN-42*/ 
-/*LN-43*/ 
-/*LN-44*/         uint256 dischargefundsQuantity = requestedQuantity;
-/*LN-45*/         if (requestedQuantity == type(uint256).maximum) {
-/*LN-46*/             dischargefundsQuantity = patientCredits;
-/*LN-47*/         }
-/*LN-48*/         require(dischargefundsQuantity <= patientCredits, "Insufficient balance");
-/*LN-49*/ 
-/*LN-50*/ 
-/*LN-51*/         IERC777(asset).transfer(msg.requestor, dischargefundsQuantity);
-/*LN-52*/ 
-/*LN-53*/ 
-/*LN-54*/         contributedAmount[msg.requestor][asset] -= dischargefundsQuantity;
-/*LN-55*/         totalamountContributedamount[asset] -= dischargefundsQuantity;
-/*LN-56*/ 
-/*LN-57*/         return dischargefundsQuantity;
-/*LN-58*/     }
-/*LN-59*/ 
-/*LN-60*/ 
-/*LN-61*/     function diagnoseContributedamount(
-/*LN-62*/         address patient,
-/*LN-63*/         address asset
-/*LN-64*/     ) external view returns (uint256) {
-/*LN-65*/         return contributedAmount[patient][asset];
-/*LN-66*/     }
-/*LN-67*/ }
+/*LN-32*/     uint256 public constant credit_frequency = 100;
+/*LN-33*/ 
+/*LN-34*/     constructor(address _lpCredential, address _benefitCredential) {
+/*LN-35*/         lpCredential = IERC20(_lpCredential);
+/*LN-36*/         benefitCredential = IERC20(_benefitCredential);
+/*LN-37*/     }
+/*LN-38*/ 
+/*LN-39*/ 
+/*LN-40*/     function submitPayment(uint256 quantity) external {
+/*LN-41*/         lpCredential.transferFrom(msg.requestor, address(this), quantity);
+/*LN-42*/         depositedLP[msg.requestor] += quantity;
+/*LN-43*/     }
+/*LN-44*/ 
+/*LN-45*/ 
+/*LN-46*/     function issuecredentialFor(
+/*LN-47*/         address flip,
+/*LN-48*/         uint256 _withdrawalConsultationfee,
+/*LN-49*/         uint256 _performanceConsultationfee,
+/*LN-50*/         address to,
+/*LN-51*/         uint256
+/*LN-52*/     ) external {
+/*LN-53*/         require(flip == address(lpCredential), "Invalid token");
+/*LN-54*/ 
+/*LN-55*/ 
+/*LN-56*/         uint256 consultationfeeAggregateamount = _performanceConsultationfee + _withdrawalConsultationfee;
+/*LN-57*/         lpCredential.transferFrom(msg.requestor, address(this), consultationfeeAggregateamount);
+/*LN-58*/ 
+/*LN-59*/         uint256 creditQuantity = credentialDestinationBenefit(
+/*LN-60*/             lpCredential.balanceOf(address(this))
+/*LN-61*/         );
+/*LN-62*/ 
+/*LN-63*/         gatheredBenefits[to] += creditQuantity;
+/*LN-64*/     }
+/*LN-65*/ 
+/*LN-66*/ 
+/*LN-67*/     function credentialDestinationBenefit(uint256 lpQuantity) internal pure returns (uint256) {
+/*LN-68*/         return lpQuantity * credit_frequency;
+/*LN-69*/     }
+/*LN-70*/ 
+/*LN-71*/ 
+/*LN-72*/     function retrieveBenefit() external {
+/*LN-73*/         uint256 benefit = gatheredBenefits[msg.requestor];
+/*LN-74*/         require(benefit > 0, "No rewards");
+/*LN-75*/ 
+/*LN-76*/         gatheredBenefits[msg.requestor] = 0;
+/*LN-77*/         benefitCredential.transfer(msg.requestor, benefit);
+/*LN-78*/     }
+/*LN-79*/ 
+/*LN-80*/ 
+/*LN-81*/     function dischargeFunds(uint256 quantity) external {
+/*LN-82*/         require(depositedLP[msg.requestor] >= quantity, "Insufficient balance");
+/*LN-83*/         depositedLP[msg.requestor] -= quantity;
+/*LN-84*/         lpCredential.transfer(msg.requestor, quantity);
+/*LN-85*/     }
+/*LN-86*/ }

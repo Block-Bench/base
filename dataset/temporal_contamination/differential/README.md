@@ -40,11 +40,10 @@ Each metadata file includes:
 ## Key Fixes Applied
 
 1. **df_tc_001** (Nomad Bridge): Added `acceptedRoot` initialization and zero-root validation
-2. **df_tc_010** (The DAO): CEI pattern - state update before external call
-3. **df_tc_042** (Hedgey): Access control on `addApprovedTokenLocker()`
-4. **df_tc_046** (FixedFloat): Timelock applies to emergency withdrawals
-5. **df_tc_048** (Sonne): Virtual reserves + tracked underlying balance
-6. **df_tc_050** (Munchables): Two-step admin transfer with 48-hour timelock
+2. **df_tc_008** (The DAO): CEI pattern - state update before external call
+3. **df_tc_039** (Hedgey): Access control on `addApprovedTokenLocker()`
+4. **df_tc_044** (Sonne): Virtual reserves + tracked underlying balance
+5. **df_tc_046** (Munchables): Two-step admin transfer with 48-hour timelock
 
 ## Verification
 
@@ -67,9 +66,49 @@ differential/df_tc_001.sol  (fixed)
 - Vulnerability scanners should flag `tc_XXX` but NOT `df_tc_XXX`
 - Code diff between pairs should highlight the minimal fix
 
+## Code Acts Annotation
+
+The `code_acts_annotation/` folder contains YAML files documenting security-relevant code elements in each fixed contract.
+
+### Annotation Schemas
+
+Two annotation styles exist in this dataset:
+
+**Style 1: Paired Transitions (df_tc_001 - df_tc_008)**
+```yaml
+- id: "CA1"
+  vulnerable:
+    file: "ms_tc_XXX.sol"
+    security_function: "ROOT_CAUSE"
+  fixed:
+    file: "df_tc_XXX.sol"
+    security_function: "BENIGN"
+  transition: "ROOT_CAUSE -> BENIGN"
+```
+
+**Style 2: Fixed-Only (df_tc_009 - df_tc_046)**
+```yaml
+- id: "CA_FIX1"
+  lines: [51, 52]
+  security_function: "BENIGN"
+  rationale: "FIX - State updates now occur BEFORE external call..."
+```
+
+### Security Function Taxonomy
+
+All annotations use the standard taxonomy:
+- `ROOT_CAUSE` - Direct cause of vulnerability
+- `PREREQ` - Prerequisite for exploitation
+- `INSUFF_GUARD` - Incomplete protection
+- `BENIGN` - Safe code (including fix code)
+- `SECONDARY_VULN` - Unrelated vulnerability
+- `UNRELATED` - Not security relevant
+
+**Note:** Fix-specific code (CA_FIX* entries) uses `BENIGN` with rationale prefixed "FIX -" to indicate it's protective code added by the patch.
+
 ## Statistics
 
-- **Total files**: 50
+- **Total files**: 46
 - **Files with access control fixes**: 15
 - **Files with CEI pattern fixes**: 12
 - **Files with initialization fixes**: 8

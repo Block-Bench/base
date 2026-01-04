@@ -100,7 +100,7 @@ code_acts:
     rationale: "Conditional in _messageRoot that returns bytes32(0) for messages starting with 32 zero bytes. While this enables crafting messages with zero roots, the vulnerability is in the validation accepting zero - proper validation would reject zero roots regardless of how they were computed."
 
   - id: "CA12"
-    type: "CTRL_FLOW"
+    type: "COMPUTATION"
     lines: [80]
     code: "return keccak256(_message);"
     security_function: "BENIGN"
@@ -162,13 +162,13 @@ summary:
     UNRELATED: 5  # batched
 
   by_code_act_type:
-    CTRL_FLOW: 4
+    CTRL_FLOW: 3
     INPUT_VAL: 2
     DECLARATION: 2  # 1 ROOT_CAUSE + 1 batched UNRELATED
     INITIALIZATION: 1
     STATE_MOD: 1
     EXT_CALL: 1
-    COMPUTATION: 1
+    COMPUTATION: 2
     EVENT_EMIT: 1
     ACCESS_CTRL: 1
     DIRECTIVE: 1

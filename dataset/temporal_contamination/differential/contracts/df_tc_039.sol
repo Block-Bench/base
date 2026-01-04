@@ -3,76 +3,96 @@
 /*LN-3*/ 
 /*LN-4*/ interface IERC20 {
 /*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-6*/ 
-/*LN-7*/     function transferFrom(
-/*LN-8*/         address from,
-/*LN-9*/         address to,
-/*LN-10*/         uint256 amount
-/*LN-11*/     ) external returns (bool);
-/*LN-12*/ 
-/*LN-13*/     function balanceOf(address account) external view returns (uint256);
+/*LN-6*/     function transferFrom(
+/*LN-7*/         address from,
+/*LN-8*/         address to,
+/*LN-9*/         uint256 amount
+/*LN-10*/     ) external returns (bool);
+/*LN-11*/     function balanceOf(address account) external view returns (uint256);
+/*LN-12*/     function approve(address spender, uint256 amount) external returns (bool);
+/*LN-13*/ }
 /*LN-14*/ 
-/*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
-/*LN-16*/ }
-/*LN-17*/ 
-/*LN-18*/ interface IWETH {
-/*LN-19*/     function deposit() external payable;
+/*LN-15*/ enum TokenLockup {
+/*LN-16*/     Unlocked,
+/*LN-17*/     Locked,
+/*LN-18*/     Vesting
+/*LN-19*/ }
 /*LN-20*/ 
-/*LN-21*/     function withdraw(uint256 amount) external;
-/*LN-22*/ 
-/*LN-23*/     function balanceOf(address account) external view returns (uint256);
-/*LN-24*/ }
-/*LN-25*/ 
-/*LN-26*/ contract CowSolver {
-/*LN-27*/     IWETH public immutable WETH;
-/*LN-28*/     address public immutable settlement;
-/*LN-29*/     mapping(address => bool) public validPools;
-/*LN-30*/     address public owner;
-/*LN-31*/ 
-/*LN-32*/     constructor(address _weth, address _settlement) {
-/*LN-33*/         WETH = IWETH(_weth);
-/*LN-34*/         settlement = _settlement;
-/*LN-35*/         owner = msg.sender;
-/*LN-36*/     }
+/*LN-21*/ struct Campaign {
+/*LN-22*/     address manager;
+/*LN-23*/     address token;
+/*LN-24*/     uint256 amount;
+/*LN-25*/     uint256 end;
+/*LN-26*/     TokenLockup tokenLockup;
+/*LN-27*/     bytes32 root;
+/*LN-28*/ }
+/*LN-29*/ 
+/*LN-30*/ struct ClaimLockup {
+/*LN-31*/     address tokenLocker;
+/*LN-32*/     uint256 start;
+/*LN-33*/     uint256 cliff;
+/*LN-34*/     uint256 period;
+/*LN-35*/     uint256 periods;
+/*LN-36*/ }
 /*LN-37*/ 
-/*LN-38*/     function addValidPool(address pool) external {
-/*LN-39*/         require(msg.sender == owner, "Not owner");
-/*LN-40*/         validPools[pool] = true;
-/*LN-41*/     }
-/*LN-42*/ 
-/*LN-43*/     function uniswapV3SwapCallback(
-/*LN-44*/         int256 amount0Delta,
-/*LN-45*/         int256 amount1Delta,
-/*LN-46*/         bytes calldata data
-/*LN-47*/     ) external payable {
-/*LN-48*/         require(validPools[msg.sender], "Invalid pool");
-/*LN-49*/ 
-/*LN-50*/         (
-/*LN-51*/             uint256 price,
-/*LN-52*/             address solver,
-/*LN-53*/             address tokenIn,
-/*LN-54*/             address recipient
-/*LN-55*/         ) = abi.decode(data, (uint256, address, address, address));
-/*LN-56*/ 
-/*LN-57*/         uint256 amountToPay;
-/*LN-58*/         if (amount0Delta > 0) {
-/*LN-59*/             amountToPay = uint256(amount0Delta);
-/*LN-60*/         } else {
-/*LN-61*/             amountToPay = uint256(amount1Delta);
-/*LN-62*/         }
-/*LN-63*/ 
-/*LN-64*/         if (tokenIn == address(WETH)) {
-/*LN-65*/             WETH.withdraw(amountToPay);
-/*LN-66*/             payable(recipient).transfer(amountToPay);
-/*LN-67*/         } else {
-/*LN-68*/             IERC20(tokenIn).transfer(recipient, amountToPay);
-/*LN-69*/         }
-/*LN-70*/     }
-/*LN-71*/ 
-/*LN-72*/     function executeSettlement(bytes calldata settlementData) external {
-/*LN-73*/         require(msg.sender == settlement, "Only settlement");
-/*LN-74*/     }
+/*LN-38*/ struct Donation {
+/*LN-39*/     address tokenLocker;
+/*LN-40*/     uint256 amount;
+/*LN-41*/     uint256 rate;
+/*LN-42*/     uint256 start;
+/*LN-43*/     uint256 cliff;
+/*LN-44*/     uint256 period;
+/*LN-45*/ }
+/*LN-46*/ 
+/*LN-47*/ contract TokenClaimCampaigns {
+/*LN-48*/     mapping(bytes16 => Campaign) public campaigns;
+/*LN-49*/     mapping(address => bool) public approvedTokenLockers;
+/*LN-50*/     address public admin;
+/*LN-51*/ 
+/*LN-52*/     constructor() {
+/*LN-53*/         admin = msg.sender;
+/*LN-54*/     }
+/*LN-55*/ 
+/*LN-56*/     modifier onlyAdmin() {
+/*LN-57*/         require(msg.sender == admin, "Not admin");
+/*LN-58*/         _;
+/*LN-59*/     }
+/*LN-60*/ 
+/*LN-61*/     function addApprovedTokenLocker(address locker) external onlyAdmin {
+/*LN-62*/         approvedTokenLockers[locker] = true;
+/*LN-63*/     }
+/*LN-64*/ 
+/*LN-65*/     function createLockedCampaign(
+/*LN-66*/         bytes16 id,
+/*LN-67*/         Campaign memory campaign,
+/*LN-68*/         ClaimLockup memory claimLockup,
+/*LN-69*/         Donation memory donation
+/*LN-70*/     ) external {
+/*LN-71*/         require(campaigns[id].manager == address(0), "Campaign exists");
+/*LN-72*/         require(approvedTokenLockers[donation.tokenLocker], "TokenLocker not approved");
+/*LN-73*/ 
+/*LN-74*/         campaigns[id] = campaign;
 /*LN-75*/ 
-/*LN-76*/     receive() external payable {}
-/*LN-77*/ }
-/*LN-78*/ 
+/*LN-76*/         if (donation.amount > 0 && donation.tokenLocker != address(0)) {
+/*LN-77*/             (bool success, ) = donation.tokenLocker.call(
+/*LN-78*/                 abi.encodeWithSignature(
+/*LN-79*/                     "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
+/*LN-80*/                     campaign.token,
+/*LN-81*/                     donation.amount,
+/*LN-82*/                     donation.start,
+/*LN-83*/                     donation.cliff,
+/*LN-84*/                     donation.rate,
+/*LN-85*/                     donation.period
+/*LN-86*/                 )
+/*LN-87*/             );
+/*LN-88*/ 
+/*LN-89*/             require(success, "Token lock failed");
+/*LN-90*/         }
+/*LN-91*/     }
+/*LN-92*/ 
+/*LN-93*/     function cancelCampaign(bytes16 campaignId) external {
+/*LN-94*/         require(campaigns[campaignId].manager == msg.sender, "Not manager");
+/*LN-95*/         delete campaigns[campaignId];
+/*LN-96*/     }
+/*LN-97*/ }
+/*LN-98*/ 

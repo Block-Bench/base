@@ -12,104 +12,77 @@
 /*LN-12*/     ) external returns (bool);
 /*LN-13*/ }
 /*LN-14*/ 
-/*LN-15*/ contract LiquidityPool {
-/*LN-16*/     address public maintainer;
-/*LN-17*/     address public baseToken;
-/*LN-18*/     address public quoteToken;
-/*LN-19*/ 
-/*LN-20*/     uint256 public lpFeeRate;
-/*LN-21*/     uint256 public baseBalance;
-/*LN-22*/     uint256 public quoteBalance;
+/*LN-15*/ interface IStablePool {
+/*LN-16*/     function get_virtual_price() external view returns (uint256);
+/*LN-17*/ 
+/*LN-18*/     function add_liquidity(
+/*LN-19*/         uint256[3] calldata amounts,
+/*LN-20*/         uint256 minMintAmount
+/*LN-21*/     ) external;
+/*LN-22*/ }
 /*LN-23*/ 
-/*LN-24*/     bool public isInitialized;
-/*LN-25*/ 
-/*LN-26*/     event Initialized(address maintainer, address base, address quote);
-/*LN-27*/ 
-/*LN-28*/     function init(
-/*LN-29*/         address _maintainer,
-/*LN-30*/         address _baseToken,
-/*LN-31*/         address _quoteToken,
-/*LN-32*/         uint256 _lpFeeRate
-/*LN-33*/     ) external {
-/*LN-34*/ 
-/*LN-35*/         maintainer = _maintainer;
-/*LN-36*/         baseToken = _baseToken;
-/*LN-37*/         quoteToken = _quoteToken;
-/*LN-38*/         lpFeeRate = _lpFeeRate;
-/*LN-39*/ 
-/*LN-40*/         isInitialized = true;
-/*LN-41*/ 
-/*LN-42*/         emit Initialized(_maintainer, _baseToken, _quoteToken);
-/*LN-43*/     }
+/*LN-24*/ contract SimplifiedOracle {
+/*LN-25*/     IStablePool public stablePool;
+/*LN-26*/ 
+/*LN-27*/     constructor(address _stablePool) {
+/*LN-28*/         stablePool = IStablePool(_stablePool);
+/*LN-29*/     }
+/*LN-30*/ 
+/*LN-31*/ 
+/*LN-32*/     function getPrice() external view returns (uint256) {
+/*LN-33*/         return stablePool.get_virtual_price();
+/*LN-34*/     }
+/*LN-35*/ }
+/*LN-36*/ 
+/*LN-37*/ contract SyntheticLending {
+/*LN-38*/     struct Position {
+/*LN-39*/         uint256 collateral;
+/*LN-40*/         uint256 borrowed;
+/*LN-41*/     }
+/*LN-42*/ 
+/*LN-43*/     mapping(address => Position) public positions;
 /*LN-44*/ 
-/*LN-45*/ 
-/*LN-46*/     function addLiquidity(uint256 baseAmount, uint256 quoteAmount) external {
-/*LN-47*/         require(isInitialized, "Not initialized");
+/*LN-45*/     address public collateralToken;
+/*LN-46*/     address public borrowToken;
+/*LN-47*/     address public oracle;
 /*LN-48*/ 
-/*LN-49*/         IERC20(baseToken).transferFrom(msg.sender, address(this), baseAmount);
-/*LN-50*/         IERC20(quoteToken).transferFrom(msg.sender, address(this), quoteAmount);
-/*LN-51*/ 
-/*LN-52*/         baseBalance += baseAmount;
-/*LN-53*/         quoteBalance += quoteAmount;
-/*LN-54*/     }
-/*LN-55*/ 
-/*LN-56*/ 
-/*LN-57*/     function swap(
-/*LN-58*/         address fromToken,
-/*LN-59*/         address toToken,
-/*LN-60*/         uint256 fromAmount
-/*LN-61*/     ) external returns (uint256 toAmount) {
-/*LN-62*/         require(isInitialized, "Not initialized");
-/*LN-63*/         require(
-/*LN-64*/             (fromToken == baseToken && toToken == quoteToken) ||
-/*LN-65*/                 (fromToken == quoteToken && toToken == baseToken),
-/*LN-66*/             "Invalid token pair"
-/*LN-67*/         );
-/*LN-68*/ 
-/*LN-69*/ 
-/*LN-70*/         IERC20(fromToken).transferFrom(msg.sender, address(this), fromAmount);
+/*LN-49*/     uint256 public constant COLLATERAL_FACTOR = 80;
+/*LN-50*/ 
+/*LN-51*/     constructor(
+/*LN-52*/         address _collateralToken,
+/*LN-53*/         address _borrowToken,
+/*LN-54*/         address _oracle
+/*LN-55*/     ) {
+/*LN-56*/         collateralToken = _collateralToken;
+/*LN-57*/         borrowToken = _borrowToken;
+/*LN-58*/         oracle = _oracle;
+/*LN-59*/     }
+/*LN-60*/ 
+/*LN-61*/ 
+/*LN-62*/     function deposit(uint256 amount) external {
+/*LN-63*/         IERC20(collateralToken).transferFrom(msg.sender, address(this), amount);
+/*LN-64*/         positions[msg.sender].collateral += amount;
+/*LN-65*/     }
+/*LN-66*/ 
+/*LN-67*/ 
+/*LN-68*/     function borrow(uint256 amount) external {
+/*LN-69*/         uint256 collateralValue = getCollateralValue(msg.sender);
+/*LN-70*/         uint256 maxBorrow = (collateralValue * COLLATERAL_FACTOR) / 100;
 /*LN-71*/ 
-/*LN-72*/ 
-/*LN-73*/         if (fromToken == baseToken) {
-/*LN-74*/             toAmount = (quoteBalance * fromAmount) / (baseBalance + fromAmount);
-/*LN-75*/             baseBalance += fromAmount;
-/*LN-76*/             quoteBalance -= toAmount;
-/*LN-77*/         } else {
-/*LN-78*/             toAmount = (baseBalance * fromAmount) / (quoteBalance + fromAmount);
-/*LN-79*/             quoteBalance += fromAmount;
-/*LN-80*/             baseBalance -= toAmount;
-/*LN-81*/         }
-/*LN-82*/ 
-/*LN-83*/ 
-/*LN-84*/         uint256 fee = (toAmount * lpFeeRate) / 10000;
-/*LN-85*/         toAmount -= fee;
-/*LN-86*/ 
-/*LN-87*/ 
-/*LN-88*/         IERC20(toToken).transfer(msg.sender, toAmount);
-/*LN-89*/ 
-/*LN-90*/ 
-/*LN-91*/         IERC20(toToken).transfer(maintainer, fee);
-/*LN-92*/ 
-/*LN-93*/         return toAmount;
-/*LN-94*/     }
-/*LN-95*/ 
-/*LN-96*/ 
-/*LN-97*/     function claimFees() external {
-/*LN-98*/         require(msg.sender == maintainer, "Only maintainer");
-/*LN-99*/ 
-/*LN-100*/ 
-/*LN-101*/         uint256 baseTokenBalance = IERC20(baseToken).balanceOf(address(this));
-/*LN-102*/         uint256 quoteTokenBalance = IERC20(quoteToken).balanceOf(address(this));
-/*LN-103*/ 
-/*LN-104*/ 
-/*LN-105*/         if (baseTokenBalance > baseBalance) {
-/*LN-106*/             uint256 excess = baseTokenBalance - baseBalance;
-/*LN-107*/             IERC20(baseToken).transfer(maintainer, excess);
-/*LN-108*/         }
-/*LN-109*/ 
-/*LN-110*/         if (quoteTokenBalance > quoteBalance) {
-/*LN-111*/             uint256 excess = quoteTokenBalance - quoteBalance;
-/*LN-112*/             IERC20(quoteToken).transfer(maintainer, excess);
-/*LN-113*/         }
-/*LN-114*/     }
-/*LN-115*/ }
+/*LN-72*/         require(
+/*LN-73*/             positions[msg.sender].borrowed + amount <= maxBorrow,
+/*LN-74*/             "Insufficient collateral"
+/*LN-75*/         );
+/*LN-76*/ 
+/*LN-77*/         positions[msg.sender].borrowed += amount;
+/*LN-78*/         IERC20(borrowToken).transfer(msg.sender, amount);
+/*LN-79*/     }
+/*LN-80*/ 
+/*LN-81*/ 
+/*LN-82*/     function getCollateralValue(address user) public view returns (uint256) {
+/*LN-83*/         uint256 collateralAmount = positions[user].collateral;
+/*LN-84*/         uint256 price = SimplifiedOracle(oracle).getPrice();
+/*LN-85*/ 
+/*LN-86*/         return (collateralAmount * price) / 1e18;
+/*LN-87*/     }
+/*LN-88*/ }

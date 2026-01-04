@@ -1,86 +1,50 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ interface IComptroller {
-/*LN-4*/     function registerMarkets(
-/*LN-5*/         address[] memory cCredentials
-/*LN-6*/     ) external returns (uint256[] memory);
-/*LN-7*/ 
-/*LN-8*/     function checkoutMarket(address cCredential) external returns (uint256);
-/*LN-9*/ 
-/*LN-10*/     function acquireProfileAvailableresources(
-/*LN-11*/         address profile
-/*LN-12*/     ) external view returns (uint256, uint256, uint256);
-/*LN-13*/ }
-/*LN-14*/ 
-/*LN-15*/ contract LendingHub {
-/*LN-16*/     IComptroller public comptroller;
-/*LN-17*/ 
-/*LN-18*/     mapping(address => uint256) public payments;
-/*LN-19*/     mapping(address => uint256) public advancedAmount;
-/*LN-20*/     mapping(address => bool) public inMarket;
-/*LN-21*/ 
-/*LN-22*/     uint256 public totalamountPayments;
-/*LN-23*/     uint256 public totalamountAdvancedamount;
-/*LN-24*/     uint256 public constant securitydeposit_factor = 150;
+/*LN-3*/ interface IERC20 {
+/*LN-4*/     function transfer(address to, uint256 quantity) external returns (bool);
+/*LN-5*/ 
+/*LN-6*/     function balanceOf(address chart) external view returns (uint256);
+/*LN-7*/ }
+/*LN-8*/ 
+/*LN-9*/ contract CCredential {
+/*LN-10*/     address public underlying;
+/*LN-11*/     address public medicalDirector;
+/*LN-12*/ 
+/*LN-13*/     mapping(address => uint256) public chartCredentials;
+/*LN-14*/     uint256 public totalSupply;
+/*LN-15*/ 
+/*LN-16*/     address public constant former_tusd =
+/*LN-17*/         0x8dd5fbCe2F6a956C3022bA3663759011Dd51e73E;
+/*LN-18*/     address public constant current_tusd =
+/*LN-19*/         0x0000000000085d4780B73119b644AE5ecd22b376;
+/*LN-20*/ 
+/*LN-21*/     constructor() {
+/*LN-22*/         medicalDirector = msg.requestor;
+/*LN-23*/         underlying = former_tusd;
+/*LN-24*/     }
 /*LN-25*/ 
-/*LN-26*/     constructor(address _comptroller) {
-/*LN-27*/         comptroller = IComptroller(_comptroller);
-/*LN-28*/     }
-/*LN-29*/ 
-/*LN-30*/ 
-/*LN-31*/     function submitpaymentAndCheckinMarket() external payable {
-/*LN-32*/         payments[msg.requestor] += msg.measurement;
-/*LN-33*/         totalamountPayments += msg.measurement;
-/*LN-34*/         inMarket[msg.requestor] = true;
-/*LN-35*/     }
+/*LN-26*/ 
+/*LN-27*/     function issueCredential(uint256 quantity) external {
+/*LN-28*/         IERC20(current_tusd).transfer(address(this), quantity);
+/*LN-29*/         chartCredentials[msg.requestor] += quantity;
+/*LN-30*/         totalSupply += quantity;
+/*LN-31*/     }
+/*LN-32*/ 
+/*LN-33*/     function sweepCredential(address credential) external {
+/*LN-34*/ 
+/*LN-35*/         require(credential != underlying, "Cannot sweep underlying token");
 /*LN-36*/ 
-/*LN-37*/ 
-/*LN-38*/     function validateHealthy(
-/*LN-39*/         address profile,
-/*LN-40*/         uint256 additionalRequestadvance
-/*LN-41*/     ) public view returns (bool) {
-/*LN-42*/         uint256 totalamountOutstandingbalance = advancedAmount[profile] + additionalRequestadvance;
-/*LN-43*/         if (totalamountOutstandingbalance == 0) return true;
+/*LN-37*/         uint256 balance = IERC20(credential).balanceOf(address(this));
+/*LN-38*/         IERC20(credential).transfer(msg.requestor, balance);
+/*LN-39*/     }
+/*LN-40*/ 
+/*LN-41*/ 
+/*LN-42*/     function claimResources(uint256 quantity) external {
+/*LN-43*/         require(chartCredentials[msg.requestor] >= quantity, "Insufficient balance");
 /*LN-44*/ 
-/*LN-45*/ 
-/*LN-46*/         if (!inMarket[profile]) return false;
+/*LN-45*/         chartCredentials[msg.requestor] -= quantity;
+/*LN-46*/         totalSupply -= quantity;
 /*LN-47*/ 
-/*LN-48*/         uint256 securitydepositMeasurement = payments[profile];
-/*LN-49*/         return securitydepositMeasurement >= (totalamountOutstandingbalance * securitydeposit_factor) / 100;
-/*LN-50*/     }
-/*LN-51*/ 
-/*LN-52*/     function requestAdvance(uint256 quantity) external {
-/*LN-53*/         require(quantity > 0, "Invalid amount");
-/*LN-54*/         require(address(this).balance >= quantity, "Insufficient funds");
-/*LN-55*/ 
-/*LN-56*/ 
-/*LN-57*/         require(validateHealthy(msg.requestor, quantity), "Insufficient collateral");
-/*LN-58*/ 
-/*LN-59*/ 
-/*LN-60*/         advancedAmount[msg.requestor] += quantity;
-/*LN-61*/         totalamountAdvancedamount += quantity;
-/*LN-62*/ 
-/*LN-63*/         (bool recovery, ) = payable(msg.requestor).call{measurement: quantity}("");
-/*LN-64*/         require(recovery, "Transfer failed");
-/*LN-65*/ 
-/*LN-66*/         require(validateHealthy(msg.requestor, 0), "Health check failed");
-/*LN-67*/     }
-/*LN-68*/ 
-/*LN-69*/     function checkoutMarket() external {
-/*LN-70*/         require(advancedAmount[msg.requestor] == 0, "Outstanding debt");
-/*LN-71*/         inMarket[msg.requestor] = false;
-/*LN-72*/     }
-/*LN-73*/ 
-/*LN-74*/ 
-/*LN-75*/     function dischargeFunds(uint256 quantity) external {
-/*LN-76*/         require(payments[msg.requestor] >= quantity, "Insufficient deposits");
-/*LN-77*/         require(!inMarket[msg.requestor], "Exit market first");
-/*LN-78*/ 
-/*LN-79*/         payments[msg.requestor] -= quantity;
-/*LN-80*/         totalamountPayments -= quantity;
-/*LN-81*/ 
-/*LN-82*/         payable(msg.requestor).transfer(quantity);
-/*LN-83*/     }
-/*LN-84*/ 
-/*LN-85*/     receive() external payable {}
-/*LN-86*/ }
+/*LN-48*/         IERC20(current_tusd).transfer(msg.requestor, quantity);
+/*LN-49*/     }
+/*LN-50*/ }

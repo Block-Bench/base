@@ -1,0 +1,250 @@
+{
+  "dataset_issues": [
+    "README_TOTAL_FILES_MISMATCH: README says 50, index.json says 46, actual files=46"
+  ],
+  "issues_by_sample": {
+    "df_tc_001": [
+      "FIXED_HAS_SECONDARY_VULN: CA13",
+      "FIXED_SECURITY_FUNCTION_SECONDARY_VULN: CA13"
+    ],
+    "df_tc_004": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_004 base(ms_tc_005)=tc_005",
+      "FIXED_FILE_FIELD_MISMATCH: CA1 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA10 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA18 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA2 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA3 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA4 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA5 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA6 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA7 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA8 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA9 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX1 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX2 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX3 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX4 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX5 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX6 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX7 fixed.file=df_tc_005.sol expected=df_tc_004.sol",
+      "VULN_CODE_MISMATCH: CA1 line=65",
+      "VULN_CODE_MISMATCH: CA2 line=115",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=reentrancy base=access_control"
+    ],
+    "df_tc_005": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_005 base(ms_tc_007)=tc_007",
+      "FIXED_FILE_FIELD_MISMATCH: CA1 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA10 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA11 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA12 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA13 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA2 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA3 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA4 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA7 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA8 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA9 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX1 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX2 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX3 fixed.file=df_tc_007.sol expected=df_tc_005.sol",
+      "VULN_CODE_MISMATCH: CA12 line=91",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=access_control base=arithmetic_error"
+    ],
+    "df_tc_006": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_006 base(ms_tc_008)=tc_008",
+      "FIXED_FILE_FIELD_MISMATCH: CA1 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA10 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA11 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA13 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA14 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA15 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA20 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA6 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA7 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA8 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX1 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX2 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX3 fixed.file=df_tc_008.sol expected=df_tc_006.sol",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=price_oracle_manipulation base=reentrancy"
+    ],
+    "df_tc_007": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_007 base(ms_tc_009)=tc_009",
+      "FIXED_FILE_FIELD_MISMATCH: CA13 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA2 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA22 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA25 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA27 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA28 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA29 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA3 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA30 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA6 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX1 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA_FIX2 fixed.file=df_tc_009.sol expected=df_tc_007.sol",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=arithmetic_error base=reentrancy"
+    ],
+    "df_tc_008": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_008 base(ms_tc_010)=tc_010",
+      "FIXED_FILE_FIELD_MISMATCH: CA1 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA10 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA2 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA3 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA4 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA5 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA6 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA7 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA8 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "FIXED_FILE_FIELD_MISMATCH: CA9 fixed.file=df_tc_010.sol expected=df_tc_008.sol",
+      "VULN_CODE_MISMATCH: CA7 line=31",
+      "VULN_CODE_MISMATCH: CA9 line=33"
+    ],
+    "df_tc_009": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_009 base(ms_tc_011)=tc_011",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=reentrancy base=arithmetic_error"
+    ],
+    "df_tc_010": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_010 base(ms_tc_012)=tc_012",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=reentrancy base=logic_error"
+    ],
+    "df_tc_011": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_011 base(ms_tc_013)=tc_013",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=arithmetic_error base=reentrancy"
+    ],
+    "df_tc_012": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_012 base(ms_tc_015)=tc_015",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=logic_error base=pool_manipulation"
+    ],
+    "df_tc_013": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_013 base(ms_tc_016)=tc_016",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=reentrancy base=validation_bypass"
+    ],
+    "df_tc_014": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_014 base(ms_tc_017)=tc_017",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=access_control base=price_oracle_manipulation"
+    ],
+    "df_tc_015": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_015 base(ms_tc_018)=tc_018",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=pool_manipulation base=reinitialization"
+    ],
+    "df_tc_016": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_016 base(ms_tc_019)=tc_019",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=validation_bypass base=arithmetic_error"
+    ],
+    "df_tc_017": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_017 base(ms_tc_020)=tc_020",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=price_oracle_manipulation base=accounting_manipulation"
+    ],
+    "df_tc_018": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_018 base(ms_tc_021)=tc_021",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=reinitialization base=price_oracle_manipulation"
+    ],
+    "df_tc_019": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_019 base(ms_tc_022)=tc_022",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=arithmetic_error base=reentrancy"
+    ],
+    "df_tc_020": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_020 base(ms_tc_023)=tc_023",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=accounting_manipulation base=signature_verification"
+    ],
+    "df_tc_021": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_021 base(ms_tc_024)=tc_024",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=price_oracle_manipulation base=input_validation"
+    ],
+    "df_tc_022": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_022 base(ms_tc_025)=tc_025",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=reentrancy base=accounting_error"
+    ],
+    "df_tc_023": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_023 base(ms_tc_026)=tc_026",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=signature_verification base=price_oracle_manipulation"
+    ],
+    "df_tc_024": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_024 base(ms_tc_027)=tc_027",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=input_validation base=arithmetic_error"
+    ],
+    "df_tc_025": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_025 base(ms_tc_028)=tc_028",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=accounting_error base=bridge_security"
+    ],
+    "df_tc_026": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_026 base(ms_tc_029)=tc_029",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=price_oracle_manipulation base=arithmetic_manipulation"
+    ],
+    "df_tc_027": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_027 base(ms_tc_030)=tc_030",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=arithmetic_error base=access_control"
+    ],
+    "df_tc_028": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_028 base(ms_tc_031)=tc_031",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=bridge_security base=price_manipulation"
+    ],
+    "df_tc_029": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_029 base(ms_tc_032)=tc_032",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=arithmetic_manipulation base=arithmetic_error"
+    ],
+    "df_tc_030": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_030 base(ms_tc_033)=tc_033"
+    ],
+    "df_tc_031": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_031 base(ms_tc_034)=tc_034",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=price_manipulation base=price_oracle_manipulation"
+    ],
+    "df_tc_032": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_032 base(ms_tc_035)=tc_035",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=arithmetic_error base=price_oracle_manipulation"
+    ],
+    "df_tc_033": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_033 base(ms_tc_036)=tc_036"
+    ],
+    "df_tc_034": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_034 base(ms_tc_037)=tc_037",
+      "FIXED_CODE_MISMATCH: CA9 line=129",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=price_oracle_manipulation base=logic_error"
+    ],
+    "df_tc_035": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_035 base(ms_tc_038)=tc_038",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=price_oracle_manipulation base=access_control"
+    ],
+    "df_tc_036": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_036 base(ms_tc_039)=tc_039"
+    ],
+    "df_tc_037": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_037 base(ms_tc_040)=tc_040",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=logic_error base=access_control"
+    ],
+    "df_tc_038": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_038 base(ms_tc_041)=tc_041"
+    ],
+    "df_tc_039": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_039 base(ms_tc_042)=tc_042",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=access_control base=reentrancy"
+    ],
+    "df_tc_040": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_040 base(ms_tc_043)=tc_043"
+    ],
+    "df_tc_041": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_041 base(ms_tc_044)=tc_044",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=access_control base=oracle_manipulation"
+    ],
+    "df_tc_042": [
+      "BASE_PARENT_ID_MISMATCH: df=tc_042 base(ms_tc_045)=tc_045",
+      "VULN_TYPE_MISMATCH_WITH_BASE: df=reentrancy base=oracle_manipulation"
+    ],
+    "df_tc_043": [
+      "BASE_CONTRACT_MISSING: ms_tc_047.sol",
+      "BASE_METADATA_MISSING: ms_tc_047.json"
+    ],
+    "df_tc_044": [
+      "BASE_CONTRACT_MISSING: ms_tc_048.sol",
+      "BASE_METADATA_MISSING: ms_tc_048.json"
+    ],
+    "df_tc_045": [
+      "BASE_CONTRACT_MISSING: ms_tc_049.sol",
+      "BASE_METADATA_MISSING: ms_tc_049.json"
+    ],
+    "df_tc_046": [
+      "BASE_CONTRACT_MISSING: ms_tc_050.sol",
+      "BASE_METADATA_MISSING: ms_tc_050.json"
+    ]
+  }
+}

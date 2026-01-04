@@ -3,111 +3,76 @@
 /*LN-3*/ 
 /*LN-4*/ interface IERC20 {
 /*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-6*/     function transferFrom(
-/*LN-7*/         address from,
-/*LN-8*/         address to,
-/*LN-9*/         uint256 amount
-/*LN-10*/     ) external returns (bool);
-/*LN-11*/     function balanceOf(address account) external view returns (uint256);
-/*LN-12*/     function approve(address spender, uint256 amount) external returns (bool);
-/*LN-13*/ }
+/*LN-6*/ 
+/*LN-7*/     function transferFrom(
+/*LN-8*/         address from,
+/*LN-9*/         address to,
+/*LN-10*/         uint256 amount
+/*LN-11*/     ) external returns (bool);
+/*LN-12*/ 
+/*LN-13*/     function balanceOf(address account) external view returns (uint256);
 /*LN-14*/ 
-/*LN-15*/ interface IBorrowerOperations {
-/*LN-16*/     function setDelegateApproval(address _delegate, bool _isApproved) external;
-/*LN-17*/     function openTrove(
-/*LN-18*/         address troveManager,
-/*LN-19*/         address account,
-/*LN-20*/         uint256 _maxFeePercentage,
-/*LN-21*/         uint256 _collateralAmount,
-/*LN-22*/         uint256 _debtAmount,
-/*LN-23*/         address _upperHint,
-/*LN-24*/         address _lowerHint
-/*LN-25*/     ) external;
-/*LN-26*/     function closeTrove(address troveManager, address account) external;
-/*LN-27*/ }
-/*LN-28*/ 
-/*LN-29*/ interface ITroveManager {
-/*LN-30*/     function getTroveCollAndDebt(
-/*LN-31*/         address _borrower
-/*LN-32*/     ) external view returns (uint256 coll, uint256 debt);
-/*LN-33*/     function liquidate(address _borrower) external;
-/*LN-34*/ }
-/*LN-35*/ 
-/*LN-36*/ contract MigrateTroveZap {
-/*LN-37*/     IBorrowerOperations public borrowerOperations;
-/*LN-38*/     address public wstETH;
-/*LN-39*/     address public mkUSD;
-/*LN-40*/ 
-/*LN-41*/     constructor(address _borrowerOperations, address _wstETH, address _mkUSD) {
-/*LN-42*/     borrowerOperations = IBorrowerOperations(_borrowerOperations);
-/*LN-43*/     wstETH = _wstETH;
-/*LN-44*/     mkUSD = _mkUSD;
-/*LN-45*/     }
-/*LN-46*/     function openTroveAndMigrate(
-/*LN-47*/         address troveManager,
-/*LN-48*/         address account,
-/*LN-49*/         uint256 maxFeePercentage,
-/*LN-50*/         uint256 collateralAmount,
-/*LN-51*/         uint256 debtAmount,
-/*LN-52*/         address upperHint,
-/*LN-53*/         address lowerHint
-/*LN-54*/     ) external {
-/*LN-55*/         require(account == msg.sender, "Account must be caller");
-/*LN-56*/         IERC20(wstETH).transferFrom(
-/*LN-57*/             msg.sender,
-/*LN-58*/             address(this),
-/*LN-59*/             collateralAmount
-/*LN-60*/         );
-/*LN-61*/ 
-/*LN-62*/         IERC20(wstETH).approve(address(borrowerOperations), collateralAmount);
+/*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
+/*LN-16*/ }
+/*LN-17*/ 
+/*LN-18*/ interface IWETH {
+/*LN-19*/     function deposit() external payable;
+/*LN-20*/ 
+/*LN-21*/     function withdraw(uint256 amount) external;
+/*LN-22*/ 
+/*LN-23*/     function balanceOf(address account) external view returns (uint256);
+/*LN-24*/ }
+/*LN-25*/ 
+/*LN-26*/ contract CowSolver {
+/*LN-27*/     IWETH public immutable WETH;
+/*LN-28*/     address public immutable settlement;
+/*LN-29*/     mapping(address => bool) public validPools;
+/*LN-30*/     address public owner;
+/*LN-31*/ 
+/*LN-32*/     constructor(address _weth, address _settlement) {
+/*LN-33*/         WETH = IWETH(_weth);
+/*LN-34*/         settlement = _settlement;
+/*LN-35*/         owner = msg.sender;
+/*LN-36*/     }
+/*LN-37*/ 
+/*LN-38*/     function addValidPool(address pool) external {
+/*LN-39*/         require(msg.sender == owner, "Not owner");
+/*LN-40*/         validPools[pool] = true;
+/*LN-41*/     }
+/*LN-42*/ 
+/*LN-43*/     function uniswapV3SwapCallback(
+/*LN-44*/         int256 amount0Delta,
+/*LN-45*/         int256 amount1Delta,
+/*LN-46*/         bytes calldata data
+/*LN-47*/     ) external payable {
+/*LN-48*/         require(validPools[msg.sender], "Invalid pool");
+/*LN-49*/ 
+/*LN-50*/         (
+/*LN-51*/             uint256 price,
+/*LN-52*/             address solver,
+/*LN-53*/             address tokenIn,
+/*LN-54*/             address recipient
+/*LN-55*/         ) = abi.decode(data, (uint256, address, address, address));
+/*LN-56*/ 
+/*LN-57*/         uint256 amountToPay;
+/*LN-58*/         if (amount0Delta > 0) {
+/*LN-59*/             amountToPay = uint256(amount0Delta);
+/*LN-60*/         } else {
+/*LN-61*/             amountToPay = uint256(amount1Delta);
+/*LN-62*/         }
 /*LN-63*/ 
-/*LN-64*/         borrowerOperations.openTrove(
-/*LN-65*/             troveManager,
-/*LN-66*/             account,
-/*LN-67*/             maxFeePercentage,
-/*LN-68*/             collateralAmount,
-/*LN-69*/             debtAmount,
-/*LN-70*/             upperHint,
-/*LN-71*/             lowerHint
-/*LN-72*/         );
-/*LN-73*/ 
-/*LN-74*/         IERC20(mkUSD).transfer(msg.sender, debtAmount);
-/*LN-75*/     }
-/*LN-76*/ 
-/*LN-77*/     function closeTroveFor(address troveManager, address account) external {
-/*LN-78*/         require(account == msg.sender, "Account must be caller");
-/*LN-79*/         borrowerOperations.closeTrove(troveManager, account);
-/*LN-80*/     }
-/*LN-81*/ }
-/*LN-82*/ 
-/*LN-83*/ contract BorrowerOperations {
-/*LN-84*/     mapping(address => mapping(address => bool)) public delegates;
-/*LN-85*/     ITroveManager public troveManager;
-/*LN-86*/ 
-/*LN-87*/     function setDelegateApproval(address _delegate, bool _isApproved) external {
-/*LN-88*/         delegates[msg.sender][_delegate] = _isApproved;
-/*LN-89*/     }
-/*LN-90*/ 
-/*LN-91*/     function openTrove(
-/*LN-92*/         address _troveManager,
-/*LN-93*/         address account,
-/*LN-94*/         uint256 _maxFeePercentage,
-/*LN-95*/         uint256 _collateralAmount,
-/*LN-96*/         uint256 _debtAmount,
-/*LN-97*/         address _upperHint,
-/*LN-98*/         address _lowerHint
-/*LN-99*/     ) external {
-/*LN-100*/         require(
-/*LN-101*/             msg.sender == account || delegates[account][msg.sender],
-/*LN-102*/             "Not authorized"
-/*LN-103*/         );
-/*LN-104*/     }
-/*LN-105*/ 
-/*LN-106*/     function closeTrove(address _troveManager, address account) external {
-/*LN-107*/         require(
-/*LN-108*/             msg.sender == account || delegates[account][msg.sender],
-/*LN-109*/             "Not authorized"
-/*LN-110*/         );
-/*LN-111*/     }
-/*LN-112*/ }
-/*LN-113*/ 
+/*LN-64*/         if (tokenIn == address(WETH)) {
+/*LN-65*/             WETH.withdraw(amountToPay);
+/*LN-66*/             payable(recipient).transfer(amountToPay);
+/*LN-67*/         } else {
+/*LN-68*/             IERC20(tokenIn).transfer(recipient, amountToPay);
+/*LN-69*/         }
+/*LN-70*/     }
+/*LN-71*/ 
+/*LN-72*/     function executeSettlement(bytes calldata settlementData) external {
+/*LN-73*/         require(msg.sender == settlement, "Only settlement");
+/*LN-74*/     }
+/*LN-75*/ 
+/*LN-76*/     receive() external payable {}
+/*LN-77*/ }
+/*LN-78*/ 

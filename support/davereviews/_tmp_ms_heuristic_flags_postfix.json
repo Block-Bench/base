@@ -1,0 +1,288 @@
+{
+  "ms_tc_001": [
+    "CA12: annotated=CTRL_FLOW suggested=COMPUTATION code='return keccak256(_message);'"
+  ],
+  "ms_tc_002": [
+    "CA1: annotated=STATE_MOD suggested=ARITHMETIC code='votingPower[msg.sender] += amount;'",
+    "CA2: annotated=STATE_MOD suggested=ARITHMETIC code='totalVotingPower += amount;'",
+    "CA3: annotated=STATE_MOD suggested=ARITHMETIC code='depositedBalance[msg.sender] += amount;'",
+    "CA4: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 votePercentage = (prop.forVotes * 100) / totalVotingPower;'",
+    "CA11: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(!hasVoted[proposalId][msg.sender], \"Already voted\");'",
+    "CA13: annotated=STATE_MOD suggested=ARITHMETIC code='proposals[proposalId].forVotes += votingPower[msg.sender];'",
+    "CA15: annotated=STATE_MOD suggested=ARITHMETIC code='proposalCount++;'",
+    "CA16: annotated=STATE_MOD suggested=TIMESTAMP code='prop.proposer = msg.sender;\\nprop.target = _target;\\nprop.data = _calldata;\\nprop.s'"
+  ],
+  "ms_tc_003": [
+    "CA5: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(isOwner[msg.sender], \"Not an owner\");'",
+    "CA15: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(isOwner[msg.sender], \"Not an owner\");'"
+  ],
+  "ms_tc_004": [
+    "CA2: annotated=COMPUTATION suggested=ARITHMETIC code='shares = (amount * totalSupply) / totalAssets;'",
+    "CA4: annotated=COMPUTATION suggested=ARITHMETIC code='amount = (shares * totalAssets) / totalSupply;'",
+    "CA7: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[msg.sender] += shares;'",
+    "CA8: annotated=STATE_MOD suggested=ARITHMETIC code='totalSupply += shares;'",
+    "CA12: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(balanceOf[msg.sender] >= shares, \"Insufficient balance\");'",
+    "CA13: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[msg.sender] -= shares;'",
+    "CA14: annotated=STATE_MOD suggested=ARITHMETIC code='totalSupply -= shares;'",
+    "CA17: annotated=COMPUTATION suggested=ARITHMETIC code='vaultBalance + curveBalance'",
+    "CA18: annotated=COMPUTATION suggested=ARITHMETIC code='(getTotalAssets() * 1e18) / totalSupply'",
+    "CA19: annotated=STATE_MOD suggested=ARITHMETIC code='investedBalance += amount;'",
+    "CA21: annotated=STATE_MOD suggested=ARITHMETIC code='investedBalance -= amount;'"
+  ],
+  "ms_tc_005": [
+    "CA4: annotated=STATE_MOD suggested=ARITHMETIC code='balances[0] += amounts[0]; balances[1] += amounts[1];'",
+    "CA5: annotated=STATE_MOD suggested=ARITHMETIC code='lpBalances[msg.sender] += lpToMint; totalLPSupply += lpToMint;'",
+    "CA11: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(lpBalances[msg.sender] >= lpAmount, \"Insufficient LP\");'",
+    "CA12: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount0 = (lpAmount * balances[0]) / totalLPSupply; uint256 amount1 = (l'",
+    "CA14: annotated=STATE_MOD suggested=ARITHMETIC code='lpBalances[msg.sender] -= lpAmount; totalLPSupply -= lpAmount;'",
+    "CA15: annotated=STATE_MOD suggested=ARITHMETIC code='balances[0] -= amount0; balances[1] -= amount1;'",
+    "CA21: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 dy = (dx * balances[uj]) / (balances[ui] + dx);'",
+    "CA23: annotated=CTRL_FLOW suggested=INPUT_VAL code='if (ui == 0) { require(msg.value == dx, ...); balances[0] += dx; }'",
+    "CA24: annotated=STATE_MOD suggested=ARITHMETIC code='balances[ui] += dx; balances[uj] -= dy;'"
+  ],
+  "ms_tc_006": [
+    "CA1: annotated=DECLARATION suggested=ARITHMETIC code='uint256 public requiredSignatures = 5; // Need 5 out of 9'",
+    "CA9: annotated=EXT_CALL suggested=INPUT_VAL code=\"require(_verifySignatures(...), 'Invalid signatures');\"",
+    "CA17: annotated=COMPUTATION suggested=SIGNATURE code='_recoverSigner function using ecrecover'"
+  ],
+  "ms_tc_008": [
+    "CA8: annotated=STATE_MOD suggested=ARITHMETIC code='userDeposits[msg.sender][cToken] += amount;'",
+    "CA13: annotated=EXT_CALL suggested=ARITHMETIC code='uint256 borrowValue = (oracle.getUnderlyingPrice(cToken) * amount) / 1e18;'",
+    "CA15: annotated=STATE_MOD suggested=ARITHMETIC code='userBorrows[msg.sender][cToken] += amount;'",
+    "CA21: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 value = (balance * price) / 1e18;'",
+    "CA22: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 power = (value * collateralFactors[cToken]) / 1e18;'",
+    "CA23: annotated=STATE_MOD suggested=ARITHMETIC code='totalPower += power;'",
+    "CA29: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 value = (borrowed * price) / 1e18; totalBorrows += value;'"
+  ],
+  "ms_tc_009": [
+    "CA8: annotated=STATE_MOD suggested=ARITHMETIC code='Position storage position = positions[positionKey]; position.liquidity += liquid'",
+    "CA9: annotated=STATE_MOD suggested=ARITHMETIC code='liquidityNet[tickLower] += int128(liquidityDelta);\\nliquidityNet[tickUpper] -= in'",
+    "CA10: annotated=CTRL_FLOW suggested=ARITHMETIC code='if (currentTick >= tickLower && currentTick < tickUpper) { liquidity += liquidit'",
+    "CA21: annotated=CTRL_FLOW suggested=ARITHMETIC code='if (zeroForOne) { liquidityNetAtTick = -liquidityNetAtTick; }'"
+  ],
+  "ms_tc_010": [
+    "CA3: annotated=STATE_MOD suggested=ARITHMETIC code='credit[msg.sender] += msg.value;\\nbalance += msg.value;'",
+    "CA6: annotated=STATE_MOD suggested=ARITHMETIC code='balance -= oCredit;'"
+  ],
+  "ms_tc_011": [
+    "CA4: annotated=STATE_MOD suggested=ARITHMETIC code='supplied[msg.sender][asset] += amount;\\ntotalSupplied[asset] += amount;'",
+    "CA10: annotated=STATE_MOD suggested=ARITHMETIC code='supplied[msg.sender][asset] -= withdrawAmount;\\ntotalSupplied[asset] -= withdrawA'"
+  ],
+  "ms_tc_012": [
+    "CA4: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] += msg.value;\\ntotalDeposits += msg.value;\\ninMarket[msg.send'",
+    "CA5: annotated=INPUT_VAL suggested=ARITHMETIC code='uint256 totalDebt = borrowed[account] + additionalBorrow;\\nif (totalDebt == 0) re'",
+    "CA7: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 collateralValue = deposits[account];\\nreturn collateralValue >= (totalDeb'",
+    "CA9: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(isHealthy(msg.sender, amount), \"Insufficient collateral\");'",
+    "CA10: annotated=STATE_MOD suggested=ARITHMETIC code='borrowed[msg.sender] += amount;\\ntotalBorrowed += amount;'",
+    "CA12: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(isHealthy(msg.sender, 0), \"Health check failed\");'",
+    "CA13: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(borrowed[msg.sender] == 0, \"Outstanding debt\");'",
+    "CA15: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(deposits[msg.sender] >= amount, \"Insufficient deposits\");\\nrequire(!inMar'",
+    "CA16: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] -= amount;\\ntotalDeposits -= amount;'"
+  ],
+  "ms_tc_013": [
+    "CA5: annotated=STATE_MOD suggested=ARITHMETIC code='depositedLP[msg.sender] += amount;'",
+    "CA7: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 feeSum = _performanceFee + _withdrawalFee;'",
+    "CA10: annotated=STATE_MOD suggested=ARITHMETIC code='earnedRewards[to] += hunnyRewardAmount;'",
+    "CA11: annotated=COMPUTATION suggested=ARITHMETIC code='function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {\\n    r'",
+    "CA12: annotated=INPUT_VAL suggested=ACCESS_CTRL code='uint256 reward = earnedRewards[msg.sender];\\nrequire(reward > 0, \"No rewards\");'",
+    "CA15: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(depositedLP[msg.sender] >= amount, \"Insufficient balance\");'",
+    "CA16: annotated=STATE_MOD suggested=ARITHMETIC code='depositedLP[msg.sender] -= amount;'"
+  ],
+  "ms_tc_014": [
+    "CA5: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 shareAmount;\\nif (totalShares == 0) {\\n    shareAmount = amount;\\n} else {\\n'",
+    "CA6: annotated=STATE_MOD suggested=ARITHMETIC code='shares[msg.sender] += shareAmount;\\ntotalShares += shareAmount;\\ntotalDeposits += '",
+    "CA10: annotated=EXT_CALL suggested=ARITHMETIC code='dai.approve(address(curve3Pool), vaultBalance);\\nuint256[3] memory amounts = [vau'",
+    "CA11: annotated=INPUT_VAL suggested=ACCESS_CTRL code='uint256 userShares = shares[msg.sender];\\nrequire(userShares > 0, \"No shares\");'",
+    "CA12: annotated=COMPUTATION suggested=ARITHMETIC code='// Calculate withdrawal amount based on current total value\\nuint256 withdrawAmou'",
+    "CA13: annotated=STATE_MOD suggested=ARITHMETIC code='shares[msg.sender] = 0;\\ntotalShares -= userShares;\\ntotalDeposits -= withdrawAmou'",
+    "CA15: annotated=COMPUTATION suggested=ARITHMETIC code='function balance() public view returns (uint256) {\\n    return\\n        dai.balanc'"
+  ],
+  "ms_tc_015": [
+    "CA1: annotated=DECLARATION suggested=ARITHMETIC code='address public underlying; // Old TUSD address'",
+    "CA6: annotated=STATE_MOD suggested=ARITHMETIC code='accountTokens[msg.sender] += amount;\\ntotalSupply += amount;'",
+    "CA9: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(accountTokens[msg.sender] >= amount, \"Insufficient balance\");'",
+    "CA10: annotated=STATE_MOD suggested=ARITHMETIC code='accountTokens[msg.sender] -= amount;\\ntotalSupply -= amount;'"
+  ],
+  "ms_tc_016": [
+    "CA3: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 currentPrice = _tokenPrice();\\nmintAmount = (msg.value * 1e18) / currentP'",
+    "CA4: annotated=STATE_MOD suggested=ARITHMETIC code='balances[receiver] += mintAmount;\\ntotalSupply += mintAmount;\\ntotalAssetSupply +='",
+    "CA5: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(balances[msg.sender] >= amount, \"Insufficient balance\");'",
+    "CA6: annotated=STATE_MOD suggested=ARITHMETIC code='balances[msg.sender] -= amount;\\nbalances[to] += amount;'",
+    "CA10: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(balances[msg.sender] >= amount, \"Insufficient balance\");'",
+    "CA11: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 currentPrice = _tokenPrice();\\nethAmount = (amount * currentPrice) / 1e18'",
+    "CA12: annotated=STATE_MOD suggested=ARITHMETIC code='balances[msg.sender] -= amount;\\ntotalSupply -= amount;\\ntotalAssetSupply -= ethAm'",
+    "CA14: annotated=COMPUTATION suggested=ARITHMETIC code='function _tokenPrice() internal view returns (uint256) {\\n    if (totalSupply == '"
+  ],
+  "ms_tc_017": [
+    "CA5: annotated=CTRL_FLOW suggested=ARITHMETIC code='for (uint256 i = 0; i < _targets.length; i++) {'"
+  ],
+  "ms_tc_018": [
+    "CA1: annotated=DECLARATION suggested=ARITHMETIC code='struct Token {\\n    address addr;\\n    uint256 balance;\\n    uint256 weight; // sto'",
+    "CA7: annotated=STATE_MOD suggested=ARITHMETIC code='tokens[tokenIn].balance += amountIn;'",
+    "CA10: annotated=STATE_MOD suggested=ARITHMETIC code='tokens[tokenOut].balance -= amountOut;'",
+    "CA13: annotated=COMPUTATION suggested=ARITHMETIC code='function calculateSwapAmount(\\n    address tokenIn,\\n    address tokenOut,\\n    uin'",
+    "CA14: annotated=COMPUTATION suggested=ARITHMETIC code='function _updateWeights() internal {\\n    uint256 totalValue = 0;\\n    // Calculat'",
+    "CA15: annotated=COMPUTATION suggested=ARITHMETIC code='for (uint256 i = 0; i < tokenList.length; i++) {\\n    address token = tokenList[i'",
+    "CA19: annotated=STATE_MOD suggested=ARITHMETIC code='tokens[token].balance += amount;'"
+  ],
+  "ms_tc_019": [
+    "CA4: annotated=STATE_MOD suggested=ARITHMETIC code='depositNonce += 1;'",
+    "CA12: annotated=ACCESS_CTRL suggested=ARITHMETIC code='function setResource(bytes32 resourceID, address tokenAddress) external {\\n    re'"
+  ],
+  "ms_tc_020": [
+    "CA5: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].lpTokenAmount += amount;'",
+    "CA7: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;'",
+    "CA8: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    positions[msg.sender].borrowed + amount <= maxBorrow,\\n    \"Insuffic'",
+    "CA9: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].borrowed += amount;'",
+    "CA15: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;\\nuint256 amount1 '",
+    "CA16: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 value0 = amount0;\\nuint256 totalValue = amount0 + amount1;'",
+    "CA17: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(positions[msg.sender].borrowed >= amount, \"Repay exceeds debt\");'",
+    "CA19: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].borrowed -= amount;'",
+    "CA20: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    positions[msg.sender].lpTokenAmount >= amount,\\n    \"Insufficient ba'",
+    "CA21: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;\\nuint256 rema'",
+    "CA22: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    positions[msg.sender].borrowed <= maxBorrow,\\n    \"Withdrawal would '",
+    "CA23: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].lpTokenAmount -= amount;'"
+  ],
+  "ms_tc_021": [
+    "CA8: annotated=STATE_MOD suggested=ARITHMETIC code='baseBalance += baseAmount;\\nquoteBalance += quoteAmount;'",
+    "CA10: annotated=COMPUTATION suggested=ARITHMETIC code='if (fromToken == baseToken) {\\n    toAmount = (quoteBalance * fromAmount) / (base'",
+    "CA11: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 fee = (toAmount * lpFeeRate) / 10000;\\ntoAmount -= fee;'",
+    "CA14: annotated=CTRL_FLOW suggested=EXT_CALL code='if (baseTokenBalance > baseBalance) {\\n    uint256 excess = baseTokenBalance - ba'"
+  ],
+  "ms_tc_022": [
+    "CA2: annotated=DECLARATION suggested=ARITHMETIC code='uint256 public constant TOTAL_FEE = 16; // 0.16% fee'",
+    "CA3: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 balance0Adjusted = balance0 * 10000 - amount0In * TOTAL_FEE;\\nuint256 bal'",
+    "CA9: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount0In = balance0 > _reserve0 - amount0Out\\n    ? balance0 - (_reserve'",
+    "CA13: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount0 = balance0 - reserve0;\\nuint256 amount1 = balance1 - reserve1;'",
+    "CA14: annotated=COMPUTATION suggested=ARITHMETIC code='liquidity = sqrt(amount0 * amount1);'",
+    "CA18: annotated=COMPUTATION suggested=ARITHMETIC code='if (y > 3) {\\n    z = y;\\n    uint256 x = y / 2 + 1;\\n    while (x < z) {\\n        z'"
+  ],
+  "ms_tc_023": [
+    "CA5: annotated=STATE_MOD suggested=ARITHMETIC code='positionId = nextPositionId++;'",
+    "CA11: annotated=COMPUTATION suggested=ARITHMETIC code='share = (amount * totalDebtShare) / totalDebt;\\n}'",
+    "CA12: annotated=STATE_MOD suggested=ARITHMETIC code='pos.debtShare += share;\\ntotalDebtShare += share;\\ntotalDebt += amount;'",
+    "CA16: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 shareToRemove = (amount * totalDebtShare) / totalDebt;'",
+    "CA18: annotated=STATE_MOD suggested=ARITHMETIC code='pos.debtShare -= shareToRemove;\\ntotalDebtShare -= shareToRemove;\\ntotalDebt -= am'",
+    "CA21: annotated=COMPUTATION suggested=ARITHMETIC code='return (pos.debtShare * totalDebt) / totalDebtShare;'",
+    "CA23: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 debt = (pos.debtShare * totalDebt) / totalDebtShare;'"
+  ],
+  "ms_tc_024": [
+    "CA10: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].collateral += amount;'",
+    "CA12: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 maxBorrow = (collateralValue * COLLATERAL_FACTOR) / 100;'",
+    "CA13: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    positions[msg.sender].borrowed + amount <= maxBorrow,\\n    \"Insuffic'",
+    "CA14: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].borrowed += amount;'",
+    "CA18: annotated=COMPUTATION suggested=ARITHMETIC code='return (collateralAmount * price) / 1e18;'"
+  ],
+  "ms_tc_025": [
+    "CA4: annotated=STATE_MOD suggested=ARITHMETIC code='accountBorrows[msg.sender] += amount;\\ntotalBorrows += amount;'",
+    "CA7: annotated=STATE_MOD suggested=ARITHMETIC code='accountBorrows[msg.sender] -= amount;\\ntotalBorrows -= amount;'"
+  ],
+  "ms_tc_026": [
+    "CA4: annotated=CTRL_FLOW suggested=ARITHMETIC code='function _anySwapOut(address from, address token, address to, uint256 amount, ui'"
+  ],
+  "ms_tc_027": [
+    "CA2: annotated=CTRL_FLOW suggested=ARITHMETIC code='for (uint i = 0; i < path.length - 1; i++) {\\n    address pair = _getPair(path[i]'",
+    "CA4: annotated=COMPUTATION suggested=ARITHMETIC code='amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);'",
+    "CA7: annotated=COMPUTATION suggested=ARITHMETIC code='function _getAmountOut(uint256 amountIn, uint112 reserveIn, uint112 reserveOut) '"
+  ],
+  "ms_tc_028": [
+    "CA1: annotated=DECLARATION suggested=ARITHMETIC code='mapping(address => uint256) public balanceOf;\\nuint256 public totalSupply;\\nuint25'",
+    "CA2: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 fee = (amount * feePercent) / 100;\\nuint256 amountAfterFee = amount - fee'",
+    "CA3: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[msg.sender] -= amount;\\nbalanceOf[to] += amountAfterFee;\\ntotalSupply -='",
+    "CA5: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 fee = (amount * feePercent) / 100;\\nuint256 amountAfterFee = amount - fee'",
+    "CA6: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[from] -= amount;\\nbalanceOf[to] += amountAfterFee;\\ntotalSupply -= fee;'",
+    "CA10: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] += amount;'",
+    "CA11: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(deposits[msg.sender] >= amount, \"Insufficient\");'",
+    "CA12: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] -= amount;'"
+  ],
+  "ms_tc_029": [
+    "CA7: annotated=COMPUTATION suggested=ARITHMETIC code='sharesAdded = (amount * totalShares * 1e18) / (pool * price);\\n}'",
+    "CA8: annotated=STATE_MOD suggested=ARITHMETIC code='shares[msg.sender] += sharesAdded;\\ntotalShares += sharesAdded;'",
+    "CA12: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount = (sharesAmount * pool * price) / (totalShares * 1e18);'",
+    "CA13: annotated=STATE_MOD suggested=ARITHMETIC code='shares[msg.sender] -= sharesAmount;\\ntotalShares -= sharesAmount;'"
+  ],
+  "ms_tc_030": [
+    "CA4: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 baseRatio = (inputBase * totalUnits) / baseAmount;\\nuint256 tokenRatio = '",
+    "CA5: annotated=COMPUTATION suggested=ARITHMETIC code='liquidityUnits = (baseRatio + tokenRatio) / 2;\\n}'",
+    "CA6: annotated=STATE_MOD suggested=ARITHMETIC code='units[msg.sender] += liquidityUnits;\\ntotalUnits += liquidityUnits;'",
+    "CA7: annotated=STATE_MOD suggested=ARITHMETIC code='baseAmount += inputBase;\\ntokenAmount += inputToken;'",
+    "CA9: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 outputBase = (liquidityUnits * baseAmount) / totalUnits;\\nuint256 outputT'",
+    "CA10: annotated=STATE_MOD suggested=ARITHMETIC code='units[msg.sender] -= liquidityUnits;\\ntotalUnits -= liquidityUnits;'",
+    "CA11: annotated=STATE_MOD suggested=ARITHMETIC code='baseAmount -= outputBase;\\ntokenAmount -= outputToken;'"
+  ],
+  "ms_tc_031": [
+    "CA9: annotated=CTRL_FLOW suggested=EVENT_EMIT code='emit WithdrawalProcessed(txHash, token, toAddr, amount);'"
+  ],
+  "ms_tc_032": [
+    "CA1: annotated=COMPUTATION suggested=ARITHMETIC code='reserve.liquidityIndex =\\n    currentLiquidityIndex +\\n    (amount * RAY) /\\n    (r'",
+    "CA2: annotated=COMPUTATION suggested=INPUT_VAL code='function rayDiv(uint256 a, uint256 b) internal pure returns (uint256) {\\n    uint'",
+    "CA3: annotated=EXT_CALL suggested=ARITHMETIC code='flashLoan loop + callback'"
+  ],
+  "ms_tc_033": [
+    "CA5: annotated=CTRL_FLOW suggested=EVENT_EMIT code='emit RouteExecuted(routeId, msg.sender, result);\\nreturn result;'"
+  ],
+  "ms_tc_034": [
+    "CA1: annotated=COMPUTATION suggested=ARITHMETIC code='shares = (totalSupply * (deposit0 + deposit1)) / (total0 + total1);'",
+    "CA5: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[to] += shares;\\ntotalSupply += shares;'",
+    "CA7: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(balanceOf[msg.sender] >= shares, \"Insufficient balance\");'",
+    "CA9: annotated=COMPUTATION suggested=ARITHMETIC code='amount0 = (shares * total0) / totalSupply;\\namount1 = (shares * total1) / totalSu'",
+    "CA10: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[msg.sender] -= shares;\\ntotalSupply -= shares;'"
+  ],
+  "ms_tc_035": [
+    "CA1: annotated=COMPUTATION suggested=ARITHMETIC code='shareAmount =\\n    (_amount * pool.totalDepositShares) /\\n    pool.pseudoTotalPool'",
+    "CA2: annotated=COMPUTATION suggested=ARITHMETIC code='withdrawAmount =\\n    (_shares * pool.pseudoTotalPool) /\\n    pool.totalDepositSha'",
+    "CA8: annotated=COMPUTATION suggested=ARITHMETIC code='shareBurned =\\n    (_withdrawAmount * pool.totalDepositShares) /\\n    pool.pseudoT'"
+  ],
+  "ms_tc_036": [
+    "CA1: annotated=EXT_CALL suggested=ARITHMETIC code='borrowerOperations.openTrove(\\n    troveManager,\\n    account,  // <-- user-contro'",
+    "CA3: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    msg.sender == account || delegates[account][msg.sender],\\n    \"Not a'",
+    "CA8: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    msg.sender == account || delegates[account][msg.sender],\\n    \"Not a'"
+  ],
+  "ms_tc_037": [
+    "CA2: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 price = (balance1 * 1e18) / balance0;'",
+    "CA6: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[onBehalfOf] += amount;'",
+    "CA7: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 collateralValue = (deposits[msg.sender] * collateralPrice) / 1e18;\\nuint2'",
+    "CA9: annotated=STATE_MOD suggested=ARITHMETIC code='borrows[msg.sender] += amount;'",
+    "CA11: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(deposits[msg.sender] >= amount, \"Insufficient balance\");'",
+    "CA12: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] -= amount;'"
+  ],
+  "ms_tc_038": [
+    "CA4: annotated=STATE_MOD suggested=ARITHMETIC code='markets[token].accountCollateral[msg.sender] += amount;'",
+    "CA5: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 borrowValue = (borrowAmount * borrowPrice) / 1e18;\\nuint256 maxBorrowValu'",
+    "CA7: annotated=STATE_MOD suggested=ARITHMETIC code='markets[borrowToken].accountBorrows[msg.sender] += borrowAmount;'"
+  ],
+  "ms_tc_039": [
+    "CA6: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(msg.sender == settlement, \"Only settlement\");'"
+  ],
+  "ms_tc_040": [
+    "CA4: annotated=STATE_MOD suggested=ARITHMETIC code='totalETHDeposited += msg.value;\\ntotalUniBTCMinted += uniBTCAmount;'",
+    "CA6: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(amount > 0, \"No amount specified\");\\nrequire(uniBTC.balanceOf(msg.sender)'"
+  ],
+  "ms_tc_041": [
+    "CA1: annotated=STATE_MOD suggested=ARITHMETIC code='function mint(address to, uint256 amount) external {\\n    balanceOf[to] += amount'",
+    "CA5: annotated=EXT_CALL suggested=ARITHMETIC code='function addCollateral(uint256 amount) external {\\n    collateralToken.transferFr'",
+    "CA6: annotated=STATE_MOD suggested=EXT_CALL code='function borrow(uint256 amount) external {\\n    uint256 maxBorrow = (collateralBa'"
+  ],
+  "ms_tc_042": [
+    "CA6: annotated=STATE_MOD suggested=ACCESS_CTRL code='function cancelCampaign(bytes16 campaignId) external {\\n    require(campaigns[cam'"
+  ],
+  "ms_tc_045": [
+    "CA3: annotated=DECLARATION suggested=ARITHMETIC code='function claimRewards(address market, address user) external {\\n    for (uint256 '",
+    "CA4: annotated=STATE_MOD suggested=ARITHMETIC code='function deposit(address market, uint256 amount) external {\\n    IERC20(market).t'",
+    "CA5: annotated=STATE_MOD suggested=EXT_CALL code='function withdraw(address market, uint256 amount) external {\\n    require(userBal'"
+  ],
+  "ms_tc_047": [
+    "CA2: annotated=STATE_MOD suggested=INPUT_VAL code='function _mint(address to, uint256 amount) internal {\\n    require(to != address('",
+    "CA5: annotated=STATE_MOD suggested=ARITHMETIC code='constructor() {\\n    minter = msg.sender;\\n    _mint(msg.sender, 700_000_000 * 10 '"
+  ],
+  "ms_tc_048": [
+    "CA1: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 cash = underlying.balanceOf(address(this));\\nuint256 totalUnderlying = ca'",
+    "CA3: annotated=COMPUTATION suggested=ARITHMETIC code='function balanceOfUnderlying(address account) external view returns (uint256) {\\n'"
+  ],
+  "ms_tc_049": [
+    "CA1: annotated=EXT_CALL suggested=ARITHMETIC code='(uint256 collateral, uint256 borrows, uint256 exchangeRate) = IMarket(\\n    marke'",
+    "CA2: annotated=EXT_CALL suggested=ACCESS_CTRL code='function borrow(uint256 amount, address[] calldata markets) external {\\n    (uint'",
+    "CA3: annotated=COMPUTATION suggested=ARITHMETIC code='for (uint256 i = 0; i < markets.length; i++) {\\n    (uint256 collateral, uint256 '",
+    "CA8: annotated=STATE_MOD suggested=EXT_CALL code='borrows[msg.sender] += amount;\\nasset.transfer(msg.sender, amount);'"
+  ]
+}

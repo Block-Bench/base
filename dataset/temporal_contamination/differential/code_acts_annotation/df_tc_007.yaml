@@ -1,18 +1,18 @@
 schema_version: "1.0"
 sample_id: "df_tc_007"
 base_sample_id: "ms_tc_007"
-vulnerability_type: "access_control"
-vulnerability_subtype: "unrestricted_target_execution"
+vulnerability_type: "arithmetic_error"
+vulnerability_subtype: "precision_loss_liquidity_calculation"
 is_vulnerable: false
 
 # Differential annotation tracks Security Function transitions from vulnerable to fixed version.
 
 vulnerability_summary:
-  type: "access_control"
+  type: "arithmetic_error"
   severity: "critical"
-  affected_functions: ["verifyHeaderAndExecuteTx"]
-  root_cause_summary: "In ms_tc_007, verifyHeaderAndExecuteTx() made unrestricted external calls to any contract decoded from cross-chain proof. Attacker could target EthCrossChainData to change validator keys."
-  fix_summary: "Added allowedTargets whitelist mapping and require check before external call. Explicitly sets dataContract as NOT allowed in constructor."
+  affected_functions: ["swap", "_addLiquidity"]
+  root_cause_summary: "In ms_tc_007, _addLiquidity() performed unchecked arithmetic that could overflow/underflow. Attacker crafted inputs to cause arithmetic errors during tick transitions."
+  fix_summary: "Added explicit overflow/underflow require checks in _addLiquidity() before arithmetic operations."
 
 code_acts:
 
@@ -20,338 +20,309 @@ code_acts:
   # TRANSITIONED CODE ACTS (ROOT_CAUSE -> BENIGN)
   # ============================================
 
-  - id: "CA12"
+  - id: "CA22"
     type: "EXT_CALL"
-    description: "External call to decoded target"
+    description: "_addLiquidity call during tick crossing"
 
     vulnerable:
       file: "ms_tc_007.sol"
-      function: "verifyHeaderAndExecuteTx"
-      line: 91
-      code: "(bool success, ) = toContract.call(abi.encodePacked(method, args));"
+      function: "swap"
+      lines: [128, 129, 130, 131]
+      code: "liquidityNext = _addLiquidity(liquidityNext, liquidityNetAtTick);"
       security_function: "ROOT_CAUSE"
-      rationale: "Unrestricted external call to ANY contract decoded from cross-chain transaction"
+      rationale: "Calls vulnerable _addLiquidity with crafted inputs"
 
     fixed:
       file: "df_tc_007.sol"
-      function: "verifyHeaderAndExecuteTx"
-      line: 112
-      code: "(bool success, ) = toContract.call(abi.encodePacked(method, args));"
+      function: "swap"
+      lines: [136, 137, 138, 139]
+      code: "liquidityNext = _addLiquidity(liquidityNext, liquidityNetAtTick);"
       security_function: "BENIGN"
-      rationale: "Now protected by require(allowedTargets[toContract]) at line 109"
+      rationale: "_addLiquidity now has overflow/underflow checks"
 
     transition: "ROOT_CAUSE -> BENIGN"
-    transition_reason: "Whitelist check prevents calls to privileged contracts"
+    transition_reason: "Called function now validates inputs"
+
+  - id: "CA29"
+    type: "COMPUTATION"
+    description: "Subtraction in _addLiquidity (y < 0 case)"
+
+    vulnerable:
+      file: "ms_tc_007.sol"
+      function: "_addLiquidity"
+      line: 157
+      code: "z = x - uint128(-y);"
+      security_function: "ROOT_CAUSE"
+      rationale: "Unchecked subtraction can underflow"
+
+    fixed:
+      file: "df_tc_007.sol"
+      function: "_addLiquidity"
+      line: 169
+      code: "z = x - uint128(-y);"
+      security_function: "BENIGN"
+      rationale: "Protected by require(x >= uint128(-y)) at line 168"
+
+    transition: "ROOT_CAUSE -> BENIGN"
+    transition_reason: "Underflow check added before subtraction"
+
+  - id: "CA30"
+    type: "COMPUTATION"
+    description: "Addition in _addLiquidity (y >= 0 case)"
+
+    vulnerable:
+      file: "ms_tc_007.sol"
+      function: "_addLiquidity"
+      line: 159
+      code: "z = x + uint128(y);"
+      security_function: "ROOT_CAUSE"
+      rationale: "Unchecked addition can overflow"
+
+    fixed:
+      file: "df_tc_007.sol"
+      function: "_addLiquidity"
+      line: 172
+      code: "z = x + uint128(y);"
+      security_function: "BENIGN"
+      rationale: "Protected by require(x + uint128(y) >= x) at line 171"
+
+    transition: "ROOT_CAUSE -> BENIGN"
+    transition_reason: "Overflow check added before addition"
 
   # ============================================
   # NEW CODE ACTS (fix additions)
   # ============================================
 
   - id: "CA_FIX1"
-    type: "DECLARATION"
-    description: "allowedTargets mapping (NEW)"
+    type: "INPUT_VAL"
+    description: "Underflow check (NEW)"
 
     fixed:
       file: "df_tc_007.sol"
-      function: "contract-level"
-      line: 67
-      code: "mapping(address => bool) public allowedTargets;"
+      function: "_addLiquidity"
+      line: 168
+      code: 'require(x >= uint128(-y), "Underflow");'
       security_function: "BENIGN"
-      rationale: "NEW FIX: Whitelist mapping to control which contracts can be called"
+      rationale: "NEW FIX: Prevents underflow in subtraction"
 
     transition: "NEW -> BENIGN"
-    transition_reason: "Added as primary fix mechanism"
+    transition_reason: "Added as fix for unchecked subtraction"
 
   - id: "CA_FIX2"
-    type: "INITIALIZATION"
-    description: "Set dataContract as not allowed (NEW)"
-
-    fixed:
-      file: "df_tc_007.sol"
-      function: "constructor"
-      line: 77
-      code: "allowedTargets[_dataContract] = false;"
-      security_function: "BENIGN"
-      rationale: "NEW FIX: Explicitly prevents calling the privileged data contract"
-
-    transition: "NEW -> BENIGN"
-    transition_reason: "Added to block the specific attack vector"
-
-  - id: "CA_FIX3"
     type: "INPUT_VAL"
-    description: "Target whitelist check (NEW)"
+    description: "Overflow check (NEW)"
 
     fixed:
       file: "df_tc_007.sol"
-      function: "verifyHeaderAndExecuteTx"
-      line: 109
-      code: 'require(allowedTargets[toContract], "Target not allowed");'
+      function: "_addLiquidity"
+      line: 171
+      code: 'require(x + uint128(y) >= x, "Overflow");'
       security_function: "BENIGN"
-      rationale: "NEW FIX: Prevents execution to non-whitelisted targets"
+      rationale: "NEW FIX: Prevents overflow in addition"
 
     transition: "NEW -> BENIGN"
-    transition_reason: "Added as primary security check"
+    transition_reason: "Added as fix for unchecked addition"
 
   # ============================================
   # TRANSITIONED (PREREQ -> BENIGN)
   # ============================================
 
-  - id: "CA3"
-    type: "ACCESS_CTRL"
-    description: "onlyOwner modifier"
-
-    vulnerable:
-      file: "ms_tc_007.sol"
-      lines: [28, 29, 30, 31]
-      security_function: "PREREQ"
-      rationale: "Passes when CrossChainManager calls - enables attack"
-
-    fixed:
-      file: "df_tc_007.sol"
-      lines: [34, 35, 36, 37]
-      security_function: "BENIGN"
-      rationale: "No longer exploitable - external calls are restricted"
-
-    transition: "PREREQ -> BENIGN"
-    transition_reason: "Attack path blocked by whitelist"
-
-  - id: "CA4"
-    type: "STATE_MOD"
-    description: "putCurEpochConPubKeyBytes function"
-
-    vulnerable:
-      file: "ms_tc_007.sol"
-      lines: [33, 34, 35, 36, 37, 38, 39]
-      security_function: "PREREQ"
-      rationale: "Can be called through CrossChainManager to change keys"
-
-    fixed:
-      file: "df_tc_007.sol"
-      lines: [42, 43, 44, 45, 46, 47, 48]
-      security_function: "BENIGN"
-      rationale: "No longer reachable through attack path"
-
-    transition: "PREREQ -> BENIGN"
-    transition_reason: "Attack path blocked"
-
-  - id: "CA7"
+  - id: "CA2"
     type: "DECLARATION"
-    description: "dataContract storage"
+    description: "Pool state variables"
 
     vulnerable:
       file: "ms_tc_007.sol"
-      line: 53
+      lines: [10, 11, 12]
       security_function: "PREREQ"
-      rationale: "Stores the attack target address"
+      rationale: "State becomes corrupted through precision loss"
 
     fixed:
       file: "df_tc_007.sol"
-      line: 65
+      lines: [15, 16, 17]
       security_function: "BENIGN"
-      rationale: "Still stores address but calls to it are blocked"
+      rationale: "State protected by arithmetic checks"
 
     transition: "PREREQ -> BENIGN"
-    transition_reason: "Target is now excluded from allowed list"
+    transition_reason: "Checks prevent state corruption"
 
-  - id: "CA11"
-    type: "COMPUTATION"
-    description: "_decodeTx returning target"
+  - id: "CA3"
+    type: "DECLARATION"
+    description: "liquidityNet mapping"
 
     vulnerable:
       file: "ms_tc_007.sol"
-      lines: [122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139]
+      line: 15
       security_function: "PREREQ"
-      rationale: "Decodes unvalidated target from proof"
+      rationale: "Values can be manipulated to trigger errors"
 
     fixed:
       file: "df_tc_007.sol"
-      lines: [102, 103, 104, 105, 106, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154]
+      line: 20
       security_function: "BENIGN"
-      rationale: "Output is now validated by whitelist before use"
+      rationale: "Values validated before use"
 
     transition: "PREREQ -> BENIGN"
-    transition_reason: "Decoded target is validated before use"
+    transition_reason: "Checks protect against manipulation"
+
+  - id: "CA25"
+    type: "STATE_MOD"
+    description: "State persistence after swap"
+
+    vulnerable:
+      file: "ms_tc_007.sol"
+      lines: [145, 146, 147]
+      security_function: "PREREQ"
+      rationale: "Persists corrupted liquidity value"
+
+    fixed:
+      file: "df_tc_007.sol"
+      lines: [153, 154, 155]
+      security_function: "BENIGN"
+      rationale: "Liquidity value is now validated"
+
+    transition: "PREREQ -> BENIGN"
+    transition_reason: "Only validated values are persisted"
+
+  - id: "CA28"
+    type: "CTRL_FLOW"
+    description: "if (y < 0) branch"
+
+    vulnerable:
+      file: "ms_tc_007.sol"
+      line: 156
+      security_function: "PREREQ"
+      rationale: "Determines which arithmetic path is used"
+
+    fixed:
+      file: "df_tc_007.sol"
+      line: 167
+      security_function: "BENIGN"
+      rationale: "Both paths now have checks"
+
+    transition: "PREREQ -> BENIGN"
+    transition_reason: "Both arithmetic paths are protected"
 
   # ============================================
   # UNCHANGED CODE ACTS (BENIGN -> BENIGN)
   # ============================================
 
-  - id: "CA1"
-    type: "DECLARATION"
-    description: "State variables in CrossChainData"
-    vulnerable:
-      file: "ms_tc_007.sol"
-      lines: [15, 16]
-      security_function: "BENIGN"
-    fixed:
-      file: "df_tc_007.sol"
-      lines: [21, 22]
-      security_function: "BENIGN"
-    transition: "BENIGN -> BENIGN"
-
-  - id: "CA2"
-    type: "INITIALIZATION"
-    description: "Constructor setting owner"
-    vulnerable:
-      file: "ms_tc_007.sol"
-      lines: [24, 25, 26]
-      security_function: "BENIGN"
-    fixed:
-      file: "df_tc_007.sol"
-      lines: [30, 31, 32]
-      security_function: "BENIGN"
-    transition: "BENIGN -> BENIGN"
-
-  - id: "CA8"
-    type: "INITIALIZATION"
-    description: "CrossChainManager constructor"
-    vulnerable:
-      file: "ms_tc_007.sol"
-      lines: [61, 62, 63]
-      security_function: "BENIGN"
-    fixed:
-      file: "df_tc_007.sol"
-      lines: [75, 76, 78]
-      security_function: "BENIGN"
-    transition: "BENIGN -> BENIGN"
-
-  - id: "CA9"
+  - id: "CA6"
     type: "INPUT_VAL"
-    description: "Header verification"
+    description: "Tick validation in addLiquidity"
     vulnerable:
       file: "ms_tc_007.sol"
-      line: 74
+      lines: [54, 55]
       security_function: "BENIGN"
     fixed:
       file: "df_tc_007.sol"
-      line: 96
-      security_function: "BENIGN"
-    transition: "BENIGN -> BENIGN"
-
-  - id: "CA10"
-    type: "INPUT_VAL"
-    description: "Proof verification"
-    vulnerable:
-      file: "ms_tc_007.sol"
-      line: 78
-      security_function: "BENIGN"
-    fixed:
-      file: "df_tc_007.sol"
-      line: 99
+      lines: [57, 58]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
 
   - id: "CA13"
     type: "INPUT_VAL"
-    description: "Execution success check"
+    description: "Zero amount check in swap"
     vulnerable:
       file: "ms_tc_007.sol"
-      line: 92
+      line: 93
       security_function: "BENIGN"
     fixed:
       file: "df_tc_007.sol"
-      line: 113
+      line: 102
+      security_function: "BENIGN"
+    transition: "BENIGN -> BENIGN"
+
+  - id: "CA27"
+    type: "DECLARATION"
+    description: "_addLiquidity function signature"
+    vulnerable:
+      file: "ms_tc_007.sol"
+      lines: [152, 153, 154, 155]
+      security_function: "BENIGN"
+    fixed:
+      file: "df_tc_007.sol"
+      lines: [163, 164, 165, 166]
       security_function: "BENIGN"
     transition: "BENIGN -> BENIGN"
 
 summary:
-  total_code_acts: 14
+  total_code_acts: 13
 
   transitions:
-    ROOT_CAUSE_to_BENIGN: 1   # CA12
-    PREREQ_to_BENIGN: 4       # CA3, CA4, CA7, CA11
-    BENIGN_to_BENIGN: 6       # CA1, CA2, CA8, CA9, CA10, CA13
-    NEW_to_BENIGN: 3          # CA_FIX1, CA_FIX2, CA_FIX3
+    ROOT_CAUSE_to_BENIGN: 3   # CA22, CA29, CA30
+    PREREQ_to_BENIGN: 4       # CA2, CA3, CA25, CA28
+    BENIGN_to_BENIGN: 4       # CA6, CA13, CA27, and function sig
+    NEW_to_BENIGN: 2          # CA_FIX1, CA_FIX2
 
   by_security_function_vulnerable:
-    ROOT_CAUSE: 1
+    ROOT_CAUSE: 3
     PREREQ: 4
-    BENIGN: 6
+    BENIGN: 4
 
   by_security_function_fixed:
-    BENIGN: 14  # All become BENIGN after fix
+    BENIGN: 13  # All become BENIGN after fix
 
   fix_effectiveness:
     documented_vuln_fixed: true
-    notes: "The whitelist approach prevents calling privileged contracts. By setting allowedTargets[dataContract] = false, the attack vector is completely blocked."
+    notes: "Explicit overflow/underflow checks in _addLiquidity() prevent arithmetic errors that were exploited. require() statements revert transaction if bounds violated."
 
   root_cause_fixes:
-    - id: "CA12"
-      fix_type: "target_whitelist"
-      description: "External call now requires target to be in allowedTargets"
+    - id: "CA22"
+      fix_type: "input_validation"
+      description: "Called function now validates inputs"
+    - id: "CA29"
+      fix_type: "underflow_check"
+      description: "require(x >= uint128(-y)) before subtraction"
+    - id: "CA30"
+      fix_type: "overflow_check"
+      description: "require(x + uint128(y) >= x) before addition"
 
 # ============================================
 # LINE TO CODE ACT MAPPINGS (for scoring)
 # ============================================
 
 line_to_code_act_fixed:
-  # CrossChainData state
-  21: "CA1"
-  22: "CA1"
-  # Constructor
-  30: "CA2"
-  31: "CA2"
-  32: "CA2"
-  # onlyOwner modifier
-  34: "CA3"
-  35: "CA3"
-  36: "CA3"
-  37: "CA3"
-  # putCurEpochConPubKeyBytes
-  42: "CA4"
-  43: "CA4"
-  44: "CA4"
-  45: "CA4"
-  46: "CA4"
-  47: "CA4"
-  48: "CA4"
-  # CrossChainManager state
-  65: "CA7"
-  67: "CA_FIX1"
-  # Constructor
-  75: "CA8"
-  76: "CA8"
-  77: "CA_FIX2"
-  78: "CA8"
-  # verifyHeaderAndExecuteTx
-  96: "CA9"
-  99: "CA10"
-  102: "CA11"
-  103: "CA11"
-  104: "CA11"
-  105: "CA11"
-  106: "CA11"
-  109: "CA_FIX3"
-  112: "CA12"
-  113: "CA13"
-  # _decodeTx
-  141: "CA11"
-  142: "CA11"
-  143: "CA11"
-  144: "CA11"
-  145: "CA11"
-  146: "CA11"
-  147: "CA11"
-  148: "CA11"
-  149: "CA11"
-  150: "CA11"
-  151: "CA11"
-  152: "CA11"
-  153: "CA11"
-  154: "CA11"
+  # State variables
+  15: "CA2"
+  16: "CA2"
+  17: "CA2"
+  20: "CA3"
+  # addLiquidity
+  57: "CA6"
+  58: "CA6"
+  # swap
+  102: "CA13"
+  # _addLiquidity call
+  136: "CA22"
+  137: "CA22"
+  138: "CA22"
+  139: "CA22"
+  # State update
+  153: "CA25"
+  154: "CA25"
+  155: "CA25"
+  # _addLiquidity function
+  163: "CA27"
+  164: "CA27"
+  165: "CA27"
+  166: "CA27"
+  167: "CA28"
+  168: "CA_FIX1"
+  169: "CA29"
+  171: "CA_FIX2"
+  172: "CA30"
 
 code_act_security_functions_fixed:
-  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
-  CA4: "BENIGN"
-  CA7: "BENIGN"
-  CA8: "BENIGN"
-  CA9: "BENIGN"
-  CA10: "BENIGN"
-  CA11: "BENIGN"
-  CA12: "BENIGN"
+  CA6: "BENIGN"
   CA13: "BENIGN"
+  CA22: "BENIGN"
+  CA25: "BENIGN"
+  CA27: "BENIGN"
+  CA28: "BENIGN"
+  CA29: "BENIGN"
+  CA30: "BENIGN"
   CA_FIX1: "BENIGN"
   CA_FIX2: "BENIGN"
-  CA_FIX3: "BENIGN"

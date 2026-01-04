@@ -7,7 +7,7 @@
     "Preserve code structure and logic",
     "Preserve manual fixes from minimalsanitized"
   ],
-  "total_files": 50,
+  "total_files": 46,
   "prefix": "sn_tc_",
   "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized",
   "source_contracts": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/minimalsanitized/contracts",

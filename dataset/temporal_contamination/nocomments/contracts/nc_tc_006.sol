@@ -1,161 +1,129 @@
 /*LN-1*/ pragma solidity ^0.8.0;
 /*LN-2*/ 
-/*LN-3*/ contract GameBridge {
-/*LN-4*/ 
-/*LN-5*/     address[] public validators;
-/*LN-6*/     mapping(address => bool) public isValidator;
-/*LN-7*/ 
-/*LN-8*/     uint256 public requiredSignatures = 5;
-/*LN-9*/     uint256 public validatorCount;
-/*LN-10*/ 
+/*LN-3*/ interface IOracle {
+/*LN-4*/     function getUnderlyingPrice(address cToken) external view returns (uint256);
+/*LN-5*/ }
+/*LN-6*/ 
+/*LN-7*/ interface ICToken {
+/*LN-8*/     function mint(uint256 mintAmount) external;
+/*LN-9*/ 
+/*LN-10*/     function borrow(uint256 borrowAmount) external;
 /*LN-11*/ 
-/*LN-12*/     mapping(uint256 => bool) public processedWithdrawals;
+/*LN-12*/     function redeem(uint256 redeemTokens) external;
 /*LN-13*/ 
-/*LN-14*/ 
-/*LN-15*/     mapping(address => bool) public supportedTokens;
+/*LN-14*/     function underlying() external view returns (address);
+/*LN-15*/ }
 /*LN-16*/ 
-/*LN-17*/     event WithdrawalProcessed(
-/*LN-18*/         uint256 indexed withdrawalId,
-/*LN-19*/         address indexed user,
-/*LN-20*/         address indexed token,
-/*LN-21*/         uint256 amount
-/*LN-22*/     );
+/*LN-17*/ contract ForkLending {
+/*LN-18*/ 
+/*LN-19*/     IOracle public oracle;
+/*LN-20*/ 
+/*LN-21*/ 
+/*LN-22*/     mapping(address => uint256) public collateralFactors;
 /*LN-23*/ 
-/*LN-24*/     constructor(address[] memory _validators) {
-/*LN-25*/         require(
-/*LN-26*/             _validators.length >= requiredSignatures,
-/*LN-27*/             "Not enough validators"
-/*LN-28*/         );
+/*LN-24*/ 
+/*LN-25*/     mapping(address => mapping(address => uint256)) public userDeposits;
+/*LN-26*/ 
+/*LN-27*/ 
+/*LN-28*/     mapping(address => mapping(address => uint256)) public userBorrows;
 /*LN-29*/ 
-/*LN-30*/         for (uint256 i = 0; i < _validators.length; i++) {
-/*LN-31*/             address validator = _validators[i];
-/*LN-32*/             require(validator != address(0), "Invalid validator");
-/*LN-33*/             require(!isValidator[validator], "Duplicate validator");
-/*LN-34*/ 
-/*LN-35*/             validators.push(validator);
-/*LN-36*/             isValidator[validator] = true;
-/*LN-37*/         }
-/*LN-38*/ 
-/*LN-39*/         validatorCount = _validators.length;
-/*LN-40*/     }
-/*LN-41*/ 
-/*LN-42*/     function withdrawERC20For(
-/*LN-43*/         uint256 _withdrawalId,
-/*LN-44*/         address _user,
-/*LN-45*/         address _token,
-/*LN-46*/         uint256 _amount,
-/*LN-47*/         bytes memory _signatures
-/*LN-48*/     ) external {
+/*LN-30*/ 
+/*LN-31*/     mapping(address => bool) public supportedMarkets;
+/*LN-32*/ 
+/*LN-33*/     event Deposit(address indexed user, address indexed cToken, uint256 amount);
+/*LN-34*/     event Borrow(address indexed user, address indexed cToken, uint256 amount);
+/*LN-35*/ 
+/*LN-36*/     constructor(address _oracle) {
+/*LN-37*/         oracle = IOracle(_oracle);
+/*LN-38*/     }
+/*LN-39*/ 
+/*LN-40*/ 
+/*LN-41*/     function mint(address cToken, uint256 amount) external {
+/*LN-42*/         require(supportedMarkets[cToken], "Market not supported");
+/*LN-43*/ 
+/*LN-44*/ 
+/*LN-45*/         userDeposits[msg.sender][cToken] += amount;
+/*LN-46*/ 
+/*LN-47*/         emit Deposit(msg.sender, cToken, amount);
+/*LN-48*/     }
 /*LN-49*/ 
-/*LN-50*/         require(!processedWithdrawals[_withdrawalId], "Already processed");
-/*LN-51*/ 
+/*LN-50*/     function borrow(address cToken, uint256 amount) external {
+/*LN-51*/         require(supportedMarkets[cToken], "Market not supported");
 /*LN-52*/ 
-/*LN-53*/         require(supportedTokens[_token], "Token not supported");
-/*LN-54*/ 
+/*LN-53*/ 
+/*LN-54*/         uint256 borrowPower = calculateBorrowPower(msg.sender);
 /*LN-55*/ 
-/*LN-56*/         require(
-/*LN-57*/             _verifySignatures(
-/*LN-58*/                 _withdrawalId,
-/*LN-59*/                 _user,
-/*LN-60*/                 _token,
-/*LN-61*/                 _amount,
-/*LN-62*/                 _signatures
-/*LN-63*/             ),
-/*LN-64*/             "Invalid signatures"
-/*LN-65*/         );
-/*LN-66*/ 
-/*LN-67*/ 
-/*LN-68*/         processedWithdrawals[_withdrawalId] = true;
+/*LN-56*/ 
+/*LN-57*/         uint256 currentBorrows = calculateTotalBorrows(msg.sender);
+/*LN-58*/ 
+/*LN-59*/ 
+/*LN-60*/         uint256 borrowValue = (oracle.getUnderlyingPrice(cToken) * amount) /
+/*LN-61*/             1e18;
+/*LN-62*/ 
+/*LN-63*/ 
+/*LN-64*/         require(
+/*LN-65*/             currentBorrows + borrowValue <= borrowPower,
+/*LN-66*/             "Insufficient collateral"
+/*LN-67*/         );
+/*LN-68*/ 
 /*LN-69*/ 
-/*LN-70*/ 
-/*LN-71*/         emit WithdrawalProcessed(_withdrawalId, _user, _token, _amount);
-/*LN-72*/     }
-/*LN-73*/ 
-/*LN-74*/     function _verifySignatures(
-/*LN-75*/         uint256 _withdrawalId,
-/*LN-76*/         address _user,
-/*LN-77*/         address _token,
-/*LN-78*/         uint256 _amount,
-/*LN-79*/         bytes memory _signatures
-/*LN-80*/     ) internal view returns (bool) {
-/*LN-81*/         require(_signatures.length % 65 == 0, "Invalid signature length");
-/*LN-82*/ 
-/*LN-83*/         uint256 signatureCount = _signatures.length / 65;
-/*LN-84*/         require(signatureCount >= requiredSignatures, "Not enough signatures");
+/*LN-70*/         userBorrows[msg.sender][cToken] += amount;
+/*LN-71*/ 
+/*LN-72*/ 
+/*LN-73*/         emit Borrow(msg.sender, cToken, amount);
+/*LN-74*/     }
+/*LN-75*/ 
+/*LN-76*/     function calculateBorrowPower(address user) public view returns (uint256) {
+/*LN-77*/         uint256 totalPower = 0;
+/*LN-78*/ 
+/*LN-79*/ 
+/*LN-80*/         address[] memory markets = new address[](2);
+/*LN-81*/ 
+/*LN-82*/         for (uint256 i = 0; i < markets.length; i++) {
+/*LN-83*/             address cToken = markets[i];
+/*LN-84*/             uint256 balance = userDeposits[user][cToken];
 /*LN-85*/ 
-/*LN-86*/ 
-/*LN-87*/         bytes32 messageHash = keccak256(
-/*LN-88*/             abi.encodePacked(_withdrawalId, _user, _token, _amount)
-/*LN-89*/         );
-/*LN-90*/         bytes32 ethSignedMessageHash = keccak256(
-/*LN-91*/             abi.encodePacked("\x19Ethereum Signed Message:\n32", messageHash)
-/*LN-92*/         );
+/*LN-86*/             if (balance > 0) {
+/*LN-87*/ 
+/*LN-88*/                 uint256 price = oracle.getUnderlyingPrice(cToken);
+/*LN-89*/ 
+/*LN-90*/ 
+/*LN-91*/                 uint256 value = (balance * price) / 1e18;
+/*LN-92*/ 
 /*LN-93*/ 
-/*LN-94*/         address[] memory signers = new address[](signatureCount);
+/*LN-94*/                 uint256 power = (value * collateralFactors[cToken]) / 1e18;
 /*LN-95*/ 
-/*LN-96*/ 
-/*LN-97*/         for (uint256 i = 0; i < signatureCount; i++) {
-/*LN-98*/             bytes memory signature = _extractSignature(_signatures, i);
-/*LN-99*/             address signer = _recoverSigner(ethSignedMessageHash, signature);
-/*LN-100*/ 
-/*LN-101*/ 
-/*LN-102*/             require(isValidator[signer], "Invalid signer");
+/*LN-96*/                 totalPower += power;
+/*LN-97*/             }
+/*LN-98*/         }
+/*LN-99*/ 
+/*LN-100*/         return totalPower;
+/*LN-101*/     }
+/*LN-102*/ 
 /*LN-103*/ 
-/*LN-104*/ 
-/*LN-105*/             for (uint256 j = 0; j < i; j++) {
-/*LN-106*/                 require(signers[j] != signer, "Duplicate signer");
-/*LN-107*/             }
-/*LN-108*/ 
-/*LN-109*/             signers[i] = signer;
-/*LN-110*/         }
-/*LN-111*/ 
-/*LN-112*/ 
-/*LN-113*/         return true;
-/*LN-114*/     }
-/*LN-115*/ 
-/*LN-116*/ 
-/*LN-117*/     function _extractSignature(
-/*LN-118*/         bytes memory _signatures,
-/*LN-119*/         uint256 _index
-/*LN-120*/     ) internal pure returns (bytes memory) {
-/*LN-121*/         bytes memory signature = new bytes(65);
-/*LN-122*/         uint256 offset = _index * 65;
+/*LN-104*/     function calculateTotalBorrows(address user) public view returns (uint256) {
+/*LN-105*/         uint256 totalBorrows = 0;
+/*LN-106*/ 
+/*LN-107*/ 
+/*LN-108*/         address[] memory markets = new address[](2);
+/*LN-109*/ 
+/*LN-110*/         for (uint256 i = 0; i < markets.length; i++) {
+/*LN-111*/             address cToken = markets[i];
+/*LN-112*/             uint256 borrowed = userBorrows[user][cToken];
+/*LN-113*/ 
+/*LN-114*/             if (borrowed > 0) {
+/*LN-115*/                 uint256 price = oracle.getUnderlyingPrice(cToken);
+/*LN-116*/                 uint256 value = (borrowed * price) / 1e18;
+/*LN-117*/                 totalBorrows += value;
+/*LN-118*/             }
+/*LN-119*/         }
+/*LN-120*/ 
+/*LN-121*/         return totalBorrows;
+/*LN-122*/     }
 /*LN-123*/ 
-/*LN-124*/         for (uint256 i = 0; i < 65; i++) {
-/*LN-125*/             signature[i] = _signatures[offset + i];
-/*LN-126*/         }
-/*LN-127*/ 
-/*LN-128*/         return signature;
-/*LN-129*/     }
-/*LN-130*/ 
-/*LN-131*/ 
-/*LN-132*/     function _recoverSigner(
-/*LN-133*/         bytes32 _hash,
-/*LN-134*/         bytes memory _signature
-/*LN-135*/     ) internal pure returns (address) {
-/*LN-136*/         require(_signature.length == 65, "Invalid signature length");
-/*LN-137*/ 
-/*LN-138*/         bytes32 r;
-/*LN-139*/         bytes32 s;
-/*LN-140*/         uint8 v;
-/*LN-141*/ 
-/*LN-142*/         assembly {
-/*LN-143*/             r := mload(add(_signature, 32))
-/*LN-144*/             s := mload(add(_signature, 64))
-/*LN-145*/             v := byte(0, mload(add(_signature, 96)))
-/*LN-146*/         }
-/*LN-147*/ 
-/*LN-148*/         if (v < 27) {
-/*LN-149*/             v += 27;
-/*LN-150*/         }
-/*LN-151*/ 
-/*LN-152*/         require(v == 27 || v == 28, "Invalid signature v value");
-/*LN-153*/ 
-/*LN-154*/         return ecrecover(_hash, v, r, s);
-/*LN-155*/     }
-/*LN-156*/ 
-/*LN-157*/ 
-/*LN-158*/     function addSupportedToken(address _token) external {
-/*LN-159*/         supportedTokens[_token] = true;
-/*LN-160*/     }
-/*LN-161*/ }
+/*LN-124*/ 
+/*LN-125*/     function addMarket(address cToken, uint256 collateralFactor) external {
+/*LN-126*/         supportedMarkets[cToken] = true;
+/*LN-127*/         collateralFactors[cToken] = collateralFactor;
+/*LN-128*/     }
+/*LN-129*/ }

@@ -2,108 +2,153 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
 /*LN-4*/ interface IERC20 {
-/*LN-5*/     function transferFrom(
-/*LN-6*/         address from,
-/*LN-7*/         address to,
-/*LN-8*/         uint256 amount
-/*LN-9*/     ) external returns (bool);
-/*LN-10*/ 
-/*LN-11*/     function balanceOf(address account) external view returns (uint256);
-/*LN-12*/ }
-/*LN-13*/ 
+/*LN-5*/     function balanceOf(address account) external view returns (uint256);
+/*LN-6*/ 
+/*LN-7*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-8*/ 
+/*LN-9*/     function transferFrom(
+/*LN-10*/         address from,
+/*LN-11*/         address to,
+/*LN-12*/         uint256 amount
+/*LN-13*/     ) external returns (bool);
+/*LN-14*/ }
+/*LN-15*/ 
 
 /**
- * @title QuantumBridge
- * @notice Cross-chain asset bridge with deposit verification
- * @dev Audited by Halborn Security (Q4 2021) - All findings addressed
- * @dev Implements ChainBridge standard with handler delegation pattern
- * @dev Uses resource ID mapping for multi-token support
- * @custom:security-contact security@quantum.network
+ * @title SwapPair
+ * @notice Uniswap V2 style AMM pair with optimized fee structure
+ * @dev Audited by Certik (Q1 2021) - All findings resolved
+ * @dev Implements constant product market maker with 0.16% fee
+ * @dev Gas-optimized reserve management with uint112 packing
+ * @custom:security-contact security@swap.finance
  */
-/*LN-14*/ contract QuantumBridge {
-    /// @dev Authorized handler for deposit processing
-/*LN-15*/     address public handler;
-/*LN-16*/ 
-    /// @dev Emitted when cross-chain deposit is initiated
-/*LN-17*/     event Deposit(
-/*LN-18*/         uint8 destinationDomainID,
-/*LN-19*/         bytes32 resourceID,
-/*LN-20*/         uint64 depositNonce
-/*LN-21*/     );
+/*LN-16*/ contract SwapPair {
+    /// @dev First token in the pair
+/*LN-17*/     address public token0;
+    /// @dev Second token in the pair
+/*LN-18*/     address public token1;
+/*LN-19*/
+    /// @dev Reserve of token0 (packed for gas efficiency)
+/*LN-20*/     uint112 private reserve0;
+    /// @dev Reserve of token1 (packed for gas efficiency)
+/*LN-21*/     uint112 private reserve1;
 /*LN-22*/
-    /// @dev Sequential deposit counter for replay protection
-/*LN-23*/     uint64 public depositNonce;
+    /// @dev Trading fee in basis points (16 = 0.16%)
+/*LN-23*/     uint256 public constant TOTAL_FEE = 16; // 0.16% fee
 /*LN-24*/ 
-/*LN-25*/     constructor(address _handler) {
-/*LN-26*/         handler = _handler;
-/*LN-27*/     }
-/*LN-28*/ 
+/*LN-25*/     constructor(address _token0, address _token1) {
+/*LN-26*/         token0 = _token0;
+/*LN-27*/         token1 = _token1;
+/*LN-28*/     }
+/*LN-29*/ 
     /**
-     * @notice Initiate cross-chain token deposit
-     * @dev Delegates token handling to registered handler contract
-     * @dev Emits Deposit event for relayer processing
-     * @param destinationDomainID Target chain identifier
-     * @param resourceID Resource mapping for token type
-     * @param data Encoded deposit parameters (amount)
+     * @notice Add liquidity to the pair
+     * @dev Calculates LP tokens based on geometric mean of deposits
+     * @param to Address to receive LP tokens
+     * @return liquidity Amount of LP tokens minted
      */
-/*LN-32*/     function deposit(
-/*LN-33*/         uint8 destinationDomainID,
-/*LN-34*/         bytes32 resourceID,
-/*LN-35*/         bytes calldata data
-/*LN-36*/     ) external payable {
-/*LN-37*/         depositNonce += 1;
-/*LN-38*/ 
-/*LN-39*/         BridgeHandler(handler).deposit(resourceID, msg.sender, data);
-/*LN-40*/ 
-/*LN-41*/         emit Deposit(destinationDomainID, resourceID, depositNonce);
-/*LN-42*/     }
-/*LN-43*/ }
-/*LN-44*/ 
-/**
- * @title BridgeHandler
- * @notice Token handler for cross-chain bridge operations
- * @dev Manages resource ID to token address mappings
- * @dev Processes deposits by transferring tokens to handler custody
- */
-/*LN-45*/ contract BridgeHandler {
-    /// @dev Resource ID to token contract mapping
-/*LN-46*/     mapping(bytes32 => address) public resourceIDToTokenContractAddress;
-    /// @dev Whitelisted contracts for deposit processing
-/*LN-47*/     mapping(address => bool) public contractWhitelist;
+/*LN-33*/     function mint(address to) external returns (uint256 liquidity) {
+/*LN-34*/         uint256 balance0 = IERC20(token0).balanceOf(address(this));
+/*LN-35*/         uint256 balance1 = IERC20(token1).balanceOf(address(this));
+/*LN-36*/ 
+/*LN-37*/         uint256 amount0 = balance0 - reserve0;
+/*LN-38*/         uint256 amount1 = balance1 - reserve1;
+/*LN-39*/ 
+/*LN-40*/         // Simplified liquidity calculation
+/*LN-41*/         liquidity = sqrt(amount0 * amount1);
+/*LN-42*/ 
+/*LN-43*/         reserve0 = uint112(balance0);
+/*LN-44*/         reserve1 = uint112(balance1);
+/*LN-45*/ 
+/*LN-46*/         return liquidity;
+/*LN-47*/     }
 /*LN-48*/ 
     /**
-     * @notice Process incoming deposit from bridge contract
-     * @dev Transfers tokens from depositor to handler for custody
-     * @dev Called by bridge contract during deposit flow
-     * @param resourceID Resource identifier for token type
-     * @param depositer Address initiating the deposit
-     * @param data Encoded deposit amount
+     * @notice Execute token swap with fee deduction
+     * @dev Validates constant product invariant after fee adjustment
+     * @dev Follows Uniswap V2 optimistic transfer pattern
+     * @param amount0Out Amount of token0 to receive
+     * @param amount1Out Amount of token1 to receive
+     * @param to Recipient address
+     * @param data Optional callback data
      */
-/*LN-52*/     function deposit(
-/*LN-53*/         bytes32 resourceID,
-/*LN-54*/         address depositer,
-/*LN-55*/         bytes calldata data
-/*LN-56*/     ) external {
-            // Resolve token contract from resource mapping
-/*LN-57*/         address tokenContract = resourceIDToTokenContractAddress[resourceID];
-/*LN-58*/
-            // Decode deposit amount from calldata
-/*LN-62*/         uint256 amount;
-/*LN-63*/         (amount) = abi.decode(data, (uint256));
-/*LN-64*/
-            // Transfer tokens to handler custody
-/*LN-67*/         IERC20(tokenContract).transferFrom(depositer, address(this), amount);
-/*LN-71*/     }
-/*LN-72*/ 
-    /**
-     * @notice Configure resource ID to token address mapping
-     * @dev Establishes token routing for cross-chain deposits
-     * @param resourceID Unique identifier for this token type
-     * @param tokenAddress ERC20 token contract address
-     */
-/*LN-76*/     function setResource(bytes32 resourceID, address tokenAddress) external {
-            // Register token for resource-based routing
-/*LN-77*/         resourceIDToTokenContractAddress[resourceID] = tokenAddress;
-/*LN-80*/     }
-/*LN-81*/ }
-/*LN-82*/ 
+/*LN-52*/     function swap(
+/*LN-53*/         uint256 amount0Out,
+/*LN-54*/         uint256 amount1Out,
+/*LN-55*/         address to,
+/*LN-56*/         bytes calldata data
+/*LN-57*/     ) external {
+/*LN-58*/         require(
+/*LN-59*/             amount0Out > 0 || amount1Out > 0,
+/*LN-60*/             "UraniumSwap: INSUFFICIENT_OUTPUT_AMOUNT"
+/*LN-61*/         );
+/*LN-62*/ 
+/*LN-63*/         uint112 _reserve0 = reserve0;
+/*LN-64*/         uint112 _reserve1 = reserve1;
+/*LN-65*/ 
+/*LN-66*/         require(
+/*LN-67*/             amount0Out < _reserve0 && amount1Out < _reserve1,
+/*LN-68*/             "UraniumSwap: INSUFFICIENT_LIQUIDITY"
+/*LN-69*/         );
+/*LN-70*/ 
+            // Optimistic transfer to recipient
+/*LN-72*/         if (amount0Out > 0) IERC20(token0).transfer(to, amount0Out);
+/*LN-73*/         if (amount1Out > 0) IERC20(token1).transfer(to, amount1Out);
+/*LN-74*/ 
+/*LN-75*/         // Get balances after transfer
+/*LN-76*/         uint256 balance0 = IERC20(token0).balanceOf(address(this));
+/*LN-77*/         uint256 balance1 = IERC20(token1).balanceOf(address(this));
+/*LN-78*/ 
+/*LN-79*/         // Calculate input amounts
+/*LN-80*/         uint256 amount0In = balance0 > _reserve0 - amount0Out
+/*LN-81*/             ? balance0 - (_reserve0 - amount0Out)
+/*LN-82*/             : 0;
+/*LN-83*/         uint256 amount1In = balance1 > _reserve1 - amount1Out
+/*LN-84*/             ? balance1 - (_reserve1 - amount1Out)
+/*LN-85*/             : 0;
+/*LN-86*/ 
+/*LN-87*/         require(
+/*LN-88*/             amount0In > 0 || amount1In > 0,
+/*LN-89*/             "UraniumSwap: INSUFFICIENT_INPUT_AMOUNT"
+/*LN-90*/         );
+/*LN-91*/ 
+            // Apply fee adjustment to balances
+/*LN-93*/         uint256 balance0Adjusted = balance0 * 10000 - amount0In * TOTAL_FEE;
+/*LN-94*/         uint256 balance1Adjusted = balance1 * 10000 - amount1In * TOTAL_FEE;
+/*LN-95*/
+            // Verify constant product invariant (x * y >= k)
+/*LN-98*/         require(
+/*LN-99*/             balance0Adjusted * balance1Adjusted >=
+/*LN-100*/                 uint256(_reserve0) * _reserve1 * (1000 ** 2),
+/*LN-101*/             "UraniumSwap: K"
+/*LN-102*/         );
+/*LN-103*/ 
+/*LN-104*/         // Update reserves
+/*LN-105*/         reserve0 = uint112(balance0);
+/*LN-106*/         reserve1 = uint112(balance1);
+/*LN-107*/     }
+/*LN-108*/ 
+/*LN-109*/     /**
+/*LN-110*/      * @notice Get current reserves
+/*LN-111*/      */
+/*LN-112*/     function getReserves() external view returns (uint112, uint112, uint32) {
+/*LN-113*/         return (reserve0, reserve1, 0);
+/*LN-114*/     }
+/*LN-115*/ 
+/*LN-116*/     /**
+/*LN-117*/      * @notice Helper function for square root
+/*LN-118*/      */
+/*LN-119*/     function sqrt(uint256 y) internal pure returns (uint256 z) {
+/*LN-120*/         if (y > 3) {
+/*LN-121*/             z = y;
+/*LN-122*/             uint256 x = y / 2 + 1;
+/*LN-123*/             while (x < z) {
+/*LN-124*/                 z = x;
+/*LN-125*/                 x = (y / x + x) / 2;
+/*LN-126*/             }
+/*LN-127*/         } else if (y != 0) {
+/*LN-128*/             z = 1;
+/*LN-129*/         }
+/*LN-130*/     }
+/*LN-131*/ }
+/*LN-132*/ 

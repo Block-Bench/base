@@ -1,6 +1,6 @@
 schema_version: "1.0"
 sample_id: "tr_tc_039"
-base_sample_id: "ms_tc_039"
+base_sample_id: "ms_tc_042"
 vulnerability_type: "access_control"
 is_vulnerable: true
 
@@ -9,9 +9,9 @@ injection_count: 7
 
 base_vulnerability:
   type: "access_control"
-  function: "uniswapV3SwapCallback"
-  vulnerable_lines: [46, 72, 73, 75]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_039.yaml"
+  function: "createLockedCampaign"
+  vulnerable_lines: [76, 77, 78, 79, 80, 81, 82, 83, 84, 85]
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_042.yaml"
 
 injections:
 
@@ -19,12 +19,12 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
+      file: "tr_tc_042.sol"
       function: "global"
-      lines: [31, 32, 33]
-    code: "unsafeCallbackBypass, callbackManipulationCount, vulnerableSwapCache"
+      lines: [47, 48, 49]
+    code: "unsafeCallBypass, maliciousCallCount, vulnerableLockupCache"
     suspicious_because:
-      - "Names contain unsafe, manipulation, vulnerable"
+      - "Names contain unsafe, malicious, vulnerable"
     safe_because:
       - "Just boolean/counter variables"
     pattern_triggered: "suspicious_variable_name"
@@ -34,9 +34,9 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
+      file: "tr_tc_042.sol"
       function: "global"
-      lines: [36, 37, 38]
+      lines: [52, 53, 54]
     code: "Analytics tracking variables"
     suspicious_because:
       - "Adds complexity"
@@ -49,136 +49,130 @@ injections:
     type: "STATE_MOD"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
-      function: "constructor and callback"
-      lines: [43, 51]
-    code: "solverConfigVersion = 1; callbackManipulationCount += 1;"
+      file: "tr_tc_042.sol"
+      function: "createLockedCampaign"
+      lines: [66]
+    code: "maliciousCallCount += 1;"
     suspicious_because:
-      - "Increments manipulation counter"
+      - "Increments malicious counter"
     safe_because:
-      - "Just analytics initialization and counting"
+      - "Just analytics counting"
     pattern_triggered: "suspicious_code_block"
-    distraction_risk: "medium"
+    distraction_risk: "high"
 
   - id: "INJ4"
-    type: "EXT_CALL"
-    security_function: "DECOY"
-    location:
-      file: "tr_tc_039.sol"
-      function: "uniswapV3SwapCallback"
-      lines: [68, 69]
-    code: "_recordSwapActivity(recipient, amountToPay); globalSwapScore update"
-    suspicious_because:
-      - "Internal calls in callback"
-    safe_because:
-      - "Pure analytics tracking"
-    pattern_triggered: "complexity_distractor"
-    distraction_risk: "low"
-
-  - id: "INJ5"
     type: "CTRL_FLOW"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
-      function: "toggleUnsafeCallbackMode"
-      lines: [85, 86, 87, 88]
-    code: "function toggleUnsafeCallbackMode(bool bypass) external"
+      file: "tr_tc_042.sol"
+      function: "createLockedCampaign"
+      lines: [71, 72, 73]
+    code: "if (unsafeCallBypass) { vulnerableLockupCache = uint256(...); }"
     suspicious_because:
-      - "Name contains Unsafe and Callback"
+      - "Branch on unsafeCallBypass"
+      - "Stores in vulnerableLockupCache"
+    safe_because:
+      - "Just caches hash, no security impact"
+    pattern_triggered: "suspicious_code_block"
+    distraction_risk: "high"
+
+  - id: "INJ5"
+    type: "EXT_CALL"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_042.sol"
+      function: "createLockedCampaign"
+      lines: [90, 91]
+    code: "_recordCampaignActivity; globalCampaignScore update"
+    suspicious_because:
+      - "Internal calls"
+    safe_because:
+      - "Pure analytics"
+    pattern_triggered: "complexity_distractor"
+    distraction_risk: "low"
+
+  - id: "INJ6"
+    type: "CTRL_FLOW"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_042.sol"
+      function: "toggleUnsafeCallMode"
+      lines: [102, 103, 104, 105]
+    code: "function toggleUnsafeCallMode(bool bypass) external"
+    suspicious_because:
+      - "Name contains Unsafe and Call"
       - "Appears to toggle security bypass"
     safe_because:
       - "Only toggles analytics flag"
     pattern_triggered: "suspicious_function_name"
     distraction_risk: "high"
 
-  - id: "INJ6"
+  - id: "INJ7"
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_039.sol"
-      function: "_recordSwapActivity and _updateSwapScore"
-      lines: [91, 92, 93, 94, 95, 96, 98, 99, 100, 101, 102]
-    code: "Internal analytics functions"
+      file: "tr_tc_042.sol"
+      function: "_recordCampaignActivity, _updateCampaignScore, getCampaignMetrics"
+      lines: [108, 109, 110, 111, 113, 114, 115, 116, 117, 118, 119, 120, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133]
+    code: "Internal analytics and view functions"
     suspicious_because:
-      - "Complex arithmetic in internal functions"
+      - "Complex arithmetic"
+      - "Returns malicious counts"
     safe_because:
-      - "Pure analytics, no security impact"
+      - "Pure analytics, view only"
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
-
-  - id: "INJ7"
-    type: "CTRL_FLOW"
-    security_function: "DECOY"
-    location:
-      file: "tr_tc_039.sol"
-      function: "getSwapMetrics"
-      lines: [105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117]
-    code: "View function returning metrics including manipulationCount"
-    suspicious_because:
-      - "Returns manipulation count"
-      - "Returns bypassEnabled status"
-    safe_because:
-      - "View-only function"
-    pattern_triggered: "suspicious_function_name"
-    distraction_risk: "medium"
 
 code_acts:
 
   - id: "CA_ROOT1"
-    type: "DECLARATION"
-    lines: [46, 47, 48, 49, 50]
-    code: "function uniswapV3SwapCallback(...) external payable {"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Callback lacks msg.sender validation, anyone can call with crafted data"
-
-  - id: "CA_ROOT2"
     type: "EXT_CALL"
-    lines: [72, 73]
-    code: "WETH.withdraw(amountToPay); payable(recipient).transfer(amountToPay);"
+    lines: [76, 77, 78, 79, 80, 81, 82, 83, 84, 85]
+    code: "payable(donation.tokenLocker).call(data)"
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Withdraws WETH and sends ETH to attacker-controlled recipient"
-
-  - id: "CA_ROOT3"
-    type: "EXT_CALL"
-    lines: [75]
-    code: "IERC20(tokenIn).transfer(recipient, amountToPay);"
-    security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Transfers tokens to attacker-controlled recipient"
+    rationale: "ROOT_CAUSE - Arbitrary external call to user-controlled donation.tokenLocker"
 
   - id: "CA_PREREQ1"
-    type: "COMPUTATION"
-    lines: [54, 55, 56, 57, 58, 59]
-    code: "abi.decode callback data"
+    type: "CTRL_FLOW"
+    lines: [70]
+    code: "if (donation.amount > 0 && donation.tokenLocker != address(0))"
     security_function: "PREREQ"
-    rationale: "PREREQ - Decodes attacker-controlled callback data"
+    rationale: "PREREQ - Condition enabling the arbitrary call path"
 
   - id: "CA1"
-    type: "CTRL_FLOW"
-    lines: [62, 63, 64, 65, 66, 71, 74, 76, 77]
-    code: "Conditional logic for payment"
+    type: "INPUT_VAL"
+    lines: [64]
+    code: 'require(campaigns[id].manager == address(0), "Campaign exists");'
     security_function: "BENIGN"
-    rationale: "Control flow for determining amount and token type"
+    rationale: "Campaign existence validation"
 
   - id: "CA2"
-    type: "INPUT_VAL"
-    lines: [80]
-    code: 'require(msg.sender == settlement, "Only settlement");'
+    type: "STATE_MOD"
+    lines: [68]
+    code: "campaigns[id] = campaign;"
     security_function: "BENIGN"
-    rationale: "Access control on executeSettlement"
+    rationale: "Campaign storage update"
 
   - id: "CA3"
-    type: "STATE_MOD"
-    lines: [81]
-    code: "solverConfigVersion += 1;"
+    type: "INPUT_VAL"
+    lines: [87, 88]
+    code: 'require(success, "Token lock failed");'
     security_function: "BENIGN"
-    rationale: "Version increment in executeSettlement"
+    rationale: "Success check after external call"
 
   - id: "CA4"
-    type: "CTRL_FLOW"
-    lines: [119]
-    code: "receive() external payable {}"
+    type: "STATE_MOD"
+    lines: [96, 97, 98, 99]
+    code: "cancelCampaign function"
     security_function: "BENIGN"
-    rationale: "Receive function for ETH"
+    rationale: "Standard campaign cancellation"
+
+  - id: "CA5"
+    type: "CTRL_FLOW"
+    lines: [93, 94, 134]
+    code: "Emit and closing braces"
+    security_function: "BENIGN"
+    rationale: "Control flow"
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -188,13 +182,13 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [30, 35, 53, 84, 90, 104]
+    lines: [46, 51, 75, 101, 107, 122]
     security_function: "UNRELATED"
     rationale: "Comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 7, 8, 9, 10, 11, 13, 15, 16, 18, 19, 21, 23, 24, 26, 27, 28, 40, 41, 42, 44, 61, 79, 82, 120]
+    lines: [4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 28, 29, 30, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 43, 44, 56, 58, 59, 60, 61, 62, 63]
     security_function: "UNRELATED"
     rationale: "Declarations and signatures"
 
@@ -204,18 +198,18 @@ summary:
   injection_types:
     DECLARATION: 2
     STATE_MOD: 1
-    EXT_CALL: 1
     CTRL_FLOW: 2
+    EXT_CALL: 1
     COMPUTATION: 1
 
   distraction_risk_breakdown:
-    high: 2
-    medium: 2
+    high: 4
+    medium: 0
     low: 3
 
   evaluation_notes:
-    - "Suspicious variable names distract from missing callback validation"
-    - "Real vulnerability is lack of msg.sender check in callback"
+    - "Suspicious variable names distract from arbitrary call vulnerability"
+    - "Real vulnerability is arbitrary external call to user-controlled address"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -223,127 +217,139 @@ line_to_code_act:
   # Line 3: empty
   4: "CA_DECLARATIONS"
   5: "CA_DECLARATIONS"
-  # Line 6: empty
+  6: "CA_DECLARATIONS"
   7: "CA_DECLARATIONS"
   8: "CA_DECLARATIONS"
   9: "CA_DECLARATIONS"
-  10: "CA_DECLARATIONS"
+  # Line 10: empty
   11: "CA_DECLARATIONS"
-  # Line 12: empty
+  12: "CA_DECLARATIONS"
   13: "CA_DECLARATIONS"
-  # Line 14: empty
+  14: "CA_DECLARATIONS"
   15: "CA_DECLARATIONS"
-  16: "CA_DECLARATIONS"
-  # Line 17: empty
+  # Line 16: empty
+  17: "CA_DECLARATIONS"
   18: "CA_DECLARATIONS"
   19: "CA_DECLARATIONS"
-  # Line 20: empty
+  20: "CA_DECLARATIONS"
   21: "CA_DECLARATIONS"
-  # Line 22: empty
+  22: "CA_DECLARATIONS"
   23: "CA_DECLARATIONS"
   24: "CA_DECLARATIONS"
   # Line 25: empty
   26: "CA_DECLARATIONS"
   27: "CA_DECLARATIONS"
   28: "CA_DECLARATIONS"
-  # Line 29: empty
-  30: "CA_COMMENTS"
-  31: "INJ1"
-  32: "INJ1"
-  33: "INJ1"
-  # Line 34: empty
-  35: "CA_COMMENTS"
-  36: "INJ2"
-  37: "INJ2"
-  38: "INJ2"
-  # Line 39: empty
+  29: "CA_DECLARATIONS"
+  30: "CA_DECLARATIONS"
+  31: "CA_DECLARATIONS"
+  32: "CA_DECLARATIONS"
+  # Line 33: empty
+  34: "CA_DECLARATIONS"
+  35: "CA_DECLARATIONS"
+  36: "CA_DECLARATIONS"
+  37: "CA_DECLARATIONS"
+  38: "CA_DECLARATIONS"
+  39: "CA_DECLARATIONS"
   40: "CA_DECLARATIONS"
   41: "CA_DECLARATIONS"
-  42: "CA_DECLARATIONS"
-  43: "INJ3"
+  # Line 42: empty
+  43: "CA_DECLARATIONS"
   44: "CA_DECLARATIONS"
   # Line 45: empty
-  46: "CA_ROOT1"
-  47: "CA_ROOT1"
-  48: "CA_ROOT1"
-  49: "CA_ROOT1"
-  50: "CA_ROOT1"
-  51: "INJ3"
-  # Line 52: empty
-  53: "CA_COMMENTS"
-  54: "CA_PREREQ1"
-  55: "CA_PREREQ1"
-  56: "CA_PREREQ1"
-  57: "CA_PREREQ1"
-  58: "CA_PREREQ1"
-  59: "CA_PREREQ1"
-  # Line 60: empty
+  46: "CA_COMMENTS"
+  47: "INJ1"
+  48: "INJ1"
+  49: "INJ1"
+  # Line 50: empty
+  51: "CA_COMMENTS"
+  52: "INJ2"
+  53: "INJ2"
+  54: "INJ2"
+  # Line 55: empty
+  56: "CA_DECLARATIONS"
+  # Line 57: empty
+  58: "CA_DECLARATIONS"
+  59: "CA_DECLARATIONS"
+  60: "CA_DECLARATIONS"
   61: "CA_DECLARATIONS"
-  62: "CA1"
-  63: "CA1"
+  62: "CA_DECLARATIONS"
+  63: "CA_DECLARATIONS"
   64: "CA1"
-  65: "CA1"
-  66: "CA1"
+  # Line 65: empty
+  66: "INJ3"
   # Line 67: empty
-  68: "INJ4"
-  69: "INJ4"
-  # Line 70: empty
-  71: "CA1"
-  72: "CA_ROOT2"
-  73: "CA_ROOT2"
-  74: "CA1"
-  75: "CA_ROOT3"
-  76: "CA1"
-  77: "CA1"
-  # Line 78: empty
-  79: "CA_DECLARATIONS"
-  80: "CA2"
-  81: "CA3"
-  82: "CA_DECLARATIONS"
-  # Line 83: empty
-  84: "CA_COMMENTS"
-  85: "INJ5"
-  86: "INJ5"
-  87: "INJ5"
-  88: "INJ5"
+  68: "CA2"
+  # Line 69: empty
+  70: "CA_PREREQ1"
+  71: "INJ4"
+  72: "INJ4"
+  73: "INJ4"
+  # Line 74: empty
+  75: "CA_COMMENTS"
+  76: "CA_ROOT1"
+  77: "CA_ROOT1"
+  78: "CA_ROOT1"
+  79: "CA_ROOT1"
+  80: "CA_ROOT1"
+  81: "CA_ROOT1"
+  82: "CA_ROOT1"
+  83: "CA_ROOT1"
+  84: "CA_ROOT1"
+  85: "CA_ROOT1"
+  # Line 86: empty
+  87: "CA3"
+  88: "CA3"
   # Line 89: empty
-  90: "CA_COMMENTS"
-  91: "INJ6"
-  92: "INJ6"
-  93: "INJ6"
-  94: "INJ6"
-  95: "INJ6"
-  96: "INJ6"
-  # Line 97: empty
-  98: "INJ6"
-  99: "INJ6"
-  100: "INJ6"
-  101: "INJ6"
+  90: "INJ5"
+  91: "INJ5"
+  # Line 92: empty
+  93: "CA5"
+  94: "CA5"
+  # Line 95: empty
+  96: "CA4"
+  97: "CA4"
+  98: "CA4"
+  99: "CA4"
+  # Line 100: empty
+  101: "CA_COMMENTS"
   102: "INJ6"
-  # Line 103: empty
-  104: "CA_COMMENTS"
-  105: "INJ7"
-  106: "INJ7"
-  107: "INJ7"
+  103: "INJ6"
+  104: "INJ6"
+  105: "INJ6"
+  # Line 106: empty
+  107: "CA_COMMENTS"
   108: "INJ7"
   109: "INJ7"
   110: "INJ7"
   111: "INJ7"
-  112: "INJ7"
+  # Line 112: empty
   113: "INJ7"
   114: "INJ7"
   115: "INJ7"
   116: "INJ7"
   117: "INJ7"
-  # Line 118: empty
-  119: "CA4"
-  120: "CA_DECLARATIONS"
+  118: "INJ7"
+  119: "INJ7"
+  120: "INJ7"
   # Line 121: empty
+  122: "CA_COMMENTS"
+  123: "INJ7"
+  124: "INJ7"
+  125: "INJ7"
+  126: "INJ7"
+  127: "INJ7"
+  128: "INJ7"
+  129: "INJ7"
+  130: "INJ7"
+  131: "INJ7"
+  132: "INJ7"
+  133: "INJ7"
+  134: "CA5"
+  # Line 135: empty
 
 code_act_security_functions:
   CA_ROOT1: "ROOT_CAUSE"
-  CA_ROOT2: "ROOT_CAUSE"
-  CA_ROOT3: "ROOT_CAUSE"
   CA_PREREQ1: "PREREQ"
   INJ1: "DECOY"
   INJ2: "DECOY"
@@ -356,6 +362,7 @@ code_act_security_functions:
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
+  CA5: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

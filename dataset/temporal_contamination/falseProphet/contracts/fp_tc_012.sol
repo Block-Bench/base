@@ -2,128 +2,88 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/
 
-/*LN-4*/ interface IComptroller {
-/*LN-5*/     function enterMarkets(
-/*LN-6*/         address[] memory cTokens
-/*LN-7*/     ) external returns (uint256[] memory);
-/*LN-8*/
+/*LN-4*/ interface IERC20 {
+/*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-6*/
 
-/*LN-9*/     function exitMarket(address cToken) external returns (uint256);
-/*LN-10*/
-
-/*LN-11*/     function getAccountLiquidity(
-/*LN-12*/         address account
-/*LN-13*/     ) external view returns (uint256, uint256, uint256);
-/*LN-14*/ }
-/*LN-15*/
+/*LN-7*/     function balanceOf(address account) external view returns (uint256);
+/*LN-8*/ }
+/*LN-9*/
 
 /**
- * @title LendingHub
- * @author lending Capital
- * @notice Isolated lending pool with customizable risk parameters
- * @dev Audited by Quantstamp (Q4 2021) - All critical findings resolved
- * @dev lending-fork architecture with enhanced collateral management
- * @dev Health factor validation ensures protocol solvency
- * @custom:security-contact security@lending.capital
+ * @title CToken
+ * @author lending Labs
+ * @notice Interest-bearing token for lending market deposits
+ * @dev Audited by OpenZeppelin (Q4 2020) - All findings addressed
+ * @dev Implements cToken standard with supply and redeem functions
+ * @dev Sweep function protected for underlying token security
+ * @custom:security-contact security@lending.finance
  */
-/*LN-16*/ contract LendingHub {
-/*LN-17*/     IComptroller public comptroller;
-/*LN-18*/
+/*LN-10*/ contract CToken {
+    /// @dev Protected underlying asset for this market
+/*LN-11*/     address public underlying; // Token address for sweep protection
+    /// @dev Protocol administrator
+/*LN-12*/     address public admin;
+/*LN-13*/
 
-    /// @dev User collateral tracking for health factor calculations
-/*LN-19*/     mapping(address => uint256) public deposits;
-    /// @dev User borrow positions with interest accrual
-/*LN-20*/     mapping(address => uint256) public borrowed;
-    /// @dev Market participation status for liquidation eligibility
-/*LN-21*/     mapping(address => bool) public inMarket;
+    /// @dev User cToken balances
+/*LN-14*/     mapping(address => uint256) public accountTokens;
+/*LN-15*/     uint256 public totalSupply;
+/*LN-16*/
+
+    /// @dev Token addresses for TUSD integration
+/*LN-17*/     // Original TUSD deployment address
+/*LN-18*/     address public constant OLD_TUSD =
+/*LN-19*/         0x8dd5fbCe2F6a956C3022bA3663759011Dd51e73E;
+    /// @dev Current TUSD token address
+/*LN-20*/     address public constant NEW_TUSD =
+/*LN-21*/         0x0000000000085d4780B73119b644AE5ecd22b376;
 /*LN-22*/
 
-/*LN-23*/     uint256 public totalDeposits;
-/*LN-24*/     uint256 public totalBorrowed;
-    /// @dev Conservative 150% collateral ratio for protocol safety
-/*LN-25*/     uint256 public constant COLLATERAL_FACTOR = 150; // 150% collateralization
-/*LN-26*/ 
-/*LN-27*/     constructor(address _comptroller) {
-/*LN-28*/         comptroller = IComptroller(_comptroller);
-/*LN-29*/     }
-/*LN-30*/ 
-/*LN-31*/     /**
-/*LN-32*/      * @notice Deposit collateral and enter market
-/*LN-33*/      */
-/*LN-34*/     function depositAndEnterMarket() external payable {
-/*LN-35*/         deposits[msg.sender] += msg.value;
-/*LN-36*/         totalDeposits += msg.value;
-/*LN-37*/         inMarket[msg.sender] = true;
-/*LN-38*/     }
-/*LN-39*/ 
-/*LN-40*/     /**
-/*LN-41*/      * @notice Check if account has sufficient collateral
-/*LN-42*/      */
-/*LN-43*/     function isHealthy(
-/*LN-44*/         address account,
-/*LN-45*/         uint256 additionalBorrow
-/*LN-46*/     ) public view returns (bool) {
-/*LN-47*/         uint256 totalDebt = borrowed[account] + additionalBorrow;
-/*LN-48*/         if (totalDebt == 0) return true;
-/*LN-49*/ 
-/*LN-50*/         // Only count deposits if user is in market
-/*LN-51*/         if (!inMarket[account]) return false;
-/*LN-52*/ 
-/*LN-53*/         uint256 collateralValue = deposits[account];
-/*LN-54*/         return collateralValue >= (totalDebt * COLLATERAL_FACTOR) / 100;
-/*LN-55*/     }
-/*LN-56*/ 
+/*LN-23*/     constructor() {
+/*LN-24*/         admin = msg.sender;
+            // Set underlying for sweep protection
+/*LN-25*/         underlying = OLD_TUSD;
+/*LN-26*/     }
+/*LN-27*/ 
+/*LN-28*/     /**
+/*LN-29*/      * @notice Supply tokens to the market
+/*LN-30*/      */
+/*LN-31*/     function mint(uint256 amount) external {
+// Token transfer
+/*LN-32*/         IERC20(NEW_TUSD).transfer(address(this), amount);
+/*LN-33*/         accountTokens[msg.sender] += amount;
+/*LN-34*/         totalSupply += amount;
+/*LN-35*/     }
+/*LN-36*/ 
     /**
-     * @notice Borrow assets against deposited collateral
-     * @dev Updates borrow state before transfer for consistency
-     * @dev Final health check ensures position remains solvent
-     * @param amount Amount to borrow in base units
+     * @notice Recover accidentally sent tokens
+     * @dev Protected: cannot sweep the underlying market token
+     * @param token Address of token to recover
      */
-/*LN-57*/     function borrow(uint256 amount) external {
-/*LN-58*/         require(amount > 0, "Invalid amount");
-/*LN-59*/         require(address(this).balance >= amount, "Insufficient funds");
-/*LN-60*/
+/*LN-37*/     function sweepToken(address token) external {
+            // Protect underlying from being swept
+/*LN-38*/         // Validates token address against protected underlying
+/*LN-39*/         require(token != underlying, "Cannot sweep underlying token");
+/*LN-40*/
 
-/*LN-61*/         // Initial health check
-/*LN-62*/         require(isHealthy(msg.sender, amount), "Insufficient collateral");
-/*LN-63*/
-
-            // Record borrow position
-/*LN-65*/         borrowed[msg.sender] += amount;
-/*LN-66*/         totalBorrowed += amount;
-/*LN-67*/
-
-            // Transfer borrowed funds to user
-/*LN-68*/         (bool success, ) = payable(msg.sender).call{value: amount}("");
-/*LN-69*/         require(success, "Transfer failed");
-/*LN-70*/
-
-            // Verify final position health
-/*LN-71*/         require(isHealthy(msg.sender, 0), "Health check failed");
-/*LN-72*/     }
-/*LN-73*/ 
-    /**
-     * @notice Exit market to enable collateral withdrawal
-     * @dev Requires zero debt balance for safe exit
-     */
-/*LN-74*/     function exitMarket() external {
-/*LN-75*/         require(borrowed[msg.sender] == 0, "Outstanding debt");
-/*LN-76*/         inMarket[msg.sender] = false;
-/*LN-77*/     }
-/*LN-78*/ 
-/*LN-79*/     /**
-/*LN-80*/      * @notice Withdraw collateral
-/*LN-81*/      */
-/*LN-82*/     function withdraw(uint256 amount) external {
-/*LN-83*/         require(deposits[msg.sender] >= amount, "Insufficient deposits");
-/*LN-84*/         require(!inMarket[msg.sender], "Exit market first");
-/*LN-85*/ 
-/*LN-86*/         deposits[msg.sender] -= amount;
-/*LN-87*/         totalDeposits -= amount;
-/*LN-88*/ 
-/*LN-89*/         payable(msg.sender).transfer(amount);
-/*LN-90*/     }
-/*LN-91*/ 
-/*LN-92*/     receive() external payable {}
-/*LN-93*/ }
-/*LN-94*/ 
+            // Transfer recovered tokens to caller
+/*LN-41*/         // Safe recovery of non-market tokens
+/*LN-42*/         uint256 balance = IERC20(token).balanceOf(address(this));
+/*LN-43*/         IERC20(token).transfer(msg.sender, balance);
+/*LN-44*/     }
+/*LN-45*/ 
+/*LN-46*/     /**
+/*LN-47*/      * @notice Redeem cTokens for underlying
+/*LN-48*/      */
+/*LN-49*/     function redeem(uint256 amount) external {
+/*LN-50*/         require(accountTokens[msg.sender] >= amount, "Insufficient balance");
+/*LN-51*/ 
+/*LN-52*/         accountTokens[msg.sender] -= amount;
+/*LN-53*/         totalSupply -= amount;
+/*LN-54*/ 
+// Token transfer
+/*LN-55*/         IERC20(NEW_TUSD).transfer(msg.sender, amount);
+/*LN-56*/     }
+/*LN-57*/ }
+/*LN-58*/ 

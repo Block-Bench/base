@@ -1,186 +1,154 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
-/*LN-3*/
+/*LN-3*/ 
 /*LN-4*/ interface IERC20 {
 /*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-6*/
+/*LN-6*/ 
 /*LN-7*/     function transferFrom(
 /*LN-8*/         address from,
 /*LN-9*/         address to,
 /*LN-10*/         uint256 amount
 /*LN-11*/     ) external returns (bool);
-/*LN-12*/
+/*LN-12*/ 
 /*LN-13*/     function balanceOf(address account) external view returns (uint256);
-/*LN-14*/
+/*LN-14*/ 
 /*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
 /*LN-16*/ }
-/*LN-17*/
-/*LN-18*/ interface IPriceOracle {
-/*LN-19*/     function getPrice(address token) external view returns (uint256);
-/*LN-20*/ }
-/*LN-21*/
+/*LN-17*/ 
 
 /**
- * @title LeveragedLending
- * @notice lending-style lending protocol with multi-asset support
- * @dev Audited by Sherlock (Q1 2023) - All findings resolved
- * @dev Implements collateral-backed borrowing with LTV enforcement
- * @dev Uses trusted oracle for asset valuation
- * @custom:security-contact security@leveraged.garden
+ * @title CollateralToken
+ * @notice Collateral token for collateral CDP protocol
+ * @dev Audited by Sherlock (Q3 2024) - All findings resolved
+ * @dev Implements standard ERC20 with minting capability
+ * @dev Used as collateral backing for shezUSD loans
+ * @custom:security-contact security@collateral.io
  */
-/*LN-22*/ contract LeveragedLending {
-/*LN-23*/     struct Market {
-        /// @dev Market listing status
-/*LN-24*/         bool isListed;
-        /// @dev Collateral factor for risk assessment
-/*LN-25*/         uint256 collateralFactor;
-        /// @dev User collateral balances
-/*LN-26*/         mapping(address => uint256) accountCollateral;
-        /// @dev User borrow balances
-/*LN-27*/         mapping(address => uint256) accountBorrows;
-/*LN-28*/     }
-/*LN-29*/
-
-    /// @dev Market data per token
-/*LN-30*/     mapping(address => Market) public markets;
-    /// @dev Price oracle contract
-/*LN-31*/     IPriceOracle public oracle;
-/*LN-32*/
-
-    /// @dev Default collateral factor (75%)
-/*LN-33*/     uint256 public constant COLLATERAL_FACTOR = 75;
-    /// @dev Basis points denominator
-/*LN-34*/     uint256 public constant BASIS_POINTS = 100;
-/*LN-35*/
-
+/*LN-18*/ contract CollateralToken is IERC20 {
+/*LN-19*/     string public name = "collateral Collateral Token";
+/*LN-20*/     string public symbol = "SCT";
+/*LN-21*/     uint8 public decimals = 18;
+/*LN-22*/ 
+/*LN-23*/     mapping(address => uint256) public balanceOf;
+/*LN-24*/     mapping(address => mapping(address => uint256)) public allowance;
+/*LN-25*/     uint256 public totalSupply;
+/*LN-26*/ 
     /**
-     * @notice Enter markets to use as collateral
-     * @param vTokens Array of market tokens to enter
-     * @return results Success status for each market
+     * @notice Mint new collateral tokens
+     * @dev Core minting function for protocol operations
+     * @param to Recipient address
+     * @param amount Amount to mint
      */
-/*LN-39*/     function enterMarkets(
-/*LN-40*/         address[] calldata vTokens
-/*LN-41*/     ) external returns (uint256[] memory) {
-/*LN-42*/         uint256[] memory results = new uint256[](vTokens.length);
-/*LN-43*/         for (uint256 i = 0; i < vTokens.length; i++) {
-/*LN-44*/             markets[vTokens[i]].isListed = true;
-/*LN-45*/             results[i] = 0;
-/*LN-46*/         }
-/*LN-47*/         return results;
-/*LN-48*/     }
-/*LN-49*/
-
-    /**
-     * @notice Mint collateral tokens
-     * @dev Deposits underlying and credits collateral
-     * @param token Token to deposit
-     * @param amount Amount to deposit
-     * @return Success status
-     */
-/*LN-53*/     function mint(address token, uint256 amount) external returns (uint256) {
-/*LN-54*/         IERC20(token).transferFrom(msg.sender, address(this), amount);
-/*LN-55*/
-
-        // Get current price from oracle
-/*LN-56*/         uint256 price = oracle.getPrice(token);
-/*LN-57*/
-
-/*LN-60*/
-
-        // Credit collateral to user
-/*LN-61*/         markets[token].accountCollateral[msg.sender] += amount;
-/*LN-62*/         return 0;
-/*LN-63*/     }
-/*LN-64*/
-
-    /**
-     * @notice Borrow tokens against collateral
-     * @dev Validates LTV before allowing borrow
-     * @param borrowToken Token to borrow
-     * @param borrowAmount Amount to borrow
-     * @return Success status
-     */
-/*LN-68*/     function borrow(
-/*LN-69*/         address borrowToken,
-/*LN-70*/         uint256 borrowAmount
-/*LN-71*/     ) external returns (uint256) {
-        // Calculate total collateral value
-/*LN-72*/         uint256 totalCollateralValue = 0;
-/*LN-73*/
-
-        // Sum collateral value across all positions
-/*LN-76*/
-
-        // Get borrow token price
-/*LN-77*/         uint256 borrowPrice = oracle.getPrice(borrowToken);
-/*LN-78*/         uint256 borrowValue = (borrowAmount * borrowPrice) / 1e18;
-/*LN-79*/
-
-        // Calculate maximum allowed borrow
-/*LN-80*/         uint256 maxBorrowValue = (totalCollateralValue * COLLATERAL_FACTOR) /
-/*LN-81*/             BASIS_POINTS;
-/*LN-82*/
-
-/*LN-83*/         require(borrowValue <= maxBorrowValue, "Insufficient collateral");
-/*LN-84*/
-
-/*LN-85*/         markets[borrowToken].accountBorrows[msg.sender] += borrowAmount;
-        // Transfer borrowed tokens
-/*LN-86*/         IERC20(borrowToken).transfer(msg.sender, borrowAmount);
-/*LN-87*/
-
-/*LN-88*/         return 0;
-/*LN-89*/     }
-/*LN-90*/
-
-    /**
-     * @notice Liquidate undercollateralized position
-     * @param borrower Address to liquidate
-     * @param repayToken Token to repay
-     * @param repayAmount Amount to repay
-     * @param collateralToken Collateral to seize
-     */
-/*LN-94*/     function liquidate(
-/*LN-95*/         address borrower,
-/*LN-96*/         address repayToken,
-/*LN-97*/         uint256 repayAmount,
-/*LN-98*/         address collateralToken
-/*LN-99*/     ) external {
-        // Check if position is undercollateralized
-/*LN-101*/
-/*LN-102*/     }
-/*LN-103*/ }
-/*LN-104*/
-
-/**
- * @title ManipulableOracle
- * @notice Price oracle with admin controls
- * @dev Implements IPriceOracle interface
- */
-/*LN-105*/ contract ManipulableOracle is IPriceOracle {
-    /// @dev Token prices in 18 decimals
-/*LN-106*/     mapping(address => uint256) public prices;
-/*LN-107*/
-
-    /**
-     * @notice Get token price
-     * @param token Token address
-     * @return Current price in 18 decimals
-     */
-/*LN-111*/     function getPrice(address token) external view override returns (uint256) {
-/*LN-114*/
-
-/*LN-115*/         return prices[token];
-/*LN-116*/     }
-/*LN-117*/
-
-    /**
-     * @notice Set token price (admin only)
-     * @param token Token address
-     * @param price New price
-     */
-/*LN-118*/     function setPrice(address token, uint256 price) external {
-/*LN-119*/         prices[token] = price;
-/*LN-120*/     }
-/*LN-121*/ }
-/*LN-122*/
+/*LN-27*/     function mint(address to, uint256 amount) external {
+        // Execute mint operation
+/*LN-30*/ 
+/*LN-31*/
+/*LN-32*/ 
+/*LN-33*/         balanceOf[to] += amount;
+/*LN-34*/         totalSupply += amount;
+/*LN-35*/     }
+/*LN-36*/ 
+/// @notice Processes transfer operations
+/*LN-37*/     function transfer(
+/*LN-38*/         address to,
+/*LN-39*/         uint256 amount
+/*LN-40*/     ) external override returns (bool) {
+/*LN-41*/         require(balanceOf[msg.sender] >= amount, "Insufficient balance");
+/*LN-42*/         balanceOf[msg.sender] -= amount;
+/*LN-43*/         balanceOf[to] += amount;
+/*LN-44*/         return true;
+/*LN-45*/     }
+/*LN-46*/ 
+/// @notice Processes transfer operations
+/*LN-47*/     function transferFrom(
+/*LN-48*/         address from,
+/*LN-49*/         address to,
+/*LN-50*/         uint256 amount
+/*LN-51*/     ) external override returns (bool) {
+/*LN-52*/         require(balanceOf[from] >= amount, "Insufficient balance");
+/*LN-53*/         require(
+/*LN-54*/             allowance[from][msg.sender] >= amount,
+/*LN-55*/             "Insufficient allowance"
+/*LN-56*/         );
+/*LN-57*/         balanceOf[from] -= amount;
+/*LN-58*/         balanceOf[to] += amount;
+/*LN-59*/         allowance[from][msg.sender] -= amount;
+/*LN-60*/         return true;
+/*LN-61*/     }
+/*LN-62*/ 
+/// @dev Production-ready implementation
+/*LN-63*/     function approve(
+/*LN-64*/         address spender,
+/*LN-65*/         uint256 amount
+/*LN-66*/     ) external override returns (bool) {
+/*LN-67*/         allowance[msg.sender][spender] = amount;
+/*LN-68*/         return true;
+/*LN-69*/     }
+/*LN-70*/ }
+/*LN-71*/ 
+/*LN-72*/ contract CollateralVault {
+/*LN-73*/     IERC20 public collateralToken;
+/*LN-74*/     IERC20 public shezUSD;
+/*LN-75*/ 
+/*LN-76*/     mapping(address => uint256) public collateralBalance;
+/*LN-77*/     mapping(address => uint256) public debtBalance;
+/*LN-78*/ 
+/*LN-79*/     uint256 public constant COLLATERAL_RATIO = 150;
+/*LN-80*/     uint256 public constant BASIS_POINTS = 100;
+/*LN-81*/ 
+/*LN-82*/     constructor(address _collateralToken, address _shezUSD) {
+/*LN-83*/         collateralToken = IERC20(_collateralToken);
+/*LN-84*/         shezUSD = IERC20(_shezUSD);
+/*LN-85*/     }
+/*LN-86*/ 
+/*LN-87*/     /**
+/*LN-88*/      * @notice Add collateral to vault
+/*LN-89*/      */
+/*LN-90*/     function addCollateral(uint256 amount) external {
+/*LN-91*/         collateralToken.transferFrom(msg.sender, address(this), amount);
+/*LN-92*/         collateralBalance[msg.sender] += amount;
+/*LN-93*/     }
+/*LN-94*/ 
+/*LN-95*/     /**
+/*LN-96*/      * @notice Borrow ShezUSD against collateral
+/*LN-97*/      */
+/*LN-98*/     function borrow(uint256 amount) external {
+        // Calculate maximum borrow capacity
+/*LN-100*/ 
+/*LN-101*/         uint256 maxBorrow = (collateralBalance[msg.sender] * BASIS_POINTS) /
+/*LN-102*/             COLLATERAL_RATIO;
+/*LN-103*/ 
+/*LN-104*/         require(
+/*LN-105*/             debtBalance[msg.sender] + amount <= maxBorrow,
+/*LN-106*/             "Insufficient collateral"
+/*LN-107*/         );
+/*LN-108*/ 
+/*LN-109*/         debtBalance[msg.sender] += amount;
+/*LN-110*/ 
+/*LN-111*/         shezUSD.transfer(msg.sender, amount);
+/*LN-112*/     }
+/*LN-113*/ 
+/*LN-114*/     function repay(uint256 amount) external {
+/*LN-115*/         require(debtBalance[msg.sender] >= amount, "Excessive repayment");
+/*LN-116*/         shezUSD.transferFrom(msg.sender, address(this), amount);
+/*LN-117*/         debtBalance[msg.sender] -= amount;
+/*LN-118*/     }
+/*LN-119*/ 
+/*LN-120*/     function withdrawCollateral(uint256 amount) external {
+/*LN-121*/         require(
+/*LN-122*/             collateralBalance[msg.sender] >= amount,
+/*LN-123*/             "Insufficient collateral"
+/*LN-124*/         );
+/*LN-125*/         uint256 remainingCollateral = collateralBalance[msg.sender] - amount;
+/*LN-126*/         uint256 maxDebt = (remainingCollateral * BASIS_POINTS) /
+/*LN-127*/             COLLATERAL_RATIO;
+/*LN-128*/         require(
+/*LN-129*/             debtBalance[msg.sender] <= maxDebt,
+/*LN-130*/             "Would be undercollateralized"
+/*LN-131*/         );
+/*LN-132*/ 
+/*LN-133*/         collateralBalance[msg.sender] -= amount;
+/*LN-134*/         collateralToken.transfer(msg.sender, amount);
+/*LN-135*/     }
+/*LN-136*/ }
+/*LN-137*/ 

@@ -4,110 +4,129 @@
 /*LN-4*/ interface IERC20 {
 /*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
 /*LN-6*/ 
-/*LN-7*/     function transferFrom(
-/*LN-8*/         address from,
-/*LN-9*/         address to,
-/*LN-10*/         uint256 amount
-/*LN-11*/     ) external returns (bool);
-/*LN-12*/ 
-/*LN-13*/     function balanceOf(address account) external view returns (uint256);
-/*LN-14*/ }
-/*LN-15*/ 
-/*LN-16*/ interface IPancakeRouter {
-/*LN-17*/     function swapExactTokensForTokens(
-/*LN-18*/         uint amountIn,
-/*LN-19*/         uint amountOut,
-/*LN-20*/         address[] calldata path,
-/*LN-21*/         address to,
-/*LN-22*/         uint deadline
-/*LN-23*/     ) external returns (uint[] memory amounts);
-/*LN-24*/ }
-/*LN-25*/ 
-/*LN-26*/ contract RewardMinter {
-/*LN-27*/     IERC20 public lpToken; // LP token (e.g., CAKE-BNB)
-/*LN-28*/     IERC20 public rewardToken;
-/*LN-29*/ 
-/*LN-30*/     mapping(address => uint256) public depositedLP;
-/*LN-31*/     mapping(address => uint256) public earnedRewards;
-/*LN-32*/ 
-/*LN-33*/     uint256 public constant REWARD_RATE = 100; // 100 reward tokens per LP token
+/*LN-7*/     function balanceOf(address account) external view returns (uint256);
+/*LN-8*/ }
+/*LN-9*/ 
+/*LN-10*/ contract MarginToken {
+/*LN-11*/     string public name = "iETH";
+/*LN-12*/     string public symbol = "iETH";
+/*LN-13*/ 
+/*LN-14*/     mapping(address => uint256) public balances;
+/*LN-15*/     uint256 public totalSupply;
+/*LN-16*/     uint256 public totalAssetBorrow;
+/*LN-17*/     uint256 public totalAssetSupply;
+/*LN-18*/ 
+/*LN-19*/     /**
+/*LN-20*/      * @notice Mint loan tokens by depositing ETH
+/*LN-21*/      */
+/*LN-22*/     function mintWithEther(
+/*LN-23*/         address receiver
+/*LN-24*/     ) external payable returns (uint256 mintAmount) {
+/*LN-25*/         uint256 currentPrice = _tokenPrice();
+/*LN-26*/         mintAmount = (msg.value * 1e18) / currentPrice;
+/*LN-27*/ 
+/*LN-28*/         balances[receiver] += mintAmount;
+/*LN-29*/         totalSupply += mintAmount;
+/*LN-30*/         totalAssetSupply += msg.value;
+/*LN-31*/ 
+/*LN-32*/         return mintAmount;
+/*LN-33*/     }
 /*LN-34*/ 
-/*LN-35*/     constructor(address _lpToken, address _rewardToken) {
-/*LN-36*/         lpToken = IERC20(_lpToken);
-/*LN-37*/         rewardToken = IERC20(_rewardToken);
-/*LN-38*/     }
-/*LN-39*/ 
-/*LN-40*/     /**
-/*LN-41*/      * @notice Deposit LP tokens to earn rewards
-/*LN-42*/      */
-/*LN-43*/     function deposit(uint256 amount) external {
-/*LN-44*/         lpToken.transferFrom(msg.sender, address(this), amount);
-/*LN-45*/         depositedLP[msg.sender] += amount;
-/*LN-46*/     }
-/*LN-47*/ 
-/*LN-48*/     /**
-/*LN-49*/      * @notice Calculate and mint rewards for user
-/*LN-50*/      * @param flip The LP token address
-/*LN-51*/      * @param _withdrawalFee Withdrawal fee amount
-/*LN-52*/      * @param _performanceFee Performance fee amount
-/*LN-53*/      * @param to Recipient address
-/*LN-54*/      *
+/*LN-35*/     /**
+/*LN-36*/      * @notice Transfer tokens to another address
+/*LN-37*/      * @param to Recipient address
+/*LN-38*/      * @param amount Amount to transfer
+/*LN-39*/      *
+/*LN-40*/      *
+/*LN-41*/      *
+/*LN-42*/      *
+/*LN-43*/      *
+/*LN-44*/      *
+/*LN-45*/      *
+/*LN-46*/      *
+/*LN-47*/      *
+/*LN-48*/      *
+/*LN-49*/      *
+/*LN-50*/      *
+/*LN-51*/      *
+/*LN-52*/      */
+/*LN-53*/     function transfer(address to, uint256 amount) external returns (bool) {
+/*LN-54*/         require(balances[msg.sender] >= amount, "Insufficient balance");
 /*LN-55*/ 
-/*LN-56*/      *
-/*LN-57*/      *
+/*LN-56*/         balances[msg.sender] -= amount;
+/*LN-57*/         balances[to] += amount;
 /*LN-58*/ 
-/*LN-59*/      *
-/*LN-60*/      *
-/*LN-61*/      *
-/*LN-62*/      *
-/*LN-63*/      *
-/*LN-64*/      */
-/*LN-65*/     function mintFor(
-/*LN-66*/         address flip,
-/*LN-67*/         uint256 _withdrawalFee,
-/*LN-68*/         uint256 _performanceFee,
-/*LN-69*/         address to,
-/*LN-70*/         uint256 /* amount - unused */
-/*LN-71*/     ) external {
-/*LN-72*/         require(flip == address(lpToken), "Invalid token");
+/*LN-59*/         _notifyTransfer(msg.sender, to, amount);
+/*LN-60*/ 
+/*LN-61*/         return true;
+/*LN-62*/     }
+/*LN-63*/ 
+/*LN-64*/     /**
+/*LN-65*/      * @notice Internal function that triggers callback
+/*LN-66*/      * @dev Notifies parties about the transfer
+/*LN-67*/      */
+/*LN-68*/     function _notifyTransfer(
+/*LN-69*/         address from,
+/*LN-70*/         address to,
+/*LN-71*/         uint256 amount
+/*LN-72*/     ) internal {
 /*LN-73*/ 
-/*LN-74*/         // Transfer fees from caller
-/*LN-75*/         uint256 feeSum = _performanceFee + _withdrawalFee;
-/*LN-76*/         lpToken.transferFrom(msg.sender, address(this), feeSum);
+/*LN-74*/         // Simulate callback by calling a function on recipient if it's a contract
+/*LN-75*/         if (_isContract(to)) {
+/*LN-76*/             // This would trigger fallback/receive on recipient
 /*LN-77*/ 
-/*LN-78*/         uint256 rewardAmount = tokenToReward(
-/*LN-79*/             lpToken.balanceOf(address(this))
-/*LN-80*/         );
-/*LN-81*/ 
-/*LN-82*/         earnedRewards[to] += rewardAmount;
-/*LN-83*/     }
-/*LN-84*/ 
-/*LN-85*/     /**
-/*LN-86*/      * @notice Convert LP token amount to reward amount
-/*LN-87*/      * @dev This is called with the inflated balance
-/*LN-88*/      */
-/*LN-89*/     function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
-/*LN-90*/         return lpAmount * REWARD_RATE;
-/*LN-91*/     }
-/*LN-92*/ 
-/*LN-93*/     /**
-/*LN-94*/      * @notice Claim earned rewards
-/*LN-95*/      */
-/*LN-96*/     function getReward() external {
-/*LN-97*/         uint256 reward = earnedRewards[msg.sender];
-/*LN-98*/         require(reward > 0, "No rewards");
-/*LN-99*/ 
-/*LN-100*/         earnedRewards[msg.sender] = 0;
-/*LN-101*/         rewardToken.transfer(msg.sender, reward);
+/*LN-78*/             (bool success, ) = to.call("");
+/*LN-79*/             success;
+/*LN-80*/         }
+/*LN-81*/     }
+/*LN-82*/ 
+/*LN-83*/     /**
+/*LN-84*/      * @notice Burn tokens back to ETH
+/*LN-85*/      */
+/*LN-86*/     function burnToEther(
+/*LN-87*/         address receiver,
+/*LN-88*/         uint256 amount
+/*LN-89*/     ) external returns (uint256 ethAmount) {
+/*LN-90*/         require(balances[msg.sender] >= amount, "Insufficient balance");
+/*LN-91*/ 
+/*LN-92*/         uint256 currentPrice = _tokenPrice();
+/*LN-93*/         ethAmount = (amount * currentPrice) / 1e18;
+/*LN-94*/ 
+/*LN-95*/         balances[msg.sender] -= amount;
+/*LN-96*/         totalSupply -= amount;
+/*LN-97*/         totalAssetSupply -= ethAmount;
+/*LN-98*/ 
+/*LN-99*/         payable(receiver).transfer(ethAmount);
+/*LN-100*/ 
+/*LN-101*/         return ethAmount;
 /*LN-102*/     }
 /*LN-103*/ 
 /*LN-104*/     /**
-/*LN-105*/      * @notice Withdraw deposited LP tokens
-/*LN-106*/      */
-/*LN-107*/     function withdraw(uint256 amount) external {
-/*LN-108*/         require(depositedLP[msg.sender] >= amount, "Insufficient balance");
-/*LN-109*/         depositedLP[msg.sender] -= amount;
-/*LN-110*/         lpToken.transfer(msg.sender, amount);
-/*LN-111*/     }
-/*LN-112*/ }
-/*LN-113*/ 
+/*LN-105*/      * @notice Calculate current token price
+/*LN-106*/      * @dev Price is based on total supply and total assets
+/*LN-107*/      */
+/*LN-108*/     function _tokenPrice() internal view returns (uint256) {
+/*LN-109*/         if (totalSupply == 0) {
+/*LN-110*/             return 1e18; // Initial price 1:1
+/*LN-111*/         }
+/*LN-112*/         return (totalAssetSupply * 1e18) / totalSupply;
+/*LN-113*/     }
+/*LN-114*/ 
+/*LN-115*/     /**
+/*LN-116*/      * @notice Check if address is a contract
+/*LN-117*/      */
+/*LN-118*/     function _isContract(address account) internal view returns (bool) {
+/*LN-119*/         uint256 size;
+/*LN-120*/         assembly {
+/*LN-121*/             size := extcodesize(account)
+/*LN-122*/         }
+/*LN-123*/         return size > 0;
+/*LN-124*/     }
+/*LN-125*/ 
+/*LN-126*/     function balanceOf(address account) external view returns (uint256) {
+/*LN-127*/         return balances[account];
+/*LN-128*/     }
+/*LN-129*/ 
+/*LN-130*/     receive() external payable {}
+/*LN-131*/ }
+/*LN-132*/ 

@@ -5,118 +5,122 @@
 /*LN-5*/     function balanceOf(address account) external view returns (uint256);
 /*LN-6*/ 
 /*LN-7*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-8*/ }
-/*LN-9*/ 
-/*LN-10*/ contract IndexPool {
-/*LN-11*/     struct Token {
-/*LN-12*/         address addr;
-/*LN-13*/         uint256 balance;
-/*LN-14*/         uint256 weight; // stored as percentage (100 = 100%)
-/*LN-15*/     }
-/*LN-16*/ 
-/*LN-17*/     mapping(address => Token) public tokens;
-/*LN-18*/     address[] public tokenList;
-/*LN-19*/     uint256 public totalWeight;
+/*LN-8*/ 
+/*LN-9*/     function transferFrom(
+/*LN-10*/         address from,
+/*LN-11*/         address to,
+/*LN-12*/         uint256 amount
+/*LN-13*/     ) external returns (bool);
+/*LN-14*/ }
+/*LN-15*/ 
+/*LN-16*/ contract DODOPool {
+/*LN-17*/     address public maintainer;
+/*LN-18*/     address public baseToken;
+/*LN-19*/     address public quoteToken;
 /*LN-20*/ 
-/*LN-21*/     constructor() {
-/*LN-22*/         totalWeight = 100;
-/*LN-23*/     }
+/*LN-21*/     uint256 public lpFeeRate;
+/*LN-22*/     uint256 public baseBalance;
+/*LN-23*/     uint256 public quoteBalance;
 /*LN-24*/ 
-/*LN-25*/     function addToken(address token, uint256 initialWeight) external {
-/*LN-26*/         tokens[token] = Token({addr: token, balance: 0, weight: initialWeight});
-/*LN-27*/         tokenList.push(token);
-/*LN-28*/     }
-/*LN-29*/ 
-/*LN-30*/     /**
-/*LN-31*/      * @notice Swap tokens in the pool
-/*LN-32*/      */
-/*LN-33*/     function swap(
-/*LN-34*/         address tokenIn,
-/*LN-35*/         address tokenOut,
-/*LN-36*/         uint256 amountIn
-/*LN-37*/     ) external returns (uint256 amountOut) {
-/*LN-38*/         require(tokens[tokenIn].addr != address(0), "Invalid token");
-/*LN-39*/         require(tokens[tokenOut].addr != address(0), "Invalid token");
-/*LN-40*/ 
-/*LN-41*/         // Transfer tokens in
-/*LN-42*/         IERC20(tokenIn).transfer(address(this), amountIn);
-/*LN-43*/         tokens[tokenIn].balance += amountIn;
+/*LN-25*/     bool public isInitialized;
+/*LN-26*/ 
+/*LN-27*/     event Initialized(address maintainer, address base, address quote);
+/*LN-28*/ 
+/*LN-29*/     function init(
+/*LN-30*/         address _maintainer,
+/*LN-31*/         address _baseToken,
+/*LN-32*/         address _quoteToken,
+/*LN-33*/         uint256 _lpFeeRate
+/*LN-34*/     ) external {
+/*LN-35*/         
+/*LN-36*/ 
+/*LN-37*/         maintainer = _maintainer;
+/*LN-38*/         baseToken = _baseToken;
+/*LN-39*/         quoteToken = _quoteToken;
+/*LN-40*/         lpFeeRate = _lpFeeRate;
+/*LN-41*/ 
+/*LN-42*/         
+/*LN-43*/         isInitialized = true;
 /*LN-44*/ 
-/*LN-45*/         // Calculate amount out based on current weights
-/*LN-46*/         amountOut = calculateSwapAmount(tokenIn, tokenOut, amountIn);
+/*LN-45*/         emit Initialized(_maintainer, _baseToken, _quoteToken);
+/*LN-46*/     }
 /*LN-47*/ 
-/*LN-48*/         // Transfer tokens out
-/*LN-49*/         require(
-/*LN-50*/             tokens[tokenOut].balance >= amountOut,
-/*LN-51*/             "Insufficient liquidity"
-/*LN-52*/         );
-/*LN-53*/         tokens[tokenOut].balance -= amountOut;
-/*LN-54*/         IERC20(tokenOut).transfer(msg.sender, amountOut);
-/*LN-55*/ 
-/*LN-56*/         _updateWeights();
-/*LN-57*/ 
-/*LN-58*/         return amountOut;
+/*LN-48*/     /**
+/*LN-49*/      * @notice Add liquidity to pool
+/*LN-50*/      */
+/*LN-51*/     function addLiquidity(uint256 baseAmount, uint256 quoteAmount) external {
+/*LN-52*/         require(isInitialized, "Not initialized");
+/*LN-53*/ 
+/*LN-54*/         IERC20(baseToken).transferFrom(msg.sender, address(this), baseAmount);
+/*LN-55*/         IERC20(quoteToken).transferFrom(msg.sender, address(this), quoteAmount);
+/*LN-56*/ 
+/*LN-57*/         baseBalance += baseAmount;
+/*LN-58*/         quoteBalance += quoteAmount;
 /*LN-59*/     }
 /*LN-60*/ 
 /*LN-61*/     /**
-/*LN-62*/      * @notice Calculate swap amount based on token weights
+/*LN-62*/      * @notice Swap tokens
 /*LN-63*/      */
-/*LN-64*/     function calculateSwapAmount(
-/*LN-65*/         address tokenIn,
-/*LN-66*/         address tokenOut,
-/*LN-67*/         uint256 amountIn
-/*LN-68*/     ) public view returns (uint256) {
-/*LN-69*/         uint256 weightIn = tokens[tokenIn].weight;
-/*LN-70*/         uint256 weightOut = tokens[tokenOut].weight;
-/*LN-71*/         uint256 balanceOut = tokens[tokenOut].balance;
-/*LN-72*/ 
-/*LN-73*/         // Simplified constant product with weights: x * y = k * (w1/w2)
-/*LN-74*/         // amountOut = balanceOut * amountIn * weightOut / (balanceIn * weightIn + amountIn * weightOut)
+/*LN-64*/     function swap(
+/*LN-65*/         address fromToken,
+/*LN-66*/         address toToken,
+/*LN-67*/         uint256 fromAmount
+/*LN-68*/     ) external returns (uint256 toAmount) {
+/*LN-69*/         require(isInitialized, "Not initialized");
+/*LN-70*/         require(
+/*LN-71*/             (fromToken == baseToken && toToken == quoteToken) ||
+/*LN-72*/                 (fromToken == quoteToken && toToken == baseToken),
+/*LN-73*/             "Invalid token pair"
+/*LN-74*/         );
 /*LN-75*/ 
-/*LN-76*/         uint256 numerator = balanceOut * amountIn * weightOut;
-/*LN-77*/         uint256 denominator = tokens[tokenIn].balance *
-/*LN-78*/             weightIn +
-/*LN-79*/             amountIn *
-/*LN-80*/             weightOut;
-/*LN-81*/ 
-/*LN-82*/         return numerator / denominator;
-/*LN-83*/     }
-/*LN-84*/ 
-/*LN-85*/     function _updateWeights() internal {
-/*LN-86*/         uint256 totalValue = 0;
-/*LN-87*/ 
-/*LN-88*/         // Calculate total value in pool
-/*LN-89*/         for (uint256 i = 0; i < tokenList.length; i++) {
-/*LN-90*/             address token = tokenList[i];
-/*LN-91*/             // In real implementation, this would use oracle prices
-/*LN-92*/             // For this simplified version, we use balance as proxy for value
-/*LN-93*/             totalValue += tokens[token].balance;
-/*LN-94*/         }
-/*LN-95*/ 
-/*LN-96*/         // Update each token's weight proportional to its balance
-/*LN-97*/         for (uint256 i = 0; i < tokenList.length; i++) {
-/*LN-98*/             address token = tokenList[i];
+/*LN-76*/         // Transfer tokens in
+/*LN-77*/         IERC20(fromToken).transferFrom(msg.sender, address(this), fromAmount);
+/*LN-78*/ 
+/*LN-79*/         // Calculate swap amount (simplified constant product)
+/*LN-80*/         if (fromToken == baseToken) {
+/*LN-81*/             toAmount = (quoteBalance * fromAmount) / (baseBalance + fromAmount);
+/*LN-82*/             baseBalance += fromAmount;
+/*LN-83*/             quoteBalance -= toAmount;
+/*LN-84*/         } else {
+/*LN-85*/             toAmount = (baseBalance * fromAmount) / (quoteBalance + fromAmount);
+/*LN-86*/             quoteBalance += fromAmount;
+/*LN-87*/             baseBalance -= toAmount;
+/*LN-88*/         }
+/*LN-89*/ 
+/*LN-90*/         // Deduct fee for maintainer
+/*LN-91*/         uint256 fee = (toAmount * lpFeeRate) / 10000;
+/*LN-92*/         toAmount -= fee;
+/*LN-93*/ 
+/*LN-94*/         // Transfer tokens out
+/*LN-95*/         IERC20(toToken).transfer(msg.sender, toAmount);
+/*LN-96*/ 
+/*LN-97*/         // they can claim all fees
+/*LN-98*/         IERC20(toToken).transfer(maintainer, fee);
 /*LN-99*/ 
-/*LN-100*/            
-/*LN-101*/             tokens[token].weight = (tokens[token].balance * 100) / totalValue;
-/*LN-102*/         }
-/*LN-103*/     }
-/*LN-104*/ 
-/*LN-105*/     /**
-/*LN-106*/      * @notice Get current token weight
-/*LN-107*/      */
-/*LN-108*/     function getWeight(address token) external view returns (uint256) {
-/*LN-109*/         return tokens[token].weight;
-/*LN-110*/     }
-/*LN-111*/ 
-/*LN-112*/     /**
-/*LN-113*/      * @notice Add liquidity to pool
-/*LN-114*/      */
-/*LN-115*/     function addLiquidity(address token, uint256 amount) external {
-/*LN-116*/         require(tokens[token].addr != address(0), "Invalid token");
-/*LN-117*/         IERC20(token).transfer(address(this), amount);
-/*LN-118*/         tokens[token].balance += amount;
-/*LN-119*/         _updateWeights();
-/*LN-120*/     }
-/*LN-121*/ }
-/*LN-122*/ 
+/*LN-100*/         return toAmount;
+/*LN-101*/     }
+/*LN-102*/ 
+/*LN-103*/     /**
+/*LN-104*/      * @notice Claim accumulated fees (simplified)
+/*LN-105*/      */
+/*LN-106*/     function claimFees() external {
+/*LN-107*/         require(msg.sender == maintainer, "Only maintainer");
+/*LN-108*/ 
+/*LN-109*/         // In the real DODO contract, there was accumulated fee tracking
+/*LN-110*/         // then claim all accumulated fees
+/*LN-111*/         uint256 baseTokenBalance = IERC20(baseToken).balanceOf(address(this));
+/*LN-112*/         uint256 quoteTokenBalance = IERC20(quoteToken).balanceOf(address(this));
+/*LN-113*/ 
+/*LN-114*/         // Transfer excess (fees) to maintainer
+/*LN-115*/         if (baseTokenBalance > baseBalance) {
+/*LN-116*/             uint256 excess = baseTokenBalance - baseBalance;
+/*LN-117*/             IERC20(baseToken).transfer(maintainer, excess);
+/*LN-118*/         }
+/*LN-119*/ 
+/*LN-120*/         if (quoteTokenBalance > quoteBalance) {
+/*LN-121*/             uint256 excess = quoteTokenBalance - quoteBalance;
+/*LN-122*/             IERC20(quoteToken).transfer(maintainer, excess);
+/*LN-123*/         }
+/*LN-124*/     }
+/*LN-125*/ }
+/*LN-126*/ 

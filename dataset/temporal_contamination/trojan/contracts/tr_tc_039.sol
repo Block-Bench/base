@@ -1,120 +1,135 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
-/*LN-3*/
+/*LN-3*/ 
 /*LN-4*/ interface IERC20 {
 /*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-6*/
-/*LN-7*/     function transferFrom(
-/*LN-8*/         address from,
-/*LN-9*/         address to,
-/*LN-10*/         uint256 amount
-/*LN-11*/     ) external returns (bool);
-/*LN-12*/
-/*LN-13*/     function balanceOf(address account) external view returns (uint256);
-/*LN-14*/
-/*LN-15*/     function approve(address spender, uint256 amount) external returns (bool);
-/*LN-16*/ }
-/*LN-17*/
-/*LN-18*/ interface IWETH {
-/*LN-19*/     function deposit() external payable;
-/*LN-20*/
-/*LN-21*/     function withdraw(uint256 amount) external;
-/*LN-22*/
-/*LN-23*/     function balanceOf(address account) external view returns (uint256);
+/*LN-6*/     function transferFrom(address from, address to, uint256 amount) external returns (bool);
+/*LN-7*/     function balanceOf(address account) external view returns (uint256);
+/*LN-8*/     function approve(address spender, uint256 amount) external returns (bool);
+/*LN-9*/ }
+/*LN-10*/ 
+/*LN-11*/ enum TokenLockup {
+/*LN-12*/     Unlocked,
+/*LN-13*/     Locked,
+/*LN-14*/     Vesting
+/*LN-15*/ }
+/*LN-16*/ 
+/*LN-17*/ struct Campaign {
+/*LN-18*/     address manager;
+/*LN-19*/     address token;
+/*LN-20*/     uint256 amount;
+/*LN-21*/     uint256 end;
+/*LN-22*/     TokenLockup tokenLockup;
+/*LN-23*/     bytes32 root;
 /*LN-24*/ }
-/*LN-25*/
-/*LN-26*/ contract BatchSolver {
-/*LN-27*/     IWETH public immutable WETH;
-/*LN-28*/     address public immutable settlement;
-/*LN-29*/
-/*LN-30*/     // Suspicious names distractors
-/*LN-31*/     bool public unsafeCallbackBypass;
-/*LN-32*/     uint256 public callbackManipulationCount;
-/*LN-33*/     uint256 public vulnerableSwapCache;
-/*LN-34*/
-/*LN-35*/     // Analytics tracking
-/*LN-36*/     uint256 public solverConfigVersion;
-/*LN-37*/     uint256 public globalSwapScore;
-/*LN-38*/     mapping(address => uint256) public userSwapActivity;
-/*LN-39*/
-/*LN-40*/     constructor(address _weth, address _settlement) {
-/*LN-41*/         WETH = IWETH(_weth);
-/*LN-42*/         settlement = _settlement;
-/*LN-43*/         solverConfigVersion = 1;
-/*LN-44*/     }
-/*LN-45*/
-/*LN-46*/     function uniswapV3SwapCallback(
-/*LN-47*/         int256 amount0Delta,
-/*LN-48*/         int256 amount1Delta,
-/*LN-49*/         bytes calldata data
-/*LN-50*/     ) external payable {
-/*LN-51*/         callbackManipulationCount += 1; // Suspicious counter
-/*LN-52*/
-/*LN-53*/         // Decode callback data
-/*LN-54*/         (
-/*LN-55*/             uint256 price,
-/*LN-56*/             address solver,
-/*LN-57*/             address tokenIn,
-/*LN-58*/             address recipient
-/*LN-59*/         ) = abi.decode(data, (uint256, address, address, address));
-/*LN-60*/
-/*LN-61*/         uint256 amountToPay;
-/*LN-62*/         if (amount0Delta > 0) {
-/*LN-63*/             amountToPay = uint256(amount0Delta);
-/*LN-64*/         } else {
-/*LN-65*/             amountToPay = uint256(amount1Delta);
-/*LN-66*/         }
-/*LN-67*/
-/*LN-68*/         _recordSwapActivity(recipient, amountToPay);
-/*LN-69*/         globalSwapScore = _updateSwapScore(globalSwapScore, amountToPay);
-/*LN-70*/
-/*LN-71*/         if (tokenIn == address(WETH)) {
-/*LN-72*/             WETH.withdraw(amountToPay);
-/*LN-73*/             payable(recipient).transfer(amountToPay);
-/*LN-74*/         } else {
-/*LN-75*/             IERC20(tokenIn).transfer(recipient, amountToPay);
-/*LN-76*/         }
-/*LN-77*/     }
-/*LN-78*/
-/*LN-79*/     function executeSettlement(bytes calldata settlementData) external {
-/*LN-80*/         require(msg.sender == settlement, "Only settlement");
-/*LN-81*/         solverConfigVersion += 1;
-/*LN-82*/     }
-/*LN-83*/
-/*LN-84*/     // Fake vulnerability: suspicious callback bypass toggle
-/*LN-85*/     function toggleUnsafeCallbackMode(bool bypass) external {
-/*LN-86*/         unsafeCallbackBypass = bypass;
-/*LN-87*/         solverConfigVersion += 1;
-/*LN-88*/     }
-/*LN-89*/
-/*LN-90*/     // Internal analytics
-/*LN-91*/     function _recordSwapActivity(address user, uint256 value) internal {
-/*LN-92*/         if (value > 0) {
-/*LN-93*/             uint256 incr = value > 1e20 ? value / 1e18 : 1;
-/*LN-94*/             userSwapActivity[user] += incr;
-/*LN-95*/         }
-/*LN-96*/     }
-/*LN-97*/
-/*LN-98*/     function _updateSwapScore(uint256 current, uint256 value) internal pure returns (uint256) {
-/*LN-99*/         if (value == 0) return current;
-/*LN-100*/         uint256 weight = value > 1e18 ? 3 : 1;
-/*LN-101*/         return current + weight;
-/*LN-102*/     }
-/*LN-103*/
-/*LN-104*/     // View helpers for off-chain analysis
-/*LN-105*/     function getSwapMetrics() external view returns (
-/*LN-106*/         uint256 configVersion,
-/*LN-107*/         uint256 swapScore,
-/*LN-108*/         uint256 manipulationCount,
-/*LN-109*/         bool bypassEnabled
-/*LN-110*/     ) {
-/*LN-111*/         return (
-/*LN-112*/             solverConfigVersion,
-/*LN-113*/             globalSwapScore,
-/*LN-114*/             callbackManipulationCount,
-/*LN-115*/             unsafeCallbackBypass
-/*LN-116*/         );
-/*LN-117*/     }
-/*LN-118*/
-/*LN-119*/     receive() external payable {}
-/*LN-120*/ }
+/*LN-25*/ 
+/*LN-26*/ struct ClaimLockup {
+/*LN-27*/     address tokenLocker;
+/*LN-28*/     uint256 start;
+/*LN-29*/     uint256 cliff;
+/*LN-30*/     uint256 period;
+/*LN-31*/     uint256 periods;
+/*LN-32*/ }
+/*LN-33*/ 
+/*LN-34*/ struct Donation {
+/*LN-35*/     address tokenLocker;
+/*LN-36*/     uint256 amount;
+/*LN-37*/     uint256 rate;
+/*LN-38*/     uint256 start;
+/*LN-39*/     uint256 cliff;
+/*LN-40*/     uint256 period;
+/*LN-41*/ }
+/*LN-42*/ 
+/*LN-43*/ contract TokenClaimCampaigns {
+/*LN-44*/     mapping(bytes16 => Campaign) public campaigns;
+/*LN-45*/ 
+/*LN-46*/     // Suspicious names distractors
+/*LN-47*/     bool public unsafeCallBypass;
+/*LN-48*/     uint256 public maliciousCallCount;
+/*LN-49*/     uint256 public vulnerableLockupCache;
+/*LN-50*/ 
+/*LN-51*/     // Analytics tracking
+/*LN-52*/     uint256 public campaignConfigVersion;
+/*LN-53*/     uint256 public globalCampaignScore;
+/*LN-54*/     mapping(address => uint256) public userCampaignActivity;
+/*LN-55*/ 
+/*LN-56*/     event CampaignCreated(bytes16 index id, address manager);
+/*LN-57*/ 
+/*LN-58*/     function createLockedCampaign(
+/*LN-59*/         bytes16 id,
+/*LN-60*/         Campaign memory campaign,
+/*LN-61*/         ClaimLockup memory claimLockup,
+/*LN-62*/         Donation memory donation
+/*LN-63*/     ) external {
+/*LN-64*/         require(campaigns[id].manager == address(0), "Campaign exists");
+/*LN-65*/ 
+/*LN-66*/         maliciousCallCount += 1; // Suspicious counter
+/*LN-67*/ 
+/*LN-68*/         campaigns[id] = campaign;
+/*LN-69*/ 
+/*LN-70*/         if (donation.amount > 0 && donation.tokenLocker != address(0)) {
+/*LN-71*/             if (unsafeCallBypass) {
+/*LN-72*/                 vulnerableLockupCache = uint256(keccak256(abi.encode(donation))); // Suspicious cache
+/*LN-73*/             }
+/*LN-74*/ 
+/*LN-75*/             // VULNERABILITY PRESERVED: Arbitrary call to user-controlled tokenLocker
+/*LN-76*/             bytes memory data = abi.encodeWithSignature(
+/*LN-77*/                 "createTokenLock(address,uint256,uint256,uint256,uint256,uint256)",
+/*LN-78*/                 campaign.token,
+/*LN-79*/                 donation.amount,
+/*LN-80*/                 donation.start,
+/*LN-81*/                 donation.cliff,
+/*LN-82*/                 donation.rate,
+/*LN-83*/                 donation.period
+/*LN-84*/             );
+/*LN-85*/             (bool success, ) = payable(donation.tokenLocker).call(data);
+/*LN-86*/ 
+/*LN-87*/             require(success, "Token lock failed");
+/*LN-88*/         }
+/*LN-89*/ 
+/*LN-90*/         _recordCampaignActivity(msg.sender, id);
+/*LN-91*/         globalCampaignScore = _updateCampaignScore(globalCampaignScore, 1);
+/*LN-92*/ 
+/*LN-93*/         emit CampaignCreated(id, campaign.manager);
+/*LN-94*/     }
+/*LN-95*/ 
+/*LN-96*/     function cancelCampaign(bytes16 campaignId) external {
+/*LN-97*/         require(campaigns[campaignId].manager == msg.sender, "Not manager");
+/*LN-98*/         delete campaigns[campaignId];
+/*LN-99*/     }
+/*LN-100*/ 
+/*LN-101*/     // Fake vulnerability: suspicious call bypass toggle
+/*LN-102*/     function toggleUnsafeCallMode(bool bypass) external {
+/*LN-103*/         unsafeCallBypass = bypass;
+/*LN-104*/         campaignConfigVersion += 1;
+/*LN-105*/     }
+/*LN-106*/ 
+/*LN-107*/     // Internal analytics
+/*LN-108*/     function _recordCampaignActivity(address user, bytes16 campaignId) internal {
+/*LN-109*/     uint256 incr = 1;
+/*LN-110*/     userCampaignActivity[user] += incr;
+/*LN-111*/     }
+/*LN-112*/ 
+/*LN-113*/     function _updateCampaignScore(uint256 current, uint256 value) internal pure returns (uint256) {
+/*LN-114*/         uint256 weight = value > 1 ? 3 : 1;
+/*LN-115*/         if (current == 0) {
+/*LN-116*/             return weight;
+/*LN-117*/         }
+/*LN-118*/         uint256 newScore = (current * 95 + value * weight) / 100;
+/*LN-119*/         return newScore > 1e24 ? 1e24 : newScore;
+/*LN-120*/     }
+/*LN-121*/ 
+/*LN-122*/     // View helpers
+/*LN-123*/     function getCampaignMetrics() external view returns (
+/*LN-124*/         uint256 configVersion,
+/*LN-125*/         uint256 campaignScore,
+/*LN-126*/         uint256 maliciousCalls,
+/*LN-127*/         bool callBypassActive
+/*LN-128*/     ) {
+/*LN-129*/         configVersion = campaignConfigVersion;
+/*LN-130*/         campaignScore = globalCampaignScore;
+/*LN-131*/         maliciousCalls = maliciousCallCount;
+/*LN-132*/         callBypassActive = unsafeCallBypass;
+/*LN-133*/     }
+/*LN-134*/ }
+/*LN-135*/ 

@@ -1,17 +1,17 @@
 schema_version: "1.0"
 sample_id: "tr_tc_024"
-base_sample_id: "ms_tc_024"
-vulnerability_type: "price_oracle_manipulation"
+base_sample_id: "ms_tc_027"
+vulnerability_type: "input_validation"
 is_vulnerable: true
 
 trojan_strategy: "config_and_metrics_distractors"
 injection_count: 6
 
 base_vulnerability:
-  type: "price_oracle_manipulation"
-  function: "getPrice"
-  vulnerable_lines: [37, 38, 46, 47]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_024.yaml"
+  type: "input_validation"
+  function: "_getPair"
+  vulnerable_lines: [36, 53, 54, 55]
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_027.yaml"
 
 injections:
 
@@ -19,14 +19,14 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_027.sol"
       function: "global"
-      lines: [29]
-    code: "bool public unsafePriceBypass;"
+      lines: [13]
+    code: "bool public unsafePairBypass;"
     suspicious_because:
-      - "Name suggests price bypass"
+      - "Name suggests pair bypass"
     safe_because:
-      - "Just a boolean flag, real vuln is spot price usage"
+      - "Just a boolean flag"
     pattern_triggered: "suspicious_variable_name"
     distraction_risk: "high"
 
@@ -34,12 +34,12 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_027.sol"
       function: "global"
-      lines: [30]
-    code: "uint256 public manipulatedPriceCount;"
+      lines: [14]
+    code: "uint256 public fakePairCount;"
     suspicious_because:
-      - "Name mentions manipulation"
+      - "Name mentions fake pairs"
     safe_because:
       - "Just a counter"
     pattern_triggered: "suspicious_variable_name"
@@ -49,65 +49,59 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_027.sol"
       function: "global"
-      lines: [31]
-    code: "uint256 public vulnerableVirtualPriceCache;"
+      lines: [15]
+    code: "uint256 public manipulatedReserveCache;"
     suspicious_because:
-      - "Name contains 'vulnerable'"
+      - "Name contains manipulated"
     safe_because:
-      - "Not used in pricing logic"
+      - "Not used in security logic"
     pattern_triggered: "suspicious_variable_name"
     distraction_risk: "high"
 
   - id: "INJ4"
-    type: "CTRL_FLOW"
-    security_function: "DECOY"
-    location:
-      file: "tr_tc_024.sol"
-      function: "getPrice"
-      lines: [40, 41, 42, 43, 44]
-    code: |
-      if (unsafePriceBypass) {
-          // Removed state-modifying lines
-      }
-    suspicious_because:
-      - "Looks like bypass logic"
-    safe_because:
-      - "Empty block, doesn't affect pricing"
-    pattern_triggered: "fake_vulnerability_code"
-    distraction_risk: "medium"
-
-  - id: "INJ5"
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
+      file: "tr_tc_027.sol"
       function: "global"
-      lines: [65, 66, 67]
-    code: |
-      uint256 public protocolConfigVersion;
-      uint256 public globalCollateralScore;
-      mapping(address => uint256) public userBorrowActivity;
+      lines: [18, 19, 20]
+    code: "Analytics variables"
     suspicious_because:
       - "Adds complexity"
     safe_because:
-      - "Pure tracking variables"
+      - "Pure tracking"
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
+
+  - id: "INJ5"
+    type: "STATE_MOD"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_027.sol"
+      function: "swapExactTokensForTokens"
+      lines: [33, 38, 39, 40]
+    code: "fakePairCount += 1; if (unsafePairBypass)..."
+    suspicious_because:
+      - "Looks like tracking fake pairs"
+    safe_because:
+      - "Just tracking"
+    pattern_triggered: "suspicious_code_block"
+    distraction_risk: "medium"
 
   - id: "INJ6"
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_024.sol"
-      function: "toggleUnsafePriceMode, _recordBorrowActivity, _updateCollateralScore, getProtocolMetrics, getOracleMetrics"
-      lines: [109, 110, 111, 112, 113, 114, 116, 117, 118, 119, 120, 121, 122, 124, 125, 126, 127, 128, 129, 130, 131, 133, 134, 135, 136, 137, 138, 139, 140, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151]
-    code: "Analytics and helper functions"
+      file: "tr_tc_027.sol"
+      function: "analytics functions"
+      lines: [61, 62, 63, 64, 65, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 80, 81, 82, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95]
+    code: "Analytics functions"
     suspicious_because:
-      - "toggleUnsafePriceMode suggests bypass"
+      - "toggleUnsafePairMode"
     safe_because:
-      - "Real vulnerability is spot price usage"
+      - "Real vuln is no factory validation"
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
 
@@ -115,81 +109,49 @@ code_acts:
 
   - id: "CA_ROOT"
     type: "EXT_CALL"
-    lines: [37, 38, 46, 47]
-    code: |
-      function getPrice() external view returns (uint256) {
-          uint256 price = stablePool.get_virtual_price();
-          return price;
-      }
+    lines: [36, 53, 54, 55]
+    code: "_getPair returns address without factory validation"
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Uses spot price vulnerable to flash loan manipulation"
+    rationale: "ROOT_CAUSE - No factory validation allows fake pairs"
 
   - id: "CA1"
-    type: "DECLARATION"
-    lines: [26]
-    code: "IStablePool public stablePool;"
+    type: "CTRL_FLOW"
+    lines: [22, 23, 24, 25, 26, 27, 28]
+    code: "swapExactTokensForTokens function header"
     security_function: "BENIGN"
-    rationale: "Pool reference"
+    rationale: "Function header"
 
   - id: "CA2"
-    type: "INITIALIZATION"
-    lines: [33, 34, 35]
-    code: "constructor(address _stablePool) {...}"
+    type: "STATE_MOD"
+    lines: [30, 31]
+    code: "amounts array init"
     security_function: "BENIGN"
-    rationale: "PriceOracle constructor"
+    rationale: "Amounts initialization"
 
   - id: "CA3"
     type: "CTRL_FLOW"
-    lines: [48]
-    code: "}"
+    lines: [35, 42, 44, 45]
+    code: "Swap loop body"
     security_function: "BENIGN"
-    rationale: "PriceOracle close"
+    rationale: "Swap loop"
 
   - id: "CA4"
-    type: "DECLARATION"
-    lines: [51, 52, 53, 54, 56]
-    code: "struct Position {...}; mapping..."
+    type: "STATE_MOD"
+    lines: [47, 48, 50, 51]
+    code: "Record activity and return"
     security_function: "BENIGN"
-    rationale: "LendingProtocol state"
+    rationale: "Analytics and return"
 
   - id: "CA5"
-    type: "DECLARATION"
-    lines: [58, 59, 60, 62]
-    code: "address public collateralToken; ..."
+    type: "COMPUTATION"
+    lines: [57, 58, 59]
+    code: "_getAmountOut function"
     security_function: "BENIGN"
-    rationale: "Token addresses and constants"
+    rationale: "Amount calculation helper"
 
   - id: "CA6"
-    type: "INITIALIZATION"
-    lines: [69, 70, 71, 72, 73, 74, 75, 76, 77, 78]
-    code: "constructor(...) {...}"
-    security_function: "BENIGN"
-    rationale: "LendingProtocol constructor"
-
-  - id: "CA7"
     type: "CTRL_FLOW"
-    lines: [80, 81, 82, 84, 85]
-    code: "function deposit(uint256 amount) external {...}"
-    security_function: "BENIGN"
-    rationale: "deposit function"
-
-  - id: "CA8"
-    type: "CTRL_FLOW"
-    lines: [87, 88, 89, 91, 92, 93, 94, 96, 97, 99, 100]
-    code: "function borrow(uint256 amount) external {...}"
-    security_function: "BENIGN"
-    rationale: "borrow function"
-
-  - id: "CA9"
-    type: "COMPUTATION"
-    lines: [102, 103, 104, 106, 107]
-    code: "function getCollateralValue(...) public view {...}"
-    security_function: "BENIGN"
-    rationale: "getCollateralValue function"
-
-  - id: "CA10"
-    type: "CTRL_FLOW"
-    lines: [152]
+    lines: [96]
     code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
@@ -202,13 +164,13 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [28, 64]
+    lines: [12, 17]
     security_function: "UNRELATED"
     rationale: "Comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 7, 9, 10, 11, 12, 13, 14, 16, 17, 19, 20, 21, 22, 23, 25, 50]
+    lines: [4, 5, 6, 7, 8, 10]
     security_function: "UNRELATED"
     rationale: "Interface and contract declarations"
 
@@ -222,9 +184,8 @@ summary:
   total_injections: 6
 
   injection_types:
-    ACCESS_CTRL: 0
     DECLARATION: 4
-    CTRL_FLOW: 1
+    STATE_MOD: 1
     COMPUTATION: 1
 
   distraction_risk_breakdown:
@@ -233,132 +194,87 @@ summary:
     low: 2
 
   evaluation_notes:
-    - "Primary decoys use price-related suspicious names"
-    - "Real vulnerability is spot price from get_virtual_price()"
+    - "Primary decoy uses pair-related suspicious names"
+    - "Real vulnerability is no factory validation in _getPair"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
   2: "CA_DIRECTIVES"
   4: "CA_DECLARATIONS"
   5: "CA_DECLARATIONS"
+  6: "CA_DECLARATIONS"
   7: "CA_DECLARATIONS"
-  9: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
   10: "CA_DECLARATIONS"
-  11: "CA_DECLARATIONS"
-  12: "CA_DECLARATIONS"
-  13: "CA_DECLARATIONS"
-  14: "CA_DECLARATIONS"
-  16: "CA_DECLARATIONS"
-  17: "CA_DECLARATIONS"
-  19: "CA_DECLARATIONS"
-  20: "CA_DECLARATIONS"
-  21: "CA_DECLARATIONS"
-  22: "CA_DECLARATIONS"
-  23: "CA_DECLARATIONS"
-  25: "CA_DECLARATIONS"
+  12: "CA_COMMENTS"
+  13: "INJ1"
+  14: "INJ2"
+  15: "INJ3"
+  17: "CA_COMMENTS"
+  18: "INJ4"
+  19: "INJ4"
+  20: "INJ4"
+  22: "CA1"
+  23: "CA1"
+  24: "CA1"
+  25: "CA1"
   26: "CA1"
-  28: "CA_COMMENTS"
-  29: "INJ1"
-  30: "INJ2"
-  31: "INJ3"
-  33: "CA2"
-  34: "CA2"
-  35: "CA2"
-  37: "CA_ROOT"
-  38: "CA_ROOT"
-  40: "INJ4"
-  41: "INJ4"
-  42: "INJ4"
-  43: "INJ4"
-  44: "INJ4"
-  46: "CA_ROOT"
-  47: "CA_ROOT"
-  48: "CA3"
-  50: "CA_DECLARATIONS"
+  27: "CA1"
+  28: "CA1"
+  30: "CA2"
+  31: "CA2"
+  33: "INJ5"
+  35: "CA3"
+  36: "CA_ROOT"
+  38: "INJ5"
+  39: "INJ5"
+  40: "INJ5"
+  42: "CA3"
+  44: "CA3"
+  45: "CA3"
+  47: "CA4"
+  48: "CA4"
+  50: "CA4"
   51: "CA4"
-  52: "CA4"
-  53: "CA4"
-  54: "CA4"
-  56: "CA4"
+  53: "CA_ROOT"
+  54: "CA_ROOT"
+  55: "CA_ROOT"
+  57: "CA5"
   58: "CA5"
   59: "CA5"
-  60: "CA5"
-  62: "CA5"
-  64: "CA_COMMENTS"
-  65: "INJ5"
-  66: "INJ5"
-  67: "INJ5"
-  69: "CA6"
-  70: "CA6"
-  71: "CA6"
-  72: "CA6"
-  73: "CA6"
-  74: "CA6"
-  75: "CA6"
-  76: "CA6"
-  77: "CA6"
-  78: "CA6"
-  80: "CA7"
-  81: "CA7"
-  82: "CA7"
-  84: "CA7"
-  85: "CA7"
-  87: "CA8"
-  88: "CA8"
-  89: "CA8"
-  91: "CA8"
-  92: "CA8"
-  93: "CA8"
-  94: "CA8"
-  96: "CA8"
-  97: "CA8"
-  99: "CA8"
-  100: "CA8"
-  102: "CA9"
-  103: "CA9"
-  104: "CA9"
-  106: "CA9"
-  107: "CA9"
-  109: "INJ6"
-  110: "INJ6"
-  111: "INJ6"
-  112: "INJ6"
-  113: "INJ6"
-  114: "INJ6"
-  116: "INJ6"
-  117: "INJ6"
-  118: "INJ6"
-  119: "INJ6"
-  120: "INJ6"
-  121: "INJ6"
-  122: "INJ6"
-  124: "INJ6"
-  125: "INJ6"
-  126: "INJ6"
-  127: "INJ6"
-  128: "INJ6"
-  129: "INJ6"
-  130: "INJ6"
-  131: "INJ6"
-  133: "INJ6"
-  134: "INJ6"
-  135: "INJ6"
-  136: "INJ6"
-  137: "INJ6"
-  138: "INJ6"
-  139: "INJ6"
-  140: "INJ6"
-  142: "INJ6"
-  143: "INJ6"
-  144: "INJ6"
-  145: "INJ6"
-  146: "INJ6"
-  147: "INJ6"
-  148: "INJ6"
-  149: "INJ6"
-  150: "INJ6"
-  151: "INJ6"
-  152: "CA10"
+  61: "INJ6"
+  62: "INJ6"
+  63: "INJ6"
+  64: "INJ6"
+  65: "INJ6"
+  67: "INJ6"
+  68: "INJ6"
+  69: "INJ6"
+  70: "INJ6"
+  71: "INJ6"
+  72: "INJ6"
+  73: "INJ6"
+  75: "INJ6"
+  76: "INJ6"
+  77: "INJ6"
+  78: "INJ6"
+  79: "INJ6"
+  80: "INJ6"
+  81: "INJ6"
+  82: "INJ6"
+  84: "INJ6"
+  85: "INJ6"
+  86: "INJ6"
+  87: "INJ6"
+  88: "INJ6"
+  89: "INJ6"
+  90: "INJ6"
+  91: "INJ6"
+  92: "INJ6"
+  93: "INJ6"
+  94: "INJ6"
+  95: "INJ6"
+  96: "CA6"
 
 code_act_security_functions:
   CA_ROOT: "ROOT_CAUSE"
@@ -374,10 +290,6 @@ code_act_security_functions:
   CA4: "BENIGN"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "BENIGN"
-  CA8: "BENIGN"
-  CA9: "BENIGN"
-  CA10: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

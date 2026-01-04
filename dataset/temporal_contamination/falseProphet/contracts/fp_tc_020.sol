@@ -1,162 +1,159 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ interface IUniswapV2Pair {
-/*LN-5*/     function getReserves()
-/*LN-6*/         external
-/*LN-7*/         view
-/*LN-8*/         returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast);
-/*LN-9*/ 
-/*LN-10*/     function totalSupply() external view returns (uint256);
-/*LN-11*/ }
-/*LN-12*/ 
-/*LN-13*/ interface IERC20 {
-/*LN-14*/     function balanceOf(address account) external view returns (uint256);
+/*LN-4*/ interface IERC20 {
+/*LN-5*/     function balanceOf(address account) external view returns (uint256);
+/*LN-6*/ 
+/*LN-7*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-8*/ 
+/*LN-9*/     function transferFrom(
+/*LN-10*/         address from,
+/*LN-11*/         address to,
+/*LN-12*/         uint256 amount
+/*LN-13*/     ) external returns (bool);
+/*LN-14*/ }
 /*LN-15*/ 
-/*LN-16*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-17*/ 
-/*LN-18*/     function transferFrom(
-/*LN-19*/         address from,
-/*LN-20*/         address to,
-/*LN-21*/         uint256 amount
-/*LN-22*/     ) external returns (bool);
-/*LN-23*/ }
-/*LN-24*/ 
+/*LN-16*/ interface ICErc20 {
+/*LN-17*/     function borrow(uint256 amount) external returns (uint256);
+/*LN-18*/ 
+/*LN-19*/     function borrowBalanceCurrent(address account) external returns (uint256);
+/*LN-20*/ }
+/*LN-21*/ 
 
 /**
- * @title CollateralVault
- * @notice LP token collateralized lending vault
- * @dev Audited by Trail of Bits (Q4 2020) - All critical findings addressed
- * @dev Implements over-collateralized lending with 150% ratio
- * @dev Uses AMM pair reserves for collateral valuation
- * @custom:security-contact security@warpfinance.io
+ * @title LeveragedBank
+ * @notice Leveraged yield farming protocol with debt share accounting
+ * @dev Audited by Peckshield (Q4 2020) - All findings resolved
+ * @dev Implements share-based debt tracking for interest accrual
+ * @dev Integrates with Iron Bank for borrowing liquidity
+ * @custom:security-contact security@alphafinance.io
  */
-/*LN-25*/ contract CollateralVault {
-    /// @dev User position tracking for collateral and debt
-/*LN-26*/     struct Position {
-/*LN-27*/         uint256 lpTokenAmount;
-/*LN-28*/         uint256 borrowed;
-/*LN-29*/     }
-/*LN-30*/
-    /// @dev Position registry by user address
-/*LN-31*/     mapping(address => Position) public positions;
-/*LN-32*/
-    /// @dev Uniswap V2 LP token accepted as collateral
-/*LN-33*/     address public lpToken;
-    /// @dev Stablecoin for borrowing
-/*LN-34*/     address public stablecoin;
-    /// @dev Required collateralization (150% = safe margin)
-/*LN-35*/     uint256 public constant COLLATERAL_RATIO = 150; // 150% collateralization
-/*LN-36*/ 
-/*LN-37*/     constructor(address _lpToken, address _stablecoin) {
-/*LN-38*/         lpToken = _lpToken;
-/*LN-39*/         stablecoin = _stablecoin;
-/*LN-40*/     }
-/*LN-41*/ 
-    /**
-     * @notice Deposit LP tokens as collateral
-     * @dev Transfers LP tokens to vault and updates position
-     * @param amount Amount of LP tokens to deposit
-     */
-/*LN-45*/     function deposit(uint256 amount) external {
-/*LN-46*/         IERC20(lpToken).transferFrom(msg.sender, address(this), amount);
-/*LN-47*/         positions[msg.sender].lpTokenAmount += amount;
-/*LN-48*/     }
+/*LN-22*/ contract LeveragedBank {
+    /// @dev Position data for leveraged farming
+/*LN-23*/     struct Position {
+/*LN-24*/         address owner;
+/*LN-25*/         uint256 collateral;
+/*LN-26*/         uint256 debtShare;
+/*LN-27*/     }
+/*LN-28*/
+    /// @dev Position registry by ID
+/*LN-29*/     mapping(uint256 => Position) public positions;
+    /// @dev Counter for position IDs
+/*LN-30*/     uint256 public nextPositionId;
+/*LN-31*/
+    /// @dev Iron Bank cToken for borrowing
+/*LN-32*/     address public cToken;
+    /// @dev Total borrowed amount across all positions
+/*LN-33*/     uint256 public totalDebt;
+    /// @dev Total debt shares for proportional accounting
+/*LN-34*/     uint256 public totalDebtShare;
+/*LN-35*/ 
+/*LN-36*/     constructor(address _cToken) {
+/*LN-37*/         cToken = _cToken;
+/*LN-38*/         nextPositionId = 1;
+/*LN-39*/     }
+/*LN-40*/ 
+/*LN-41*/     /**
+/*LN-42*/      * @notice Open a leveraged position
+/*LN-43*/      */
+/*LN-44*/     function openPosition(
+/*LN-45*/         uint256 collateralAmount,
+/*LN-46*/         uint256 borrowAmount
+/*LN-47*/     ) external returns (uint256 positionId) {
+/*LN-48*/         positionId = nextPositionId++;
 /*LN-49*/ 
+/*LN-50*/         positions[positionId] = Position({
+/*LN-51*/             owner: msg.sender,
+/*LN-52*/             collateral: collateralAmount,
+/*LN-53*/             debtShare: 0
+/*LN-54*/         });
+/*LN-55*/ 
+/*LN-56*/         // User provides collateral (simplified)
+/*LN-57*/         // In real leveraged leveraged, this would involve LP tokens
+/*LN-58*/ 
+/*LN-59*/         // Borrow from Iron Bank
+/*LN-60*/         _borrow(positionId, borrowAmount);
+/*LN-61*/ 
+/*LN-62*/         return positionId;
+/*LN-63*/     }
+/*LN-64*/ 
     /**
-     * @notice Borrow stablecoins against LP token collateral
-     * @dev Enforces 150% collateralization ratio before lending
-     * @dev Updates debt position before transfer
-     * @param amount Amount of stablecoins to borrow
+     * @notice Internal borrow function with share calculation
+     * @dev Calculates proportional debt shares for new borrowing
+     * @param positionId Position to add debt to
+     * @param amount Amount to borrow
      */
-/*LN-53*/     function borrow(uint256 amount) external {
-            // Calculate current collateral value
-/*LN-54*/         uint256 collateralValue = getLPTokenValue(
-/*LN-55*/             positions[msg.sender].lpTokenAmount
-/*LN-56*/         );
-            // Determine maximum borrowable with safety margin
-/*LN-57*/         uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;
-/*LN-58*/
-            // Enforce collateralization requirement
-/*LN-59*/         require(
-/*LN-60*/             positions[msg.sender].borrowed + amount <= maxBorrow,
-/*LN-61*/             "Insufficient collateral"
-/*LN-62*/         );
-/*LN-63*/
-            // Update debt before transfer
-/*LN-64*/         positions[msg.sender].borrowed += amount;
-            // Transfer borrowed stablecoins
-/*LN-65*/         IERC20(stablecoin).transfer(msg.sender, amount);
-/*LN-66*/     }
-/*LN-67*/ 
-    /**
-     * @notice Calculate USD value of LP tokens
-     * @dev Uses AMM reserves for proportional value calculation
-     * @dev Returns sum of underlying token values
-     * @param lpAmount Amount of LP tokens to value
-     * @return Total value in stablecoin units
-     */
-/*LN-68*/     function getLPTokenValue(uint256 lpAmount) public view returns (uint256) {
-/*LN-69*/         if (lpAmount == 0) return 0;
+/*LN-68*/     function _borrow(uint256 positionId, uint256 amount) internal {
+/*LN-69*/         Position storage pos = positions[positionId];
 /*LN-70*/
-            // Get AMM pair reference
-/*LN-71*/         IUniswapV2Pair pair = IUniswapV2Pair(lpToken);
-/*LN-72*/
-            // Fetch current pool state
-/*LN-73*/         (uint112 reserve0, uint112 reserve1, ) = pair.getReserves();
-/*LN-74*/         uint256 totalSupply = pair.totalSupply();
-/*LN-75*/
-            // Calculate proportional share of underlying tokens
-/*LN-78*/         uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;
-/*LN-79*/         uint256 amount1 = (uint256(reserve1) * lpAmount) / totalSupply;
+            // Calculate debt shares for this borrow
+/*LN-72*/         uint256 share;
+/*LN-73*/
+/*LN-74*/         if (totalDebtShare == 0) {
+            // First borrow: 1:1 share ratio
+/*LN-75*/             share = amount;
+/*LN-76*/         } else {
+            // Proportional share based on current debt pool
+/*LN-78*/             share = (amount * totalDebtShare) / totalDebt;
+/*LN-79*/         }
 /*LN-80*/
-            // Value calculation (token0 is stablecoin base)
-/*LN-83*/         uint256 value0 = amount0;
+            // Update position and global accounting
+/*LN-81*/         pos.debtShare += share;
+/*LN-82*/         totalDebtShare += share;
+/*LN-83*/         totalDebt += amount;
 /*LN-84*/
-            // Sum underlying values for total LP value
-/*LN-86*/         uint256 totalValue = amount0 + amount1;
-/*LN-87*/
-/*LN-88*/         return totalValue;
-/*LN-89*/     }
-/*LN-90*/ 
-    /**
-     * @notice Repay borrowed stablecoins
-     * @dev Reduces debt position after receiving repayment
-     * @param amount Amount to repay
-     */
-/*LN-94*/     function repay(uint256 amount) external {
-/*LN-95*/         require(positions[msg.sender].borrowed >= amount, "Repay exceeds debt");
-/*LN-96*/ 
-/*LN-97*/         IERC20(stablecoin).transferFrom(msg.sender, address(this), amount);
-/*LN-98*/         positions[msg.sender].borrowed -= amount;
-/*LN-99*/     }
+            // Execute borrow from lending protocol
+/*LN-86*/         ICErc20(cToken).borrow(amount);
+/*LN-87*/     }
+/*LN-88*/ 
+/*LN-89*/     /**
+/*LN-90*/      * @notice Repay debt for a position
+/*LN-91*/      */
+/*LN-92*/     function repay(uint256 positionId, uint256 amount) external {
+/*LN-93*/         Position storage pos = positions[positionId];
+/*LN-94*/         require(msg.sender == pos.owner, "Not position owner");
+/*LN-95*/ 
+/*LN-96*/         // Calculate how many shares this repayment covers
+/*LN-97*/         uint256 shareToRemove = (amount * totalDebtShare) / totalDebt;
+/*LN-98*/ 
+/*LN-99*/         require(pos.debtShare >= shareToRemove, "Excessive repayment");
 /*LN-100*/ 
-    /**
-     * @notice Withdraw LP tokens from vault
-     * @dev Validates position health before releasing collateral
-     * @dev Ensures remaining collateral covers outstanding debt
-     * @param amount Amount of LP tokens to withdraw
-     */
-/*LN-104*/     function withdraw(uint256 amount) external {
-/*LN-105*/         require(
-/*LN-106*/             positions[msg.sender].lpTokenAmount >= amount,
-/*LN-107*/             "Insufficient balance"
-/*LN-108*/         );
-/*LN-109*/
-            // Verify position remains healthy after withdrawal
-/*LN-111*/         uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;
-/*LN-112*/         uint256 remainingValue = getLPTokenValue(remainingLP);
-/*LN-113*/         uint256 maxBorrow = (remainingValue * 100) / COLLATERAL_RATIO;
-/*LN-114*/
-            // Enforce collateralization on remaining position
-/*LN-115*/         require(
-/*LN-116*/             positions[msg.sender].borrowed <= maxBorrow,
-/*LN-117*/             "Withdrawal would liquidate position"
-/*LN-118*/         );
-/*LN-119*/
-            // Update position and return collateral
-/*LN-120*/         positions[msg.sender].lpTokenAmount -= amount;
-/*LN-121*/         IERC20(lpToken).transfer(msg.sender, amount);
-/*LN-122*/     }
-/*LN-123*/ }
-/*LN-124*/ 
+/*LN-101*/         pos.debtShare -= shareToRemove;
+/*LN-102*/         totalDebtShare -= shareToRemove;
+/*LN-103*/         totalDebt -= amount;
+/*LN-104*/ 
+/*LN-105*/         // Transfer tokens from user (simplified)
+/*LN-106*/     }
+/*LN-107*/ 
+/*LN-108*/     /**
+/*LN-109*/      * @notice Get current debt amount for a position
+/*LN-110*/      */
+/*LN-111*/     function getPositionDebt(
+/*LN-112*/         uint256 positionId
+/*LN-113*/     ) external view returns (uint256) {
+/*LN-114*/         Position storage pos = positions[positionId];
+/*LN-115*/ 
+/*LN-116*/         if (totalDebtShare == 0) return 0;
+/*LN-117*/ 
+/*LN-118*/         // Debt calculation based on current share
+/*LN-119*/         return (pos.debtShare * totalDebt) / totalDebtShare;
+/*LN-120*/     }
+/*LN-121*/ 
+/*LN-122*/     /**
+/*LN-123*/      * @notice Liquidate an unhealthy position
+/*LN-124*/      */
+/*LN-125*/     function liquidate(uint256 positionId) external {
+/*LN-126*/         Position storage pos = positions[positionId];
+/*LN-127*/ 
+/*LN-128*/         uint256 debt = (pos.debtShare * totalDebt) / totalDebtShare;
+/*LN-129*/ 
+/*LN-130*/         // Check if position is underwater
+/*LN-131*/         // Simplified: collateral should be > 150% of debt
+/*LN-132*/         require(pos.collateral * 100 < debt * 150, "Position is healthy");
+/*LN-133*/ 
+/*LN-134*/         // Liquidate and transfer collateral to liquidator
+/*LN-135*/         pos.collateral = 0;
+/*LN-136*/         pos.debtShare = 0;
+/*LN-137*/     }
+/*LN-138*/ }
+/*LN-139*/ 

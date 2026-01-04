@@ -1,33 +1,33 @@
 {
   "sample_id": "tr_tc_025",
-  "exploit_name": "Hundred Finance Reentrancy",
-  "date": "2022-03-15",
-  "amount_lost_usd": "6000000",
-  "blockchain": "gnosis",
+  "exploit_name": "BVaults SafeMoon Drain",
+  "date": "2021-05-30",
+  "amount_lost_usd": "8500000",
+  "blockchain": "binance_smart_chain",
   "language": "solidity",
-  "vulnerability_type": "reentrancy",
+  "vulnerability_type": "accounting_error",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "pre_cutoff",
-  "description": "Hundred Finance (Compound fork) was exploited via ERC667 token hooks reentrancy. ERC667 tokens call recipient contracts during transfers. The borrow function transferred tokens before fully updating state, allowing attackers to re-enter and borrow multiple times with the same collateral.",
-  "vulnerable_contract": "LendingMarket",
-  "vulnerable_function": "borrow",
+  "description": "BVaults didn't account for deflationary tokens (like SafeMoon) that burn a percentage on transfer. The vault credited users for the full deposit amount but only received a reduced amount after fees, allowing withdrawals that drained more than deposited.",
+  "vulnerable_contract": "TokenVault",
+  "vulnerable_function": "deposit",
   "vulnerable_lines": [
-    32
+    50
   ],
-  "attack_scenario": "1) Flash loan ERC667 tokens. 2) Call borrow() to initiate loan. 3) During token transfer, ERC667 hook calls back to attacker contract. 4) Attacker re-enters borrow() before first borrow state update completes. 5) Multiple borrows executed with same collateral. 6) Drained $6M from multiple markets on Gnosis chain.",
-  "root_cause": "Compound fork didn't account for ERC667 token hooks that allow reentrancy during transfers. The borrow function violated checks-effects-interactions by transferring tokens before completing state updates, enabling multiple borrows within one transaction.",
+  "attack_scenario": "1) Deflationary token charges 10% fee on transfers. 2) Attacker deposits 100 tokens. 3) Vault receives only 90 tokens (10% burned as fee). 4) Vault credits attacker's account with full 100 tokens. 5) Attacker withdraws 100 tokens. 6) Vault sends 100 but only had 90 plus other users' funds. 7) Repeated deposits/withdrawals to drain $8.5M.",
+  "root_cause": "Vault assumed tokens received equal amount transferred. Didn't check actual balance increase before/after transfer. Deflationary tokens with transfer fees caused accounting mismatch between credited amounts and actual holdings.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "reentrancy",
-    "erc667",
-    "compound_fork",
-    "token_hooks",
-    "gnosis",
+    "deflationary_token",
+    "transfer_fee",
+    "vault",
+    "bsc",
+    "accounting",
     "trojan"
   ],
   "variant_type": "trojan",
@@ -40,8 +40,8 @@
     "type": "trojan",
     "strategy": "decoy",
     "source_dir": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original",
-    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_025.sol",
-    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_025.json",
+    "source_contract": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/contracts/tc_028.sol",
+    "source_metadata": "/Users/poamen/projects/grace/blockbench/base/dataset/temporal_contamination/original/metadata/tc_028.json",
     "script": "manual",
     "changes": [
       "Removed vulnerability documentation and comments",
@@ -52,22 +52,20 @@
     ],
     "distractors": {
       "config_variables": 2,
-      "score_variables": 18,
+      "score_variables": 15,
       "activity_variables": 0,
       "fake_functions": 3,
-      "view_helpers": 2,
-      "suspicious_names": 15
+      "view_helpers": 1,
+      "suspicious_names": 14
     },
     "contracts_renamed": [
-      "LendingMarket"
+      "TokenVault"
     ],
     "vulnerability_preserved": true,
     "documentation_removed": true,
-    "created_date": "2025-12-30T01:40:33.664034",
+    "created_date": "2025-12-30T01:40:33.666725",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T02:10:09.806460",
-    "code_renames": {
-      "ICompoundToken": "ILendToken"
-    }
+    "sanitization_date": "2026-01-02T02:10:09.835019",
+    "code_renames": {}
   }
 }

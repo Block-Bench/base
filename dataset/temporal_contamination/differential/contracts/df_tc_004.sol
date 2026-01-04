@@ -2,159 +2,172 @@
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
 /*LN-4*/ /**
-/*LN-5*/  * @title Yield Aggregator Vault
-/*LN-6*/  * @notice Vault contract that deploys funds to external yield strategies
-/*LN-7*/  * @dev Users deposit tokens and receive vault shares representing their position
+/*LN-5*/  * @title Automated Market Maker Pool
+/*LN-6*/  * @notice Liquidity pool for token swaps with concentrated liquidity
+/*LN-7*/  * @dev Allows users to add liquidity and perform token swaps
 /*LN-8*/  */
-/*LN-9*/ 
-/*LN-10*/ interface ICurvePool {
-/*LN-11*/     function exchange_underlying(
-/*LN-12*/         int128 i,
-/*LN-13*/         int128 j,
-/*LN-14*/         uint256 dx,
-/*LN-15*/         uint256 min_dy
-/*LN-16*/     ) external returns (uint256);
-/*LN-17*/ 
-/*LN-18*/     function get_dy_underlying(
-/*LN-19*/         int128 i,
-/*LN-20*/         int128 j,
-/*LN-21*/         uint256 dx
-/*LN-22*/     ) external view returns (uint256);
-/*LN-23*/ }
-/*LN-24*/ 
-/*LN-25*/ contract YieldVault {
-/*LN-26*/     address public underlyingToken;
-/*LN-27*/     ICurvePool public curvePool;
-/*LN-28*/ 
-/*LN-29*/     uint256 public totalSupply;
-/*LN-30*/     mapping(address => uint256) public balanceOf;
-/*LN-31*/ 
-/*LN-32*/     // Assets deployed to external protocols
-/*LN-33*/     uint256 public investedBalance;
-/*LN-34*/ 
-/*LN-35*/     // TWAP protection
-/*LN-36*/     uint256 public lastPricePerShare;
-/*LN-37*/     uint256 public lastPriceUpdate;
-/*LN-38*/     uint256 constant MAX_PRICE_DEVIATION = 5; // 5% max deviation
-/*LN-39*/     uint256 constant MIN_PRICE_UPDATE_INTERVAL = 1 hours;
-/*LN-40*/ 
-/*LN-41*/     event Deposit(address indexed user, uint256 amount, uint256 shares);
-/*LN-42*/     event Withdrawal(address indexed user, uint256 shares, uint256 amount);
-/*LN-43*/ 
-/*LN-44*/     constructor(address _token, address _curvePool) {
-/*LN-45*/         underlyingToken = _token;
-/*LN-46*/         curvePool = ICurvePool(_curvePool);
-/*LN-47*/         lastPricePerShare = 1e18;
-/*LN-48*/         lastPriceUpdate = block.timestamp;
-/*LN-49*/     }
-/*LN-50*/ 
-/*LN-51*/     /**
-/*LN-52*/      * @notice Deposit tokens and receive vault shares
-/*LN-53*/      * @param amount Amount of underlying tokens to deposit
-/*LN-54*/      * @return shares Amount of vault shares minted
-/*LN-55*/      */
-/*LN-56*/     function deposit(uint256 amount) external returns (uint256 shares) {
-/*LN-57*/         require(amount > 0, "Zero amount");
-/*LN-58*/         _checkPriceDeviation();
-/*LN-59*/ 
-/*LN-60*/         // Calculate shares based on current price
-/*LN-61*/         if (totalSupply == 0) {
-/*LN-62*/             shares = amount;
-/*LN-63*/         } else {
-/*LN-64*/             uint256 totalAssets = getTotalAssets();
-/*LN-65*/             shares = (amount * totalSupply) / totalAssets;
-/*LN-66*/         }
-/*LN-67*/ 
-/*LN-68*/         balanceOf[msg.sender] += shares;
-/*LN-69*/         totalSupply += shares;
+/*LN-9*/ contract AMMPool {
+/*LN-10*/     // Token balances in the pool
+/*LN-11*/     mapping(uint256 => uint256) public balances; // 0 = token0, 1 = token1
+/*LN-12*/ 
+/*LN-13*/     // LP token
+/*LN-14*/     mapping(address => uint256) public lpBalances;
+/*LN-15*/     uint256 public totalLPSupply;
+/*LN-16*/ 
+/*LN-17*/     // Reentrancy guard
+/*LN-18*/     uint256 private _status;
+/*LN-19*/     uint256 private constant _NOT_ENTERED = 1;
+/*LN-20*/     uint256 private constant _ENTERED = 2;
+/*LN-21*/ 
+/*LN-22*/     event LiquidityAdded(
+/*LN-23*/         address indexed provider,
+/*LN-24*/         uint256[2] amounts,
+/*LN-25*/         uint256 lpMinted
+/*LN-26*/     );
+/*LN-27*/     event LiquidityRemoved(
+/*LN-28*/         address indexed provider,
+/*LN-29*/         uint256 lpBurned,
+/*LN-30*/         uint256[2] amounts
+/*LN-31*/     );
+/*LN-32*/ 
+/*LN-33*/     constructor() {
+/*LN-34*/         _status = _NOT_ENTERED;
+/*LN-35*/     }
+/*LN-36*/ 
+/*LN-37*/     /**
+/*LN-38*/      * @notice Add liquidity to the pool
+/*LN-39*/      * @param amounts Array of token amounts to deposit
+/*LN-40*/      * @param min_mint_amount Minimum LP tokens to mint
+/*LN-41*/      * @return Amount of LP tokens minted
+/*LN-42*/      */
+/*LN-43*/     function add_liquidity(
+/*LN-44*/         uint256[2] memory amounts,
+/*LN-45*/         uint256 min_mint_amount
+/*LN-46*/     ) external payable returns (uint256) {
+/*LN-47*/         require(_status != _ENTERED, "Reentrancy detected");
+/*LN-48*/         _status = _ENTERED;
+/*LN-49*/ 
+/*LN-50*/         require(amounts[0] == msg.value, "ETH amount mismatch");
+/*LN-51*/ 
+/*LN-52*/         // Calculate LP tokens to mint
+/*LN-53*/         uint256 lpToMint;
+/*LN-54*/         if (totalLPSupply == 0) {
+/*LN-55*/             lpToMint = amounts[0] + amounts[1];
+/*LN-56*/         } else {
+/*LN-57*/             uint256 totalValue = balances[0] + balances[1];
+/*LN-58*/             lpToMint = ((amounts[0] + amounts[1]) * totalLPSupply) / totalValue;
+/*LN-59*/         }
+/*LN-60*/ 
+/*LN-61*/         require(lpToMint >= min_mint_amount, "Slippage");
+/*LN-62*/ 
+/*LN-63*/         // Update balances
+/*LN-64*/         balances[0] += amounts[0];
+/*LN-65*/         balances[1] += amounts[1];
+/*LN-66*/ 
+/*LN-67*/         // Mint LP tokens
+/*LN-68*/         lpBalances[msg.sender] += lpToMint;
+/*LN-69*/         totalLPSupply += lpToMint;
 /*LN-70*/ 
-/*LN-71*/         // Deploy funds to strategy
-/*LN-72*/         _investInCurve(amount);
-/*LN-73*/         _updatePrice();
-/*LN-74*/ 
-/*LN-75*/         emit Deposit(msg.sender, amount, shares);
-/*LN-76*/         return shares;
-/*LN-77*/     }
-/*LN-78*/ 
-/*LN-79*/     /**
-/*LN-80*/      * @notice Withdraw underlying tokens by burning shares
-/*LN-81*/      * @param shares Amount of vault shares to burn
-/*LN-82*/      * @return amount Amount of underlying tokens received
-/*LN-83*/      */
-/*LN-84*/     function withdraw(uint256 shares) external returns (uint256 amount) {
-/*LN-85*/         require(shares > 0, "Zero shares");
-/*LN-86*/         require(balanceOf[msg.sender] >= shares, "Insufficient balance");
-/*LN-87*/         _checkPriceDeviation();
-/*LN-88*/ 
-/*LN-89*/         // Calculate amount based on current price
-/*LN-90*/         uint256 totalAssets = getTotalAssets();
-/*LN-91*/         amount = (shares * totalAssets) / totalSupply;
+/*LN-71*/         // Handle ETH operations
+/*LN-72*/         if (amounts[0] > 0) {
+/*LN-73*/             _handleETHTransfer(amounts[0]);
+/*LN-74*/         }
+/*LN-75*/ 
+/*LN-76*/         _status = _NOT_ENTERED;
+/*LN-77*/         emit LiquidityAdded(msg.sender, amounts, lpToMint);
+/*LN-78*/         return lpToMint;
+/*LN-79*/     }
+/*LN-80*/ 
+/*LN-81*/     /**
+/*LN-82*/      * @notice Remove liquidity from the pool
+/*LN-83*/      * @param lpAmount Amount of LP tokens to burn
+/*LN-84*/      * @param min_amounts Minimum amounts to receive
+/*LN-85*/      */
+/*LN-86*/     function remove_liquidity(
+/*LN-87*/         uint256 lpAmount,
+/*LN-88*/         uint256[2] memory min_amounts
+/*LN-89*/     ) external {
+/*LN-90*/         require(_status != _ENTERED, "Reentrancy detected");
+/*LN-91*/         _status = _ENTERED;
 /*LN-92*/ 
-/*LN-93*/         balanceOf[msg.sender] -= shares;
-/*LN-94*/         totalSupply -= shares;
-/*LN-95*/ 
-/*LN-96*/         // Withdraw from strategy
-/*LN-97*/         _withdrawFromCurve(amount);
-/*LN-98*/         _updatePrice();
-/*LN-99*/ 
-/*LN-100*/         emit Withdrawal(msg.sender, shares, amount);
-/*LN-101*/         return amount;
-/*LN-102*/     }
+/*LN-93*/         require(lpBalances[msg.sender] >= lpAmount, "Insufficient LP");
+/*LN-94*/ 
+/*LN-95*/         // Calculate amounts to return
+/*LN-96*/         uint256 amount0 = (lpAmount * balances[0]) / totalLPSupply;
+/*LN-97*/         uint256 amount1 = (lpAmount * balances[1]) / totalLPSupply;
+/*LN-98*/ 
+/*LN-99*/         require(
+/*LN-100*/             amount0 >= min_amounts[0] && amount1 >= min_amounts[1],
+/*LN-101*/             "Slippage"
+/*LN-102*/         );
 /*LN-103*/ 
-/*LN-104*/     /**
-/*LN-105*/      * @notice Check price deviation to prevent flash loan manipulation
-/*LN-106*/      */
-/*LN-107*/     function _checkPriceDeviation() internal view {
-/*LN-108*/         if (totalSupply == 0) return;
-/*LN-109*/         uint256 currentPrice = getPricePerFullShare();
-/*LN-110*/         uint256 maxAllowed = lastPricePerShare * (100 + MAX_PRICE_DEVIATION) / 100;
-/*LN-111*/         uint256 minAllowed = lastPricePerShare * (100 - MAX_PRICE_DEVIATION) / 100;
-/*LN-112*/         require(currentPrice >= minAllowed && currentPrice <= maxAllowed, "Price deviation too high");
-/*LN-113*/     }
-/*LN-114*/ 
-/*LN-115*/     /**
-/*LN-116*/      * @notice Update stored price
-/*LN-117*/      */
-/*LN-118*/     function _updatePrice() internal {
-/*LN-119*/         if (block.timestamp >= lastPriceUpdate + MIN_PRICE_UPDATE_INTERVAL) {
-/*LN-120*/             lastPricePerShare = getPricePerFullShare();
-/*LN-121*/             lastPriceUpdate = block.timestamp;
-/*LN-122*/         }
-/*LN-123*/     }
-/*LN-124*/ 
-/*LN-125*/     /**
-/*LN-126*/      * @notice Get total assets under management
-/*LN-127*/      * @return Total value of vault assets
-/*LN-128*/      */
-/*LN-129*/     function getTotalAssets() public view returns (uint256) {
-/*LN-130*/         uint256 vaultBalance = 0;
-/*LN-131*/         uint256 curveBalance = investedBalance;
-/*LN-132*/ 
-/*LN-133*/         return vaultBalance + curveBalance;
-/*LN-134*/     }
-/*LN-135*/ 
-/*LN-136*/     /**
-/*LN-137*/      * @notice Get price per share
-/*LN-138*/      * @return Price per vault share
-/*LN-139*/      */
-/*LN-140*/     function getPricePerFullShare() public view returns (uint256) {
-/*LN-141*/         if (totalSupply == 0) return 1e18;
-/*LN-142*/         return (getTotalAssets() * 1e18) / totalSupply;
-/*LN-143*/     }
-/*LN-144*/ 
-/*LN-145*/     /**
-/*LN-146*/      * @notice Internal function to invest in Curve
-/*LN-147*/      */
-/*LN-148*/     function _investInCurve(uint256 amount) internal {
-/*LN-149*/         investedBalance += amount;
-/*LN-150*/     }
+/*LN-104*/         // Burn LP tokens
+/*LN-105*/         lpBalances[msg.sender] -= lpAmount;
+/*LN-106*/         totalLPSupply -= lpAmount;
+/*LN-107*/ 
+/*LN-108*/         // Update balances
+/*LN-109*/         balances[0] -= amount0;
+/*LN-110*/         balances[1] -= amount1;
+/*LN-111*/ 
+/*LN-112*/         // Transfer tokens
+/*LN-113*/         if (amount0 > 0) {
+/*LN-114*/             payable(msg.sender).transfer(amount0);
+/*LN-115*/         }
+/*LN-116*/ 
+/*LN-117*/         _status = _NOT_ENTERED;
+/*LN-118*/         uint256[2] memory amounts = [amount0, amount1];
+/*LN-119*/         emit LiquidityRemoved(msg.sender, lpAmount, amounts);
+/*LN-120*/     }
+/*LN-121*/ 
+/*LN-122*/     /**
+/*LN-123*/      * @notice Internal function for ETH operations
+/*LN-124*/      */
+/*LN-125*/     function _handleETHTransfer(uint256 amount) internal {
+/*LN-126*/         (bool success, ) = msg.sender.call{value: 0}("");
+/*LN-127*/         require(success, "Transfer failed");
+/*LN-128*/     }
+/*LN-129*/ 
+/*LN-130*/     /**
+/*LN-131*/      * @notice Exchange tokens
+/*LN-132*/      * @param i Index of input token
+/*LN-133*/      * @param j Index of output token
+/*LN-134*/      * @param dx Input amount
+/*LN-135*/      * @param min_dy Minimum output amount
+/*LN-136*/      * @return Output amount
+/*LN-137*/      */
+/*LN-138*/     function exchange(
+/*LN-139*/         int128 i,
+/*LN-140*/         int128 j,
+/*LN-141*/         uint256 dx,
+/*LN-142*/         uint256 min_dy
+/*LN-143*/     ) external payable returns (uint256) {
+/*LN-144*/         require(_status != _ENTERED, "Reentrancy detected");
+/*LN-145*/         _status = _ENTERED;
+/*LN-146*/ 
+/*LN-147*/         uint256 ui = uint256(int256(i));
+/*LN-148*/         uint256 uj = uint256(int256(j));
+/*LN-149*/ 
+/*LN-150*/         require(ui < 2 && uj < 2 && ui != uj, "Invalid indices");
 /*LN-151*/ 
-/*LN-152*/     /**
-/*LN-153*/      * @notice Internal function to withdraw from Curve
-/*LN-154*/      */
-/*LN-155*/     function _withdrawFromCurve(uint256 amount) internal {
-/*LN-156*/         require(investedBalance >= amount, "Insufficient invested");
-/*LN-157*/         investedBalance -= amount;
-/*LN-158*/     }
-/*LN-159*/ }
+/*LN-152*/         // Calculate output amount
+/*LN-153*/         uint256 dy = (dx * balances[uj]) / (balances[ui] + dx);
+/*LN-154*/         require(dy >= min_dy, "Slippage");
+/*LN-155*/ 
+/*LN-156*/         if (ui == 0) {
+/*LN-157*/             require(msg.value == dx, "ETH mismatch");
+/*LN-158*/             balances[0] += dx;
+/*LN-159*/         }
 /*LN-160*/ 
+/*LN-161*/         balances[ui] += dx;
+/*LN-162*/         balances[uj] -= dy;
+/*LN-163*/ 
+/*LN-164*/         if (uj == 0) {
+/*LN-165*/             payable(msg.sender).transfer(dy);
+/*LN-166*/         }
+/*LN-167*/ 
+/*LN-168*/         _status = _NOT_ENTERED;
+/*LN-169*/         return dy;
+/*LN-170*/     }
+/*LN-171*/ 
+/*LN-172*/     receive() external payable {}
+/*LN-173*/ }

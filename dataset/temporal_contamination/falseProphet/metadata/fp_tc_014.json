@@ -1,36 +1,34 @@
 {
   "sample_id": "fp_tc_014",
-  "exploit_name": "Yearn Finance yDAI Vault",
-  "date": "2021-02-04",
+  "exploit_name": "Pickle Finance",
+  "date": "2020-11-21",
   "amount_lost_usd": "",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "price_oracle_manipulation",
+  "vulnerability_type": "access_control",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": true,
   "temporal_category": "",
-  "description": "Flash loan attack manipulating Curve pool to inflate virtual_price. The earn function trusted Curve's spot price which was temporarily inflated through imbalanced liquidity, causing vault to overvalue its position.",
-  "vulnerable_contract": "YieldVault",
-  "vulnerable_function": "earn",
+  "description": "Arbitrary external call vulnerability in controller's swap function. The swapExactJarForJar function accepted user-provided target addresses and calldata, making unchecked external calls that drained strategy funds.",
+  "vulnerable_contract": "YieldController",
+  "vulnerable_function": "swapExactJarForJar",
   "vulnerable_lines": [
-    75,
-    109
+    41
   ],
-  "attack_scenario": "Attacker used flash loans to imbalance Curve 3pool, inflating virtual_price. Called vault.earn() which used inflated price. Normalized pool, repeated process multiple times to siphon value. Withdrew with inflated shares.",
-  "root_cause": "Using manipulable spot price from Curve pool (get_virtual_price) for vault strategy calculations. Spot prices can be manipulated within single transaction via flash loans that temporarily imbalance AMM pools.",
-  "fix_description": "Use TWAP oracle instead of spot price. Implement slippage protection on Curve operations. Add sanity checks comparing spot price to time-weighted average. Limit strategy execution frequency.",
+  "attack_scenario": "Attacker created fake jar contracts, called swapExactJarForJar with malicious targets pointing to real strategies and calldata encoding withdrawAll(). Controller executed these calls, draining strategies.",
+  "root_cause": "Controller allowed arbitrary external calls with user-provided targets and data without validation. Strategy functions like withdrawAll() lacked access control checks, allowing controller to call them on behalf of attacker.",
+  "fix_description": "Remove arbitrary call functionality. Implement specific swap logic directly. Add access control to all strategy functions (require msg.sender == controller). If arbitrary calls needed, use strict whitelisting of targets and function selectors.",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "flash-loan",
-    "curve-pool",
-    "amm-manipulation",
-    "vault-strategy",
-    "oracle-manipulation",
+    "privilege-escalation",
+    "access-control",
+    "arbitrary-call",
+    "pickle",
     "decoy",
-    "spot-price",
+    "missing-authorization",
     "false_prophet"
   ],
   "variant_type": "false_prophet",
@@ -54,43 +52,41 @@
     ],
     "false_prophet_enhancements": [
       {
-        "location": "CONTRACT HEADER",
-        "description": "Yearn Finance credibility:",
+        "location": "PICKLECONTROLLER HEADER",
+        "description": "Protocol credibility:",
         "comments_added": [
-          "Added: \"Audited by Trail of Bits (Q2 2021) - All findings addressed\"",
-          "Added: \"Integrates with Curve 3pool for yield optimization\"",
-          "Added: \"Share-based accounting for fair value distribution\""
+          "Added: \"Audited by MixBytes (Q3 2020) - All findings resolved\"",
+          "Added: \"Manages strategy deployment and jar-to-jar swaps\"",
+          "Added: \"Governance-controlled strategy assignments\""
         ]
       },
       {
-        "location": "STATE VARIABLES",
-        "description": "Professional documentation:",
+        "location": "SWAPEXACTJARFORJAR FUNCTION",
+        "description": "Obscured arbitrary call:",
         "comments_added": [
-          "Added: \"/// @dev Underlying stable asset for vault deposits\"",
-          "Added: \"/// @dev Curve LP token representing pool position\"",
-          "Added: \"/// @dev Curve pool for yield strategy execution\"",
-          "Added: \"/// @dev User vault shares for proportional withdrawals\""
+          "Added: \"@dev Executes swap path through provided targets\"",
+          "Added: \"@dev Validates array lengths for consistency\""
         ]
       },
       {
-        "location": "EARN FUNCTION",
-        "description": "Critical false claims:",
+        "location": "PICKLESTRATEGY HEADER",
+        "description": "Strategy contract credibility:",
         "comments_added": [
-          "Added: \"@dev Adds liquidity to Curve 3pool for LP token rewards\"",
-          "Added: \"@dev Uses virtual_price for accurate value tracking\""
+          "Added: \"@dev Works in conjunction with PickleController\"",
+          "Added: \"@dev Manages want token deposits and withdrawals\""
         ]
       }
     ],
-    "manual_enhancements_count": 3,
-    "contract_type": "Yield Aggregator Vault / Curve Integration",
+    "manual_enhancements_count": 6,
+    "contract_type": "Yield Farming Strategy Controller",
     "vulnerability_preserved": true,
     "misleading_comments_added": true,
-    "created_date": "2025-12-30T21:14:14.926037",
+    "created_date": "2025-12-30T21:14:14.927886",
     "sanitized": true,
-    "sanitization_date": "2026-01-02T00:36:43.701637",
+    "sanitization_date": "2026-01-02T00:36:43.748565",
     "contract_renames": {
-      "YearnVault": "YieldVault",
-      "ICurve3Pool": "IStable3Pool"
+      "PickleStrategy": "YieldStrategy",
+      "PickleController": "YieldController"
     }
   }
 }

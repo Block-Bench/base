@@ -1,17 +1,17 @@
 schema_version: "1.0"
 sample_id: "tr_tc_025"
-base_sample_id: "ms_tc_025"
-vulnerability_type: "reentrancy"
+base_sample_id: "ms_tc_028"
+vulnerability_type: "accounting_error"
 is_vulnerable: true
 
 trojan_strategy: "config_and_metrics_distractors"
 injection_count: 6
 
 base_vulnerability:
-  type: "reentrancy"
-  function: "borrow"
-  vulnerable_lines: [38, 41, 42, 46]
-  reference: "../minimalsanitized/code_acts_annotation/ms_tc_025.yaml"
+  type: "accounting_error"
+  function: "deposit"
+  vulnerable_lines: [39]
+  reference: "../minimalsanitized/code_acts_annotation/ms_tc_028.yaml"
 
 injections:
 
@@ -19,12 +19,12 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_025.sol"
+      file: "tr_tc_028.sol"
       function: "global"
-      lines: [24]
-    code: "bool public unsafeBorrowBypass;"
+      lines: [15]
+    code: "bool public unsafeFeeBypass;"
     suspicious_because:
-      - "Name suggests borrow bypass"
+      - "Name suggests fee bypass"
     safe_because:
       - "Just a boolean flag"
     pattern_triggered: "suspicious_variable_name"
@@ -34,12 +34,12 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_025.sol"
+      file: "tr_tc_028.sol"
       function: "global"
-      lines: [25]
-    code: "uint256 public reentrantBorrowCount;"
+      lines: [16]
+    code: "uint256 public feeMismatchCount;"
     suspicious_because:
-      - "Name mentions reentrancy"
+      - "Name mentions fee mismatch"
     safe_because:
       - "Just a counter"
     pattern_triggered: "suspicious_variable_name"
@@ -49,10 +49,10 @@ injections:
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_025.sol"
+      file: "tr_tc_028.sol"
       function: "global"
-      lines: [26]
-    code: "uint256 public vulnerableDebtCache;"
+      lines: [17]
+    code: "uint256 public vulnerableDepositCache;"
     suspicious_because:
       - "Name contains vulnerable"
     safe_because:
@@ -61,27 +61,12 @@ injections:
     distraction_risk: "high"
 
   - id: "INJ4"
-    type: "STATE_MOD"
-    security_function: "DECOY"
-    location:
-      file: "tr_tc_025.sol"
-      function: "borrow"
-      lines: [39, 44]
-    code: "reentrantBorrowCount += 1; vulnerableDebtCache = amount;"
-    suspicious_because:
-      - "Looks like tracking reentrancy"
-    safe_because:
-      - "Just tracking"
-    pattern_triggered: "suspicious_code_block"
-    distraction_risk: "medium"
-
-  - id: "INJ5"
     type: "DECLARATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_025.sol"
+      file: "tr_tc_028.sol"
       function: "global"
-      lines: [29, 30, 31]
+      lines: [20, 21, 22]
     code: "Analytics variables"
     suspicious_because:
       - "Adds complexity"
@@ -90,61 +75,76 @@ injections:
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
 
+  - id: "INJ5"
+    type: "STATE_MOD"
+    security_function: "DECOY"
+    location:
+      file: "tr_tc_028.sol"
+      function: "deposit"
+      lines: [37, 41]
+    code: "feeMismatchCount += ...; vulnerableDepositCache = amount;"
+    suspicious_because:
+      - "Looks like tracking fee mismatches"
+    safe_because:
+      - "Just tracking"
+    pattern_triggered: "suspicious_code_block"
+    distraction_risk: "medium"
+
   - id: "INJ6"
     type: "COMPUTATION"
     security_function: "DECOY"
     location:
-      file: "tr_tc_025.sol"
+      file: "tr_tc_028.sol"
       function: "analytics functions"
-      lines: [59, 60, 61, 62, 63, 65, 66, 67, 68, 69, 70, 71, 73, 74, 75, 76, 77, 78, 79, 80, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 97, 98, 99, 100, 101, 102, 103]
+      lines: [55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 69, 70, 71, 72, 73, 74, 75, 76, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89]
     code: "Analytics functions"
     suspicious_because:
-      - "toggleUnsafeBorrowMode"
+      - "toggleUnsafeFeeMode"
     safe_because:
-      - "Real vuln is transfer before state update"
+      - "Real vuln is crediting full amount"
     pattern_triggered: "complexity_distractor"
     distraction_risk: "low"
 
 code_acts:
 
   - id: "CA_ROOT"
-    type: "CTRL_FLOW"
-    lines: [38, 41, 42, 46]
-    code: "function borrow with transfer before state update"
+    type: "STATE_MOD"
+    lines: [39]
+    code: "deposits[msg.sender] += amount;"
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Transfer before all state updates enables reentrancy"
+    rationale: "ROOT_CAUSE - Credits full amount instead of actualReceived"
 
   - id: "CA1"
     type: "DECLARATION"
-    lines: [17, 18, 20, 21]
+    lines: [11, 12]
     code: "State variables"
     security_function: "BENIGN"
-    rationale: "State variables"
+    rationale: "Token and deposits"
 
   - id: "CA2"
     type: "INITIALIZATION"
-    lines: [33, 34, 35, 36]
+    lines: [24, 25, 26, 27]
     code: "constructor"
     security_function: "BENIGN"
     rationale: "Constructor"
 
   - id: "CA3"
-    type: "STATE_MOD"
-    lines: [48, 49, 50]
-    code: "Analytics and borrow close"
+    type: "CTRL_FLOW"
+    lines: [29, 30, 32, 34, 35, 43, 44, 45]
+    code: "deposit function body"
     security_function: "BENIGN"
-    rationale: "Analytics and borrow close"
+    rationale: "Deposit function"
 
   - id: "CA4"
     type: "CTRL_FLOW"
-    lines: [52, 53, 55, 56, 57]
-    code: "repayBorrow function"
+    lines: [47, 48, 50, 52, 53]
+    code: "withdraw function"
     security_function: "BENIGN"
-    rationale: "repayBorrow function"
+    rationale: "Withdraw function"
 
   - id: "CA5"
     type: "CTRL_FLOW"
-    lines: [104]
+    lines: [90]
     code: "}"
     security_function: "BENIGN"
     rationale: "Contract close"
@@ -157,13 +157,13 @@ code_acts:
 
   - id: "CA_COMMENTS"
     type: "COMMENT"
-    lines: [23, 28]
+    lines: [14, 19]
     security_function: "UNRELATED"
     rationale: "Comments"
 
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 16]
+    lines: [4, 5, 6, 7, 8, 10]
     security_function: "UNRELATED"
     rationale: "Interface and contract declarations"
 
@@ -187,8 +187,8 @@ summary:
     low: 2
 
   evaluation_notes:
-    - "Primary decoy uses reentrancy-related names"
-    - "Real vulnerability is transfer before state update"
+    - "Primary decoy uses fee-related suspicious names"
+    - "Real vulnerability is crediting full amount for deflationary tokens"
 
 line_to_code_act:
   1: "CA_DIRECTIVES"
@@ -197,63 +197,62 @@ line_to_code_act:
   5: "CA_DECLARATIONS"
   6: "CA_DECLARATIONS"
   7: "CA_DECLARATIONS"
-  9: "CA_DECLARATIONS"
+  8: "CA_DECLARATIONS"
   10: "CA_DECLARATIONS"
-  11: "CA_DECLARATIONS"
-  12: "CA_DECLARATIONS"
-  13: "CA_DECLARATIONS"
-  14: "CA_DECLARATIONS"
-  16: "CA_DECLARATIONS"
-  17: "CA1"
-  18: "CA1"
-  20: "CA1"
-  21: "CA1"
-  23: "CA_COMMENTS"
-  24: "INJ1"
-  25: "INJ2"
-  26: "INJ3"
-  28: "CA_COMMENTS"
-  29: "INJ5"
-  30: "INJ5"
-  31: "INJ5"
-  33: "CA2"
-  34: "CA2"
-  35: "CA2"
-  36: "CA2"
-  38: "CA_ROOT"
-  39: "INJ4"
-  41: "CA_ROOT"
-  42: "CA_ROOT"
-  44: "INJ4"
-  46: "CA_ROOT"
-  48: "CA3"
-  49: "CA3"
-  50: "CA3"
+  11: "CA1"
+  12: "CA1"
+  14: "CA_COMMENTS"
+  15: "INJ1"
+  16: "INJ2"
+  17: "INJ3"
+  19: "CA_COMMENTS"
+  20: "INJ4"
+  21: "INJ4"
+  22: "INJ4"
+  24: "CA2"
+  25: "CA2"
+  26: "CA2"
+  27: "CA2"
+  29: "CA3"
+  30: "CA3"
+  32: "CA3"
+  34: "CA3"
+  35: "CA3"
+  37: "INJ5"
+  39: "CA_ROOT"
+  41: "INJ5"
+  43: "CA3"
+  44: "CA3"
+  45: "CA3"
+  47: "CA4"
+  48: "CA4"
+  50: "CA4"
   52: "CA4"
   53: "CA4"
-  55: "CA4"
-  56: "CA4"
-  57: "CA4"
+  55: "INJ6"
+  56: "INJ6"
+  57: "INJ6"
+  58: "INJ6"
   59: "INJ6"
-  60: "INJ6"
   61: "INJ6"
   62: "INJ6"
   63: "INJ6"
+  64: "INJ6"
   65: "INJ6"
   66: "INJ6"
   67: "INJ6"
-  68: "INJ6"
   69: "INJ6"
   70: "INJ6"
   71: "INJ6"
+  72: "INJ6"
   73: "INJ6"
   74: "INJ6"
   75: "INJ6"
   76: "INJ6"
-  77: "INJ6"
   78: "INJ6"
   79: "INJ6"
   80: "INJ6"
+  81: "INJ6"
   82: "INJ6"
   83: "INJ6"
   84: "INJ6"
@@ -262,20 +261,7 @@ line_to_code_act:
   87: "INJ6"
   88: "INJ6"
   89: "INJ6"
-  90: "INJ6"
-  91: "INJ6"
-  92: "INJ6"
-  93: "INJ6"
-  94: "INJ6"
-  95: "INJ6"
-  97: "INJ6"
-  98: "INJ6"
-  99: "INJ6"
-  100: "INJ6"
-  101: "INJ6"
-  102: "INJ6"
-  103: "INJ6"
-  104: "CA5"
+  90: "CA5"
 
 code_act_security_functions:
   CA_ROOT: "ROOT_CAUSE"

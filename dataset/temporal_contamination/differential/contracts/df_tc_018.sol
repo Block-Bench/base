@@ -5,101 +5,103 @@
 /*LN-5*/     function balanceOf(address account) external view returns (uint256);
 /*LN-6*/ 
 /*LN-7*/     function transfer(address to, uint256 amount) external returns (bool);
-/*LN-8*/ }
-/*LN-9*/ 
-/*LN-10*/ contract TokenPool {
-/*LN-11*/     struct Token {
-/*LN-12*/         address addr;
-/*LN-13*/         uint256 balance;
-/*LN-14*/         uint256 weight;
-/*LN-15*/     }
-/*LN-16*/ 
-/*LN-17*/     mapping(address => Token) public tokens;
-/*LN-18*/     address[] public tokenList;
-/*LN-19*/     uint256 public totalWeight;
+/*LN-8*/ 
+/*LN-9*/     function transferFrom(
+/*LN-10*/         address from,
+/*LN-11*/         address to,
+/*LN-12*/         uint256 amount
+/*LN-13*/     ) external returns (bool);
+/*LN-14*/ }
+/*LN-15*/ 
+/*LN-16*/ contract LiquidityPool {
+/*LN-17*/     address public maintainer;
+/*LN-18*/     address public baseToken;
+/*LN-19*/     address public quoteToken;
 /*LN-20*/ 
-/*LN-21*/     mapping(address => uint256) public lastBalance;
-/*LN-22*/     mapping(address => uint256) public lastUpdate;
-/*LN-23*/     uint256 public constant WEIGHT_UPDATE_INTERVAL = 1 hours;
+/*LN-21*/     uint256 public lpFeeRate;
+/*LN-22*/     uint256 public baseBalance;
+/*LN-23*/     uint256 public quoteBalance;
 /*LN-24*/ 
-/*LN-25*/     constructor() {
-/*LN-26*/         totalWeight = 100;
-/*LN-27*/     }
+/*LN-25*/     bool public isInitialized;
+/*LN-26*/ 
+/*LN-27*/     event Initialized(address maintainer, address base, address quote);
 /*LN-28*/ 
-/*LN-29*/     function addToken(address token, uint256 initialWeight) external {
-/*LN-30*/         tokens[token] = Token({addr: token, balance: 0, weight: initialWeight});
-/*LN-31*/         tokenList.push(token);
-/*LN-32*/         lastBalance[token] = 0;
-/*LN-33*/         lastUpdate[token] = block.timestamp;
-/*LN-34*/     }
-/*LN-35*/ 
-/*LN-36*/     function swap(
-/*LN-37*/         address tokenIn,
-/*LN-38*/         address tokenOut,
-/*LN-39*/         uint256 amountIn
-/*LN-40*/     ) external returns (uint256 amountOut) {
-/*LN-41*/         require(tokens[tokenIn].addr != address(0), "Invalid token");
-/*LN-42*/         require(tokens[tokenOut].addr != address(0), "Invalid token");
+/*LN-29*/     function init(
+/*LN-30*/         address _maintainer,
+/*LN-31*/         address _baseToken,
+/*LN-32*/         address _quoteToken,
+/*LN-33*/         uint256 _lpFeeRate
+/*LN-34*/     ) external {
+/*LN-35*/         require(!isInitialized, "Already initialized");
+/*LN-36*/ 
+/*LN-37*/         maintainer = _maintainer;
+/*LN-38*/         baseToken = _baseToken;
+/*LN-39*/         quoteToken = _quoteToken;
+/*LN-40*/         lpFeeRate = _lpFeeRate;
+/*LN-41*/ 
+/*LN-42*/         isInitialized = true;
 /*LN-43*/ 
-/*LN-44*/         IERC20(tokenIn).transfer(address(this), amountIn);
-/*LN-45*/         tokens[tokenIn].balance += amountIn;
+/*LN-44*/         emit Initialized(_maintainer, _baseToken, _quoteToken);
+/*LN-45*/     }
 /*LN-46*/ 
-/*LN-47*/         amountOut = calculateSwapAmount(tokenIn, tokenOut, amountIn);
-/*LN-48*/ 
-/*LN-49*/         require(
-/*LN-50*/             tokens[tokenOut].balance >= amountOut,
-/*LN-51*/             "Insufficient liquidity"
-/*LN-52*/         );
-/*LN-53*/         tokens[tokenOut].balance -= amountOut;
-/*LN-54*/         IERC20(tokenOut).transfer(msg.sender, amountOut);
-/*LN-55*/ 
-/*LN-56*/         return amountOut;
-/*LN-57*/     }
-/*LN-58*/ 
-/*LN-59*/     function calculateSwapAmount(
-/*LN-60*/         address tokenIn,
-/*LN-61*/         address tokenOut,
-/*LN-62*/         uint256 amountIn
-/*LN-63*/     ) public view returns (uint256) {
-/*LN-64*/         uint256 weightIn = tokens[tokenIn].weight;
-/*LN-65*/         uint256 weightOut = tokens[tokenOut].weight;
-/*LN-66*/         uint256 balanceOut = tokens[tokenOut].balance;
-/*LN-67*/ 
-/*LN-68*/         uint256 numerator = balanceOut * amountIn * weightOut;
-/*LN-69*/         uint256 denominator = tokens[tokenIn].balance *
-/*LN-70*/             weightIn +
-/*LN-71*/             amountIn *
-/*LN-72*/             weightOut;
-/*LN-73*/ 
-/*LN-74*/         return numerator / denominator;
-/*LN-75*/     }
-/*LN-76*/ 
-/*LN-77*/     function updateWeights() external {
-/*LN-78*/         require(block.timestamp - lastUpdate[msg.sender] >= WEIGHT_UPDATE_INTERVAL, "Wait for update interval");
-/*LN-79*/ 
-/*LN-80*/         uint256 totalValue = 0;
-/*LN-81*/ 
-/*LN-82*/         for (uint256 i = 0; i < tokenList.length; i++) {
-/*LN-83*/             address token = tokenList[i];
-/*LN-84*/             totalValue += (tokens[token].balance + lastBalance[token]) / 2;
-/*LN-85*/         }
+/*LN-47*/     function addLiquidity(uint256 baseAmount, uint256 quoteAmount) external {
+/*LN-48*/         require(isInitialized, "Not initialized");
+/*LN-49*/ 
+/*LN-50*/         IERC20(baseToken).transferFrom(msg.sender, address(this), baseAmount);
+/*LN-51*/         IERC20(quoteToken).transferFrom(msg.sender, address(this), quoteAmount);
+/*LN-52*/ 
+/*LN-53*/         baseBalance += baseAmount;
+/*LN-54*/         quoteBalance += quoteAmount;
+/*LN-55*/     }
+/*LN-56*/ 
+/*LN-57*/     function swap(
+/*LN-58*/         address fromToken,
+/*LN-59*/         address toToken,
+/*LN-60*/         uint256 fromAmount
+/*LN-61*/     ) external returns (uint256 toAmount) {
+/*LN-62*/         require(isInitialized, "Not initialized");
+/*LN-63*/         require(
+/*LN-64*/             (fromToken == baseToken && toToken == quoteToken) ||
+/*LN-65*/                 (fromToken == quoteToken && toToken == baseToken),
+/*LN-66*/             "Invalid token pair"
+/*LN-67*/         );
+/*LN-68*/ 
+/*LN-69*/         IERC20(fromToken).transferFrom(msg.sender, address(this), fromAmount);
+/*LN-70*/ 
+/*LN-71*/         if (fromToken == baseToken) {
+/*LN-72*/             toAmount = (quoteBalance * fromAmount) / (baseBalance + fromAmount);
+/*LN-73*/             baseBalance += fromAmount;
+/*LN-74*/             quoteBalance -= toAmount;
+/*LN-75*/         } else {
+/*LN-76*/             toAmount = (baseBalance * fromAmount) / (quoteBalance + fromAmount);
+/*LN-77*/             quoteBalance += fromAmount;
+/*LN-78*/             baseBalance -= toAmount;
+/*LN-79*/         }
+/*LN-80*/ 
+/*LN-81*/         uint256 fee = (toAmount * lpFeeRate) / 10000;
+/*LN-82*/         toAmount -= fee;
+/*LN-83*/ 
+/*LN-84*/         IERC20(toToken).transfer(msg.sender, toAmount);
+/*LN-85*/         IERC20(toToken).transfer(maintainer, fee);
 /*LN-86*/ 
-/*LN-87*/         for (uint256 i = 0; i < tokenList.length; i++) {
-/*LN-88*/             address token = tokenList[i];
-/*LN-89*/             tokens[token].weight = ((tokens[token].balance + lastBalance[token]) / 2 * 100) / totalValue;
-/*LN-90*/             lastBalance[token] = tokens[token].balance;
-/*LN-91*/             lastUpdate[token] = block.timestamp;
-/*LN-92*/         }
-/*LN-93*/     }
-/*LN-94*/ 
-/*LN-95*/     function getWeight(address token) external view returns (uint256) {
-/*LN-96*/         return tokens[token].weight;
-/*LN-97*/     }
-/*LN-98*/ 
-/*LN-99*/     function addLiquidity(address token, uint256 amount) external {
-/*LN-100*/         require(tokens[token].addr != address(0), "Invalid token");
-/*LN-101*/         IERC20(token).transfer(address(this), amount);
-/*LN-102*/         tokens[token].balance += amount;
-/*LN-103*/     }
-/*LN-104*/ }
-/*LN-105*/ 
+/*LN-87*/         return toAmount;
+/*LN-88*/     }
+/*LN-89*/ 
+/*LN-90*/     function claimFees() external {
+/*LN-91*/         require(msg.sender == maintainer, "Only maintainer");
+/*LN-92*/ 
+/*LN-93*/         uint256 baseTokenBalance = IERC20(baseToken).balanceOf(address(this));
+/*LN-94*/         uint256 quoteTokenBalance = IERC20(quoteToken).balanceOf(address(this));
+/*LN-95*/ 
+/*LN-96*/         if (baseTokenBalance > baseBalance) {
+/*LN-97*/             uint256 excess = baseTokenBalance - baseBalance;
+/*LN-98*/             IERC20(baseToken).transfer(maintainer, excess);
+/*LN-99*/         }
+/*LN-100*/ 
+/*LN-101*/         if (quoteTokenBalance > quoteBalance) {
+/*LN-102*/             uint256 excess = quoteTokenBalance - quoteBalance;
+/*LN-103*/             IERC20(quoteToken).transfer(maintainer, excess);
+/*LN-104*/         }
+/*LN-105*/     }
+/*LN-106*/ }
+/*LN-107*/ 

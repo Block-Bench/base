@@ -1,101 +1,233 @@
 schema_version: "1.0"
 sample_id: "df_tc_018"
 base_sample_id: "ms_tc_018"
-vulnerability_type: "pool_manipulation"
+vulnerability_type: "reinitialization"
 is_fixed: true
 
 fix_summary:
-  description: "Removed automatic weight update. Added time-based update with TWAP calculation."
-  fix_type: "manipulation_resistance"
-  vulnerable_pattern: "Weight update after every swap based on spot balances"
-  fixed_pattern: "Time-gated weight updates with TWAP averaging"
+  description: "Added require(!isInitialized) check to prevent reinitialization"
+  fix_type: "initialization_guard"
+  vulnerable_pattern: "init() callable multiple times"
+  fixed_pattern: "init() guarded by isInitialized flag"
 
 vulnerable_version:
   reference: "../minimalsanitized/code_acts_annotation/ms_tc_018.yaml"
-  # vulnerable_lines (reference only): [56, 101]
-  root_cause_description: "_updateWeights after swap allows weight manipulation"
+  root_cause_description: "Missing initialization check allowed attackers to reinitialize pool"
 
 fixed_version:
-  fix_lines: [21, 22, 23, 77, 78, 84, 89, 90, 91]
-  fix_description: "Added lastBalance and lastUpdate tracking (lines 21-22). Added time interval constant (line 23). updateWeights is now external with time check (line 78). Uses TWAP calculation (lines 84, 89). Removed automatic call from swap."
+  fix_lines: [35]
+  fix_description: "require(!isInitialized) prevents re-calling init()"
 
 code_acts:
 
+  # ============================================
+  # FIX CODE ACTS
+  # ============================================
+
   - id: "CA_FIX1"
-    type: "DECLARATION"
-    lines: [21, 22, 23]
-    code: |
-      mapping(address => uint256) public lastBalance;
-      mapping(address => uint256) public lastUpdate;
-      uint256 public constant WEIGHT_UPDATE_INTERVAL = 1 hours;
-    security_function: "FIX"
-    rationale: "FIX - State for TWAP calculation and time-gating."
-
-  - id: "CA_FIX2"
-    type: "STATE_MOD"
-    lines: [32, 33]
-    code: |
-      lastBalance[token] = 0;
-      lastUpdate[token] = block.timestamp;
-    security_function: "FIX"
-    rationale: "FIX - Initialize TWAP tracking on token addition."
-
-  - id: "CA_FIX3"
     type: "INPUT_VAL"
-    lines: [78]
-    code: 'require(block.timestamp - lastUpdate[msg.sender] >= WEIGHT_UPDATE_INTERVAL, "Wait for update interval");'
-    security_function: "FIX"
-    rationale: "FIX - Time-gate prevents rapid weight manipulation."
+    lines: [35]
+    code: 'require(!isInitialized, "Already initialized");'
+    security_function: "BENIGN"
+    rationale: "FIX - Prevents reinitialization attack by checking isInitialized flag before allowing init()"
 
-  - id: "CA_FIX4"
-    type: "COMPUTATION"
-    lines: [84]
-    code: "totalValue += (tokens[token].balance + lastBalance[token]) / 2;"
-    security_function: "FIX"
-    rationale: "FIX - TWAP calculation uses average of current and last balance."
-
-  - id: "CA_FIX5"
-    type: "COMPUTATION"
-    lines: [89, 90, 91]
-    code: |
-      tokens[token].weight = ((tokens[token].balance + lastBalance[token]) / 2 * 100) / totalValue;
-      lastBalance[token] = tokens[token].balance;
-      lastUpdate[token] = block.timestamp;
-    security_function: "FIX"
-    rationale: "FIX - Weight calculation uses TWAP and updates tracking state."
+  # ============================================
+  # BENIGN CODE ACTS
+  # ============================================
 
   - id: "CA1"
     type: "DECLARATION"
-    lines: [11, 12, 13, 14, 15]
+    lines: [17, 18, 19]
     code: |
-      struct Token {
-          address addr;
-          uint256 balance;
-          uint256 weight;
-      }
+      address public maintainer;
+      address public baseToken;
+      address public quoteToken;
     security_function: "BENIGN"
-    rationale: "Token struct."
+    rationale: "Pool configuration state variables"
 
   - id: "CA2"
-    type: "STATE_MOD"
-    lines: [45]
-    code: "tokens[tokenIn].balance += amountIn;"
+    type: "DECLARATION"
+    lines: [21, 22, 23]
+    code: |
+      uint256 public lpFeeRate;
+      uint256 public baseBalance;
+      uint256 public quoteBalance;
     security_function: "BENIGN"
-    rationale: "Balance update on swap."
+    rationale: "Pool balance and fee state variables"
 
   - id: "CA3"
-    type: "COMPUTATION"
-    lines: [47]
-    code: "amountOut = calculateSwapAmount(tokenIn, tokenOut, amountIn);"
+    type: "DECLARATION"
+    lines: [25]
+    code: "bool public isInitialized;"
     security_function: "BENIGN"
-    rationale: "Swap amount calculation."
+    rationale: "Initialization flag used by fix"
 
   - id: "CA4"
-    type: "STATE_MOD"
-    lines: [53]
-    code: "tokens[tokenOut].balance -= amountOut;"
+    type: "DECLARATION"
+    lines: [27]
+    code: "event Initialized(address maintainer, address base, address quote);"
     security_function: "BENIGN"
-    rationale: "Balance update for output token."
+    rationale: "Event declaration"
+
+  - id: "CA5"
+    type: "STATE_MOD"
+    lines: [37, 38, 39, 40]
+    code: |
+      maintainer = _maintainer;
+      baseToken = _baseToken;
+      quoteToken = _quoteToken;
+      lpFeeRate = _lpFeeRate;
+    security_function: "BENIGN"
+    rationale: "State initialization in init()"
+
+  - id: "CA6"
+    type: "STATE_MOD"
+    lines: [42]
+    code: "isInitialized = true;"
+    security_function: "BENIGN"
+    rationale: "Sets initialization flag after initialization"
+
+  - id: "CA7"
+    type: "CTRL_FLOW"
+    lines: [44, 45]
+    code: |
+      emit Initialized(_maintainer, _baseToken, _quoteToken);
+      }
+    security_function: "BENIGN"
+    rationale: "Event emission and function close"
+
+  - id: "CA8"
+    type: "INPUT_VAL"
+    lines: [48]
+    code: 'require(isInitialized, "Not initialized");'
+    security_function: "BENIGN"
+    rationale: "Initialization check in addLiquidity"
+
+  - id: "CA9"
+    type: "EXT_CALL"
+    lines: [50, 51]
+    code: |
+      IERC20(baseToken).transferFrom(msg.sender, address(this), baseAmount);
+      IERC20(quoteToken).transferFrom(msg.sender, address(this), quoteAmount);
+    security_function: "BENIGN"
+    rationale: "Token transfers in addLiquidity"
+
+  - id: "CA10"
+    type: "STATE_MOD"
+    lines: [53, 54, 55]
+    code: |
+      baseBalance += baseAmount;
+      quoteBalance += quoteAmount;
+      }
+    security_function: "BENIGN"
+    rationale: "Balance updates in addLiquidity"
+
+  - id: "CA11"
+    type: "INPUT_VAL"
+    lines: [62, 63, 64, 65, 66, 67]
+    code: |
+      require(isInitialized, "Not initialized");
+      require(
+          (fromToken == baseToken && toToken == quoteToken) ||
+              (fromToken == quoteToken && toToken == baseToken),
+          "Invalid token pair"
+      );
+    security_function: "BENIGN"
+    rationale: "Input validation in swap function"
+
+  - id: "CA12"
+    type: "EXT_CALL"
+    lines: [69]
+    code: "IERC20(fromToken).transferFrom(msg.sender, address(this), fromAmount);"
+    security_function: "BENIGN"
+    rationale: "Token transfer in swap"
+
+  - id: "CA13"
+    type: "COMPUTATION"
+    lines: [71, 72, 73, 74, 75, 76, 77, 78, 79]
+    code: |
+      if (fromToken == baseToken) {
+          toAmount = (quoteBalance * fromAmount) / (baseBalance + fromAmount);
+          baseBalance += fromAmount;
+          quoteBalance -= toAmount;
+      } else {
+          toAmount = (baseBalance * fromAmount) / (quoteBalance + fromAmount);
+          quoteBalance += fromAmount;
+          baseBalance -= toAmount;
+      }
+    security_function: "BENIGN"
+    rationale: "AMM swap calculation and balance updates"
+
+  - id: "CA14"
+    type: "COMPUTATION"
+    lines: [81, 82]
+    code: |
+      uint256 fee = (toAmount * lpFeeRate) / 10000;
+      toAmount -= fee;
+    security_function: "BENIGN"
+    rationale: "Fee calculation"
+
+  - id: "CA15"
+    type: "EXT_CALL"
+    lines: [84, 85]
+    code: |
+      IERC20(toToken).transfer(msg.sender, toAmount);
+      IERC20(toToken).transfer(maintainer, fee);
+    security_function: "BENIGN"
+    rationale: "Token transfers in swap"
+
+  - id: "CA16"
+    type: "CTRL_FLOW"
+    lines: [87, 88]
+    code: |
+      return toAmount;
+      }
+    security_function: "BENIGN"
+    rationale: "Return statement"
+
+  - id: "CA17"
+    type: "INPUT_VAL"
+    lines: [91]
+    code: 'require(msg.sender == maintainer, "Only maintainer");'
+    security_function: "BENIGN"
+    rationale: "Access control in claimFees"
+
+  - id: "CA18"
+    type: "EXT_CALL"
+    lines: [93, 94]
+    code: |
+      uint256 baseTokenBalance = IERC20(baseToken).balanceOf(address(this));
+      uint256 quoteTokenBalance = IERC20(quoteToken).balanceOf(address(this));
+    security_function: "BENIGN"
+    rationale: "Balance reads in claimFees"
+
+  - id: "CA19"
+    type: "CTRL_FLOW"
+    lines: [96, 97, 98, 99]
+    code: |
+      if (baseTokenBalance > baseBalance) {
+          uint256 excess = baseTokenBalance - baseBalance;
+          IERC20(baseToken).transfer(maintainer, excess);
+      }
+    security_function: "BENIGN"
+    rationale: "Base token fee claim"
+
+  - id: "CA20"
+    type: "CTRL_FLOW"
+    lines: [101, 102, 103, 104, 105, 106]
+    code: |
+      if (quoteTokenBalance > quoteBalance) {
+          uint256 excess = quoteTokenBalance - quoteBalance;
+          IERC20(quoteToken).transfer(maintainer, excess);
+      }
+      }
+      }
+    security_function: "BENIGN"
+    rationale: "Quote token fee claim"
+
+  # ============================================
+  # BATCHED UNRELATED CODE ACTS
+  # ============================================
 
   - id: "CA_DIRECTIVES"
     type: "DIRECTIVE"
@@ -103,132 +235,168 @@ code_acts:
     security_function: "UNRELATED"
     rationale: "License and pragma statements"
 
+  - id: "CA_COMMENTS"
+    type: "COMMENT"
+    lines: []
+    security_function: "UNRELATED"
+    rationale: "No standalone comments"
+
   - id: "CA_DECLARATIONS"
     type: "DECLARATION"
-    lines: [4, 5, 7, 8, 10, 17, 18, 19, 25, 26, 27, 29, 30, 31, 34, 36, 37, 38, 39, 40, 41, 42, 44, 49, 50, 51, 52, 54, 56, 57, 59, 60, 61, 62, 63, 64, 65, 66, 68, 69, 70, 71, 72, 74, 75, 77, 80, 82, 83, 87, 88, 92, 93, 95, 96, 97, 99, 100, 101, 102, 103, 104]
+    lines: [4, 5, 7, 9, 10, 11, 12, 13, 14, 16, 29, 30, 31, 32, 33, 34, 47, 57, 58, 59, 60, 61, 90]
     security_function: "UNRELATED"
     rationale: "Interface, contract, and function signature declarations"
 
   - id: "CA_SYNTAX"
     type: "SYNTAX"
-    lines: [9, 16, 35, 58, 76, 85, 98]
+    lines: []
     security_function: "UNRELATED"
-    rationale: "Closing braces"
+    rationale: "Closing braces included in respective code_acts"
 
 summary:
-  total_code_acts: 12
+  total_code_acts_fixed: 24
 
   fix_applied:
-    type: "manipulation_resistance"
-    description: "Time-gated TWAP weight updates instead of per-swap updates"
-    lines_changed: [21, 22, 23, 32, 33, 78, 84, 89, 90, 91]
+    type: "initialization_guard"
+    description: "Added require(!isInitialized) check"
+    lines_changed: [35]
 
   by_security_function_fixed:
-    FIX: 5
-    BENIGN: 4
-    UNRELATED: 3
+    BENIGN: 20
+    UNRELATED: 4
 
 line_to_code_act_fixed:
   1: "CA_DIRECTIVES"
   2: "CA_DIRECTIVES"
+  # Line 3: empty
   4: "CA_DECLARATIONS"
   5: "CA_DECLARATIONS"
+  # Line 6: empty
   7: "CA_DECLARATIONS"
-  8: "CA_DECLARATIONS"
-  # Line 9: empty
+  # Line 8: empty
+  9: "CA_DECLARATIONS"
   10: "CA_DECLARATIONS"
-  11: "CA1"
-  12: "CA1"
-  13: "CA1"
-  14: "CA1"
-  15: "CA1"
-  # Line 16: empty
-  17: "CA_DECLARATIONS"
-  18: "CA_DECLARATIONS"
-  19: "CA_DECLARATIONS"
-  21: "CA_FIX1"
-  22: "CA_FIX1"
-  23: "CA_FIX1"
-  25: "CA_DECLARATIONS"
-  26: "CA_DECLARATIONS"
-  27: "CA_DECLARATIONS"
+  11: "CA_DECLARATIONS"
+  12: "CA_DECLARATIONS"
+  13: "CA_DECLARATIONS"
+  14: "CA_DECLARATIONS"
+  # Line 15: empty
+  16: "CA_DECLARATIONS"
+  17: "CA1"
+  18: "CA1"
+  19: "CA1"
+  # Line 20: empty
+  21: "CA2"
+  22: "CA2"
+  23: "CA2"
+  # Line 24: empty
+  25: "CA3"
+  # Line 26: empty
+  27: "CA4"
+  # Line 28: empty
   29: "CA_DECLARATIONS"
   30: "CA_DECLARATIONS"
   31: "CA_DECLARATIONS"
-  32: "CA_FIX2"
-  33: "CA_FIX2"
+  32: "CA_DECLARATIONS"
+  33: "CA_DECLARATIONS"
   34: "CA_DECLARATIONS"
-  # Line 35: empty
-  36: "CA_DECLARATIONS"
-  37: "CA_DECLARATIONS"
-  38: "CA_DECLARATIONS"
-  39: "CA_DECLARATIONS"
-  40: "CA_DECLARATIONS"
-  41: "CA_DECLARATIONS"
-  42: "CA_DECLARATIONS"
-  44: "CA_DECLARATIONS"
-  45: "CA2"
-  47: "CA3"
-  49: "CA_DECLARATIONS"
-  50: "CA_DECLARATIONS"
-  51: "CA_DECLARATIONS"
-  52: "CA_DECLARATIONS"
-  53: "CA4"
-  54: "CA_DECLARATIONS"
-  56: "CA_DECLARATIONS"
+  35: "CA_FIX1"
+  # Line 36: empty
+  37: "CA5"
+  38: "CA5"
+  39: "CA5"
+  40: "CA5"
+  # Line 41: empty
+  42: "CA6"
+  # Line 43: empty
+  44: "CA7"
+  45: "CA7"
+  # Line 46: empty
+  47: "CA_DECLARATIONS"
+  48: "CA8"
+  # Line 49: empty
+  50: "CA9"
+  51: "CA9"
+  # Line 52: empty
+  53: "CA10"
+  54: "CA10"
+  55: "CA10"
+  # Line 56: empty
   57: "CA_DECLARATIONS"
-  # Line 58: empty
+  58: "CA_DECLARATIONS"
   59: "CA_DECLARATIONS"
   60: "CA_DECLARATIONS"
   61: "CA_DECLARATIONS"
-  62: "CA_DECLARATIONS"
-  63: "CA_DECLARATIONS"
-  64: "CA_DECLARATIONS"
-  65: "CA_DECLARATIONS"
-  66: "CA_DECLARATIONS"
-  68: "CA_DECLARATIONS"
-  69: "CA_DECLARATIONS"
-  70: "CA_DECLARATIONS"
-  71: "CA_DECLARATIONS"
-  72: "CA_DECLARATIONS"
-  74: "CA_DECLARATIONS"
-  75: "CA_DECLARATIONS"
-  # Line 76: empty
-  77: "CA_DECLARATIONS"
-  78: "CA_FIX3"
-  80: "CA_DECLARATIONS"
-  82: "CA_DECLARATIONS"
-  83: "CA_DECLARATIONS"
-  84: "CA_FIX4"
-  85: "CA_SYNTAX"
-  87: "CA_DECLARATIONS"
-  88: "CA_DECLARATIONS"
-  89: "CA_FIX5"
-  90: "CA_FIX5"
-  91: "CA_FIX5"
-  92: "CA_DECLARATIONS"
-  93: "CA_DECLARATIONS"
-  95: "CA_DECLARATIONS"
-  96: "CA_DECLARATIONS"
-  97: "CA_DECLARATIONS"
-  # Line 98: empty
-  99: "CA_DECLARATIONS"
-  100: "CA_DECLARATIONS"
-  101: "CA_DECLARATIONS"
-  102: "CA_DECLARATIONS"
-  103: "CA_DECLARATIONS"
-  104: "CA_DECLARATIONS"
+  62: "CA11"
+  63: "CA11"
+  64: "CA11"
+  65: "CA11"
+  66: "CA11"
+  67: "CA11"
+  # Line 68: empty
+  69: "CA12"
+  # Line 70: empty
+  71: "CA13"
+  72: "CA13"
+  73: "CA13"
+  74: "CA13"
+  75: "CA13"
+  76: "CA13"
+  77: "CA13"
+  78: "CA13"
+  79: "CA13"
+  # Line 80: empty
+  81: "CA14"
+  82: "CA14"
+  # Line 83: empty
+  84: "CA15"
+  85: "CA15"
+  # Line 86: empty
+  87: "CA16"
+  88: "CA16"
+  # Line 89: empty
+  90: "CA_DECLARATIONS"
+  91: "CA17"
+  # Line 92: empty
+  93: "CA18"
+  94: "CA18"
+  # Line 95: empty
+  96: "CA19"
+  97: "CA19"
+  98: "CA19"
+  99: "CA19"
+  # Line 100: empty
+  101: "CA20"
+  102: "CA20"
+  103: "CA20"
+  104: "CA20"
+  105: "CA20"
+  106: "CA20"
+  # Line 107: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
-  CA_FIX5: "FIX"
+  CA_FIX1: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
+  CA5: "BENIGN"
+  CA6: "BENIGN"
+  CA7: "BENIGN"
+  CA8: "BENIGN"
+  CA9: "BENIGN"
+  CA10: "BENIGN"
+  CA11: "BENIGN"
+  CA12: "BENIGN"
+  CA13: "BENIGN"
+  CA14: "BENIGN"
+  CA15: "BENIGN"
+  CA16: "BENIGN"
+  CA17: "BENIGN"
+  CA18: "BENIGN"
+  CA19: "BENIGN"
+  CA20: "BENIGN"
   CA_DIRECTIVES: "UNRELATED"
+  CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"
   CA_SYNTAX: "UNRELATED"

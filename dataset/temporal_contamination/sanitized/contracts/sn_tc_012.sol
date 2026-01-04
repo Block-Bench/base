@@ -1,94 +1,56 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ interface IComptroller {
-/*LN-5*/     function enterMarkets(
-/*LN-6*/         address[] memory cTokens
-/*LN-7*/     ) external returns (uint256[] memory);
-/*LN-8*/ 
-/*LN-9*/     function exitMarket(address cToken) external returns (uint256);
-/*LN-10*/ 
-/*LN-11*/     function getAccountLiquidity(
-/*LN-12*/         address account
-/*LN-13*/     ) external view returns (uint256, uint256, uint256);
-/*LN-14*/ }
-/*LN-15*/ 
-/*LN-16*/ contract LendingHub {
-/*LN-17*/     IComptroller public comptroller;
-/*LN-18*/ 
-/*LN-19*/     mapping(address => uint256) public deposits;
-/*LN-20*/     mapping(address => uint256) public borrowed;
-/*LN-21*/     mapping(address => bool) public inMarket;
-/*LN-22*/ 
-/*LN-23*/     uint256 public totalDeposits;
-/*LN-24*/     uint256 public totalBorrowed;
-/*LN-25*/     uint256 public constant COLLATERAL_FACTOR = 150; // 150% collateralization
+/*LN-4*/ interface IERC20 {
+/*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
+/*LN-6*/ 
+/*LN-7*/     function balanceOf(address account) external view returns (uint256);
+/*LN-8*/ }
+/*LN-9*/ 
+/*LN-10*/ contract CToken {
+/*LN-11*/     address public underlying; // Old TUSD address
+/*LN-12*/     address public admin;
+/*LN-13*/ 
+/*LN-14*/     mapping(address => uint256) public accountTokens;
+/*LN-15*/     uint256 public totalSupply;
+/*LN-16*/ 
+/*LN-17*/     address public constant OLD_TUSD =
+/*LN-18*/         0x8dd5fbCe2F6a956C3022bA3663759011Dd51e73E;
+/*LN-19*/     address public constant NEW_TUSD =
+/*LN-20*/         0x0000000000085d4780B73119b644AE5ecd22b376;
+/*LN-21*/ 
+/*LN-22*/     constructor() {
+/*LN-23*/         admin = msg.sender;
+/*LN-24*/         underlying = OLD_TUSD;
+/*LN-25*/     }
 /*LN-26*/ 
-/*LN-27*/     constructor(address _comptroller) {
-/*LN-28*/         comptroller = IComptroller(_comptroller);
-/*LN-29*/     }
-/*LN-30*/ 
-/*LN-31*/     /**
-/*LN-32*/      * @notice Deposit collateral and enter market
-/*LN-33*/      */
-/*LN-34*/     function depositAndEnterMarket() external payable {
-/*LN-35*/         deposits[msg.sender] += msg.value;
-/*LN-36*/         totalDeposits += msg.value;
-/*LN-37*/         inMarket[msg.sender] = true;
-/*LN-38*/     }
+/*LN-27*/     /**
+/*LN-28*/      * @notice Supply tokens to the market
+/*LN-29*/      */
+/*LN-30*/     function mint(uint256 amount) external {
+/*LN-31*/         IERC20(NEW_TUSD).transfer(address(this), amount);
+/*LN-32*/         accountTokens[msg.sender] += amount;
+/*LN-33*/         totalSupply += amount;
+/*LN-34*/     }
+/*LN-35*/ 
+/*LN-36*/     function sweepToken(address token) external {
+/*LN-37*/ 
+/*LN-38*/         require(token != underlying, "Cannot sweep underlying token");
 /*LN-39*/ 
-/*LN-40*/     /**
-/*LN-41*/      * @notice Check if account has sufficient collateral
-/*LN-42*/      */
-/*LN-43*/     function isHealthy(
-/*LN-44*/         address account,
-/*LN-45*/         uint256 additionalBorrow
-/*LN-46*/     ) public view returns (bool) {
-/*LN-47*/         uint256 totalDebt = borrowed[account] + additionalBorrow;
-/*LN-48*/         if (totalDebt == 0) return true;
+/*LN-40*/         uint256 balance = IERC20(token).balanceOf(address(this));
+/*LN-41*/         IERC20(token).transfer(msg.sender, balance);
+/*LN-42*/     }
+/*LN-43*/ 
+/*LN-44*/     /**
+/*LN-45*/      * @notice Redeem cTokens for underlying
+/*LN-46*/      */
+/*LN-47*/     function redeem(uint256 amount) external {
+/*LN-48*/         require(accountTokens[msg.sender] >= amount, "Insufficient balance");
 /*LN-49*/ 
-/*LN-50*/         // Only count deposits if user is in market
-/*LN-51*/         if (!inMarket[account]) return false;
+/*LN-50*/         accountTokens[msg.sender] -= amount;
+/*LN-51*/         totalSupply -= amount;
 /*LN-52*/ 
-/*LN-53*/         uint256 collateralValue = deposits[account];
-/*LN-54*/         return collateralValue >= (totalDebt * COLLATERAL_FACTOR) / 100;
-/*LN-55*/     }
+/*LN-53*/         IERC20(NEW_TUSD).transfer(msg.sender, amount);
+/*LN-54*/     }
+/*LN-55*/ }
 /*LN-56*/ 
-/*LN-57*/     function borrow(uint256 amount) external {
-/*LN-58*/         require(amount > 0, "Invalid amount");
-/*LN-59*/         require(address(this).balance >= amount, "Insufficient funds");
-/*LN-60*/ 
-/*LN-61*/         // Initial health check
-/*LN-62*/         require(isHealthy(msg.sender, amount), "Insufficient collateral");
-/*LN-63*/ 
-/*LN-64*/         // Update state
-/*LN-65*/         borrowed[msg.sender] += amount;
-/*LN-66*/         totalBorrowed += amount;
-/*LN-67*/ 
-/*LN-68*/         (bool success, ) = payable(msg.sender).call{value: amount}("");
-/*LN-69*/         require(success, "Transfer failed");
-/*LN-70*/ 
-/*LN-71*/         require(isHealthy(msg.sender, 0), "Health check failed");
-/*LN-72*/     }
-/*LN-73*/ 
-/*LN-74*/     function exitMarket() external {
-/*LN-75*/         require(borrowed[msg.sender] == 0, "Outstanding debt");
-/*LN-76*/         inMarket[msg.sender] = false;
-/*LN-77*/     }
-/*LN-78*/ 
-/*LN-79*/     /**
-/*LN-80*/      * @notice Withdraw collateral
-/*LN-81*/      */
-/*LN-82*/     function withdraw(uint256 amount) external {
-/*LN-83*/         require(deposits[msg.sender] >= amount, "Insufficient deposits");
-/*LN-84*/         require(!inMarket[msg.sender], "Exit market first");
-/*LN-85*/ 
-/*LN-86*/         deposits[msg.sender] -= amount;
-/*LN-87*/         totalDeposits -= amount;
-/*LN-88*/ 
-/*LN-89*/         payable(msg.sender).transfer(amount);
-/*LN-90*/     }
-/*LN-91*/ 
-/*LN-92*/     receive() external payable {}
-/*LN-93*/ }
-/*LN-94*/ 

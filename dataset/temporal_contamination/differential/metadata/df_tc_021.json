@@ -1,32 +1,33 @@
 {
   "sample_id": "df_tc_021",
-  "exploit_name": "DODO Reinitialization",
-  "date": "2021-03-09",
-  "amount_lost_usd": "3800000",
+  "exploit_name": "Inverse Finance Oracle Manipulation",
+  "date": "2022-04-02",
+  "amount_lost_usd": "15600000",
   "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "reinitialization",
+  "vulnerability_type": "price_oracle_manipulation",
   "vulnerability_subtype": "",
   "severity": "",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
   "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "LiquidityPool",
-  "vulnerable_function": "init",
+  "vulnerable_contract": "PriceOracle",
+  "vulnerable_function": "borrow",
   "vulnerable_lines": [],
-  "attack_scenario": "1) Attacker identified DODO pool contracts without proper initialization locks. 2) Called init() with attacker-controlled parameters, setting maintainer address to attacker. 3) Since maintainer receives all swap fees, attacker could claim accumulated fees via claimFees(). 4) All future swap fees also redirected to attacker. 5) In some cases, could manipulate baseBalance/quoteBalance for profitable swaps. 6) Drained $3.8M from affected pools.",
-  "root_cause": "The init() function lacked proper initialization protection (missing `require(!isInitialized)` check). This allowed attackers to call the initialization function again after deployment, overwriting critical parameters like the maintainer address and hijacking fee collection rights.",
+  "attack_scenario": "1) Flash loan 2700 WBTC from Aave. 2) Add 2677.5 WBTC + 22,500 USDT to Curve 3crypto pool. 3) Massive liquidity addition inflates Curve virtual_price from $1.00 to ~$1.50. 4) Deposit yvCrv3Crypto tokens as collateral. 5) Oracle reads inflated price, valuing collateral 50% higher than true worth. 6) Borrow maximum DOLA based on inflated collateral value (80% of $1.50 = $1.20 per token vs should be $0.80). 7) Remove liquidity from Curve, price normalizes. 8) Repay flash loan, keep overborrowed $15.6M DOLA.",
+  "root_cause": "The price oracle for Yearn Curve 3crypto LP tokens relied on Curve's get_virtual_price() which reflects current pool state. Flash loan attackers added massive liquidity in one transaction, inflating virtual_price. The oracle had no time-weighted averaging or manipulation resistance, so it reported the inflated price, allowing massive overborrowing.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "initialization",
-    "access_control",
-    "dodo",
-    "defi",
-    "amm",
-    "maintainer_hijack",
+    "oracle",
+    "curve",
+    "flash_loan",
+    "lp_tokens",
+    "price_manipulation",
+    "yearn",
+    "lending",
     "differential",
     "fixed"
   ],
@@ -46,18 +47,39 @@
     "script": "manual",
     "is_fixed_version": true,
     "fix_type": "minimal_fix",
-    "fix_description": "Minimal fix with 2 lines changed. Added: require(!isInitialized, \"Already initialized\");",
+    "fix_description": "Minimal fix with 16 lines changed. Added: uint256 public twapPrice;; uint256 public lastUpdateTime;; lastUpdateTime = block.timestamp;",
     "exact_changes": [
       {
         "location": "Added line",
-        "version_a": "require(!isInitialized, \"Already initialized\");",
+        "version_a": "uint256 public twapPrice;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 public lastUpdateTime;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "lastUpdateTime = block.timestamp;",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "function updatePrice() external {",
+        "version_b": "// Not present in vulnerable version"
+      },
+      {
+        "location": "Added line",
+        "version_a": "uint256 spotPrice = curvePool.get_virtual_price();",
         "version_b": "// Not present in vulnerable version"
       }
     ],
     "why_fix_works": "",
     "contracts_in_file": [
-      "LiquidityPool"
+      "PriceOracle",
+      "LendingProtocol"
     ],
-    "created_date": "2025-12-30T02:02:17.935692"
+    "created_date": "2025-12-30T02:02:17.937445"
   }
 }

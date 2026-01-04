@@ -1,31 +1,31 @@
 {
   "sample_id": "df_tc_028",
-  "exploit_name": "BVaults SafeMoon Drain",
-  "date": "2021-05-30",
-  "amount_lost_usd": "8500000",
-  "blockchain": "binance_smart_chain",
+  "exploit_name": "Orbit Chain Bridge Exploit",
+  "date": "",
+  "amount_lost_usd": "",
+  "blockchain": "ethereum",
   "language": "solidity",
-  "vulnerability_type": "accounting_error",
+  "vulnerability_type": "bridge_security",
   "vulnerability_subtype": "",
-  "severity": "",
+  "severity": "critical",
   "difficulty_tier": 0,
   "is_vulnerable": false,
   "temporal_category": "pre_cutoff",
-  "description": "Fixed version with minimal changes to address the vulnerability",
-  "vulnerable_contract": "TokenVault",
-  "vulnerable_function": "deposit",
+  "description": "Fixed version with proper signature verification using ecrecover",
+  "vulnerable_contract": "OrbitBridge",
+  "vulnerable_function": "withdraw",
   "vulnerable_lines": [],
-  "attack_scenario": "1) Deflationary token charges 10% fee on transfers. 2) Attacker deposits 100 tokens. 3) Vault receives only 90 tokens (10% burned as fee). 4) Vault credits attacker's account with full 100 tokens. 5) Attacker withdraws 100 tokens. 6) Vault sends 100 but only had 90 plus other users' funds. 7) Repeated deposits/withdrawals to drain $8.5M.",
-  "root_cause": "Vault assumed tokens received equal amount transferred. Didn't check actual balance increase before/after transfer. Deflationary tokens with transfer fees caused accounting mismatch between credited amounts and actual holdings.",
+  "attack_scenario": "",
+  "root_cause": "The withdraw function accepts signatures but does not verify them. It only checks the signature count without validating that signatures are from registered validators using ecrecover.",
   "fix_description": "",
   "source_reference": "",
   "external_references": [],
   "tags": [
-    "deflationary_token",
-    "transfer_fee",
-    "vault",
-    "bsc",
-    "accounting",
+    "multi-sig",
+    "key_compromise",
+    "signature_validation",
+    "cross_chain",
+    "validator_security",
     "differential",
     "fixed"
   ],
@@ -44,34 +44,19 @@
     "pair_metadata": "/Users/poamen/projects/grace/blockbench/base/data/manual_strategies/differential/metadata/df_pair_tc_028.json",
     "script": "manual",
     "is_fixed_version": true,
-    "fix_type": "minimal_fix",
-    "fix_description": "Minimal fix with 5 lines changed. Added: uint256 balBefore = IERC20(token).balanceOf(address(this));; uint256 balAfter = IERC20(token).balanceOf(address(this));; uint256 received = balAfter - balBefore;",
+    "fix_type": "signature_verification",
+    "fix_description": "Added proper signature verification using ecrecover to recover signer addresses, then validates each signer is in the validators mapping, counts valid signatures, and requires the count meets REQUIRED_SIGNATURES threshold.",
     "exact_changes": [
       {
-        "location": "Added line",
-        "version_a": "uint256 balBefore = IERC20(token).balanceOf(address(this));",
-        "version_b": "// Not present in vulnerable version"
-      },
-      {
-        "location": "Added line",
-        "version_a": "uint256 balAfter = IERC20(token).balanceOf(address(this));",
-        "version_b": "// Not present in vulnerable version"
-      },
-      {
-        "location": "Added line",
-        "version_a": "uint256 received = balAfter - balBefore;",
-        "version_b": "// Not present in vulnerable version"
-      },
-      {
-        "location": "Added line",
-        "version_a": "deposits[msg.sender] += received;",
-        "version_b": "// Not present in vulnerable version"
+        "location": "withdraw function (lines 49-60)",
+        "version_a": "bytes32 messageHash = keccak256(...);\nbytes32 ethSignedMessageHash = keccak256(...);\nfor (uint i = 0; i < v.length; i++) {\n  address signer = ecrecover(ethSignedMessageHash, v[i], r[i], s[i]);\n  if (validators[signer]) { validSignatures++; }\n}\nrequire(validSignatures >= REQUIRED_SIGNATURES, ...);",
+        "version_b": "// No signature verification logic"
       }
     ],
-    "why_fix_works": "",
+    "why_fix_works": "Proper signature verification ensures only transactions approved by registered validators can be processed, preventing unauthorized withdrawals.",
     "contracts_in_file": [
-      "TokenVault"
+      "OrbitBridge"
     ],
-    "created_date": "2025-12-30T02:02:17.939915"
+    "created_date": "2025-12-30T02:02:17.941777"
   }
 }

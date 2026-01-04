@@ -1,87 +1,113 @@
 /*LN-1*/ // SPDX-License-Identifier: MIT
 /*LN-2*/ pragma solidity ^0.8.0;
 /*LN-3*/ 
-/*LN-4*/ interface IERC777 {
+/*LN-4*/ interface IERC20 {
 /*LN-5*/     function transfer(address to, uint256 amount) external returns (bool);
 /*LN-6*/ 
-/*LN-7*/     function balanceOf(address account) external view returns (uint256);
-/*LN-8*/ }
-/*LN-9*/ 
-/*LN-10*/ interface IERC1820Registry {
-/*LN-11*/     function setInterfaceImplementer(
-/*LN-12*/         address account,
-/*LN-13*/         bytes32 interfaceHash,
-/*LN-14*/         address implementer
-/*LN-15*/     ) external;
-/*LN-16*/ }
-/*LN-17*/ 
-/*LN-18*/ contract LendingPool {
-/*LN-19*/     mapping(address => mapping(address => uint256)) public supplied;
-/*LN-20*/     mapping(address => uint256) public totalSupplied;
-/*LN-21*/ 
-/*LN-22*/     /**
-/*LN-23*/      * @notice Supply tokens to the lending pool
-/*LN-24*/      * @param asset The ERC-777 token to supply
-/*LN-25*/      * @param amount Amount to supply
-/*LN-26*/      */
-/*LN-27*/     function supply(address asset, uint256 amount) external returns (uint256) {
-/*LN-28*/         IERC777 token = IERC777(asset);
+/*LN-7*/     function transferFrom(
+/*LN-8*/         address from,
+/*LN-9*/         address to,
+/*LN-10*/         uint256 amount
+/*LN-11*/     ) external returns (bool);
+/*LN-12*/ 
+/*LN-13*/     function balanceOf(address account) external view returns (uint256);
+/*LN-14*/ }
+/*LN-15*/ 
+/*LN-16*/ interface IPancakeRouter {
+/*LN-17*/     function swapExactTokensForTokens(
+/*LN-18*/         uint amountIn,
+/*LN-19*/         uint amountOut,
+/*LN-20*/         address[] calldata path,
+/*LN-21*/         address to,
+/*LN-22*/         uint deadline
+/*LN-23*/     ) external returns (uint[] memory amounts);
+/*LN-24*/ }
+/*LN-25*/ 
+/*LN-26*/ contract RewardMinter {
+/*LN-27*/     IERC20 public lpToken; // LP token (e.g., CAKE-BNB)
+/*LN-28*/     IERC20 public rewardToken;
 /*LN-29*/ 
-/*LN-30*/         // Transfer tokens from user
-/*LN-31*/         require(token.transfer(address(this), amount), "Transfer failed");
+/*LN-30*/     mapping(address => uint256) public depositedLP;
+/*LN-31*/     mapping(address => uint256) public earnedRewards;
 /*LN-32*/ 
-/*LN-33*/         // Update balances
-/*LN-34*/         supplied[msg.sender][asset] += amount;
-/*LN-35*/         totalSupplied[asset] += amount;
-/*LN-36*/ 
-/*LN-37*/         return amount;
+/*LN-33*/     uint256 public constant REWARD_RATE = 100; // 100 reward tokens per LP token
+/*LN-34*/ 
+/*LN-35*/     constructor(address _lpToken, address _rewardToken) {
+/*LN-36*/         lpToken = IERC20(_lpToken);
+/*LN-37*/         rewardToken = IERC20(_rewardToken);
 /*LN-38*/     }
 /*LN-39*/ 
 /*LN-40*/     /**
-/*LN-41*/      * @notice Withdraw supplied tokens
-/*LN-42*/      * @param asset The token to withdraw
-/*LN-43*/      * @param requestedAmount Amount to withdraw (type(uint256).max for all)
-/*LN-44*/      *
-/*LN-45*/      *
-/*LN-46*/      *
-/*LN-47*/      *
-/*LN-48*/      *
-/*LN-49*/      *
-/*LN-50*/      *
-/*LN-51*/      *
-/*LN-52*/      */
-/*LN-53*/     function withdraw(
-/*LN-54*/         address asset,
-/*LN-55*/         uint256 requestedAmount
-/*LN-56*/     ) external returns (uint256) {
-/*LN-57*/         uint256 userBalance = supplied[msg.sender][asset];
-/*LN-58*/         require(userBalance > 0, "No balance");
-/*LN-59*/ 
-/*LN-60*/         // Determine actual withdrawal amount
-/*LN-61*/         uint256 withdrawAmount = requestedAmount;
-/*LN-62*/         if (requestedAmount == type(uint256).max) {
-/*LN-63*/             withdrawAmount = userBalance;
-/*LN-64*/         }
-/*LN-65*/         require(withdrawAmount <= userBalance, "Insufficient balance");
-/*LN-66*/ 
-/*LN-67*/         // For ERC-777, this triggers tokensToSend() callback
-/*LN-68*/         IERC777(asset).transfer(msg.sender, withdrawAmount);
-/*LN-69*/ 
-/*LN-70*/         // Update state
-/*LN-71*/         supplied[msg.sender][asset] -= withdrawAmount;
-/*LN-72*/         totalSupplied[asset] -= withdrawAmount;
+/*LN-41*/      * @notice Deposit LP tokens to earn rewards
+/*LN-42*/      */
+/*LN-43*/     function deposit(uint256 amount) external {
+/*LN-44*/         lpToken.transferFrom(msg.sender, address(this), amount);
+/*LN-45*/         depositedLP[msg.sender] += amount;
+/*LN-46*/     }
+/*LN-47*/ 
+/*LN-48*/     /**
+/*LN-49*/      * @notice Calculate and mint rewards for user
+/*LN-50*/      * @param flip The LP token address
+/*LN-51*/      * @param _withdrawalFee Withdrawal fee amount
+/*LN-52*/      * @param _performanceFee Performance fee amount
+/*LN-53*/      * @param to Recipient address
+/*LN-54*/      *
+/*LN-55*/ 
+/*LN-56*/      *
+/*LN-57*/      *
+/*LN-58*/ 
+/*LN-59*/      *
+/*LN-60*/      *
+/*LN-61*/      *
+/*LN-62*/      *
+/*LN-63*/      *
+/*LN-64*/      */
+/*LN-65*/     function mintFor(
+/*LN-66*/         address flip,
+/*LN-67*/         uint256 _withdrawalFee,
+/*LN-68*/         uint256 _performanceFee,
+/*LN-69*/         address to,
+/*LN-70*/         uint256 /* amount - unused */
+/*LN-71*/     ) external {
+/*LN-72*/         require(flip == address(lpToken), "Invalid token");
 /*LN-73*/ 
-/*LN-74*/         return withdrawAmount;
-/*LN-75*/     }
-/*LN-76*/ 
-/*LN-77*/     /**
-/*LN-78*/      * @notice Get user's supplied balance
-/*LN-79*/      */
-/*LN-80*/     function getSupplied(
-/*LN-81*/         address user,
-/*LN-82*/         address asset
-/*LN-83*/     ) external view returns (uint256) {
-/*LN-84*/         return supplied[user][asset];
-/*LN-85*/     }
-/*LN-86*/ }
-/*LN-87*/ 
+/*LN-74*/         // Transfer fees from caller
+/*LN-75*/         uint256 feeSum = _performanceFee + _withdrawalFee;
+/*LN-76*/         lpToken.transferFrom(msg.sender, address(this), feeSum);
+/*LN-77*/ 
+/*LN-78*/         uint256 rewardAmount = tokenToReward(
+/*LN-79*/             lpToken.balanceOf(address(this))
+/*LN-80*/         );
+/*LN-81*/ 
+/*LN-82*/         earnedRewards[to] += rewardAmount;
+/*LN-83*/     }
+/*LN-84*/ 
+/*LN-85*/     /**
+/*LN-86*/      * @notice Convert LP token amount to reward amount
+/*LN-87*/      * @dev This is called with the inflated balance
+/*LN-88*/      */
+/*LN-89*/     function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {
+/*LN-90*/         return lpAmount * REWARD_RATE;
+/*LN-91*/     }
+/*LN-92*/ 
+/*LN-93*/     /**
+/*LN-94*/      * @notice Claim earned rewards
+/*LN-95*/      */
+/*LN-96*/     function getReward() external {
+/*LN-97*/         uint256 reward = earnedRewards[msg.sender];
+/*LN-98*/         require(reward > 0, "No rewards");
+/*LN-99*/ 
+/*LN-100*/         earnedRewards[msg.sender] = 0;
+/*LN-101*/         rewardToken.transfer(msg.sender, reward);
+/*LN-102*/     }
+/*LN-103*/ 
+/*LN-104*/     /**
+/*LN-105*/      * @notice Withdraw deposited LP tokens
+/*LN-106*/      */
+/*LN-107*/     function withdraw(uint256 amount) external {
+/*LN-108*/         require(depositedLP[msg.sender] >= amount, "Insufficient balance");
+/*LN-109*/         depositedLP[msg.sender] -= amount;
+/*LN-110*/         lpToken.transfer(msg.sender, amount);
+/*LN-111*/     }
+/*LN-112*/ }
+/*LN-113*/ 
