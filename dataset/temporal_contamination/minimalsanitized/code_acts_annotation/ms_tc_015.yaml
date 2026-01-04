@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_015"
 vulnerability_type: "logic_error"
-vulnerable_lines: [25]
+vulnerable_lines: [25, 39]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -68,8 +68,8 @@ code_acts:
     type: "INPUT_VAL"
     lines: [39]
     code: 'require(token != underlying, "Cannot sweep underlying token");'
-    security_function: "BENIGN"
-    rationale: "Sweep protection check. The check logic is correct - it's checking against the underlying variable. The bug is that underlying has the wrong value (set in constructor)."
+    security_function: "INSUFF_GUARD"
+    rationale: "INSUFF_GUARD - The guard attempts to protect against sweeping the underlying token but fails because it checks against `underlying` which was initialized with the wrong value (OLD_TUSD instead of NEW_TUSD). The guard logic is semantically correct but depends on corrupted state, making it an insufficient protection."
 
   - id: "CA8"
     type: "EXT_CALL"
@@ -137,8 +137,9 @@ summary:
 
   by_security_function:
     ROOT_CAUSE: 1      # CA4
+    INSUFF_GUARD: 1    # CA7
     PREREQ: 0
-    BENIGN: 10         # CA1, CA2, CA3, CA5, CA6, CA7, CA8, CA9, CA10, CA11
+    BENIGN: 9          # CA1, CA2, CA3, CA5, CA6, CA8, CA9, CA10, CA11
     UNRELATED: 4       # batched
 
   root_causes:
@@ -216,7 +217,7 @@ code_act_security_functions:
   CA4: "ROOT_CAUSE"
   CA5: "BENIGN"
   CA6: "BENIGN"
-  CA7: "BENIGN"
+  CA7: "INSUFF_GUARD"
   CA8: "BENIGN"
   CA9: "BENIGN"
   CA10: "BENIGN"

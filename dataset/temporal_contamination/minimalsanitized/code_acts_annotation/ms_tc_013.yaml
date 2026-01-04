@@ -69,14 +69,14 @@ code_acts:
     rationale: "Fee transfer. Incidental to exploit - attacker inflates balance via direct transfers, not this fee mechanism."
 
   - id: "CA9"
-    type: "COMPUTATION"
+    type: "EXT_CALL"
     lines: [80, 81, 82]
     code: |
       uint256 hunnyRewardAmount = tokenToReward(
           lpToken.balanceOf(address(this))
       );
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - Uses TOTAL contract LP balance instead of just the fee amount. Attacker can inflate rewards by depositing LP tokens before calling mintFor. The reward should be based on feeSum, not total balance."
+    rationale: "ROOT_CAUSE - The external call lpToken.balanceOf(address(this)) returns the TOTAL contract LP balance instead of just the fee amount. Attacker can inflate rewards by depositing LP tokens before calling mintFor. The reward should be based on feeSum, not this manipulable external call result."
 
   - id: "CA10"
     type: "STATE_MOD"
@@ -180,8 +180,8 @@ summary:
   root_causes:
     - id: "CA9"
       lines: [80, 81, 82]
-      type: "COMPUTATION"
-      description: "Uses total LP balance (balanceOf) instead of fee amount for reward calculation - balance manipulation vulnerability"
+      type: "EXT_CALL"
+      description: "External call balanceOf returns manipulable total LP balance instead of fee amount for reward calculation"
 
 line_to_code_act:
   # Directives (UNRELATED)

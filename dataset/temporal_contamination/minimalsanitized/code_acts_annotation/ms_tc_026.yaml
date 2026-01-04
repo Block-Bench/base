@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_026"
 vulnerability_type: "signature_verification"
-vulnerable_lines: [26, 27]
+vulnerable_lines: [26, 27, 30]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -20,13 +20,13 @@ code_acts:
     rationale: "Conditional check for non-zero signature params. This check itself is fine - the issue is CA2 swallowing permit failures."
 
   - id: "CA2"
-    type: "EXT_CALL"
+    type: "SIGNATURE"
     lines: [26, 27]
     code: |
       try IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s) {} catch {}
       }
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - try-catch swallows permit failures silently. If signature is invalid, the permit reverts but catch{} ignores it. Function continues executing without verified authorization."
+    rationale: "ROOT_CAUSE - The permit() call is a signature verification operation per taxonomy. The try-catch swallows permit failures silently - if signature is invalid, the permit reverts but catch{} ignores it. Function continues executing without verified authorization."
 
   - id: "CA3"
     type: "CTRL_FLOW"
@@ -86,8 +86,8 @@ summary:
   root_causes:
     - id: "CA2"
       lines: [26, 27]
-      type: "EXT_CALL"
-      description: "try-catch swallows permit failures silently"
+      type: "SIGNATURE"
+      description: "try-catch swallows permit signature verification failures silently"
 
   prerequisites: []
 

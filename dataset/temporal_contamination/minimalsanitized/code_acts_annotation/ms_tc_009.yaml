@@ -164,7 +164,7 @@ code_acts:
     rationale: "Tick crossing detection. Correctly implemented."
 
   - id: "CA20"
-    type: "STATE_MOD"
+    type: "STORAGE_READ"
     lines: [122]
     code: "int128 liquidityNetAtTick = liquidityNet[tickCrossed];"
     security_function: "PREREQ"
@@ -178,11 +178,11 @@ code_acts:
     rationale: "Direction-based sign adjustment. Correctly implemented."
 
   - id: "CA22"
-    type: "EXT_CALL"
+    type: "COMPUTATION"
     lines: [128, 129, 130, 131]
     code: "liquidityNext = _addLiquidity(liquidityNext, liquidityNetAtTick);"
     security_function: "BENIGN"
-    rationale: "Call site to _addLiquidity. The call itself is correct - the vulnerability is in the _addLiquidity function (CA29, CA30)."
+    rationale: "Internal function call to _addLiquidity. The call itself is correct - the vulnerability is in the _addLiquidity function (CA29, CA30). (Note: Changed from EXT_CALL since _addLiquidity is an internal function.)"
 
   - id: "CA23"
     type: "STATE_MOD"
@@ -232,14 +232,14 @@ code_acts:
     rationale: "Branch selection in _addLiquidity. Correctly determines which arithmetic operation to use."
 
   - id: "CA29"
-    type: "COMPUTATION"
+    type: "ARITHMETIC"
     lines: [157]
     code: "z = x - uint128(-y);"
     security_function: "ROOT_CAUSE"
     rationale: "ROOT_CAUSE - Unchecked subtraction that can underflow. When y is a large negative value and x is small, this underflows, resulting in a massive liquidity value."
 
   - id: "CA30"
-    type: "COMPUTATION"
+    type: "ARITHMETIC"
     lines: [159]
     code: "z = x + uint128(y);"
     security_function: "ROOT_CAUSE"
@@ -315,11 +315,11 @@ summary:
   root_causes:
     - id: "CA29"
       line: 157
-      type: "COMPUTATION"
+      type: "ARITHMETIC"
       description: "Unchecked subtraction can underflow"
     - id: "CA30"
       line: 159
-      type: "COMPUTATION"
+      type: "ARITHMETIC"
       description: "Unchecked addition can overflow"
 
   prerequisites:

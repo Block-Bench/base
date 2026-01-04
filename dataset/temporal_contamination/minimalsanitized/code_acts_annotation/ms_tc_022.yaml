@@ -13,7 +13,7 @@ code_acts:
   # ============================================
 
   - id: "CA1"
-    type: "COMPUTATION"
+    type: "INPUT_VAL"
     lines: [98, 99, 100, 101, 102]
     code: |
       require(
@@ -22,7 +22,7 @@ code_acts:
           "UraniumSwap: K"
       );
     security_function: "ROOT_CAUSE"
-    rationale: "ROOT_CAUSE - K validation uses 1000^2 scale but fee calculation uses 10000 scale. This 100x mismatch allows K to inflate after each swap, enabling attacker to drain pool."
+    rationale: "ROOT_CAUSE - K validation uses 1000^2 scale but fee calculation uses 10000 scale. This 100x mismatch allows K to inflate after each swap, enabling attacker to drain pool. The require() pattern is INPUT_VAL per taxonomy, with the bug being in the arithmetic formula inside."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -228,7 +228,7 @@ summary:
   root_causes:
     - id: "CA1"
       lines: [98, 99, 100, 101, 102]
-      type: "COMPUTATION"
+      type: "INPUT_VAL"
       description: "K validation uses 1000^2 instead of 10000^2 - invariant scale mismatch with fee calculation"
 
   prerequisites:

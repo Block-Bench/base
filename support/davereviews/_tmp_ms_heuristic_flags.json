@@ -1,0 +1,272 @@
+{
+  "ms_tc_001": [
+    "TYPE_MAYBE_MISMATCH CA12: annotated=CTRL_FLOW suggested=COMPUTATION code='return keccak256(_message);'"
+  ],
+  "ms_tc_002": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=STATE_MOD suggested=ARITHMETIC code='votingPower[msg.sender] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA2: annotated=STATE_MOD suggested=ARITHMETIC code='totalVotingPower += amount;'",
+    "TYPE_MAYBE_MISMATCH CA3: annotated=STATE_MOD suggested=ARITHMETIC code='depositedBalance[msg.sender] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA4: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 votePercentage = (prop.forVotes * 100) / totalVotingPower;'",
+    "TYPE_MAYBE_MISMATCH CA11: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(!hasVoted[proposalId][msg.sender], \"Already voted\");'",
+    "TYPE_MAYBE_MISMATCH CA13: annotated=STATE_MOD suggested=ARITHMETIC code='proposals[proposalId].forVotes += votingPower[msg.sender];'",
+    "TYPE_MAYBE_MISMATCH CA15: annotated=STATE_MOD suggested=ARITHMETIC code='proposalCount++;'",
+    "TYPE_MAYBE_MISMATCH CA16: annotated=STATE_MOD suggested=TIMESTAMP code='prop.proposer = msg.sender;\\nprop.target = _target;\\nprop.data = _calldata;\\nprop.startTime = block.timestamp;\\nprop.execute'",
+    "OUTLIER: many PREREQ (6)"
+  ],
+  "ms_tc_003": [
+    "TYPE_MAYBE_MISMATCH CA5: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(isOwner[msg.sender], \"Not an owner\");'",
+    "TYPE_MAYBE_MISMATCH CA15: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(isOwner[msg.sender], \"Not an owner\");'"
+  ],
+  "ms_tc_005": [
+    "TYPE_MAYBE_MISMATCH CA4: annotated=STATE_MOD suggested=ARITHMETIC code='balances[0] += amounts[0]; balances[1] += amounts[1];'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=STATE_MOD suggested=ARITHMETIC code='lpBalances[msg.sender] += lpToMint; totalLPSupply += lpToMint;'",
+    "TYPE_MAYBE_MISMATCH CA11: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(lpBalances[msg.sender] >= lpAmount, \"Insufficient LP\");'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount0 = (lpAmount * balances[0]) / totalLPSupply; uint256 amount1 = (lpAmount * balances[1]) / totalLPSupply;'",
+    "TYPE_MAYBE_MISMATCH CA14: annotated=STATE_MOD suggested=ARITHMETIC code='lpBalances[msg.sender] -= lpAmount; totalLPSupply -= lpAmount;'",
+    "TYPE_MAYBE_MISMATCH CA15: annotated=STATE_MOD suggested=ARITHMETIC code='balances[0] -= amount0; balances[1] -= amount1;'",
+    "TYPE_MAYBE_MISMATCH CA21: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 dy = (dx * balances[uj]) / (balances[ui] + dx);'",
+    "TYPE_MAYBE_MISMATCH CA23: annotated=CTRL_FLOW suggested=INPUT_VAL code='if (ui == 0) { require(msg.value == dx, ...); balances[0] += dx; }'",
+    "TYPE_MAYBE_MISMATCH CA24: annotated=STATE_MOD suggested=ARITHMETIC code='balances[ui] += dx; balances[uj] -= dy;'"
+  ],
+  "ms_tc_006": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=DECLARATION suggested=ARITHMETIC code='uint256 public requiredSignatures = 5; // Need 5 out of 9'",
+    "TYPE_MAYBE_MISMATCH CA9: annotated=EXT_CALL suggested=INPUT_VAL code=\"require(_verifySignatures(...), 'Invalid signatures');\"",
+    "TYPE_MAYBE_MISMATCH CA17: annotated=COMPUTATION suggested=SIGNATURE code='_recoverSigner function using ecrecover'"
+  ],
+  "ms_tc_008": [
+    "TYPE_MAYBE_MISMATCH CA8: annotated=STATE_MOD suggested=ARITHMETIC code='userDeposits[msg.sender][cToken] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA13: annotated=EXT_CALL suggested=ARITHMETIC code='uint256 borrowValue = (oracle.getUnderlyingPrice(cToken) * amount) / 1e18;'",
+    "TYPE_MAYBE_MISMATCH CA15: annotated=STATE_MOD suggested=ARITHMETIC code='userBorrows[msg.sender][cToken] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA21: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 value = (balance * price) / 1e18;'",
+    "TYPE_MAYBE_MISMATCH CA22: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 power = (value * collateralFactors[cToken]) / 1e18;'",
+    "TYPE_MAYBE_MISMATCH CA23: annotated=STATE_MOD suggested=ARITHMETIC code='totalPower += power;'",
+    "TYPE_MAYBE_MISMATCH CA29: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 value = (borrowed * price) / 1e18; totalBorrows += value;'",
+    "OUTLIER: many PREREQ (4)"
+  ],
+  "ms_tc_009": [
+    "TYPE_MAYBE_MISMATCH CA8: annotated=STATE_MOD suggested=ARITHMETIC code='Position storage position = positions[positionKey]; position.liquidity += liquidityDelta; ...'",
+    "TYPE_MAYBE_MISMATCH CA9: annotated=STATE_MOD suggested=ARITHMETIC code='liquidityNet[tickLower] += int128(liquidityDelta);\\nliquidityNet[tickUpper] -= int128(liquidityDelta);'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=CTRL_FLOW suggested=ARITHMETIC code='if (currentTick >= tickLower && currentTick < tickUpper) { liquidity += liquidityDelta; }'",
+    "TYPE_MAYBE_MISMATCH CA21: annotated=CTRL_FLOW suggested=ARITHMETIC code='if (zeroForOne) { liquidityNetAtTick = -liquidityNetAtTick; }'",
+    "TYPE_MAYBE_MISMATCH CA29: annotated=COMPUTATION suggested=ARITHMETIC code='z = x - uint128(-y);'",
+    "TYPE_MAYBE_MISMATCH CA30: annotated=COMPUTATION suggested=ARITHMETIC code='z = x + uint128(y);'"
+  ],
+  "ms_tc_010": [
+    "TYPE_MAYBE_MISMATCH CA3: annotated=STATE_MOD suggested=ARITHMETIC code='credit[msg.sender] += msg.value;\\nbalance += msg.value;'",
+    "TYPE_MAYBE_MISMATCH CA6: annotated=STATE_MOD suggested=ARITHMETIC code='balance -= oCredit;'"
+  ],
+  "ms_tc_011": [
+    "TYPE_MAYBE_MISMATCH CA4: annotated=STATE_MOD suggested=ARITHMETIC code='supplied[msg.sender][asset] += amount;\\ntotalSupplied[asset] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=STATE_MOD suggested=ARITHMETIC code='supplied[msg.sender][asset] -= withdrawAmount;\\ntotalSupplied[asset] -= withdrawAmount;'"
+  ],
+  "ms_tc_012": [
+    "TYPE_MAYBE_MISMATCH CA4: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] += msg.value;\\ntotalDeposits += msg.value;\\ninMarket[msg.sender] = true;'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=INPUT_VAL suggested=ARITHMETIC code='uint256 totalDebt = borrowed[account] + additionalBorrow;\\nif (totalDebt == 0) return true;'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 collateralValue = deposits[account];\\nreturn collateralValue >= (totalDebt * COLLATERAL_FACTOR) / 100;'",
+    "TYPE_MAYBE_MISMATCH CA9: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(isHealthy(msg.sender, amount), \"Insufficient collateral\");'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=STATE_MOD suggested=ARITHMETIC code='borrowed[msg.sender] += amount;\\ntotalBorrowed += amount;'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(isHealthy(msg.sender, 0), \"Health check failed\");'",
+    "TYPE_MAYBE_MISMATCH CA13: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(borrowed[msg.sender] == 0, \"Outstanding debt\");'",
+    "TYPE_MAYBE_MISMATCH CA15: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(deposits[msg.sender] >= amount, \"Insufficient deposits\");\\nrequire(!inMarket[msg.sender], \"Exit market first\");'",
+    "TYPE_MAYBE_MISMATCH CA16: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] -= amount;\\ntotalDeposits -= amount;'"
+  ],
+  "ms_tc_013": [
+    "TYPE_MAYBE_MISMATCH CA5: annotated=STATE_MOD suggested=ARITHMETIC code='depositedLP[msg.sender] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 feeSum = _performanceFee + _withdrawalFee;'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=STATE_MOD suggested=ARITHMETIC code='earnedRewards[to] += hunnyRewardAmount;'",
+    "TYPE_MAYBE_MISMATCH CA11: annotated=COMPUTATION suggested=ARITHMETIC code='function tokenToReward(uint256 lpAmount) internal pure returns (uint256) {\\n    return lpAmount * REWARD_RATE;\\n}'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=INPUT_VAL suggested=ACCESS_CTRL code='uint256 reward = earnedRewards[msg.sender];\\nrequire(reward > 0, \"No rewards\");'",
+    "TYPE_MAYBE_MISMATCH CA15: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(depositedLP[msg.sender] >= amount, \"Insufficient balance\");'",
+    "TYPE_MAYBE_MISMATCH CA16: annotated=STATE_MOD suggested=ARITHMETIC code='depositedLP[msg.sender] -= amount;'"
+  ],
+  "ms_tc_015": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=DECLARATION suggested=ARITHMETIC code='address public underlying; // Old TUSD address'",
+    "TYPE_MAYBE_MISMATCH CA6: annotated=STATE_MOD suggested=ARITHMETIC code='accountTokens[msg.sender] += amount;\\ntotalSupply += amount;'",
+    "TYPE_MAYBE_MISMATCH CA9: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(accountTokens[msg.sender] >= amount, \"Insufficient balance\");'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=STATE_MOD suggested=ARITHMETIC code='accountTokens[msg.sender] -= amount;\\ntotalSupply -= amount;'"
+  ],
+  "ms_tc_016": [
+    "TYPE_MAYBE_MISMATCH CA3: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 currentPrice = _tokenPrice();\\nmintAmount = (msg.value * 1e18) / currentPrice;'",
+    "TYPE_MAYBE_MISMATCH CA4: annotated=STATE_MOD suggested=ARITHMETIC code='balances[receiver] += mintAmount;\\ntotalSupply += mintAmount;\\ntotalAssetSupply += msg.value;'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(balances[msg.sender] >= amount, \"Insufficient balance\");'",
+    "TYPE_MAYBE_MISMATCH CA6: annotated=STATE_MOD suggested=ARITHMETIC code='balances[msg.sender] -= amount;\\nbalances[to] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(balances[msg.sender] >= amount, \"Insufficient balance\");'",
+    "TYPE_MAYBE_MISMATCH CA11: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 currentPrice = _tokenPrice();\\nethAmount = (amount * currentPrice) / 1e18;'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=STATE_MOD suggested=ARITHMETIC code='balances[msg.sender] -= amount;\\ntotalSupply -= amount;\\ntotalAssetSupply -= ethAmount;'",
+    "TYPE_MAYBE_MISMATCH CA14: annotated=COMPUTATION suggested=ARITHMETIC code='function _tokenPrice() internal view returns (uint256) {\\n    if (totalSupply == 0) {\\n        return 1e18; // Initial pri'"
+  ],
+  "ms_tc_017": [
+    "TYPE_MAYBE_MISMATCH CA5: annotated=CTRL_FLOW suggested=ARITHMETIC code='for (uint256 i = 0; i < _targets.length; i++) {'"
+  ],
+  "ms_tc_018": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=DECLARATION suggested=ARITHMETIC code='struct Token {\\n    address addr;\\n    uint256 balance;\\n    uint256 weight; // stored as percentage (100 = 100%)\\n}'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=STATE_MOD suggested=ARITHMETIC code='tokens[tokenIn].balance += amountIn;'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=STATE_MOD suggested=ARITHMETIC code='tokens[tokenOut].balance -= amountOut;'",
+    "TYPE_MAYBE_MISMATCH CA13: annotated=COMPUTATION suggested=ARITHMETIC code='function calculateSwapAmount(\\n    address tokenIn,\\n    address tokenOut,\\n    uint256 amountIn\\n) public view returns (uin'",
+    "TYPE_MAYBE_MISMATCH CA14: annotated=COMPUTATION suggested=ARITHMETIC code='function _updateWeights() internal {\\n    uint256 totalValue = 0;\\n    // Calculate total value in pool\\n    for (uint256 i'",
+    "TYPE_MAYBE_MISMATCH CA15: annotated=COMPUTATION suggested=ARITHMETIC code='for (uint256 i = 0; i < tokenList.length; i++) {\\n    address token = tokenList[i];\\n    tokens[token].weight = (tokens[to'",
+    "TYPE_MAYBE_MISMATCH CA19: annotated=STATE_MOD suggested=ARITHMETIC code='tokens[token].balance += amount;'"
+  ],
+  "ms_tc_019": [
+    "TYPE_MAYBE_MISMATCH CA4: annotated=STATE_MOD suggested=ARITHMETIC code='depositNonce += 1;'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=ACCESS_CTRL suggested=ARITHMETIC code='function setResource(bytes32 resourceID, address tokenAddress) external {\\n    resourceIDToTokenContractAddress[resourceI'"
+  ],
+  "ms_tc_020": [
+    "TYPE_MAYBE_MISMATCH CA5: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].lpTokenAmount += amount;'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 maxBorrow = (collateralValue * 100) / COLLATERAL_RATIO;'",
+    "TYPE_MAYBE_MISMATCH CA8: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    positions[msg.sender].borrowed + amount <= maxBorrow,\\n    \"Insufficient collateral\"\\n);'",
+    "TYPE_MAYBE_MISMATCH CA9: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].borrowed += amount;'",
+    "TYPE_MAYBE_MISMATCH CA15: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount0 = (uint256(reserve0) * lpAmount) / totalSupply;\\nuint256 amount1 = (uint256(reserve1) * lpAmount) / total'",
+    "TYPE_MAYBE_MISMATCH CA16: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 value0 = amount0;\\nuint256 totalValue = amount0 + amount1;'",
+    "TYPE_MAYBE_MISMATCH CA17: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(positions[msg.sender].borrowed >= amount, \"Repay exceeds debt\");'",
+    "TYPE_MAYBE_MISMATCH CA19: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].borrowed -= amount;'",
+    "TYPE_MAYBE_MISMATCH CA20: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    positions[msg.sender].lpTokenAmount >= amount,\\n    \"Insufficient balance\"\\n);'",
+    "TYPE_MAYBE_MISMATCH CA21: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 remainingLP = positions[msg.sender].lpTokenAmount - amount;\\nuint256 remainingValue = getLPTokenValue(remainingLP'",
+    "TYPE_MAYBE_MISMATCH CA22: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    positions[msg.sender].borrowed <= maxBorrow,\\n    \"Withdrawal would liquidate position\"\\n);'",
+    "TYPE_MAYBE_MISMATCH CA23: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].lpTokenAmount -= amount;'"
+  ],
+  "ms_tc_021": [
+    "TYPE_MAYBE_MISMATCH CA8: annotated=STATE_MOD suggested=ARITHMETIC code='baseBalance += baseAmount;\\nquoteBalance += quoteAmount;'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=COMPUTATION suggested=ARITHMETIC code='if (fromToken == baseToken) {\\n    toAmount = (quoteBalance * fromAmount) / (baseBalance + fromAmount);\\n    baseBalance +'",
+    "TYPE_MAYBE_MISMATCH CA11: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 fee = (toAmount * lpFeeRate) / 10000;\\ntoAmount -= fee;'",
+    "TYPE_MAYBE_MISMATCH CA14: annotated=CTRL_FLOW suggested=EXT_CALL code='if (baseTokenBalance > baseBalance) {\\n    uint256 excess = baseTokenBalance - baseBalance;\\n    IERC20(baseToken).transfe'"
+  ],
+  "ms_tc_022": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=COMPUTATION suggested=INPUT_VAL code='require(\\n    balance0Adjusted * balance1Adjusted >=\\n        uint256(_reserve0) * _reserve1 * (1000 ** 2),\\n    \"UraniumSw'",
+    "TYPE_MAYBE_MISMATCH CA2: annotated=DECLARATION suggested=ARITHMETIC code='uint256 public constant TOTAL_FEE = 16; // 0.16% fee'",
+    "TYPE_MAYBE_MISMATCH CA3: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 balance0Adjusted = balance0 * 10000 - amount0In * TOTAL_FEE;\\nuint256 balance1Adjusted = balance1 * 10000 - amoun'",
+    "TYPE_MAYBE_MISMATCH CA9: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount0In = balance0 > _reserve0 - amount0Out\\n    ? balance0 - (_reserve0 - amount0Out)\\n    : 0;\\nuint256 amount1'",
+    "TYPE_MAYBE_MISMATCH CA13: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount0 = balance0 - reserve0;\\nuint256 amount1 = balance1 - reserve1;'",
+    "TYPE_MAYBE_MISMATCH CA14: annotated=COMPUTATION suggested=ARITHMETIC code='liquidity = sqrt(amount0 * amount1);'",
+    "TYPE_MAYBE_MISMATCH CA18: annotated=COMPUTATION suggested=ARITHMETIC code='if (y > 3) {\\n    z = y;\\n    uint256 x = y / 2 + 1;\\n    while (x < z) {\\n        z = x;\\n        x = (y / x + x) / 2;\\n    }'"
+  ],
+  "ms_tc_023": [
+    "TYPE_MAYBE_MISMATCH CA5: annotated=STATE_MOD suggested=ARITHMETIC code='positionId = nextPositionId++;'",
+    "TYPE_MAYBE_MISMATCH CA11: annotated=COMPUTATION suggested=ARITHMETIC code='share = (amount * totalDebtShare) / totalDebt;\\n}'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=STATE_MOD suggested=ARITHMETIC code='pos.debtShare += share;\\ntotalDebtShare += share;\\ntotalDebt += amount;'",
+    "TYPE_MAYBE_MISMATCH CA16: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 shareToRemove = (amount * totalDebtShare) / totalDebt;'",
+    "TYPE_MAYBE_MISMATCH CA18: annotated=STATE_MOD suggested=ARITHMETIC code='pos.debtShare -= shareToRemove;\\ntotalDebtShare -= shareToRemove;\\ntotalDebt -= amount;'",
+    "TYPE_MAYBE_MISMATCH CA21: annotated=COMPUTATION suggested=ARITHMETIC code='return (pos.debtShare * totalDebt) / totalDebtShare;'",
+    "TYPE_MAYBE_MISMATCH CA23: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 debt = (pos.debtShare * totalDebt) / totalDebtShare;'"
+  ],
+  "ms_tc_024": [
+    "TYPE_MAYBE_MISMATCH CA10: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].collateral += amount;'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 maxBorrow = (collateralValue * COLLATERAL_FACTOR) / 100;'",
+    "TYPE_MAYBE_MISMATCH CA13: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    positions[msg.sender].borrowed + amount <= maxBorrow,\\n    \"Insufficient collateral\"\\n);'",
+    "TYPE_MAYBE_MISMATCH CA14: annotated=STATE_MOD suggested=ARITHMETIC code='positions[msg.sender].borrowed += amount;'",
+    "TYPE_MAYBE_MISMATCH CA18: annotated=COMPUTATION suggested=ARITHMETIC code='return (collateralAmount * price) / 1e18;'"
+  ],
+  "ms_tc_025": [
+    "TYPE_MAYBE_MISMATCH CA4: annotated=STATE_MOD suggested=ARITHMETIC code='accountBorrows[msg.sender] += amount;\\ntotalBorrows += amount;'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=STATE_MOD suggested=ARITHMETIC code='accountBorrows[msg.sender] -= amount;\\ntotalBorrows -= amount;'"
+  ],
+  "ms_tc_026": [
+    "TYPE_MAYBE_MISMATCH CA2: annotated=EXT_CALL suggested=SIGNATURE code='try IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s) {} catch {}\\n}'",
+    "TYPE_MAYBE_MISMATCH CA4: annotated=CTRL_FLOW suggested=ARITHMETIC code='function _anySwapOut(address from, address token, address to, uint256 amount, uint256 toChainID) internal {\\n    // Bridg'"
+  ],
+  "ms_tc_027": [
+    "TYPE_MAYBE_MISMATCH CA2: annotated=CTRL_FLOW suggested=ARITHMETIC code='for (uint i = 0; i < path.length - 1; i++) {\\n    address pair = _getPair(path[i], path[i+1]);'",
+    "TYPE_MAYBE_MISMATCH CA4: annotated=COMPUTATION suggested=ARITHMETIC code='amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=COMPUTATION suggested=ARITHMETIC code='function _getAmountOut(uint256 amountIn, uint112 reserveIn, uint112 reserveOut) internal pure returns (uint256) {\\n    re'"
+  ],
+  "ms_tc_028": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=DECLARATION suggested=ARITHMETIC code='mapping(address => uint256) public balanceOf;\\nuint256 public totalSupply;\\nuint256 public feePercent = 10; // 10% burn on'",
+    "TYPE_MAYBE_MISMATCH CA2: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 fee = (amount * feePercent) / 100;\\nuint256 amountAfterFee = amount - fee;'",
+    "TYPE_MAYBE_MISMATCH CA3: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[msg.sender] -= amount;\\nbalanceOf[to] += amountAfterFee;\\ntotalSupply -= fee; // Burn fee'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 fee = (amount * feePercent) / 100;\\nuint256 amountAfterFee = amount - fee;'",
+    "TYPE_MAYBE_MISMATCH CA6: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[from] -= amount;\\nbalanceOf[to] += amountAfterFee;\\ntotalSupply -= fee;'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA11: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(deposits[msg.sender] >= amount, \"Insufficient\");'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] -= amount;'"
+  ],
+  "ms_tc_029": [
+    "TYPE_MAYBE_MISMATCH CA7: annotated=COMPUTATION suggested=ARITHMETIC code='sharesAdded = (amount * totalShares * 1e18) / (pool * price);\\n}'",
+    "TYPE_MAYBE_MISMATCH CA8: annotated=STATE_MOD suggested=ARITHMETIC code='shares[msg.sender] += sharesAdded;\\ntotalShares += sharesAdded;'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 amount = (sharesAmount * pool * price) / (totalShares * 1e18);'",
+    "TYPE_MAYBE_MISMATCH CA13: annotated=STATE_MOD suggested=ARITHMETIC code='shares[msg.sender] -= sharesAmount;\\ntotalShares -= sharesAmount;'"
+  ],
+  "ms_tc_030": [
+    "TYPE_MAYBE_MISMATCH CA4: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 baseRatio = (inputBase * totalUnits) / baseAmount;\\nuint256 tokenRatio = (inputToken * totalUnits) / tokenAmount;'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=COMPUTATION suggested=ARITHMETIC code='liquidityUnits = (baseRatio + tokenRatio) / 2;\\n}'",
+    "TYPE_MAYBE_MISMATCH CA6: annotated=STATE_MOD suggested=ARITHMETIC code='units[msg.sender] += liquidityUnits;\\ntotalUnits += liquidityUnits;'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=STATE_MOD suggested=ARITHMETIC code='baseAmount += inputBase;\\ntokenAmount += inputToken;'",
+    "TYPE_MAYBE_MISMATCH CA9: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 outputBase = (liquidityUnits * baseAmount) / totalUnits;\\nuint256 outputToken = (liquidityUnits * tokenAmount) / '",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=STATE_MOD suggested=ARITHMETIC code='units[msg.sender] -= liquidityUnits;\\ntotalUnits -= liquidityUnits;'",
+    "TYPE_MAYBE_MISMATCH CA11: annotated=STATE_MOD suggested=ARITHMETIC code='baseAmount -= outputBase;\\ntokenAmount -= outputToken;'"
+  ],
+  "ms_tc_031": [
+    "TYPE_MAYBE_MISMATCH CA9: annotated=CTRL_FLOW suggested=EVENT_EMIT code='emit WithdrawalProcessed(txHash, token, toAddr, amount);'"
+  ],
+  "ms_tc_032": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=COMPUTATION suggested=ARITHMETIC code='reserve.liquidityIndex =\\n    currentLiquidityIndex +\\n    (amount * RAY) /\\n    (reserve.totalLiquidity + 1);'",
+    "TYPE_MAYBE_MISMATCH CA2: annotated=COMPUTATION suggested=INPUT_VAL code='function rayDiv(uint256 a, uint256 b) internal pure returns (uint256) {\\n    uint256 halfB = b / 2;\\n    require(b != 0, \"'",
+    "TYPE_MAYBE_MISMATCH CA3: annotated=EXT_CALL suggested=ARITHMETIC code='flashLoan loop + callback'"
+  ],
+  "ms_tc_033": [
+    "TYPE_MAYBE_MISMATCH CA5: annotated=CTRL_FLOW suggested=EVENT_EMIT code='emit RouteExecuted(routeId, msg.sender, result);\\nreturn result;'"
+  ],
+  "ms_tc_034": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=COMPUTATION suggested=ARITHMETIC code='shares = (totalSupply * (deposit0 + deposit1)) / (total0 + total1);'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[to] += shares;\\ntotalSupply += shares;'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(balanceOf[msg.sender] >= shares, \"Insufficient balance\");'",
+    "TYPE_MAYBE_MISMATCH CA9: annotated=COMPUTATION suggested=ARITHMETIC code='amount0 = (shares * total0) / totalSupply;\\namount1 = (shares * total1) / totalSupply;'",
+    "TYPE_MAYBE_MISMATCH CA10: annotated=STATE_MOD suggested=ARITHMETIC code='balanceOf[msg.sender] -= shares;\\ntotalSupply -= shares;'"
+  ],
+  "ms_tc_035": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=COMPUTATION suggested=ARITHMETIC code='shareAmount =\\n    (_amount * pool.totalDepositShares) /\\n    pool.pseudoTotalPool;'",
+    "TYPE_MAYBE_MISMATCH CA2: annotated=COMPUTATION suggested=ARITHMETIC code='withdrawAmount =\\n    (_shares * pool.pseudoTotalPool) /\\n    pool.totalDepositShares;'",
+    "TYPE_MAYBE_MISMATCH CA8: annotated=COMPUTATION suggested=ARITHMETIC code='shareBurned =\\n    (_withdrawAmount * pool.totalDepositShares) /\\n    pool.pseudoTotalPool;'"
+  ],
+  "ms_tc_036": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=EXT_CALL suggested=ARITHMETIC code=\"borrowerOperations.openTrove(\\n    troveManager,\\n    account,  // <-- user-controlled, can be victim's address\\n    maxFee\"",
+    "TYPE_MAYBE_MISMATCH CA3: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    msg.sender == account || delegates[account][msg.sender],\\n    \"Not authorized\"\\n);'",
+    "TYPE_MAYBE_MISMATCH CA8: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(\\n    msg.sender == account || delegates[account][msg.sender],\\n    \"Not authorized\"\\n);'"
+  ],
+  "ms_tc_037": [
+    "TYPE_MAYBE_MISMATCH CA2: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 price = (balance1 * 1e18) / balance0;'",
+    "TYPE_MAYBE_MISMATCH CA6: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[onBehalfOf] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 collateralValue = (deposits[msg.sender] * collateralPrice) / 1e18;\\nuint256 maxBorrow = (collateralValue * LTV) /'",
+    "TYPE_MAYBE_MISMATCH CA9: annotated=STATE_MOD suggested=ARITHMETIC code='borrows[msg.sender] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA11: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(deposits[msg.sender] >= amount, \"Insufficient balance\");'",
+    "TYPE_MAYBE_MISMATCH CA12: annotated=STATE_MOD suggested=ARITHMETIC code='deposits[msg.sender] -= amount;'"
+  ],
+  "ms_tc_038": [
+    "TYPE_MAYBE_MISMATCH CA4: annotated=STATE_MOD suggested=ARITHMETIC code='markets[token].accountCollateral[msg.sender] += amount;'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 borrowValue = (borrowAmount * borrowPrice) / 1e18;\\nuint256 maxBorrowValue = (totalCollateralValue * COLLATERAL_F'",
+    "TYPE_MAYBE_MISMATCH CA7: annotated=STATE_MOD suggested=ARITHMETIC code='markets[borrowToken].accountBorrows[msg.sender] += borrowAmount;'"
+  ],
+  "ms_tc_039": [
+    "TYPE_MAYBE_MISMATCH CA6: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(msg.sender == settlement, \"Only settlement\");'"
+  ],
+  "ms_tc_040": [
+    "TYPE_MAYBE_MISMATCH CA4: annotated=STATE_MOD suggested=ARITHMETIC code='totalETHDeposited += msg.value;\\ntotalUniBTCMinted += uniBTCAmount;'",
+    "TYPE_MAYBE_MISMATCH CA6: annotated=INPUT_VAL suggested=ACCESS_CTRL code='require(amount > 0, \"No amount specified\");\\nrequire(uniBTC.balanceOf(msg.sender) >= amount, \"Insufficient balance\");'"
+  ],
+  "ms_tc_041": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=STATE_MOD suggested=ARITHMETIC code='function mint(address to, uint256 amount) external {\\n    balanceOf[to] += amount;\\n    totalSupply += amount;\\n}'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=EXT_CALL suggested=ARITHMETIC code='function addCollateral(uint256 amount) external {\\n    collateralToken.transferFrom(msg.sender, address(this), amount);\\n '",
+    "TYPE_MAYBE_MISMATCH CA6: annotated=STATE_MOD suggested=EXT_CALL code='function borrow(uint256 amount) external {\\n    uint256 maxBorrow = (collateralBalance[msg.sender] * BASIS_POINTS) / COLL'"
+  ],
+  "ms_tc_042": [
+    "TYPE_MAYBE_MISMATCH CA6: annotated=STATE_MOD suggested=ACCESS_CTRL code='function cancelCampaign(bytes16 campaignId) external {\\n    require(campaigns[campaignId].manager == msg.sender, \"Not man'"
+  ],
+  "ms_tc_045": [
+    "TYPE_MAYBE_MISMATCH CA3: annotated=DECLARATION suggested=ARITHMETIC code='function claimRewards(address market, address user) external {\\n    for (uint256 i = 0; i < rewards.length; i++) {\\n      '",
+    "TYPE_MAYBE_MISMATCH CA4: annotated=STATE_MOD suggested=ARITHMETIC code='function deposit(address market, uint256 amount) external {\\n    IERC20(market).transferFrom(msg.sender, address(this), a'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=STATE_MOD suggested=EXT_CALL code='function withdraw(address market, uint256 amount) external {\\n    require(userBalances[market][msg.sender] >= amount, \"In'"
+  ],
+  "ms_tc_047": [
+    "TYPE_MAYBE_MISMATCH CA2: annotated=STATE_MOD suggested=INPUT_VAL code='function _mint(address to, uint256 amount) internal {\\n    require(to != address(0), \"Mint to zero address\");\\n    totalSu'",
+    "TYPE_MAYBE_MISMATCH CA5: annotated=STATE_MOD suggested=ARITHMETIC code='constructor() {\\n    minter = msg.sender;\\n    _mint(msg.sender, 700_000_000 * 10 ** 18);\\n}'"
+  ],
+  "ms_tc_048": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=COMPUTATION suggested=ARITHMETIC code='uint256 cash = underlying.balanceOf(address(this));\\nuint256 totalUnderlying = cash + totalBorrows - totalReserves;\\nretur'",
+    "TYPE_MAYBE_MISMATCH CA3: annotated=COMPUTATION suggested=ARITHMETIC code='function balanceOfUnderlying(address account) external view returns (uint256) {\\n    uint256 exchangeRateMantissa = excha'"
+  ],
+  "ms_tc_049": [
+    "TYPE_MAYBE_MISMATCH CA1: annotated=EXT_CALL suggested=ARITHMETIC code='(uint256 collateral, uint256 borrows, uint256 exchangeRate) = IMarket(\\n    market\\n).getAccountSnapshot(account);\\ncollate'",
+    "TYPE_MAYBE_MISMATCH CA2: annotated=EXT_CALL suggested=ACCESS_CTRL code='function borrow(uint256 amount, address[] calldata markets) external {\\n    (uint256 totalCollateral, uint256 totalDebt, '",
+    "TYPE_MAYBE_MISMATCH CA3: annotated=COMPUTATION suggested=ARITHMETIC code='for (uint256 i = 0; i < markets.length; i++) {\\n    (uint256 collateral, uint256 debt, ) = this.previewDebt(markets[i], a'",
+    "TYPE_MAYBE_MISMATCH CA8: annotated=STATE_MOD suggested=EXT_CALL code='borrows[msg.sender] += amount;\\nasset.transfer(msg.sender, amount);'"
+  ]
+}
