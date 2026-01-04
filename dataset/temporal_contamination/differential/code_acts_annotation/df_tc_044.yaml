@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_041"
+sample_id: "df_tc_044"
 base_sample_id: "ms_tc_044"
 vulnerability_type: "oracle_manipulation"
 is_fixed: true
@@ -33,7 +33,7 @@ code_acts:
       uint256 public constant VIRTUAL_SUPPLY = 1e8;
       bool public liquidityBootstrapped;
       uint256 public trackedUnderlying;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Constants and state for donation attack protection."
 
   - id: "CA_FIX2"
@@ -44,14 +44,14 @@ code_acts:
       uint256 totalUnderlying = trackedUnderlying + totalBorrows - totalReserves + VIRTUAL_RESERVE;
       uint256 effectiveSupply = totalSupply + VIRTUAL_SUPPLY;
       return (totalUnderlying * 1e18) / effectiveSupply;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Exchange rate uses tracked underlying with virtual reserves, preventing donation manipulation."
 
   - id: "CA_FIX3"
     type: "INPUT_VAL"
     lines: [54]
     code: 'require(liquidityBootstrapped || totalSupply + mintAmount >= MINIMUM_LIQUIDITY, "Insufficient liquidity");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Minimum liquidity requirement before bootstrap."
 
   - id: "CA_FIX4"
@@ -62,7 +62,7 @@ code_acts:
       if (!liquidityBootstrapped && totalSupply >= MINIMUM_LIQUIDITY) {
           liquidityBootstrapped = true;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Tracked underlying update and bootstrap flag logic."
 
   - id: "CA_FIX5"
@@ -71,7 +71,7 @@ code_acts:
     code: |
       require(redeemAmount <= trackedUnderlying, "Insufficient liquidity");
       trackedUnderlying -= redeemAmount;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Redeem checks and updates tracked underlying."
 
   # ============================================
@@ -144,8 +144,7 @@ summary:
     lines_changed: [27, 28, 29, 30, 31, 45, 46, 47, 48, 49, 54, 61, 65, 66, 67, 78, 82]
 
   by_security_function_fixed:
-    FIX: 5
-    BENIGN: 5
+    BENIGN: 10
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -248,11 +247,11 @@ line_to_code_act_fixed:
   # Line 97: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
-  CA_FIX5: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
+  CA_FIX5: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

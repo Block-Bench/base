@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_020"
+sample_id: "df_tc_023"
 base_sample_id: "ms_tc_023"
 vulnerability_type: "signature_verification"
 is_fixed: true
@@ -24,7 +24,7 @@ code_acts:
     type: "EXT_CALL"
     lines: [23]
     code: "IERC20Permit(token).permit(from, address(this), amount, deadline, v, r, s);"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Direct permit call that reverts on failure"
 
   - id: "CA1"
@@ -93,8 +93,7 @@ summary:
     lines_changed: [23]
 
   by_security_function_fixed:
-    FIX: 1
-    BENIGN: 4
+    BENIGN: 5
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -126,7 +125,7 @@ line_to_code_act_fixed:
   32: "CA4"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
+  CA_FIX1: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

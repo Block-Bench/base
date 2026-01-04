@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_008"
+sample_id: "df_tc_010"
 base_sample_id: "ms_tc_010"
 vulnerability_type: "reentrancy"
 is_fixed: true
@@ -25,7 +25,7 @@ code_acts:
     type: "INPUT_VAL"
     lines: [64]
     code: 'require(isHealthy(msg.sender, 0), "Health check failed");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Health check now occurs BEFORE external call. Ensures position is healthy before funds leave the contract."
 
   - id: "CA_FIX2"
@@ -135,8 +135,7 @@ summary:
     lines_changed: [64, 66, 67]
 
   by_security_function_fixed:
-    FIX: 1
-    BENIGN: 6
+    BENIGN: 7
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -210,7 +209,7 @@ line_to_code_act_fixed:
   86: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
+  CA_FIX1: "BENIGN"
   CA_FIX2: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"

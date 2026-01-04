@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_017"
+sample_id: "df_tc_020"
 base_sample_id: "ms_tc_020"
 vulnerability_type: "accounting_manipulation"
 is_fixed: true
@@ -24,21 +24,21 @@ code_acts:
     type: "DECLARATION"
     lines: [36]
     code: "uint256 public constant MINIMUM_SHARE = 1000;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Defines minimum share threshold to prevent manipulation"
 
   - id: "CA_FIX2"
     type: "INPUT_VAL"
     lines: [67]
     code: 'require(share >= MINIMUM_SHARE, "Initial share too small");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates initial share meets minimum threshold"
 
   - id: "CA_FIX3"
     type: "INPUT_VAL"
     lines: [70]
     code: 'require(share >= MINIMUM_SHARE, "Share too small");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates subsequent shares meet minimum threshold"
 
   - id: "CA1"
@@ -257,8 +257,7 @@ summary:
     lines_changed: [36, 67, 70]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 16
+    BENIGN: 19
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -347,9 +346,9 @@ line_to_code_act_fixed:
   113: "CA19"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_031"
+sample_id: "df_tc_034"
 base_sample_id: "ms_tc_034"
 vulnerability_type: "price_oracle_manipulation"
 is_fixed: true
@@ -31,14 +31,14 @@ code_acts:
       uint256 public cachedPrice;
       uint256 public lastUpdate;
       uint256 constant MIN_UPDATE_INTERVAL = 1 hours;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - State variables for price caching with minimum update interval."
 
   - id: "CA_FIX2"
     type: "CTRL_FLOW"
     lines: [126]
     code: "_updatePrice();"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Initialize cached price in constructor."
 
   - id: "CA_FIX3"
@@ -49,7 +49,7 @@ code_acts:
           return cachedPrice;
       }
       return _calculatePrice();
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Returns cached price if within update interval, preventing instant manipulation."
 
   - id: "CA_FIX4"
@@ -60,7 +60,7 @@ code_acts:
           require(block.timestamp >= lastUpdate + MIN_UPDATE_INTERVAL, "Too soon");
           _updatePrice();
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Time-gated price update function."
 
   - id: "CA_FIX5"
@@ -71,7 +71,7 @@ code_acts:
           cachedPrice = _calculatePrice();
           lastUpdate = block.timestamp;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Internal function to update cached price with timestamp."
 
   # ============================================
@@ -179,8 +179,7 @@ summary:
     lines_changed: [120, 121, 122, 126, 130, 131, 132, 133, 136, 137, 138, 139, 141, 142, 143, 144]
 
   by_security_function_fixed:
-    FIX: 5
-    BENIGN: 7
+    BENIGN: 12
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -338,11 +337,11 @@ line_to_code_act_fixed:
   # Line 152: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
-  CA_FIX5: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
+  CA_FIX5: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

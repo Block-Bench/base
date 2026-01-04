@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_010"
+sample_id: "df_tc_012"
 base_sample_id: "ms_tc_012"
 vulnerability_type: "logic_error"
 is_fixed: true
@@ -25,7 +25,7 @@ code_acts:
     type: "DECLARATION"
     lines: [27]
     code: "mapping(address => bool) public validUnderlying;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Mapping to track all valid underlying tokens."
 
   - id: "CA_FIX2"
@@ -38,7 +38,7 @@ code_acts:
           validUnderlying[OLD_TUSD] = true;
           validUnderlying[NEW_TUSD] = true;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Constructor now sets underlying to NEW_TUSD and marks both tokens as valid."
 
   - id: "CA_FIX3"
@@ -52,7 +52,7 @@ code_acts:
     type: "INPUT_VAL"
     lines: [44]
     code: 'require(!validUnderlying[token], "Cannot sweep underlying token");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - sweepToken now checks validUnderlying mapping which includes BOTH OLD and NEW TUSD."
 
   - id: "CA1"
@@ -131,8 +131,7 @@ summary:
     lines_changed: [27, 31, 32, 33, 44]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 6
+    BENIGN: 9
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -184,10 +183,10 @@ line_to_code_act_fixed:
   58: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
   CA_FIX3: "BENIGN"
-  CA_FIX4: "FIX"
+  CA_FIX4: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_038"
+sample_id: "df_tc_041"
 base_sample_id: "ms_tc_041"
 vulnerability_type: "access_control"
 is_fixed: true
@@ -28,7 +28,7 @@ code_acts:
     type: "DECLARATION"
     lines: [33]
     code: "mapping(address => bool) public allowedPairs;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Whitelist mapping for approved pair addresses."
 
   - id: "CA_FIX2"
@@ -39,14 +39,14 @@ code_acts:
           require(msg.sender == admin, "Not admin");
           allowedPairs[pair] = true;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Admin function to add pairs to whitelist."
 
   - id: "CA_FIX3"
     type: "INPUT_VAL"
     lines: [79]
     code: 'require(factory.allowedPairs(pair), "Pair not allowed");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates pair is in whitelist before external call."
 
   # ============================================
@@ -126,8 +126,7 @@ summary:
     lines_changed: [33, 39, 40, 41, 42, 79]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 6
+    BENIGN: 9
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -218,9 +217,9 @@ line_to_code_act_fixed:
   # Line 85: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

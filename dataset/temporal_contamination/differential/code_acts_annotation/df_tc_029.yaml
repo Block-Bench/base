@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_026"
+sample_id: "df_tc_029"
 base_sample_id: "ms_tc_029"
 vulnerability_type: "arithmetic_manipulation"
 is_fixed: true
@@ -31,7 +31,7 @@ code_acts:
       uint256 result = (a * RAY + halfB) / b;
       require(result < type(uint256).max / 2, "LiquidityIndex overflow");
       return result;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Stores result in variable, checks against overflow threshold, prevents extreme liquidityIndex values that enable rounding attacks."
 
   # ============================================
@@ -181,8 +181,7 @@ summary:
     lines_changed: [124, 125, 126]
 
   by_security_function_fixed:
-    FIX: 1
-    BENIGN: 15
+    BENIGN: 16
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -325,7 +324,7 @@ line_to_code_act_fixed:
   # Line 137: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
+  CA_FIX1: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

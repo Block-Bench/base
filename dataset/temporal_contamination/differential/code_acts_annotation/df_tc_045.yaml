@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_042"
+sample_id: "df_tc_045"
 base_sample_id: "ms_tc_045"
 vulnerability_type: "oracle_manipulation"
 is_fixed: true
@@ -31,7 +31,7 @@ code_acts:
       mapping(address => bool) public approvedMarkets;
       address public admin;
       constructor() { admin = msg.sender; }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Market whitelist and admin state."
 
   - id: "CA_FIX2"
@@ -42,7 +42,7 @@ code_acts:
           require(msg.sender == admin, "Not admin");
           _;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Admin-only modifier for protected functions."
 
   - id: "CA_FIX3"
@@ -52,14 +52,14 @@ code_acts:
       function addApprovedMarket(address market) external onlyAdmin {
           approvedMarkets[market] = true;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Admin function to add markets to whitelist."
 
   - id: "CA_FIX4"
     type: "INPUT_VAL"
     lines: [52, 82]
     code: 'require(approvedMarkets[market], "Market not approved");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates market is in whitelist before querying."
 
   # ============================================
@@ -139,8 +139,7 @@ summary:
     lines_changed: [24, 31, 32, 33, 34, 36, 37, 38, 52, 82]
 
   by_security_function_fixed:
-    FIX: 4
-    BENIGN: 6
+    BENIGN: 10
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -290,10 +289,10 @@ line_to_code_act_fixed:
   # Line 144: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

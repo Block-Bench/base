@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_021"
+sample_id: "df_tc_024"
 base_sample_id: "ms_tc_024"
 vulnerability_type: "input_validation"
 is_fixed: true
@@ -24,7 +24,7 @@ code_acts:
     type: "DECLARATION"
     lines: [15]
     code: "IFactory public factory;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Factory reference for pair validation"
 
   - id: "CA_FIX2"
@@ -34,7 +34,7 @@ code_acts:
       constructor(address _factory) {
           factory = IFactory(_factory);
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Constructor sets factory for validation"
 
   - id: "CA_FIX3"
@@ -43,7 +43,7 @@ code_acts:
     code: |
       address pair = factory.getPair(path[i], path[i+1]);
       require(pair != address(0), "Pair does not exist");
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates pair exists in factory"
 
   - id: "CA1"
@@ -131,8 +131,7 @@ summary:
     lines_changed: [10, 11, 12, 15, 17, 18, 19, 33, 34]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 6
+    BENIGN: 9
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -174,9 +173,9 @@ line_to_code_act_fixed:
   47: "CA6"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

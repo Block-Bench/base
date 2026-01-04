@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_040"
+sample_id: "df_tc_043"
 base_sample_id: "ms_tc_043"
 vulnerability_type: "access_control"
 is_fixed: true
@@ -32,7 +32,7 @@ code_acts:
       mapping(address => bool) public authorizedMinters;
       uint256 public constant MIN_SIGNERS = 2;
       address[] public minters;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Supply cap and multi-minter authorization state."
 
   - id: "CA_FIX2"
@@ -47,7 +47,7 @@ code_acts:
           }
           _mint(msg.sender, 700_000_000 * 10 ** 18);
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Constructor requires minimum signers and initializes authorized minters."
 
   - id: "CA_FIX3"
@@ -58,14 +58,14 @@ code_acts:
           require(authorizedMinters[msg.sender], "Not minter");
           _;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Minter check uses authorized mapping instead of single address."
 
   - id: "CA_FIX4"
     type: "INPUT_VAL"
     lines: [50, 57]
     code: 'require(totalSupply + amount <= MAX_SUPPLY, "Supply cap exceeded");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Supply cap enforcement in mint and _mint functions."
 
   - id: "CA_FIX5"
@@ -75,7 +75,7 @@ code_acts:
       function setMinter(address newMinter) external onlyMinter {
           authorizedMinters[newMinter] = true;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - setMinter adds to authorized minters mapping."
 
   # ============================================
@@ -148,8 +148,7 @@ summary:
     lines_changed: [14, 18, 19, 20, 33, 34, 35, 37, 38, 39, 40, 44, 45, 46, 47, 50, 57, 65, 66, 67]
 
   by_security_function_fixed:
-    FIX: 5
-    BENIGN: 5
+    BENIGN: 10
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -257,11 +256,11 @@ line_to_code_act_fixed:
   # Line 102: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
-  CA_FIX5: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
+  CA_FIX5: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

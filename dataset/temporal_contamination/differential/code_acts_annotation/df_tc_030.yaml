@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_027"
+sample_id: "df_tc_030"
 base_sample_id: "ms_tc_030"
 vulnerability_type: "access_control"
 is_fixed: true
@@ -28,7 +28,7 @@ code_acts:
     type: "DECLARATION"
     lines: [44]
     code: 'bytes4[] public allowedSelectors = [IERC20.transfer.selector, IERC20.approve.selector];'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Whitelist of allowed function selectors. Only permits transfer and approve, blocks transferFrom."
 
   - id: "CA_FIX2"
@@ -44,7 +44,7 @@ code_acts:
           }
       }
       require(allowed, "Function selector not allowed");
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Extracts and validates function selector against whitelist. Prevents arbitrary call injection."
 
   # ============================================
@@ -165,8 +165,7 @@ summary:
     lines_changed: [44, 55, 56, 57, 58, 59, 60, 61, 62, 63]
 
   by_security_function_fixed:
-    FIX: 2
-    BENIGN: 9
+    BENIGN: 11
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -243,8 +242,8 @@ line_to_code_act_fixed:
   # Line 71: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

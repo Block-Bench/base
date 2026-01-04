@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_032"
+sample_id: "df_tc_035"
 base_sample_id: "ms_tc_035"
 vulnerability_type: "price_oracle_manipulation"
 is_fixed: true
@@ -31,21 +31,21 @@ code_acts:
       mapping(address => uint256) public lastUpdate;
       uint256 public constant MIN_LIQUIDITY = 1e18;
       uint256 public constant UPDATE_INTERVAL = 1 hours;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - State for staleness tracking and minimum liquidity constant."
 
   - id: "CA_FIX2"
     type: "INPUT_VAL"
     lines: [87]
     code: 'require(block.timestamp - lastUpdate[token] < UPDATE_INTERVAL, "Price stale");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Rejects stale prices, preventing use of outdated manipulated prices."
 
   - id: "CA_FIX3"
     type: "INPUT_VAL"
     lines: [92]
     code: 'require(price >= MIN_LIQUIDITY, "Price too low");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Minimum liquidity check prevents setting extremely low prices."
 
   # ============================================
@@ -146,8 +146,7 @@ summary:
     lines_changed: [82, 83, 84, 87, 92]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 6
+    BENIGN: 9
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -250,9 +249,9 @@ line_to_code_act_fixed:
   # Line 97: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

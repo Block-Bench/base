@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_025"
+sample_id: "df_tc_028"
 base_sample_id: "ms_tc_028"
 vulnerability_type: "bridge_security"
 is_fixed: true
@@ -30,7 +30,7 @@ code_acts:
     code: |
       bytes32 messageHash = keccak256(abi.encodePacked(txHash, token, toAddr, amount));
       bytes32 ethSignedMessageHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", messageHash));
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Computes message hash for signature verification. Creates proper EIP-191 signed message hash."
 
   - id: "CA_FIX2"
@@ -44,14 +44,14 @@ code_acts:
               validSignatures++;
           }
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Uses ecrecover to recover signer addresses from signatures and validates each against validators mapping. Counts only valid signatures from registered validators."
 
   - id: "CA_FIX3"
     type: "INPUT_VAL"
     lines: [60]
     code: 'require(validSignatures >= REQUIRED_SIGNATURES, "Not enough valid validator signatures");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Requires threshold of valid (verified) signatures, not just any signatures."
 
   # ============================================
@@ -174,8 +174,7 @@ summary:
     lines_changed: [49, 50, 52, 53, 54, 55, 56, 57, 58, 60]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 10
+    BENIGN: 13
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -252,9 +251,9 @@ line_to_code_act_fixed:
   # Line 71: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

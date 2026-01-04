@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_007"
+sample_id: "df_tc_009"
 base_sample_id: "ms_tc_009"
 vulnerability_type: "reentrancy"
 is_fixed: true
@@ -34,7 +34,7 @@ code_acts:
     code: |
       supplied[msg.sender][asset] -= withdrawAmount;
       totalSupplied[asset] -= withdrawAmount;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - State updates now occur BEFORE the external call. Even if attacker reenters, the balance is already decremented, preventing double-withdrawal."
 
   - id: "CA_FIX2"
@@ -147,8 +147,7 @@ summary:
     lines_changed: [51, 52, 54]
 
   by_security_function_fixed:
-    FIX: 1           # CA_FIX1
-    BENIGN: 7        # CA_FIX2, CA1-CA8
+    BENIGN: 8        # CA_FIX2, CA1-CA8
     UNRELATED: 4     # batched
 
 line_to_code_act_fixed:
@@ -222,7 +221,7 @@ line_to_code_act_fixed:
   65: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
+  CA_FIX1: "BENIGN"
   CA_FIX2: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"

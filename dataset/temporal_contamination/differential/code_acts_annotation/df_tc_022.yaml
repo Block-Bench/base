@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_019"
+sample_id: "df_tc_022"
 base_sample_id: "ms_tc_022"
 vulnerability_type: "reentrancy"
 is_fixed: true
@@ -24,7 +24,7 @@ code_acts:
     type: "DECLARATION"
     lines: [23]
     code: "bool private _locked;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Reentrancy lock state variable"
 
   - id: "CA_FIX2"
@@ -37,7 +37,7 @@ code_acts:
           _;
           _locked = false;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - nonReentrant modifier prevents recursive calls"
 
   - id: "CA1"
@@ -137,8 +137,7 @@ summary:
     lines_changed: [23, 25, 26, 27, 28, 29, 30, 36]
 
   by_security_function_fixed:
-    FIX: 2
-    BENIGN: 6
+    BENIGN: 8
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -182,8 +181,8 @@ line_to_code_act_fixed:
   49: "CA7"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

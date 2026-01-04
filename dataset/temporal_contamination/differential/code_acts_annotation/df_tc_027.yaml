@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_024"
+sample_id: "df_tc_027"
 base_sample_id: "ms_tc_027"
 vulnerability_type: "arithmetic_error"
 is_fixed: true
@@ -24,7 +24,7 @@ code_acts:
     type: "COMPUTATION"
     lines: [19]
     code: "liquidityUnits = baseRatio < tokenRatio ? baseRatio : tokenRatio;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Uses minimum instead of average for LP calculation"
 
   - id: "CA1"
@@ -167,8 +167,7 @@ summary:
     lines_changed: [19]
 
   by_security_function_fixed:
-    FIX: 1
-    BENIGN: 11
+    BENIGN: 12
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -205,7 +204,7 @@ line_to_code_act_fixed:
   43: "CA12"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
+  CA_FIX1: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

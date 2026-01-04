@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_030"
+sample_id: "df_tc_033"
 base_sample_id: "ms_tc_033"
 vulnerability_type: "access_control"
 is_fixed: true
@@ -28,14 +28,14 @@ code_acts:
     type: "INPUT_VAL"
     lines: [55]
     code: 'require(account == msg.sender, "Account must be caller");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates account matches msg.sender, preventing debt creation on victim's behalf."
 
   - id: "CA_FIX2"
     type: "INPUT_VAL"
     lines: [78]
     code: 'require(account == msg.sender, "Account must be caller");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates account matches msg.sender in closeTroveFor."
 
   # ============================================
@@ -136,8 +136,7 @@ summary:
     lines_changed: [55, 78]
 
   by_security_function_fixed:
-    FIX: 2
-    BENIGN: 7
+    BENIGN: 9
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -256,8 +255,8 @@ line_to_code_act_fixed:
   # Line 113: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

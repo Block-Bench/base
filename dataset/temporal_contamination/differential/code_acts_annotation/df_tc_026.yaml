@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_023"
+sample_id: "df_tc_026"
 base_sample_id: "ms_tc_026"
 vulnerability_type: "price_oracle_manipulation"
 is_fixed: true
@@ -24,14 +24,14 @@ code_acts:
     type: "EXT_CALL"
     lines: [32]
     code: "uint256 price = ITWAPOracle(oracle).getTWAP(wantToken);"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Uses TWAP instead of spot price in deposit"
 
   - id: "CA_FIX2"
     type: "EXT_CALL"
     lines: [46]
     code: "uint256 price = ITWAPOracle(oracle).getTWAP(wantToken);"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Uses TWAP instead of spot price in withdraw"
 
   - id: "CA1"
@@ -166,8 +166,7 @@ summary:
     lines_changed: [10, 11, 12, 32, 46]
 
   by_security_function_fixed:
-    FIX: 2
-    BENIGN: 10
+    BENIGN: 12
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -214,8 +213,8 @@ line_to_code_act_fixed:
   54: "CA11"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

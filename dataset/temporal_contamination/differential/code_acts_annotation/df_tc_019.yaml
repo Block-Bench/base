@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_016"
+sample_id: "df_tc_019"
 base_sample_id: "ms_tc_019"
 vulnerability_type: "arithmetic_error"
 is_fixed: true
@@ -28,7 +28,7 @@ code_acts:
     type: "DECLARATION"
     lines: [24]
     code: 'uint256 public constant FEE_SCALE = 10000; // Fee scale for 0.16%'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Defines consistent scale constant for fee calculations"
 
   - id: "CA_FIX2"
@@ -37,7 +37,7 @@ code_acts:
     code: |
       uint256 balance0Adjusted = balance0 * FEE_SCALE - amount0In * TOTAL_FEE;
       uint256 balance1Adjusted = balance1 * FEE_SCALE - amount1In * TOTAL_FEE;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Uses FEE_SCALE (10000) for balance adjustments, matching K invariant scale"
 
   - id: "CA_FIX3"
@@ -49,7 +49,7 @@ code_acts:
               uint256(_reserve0) * _reserve1 * (FEE_SCALE ** 2),
           "K"
       );
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - K invariant check uses FEE_SCALE^2, matching balance adjustment scale"
 
   # ============================================
@@ -274,8 +274,7 @@ summary:
     lines_changed: [24, 77, 78, 80, 81, 82, 83, 84]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 16
+    BENIGN: 19
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -388,9 +387,9 @@ line_to_code_act_fixed:
   # Line 107: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

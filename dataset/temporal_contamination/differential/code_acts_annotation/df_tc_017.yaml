@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_014"
+sample_id: "df_tc_017"
 base_sample_id: "ms_tc_017"
 vulnerability_type: "price_oracle_manipulation"
 is_fixed: true
@@ -29,14 +29,14 @@ code_acts:
       uint256 public lastLPValue;
       uint256 public lastUpdateBlock;
       uint256 constant MAX_DEVIATION = 10; // 10% max deviation
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - State variables for price deviation tracking."
 
   - id: "CA_FIX2"
     type: "CTRL_FLOW"
     lines: [53]
     code: "_checkPriceDeviation();"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Calls price deviation check before borrow."
 
   - id: "CA_FIX3"
@@ -58,7 +58,7 @@ code_acts:
               lastUpdateBlock = block.number;
           }
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Limits LP value change to MAX_DEVIATION (10%) from stored value. Updates stored value after block delay."
 
   - id: "CA1"
@@ -133,8 +133,7 @@ summary:
     lines_changed: [37, 38, 39, 40, 53, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 4
+    BENIGN: 7
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -247,9 +246,9 @@ line_to_code_act_fixed:
   125: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

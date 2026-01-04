@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_005"
+sample_id: "df_tc_007"
 base_sample_id: "ms_tc_007"
 vulnerability_type: "arithmetic_error"
 vulnerability_subtype: "precision_loss_liquidity_calculation"

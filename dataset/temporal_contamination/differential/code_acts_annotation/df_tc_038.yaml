@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_035"
+sample_id: "df_tc_038"
 base_sample_id: "ms_tc_038"
 vulnerability_type: "access_control"
 is_fixed: true
@@ -32,7 +32,7 @@ code_acts:
           require(msg.sender == owner, "Not owner");
           _;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - onlyOwner modifier restricts function access to contract owner."
 
   - id: "CA_FIX2"
@@ -43,7 +43,7 @@ code_acts:
           balanceOf[to] += amount;
           totalSupply += amount;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - mint function now protected by onlyOwner modifier."
 
   # ============================================
@@ -137,8 +137,7 @@ summary:
     lines_changed: [30, 31, 32, 33, 35]
 
   by_security_function_fixed:
-    FIX: 2
-    BENIGN: 8
+    BENIGN: 10
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -270,8 +269,8 @@ line_to_code_act_fixed:
   # Line 126: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

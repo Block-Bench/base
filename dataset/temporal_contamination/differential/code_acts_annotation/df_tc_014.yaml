@@ -25,14 +25,14 @@ code_acts:
     type: "DECLARATION"
     lines: [30]
     code: "mapping(address => bool) public validTargets;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Whitelist mapping for allowed call targets."
 
   - id: "CA_FIX2"
     type: "INPUT_VAL"
     lines: [47]
     code: 'require(validTargets[_targets[i]], "Target not allowed");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates target is in whitelist before executing call."
 
   - id: "CA_FIX3"
@@ -43,21 +43,21 @@ code_acts:
           require(msg.sender == governance, "Not governance");
           validTargets[target] = true;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Governance-only function to add valid targets."
 
   - id: "CA_FIX4"
     type: "ACCESS_CTRL"
     lines: [74]
     code: 'require(msg.sender == controller, "Not controller");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Access control on withdrawAll in Strategy."
 
   - id: "CA_FIX5"
     type: "ACCESS_CTRL"
     lines: [80]
     code: 'require(msg.sender == controller, "Not controller");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Access control on withdraw in Strategy."
 
   - id: "CA1"
@@ -129,8 +129,7 @@ summary:
     lines_changed: [30, 47, 58, 59, 60, 61, 74, 80]
 
   by_security_function_fixed:
-    FIX: 5
-    BENIGN: 4
+    BENIGN: 9
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -210,11 +209,11 @@ line_to_code_act_fixed:
   84: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
-  CA_FIX5: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
+  CA_FIX5: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_018"
+sample_id: "df_tc_021"
 base_sample_id: "ms_tc_021"
 vulnerability_type: "price_oracle_manipulation"
 is_fixed: true
@@ -26,7 +26,7 @@ code_acts:
     code: |
       uint256 public twapPrice;
       uint256 public lastUpdateTime;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - TWAP state variables"
 
   - id: "CA_FIX2"
@@ -37,7 +37,7 @@ code_acts:
           curvePool = ICurvePool(_curvePool);
           lastUpdateTime = block.timestamp;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Constructor initializes lastUpdateTime"
 
   - id: "CA_FIX3"
@@ -52,7 +52,7 @@ code_acts:
               lastUpdateTime = block.timestamp;
           }
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - TWAP calculation resistant to flash loan manipulation"
 
   - id: "CA_FIX4"
@@ -63,7 +63,7 @@ code_acts:
           return twapPrice;
       }
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Returns TWAP instead of spot price"
 
   - id: "CA1"
@@ -205,8 +205,7 @@ summary:
     lines_changed: [28, 29, 31, 32, 33, 34, 36, 37, 38, 40, 41, 42, 43, 44, 46, 47, 48, 49]
 
   by_security_function_fixed:
-    FIX: 4
-    BENIGN: 10
+    BENIGN: 14
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -289,10 +288,10 @@ line_to_code_act_fixed:
   99: "CA11"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

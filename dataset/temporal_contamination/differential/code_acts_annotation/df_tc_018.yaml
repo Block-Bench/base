@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_015"
+sample_id: "df_tc_018"
 base_sample_id: "ms_tc_018"
 vulnerability_type: "reinitialization"
 is_fixed: true
@@ -28,7 +28,7 @@ code_acts:
     type: "INPUT_VAL"
     lines: [35]
     code: 'require(!isInitialized, "Already initialized");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Prevents reinitialization attack by checking isInitialized flag before allowing init()"
 
   # ============================================
@@ -262,8 +262,7 @@ summary:
     lines_changed: [35]
 
   by_security_function_fixed:
-    FIX: 1
-    BENIGN: 19
+    BENIGN: 20
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -376,7 +375,7 @@ line_to_code_act_fixed:
   # Line 107: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
+  CA_FIX1: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

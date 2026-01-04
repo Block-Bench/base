@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_029"
+sample_id: "df_tc_032"
 base_sample_id: "ms_tc_032"
 vulnerability_type: "arithmetic_error"
 is_fixed: true
@@ -30,7 +30,7 @@ code_acts:
     code: |
       uint256 public constant MIN_POOL_SIZE = 1e18;
       uint256 public constant MAX_RATIO = 1000;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Constants for minimum pool size and maximum ratio to prevent rounding attacks."
 
   - id: "CA_FIX2"
@@ -40,14 +40,14 @@ code_acts:
       require(pool.pseudoTotalPool >= MIN_POOL_SIZE, "Pool too small");
       uint256 ratio = (pool.totalDepositShares * MAX_RATIO) / pool.pseudoTotalPool;
       require(ratio <= MAX_RATIO, "Ratio too high");
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates pool has minimum size and ratio is bounded, preventing extreme rounding."
 
   - id: "CA_FIX3"
     type: "INPUT_VAL"
     lines: [88]
     code: 'require(withdrawAmount <= pool.pseudoTotalPool, "Withdraw exceeds pool");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Ensures withdrawal amount doesn't exceed pool size."
 
   # ============================================
@@ -176,8 +176,7 @@ summary:
     lines_changed: [35, 36, 56, 57, 58, 88]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 11
+    BENIGN: 14
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -318,9 +317,9 @@ line_to_code_act_fixed:
   # Line 135: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

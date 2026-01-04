@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_022"
+sample_id: "df_tc_025"
 base_sample_id: "ms_tc_025"
 vulnerability_type: "accounting_error"
 is_fixed: true
@@ -24,28 +24,28 @@ code_acts:
     type: "EXT_CALL"
     lines: [19]
     code: "uint256 balBefore = IERC20(token).balanceOf(address(this));"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Records balance before transfer"
 
   - id: "CA_FIX2"
     type: "EXT_CALL"
     lines: [21]
     code: "uint256 balAfter = IERC20(token).balanceOf(address(this));"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Records balance after transfer"
 
   - id: "CA_FIX3"
     type: "COMPUTATION"
     lines: [22]
     code: "uint256 received = balAfter - balBefore;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Calculates actual received amount"
 
   - id: "CA_FIX4"
     type: "STATE_MOD"
     lines: [24]
     code: "deposits[msg.sender] += received;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Credits actual received amount, not requested"
 
   - id: "CA1"
@@ -138,8 +138,7 @@ summary:
     lines_changed: [19, 21, 22, 24]
 
   by_security_function_fixed:
-    FIX: 4
-    BENIGN: 7
+    BENIGN: 11
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -171,10 +170,10 @@ line_to_code_act_fixed:
   34: "CA7"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

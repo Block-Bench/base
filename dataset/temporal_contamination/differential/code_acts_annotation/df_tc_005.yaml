@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_004"
+sample_id: "df_tc_005"
 base_sample_id: "ms_tc_005"
 vulnerability_type: "access_control"
 vulnerability_subtype: "unrestricted_target_execution"

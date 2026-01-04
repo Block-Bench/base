@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_028"
+sample_id: "df_tc_031"
 base_sample_id: "ms_tc_031"
 vulnerability_type: "price_manipulation"
 is_fixed: true
@@ -31,14 +31,14 @@ code_acts:
       uint256 public lastTotalValue;
       uint256 public lastUpdateBlock;
       uint256 constant MAX_DEVIATION = 5; // 5% max deviation
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - State variables for tracking price and maximum allowed deviation."
 
   - id: "CA_FIX2"
     type: "CTRL_FLOW"
     lines: [65]
     code: "_checkPriceDeviation(total0, total1);"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Price check before deposit calculation."
 
   - id: "CA_FIX3"
@@ -62,14 +62,14 @@ code_acts:
               lastUpdateBlock = block.number;
           }
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates current value is within 5% of stored value, prevents flashloan manipulation."
 
   - id: "CA_FIX4"
     type: "CTRL_FLOW"
     lines: [112]
     code: "_checkPriceDeviation(total0, total1);"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Price check before withdrawal calculation."
 
   # ============================================
@@ -208,8 +208,7 @@ summary:
     lines_changed: [53, 54, 55, 65, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 112]
 
   by_security_function_fixed:
-    FIX: 4
-    BENIGN: 10
+    BENIGN: 14
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -352,10 +351,10 @@ line_to_code_act_fixed:
   # Line 137: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

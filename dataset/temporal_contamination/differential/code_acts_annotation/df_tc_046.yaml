@@ -31,7 +31,7 @@ code_acts:
       address public pendingAdmin;
       uint256 public adminTransferTime;
       uint256 public constant ADMIN_TRANSFER_DELAY = 48 hours;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Timelock state for admin transfer."
 
   - id: "CA_FIX2"
@@ -41,7 +41,7 @@ code_acts:
       event ConfigUpdated(address oldConfig, address newConfig);
       event AdminTransferInitiated(address indexed newAdmin, uint256 executeAfter);
       event AdminTransferCompleted(address indexed oldAdmin, address indexed newAdmin);
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Events for monitoring admin actions."
 
   - id: "CA_FIX3"
@@ -52,7 +52,7 @@ code_acts:
           require(newRecipient != address(0), "Invalid recipient");
           playerSettings[msg.sender].lockRecipient = newRecipient;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Users can only change their own lock recipient, not admin."
 
   - id: "CA_FIX4"
@@ -65,7 +65,7 @@ code_acts:
           adminTransferTime = block.timestamp + ADMIN_TRANSFER_DELAY;
           emit AdminTransferInitiated(newAdmin, adminTransferTime);
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Admin transfer requires 48hr timelock."
 
   - id: "CA_FIX5"
@@ -80,7 +80,7 @@ code_acts:
           adminTransferTime = 0;
           emit AdminTransferCompleted(...);
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Time-gated admin transfer completion."
 
   - id: "CA_FIX6"
@@ -91,7 +91,7 @@ code_acts:
           pendingAdmin = address(0);
           adminTransferTime = 0;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Allows cancelling pending admin transfer."
 
   # ============================================
@@ -171,8 +171,7 @@ summary:
     lines_changed: [17, 18, 19, 33, 34, 35, 36, 71, 72, 73, 74, 75, 76, 108, 109, 110, 111, 112, 113, 115, 116, 117, 119, 120, 121, 122, 124, 127, 128, 129, 130]
 
   by_security_function_fixed:
-    FIX: 6
-    BENIGN: 6
+    BENIGN: 12
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -310,12 +309,12 @@ line_to_code_act_fixed:
   # Line 132: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
-  CA_FIX5: "FIX"
-  CA_FIX6: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
+  CA_FIX5: "BENIGN"
+  CA_FIX6: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

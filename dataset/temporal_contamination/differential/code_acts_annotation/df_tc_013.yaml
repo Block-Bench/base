@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_011"
+sample_id: "df_tc_013"
 base_sample_id: "ms_tc_013"
 vulnerability_type: "reentrancy"
 is_fixed: true
@@ -28,7 +28,7 @@ code_acts:
       uint256 private _status;
       uint256 private constant _NOT_ENTERED = 1;
       uint256 private constant _ENTERED = 2;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Reentrancy guard state variables."
 
   - id: "CA_FIX2"
@@ -41,14 +41,14 @@ code_acts:
           _;
           _status = _NOT_ENTERED;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - nonReentrant modifier prevents reentrant calls."
 
   - id: "CA_FIX3"
     type: "CTRL_FLOW"
     lines: [48]
     code: "function transfer(address to, uint256 amount) external nonReentrant returns (bool) {"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - transfer function now has nonReentrant modifier."
 
   - id: "CA1"
@@ -127,8 +127,7 @@ summary:
     lines_changed: [24, 25, 26, 28, 29, 30, 31, 32, 33, 48]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 5
+    BENIGN: 8
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -223,9 +222,9 @@ line_to_code_act_fixed:
   108: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_009"
+sample_id: "df_tc_011"
 base_sample_id: "ms_tc_011"
 vulnerability_type: "arithmetic_error"
 is_fixed: true
@@ -25,28 +25,28 @@ code_acts:
     type: "DECLARATION"
     lines: [38]
     code: "uint256 public totalDeposits;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Added totalDeposits to track deposits separately from contract balance."
 
   - id: "CA_FIX2"
     type: "STATE_MOD"
     lines: [49]
     code: "totalDeposits += amount;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Tracks deposits when user deposits LP tokens."
 
   - id: "CA_FIX3"
     type: "COMPUTATION"
     lines: [64]
     code: "uint256 hunnyRewardAmount = tokenToReward(totalDeposits);"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Uses totalDeposits instead of balanceOf. Cannot be inflated by attacker."
 
   - id: "CA_FIX4"
     type: "STATE_MOD"
     lines: [84]
     code: "totalDeposits -= amount;"
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Decrements totalDeposits on withdrawal."
 
   - id: "CA1"
@@ -129,8 +129,7 @@ summary:
     lines_changed: [38, 49, 64, 84]
 
   by_security_function_fixed:
-    FIX: 4
-    BENIGN: 6
+    BENIGN: 10
     UNRELATED: 4
 
 line_to_code_act_fixed:
@@ -208,10 +207,10 @@ line_to_code_act_fixed:
   87: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

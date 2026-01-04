@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_013"
+sample_id: "df_tc_016"
 base_sample_id: "ms_tc_016"
 vulnerability_type: "validation_bypass"
 is_fixed: true
@@ -25,7 +25,7 @@ code_acts:
     type: "INPUT_VAL"
     lines: [52]
     code: 'require(tokenContract != address(0), "Invalid token");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates tokenContract is not zero address before attempting transfer."
 
   - id: "CA_FIX2"
@@ -34,14 +34,14 @@ code_acts:
     code: |
       bool success = IERC20(tokenContract).transferFrom(depositer, address(this), amount);
       require(success, "Transfer failed");
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Checks transfer return value to ensure deposit succeeded."
 
   - id: "CA_FIX3"
     type: "INPUT_VAL"
     lines: [62]
     code: 'require(tokenAddress != address(0), "Invalid token");'
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Prevents setting zero address as resource token."
 
   - id: "CA1"
@@ -124,8 +124,7 @@ summary:
     lines_changed: [52, 57, 58, 62]
 
   by_security_function_fixed:
-    FIX: 3
-    BENIGN: 7
+    BENIGN: 10
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -185,9 +184,9 @@ line_to_code_act_fixed:
   65: "CA_DECLARATIONS"
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

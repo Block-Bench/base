@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_034"
+sample_id: "df_tc_037"
 base_sample_id: "ms_tc_037"
 vulnerability_type: "logic_error"
 is_fixed: true
@@ -30,7 +30,7 @@ code_acts:
     code: |
       IPriceOracle public priceOracle;
       priceOracle = IPriceOracle(_oracle);
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Price oracle integration for accurate exchange rates."
 
   - id: "CA_FIX2"
@@ -39,7 +39,7 @@ code_acts:
     code: |
       uint256 exchangeRate = getExchangeRate();
       uint256 uniBTCAmount = (msg.value * exchangeRate) / 1e18;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Uses oracle exchange rate for proper mint conversion."
 
   - id: "CA_FIX3"
@@ -48,7 +48,7 @@ code_acts:
     code: |
       uint256 exchangeRate = getExchangeRate();
       uint256 ethAmount = (amount * 1e18) / exchangeRate;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Uses oracle exchange rate for proper redeem conversion."
 
   - id: "CA_FIX4"
@@ -58,7 +58,7 @@ code_acts:
       function getExchangeRate() public view returns (uint256) {
           return priceOracle.getETHtoBTCRate();
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Fetches real exchange rate from oracle."
 
   # ============================================
@@ -154,8 +154,7 @@ summary:
     lines_changed: [43, 52, 58, 59, 73, 74, 80, 81, 82]
 
   by_security_function_fixed:
-    FIX: 4
-    BENIGN: 7
+    BENIGN: 11
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -247,10 +246,10 @@ line_to_code_act_fixed:
   # Line 86: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"

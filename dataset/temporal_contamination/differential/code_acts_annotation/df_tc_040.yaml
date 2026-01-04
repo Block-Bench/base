@@ -1,5 +1,5 @@
 schema_version: "1.0"
-sample_id: "df_tc_037"
+sample_id: "df_tc_040"
 base_sample_id: "ms_tc_040"
 vulnerability_type: "access_control"
 is_fixed: true
@@ -30,7 +30,7 @@ code_acts:
     code: |
       mapping(address => bool) public allowedTargets;
       mapping(bytes4 => bool) public allowedSelectors;
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Whitelist mappings for approved targets and selectors."
 
   - id: "CA_FIX2"
@@ -41,7 +41,7 @@ code_acts:
           require(msg.sender == admin, "Not admin");
           _;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Admin-only modifier for protected functions."
 
   - id: "CA_FIX3"
@@ -51,7 +51,7 @@ code_acts:
       function addAllowedTarget(address target) external onlyAdmin {
           allowedTargets[target] = true;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Admin function to whitelist targets."
 
   - id: "CA_FIX4"
@@ -61,7 +61,7 @@ code_acts:
       function addAllowedSelector(bytes4 selector) external onlyAdmin {
           allowedSelectors[selector] = true;
       }
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Admin function to whitelist selectors."
 
   - id: "CA_FIX5"
@@ -71,7 +71,7 @@ code_acts:
       require(allowedTargets[target], "Target not allowed");
       bytes4 selector = bytes4(callData);
       require(allowedSelectors[selector], "Selector not allowed");
-    security_function: "FIX"
+    security_function: "BENIGN"
     rationale: "FIX - Validates target and selector before external call."
 
   # ============================================
@@ -148,8 +148,7 @@ summary:
     lines_changed: [20, 21, 28, 29, 30, 31, 33, 34, 35, 37, 38, 39, 58, 59, 60]
 
   by_security_function_fixed:
-    FIX: 5
-    BENIGN: 5
+    BENIGN: 10
     UNRELATED: 3
 
 line_to_code_act_fixed:
@@ -225,11 +224,11 @@ line_to_code_act_fixed:
   # Line 70: empty
 
 code_act_security_functions_fixed:
-  CA_FIX1: "FIX"
-  CA_FIX2: "FIX"
-  CA_FIX3: "FIX"
-  CA_FIX4: "FIX"
-  CA_FIX5: "FIX"
+  CA_FIX1: "BENIGN"
+  CA_FIX2: "BENIGN"
+  CA_FIX3: "BENIGN"
+  CA_FIX4: "BENIGN"
+  CA_FIX5: "BENIGN"
   CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
