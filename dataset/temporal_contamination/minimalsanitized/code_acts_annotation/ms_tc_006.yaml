@@ -1,7 +1,7 @@
 schema_version: "1.0"
 sample_id: "ms_tc_006"
 vulnerability_type: "access_control"
-vulnerable_lines: [9]
+vulnerable_lines: [168, 169, 170]
 
 # Full line coverage for scoring. UNRELATED items are batched for efficiency.
 # Detailed rationales only for security-relevant code acts.
@@ -16,8 +16,8 @@ code_acts:
     type: "DECLARATION"
     lines: [9]
     code: "uint256 public requiredSignatures = 5; // Need 5 out of 9"
-    security_function: "ROOT_CAUSE"
-    rationale: "The 5/9 validator threshold combined with centralized control of validators by a single entity (Sky Mavis) enabled the Ronin Bridge hack. The threshold itself is not inherently wrong, but the governance structure allowing one entity to control 5+ validators made multi-sig security useless."
+    security_function: "BENIGN"
+    rationale: "Validator threshold configuration. This is a reasonable governance parameter (5/9 majority). The original Ronin exploit was an off-chain key compromise, not a code bug. This sample focuses on the actual code vulnerability in addSupportedToken."
 
   - id: "CA2"
     type: "DECLARATION"
@@ -74,8 +74,8 @@ code_acts:
     type: "EXT_CALL"
     lines: [57, 58, 59, 60, 61, 62, 63, 64, 65, 66]
     code: "require(_verifySignatures(...), 'Invalid signatures');"
-    security_function: "PREREQ"
-    rationale: "Calls signature verification. PREREQ because the verification is cryptographically correct, but becomes useless when validators are compromised. This enables the attack but is not the root cause."
+    security_function: "BENIGN"
+    rationale: "Signature verification call. Correctly implemented cryptographic verification."
 
   - id: "CA10"
     type: "STATE_MOD"
@@ -98,8 +98,8 @@ code_acts:
       require(_signatures.length % 65 == 0, "Invalid signature length");
       uint256 signatureCount = _signatures.length / 65;
       require(signatureCount >= requiredSignatures, "Not enough signatures");
-    security_function: "PREREQ"
-    rationale: "Signature count validation. PREREQ because it enforces the threshold that becomes meaningless with compromised validators."
+    security_function: "BENIGN"
+    rationale: "Signature count validation. Correctly validates signature format and minimum count threshold."
 
   - id: "CA13"
     type: "COMPUTATION"
@@ -112,8 +112,8 @@ code_acts:
     type: "CTRL_FLOW"
     lines: [101, 102, 103, 106, 109, 110, 111, 113, 114]
     code: "for loop verifying each signature"
-    security_function: "PREREQ"
-    rationale: "Verifies each signature against validator set and checks for duplicates. PREREQ because correct verification still enables attack with compromised keys."
+    security_function: "BENIGN"
+    rationale: "Signature verification loop. Correctly verifies each signature against validator set and checks for duplicates."
 
   - id: "CA15"
     type: "CTRL_FLOW"
@@ -137,14 +137,14 @@ code_acts:
     rationale: "Standard ECDSA signature recovery. Correctly implemented with proper v value handling."
 
   - id: "CA18"
-    type: "STATE_MOD"
+    type: "ACCESS_CTRL"
     lines: [168, 169, 170]
     code: |
       function addSupportedToken(address _token) external {
           supportedTokens[_token] = true;
       }
-    security_function: "SECONDARY_VULN"
-    rationale: "SECONDARY_VULN because this admin function has NO ACCESS CONTROL. Anyone can add supported tokens, potentially enabling unauthorized token withdrawals."
+    security_function: "ROOT_CAUSE"
+    rationale: "Missing access control on admin function. Anyone can call addSupportedToken to add arbitrary tokens to the whitelist, bypassing the intended token governance. This is the actual code vulnerability in this sample."
 
   # ============================================
   # UNRELATED CODE ACTS (batched)
@@ -185,31 +185,18 @@ summary:
   total_lines_covered: 137  # excludes empty lines
 
   by_security_function:
-    ROOT_CAUSE: 1      # CA1
-    SECONDARY_VULN: 1  # CA18
-    PREREQ: 3          # CA9, CA12, CA14
-    BENIGN: 14         # CA2-CA8, CA10-CA11, CA13, CA15-CA17
-    UNRELATED: 4       # batched
+    ROOT_CAUSE: 1      # CA18
+    PREREQ: 0
+    BENIGN: 17         # CA1-CA17
+    UNRELATED: 5       # batched
 
   root_causes:
-    - id: "CA1"
-      line: 9
-      type: "DECLARATION"
-      description: "5/9 validator threshold with centralized control"
-
-  secondary_vulnerabilities:
     - id: "CA18"
       lines: [168, 169, 170]
-      type: "STATE_MOD"
-      description: "addSupportedToken has no access control"
+      type: "ACCESS_CTRL"
+      description: "addSupportedToken has no access control - anyone can add tokens"
 
-  prerequisites:
-    - id: "CA9"
-      description: "Signature verification call - correct but useless with compromised keys"
-    - id: "CA12"
-      description: "Signature count check using vulnerable threshold"
-    - id: "CA14"
-      description: "Validator verification loop"
+  prerequisites: []
 
 line_to_code_act:
     1: "CA_DIRECTIVES"
@@ -386,7 +373,7 @@ line_to_code_act:
     # Line 172: empty
 
 code_act_security_functions:
-  CA1: "ROOT_CAUSE"
+  CA1: "BENIGN"
   CA2: "BENIGN"
   CA3: "BENIGN"
   CA4: "BENIGN"
@@ -394,16 +381,16 @@ code_act_security_functions:
   CA6: "BENIGN"
   CA7: "BENIGN"
   CA8: "BENIGN"
-  CA9: "PREREQ"
+  CA9: "BENIGN"
   CA10: "BENIGN"
   CA11: "BENIGN"
-  CA12: "PREREQ"
+  CA12: "BENIGN"
   CA13: "BENIGN"
-  CA14: "PREREQ"
+  CA14: "BENIGN"
   CA15: "BENIGN"
   CA16: "BENIGN"
   CA17: "BENIGN"
-  CA18: "SECONDARY_VULN"
+  CA18: "ROOT_CAUSE"
   CA_DIRECTIVES: "UNRELATED"
   CA_COMMENTS: "UNRELATED"
   CA_DECLARATIONS: "UNRELATED"

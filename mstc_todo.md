@@ -1,52 +1,60 @@
 # MS_TC Todo List
 
-## To Remove
+## Completed
 
-### ms_tc_004 (Harvest Finance)
+### ms_tc_004 (Harvest Finance) - REMOVED
+**Date:** 2026-01-04
 **Issue:** Contract does not actually implement the vulnerability it claims to demonstrate.
 - `getTotalAssets()` returns `vaultBalance + investedBalance` where `investedBalance` is just an internal accounting variable
 - No actual Curve price queries - ICurvePool interface is declared but never called
-- The described flash loan oracle manipulation attack CANNOT occur with this code
-- Both original (tc_004.sol) and minimalsanitized (ms_tc_004.sol) have this problem
-- Wumpus correctly identified this issue
+- Moved to `removed/` folder
 
-**Action:** Remove from benchmark or significantly rework to actually query Curve prices
-
-### ms_tc_014 (Yearn yDAI Vault)
+### ms_tc_014 (Yearn yDAI Vault) - REMOVED
+**Date:** 2026-01-04
 **Issue:** Contract does not actually implement the vulnerability it claims to demonstrate.
 - `earn()` reads `virtualPrice` but **NEVER USES IT** - completely dead code
 - `balance()` function uses `get_virtual_price()` but is **NEVER CALLED** by deposit/withdraw/earn
-- Share calculations in `deposit()` and `withdrawAll()` use `totalDeposits`, not the oracle-based `balance()`
-- The described oracle manipulation exploit CANNOT occur with this code
-- Wumpus correctly identified this issue
+- Moved to `removed/` folder
 
-**Action:** Remove from benchmark or significantly rework to actually use oracle price in share calculations
+### ms_tc_005 (Curve Vyper Reentrancy) - RECLASSIFIED
+**Date:** 2026-01-04
+**Changes:**
+- Changed vulnerability_subtype from "compiler_bug_vyper" to "cei_violation"
+- Reduced ROOT_CAUSE from 2 to 1 (CA1 only)
+- Changed CA2, CA4, CA5, CA9 from ROOT_CAUSE/PREREQ to BENIGN
+- Updated metadata description, root_cause, attack_scenario, fix_description
+- This Solidity sample now correctly represents a CEI violation, not a compiler bug
 
-## To Review
+### ms_tc_006 (Ronin Bridge) - RECLASSIFIED
+**Date:** 2026-01-04
+**Changes:**
+- Refocused from off-chain governance failure to actual code vulnerability
+- Changed ROOT_CAUSE from CA1 (threshold constant) to CA18 (addSupportedToken missing access control)
+- Changed vulnerable_lines from [9] to [168, 169, 170]
+- Changed vulnerable_function from "withdrawERC20For" to "addSupportedToken"
+- Changed CA1, CA9, CA12, CA14 from ROOT_CAUSE/PREREQ to BENIGN
+- Updated metadata to describe the access control vulnerability
 
-### ms_tc_005 (Curve Vyper Reentrancy)
-**Issue:** Vyper compiler bug cannot be faithfully represented in Solidity.
-- The original vulnerability was a Vyper compiler bug where the reentrancy lock failed
-- The contract is written in Solidity - different language, different compiler
-- `_status` reentrancy guard variables are declared but never actually checked in any modifier
-- This represents "missing guard" not "compiler bug" - fundamentally different vulnerability class
-- Wumpus correctly identified this limitation
+### ms_tc_007 (Poly Network) - PREREQ FIXED
+**Date:** 2026-01-04
+**Changes:**
+- Changed CA7 (dataContract declaration) from PREREQ to BENIGN
+- Changed CA17 (_decodeTx function) from PREREQ to BENIGN
+- These were architectural facts, not prerequisites
+- ROOT_CAUSE remains CA12 (unrestricted external call)
 
-**Action:** Review whether this sample should be removed or reclassified as a different vulnerability type (missing reentrancy guard vs compiler bug)
+## Reviewed - No Changes Needed
 
-### ms_tc_006 (Ronin Bridge)
-**Issue:** Vulnerability is governance/infrastructure failure, not smart contract code bug.
-- The Ronin hack was caused by private key compromise (Sky Mavis controlled 5/9 validators)
-- `requiredSignatures = 5` is not a code vulnerability - threshold is reasonable
-- Signature verification works correctly - attacker provided valid signatures
-- The contract code behaves correctly; no on-chain bug exists
-- However, there IS a secondary vulnerability: `addSupportedToken()` (line 168) has NO access control
-- Wumpus correctly identified this is "governance failure" not "access control" in taxonomy sense
+After careful review, most samples mentioned by wumpus already have PREREQ: 0:
+- ms_tc_011, ms_tc_012, ms_tc_013, ms_tc_016, ms_tc_017, ms_tc_018, ms_tc_019, ms_tc_020
 
-**Options:**
-1. Refocus sample on CA18 (addSupportedToken missing access control) as the actual code bug
-2. Remove sample since "Ronin exploit" cannot be represented as code-level vulnerability
-3. Create new category for governance/infrastructure vulnerabilities
+Samples with valid PREREQs (wumpus agreed they're correct):
+- ms_tc_002 (6 PREREQs)
+- ms_tc_003 (3 PREREQs)
+- ms_tc_008 (4 PREREQs)
+- ms_tc_009 (3 PREREQs)
 
-**Action:** Review and decide approach
+## Notes
 
+- ms_tc_015 (Compound cTUSD) - Wumpus reviewed wrong file (described yEarn not Compound). Annotation is CORRECT.
+- ms_tc_001 - Already fixed per wumpus rebuttal (CA1, CA2 → BENIGN, CA6 sole ROOT_CAUSE)
