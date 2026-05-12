@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_026",
+  "contract_file": "contracts/nc_o_tc_026.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_026",
+  "exploit_info": {
+    "exploit_name": "Anyswap",
+    "date": "2022-01-18",
+    "amount_lost_usd": "8000000",
+    "vulnerability_type": "signature_verification"
+  },
+  "description": "No-comment version of tc_026 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "signature_verification"
+  ]
+}

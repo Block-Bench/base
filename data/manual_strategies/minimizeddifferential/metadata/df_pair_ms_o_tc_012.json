@@ -1,0 +1,61 @@
+{
+  "pair_id": "df_pair_ms_o_tc_012",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_012",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_012",
+    "file": "contracts/df_a_ms_o_tc_012.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_012",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_012.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "rari_capital.sol",
+      "function_name": "borrow",
+      "line_numbers": [
+        90,
+        93,
+        108
+      ]
+    },
+    "root_cause": "Cross-function reentrancy. Borrow sent ETH (triggering callback) before final validation. Attacker called exitMarket during callback, modifying shared state (inMarket) and bypassing health checks.",
+    "attack_vector": "Attacker deposited collateral and entered market, called borrow to get ETH. During ETH transfer callback, attacker called exitMarket to remove collateral requirement. Final health check used stale state, allowing over-borrowing.",
+    "impact": "Funds lost: $80,000,000",
+    "correct_fix": "Use global ReentrancyGuard on all functions that share state. Perform all validations after external calls. Prevent exitMarket when positions are open. Consider mutex locks for cross-function protection."
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 4,
+    "diff_summary": "Minimal fix with 4 lines changed",
+    "raw_diff": "63a64,65\n>         require(isHealthy(msg.sender, 0), \"Health check failed\");\n> \n66,67d67\n< \n<         require(isHealthy(msg.sender, 0), \"Health check failed\");\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Rari Capital Fuse",
+    "exploit_date": "2022-05-08",
+    "protocol_name": "Rari Capital Fuse",
+    "chain": "ethereum",
+    "funds_lost_usd": 80000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "reentrancy",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_012",
+  "created_date": "2025-12-29T13:22:45.516823"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_048",
+  "contract_file": "contracts/nc_o_tc_048.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_048",
+  "exploit_info": {
+    "exploit_name": "Sonne Finance",
+    "date": "2024-05",
+    "amount_lost_usd": "20000000",
+    "vulnerability_type": "oracle_manipulation"
+  },
+  "description": "No-comment version of tc_048 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "oracle_manipulation"
+  ]
+}

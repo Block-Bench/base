@@ -1,0 +1,67 @@
+{
+  "pair_id": "df_pair_tc_030",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_030",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_030",
+    "file": "contracts/df_a_tc_030.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "df_b_tc_030",
+    "file": "../../base/contracts/tc_030.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "integer_overflow",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "SpartanPool",
+        "functions": [
+          {
+            "name": "addLiquidity",
+            "vulnerability": "Uses average of ratios instead of minimum for LP unit calculation"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "addLiquidity used average of ratios instead of minimum. Formula: (baseRatio + tokenRatio) / 2 instead of min(baseRatio, tokenRatio). This broke the fundamental AMM invariant that LP tokens should represent proportional ownership.",
+    "attack_vector": "1) Pool: 100 BASE, 100 TOKEN, 100 totalUnits. 2) Attacker adds 1 BASE + 99 TOKEN (heavily imbalanced). 3) baseRatio = 1*100/100 = 1, tokenRatio = 99*100/100 = 99. 4) BUG: liquidityUnits = (1+99)/2 = 50 (should be min(1,99) = 1!). 5) Attacker got 50 units for only 1 BASE worth of value. 6) Removes liquidity: gets 33 BASE + 33 TOKEN. 7) Net profit per cycle. 8) Repeated to drain $30M.",
+    "impact": "Funds lost: $30,000,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 2,
+    "diff_summary": "Minimal fix with 2 lines changed",
+    "raw_diff": "19c19\n<             liquidityUnits = (baseRatio + tokenRatio) / 2;\n---\n>             liquidityUnits = baseRatio < tokenRatio ? baseRatio : tokenRatio;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Spartan Protocol Liquidity Miscalculation",
+    "exploit_date": "2021-05-02",
+    "protocol_name": "Spartan Protocol Liquidity Miscalculation",
+    "chain": "binance_smart_chain",
+    "funds_lost_usd": 30000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "integer_overflow"
+  ],
+  "quality_metrics": {
+    "diff_lines": 2,
+    "is_minimal": true,
+    "solidity_version_match": true
+  }
+}

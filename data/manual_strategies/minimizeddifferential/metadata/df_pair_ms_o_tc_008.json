@@ -1,0 +1,82 @@
+{
+  "pair_id": "df_pair_ms_o_tc_008",
+  "strategy": "minimized_differential",
+  "variant": "extended",
+  "original_id": "tc_008",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_008",
+    "file": "contracts/df_a_ms_o_tc_008.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with price deviation protection to prevent oracle manipulation"
+  },
+  "version_b": {
+    "id": "ms_o_tc_008",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_008.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "LendingProtocol",
+      "function_name": "borrow",
+      "affected_lines_b": [
+        76,
+        77
+      ]
+    },
+    "root_cause": "The borrow function uses oracle.getUnderlyingPrice() directly without any manipulation resistance. Attacker can flash loan to manipulate AMM pool prices, inflate collateral value, and borrow against artificially high collateral.",
+    "attack_vector": "Attacker flash loans large amounts, manipulates Curve pool to inflate yUSD price. Oracle reports inflated price. Attacker's collateral appears more valuable. Borrows maximum against inflated collateral. Repays flash loan with profit.",
+    "impact": "Funds lost: $130,000,000"
+  },
+  "differential_details": {
+    "difference_type": "price_deviation_protection",
+    "changes_description_a": "Added lastKnownPrice and lastPriceUpdate mappings, MAX_PRICE_DEVIATION constant (10%), MIN_PRICE_UPDATE_INTERVAL (1 hour), _validatePrice() function that rejects prices deviating more than 10% from cached price, and updateCachedPrice() admin function.",
+    "changes_description_b": "Oracle price is used directly without any deviation checks or rate limiting.",
+    "exact_changes": [
+      {
+        "location": "state variables (lines 42-45)",
+        "version_a": "mapping(address => uint256) public lastKnownPrice;\nmapping(address => uint256) public lastPriceUpdate;\nuint256 public constant MAX_PRICE_DEVIATION = 10;\nuint256 public constant MIN_PRICE_UPDATE_INTERVAL = 1 hours;",
+        "version_b": "// No price tracking"
+      },
+      {
+        "location": "_validatePrice function (lines 52-63)",
+        "version_a": "function _validatePrice(address cToken) internal view returns (uint256) { ... require(currentPrice >= minAllowed && currentPrice <= maxAllowed, \"Price deviation too high\"); }",
+        "version_b": "// No validation function"
+      },
+      {
+        "location": "borrow function (line 87)",
+        "version_a": "uint256 price = _validatePrice(cToken);",
+        "version_b": "// Uses oracle.getUnderlyingPrice(cToken) directly"
+      }
+    ],
+    "why_this_matters": "Price deviation protection prevents flash loan attacks by rejecting prices that change more than 10% within the update interval, making manipulation unprofitable."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Cream Finance",
+    "exploit_date": "2021-10-27",
+    "protocol_name": "Cream Finance",
+    "chain": "ethereum",
+    "funds_lost_usd": 130000000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": [
+    "oracle_manipulation",
+    "flash_loan",
+    "price_deviation",
+    "lending",
+    "compound_fork",
+    "curve",
+    "differential",
+    "extended",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_008",
+  "created_date": "2025-12-29T13:22:45.513427"
+}

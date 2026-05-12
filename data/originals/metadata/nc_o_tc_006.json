@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_006",
+  "contract_file": "contracts/nc_o_tc_006.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_006",
+  "exploit_info": {
+    "exploit_name": "Ronin Bridge",
+    "date": "2022-03-23",
+    "amount_lost_usd": "625000000",
+    "vulnerability_type": "access_control"
+  },
+  "description": "No-comment version of tc_006 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "access_control"
+  ]
+}

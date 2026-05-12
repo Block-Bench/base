@@ -1,0 +1,61 @@
+{
+  "pair_id": "df_pair_ms_o_tc_015",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_015",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_015",
+    "file": "contracts/df_a_ms_o_tc_015.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_015",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_015.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "logic_error",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "compound_tusd.sol",
+      "function_name": "sweepToken",
+      "line_numbers": [
+        45,
+        76,
+        80
+      ]
+    },
+    "root_cause": "After TUSD token upgrade, cTUSD contract still referenced old address as underlying. sweepToken only blocked old address, allowing new TUSD address to be swept despite being the actual underlying asset.",
+    "attack_vector": "TUSD upgraded from old to new contract address. cTUSD.sweepToken(newTUSD) was called. Check passed because newTUSD != oldTUSD. All TUSD swept from market. Exploiter returned funds.",
+    "impact": "Funds lost: $0",
+    "correct_fix": "Maintain mapping of all valid underlying addresses (old and new). Check against all addresses in sweepToken. Update contract when underlying token upgrades."
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 9,
+    "diff_summary": "Minimal fix with 9 lines changed",
+    "raw_diff": "26a27,28\n>     mapping(address => bool) public validUnderlying;\n> \n29c31,33\n<         underlying = OLD_TUSD;\n---\n>         underlying = NEW_TUSD;\n>         validUnderlying[OLD_TUSD] = true;\n>         validUnderlying[NEW_TUSD] = true;\n32a37\n>         require(validUnderlying[NEW_TUSD], \"Invalid underlying\");\n39c44\n<         require(token != underlying, \"Cannot sweep underlying token\");\n---\n>         require(!validUnderlying[token], \"Cannot sweep underlying token\");\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Compound cTUSD",
+    "exploit_date": "2022-03-15",
+    "protocol_name": "Compound cTUSD",
+    "chain": "ethereum",
+    "funds_lost_usd": 0
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "logic_error",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_015",
+  "created_date": "2025-12-29T13:22:45.519790"
+}

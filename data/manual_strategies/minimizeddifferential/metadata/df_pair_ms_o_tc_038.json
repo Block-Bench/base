@@ -1,0 +1,57 @@
+{
+  "pair_id": "df_pair_ms_o_tc_038",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_038",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_038",
+    "file": "contracts/df_a_ms_o_tc_038.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_038",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_038.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "BlueberryLending",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $1,400,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 12,
+    "diff_summary": "Minimal fix with 12 lines changed",
+    "raw_diff": "6d5\n< \n12d10\n< \n14d11\n< \n65,66c62\n<         uint256 maxBorrowValue = (totalCollateralValue * COLLATERAL_FACTOR) /\n<             BASIS_POINTS;\n---\n>         uint256 maxBorrowValue = (totalCollateralValue * COLLATERAL_FACTOR) / BASIS_POINTS;\n85a82,84\n>     mapping(address => uint256) public lastUpdate;\n>     uint256 public constant MIN_LIQUIDITY = 1e18;\n>     uint256 public constant UPDATE_INTERVAL = 1 hours;\n87a87\n>         require(block.timestamp - lastUpdate[token] < UPDATE_INTERVAL, \"Price stale\");\n91a92\n>         require(price >= MIN_LIQUIDITY, \"Price too low\");\n92a94\n>         lastUpdate[token] = block.timestamp;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Blueberry Protocol Oracle Manipulation",
+    "exploit_date": "2024-02-01",
+    "protocol_name": "Blueberry Protocol Oracle Manipulation",
+    "chain": "ethereum",
+    "funds_lost_usd": 1400000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "oracle_manipulation",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_038",
+  "created_date": "2025-12-29T13:22:45.602964"
+}

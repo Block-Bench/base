@@ -1,0 +1,79 @@
+{
+  "pair_id": "df_pair_ms_o_tc_039",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_039",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_039",
+    "file": "contracts/df_a_ms_o_tc_039.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with pool whitelist validation in callback"
+  },
+  "version_b": {
+    "id": "ms_o_tc_039",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_039.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "CowSolver",
+      "function_name": "uniswapV3SwapCallback",
+      "affected_lines_b": [
+        35
+      ]
+    },
+    "root_cause": "Uniswap V3 swap callback has no validation of msg.sender. Anyone can call the callback pretending to be a pool, triggering token transfers to arbitrary addresses.",
+    "attack_vector": "Attacker calls uniswapV3SwapCallback directly with crafted parameters, causing the contract to transfer tokens to attacker-controlled recipient without any actual swap occurring.",
+    "impact": "Funds lost: $166,000"
+  },
+  "differential_details": {
+    "difference_type": "callback_validation",
+    "changes_description_a": "Added validPools mapping, owner state variable, addValidPool admin function, and require check in callback that msg.sender is in validPools.",
+    "changes_description_b": "No validation of msg.sender in callback, accepts calls from any address.",
+    "exact_changes": [
+      {
+        "location": "state variables (lines 28-29)",
+        "version_a": "mapping(address => bool) public validPools;\naddress public owner;",
+        "version_b": "// No pool whitelist"
+      },
+      {
+        "location": "addValidPool function (lines 36-39)",
+        "version_a": "function addValidPool(address pool) external { require(msg.sender == owner, \"Not owner\"); validPools[pool] = true; }",
+        "version_b": "// Function does not exist"
+      },
+      {
+        "location": "callback function (line 46)",
+        "version_a": "require(validPools[msg.sender], \"Invalid pool\");",
+        "version_b": "// No sender validation"
+      }
+    ],
+    "why_this_matters": "Pool whitelist ensures only legitimate Uniswap V3 pools can trigger the callback, preventing unauthorized token transfers."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "CoW Protocol Solver",
+    "exploit_date": "2024-11-01",
+    "protocol_name": "CoW Protocol",
+    "chain": "ethereum",
+    "funds_lost_usd": 166000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": [
+    "callback",
+    "access_control",
+    "uniswap_v3",
+    "whitelist",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_039",
+  "created_date": "2025-12-29T13:22:45.605389"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_033",
+  "contract_file": "contracts/nc_o_tc_033.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_033",
+  "exploit_info": {
+    "exploit_name": "Socket Gateway",
+    "date": "2024-01",
+    "amount_lost_usd": "3300000",
+    "vulnerability_type": "access_control"
+  },
+  "description": "No-comment version of tc_033 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "access_control"
+  ]
+}

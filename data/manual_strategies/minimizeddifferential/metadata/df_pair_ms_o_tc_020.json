@@ -1,0 +1,80 @@
+{
+  "pair_id": "df_pair_ms_o_tc_020",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_020",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_020",
+    "file": "contracts/df_a_ms_o_tc_020.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with price deviation check to prevent flash loan LP manipulation"
+  },
+  "version_b": {
+    "id": "ms_o_tc_020",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_020.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "LendingVault",
+      "function_name": "getLPTokenValue, borrow",
+      "affected_lines_b": [
+        62,
+        47
+      ]
+    },
+    "root_cause": "LP token value calculated from instantaneous pool reserves without protection against flash loan manipulation. Attacker can inflate LP value within a single transaction.",
+    "attack_vector": "Flash loan to imbalance pool reserves, deposit LP tokens at inflated value, borrow maximum against inflated collateral, rebalance pool, repay flash loan with profit.",
+    "impact": "Funds lost: $7,700,000"
+  },
+  "differential_details": {
+    "difference_type": "price_deviation_protection",
+    "changes_description_a": "Added lastLPValue and lastUpdateBlock state variables, MAX_DEVIATION constant (10%), _checkPriceDeviation() function that rejects transactions when LP value deviates too much from stored value.",
+    "changes_description_b": "No price protection, LP value calculated directly from current reserves allowing flash loan manipulation.",
+    "exact_changes": [
+      {
+        "location": "state variables (lines 37-39)",
+        "version_a": "uint256 public lastLPValue;\nuint256 public lastUpdateBlock;\nuint256 constant MAX_DEVIATION = 10;",
+        "version_b": "// No price tracking"
+      },
+      {
+        "location": "borrow function (line 49)",
+        "version_a": "_checkPriceDeviation();",
+        "version_b": "// No price check"
+      },
+      {
+        "location": "_checkPriceDeviation function (lines 62-75)",
+        "version_a": "require(currentValue >= minAllowed && currentValue <= maxAllowed, \"Price deviation too high\");",
+        "version_b": "// Function does not exist"
+      }
+    ],
+    "why_this_matters": "The price deviation check prevents flash loan attacks by rejecting transactions when LP value changes too rapidly, making same-block manipulation unprofitable."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Warp Finance",
+    "exploit_date": "2020-12-17",
+    "protocol_name": "Warp Finance",
+    "chain": "ethereum",
+    "funds_lost_usd": 7700000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": [
+    "flash_loan",
+    "lp_tokens",
+    "price_manipulation",
+    "oracle",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_020",
+  "created_date": "2025-12-29T13:22:45.524474"
+}

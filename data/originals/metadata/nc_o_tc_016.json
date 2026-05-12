@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_016",
+  "contract_file": "contracts/nc_o_tc_016.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_016",
+  "exploit_info": {
+    "exploit_name": "bZx Protocol",
+    "date": "2020-09-14",
+    "amount_lost_usd": "8000000",
+    "vulnerability_type": "reentrancy"
+  },
+  "description": "No-comment version of tc_016 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "reentrancy"
+  ]
+}

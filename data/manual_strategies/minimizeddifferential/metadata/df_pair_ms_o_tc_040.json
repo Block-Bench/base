@@ -1,0 +1,88 @@
+{
+  "pair_id": "df_pair_ms_o_tc_040",
+  "strategy": "minimized_differential",
+  "variant": "extended",
+  "original_id": "tc_040",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_040",
+    "file": "contracts/df_a_ms_o_tc_040.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with proper exchange rate from oracle instead of hardcoded 1:1"
+  },
+  "version_b": {
+    "id": "ms_o_tc_040",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_040.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "logic_error",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "BedrockVault",
+      "function_name": "mint, getExchangeRate",
+      "affected_lines_b": [
+        52,
+        72,
+        73
+      ]
+    },
+    "root_cause": "The mint() function uses msg.value directly as uniBTCAmount (1:1 ratio) regardless of actual ETH/BTC exchange rate. getExchangeRate() returns hardcoded 1e18. This allows users to mint BTC-pegged tokens at incorrect rates.",
+    "attack_vector": "When ETH price is lower than BTC, attacker deposits ETH and receives more uniBTC than they should. Can then redeem or trade the uniBTC at proper market rates for profit. The hardcoded 1:1 rate ignores actual market conditions.",
+    "impact": "Funds lost: $2,000,000"
+  },
+  "differential_details": {
+    "difference_type": "oracle_exchange_rate",
+    "changes_description_a": "Added IPriceOracle interface, priceOracle state variable, updated constructor to accept oracle address, and modified mint/redeem to use oracle rate instead of 1:1. getExchangeRate() now returns priceOracle.getETHtoBTCRate().",
+    "changes_description_b": "Uses hardcoded 1:1 exchange rate. mint() sets uniBTCAmount = msg.value directly. getExchangeRate() returns constant 1e18.",
+    "exact_changes": [
+      {
+        "location": "interface (lines 35-37)",
+        "version_a": "interface IPriceOracle {\n    function getETHtoBTCRate() external view returns (uint256);\n}",
+        "version_b": "// No oracle interface"
+      },
+      {
+        "location": "state variable and constructor (lines 41, 48)",
+        "version_a": "IPriceOracle public priceOracle;\nconstructor(..., address _oracle) { priceOracle = IPriceOracle(_oracle); }",
+        "version_b": "// No oracle, constructor has 3 params"
+      },
+      {
+        "location": "mint function (lines 54-55)",
+        "version_a": "uint256 exchangeRate = getExchangeRate();\nuint256 uniBTCAmount = (msg.value * exchangeRate) / 1e18;",
+        "version_b": "uint256 uniBTCAmount = msg.value;"
+      },
+      {
+        "location": "getExchangeRate function (lines 72-74)",
+        "version_a": "function getExchangeRate() public view returns (uint256) {\n    return priceOracle.getETHtoBTCRate();\n}",
+        "version_b": "function getExchangeRate() external pure returns (uint256) {\n    return 1e18;\n}"
+      }
+    ],
+    "why_this_matters": "Using a proper price oracle ensures minting and redemption occur at fair market rates, preventing arbitrage attacks that exploit hardcoded exchange rates."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Bedrock DeFi",
+    "exploit_date": "2024-09-01",
+    "protocol_name": "Bedrock DeFi",
+    "chain": "ethereum",
+    "funds_lost_usd": 2000000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": [
+    "exchange_rate",
+    "hardcoded_rate",
+    "price_oracle",
+    "liquid_staking",
+    "btc",
+    "mint_redeem",
+    "differential",
+    "extended",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_040",
+  "created_date": "2025-12-29T13:22:45.607317"
+}

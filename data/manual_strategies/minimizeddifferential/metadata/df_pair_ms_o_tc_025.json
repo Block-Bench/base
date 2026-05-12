@@ -1,0 +1,85 @@
+{
+  "pair_id": "df_pair_ms_o_tc_025",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_025",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_025",
+    "file": "contracts/df_a_ms_o_tc_025.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with nonReentrant modifier on borrow function"
+  },
+  "version_b": {
+    "id": "ms_o_tc_025",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_025.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "reentrancy",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": "LendingMarket",
+      "function_name": "borrow",
+      "affected_lines_b": [
+        27,
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    "root_cause": "The borrow() function has no reentrancy protection. When underlying token is ERC667 (with transfer hooks), attacker can re-enter borrow() during the transfer and execute multiple borrows before state is fully updated.",
+    "attack_vector": "Attacker flash loans ERC667 tokens, calls borrow(). During token transfer, ERC667 hook triggers callback to attacker contract which re-enters borrow() before first borrow completes. Multiple borrows executed with same collateral.",
+    "impact": "Funds lost: $6,000,000"
+  },
+  "differential_details": {
+    "difference_type": "reentrancy_guard",
+    "changes_description_a": "Added _locked state variable, nonReentrant modifier, and applied nonReentrant to borrow() function to prevent reentrant calls.",
+    "changes_description_b": "borrow() function has no reentrancy protection, vulnerable to ERC667 token callback attacks.",
+    "exact_changes": [
+      {
+        "location": "state variable (line 23)",
+        "version_a": "bool private _locked;",
+        "version_b": "// No reentrancy lock"
+      },
+      {
+        "location": "modifier (lines 25-30)",
+        "version_a": "modifier nonReentrant() { require(!_locked, \"Reentrant call\"); _locked = true; _; _locked = false; }",
+        "version_b": "// No modifier"
+      },
+      {
+        "location": "borrow function (line 36)",
+        "version_a": "function borrow(uint256 amount) external nonReentrant {",
+        "version_b": "function borrow(uint256 amount) external {"
+      }
+    ],
+    "why_this_matters": "Reentrancy guard prevents multiple executions of borrow() within a single transaction, blocking ERC667 callback attacks that exploit transfer hooks."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Hundred Finance",
+    "exploit_date": "2022-03-15",
+    "protocol_name": "Hundred Finance",
+    "chain": "gnosis",
+    "funds_lost_usd": 6000000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": [
+    "reentrancy",
+    "nonReentrant",
+    "erc667",
+    "compound_fork",
+    "token_hooks",
+    "lending",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_025",
+  "created_date": "2025-12-29T13:22:45.528930"
+}

@@ -1,0 +1,91 @@
+{
+  "pair_id": "df_pair_ms_o_tc_004",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_004",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_004",
+    "file": "contracts/df_a_ms_o_tc_004.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with price deviation check to prevent flash loan manipulation"
+  },
+  "version_b": {
+    "id": "ms_o_tc_004",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_004.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "YieldVault",
+      "function_name": "deposit, withdraw",
+      "affected_lines_b": [
+        48,
+        74
+      ]
+    },
+    "root_cause": "The vault calculated share prices using getTotalAssets() which included current balances in Curve pools. These balances could be manipulated via large swaps within a single transaction. The protocol used spot prices without any deviation check, allowing flash loan manipulation.",
+    "attack_vector": "Attacker takes flash loan, swaps to inflate price, deposits at inflated price receiving more shares, swaps to deflate price, withdraws at normal price receiving more than deposited, repays flash loan with profit.",
+    "impact": "Funds lost: $24,000,000"
+  },
+  "differential_details": {
+    "difference_type": "price_deviation_protection",
+    "changes_description_a": "Added lastPricePerShare and lastPriceUpdate state variables (lines 36-37), MAX_PRICE_DEVIATION and MIN_PRICE_UPDATE_INTERVAL constants (lines 38-39), price deviation check in deposit/withdraw (lines 58, 87), and _checkPriceDeviation/_updatePrice helper functions (lines 107-123).",
+    "changes_description_b": "No price tracking or deviation checks, allowing deposit/withdraw at any price without validation, enabling flash loan price manipulation attacks.",
+    "exact_changes": [
+      {
+        "location": "state variables (lines 36-39)",
+        "version_a": "uint256 public lastPricePerShare;\nuint256 public lastPriceUpdate;\nuint256 constant MAX_PRICE_DEVIATION = 5;\nuint256 constant MIN_PRICE_UPDATE_INTERVAL = 1 hours;",
+        "version_b": "// No price tracking state"
+      },
+      {
+        "location": "constructor (lines 47-48)",
+        "version_a": "lastPricePerShare = 1e18;\nlastPriceUpdate = block.timestamp;",
+        "version_b": "// No price initialization"
+      },
+      {
+        "location": "deposit function (lines 58, 73)",
+        "version_a": "_checkPriceDeviation();\n...\n_updatePrice();",
+        "version_b": "// No price checks"
+      },
+      {
+        "location": "withdraw function (lines 87, 98)",
+        "version_a": "_checkPriceDeviation();\n...\n_updatePrice();",
+        "version_b": "// No price checks"
+      },
+      {
+        "location": "_checkPriceDeviation function (lines 107-113)",
+        "version_a": "require(currentPrice >= minAllowed && currentPrice <= maxAllowed, \"Price deviation too high\");",
+        "version_b": "// Function does not exist"
+      }
+    ],
+    "why_this_matters": "The minimal fix (price deviation check) makes flash loan price manipulation attacks impossible by rejecting transactions when the current price deviates more than 5% from the stored price. The stored price only updates after a minimum interval, preventing same-block manipulation."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Harvest Finance",
+    "exploit_date": "2020-10-26",
+    "protocol_name": "Harvest Finance",
+    "chain": "ethereum",
+    "funds_lost_usd": 24000000,
+    "transformation_date": "2025-12-21"
+  },
+  "tags": [
+    "flash_loan",
+    "price_manipulation",
+    "oracle",
+    "curve",
+    "amm",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_004",
+  "created_date": "2025-12-29T13:22:45.509421"
+}

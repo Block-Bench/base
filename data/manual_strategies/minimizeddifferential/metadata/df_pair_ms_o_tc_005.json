@@ -1,0 +1,83 @@
+{
+  "pair_id": "df_pair_ms_o_tc_005",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_005",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_005",
+    "file": "contracts/df_a_ms_o_tc_005.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with explicit reentrancy guards in all critical functions"
+  },
+  "version_b": {
+    "id": "ms_o_tc_005",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_005.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "reentrancy",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "AMMPool",
+      "function_name": "add_liquidity",
+      "affected_lines_b": [
+        58,
+        90,
+        137
+      ]
+    },
+    "root_cause": "Vyper compiler versions 0.2.15-0.3.0 had a bug in the @nonreentrant decorator implementation. When multiple functions used the decorator, the compiler generated incorrect bytecode that checked the wrong storage slot, making protection ineffective.",
+    "attack_vector": "Attacker takes flash loan, calls add_liquidity(), during ETH transfer triggers receive() callback, recursively calls add_liquidity() again, pool mints LP tokens twice for overlapping deposits, attacker extracts more assets than deposited.",
+    "impact": "Funds lost: $70,000,000"
+  },
+  "differential_details": {
+    "difference_type": "reentrancy_guard",
+    "changes_description_a": "Added explicit reentrancy guard in add_liquidity, remove_liquidity, and exchange functions (lines 58, 90, 137). Set status before critical operations and reset after, preventing reentrancy attacks.",
+    "changes_description_b": "Removed explicit reentrancy guard from add_liquidity, remove_liquidity, and exchange functions (lines 58, 90, 137), allowing recursive calls and enabling reentrancy attacks.",
+    "exact_changes": [
+      {
+        "location": "add_liquidity function (line 58)",
+        "version_a": "require(!locked, \"Reentrancy\"); locked = true; ... locked = false;",
+        "version_b": "// No reentrancy protection"
+      },
+      {
+        "location": "remove_liquidity function (line 90)",
+        "version_a": "require(!locked, \"Reentrancy\"); locked = true; ... locked = false;",
+        "version_b": "// No reentrancy protection"
+      },
+      {
+        "location": "exchange function (line 137)",
+        "version_a": "require(!locked, \"Reentrancy\"); locked = true; ... locked = false;",
+        "version_b": "// No reentrancy protection"
+      }
+    ],
+    "why_this_matters": "The minimal fix (explicit reentrancy guards) prevents recursive calls during ETH transfers, blocking the attack vector that caused $70M in losses across multiple Curve pools."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Curve Finance (Vyper Reentrancy)",
+    "exploit_date": "2023-07-30",
+    "protocol_name": "Curve Finance",
+    "chain": "ethereum",
+    "funds_lost_usd": 70000000,
+    "transformation_date": "2025-12-21"
+  },
+  "tags": [
+    "reentrancy",
+    "compiler_bug",
+    "vyper",
+    "flash_loan",
+    "curve",
+    "amm",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_005",
+  "created_date": "2025-12-29T13:22:45.510388"
+}

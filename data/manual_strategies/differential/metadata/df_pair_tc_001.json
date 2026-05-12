@@ -1,0 +1,72 @@
+{
+  "pair_id": "df_pair_tc_001",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_001",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_001",
+    "file": "contracts/df_a_tc_001.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with proper initialization and zero-root validation"
+  },
+  "version_b": {
+    "id": "df_b_tc_001",
+    "file": "../../base/contracts/tc_001.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "logic_error",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "BridgeReplica",
+      "function_name": "process",
+      "affected_lines_b": [
+        27,
+        82,
+        83
+      ]
+    },
+    "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
+    "attack_vector": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation.",
+    "impact": "Funds lost: $190,000,000"
+  },
+  "differential_details": {
+    "difference_type": "initialization_and_validation",
+    "changes_description_a": "Initialized acceptedRoot in constructor (line 27) and added require check for zero root in setAcceptedRoot (line 72)",
+    "changes_description_b": "Removed acceptedRoot initialization in constructor (line 27), allowing acceptedRoot to remain uninitialized at 0x00...00 after upgrade, which enables message validation bypass.",
+    "exact_changes": [
+      {
+        "location": "constructor (line 27)",
+        "version_a": "acceptedRoot = keccak256(\"initial_root\");",
+        "version_b": "// Removed: acceptedRoot initialization"
+      },
+      {
+        "location": "setAcceptedRoot function (line 72)",
+        "version_a": "require(_newRoot != bytes32(0), \"Root cannot be zero\");",
+        "version_b": "// No zero check"
+      }
+    ],
+    "why_this_matters": "The minimal fix (initializing acceptedRoot and preventing zero values) directly addresses the root cause of the $190M Nomad Bridge hack. Without initialization, acceptedRoot defaults to 0x00...00, allowing any message with a zero root to pass validation."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Nomad Bridge",
+    "exploit_date": "2022-08-01",
+    "protocol_name": "Nomad Bridge",
+    "chain": "ethereum",
+    "funds_lost_usd": 190000000,
+    "transformation_date": "2025-12-21"
+  },
+  "tags": [
+    "bridge",
+    "cross-chain",
+    "initialization",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination"
+  ]
+}

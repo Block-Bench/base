@@ -1,0 +1,23 @@
+{
+  "id": "nc_o_tc_029",
+  "contract_file": "contracts/nc_o_tc_029.sol",
+  "subset": "originals",
+  "variant": "no_comment",
+  "original_id": "tc_029",
+  "exploit_info": {
+    "exploit_name": "Belt Finance",
+    "date": "2021-05-30",
+    "amount_lost_usd": "6200000",
+    "vulnerability_type": "price_oracle_manipulation"
+  },
+  "description": "No-comment version of tc_029 - comments stripped but leaky contract names preserved",
+  "contains_annotations": false,
+  "leaky_contract_name": true,
+  "suitable_for_evaluation": false,
+  "tags": [
+    "original",
+    "no_comment",
+    "temporal_contamination",
+    "price_oracle_manipulation"
+  ]
+}

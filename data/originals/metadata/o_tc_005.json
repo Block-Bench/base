@@ -72,5 +72,8 @@
   ],
   "variant_type": "original",
   "variant_parent_id": null,
-  "notes": "Unique vulnerability caused by compiler bug, not logic error. The Curve contracts followed best practices and used @nonreentrant decorator, but Vyper compiler generated incorrect bytecode. Affected multiple high-value pools (pETH/ETH, msETH/ETH, alETH/ETH). Multiple attackers exploited within hours of discovery. Demonstrates importance of compiler audits and defense-in-depth strategies."
+  "notes": "Unique vulnerability caused by compiler bug, not logic error. The Curve contracts followed best practices and used @nonreentrant decorator, but Vyper compiler generated incorrect bytecode. Affected multiple high-value pools (pETH/ETH, msETH/ETH, alETH/ETH). Multiple attackers exploited within hours of discovery. Demonstrates importance of compiler audits and defense-in-depth strategies.",
+  "contract_file": "contracts/tc_005.sol",
+  "subset": "annotated",
+  "original_subset": "temporal_contamination"
 }

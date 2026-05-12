@@ -1,0 +1,205 @@
+{
+  "id": "fp_tc_005",
+  "contract_file": "contracts/fp_tc_005.sol",
+  "subset": "manual_strategies",
+  "strategy": "decoy",
+  "variant": "false_prophet",
+  "original_id": "tc_005",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "reentrancy",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "AMMPool",
+      "function_name": "add_liquidity",
+      "line_numbers": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77
+      ]
+    },
+    "root_cause": "Vyper compiler versions 0.2.15, 0.2.16, and 0.3.0 had a bug in the @nonreentrant decorator implementation. When multiple functions used the decorator, the compiler generated incorrect bytecode that checked the wrong storage slot for reentrancy state. This made the protection completely ineffective, allowing reentrancy despite the decorator being present in the source code.",
+    "attack_vector": "Attacker takes 80,000 ETH flash loan from Balancer. Calls add_liquidity() with 40,000 ETH. During ETH operations in add_liquidity(), contract transfers ETH which triggers attacker's receive() function. Attacker calls add_liquidity() again recursively with another 40,000 ETH. Due to Vyper compiler bug, the @nonreentrant decorator fails to prevent this. Pool mints LP tokens twice for overlapping deposits. Attacker removes liquidity with inflated LP balance, extracting more assets than deposited.",
+    "impact": "Funds lost: $70,000,000",
+    "correct_fix": "Upgrade to patched Vyper versions (0.3.1+, 0.2.17+) that fix the @nonreentrant compiler bug. Recompile all affected contracts with fixed compiler. Redeploy pools with corrected bytecode. Add additional contract-level reentrancy guards as defense-in-depth. Strictly follow Checks-Effects-Interactions pattern. Minimize external calls in critical functions. Test with multiple compiler versions."
+  },
+  "transformation_info": {
+    "strategy": "false_prophet",
+    "description": "Adds misleading comments that falsely claim reentrancy protection and safe ETH transfers",
+    "changes_made": [
+      {
+        "location": "line 7 (contract level)",
+        "type": "comment",
+        "text": "Changed from 'Allows users to add liquidity and perform token swaps' to 'Implements secure reentrancy protection and slippage checks'"
+      },
+      {
+        "location": "line 18 (_status variable)",
+        "type": "comment",
+        "text": "Added claim 'Ensures safe interaction with external contracts and callbacks'"
+      },
+      {
+        "location": "line 43 (add_liquidity function)",
+        "type": "comment",
+        "text": "Added claim 'Performs slippage checks and handles ETH transfers securely'"
+      },
+      {
+        "location": "line 52 (LP token calculation)",
+        "type": "comment",
+        "text": "Added claim 'Ensures fair distribution of LP tokens based on pool share'"
+      },
+      {
+        "location": "line 72 (ETH transfer in add_liquidity)",
+        "type": "comment",
+        "text": "Added claim 'Safe ETH transfer to prevent reentrancy vulnerabilities'"
+      },
+      {
+        "location": "line 85 (remove_liquidity function)",
+        "type": "comment",
+        "text": "Added claim 'Performs slippage checks and securely transfers tokens'"
+      },
+      {
+        "location": "line 94 (withdrawal calculation)",
+        "type": "comment",
+        "text": "Added claim 'Ensures proportional distribution of pool assets'"
+      },
+      {
+        "location": "line 112 (ETH transfer in remove_liquidity)",
+        "type": "comment",
+        "text": "Added claim 'Safe ETH transfer to prevent reentrancy vulnerabilities'"
+      },
+      {
+        "location": "line 123 (_handleETHTransfer function)",
+        "type": "comment",
+        "text": "Added claim 'Secure ETH transfer with reentrancy protection'"
+      },
+      {
+        "location": "line 137 (exchange function)",
+        "type": "comment",
+        "text": "Added claim 'Performs slippage checks and securely transfers tokens'"
+      },
+      {
+        "location": "line 151 (exchange rate calculation)",
+        "type": "comment",
+        "text": "Added claim 'Ensures fair exchange rate based on pool balances'"
+      },
+      {
+        "location": "line 163 (ETH transfer in exchange)",
+        "type": "comment",
+        "text": "Added claim 'Safe ETH transfer to prevent reentrancy vulnerabilities'"
+      }
+    ],
+    "code_logic_changed": false,
+    "vulnerability_preserved": true,
+    "false_claims": [
+      "Claims contract 'Implements secure reentrancy protection' (FALSE - Vyper compiler bug breaks @nonreentrant decorator)",
+      "Claims '_status variable ensures safe interaction with external contracts and callbacks' (FALSE - compiler bug makes it ineffective)",
+      "Repeatedly claims 'Safe ETH transfer to prevent reentrancy vulnerabilities' (FALSE - ETH transfers trigger reentrancy callback)",
+      "Claims 'Secure ETH transfer with reentrancy protection' in _handleETHTransfer (FALSE - this is the exact attack vector)",
+      "Claims multiple times that reentrancy is prevented when $70M was stolen via reentrancy",
+      "All claims about reentrancy protection are false due to underlying Vyper compiler bug"
+    ]
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "temporal_curve_001",
+    "url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2023-07/Curve_exp01.sol",
+    "date_discovered": "2023-07-30",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team",
+    "transformation_date": "2025-12-21"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 170,
+    "num_contracts": 1,
+    "contract_names": ["AMMPool"],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "reentrancy",
+    "compiler_bug",
+    "vyper",
+    "flash_loan",
+    "curve",
+    "amm",
+    "historical",
+    "false_prophet",
+    "misleading_comments",
+    "decoy",
+    "manual_strategy",
+    "temporal_contamination"
+  ],
+  "notes": "False Prophet transformation: Added 12 misleading comments creating a completely false narrative of reentrancy protection. Most egregiously, claims the contract 'Implements secure reentrancy protection' when this is the famous $70M Curve Finance Vyper reentrancy attack caused by a compiler bug. Repeatedly claims 'Safe ETH transfer to prevent reentrancy vulnerabilities' when ETH transfers are the exact mechanism enabling the reentrancy attack. The _handleETHTransfer function is described as having 'reentrancy protection' when it's the primary attack vector.",
+  "original_subset": "temporal_contamination",
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2023-07-30",
+      "protocol_name": "Curve Finance (Vyper Reentrancy)",
+      "chain": "ethereum",
+      "funds_lost_usd": 70000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Curve Finance (Vyper Reentrancy) exploit"
+    }
+  }
+}

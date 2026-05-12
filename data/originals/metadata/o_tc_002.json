@@ -58,5 +58,8 @@
   ],
   "variant_type": "original",
   "variant_parent_id": null,
-  "notes": "One of the most significant governance attacks in DeFi history. Demonstrated that on-chain governance without time-weighting or timelocks is vulnerable to flash loan manipulation. The attacker used $1B in borrowed capital to completely control the protocol for a single block."
+  "notes": "One of the most significant governance attacks in DeFi history. Demonstrated that on-chain governance without time-weighting or timelocks is vulnerable to flash loan manipulation. The attacker used $1B in borrowed capital to completely control the protocol for a single block.",
+  "contract_file": "contracts/tc_002.sol",
+  "subset": "annotated",
+  "original_subset": "temporal_contamination"
 }

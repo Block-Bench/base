@@ -1,0 +1,59 @@
+{
+  "pair_id": "df_pair_tc_042",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_042",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_042",
+    "file": "contracts/df_a_tc_042.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "df_b_tc_042",
+    "file": "../../base/contracts/tc_042.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "HedgeyClaimCampaigns",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $44,700,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 9,
+    "diff_summary": "Minimal fix with 9 lines changed",
+    "raw_diff": "6d5\n< \n12d10\n< \n14d11\n< \n51a49\n>     mapping(address => bool) public approvedTokenLockers;\n52a51,54\n>     function addApprovedTokenLocker(address locker) external {\n>         approvedTokenLockers[locker] = true;\n>     }\n> \n59a62\n>         require(approvedTokenLockers[donation.tokenLocker], \"TokenLocker not approved\");\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Hedgey Finance",
+    "exploit_date": "2024-04-01",
+    "protocol_name": "Hedgey Finance",
+    "chain": "ethereum",
+    "funds_lost_usd": 44700000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "access_control"
+  ],
+  "quality_metrics": {
+    "diff_lines": 9,
+    "is_minimal": true,
+    "solidity_version_match": true
+  }
+}

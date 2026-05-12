@@ -1,0 +1,47 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface IPair {
+    function token0() external view returns (address);
+    function token1() external view returns (address);
+    function getReserves() external view returns (uint112, uint112, uint32);
+}
+
+interface IFactory {
+    function getPair(address tokenA, address tokenB) external view returns (address);
+}
+
+contract BurgerSwapRouter {
+    IFactory public factory;
+
+    constructor(address _factory) {
+        factory = IFactory(_factory);
+    }
+
+    function swapExactTokensForTokens(
+        uint256 amountIn,
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external returns (uint[] memory amounts) {
+
+        amounts = new uint[](path.length);
+        amounts[0] = amountIn;
+
+        for (uint i = 0; i < path.length - 1; i++) {
+            address pair = factory.getPair(path[i], path[i+1]);
+            require(pair != address(0), "Pair does not exist");
+
+            (uint112 reserve0, uint112 reserve1,) = IPair(pair).getReserves();
+
+            amounts[i+1] = _getAmountOut(amounts[i], reserve0, reserve1);
+        }
+
+        return amounts;
+    }
+
+    function _getAmountOut(uint256 amountIn, uint112 reserveIn, uint112 reserveOut) internal pure returns (uint256) {
+        return (amountIn * uint256(reserveOut)) / uint256(reserveIn);
+    }
+}

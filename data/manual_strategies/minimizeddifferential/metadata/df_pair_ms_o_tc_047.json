@@ -1,0 +1,57 @@
+{
+  "pair_id": "df_pair_ms_o_tc_047",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_047",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_047",
+    "file": "contracts/df_a_ms_o_tc_047.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "ms_o_tc_047",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_047.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "PlayDappToken",
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": null,
+    "attack_vector": null,
+    "impact": "Funds lost: $290,000,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 15,
+    "diff_summary": "Minimal fix with 15 lines changed",
+    "raw_diff": "6d5\n< \n14a14\n>     uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10 ** 18;\n17a18,20\n>     mapping(address => bool) public authorizedMinters;\n>     uint256 public constant MIN_SIGNERS = 2;\n>     address[] public minters;\n30c33,35\n<     constructor() {\n---\n>     constructor(address[] memory _minters) {\n>         require(_minters.length >= MIN_SIGNERS, \"Insufficient minters\");\n>         minters = _minters;\n36c41\n<         require(msg.sender == minter, \"Not minter\");\n---\n>         require(authorizedMinters[msg.sender], \"Not minter\");\n40a46\n>         require(totalSupply + amount <= MAX_SUPPLY, \"Supply cap exceeded\");\n46a53\n>         require(totalSupply + amount <= MAX_SUPPLY, \"Supply cap exceeded\");\n55c62\n<         minter = newMinter;\n---\n>         authorizedMinters[newMinter] = true;\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "PlayDapp",
+    "exploit_date": "2024-02-01",
+    "protocol_name": "PlayDapp",
+    "chain": "ethereum",
+    "funds_lost_usd": 290000000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "access_control",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_047",
+  "created_date": "2025-12-29T13:22:45.625208"
+}

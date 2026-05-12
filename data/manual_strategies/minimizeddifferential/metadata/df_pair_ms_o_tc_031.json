@@ -1,0 +1,72 @@
+{
+  "pair_id": "df_pair_ms_o_tc_031",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_031",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_031",
+    "file": "contracts/df_a_ms_o_tc_031.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with proper signature verification using ecrecover"
+  },
+  "version_b": {
+    "id": "ms_o_tc_031",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_031.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "OrbitBridge",
+      "function_name": "withdraw",
+      "affected_lines_b": [
+        41,
+        49,
+        57
+      ]
+    },
+    "root_cause": "The withdraw function accepts signatures but does not verify them. It only checks the signature count without validating that signatures are from registered validators using ecrecover.",
+    "attack_vector": "Attacker submits withdrawal request with fake signatures. Bridge checks signature count but not validity. Withdrawal is processed without proper validator authorization, allowing unauthorized fund extraction.",
+    "impact": "Funds lost: $81,000,000"
+  },
+  "differential_details": {
+    "difference_type": "signature_verification",
+    "changes_description_a": "Added proper signature verification using ecrecover to recover signer addresses, then validates each signer is in the validators mapping, counts valid signatures, and requires the count meets REQUIRED_SIGNATURES threshold.",
+    "changes_description_b": "Only checks v.length >= REQUIRED_SIGNATURES without actually verifying signatures are valid or from registered validators.",
+    "exact_changes": [
+      {
+        "location": "withdraw function (lines 49-60)",
+        "version_a": "bytes32 messageHash = keccak256(...);\nbytes32 ethSignedMessageHash = keccak256(...);\nfor (uint i = 0; i < v.length; i++) {\n  address signer = ecrecover(ethSignedMessageHash, v[i], r[i], s[i]);\n  if (validators[signer]) { validSignatures++; }\n}\nrequire(validSignatures >= REQUIRED_SIGNATURES, ...);",
+        "version_b": "// No signature verification logic"
+      }
+    ],
+    "why_this_matters": "Proper signature verification ensures only transactions approved by registered validators can be processed, preventing unauthorized withdrawals."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Orbit Chain Bridge",
+    "exploit_date": "2024-01-01",
+    "protocol_name": "Orbit Chain",
+    "chain": "ethereum",
+    "funds_lost_usd": 81000000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": [
+    "bridge",
+    "multi_sig",
+    "signature_verification",
+    "ecrecover",
+    "validators",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_031",
+  "created_date": "2025-12-29T13:22:45.534121"
+}

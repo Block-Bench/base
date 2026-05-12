@@ -1,0 +1,175 @@
+{
+  "id": "fp_tc_002",
+  "contract_file": "contracts/fp_tc_002.sol",
+  "subset": "manual_strategies",
+  "strategy": "decoy",
+  "variant": "false_prophet",
+  "original_id": "tc_002",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "GovernanceSystem",
+      "function_name": "emergencyCommit",
+      "line_numbers": [
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122
+      ]
+    },
+    "root_cause": "Governance system allowed instant voting power from deposits with no time-weighting or holding period. The emergencyCommit() function enabled immediate execution of proposals that reached 66% approval, with no time delay for community review. This combination made flash loan governance attacks trivial to execute.",
+    "attack_vector": "Attacker takes massive flash loan from Aave ($1B in stablecoins), swaps for Curve 3pool LP tokens, deposits into Beanstalk Silo gaining >66% voting power, creates malicious governance proposal to transfer all funds, votes with flash-loan-funded power, immediately executes via emergencyCommit(), drains protocol, repays flash loan with profit.",
+    "impact": "Funds lost: $182,000,000",
+    "correct_fix": "Implement time-weighted voting where voting power increases with duration of deposit. Add minimum holding period before deposits grant voting rights. Implement mandatory time delay (timelock) between proposal creation and execution. Remove or heavily restrict emergencyCommit() function. Use snapshot-based voting to prevent same-block deposit and vote. Add multi-sig or guardian oversight for emergency functions."
+  },
+  "transformation_info": {
+    "strategy": "false_prophet",
+    "description": "Adds misleading comments that falsely claim security protections against attacks",
+    "changes_made": [
+      {
+        "location": "line 7 (contract level)",
+        "type": "comment",
+        "text": "Changed from 'Allows token holders to propose and vote on protocol changes' to 'Implements secure voting and execution mechanisms to protect against attacks'"
+      },
+      {
+        "location": "line 38 (EMERGENCY_THRESHOLD constant)",
+        "type": "comment",
+        "text": "Added claim 'High emergency threshold to ensure consensus and prevent abuse'"
+      },
+      {
+        "location": "line 52 (deposit function)",
+        "type": "comment",
+        "text": "Added claim 'Voting power is granted immediately to enable active participation'"
+      },
+      {
+        "location": "line 64 (propose function)",
+        "type": "comment",
+        "text": "Added claim 'Proposer's voting power is automatically counted to streamline process'"
+      },
+      {
+        "location": "line 81 (auto-vote logic)",
+        "type": "comment",
+        "text": "Added claim 'Ensures proposer's commitment and skin in the game'"
+      },
+      {
+        "location": "line 92 (vote function)",
+        "type": "comment",
+        "text": "Added claim 'Prevents double-voting and voting on executed proposals for security'"
+      },
+      {
+        "location": "line 107 (emergencyCommit function)",
+        "type": "comment",
+        "text": "Added claim 'Requires supermajority consensus to prevent abuse and ensure alignment'"
+      },
+      {
+        "location": "line 113 (emergency threshold check)",
+        "type": "comment",
+        "text": "Added claim 'High threshold ensures only critical proposals are fast-tracked'"
+      },
+      {
+        "location": "line 119 (execution call)",
+        "type": "comment",
+        "text": "Added claim 'Low-level call used to enable flexible proposal execution'"
+      }
+    ],
+    "code_logic_changed": false,
+    "vulnerability_preserved": true,
+    "false_claims": [
+      "Claims contract 'Implements secure voting and execution mechanisms to protect against attacks' (FALSE - vulnerable to $182M flash loan attack)",
+      "Claims 'voting power is granted immediately to enable active participation' (MISLEADING - instant voting power enables flash loan attacks)",
+      "Claims 'High emergency threshold to ensure consensus and prevent abuse' (FALSE - 66% threshold was exploited with flash loan)",
+      "Claims supermajority requirement 'prevents abuse and ensures alignment' (FALSE - attacker easily reached 66% with flash loan)",
+      "Claims 'High threshold ensures only critical proposals are fast-tracked' (MISLEADING - no time delay allows instant malicious execution)",
+      "Claims security features that don't exist (no time-weighting, no holding periods, no timelocks)"
+    ]
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "temporal_beanstalk_001",
+    "url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2022-04/Beanstalk_exp.sol",
+    "date_discovered": "2022-04-17",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team",
+    "transformation_date": "2025-12-21"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 124,
+    "num_contracts": 1,
+    "contract_names": ["GovernanceSystem"],
+    "num_functions": 4,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "governance",
+    "flash_loan",
+    "voting",
+    "timelock",
+    "defi",
+    "historical",
+    "mega_hack",
+    "false_prophet",
+    "misleading_comments",
+    "decoy",
+    "manual_strategy",
+    "temporal_contamination"
+  ],
+  "notes": "False Prophet transformation: Added 9 misleading comments creating a false narrative of secure governance. Most egregiously, claims the contract 'Implements secure voting and execution mechanisms to protect against attacks' when this is the famous $182M Beanstalk flash loan governance attack. Comments frame instant voting power as a feature ('enable active participation') when it's the core vulnerability. The 66% threshold is claimed to 'prevent abuse' when it was trivially reached with flash loans.",
+  "original_subset": "temporal_contamination",
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2022-04-17",
+      "protocol_name": "Beanstalk",
+      "chain": "ethereum",
+      "funds_lost_usd": 182000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Beanstalk exploit"
+    }
+  }
+}

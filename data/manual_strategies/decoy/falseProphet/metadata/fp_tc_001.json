@@ -1,0 +1,161 @@
+{
+  "id": "fp_tc_001",
+  "contract_file": "contracts/fp_tc_001.sol",
+  "subset": "manual_strategies",
+  "strategy": "decoy",
+  "variant": "false_prophet",
+  "original_id": "tc_001",
+  "ground_truth": {
+    "is_vulnerable": true,
+    "vulnerability_type": "logic_error",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "BridgeReplica",
+      "function_name": "process",
+      "line_numbers": [
+        23,
+        56,
+        79,
+        80
+      ]
+    },
+    "root_cause": "After contract upgrade, the acceptedRoot storage variable was not properly initialized and remained at 0x00...00. The message validation logic checked if message roots matched acceptedRoot, but with acceptedRoot being zero, attackers could craft messages to pass validation.",
+    "attack_vector": "Attacker crafts cross-chain messages with zero hash or matching the uninitialized acceptedRoot (0x00...00), bypassing proper merkle proof validation. The process() function incorrectly accepts these messages, triggering token transfers without corresponding deposits on the source chain.",
+    "impact": "Funds lost: $190,000,000",
+    "correct_fix": "Proper initialization of acceptedRoot after contract upgrades. Implement strict validation that acceptedRoot can never be 0x00...00. Add additional checks to ensure messages are properly committed to a merkle tree before processing. Implement emergency pause mechanisms."
+  },
+  "transformation_info": {
+    "strategy": "false_prophet",
+    "description": "Adds misleading comments that falsely claim security audits, proper initialization, and access controls",
+    "changes_made": [
+      {
+        "location": "line 7 (contract level)",
+        "type": "comment",
+        "text": "Added claim 'Implements industry-standard message validation using merkle proofs'"
+      },
+      {
+        "location": "line 8 (contract level)",
+        "type": "comment",
+        "text": "Added claim 'Contract security audited by leading blockchain security firms'"
+      },
+      {
+        "location": "line 22 (acceptedRoot variable)",
+        "type": "comment",
+        "text": "Added claim 'Accepted root is securely initialized during contract deployment' (FALSE - not initialized)"
+      },
+      {
+        "location": "line 41 (process function)",
+        "type": "comment",
+        "text": "Added claim 'Follows checks-effects-interactions pattern for reentrancy protection'"
+      },
+      {
+        "location": "line 47 (replay check)",
+        "type": "comment",
+        "text": "Added claim 'Prevents replay attacks and duplicate processing'"
+      },
+      {
+        "location": "line 54 (root validation)",
+        "type": "comment",
+        "text": "Added claim 'Ensures message is part of a valid merkle tree committed by the source chain' (FALSE - accepts zero root)"
+      },
+      {
+        "location": "line 59 (state update)",
+        "type": "comment",
+        "text": "Added claim 'State update before external call to follow checks-effects-interactions'"
+      },
+      {
+        "location": "line 72 (_messageRoot function)",
+        "type": "comment",
+        "text": "Changed from 'Verifies message against merkle proof' to 'using industry-standard practices' (misleading enhancement)"
+      },
+      {
+        "location": "line 78 (merkle verification)",
+        "type": "comment",
+        "text": "Added claim 'Gas-optimized verification logic for improved performance' (misleading - logic is flawed)"
+      },
+      {
+        "location": "line 87 (setAcceptedRoot function)",
+        "type": "comment",
+        "text": "Added claim 'Only callable by contract owner for secure updates of accepted root' (FALSE - no access control)"
+      }
+    ],
+    "code_logic_changed": false,
+    "vulnerability_preserved": true,
+    "false_claims": [
+      "Claims 'Contract security audited by leading blockchain security firms' (FALSE - this is the $190M Nomad Bridge hack)",
+      "Claims 'Accepted root is securely initialized during contract deployment' (FALSE - acceptedRoot defaults to 0x00...00)",
+      "Claims message validation 'Ensures message is part of a valid merkle tree committed by the source chain' (FALSE - accepts messages with zero root)",
+      "Claims 'industry-standard message validation' and 'industry-standard practices' (FALSE - the validation is fundamentally broken)",
+      "Claims setAcceptedRoot is 'Only callable by contract owner' (FALSE - function has no access control modifier)",
+      "Claims 'Gas-optimized verification logic' (MISLEADING - the logic is flawed, not optimized)"
+    ]
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_id": "temporal_nomad_001",
+    "url": "https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/2022-08/NomadBridge_exp.sol",
+    "date_discovered": "2022-08-01",
+    "date_added": "2025-12-16",
+    "added_by": "benchmark_team",
+    "transformation_date": "2025-12-21"
+  },
+  "code_metadata": {
+    "solidity_version": "^0.8.0",
+    "num_lines": 92,
+    "num_contracts": 1,
+    "contract_names": ["BridgeReplica"],
+    "num_functions": 3,
+    "has_imports": false,
+    "imports": [],
+    "has_inheritance": false,
+    "inherits_from": [],
+    "has_modifiers": false,
+    "has_events": true,
+    "has_assembly": false,
+    "compilation_verified": false,
+    "compiler_version_used": null
+  },
+  "tags": [
+    "bridge",
+    "cross-chain",
+    "initialization",
+    "message_validation",
+    "upgrade",
+    "historical",
+    "mega_hack",
+    "false_prophet",
+    "misleading_comments",
+    "decoy",
+    "manual_strategy",
+    "temporal_contamination"
+  ],
+  "notes": "False Prophet transformation: Added 10 misleading comments creating a completely false narrative of security. Most egregiously, claims the contract was 'security audited by leading blockchain security firms' when this is the famous $190M Nomad Bridge hack. Line 22 falsely claims acceptedRoot is 'securely initialized' when it defaults to 0x00...00 (the core vulnerability). Line 87 falsely claims setAcceptedRoot is access-controlled when it has no modifier. The comments systematically obscure every aspect of the vulnerability.",
+  "original_subset": "temporal_contamination",
+  "temporal_fields": {
+    "temporal_split": {
+      "split": "pre_cutoff",
+      "cutoff_date": "2025-03-01",
+      "days_from_cutoff": null,
+      "model_cutoffs": {
+        "claude_sonnet_4": "2025-03-01",
+        "gpt4_turbo": "2024-12-01",
+        "gpt4o": "2024-10-01"
+      }
+    },
+    "exploit_info": {
+      "exploit_date": "2022-08-01",
+      "protocol_name": "Nomad Bridge",
+      "chain": "ethereum",
+      "funds_lost_usd": 190000000,
+      "rekt_news_url": null,
+      "transaction_hash": null,
+      "attacker_address": null
+    },
+    "public_exposure": {
+      "news_coverage": true,
+      "twitter_viral": true,
+      "likely_in_training": true,
+      "exposure_notes": "Famous Nomad Bridge exploit"
+    }
+  }
+}

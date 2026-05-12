@@ -1,0 +1,82 @@
+{
+  "pair_id": "df_pair_ms_o_tc_045",
+  "strategy": "minimized_differential",
+  "variant": "minimal",
+  "original_id": "tc_045",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_ms_o_tc_045",
+    "file": "contracts/df_a_ms_o_tc_045.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with reentrancy guard and market registration validation"
+  },
+  "version_b": {
+    "id": "ms_o_tc_045",
+    "file": "../../../originals/minimalsanitized/contracts/ms_o_tc_045.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Minimally sanitized original (vulnerable)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "reentrancy",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "PenpieStaking",
+      "function_name": "claimRewards, deposit, withdraw",
+      "affected_lines_b": [
+        30,
+        36,
+        42
+      ]
+    },
+    "root_cause": "Functions accept any market address without validation and make external calls without reentrancy protection. Attacker can deploy fake market that reenters during claimRewards call.",
+    "attack_vector": "Deploy malicious market contract, register it, call claimRewards which triggers callback to fake market, fake market reenters to manipulate balances or drain funds.",
+    "impact": "Funds lost: $27,000,000"
+  },
+  "differential_details": {
+    "difference_type": "reentrancy_guard_and_market_validation",
+    "changes_description_a": "Added registeredMarkets mapping, _locked bool for reentrancy guard, nonReentrant modifier applied to all functions, require check that market is registered before operations.",
+    "changes_description_b": "No reentrancy protection, no market validation, accepts any address as market.",
+    "exact_changes": [
+      {
+        "location": "state variables (lines 26-28)",
+        "version_a": "mapping(address => bool) public registeredMarkets;\nbool private _locked;",
+        "version_b": "// No market registry or reentrancy lock"
+      },
+      {
+        "location": "nonReentrant modifier (lines 30-35)",
+        "version_a": "modifier nonReentrant() { require(!_locked, \"Reentrant call\"); _locked = true; _; _locked = false; }",
+        "version_b": "// No reentrancy modifier"
+      },
+      {
+        "location": "deposit function (lines 42-43)",
+        "version_a": "function deposit(...) external nonReentrant { require(registeredMarkets[market], \"Market not registered\"); ... }",
+        "version_b": "function deposit(...) external { ... }"
+      }
+    ],
+    "why_this_matters": "Reentrancy guard prevents recursive calls during external interactions, and market registration ensures only legitimate Pendle markets can be used."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Penpie",
+    "exploit_date": "2024-09-01",
+    "protocol_name": "Penpie",
+    "chain": "ethereum",
+    "funds_lost_usd": 27000000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": [
+    "reentrancy",
+    "pendle",
+    "fake_market",
+    "whitelist",
+    "nonReentrant",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "minimized_differential"
+  ],
+  "source_differential": "df_pair_tc_045",
+  "created_date": "2025-12-29T13:22:45.615303"
+}

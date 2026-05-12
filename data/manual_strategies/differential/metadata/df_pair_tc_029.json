@@ -1,0 +1,71 @@
+{
+  "pair_id": "df_pair_tc_029",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_029",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_029",
+    "file": "contracts/df_a_tc_029.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimal changes to address the vulnerability"
+  },
+  "version_b": {
+    "id": "df_b_tc_029",
+    "file": "../../base/contracts/tc_029.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "oracle_manipulation",
+    "severity": "high",
+    "vulnerable_location": {
+      "contract_name": {
+        "name": "BeltStrategy",
+        "functions": [
+          {
+            "name": "deposit",
+            "vulnerability": "Uses manipulatable oracle price for share calculation"
+          },
+          {
+            "name": "withdraw",
+            "vulnerability": "Uses manipulatable price for withdrawal amount"
+          }
+        ]
+      },
+      "function_name": null,
+      "line_numbers": []
+    },
+    "root_cause": "Vault share pricing relied on oracle that could be manipulated within single transaction. No TWAP or manipulation resistance. Share calculations used instantaneous price values vulnerable to flash loan attacks.",
+    "attack_vector": "1) Flash loan large amounts to manipulate price oracle down. 2) Deposit to vault when price is artificially low. 3) Share calculation: sharesAdded = (amount * totalShares) / (pool * price), so low price = more shares. 4) Release flash loan, price recovers. 5) Withdraw with inflated share count. 6) Withdrawal amount = (shares * pool * price) / totalShares, high price = more tokens. 7) Profit $6.2M from price manipulation cycle.",
+    "impact": "Funds lost: $6,200,000",
+    "correct_fix": null
+  },
+  "differential_details": {
+    "difference_type": "minimal_fix",
+    "diff_lines": 8,
+    "diff_summary": "Minimal fix with 8 lines changed",
+    "raw_diff": "10,11c10,11\n< interface IPriceOracle {\n<     function getPrice(address token) external view returns (uint256);\n---\n> interface ITWAPOracle {\n>     function getTWAP(address token) external view returns (uint256);\n32c32\n<             uint256 price = IPriceOracle(oracle).getPrice(wantToken);\n---\n>             uint256 price = ITWAPOracle(oracle).getTWAP(wantToken);\n46c46\n<         uint256 price = IPriceOracle(oracle).getPrice(wantToken);\n---\n>         uint256 price = ITWAPOracle(oracle).getTWAP(wantToken);\n"
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Belt Finance Strategy Exploit",
+    "exploit_date": "2021-05-30",
+    "protocol_name": "Belt Finance Strategy Exploit",
+    "chain": "binance_smart_chain",
+    "funds_lost_usd": 6200000
+  },
+  "tags": [
+    "differential",
+    "minimal_fix",
+    "temporal_contamination",
+    "oracle_manipulation"
+  ],
+  "quality_metrics": {
+    "diff_lines": 8,
+    "is_minimal": true,
+    "solidity_version_match": true
+  }
+}

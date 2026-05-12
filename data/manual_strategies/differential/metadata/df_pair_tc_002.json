@@ -1,0 +1,82 @@
+{
+  "pair_id": "df_pair_tc_002",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_002",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_002",
+    "file": "contracts/df_a_tc_002.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with minimum holding period and timelock protection"
+  },
+  "version_b": {
+    "id": "df_b_tc_002",
+    "file": "../../base/contracts/tc_002.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "GovernanceSystem",
+      "function_name": "emergencyCommit",
+      "affected_lines_b": [
+        54,
+        106
+      ]
+    },
+    "root_cause": "Governance system allowed instant voting power from deposits with no time-weighting or holding period. The emergencyCommit() function enabled immediate execution of proposals that reached 66% approval, with no time delay for community review.",
+    "attack_vector": "Attacker takes massive flash loan, deposits to gain >66% voting power, creates malicious proposal, votes, immediately executes via emergencyCommit(), drains protocol, repays flash loan.",
+    "impact": "Funds lost: $182,000,000"
+  },
+  "differential_details": {
+    "difference_type": "timelock_and_holding_period",
+    "changes_description_a": "Added lastDeposit mapping and MIN_HOLDING_PERIOD/TIMELOCK_DELAY constants. Added require for minimum holding period in deposit function (line 58) and added timelock check in emergencyCommit (line 114) to prevent flash loan governance attacks.",
+    "changes_description_b": "No holding period tracking or timelock, allowing instant voting power from deposits and immediate execution via emergencyCommit, enabling flash loan governance attacks.",
+    "exact_changes": [
+      {
+        "location": "state variables (line 22)",
+        "version_a": "mapping(address => uint256) public lastDeposit;",
+        "version_b": "// No lastDeposit tracking"
+      },
+      {
+        "location": "constants (lines 42-43)",
+        "version_a": "uint256 constant MIN_HOLDING_PERIOD = 1 days;\nuint256 constant TIMELOCK_DELAY = 1 days;",
+        "version_b": "// No time delay constants"
+      },
+      {
+        "location": "deposit function (line 58)",
+        "version_a": "require(block.timestamp - lastDeposit[msg.sender] >= MIN_HOLDING_PERIOD, \"Holding period not met\");",
+        "version_b": "// No holding period check"
+      },
+      {
+        "location": "emergencyCommit function (line 114)",
+        "version_a": "require(block.timestamp >= prop.startTime + TIMELOCK_DELAY, \"Timelock not expired\");",
+        "version_b": "// No timelock check"
+      }
+    ],
+    "why_this_matters": "The minimal fix (adding holding period and timelock) prevents flash loan governance attacks by ensuring voting power requires time commitment and proposals cannot be executed instantly."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Beanstalk",
+    "exploit_date": "2022-04-17",
+    "protocol_name": "Beanstalk",
+    "chain": "ethereum",
+    "funds_lost_usd": 182000000,
+    "transformation_date": "2025-12-21"
+  },
+  "tags": [
+    "governance",
+    "flash_loan",
+    "voting",
+    "timelock",
+    "differential",
+    "minimal_fix",
+    "temporal_contamination"
+  ]
+}

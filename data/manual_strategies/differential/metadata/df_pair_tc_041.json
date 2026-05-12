@@ -1,0 +1,71 @@
+{
+  "pair_id": "df_pair_tc_041",
+  "strategy": "differential",
+  "variant": "minimal",
+  "original_id": "tc_041",
+  "original_subset": "temporal_contamination",
+  "version_a": {
+    "id": "df_a_tc_041",
+    "file": "contracts/df_a_tc_041.sol",
+    "is_vulnerable": false,
+    "status": "safe",
+    "description": "Fixed version with onlyOwner access control on mint function"
+  },
+  "version_b": {
+    "id": "df_b_tc_041",
+    "file": "../../base/contracts/tc_041.sol",
+    "is_vulnerable": true,
+    "status": "vulnerable",
+    "description": "Original vulnerable version (in data/base/contracts/)"
+  },
+  "ground_truth": {
+    "vulnerability_type": "access_control",
+    "severity": "critical",
+    "vulnerable_location": {
+      "contract_name": "ShezmuCollateralToken",
+      "function_name": "mint",
+      "affected_lines_b": [27]
+    },
+    "root_cause": "The mint() function has no access control, allowing anyone to mint arbitrary amounts of collateral tokens. These tokens can then be used as collateral to borrow real assets from the vault.",
+    "attack_vector": "Attacker calls mint() to create unlimited collateral tokens for free, deposits them as collateral in ShezmuVault, borrows maximum shezUSD against fake collateral, extracts real value from the system.",
+    "impact": "Funds lost: $4,900,000"
+  },
+  "differential_details": {
+    "difference_type": "access_control_modifier",
+    "changes_description_a": "Added owner state variable, constructor to set owner, onlyOwner modifier, and applied onlyOwner to mint() function to restrict minting to contract owner only.",
+    "changes_description_b": "mint() function is public with no access control, allowing anyone to mint tokens.",
+    "exact_changes": [
+      {
+        "location": "state variable (line 24)",
+        "version_a": "address public owner;",
+        "version_b": "// No owner variable"
+      },
+      {
+        "location": "constructor (lines 26-28)",
+        "version_a": "constructor() { owner = msg.sender; }",
+        "version_b": "// No constructor"
+      },
+      {
+        "location": "modifier (lines 30-33)",
+        "version_a": "modifier onlyOwner() { require(msg.sender == owner, \"Not owner\"); _; }",
+        "version_b": "// No modifier"
+      },
+      {
+        "location": "mint function (line 35)",
+        "version_a": "function mint(address to, uint256 amount) external onlyOwner {",
+        "version_b": "function mint(address to, uint256 amount) external {"
+      }
+    ],
+    "why_this_matters": "Access control on mint prevents unauthorized token creation, ensuring only the owner can mint tokens and collateral value remains genuine."
+  },
+  "provenance": {
+    "source": "rekt_news",
+    "original_exploit": "Shezmu Protocol",
+    "exploit_date": "2024-09-01",
+    "protocol_name": "Shezmu Protocol",
+    "chain": "ethereum",
+    "funds_lost_usd": 4900000,
+    "transformation_date": "2025-12-29"
+  },
+  "tags": ["access_control", "mint", "onlyOwner", "collateral", "cdp", "lending", "differential", "minimal_fix", "temporal_contamination"]
+}
