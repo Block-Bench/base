@@ -3,6 +3,7 @@ import LandingPage from './components/LandingPage'
 import Explorer from './components/Explorer'
 import CodeViewer from './components/CodeViewer'
 import StrategiesPlayground from './components/StrategiesPlayground'
+import PaperReview from './components/PaperReview'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/explorer/:datasetType" element={<Explorer />} />
         <Route path="/sample/:datasetType/:sampleId" element={<CodeViewer />} />
         <Route path="/strategies" element={<StrategiesPlayground />} />
+        <Route path="/review" element={<PaperReview />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>

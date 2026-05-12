@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { Play, Copy, Check, ChevronDown, Loader2, RefreshCw, Code2 } from 'lucide-react'
+import { Play, Copy, Check, ChevronDown, Loader2, RefreshCw } from 'lucide-react'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-solidity'
 import Navigation from './Navigation'
 import { STRATEGIES, type StrategyInfo } from './StrategyIcons'
 
-// Sample code for demonstration
 const SAMPLE_CODE = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -19,7 +18,6 @@ contract VulnerableBank {
     event Deposit(address indexed user, uint256 amount);
     event Withdrawal(address indexed user, uint256 amount);
 
-    // Deposit funds into the contract
     function deposit() external payable {
         require(msg.value > 0, "Must deposit something");
         balances[msg.sender] += msg.value;
@@ -53,425 +51,218 @@ export default function StrategiesPlayground() {
   const [copied, setCopied] = useState<'input' | 'output' | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // Close dropdown when clicking outside
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false)
-      }
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setIsDropdownOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Highlight a single line of code
-  const highlightLine = (line: string) => {
-    return Prism.highlight(line || ' ', Prism.languages.solidity, 'solidity')
-  }
+  const hl = (line: string) => Prism.highlight(line || ' ', Prism.languages.solidity, 'solidity')
 
-  // Simulate transformation (in a real app, this would call the Python backend)
   const handleTransform = async () => {
     if (!inputCode.trim()) return
-
     setIsTransforming(true)
-
-    // Simulate processing time
-    await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 400))
-
-    // Apply mock transformation based on strategy
-    let transformed = inputCode
-
+    await new Promise(r => setTimeout(r, 800 + Math.random() * 400))
+    let t = inputCode
     switch (selectedStrategy.id) {
-      case 'sanitize':
-        transformed = inputCode
-          .replace(/Vulnerable/g, 'Basic')
-          .replace(/vulnerable/g, 'basic')
-          .replace(/VULNERABILITY/g, 'LOGIC')
-          .replace(/reentrancy/g, 'transfer')
-          .replace(/Reentrancy/g, 'Transfer')
-        break
-
-      case 'nocomments':
-        transformed = inputCode
-          .replace(/\/\/.*$/gm, '')
-          .replace(/\/\*[\s\S]*?\*\//g, '')
-          .replace(/^\s*[\r\n]/gm, '')
-        break
-
-      case 'chameleon':
-        transformed = inputCode
-          .replace(/VulnerableBank/g, 'TreasureVault')
-          .replace(/balances/g, 'goldHoldings')
-          .replace(/deposit/g, 'storeGold')
-          .replace(/Deposit/g, 'GoldStored')
-          .replace(/withdraw/g, 'claimLoot')
-          .replace(/Withdrawal/g, 'LootClaimed')
-          .replace(/getBalance/g, 'checkTreasure')
-        break
-
-      case 'shapeshifter':
-        // L3: Control flow obfuscation with opaque predicates and dead code
-        transformed = inputCode
-          // Replace require statements with complex conditionals (handle indentation)
-          .replace(/require\(msg\.value > 0, "Must deposit something"\);/g,
-            'if (msg.value > 0 && (block.timestamp > 0)) {\n            // Opaque predicate: always true\n        } else {\n            revert("Must deposit something");\n        }')
-          .replace(/require\(balance > 0, "No balance to withdraw"\);/g,
-            'if (balance > 0 || (block.number < 0)) {\n            // Opaque predicate: block.number < 0 always false\n        } else {\n            revert("No balance to withdraw");\n        }')
-          .replace(/require\(success, "Transfer failed"\);/g,
-            'if (success && (1 == 1)) {\n            // Opaque predicate: 1 == 1 always true\n        } else {\n            revert("Transfer failed");\n        }')
-          // Add dead code branches
-          .replace(/balances\[msg\.sender\] \+= msg\.value;/g,
-            'if (block.timestamp > 0) {\n            balances[msg.sender] += msg.value;\n        } else {\n            balances[msg.sender] = 0; // Dead code: never executes\n        }')
-          .replace(/balances\[msg\.sender\] = 0;/g,
-            'uint256 _temp = 0;\n        if (address(this).balance >= 0) {\n            balances[msg.sender] = _temp; // Opaque: always true\n        }')
-        break
-
-      case 'hydra':
-        // Combine multiple transformations
-        transformed = inputCode
-          .replace(/\/\/.*$/gm, '') // Remove comments
-          .replace(/Vulnerable/g, 'Basic') // Sanitize
-          .replace(/balances/g, 'holdings') // Light renaming
-        break
-
-      case 'restructure':
-        // Split large contract into smaller pieces (mock)
-        transformed = `// Original contract restructured into modules\n\n${inputCode.substring(0, inputCode.length / 2)}\n\n// --- Module 2 would be in separate file ---\n`
-        break
-
-      case 'mirror':
-        // Compress formatting
-        transformed = inputCode
-          .replace(/\n\s*\n/g, '\n')
-          .replace(/{\s+/g, '{ ')
-          .replace(/\s+}/g, ' }')
-        break
-
-      default:
-        transformed = `// Transformed with ${selectedStrategy.name} strategy\n${inputCode}`
+      case 'sanitize': t = t.replace(/Vulnerable/g, 'Basic').replace(/vulnerable/g, 'basic').replace(/VULNERABILITY/g, 'LOGIC').replace(/reentrancy/g, 'transfer'); break
+      case 'nocomments': t = t.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*[\r\n]/gm, ''); break
+      case 'chameleon': t = t.replace(/VulnerableBank/g, 'TreasureVault').replace(/balances/g, 'goldHoldings').replace(/deposit/g, 'storeGold').replace(/Deposit/g, 'GoldStored').replace(/withdraw/g, 'claimLoot').replace(/Withdrawal/g, 'LootClaimed').replace(/getBalance/g, 'checkTreasure'); break
+      case 'shapeshifter': t = t.replace(/require\(msg\.value > 0, "Must deposit something"\);/g, 'if (msg.value > 0 && (block.timestamp > 0)) {\n            // Opaque predicate: always true\n        } else {\n            revert("Must deposit something");\n        }').replace(/require\(balance > 0, "No balance to withdraw"\);/g, 'if (balance > 0 || (block.number < 0)) {\n            // always false branch\n        } else {\n            revert("No balance");\n        }').replace(/require\(success, "Transfer failed"\);/g, 'if (success && (1 == 1)) {} else { revert("Transfer failed"); }'); break
+      case 'hydra': t = t.replace(/\/\/.*$/gm, '').replace(/Vulnerable/g, 'Basic').replace(/balances/g, 'holdings'); break
+      case 'restructure': t = `// Restructured into modules\n\n${t.substring(0, t.length / 2)}\n\n// --- Module 2 ---\n`; break
+      case 'mirror': t = t.replace(/\n\s*\n/g, '\n').replace(/{\s+/g, '{ ').replace(/\s+}/g, ' }'); break
+      default: t = `// Transformed with ${selectedStrategy.name}\n${t}`
     }
-
-    setOutputCode(transformed)
+    setOutputCode(t)
     setIsTransforming(false)
   }
 
-  const copyToClipboard = async (type: 'input' | 'output') => {
-    const code = type === 'input' ? inputCode : outputCode
-    await navigator.clipboard.writeText(code)
-    setCopied(type)
-    setTimeout(() => setCopied(null), 2000)
-  }
-
-  const resetPlayground = () => {
-    setInputCode(SAMPLE_CODE)
-    setOutputCode('')
+  const copy = async (type: 'input' | 'output') => {
+    await navigator.clipboard.writeText(type === 'input' ? inputCode : outputCode)
+    setCopied(type); setTimeout(() => setCopied(null), 2000)
   }
 
   return (
-    <div className="min-h-screen bg-cream-100 dark:bg-neutral-950">
+    <div className="min-h-screen bg-stone-50 dark:bg-neutral-950">
       <Navigation />
 
-      {/* Header */}
-      <div className="pt-24 pb-8 px-6 bg-white dark:bg-neutral-900 border-b border-cream-300 dark:border-neutral-800">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="pt-20 px-6">
+        <div className="max-w-6xl mx-auto py-8">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
             <div>
-              <h1 className="text-2xl font-light text-neutral-900 dark:text-white mb-2">
+              <h1 className="text-2xl font-semibold tracking-tight text-stone-600 dark:text-white mb-1">
                 Strategy Playground
               </h1>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 max-w-xl">
-                Transform smart contract code using adversarial strategies. Paste your code,
-                select a strategy, and see the transformed output in real-time.
+              <p className="text-sm text-stone-400 dark:text-neutral-500 max-w-lg">
+                Transform smart contract code using adversarial strategies and see the output in real-time.
               </p>
             </div>
-
-            <div className="flex items-center gap-3">
-              <button
-                onClick={resetPlayground}
-                className="btn-ghost"
-              >
-                <RefreshCw className="w-4 h-4" />
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Strategy Selector */}
-        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-3 px-4 py-3 bg-white dark:bg-neutral-900 border border-cream-300 dark:border-neutral-700 rounded-xl shadow-soft dark:shadow-dark-soft hover:border-cream-400 dark:hover:border-neutral-600 transition-all duration-200 min-w-[280px]"
-            >
-              <selectedStrategy.icon
-                size={24}
-                className="text-neutral-800 dark:text-neutral-200"
-              />
-              <div className="flex-1 text-left">
-                <div className="font-medium text-neutral-800 dark:text-neutral-100">
-                  {selectedStrategy.name}
-                </div>
-                <div className="text-xs text-neutral-500 dark:text-neutral-400 truncate max-w-[180px]">
-                  {selectedStrategy.description}
-                </div>
-              </div>
-              <ChevronDown className={`w-5 h-5 text-neutral-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            <button onClick={() => { setInputCode(SAMPLE_CODE); setOutputCode('') }} className="btn-secondary shrink-0">
+              <RefreshCw className="w-3.5 h-3.5" /> Reset
             </button>
-
-            {/* Dropdown */}
-            {isDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 w-full bg-white dark:bg-neutral-900 border border-cream-300 dark:border-neutral-700 rounded-xl shadow-soft-lg dark:shadow-dark-soft-md overflow-hidden z-50 animate-slide-down">
-                {STRATEGIES.map((strategy) => (
-                  <button
-                    key={strategy.id}
-                    onClick={() => {
-                      setSelectedStrategy(strategy)
-                      setIsDropdownOpen(false)
-                    }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-cream-100 dark:hover:bg-neutral-800 transition-colors ${
-                      selectedStrategy.id === strategy.id ? 'bg-cream-100 dark:bg-neutral-800' : ''
-                    }`}
-                  >
-                    <strategy.icon
-                      size={20}
-                      className="text-neutral-700 dark:text-neutral-300"
-                    />
-                    <div className="flex-1 text-left">
-                      <div className="font-medium text-sm text-neutral-800 dark:text-neutral-100">
-                        {strategy.name}
-                      </div>
-                      <div className="text-xs text-neutral-500 dark:text-neutral-400">
-                        {strategy.description}
-                      </div>
-                    </div>
-                    {selectedStrategy.id === strategy.id && (
-                      <Check className="w-4 h-4 text-accent" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
-          <button
-            onClick={handleTransform}
-            disabled={isTransforming || !inputCode.trim()}
-            className="btn-primary py-3 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isTransforming ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Transforming...
-              </>
-            ) : (
-              <>
-                <Play className="w-4 h-4" />
-                Apply Strategy
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Code Panels */}
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* Input Panel */}
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <Code2 className="w-4 h-4 text-neutral-500 dark:text-neutral-400" />
-                <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                  Input Code
-                </span>
-              </div>
+          {/* Controls */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
+            <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => copyToClipboard('input')}
-                className="btn-ghost text-xs py-1.5 px-2.5"
-                disabled={!inputCode}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="card flex items-center gap-3 px-4 py-3 min-w-[280px] hover:shadow-soft-md transition-shadow cursor-pointer"
               >
-                {copied === 'input' ? (
-                  <>
-                    <Check className="w-3.5 h-3.5" />
-                    Copied
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    Copy
-                  </>
-                )}
+                <selectedStrategy.icon size={18} className="text-stone-500 dark:text-neutral-400 shrink-0" />
+                <div className="flex-1 text-left min-w-0">
+                  <div className="text-sm font-medium text-stone-500 dark:text-white">{selectedStrategy.name}</div>
+                  <div className="text-2xs text-stone-400 dark:text-neutral-500 truncate">{selectedStrategy.description}</div>
+                </div>
+                <ChevronDown className={`w-4 h-4 text-stone-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
-            </div>
 
-            <div className="flex-1 min-h-[500px] code-container overflow-auto">
-              <div className="h-full flex min-w-full">
-                {/* Line numbers */}
-                <div className="select-none bg-cream-50 dark:bg-neutral-900 text-neutral-400 dark:text-neutral-600 text-right py-4 px-3 border-r border-cream-200 dark:border-neutral-800 font-mono text-sm">
-                  {inputCode.split('\n').map((_, idx) => (
-                    <div key={idx} className="h-[1.625rem] leading-[1.625rem]">
-                      {idx + 1}
-                    </div>
+              {isDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1.5 w-full card overflow-hidden z-50 animate-slide-down shadow-soft-lg dark:shadow-dark-soft-lg py-1">
+                  {STRATEGIES.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => { setSelectedStrategy(s); setIsDropdownOpen(false) }}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 hover:bg-stone-50 dark:hover:bg-neutral-800/50 transition-colors ${selectedStrategy.id === s.id ? 'bg-stone-50 dark:bg-neutral-800/50' : ''}`}
+                    >
+                      <s.icon size={15} className="text-stone-400 dark:text-neutral-500" />
+                      <div className="flex-1 text-left">
+                        <div className="text-sm text-stone-500 dark:text-neutral-200">{s.name}</div>
+                        <div className="text-2xs text-stone-400 dark:text-neutral-500">{s.description}</div>
+                      </div>
+                      {selectedStrategy.id === s.id && <Check className="w-3.5 h-3.5 text-accent" />}
+                    </button>
                   ))}
                 </div>
-                {/* Code editor */}
-                <div className="flex-1 relative bg-white dark:bg-neutral-950 min-w-0">
-                  <textarea
-                    value={inputCode}
-                    onChange={(e) => setInputCode(e.target.value)}
-                    className="absolute inset-0 w-full h-full p-4 font-mono text-sm bg-transparent text-transparent caret-neutral-800 dark:caret-neutral-200 resize-none focus:outline-none overflow-auto"
-                    style={{ lineHeight: '1.625rem', whiteSpace: 'pre' }}
-                    spellCheck={false}
-                    placeholder="Paste your Solidity code here..."
-                  />
-                  <pre className="p-4 font-mono text-sm pointer-events-none overflow-auto">
-                    <code className="language-solidity">
-                      {inputCode.split('\n').map((line, idx) => (
-                        <div
-                          key={idx}
-                          className="h-[1.625rem] leading-[1.625rem] whitespace-pre"
-                          dangerouslySetInnerHTML={{ __html: highlightLine(line) }}
-                        />
-                      ))}
-                    </code>
-                  </pre>
-                </div>
-              </div>
+              )}
             </div>
+
+            <button
+              onClick={handleTransform}
+              disabled={isTransforming || !inputCode.trim()}
+              className="btn-primary py-2.5 px-5 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {isTransforming ? <><Loader2 className="w-4 h-4 animate-spin" /> Transforming...</> : <><Play className="w-4 h-4" /> Apply Strategy</>}
+            </button>
           </div>
 
-          {/* Output Panel */}
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <selectedStrategy.icon
-                  size={16}
-                  className="text-neutral-500 dark:text-neutral-400"
-                />
-                <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                  Output ({selectedStrategy.name})
-                </span>
+          {/* Code panels */}
+          <div className="grid lg:grid-cols-2 gap-4">
+            {/* Input */}
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xs font-medium uppercase tracking-wider text-stone-400 dark:text-neutral-600">Input</span>
+                <button onClick={() => copy('input')} className="btn-ghost text-2xs py-1 px-2" disabled={!inputCode}>
+                  {copied === 'input' ? <><Check className="w-3 h-3" /> Copied</> : <><Copy className="w-3 h-3" /> Copy</>}
+                </button>
               </div>
-              <button
-                onClick={() => copyToClipboard('output')}
-                className="btn-ghost text-xs py-1.5 px-2.5"
-                disabled={!outputCode}
-              >
-                {copied === 'output' ? (
-                  <>
-                    <Check className="w-3.5 h-3.5" />
-                    Copied
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    Copy
-                  </>
-                )}
-              </button>
-            </div>
-
-            <div className="flex-1 min-h-[500px] code-container overflow-auto relative">
-              {/* Transformation overlay */}
-              {isTransforming && (
-                <div className="absolute inset-0 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-sm z-10 flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="w-8 h-8 text-accent animate-spin" />
-                    <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                      Applying {selectedStrategy.name}...
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Empty state */}
-              {!outputCode && !isTransforming && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <selectedStrategy.icon
-                      size={48}
-                      className="mx-auto mb-4 text-neutral-300 dark:text-neutral-700"
-                    />
-                    <p className="text-sm text-neutral-400 dark:text-neutral-500 mb-1">
-                      No output yet
-                    </p>
-                    <p className="text-xs text-neutral-400 dark:text-neutral-600">
-                      Click "Apply Strategy" to transform your code
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {/* Output code */}
-              {outputCode && (
+              <div className="flex-1 min-h-[520px] code-container overflow-auto">
                 <div className="h-full flex min-w-full">
-                  {/* Line numbers */}
-                  <div className="select-none bg-cream-50 dark:bg-neutral-900 text-neutral-400 dark:text-neutral-600 text-right py-4 px-3 border-r border-cream-200 dark:border-neutral-800 font-mono text-sm">
-                    {outputCode.split('\n').map((_, idx) => (
-                      <div key={idx} className="h-[1.625rem] leading-[1.625rem]">
-                        {idx + 1}
-                      </div>
-                    ))}
-                  </div>
-                  {/* Code display */}
-                  <div className="flex-1 overflow-auto bg-white dark:bg-neutral-950 scrollbar-thin">
-                    <pre className="p-4 font-mono text-sm">
-                      <code className="language-solidity">
-                        {outputCode.split('\n').map((line, idx) => (
-                          <div
-                            key={idx}
-                            className="h-[1.625rem] leading-[1.625rem] whitespace-pre"
-                            dangerouslySetInnerHTML={{ __html: highlightLine(line) }}
-                          />
-                        ))}
-                      </code>
-                    </pre>
+                  <LineNumbers code={inputCode} />
+                  <div className="flex-1 relative bg-white dark:bg-neutral-950 min-w-0">
+                    <textarea
+                      value={inputCode}
+                      onChange={(e) => setInputCode(e.target.value)}
+                      className="absolute inset-0 w-full h-full p-4 font-mono text-sm bg-transparent text-transparent caret-stone-600 dark:caret-neutral-200 resize-none focus:outline-none overflow-auto"
+                      style={{ lineHeight: '1.625rem', whiteSpace: 'pre' }}
+                      spellCheck={false}
+                      placeholder="Paste Solidity code..."
+                    />
+                    <CodeLines code={inputCode} highlight={hl} />
                   </div>
                 </div>
-              )}
+              </div>
+            </div>
+
+            {/* Output */}
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-2xs font-medium uppercase tracking-wider text-stone-400 dark:text-neutral-600">Output</span>
+                  <span className="text-2xs text-stone-300 dark:text-neutral-700">\u00B7</span>
+                  <span className="text-2xs text-stone-400 dark:text-neutral-600">{selectedStrategy.name}</span>
+                </div>
+                <button onClick={() => copy('output')} className="btn-ghost text-2xs py-1 px-2" disabled={!outputCode}>
+                  {copied === 'output' ? <><Check className="w-3 h-3" /> Copied</> : <><Copy className="w-3 h-3" /> Copy</>}
+                </button>
+              </div>
+              <div className="flex-1 min-h-[520px] code-container overflow-auto relative">
+                {isTransforming && (
+                  <div className="absolute inset-0 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-sm rounded-2xl z-10 flex items-center justify-center">
+                    <Loader2 className="w-5 h-5 text-accent animate-spin" />
+                  </div>
+                )}
+                {!outputCode && !isTransforming && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="text-center">
+                      <selectedStrategy.icon size={32} className="mx-auto mb-3 text-stone-200 dark:text-neutral-800" />
+                      <p className="text-xs text-stone-400 dark:text-neutral-600">Click "Apply Strategy" to transform</p>
+                    </div>
+                  </div>
+                )}
+                {outputCode && (
+                  <div className="h-full flex min-w-full">
+                    <LineNumbers code={outputCode} />
+                    <div className="flex-1 overflow-auto bg-white dark:bg-neutral-950 scrollbar-thin">
+                      <CodeLines code={outputCode} highlight={hl} />
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Strategy Info Cards */}
-        <div className="mt-12">
-          <h2 className="text-lg font-medium text-neutral-800 dark:text-neutral-200 mb-6">
-            Available Strategies
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 stagger-children">
-            {STRATEGIES.map((strategy) => (
-              <button
-                key={strategy.id}
-                onClick={() => setSelectedStrategy(strategy)}
-                className={`card p-4 text-left transition-all duration-200 hover:scale-[1.02] ${
-                  selectedStrategy.id === strategy.id
-                    ? 'ring-2 ring-accent border-accent dark:border-accent'
-                    : ''
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-cream-200 dark:bg-neutral-800 rounded-lg">
-                    <strategy.icon
-                      size={20}
-                      className="text-neutral-700 dark:text-neutral-300"
-                    />
+          {/* Strategy cards */}
+          <div className="mt-16 mb-8">
+            <h2 className="text-2xs font-medium uppercase tracking-wider text-stone-400 dark:text-neutral-600 mb-4">All Strategies</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 stagger">
+              {STRATEGIES.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => setSelectedStrategy(s)}
+                  className={`card p-4 text-left transition-all duration-150 group ${
+                    selectedStrategy.id === s.id ? 'ring-1 ring-stone-600 dark:ring-white' : 'hover:shadow-soft-md'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="p-1.5 bg-stone-100 dark:bg-neutral-800 rounded-lg shrink-0">
+                      <s.icon size={14} className="text-stone-500 dark:text-neutral-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-medium text-stone-500 dark:text-white mb-0.5">{s.name}</h3>
+                      <p className="text-2xs text-stone-400 dark:text-neutral-500 leading-relaxed">{s.description}</p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-neutral-800 dark:text-neutral-100 mb-1">
-                      {strategy.name}
-                    </h3>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                      {strategy.description}
-                    </p>
-                  </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+function LineNumbers({ code }: { code: string }) {
+  return (
+    <div className="select-none bg-stone-50/50 dark:bg-neutral-900/30 text-stone-300 dark:text-neutral-700 text-right py-4 px-3 border-r border-stone-100 dark:border-neutral-800/50 font-mono text-xs min-w-[3rem]">
+      {(code || '\n').split('\n').map((_, i) => <div key={i} className="h-[1.625rem] leading-[1.625rem]">{i + 1}</div>)}
+    </div>
+  )
+}
+
+function CodeLines({ code, highlight }: { code: string; highlight: (l: string) => string }) {
+  return (
+    <pre className="p-4 font-mono text-sm pointer-events-none overflow-auto">
+      <code className="language-solidity">
+        {(code || '').split('\n').map((line, i) => (
+          <div key={i} className="h-[1.625rem] leading-[1.625rem] whitespace-pre" dangerouslySetInnerHTML={{ __html: highlight(line) }} />
+        ))}
+      </code>
+    </pre>
   )
 }
