@@ -234,6 +234,68 @@ const ACTION_ITEMS = [
   { label: 'Model scaling / fine-tuning analysis', priority: 'later' as const, raised: ['qS1T'] },
 ]
 
+interface WorkItem { task: string; detail: string }
+interface WorkSection { title: string; description: string; items: WorkItem[] }
+
+const WORK_PLAN: WorkSection[] = [
+  {
+    title: 'Data & Experiments',
+    description: 'Blocking issues \u2014 without these, reviewers will give the same scores.',
+    items: [
+      { task: 'Expand Gold Standard (GS) to n=60\u201380', detail: 'Collect post-cutoff vulnerabilities from Code4rena, Sherlock, Spearbit, Immunefi (Jan\u2013Aug 2026). Maintain quality bar: high/medium severity from top-tier protocols only. Run all 7 models \u00D7 5 prompt strategies. Report per-category TDR with CIs.' },
+      { task: 'Add true negative clean contract set (n=40\u201350)', detail: 'Curate audited contracts with no known vulnerabilities (OpenZeppelin, Uniswap v4, Aave v3 core). Not fixed/patched code \u2014 contracts that were never vulnerable. Measure false positive rate per model.' },
+      { task: 'Run Slither/Mythril baselines on all subsets', detail: 'Run both tools on DS, TC, and GS. Report TDR, precision, FP rates using same metrics. Key finding: traditional tools detect some DS samples but fail on TC transformations and GS logic bugs.' },
+      { task: 'Full expert validation on GS outputs', detail: 'Expert review of all GS model outputs (not just stratified sample). Report GS-specific \u03BA, error mode breakdown, judge failure clustering by vulnerability type.' },
+    ],
+  },
+  {
+    title: 'Strengthen NLP Framing',
+    description: 'AC nY22 flagged "contribution to NLP community." This is the hidden blocker.',
+    items: [
+      { task: 'Reframe introduction as NLP-first', detail: 'Lead with the NLP problem (contamination, memorization vs generalization) not crypto losses. Position security as the demonstration domain, not the contribution.' },
+      { task: 'Position contamination methodology as general-purpose', detail: 'The DS\u2192TC\u2192GS pipeline is a transferable method for measuring memorization in any domain. Connect to benchmark contamination literature (Dodge et al., Jacovi et al., Oren et al.).' },
+      { task: 'Frame transformations as robustness probes', detail: 'Map to NLP adversarial robustness: Chameleon = domain transfer, ShapeShifter = syntactic paraphrase, NoComments = information removal, Trojan = distractor injection. The 30\u201350% drops tell us about LLM representations, not just security.' },
+      { task: 'Connect pattern matching paradox to reasoning faithfulness', detail: 'Llama\u2019s 60.9% ROOT_CAUSE match but 31.7% TDR is about explanation faithfulness. Links to CoT faithfulness literature, reasoning shortcuts, and whether LLMs use the reasoning they produce.' },
+      { task: 'Show prompt sensitivity only visible without contamination', detail: 'GS prompt results (0%\u219241.2%) reveal true prompt effects invisible on contaminated benchmarks. Implication: prompt engineering gains measured on contaminated data are overstated.' },
+      { task: 'Discuss implications for other code benchmarks', detail: 'What does the 86.5%\u219225.3% curve imply for HumanEval, SWE-bench, and other code benchmarks likely contaminated in training data?' },
+    ],
+  },
+  {
+    title: 'Paper Revisions',
+    description: 'Writing and framing changes addressing specific reviewer concerns.',
+    items: [
+      { task: 'Separate Limitations from Future Work', detail: 'Program Chairs nearly desk-rejected for this. Standalone Limitations section. Non-negotiable.' },
+      { task: 'Soften contamination claims', detail: 'Replace "guarantees zero contamination" with "substantially reduces contamination risk." Add model-specific cutoff dates table. Frame GS as indicative.' },
+      { task: 'Categorize transformations by realism', detail: 'Split into realistic perturbations (Sanitized, NoComments, MinSan) vs adversarial stress tests (Chameleon, ShapeShifter, Trojan, FalseProphet). Report and analyze separately.' },
+      { task: 'Expand ethics / dual-use statement', detail: 'Broader Impacts paragraph: prevents overreliance (positive), exploit variants could lower barriers (negative), all vulns already public (mitigation). Address "security theater" concern.' },
+      { task: 'Prompt strategy summary in main text', detail: 'Concise table summarizing Direct/Ctx/CoT/Nat/Adv. Brief explanation of why adversarial framing helps and why naturalistic works for Qwen.' },
+      { task: 'CodeActs inter-annotator agreement', detail: 'Two annotators independently label 10\u201315 contracts. Report Cohen\u2019s \u03BA. Discuss disagreement patterns. Outline hybrid annotation pipeline.' },
+      { task: 'Standardize model naming', detail: 'Audit all names in text, tables, appendix. Create model summary table with name, provider, cutoff date.' },
+    ],
+  },
+  {
+    title: 'Statistical & Polish',
+    description: 'Tighten rigor and update context.',
+    items: [
+      { task: 'CIs for all metrics', detail: 'Bootstrap CIs for TDR, RCIR, AVA, FSV, SUI across all subsets \u2014 not just DS averages. Significance tests for prompt protocol improvements on expanded GS.' },
+      { task: 'Tighten claims throughout', detail: 'Read through entire paper. Check every claim against evidence. Distinguish "suggestive" from "conclusive." Hedge where CIs are wide.' },
+      { task: 'Update related work', detail: 'Add 2026 papers on LLM code reasoning, benchmark contamination, smart contract security benchmarks. Position against recent evaluation methodology work.' },
+      { task: 'Per-category variance analysis on GS', detail: 'Break down GS results by vulnerability type (logic errors, access control, etc.). Show the degradation is consistent across categories, not driven by one type.' },
+    ],
+  },
+  {
+    title: 'Out of Scope (Future Work)',
+    description: 'Acknowledge clearly as limitations. Do not attempt.',
+    items: [
+      { task: 'Multi-language support (Vyper, Rust/Anchor)', detail: 'Solidity dominance is justified. Acknowledge limitation, note as future work.' },
+      { task: 'Prompt ablation / mechanistic analysis', detail: 'Why prompts work is a separate research question beyond evaluation scope.' },
+      { task: 'Model scaling / fine-tuning analysis', detail: 'Requires open-weight model families at multiple sizes we don\u2019t have.' },
+      { task: 'Full audit context evaluation', detail: 'Multi-contract, cross-protocol context is a separate benchmark design challenge.' },
+      { task: 'Hybrid LLM-verification pipelines', detail: 'Interesting but expands scope beyond evaluation into system design.' },
+    ],
+  },
+]
+
 // --- Components ---
 
 function ScoreDot({ value, max = 5 }: { value: number | string; max?: number }) {
@@ -435,7 +497,7 @@ function ReviewCard({ review }: { review: ReviewData }) {
 
 // --- Page ---
 export default function PaperReview() {
-  const [tab, setTab] = useState<'reviews' | 'actions'>('reviews')
+  const [tab, setTab] = useState<'reviews' | 'actions' | 'workplan'>('reviews')
   const [showPdf, setShowPdf] = useState(false)
   const metas = REVIEWS.filter(r => r.role === 'meta')
   const reviewers = REVIEWS.filter(r => r.role === 'reviewer')
@@ -494,6 +556,10 @@ export default function PaperReview() {
                   Actions
                   {tab === 'actions' && <div className="absolute bottom-0 left-3 right-3 h-0.5 bg-stone-600 dark:bg-white rounded-full" />}
                 </button>
+                <button onClick={() => setTab('workplan')} className={`px-3 py-2 text-xs font-medium relative ${tab === 'workplan' ? 'text-stone-600 dark:text-white' : 'text-stone-400'}`}>
+                  Work Plan
+                  {tab === 'workplan' && <div className="absolute bottom-0 left-3 right-3 h-0.5 bg-stone-600 dark:bg-white rounded-full" />}
+                </button>
               </div>
 
               {tab === 'reviews' && (
@@ -520,6 +586,22 @@ export default function PaperReview() {
                       </div>
                     )
                   })}
+                </div>
+              )}
+              {tab === 'workplan' && (
+                <div className="space-y-6">
+                  {WORK_PLAN.map(section => (
+                    <div key={section.title}>
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <span className="text-2xs font-medium uppercase tracking-wider text-stone-400 dark:text-neutral-600">{section.title}</span>
+                      </div>
+                      <div className="space-y-1">
+                        {section.items.map(item => (
+                          <div key={item.task} className="text-xs text-stone-600 dark:text-neutral-400 py-1">{item.task}</div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -629,6 +711,15 @@ export default function PaperReview() {
             Action Plan
             {tab === 'actions' && <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-stone-600 dark:bg-white rounded-full" />}
           </button>
+          <button
+            onClick={() => setTab('workplan')}
+            className={`px-4 py-2.5 text-sm font-medium transition-colors relative ${
+              tab === 'workplan' ? 'text-stone-600 dark:text-white' : 'text-stone-400 dark:text-neutral-600 hover:text-stone-600 dark:hover:text-neutral-400'
+            }`}
+          >
+            Work Plan
+            {tab === 'workplan' && <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-stone-600 dark:bg-white rounded-full" />}
+          </button>
         </div>
 
         {/* Reviews Tab */}
@@ -677,6 +768,28 @@ export default function PaperReview() {
                 </div>
               )
             })}
+          </div>
+        )}
+
+        {/* Work Plan Tab */}
+        {tab === 'workplan' && (
+          <div className="space-y-10">
+            {WORK_PLAN.map(section => (
+              <div key={section.title}>
+                <div className="mb-4">
+                  <h2 className="text-sm font-medium text-stone-600 dark:text-white">{section.title}</h2>
+                  <p className="text-xs text-stone-400 dark:text-neutral-600 mt-0.5">{section.description}</p>
+                </div>
+                <div className="space-y-2">
+                  {section.items.map(item => (
+                    <div key={item.task} className="card px-5 py-4">
+                      <p className="text-sm font-medium text-stone-500 dark:text-neutral-300 mb-1">{item.task}</p>
+                      <p className="text-xs text-stone-400 dark:text-neutral-500 leading-relaxed">{item.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </main>
