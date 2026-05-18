@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { ChevronDown, ChevronRight, X, PanelRightOpen } from 'lucide-react'
 import Navigation from './Navigation'
 
@@ -498,12 +498,14 @@ function ReviewCard({ review }: { review: ReviewData }) {
 
 // --- Page ---
 export default function PaperReview() {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const location = useLocation()
+  const navigate = useNavigate()
   const validTabs = ['reviews', 'actions', 'workplan'] as const
   type Tab = typeof validTabs[number]
-  const paramTab = searchParams.get('tab') as Tab | null
+  const params = new URLSearchParams(location.search)
+  const paramTab = params.get('tab') as Tab | null
   const tab: Tab = paramTab && validTabs.includes(paramTab) ? paramTab : 'reviews'
-  const setTab = (t: Tab) => setSearchParams({ tab: t }, { replace: true })
+  const setTab = (t: Tab) => navigate(`/review?tab=${t}`, { replace: true })
   const [showPdf, setShowPdf] = useState(false)
   const metas = REVIEWS.filter(r => r.role === 'meta')
   const reviewers = REVIEWS.filter(r => r.role === 'reviewer')
