@@ -1,0 +1,1 @@
+{"sample_id":"neg_086","original_filename":"Pausable.sol","source_protocol":"lido","contract_category":"utility","is_vulnerable":false,"language":"solidity","num_lines":43,"audit_status":"production_audited","audit_references":[],"tags":["clean","negative_set","lido","utility"],"notes":""}

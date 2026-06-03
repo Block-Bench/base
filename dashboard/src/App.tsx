@@ -1,24 +1,26 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
-import LandingPage from './components/LandingPage'
-import Explorer from './components/Explorer'
-import CodeViewer from './components/CodeViewer'
-import StrategiesPlayground from './components/StrategiesPlayground'
-import PaperReview from './components/PaperReview'
+import Shell from './shell/Shell'
+import Overview from './routes/Overview'
+import Inspect from './routes/Inspect'
+import Transform from './routes/Transform'
+import Results from './routes/Results'
+import CodeActs from './routes/CodeActs'
+import Paper from './routes/Paper'
 
-function App() {
+export default function App() {
   return (
     <HashRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/explorer" element={<Navigate to="/explorer/base" replace />} />
-        <Route path="/explorer/:datasetType" element={<Explorer />} />
-        <Route path="/sample/:datasetType/:sampleId" element={<CodeViewer />} />
-        <Route path="/strategies" element={<StrategiesPlayground />} />
-        <Route path="/review" element={<PaperReview />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <Shell>
+        <Routes>
+          <Route path="/" element={<Overview />} />
+          <Route path="/inspect" element={<Inspect />} />
+          <Route path="/transform" element={<Transform />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/codeacts" element={<CodeActs />} />
+          <Route path="/paper" element={<Paper />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Shell>
     </HashRouter>
   )
 }
-
-export default App
