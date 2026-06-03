@@ -81,35 +81,41 @@
     border-left-color: var(--bb-accent);
   }
 
-  /* Sidebar panel — explorer / nav lists */
+  /* Sidebar panel — explorer / nav lists. Flat, no surface lift. */
   .panel {
-    @apply bg-bg-surface border-r border-rule overflow-y-auto;
+    @apply bg-bg border-r border-rule overflow-y-auto;
   }
   .panel-header {
-    @apply px-4 h-10 flex items-center justify-between border-b border-rule;
-    @apply font-mono text-xs uppercase tracking-rail text-ink-muted;
+    @apply px-4 h-10 flex items-center justify-between;
+    @apply font-mono text-2xs uppercase tracking-rail text-ink-faint;
   }
   .panel-item {
-    @apply flex items-center gap-2 px-4 h-9 text-md text-ink-muted hover:text-ink hover:bg-bg-elev cursor-pointer;
+    @apply flex items-center gap-2 px-4 h-8 text-sm text-ink-muted hover:text-ink cursor-pointer;
   }
   .panel-item-active {
-    @apply text-ink bg-bg-elev;
+    @apply text-accent;
   }
   .panel-section-label {
-    @apply px-4 pt-3 pb-2 font-mono text-xs uppercase tracking-rail text-ink-faint;
+    @apply px-4 pt-4 pb-1.5 font-mono text-2xs uppercase tracking-rail text-ink-faint;
   }
 
-  /* Tabs — IDE-style file tabs */
+  /* Tabs — flat, accent underline on active */
   .tab-bar {
-    @apply flex items-stretch h-10 border-b border-rule bg-bg-surface overflow-x-auto;
+    @apply flex items-stretch h-9 border-b border-rule bg-bg overflow-x-auto;
   }
   .tab {
-    @apply flex items-center gap-2 px-4 h-10 text-md text-ink-muted border-r border-rule cursor-pointer hover:text-ink;
-    @apply font-mono;
+    @apply flex items-center gap-2 px-4 h-9 text-sm text-ink-muted cursor-pointer hover:text-ink;
+    @apply font-mono relative;
   }
   .tab-active {
-    @apply text-ink bg-bg;
-    box-shadow: inset 0 1px 0 var(--bb-accent);
+    @apply text-ink;
+  }
+  .tab-active::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 1px;
+    background: var(--bb-accent);
   }
   .tab-close {
     @apply text-ink-faint hover:text-ink rounded-sm w-4 h-4 grid place-items-center;
@@ -282,20 +288,26 @@
    ──────────────────────────────────────────────────────────────────── */
 
 pre[class*='language-'], code[class*='language-'] {
-  @apply font-mono text-xs leading-5;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   background: transparent !important;
   text-shadow: none !important;
   color: var(--bb-ink);
 }
 .token { line-height: inherit !important; }
-.token.comment, .token.prolog, .token.doctype, .token.cdata { color: #525259; font-style: italic; }
-.token.punctuation { color: #8A8A93; }
-.token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #E8FF5A; }
-.token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #B5E5A0; }
-.token.operator, .token.entity, .token.url { color: #8A8A93; }
-.token.atrule, .token.attr-value, .token.keyword { color: #C8A8FF; }
+
+/* Solidity syntax — tuned for high-contrast dark editor */
+.token.comment, .token.prolog, .token.doctype, .token.cdata { color: #6B6B73; font-style: italic; }
+.token.punctuation { color: #B0B0B8; }
+.token.boolean, .token.number, .token.constant { color: #E8FF5A; }
+.token.string, .token.char, .token.inserted { color: #B5E89D; }
+.token.operator, .token.entity, .token.url { color: #B0B0B8; }
+.token.keyword, .token.atrule, .token.attr-value { color: #C8A8FF; font-weight: 500; }
 .token.function, .token.class-name { color: #7BC8FF; }
-.token.regex, .token.important, .token.variable { color: #FFB05A; }
+.token.variable, .token.symbol { color: #ECECEE; }
+.token.regex, .token.important { color: #FFB05A; }
+.token.deleted { color: #FF8585; }
+.token.property, .token.tag, .token.builtin { color: #7BC8FF; }
+.token.namespace { opacity: 0.7; }
 
 .line-vuln {
   background: linear-gradient(90deg, rgba(255,90,90,0.10), transparent 80%);
@@ -304,6 +316,78 @@ pre[class*='language-'], code[class*='language-'] {
 .line-fix {
   background: linear-gradient(90deg, rgba(90,255,168,0.10), transparent 80%);
   box-shadow: inset 2px 0 0 #5AFFA8;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Editor — Cursor / Zed inspired minimalism
+   Flat surfaces, no row hover, tight rhythm, ultra-soft gutter.
+   ──────────────────────────────────────────────────────────────────── */
+
+.codeline {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  color: var(--bb-ink) !important;
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+  font-size: 13px !important;
+  line-height: 22px !important;
+  letter-spacing: 0 !important;
+  min-height: 22px;
+  white-space: pre;
+  border: 0;
+}
+
+/* Vulnerable line — soft ambient glow + 2px red bar, no gradient stripe */
+.codeline-vuln {
+  position: relative;
+}
+.codeline-vuln::before {
+  content: '';
+  position: absolute;
+  inset: -8px 0 -8px -80px;
+  background: radial-gradient(
+    ellipse 60% 100% at 12% 50%,
+    rgba(255, 90, 90, 0.18) 0%,
+    rgba(255, 90, 90, 0.06) 35%,
+    transparent 75%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+.codeline-vuln::after {
+  content: '';
+  position: absolute;
+  left: -80px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #FF5A5A;
+  box-shadow: 0 0 12px rgba(255, 90, 90, 0.6);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* The code text itself sits above the glow */
+.codeline > * { position: relative; z-index: 2; }
+.codeline { position: relative; z-index: 2; }
+
+.codepane {
+  background: var(--bb-bg);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Code reveal — fast staggered "typing" animation on file load
+   ──────────────────────────────────────────────────────────────────── */
+
+.codestream-reveal .codeline,
+.codestream-reveal .codeline-gutter {
+  opacity: 0;
+  animation: code-reveal 200ms ease-out forwards;
+}
+
+@keyframes code-reveal {
+  0%   { opacity: 0; transform: translateY(-3px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 /* ─────────────────────────────────────────────────────────────────────
