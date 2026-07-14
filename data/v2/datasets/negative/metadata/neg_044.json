@@ -1,0 +1,1 @@
+{"sample_id":"neg_044","original_filename":"PoolManager.sol","source_protocol":"uniswap_v4","contract_category":"defi_core","is_vulnerable":false,"language":"solidity","num_lines":395,"audit_status":"production_audited","audit_references":[],"tags":["clean","negative_set","uniswap_v4","defi_core"],"notes":""}

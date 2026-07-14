@@ -1,0 +1,1 @@
+{"sample_id":"neg_090","original_filename":"StakeLimitUtils.sol","source_protocol":"lido","contract_category":"staking","is_vulnerable":false,"language":"solidity","num_lines":261,"audit_status":"production_audited","audit_references":[],"tags":["clean","negative_set","lido","staking"],"notes":""}
