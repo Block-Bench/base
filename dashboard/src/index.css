@@ -375,6 +375,19 @@ pre[class*='language-'], code[class*='language-'] {
   background: var(--bb-bg);
 }
 
+/* Diff line treatments for the Transformation Lab.
+   Added in variant: faint lime tint + 2px lime left bar.
+   Removed in original: faint red dim, struck appearance via subtle opacity. */
+.codeline-added {
+  background: linear-gradient(90deg, rgba(232,255,90, 0.10), transparent 60%);
+  box-shadow: inset 2px 0 0 rgba(232,255,90, 0.75);
+}
+.codeline-removed {
+  background: linear-gradient(90deg, rgba(255,90,90, 0.06), transparent 60%);
+  box-shadow: inset 2px 0 0 rgba(255,90,90, 0.55);
+  opacity: 0.7;
+}
+
 /* ─────────────────────────────────────────────────────────────────────
    Code reveal — fast staggered "typing" animation on file load
    ──────────────────────────────────────────────────────────────────── */

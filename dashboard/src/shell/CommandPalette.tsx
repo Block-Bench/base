@@ -9,7 +9,6 @@ const COMMANDS: Cmd[] = [
   { id: 'go.transform', label: 'Transformations',    group: 'go', to: '/transform' },
   { id: 'go.results',   label: 'Results Matrix',     group: 'go', to: '/results' },
   { id: 'go.codeacts',  label: 'CodeActs Browser',   group: 'go', to: '/codeacts' },
-  { id: 'go.paper',     label: 'Paper & Reviews',    group: 'go', to: '/paper' },
   { id: 'gs.open',      label: 'Open Gold Standard',     group: 'datasets', to: '/inspect?subset=gs' },
   { id: 'ds.open',      label: 'Open Difficulty Stratified', group: 'datasets', to: '/inspect?subset=ds' },
   { id: 'tc.open',      label: 'Open Temporal Contamination', group: 'datasets', to: '/inspect?subset=tc' },

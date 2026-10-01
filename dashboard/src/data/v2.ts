@@ -107,8 +107,24 @@ export interface TraditionalBundle {
 }
 
 export interface TdrRow {
-  model: string; subset: string; strategy: string
-  n: number; detected: number; tdr: number
+  model: string
+  subset: string
+  strategy: string
+  n: number
+  // verdict-based rate (model said vulnerable / n)
+  said_vulnerable?: number
+  verdict_rate?: number
+  // judge-validated TDR (majority of judges agreed the target was found)
+  judge_evaluated_n?: number
+  judge_detected?: number
+  judge_tdr?: number | null
+  // primary value to display: judge_tdr when available, else verdict_rate
+  tdr: number
+  tdr_source?: 'judge' | 'verdict'
+  // legacy field kept for backwards compat
+  detected?: number
+  // negative-subset only (alias of verdict_rate)
+  fp_rate?: number
 }
 
 /* ────────────────────────────────────────────────────────────────────

@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { GITHUB_URL } from '../lib/links'
 
 interface Item { to: string; label: string; glyph: string; key: string }
 
@@ -8,7 +9,6 @@ const items: Item[] = [
   { to: '/transform',  label: 'Transformations', glyph: '⇌', key: '3' },
   { to: '/results',    label: 'Results Matrix',  glyph: '▦', key: '4' },
   { to: '/codeacts',   label: 'CodeActs',        glyph: '∮', key: '5' },
-  { to: '/paper',      label: 'Paper',           glyph: '✎', key: '6' },
 ]
 
 export default function ActivityBar() {
@@ -30,7 +30,7 @@ export default function ActivityBar() {
       ))}
       <div className="flex-1" />
       <a
-        href="https://github.com"
+        href={GITHUB_URL}
         target="_blank"
         rel="noreferrer"
         className="activity-btn"

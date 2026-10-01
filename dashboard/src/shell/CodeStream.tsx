@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo } from 'react'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-solidity'
 

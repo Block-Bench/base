@@ -5,7 +5,6 @@ import Inspect from './routes/Inspect'
 import Transform from './routes/Transform'
 import Results from './routes/Results'
 import CodeActs from './routes/CodeActs'
-import Paper from './routes/Paper'
 
 export default function App() {
   return (
@@ -17,7 +16,6 @@ export default function App() {
           <Route path="/transform" element={<Transform />} />
           <Route path="/results" element={<Results />} />
           <Route path="/codeacts" element={<CodeActs />} />
-          <Route path="/paper" element={<Paper />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Shell>

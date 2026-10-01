@@ -20,14 +20,6 @@ interface Tab {
   variant?: string
 }
 
-interface ExplorerSample {
-  id: string
-  title?: string
-  severity?: string
-  hint?: string
-  tier?: string
-}
-
 /* ────────────────────────────────────────────────────────────────────
    FileTree — two-content rows + severity filter strip
    ──────────────────────────────────────────────────────────────────── */
